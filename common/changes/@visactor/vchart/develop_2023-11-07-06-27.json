@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of update animation not work for line mark",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
