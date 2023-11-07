@@ -5,7 +5,7 @@ import type { IRect } from '../../typings/space';
 import type { IRegion } from '../../region/interface';
 import type { IBaseLayout } from '../interface';
 import { Layout } from '../base-layout';
-import { isXAxis, isYAxis } from '../../component/axis/cartesian/util';
+import { isXAxis, isYAxis } from '../../component/axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 
 interface IOffset {

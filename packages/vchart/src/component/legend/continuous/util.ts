@@ -2,7 +2,7 @@
 import type { IColorLegendSpec, ISizeLegendSpec } from './interface';
 import { ColorContinuousLegend, SizeContinuousLegend } from '@visactor/vrender-components';
 import { isEmpty, isValid } from '@visactor/vutils';
-import { mergeSpec } from '../../../util';
+import { mergeSpec } from '../../../util/spec/merge-spec';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
 import { transformLegendTitleAttributes } from '../util';
 

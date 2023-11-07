@@ -1,6 +1,7 @@
 import type { DataView } from '@visactor/vdataset';
 import type { Datum } from '../../typings';
-import { computeQuadrant, couldBeValidNumber } from '../../util';
+import { couldBeValidNumber } from '../../util/type';
+import { computeQuadrant } from '../../util/math';
 import { ARC_TRANSFORM_VALUE } from '../../constant/polar';
 
 export interface IPieOpt {

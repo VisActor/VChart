@@ -5,24 +5,15 @@ import type { IGroup, IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
 import type { IOrientType, IPolarOrientType, Datum, StringOrNumber, IGroup as ISeriesGroup } from '../../typings';
-import { BaseComponent } from '../base';
+import { BaseComponent } from '../base/base-component';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick, StatisticsDomain } from './interface';
 import type { IComponentOption } from '../interface';
-import {
-  array,
-  eachSeries,
-  get,
-  getSeries,
-  isArray,
-  isBoolean,
-  isFunction,
-  isNil,
-  isValid,
-  mergeSpec
-} from '../../util';
+import { array, get, isArray, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
+import { eachSeries, getSeries } from '../../util/model';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ISeries } from '../../series/interface';
 import { ChartEvent, LayoutZIndex } from '../../constant';
 import { animationConfig } from '../../animation/utils';

@@ -480,7 +480,7 @@ export type ImageOriginType = 'top' | 'bottom';
 export type GradientPropValue<T> = ValueType<T> | FunctionType<T>;
 export type GradientStop = {
   offset: GradientPropValue<number>;
-  color: GradientPropValue<string>;
+  color?: GradientPropValue<string>;
   opacity?: number;
 };
 export interface IGradientLinear {

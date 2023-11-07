@@ -1,5 +1,5 @@
-import { SeriesTypeEnum } from '../../series/interface';
-import { ChartTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
+import { ChartTypeEnum } from '../interface/type';
 import type { IWordCloud3dChartSpec } from './interface';
 import { BaseWordCloudChart } from './base';
 import { registerWordCloud3dSeries } from '../../series/word-cloud/word-cloud-3d';

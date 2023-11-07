@@ -1,7 +1,7 @@
 import { registerPieSeries } from '../../series/pie/pie';
 // eslint-disable-next-line no-duplicate-imports
-import { SeriesTypeEnum } from '../../series/interface';
-import { ChartTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
+import { ChartTypeEnum } from '../interface/type';
 import { BasePieChart } from './base';
 import { Factory } from '../../core/factory';
 

@@ -2,21 +2,22 @@
 /**
  * @description export all component modules
  */
-import type { IScrollBarSpec } from './data-zoom/scroll-bar';
-import { ScrollBar, registerScrollBar } from './data-zoom/scroll-bar';
-import type { IDataZoomSpec } from './data-zoom/data-zoom';
-import { DataZoom, registerDataZoom } from './data-zoom/data-zoom';
-import { CustomMark, registerCustomMark } from './custom-mark';
-import type { IBrushSpec } from './brush';
-import { Brush, registerBrush } from './brush';
-import type { IMapLabelSpec } from './map-label';
-import { MapLabelComponent, registerMapLabel } from './map-label';
+import type { IScrollBarSpec, IScrollBarTheme } from './data-zoom/scroll-bar';
+import { ScrollBar, registerScrollBar } from './data-zoom/scroll-bar/scroll-bar';
+import type { IDataZoomSpec, IDataZoomTheme } from './data-zoom/data-zoom';
+import { DataZoom, registerDataZoom } from './data-zoom/data-zoom/data-zoom';
+import { CustomMark, registerCustomMark } from './custom-mark/custom-mark';
+import type { IBrushSpec, IBrushTheme } from './brush';
+import { Brush, registerBrush } from './brush/brush';
+import type { IMapLabelSpec, IMapLabelTheme } from './map-label';
+import { MapLabelComponent, registerMapLabel } from './map-label/component';
 import type {
   ICartesianLinearAxisSpec,
   ICartesianBandAxisSpec,
   ICartesianTimeAxisSpec,
   ICartesianAxisSpec,
-  ICartesianLogAxisSpec
+  ICartesianLogAxisSpec,
+  ICartesianAxisCommonTheme
 } from './axis/cartesian/index';
 import {
   CartesianAxis,
@@ -31,7 +32,7 @@ import {
   registerCartesianSymlogAxis,
   registerCartesianTimeAxis
 } from './axis/cartesian/index';
-import type { IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from './axis/polar';
+import type { IPolarAxisCommonTheme, IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from './axis/polar';
 import {
   PolarAxis,
   PolarBandAxis,
@@ -39,32 +40,40 @@ import {
   registerPolarBandAxis,
   registerPolarLinearAxis
 } from './axis/polar';
-import type { IDiscreteLegendSpec } from './legend/discrete';
+import type { IDiscreteLegendSpec, IDiscreteLegendTheme } from './legend/discrete';
 import { DiscreteLegend, registerDiscreteLegend } from './legend/discrete';
-import type { IContinuousLegendSpec } from './legend/continuous';
+import type {
+  IColorLegendTheme,
+  IContinuousLegendSpec,
+  IContinuousLegendTheme,
+  ISizeLegendTheme
+} from './legend/continuous';
 import { ContinuousLegend, registerContinuousLegend } from './legend/continuous';
-import type { IIndicatorSpec } from './indicator';
+import type { IIndicatorSpec, IIndicatorTheme } from './indicator';
 import { Indicator, registerIndicator } from './indicator';
-import type { ITitleSpec } from './title';
+import type { ITitleSpec, ITitleTheme } from './title';
 import { Title, registerTitle } from './title';
 import type { IGeoCoordinateSpec } from './geo';
 import { GeoCoordinate, registerGeoCoordinate } from './geo';
-import type { ICartesianCrosshairSpec, IPolarCrosshairSpec } from './crosshair';
+import type { ICartesianCrosshairSpec, ICrosshairTheme, IPolarCrosshairSpec } from './crosshair';
 import { CartesianCrossHair, PolarCrossHair, registerCartesianCrossHair, registerPolarCrossHair } from './crosshair';
-import type { IPlayerSpec } from './player';
+import type { IPlayerSpec, IPlayerTheme } from './player';
 import { Player, registerPlayer } from './player';
-import type { IMarkLineSpec } from './marker/mark-line';
+import type { IMarkLineSpec, IMarkLineTheme } from './marker/mark-line';
 import { MarkLine, registerMarkLine } from './marker/mark-line';
-import type { IMarkAreaSpec } from './marker/mark-area';
+import type { IMarkAreaSpec, IMarkAreaTheme } from './marker/mark-area';
 import { MarkArea, registerMarkArea } from './marker/mark-area';
-import type { IMarkPointSpec } from './marker/mark-point';
+import type { IMarkPointSpec, IMarkPointTheme } from './marker/mark-point';
 import { MarkPoint, registerMarkPoint } from './marker/mark-point';
-import type { ITooltipSpec } from './tooltip';
+import type { ITooltipSpec, ITooltipTheme } from './tooltip';
 import { Tooltip, registerTooltip } from './tooltip';
-import type { ILabelSpec } from './label';
+import type { ILabelSpec, ITotalLabelTheme } from './label';
 import { Label, registerLabel } from './label';
 import { TotalLabel, registerTotalLabel } from './label/totalLabel';
 import { registerPoptip } from './poptip/index';
+import type { IComponentTheme } from './interface';
+import type { IAxisCommonTheme, IAxisItemTheme, IBandAxisTheme } from './axis/interface';
+import type { IPoptipTheme } from './poptip/interface';
 
 export {
   ScrollBar,
@@ -153,4 +162,31 @@ export type {
   IPolarLinearAxisSpec,
   ITitleSpec,
   ITooltipSpec
+};
+
+export {
+  IComponentTheme,
+  ICrosshairTheme,
+  IAxisItemTheme,
+  IAxisCommonTheme,
+  IBandAxisTheme,
+  IPolarAxisCommonTheme,
+  ICartesianAxisCommonTheme,
+  IBrushTheme,
+  IDataZoomTheme,
+  IScrollBarTheme,
+  IIndicatorTheme,
+  IMapLabelTheme,
+  ITotalLabelTheme,
+  ISizeLegendTheme,
+  IColorLegendTheme,
+  IDiscreteLegendTheme,
+  IContinuousLegendTheme,
+  IMarkAreaTheme,
+  IMarkLineTheme,
+  IMarkPointTheme,
+  IPlayerTheme,
+  IPoptipTheme,
+  ITitleTheme,
+  ITooltipTheme
 };

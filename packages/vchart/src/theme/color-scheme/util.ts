@@ -1,7 +1,4 @@
-import { array, isArray, isFunction, isObject, isString, isValid } from '@visactor/vutils';
-// eslint-disable-next-line no-duplicate-imports
-import { ColorUtil } from '@visactor/vutils';
-import type { SeriesTypeEnum } from '../../series/interface';
+import { isArray, isFunction, isObject, isString, isValid, ColorUtil } from '@visactor/vutils';
 import { Color } from '../../util/color';
 import type {
   ColorScheme,
@@ -12,6 +9,8 @@ import type {
   IThemeColorScheme,
   ProgressiveDataScheme
 } from './interface';
+import type { ISeriesSpec } from '../../typings';
+import { getDirectionFromSeriesSpec } from '../../series/util/spec';
 
 /**
  * 从色板中获取数据色板（在此步骤中替换语义色值）
@@ -20,13 +19,16 @@ import type {
  * @returns
  */
 export function getDataScheme(
-  colorScheme: IThemeColorScheme,
-  seriesType?: SeriesTypeEnum
+  colorScheme?: IThemeColorScheme,
+  seriesSpec?: ISeriesSpec
 ): Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem> {
-  const scheme = !isValid(seriesType) ? colorScheme?.default : colorScheme?.[seriesType] ?? colorScheme?.default;
+  if (!colorScheme) {
+    return [];
+  }
+  const scheme = getColorSchemeBySeries(colorScheme, seriesSpec);
   if (!scheme || isArray(scheme)) {
     // 不带语义色板，直接输出
-    return scheme as Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem>;
+    return (scheme as Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem>) ?? [];
   } else if (isObject(scheme)) {
     // 带语义色板，转换颜色后输出
     const { dataScheme } = scheme as IColorSchemeStruct;
@@ -40,7 +42,7 @@ export function getDataScheme(
         scheme: item.scheme
           .map(color => {
             if (isColorKey(color)) {
-              return queryColorFromColorScheme(colorScheme, color, seriesType);
+              return queryColorFromColorScheme(colorScheme, color, seriesSpec);
             }
             return color;
           })
@@ -51,7 +53,7 @@ export function getDataScheme(
     return dataScheme
       .map(color => {
         if (isColorKey(color)) {
-          return queryColorFromColorScheme(colorScheme, color, seriesType);
+          return queryColorFromColorScheme(colorScheme, color, seriesSpec);
         }
         return color;
       })
@@ -98,9 +100,9 @@ export function computeActualDataScheme(
 export function queryColorFromColorScheme(
   colorScheme: IThemeColorScheme,
   colorKey: IColorKey,
-  seriesType?: SeriesTypeEnum
+  seriesSpec?: ISeriesSpec
 ): ColorSchemeItem | undefined {
-  const scheme = !isValid(seriesType) ? colorScheme.default : colorScheme[seriesType] ?? colorScheme.default;
+  const scheme = getColorSchemeBySeries(colorScheme, seriesSpec);
   if (!scheme) {
     return undefined;
   }
@@ -131,10 +133,10 @@ export function queryColorFromColorScheme(
 }
 
 /** 查询语义化颜色 */
-export const getActualColor = (value: any, colorScheme?: IThemeColorScheme, seriesType?: SeriesTypeEnum) => {
+export const getActualColor = (value: any, colorScheme?: IThemeColorScheme, seriesSpec?: ISeriesSpec) => {
   if (isColorKey(value)) {
     if (colorScheme) {
-      const color = queryColorFromColorScheme(colorScheme, value, seriesType);
+      const color = queryColorFromColorScheme(colorScheme, value, seriesSpec);
       if (color) {
         return color;
       }
@@ -164,4 +166,19 @@ export function transformColorSchemeToStandardStruct(colorScheme: ColorScheme): 
     };
   }
   return colorScheme;
+}
+
+export function getColorSchemeBySeries(
+  colorScheme?: IThemeColorScheme,
+  seriesSpec?: ISeriesSpec
+): ColorScheme | undefined {
+  const { type: seriesType } = seriesSpec ?? {};
+  let scheme: ColorScheme | undefined;
+  if (!seriesSpec || !isValid(seriesType)) {
+    scheme = colorScheme?.default;
+  } else {
+    const direction = getDirectionFromSeriesSpec(seriesSpec);
+    scheme = colorScheme?.[`${seriesType}_${direction}`] ?? colorScheme?.[seriesType] ?? colorScheme?.default;
+  }
+  return scheme;
 }

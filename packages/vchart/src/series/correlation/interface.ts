@@ -1,8 +1,8 @@
-import type { ISeriesSpec, DirectionType, IMarkTheme, IMarkSpec } from '../../typings';
+import type { IMarkTheme, IMarkSpec } from '../../typings';
 import type { ILabelSpec } from '../../component/label';
-import type { ISymbolMarkSpec, ITextMarkSpec, IRippleMarkSpec } from '../../typings';
+import type { ISymbolMarkSpec, IRippleMarkSpec } from '../../typings';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
+import type { IPolarSeriesSpec } from '../polar/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { CorrelationAppearPreset, CorrelationMarks } from './animation';
 

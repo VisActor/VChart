@@ -2,18 +2,21 @@ import { DataView } from '@visactor/vdataset';
 import type { IComponentOption } from '../interface';
 import { LayoutLevel, LayoutZIndex } from '../../constant';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import type { LayoutItem } from '../../model/layout-item';
-import { BaseComponent } from '../base';
+import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec, IIndicatorTheme } from './interface';
 import type { Maybe } from '../../typings';
-import { isValid, isFunction, array, mergeSpec, eachSeries, transformToGraphic, getActualNumValue } from '../../util';
-import { isEqual } from '@visactor/vutils';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { eachSeries } from '../../util/model';
+import { transformToGraphic } from '../../util/style';
+import { getActualNumValue } from '../../util/space';
+import { isEqual, isValid, isFunction, array } from '@visactor/vutils';
 import { indicatorMapper } from './util';
 import type { IModel } from '../../model/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { CompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data/compilable-data';
 import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IndicatorAttributes } from '@visactor/vrender-components';
@@ -122,7 +125,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
   // data
   private initData() {
     registerDataSetInstanceTransform(this._option.dataSet, 'indicatorFilter', indicatorMapper);
-    const displayData = new DataView(this._option.dataSet);
+    const displayData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     displayData.transform({
       type: 'indicatorFilter',
       options: {

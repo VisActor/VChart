@@ -10,7 +10,8 @@ import type {
 } from '../../interface';
 import type { IChart } from '../../../chart/interface';
 import type { IDimensionInfo } from './interface';
-import { getCartesianDimensionInfo, getDimensionInfoByValue, getPolarDimensionInfo } from './util';
+import { getPolarDimensionInfo } from './util/polar';
+import { getCartesianDimensionInfo, getDimensionInfoByValue } from './util/cartesian';
 import type { Maybe } from '../../../typings';
 import { isDiscrete } from '@visactor/vscale';
 

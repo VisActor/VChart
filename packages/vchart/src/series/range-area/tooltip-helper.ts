@@ -2,7 +2,7 @@ import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { Datum, ITooltipPattern, TooltipActiveType, IToolTipLinePattern } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { Direction } from '../../typings';
+import { Direction } from '../../typings/space';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
 
 export class RangeAreaSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {

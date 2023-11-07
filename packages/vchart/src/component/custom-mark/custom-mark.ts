@@ -1,5 +1,5 @@
-import { BaseComponent } from '../base';
-import { ComponentTypeEnum } from '../interface';
+import { BaseComponent } from '../base/base-component';
+import { ComponentTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponentOption } from '../interface';
 import type { IRegion } from '../../region/interface';

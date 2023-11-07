@@ -1,7 +1,7 @@
 import type { RenderMode } from '../../../typings/spec';
 // eslint-disable-next-line no-duplicate-imports
-import { RenderModeEnum } from '../../../typings/spec';
-import { isMiniAppLikeMode, isMobileLikeMode } from '../../../util';
+import { RenderModeEnum } from '../../../typings/spec/common';
+import { isMiniAppLikeMode, isMobileLikeMode } from '../../../util/env';
 import { DeskTopTrigger } from './desktop';
 import { MobileTrigger } from './mobile';
 

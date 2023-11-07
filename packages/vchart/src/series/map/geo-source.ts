@@ -1,5 +1,5 @@
 import { DataSet, DataView, geoJSONParser, simplify, topoJSONParser } from '@visactor/vdataset';
-import { warn } from '../../util';
+import { warn } from '../../util/debug';
 import type { GeoSourceType } from '../../typings/geo';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { merge } from '@visactor/vutils';

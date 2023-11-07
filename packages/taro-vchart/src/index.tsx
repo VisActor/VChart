@@ -33,7 +33,7 @@ export default function VChart({ type, ...args }: IVChartProps) {
       return <WebChart {...args} />;
     },
     h5: () => {
-      return <WebChart {...args} />;
+      return <WebChart {...args} mode="mobile-browser" />;
     }
   };
 

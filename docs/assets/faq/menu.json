@@ -387,6 +387,76 @@
       }
     },
     {
+      "path": "64-How to achieve a bar chart similar to the stacked column chart",
+      "title": {
+        "zh": "64.如何实现柱形图同维度数据前后重叠而不是堆叠效果？",
+        "en": "64.How to achieve a bar chart similar to the stacked column chart?"
+      }
+    },
+    {
+      "path": "65-How to achieve background segmentation and rounded corner effect in a gauge chart",
+      "title": {
+        "zh": "65.如何实现仪表图的分段圆角效果？",
+        "en": "65.How to achieve background segmentation and rounded corner effect in a gauge chart?"
+      }
+    },
+    {
+      "path": "66-How to customize pointer style in a gauge chart",
+      "title": {
+        "zh": "66.如何自定义仪表图指针样式？",
+        "en": "66.How to customize pointer style in a gauge chart?"
+      }
+    },
+    {
+      "path": "67-How can chart tooltips be configured to display dimensions and measures as single or multiple rows",
+      "title": {
+        "zh": "67.图表 tooltip 如何配置将维度和指标展现成单行或者多行？",
+        "en": "67.How can chart tooltips be configured to display dimensions and measures as single or multiple rows?"
+      }
+    },
+    {
+      "path": "68-How to customize the axis scale value of a gauge chart",
+      "title": {
+        "zh": "68.如何自定义仪表图的刻度值？",
+        "en": "68.How to customize the axis scale value of a gauge chart?"
+      }
+    },
+    {
+      "path": "69-How does the label at the center of the ring chart adapt to the size of the ring",
+      "title": {
+        "zh": "69.环形图label如何自适应环的大小？",
+        "en": "69.How does the label at the center of the ring chart adapt to the size of the ring?"
+      }
+    },
+    {
+      "path": "70-How to achieve permanent display of chart tooltips",
+      "title": {
+        "zh": "70.如何实现图表 tooltip 常驻显示？",
+        "en": "70.How to achieve permanent display of chart tooltips?"
+      }
+    },
+    {
+      "path": "71-How to customize the mounting node of the tooltip component in VChart",
+      "title": {
+        "zh": "71.如何自定义 Tooltip 组件的挂载节点？",
+        "en": "71.How to customize the mounting node of the tooltip component in VChart?"
+      }
+    },
+    {
+      "path": "72-How to customize the tooltip display content in a dual axis chart",
+      "title": {
+        "zh": "72.双轴图中如何自定义Tooltip 显示内容？",
+        "en": "72.How to customize the tooltip display content in a dual axis chart?"
+      }
+    },
+    {
+      "path": "73-How to set the order of the chart tooltip display content",
+      "title": {
+        "zh": "73.如何设置图表 Tooltip 显示内容的顺序？",
+        "en": "73.How to set the order of the chart tooltip display content?"
+      }
+    },
+    {
       "path": "74-How to configure the colors of different line segments in a line chart",
       "title": {
         "zh": "74.折线图如何配置分段颜色？",

@@ -12,7 +12,8 @@ import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
 import type { Datum } from '../../typings';
-import { normalizeLayoutPaddingSpec, preprocessSpecOrTheme } from '../../util';
+import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
+import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { IComponentSpec } from './interface';
 
 export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>

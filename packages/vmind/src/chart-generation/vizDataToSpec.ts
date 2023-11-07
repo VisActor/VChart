@@ -42,7 +42,7 @@ import {
   dualAxisAxes,
   dualAxisMarkStyle
 } from './pipes';
-import { Cell, ChartType, Context, Pipe } from './type';
+import { Cell, ChartType, Context, Pipe } from '../typings';
 import { DataView } from '@visactor/vdataset';
 import { detectAxesType } from './utils';
 

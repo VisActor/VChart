@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface/type';
 import { BarSeries } from './bar';

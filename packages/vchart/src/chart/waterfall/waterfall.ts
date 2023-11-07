@@ -1,7 +1,7 @@
 import { array } from '@visactor/vutils';
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { BarChart } from '../bar';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { IWaterfallChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { registerWaterfallSeries } from '../../series/waterfall/waterfall';

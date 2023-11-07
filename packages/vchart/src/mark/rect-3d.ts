@@ -2,7 +2,7 @@ import type { IRect3dMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from './interface';
+import { MarkTypeEnum } from './interface/type';
 
 export type IRect3dMark = IMarkRaw<IRect3dMarkSpec>;
 

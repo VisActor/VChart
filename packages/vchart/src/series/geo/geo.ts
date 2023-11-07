@@ -3,7 +3,7 @@ import type { IPoint } from '../../typings';
 import type { IGeoSeries } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { BaseSeries } from '../base/base-series';
-import { isNil } from '../../util';
+import { isNil } from '@visactor/vutils';
 import type { SeriesData } from '../base/series-data';
 import type { DataView } from '@visactor/vdataset';
 import { PREFIX } from '../../constant';

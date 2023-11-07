@@ -1,5 +1,5 @@
 import type { IComponentPlugin, IComponentPluginService } from './interface';
-import { createID } from '../../util';
+import { createID } from '../../util/id';
 
 export class BasicComponentPlugin implements IComponentPlugin {
   readonly id: number;

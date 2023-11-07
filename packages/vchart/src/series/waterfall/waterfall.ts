@@ -10,7 +10,7 @@ import {
 } from '../../constant/index';
 import { waterfall, waterfallFillTotal } from '../../data/transforms/waterfall';
 import { BarSeries } from '../bar/bar';
-import { valueInScaleRange } from '../../util';
+import { valueInScaleRange } from '../../util/scale';
 import { registerWaterfallAnimation, type WaterfallAppearPreset } from './animation';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IWaterfallSeriesSpec, IWaterfallSeriesTheme } from './interface';
@@ -25,7 +25,7 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
 import type { IModelEvaluateOption } from '../../model/interface';
 import type { Datum, Maybe } from '../../typings';
-import { Direction } from '../../typings';
+import { Direction } from '../../typings/space';
 import type { IBarAnimationParams } from '../bar/animation';
 import { RuleMark } from '../../mark/rule';
 import { waterfallSeriesMark } from './constant';

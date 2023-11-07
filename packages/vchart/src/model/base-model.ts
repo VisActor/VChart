@@ -1,4 +1,7 @@
-import { createID, isValid, cloneDeepSpec, preprocessSpecOrTheme, mergeSpec } from '../util';
+import { cloneDeepSpec } from '../util/spec/clone-deep';
+import { preprocessSpecOrTheme } from '../util/spec/preprocess';
+import { createID } from '../util/id';
+import { mergeSpec } from '../util/spec/merge-spec';
 import { Event } from '../event/event';
 import type { IEvent } from '../event/interface';
 import { LayoutItem } from './layout-item';
@@ -15,15 +18,22 @@ import type {
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
-import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect } from '../typings';
+import type {
+  Datum,
+  StateValueType,
+  ConvertToMarkStyleSpec,
+  ICommonSpec,
+  StringOrNumber,
+  IRect,
+  ISeriesSpec
+} from '../typings';
 import type { CompilableData } from '../compile/data/compilable-data';
 import { PREFIX } from '../constant';
 import type { IGroupMark } from '@visactor/vgrammar-core';
-import { isArray, isEqual } from '@visactor/vutils';
+import { isArray, isEqual, isValid } from '@visactor/vutils';
 import { Factory } from '../core/factory';
-import type { SeriesTypeEnum } from '../series/interface';
 import { MarkSet } from '../mark/mark-set';
-import { defaultChartLevelTheme } from '../theme';
+import { defaultChartLevelTheme } from '../theme/builtin';
 
 export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> implements IModel {
   readonly type: string = 'null';
@@ -265,7 +275,7 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
       'spec',
       obj,
       this.getColorScheme(),
-      this.modelType === 'series' ? (this.type as SeriesTypeEnum) : undefined
+      this.modelType === 'series' ? (this._spec as unknown as ISeriesSpec) : undefined
     );
 
     if (!arguments.length) {

@@ -1,5 +1,6 @@
 import type { IComponentPlugin, IComponentPluginService } from './interface';
-import { createID, warn } from '../../util';
+import { createID } from '../../util/id';
+import { warn } from '../../util/debug';
 import type { IComponent } from '../../component/interface';
 
 export class ComponentPluginService implements IComponentPluginService {

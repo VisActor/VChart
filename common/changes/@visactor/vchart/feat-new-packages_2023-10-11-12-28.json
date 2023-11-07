@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: dataScheme supports configuration by distinguishing series directions, related #1209",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

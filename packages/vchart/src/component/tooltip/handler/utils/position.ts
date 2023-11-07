@@ -1,5 +1,5 @@
-import { TooltipFixedPosition } from '../../../../typings';
-import { isFunction, isNumber, isValid } from '../../../../util';
+import { TooltipFixedPosition } from '../../../../typings/tooltip/position';
+import { isFunction, isNumber, isValid } from '@visactor/vutils';
 
 export const getActualTooltipPositionValue = (
   position: number | ((event: MouseEvent) => number) | null | undefined,

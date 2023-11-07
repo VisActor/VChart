@@ -2,12 +2,12 @@
 import { AttributeLevel, DEFAULT_DATA_SERIES_FIELD } from '../../constant/index';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Maybe, Datum } from '../../typings';
-import { isValid } from '../../util';
+import { isValid } from '@visactor/vutils';
 import type { IRuleMark } from '../../mark/rule';
 import type { IMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { ShapeTypeEnum } from '../../typings';
+import { ShapeTypeEnum } from '../../typings/shape';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { IDotSeriesSpec } from '../dot/interface';
 import type { IGroupMark } from '../../mark/group';
@@ -19,6 +19,7 @@ import { SymbolMark } from '../../mark/symbol';
 import { linkSeriesMark } from './constant';
 import { linkDotInfo } from '../../data/transforms/link-dot-info';
 import { Factory } from '../../core/factory';
+import { TransformLevel } from '../../data/initialize';
 
 export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.link;
@@ -80,7 +81,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
     super.initData();
 
     registerDataSetInstanceTransform(this._option.dataSet, 'linkDotInfo', linkDotInfo);
-    this.getViewDataFilter()?.transform(
+    this.getViewData()?.transform(
       {
         type: 'linkDotInfo',
         options: {
@@ -95,7 +96,8 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
           },
           linkData: () => this._rawData.latestData,
           dotData: () => this._getDotData()
-        }
+        },
+        level: TransformLevel.linkDotInfo
       },
       false
     );
@@ -315,9 +317,9 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
    */
   getDefaultColorDomain() {
     return this._dotTypeField
-      ? this._viewDataStatistics?.latestData[this._dotTypeField].values
+      ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesField
-      ? this._viewDataStatistics?.latestData[this._seriesField].values
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
       : [];
   }
 
