@@ -1,4 +1,3 @@
-import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../../scale/interface';
 import type { ICommonSpec, VisualType, ValueType, FunctionType } from '../../typings/visual';
 import type { IModel } from '../../model/interface';
@@ -47,7 +46,7 @@ export interface IMarkOption extends ICompilableMarkOption {
     model: IModel;
     map: Map<StringOrNumber, IModel | IMark>;
     globalScale: IGlobalScale;
-    dataStatistics?: DataView;
+    seriesId?: number;
     componentType?: string;
     attributeContext?: IModelMarkAttributeContext;
 }
@@ -64,4 +63,15 @@ export interface IComponentMarkConstructor {
 export type MarkConstructor = IMarkConstructor | IComponentMarkConstructor;
 export interface IMarkDataInitOption extends IMarkOption {
     mark: IMark;
+}
+export type ISamplingMethod = 'lttb' | 'min' | 'max' | 'sum' | 'average';
+export interface IDataSamping {
+    activePoint?: boolean;
+    sampling?: ISamplingMethod;
+    samplingFactor?: number;
+}
+export interface IMarkOverlap {
+    pointDis?: number;
+    pointDisMul?: number;
+    markOverlap?: boolean;
 }

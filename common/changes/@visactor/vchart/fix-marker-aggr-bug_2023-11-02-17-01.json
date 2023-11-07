@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: optimize the trigger of hover in non-browser env",
+      "comment": "fix(marker): aggregation return value infinity problem. fix#1380'",
       "type": "none"
     }
   ],

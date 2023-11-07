@@ -41,6 +41,7 @@ export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extend
     protected _getBarWidth(axisHelper: IAxisHelper): number;
     protected _getPosition(direction: DirectionType, datum: Datum): number;
     onLayoutEnd(ctx: any): void;
+    compile(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];
     compileData(): void;

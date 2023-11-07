@@ -1,4 +1,3 @@
-import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from './interface';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IChart } from '../chart/interface';
@@ -30,8 +29,9 @@ export declare class GlobalScale implements IGlobalScale {
         key: string;
         operations: StatisticOperations;
     }[];
-    private _getStatistics;
+    private _getSeriesByRawDataId;
+    private _getSeriesBySeriesId;
     updateScaleDomain(defaultDomain: unknown[]): void;
     private _updateMarkScale;
-    registerMarkAttributeScale(spec: IVisualScale, dataStatistics: DataView): IBaseScale;
+    registerMarkAttributeScale(spec: IVisualScale, seriesId: number): IBaseScale;
 }

@@ -2,6 +2,51 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.6.0",
+      "tag": "@visactor/vchart_v1.6.0",
+      "date": "Fri, 03 Nov 2023 05:16:41 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add `updateElement` callback in tooltip spec to configure custom tooltip DOM elements based on the default tooltip handler, related #1338"
+          },
+          {
+            "comment": "feat: enable exit animation while updating data"
+          },
+          {
+            "comment": " feat: support functional label.position config in line/area/scatter/bar series"
+          },
+          {
+            "comment": "feat: load browser or node env code dynamically"
+          },
+          {
+            "comment": "feat: support functional label.position config in line/area/scatter/bar series"
+          },
+          {
+            "comment": "feat: dataScheme supports configuration by distinguishing series directions, related #1209"
+          },
+          {
+            "comment": "feat: data sampling & point overlap. close #460"
+          },
+          {
+            "comment": "fix: react-vchart mode not work"
+          },
+          {
+            "comment": "fix: optimize the trigger of hover in non-browser env"
+          },
+          {
+            "comment": "fix: if series mark is line, return stroke value when user want fill value, fixed #1388"
+          },
+          {
+            "comment": "fix: fix the angle offset in rose dimension tooltip, related #1263"
+          },
+          {
+            "comment": "perf: create Stack and calculate stack attributes when need\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.5.4",
       "tag": "@visactor/vchart_v1.5.4",
       "date": "Mon, 30 Oct 2023 06:09:01 GMT",

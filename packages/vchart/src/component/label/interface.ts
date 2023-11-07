@@ -1,6 +1,11 @@
 import type { BaseLabelAttrs } from '@visactor/vrender-components';
 import type { ConvertToMarkStyleSpec, Datum, ITextMarkSpec } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
+import type { ISeries } from '../..';
+
+export interface ILabelFormatMethodContext {
+  series?: ISeries;
+}
 
 export interface ILabelSpec extends IComponentSpec {
   /** 默认不显示标签 */
@@ -8,7 +13,7 @@ export interface ILabelSpec extends IComponentSpec {
   /** 是否支持交互。@default false */
   interactive?: boolean;
   /** 格式化函数 */
-  formatMethod?: (text: string | string[], datum?: Datum) => string | string[];
+  formatMethod?: (text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext) => string | string[];
   /** 标签与其对应数据图元的间距 */
   offset?: number;
   /** 标签位置 */

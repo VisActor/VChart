@@ -10,7 +10,6 @@ export declare enum ChartEvent {
     afterInitEvent = "afterInitEvent",
     afterInitMark = "afterInitMark",
     rawDataUpdate = "rawDataUpdate",
-    rawDataStatisticsUpdate = "rawDataStatisticsUpdate",
     viewDataFilterOver = "viewDataFilterOver",
     viewDataUpdate = "viewDataUpdate",
     viewDataStatisticsUpdate = "viewDataStatisticsUpdate",

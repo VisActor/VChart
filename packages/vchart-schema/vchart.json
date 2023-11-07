@@ -5245,7 +5245,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5260,11 +5260,11 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5280,15 +5280,15 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5297,6 +5297,14 @@
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5310,19 +5318,11 @@
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>_1",
           "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
-          "description": "style格式转换"
         }
       ],
       "description": "style格式转换"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
@@ -5337,7 +5337,11 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5353,15 +5357,11 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5370,6 +5370,14 @@
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5382,14 +5390,6 @@
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
           "description": "style格式转换"
         }
       ],
@@ -8351,6 +8351,27 @@
         "bolder",
         "lighter",
         "normal"
+      ]
+    },
+    "Functional<\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\">": {
+      "anyOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "enum": [
+            "bottom",
+            "bottom-left",
+            "bottom-right",
+            "center",
+            "left",
+            "right",
+            "top",
+            "top-left",
+            "top-right"
+          ],
+          "type": "string"
+        }
       ]
     },
     "Geolocation": {
@@ -18558,6 +18579,10 @@
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
           "description": "null，undefined等非法数据点连接方式。"
         },
+        "label": {
+          "$ref": "#/definitions/ILineLikeLabelSpec",
+          "description": "标签配置"
+        },
         "large": {
           "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
           "type": "boolean"
@@ -18753,6 +18778,12 @@
           ],
           "description": "参考线配置"
         },
+        "markOverlap": {
+          "default": false,
+          "description": "是否允许标记图形相互覆盖",
+          "since": "1.6.0",
+          "type": "boolean"
+        },
         "markPoint": {
           "anyOf": [
             {
@@ -18810,6 +18841,17 @@
           "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
           "description": "点图元配置"
         },
+        "pointDis": {
+          "description": "标记点之间的距离，px",
+          "since": "1.6.0",
+          "type": "number"
+        },
+        "pointDisMul": {
+          "default": 1,
+          "description": "标记点之间的距离， pointSize 的倍数",
+          "since": "1.6.0",
+          "type": "number"
+        },
         "progressiveStep": {
           "description": "分片长度",
           "type": "number"
@@ -18832,6 +18874,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "scales": {
@@ -19469,6 +19522,10 @@
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
           "description": "null，undefined等非法数据点连接方式。"
         },
+        "label": {
+          "$ref": "#/definitions/ILineLikeLabelSpec",
+          "description": "标签配置"
+        },
         "large": {
           "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
           "type": "boolean"
@@ -19480,6 +19537,12 @@
         "line": {
           "$ref": "#/definitions/IMarkSpec<ILineMarkSpec>",
           "description": "线图元配置"
+        },
+        "markOverlap": {
+          "default": false,
+          "description": "是否允许标记图形相互覆盖",
+          "since": "1.6.0",
+          "type": "boolean"
         },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",
@@ -19497,6 +19560,17 @@
           "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
           "description": "点图元配置"
         },
+        "pointDis": {
+          "description": "标记点之间的距离，px",
+          "since": "1.6.0",
+          "type": "number"
+        },
+        "pointDisMul": {
+          "default": 1,
+          "description": "标记点之间的距离， pointSize 的倍数",
+          "since": "1.6.0",
+          "type": "number"
+        },
         "progressiveStep": {
           "description": "分片长度",
           "type": "number"
@@ -19512,6 +19586,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "select": {
@@ -19647,7 +19732,7 @@
           "$ref": "#/definitions/Partial<IMarkTheme<IAreaMarkSpec>>"
         },
         "label": {
-          "$ref": "#/definitions/Partial<ILabelSpec>"
+          "$ref": "#/definitions/Partial<ILineLikeLabelSpec>"
         },
         "line": {
           "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
@@ -19817,6 +19902,12 @@
     },
     "IBar3dChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -20086,7 +20177,7 @@
         "label": {
           "allOf": [
             {
-              "$ref": "#/definitions/ILabelSpec"
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
             },
             {
               "typeof": "function"
@@ -20360,6 +20451,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "scales": {
@@ -20556,6 +20658,12 @@
     },
     "IBarChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -20825,7 +20933,7 @@
         "label": {
           "allOf": [
             {
-              "$ref": "#/definitions/ILabelSpec"
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
             },
             {
               "typeof": "function"
@@ -21101,6 +21209,17 @@
           "description": "系列关联的region索引",
           "type": "number"
         },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
+          "type": "number"
+        },
         "scales": {
           "description": "全局 scale 配置",
           "items": {
@@ -21268,6 +21387,12 @@
     },
     "IBarSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -21464,7 +21589,7 @@
         "label": {
           "allOf": [
             {
-              "$ref": "#/definitions/ILabelSpec"
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
             },
             {
               "typeof": "function"
@@ -21507,6 +21632,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "select": {
@@ -26142,7 +26278,98 @@
           "description": "**仅适用于笛卡尔坐标系**，参考区域配置"
         },
         "markLine": {
-          "$ref": "#/definitions/IMarkLineSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "**仅适用于笛卡尔坐标系**，参考线配置"
         },
         "markPoint": {
@@ -28606,11 +28833,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -30763,11 +30990,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -36818,6 +37045,12 @@
     },
     "IHistogram3dChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -37087,7 +37320,7 @@
         "label": {
           "allOf": [
             {
-              "$ref": "#/definitions/ILabelSpec"
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
             },
             {
               "typeof": "function"
@@ -37361,6 +37594,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "scales": {
@@ -37530,6 +37774,12 @@
     },
     "IHistogramChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -37799,7 +38049,7 @@
         "label": {
           "allOf": [
             {
-              "$ref": "#/definitions/ILabelSpec"
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
             },
             {
               "typeof": "function"
@@ -38073,6 +38323,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "scales": {
@@ -40245,14 +40506,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ILabelSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ],
+          "$ref": "#/definitions/ILineLikeLabelSpec",
           "description": "标签配置"
         },
         "large": {
@@ -40450,6 +40704,12 @@
           ],
           "description": "参考线配置"
         },
+        "markOverlap": {
+          "default": false,
+          "description": "是否允许标记图形相互覆盖",
+          "since": "1.6.0",
+          "type": "boolean"
+        },
         "markPoint": {
           "anyOf": [
             {
@@ -40507,6 +40767,17 @@
           "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
           "description": "点图元配置"
         },
+        "pointDis": {
+          "description": "标记点之间的距离，px",
+          "since": "1.6.0",
+          "type": "number"
+        },
+        "pointDisMul": {
+          "default": 1,
+          "description": "标记点之间的距离， pointSize 的倍数",
+          "since": "1.6.0",
+          "type": "number"
+        },
         "progressiveStep": {
           "description": "分片长度",
           "type": "number"
@@ -40529,6 +40800,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "scales": {
@@ -40704,6 +40986,37 @@
         "xField",
         "yField"
       ],
+      "type": "object"
+    },
+    "ILineLikeLabelSpec": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
+    },
+    "ILineLikeSeriesTheme": {
+      "properties": {
+        "label": {
+          "$ref": "#/definitions/Partial<ILineLikeLabelSpec>"
+        },
+        "line": {
+          "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
+        },
+        "point": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        }
+      },
       "type": "object"
     },
     "ILineMarkSpec": {
@@ -41096,14 +41409,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ILabelSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ],
+          "$ref": "#/definitions/ILineLikeLabelSpec",
           "description": "标签配置"
         },
         "large": {
@@ -41117,6 +41423,12 @@
         "line": {
           "$ref": "#/definitions/IMarkSpec<ILineMarkSpec>",
           "description": "线图元配置"
+        },
+        "markOverlap": {
+          "default": false,
+          "description": "是否允许标记图形相互覆盖",
+          "since": "1.6.0",
+          "type": "boolean"
         },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",
@@ -41134,6 +41446,17 @@
           "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
           "description": "点图元配置"
         },
+        "pointDis": {
+          "description": "标记点之间的距离，px",
+          "since": "1.6.0",
+          "type": "number"
+        },
+        "pointDisMul": {
+          "default": 1,
+          "description": "标记点之间的距离， pointSize 的倍数",
+          "since": "1.6.0",
+          "type": "number"
+        },
         "progressiveStep": {
           "description": "分片长度",
           "type": "number"
@@ -41149,6 +41472,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "select": {
@@ -41275,27 +41609,6 @@
         "xField",
         "yField"
       ],
-      "type": "object"
-    },
-    "ILineSeriesTheme": {
-      "properties": {
-        "label": {
-          "$ref": "#/definitions/Partial<ILabelSpec&{position?:\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\";}>"
-        },
-        "line": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
-        },
-        "point": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
-            },
-            {
-              "typeof": "function"
-            }
-          ]
-        }
-      },
       "type": "object"
     },
     "ILinearAxisSpec": {
@@ -43810,7 +44123,10 @@
           "description": "组件关联的region索引"
         },
         "relativeSeriesId": {
-          "type": "number"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "relativeSeriesIndex": {
           "description": "标注数据关联的series",
@@ -48460,7 +48776,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "$ref": "#/definitions/Partial<ILabelSpec>",
+          "$ref": "#/definitions/ILineLikeLabelSpec",
           "description": "标签配置"
         },
         "large": {
@@ -48500,6 +48816,12 @@
           "$ref": "#/definitions/IMarkSpec<ILineMarkSpec>",
           "description": "线图元配置"
         },
+        "markOverlap": {
+          "default": false,
+          "description": "是否允许标记图形相互覆盖",
+          "since": "1.6.0",
+          "type": "boolean"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -48524,6 +48846,17 @@
         "point": {
           "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
           "description": "点图元配置"
+        },
+        "pointDis": {
+          "description": "标记点之间的距离，px",
+          "since": "1.6.0",
+          "type": "number"
+        },
+        "pointDisMul": {
+          "default": 1,
+          "description": "标记点之间的距离， pointSize 的倍数",
+          "since": "1.6.0",
+          "type": "number"
         },
         "progressiveStep": {
           "description": "分片长度",
@@ -48898,7 +49231,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "$ref": "#/definitions/Partial<ILabelSpec>",
+          "$ref": "#/definitions/ILineLikeLabelSpec",
           "description": "标签配置"
         },
         "large": {
@@ -48912,6 +49245,12 @@
         "line": {
           "$ref": "#/definitions/IMarkSpec<ILineMarkSpec>",
           "description": "线图元配置"
+        },
+        "markOverlap": {
+          "default": false,
+          "description": "是否允许标记图形相互覆盖",
+          "since": "1.6.0",
+          "type": "boolean"
         },
         "morph": {
           "$ref": "#/definitions/IMorphSeriesSpec",
@@ -48933,6 +49272,17 @@
         "point": {
           "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
           "description": "点图元配置"
+        },
+        "pointDis": {
+          "description": "标记点之间的距离，px",
+          "since": "1.6.0",
+          "type": "number"
+        },
+        "pointDisMul": {
+          "default": 1,
+          "description": "标记点之间的距离， pointSize 的倍数",
+          "since": "1.6.0",
+          "type": "number"
         },
         "progressiveStep": {
           "description": "分片长度",
@@ -49074,8 +49424,7 @@
           "type": "number"
         },
         "label": {
-          "$ref": "#/definitions/Partial<ILabelSpec>",
-          "description": "标签配置"
+          "$ref": "#/definitions/Partial<ILineLikeLabelSpec>"
         },
         "line": {
           "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
@@ -49361,6 +49710,10 @@
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
           "description": "null，undefined等非法数据点连接方式。"
         },
+        "label": {
+          "$ref": "#/definitions/ILineLikeLabelSpec",
+          "description": "标签配置"
+        },
         "large": {
           "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
           "type": "boolean"
@@ -49556,6 +49909,12 @@
           ],
           "description": "参考线配置"
         },
+        "markOverlap": {
+          "default": false,
+          "description": "是否允许标记图形相互覆盖",
+          "since": "1.6.0",
+          "type": "boolean"
+        },
         "markPoint": {
           "anyOf": [
             {
@@ -49620,6 +49979,17 @@
           "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
           "description": "点图元配置"
         },
+        "pointDis": {
+          "description": "标记点之间的距离，px",
+          "since": "1.6.0",
+          "type": "number"
+        },
+        "pointDisMul": {
+          "default": 1,
+          "description": "标记点之间的距离， pointSize 的倍数",
+          "since": "1.6.0",
+          "type": "number"
+        },
         "progressiveStep": {
           "description": "分片长度",
           "type": "number"
@@ -49642,6 +50012,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "scales": {
@@ -49969,6 +50350,10 @@
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
           "description": "null，undefined等非法数据点连接方式。"
         },
+        "label": {
+          "$ref": "#/definitions/ILineLikeLabelSpec",
+          "description": "标签配置"
+        },
         "large": {
           "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
           "type": "boolean"
@@ -49980,6 +50365,12 @@
         "line": {
           "$ref": "#/definitions/IMarkSpec<ILineMarkSpec>",
           "description": "线图元配置"
+        },
+        "markOverlap": {
+          "default": false,
+          "description": "是否允许标记图形相互覆盖",
+          "since": "1.6.0",
+          "type": "boolean"
         },
         "maxField": {
           "type": "string"
@@ -50004,6 +50395,17 @@
           "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
           "description": "点图元配置"
         },
+        "pointDis": {
+          "description": "标记点之间的距离，px",
+          "since": "1.6.0",
+          "type": "number"
+        },
+        "pointDisMul": {
+          "default": 1,
+          "description": "标记点之间的距离， pointSize 的倍数",
+          "since": "1.6.0",
+          "type": "number"
+        },
         "progressiveStep": {
           "description": "分片长度",
           "type": "number"
@@ -50019,6 +50421,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "select": {
@@ -50150,6 +50563,12 @@
     },
     "IRangeColumn3dChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -50700,6 +51119,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "scales": {
@@ -50871,6 +51301,12 @@
     },
     "IRangeColumn3dSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -51119,6 +51555,17 @@
           "description": "系列关联的region索引",
           "type": "number"
         },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
+          "type": "number"
+        },
         "select": {
           "anyOf": [
             {
@@ -51238,6 +51685,12 @@
     },
     "IRangeColumnChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -51790,6 +52243,17 @@
           "description": "系列关联的region索引",
           "type": "number"
         },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
+          "type": "number"
+        },
         "scales": {
           "description": "全局 scale 配置",
           "items": {
@@ -51959,6 +52423,12 @@
     },
     "IRangeColumnSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -52205,6 +52675,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "select": {
@@ -54221,6 +54702,16 @@
       },
       "type": "object"
     },
+    "ISamplingMethod": {
+      "enum": [
+        "average",
+        "lttb",
+        "max",
+        "min",
+        "sum"
+      ],
+      "type": "string"
+    },
     "ISankeyChartSpec": {
       "properties": {
         "animation": {
@@ -55271,14 +55762,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ILabelSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ],
+          "$ref": "#/definitions/ILineLikeLabelSpec",
           "description": "标签配置"
         },
         "large": {
@@ -55904,14 +56388,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "allOf": [
-            {
-              "$ref": "#/definitions/ILabelSpec"
-            },
-            {
-              "typeof": "function"
-            }
-          ],
+          "$ref": "#/definitions/ILineLikeLabelSpec",
           "description": "标签配置"
         },
         "large": {
@@ -57129,13 +57606,13 @@
           "$ref": "#/definitions/IHeatmapSeriesTheme"
         },
         "line": {
-          "$ref": "#/definitions/ILineSeriesTheme"
+          "$ref": "#/definitions/ILineLikeSeriesTheme"
         },
         "line_horizontal": {
-          "$ref": "#/definitions/ILineSeriesTheme"
+          "$ref": "#/definitions/ILineLikeSeriesTheme"
         },
         "line_vertical": {
-          "$ref": "#/definitions/ILineSeriesTheme"
+          "$ref": "#/definitions/ILineLikeSeriesTheme"
         },
         "linearProgress": {
           "$ref": "#/definitions/ILinearProgressSeriesTheme"
@@ -60767,7 +61244,7 @@
               "type": "string"
             }
           ],
-          "description": "受支持的激活类型（*支持在series上设置）（*会影响自定义handler）"
+          "description": "受支持的激活类型\n（*支持在series上设置）\n（*会影响自定义handler）"
         },
         "className": {
           "description": "tooltip dom元素的 className，仅当 renderMode: 'html' 时生效",
@@ -60829,7 +61306,7 @@
           "type": "number"
         },
         "trigger": {
-          "description": "tooltip触发方式（*会影响自定义handler）",
+          "description": "tooltip触发方式\n（*会影响自定义handler）",
           "enum": [
             "click",
             "hover",
@@ -60838,7 +61315,7 @@
           "type": "string"
         },
         "triggerOff": {
-          "description": "隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）（*会影响自定义handler）",
+          "description": "隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）\n（*会影响自定义handler）",
           "enum": [
             "click",
             "hover",
@@ -60846,8 +61323,11 @@
           ],
           "type": "string"
         },
+        "updateElement": {
+          "typeof": "function"
+        },
         "visible": {
-          "description": "是否显示（*支持在series上设置）（*会影响自定义handler）",
+          "description": "是否显示\n（*支持在series上设置）\n（*会影响自定义handler）",
           "type": "boolean"
         }
       },
@@ -63437,6 +63917,12 @@
     },
     "IWaterfallChartSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -63986,6 +64472,17 @@
           "description": "系列关联的region索引",
           "type": "number"
         },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
+          "type": "number"
+        },
         "scales": {
           "description": "全局 scale 配置",
           "items": {
@@ -64178,6 +64675,12 @@
     },
     "IWaterfallSeriesSpec": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -64421,6 +64924,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "select": {
@@ -66755,7 +67269,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         },
         "size": {
@@ -66763,14 +67277,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14206",
+        "__@toStringTag@13698",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         },
         "size": {
@@ -66778,14 +67292,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14206",
+        "__@toStringTag@13698",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         },
         "size": {
@@ -66793,14 +67307,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14206",
+        "__@toStringTag@13698",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         },
         "size": {
@@ -66808,14 +67322,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14206",
+        "__@toStringTag@13698",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         },
         "size": {
@@ -66823,14 +67337,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14206",
+        "__@toStringTag@13698",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         },
         "size": {
@@ -66838,14 +67352,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14206",
+        "__@toStringTag@13698",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         },
         "size": {
@@ -66853,14 +67367,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14206",
+        "__@toStringTag@13698",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         },
         "size": {
@@ -66868,14 +67382,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14206",
+        "__@toStringTag@13698",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         },
         "size": {
@@ -66883,7 +67397,7 @@
         }
       },
       "required": [
-        "__@toStringTag@14206",
+        "__@toStringTag@13698",
         "size"
       ],
       "type": "object"
@@ -67683,6 +68197,12 @@
     },
     "Omit<IBarSeriesSpec,\"type\">": {
       "properties": {
+        "activePoint": {
+          "default": false,
+          "description": "是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点",
+          "since": "1.3.0",
+          "type": "boolean"
+        },
         "animation": {
           "description": "是否开启系列动画",
           "type": "boolean"
@@ -67879,7 +68399,7 @@
         "label": {
           "allOf": [
             {
-              "$ref": "#/definitions/ILabelSpec"
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
             },
             {
               "typeof": "function"
@@ -67922,6 +68442,17 @@
         "regionIndex": {
           "default": 0,
           "description": "系列关联的region索引",
+          "type": "number"
+        },
+        "sampling": {
+          "$ref": "#/definitions/ISamplingMethod",
+          "description": "数据采样 - 采样方法",
+          "since": "1.6.0"
+        },
+        "samplingFactor": {
+          "default": 1,
+          "description": "数据采样 - 采样系数",
+          "since": "1.6.0",
           "type": "number"
         },
         "select": {
@@ -70167,6 +70698,240 @@
           "type": "number"
         },
         "zIndex": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Omit<ILabelSpec,\"position\">": {
+      "properties": {
+        "animation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelAnimation"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "动画配置"
+        },
+        "bottom": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "center": {
+          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
+          "type": "boolean"
+        },
+        "centerOffset": {
+          "description": "中心点偏移距离",
+          "type": "number"
+        },
+        "clip": {
+          "description": "模块是否裁剪超出布局区域外的绘图内容",
+          "type": "boolean"
+        },
+        "customLayoutFunc": {
+          "typeof": "function"
+        },
+        "customOverlapFunc": {
+          "typeof": "function"
+        },
+        "dataFilter": {
+          "typeof": "function"
+        },
+        "formatMethod": {
+          "typeof": "function"
+        },
+        "height": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：高度"
+        },
+        "id": {
+          "$ref": "#/definitions/StringOrNumber"
+        },
+        "interactive": {
+          "description": "是否支持交互。@default false",
+          "type": "boolean"
+        },
+        "labelLayout": {
+          "description": "标签布局",
+          "enum": [
+            "region",
+            "series"
+          ],
+          "type": "string"
+        },
+        "layoutLevel": {
+          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
+          "type": "number"
+        },
+        "layoutType": {
+          "$ref": "#/definitions/ILayoutType",
+          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
+        },
+        "left": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "maxHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大高度"
+        },
+        "maxWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大宽度"
+        },
+        "minHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小高度"
+        },
+        "minWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小宽度"
+        },
+        "noOuterPadding": {
+          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
+          "type": "boolean"
+        },
+        "offset": {
+          "description": "标签与其对应数据图元的间距",
+          "type": "number"
+        },
+        "offsetX": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：X"
+        },
+        "offsetY": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：Y"
+        },
+        "orient": {
+          "$ref": "#/definitions/IOrientType",
+          "description": "模块布局位置"
+        },
+        "overlap": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OverlapAttrs"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "标签防重叠配置"
+        },
+        "padding": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局间距"
+        },
+        "regionId": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/StringOrNumber"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "组件关联的region id"
+        },
+        "regionIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 0,
+          "description": "组件关联的region索引"
+        },
+        "right": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "seriesId": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/StringOrNumber"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "组件关联的系列id"
+        },
+        "seriesIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "组件关联的系列索引"
+        },
+        "smartInvert": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SmartInvertAttrs"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "标签智能反色配置"
+        },
+        "state": {
+          "typeof": "function"
+        },
+        "style": {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
+          "description": "标签样式配置"
+        },
+        "support3d": {
+          "description": "是否支持3D",
+          "type": "boolean"
+        },
+        "top": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "visible": {
+          "description": "默认不显示标签",
+          "type": "boolean"
+        },
+        "width": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：宽度"
+        },
+        "zIndex": {
+          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
           "type": "number"
         }
       },
@@ -74841,255 +75606,6 @@
       },
       "type": "object"
     },
-    "Partial<ILabelSpec&{position?:\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\";}>": {
-      "properties": {
-        "animation": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/ILabelAnimation"
-            },
-            {
-              "const": false,
-              "type": "boolean"
-            }
-          ],
-          "description": "动画配置"
-        },
-        "bottom": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "center": {
-          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
-          "type": "boolean"
-        },
-        "centerOffset": {
-          "description": "中心点偏移距离",
-          "type": "number"
-        },
-        "clip": {
-          "description": "模块是否裁剪超出布局区域外的绘图内容",
-          "type": "boolean"
-        },
-        "customLayoutFunc": {
-          "typeof": "function"
-        },
-        "customOverlapFunc": {
-          "typeof": "function"
-        },
-        "dataFilter": {
-          "typeof": "function"
-        },
-        "formatMethod": {
-          "typeof": "function"
-        },
-        "height": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：高度"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber"
-        },
-        "interactive": {
-          "description": "是否支持交互。@default false",
-          "type": "boolean"
-        },
-        "labelLayout": {
-          "description": "标签布局",
-          "enum": [
-            "region",
-            "series"
-          ],
-          "type": "string"
-        },
-        "layoutLevel": {
-          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
-          "type": "number"
-        },
-        "layoutType": {
-          "$ref": "#/definitions/ILayoutType",
-          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
-        },
-        "left": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "maxHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大高度"
-        },
-        "maxWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大宽度"
-        },
-        "minHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小高度"
-        },
-        "minWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小宽度"
-        },
-        "noOuterPadding": {
-          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
-          "type": "boolean"
-        },
-        "offset": {
-          "description": "标签与其对应数据图元的间距",
-          "type": "number"
-        },
-        "offsetX": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：X"
-        },
-        "offsetY": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：Y"
-        },
-        "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "模块布局位置"
-        },
-        "overlap": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/OverlapAttrs"
-            },
-            {
-              "const": false,
-              "type": "boolean"
-            }
-          ],
-          "description": "标签防重叠配置"
-        },
-        "padding": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局间距"
-        },
-        "position": {
-          "description": "标签位置",
-          "enum": [
-            "bottom",
-            "bottom-left",
-            "bottom-right",
-            "center",
-            "left",
-            "right",
-            "top",
-            "top-left",
-            "top-right"
-          ],
-          "type": "string"
-        },
-        "regionId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的region id"
-        },
-        "regionIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "default": 0,
-          "description": "组件关联的region索引"
-        },
-        "right": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "seriesId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的系列id"
-        },
-        "seriesIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "组件关联的系列索引"
-        },
-        "smartInvert": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/SmartInvertAttrs"
-            },
-            {
-              "const": false,
-              "type": "boolean"
-            }
-          ],
-          "description": "标签智能反色配置"
-        },
-        "state": {
-          "typeof": "function"
-        },
-        "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
-          "description": "标签样式配置"
-        },
-        "support3d": {
-          "description": "是否支持3D",
-          "type": "boolean"
-        },
-        "top": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "visible": {
-          "description": "默认不显示标签",
-          "type": "boolean"
-        },
-        "width": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：宽度"
-        },
-        "zIndex": {
-          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "Partial<ILabelSpec>": {
       "properties": {
         "animation": {
@@ -75723,6 +76239,245 @@
           "type": "number"
         },
         "zIndex": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ILineLikeLabelSpec>": {
+      "properties": {
+        "animation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelAnimation"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "动画配置"
+        },
+        "bottom": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "center": {
+          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
+          "type": "boolean"
+        },
+        "centerOffset": {
+          "description": "中心点偏移距离",
+          "type": "number"
+        },
+        "clip": {
+          "description": "模块是否裁剪超出布局区域外的绘图内容",
+          "type": "boolean"
+        },
+        "customLayoutFunc": {
+          "typeof": "function"
+        },
+        "customOverlapFunc": {
+          "typeof": "function"
+        },
+        "dataFilter": {
+          "typeof": "function"
+        },
+        "formatMethod": {
+          "typeof": "function"
+        },
+        "height": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：高度"
+        },
+        "id": {
+          "$ref": "#/definitions/StringOrNumber"
+        },
+        "interactive": {
+          "description": "是否支持交互。@default false",
+          "type": "boolean"
+        },
+        "labelLayout": {
+          "description": "标签布局",
+          "enum": [
+            "region",
+            "series"
+          ],
+          "type": "string"
+        },
+        "layoutLevel": {
+          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
+          "type": "number"
+        },
+        "layoutType": {
+          "$ref": "#/definitions/ILayoutType",
+          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
+        },
+        "left": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "maxHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大高度"
+        },
+        "maxWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大宽度"
+        },
+        "minHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小高度"
+        },
+        "minWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小宽度"
+        },
+        "noOuterPadding": {
+          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
+          "type": "boolean"
+        },
+        "offset": {
+          "description": "标签与其对应数据图元的间距",
+          "type": "number"
+        },
+        "offsetX": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：X"
+        },
+        "offsetY": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：Y"
+        },
+        "orient": {
+          "$ref": "#/definitions/IOrientType",
+          "description": "模块布局位置"
+        },
+        "overlap": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OverlapAttrs"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "标签防重叠配置"
+        },
+        "padding": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局间距"
+        },
+        "position": {
+          "$ref": "#/definitions/Functional<\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\">",
+          "description": "标签位置",
+          "since": "1.6.0\n支持以函数形式配置"
+        },
+        "regionId": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/StringOrNumber"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "组件关联的region id"
+        },
+        "regionIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 0,
+          "description": "组件关联的region索引"
+        },
+        "right": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "seriesId": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/StringOrNumber"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "组件关联的系列id"
+        },
+        "seriesIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "组件关联的系列索引"
+        },
+        "smartInvert": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SmartInvertAttrs"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ],
+          "description": "标签智能反色配置"
+        },
+        "state": {
+          "typeof": "function"
+        },
+        "style": {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
+          "description": "标签样式配置"
+        },
+        "support3d": {
+          "description": "是否支持3D",
+          "type": "boolean"
+        },
+        "top": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "visible": {
+          "description": "默认不显示标签",
+          "type": "boolean"
+        },
+        "width": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：宽度"
+        },
+        "zIndex": {
+          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
           "type": "number"
         }
       },
@@ -82311,34 +83066,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14206"
+        "__@toStringTag@13698"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14206"
+        "__@toStringTag@13698"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@14206": {
+        "__@toStringTag@13698": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14206"
+        "__@toStringTag@13698"
       ],
       "type": "object"
     },
@@ -82348,10 +83103,10 @@
     "Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IImageMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {

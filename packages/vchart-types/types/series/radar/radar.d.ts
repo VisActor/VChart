@@ -5,7 +5,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
-export interface RadarSeries<T extends IRadarSeriesSpec> extends Pick<LineLikeSeriesMixin, 'initLineMark' | 'initSymbolMark' | 'initLabelMarkStyle' | 'initLineMarkStyle' | 'initSymbolMarkStyle' | 'encodeDefined' | '_lineMark' | '_symbolMark'>, RoseLikeSeries<T> {
+export interface RadarSeries<T extends IRadarSeriesSpec> extends Pick<LineLikeSeriesMixin, 'initLineMark' | 'initSymbolMark' | 'initLabelMarkStyle' | 'initLineMarkStyle' | 'initSymbolMarkStyle' | 'encodeDefined' | '_lineMark' | '_symbolMark' | 'addOverlapCompile'>, RoseLikeSeries<T> {
 }
 export declare class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends RoseLikeSeries<T> {
     static readonly type: string;
@@ -15,6 +15,7 @@ export declare class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> 
     private _areaMark;
     protected _sortDataByAxis: boolean;
     initGroups(): void;
+    compile(): void;
     initMark(): void;
     initMarkStyle(): void;
     initAreaMark(progressive: IMarkProgressiveConfig, isSeriesMark: boolean): void;

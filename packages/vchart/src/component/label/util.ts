@@ -26,11 +26,7 @@ export enum LabelRule {
   stackLabel = 'stackLabel'
 }
 
-export function textAttribute(
-  labelInfo: ILabelInfo,
-  datum: Datum,
-  formatMethod?: (text: string | string[], datum?: any) => string | string[]
-) {
+export function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod']) {
   const { labelMark, series } = labelInfo;
   const field = series.getMeasureField()[0];
   const textAttribute = { text: datum[field], data: datum } as any;
@@ -40,7 +36,7 @@ export function textAttribute(
     const attr = labelMark.getAttribute(key as any, datum);
     textAttribute[key] = attr;
     if (key === 'text' && formatMethod) {
-      textAttribute[key] = formatMethod(textAttribute[key], datum);
+      textAttribute[key] = formatMethod(textAttribute[key], datum, { series });
     }
   }
   return textAttribute;

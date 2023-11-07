@@ -4,17 +4,18 @@ import type { IRect3dMarkSpec, IRectMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { BarAppearPreset } from './animation';
 import type { ILabelSpec } from '../../component/label';
-import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { IDataSamping, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import type { Functional } from '@visactor/vrender-components';
 type BarMarks = 'bar';
-export interface IBarSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<BarMarks, BarAppearPreset>, IMarkProgressiveConfig {
+export interface IBarSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<BarMarks, BarAppearPreset>, IMarkProgressiveConfig, IDataSamping {
     type: 'bar';
     xField: string | string[];
     yField: string | string[];
     [SeriesMarkNameEnum.bar]?: IMarkSpec<IRectMarkSpec>;
     [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec>;
-    [SeriesMarkNameEnum.label]?: ILabelSpec & {
-        position?: 'outside' | 'top' | 'bottom' | 'left' | 'right' | 'inside' | 'inside-top' | 'inside-bottom' | 'inside-right' | 'inside-left';
+    [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position'> & {
+        position?: Functional<'outside' | 'top' | 'bottom' | 'left' | 'right' | 'inside' | 'inside-top' | 'inside-bottom' | 'inside-right' | 'inside-left' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'>;
     };
     barWidth?: number | string;
     barMinWidth?: number | string;

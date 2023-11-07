@@ -193,8 +193,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   effect: IEffect = {
-    scaleUpdate: () => {
-      this.computeData();
+    scaleUpdate: params => {
+      this.computeData(params?.value);
       eachSeries(
         this._regions,
         s => {
@@ -395,7 +395,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   onLayoutEnd(ctx: any): void {
     const isRangeChange = this.updateScaleRange();
     if (isRangeChange) {
-      this.event.emit(ChartEvent.scaleUpdate, { model: this });
+      this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
       // 这里会执行 computeData ，会执行系列scale更新
     } else {
       this.updateSeriesScale();
@@ -560,8 +560,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._verticalLimitSize = isXAxis(this.getOrient()) ? rect.height : rect.width;
 
     this.setLayoutRect(rect);
-    this.updateScaleRange();
-    this.computeData();
+    const isChanged = this.updateScaleRange();
+    if (isChanged) {
+      this.computeData('range');
+    }
     const context = { skipLayout: false };
     const isX = isXAxis(this.getOrient());
     if (this.pluginService) {
@@ -574,19 +576,27 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
           });
     }
     const product = this._axisMark.getProduct();
-    this._latestBounds = product.getBounds();
+    let hasBounds = false;
+
     if (!context.skipLayout) {
       const attrs = this._getUpdateAttribute(true);
       const axisComponent = product.getGroupGraphicItem();
-      const updateBounds = axisComponent.getBoundsWithoutRender(
-        mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs)
-      );
+
+      const spec = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs, { line: { visible: false } });
+      const updateBounds = axisComponent.getBoundsWithoutRender(spec);
+
       if (isFinite(updateBounds.width())) {
         // 因为轴单位在某些区域显示的时候，是不参与轴某个方向的包围盒计算的，
         // 所以不太合适放在轴组件内支持，所以就在 VChart 层的轴组件上通过添加 text 图元支持
         result = this._appendAxisUnit(updateBounds, isX);
+
+        hasBounds = true;
         this._latestBounds = updateBounds;
       }
+    }
+
+    if (!hasBounds) {
+      this._latestBounds = product.getBounds();
     }
     return result;
   }
@@ -595,15 +605,16 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (!this.visible) {
       return;
     }
+    const startPoint = this.getLayoutStartPoint();
     // 正式的更新布局属性
     const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
     const axisProduct = this._axisMark.getProduct(); // 获取语法元素
-    const axisAttrs = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, updateAxisAttrs);
+    const axisAttrs = mergeSpec({ x: startPoint.x, y: startPoint.y }, this._axisStyle, updateAxisAttrs);
     axisProduct.encode(axisAttrs);
 
     if (this._gridMark) {
       const gridProduct = this._gridMark.getProduct(); // 获取语法元素
-      gridProduct.encode(mergeSpec({ ...this.getLayoutStartPoint() }, this._getGridAttributes(), updateGridAttrs));
+      gridProduct.encode(mergeSpec({ x: startPoint.x, y: startPoint.y }, this._getGridAttributes(), updateGridAttrs));
     }
 
     super.updateLayoutAttribute();

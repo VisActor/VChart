@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: load browser or node env code dynamically",
+      "comment": "feat: label formatMethod callback add context parmas to provide series object",
       "type": "none"
     }
   ],

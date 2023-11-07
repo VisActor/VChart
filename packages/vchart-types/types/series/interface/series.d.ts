@@ -27,7 +27,11 @@ export interface ISeries extends IModel, ILayoutItem {
     getViewDataFilter: () => DataView | undefined;
     getViewData: () => DataView | undefined;
     getViewDataProductId: () => string | undefined;
-    getRawDataStatistics?: () => DataView | undefined;
+    getRawDataStatisticsByField: (field: string, isNumeric?: boolean) => {
+        values?: any[];
+        min?: number;
+        max?: number;
+    };
     getViewDataStatistics?: () => DataView | undefined;
     getDataSet?: () => DataSet;
     getFieldAlias: (field: string) => string;
