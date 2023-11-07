@@ -5,5 +5,7 @@
   },
   "appid": "cli_a2b2c6724678500b",
   "projectname": "block-vchart",
-  "blocks": ["block/index"]
+  "blocks": [
+    "block/index"
+  ]
 }
