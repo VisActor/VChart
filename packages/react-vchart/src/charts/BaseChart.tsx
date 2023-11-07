@@ -17,7 +17,10 @@ import {
   ScrollBarEventProps,
   BrushEventProps,
   DataZoomEventProps,
-  PlayerEventProps
+  PlayerEventProps,
+  DimensionEventProps,
+  HierarchyEventProps,
+  ChartLifeCycleEventProps
 } from '../eventsUtils';
 
 export type ChartOptions = Omit<IInitOption, 'dom'>;
@@ -28,7 +31,10 @@ export interface BaseChartProps
     ScrollBarEventProps,
     BrushEventProps,
     DataZoomEventProps,
-    PlayerEventProps {
+    PlayerEventProps,
+    DimensionEventProps,
+    HierarchyEventProps,
+    ChartLifeCycleEventProps {
   type?: string;
   /** 上层container */
   container?: HTMLDivElement;
