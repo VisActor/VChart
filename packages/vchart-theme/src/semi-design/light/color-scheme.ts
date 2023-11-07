@@ -53,7 +53,16 @@ export const colorScheme: IThemeColorScheme = {
       /** 标注标签背景颜色 */
       markLabelBackgroundColor: 'rgba(28,31,35,0.08)',
       /** 标注线颜色 */
-      markLineStrokeColor: 'rgba(28,31,35,0.8)'
+      markLineStrokeColor: 'rgba(28,31,35,0.8)',
+
+      /** 危险色 */
+      dangerColor: 'rgba(249,57,32,1)',
+      /** 警告色 */
+      warningColor: 'rgba(252,136,0,1)',
+      /** 成功色 */
+      successColor: 'rgba(59,179,70,1)',
+      /** 信息色 */
+      infoColor: 'rgba(0,100,250,1)'
     } as Partial<BuiltinColorPalette>
   }
 };

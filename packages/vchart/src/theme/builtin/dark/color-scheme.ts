@@ -57,7 +57,16 @@ export const colorScheme: IThemeColorScheme = {
       /** 标注标签背景颜色 */
       markLabelBackgroundColor: '#404349',
       /** 标注线颜色 */
-      markLineStrokeColor: '#bbbdc3'
+      markLineStrokeColor: '#bbbdc3',
+
+      /** 危险色 */
+      dangerColor: '#eb4b4b',
+      /** 警告色 */
+      warningColor: '#f0bd30',
+      /** 成功色 */
+      successColor: '#14b267',
+      /** 信息色 */
+      infoColor: '#4284ff'
     } as BuiltinColorPalette
   }
 };

@@ -53,4 +53,13 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
   markLabelBackgroundColor: string;
   /** 标注线颜色 */
   markLineStrokeColor: string;
+
+  /** 危险色 */
+  dangerColor: string;
+  /** 警告色 */
+  warningColor: string;
+  /** 成功色 */
+  successColor: string;
+  /** 信息色 */
+  infoColor: string;
 };
