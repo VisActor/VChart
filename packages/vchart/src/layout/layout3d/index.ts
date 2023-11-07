@@ -268,7 +268,7 @@ export class Layout3d extends Layout implements IBaseLayout {
     const rightCurrent = this._chartViewBox.x2 - this._chartViewBox.x1 - this.rightCurrent;
     const bottomCurrent = this._chartViewBox.y2 - this._chartViewBox.y1 - this.bottomCurrent;
     items.forEach(i => {
-      if (!i.model.getVisible() || !i.autoIndent) {
+      if (!i.getModelVisible() || !i.autoIndent) {
         return;
       }
       const vOrH = i.layoutOrient === 'left' || i.layoutOrient === 'right';
