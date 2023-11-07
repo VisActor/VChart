@@ -6,7 +6,7 @@ import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visa
 import { DiscretePlayer, ContinuousPlayer, PlayerEventEnum } from '@visactor/vrender-components';
 import { isNumber, array, isEqual, isNil, isValidNumber } from '@visactor/vutils';
 
-import type { ILayoutRect, IModelRenderOption } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IComponentOption } from '../interface';
 
@@ -22,8 +22,11 @@ import { BaseComponent } from '../base/base-component';
 import { transformContinuousSpecToAttrs, transformDiscreteSpecToAttrs } from './utils/transform';
 import { isHorizontal, isVertical } from './utils/orient';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
+import type { ILayoutRect } from '../../layout/interface';
 
 export class Player extends BaseComponent<IPlayer> implements IComponent {
+  protected layoutType: 'region' | 'region-relative' | 'normal' | 'absolute' | 'normal-inline';
+
   layoutZIndex: number = LayoutZIndex.Player;
   layoutLevel: number = LayoutLevel.Player;
 
@@ -81,8 +84,8 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
    * 计算组件位置(布局的左上角起点)
    * @param pos
    */
-  setLayoutStartPosition(pos: Partial<IPoint>) {
-    super.setLayoutStartPosition(pos);
+  afterSetLayoutStartPoint(pos: IPoint) {
+    super.afterSetLayoutStartPoint(pos);
     if (isValidNumber(pos.x)) {
       const offsetX = isVertical(this._orient) ? pos.x + this._sliderExceededSize() / 2 : pos.x;
       this._playerComponent && this._playerComponent.setAttribute('x', offsetX);
@@ -98,7 +101,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
    * @param rect
    * @returns
    */
-  _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
+  getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
     this._width = this._computeWidth(rect);
     this._height = this._computeHeight(rect);
     this._dx = this._computeDx(fullSpace);

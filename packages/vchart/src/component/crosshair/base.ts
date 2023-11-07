@@ -9,7 +9,6 @@ import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { IPadding, Maybe, StringOrNumber } from '../../typings';
 import { outOfBounds } from '../../util/math';
-import type { LayoutItem } from '../../model/layout-item';
 import type { IComponentOption } from '../interface';
 import type {
   ICrossHair,
@@ -23,6 +22,7 @@ import { Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../const
 import { getDefaultCrosshairTriggerEventByMode } from './config';
 import type { IPolarAxis } from '../axis/polar/interface';
 import type { IAxis } from '../axis/interface';
+import type { ILayoutItem } from '../../layout/interface';
 
 type IBound = { x1: number; y1: number; x2: number; y2: number };
 type IAxisInfo<T> = Map<number, IBound & { axis: T }>;
@@ -60,9 +60,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   extends BaseComponent<T>
   implements ICrossHair
 {
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  gridZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair_Grid;
-  labelZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair;
+  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  gridZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair_Grid;
+  labelZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair;
   trigger: CrossHairTrigger = 'hover';
   enable: boolean;
   showDefault: boolean;

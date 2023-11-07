@@ -275,8 +275,8 @@ describe('VChart', () => {
 
       const rootGroup = vchart.getStage().defaultLayer.find(node => node.name === 'root', false) as unknown as Group;
 
-      const leftAxisLabelGroup = rootGroup.children.find(
-        child => child.name?.includes('axis-left')
+      const leftAxisLabelGroup = rootGroup.children.find(child =>
+        child.name?.includes('axis-left')
       ) as unknown as Group;
       const labels = leftAxisLabelGroup.find(
         node => node.name === 'axis-label-container-layer-0',
@@ -572,8 +572,12 @@ describe('VChart', () => {
         },
         true
       ) as IPoint;
-      expect(point2.x).toBe(mark.attribute.x + vchart.getChart()?.getAllSeries()[0].getLayoutStartPoint().x);
-      expect(point2.y).toBe(mark.attribute.y + vchart.getChart()?.getAllSeries()[0].getLayoutStartPoint().y);
+      expect(point2.x).toBe(
+        mark.attribute.x + vchart.getChart()?.getAllSeries()[0].getRegion().getLayoutStartPoint().x
+      );
+      expect(point2.y).toBe(
+        mark.attribute.y + vchart.getChart()?.getAllSeries()[0].getRegion().getLayoutStartPoint().y
+      );
 
       const value1 = vchart.convertValueToPosition('WY', { axisId: 'bottom' });
       expect(value1).toBe(mark.attribute.x);
@@ -813,7 +817,7 @@ describe('VChart', () => {
     it('axis domain change', async () => {
       await vchart.updateModelSpec('axisLeft', { min: -100, max: 100 } as any, true);
 
-      let axis = vchart.getComponents().find(com => com.layoutOrient === 'left') as any;
+      let axis = vchart.getComponents().find(com => com.layout?.layoutOrient === 'left') as any;
 
       expect(axis.getScale().domain()).toEqual([-100, 100]);
 
@@ -824,7 +828,7 @@ describe('VChart', () => {
         } as any,
         true
       );
-      axis = vchart.getComponents().find(com => com.layoutOrient === 'right') as any;
+      axis = vchart.getComponents().find(com => com.layout?.layoutOrient === 'right') as any;
 
       expect(axis.getScale().domain()).toEqual([-52, 30]);
     });

@@ -1,5 +1,5 @@
 import type { IMark } from '../mark/interface';
-import type { IModel, IModelOption, ILayoutItem, ILayoutItemSpec } from '../model/interface';
+import type { ILayoutModel, IModelOption } from '../model/interface';
 import type { ISeries, SeriesType } from '../series/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IInteraction } from '../interaction/interface';
@@ -8,8 +8,9 @@ import type { ConvertToMarkStyleSpec, IRectMarkSpec } from '../typings/visual';
 import type { IAnimate } from '../animation/interface';
 import type { IGroupMark } from '../mark/group';
 import type { StringOrNumber } from '../typings';
+import type { ILayoutItemSpec } from '../layout/interface';
 
-export interface IRegion extends IModel, ILayoutItem {
+export interface IRegion extends ILayoutModel {
   animate?: IAnimate;
   interaction: IInteraction;
 

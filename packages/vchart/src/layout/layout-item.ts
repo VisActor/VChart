@@ -1,25 +1,30 @@
+import type { ILayoutModel } from './../model/interface';
 import type { IPadding, IRect, IPoint } from '../typings';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNil, isValidNumber } from '@visactor/vutils';
+import { isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { calcLayoutNumber, calcPadding, normalizeLayoutPaddingSpec, boundsInRect } from '../util/space';
 import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, USER_LAYOUT_RECT_LEVEL } from '../constant';
 
-import type { ILayoutItem, ILayoutItemSpec, ILayoutPoint, ILayoutRect, ILayoutRectLevel } from './interface';
-import { CompilableBase } from '../compile/compilable-base';
+import type {
+  ILayoutItem,
+  ILayoutItemInitOption,
+  ILayoutItemSpec,
+  ILayoutPoint,
+  ILayoutRect,
+  ILayoutRectLevel
+} from './interface';
+import type { IChartLayoutOption } from '../chart/interface/common';
 
-export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends CompilableBase implements ILayoutItem {
-  protected _spec: T;
-  getSpec(): T {
-    return this._spec || ({} as T);
+export class LayoutItem implements ILayoutItem {
+  protected _spec: ILayoutItemSpec;
+  getSpec() {
+    return this._spec || {};
   }
 
   layoutClip: boolean = false;
 
-  protected _autoIndent: boolean = true;
-  getAutoIndent(): boolean {
-    return this._autoIndent;
-  }
+  autoIndent: boolean = false;
 
   private _layoutStartPoint: ILayoutPoint = {
     x: 0,
@@ -32,23 +37,37 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
 
   private _layoutRect: ILayoutRect = { width: 0, height: 0 };
 
-  protected _minWidth: number | null = null;
-  protected _maxWidth: number | null = null;
-  protected _minHeight: number | null = null;
-  protected _maxHeight: number | null = null;
-
   // 处理用户和逻辑的优先级覆盖，让用户也可以设置 rect
   protected _layoutRectLevelMap: ILayoutRectLevel = {
     width: DEFAULT_LAYOUT_RECT_LEVEL,
     height: DEFAULT_LAYOUT_RECT_LEVEL
   };
+  get layoutRectLevelMap() {
+    return this._layoutRectLevelMap;
+  }
+
+  protected _minWidth: number = null;
+  get minWidth() {
+    return this._minWidth;
+  }
+  protected _maxWidth: number = null;
+  get maxWidth() {
+    return this._maxWidth;
+  }
+  protected _minHeight: number = null;
+  get minHeight() {
+    return this._minHeight;
+  }
+  protected _maxHeight: number = null;
+  get maxHeight() {
+    return this._maxHeight;
+  }
   /** for layout diff */
   protected _lastComputeRect: ILayoutRect = null;
   protected _lastComputeOutBounds: IBoundsLike = { x1: 0, x2: 0, y1: 0, y2: 0 };
   getLastComputeOutBounds(): IBoundsLike {
     return this._lastComputeOutBounds;
   }
-  protected _forceLayoutTag: boolean = false;
 
   getLayoutRect: () => ILayoutRect = () => {
     return this._layoutRect;
@@ -75,15 +94,21 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
 
   layoutLevel: ILayoutItem['layoutLevel'] = LayoutLevel.Region;
 
-  // layoutAbsoluteLeft: ILayoutItem['layoutAbsoluteLeft'] = Number.NaN;
-  // layoutAbsoluteTop: ILayoutItem['layoutAbsoluteTop'] = Number.NaN;
-  // layoutAbsoluteRight: ILayoutItem['layoutAbsoluteRight'] = Number.NaN;
-  // layoutAbsoluteBottom: ILayoutItem['layoutAbsoluteBottom'] = Number.NaN;
   layoutZIndex: ILayoutItem['layoutZIndex'] = 0;
   chartLayoutRect!: ILayoutRect;
 
-  getVisible() {
-    return (this._spec as unknown as any)?.visible !== false;
+  protected _model: ILayoutModel;
+  get model() {
+    return this._model;
+  }
+
+  protected _option: ILayoutItemInitOption;
+
+  constructor(model: ILayoutModel, option: ILayoutItemInitOption) {
+    this._model = model;
+    this._option = option;
+    this.layoutZIndex = option.layoutZIndex;
+    this.layoutType = option.layoutType;
   }
 
   private _setLayoutAttributeFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {
@@ -141,6 +166,7 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
   }
 
   setAttrFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {
+    this._spec = spec;
     this.layoutType = spec.layoutType ?? this.layoutType;
     this.layoutLevel = spec.layoutLevel ?? this.layoutLevel;
     this.layoutOrient = spec.orient ?? this.layoutOrient;
@@ -151,9 +177,15 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
     this.layoutZIndex = spec.zIndex ?? this.layoutZIndex;
   }
 
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, _ctx: any) {
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any) {
     // 在 layoutStart 时重新计算 spec 中的布局属性值，确保 resize 后，这些值保持正确的px值。
     this._setLayoutAttributeFromSpec(this._spec, viewRect);
+    this._model.onLayoutStart(layoutRect, viewRect, ctx);
+  }
+
+  onLayoutEnd(option: IChartLayoutOption) {
+    // 在 layoutStart 时重新计算 spec 中的布局属性值，确保 resize 后，这些值保持正确的px值。
+    this._model.onLayoutEnd(option);
   }
 
   private _getAbsoluteSpecValue(layoutRect: ILayoutRect) {
@@ -214,13 +246,17 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
     this.setLayoutStartPosition(pos);
   }
 
-  setLayoutStartPosition({ x, y }: Partial<IPoint>): void {
-    if (isValidNumber(x)) {
-      this._layoutStartPoint.x = x;
+  setLayoutStartPosition(pos: Partial<IPoint>): void {
+    if (this._option.transformLayoutPosition) {
+      pos = this._option.transformLayoutPosition(pos);
     }
-    if (isValidNumber(y)) {
-      this._layoutStartPoint.y = y;
+    if (isValidNumber(pos.x)) {
+      this._layoutStartPoint.x = pos.x;
     }
+    if (isValidNumber(pos.y)) {
+      this._layoutStartPoint.y = pos.y;
+    }
+    this._model.afterSetLayoutStartPoint?.(this._layoutStartPoint);
   }
 
   setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRectLevel>) {
@@ -234,7 +270,16 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
       this._layoutRectLevelMap.height = levelMap?.height ?? DEFAULT_LAYOUT_RECT_LEVEL;
     }
 
-    this._setRectInSpec(this._layoutRect);
+    this.setRectInSpec(this._layoutRect);
+  }
+
+  getLayout(): IRect {
+    return {
+      x: this._layoutStartPoint.x,
+      y: this._layoutStartPoint.y,
+      width: this._layoutRect.width,
+      height: this._layoutRect.height
+    };
   }
 
   mergeLayoutRect({ width, height }: ILayoutRect): ILayoutRect {
@@ -270,7 +315,7 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
     return bounds;
   }
 
-  protected _setRectInSpec(rect: ILayoutRect) {
+  setRectInSpec(rect: ILayoutRect) {
     const result = { ...rect };
     if (this._layoutRectLevelMap.width < USER_LAYOUT_RECT_LEVEL) {
       if (!isNil(this._minWidth)) {
@@ -301,44 +346,21 @@ export class LayoutItem<T extends ILayoutItemSpec = ILayoutItemSpec> extends Com
     this._lastComputeRect = rect;
     // 将布局空间限制到 spec 设置内
     // 避免操作到元素本身的 aabbbounds
-    const bounds = { ...this._boundsInRect(this._setRectInSpec(rect), rect) };
+    const bounds = { ...this._model.getBoundsInRect(this.setRectInSpec(rect), rect) };
     // 用户设置了布局元素宽高的场景下，内部布局结果的 bounds 不能直接作为图表布局bounds
     this.changeBoundsBySetting(bounds);
     // 保留当前模块的布局超出内容,用来处理自动缩进
-    if (this._autoIndent) {
+    if (this.autoIndent) {
       this._lastComputeOutBounds.x1 = Math.ceil(-bounds.x1);
       this._lastComputeOutBounds.x2 = Math.ceil(bounds.x2 - rect.width);
       this._lastComputeOutBounds.y1 = Math.ceil(-bounds.y1);
       this._lastComputeOutBounds.y2 = Math.ceil(bounds.y2 - rect.height);
     }
     // 返回的布局大小也要限制到 spec 设置内
-    return this._setRectInSpec(boundsInRect(bounds, rect));
-  }
-
-  /**
-   * 实际bounds预计算方法
-   * 需要在布局方法中更新 _lastComputeBounds
-   * @param rect 布局最终使用的rect
-   * @param fullSpace 布局可以使用的空间，用与部分模块的 position 计算
-   */
-  protected _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): IBoundsLike {
-    return { x1: 0, y1: 0, x2: rect.width, y2: rect.height };
-  }
-
-  updateLayoutAttribute(): void {
-    // do nothing
-  }
-
-  compile(): void {
-    // do nothing
-  }
-
-  getGraphicBounds(): IBoundsLike {
-    return {
-      x1: this._layoutStartPoint.x,
-      y1: this._layoutStartPoint.y,
-      x2: this._layoutStartPoint.x + this._layoutRect.width,
-      y2: this._layoutStartPoint.y + this._layoutRect.height
-    };
+    let result = this.setRectInSpec(boundsInRect(bounds, rect));
+    if (this._option.transformLayoutRect) {
+      result = this._option.transformLayoutRect(result);
+    }
+    return result;
   }
 }

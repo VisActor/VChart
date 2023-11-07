@@ -4,26 +4,20 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import { LayoutZIndex } from '../../constant';
 import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { isEqual } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { ILayoutItem } from '../../layout/interface';
 
 export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Label;
-
-  constructor(spec: T, options: IComponentOption) {
-    super(spec, options);
-    this._regions = options.getRegionsInIndex([options.specIndex]);
-    this.layoutBindRegionID = this._regions.map(x => x.id);
-  }
+  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.Label;
 
   protected _interactiveConfig(labelSpec: ILabelSpec) {
     const { interactive } = labelSpec;
@@ -40,10 +34,6 @@ export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> exte
       result.select = true;
     }
     return result;
-  }
-
-  setLayoutStartPosition() {
-    // do nothing
   }
 
   /** Update API **/

@@ -1,5 +1,4 @@
 import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
-import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -26,17 +25,18 @@ import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle }
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
+import type { ILayoutItem } from '../../layout/interface';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
 
 export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
-  layoutType: LayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutItem['layoutType'] = 'absolute';
   static type = ComponentTypeEnum.brush;
   type = ComponentTypeEnum.brush;
   name: string = ComponentTypeEnum.brush;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Brush;
+  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.Brush;
 
   // brush组件
   protected _brushComponents!: BrushComponent[];

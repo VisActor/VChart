@@ -3,7 +3,6 @@ import { array } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
 import type { IModelRenderOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
@@ -11,9 +10,10 @@ import { BaseComponent } from '../base/base-component';
 import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
 import type { IRegressType } from './mark-area/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import type { ILayoutItem, ILayoutRect } from '../../layout/interface';
 
 export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
-  layoutType: LayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutItem['layoutType'] = 'absolute';
 
   protected _startRelativeSeries!: ICartesianSeries;
   protected _endRelativeSeries!: ICartesianSeries;
