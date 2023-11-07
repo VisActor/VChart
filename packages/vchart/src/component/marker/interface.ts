@@ -159,7 +159,7 @@ export interface IMarkerSpec extends IComponentSpec {
 
 export interface IMarkerSymbol extends IMarkerRef {
   /** 是否展示 symbol */
-  visible?: boolean;
+  visible: boolean;
   /**
    * symbol 形状，默认为带左右方向的箭头
    */
