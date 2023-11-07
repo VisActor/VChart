@@ -44218,9 +44218,6 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "visible"
-      ],
       "type": "object"
     },
     "IMatrix": {
