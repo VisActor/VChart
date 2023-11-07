@@ -142,6 +142,7 @@ export interface IEditorBarEntry {
   onChange?: (value?: any) => void;
   divide?: boolean;
   value?: any;
+  tooltip?: string;
   [key: string]: any;
 }
 

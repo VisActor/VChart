@@ -2,6 +2,7 @@ import { IconBold, IconItalic, IconUnderline } from '@douyinfe/semi-icons';
 import { IconButton } from '@douyinfe/semi-ui';
 import type { IBaseFontStyleComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
+import { tooltipWrapper } from '../utils/node';
 
 const normalStyle = {
   marginLeft: 10,
@@ -19,7 +20,7 @@ export function FontStyle(props: IBaseFontStyleComponentProps) {
 
   return (
     <div className="vchart-editor-ui-panel-base-container">
-      <p className="vchart-editor-ui-panel-base-label">{label}</p>
+      {tooltipWrapper(<p className="vchart-editor-ui-panel-base-label">{label}</p>, props.tooltip)}
       <IconButton
         icon={<IconBold />}
         style={props.bolder ? selectedStyle : normalStyle}
