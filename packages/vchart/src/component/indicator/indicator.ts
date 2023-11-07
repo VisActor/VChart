@@ -3,7 +3,7 @@ import type { IComponentOption } from '../interface';
 import { LayoutLevel, LayoutZIndex } from '../../constant';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { LayoutItem } from '../../model/layout-item';
+import type { ILayoutItem } from '../../layout/interface';
 import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec, IIndicatorTheme } from './interface';
@@ -30,7 +30,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
   type = ComponentTypeEnum.indicator;
   name: string = ComponentTypeEnum.indicator;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutItem['layoutType'] = 'absolute';
   layoutZIndex: number = LayoutZIndex.Indicator;
   layoutLevel: number = LayoutLevel.Indicator;
 

@@ -1,6 +1,5 @@
 import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
-import type { ILayoutPaddingSpec } from '../../model/interface';
-import type { LayoutCallBack } from '../../layout/interface';
+import type { ILayoutOrientPadding, ILayoutPaddingSpec, LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
 import type {
   DataSet,
@@ -42,8 +41,6 @@ import type {
 } from '../visual';
 import type { StateValue } from '../../compile/mark';
 import type { ISeriesStyle, SeriesType } from '../../series/interface';
-// eslint-disable-next-line no-duplicate-imports
-import type { ILayoutOrientPadding } from '../../model/interface';
 import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
 import type { IMorphSeriesSpec } from '../../animation/spec';

@@ -16,7 +16,6 @@ import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import type { INode } from '@visactor/vrender-core';
-import type { LayoutItem } from '../../../model/layout-item';
 import type { IDataPos } from '../interface';
 import type { IOptionRegr } from '../../../data/transforms/regression';
 // eslint-disable-next-line no-duplicate-imports
@@ -24,13 +23,14 @@ import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
+import type { ILayoutItem } from '../../../layout/interface';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkLine;
+  layoutZIndex: ILayoutItem['layoutZIndex'] = LayoutZIndex.MarkLine;
 
   static speckey = 'markLine';
 
@@ -203,16 +203,16 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         limitRect,
         multiSegment,
         mainSegmentIndex,
-        dx: this.layoutOffsetX,
-        dy: this.layoutOffsetY
+        dx: this._layout.layoutOffsetX,
+        dy: this._layout.layoutOffsetY
       });
     } else {
       this._markerComponent?.setAttributes({
         points: points,
         label: labelAttrs,
         limitRect,
-        dx: this.layoutOffsetX,
-        dy: this.layoutOffsetY
+        dx: this._layout.layoutOffsetX,
+        dy: this._layout.layoutOffsetY
       });
     }
   }

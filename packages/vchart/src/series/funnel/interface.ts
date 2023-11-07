@@ -10,9 +10,9 @@ import type {
   ITextMarkSpec,
   IPyramid3dMarkSpec
 } from '../../typings';
-import type { IPercent } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import type { IPercent } from '../../layout/interface';
 
 type FunnelMarks = 'funnel';
 

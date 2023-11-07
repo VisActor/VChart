@@ -1,7 +1,8 @@
+import { LayoutZIndex } from './../../constant/index';
 /* eslint-disable no-duplicate-imports */
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
-import type { IEffect, IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IEffect, IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
@@ -16,10 +17,12 @@ import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam }
 import type { IChartSpec, StringOrNumber } from '../../typings';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
+import type { IBoundsLike } from '@visactor/vutils';
 import { isValid, mixin, isNil } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { ILayoutItem, ILayoutRect } from '../../layout/interface';
 
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;
@@ -30,6 +33,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   name: string = ComponentTypeEnum.geoCoordinate;
 
   layoutType: ILayoutItem['layoutType'] = 'absolute';
+  protected layoutZIndex: number = LayoutZIndex.Mark;
 
   _longitudeField?: string;
   get longitudeField() {

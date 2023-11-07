@@ -37,9 +37,9 @@ import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import type { Functional } from '@visactor/vrender-components';
-import { CartesianSeries } from '../cartesian';
 import type { IRegion } from '../../region/interface';
 import type { SeriesData } from '../base/series-data';
+import type { ILayoutRect } from '../../layout/interface';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
@@ -80,6 +80,8 @@ export interface LineLikeSeriesMixin extends ISeries {
   _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption) => IMark;
   _getInvalidDefined: () => boolean;
   _getInvalidConnectType: () => IInvalidType;
+
+  getLayoutRect: () => ILayoutRect;
 }
 
 export class LineLikeSeriesMixin {

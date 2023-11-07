@@ -1,4 +1,4 @@
-import type { ILayoutItemSpec } from '../../../model/interface';
+import type { ILayoutItemSpec } from '../../../layout/interface';
 import type { IPadding } from '../../../typings';
 import type { IRectMarkSpec } from '../../../typings/visual';
 import type { IFilterMode } from '../constant';

@@ -16,16 +16,9 @@ import type {
   IChartSpec,
   IDataValues
 } from '../typings';
-import type { LayoutCallBack } from '../layout/interface';
+import type { ILayoutItem, ILayoutOrientPadding, ILayoutRect, LayoutCallBack } from '../layout/interface';
 import { GlobalScale } from '../scale/global-scale';
-import type {
-  ILayoutModelState,
-  ILayoutOrientPadding,
-  ILayoutRect,
-  IModel,
-  IModelOption,
-  IUpdateSpecResult
-} from '../model/interface';
+import type { ILayoutModelState, IModel, IModelOption, IUpdateSpecResult } from '../model/interface';
 import type {
   IChart,
   IChartLayoutOption,
@@ -524,12 +517,14 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   onEvaluateEnd(option: IChartEvaluateOption) {
-    const elements = this.getLayoutElements();
+    const elements = [...this._components, ...this._regions, ...this._series];
     elements.forEach(element => element.onEvaluateEnd(option));
   }
 
-  getLayoutElements() {
-    return [...this._components, ...this._regions, ...this._series];
+  getLayoutElements(): ILayoutItem[] {
+    return this.getAllModels()
+      .map(i => i.layout)
+      .filter(i => !!i);
   }
 
   // 区域
@@ -1051,7 +1046,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
   clear() {
     // call on recompile & release
-    this.getLayoutElements().forEach(i => i.clear?.());
+    this.getAllModels().forEach(i => i.clear?.());
   }
 
   compile() {
