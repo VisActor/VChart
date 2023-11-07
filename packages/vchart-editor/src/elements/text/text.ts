@@ -5,7 +5,7 @@ import type { IEditorElement, ILayoutLine, IUpdateAttributeParam } from './../..
 /* eslint-disable no-console */
 
 import type { IBoundsLike } from '@visactor/vutils';
-import { isString, isValid, isEqual } from '@visactor/vutils';
+import { isString, isValid } from '@visactor/vutils';
 import type { IRect, IPoint, ILayoutAttribute } from '../../typings/space';
 import { BaseElement } from '../base-element';
 import type { IElementOption } from '../interface';
@@ -88,6 +88,7 @@ export class EditorText extends BaseElement {
     }
     this._opt.controller.setOverGraphic(this._getOverGraphic(), this._id, e);
     console.log('text', '_pointerOver');
+    return true;
   };
   private _pointerOut = (e: VRenderPointerEvent) => {
     this._opt.controller.setOverGraphic(null, this._id, e);

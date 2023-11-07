@@ -41,6 +41,7 @@ export class ChartEvent {
     } else {
       this.emitter.emit('unOverChart', e);
     }
+    return true;
   };
 
   tryPick = (e: VRenderPointerEvent) => {
