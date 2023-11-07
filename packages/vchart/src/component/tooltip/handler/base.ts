@@ -53,9 +53,6 @@ type ChangeTooltipFunc = (
 
 type ChangeTooltipPositionFunc = (
   changePositionOnly: boolean,
-  actualTooltip: IToolTipActual,
-  spec: ITooltipSpec,
-  activeType: TooltipActiveType,
   data: TooltipData,
   params: TooltipHandlerParams
 ) => TooltipResult;
@@ -121,14 +118,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     if (changePositionOnly && this._cacheViewSpec && this._cacheActualTooltip) {
-      return this.changeTooltipPosition(
-        changePositionOnly,
-        this._cacheActualTooltip,
-        this._cacheViewSpec,
-        activeType,
-        data,
-        params
-      );
+      return this.changeTooltipPosition(changePositionOnly, data, params);
     }
     return this.changeTooltip(true, params, changePositionOnly, activeType, data);
   };
@@ -212,7 +202,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     this._cacheActualTooltip = actualTooltip;
-    return this._changeTooltipPosition(!!changePositionOnly, actualTooltip, spec, activeType!, data!, params);
+    return this._changeTooltipPosition(!!changePositionOnly, data!, params);
   };
 
   /** 改变 tooltip 位置（带 throttle 版本），返回是否遇到异常 */
@@ -221,9 +211,6 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   /** 改变 tooltip 位置（不带 throttle 版本），返回是否遇到异常 */
   protected _changeTooltipPosition: ChangeTooltipPositionFunc = (
     changePositionOnly: boolean,
-    actualTooltip: IToolTipActual,
-    spec: ITooltipSpec,
-    activeType: TooltipActiveType,
     data: TooltipData,
     params: TooltipHandlerParams
   ) => {
@@ -232,6 +219,13 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     const event = params.event as MouseEvent;
+    const spec = this._cacheViewSpec;
+    const actualTooltip = this._cacheActualTooltip;
+    if (!spec || !actualTooltip) {
+      return TooltipResult.failed;
+    }
+
+    const activeType = actualTooltip.activeType;
 
     /** 用户自定义逻辑 */
     if (spec.handler) {
