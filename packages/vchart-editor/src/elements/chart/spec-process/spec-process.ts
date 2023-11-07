@@ -1,5 +1,5 @@
 import type { IChartModel } from './../interface';
-import { merge, isArray, isObject, isEmpty, array, cloneDeep, isEqual } from '@visactor/vutils';
+import { isArray, isObject, isEmpty, cloneDeep } from '@visactor/vutils';
 import type { IEditorController, IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
 import { EditorFactory } from './../../../core/factory';
 import type { IData, StandardData } from '../data/interface';
@@ -8,14 +8,9 @@ import type { IChartTemp } from '../template/interface';
 import type { IEditorSpec, IModelSpec, ISpecProcess } from './interface';
 // @ts-ignore
 import type { ISpec, ITheme } from '@visactor/vchart';
-<<<<<<< HEAD
 import { diffSpec, isModelInfoMatchSpec, isSameModelInfo } from '../../../utils/spec';
 import type { EditorChart } from '../chart';
 import { mergeSpec } from '../utils/spec';
-=======
-import { isModelInfoMatchSpec, isSameModelInfo } from '../../../utils/spec';
-import { mergeSpec } from '../utils/spec';
->>>>>>> fix: fix the endHandler trigger for marker
 
 const DefaultEditorSpec: IEditorSpec = {
   theme: null,
