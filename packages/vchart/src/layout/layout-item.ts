@@ -92,6 +92,10 @@ export class LayoutItem implements ILayoutItem {
 
   protected _model: ILayoutModel;
 
+  get model() {
+    return this._model;
+  }
+
   get type() {
     return this._model.type;
   }

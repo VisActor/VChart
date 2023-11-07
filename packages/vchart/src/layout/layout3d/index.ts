@@ -85,10 +85,10 @@ export class Layout3d extends Layout implements IBaseLayout {
 
     // 找到x轴
     const xAxis = relativeItems.filter(item => {
-      return (item as any).specKey === 'axes' && isXAxis(item.layoutOrient);
+      return item.model.specKey === 'axes' && isXAxis(item.layoutOrient);
     })[0];
     const yAxis = relativeItems.filter(item => {
-      return (item as any).specKey === 'axes' && isYAxis(item.layoutOrient);
+      return item.model.specKey === 'axes' && isYAxis(item.layoutOrient);
     })[0];
     if (xAxis && zItems.length) {
       const sp = xAxis.getLayoutStartPoint();
@@ -110,9 +110,9 @@ export class Layout3d extends Layout implements IBaseLayout {
         height: yRect.height
       };
 
-      (xAxis as any).setLayout3dBox && (xAxis as any).setLayout3dBox(box3d);
-      (yAxis as any).setLayout3dBox && (yAxis as any).setLayout3dBox(box3d);
-      (zItems[0] as any).setLayout3dBox && (zItems[0] as any).setLayout3dBox(box3d);
+      (<any>xAxis.model).setLayout3dBox && (<any>xAxis.model).setLayout3dBox(box3d);
+      (<any>yAxis.model).setLayout3dBox && (<any>yAxis.model).setLayout3dBox(box3d);
+      (<any>zItems[0].model).setLayout3dBox && (<any>zItems[0].model).setLayout3dBox(box3d);
 
       this.layoutZAxisItems(zItems, zRect);
     }

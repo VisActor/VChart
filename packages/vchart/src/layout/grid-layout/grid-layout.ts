@@ -1,7 +1,6 @@
 import type { utilFunctionCtx } from '../../typings/params';
 import type { IChart } from '../../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IModel } from '../../model/interface';
 import type { IBaseLayout, IGridLayoutSpec, ElementSpec, ILayoutItem } from '../interface';
 import { isFunction, isValid, isValidNumber } from '@visactor/vutils';
 import type { IRect } from '../../typings/space';
@@ -135,16 +134,15 @@ export class GridLayout implements IBaseLayout {
       return mapResult;
     }
     // 配置中匹配
-    const model = item as unknown as IModel;
     let result: ElementSpec | undefined;
     result = this._gridInfo.elements?.find(e => {
       if ('modelId' in e && isValid(e.modelId)) {
-        if (isValid(model.userId) && model.userId === e.modelId) {
+        if (isValid(item.model.userId) && item.model.userId === e.modelId) {
           return true;
         }
       } else if ('modelKey' in e && isValid(e.modelKey) && 'modelIndex' in e && isValid(e.modelIndex)) {
-        const specKey = model.specKey ?? model.type;
-        if (specKey === e.modelKey && model.getSpecIndex() === e.modelIndex) {
+        const specKey = item.model.specKey ?? item.model.type;
+        if (specKey === e.modelKey && item.model.getSpecIndex() === e.modelIndex) {
           return true;
         }
       }

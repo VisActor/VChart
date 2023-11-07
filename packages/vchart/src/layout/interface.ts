@@ -3,6 +3,7 @@ import type { StringOrNumber } from '../typings/common';
 import type { IOrientType, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
 import type { ILayoutNumber, ILayoutPaddingSpec, ILayoutPoint, ILayoutRect, ILayoutType } from '../typings/layout';
+import type { ILayoutModel } from '../model/interface';
 
 export interface IBaseLayout {
   /**
@@ -103,6 +104,8 @@ export interface ILayoutItem {
   readonly maxWidth: number;
   readonly minHeight: number;
   readonly maxHeight: number;
+
+  readonly model: ILayoutModel;
 
   getModelId: () => StringOrNumber;
   getModelVisible: () => boolean;
