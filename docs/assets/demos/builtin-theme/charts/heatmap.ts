@@ -1,4 +1,4 @@
-import { IBarChartSpec, IHeatmapChartSpec } from '@visactor/vchart';
+import { IHeatmapChartSpec } from '@visactor/vchart';
 import { IChartInfo } from './interface';
 
 const items = [
