@@ -47,11 +47,13 @@ export function animationConfig<Preset extends string>(
       defaultStateConfig = defaultConfig[state] as IAnimationConfig[];
     } else {
       defaultStateConfig = [{ ...DEFAULT_ANIMATION_CONFIG[state], ...defaultConfig[state] } as any];
-      // FIXME: 用来控制当动画状态发生变更时是否清除正在执行的动画。
-      // 现在 vrender 对于同一个视觉通道的 tween 不会做覆盖的处理。若不做动画清空同时 exit 动画比 update 动画时间长的情况下，效果会不正确
-      if (state === 'exit') {
-        defaultStateConfig[0].controlOptions = { stopWhenStateChange: true };
-      }
+    }
+    // FIXME: 用来控制当动画状态发生变更时是否清除正在执行的动画。
+    // 现在 vrender 对于同一个视觉通道的 tween 不会做覆盖的处理。若不做动画清空同时 exit 动画比 update 动画时间长的情况下，效果会不正确
+    if (state === 'exit') {
+      defaultStateConfig.forEach(exitConfig => {
+        exitConfig.controlOptions = { stopWhenStateChange: true };
+      });
     }
 
     if (!userConfig?.[state]) {
@@ -61,23 +63,26 @@ export function animationConfig<Preset extends string>(
 
     // 开始处理用户配置的动画逻辑
     let stateConfig: IAnimationConfig[];
-
     if (isArray(userConfig[state])) {
       stateConfig = userConfig[state];
     } else {
-      let singleConfig: IAnimationConfig = mergeSpec({}, defaultStateConfig[0], userConfig[state]) as IAnimationConfig;
+      stateConfig = defaultStateConfig.map((stateConfig, i) => {
+        let singleConfig: IAnimationConfig = mergeSpec(
+          {},
+          defaultStateConfig[i],
+          userConfig[state]
+        ) as IAnimationConfig;
+        if (isChannelAnimation(singleConfig)) {
+          // `type` and `channel` is conflict, and `type` has a higher priority.
+          // here if user configured `channel`, we should remove `type` which will come from default animation config
+          delete (singleConfig as IAnimationTypeConfig).type;
+        }
 
-      if (isChannelAnimation(singleConfig)) {
-        // `type` and `channel` is conflict, and `type` has a higher priority.
-        // here if user configured `channel`, we should remove `type` which will come from default animation config
-        delete (singleConfig as IAnimationTypeConfig).type;
-      }
-
-      if (singleConfig.oneByOne) {
-        singleConfig = produceOneByOne(singleConfig as IAnimationTypeConfig, params?.dataIndex ?? defaultDataIndex);
-      }
-
-      stateConfig = [singleConfig];
+        if (singleConfig.oneByOne) {
+          singleConfig = produceOneByOne(singleConfig as IAnimationTypeConfig, params?.dataIndex ?? defaultDataIndex);
+        }
+        return singleConfig;
+      });
     }
 
     config[state] = stateConfig;
@@ -169,7 +174,7 @@ export function uniformAnimationConfig<Preset extends string>(
   traverseSpec(config, (node: any) => {
     // 将函数转换为 vchart 代理的函数
     // 这里可能会传自定义动画的构造函数，不能被代理
-    if (isFunction(node) && node.prototype.constructor !== node) {
+    if (isFunction(node) && node.prototype?.constructor !== node) {
       const name = (...args: any) => {
         return node(...args, ctx);
       };
