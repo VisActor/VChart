@@ -19,6 +19,7 @@ import { TextMark } from '../../mark/text';
 import { heatmapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
+import { registerCellMark } from '@visactor/vgrammar-core';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -192,6 +193,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
 }
 
 export const registerHeatmapSeries = () => {
+  registerCellMark();
   Factory.registerMark(CellMark.type, CellMark);
   Factory.registerMark(TextMark.type, TextMark);
   Factory.registerSeries(HeatmapSeries.type, HeatmapSeries);

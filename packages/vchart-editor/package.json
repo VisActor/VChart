@@ -31,12 +31,12 @@
   },
   "dependencies": {
     "@visactor/vchart": "workspace:1.6.0",
-    "@visactor/vutils": "~0.16.6",
+    "@visactor/vutils": "~0.16.7",
     "@visactor/vdataset": "~0.16.6",
-    "@visactor/vrender-core": "~0.16.11",
-    "@visactor/vrender-kits": "~0.16.11",
-    "@visactor/vrender-components": "~0.16.11",
-    "@visactor/vscale": "~0.16.6",
+    "@visactor/vrender-core": "~0.16.12",
+    "@visactor/vrender-kits": "~0.16.12",
+    "@visactor/vrender-components": "~0.16.12",
+    "@visactor/vscale": "~0.16.7",
     "uuid": "~9.0.1"
   },
   "devDependencies": {

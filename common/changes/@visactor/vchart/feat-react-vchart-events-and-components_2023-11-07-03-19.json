@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: add components `<Title />` and `<Indicator />` of react-vchart, close #1424\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

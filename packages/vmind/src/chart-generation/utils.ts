@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { GPTDataProcessResult, IGPTOptions } from '../typings';
 import { isValid } from '@visactor/vutils';
 
@@ -15,10 +16,11 @@ export const requestGPT = async (
         Authorization: `Bearer ${openAIKey}`
       }
     : { 'Content-Type': 'application/json' };
-  const res = await fetch(url, {
-    headers: options?.headers ?? defaultHeaders,
+
+  const res = await axios(url, {
     method: options?.method ?? 'POST',
-    body: JSON.stringify({
+    headers: options?.headers ?? (defaultHeaders as any),
+    data: {
       model: options?.model ?? 'gpt-3.5-turbo',
       messages: [
         {
@@ -32,10 +34,11 @@ export const requestGPT = async (
       ],
       max_tokens: options?.max_tokens ?? 1500,
       temperature: options?.temperature ?? 0
-    })
+    }
   })
-    .then(response => response.json())
+    .then(response => response.data)
     .then(data => data.choices);
+
   return res;
 };
 
@@ -107,17 +110,17 @@ export const patchUserInput = (userInput: string) => {
   const ALLOWED_WORD_LIST = ['动态条形图', '动态柱状图', '动态柱图'];
   const PLACEHOLDER = '_USER_INPUT_PLACE_HOLDER';
   const tempStr1 = ALLOWED_WORD_LIST.reduce((prev, cur, index) => {
-    return prev.replaceAll(cur, PLACEHOLDER + '_' + index);
+    return prev.split(cur).join(PLACEHOLDER + '_' + index);
   }, userInput);
   const tempStr2 = BANNED_WORD_LIST.reduce((prev, cur) => {
-    return prev.replaceAll(cur, '');
+    return prev.split(cur).join('');
   }, tempStr1);
   const replacedStr = ALLOWED_WORD_LIST.reduce((prev, cur, index) => {
-    return prev.replaceAll(PLACEHOLDER + '_' + index, cur);
+    return prev.split(PLACEHOLDER + '_' + index).join(cur);
   }, tempStr2);
 
   let finalStr = HALF_WIDTH_SYMBOLS.reduce((prev, cur, index) => {
-    return prev.replaceAll(HALF_WIDTH_SYMBOLS[index], FULL_WIDTH_SYMBOLS[index]);
+    return prev.split(HALF_WIDTH_SYMBOLS[index]).join(FULL_WIDTH_SYMBOLS[index]);
   }, replacedStr);
   const lastCharacter = finalStr[finalStr.length - 1];
   if (!FULL_WIDTH_SYMBOLS.includes(lastCharacter) && !HALF_WIDTH_SYMBOLS.includes(lastCharacter)) {
