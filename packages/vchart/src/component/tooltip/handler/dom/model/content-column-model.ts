@@ -84,9 +84,10 @@ export class ContentColumnModel extends BaseTooltipModel {
         const { key, isKeyAdaptive } = line;
         childStyle = mergeSpec({}, isKeyAdaptive ? defaultAdaptiveKeyStyle : defaultKeyStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
+          overflowWrap: 'normal', // 覆盖外界对此属性的预先配置
           ...tooltipStyle.keyColumn.common,
           ...tooltipStyle.keyColumn.items?.[i]
-        });
+        } as Partial<CSSStyleDeclaration>);
         const hasContent = (isString(key) && key?.trim?.() !== '') || isNumber(key);
         if (!hasContent && !childStyle.visibility) {
           childStyle.visibility = 'hidden';
@@ -97,9 +98,10 @@ export class ContentColumnModel extends BaseTooltipModel {
       } else if (this.className === 'value-box') {
         childStyle = mergeSpec({}, defaultValueStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
+          overflowWrap: 'normal', // 覆盖外界对此属性的预先配置
           ...tooltipStyle.valueColumn.common,
           ...tooltipStyle.valueColumn.items?.[i]
-        });
+        } as Partial<CSSStyleDeclaration>);
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'shape-box') {
         childStyle = mergeSpec({}, defaultShapeStyle, {

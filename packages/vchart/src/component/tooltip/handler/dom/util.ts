@@ -116,7 +116,7 @@ export function getDomStyles(attributes?: Maybe<TooltipAttributes>): IDomTooltip
             ...keyStyle,
             ...getLabelStyle(key as ITooltipTextStyle),
             ...(key?.multiLine ? { width: getPixelPropertyStr(Math.ceil(key.width)) } : undefined) // 对多行文本使用定宽
-          }) as ILabelStyle
+          } as ILabelStyle)
       ),
       width: getPixelPropertyStr(keyWidth),
       marginRight: getPixelPropertyStr(key.spacing ?? DEFAULT_KEY_SPACING)
@@ -131,7 +131,7 @@ export function getDomStyles(attributes?: Maybe<TooltipAttributes>): IDomTooltip
             ...valueStyle,
             ...getLabelStyle(value as ITooltipTextStyle),
             ...(value?.multiLine ? { width: getPixelPropertyStr(Math.ceil(value.width)) } : undefined) // 对多行文本使用定宽
-          }) as ILabelStyle
+          } as ILabelStyle)
       ),
       width: getPixelPropertyStr(valueWidth),
       marginRight: getPixelPropertyStr(value.spacing ?? DEFAULT_VALUE_SPACING)
@@ -167,7 +167,7 @@ function getLabelStyle(
   styleObj.lineHeight = getPixelPropertyStr(lineHeight);
   styleObj.fontWeight = fontWeight as FontWeight;
   styleObj.whiteSpace = multiLine ? 'initial' : 'nowrap';
-  styleObj.wordBreak = wordBreak;
+  styleObj.wordBreak = multiLine ? wordBreak ?? 'break-word' : 'normal';
   styleObj.maxWidth = getPixelPropertyStr(maxWidth);
   return styleObj;
 }
