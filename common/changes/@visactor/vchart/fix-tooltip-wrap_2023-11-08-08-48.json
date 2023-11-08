@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
