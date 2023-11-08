@@ -395,7 +395,14 @@ export class BaseChart extends CompilableBase implements IChart {
     if (!component) {
       return false;
     }
-    array(component).forEach(c => {
+
+    const components = isArray(component) ? component : [component];
+
+    if (!components.length) {
+      return false;
+    }
+
+    components.forEach(c => {
       c.created();
       this._components.push(c);
     });
