@@ -38,8 +38,6 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
 
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Brush;
 
-  static speckey = 'brush';
-
   // brush组件
   protected _brushComponents!: BrushComponent[];
   protected _relativeRegions!: IRegion[];
@@ -89,13 +87,13 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   }
 
   static createComponent(spec: any, options: IComponentOption) {
-    const brushSpec = spec.brush || options.defaultSpec;
+    const brushSpec = spec.brush;
     // brush不支持数组的形式配置
     if (isNil(brushSpec) || brushSpec.visible === false) {
       return undefined;
     }
 
-    return [new Brush(brushSpec, { ...options, specKey: Brush.speckey })];
+    return [new Brush(brushSpec, options)];
   }
 
   created() {

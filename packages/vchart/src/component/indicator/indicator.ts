@@ -25,7 +25,6 @@ import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '.
 import { Factory } from '../../core/factory';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
-  static speckey = 'indicator';
   static type = ComponentTypeEnum.indicator;
   type = ComponentTypeEnum.indicator;
   name: string = ComponentTypeEnum.indicator;
@@ -51,10 +50,10 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     if (this.type !== Indicator.type) {
       return null;
     }
-    const indicatorSpec = spec.indicator || options.defaultSpec;
+    const indicatorSpec = spec.indicator;
     const indicators: IIndicator[] = array(indicatorSpec)
       .filter(s => s && s.visible !== false)
-      .map((s, index) => new Indicator(s, { ...options, specIndex: index, specKey: Indicator.speckey }));
+      .map((s, index) => new Indicator(s, { ...options, specIndex: index }));
     return indicators;
   }
 

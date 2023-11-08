@@ -216,9 +216,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec as any, {
-      ...options
-    });
+    super(spec as any, options);
     this._orient = getOrient(spec as any);
     this._layoutOrient = this._orient;
     this._isHorizontal = getDirectionByOrient(this._layoutOrient) === Direction.horizontal;

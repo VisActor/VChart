@@ -27,24 +27,22 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   protected _component!: ScrollBarComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const compSpec = spec.scrollBar || options.defaultSpec;
+    const compSpec = spec.scrollBar;
     if (isNil(compSpec)) {
       return undefined;
     }
     if (!isArray(compSpec)) {
-      return new ScrollBar(compSpec, { ...options, specKey: 'scrollBar' });
+      return new ScrollBar(compSpec, options);
     }
     const zooms: ScrollBar[] = [];
     compSpec.forEach((s, i: number) => {
-      zooms.push(new ScrollBar(s, { ...options, specIndex: i, specKey: 'scrollBar' }));
+      zooms.push(new ScrollBar(s, { ...options, specIndex: i }));
     });
     return zooms;
   }
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec as any, {
-      ...options
-    });
+    super(spec as any, options);
     this._filterMode = spec.filterMode ?? IFilterMode.axis;
   }
 

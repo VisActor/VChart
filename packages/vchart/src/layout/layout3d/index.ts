@@ -87,10 +87,10 @@ export class Layout3d extends Layout implements IBaseLayout {
 
     // 找到x轴
     const xAxis = relativeItems.filter(item => {
-      return (item as any).specKey && (item as any).specKey === 'axes' && isXAxis(item.layoutOrient);
+      return (item as any).specKey === 'axes' && isXAxis(item.layoutOrient);
     })[0];
     const yAxis = relativeItems.filter(item => {
-      return (item as any).specKey && (item as any).specKey === 'axes' && isYAxis(item.layoutOrient);
+      return (item as any).specKey === 'axes' && isYAxis(item.layoutOrient);
     })[0];
     if (xAxis && zItems.length) {
       const sp = xAxis.getLayoutStartPoint();

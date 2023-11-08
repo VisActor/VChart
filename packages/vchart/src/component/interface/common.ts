@@ -19,7 +19,6 @@ export interface IComponentOption extends IModelOption {
   getRegionsInIndex: (index?: number[]) => IRegion[];
   getRegionsInIds: (ids: number[]) => IRegion[];
   getRegionsInUserIdOrIndex: (user_ids?: StringOrNumber[], index?: number[]) => IRegion[];
-  defaultSpec?: any;
   // series
   getAllSeries: () => ISeries[];
   getSeriesInIndex: (index?: number[]) => ISeries[];
@@ -48,6 +47,7 @@ export interface IComponent extends IModel, ILayoutItem {
 
 export interface IComponentConstructor {
   type: string;
+  specKey?: string;
   createComponent: (spec: any, options: IComponentOption) => IComponent | IComponent[] | undefined;
   new (spec: any, options: IComponentOption): IComponent;
 }

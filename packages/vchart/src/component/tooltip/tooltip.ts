@@ -61,11 +61,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return null;
     }
     if (!isArray(tooltipSpec)) {
-      return new Tooltip(tooltipSpec, { ...options, specKey: 'tooltip' });
+      return new Tooltip(tooltipSpec, options);
     }
     const tooltips: Tooltip[] = [];
     tooltipSpec.forEach((s: any, i: number) => {
-      tooltips.push(new Tooltip(s, { ...options, specIndex: i, specKey: 'tooltip' }));
+      tooltips.push(new Tooltip(s, { ...options, specIndex: i }));
     });
     return tooltips;
   }

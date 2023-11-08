@@ -311,8 +311,7 @@ export class BaseChart extends CompilableBase implements IChart {
     regionSpec.forEach((s, i) => {
       const region = Factory.createRegion('region', s, {
         ...this._modelOption,
-        specIndex: i,
-        specKey: 'region'
+        specIndex: i
       });
       if (region) {
         region.created();
@@ -354,7 +353,6 @@ export class BaseChart extends CompilableBase implements IChart {
         ...this._modelOption,
         region,
         specIndex: index,
-        specKey: 'series',
         globalScale: this._globalScale,
         getSeriesData: this._chartData.getSeriesData.bind(this._chartData),
         sourceDataList: this._chartData.dataList
@@ -395,12 +393,14 @@ export class BaseChart extends CompilableBase implements IChart {
       getComponentsByKey: this.getComponentsByKey
     });
     if (!component) {
-      return;
+      return false;
     }
     array(component).forEach(c => {
       c.created();
       this._components.push(c);
     });
+
+    return true;
   }
 
   createComponent(spec: any) {
@@ -410,21 +410,22 @@ export class BaseChart extends CompilableBase implements IChart {
     let polarAxis;
     const noAxisComponents = [];
     for (let index = 0; index < components.length; index++) {
-      const component = components[index];
-      if (component.type.startsWith(ComponentTypeEnum.cartesianAxis)) {
-        cartesianAxis = component;
-      } else if (component.type.startsWith(ComponentTypeEnum.polarAxis)) {
-        polarAxis = component;
-      } else {
-        noAxisComponents.push(component);
+      const { cmp, alwaysCheck } = components[index];
+      if (cmp.type.startsWith(ComponentTypeEnum.cartesianAxis)) {
+        cartesianAxis = cmp;
+      } else if (cmp.type.startsWith(ComponentTypeEnum.polarAxis)) {
+        polarAxis = cmp;
+      } else if (alwaysCheck || spec[cmp.specKey ?? cmp.type]) {
+        noAxisComponents.push(cmp);
       }
     }
+    let hasCartesianAxis = false;
     // NOTE: 坐标轴组件需要在其他组件之前创建
     if (cartesianAxis) {
-      this._createComponent(cartesianAxis, spec);
+      hasCartesianAxis = this._createComponent(cartesianAxis, spec);
     }
 
-    if (polarAxis) {
+    if (polarAxis && !hasCartesianAxis) {
       this._createComponent(polarAxis, spec);
     }
 
@@ -453,7 +454,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     let index = 0;
     return this.getAllModels().find(m => {
-      if (m.specKey === filter.type) {
+      if ((m.specKey ?? m.type) === filter.type) {
         if (index === filter.index) {
           return true;
         }
@@ -622,7 +623,7 @@ export class BaseChart extends CompilableBase implements IChart {
   };
 
   getComponentByIndex = (key: string, index: number) => {
-    const components = this._components.filter(c => c.specKey === key);
+    const components = this._components.filter(c => (c.specKey ?? c.type) === key);
     if (!components || components.length === 0) {
       return undefined;
     }
@@ -630,7 +631,7 @@ export class BaseChart extends CompilableBase implements IChart {
   };
 
   getComponentsByKey = (key: string) => {
-    return this._components.filter(c => c.specKey === key);
+    return this._components.filter(c => (c.specKey ?? c.type) === key);
   };
 
   getComponentByUserId = (userId: StringOrNumber) => {
@@ -914,14 +915,15 @@ export class BaseChart extends CompilableBase implements IChart {
       };
     } = {};
     this._components.forEach(c => {
+      const compSpecKey = c.specKey ?? c.type;
       // 每一个组件获取对应的speck
-      const cmpSpec = this._spec[c.specKey] ?? {};
+      const cmpSpec = this._spec[compSpecKey] ?? {};
       if (isArray(cmpSpec)) {
-        componentCache[c.specKey] = componentCache[c.specKey] || {
+        componentCache[compSpecKey] = componentCache[compSpecKey] || {
           specCount: cmpSpec.length,
           componentCount: 0
         };
-        componentCache[c.specKey].componentCount++;
+        componentCache[compSpecKey].componentCount++;
         mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()], cmpSpec));
       } else {
         mergeUpdateResult(result, c.updateSpec(cmpSpec));

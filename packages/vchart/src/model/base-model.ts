@@ -106,7 +106,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this._transformSpec();
     this.userId = spec.id;
     this._specIndex = option.specIndex ?? 0;
-    this.specKey = option.specKey ?? '';
     this.effect = {};
     this.event = new Event(option.eventDispatcher, option.mode);
     option.map?.set(this.id, this);
