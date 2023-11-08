@@ -2,6 +2,33 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.6.1",
+      "tag": "@visactor/vchart_v1.6.1",
+      "date": "Wed, 08 Nov 2023 05:29:48 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: label formatMethod callback add context parmas to provide series object"
+          },
+          {
+            "comment": "feat: add components `<Title />` and `<Indicator />` of react-vchart, close #1424\n\n"
+          },
+          {
+            "comment": "fix: `centroidProperty` not work in map chart"
+          },
+          {
+            "comment": "fix: fix incorrect legend filter result caused by animation in #1403"
+          },
+          {
+            "comment": "fix: if layout item is invisible, do not participate in grid layout, related #1425"
+          },
+          {
+            "comment": "fix(marker): aggregation return value infinity problem. fix#1380'"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.6.0",
       "tag": "@visactor/vchart_v1.6.0",
       "date": "Fri, 03 Nov 2023 05:16:41 GMT",

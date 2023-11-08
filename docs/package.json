@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@arco-design/web-react": "2.46.1",
-    "@visactor/vchart": "workspace:1.6.0",
-    "@visactor/vchart-theme": "workspace:1.6.0",
+    "@visactor/vchart": "workspace:1.6.1",
+    "@visactor/vchart-theme": "workspace:1.6.1",
     "@visactor/vmind": "workspace:1.0.8",
     "@visactor/vutils": "~0.16.7",
     "@visactor/vrender": "~0.16.12",
