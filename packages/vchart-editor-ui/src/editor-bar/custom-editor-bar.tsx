@@ -15,6 +15,7 @@ import { EditorBarEntry, editorBarToolMap } from '../tools/util';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 import { EditorBarTextColor } from '../tools/text-color';
 import { EditorBarFontSize } from '../tools/font-size';
+import { tooltipWrapper } from '../utils/node';
 
 function generatePanelValue(entries: IEditorBarEntry[], initial?: boolean) {
   const panelValue = {};
@@ -211,6 +212,7 @@ function generateEditorEntry(
         break;
     }
   }
+  toolNode = tooltipWrapper(toolNode, entry.tooltip);
   if (entry.divide === false) {
     return toolNode;
   }

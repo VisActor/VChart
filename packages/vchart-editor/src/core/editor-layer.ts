@@ -1,4 +1,4 @@
-import type { VRenderPointerEvent } from './../elements/interface';
+import type { IElement, VRenderPointerEvent } from './../elements/interface';
 import { Bounds, isValid } from '@visactor/vutils';
 import type { EditorMode, IEditorElement, IEditorLayer, ILayoutLine } from './interface';
 import type { IStage, IGroup, IGraphic } from '@visactor/vrender-core';
@@ -45,7 +45,7 @@ export class EditorLayer implements IEditorLayer {
     return this._isInActive;
   }
 
-  protected _elements: BaseElement[] = [];
+  protected _elements: IElement[] = [];
   get elements() {
     return this._elements;
   }
@@ -356,7 +356,7 @@ export class EditorLayer implements IEditorLayer {
     });
   }
 
-  addElements(el: BaseElement) {
+  addElements(el: IElement) {
     this._isElementReady = false;
     this._elements.push(el);
     el.onAfterRender(this._checkElementReady);

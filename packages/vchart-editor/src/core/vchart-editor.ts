@@ -1,5 +1,5 @@
 import { EditorController } from './editor-controller';
-import type { EditorMode, IEditorData, IVChartEditorInitOption } from './interface';
+import type { EditorMode, IEditorData, IHistory, IVChartEditorInitOption } from './interface';
 import { EditorEvent } from './editor-event';
 import { ChartLayer } from '../elements/chart/chart-layer';
 import { EditorLayer } from './editor-layer';
@@ -10,6 +10,8 @@ import { isString, Bounds, isValidNumber } from '@visactor/vutils';
 import type { IDataParserConstructor } from '../elements/chart/data/interface';
 import type { IChartTempConstructor } from '../elements/chart/template/interface';
 import { EditorFactory } from './factory';
+import { getCommonHistoryUse } from '../elements/common/editor-history';
+import { EditorData } from './editor-data';
 
 export class VChartEditor {
   static registerParser(key: string, parser: IDataParserConstructor) {
@@ -48,10 +50,19 @@ export class VChartEditor {
   protected _height: number;
   protected _needResize: boolean = false;
 
+  protected _commonHistoryUse: IHistory['use'];
+  protected _editorData: EditorData;
+  get editorData() {
+    return this._editorData;
+  }
+
   constructor(option: IVChartEditorInitOption) {
     this._option = option;
     const { dom, mode } = this._option;
     this._mode = mode;
+    this._editorData = new EditorData(this._option.data);
+
+    this._commonHistoryUse = getCommonHistoryUse(this);
 
     this._option.data.setLayers(this.getLayers);
     this._option.data.setDataKey(`_vchart_editor_${this._option.id}`);
@@ -70,7 +81,7 @@ export class VChartEditor {
       }
     });
     this._editorController.addEndHandler(() => {
-      this._option.data?.save?.();
+      // this._option.data?.save?.();
     });
     this.initEvent();
   }
@@ -79,7 +90,10 @@ export class VChartEditor {
     return this._layers;
   };
 
-  addElements(type: string, option: Include<Omit<IElementOption, 'layer' | 'controller' | 'mode'>>) {
+  addElements(
+    type: string,
+    option: Include<Omit<IElementOption, 'layer' | 'controller' | 'mode' | 'commonHistoryUse' | 'editorData'>>
+  ) {
     if (!ElementsMap[type]) {
       return;
     }
@@ -98,13 +112,15 @@ export class VChartEditor {
     option.controller = this._editorController;
     option.mode = this._mode;
     option.getAllLayers = () => this._layers;
-    const el = new ElementsMap[type](option);
+    option.editorData = this._editorData;
+    option.commonHistoryUse = this._commonHistoryUse;
+    const el = new ElementsMap[type](option as unknown as IElementOption);
     if (!el) {
       return;
     }
     el.initWithOption();
     layer.addElements(el);
-    this._option.data.save();
+    el.afterAdd();
   }
 
   deleteElement(id?: string) {
@@ -113,7 +129,6 @@ export class VChartEditor {
     } else {
       this._editorController.deleteCurrentElement();
     }
-    this._option.data?.save();
   }
 
   initEvent() {
@@ -175,7 +190,9 @@ export class VChartEditor {
             attribute: e.attribute,
             controller: this._editorController,
             mode: this._mode,
-            getAllLayers: () => this._layers
+            getAllLayers: () => this._layers,
+            editorData: this._editorData,
+            commonHistoryUse: this._commonHistoryUse
           });
           if (!el) {
             return;

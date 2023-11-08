@@ -205,7 +205,6 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
 
   protected handleDragMouseUp = (e: any) => {
     if (!this.isDragging) {
-      this.editEndCbs?.forEach(cb => cb());
       return;
     }
     this.dragOffsetX = 0;

@@ -1,5 +1,5 @@
 import type { IChartModel } from './../interface';
-import { merge, isArray, isObject, isEmpty, array } from '@visactor/vutils';
+import { isArray, isObject, isEmpty, cloneDeep } from '@visactor/vutils';
 import type { IEditorController, IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
 import { EditorFactory } from './../../../core/factory';
 import type { IData, StandardData } from '../data/interface';
@@ -8,7 +8,9 @@ import type { IChartTemp } from '../template/interface';
 import type { IEditorSpec, IModelSpec, ISpecProcess } from './interface';
 // @ts-ignore
 import type { ISpec, ITheme } from '@visactor/vchart';
-import { isModelInfoMatchSpec, isSameModelInfo } from '../../../utils/spec';
+import { diffSpec, isModelInfoMatchSpec, isSameModelInfo } from '../../../utils/spec';
+import type { EditorChart } from '../chart';
+import { mergeSpec } from '../utils/spec';
 
 const DefaultEditorSpec: IEditorSpec = {
   theme: null,
@@ -33,15 +35,18 @@ export class SpecProcess implements ISpecProcess {
   protected _vchartSpec: ISpec = {} as any;
   protected _specTemp: IChartTemp = null;
   protected _data: IData = null;
+  protected _chart: EditorChart = null;
 
   private _controller: IEditorController;
 
-  constructor(data: IData, call: () => void, editorController: IEditorController) {
-    this._data = data;
+  constructor(chart: EditorChart, call: () => void) {
+    this._chart = chart;
+    this._data = chart.data;
     this._onSpecReadyCall = call;
-    this._controller = editorController;
+    this._controller = chart.option.controller;
     this._data.addDataUpdateListener(this.dataReady);
   }
+
   getEditorSpec() {
     return this._editorSpec;
   }
@@ -136,7 +141,7 @@ export class SpecProcess implements ISpecProcess {
         if (!chartSpec) {
           return;
         }
-        merge(chartSpec, s.spec);
+        mergeSpec(chartSpec, s.spec);
       });
     }
 
@@ -191,16 +196,17 @@ export class SpecProcess implements ISpecProcess {
         id: model.id,
         specKey: model.specKey,
         specIndex: model.specIndex,
-        spec: merge({}, spec)
+        spec: mergeSpec({}, spec)
       };
       this._editorSpec.modelSpec = this._editorSpec.modelSpec || [];
       this._editorSpec.modelSpec.push(s);
     }
-    s.spec = merge(s.spec, spec);
+    s.spec = mergeSpec(s.spec, spec);
   }
 
   // 更新模块spec
   updateElementAttribute(model: IChartModel, attr: IUpdateAttributeParam) {
+    this.saveSnapshot();
     let hasChange = false;
     if (attr.color) {
       hasChange = true;
@@ -232,10 +238,11 @@ export class SpecProcess implements ISpecProcess {
 
     this._mergeEditorSpec();
     this._controller.editorEnd();
+    this.pushHistory();
     return hasChange;
   }
 
-  updateMarker(config: { spec?: any; enable?: boolean }, key: string, id?: string | number) {
+  private updateMarker(config: { spec?: any; enable?: boolean }, key: string, id?: string | number) {
     // 更新编辑器数据
     if (!this._editorSpec.marker) {
       this._editorSpec.marker = {
@@ -254,7 +261,7 @@ export class SpecProcess implements ISpecProcess {
         if (markerIndex === -1) {
           this._editorSpec.marker[key].push(spec);
         } else {
-          merge(this._editorSpec.marker[key][markerIndex], spec);
+          mergeSpec(this._editorSpec.marker[key][markerIndex], spec);
         }
       }
     } else {
@@ -268,5 +275,44 @@ export class SpecProcess implements ISpecProcess {
 
   clearMarker() {
     delete this._editorSpec.marker;
+  }
+
+  protected _snapShot: any = null;
+  saveSnapshot() {
+    this._snapShot = cloneDeep(this._chart.getData());
+  }
+
+  pushHistory() {
+    const { from, to } = diffSpec(this._snapShot, this._chart.getData());
+    if (Object.keys(from).length === Object.keys(to).length && Object.keys(from).length === 0) {
+      return;
+    }
+    this._chart.option.editorData.pushHistory({
+      element: this._chart.getElementInfo(),
+      from: cloneDeep(from),
+      to: cloneDeep(to),
+      use: this._chart.option.commonHistoryUse
+    });
+  }
+
+  updateAttributeFromHistory(att: any) {
+    this._chart.layout.setViewBox(att.rect);
+    if (att.attribute) {
+      if (att.attribute.data) {
+        this._data.changeDataSource(att.attribute.data.type, att.attribute.data.value);
+      }
+      if (att.attribute.layout) {
+        this._chart.layout.setLayoutData(att.attribute.layout);
+      }
+      if (att.attribute) {
+        this.updateEditorSpec(mergeSpec(this._editorSpec, att.attribute));
+      }
+    }
+
+    this._updateEditorBox();
+  }
+
+  private _updateEditorBox() {
+    // do nothing
   }
 }

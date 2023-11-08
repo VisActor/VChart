@@ -3,6 +3,7 @@ import type { IEditorHeaderProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
 import { IconRefresh, IconTriangleDown, IconTriangleUp } from '@douyinfe/semi-icons';
 import { isBoolean } from '@visactor/vutils';
+import { tooltipWrapper } from '../utils/node';
 
 export function EditorHeader(props: IEditorHeaderProps) {
   const label = props.label ?? defaultBaseComponentConfig.switch.label;
@@ -22,10 +23,10 @@ export function EditorHeader(props: IEditorHeaderProps) {
             className="vchart-editor-ui-panel-title"
             style={{ marginRight: 8 }}
           >
-            {label}
+            {tooltipWrapper(label, props.tooltip)}
           </Checkbox>
         ) : (
-          <span className="vchart-editor-ui-panel-title">{label}</span>
+          <span className="vchart-editor-ui-panel-title">{tooltipWrapper(label, props.tooltip)}</span>
         )}
         <span
           style={{
@@ -45,7 +46,9 @@ export function EditorHeader(props: IEditorHeaderProps) {
           )}
         </span>
       </span>
-      <IconRefresh onClick={() => props?.onRefresh?.()} style={{ cursor: 'pointer', float: 'right' }} />
+      {props?.onRefresh ? (
+        <IconRefresh onClick={() => props?.onRefresh?.()} style={{ cursor: 'pointer', float: 'right' }} />
+      ) : null}
     </div>
   );
 }

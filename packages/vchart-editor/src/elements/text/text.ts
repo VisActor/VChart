@@ -12,6 +12,7 @@ import type { IElementOption } from '../interface';
 import { LayoutEditorComponent } from '../../component/layout-component';
 import { MinSize } from '../../core/const';
 import { getLayoutLine, isRectConnectRect } from '../../utils/space';
+import { diffSpec } from '../../utils/spec';
 
 export class EditorText extends BaseElement {
   type = 'text';
@@ -87,6 +88,7 @@ export class EditorText extends BaseElement {
     }
     this._opt.controller.setOverGraphic(this._getOverGraphic(), this._id, e);
     console.log('text', '_pointerOver');
+    return true;
   };
   private _pointerOut = (e: VRenderPointerEvent) => {
     this._opt.controller.setOverGraphic(null, this._id, e);
@@ -146,6 +148,7 @@ export class EditorText extends BaseElement {
       editProperties,
       originSpec: { ...this._textGraphic.attribute },
       updateAttribute: (attr: IUpdateAttributeParam) => {
+        this._saveSnapshot();
         if (attr.spec) {
           this._textGraphic.setAttributes(this._transformTextAttribute(attr.spec));
           el.originSpec = this._textGraphic.attribute;
@@ -154,6 +157,7 @@ export class EditorText extends BaseElement {
         if (attr.layout) {
           this._updateLayout(attr.layout as ILayoutAttribute);
         }
+        this._pushHistory();
         return false;
       },
       editorFinish: () => {
@@ -265,10 +269,12 @@ export class EditorText extends BaseElement {
         return false;
       },
       endHandler: data => {
+        this._saveSnapshot();
         this._updateLayout(data);
         this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);
         this._opt.controller.setOverGraphic(null, null, null);
         this._opt.controller.editorEnd();
+        this._pushHistory();
 
         // enable over
         console.log('dragStartHandler!!');
@@ -304,13 +310,7 @@ export class EditorText extends BaseElement {
       });
     }
 
-    if (this._currentEl) {
-      const bounds = this._textGraphic.AABBBounds;
-      this._currentEl.rect.x = bounds.x1;
-      this._currentEl.rect.y = bounds.y1;
-      this._currentEl.rect.width = bounds.width();
-      this._currentEl.rect.height = bounds.height();
-    }
+    this._updateEditorBox();
   }
 
   clearLayoutEditorBox() {
@@ -363,5 +363,48 @@ export class EditorText extends BaseElement {
   clearCurrentEditorElement() {
     this._currentEl = null;
     this.clearLayoutEditorBox();
+  }
+
+  protected _snapShot: any = null;
+  protected _saveSnapshot() {
+    this._snapShot = { attribute: { ...this._textGraphic.attribute } };
+  }
+
+  protected _pushHistory() {
+    const { from, to } = diffSpec(this._snapShot, { attribute: { ...this._textGraphic.attribute } });
+    if (Object.keys(from).length === Object.keys(to).length && Object.keys(from).length === 0) {
+      return;
+    }
+    this._opt.editorData.pushHistory({
+      element: this.getElementInfo(),
+      from,
+      to,
+      use: this._opt.commonHistoryUse
+    });
+  }
+
+  updateAttributeFromHistory(att: any) {
+    this._textGraphic.setAttributes(
+      this._transformTextAttribute({
+        ...att.attribute
+      })
+    );
+    this._updateEditorBox();
+  }
+
+  private _updateEditorBox() {
+    if (this._currentEl) {
+      const bounds = this._textGraphic.AABBBounds;
+      this._currentEl.rect.x = bounds.x1;
+      this._currentEl.rect.y = bounds.y1;
+      this._currentEl.rect.width = bounds.width();
+      this._currentEl.rect.height = bounds.height();
+
+      if (this._layoutComponent) {
+        this._layoutComponent.editorBox.rect.setAttributes({
+          ...this._currentEl.rect
+        });
+      }
+    }
   }
 }

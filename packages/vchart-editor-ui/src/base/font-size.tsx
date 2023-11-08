@@ -2,6 +2,7 @@ import { InputNumber, Slider } from '@douyinfe/semi-ui';
 import { isArray } from '@visactor/vutils';
 import type { IBaseFontSizeComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
+import { tooltipWrapper } from '../utils/node';
 
 export function FontSize(props: IBaseFontSizeComponentProps) {
   const label = props.label ?? defaultBaseComponentConfig.fontSize.label;
@@ -10,7 +11,7 @@ export function FontSize(props: IBaseFontSizeComponentProps) {
 
   return (
     <div className="vchart-editor-ui-panel-base-container">
-      <p className="vchart-editor-ui-panel-base-label">{label}</p>
+      {tooltipWrapper(<p className="vchart-editor-ui-panel-base-label">{label}</p>, props.tooltip)}
       <Slider
         value={props.fontSize}
         min={min}

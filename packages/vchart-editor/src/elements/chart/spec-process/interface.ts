@@ -31,11 +31,15 @@ export interface ISpecProcess {
   updateTheme: (theme: ITheme) => void;
   updateTemp: (temp: string) => void;
   updateLayout: (layout: ILayoutData) => void;
-  updateMarker: (markSpec: any, markType: string, id?: string | number) => void;
+  // updateMarker: (markSpec: any, markType: string, id?: string | number) => void;
 
   getVChartSpec: () => ISpec;
 
   clearMarker: () => void;
 
   clear: () => void;
+
+  saveSnapshot: () => void;
+  pushHistory: () => void;
+  updateAttributeFromHistory: (att: any) => void;
 }

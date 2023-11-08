@@ -1,6 +1,7 @@
 import { Select } from '@douyinfe/semi-ui';
 import type { IBaseFontFamilyComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
+import { tooltipWrapper } from '../utils/node';
 
 export function FontFamily(props: IBaseFontFamilyComponentProps) {
   const label = props.label ?? defaultBaseComponentConfig.fontFamily.label;
@@ -8,7 +9,7 @@ export function FontFamily(props: IBaseFontFamilyComponentProps) {
 
   return (
     <div className="vchart-editor-ui-panel-base-container">
-      <p className="vchart-editor-ui-panel-base-label">{label}</p>
+      {tooltipWrapper(<p className="vchart-editor-ui-panel-base-label">{label}</p>, props.tooltip)}
       <Select
         defaultValue={props.fontFamily}
         style={{ width: 180 }}
