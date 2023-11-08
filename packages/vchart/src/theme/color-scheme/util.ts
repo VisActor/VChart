@@ -1,4 +1,4 @@
-import { isArray, isFunction, isObject, isString, isValid, ColorUtil } from '@visactor/vutils';
+import { isArray, isFunction, isObject, isString, isValid, ColorUtil, isNil } from '@visactor/vutils';
 import { Color } from '../../util/color';
 import type {
   ColorScheme,
@@ -11,6 +11,7 @@ import type {
 } from './interface';
 import type { ISeriesSpec } from '../../typings';
 import { getDirectionFromSeriesSpec } from '../../series/util/spec';
+import { getUpgradedColorKey } from './legacy';
 
 /**
  * 从色板中获取数据色板（在此步骤中替换语义色值）
@@ -109,12 +110,12 @@ export function queryColorFromColorScheme(
   let color;
   const { palette } = scheme as IColorSchemeStruct;
   if (isObject(palette)) {
-    color = palette[colorKey.key] ?? colorKey.default;
+    color = palette[colorKey.key] ?? palette[getUpgradedColorKey(colorKey.key)] ?? colorKey.default;
   }
   if (!color) {
     return undefined;
   }
-  if ((!isValid(colorKey.a) && !isValid(colorKey.l)) || !isString(color)) {
+  if ((isNil(colorKey.a) && isNil(colorKey.l)) || !isString(color)) {
     return color;
   }
   let c = new Color(color);
@@ -174,7 +175,7 @@ export function getColorSchemeBySeries(
 ): ColorScheme | undefined {
   const { type: seriesType } = seriesSpec ?? {};
   let scheme: ColorScheme | undefined;
-  if (!seriesSpec || !isValid(seriesType)) {
+  if (!seriesSpec || isNil(seriesType)) {
     scheme = colorScheme?.default;
   } else {
     const direction = getDirectionFromSeriesSpec(seriesSpec);
