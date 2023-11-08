@@ -1,3 +1,4 @@
+import { isValid } from '@visactor/vutils';
 import type { IEditorElement, IEditorLayer, ILayoutLine } from './../core/interface';
 import type { IGroup, IRect } from '@visactor/vrender-core';
 import { createRect, createGroup } from '@visactor/vrender-core';
@@ -274,6 +275,7 @@ export class BoxSelection {
     this._layoutComponent = new LayoutEditorComponent(groupEl, {
       container: this.context.editor.editorController.container,
       layoutLines,
+      editorEvent: this.context,
       editorGroup: this.layer.editorGroup,
       stage: this.layer.getStage(),
       startHandler: () => {
@@ -319,6 +321,7 @@ export class BoxSelection {
     this._clearLayoutComponent();
     this._state = 'none';
     this.context.setElementPickable(true);
+    this.context.setCursorSyncToTriggerLayer();
   }
 
   protected _inBoxSelection() {
@@ -364,6 +367,11 @@ export class BoxSelection {
 
   protected _editorDrag(e: VRenderPointerEvent) {
     if (this._stateInEditor !== 'down') {
+      if (this._stateInEditor === 'none') {
+        this._editorOver(e);
+      } else {
+        this.context.setCursor('grabbing');
+      }
       return;
     }
     this._stateInEditor = 'move';
@@ -386,8 +394,12 @@ export class BoxSelection {
   }
 
   protected _editorDragEnd(e: VRenderPointerEvent) {
-    // do nothing
-    // this.context.editor.editorController.setOverGraphic(null, null, null);
+    this.context.setCursorSyncToTriggerLayer();
+    this._stateInEditor = 'none';
+    // 关闭框选中的元素pick能力
+    this._currentMatchElements.forEach(m => {
+      m.e.pickable = false;
+    });
   }
 
   protected _editorClick(e: VRenderPointerEvent) {
@@ -399,5 +411,16 @@ export class BoxSelection {
     if (this._state !== 'editor') {
       this.context.setElementPickable(true);
     }
+  }
+
+  private _editorOver(e: VRenderPointerEvent) {
+    if (!isValid(this.context.editor.editorController.currentOverGraphicId)) {
+      if (isPointInBounds(e.canvas, this._layoutComponent.editorBox.rect.AABBBounds)) {
+        this.context.setCursor('grab');
+        return;
+      }
+    }
+
+    this.context.setCursorSyncToTriggerLayer();
   }
 }

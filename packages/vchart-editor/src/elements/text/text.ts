@@ -244,6 +244,7 @@ export class EditorText extends BaseElement {
     this._layoutComponent = new LayoutEditorComponent(el, {
       container: this._opt.controller.container,
       layoutLines,
+      editorEvent: this._opt.editorEvent,
       editorGroup: this._opt.layer.editorGroup,
       stage: this._opt.layer.getStage(),
       startHandler: () => {

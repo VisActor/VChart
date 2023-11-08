@@ -29,6 +29,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   }
 
   private _checkEventEnable(e: EventParams) {
+    if (!this._chart.pickable) {
+      return false;
+    }
     const markerComponent = (<T>e.model).getVRenderComponents()[0];
     return this._getEnableMarkerTypes().includes(markerComponent?.name);
   }

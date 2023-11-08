@@ -31,6 +31,9 @@ export class EditorEvent {
   }
 
   _triggerLayerStyleChange = () => {
+    if (!this._triggerLayer) {
+      return;
+    }
     this._editor.container.style.cursor = this._triggerLayer.getCanvas().style.cursor;
   };
 
@@ -98,23 +101,22 @@ export class EditorEvent {
       return;
     }
     if (this._triggerLayer) {
+      this._mutationObserver.disconnect();
       this._triggerLayer.getCanvas().style.zIndex =
         20 + this._editor.layers.findIndex(l => l === this._triggerLayer) + '';
     }
+    if (l === null) {
+      this._editor.editorController.removeEditorElements();
+      return;
+    }
     this._triggerLayer = l;
-    this._boxSelection?.setLayer(l ?? this._editor.layers[0]);
+    this._boxSelection?.setLayer(this._triggerLayer);
     if (this._triggerLayer) {
       this._triggerLayer.getCanvas().style.zIndex = '100';
       this._mutationObserver.observe(this._triggerLayer.getCanvas(), {
         attributes: true,
         attributeFilter: ['style']
       });
-    } else {
-      this._mutationObserver.disconnect();
-    }
-
-    if (this._triggerLayer === null) {
-      this._editor.editorController.removeEditorElements();
     }
   }
 
@@ -135,5 +137,13 @@ export class EditorEvent {
     this._editor.layers.forEach(l => {
       l.elements.forEach(e => (e.overAble = able));
     });
+  }
+
+  setCursor(cursor: string) {
+    this._editor.container.style.cursor = cursor;
+  }
+
+  setCursorSyncToTriggerLayer() {
+    this._triggerLayerStyleChange();
   }
 }

@@ -114,6 +114,7 @@ export class VChartEditor {
     option.mode = this._mode;
     option.getAllLayers = () => this._layers;
     option.editorData = this._editorData;
+    option.editorEvent = this._event;
     option.commonHistoryUse = this._commonHistoryUse;
     const el = new ElementsMap[type](option as unknown as IElementOption);
     if (!el) {
@@ -195,6 +196,7 @@ export class VChartEditor {
             mode: this._mode,
             getAllLayers: () => this._layers,
             editorData: this._editorData,
+            editorEvent: this._event,
             commonHistoryUse: this._commonHistoryUse
           });
           if (!el) {

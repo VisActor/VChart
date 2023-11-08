@@ -1,3 +1,4 @@
+import type { EditorEvent } from './../core/editor-event';
 import type { IGroup, IStage, ILine, IRect, IGraphic } from '@visactor/vrender-core';
 import { IContainPointMode, createLine, createRect } from '@visactor/vrender-core';
 import type { ILayoutAttribute } from './../typings/space';
@@ -52,6 +53,7 @@ export class LayoutEditorComponent {
       updateHandler: (data: ILayoutAttribute) => Partial<ILayoutAttribute> | false;
       endHandler: (data: ILayoutAttribute) => void;
       event: PointerEvent;
+      editorEvent: EditorEvent;
       stage: IStage;
       layoutLines: ILayoutLine[];
       editorGroup: IGroup;
@@ -295,7 +297,7 @@ export class LayoutEditorComponent {
   addDrag(container: HTMLElement, event: PointerEvent) {
     this._dragger = new DragComponent(container);
     this._dragger.dragHandler(this._dragElement);
-    this._dragger.dragEndHandler(this._editorEnd);
+    this._dragger.dragEndHandler(this._dragEnd);
     this._lastBoxInDrag = createRect({
       pickable: false,
       stroke: 'blue',
@@ -346,6 +348,11 @@ export class LayoutEditorComponent {
     return result;
   }
 
+  private _dragEnd = () => {
+    this._opt.editorEvent.setCursorSyncToTriggerLayer();
+    this._editorEnd();
+  };
+
   protected _editorEnd = () => {
     this._endHandler(this._editorBox.getTransformAttribute());
     this._editorBox.isEditor = false;
@@ -356,6 +363,7 @@ export class LayoutEditorComponent {
     this._snapTargetBoxY.setAttributes({ visible: false });
 
     this._lastBoxInDrag.setAttribute('visible', false);
+    // this._opt.editorEvent.setCursorSyncToTriggerLayer();
   };
 
   _initMatchLine() {
@@ -421,6 +429,7 @@ export class LayoutEditorComponent {
       width: this._editorBox.rect.AABBBounds.width(),
       height: this._editorBox.rect.AABBBounds.height()
     });
+    this._opt.editorEvent.setCursor('grabbing');
     return this._dragger.startDrag(e);
   }
 }

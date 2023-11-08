@@ -163,6 +163,10 @@ export class CommonChartEditorElement implements IEditorElement {
     } else {
       model = this.model;
     }
+    if (!model) {
+      // model has been delete
+      return;
+    }
     const { id, editProperties, rect } = this._opt;
     // @ts-ignore
     this.chartType = context.chart.specProcess.getEditorSpec().temp;
@@ -195,7 +199,6 @@ export class CommonChartEditorElement implements IEditorElement {
     //
     if (model.type === 'region') {
       this.allModelSpec = [];
-      console.log('start add model spec');
       // series
       this._context.chart.vchart
         .getChart()
@@ -226,7 +229,6 @@ export class CommonChartEditorElement implements IEditorElement {
           });
         });
       });
-      console.log(this.allModelSpec);
       // this._context.chart.vchart
       //   .getChart()
       //   .getAllComponents()

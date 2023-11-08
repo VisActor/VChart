@@ -2,6 +2,7 @@ import type { EditorMode, IEditorController, IEditorElement, IEditorLayer, IHist
 import type { IRect, IPoint } from '../typings/space';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { EditorData } from '../core/editor-data';
+import type { EditorEvent } from '../core/editor-event';
 
 export interface IElementOption extends Partial<IElementData> {
   layer: IEditorLayer;
@@ -9,6 +10,7 @@ export interface IElementOption extends Partial<IElementData> {
   controller: IEditorController;
   mode: EditorMode;
   editorData: EditorData;
+  editorEvent: EditorEvent;
   commonHistoryUse: IHistory['use'];
   getAllLayers?: () => IEditorLayer[];
 }

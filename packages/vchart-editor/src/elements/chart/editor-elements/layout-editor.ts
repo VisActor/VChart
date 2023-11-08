@@ -94,6 +94,7 @@ export class LayoutEditorElement extends BaseEditorElement {
     this._layoutComponent = new LayoutEditorComponent(el, {
       container: this._controller.container,
       layoutLines,
+      editorEvent: this._chart.option.editorEvent,
       editorGroup: this._layer.editorGroup,
       stage: this._layer.getStage(),
       startHandler: () => {
