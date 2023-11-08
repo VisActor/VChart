@@ -298,7 +298,7 @@ export const getTooltipAttributes = (
           maxKeyWidth -
           keyStyle.spacing -
           valueStyle.spacing;
-        value.multiLine = true;
+        //value.multiLine = true;  multiLine 需要用户手动开启，不会自动开启
         if (!value.maxWidth) {
           value.maxWidth = Math.ceil(value.width);
         }
