@@ -55,7 +55,7 @@ export class CommonModelElement extends BaseEditorElement {
     }
     const element = new CommonChartEditorElement(this, {
       model,
-      updateCall: attr => {
+      updateCall: (attr, triggerHistory) => {
         let reRender = false;
         if (attr.chartType) {
           this.emitter.emit('chartTypeChange', element, attr);
@@ -80,7 +80,7 @@ export class CommonModelElement extends BaseEditorElement {
           reRender = true;
         }
 
-        reRender = this.chart.specProcess.updateElementAttribute(element.model, attr) || reRender;
+        reRender = this.chart.specProcess.updateElementAttribute(element.model, attr, triggerHistory) || reRender;
         const releaseLast = reRender;
         if (releaseLast) {
           this.releaseLast();

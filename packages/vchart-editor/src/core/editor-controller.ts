@@ -148,7 +148,7 @@ export class EditorController implements IEditorController {
     this._currentOverGraphicId = null;
   }
 
-  deleteCurrentElement() {
+  deleteCurrentElement(triggerHistory: boolean = true) {
     if (!this._currentEditorElements) {
       return;
     }
@@ -157,7 +157,7 @@ export class EditorController implements IEditorController {
       return;
     }
     this.removeEditorElements();
-    el.layer.removeElement(el.id);
+    el.layer.removeElement(el.id, triggerHistory);
   }
 
   release() {

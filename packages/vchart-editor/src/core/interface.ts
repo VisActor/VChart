@@ -39,7 +39,7 @@ export interface IEditorLayer {
   transformPosInLayer: (pos: IPoint) => IPoint;
   getLayoutLineInLayer: () => ILayoutLine[];
 
-  removeElement: (id: string | number) => void;
+  removeElement: (id: string | number, triggerHistory: boolean) => void;
   release: () => void;
 }
 
@@ -119,6 +119,7 @@ export interface IEditorElement {
   type: 'chart' | 'group' | 'graphics';
   layer: IEditorLayer;
   id: string | number;
+  elementId: string | number;
   rect?: IRect;
   /**
    * graphics 类型
@@ -160,7 +161,7 @@ export interface IEditorElement {
     resize?: boolean | ([boolean, ...boolean[]] & { length: 8 });
     //
   } & { [key: string]: unknown };
-  updateAttribute: (attr: IUpdateAttributeParam) => false | { [key: string]: unknown };
+  updateAttribute: (attr: IUpdateAttributeParam, triggerHistory?: boolean) => false | { [key: string]: unknown };
   editorFinish: () => void;
   updateElement: () => void;
 }

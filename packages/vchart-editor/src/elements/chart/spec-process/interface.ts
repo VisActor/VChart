@@ -26,7 +26,7 @@ export interface IEditorSpec {
 export interface ISpecProcess {
   getEditorSpec: () => {};
   updateEditorSpec: (spec: IEditorSpec) => void;
-  updateElementAttribute: (model: IChartModel, attr: IUpdateAttributeParam) => boolean;
+  updateElementAttribute: (model: IChartModel, attr: IUpdateAttributeParam, triggerHistory?: boolean) => boolean;
   // for each mode
   updateTheme: (theme: ITheme) => void;
   updateTemp: (temp: string) => void;

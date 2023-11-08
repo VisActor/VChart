@@ -222,7 +222,18 @@ export class BoxSelection {
       }
       layoutLines.push(line);
     });
+    // 被编辑的模块集合 一个图表元素可以有多个可编辑模块
     const elList = mathEl.map(m => m.el);
+    const elementMap: {
+      [key: string]: IElement;
+    } = {};
+    // 被编辑的编辑器元素集合
+    elList.forEach(e => {
+      if (!elementMap[e.elementId]) {
+        elementMap[e.elementId] = e.layer.elements.find(_e => _e.id === e.elementId);
+      }
+    });
+    const elementList = Object.values(elementMap);
     // groupEl
     let rect: ILayoutRect & { right: number; bottom: number };
     elList.forEach((_e, i) => {
@@ -241,6 +252,7 @@ export class BoxSelection {
       type: 'group',
       id: '_editor_element_group',
       layer: this.layer,
+      elementId: '_editor_element_group',
       rect: { ...rect },
       model: null,
       editProperties: {
@@ -276,13 +288,23 @@ export class BoxSelection {
         }
         groupEl.rect.x = data.x;
         groupEl.rect.y = data.y;
+        // 统一个编辑元素的多个模块同时被编辑，统一进行快照与存储
+        elementList.forEach(element => {
+          element.saveSnapshot();
+        });
         elList.forEach(el => {
-          el.updateAttribute({
-            layout: {
-              dx,
-              dy
-            }
-          });
+          el.updateAttribute(
+            {
+              layout: {
+                dx,
+                dy
+              }
+            },
+            false
+          );
+        });
+        elementList.forEach(element => {
+          element.pushHistory();
         });
       },
       event

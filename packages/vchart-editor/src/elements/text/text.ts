@@ -141,6 +141,7 @@ export class EditorText extends BaseElement {
       type: 'graphics',
       layer: this._opt.layer,
       id: this._id,
+      elementId: this._id,
       graphicsType: this.type,
       model: undefined,
       color: [],
@@ -148,7 +149,7 @@ export class EditorText extends BaseElement {
       editProperties,
       originSpec: { ...this._textGraphic.attribute },
       updateAttribute: (attr: IUpdateAttributeParam) => {
-        this._saveSnapshot();
+        this.saveSnapshot();
         if (attr.spec) {
           this._textGraphic.setAttributes(this._transformTextAttribute(attr.spec));
           el.originSpec = this._textGraphic.attribute;
@@ -157,7 +158,7 @@ export class EditorText extends BaseElement {
         if (attr.layout) {
           this._updateLayout(attr.layout as ILayoutAttribute);
         }
-        this._pushHistory();
+        this.pushHistory();
         return false;
       },
       editorFinish: () => {
@@ -214,10 +215,12 @@ export class EditorText extends BaseElement {
 
   moveBy(offsetX: number, offsetY: number) {
     this.clearLayoutEditorBox();
+    this.saveSnapshot();
     this._textGraphic.setAttributes({
       x: this._textGraphic.attribute.x + offsetX,
       y: this._textGraphic.attribute.y + offsetY
     });
+    this.pushHistory();
   }
 
   protected _createEditorGraphic(el: IEditorElement, e: any): IGraphic {
@@ -269,12 +272,12 @@ export class EditorText extends BaseElement {
         return false;
       },
       endHandler: data => {
-        this._saveSnapshot();
+        this.saveSnapshot();
         this._updateLayout(data);
         this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);
         this._opt.controller.setOverGraphic(null, null, null);
         this._opt.controller.editorEnd();
-        this._pushHistory();
+        this.pushHistory();
 
         // enable over
         console.log('dragStartHandler!!');
@@ -366,16 +369,16 @@ export class EditorText extends BaseElement {
   }
 
   protected _snapShot: any = null;
-  protected _saveSnapshot() {
+  saveSnapshot() {
     this._snapShot = { attribute: { ...this._textGraphic.attribute } };
   }
 
-  protected _pushHistory() {
+  pushHistory() {
     const { from, to } = diffSpec(this._snapShot, { attribute: { ...this._textGraphic.attribute } });
     if (Object.keys(from).length === Object.keys(to).length && Object.keys(from).length === 0) {
       return;
     }
-    this._opt.editorData.pushHistory({
+    this._opt.editorData.pushHistoryNextTick({
       element: this.getElementInfo(),
       from,
       to,

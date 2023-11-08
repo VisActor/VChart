@@ -20,12 +20,19 @@ export class EditorEvent {
 
   protected _boxSelection: BoxSelection;
 
+  protected _mutationObserver: MutationObserver;
+
   constructor(editor: VChartEditor) {
     this._editor = editor;
     if (this._editor.option.mode === 'editor') {
       this._boxSelection = new BoxSelection(null, this);
     }
+    this._mutationObserver = new window.MutationObserver(this._triggerLayerStyleChange);
   }
+
+  _triggerLayerStyleChange = () => {
+    this._editor.container.style.cursor = this._triggerLayer.getCanvas().style.cursor;
+  };
 
   initEvent() {
     MouseEvents.forEach(eventType => {
@@ -98,69 +105,17 @@ export class EditorEvent {
     this._boxSelection?.setLayer(l ?? this._editor.layers[0]);
     if (this._triggerLayer) {
       this._triggerLayer.getCanvas().style.zIndex = '100';
+      this._mutationObserver.observe(this._triggerLayer.getCanvas(), {
+        attributes: true,
+        attributeFilter: ['style']
+      });
+    } else {
+      this._mutationObserver.disconnect();
     }
 
     if (this._triggerLayer === null) {
       this._editor.editorController.removeEditorElements();
     }
-  }
-
-  _parseActiveElement(el: IEditorElement | IEditorElement[]): IEditorElement {
-    if (!isArray(el)) {
-      return el as IEditorElement;
-    }
-    const elList = el as IEditorElement[];
-    if (elList.length === 0) {
-      return null;
-    }
-    let rect: IRect;
-    elList.forEach((_e, i) => {
-      if (i === 0) {
-        rect = { ..._e.rect };
-      } else {
-        rect.x = Math.min(rect.x, _e.rect.x);
-        rect.y = Math.min(rect.y, _e.rect.y);
-        rect.width = Math.max(rect.width, _e.rect.width + _e.rect.x - rect.x);
-        rect.width = Math.max(rect.height, _e.rect.height + _e.rect.y - rect.y);
-      }
-    });
-    const groupEl: IEditorElement = {
-      type: 'group',
-      id: '_editor_element_group',
-      layer: this._triggerLayer ?? el[0].layer,
-      rect: { ...rect },
-      model: null,
-      editProperties: {
-        move: true,
-        rotate: false,
-        resize: false
-      },
-      editorFinish: () => {
-        // nothing
-      },
-      updateAttribute: attr => {
-        const layoutData = attr.layout as ILayoutAttribute;
-        if (!layoutData) {
-          return false;
-        }
-        const offsetX = layoutData.x - rect.x;
-        const offsetY = layoutData.y - rect.y;
-        elList.forEach(_e => {
-          _e.updateAttribute({
-            layout: {
-              ..._e.rect,
-              x: _e.rect.x + offsetX,
-              y: _e.rect.y + offsetY
-            }
-          });
-        });
-        return false;
-      },
-      updateElement: function (): void {
-        // do nothing
-      }
-    };
-    return groupEl;
   }
 
   release() {

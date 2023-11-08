@@ -384,9 +384,12 @@ export class EditorLayer implements IEditorLayer {
   getLayoutLineInLayer(): ILayoutLine[] {
     return [];
   }
-  removeElement(id: string | number) {
+  removeElement(id: string | number, triggerHistory: boolean = true) {
     const index = this.elements.findIndex(e => e.id === id);
     if (index >= 0) {
+      if (triggerHistory) {
+        this.elements[index].beforeDelete();
+      }
       this.elements[index].release();
       this.elements.splice(index, 1);
       this._stage.renderNextFrame();

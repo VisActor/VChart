@@ -34,10 +34,15 @@ export interface IElement {
   /** lifecycle */
   initWithOption: () => void;
   afterAdd: () => void;
+  beforeDelete: () => void;
   release: () => void;
 
   /** handler */
   onAfterRender: (callBack: () => void) => void;
+
+  /** history */
+  saveSnapshot: () => void;
+  pushHistory: () => void;
 
   setModel: (mode: EditorMode) => void;
   moveBy: (offsetX: number, offsetY: number) => void;

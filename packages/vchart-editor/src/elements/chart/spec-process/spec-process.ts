@@ -205,8 +205,10 @@ export class SpecProcess implements ISpecProcess {
   }
 
   // 更新模块spec
-  updateElementAttribute(model: IChartModel, attr: IUpdateAttributeParam) {
-    this.saveSnapshot();
+  updateElementAttribute(model: IChartModel, attr: IUpdateAttributeParam, triggerHistory: boolean = true) {
+    if (triggerHistory) {
+      this.saveSnapshot();
+    }
     let hasChange = false;
     if (attr.color) {
       hasChange = true;
@@ -238,7 +240,9 @@ export class SpecProcess implements ISpecProcess {
 
     this._mergeEditorSpec();
     this._controller.editorEnd();
-    this.pushHistory();
+    if (triggerHistory) {
+      this.pushHistory();
+    }
     return hasChange;
   }
 
@@ -287,7 +291,7 @@ export class SpecProcess implements ISpecProcess {
     if (Object.keys(from).length === Object.keys(to).length && Object.keys(from).length === 0) {
       return;
     }
-    this._chart.option.editorData.pushHistory({
+    this._chart.option.editorData.pushHistoryNextTick({
       element: this._chart.getElementInfo(),
       from: cloneDeep(from),
       to: cloneDeep(to),

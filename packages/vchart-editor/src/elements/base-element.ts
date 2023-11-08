@@ -72,6 +72,9 @@ export abstract class BaseElement implements IElement {
     };
   }
 
+  abstract saveSnapshot(): void;
+  abstract pushHistory(): void;
+
   abstract resize(rect: IRect): void;
   abstract move(pos: IPoint): void;
 
@@ -112,8 +115,17 @@ export abstract class BaseElement implements IElement {
     //do nothing
   }
 
+  beforeDelete() {
+    this._opt.editorData.pushHistoryNextTick({
+      element: { layerId: this._opt.layer.id, id: this._id, type: this.type },
+      from: this.getData(),
+      to: null,
+      use: this._opt.commonHistoryUse
+    });
+  }
+
   afterAdd() {
-    this._opt.editorData.pushHistory({
+    this._opt.editorData.pushHistoryNextTick({
       element: { layerId: this._opt.layer.id, id: this._id, type: this.type },
       from: null,
       to: this.getData(),

@@ -185,7 +185,7 @@ export class EditorChart extends BaseElement {
   }
 
   protected _currentUpdateFlow: any = null;
-  protected async _updateNextTick() {
+  protected _updateNextTick() {
     this._updateVChartSpec();
   }
 
@@ -266,6 +266,7 @@ export class EditorChart extends BaseElement {
 
   moveBy(offsetX: number, offsetY: number) {
     // clear editor box
+    this._specProcess.saveSnapshot();
     this._layoutEditor.clearLayoutEditorBox();
     // move by
     this._layout?.getLayoutData()?.data?.forEach(_d => {
@@ -273,6 +274,7 @@ export class EditorChart extends BaseElement {
       _d.layout.y.offset += offsetY;
     });
     this._vchart.getChart().setLayoutTag(true);
+    this._specProcess.pushHistory();
   }
 
   getLayoutGuideLine(): ILayoutLine[] {
@@ -327,5 +329,12 @@ export class EditorChart extends BaseElement {
 
   updateAttributeFromHistory(att: any) {
     this._specProcess.updateAttributeFromHistory(att);
+  }
+  saveSnapshot() {
+    this._specProcess.saveSnapshot();
+  }
+
+  pushHistory() {
+    this._specProcess.pushHistory();
   }
 }

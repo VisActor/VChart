@@ -92,7 +92,8 @@ export class VChartEditor {
 
   addElements(
     type: string,
-    option: Include<Omit<IElementOption, 'layer' | 'controller' | 'mode' | 'commonHistoryUse' | 'editorData'>>
+    option: Include<Omit<IElementOption, 'layer' | 'controller' | 'mode' | 'commonHistoryUse' | 'editorData'>>,
+    triggerHistory: boolean = true
   ) {
     if (!ElementsMap[type]) {
       return;
@@ -120,14 +121,16 @@ export class VChartEditor {
     }
     el.initWithOption();
     layer.addElements(el);
-    el.afterAdd();
+    if (triggerHistory) {
+      el.afterAdd();
+    }
   }
 
-  deleteElement(id?: string) {
+  deleteElement(id?: string, triggerHistory: boolean = true) {
     if (id) {
-      this._layers.forEach(l => l.removeElement(id));
+      this._layers.forEach(l => l.removeElement(id, triggerHistory));
     } else {
-      this._editorController.deleteCurrentElement();
+      this._editorController.deleteCurrentElement(triggerHistory);
     }
   }
 

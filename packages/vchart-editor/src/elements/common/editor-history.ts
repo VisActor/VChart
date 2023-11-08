@@ -16,14 +16,14 @@ export function getCommonHistoryUse(ctx: VChartEditor, updateCall?: (to: History
       }
       // 新增
       if (to) {
-        ctx.addElements(element.type, to);
+        ctx.addElements(element.type, to, false);
         return;
       }
     }
     if (el) {
       // 删除
       if (!to) {
-        ctx.deleteElement(el.id as string);
+        ctx.deleteElement(el.id as string, false);
       }
       // 修改
       if (to) {

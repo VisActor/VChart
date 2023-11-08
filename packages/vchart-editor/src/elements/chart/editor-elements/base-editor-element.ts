@@ -79,12 +79,16 @@ export abstract class BaseEditorElement {
   }
 }
 
-export type UpdateAttributeCall = (attr: IUpdateAttributeParam) => false | { [key: string]: unknown };
+export type UpdateAttributeCall = (
+  attr: IUpdateAttributeParam,
+  triggerHistory: boolean
+) => false | { [key: string]: unknown };
 
 export class CommonChartEditorElement implements IEditorElement {
   type: 'chart' = 'chart';
   layer: IEditorLayer;
   id: string | number;
+  elementId: string | number;
   rect?: IRect;
   part?: string;
   model: IChartModel;
@@ -128,6 +132,7 @@ export class CommonChartEditorElement implements IEditorElement {
   ) {
     // set attribute
     this._context = context;
+    this.elementId = this._context.chart.id;
     this._opt = opt;
     const { model, updateCall, finishCall } = opt;
     this._updateCall = updateCall;
@@ -136,8 +141,11 @@ export class CommonChartEditorElement implements IEditorElement {
     this.updateElement();
   }
 
-  updateAttribute = (attr: IUpdateAttributeParam): false | { [key: string]: unknown } => {
-    return this._updateCall?.(attr) ?? false;
+  updateAttribute = (
+    attr: IUpdateAttributeParam,
+    triggerHistory: boolean = true
+  ): false | { [key: string]: unknown } => {
+    return this._updateCall?.(attr, triggerHistory) ?? false;
   };
 
   editorFinish = () => {
