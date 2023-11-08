@@ -5245,84 +5245,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_2",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>_1",
-          "description": "style格式转换"
-        }
-      ],
-      "description": "style格式转换"
-    },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
@@ -5337,11 +5260,15 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5349,7 +5276,7 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5357,15 +5284,19 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
           "description": "style格式转换"
         },
         {
@@ -5381,15 +5312,84 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+          "description": "style格式转换"
+        }
+      ],
+      "description": "style格式转换"
+    },
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_2",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
           "description": "style格式转换"
         }
       ],
@@ -24905,10 +24905,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -24919,10 +24919,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -24933,10 +24933,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -24956,10 +24956,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -25420,10 +25420,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -25434,10 +25434,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -25448,10 +25448,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -25471,10 +25471,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -26430,10 +26430,7 @@
                 "$ref": "#/definitions/ISankeySeriesSpec"
               },
               {
-                "$ref": "#/definitions/IBarSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IBar3dSeriesSpec"
+                "$ref": "#/definitions/IBoxPlotSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ITreemapSeriesSpec"
@@ -26451,58 +26448,34 @@
                 "$ref": "#/definitions/ICirclePackingSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IBoxPlotSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/ILineSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IRangeColumnChartSpec"
+                "$ref": "#/definitions/IBarSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IBar3dSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IAreaSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IRangeAreaChartSpec"
-              },
-              {
-                "$ref": "#/definitions/IDotSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/IMapSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ILinkSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRadarSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IRoseSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IScatterSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWordCloudSeriesSpec"
+                "$ref": "#/definitions/IRoseSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IWordCloud3dSeriesSpec"
+                "$ref": "#/definitions/IRadarSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IGaugePointerSeriesSpec"
+                "$ref": "#/definitions/IDotSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IGaugeSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IFunnelSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IFunnel3dSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IHeatmapSeriesSpec"
+                "$ref": "#/definitions/ILinkSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ICircularProgressSeriesSpec"
@@ -26511,7 +26484,34 @@
                 "$ref": "#/definitions/ILinearProgressSeriesSpec"
               },
               {
+                "$ref": "#/definitions/IWordCloudSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IWordCloud3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IFunnelSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IFunnel3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IGaugePointerSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IGaugeSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IHeatmapSeriesSpec"
+              },
+              {
                 "$ref": "#/definitions/ICorrelationSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IRangeColumnChartSpec"
+              },
+              {
+                "$ref": "#/definitions/IRangeAreaChartSpec"
               },
               {
                 "$ref": "#/definitions/IWaterfallSeriesSpec"
@@ -28833,11 +28833,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -30990,11 +30990,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -32646,10 +32646,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -32660,10 +32660,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -32674,10 +32674,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -32697,10 +32697,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -33209,10 +33209,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -33223,10 +33223,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -33237,10 +33237,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -33260,10 +33260,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<GaugePointerMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -67269,7 +67269,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -67277,14 +67277,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13698",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -67292,14 +67292,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13698",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -67307,14 +67307,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13698",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -67322,14 +67322,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13698",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -67337,14 +67337,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13698",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -67352,14 +67352,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13698",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -67367,14 +67367,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13698",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -67382,14 +67382,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13698",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         },
         "size": {
@@ -67397,7 +67397,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13698",
+        "__@toStringTag@13706",
         "size"
       ],
       "type": "object"
@@ -68905,10 +68905,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -68919,10 +68919,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -68933,10 +68933,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -68956,10 +68956,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
-              "$ref": "#/definitions/Partial<Record<CircularProgressMarks,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<ProgressLikeAppearPreset>,\"preset\">"
             },
             {
               "type": "boolean"
@@ -83066,34 +83066,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13698"
+        "__@toStringTag@13706"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13698"
+        "__@toStringTag@13706"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13698": {
+        "__@toStringTag@13706": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13698"
+        "__@toStringTag@13706"
       ],
       "type": "object"
     },
@@ -83103,10 +83103,10 @@
     "Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IGroupMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IImageMarkSpec|IRect3dMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {
