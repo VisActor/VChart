@@ -2,6 +2,18 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.6.2",
+      "tag": "@visactor/vchart_v1.6.2",
+      "date": "Wed, 08 Nov 2023 11:05:21 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.6.1",
       "tag": "@visactor/vchart_v1.6.1",
       "date": "Wed, 08 Nov 2023 05:29:48 GMT",

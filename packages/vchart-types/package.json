@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-types",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Provide the type declarations of VChart.",
   "sideEffects": false,
   "main": "types/index.d.ts",

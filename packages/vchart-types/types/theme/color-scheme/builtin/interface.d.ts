@@ -18,6 +18,4 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
     scrollBarSliderColor: string;
     tooltipBackgroundColor: string;
     markLabelBackgroundColor: string;
-    titleFontColor: string;
-    labelFontColor: string;
 };
