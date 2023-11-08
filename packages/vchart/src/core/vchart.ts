@@ -455,7 +455,7 @@ export class VChart implements IVChart {
   /** **异步方法** 执行自定义的回调修改图表配置，并重新渲染 */
   async updateCustomConfigAndRerender(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
     if (this._isReleased) {
-      return;
+      return this as unknown as IVChart;
     }
     const result = modifyConfig(); // 执行回调
     if (!isValid(result)) {
@@ -553,7 +553,7 @@ export class VChart implements IVChart {
    */
   async renderAsync(morphConfig?: IMorphConfig) {
     if (this._isReleased) {
-      return;
+      return this as unknown as IVChart;
     }
     if (!this._chart) {
       this._option.performanceHook?.beforeInitializeChart?.();
@@ -571,7 +571,7 @@ export class VChart implements IVChart {
     await this._compiler?.renderAsync(morphConfig);
 
     if (this._isReleased) {
-      return;
+      return this as unknown as IVChart;
     }
 
     if (this._option.animation) {
@@ -981,7 +981,7 @@ export class VChart implements IVChart {
     await this._compiler.resize?.(width, height);
 
     if (this._isReleased) {
-      return;
+      return this as unknown as IVChart;
     }
     // emit resize event
     this._event.emit(ChartEvent.afterResize, { chart: this._chart });
