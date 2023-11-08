@@ -11,7 +11,7 @@ import type {
 } from './interface';
 import type { ISeriesSpec } from '../../typings';
 import { getDirectionFromSeriesSpec } from '../../series/util/spec';
-import { getUpgradedColorKey } from './legacy';
+import { getUpgradedTokenValue } from './legacy';
 
 /**
  * 从色板中获取数据色板（在此步骤中替换语义色值）
@@ -110,7 +110,7 @@ export function queryColorFromColorScheme(
   let color;
   const { palette } = scheme as IColorSchemeStruct;
   if (isObject(palette)) {
-    color = palette[colorKey.key] ?? palette[getUpgradedColorKey(colorKey.key)] ?? colorKey.default;
+    color = getUpgradedTokenValue(palette, colorKey.key) ?? colorKey.default;
   }
   if (!color) {
     return undefined;
