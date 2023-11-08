@@ -70,7 +70,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         return mark.getLabelSpec()?.some(labelSpec => labelSpec.visible);
       });
       if (labelVisible) {
-        labelComponents.push(new Label(spec, { ...options, specIndex: i, specKey: 'label' }));
+        labelComponents.push(new Label(spec, { ...options, specIndex: i }));
         continue;
       }
     }
@@ -303,5 +303,5 @@ export const registerLabel = () => {
   registerVGrammarLabel();
   Factory.registerMark(LabelMark.constructorType, LabelMark);
   Factory.registerMark(ComponentMark.type, ComponentMark);
-  Factory.registerComponent(Label.type, Label);
+  Factory.registerComponent(Label.type, Label, true);
 };

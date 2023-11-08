@@ -33,8 +33,6 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
 
   layoutType: LayoutItem['layoutType'] = 'absolute';
 
-  static speckey = 'mapLabel';
-
   layoutZIndex = LayoutZIndex.MarkPoint;
 
   protected nameField: string;

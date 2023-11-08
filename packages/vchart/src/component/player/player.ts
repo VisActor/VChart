@@ -29,7 +29,6 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
 
   static type = ComponentTypeEnum.player;
   type = ComponentTypeEnum.player;
-  specKey = 'player';
   private _orient: IOrientType = 'bottom';
   private _specs: Partial<IChartSpec>[];
 

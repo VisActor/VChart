@@ -77,7 +77,7 @@ export class BandAxisMixin {
 
       this._scales[i]
         .paddingInner(_paddingInner ?? _padding ?? DEFAULT_BAND_INNER_PADDING, true)
-        .paddingOuter(_paddingOuter ?? _padding ?? DEFAULT_BAND_OUTER_PADDING);
+        .paddingOuter(_paddingOuter ?? _padding ?? DEFAULT_BAND_OUTER_PADDING, true);
     }
   }
   computeBandDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[] {

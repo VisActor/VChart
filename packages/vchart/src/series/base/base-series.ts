@@ -73,6 +73,7 @@ import { baseSeriesMark } from './constant';
 import { isAnimationEnabledForSeries } from '../../animation/utils';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
+  readonly specKey: string = 'series';
   readonly type: string = 'series';
   layoutType: LayoutItem['layoutType'] = 'absolute';
   readonly modelType: string = 'series';

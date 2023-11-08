@@ -28,25 +28,23 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
 
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkArea;
 
-  static speckey = 'markArea';
-
   protected declare _theme: IMarkAreaTheme;
 
   // markArea组件
   protected declare _markerComponent: MarkAreaComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markAreaSpec = spec.markArea || options.defaultSpec;
+    const markAreaSpec = spec.markArea;
     if (isEmpty(markAreaSpec)) {
       return undefined;
     }
     if (!isArray(markAreaSpec) && markAreaSpec.visible !== false) {
-      return new MarkArea(markAreaSpec, { ...options, specKey: MarkArea.speckey });
+      return new MarkArea(markAreaSpec, options);
     }
     const markAreas: MarkArea[] = [];
     markAreaSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markAreas.push(new MarkArea(m, { ...options, specIndex: i, specKey: MarkArea.speckey }));
+        markAreas.push(new MarkArea(m, { ...options, specIndex: i }));
       }
     });
     return markAreas;

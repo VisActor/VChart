@@ -62,6 +62,9 @@ type IBound = { x1: number; y1: number; x2: number; y2: number };
 type IAxisInfo = Map<number, IBound & { axis: IPolarAxis }>;
 
 export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
+  static specKey = 'crosshair';
+  specKey: string = 'crosshair';
+
   static type = ComponentTypeEnum.polarCrosshair;
   type = ComponentTypeEnum.polarCrosshair;
   name: string = ComponentTypeEnum.polarCrosshair;
@@ -80,29 +83,27 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
   private _angleLabelCrosshair: Tag;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const crosshairSpec = spec.crosshair || options.defaultSpec;
+    const crosshairSpec = spec.crosshair;
     if (isNil(crosshairSpec)) {
       return undefined;
     }
     if (!isArray(crosshairSpec)) {
       if (crosshairSpec.categoryField || crosshairSpec.valueField) {
-        return new PolarCrossHair(crosshairSpec, { ...options, specKey: 'crosshair' });
+        return new PolarCrossHair(crosshairSpec, options);
       }
       return undefined;
     }
     const components: PolarCrossHair[] = [];
     crosshairSpec.forEach((s: IPolarCrosshairSpec, i: number) => {
       if (s.categoryField || s.valueField) {
-        components.push(new PolarCrossHair(s, { ...options, specIndex: i, specKey: 'crosshair' }));
+        components.push(new PolarCrossHair(s, { ...options, specIndex: i }));
       }
     });
     return components;
   }
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this.currValueX = new Map();
     this.currValueY = new Map();
   }

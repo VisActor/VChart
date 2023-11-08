@@ -45,9 +45,7 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
   }
 
   constructor(spec: ITitleSpec, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this._orient = isValidOrient(spec.orient) ? spec.orient : 'top';
     this._layoutOrient = this._orient;
   }
@@ -58,12 +56,12 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
       return null;
     }
     if (!isArray(titleSpec)) {
-      return new Title(titleSpec, { ...options, specKey: 'title' });
+      return new Title(titleSpec, options);
     }
     const titles: Title[] = [];
     titleSpec.forEach((s: any, i: number) => {
       if (s.visible !== false) {
-        titles.push(new Title(s, { ...options, specIndex: i, specKey: 'title' }));
+        titles.push(new Title(s, { ...options, specIndex: i }));
       }
     });
     return titles;

@@ -29,7 +29,7 @@ export class CustomMark extends BaseComponent<any> {
     if (!customMarkSpec) {
       return null;
     }
-    return [new CustomMark(customMarkSpec, { ...options, specIndex: 0, specKey: 'customMark' })];
+    return [new CustomMark(customMarkSpec, { ...options, specIndex: 0 })];
   }
 
   created() {
