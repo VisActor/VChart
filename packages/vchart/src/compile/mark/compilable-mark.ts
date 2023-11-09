@@ -453,12 +453,6 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this.state.compile();
   }
 
-  protected _computeAttribute(key: string, state: StateValueType) {
-    return (datum: Datum, opt: IAttributeOpt) => {
-      return undefined as any;
-    };
-  }
-
   // TODO: 1. opt内容待定，确实需要再来补充（之前是scale.bindScales/bindSignals，从context.params中可以获取到）
   // TODO: 2. stateSourceItem，是否根据attr区分，存在默认写死的情况，例如"hover"/"normal"；
   protected compileCommonAttributeCallback(key: string, state: string): MarkFunctionCallback<any> {
@@ -466,23 +460,15 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     const noAttrTransform = !needAttrTransform(this.type, key);
     // remove state in opt
     const opt: IAttributeOpt = { mark: null, parent: null, element: null };
-    const attrFunctor = this._computeAttribute(key, state);
-
-    return noAttrTransform
-      ? (datum: Datum, element: IElement) => {
-          opt.mark = element.mark;
-          opt.parent = element.mark.group;
-          opt.element = element;
-
-          return attrFunctor(datum, opt);
-        }
-      : (datum: Datum, element: IElement) => {
-          opt.mark = element.mark;
-          opt.parent = element.mark.group;
-          opt.element = element;
-
-          return attrTransform(this.type, key, attrFunctor(datum, opt));
-        };
+    return (datum: Datum, element: IElement) => {
+      opt.mark = element.mark;
+      opt.parent = element.mark.group;
+      opt.element = element;
+      if (noAttrTransform) {
+        return this.getAttribute(key as any, datum, state, opt);
+      }
+      return attrTransform(this.type, key, this.getAttribute(key as any, datum, state, opt));
+    };
   }
 
   protected compileTransform() {
