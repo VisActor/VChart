@@ -107,9 +107,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   } = { width: 0, height: 0, _lastComputeOutBounds: { x1: 0, x2: 0, y1: 0, y2: 0 } };
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this._orient = getOrient(spec, ['z']);
     if (isZAxis(this._orient)) {
       this.layoutType = 'absolute';
@@ -137,14 +135,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   static createComponent(spec: any, options: IComponentOption) {
-    if (!this.type.startsWith(CartesianAxis.type)) {
-      return null;
-    }
     const regions = options.getRegionsInIndex();
     if (regions.find(r => r.coordinate !== 'cartesian')) {
       return null;
     }
-    let axesSpec = spec[CartesianAxis.specKey] || options.defaultSpec;
+    let axesSpec = spec[CartesianAxis.specKey];
     if (!axesSpec) {
       return null;
     }
@@ -178,8 +173,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
           s,
           {
             ...options,
-            specIndex: i,
-            specKey: CartesianAxis.specKey
+            specIndex: i
           },
           isHorizontal
         ) as IAxis
@@ -198,11 +192,13 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       eachSeries(
         this._regions,
         s => {
-          if (isXAxis(this.getOrient())) {
+          const orient = this.getOrient();
+
+          if (isXAxis(orient)) {
             (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-          } else if (isYAxis(this.getOrient())) {
+          } else if (isYAxis(orient)) {
             (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
-          } else if (isZAxis(this.getOrient())) {
+          } else if (isZAxis(orient)) {
             (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
           }
         },

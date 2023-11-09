@@ -25,13 +25,15 @@ import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
+  static specKey = 'legends';
+  specKey: string = 'legends';
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
   protected declare _theme: IDiscreteLegendTheme;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const legendSpec = spec.legends || options.defaultSpec;
+    const legendSpec = spec.legends;
     if (!legendSpec) {
       return undefined;
     }
@@ -39,8 +41,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       if (!legendSpec.type || legendSpec.type === 'discrete') {
         return new DiscreteLegend(legendSpec, {
           ...options,
-          specIndex: 0,
-          specKey: 'legends'
+          specIndex: 0
         });
       }
       return undefined;
@@ -48,7 +49,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     const legends: ILegend[] = [];
     legendSpec.forEach((s: IDiscreteLegendSpec, i: number) => {
       if (!s.type || s.type === 'discrete') {
-        legends.push(new DiscreteLegend(s, { ...options, specIndex: i, specKey: 'legends' }));
+        legends.push(new DiscreteLegend(s, { ...options, specIndex: i }));
       }
     });
     return legends;

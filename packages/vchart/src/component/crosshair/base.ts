@@ -78,9 +78,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   private _limitBounds: Maybe<IBoundsLike>;
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this.enable = true;
     this.showDefault = true;
   }

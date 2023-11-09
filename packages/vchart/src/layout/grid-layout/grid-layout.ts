@@ -144,7 +144,8 @@ export class GridLayout implements IBaseLayout {
           return true;
         }
       } else if ('modelKey' in e && isValid(e.modelKey) && 'modelIndex' in e && isValid(e.modelIndex)) {
-        if (model.specKey === e.modelKey && model.getSpecIndex() === e.modelIndex) {
+        const specKey = model.specKey ?? model.type;
+        if (specKey === e.modelKey && model.getSpecIndex() === e.modelIndex) {
           return true;
         }
       }

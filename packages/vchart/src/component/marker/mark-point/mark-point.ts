@@ -25,25 +25,23 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
 
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkPoint;
 
-  static speckey = 'markPoint';
-
   protected declare _theme: IMarkPointTheme;
 
   // markPoint组件
   protected declare _markerComponent: MarkPointComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markPointSpec = spec.markPoint || options.defaultSpec;
+    const markPointSpec = spec.markPoint;
     if (isEmpty(markPointSpec)) {
       return undefined;
     }
     if (!isArray(markPointSpec) && markPointSpec.visible !== false) {
-      return new MarkPoint(markPointSpec, { ...options, specKey: MarkPoint.speckey });
+      return new MarkPoint(markPointSpec, options);
     }
     const markPoints: MarkPoint[] = [];
     markPointSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markPoints.push(new MarkPoint(m, { ...options, specIndex: i, specKey: MarkPoint.speckey }));
+        markPoints.push(new MarkPoint(m, { ...options, specIndex: i }));
       }
     });
     return markPoints;

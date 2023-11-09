@@ -32,24 +32,22 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
 
   layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkLine;
 
-  static speckey = 'markLine';
-
   protected declare _theme: IMarkLineTheme;
 
   protected declare _markerComponent: MarkLineComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markLineSpec = spec.markLine || options.defaultSpec;
+    const markLineSpec = spec.markLine;
     if (isEmpty(markLineSpec)) {
       return undefined;
     }
     if (!isArray(markLineSpec) && markLineSpec.visible !== false) {
-      return new MarkLine(markLineSpec, { ...options, specKey: MarkLine.speckey });
+      return new MarkLine(markLineSpec, { ...options });
     }
     const markLines: MarkLine[] = [];
     markLineSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markLines.push(new MarkLine(m, { ...options, specIndex: i, specKey: MarkLine.speckey }));
+        markLines.push(new MarkLine(m, { ...options, specIndex: i }));
       }
     });
     return markLines;

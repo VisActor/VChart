@@ -36,6 +36,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   implements IAxis
 {
   static specKey = 'axes';
+  specKey = 'axes';
 
   protected _orient: IPolarOrientType | IOrientType;
   getOrient() {
@@ -95,9 +96,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected _gridMark: IComponentMark;
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this._visible = spec.visible ?? true;
   }
 

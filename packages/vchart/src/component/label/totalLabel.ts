@@ -40,7 +40,7 @@ export class TotalLabel extends BaseLabelComponent {
       const series = getSeries(regions);
       series.forEach(s => {
         if (s.getSpec()?.totalLabel?.visible) {
-          const cmp = new TotalLabel(s.getSpec().totalLabel, { ...options, specIndex: i, specKey: 'totalLabel' });
+          const cmp = new TotalLabel(s.getSpec().totalLabel, { ...options, specIndex: i });
           cmp.series = s;
           labelComponents.push(cmp);
         }
@@ -165,5 +165,5 @@ export function totalLabelPosition(series: ISeries, type: MarkType) {
 export const registerTotalLabel = () => {
   registerVGrammarLabel();
   Factory.registerMark(LabelMark.constructorType, LabelMark);
-  Factory.registerComponent(TotalLabel.type, TotalLabel);
+  Factory.registerComponent(TotalLabel.type, TotalLabel, true);
 };
