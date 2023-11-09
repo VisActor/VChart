@@ -327,7 +327,7 @@ export class EditorText extends BaseElement {
       width: bounds.width(),
       height: bounds.height(),
       fill: false,
-      stroke: 'blue',
+      stroke: 'rgb(174 216 230 / 60%)',
       lineWidth: 2,
       pickable: false
     });

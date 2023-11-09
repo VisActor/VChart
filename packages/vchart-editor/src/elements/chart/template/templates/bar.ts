@@ -23,7 +23,8 @@ const spec = {
         }
       },
       label: {
-        visible: true
+        visible: true,
+        position: 'inside'
       }
     }
   ],

@@ -40,7 +40,7 @@ export class CommonModelElement extends BaseEditorElement {
     return createRect({
       ...el.rect,
       fill: false,
-      stroke: 'blue',
+      stroke: 'rgb(174 216 230 / 60%)',
       lineWidth: 2,
       // shadowBlur: 4,
       // shadowColor: 'blue',

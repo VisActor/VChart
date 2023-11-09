@@ -47,7 +47,8 @@ export const DeleteElementKeyCode = {
 
 export const OverGraphicAttribute = {
   fill: false,
-  stroke: 'blue',
+  // stroke: 'blue',
+  stroke: '#4284FF',
   lineWidth: 2,
   // shadowBlur: 4,
   // shadowColor: 'blue',

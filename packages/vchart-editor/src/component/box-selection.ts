@@ -62,8 +62,7 @@ export class BoxSelection {
   protected _initGraphic() {
     this._boxGraphic = createRect({
       ...OverGraphicAttribute,
-      fill: 'blue',
-      fillOpacity: 0.3,
+      fill: '#4284FF',
       zIndex: 999999,
       visible: false,
       pickable: false

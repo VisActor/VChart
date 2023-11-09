@@ -302,7 +302,7 @@ export class LayoutEditorComponent {
     this._dragger.dragEndHandler(this._dragEnd);
     this._lastBoxInDrag = createRect({
       pickable: false,
-      stroke: 'blue',
+      stroke: '#4284FF',
       strokeOpacity: 0.4,
       visible: false
     });
@@ -370,7 +370,7 @@ export class LayoutEditorComponent {
 
   _initMatchLine() {
     const commonAttribute = {
-      stroke: 'blue',
+      stroke: '#4284FF',
       pickable: false,
       lineWidth: 1,
       strokeOpacity: 0.4,

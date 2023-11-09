@@ -66,18 +66,18 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
   static defaultAttributes: Partial<TransformAttributes> = {
     padding: 2,
     bbox: {
-      stroke: 'lightblue',
+      stroke: '#4284FF',
       lineWidth: 1
     },
     cornerRect: {
       fill: 'white',
-      stroke: 'lightblue',
+      stroke: '#4284FF',
       lineWidth: 1,
       width: 10,
       height: 10
     },
     handlerLine: {
-      stroke: 'lightblue',
+      stroke: '#4284FF',
       lineWidth: 1,
       size: 30
     }
