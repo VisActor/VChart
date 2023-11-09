@@ -16,6 +16,7 @@ export interface IShapeSvgOption {
   lineWidth?: number;
   hollow?: boolean;
   marginTop?: string;
+  index: number;
 }
 
 export class ShapeModel extends BaseTooltipModel {
@@ -87,7 +88,7 @@ function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: an
     </svg>`;
   }
   if (isObject(fill)) {
-    fillString = 'gradientColor';
+    fillString = 'gradientColor' + option.index;
     let gradient = '';
     const stops = (fill.stops ?? [])
       .map(s => `<stop offset="${valueToHtml(s.offset.toString())}" stop-color="${valueToHtml(s.color)}"/>`)
