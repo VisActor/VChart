@@ -9,6 +9,7 @@ export type StandardData = DataView;
 export type IParserValue = any;
 
 export type DataUpdateCall = (data: StandardData) => void;
+export type DataErrorCall = (msg: string, opt?: any) => void;
 
 export type DataInfo = {
   [key: string]: {
@@ -26,6 +27,7 @@ export interface IData {
   getData: () => StandardData;
   addDataUpdateListener: (call: DataUpdateCall) => void;
   getDataInfo: () => DataInfo;
+  getSpecOption: () => any;
   getSave: () => DataSave;
   clear: () => void;
 }
@@ -34,6 +36,7 @@ export interface IDataParser {
   type: string;
   getData: () => StandardData;
   getDataInfo?: () => DataInfo;
+  getSpecOption?: () => any;
   getSave: () => DataSave;
   updateValue: (value: IParserValue) => void;
   onDataUpdate: (call: DataUpdateCall) => void;
@@ -42,5 +45,15 @@ export interface IDataParser {
 
 export interface IDataParserConstructor {
   type: string;
-  new (dataSet: DataSet, call: DataUpdateCall, value?: IParserValue): IDataParser;
+  new (
+    dataSet: DataSet,
+    value: any,
+    {
+      updateCall,
+      errorCall
+    }: {
+      updateCall: DataUpdateCall;
+      errorCall: DataErrorCall;
+    }
+  ): IDataParser;
 }

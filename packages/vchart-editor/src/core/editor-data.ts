@@ -1,3 +1,4 @@
+import type { VChartEditor } from './vchart-editor';
 import { MAX_HISTORY_COUNT } from './const';
 import type { IEditorData, IHistory } from './interface';
 
@@ -9,7 +10,10 @@ export class EditorData {
 
   protected _data: IEditorData;
 
-  constructor(data: IEditorData) {
+  protected _editor: VChartEditor;
+
+  constructor(editor: VChartEditor, data: IEditorData) {
+    this._editor = editor;
     this._data = data;
   }
 
@@ -48,6 +52,7 @@ export class EditorData {
     this._currentIndex++;
     const hisList = this._history[this._currentIndex];
     hisList.forEach(his => his.use(his.element, his.from, his.to));
+    this._clearEditorElement();
     this.saveData();
   }
   backward() {
@@ -57,11 +62,21 @@ export class EditorData {
     const hisList = this._history[this._currentIndex];
     hisList.forEach(his => his.use(his.element, his.to, his.from));
     this._currentIndex--;
+    this._clearEditorElement();
     this.saveData();
+  }
+
+  private _clearEditorElement() {
+    this._editor.layers.forEach(l => {
+      l.elements.forEach(e => {
+        e.clearCurrentEditorElement();
+      });
+    });
   }
 
   saveData() {
     //save
+    // @ts-ignore
     this._data.save();
   }
 }

@@ -27,6 +27,7 @@ export interface IEditorLayer {
   elements: IElement[];
   editorGroup: IGroup;
   activeElement: IEditorElement | IEditorElement[];
+  isInActive: boolean;
   readonly isElementReady: boolean;
 
   getStage: () => IStage;
@@ -110,6 +111,9 @@ export interface IUpdateAttributeParam {
 
   // 更改图表类型
   chartType?: string;
+
+  // 更换图表类型时，是否清空当前图表的全部内容
+  clearCurrent?: boolean;
 
   // 数据更新
   data?: IDataAttributeParam;

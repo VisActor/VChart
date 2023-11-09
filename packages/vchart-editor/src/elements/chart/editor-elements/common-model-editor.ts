@@ -57,6 +57,9 @@ export class CommonModelElement extends BaseEditorElement {
       model,
       updateCall: (attr, triggerHistory) => {
         let reRender = false;
+        if (triggerHistory) {
+          this.chart.specProcess.saveSnapshot();
+        }
         if (attr.chartType) {
           this.emitter.emit('chartTypeChange', element, attr);
         }
@@ -79,8 +82,10 @@ export class CommonModelElement extends BaseEditorElement {
           this._chart.layout.setModelLayoutData(newLayout);
           reRender = true;
         }
-
-        reRender = this.chart.specProcess.updateElementAttribute(element.model, attr, triggerHistory) || reRender;
+        reRender = this.chart.specProcess.updateElementAttribute(element.model, attr, false) || reRender;
+        if (triggerHistory) {
+          this.chart.specProcess.pushHistory();
+        }
         const releaseLast = reRender;
         if (releaseLast) {
           this.releaseLast();

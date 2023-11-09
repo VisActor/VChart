@@ -10,7 +10,7 @@ import { isPointInBounds } from '../utils/space';
 import type { EditorEvent } from '../core/editor-event';
 
 export class BoxSelection {
-  protected _state: 'none' | 'start' | 'drag' | 'end' | 'editor' = 'none';
+  protected _state: 'none' | 'start' | 'drag' | 'end' | 'per-editor' | 'editor' = 'none';
   protected _stateInEditor: 'down' | 'move' | 'none' = 'none';
 
   protected _boxGraphic: IRect;
@@ -102,6 +102,10 @@ export class BoxSelection {
         return;
       }
     }
+    if (!this.context.isCurrentLayoutEditorBox(lastLayoutEditorBox) && this.context.isEventInLayoutEditorBox(e)) {
+      // down on other box
+      return;
+    }
     if (
       // @ts-ignore
       e.target === this.layer.getStage() ||
@@ -112,12 +116,11 @@ export class BoxSelection {
       (e.target === this._boxGraphic && !this._boxGraphic.attribute.visible)
     ) {
       // start
-      this._inBoxSelection();
+      this._state = 'per-editor';
       this._startPos = { ...e.canvas };
       this._currentBox = { x: this._startPos.x, y: this._startPos.y, width: 0, height: 0 };
       this._boxGraphic.setAttributes({
-        ...this._currentBox,
-        visible: true
+        ...this._currentBox
       });
     }
   };
@@ -125,6 +128,16 @@ export class BoxSelection {
   protected _pointerMove = (e: VRenderPointerEvent) => {
     if (this._state === 'start') {
       this._state = 'drag';
+    }
+    if (this._state === 'per-editor') {
+      if (this.context.isCurrentLayoutEditorBox(null)) {
+        this._inBoxSelection();
+        this._boxGraphic.setAttributes({
+          visible: true
+        });
+      } else {
+        this._state = 'none';
+      }
     }
     if (this._state === 'editor') {
       this._editorDrag(e);
@@ -329,7 +342,6 @@ export class BoxSelection {
     this.context.editor.layers.forEach(l => {
       l.elements.forEach(e => {
         e.clearCurrentEditorElement();
-        e.pickable = false;
       });
     });
     this.context.editor.editorController.setEditorElements(null, null);

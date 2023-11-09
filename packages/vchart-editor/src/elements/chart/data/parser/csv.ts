@@ -1,7 +1,7 @@
 import { isString } from '@visactor/vutils';
 import { DataView, csvParser } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
-import type { DataUpdateCall, IDataParser } from './../interface';
+import type { DataErrorCall, DataUpdateCall, IDataParser } from './../interface';
 export class CSVParser implements IDataParser {
   static readonly type = 'csv';
   readonly type: string = CSVParser.type;
@@ -9,9 +9,21 @@ export class CSVParser implements IDataParser {
   protected _dataSet: DataSet = null;
   protected _dataValue: string | {} = null;
   protected _onDataUpdateCall: DataUpdateCall = null;
-  constructor(dataSet: DataSet, call: DataUpdateCall, value: any) {
+  protected _onDataErrorCall: DataErrorCall = null;
+  constructor(
+    dataSet: DataSet,
+    value: any,
+    {
+      updateCall,
+      errorCall
+    }: {
+      updateCall: DataUpdateCall;
+      errorCall: DataErrorCall;
+    }
+  ) {
     this._dataSet = dataSet;
-    this.onDataUpdate(call);
+    this._onDataErrorCall = errorCall;
+    this.onDataUpdate(updateCall);
     this._data = new DataView(this._dataSet, { name: 'editor_csv' });
     if (value) {
       this.updateValue(value);
@@ -42,6 +54,7 @@ export class CSVParser implements IDataParser {
     this._onDataUpdateCall = call;
   }
   clear() {
+    this._dataSet.removeDataView(this._data?.name);
     this._data = null;
     this._onDataUpdateCall = null;
   }

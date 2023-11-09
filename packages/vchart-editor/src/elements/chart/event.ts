@@ -37,6 +37,7 @@ export class ChartEvent {
     }
     const info = this._getPickModel(e);
     if (info && this._checkEventEnable(e)) {
+      this._chart.option.layer.isInActive = true;
       this.emitter.emit('overModel', info, e);
     } else {
       this.emitter.emit('unOverChart', e);
@@ -64,6 +65,7 @@ export class ChartEvent {
     }
     const info = this._getPickModel(e);
     if (info) {
+      this._chart.option.layer.isInActive = true;
       this.emitter.emit('pickModel', info, e);
     } else {
       this.emitter.emit('unPickModel', e);
@@ -75,6 +77,9 @@ export class ChartEvent {
       return true;
     }
     if (e.target.type === 'rect' && (isNil(e.target.name) || e.target.name.startsWith('regionBackground'))) {
+      return true;
+    }
+    if (e.target.type === 'group' && e.target.name && e.target.name === 'root') {
       return true;
     }
     if (e.target.type === 'group' && e.target.name && e.target.name.startsWith('axis-grid')) {

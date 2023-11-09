@@ -23,6 +23,7 @@ export interface ILayoutData {
 export interface IChartLayout {
   setViewBox: (r: IRect) => void;
   setLayoutData: (d: ILayoutData) => void;
+  clearLayoutData: () => void;
   setModelLayoutData: (d: LayoutMeta) => void;
   getModelLayoutData: (info: IModelInfo) => LayoutMeta;
   getLayoutData: () => ILayoutData;

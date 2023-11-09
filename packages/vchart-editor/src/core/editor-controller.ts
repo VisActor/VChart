@@ -102,8 +102,27 @@ export class EditorController implements IEditorController {
     this._runHandler.forEach(h => h(type));
   }
 
+  protected _overGraphicCache: {
+    graphic: IGraphic;
+    id: string | number;
+  } = {
+    graphic: null,
+    id: null
+  };
+
+  clearOverCache() {
+    this._overGraphicCache = {
+      graphic: null,
+      id: null
+    };
+  }
+  hasOverCache() {
+    return !!this._overGraphicCache.id;
+  }
+
   // over border
   setOverGraphic(graphic: IGraphic, id: string | number, event: PointerEvent) {
+    this._overGraphicCache.id = id;
     if (this._currentOverGraphicId === id) {
       return;
     }

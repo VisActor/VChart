@@ -87,12 +87,10 @@ export class EditorText extends BaseElement {
       return false;
     }
     this._opt.controller.setOverGraphic(this._getOverGraphic(), this._id, e);
-    console.log('text', '_pointerOver');
     return true;
   };
   private _pointerOut = (e: VRenderPointerEvent) => {
     this._opt.controller.setOverGraphic(null, this._id, e);
-    console.log('text', '_pointerOut');
   };
 
   tryPick = (e: VRenderPointerEvent) => {
@@ -281,7 +279,6 @@ export class EditorText extends BaseElement {
         this.pushHistory();
 
         // enable over
-        console.log('dragStartHandler!!');
         this._opt.getAllLayers().forEach(l => {
           l.elements.forEach(e => (e.overAble = true));
         });

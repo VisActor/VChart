@@ -1,5 +1,5 @@
 import { ChartEvent } from './../constant/event';
-import type { IElement, IView } from '@visactor/vgrammar-core';
+import type { IElement, IMark, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { View } from '@visactor/vgrammar-core';
 import type {
@@ -163,10 +163,10 @@ export class Compiler {
     this.updateDepend();
   }
 
-  clear(ctx: { chart: IChart; vChart: VChart }) {
+  clear(ctx: { chart: IChart; vChart: VChart }, clearGraphic: boolean = false) {
     const { chart } = ctx;
     chart.clear();
-    this.releaseGrammar();
+    this.releaseGrammar(clearGraphic);
   }
 
   async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
@@ -346,9 +346,18 @@ export class Compiler {
     this.isReleased = true;
   }
 
-  releaseGrammar() {
+  releaseGrammar(clearGraphic: boolean = false) {
     this._releaseModel();
+    // TODO vgrammar 后续会提供正式的api
+    if (clearGraphic) {
+      this._view?.traverseMarkTree((mark: IMark) => {
+        if (mark.graphicItem && mark.graphicItem.parent) {
+          mark.graphicItem.parent.removeChild(mark.graphicItem);
+        }
+      });
+    }
     this._view?.removeAllGrammars();
+    this._view = null;
   }
 
   protected _releaseModel() {

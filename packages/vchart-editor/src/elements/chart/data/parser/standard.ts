@@ -1,6 +1,6 @@
 import { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
-import type { DataUpdateCall, IDataParser } from './../interface';
+import type { DataErrorCall, DataUpdateCall, IDataParser } from './../interface';
 import { getStandardDataFields } from '../../../../utils/data';
 export class StandardParser implements IDataParser {
   static readonly type = 'standard';
@@ -9,9 +9,21 @@ export class StandardParser implements IDataParser {
   protected _dataSet: DataSet = null;
   protected _dataValue: any[] = null;
   protected _onDataUpdateCall: DataUpdateCall = null;
-  constructor(dataSet: DataSet, call: DataUpdateCall, value: any) {
+  protected _onDataErrorCall: DataErrorCall = null;
+  constructor(
+    dataSet: DataSet,
+    value: any,
+    {
+      updateCall,
+      errorCall
+    }: {
+      updateCall: DataUpdateCall;
+      errorCall: DataErrorCall;
+    }
+  ) {
     this._dataSet = dataSet;
-    this.onDataUpdate(call);
+    this._onDataErrorCall = errorCall;
+    this.onDataUpdate(updateCall);
     this._data = new DataView(this._dataSet, { name: 'editor_standard' });
     if (value) {
       this.updateValue(value);

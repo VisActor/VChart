@@ -3,6 +3,7 @@ export const version = __VERSION__;
 export { VChartEditor } from './core/vchart-editor';
 
 export * from './core/interface';
+export * from './core/const';
 
 export * from './elements/chart/data/interface';
 export * from './elements/chart/layout/interface';

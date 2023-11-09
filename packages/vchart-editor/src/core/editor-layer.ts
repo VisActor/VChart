@@ -44,6 +44,9 @@ export class EditorLayer implements IEditorLayer {
   get isInActive() {
     return this._isInActive;
   }
+  set isInActive(v: boolean) {
+    this._isInActive = v;
+  }
 
   protected _elements: IElement[] = [];
   get elements() {

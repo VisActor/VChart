@@ -458,7 +458,7 @@ export class VChart implements IVChart {
     if (!isValid(result)) {
       return this as unknown as IVChart;
     }
-    this._reCompile(result);
+    this._reCompile(result, morphConfig);
     await this.renderAsync(morphConfig);
     return this as unknown as IVChart;
   }
@@ -469,19 +469,19 @@ export class VChart implements IVChart {
     if (!isValid(result)) {
       return this as unknown as IVChart;
     }
-    this._reCompile(result);
+    this._reCompile(result, morphConfig);
     this.renderSync(morphConfig);
     return this as unknown as IVChart;
   }
 
-  protected _reCompile(updateResult: IUpdateSpecResult) {
+  protected _reCompile(updateResult: IUpdateSpecResult, morphConfig?: IMorphConfig) {
     if (updateResult.reMake) {
       this._releaseData();
       this._initDataSet();
       // 释放图表等等
       this._chart.release();
       this._chart = null as unknown as IChart;
-      this._compiler?.releaseGrammar();
+      this._compiler?.releaseGrammar(!morphConfig || !morphConfig.reuse);
       // chart 内部事件 模块自己必须删除
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
@@ -494,7 +494,7 @@ export class VChart implements IVChart {
       if (updateResult.reCompile) {
         // recompile
         // 清除之前的所有 compile 内容
-        this._compiler?.clear({ chart: this._chart, vChart: this });
+        this._compiler?.clear({ chart: this._chart, vChart: this }, !morphConfig || !morphConfig.reuse);
         // TODO: 释放事件？ vgrammar 的 view 应该不需要释放，响应的stage也没有释放，所以事件可以不绑定
         // 重新绑定事件
         // TODO: 释放XX？

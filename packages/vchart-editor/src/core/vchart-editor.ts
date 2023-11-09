@@ -60,7 +60,7 @@ export class VChartEditor {
     this._option = option;
     const { dom, mode } = this._option;
     this._mode = mode;
-    this._editorData = new EditorData(this._option.data);
+    this._editorData = new EditorData(this, this._option.data);
 
     this._commonHistoryUse = getCommonHistoryUse(this);
 

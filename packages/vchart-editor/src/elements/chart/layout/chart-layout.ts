@@ -26,7 +26,7 @@ export class ChartLayout implements IChartLayout {
   constructor(specProcess: ISpecProcess) {
     this._specProcess = specProcess;
     this._layoutData = {
-      viewBox: null,
+      viewBox: { x: 100, y: 100, width: 500, height: 500 },
       data: null
     };
   }
@@ -41,8 +41,19 @@ export class ChartLayout implements IChartLayout {
     this._vchart.setLayout(this.layout as any);
   }
 
+  clearLayoutData() {
+    this.setLayoutData({
+      viewBox: this._layoutData.viewBox,
+      data: null
+    });
+  }
+
   setLayoutData(d: ILayoutData) {
+    const lastViewBox = this._layoutData.viewBox;
     this._layoutData = d;
+    if (!this._layoutData.viewBox) {
+      this._layoutData.viewBox = lastViewBox;
+    }
     this._specProcess.updateLayout(this._layoutData);
   }
   getLayoutData() {
@@ -68,7 +79,7 @@ export class ChartLayout implements IChartLayout {
     const chart = this._vchart.getChart();
     const items = (<IChartModel[]>chart.getAllRegions()).concat(chart.getAllComponents() as IChartModel[]);
     items.forEach((item: IChartModel) => {
-      if (item.type === 'tooltip' || item.type === 'crosshair') {
+      if (IgnoreModelTypeInLayout[item.type]) {
         return;
       }
       layoutData.push({
@@ -103,6 +114,9 @@ export class ChartLayout implements IChartLayout {
   }
 
   getOverModel(pos: IPoint, layer: IEditorLayer) {
+    if (!this._layoutData.data) {
+      return null;
+    }
     return this._layoutData.data.find(d => {
       const model = getChartModelWithModelInfo(this._vchart, d);
       // marker pick with event not pos;

@@ -51,7 +51,6 @@ export abstract class BaseEditorElement {
       return false;
     }
     this.releaseLast();
-    console.log('set current el');
     this._currentEl = el;
     this._controller.setEditorElements(el, e);
     return true;
@@ -229,21 +228,6 @@ export class CommonChartEditorElement implements IEditorElement {
           });
         });
       });
-      // this._context.chart.vchart
-      //   .getChart()
-      //   .getAllComponents()
-      //   .forEach((c: IChartModel) => {
-      //     if (c.type === 'tooltip') {
-      //       return;
-      //     }
-      //     const { data, ...spec } = c.getSpec();
-      //     this.allModelSpec.push({
-      //       id: c.userId,
-      //       specKey: c.specKey,
-      //       specIndex: c.getSpecIndex(),
-      //       spec
-      //     });
-      //   });
     }
   }
 }

@@ -1,10 +1,10 @@
+import type { VRenderPointerEvent } from './../elements/interface';
 import { BoxSelection } from './../component/box-selection';
-import type { ILayoutAttribute, IRect } from './../typings/space';
-import { isArray } from '@visactor/vutils';
-import type { IEditorElement } from './interface';
 import type { EditorLayer } from './editor-layer';
 import { MouseEvents, TriggerEvent } from './const';
 import type { VChartEditor } from './vchart-editor';
+import type { TransformComponent2 } from '../component/transform-component2';
+import { isPointInBounds } from '../utils/space';
 
 export class EditorEvent {
   protected _editor: VChartEditor;
@@ -60,7 +60,6 @@ export class EditorEvent {
       return;
     }
     e.stopImmediatePropagation();
-
     let hasTrigger = false;
     let hasActive = false;
     //  current trigger layer first
@@ -91,6 +90,7 @@ export class EditorEvent {
     if (!hasTrigger && TriggerEvent[e.type]) {
       this.changeTriggerLayer(null, e as PointerEvent);
     }
+
     if (!hasActive) {
       this._editor.editorController.setOverGraphic(null, null, e as PointerEvent);
     }
@@ -145,5 +145,24 @@ export class EditorEvent {
 
   setCursorSyncToTriggerLayer() {
     this._triggerLayerStyleChange();
+  }
+
+  private _currentEditorBox: TransformComponent2 = null;
+
+  isCurrentLayoutEditorBox(editorBox: TransformComponent2) {
+    return this._currentEditorBox === editorBox;
+  }
+  setCurrentLayoutEditorBox(editorBox: TransformComponent2) {
+    this._currentEditorBox = editorBox;
+  }
+
+  isEventInLayoutEditorBox(e: VRenderPointerEvent) {
+    if (!this._currentEditorBox || !e) {
+      return false;
+    }
+    if (isPointInBounds(e.canvas, this._currentEditorBox.rect.AABBBounds)) {
+      return true;
+    }
+    return false;
   }
 }

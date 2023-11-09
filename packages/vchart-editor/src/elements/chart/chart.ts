@@ -65,7 +65,7 @@ export class EditorChart extends BaseElement {
   constructor(opt: IChartElementOption) {
     super(opt);
     this._event = new ChartEvent(this);
-    this._data = new Data();
+    this._data = new Data(this);
     this._specProcess = new SpecProcess(this, this.onSpecReady);
     this._layout = new ChartLayout(this._specProcess);
     if (this._mode === 'editor') {
@@ -84,7 +84,7 @@ export class EditorChart extends BaseElement {
     this._hirarchicalDiffMarkLineEditor = new HierarchicalDiffLineEditor(this._opt.controller, this, this._opt.layer);
     // chart editor
     this._commonModelElement = new CommonModelElement(this._opt.controller, this, this._opt.layer);
-    this._commonModelElement.emitter.on('chartTypeChange', this._onChartTypeChange);
+    this._commonModelElement.emitter.on('chartTypeChange', this.onChartTypeChange);
     this._commonModelElement.emitter.on('chartDataChange', this._onChartDataChange);
     this._commonModelElement.emitter.on('addMarkLine', this._onAddMarkLine);
     this._commonModelElement.emitter.on('addMarkArea', this._onAddMarkArea);
@@ -179,7 +179,8 @@ export class EditorChart extends BaseElement {
       this._isRendered = false;
       // HACK: 屏蔽报错临时修改
       // eslint-disable-next-line promise/catch-or-return
-      this._vchart.updateSpecSync(this._transformVchartSpec(this._specProcess.getVChartSpec()));
+      //@ts-ignore
+      this._vchart.updateSpecSync(this._transformVchartSpec(this._specProcess.getVChartSpec()), false, false);
       this._afterRender();
     }
   }
@@ -237,16 +238,23 @@ export class EditorChart extends BaseElement {
     this.onSpecReady();
   }
 
-  private _onChartTypeChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {
-    el.editorFinish();
-    // do not clear layoutData
-    // this.layout.setLayoutData({
-    //   viewBox: this.layout.getLayoutData().viewBox,
-    //   data: []
-    // });
-    this._specProcess.clearMarker();
-    this.specProcess.updateTemp(attr.chartType);
+  onChartTypeChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {
+    this.clearDataForChartTypeChange(el, attr);
+    if (attr.chartType) {
+      this.specProcess.updateTemp(attr.chartType);
+    }
   };
+
+  clearDataForChartTypeChange(el: IEditorElement, attr: IUpdateAttributeParam) {
+    console.log('clear chart data!');
+    el?.editorFinish();
+    this._specProcess.clearMarker();
+    if (attr.clearCurrent) {
+      this._specProcess.updateEditorSpec(null);
+      this._layout.clearLayoutData();
+    }
+  }
+
   private _onChartDataChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {
     this.data.changeDataSource(attr.data.type, attr.data.value);
   };

@@ -79,6 +79,8 @@ export class LayoutEditorComponent {
     }
     this._opt.editorGroup.add(this._editorBox as unknown as IGraphic);
     this._editorBox.initEvent();
+
+    this._opt.editorEvent.setCurrentLayoutEditorBox(this._editorBox);
   }
 
   initEvent() {
@@ -405,6 +407,9 @@ export class LayoutEditorComponent {
   }
 
   release() {
+    if (this._opt.editorEvent.isCurrentLayoutEditorBox(this._editorBox)) {
+      this._opt.editorEvent.setCurrentLayoutEditorBox(null);
+    }
     this._opt.editorGroup.removeChild(this._snapLineX);
     this._opt.editorGroup.removeChild(this._snapLineY);
     this._opt.editorGroup.removeChild(this._snapTargetBoxX);

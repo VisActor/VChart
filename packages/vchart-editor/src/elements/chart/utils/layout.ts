@@ -104,12 +104,17 @@ export const IgnoreModelTypeInLayout = {
   tooltip: true,
   label: true,
   layout: true,
-  markLine: true
+  markLine: true,
+  crosshair: true,
+  brush: true,
+  cartesianCrosshair: true
 };
 
 export const IgnoreModelTypeInCommon = {
   tooltip: true,
   label: true,
   layout: true,
-  markLine: true
+  markLine: true,
+  crosshair: true,
+  brush: true
 };

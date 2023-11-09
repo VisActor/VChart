@@ -95,7 +95,8 @@ export class SpecProcess implements ISpecProcess {
   protected transformSpec() {
     const data = this._data.getData();
     const info = this._data.getDataInfo();
-    this._vchartSpec = this._specTemp.getSpec(data, info);
+    const option = this._data.getSpecOption();
+    this._vchartSpec = this._specTemp.getSpec(data, info, option);
     this._mergeEditorSpec();
     this._onSpecReadyCall();
   }
