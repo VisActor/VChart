@@ -91,7 +91,7 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
   ignoreBandSize?: boolean;
 }
 
-export type IDataZoomTheme = IComponentSpec &
+export type IDataZoomCommonTheme = IComponentSpec &
   IDataZoomStyle & {
     /** 显示的位置 */
     orient?: IDataZoomSpec['orient'];
@@ -105,3 +105,10 @@ export type IDataZoomTheme = IComponentSpec &
      */
     brushSelect?: boolean;
   };
+
+export type IDataZoomTheme = IDataZoomCommonTheme /* 通用主题，留作兼容 */ & {
+  /** 横向主题 */
+  horizontal?: Omit<IDataZoomCommonTheme, 'orient'>;
+  /** 纵向主题 */
+  vertical?: Omit<IDataZoomCommonTheme, 'orient'>;
+};
