@@ -415,6 +415,7 @@ export class BaseChart extends CompilableBase implements IChart {
     // 坐标轴组件只需要调用一次
     let cartesianAxis;
     let polarAxis;
+    let geoCoordinate;
     const noAxisComponents = [];
     for (let index = 0; index < components.length; index++) {
       const { cmp, alwaysCheck } = components[index];
@@ -422,18 +423,24 @@ export class BaseChart extends CompilableBase implements IChart {
         cartesianAxis = cmp;
       } else if (cmp.type.startsWith(ComponentTypeEnum.polarAxis)) {
         polarAxis = cmp;
+      } else if (cmp.type === ComponentTypeEnum.geoCoordinate) {
+        geoCoordinate = cmp;
       } else if (alwaysCheck || spec[cmp.specKey ?? cmp.type]) {
         noAxisComponents.push(cmp);
       }
     }
-    let hasCartesianAxis = false;
+    let hasInitAxis = false;
     // NOTE: 坐标轴组件需要在其他组件之前创建
     if (cartesianAxis) {
-      hasCartesianAxis = this._createComponent(cartesianAxis, spec);
+      hasInitAxis = this._createComponent(cartesianAxis, spec);
     }
 
-    if (polarAxis && !hasCartesianAxis) {
-      this._createComponent(polarAxis, spec);
+    if (polarAxis && !hasInitAxis) {
+      hasInitAxis = this._createComponent(polarAxis, spec);
+    }
+
+    if (geoCoordinate && !hasInitAxis) {
+      this._createComponent(geoCoordinate, spec);
     }
 
     noAxisComponents.forEach(C => {
