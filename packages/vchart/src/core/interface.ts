@@ -109,7 +109,7 @@ export interface IVChart {
    * @param forceMerge
    * @returns
    */
-  updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => Promise<IVChart>;
+  updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => void;
 
   /**
    * **同步方法** 模块 spec 更新
