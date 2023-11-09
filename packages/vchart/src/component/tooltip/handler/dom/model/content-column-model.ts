@@ -179,7 +179,8 @@ export class ContentColumnModel extends BaseTooltipModel {
       stroke: line.shapeStroke,
       lineWidth: line.shapeLineWidth,
       hollow: line.shapeHollow,
-      marginTop: `calc((${keyColumn.lineHeight ?? keyColumn.fontSize ?? '18px'} - ${shapeColumn.width ?? '8px'}) / 2)`
+      marginTop: `calc((${keyColumn.lineHeight ?? keyColumn.fontSize ?? '18px'} - ${shapeColumn.width ?? '8px'}) / 2)`,
+      index
     } as IShapeSvgOption;
   }
 }
