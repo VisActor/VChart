@@ -9,6 +9,8 @@ option: areaChart
 ---
 
 # 面积图样式
+通过 *area.style* 属性可以配置 *面* 图元相关的样式，通过 title.textStyle 可以配置标题样式。
+本例展示了面积的渐变填充和标题的多行文本配置。
 
 ## 关键配置
 
