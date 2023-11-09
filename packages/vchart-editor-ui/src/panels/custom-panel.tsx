@@ -9,6 +9,8 @@ import type {
   IFontSizeComponentConfig,
   IFontStyleComponentConfig,
   IInputComponentConfig,
+  ILineTypeComponentConfig,
+  IPaletteComponentConfig,
   ISelectComponentConfig,
   ISliderNumberComponentConfig,
   ISwitchComponentConfig,
@@ -26,6 +28,8 @@ import { TextAlign } from '../base/text-align';
 import { PanelTitle } from '../base/panel-title';
 import { FontSize } from '../base/font-size';
 import { defaultBaseComponentConfig } from '../config/base';
+import { Palette } from '../base/palette';
+import { LineType } from '../base/line-type';
 
 function generatePanelValue(
   sections: Record<string, IPanelSection>,
@@ -198,6 +202,36 @@ function generateEntry(
             onChange?.(section, entry.key, value);
           }}
           config={entry as ITextAlignComponentConfig}
+        />
+      );
+    case 'palette':
+      return (
+        <Palette
+          key={`${entry.key}-${postKey ?? 0}`}
+          label={entry.label}
+          tooltip={entry.tooltip}
+          palette={value}
+          onChange={value => {
+            const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
+            setPanelValue(newPanelValue);
+            onChange?.(section, entry.key, value);
+          }}
+          config={entry as IPaletteComponentConfig}
+        />
+      );
+    case 'lineType':
+      return (
+        <LineType
+          key={`${entry.key}-${postKey ?? 0}`}
+          label={entry.label}
+          tooltip={entry.tooltip}
+          lineType={value}
+          onChange={value => {
+            const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
+            setPanelValue(newPanelValue);
+            onChange?.(section, entry.key, value);
+          }}
+          config={entry as ILineTypeComponentConfig}
         />
       );
     case 'custom':

@@ -1,3 +1,4 @@
+import { LineType } from './common';
 import type {
   IBaseComponentConfig,
   IColorComponentConfig,
@@ -5,6 +6,8 @@ import type {
   IFontSizeComponentConfig,
   IFontStyleComponentConfig,
   IInputComponentConfig,
+  ILineTypeComponentConfig,
+  IPaletteComponentConfig,
   ISelectComponentConfig,
   ISliderNumberComponentConfig,
   ISwitchComponentConfig,
@@ -73,4 +76,12 @@ export interface IBaseFontStyleComponentProps extends IBaseComponentProps<IFontS
 
 export interface IBaseTextAlignComponentProps extends IBaseComponentProps<ITextAlignComponentConfig> {
   textAlign: 'left' | 'center' | 'right';
+}
+
+export interface IBasePaletteComponentProps extends IBaseComponentProps<IPaletteComponentConfig> {
+  palette: string[];
+}
+
+export interface IBaseLineTypeComponentProps extends IBaseComponentProps<ILineTypeComponentConfig> {
+  lineType: LineType;
 }

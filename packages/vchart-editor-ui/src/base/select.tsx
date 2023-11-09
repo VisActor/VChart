@@ -11,7 +11,7 @@ export function Select(props: IBaseSelectComponentProps) {
     <div className="vchart-editor-ui-panel-base-container">
       {tooltipWrapper(<p className="vchart-editor-ui-panel-base-label">{label}</p>, props.tooltip)}
       <SemiSelect
-        defaultValue={props.value}
+        value={props.value}
         style={{ width: 180 }}
         optionList={selectOptions}
         onChange={value => {

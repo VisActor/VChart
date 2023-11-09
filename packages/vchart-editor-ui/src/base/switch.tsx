@@ -10,7 +10,6 @@ export function Switch(props: IBaseSwitchComponentProps) {
     <div className="vchart-editor-ui-panel-base-container" style={{ justifyContent: 'space-between' }}>
       {tooltipWrapper(<p className="vchart-editor-ui-panel-base-label">{label}</p>, props.tooltip)}
       <SemiSwitch
-        defaultChecked={props.value}
         checked={props.value}
         onChange={value => {
           props.onChange?.(value);

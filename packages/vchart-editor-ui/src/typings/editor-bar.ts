@@ -1,7 +1,5 @@
 import type React from 'react';
-
-// Editor Bar Panels
-// export interface IEditorBarPanelProps {}
+import { LineType } from './common';
 
 export interface IColorItemProps {
   color: string;
@@ -50,7 +48,7 @@ export interface Stroke {
   color: string;
   opacity: number;
   lineWidth: number;
-  style: 'disable' | 'line' | 'dashedLine' | 'thinDashedLine';
+  style: 'disable' | LineType;
 }
 
 export interface IEditorBarStrokeProps {
