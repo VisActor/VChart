@@ -11,7 +11,7 @@ export function FontFamily(props: IBaseFontFamilyComponentProps) {
     <div className="vchart-editor-ui-panel-base-container">
       {tooltipWrapper(<p className="vchart-editor-ui-panel-base-label">{label}</p>, props.tooltip)}
       <Select
-        defaultValue={props.fontFamily}
+        value={props.fontFamily}
         style={{ width: 180 }}
         optionList={fontFamilyOptions}
         onChange={fontFamily => {

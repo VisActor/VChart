@@ -2,6 +2,7 @@
 
 import type React from 'react';
 import type { ICustomComponentProps } from './base';
+import { LineType } from './common';
 
 export interface IBaseComponentConfig {
   key: string;
@@ -66,6 +67,15 @@ export interface IFontStyleComponentConfig extends IBaseComponentConfig {
 export interface ITextAlignComponentConfig extends IBaseComponentConfig {
   default?: 'left' | 'center' | 'right';
   value?: 'left' | 'center' | 'right';
+}
+
+export interface IPaletteComponentConfig extends IBaseComponentConfig {
+  default?: string[];
+  palettes?: string[][];
+}
+
+export interface ILineTypeComponentConfig extends IBaseComponentConfig {
+  default?: LineType;
 }
 
 export interface ICustomBaseComponentConfig extends IBaseComponentConfig {
