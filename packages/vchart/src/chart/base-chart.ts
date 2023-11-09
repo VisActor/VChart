@@ -429,6 +429,7 @@ export class BaseChart extends CompilableBase implements IChart {
         noAxisComponents.push(cmp);
       }
     }
+
     let hasInitAxis = false;
     // NOTE: 坐标轴组件需要在其他组件之前创建
     if (cartesianAxis) {
