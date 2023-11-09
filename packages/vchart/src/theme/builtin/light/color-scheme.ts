@@ -50,7 +50,7 @@ export const colorScheme: IThemeColorScheme = {
       playerControllerColor: '#0040ff',
 
       /** 滚动条滑块颜色 */
-      scrollBarSliderColor: '#000000',
+      scrollBarSliderColor: 'rgba(0,0,0,0.3)',
 
       /** 轴高亮标记背景色 */
       axisMarkerBackgroundColor: '#21252c',
