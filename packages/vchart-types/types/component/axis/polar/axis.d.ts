@@ -43,7 +43,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     changeRegions(): void;
     protected _initData(): void;
     afterCompile(): void;
-    protected updateScaleRange(): void;
+    protected updateScaleRange(): boolean;
     protected collectData(depth: number): {
         min: number;
         max: number;

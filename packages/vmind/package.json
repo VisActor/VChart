@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vmind",
-  "version": "1.0.6-alpha.5",
+  "version": "1.0.8",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
@@ -52,10 +52,10 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "6.9.0",
-    "@visactor/vrender": "~0.16.11",
+    "@visactor/vrender": "~0.16.12",
     "@visactor/vdataset": "~0.16.6",
     "@rollup/plugin-dynamic-import-vars": "~2.1.0",
-    "@visactor/vutils-extension": "workspace:1.6.0",
+    "@visactor/vutils-extension": "workspace:1.6.1",
     "@ffmpeg/core": "^0.11.0",
     "@ffmpeg/ffmpeg": "^0.11.6"
   },
@@ -63,10 +63,10 @@
     "@arco-design/web-react": "2.46.1"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.6.0",
-    "@visactor/vrender": "~0.16.11",
+    "@visactor/vchart": "workspace:1.6.1",
+    "@visactor/vrender": "~0.16.12",
     "@visactor/vdataset": "~0.16.6",
-    "@visactor/vutils": "~0.16.6",
+    "@visactor/vutils": "~0.16.7",
     "axios": "^1.4.0",
     "exceljs": "^4.3.0",
     "lodash": "4.17.21",

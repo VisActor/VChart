@@ -1,6 +1,7 @@
 import type { Datum } from '../../typings/common';
 import type { ILabelInfo } from './label';
 import type { LabelItem, Strategy } from '@visactor/vrender-components';
+import type { ILabelSpec } from './interface';
 export declare const labelRuleMap: {
     rect: typeof barLabel;
     symbol: typeof symbolLabel;
@@ -16,7 +17,7 @@ export declare enum LabelRule {
     point = "point",
     stackLabel = "stackLabel"
 }
-export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: (text: string | string[], datum?: any) => string | string[]): any;
+export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod']): any;
 export declare function symbolLabel(labelInfo: ILabelInfo): {
     position: string | ((datum: Datum) => any);
     overlap: boolean | {
