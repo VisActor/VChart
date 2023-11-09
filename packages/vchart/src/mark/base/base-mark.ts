@@ -354,6 +354,10 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     if (stateStyle.referer) {
       return stateStyle.referer._computeAttribute(key, state);
     }
+    if (typeof stateStyle.style === 'function') {
+      return (datum: Datum, opt: IAttributeOpt) =>
+        stateStyle.style(datum, this._attributeContext, opt, this.getDataView());
+    }
 
     if (GradientType.includes(stateStyle.style.gradient)) {
       // 渐变色处理，支持各个属性回调
@@ -369,13 +373,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       return (datum: Datum, opt: IAttributeOpt) => stateStyle.style.scale.scale(datum[stateStyle.style.field]);
     }
 
-    return (datum: Datum, opt: IAttributeOpt) => {
-      if (typeof stateStyle.style === 'function') {
-        return stateStyle.style?.(datum, this._attributeContext, opt, this.getDataView());
-      }
-
-      return stateStyle.style;
-    };
+    return (datum: Datum, opt: IAttributeOpt) => stateStyle.style;
   }
 
   private _initStyle(): void {
