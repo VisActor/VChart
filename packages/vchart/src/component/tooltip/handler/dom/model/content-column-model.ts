@@ -19,6 +19,12 @@ import { mergeSpec } from '../../../../../util/spec/merge-spec';
 
 export type ContentColumnType = 'shape-box' | 'key-box' | 'value-box';
 
+/** 默认的标签样式，覆盖外界对这些属性的预先配置 */
+const defaultLabelStyle: Partial<CSSStyleDeclaration> = {
+  overflowWrap: 'normal',
+  wordWrap: 'normal'
+};
+
 export class ContentColumnModel extends BaseTooltipModel {
   readonly className: ContentColumnType;
 
@@ -84,7 +90,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         const { key, isKeyAdaptive } = line;
         childStyle = mergeSpec({}, isKeyAdaptive ? defaultAdaptiveKeyStyle : defaultKeyStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
-          overflowWrap: 'normal', // 覆盖外界对此属性的预先配置
+          ...defaultLabelStyle,
           ...tooltipStyle.keyColumn.common,
           ...tooltipStyle.keyColumn.items?.[i]
         } as Partial<CSSStyleDeclaration>);
@@ -98,7 +104,7 @@ export class ContentColumnModel extends BaseTooltipModel {
       } else if (this.className === 'value-box') {
         childStyle = mergeSpec({}, defaultValueStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
-          overflowWrap: 'normal', // 覆盖外界对此属性的预先配置
+          ...defaultLabelStyle,
           ...tooltipStyle.valueColumn.common,
           ...tooltipStyle.valueColumn.items?.[i]
         } as Partial<CSSStyleDeclaration>);
