@@ -21,6 +21,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     protected _linksSeriesData?: SeriesData;
     private _viewBox;
     protected _categoryField: string;
+    private _colorScale;
     getCategoryField(): string;
     setCategoryField(f: string): string;
     protected _valueField: string;
@@ -46,7 +47,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     protected _handleNodeRelatedClick: (element: IElement) => void;
     protected _handleLinkRelatedClick: (element: IGlyphElement) => void;
     protected initTooltip(): void;
-    getNodeOrdinalColorScale(item: string): any;
+    _setNodeOrdinalColorScale(): void;
     getNodeList(): any;
     _getNodeNameFromData(datum: Datum): any;
     extractNamesFromTree(tree: any, categoryName: string): Set<unknown>;
