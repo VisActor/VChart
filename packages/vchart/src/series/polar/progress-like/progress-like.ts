@@ -265,7 +265,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
   }
 
   protected _getAngleAxisTickData(angleAxis?: IPolarAxis): IContinuousTickData[] {
-    const tickData = angleAxis?.getTickData().getLatestData();
+    const tickData = angleAxis?.getTickData()?.getLatestData();
     return tickData;
   }
 

@@ -213,7 +213,7 @@ export class BaseChart extends CompilableBase implements IChart {
     // scale
     this._createGlobalScale();
     // background
-    this._spec.background && this._createBackground();
+    this._spec.background && typeof this._spec.background === 'object' && this._createBackground();
     // 基础内容
     this._createLayout();
     // 基于spec 创建元素。
