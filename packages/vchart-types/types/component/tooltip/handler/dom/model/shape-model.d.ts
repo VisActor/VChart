@@ -10,6 +10,7 @@ export interface IShapeSvgOption {
     lineWidth?: number;
     hollow?: boolean;
     marginTop?: string;
+    index?: number;
 }
 export declare class ShapeModel extends BaseTooltipModel {
     svg: SVGElement;
