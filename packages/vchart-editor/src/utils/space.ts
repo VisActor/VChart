@@ -88,3 +88,11 @@ export function getLayoutLine(rect: IRect, opt: {}, orient: 'x' | 'y' | 'xy' = '
   }
   return result;
 }
+
+export function SamePointApproximate(a: IPoint, b: IPoint, accuracy: number = 3) {
+  return SameValueApproximate(a.x, b.x, accuracy) && SameValueApproximate(a.y, b.y, accuracy);
+}
+
+export function SameValueApproximate(a: number, b: number, accuracy: number = 3) {
+  return Math.floor(a * 10 ** accuracy) === Math.floor(b * 10 ** accuracy);
+}

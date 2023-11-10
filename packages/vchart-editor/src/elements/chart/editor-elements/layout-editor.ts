@@ -6,7 +6,6 @@ import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
 import {
   getAxisLayoutInRegionRect,
-  getChartModelWithModelInfo,
   IgnoreModelTypeInLayout,
   transformModelRect,
   transformModelRectRevert
@@ -102,6 +101,8 @@ export class LayoutEditorElement extends BaseEditorElement {
       stage: this._layer.getStage(),
       startHandler: () => {
         this._controller.editorRun('layout');
+        // 暂时只清除 marker 。自身不清除，其他编辑模块监听stage，可以自己清除
+        this._chart.clearMarkerEditorElement();
         // disable over
         this._chart.option.getAllLayers().forEach(l => {
           l.elements.forEach(e => (e.overAble = false));

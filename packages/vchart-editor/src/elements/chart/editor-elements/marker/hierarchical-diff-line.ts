@@ -14,6 +14,7 @@ import { findClosestPoint } from '../../utils/math';
 import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
+import { SamePointApproximate, SameValueApproximate } from '../../../../utils/space';
 
 const START_LINK_HANDLER = 'overlay-hier-diff-mark-line-start-handler';
 const MIDDLE_LINK_HANDLER = 'overlay-hier-diff-mark-line-middle-handler';
@@ -200,7 +201,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       y: this._fixedAnchorHandler.attribute.y
     };
     dataAnchors.getChildren().forEach((child: any) => {
-      if (child.attribute.x === unenableDataPoint.x && child.attribute.y === unenableDataPoint.y) {
+      if (SamePointApproximate(child.attribute, unenableDataPoint)) {
         child.setAttribute('visible', false);
         this._fixedAnchorHandler.data = child.data;
       } else {
@@ -556,8 +557,10 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
           x: this._overlayStartHandler.attribute.x,
           y: this._overlayStartHandler.attribute.y
         },
-        closestPoint.points.find((point: Point) => point.x === this._overlayStartHandler.attribute.x),
-        closestPoint.points.find((point: Point) => point.x === this._overlayEndHandler.attribute.x),
+        closestPoint.points.find((point: Point) =>
+          SameValueApproximate(point.x, this._overlayStartHandler.attribute.x)
+        ),
+        closestPoint.points.find((point: Point) => SameValueApproximate(point.x, this._overlayEndHandler.attribute.x)),
         {
           x: this._overlayEndHandler.attribute.x,
           y: this._overlayEndHandler.attribute.y
@@ -599,11 +602,11 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
         point => point.y === this._overlayEndHandler.attribute.y
       );
     } else {
-      startPoint = this._overlayMiddleHandler.attribute.points.find(
-        point => point.x === this._overlayStartHandler.attribute.x
+      startPoint = this._overlayMiddleHandler.attribute.points.find(point =>
+        SameValueApproximate(point.x, this._overlayStartHandler.attribute.x)
       );
-      endPoint = this._overlayMiddleHandler.attribute.points.find(
-        point => point.x === this._overlayEndHandler.attribute.x
+      endPoint = this._overlayMiddleHandler.attribute.points.find(point =>
+        SameValueApproximate(point.x, this._overlayEndHandler.attribute.x)
       );
     }
 

@@ -186,7 +186,7 @@ export class EditorChart extends BaseElement {
   }
 
   protected _afterRender() {
-    this._layoutEditor.checkCurrentEditorElementBounds();
+    this._layoutEditor?.checkCurrentEditorElementBounds();
     super._afterRender();
   }
 
@@ -335,8 +335,15 @@ export class EditorChart extends BaseElement {
   }
 
   clearCurrentEditorElement() {
+    this.clearModelEditorElement();
+    this.clearMarkerEditorElement();
+  }
+
+  clearModelEditorElement() {
     this._event.emitter.emit('unPickModel', null);
-    //TODO: clear mark editor element
+  }
+
+  clearMarkerEditorElement() {
     this._avgMarkLineEditor?.clearEditComponent();
     this._markAreaEditor?.clearEditComponent();
     this._growthMarkLineEditor?.clearEditComponent();

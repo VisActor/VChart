@@ -337,11 +337,7 @@ export class BoxSelection {
 
   protected _inBoxSelection() {
     this._state = 'start';
-    this.context.editor.layers.forEach(l => {
-      l.elements.forEach(e => {
-        e.clearCurrentEditorElement();
-      });
-    });
+    this.context.editor.clearCurrentEditorElement();
     this.context.editor.editorController.setEditorElements(null, null);
   }
 

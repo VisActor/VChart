@@ -303,4 +303,12 @@ export class VChartEditor {
   getPosWithPath(path: any[]) {
     return this._layers[0].getPosWithPath(path);
   }
+
+  clearCurrentEditorElement() {
+    this._layers.forEach(l => {
+      l.elements.forEach(e => {
+        e.clearCurrentEditorElement();
+      });
+    });
+  }
 }

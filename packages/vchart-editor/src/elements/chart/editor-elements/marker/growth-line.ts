@@ -25,6 +25,7 @@ import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
 import type { IBandLikeScale } from '@visactor/vscale';
+import { SamePointApproximate } from '../../../../utils/space';
 
 const START_LINK_HANDLER = 'overlay-growth-mark-line-start-handler';
 const END_LINK_HANDLER = 'overlay-growth-mark-line-end-handler';
@@ -85,7 +86,6 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
     const dataPoints = this._getAnchorPoints();
     const lineShape = this._element.getLine();
-
     const editComponent = createGroup({
       pickable: false
     });
@@ -102,12 +102,11 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     overlayLine.name = 'overlay-growth-mark-line-line';
     this._overlayLine = overlayLine;
     editComponent.add(overlayLine);
-
     const relativeDataPoints = [
       (lineShape.attribute.points as Point[])[0],
       last(lineShape.attribute.points as Point[])
     ].map(point => {
-      return dataPoints.find((dataPoint: DataPoint) => dataPoint.x === point.x && dataPoint.y === point.y);
+      return dataPoints.find((dataPoint: DataPoint) => SamePointApproximate(dataPoint, point));
     });
 
     let startLinkLine;
@@ -280,7 +279,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
             y: (this._fixedHandler as unknown as ISymbol).attribute.y
           };
     this._dataAnchors.getChildren().forEach((child: any) => {
-      if (child.attribute.x === unenableDataPoint.x && child.attribute.y === unenableDataPoint.y) {
+      if (SamePointApproximate(child.attribute, unenableDataPoint)) {
         child.setAttribute('visible', false);
         // @ts-ignore
         this._fixedHandler.data = child.data;
