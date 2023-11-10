@@ -6,6 +6,7 @@ import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
 import {
   getAxisLayoutInRegionRect,
+  getChartModelWithModelInfo,
   IgnoreModelTypeInLayout,
   transformModelRect,
   transformModelRectRevert
@@ -16,6 +17,8 @@ import { LayoutEditorComponent } from '../../../component/layout-component';
 import type { EventParams } from '@visactor/vchart';
 import { isSameModelInfo } from '../../../utils/spec';
 import type { VRenderPointerEvent } from '../../interface';
+import type { VChart } from '@visactor/vchart';
+import { refreshModelInVChart } from '../utils/common';
 
 const CartesianAxisResize = {
   left: [false, false, false, true, false, false, false, false],
@@ -141,7 +144,8 @@ export class LayoutEditorElement extends BaseEditorElement {
   }
 
   private _updateLayout(info: { model: IChartModel; layoutMeta: LayoutMeta }, layoutData: ILayoutAttribute) {
-    const { model, layoutMeta } = info;
+    const { layoutMeta } = info;
+    const model = refreshModelInVChart(info.model, this._chart.vchart as VChart);
     const chart = this._chart;
     const rect = { ...model.computeBoundsInRect(layoutData as any) } as IRect;
     const bounds = model.getGraphicBounds?.();
@@ -229,6 +233,37 @@ export class LayoutEditorElement extends BaseEditorElement {
       }
     });
     return element;
+  }
+
+  checkCurrentEditorElementBounds() {
+    if (!this._layoutComponent?.editorBox) {
+      return;
+    }
+    if (!this._chart.option.editorEvent.isCurrentLayoutEditorBox(this._layoutComponent.editorBox)) {
+      return;
+    }
+    if (!this._currentEl?.model) {
+      return;
+    }
+    if (this._currentEl.model.type === 'title' || this._currentEl.model.type === 'discreteLegend') {
+      const model = refreshModelInVChart(this._currentEl.model, this._chart.vchart as VChart);
+      const bounds = model.getGraphicBounds();
+      this._layoutComponent.updateBounds({
+        ...bounds
+      });
+      // update layout data
+      this._chart.layout.setModelLayoutData({
+        id: model.userId,
+        specKey: model.specKey,
+        specIndex: model.getSpecIndex(),
+        layout: {
+          x: { offset: bounds.x1 },
+          y: { offset: bounds.y1 },
+          width: { offset: bounds.x2 - bounds.x1 },
+          height: { offset: bounds.y2 - bounds.y1 }
+        }
+      });
+    }
   }
 
   releaseLast() {

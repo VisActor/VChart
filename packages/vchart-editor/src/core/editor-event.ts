@@ -155,6 +155,9 @@ export class EditorEvent {
   setCurrentLayoutEditorBox(editorBox: TransformComponent2) {
     this._currentEditorBox = editorBox;
   }
+  getCurrentEditorBox() {
+    return this._currentEditorBox;
+  }
 
   isEventInLayoutEditorBox(e: VRenderPointerEvent) {
     if (!this._currentEditorBox || !e) {

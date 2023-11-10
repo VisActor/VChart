@@ -185,6 +185,11 @@ export class EditorChart extends BaseElement {
     }
   }
 
+  protected _afterRender() {
+    this._layoutEditor.checkCurrentEditorElementBounds();
+    super._afterRender();
+  }
+
   protected _currentVChartFlow: any = null;
   async _updateNextTick() {
     if (!this._currentVChartFlow) {
