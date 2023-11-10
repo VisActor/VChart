@@ -113,8 +113,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // scales
     this.initScales();
     this.updateSeriesScale();
-    // data
-    this._initData();
+    // data，当且仅当轴展示的时候处理
+    this.getVisible() && this._initData();
 
     if (this._visible) {
       // 创建语法元素
@@ -270,7 +270,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
-    if (updateType === 'force' || !isEqual(this._scale.range(), [0, 1])) {
+    if (this._tickData && (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))) {
       this._tickData.getDataView().reRunAllTransform();
       this._tickData.updateData();
     }

@@ -23,13 +23,15 @@ export const mergeThemeAndGet = (
   specTheme?: string | ITheme,
   colorScheme?: IThemeColorScheme
 ) => {
-  if (isString(specTheme) && ThemeManager.themeExist(specTheme)) {
+  if (specTheme && isString(specTheme) && ThemeManager.themeExist(specTheme)) {
     // 以 specTheme 为最底开始合并
     return getMergedValue(getThemeValue(path, specTheme, colorScheme));
-  } else if (isString(optionTheme) && ThemeManager.themeExist(optionTheme)) {
+  }
+  if (optionTheme && isString(optionTheme) && ThemeManager.themeExist(optionTheme)) {
     // 以 optionTheme 为最底开始合并
     return getMergedValue(getThemeValue(path, optionTheme, colorScheme), getThemeValue(path, specTheme, colorScheme));
   }
+
   // 以 baseTheme 为最底开始合并
   return getMergedValue(
     getThemeValue(path, currentThemeName, colorScheme),
@@ -40,7 +42,7 @@ export const mergeThemeAndGet = (
 
 /** 从 theme 取特定 path 的值，但可能会改变形式为 merge 作准备 */
 const getThemeValue = (path: string, theme?: string | ITheme, colorScheme?: IThemeColorScheme) => {
-  if (isNil(theme)) {
+  if (!theme) {
     return undefined;
   }
 
@@ -50,21 +52,22 @@ const getThemeValue = (path: string, theme?: string | ITheme, colorScheme?: IThe
   } else if (isObject(theme)) {
     themeObject = theme;
   }
-  if (isNil(themeObject)) {
+  if (!themeObject) {
     return undefined;
   }
-
-  const paths = path.split('.');
 
   const colorSchemePath: keyof ITheme = 'colorScheme';
   if (path === colorSchemePath) {
     return transformColorSchemeToMerge(themeObject.colorScheme);
   }
+
   const backgroundPath: keyof ITheme = 'background';
   if (path === backgroundPath) {
     return getActualColor(themeObject.background, colorScheme);
   }
+
   const seriesPath: keyof ITheme = 'series';
+  const paths = path.split('.');
   if (paths.length === 2 && paths[0] === seriesPath) {
     const { markByName, mark } = themeObject;
     return transformSeriesThemeToMerge(get(themeObject, paths), paths[1], mark, markByName);

@@ -211,6 +211,10 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   }
 
   protected _initTheme(theme?: any) {
+    if (this.getVisible() === false) {
+      // 不展示不需要处理主题
+      return;
+    }
     if (theme) {
       this._theme = theme;
     } else {

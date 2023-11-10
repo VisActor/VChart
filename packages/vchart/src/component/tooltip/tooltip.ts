@@ -531,7 +531,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   }
 
   getVisible() {
-    return this._spec.visible === true;
+    return this._spec.visible !== false;
   }
 }
 

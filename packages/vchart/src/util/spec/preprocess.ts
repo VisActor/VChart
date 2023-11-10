@@ -1,5 +1,4 @@
 import { isArray, isFunction, isNil, isObject, isString, isValid, isValidNumber } from '@visactor/vutils';
-import type { SeriesTypeEnum } from '../../series/interface/type';
 import { seriesMarkNameSet } from '../../series/interface/type';
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 import { isDataView, isHTMLElement } from './common';
@@ -7,6 +6,7 @@ import { getActualColor, isColorKey } from '../../theme/color-scheme/util';
 import { normalizeLayoutPaddingSpec } from '../space';
 import type { ISeriesSpec } from '../../typings';
 
+// TODO：区分主题和 spec 逻辑
 /**
  * 对 spec 或者类 spec 配置（如 theme）进行预处理，如进行语义化颜色的转换等
  * @param type 需要转换的对象类型（spec 或者 theme）

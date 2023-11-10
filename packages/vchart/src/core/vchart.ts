@@ -258,8 +258,9 @@ export class VChart implements IVChart {
     this._onError = this._option?.onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
+    const isTrueBrowseEnv = isTrueBrowser(mode);
 
-    if (dom) {
+    if (isTrueBrowseEnv && dom) {
       this._container = isString(dom) ? document?.getElementById(dom) : dom;
     }
     if (renderCanvas) {
@@ -273,9 +274,8 @@ export class VChart implements IVChart {
       this._option?.onError('please specify container or renderCanvas!');
       return;
     }
-
     // 根据 mode 配置动态加载浏览器或 node 环境代码
-    if (isTrueBrowser(mode)) {
+    if (isTrueBrowseEnv) {
       registerBrowserEnv();
     } else if (mode === 'node') {
       registerNodeEnv();
@@ -314,7 +314,7 @@ export class VChart implements IVChart {
       text: { fontFamily: this._currentChartLevelTheme.fontFamily }
     });
     this._initDataSet(this._option.dataSet);
-    this._autoSize = isTrueBrowser(mode) ? spec.autoFit ?? this._option.autoFit ?? true : false;
+    this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
     this._event.emit(ChartEvent.initialized, {});
@@ -368,7 +368,7 @@ export class VChart implements IVChart {
     this._chart = chart;
     this._chart.setCanvasRect(this._curSize.width, this._curSize.height);
     this._chart.created();
-    this._chart.init({});
+    this._chart.init();
   }
 
   private _releaseData() {
@@ -1007,7 +1007,7 @@ export class VChart implements IVChart {
       this._compiler.renderSync();
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      this._chart?.onEvaluateEnd();
+      this._chart.onEvaluateEnd();
     }
     // 获取 compiler
     this._compiler.updateViewBox(viewBox, reRender);

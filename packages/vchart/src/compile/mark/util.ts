@@ -60,6 +60,7 @@ function symbolAttrTransform(attr: string, value: any) {
   }
 }
 
+// TODO：沉淀到 VRender
 const chartShapes = {
   arrowLeft: 'M 0.25 -0.5 L -0.25 0 l 0.5 0.5',
   arrowRight: 'M -0.25 -0.5 l 0.5 0.5 l -0.5 0.5',

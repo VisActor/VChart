@@ -71,7 +71,7 @@ export interface IChart extends ICompilable {
   //生命周期
   created: () => void;
   transformSpec: (spec: any) => void;
-  init: (option: IChartInitOption) => void;
+  init: () => void;
   onLayoutStart: (ctx: IChartLayoutOption) => void;
   onLayoutEnd: (ctx: IChartLayoutOption) => void;
   onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
