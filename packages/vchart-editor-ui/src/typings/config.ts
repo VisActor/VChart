@@ -78,6 +78,10 @@ export interface ILineTypeComponentConfig extends IBaseComponentConfig {
   default?: LineType;
 }
 
+export interface IShapeComponentConfig extends IBaseComponentConfig {
+  default?: string;
+}
+
 export interface ICustomBaseComponentConfig extends IBaseComponentConfig {
   default?: any;
   value?: any;

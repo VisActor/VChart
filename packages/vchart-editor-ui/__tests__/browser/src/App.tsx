@@ -103,7 +103,8 @@ function App() {
             count: 'sliderNumber',
             interval: 'sliderNumber',
             borderRadius: 'sliderNumber',
-            lineType: 'lineType'
+            lineType: 'lineType',
+            shape: 'shape'
           }
         }}
         sections={{
@@ -112,7 +113,8 @@ function App() {
               { key: 'count', label: '柱体个数' },
               { key: 'interval', label: '柱间距', unit: '%', default: 50, min: 0, max: 100 },
               { key: 'borderRadius', label: '柱体圆角', unit: '%', default: 50, min: 0, max: 100 },
-              { key: 'lineType', label: 'line dash' }
+              { key: 'lineType', label: 'line dash' },
+              { key: 'shape', label: 'shape' }
             ]
           }
         }}

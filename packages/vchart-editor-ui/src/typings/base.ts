@@ -9,6 +9,7 @@ import type {
   ILineTypeComponentConfig,
   IPaletteComponentConfig,
   ISelectComponentConfig,
+  IShapeComponentConfig,
   ISliderNumberComponentConfig,
   ISwitchComponentConfig,
   ITextAlignComponentConfig
@@ -84,4 +85,8 @@ export interface IBasePaletteComponentProps extends IBaseComponentProps<IPalette
 
 export interface IBaseLineTypeComponentProps extends IBaseComponentProps<ILineTypeComponentConfig> {
   lineType: LineType;
+}
+
+export interface IBaseShapeComponentProps extends IBaseComponentProps<IShapeComponentConfig> {
+  shape: string;
 }
