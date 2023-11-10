@@ -349,15 +349,15 @@ export class Compiler {
   releaseGrammar(clearGraphic: boolean = false) {
     this._releaseModel();
     // TODO vgrammar 后续会提供正式的api
-    if (clearGraphic) {
-      this._view?.traverseMarkTree((mark: IMark) => {
-        if (mark.graphicItem && mark.graphicItem.parent) {
-          mark.graphicItem.parent.removeChild(mark.graphicItem);
-        }
-      });
-    }
+    // if (clearGraphic) {
+    //   this._view?.traverseMarkTree((mark: IMark) => {
+    //     if (mark.graphicItem && mark.graphicItem.parent) {
+    //       mark.graphicItem.parent.removeChild(mark.graphicItem);
+    //     }
+    //   });
+    // }
     this._view?.removeAllGrammars();
-    this._view = null;
+    // this._view = null;
   }
 
   protected _releaseModel() {
