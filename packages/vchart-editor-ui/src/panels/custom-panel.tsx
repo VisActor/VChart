@@ -12,6 +12,7 @@ import type {
   ILineTypeComponentConfig,
   IPaletteComponentConfig,
   ISelectComponentConfig,
+  IShapeComponentConfig,
   ISliderNumberComponentConfig,
   ISwitchComponentConfig,
   ITextAlignComponentConfig
@@ -30,6 +31,7 @@ import { FontSize } from '../base/font-size';
 import { defaultBaseComponentConfig } from '../config/base';
 import { Palette } from '../base/palette';
 import { LineType } from '../base/line-type';
+import { Shape } from '../base/shape';
 
 function generatePanelValue(
   sections: Record<string, IPanelSection>,
@@ -217,6 +219,21 @@ function generateEntry(
             onChange?.(section, entry.key, value);
           }}
           config={entry as IPaletteComponentConfig}
+        />
+      );
+    case 'shape':
+      return (
+        <Shape
+          key={`${entry.key}-${postKey ?? 0}`}
+          label={entry.label}
+          tooltip={entry.tooltip}
+          shape={value}
+          onChange={value => {
+            const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
+            setPanelValue(newPanelValue);
+            onChange?.(section, entry.key, value);
+          }}
+          config={entry as IShapeComponentConfig}
         />
       );
     case 'lineType':
