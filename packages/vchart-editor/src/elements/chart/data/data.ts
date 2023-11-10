@@ -18,7 +18,7 @@ export class Data implements IData {
     this._dataSet = new DataSet();
   }
   getDataInfo(): DataInfo {
-    return this._dataView?.getFields?.() ?? this._parser.getDataInfo?.();
+    return this._dataView?.getFields?.() ?? this._parser?.getDataInfo?.();
   }
   getSpecOption() {
     return this._parser.getSpecOption?.();

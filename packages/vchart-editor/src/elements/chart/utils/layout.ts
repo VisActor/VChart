@@ -18,6 +18,7 @@ export function transformModelPos(i: IChartModel, pos: IPoint) {
 }
 
 export function transformModelRect(i: IChartModel, rect: IRect) {
+  // console.log('transformModelRect', i.type);
   if (i.type.startsWith('cartesianAxis')) {
     if (i.layoutOrient === 'left') {
       rect.x -= rect.width;
@@ -70,6 +71,13 @@ export function getAxisLayoutInRegionRect(axis: ILayoutItem, rect: IRect): ILayo
       width: { offset: rect.width },
       height: { offset: axis.getLayoutRect().height }
     };
+  } else if (axis.layoutOrient === 'angle' || axis.layoutOrient === 'radius') {
+    return {
+      x: { offset: rect.x },
+      y: { offset: rect.y },
+      width: { offset: 0 },
+      height: { offset: 0 }
+    };
   }
   const axisRect = axis.getLayoutRect();
   const axisPos = axis.getLayoutStartPoint();
@@ -107,7 +115,8 @@ export const IgnoreModelTypeInLayout = {
   markLine: true,
   crosshair: true,
   brush: true,
-  cartesianCrosshair: true
+  cartesianCrosshair: true,
+  polarCrosshair: true
 };
 
 export const IgnoreModelTypeInCommon = {
@@ -116,5 +125,6 @@ export const IgnoreModelTypeInCommon = {
   layout: true,
   markLine: true,
   crosshair: true,
-  brush: true
+  brush: true,
+  polarCrosshair: true
 };

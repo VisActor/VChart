@@ -99,18 +99,28 @@ export class ChartLayout implements IChartLayout {
   }
 
   layoutWithData(chart: IVChart, item: IChartModel[], chartLayoutRect: IRect, chartViewBox: IBoundsLike) {
-    item.forEach(i => {
-      const data = this._layoutData.data.find(d => isModelMatchModelInfo(i, d));
-      if (!data) {
-        return;
-      }
-      const rect = LayoutRectToRect(data.layout);
-      i.computeBoundsInRect(rect);
-      i.setLayoutRect(rect);
-      const pos = { x: data.layout.x.offset, y: data.layout.y.offset };
-      transformModelPos(i, pos);
-      i.setLayoutStartPosition(pos);
-    });
+    item
+      .sort((a, b) => {
+        if (a.type === 'region') {
+          return -1;
+        }
+        if (b.type === 'region') {
+          1;
+        }
+        return 0;
+      })
+      .forEach(i => {
+        const data = this._layoutData.data.find(d => isModelMatchModelInfo(i, d));
+        if (!data) {
+          return;
+        }
+        const rect = LayoutRectToRect(data.layout);
+        i.computeBoundsInRect(rect);
+        i.setLayoutRect(rect);
+        const pos = { x: data.layout.x.offset, y: data.layout.y.offset };
+        transformModelPos(i, pos);
+        i.setLayoutStartPosition(pos);
+      });
   }
 
   getOverModel(pos: IPoint, layer: IEditorLayer) {

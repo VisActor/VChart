@@ -45,8 +45,12 @@ export class EditorData {
     this.saveData();
   }
 
+  forwardEnable() {
+    return this._currentIndex < this._history.length - 1;
+  }
+
   forward() {
-    if (this._currentIndex >= this._history.length - 1) {
+    if (!this.forwardEnable()) {
       return;
     }
     this._currentIndex++;
@@ -55,8 +59,13 @@ export class EditorData {
     this._clearEditorElement();
     this.saveData();
   }
+
+  backwardEnable() {
+    return this._currentIndex >= 0;
+  }
+
   backward() {
-    if (this._currentIndex < 0) {
+    if (!this.backwardEnable()) {
       return;
     }
     const hisList = this._history[this._currentIndex];

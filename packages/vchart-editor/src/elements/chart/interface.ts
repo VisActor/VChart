@@ -15,7 +15,7 @@ export interface IChartElementOption extends IElementOption {
 
 export type ILayoutType = 'region-relative' | 'region' | 'normal' | 'absolute' | 'normal-inline';
 
-export type IOrientType = 'left' | 'top' | 'right' | 'bottom' | 'z';
+export type IOrientType = 'left' | 'top' | 'right' | 'bottom' | 'z' | 'radius' | 'angle';
 
 export interface ILayoutRectLevel {
   width: number;
