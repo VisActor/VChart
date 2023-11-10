@@ -16,7 +16,7 @@ import { sankeyNodes } from '../../data/transforms/sankey-nodes';
 import { sankeyLinks } from '../../data/transforms/sankey-links';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DataView } from '@visactor/vdataset';
-import { LayoutZIndex, AttributeLevel, Event_Bubble_Level, ChartEvent } from '../../constant';
+import { LayoutZIndex, AttributeLevel, Event_Bubble_Level, DEFAULT_DATA_INDEX } from '../../constant';
 import { SeriesData } from '../base/series-data';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
@@ -37,6 +37,7 @@ import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
 import type { IBaseScale } from '@visactor/vscale';
+import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -94,9 +95,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       registerDataSetInstanceTransform(this._dataSet, 'sankeyLayout', sankeyLayout);
       registerDataSetInstanceTransform(this._dataSet, 'sankeyFormat', sankeyFormat);
 
-      rawData.transform({
-        type: 'sankeyFormat'
-      });
+      rawData.transform(
+        {
+          type: 'sankeyFormat'
+        },
+        false
+      );
 
       viewData.transform({
         type: 'sankeyLayout',
@@ -157,6 +161,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         false
       );
 
+      nodesDataView.transform(
+        {
+          type: 'addVChartProperty',
+          options: {
+            beforeCall: initKeyMap.bind(this),
+            call: addDataKey
+          }
+        },
+        false
+      );
+
       this._nodesSeriesData = new SeriesData(this._option, nodesDataView);
 
       registerDataSetInstanceTransform(dataSet, 'sankeyLinks', sankeyLinks);
@@ -167,6 +182,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       linksDataView.transform({
         type: 'sankeyLinks'
       });
+
+      linksDataView.transform(
+        {
+          type: 'addVChartProperty',
+          options: {
+            beforeCall: initKeyMap.bind(this),
+            call: addDataKey
+          }
+        },
+        false
+      );
       this._linksSeriesData = new SeriesData(this._option, linksDataView);
     }
   }
@@ -174,7 +200,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   initMark(): void {
     const nodeMark = this._createMark(SankeySeries.mark.node, {
       isSeriesMark: true,
-      key: 'key',
+      key: DEFAULT_DATA_INDEX,
       dataView: this._nodesSeriesData.getDataView(),
       dataProductId: this._nodesSeriesData.getProductId()
     }) as IRectMark;
@@ -184,7 +210,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     const linkMark = this._createMark(SankeySeries.mark.link, {
-      key: 'key',
+      key: DEFAULT_DATA_INDEX,
       dataView: this._linksSeriesData.getDataView(),
       dataProductId: this._linksSeriesData.getProductId()
     }) as ILinkPathMark;
@@ -194,7 +220,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     if (this._spec.label?.visible) {
       const labelMark = this._createMark(SankeySeries.mark.label, {
-        key: 'key',
+        key: DEFAULT_DATA_INDEX,
         dataView: this._nodesSeriesData.getDataView(),
         dataProductId: this._nodesSeriesData.getProductId()
       }) as ITextMark;
@@ -1301,35 +1327,53 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     return [this._valueField];
   }
 
-  getSeriesKeys(): string[] {
-    if (this._seriesField) {
-      const keyArray: any[] = [];
-      const rawData = this.getRawData()?.latestData?.[0];
-
-      if (!rawData) {
-        return [];
-      }
-
-      if ((rawData as any).links) {
-        //node-link型数据
-        if ((rawData as any).nodes?.length) {
-          (rawData as any).nodes.forEach((node: any) => {
-            if (node[this._seriesField]) {
-              keyArray.push(node[this._seriesField]);
-            }
-          });
-        }
-      } else if ((rawData as any).nodes) {
-        const set = new Set<string>();
-        // 层级型数据
-        collectHierarchyField(set, (rawData as any).nodes, this._seriesField);
-
-        return Array.from(set);
-      }
-
-      return keyArray;
+  getRawDataStatisticsByField(field: string, isNumeric?: boolean) {
+    // overwrite the getRawDataStatisticsByField of base-series
+    if (!this._rawStatisticsCache) {
+      this._rawStatisticsCache = {};
     }
-    return [];
+
+    if (!this._rawStatisticsCache[field]) {
+      const canUseViewStatistics = this._viewDataStatistics && this.getViewData().transformsArr.length <= 1;
+
+      if (canUseViewStatistics && this._viewDataStatistics.latestData?.[field]) {
+        this._rawStatisticsCache[field] = this._viewDataStatistics.latestData[field];
+      } else if (this._rawData) {
+        this._rawStatisticsCache[field] = {
+          values: this._collectByField(field)
+        };
+      }
+    }
+
+    return this._rawStatisticsCache[field];
+  }
+
+  private _collectByField(field: string): string[] {
+    const keyArray: any[] = [];
+    const rawData = this.getRawData()?.latestData?.[0];
+
+    if (!rawData) {
+      return [];
+    }
+
+    if ((rawData as any).links) {
+      //node-link型数据
+      if ((rawData as any).nodes?.length) {
+        (rawData as any).nodes.forEach((node: any) => {
+          if (node[this._seriesField]) {
+            keyArray.push(node[this._seriesField]);
+          }
+        });
+      }
+    } else if ((rawData as any).nodes) {
+      const set = new Set<string>();
+      // 层级型数据
+      collectHierarchyField(set, (rawData as any).nodes, this._seriesField);
+
+      return Array.from(set);
+    }
+
+    return keyArray;
   }
 
   onLayoutEnd(ctx: any): void {
