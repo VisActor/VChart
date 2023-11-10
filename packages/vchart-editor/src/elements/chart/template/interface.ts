@@ -5,6 +5,7 @@ export interface IChartTemp {
   type: string;
   getSpec: (data: StandardData, info: DataInfo, opt?: any) => ISpec | null;
   checkDataEnable: (data: StandardData, info: DataInfo, opt?: any) => boolean;
+  getTempInfo?: () => any;
   clear: () => void;
 }
 

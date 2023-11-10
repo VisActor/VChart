@@ -74,7 +74,7 @@ export class ChartLayout implements IChartLayout {
   }
 
   saveLayoutData() {
-    const startPos = { x: this._layoutData.viewBox.x, y: this._layoutData.viewBox.y };
+    const startPos = { x: this._layoutData.viewBox?.x ?? 200, y: this._layoutData.viewBox?.y ?? 200 };
     const layoutData: LayoutMeta[] = [];
     const chart = this._vchart.getChart();
     const items = (<IChartModel[]>chart.getAllRegions()).concat(chart.getAllComponents() as IChartModel[]);

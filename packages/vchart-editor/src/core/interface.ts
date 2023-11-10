@@ -138,6 +138,10 @@ export interface IEditorElement {
    */
   chartType?: string;
   /**
+   * vchart 图表模版信息
+   */
+  tempInfo?: any;
+  /**
    * vchart 模型实例
    */
   model: IChartModel;

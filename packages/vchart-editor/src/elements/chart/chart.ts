@@ -175,19 +175,26 @@ export class EditorChart extends BaseElement {
       this._vchart.renderSync();
       this._afterRender();
     } else {
-      console.log('onSpecReady update spec');
       this._isRendered = false;
       // HACK: 屏蔽报错临时修改
       // eslint-disable-next-line promise/catch-or-return
       //@ts-ignore
       this._vchart.updateSpecSync(this._transformVchartSpec(this._specProcess.getVChartSpec()), false, false);
+      console.log('onSpecReady update spec', this._vchart);
       this._afterRender();
     }
   }
 
-  protected _currentUpdateFlow: any = null;
-  protected _updateNextTick() {
-    this._updateVChartSpec();
+  protected _currentVChartFlow: any = null;
+  async _updateNextTick() {
+    if (!this._currentVChartFlow) {
+      this._currentVChartFlow = Promise.resolve().then(() => {
+        this._updateVChartSpec();
+        this._currentVChartFlow = null;
+      });
+    }
+    await this._currentVChartFlow;
+    return this;
   }
 
   release() {

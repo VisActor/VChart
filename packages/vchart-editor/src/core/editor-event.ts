@@ -34,7 +34,7 @@ export class EditorEvent {
     if (!this._triggerLayer) {
       return;
     }
-    this._editor.container.style.cursor = this._triggerLayer.getCanvas().style.cursor;
+    this.setCursor(this._triggerLayer.getCanvas().style.cursor);
   };
 
   initEvent() {

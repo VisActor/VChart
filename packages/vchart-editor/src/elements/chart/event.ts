@@ -96,7 +96,11 @@ export class ChartEvent {
     while (node) {
       if (
         node.type === 'group' &&
-        (node.name === 'axis-container' || node.name === 'legend' || node.name === 'title-container')
+        node.name &&
+        (node.name === 'axis-container' ||
+          node.name === 'legend' ||
+          node.name === 'title-container' ||
+          node.name.startsWith('seriesGroup'))
       ) {
         return true;
       }

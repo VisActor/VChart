@@ -17,6 +17,12 @@ export class EditorData {
     this._data = data;
   }
 
+  clearHistory() {
+    this._history = [];
+    this._currentIndex = -1;
+    this._currentPushTemp = [];
+  }
+
   protected _currentPushFlow: any = null;
   protected _currentPushTemp: IHistory[] = [];
   async pushHistoryNextTick(h: IHistory) {

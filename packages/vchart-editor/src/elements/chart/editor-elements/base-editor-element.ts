@@ -99,6 +99,7 @@ export class CommonChartEditorElement implements IEditorElement {
   originSpec?: any;
   allModelSpec?: IModelSpec[];
   chartType: string;
+  tempInfo: any = null;
   color: string[];
   allModel?: IModelSpec[];
   chartData?: DataView;
@@ -169,6 +170,7 @@ export class CommonChartEditorElement implements IEditorElement {
     const { id, editProperties, rect } = this._opt;
     // @ts-ignore
     this.chartType = context.chart.specProcess.getEditorSpec().temp;
+    this.tempInfo = context.chart.specProcess.specTemp.getTempInfo?.();
     // @ts-ignore TODO: support get current colorTheme api in vchart
     this.color = context.chart.vchart.getChart()._globalScale.getScale('color').range();
     const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };

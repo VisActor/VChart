@@ -34,6 +34,9 @@ export class SpecProcess implements ISpecProcess {
   // vchartSpec 只作为临时转换结果，传递给vchart，不会存储。
   protected _vchartSpec: ISpec = {} as any;
   protected _specTemp: IChartTemp = null;
+  get specTemp() {
+    return this._specTemp;
+  }
   protected _data: IData = null;
   protected _chart: EditorChart = null;
 

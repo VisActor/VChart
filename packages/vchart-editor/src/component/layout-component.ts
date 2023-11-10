@@ -135,7 +135,14 @@ export class LayoutEditorComponent {
         pickable: this._opt.swallowInteraction === true,
         move: this._el.editProperties.move,
         rotate: this._el.editProperties.rotate,
-        resize: this._el.editProperties.resize
+        resize: this._el.editProperties.resize,
+        setCursor: c => {
+          if (c) {
+            this._opt.editorEvent.setCursor(c);
+          } else {
+            this._opt.editorEvent.setCursorSyncToTriggerLayer();
+          }
+        }
       },
       bounds
     );

@@ -1,3 +1,4 @@
+import type { IChartTemp } from './../template/interface';
 import type { IModelInfo } from './../../../core/interface';
 import type { ILayoutData } from '../layout/interface';
 import type { IMarkAreaSpec, IMarkLineSpec, ISpec, ITheme } from '@visactor/vchart';
@@ -24,6 +25,7 @@ export interface IEditorSpec {
 }
 
 export interface ISpecProcess {
+  specTemp: IChartTemp;
   getEditorSpec: () => IEditorSpec;
   updateEditorSpec: (spec: IEditorSpec) => void;
   updateElementAttribute: (model: IChartModel, attr: IUpdateAttributeParam, triggerHistory?: boolean) => boolean;

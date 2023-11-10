@@ -56,6 +56,8 @@ export class Data implements IData {
       const temp = this._chart.specProcess.getEditorSpec().temp;
       this._chart.clearDataForChartTypeChange(null, { clearCurrent: true });
       this._chart.specProcess.getEditorSpec().temp = temp;
+    } else if (msg === 'needClearHistory') {
+      this._chart.option.editorData.clearHistory();
     }
   };
   addDataUpdateListener(call: DataUpdateCall) {

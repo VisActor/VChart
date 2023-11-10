@@ -24,6 +24,7 @@ type TransformAttributes = {
   move?: boolean;
   rotate?: boolean;
   resize?: boolean | ResizeType;
+  setCursor?: (c: string) => void;
 } & IGroupGraphicAttribute;
 
 export type IUpdateParams = {
@@ -62,6 +63,8 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     rotate: boolean;
     resize: ResizeType;
   };
+
+  _setCursor: (c: string) => void = null;
 
   static defaultAttributes: Partial<TransformAttributes> = {
     padding: 2,
@@ -218,6 +221,7 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
   protected setCursor(c?: string) {
     if (this.stage) {
       this.stage.setCursor(c);
+      this._setCursor?.(c);
     }
   }
 
