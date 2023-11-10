@@ -9,17 +9,15 @@ import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
 import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, ITextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
-import { registerDataSetInstanceTransform, registerDataSetInstanceParser } from '../../data/register';
+import { registerDataSetInstanceTransform } from '../../data/register';
 import type { ISankeyOpt } from '../../data/transforms/sankey';
-import { sankey } from '../../data/transforms/sankey';
+import { sankeyFormat, sankeyLayout, collectHierarchyField } from '../../data/transforms/sankey';
 import { sankeyNodes } from '../../data/transforms/sankey-nodes';
 import { sankeyLinks } from '../../data/transforms/sankey-links';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
-import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
-import { DEFAULT_DATA_INDEX, LayoutZIndex, AttributeLevel, Event_Bubble_Level, ChartEvent } from '../../constant';
+import { DataView } from '@visactor/vdataset';
+import { LayoutZIndex, AttributeLevel, Event_Bubble_Level, ChartEvent } from '../../constant';
 import { SeriesData } from '../base/series-data';
-import { addVChartProperty } from '../../data/transforms/add-property';
-import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds, array, isNil } from '@visactor/vutils';
@@ -88,13 +86,20 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   initData() {
     super.initData();
+    const viewData = this.getViewData();
+    const rawData = this.getRawData();
 
-    if (this.getViewData()) {
+    if (rawData && viewData) {
       // 初始化桑基图数据
-      registerDataSetInstanceTransform(this._dataSet, 'sankey', sankey);
+      registerDataSetInstanceTransform(this._dataSet, 'sankeyLayout', sankeyLayout);
+      registerDataSetInstanceTransform(this._dataSet, 'sankeyFormat', sankeyFormat);
 
-      this.addViewDataFilter({
-        type: 'sankey',
+      rawData.transform({
+        type: 'sankeyFormat'
+      });
+
+      viewData.transform({
+        type: 'sankeyLayout',
         options: {
           view: () => {
             return {
@@ -124,13 +129,11 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         level: TransformLevel.sankeyLayout
       });
 
-      const nodesDataSet = new DataSet();
-      registerDataSetInstanceParser(nodesDataSet, 'dataview', dataViewParser);
-      registerDataSetInstanceTransform(nodesDataSet, 'sankeyNodes', sankeyNodes);
-      registerDataSetInstanceTransform(nodesDataSet, 'addVChartProperty', addVChartProperty);
       // 注册扁平化算法
-      registerDataSetInstanceTransform(nodesDataSet, 'flatten', flatten);
-      const nodesDataView = new DataView(nodesDataSet, { name: `sankey-node-${this.id}-data` });
+      const { dataSet } = this._option;
+      registerDataSetInstanceTransform(dataSet, 'sankeyNodes', sankeyNodes);
+      registerDataSetInstanceTransform(dataSet, 'flatten', flatten);
+      const nodesDataView = new DataView(dataSet, { name: `sankey-node-${this.id}-data` });
       nodesDataView.parse([this.getViewData()], {
         type: 'dataview'
       });
@@ -138,57 +141,32 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         type: 'sankeyNodes'
       });
       // sankeyNode进行扁平化处理(针对层级数据)
-      nodesDataView.transform({
-        type: 'flatten',
-        options: {
-          callback: (node: SankeyNodeElement) => {
-            if (node.datum) {
-              const nodeData = node.datum[node.depth];
-              return { ...node, ...nodeData };
-            }
-            return node;
-          }
-        }
-      });
-
       nodesDataView.transform(
         {
-          type: 'addVChartProperty',
+          type: 'flatten',
           options: {
-            beforeCall: initKeyMap.bind(this),
-            call: addDataKey
+            callback: (node: SankeyNodeElement) => {
+              if (node.datum) {
+                const nodeData = node.datum[node.depth];
+                return { ...node, ...nodeData };
+              }
+              return node;
+            }
           }
         },
         false
       );
 
-      this._data?.getDataView().target.addListener('change', nodesDataView.reRunAllTransform);
       this._nodesSeriesData = new SeriesData(this._option, nodesDataView);
 
-      const linksDataSet = new DataSet();
-      registerDataSetInstanceParser(linksDataSet, 'dataview', dataViewParser);
-      registerDataSetInstanceTransform(linksDataSet, 'sankeyLinks', sankeyLinks);
-      registerDataSetInstanceTransform(linksDataSet, 'addVChartProperty', addVChartProperty);
-      const linksDataView = new DataView(linksDataSet, { name: `sankey-link-${this.id}-data` });
+      registerDataSetInstanceTransform(dataSet, 'sankeyLinks', sankeyLinks);
+      const linksDataView = new DataView(dataSet, { name: `sankey-link-${this.id}-data` });
       linksDataView.parse([this.getViewData()], {
         type: 'dataview'
       });
       linksDataView.transform({
         type: 'sankeyLinks'
       });
-
-      linksDataView.transform(
-        {
-          type: 'addVChartProperty',
-          options: {
-            beforeCall: initKeyMap.bind(this),
-            call: addDataKey
-          }
-        },
-        false
-      );
-
-      this._data?.getDataView().target.addListener('change', linksDataView.reRunAllTransform);
       this._linksSeriesData = new SeriesData(this._option, linksDataView);
     }
   }
@@ -196,7 +174,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   initMark(): void {
     const nodeMark = this._createMark(SankeySeries.mark.node, {
       isSeriesMark: true,
-      key: DEFAULT_DATA_INDEX,
+      key: 'key',
       dataView: this._nodesSeriesData.getDataView(),
       dataProductId: this._nodesSeriesData.getProductId()
     }) as IRectMark;
@@ -206,7 +184,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     const linkMark = this._createMark(SankeySeries.mark.link, {
-      key: DEFAULT_DATA_INDEX,
+      key: 'key',
       dataView: this._linksSeriesData.getDataView(),
       dataProductId: this._linksSeriesData.getProductId()
     }) as ILinkPathMark;
@@ -216,7 +194,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     if (this._spec.label?.visible) {
       const labelMark = this._createMark(SankeySeries.mark.label, {
-        key: DEFAULT_DATA_INDEX,
+        key: 'key',
         dataView: this._nodesSeriesData.getDataView(),
         dataProductId: this._nodesSeriesData.getProductId()
       }) as ITextMark;
@@ -262,6 +240,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (!linkMark) {
       return;
     }
+
     this.setMarkStyle<ILinkPathMarkSpec>(
       linkMark,
       {
@@ -271,11 +250,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         y1: (datum: Datum) => datum.y1,
         thickness: (datum: Datum) => datum.thickness,
         fill: (datum: Datum) => {
+          const fill = this._spec.link?.style?.fill;
+
+          if (fill) {
+            return fill;
+          }
+
           const sourceName =
             this._spec?.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
               ? datum.source
               : this.getNodeList()[datum.source];
-          return this._spec.link?.style?.fill ?? this._colorScale?.scale(sourceName);
+          return this._colorScale?.scale(sourceName);
         },
         direction: this._spec.direction ?? 'horizontal'
       },
@@ -553,14 +538,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   private nodesSeriesDataUpdate() {
-    this.event.emit(ChartEvent.legendFilter, { model: this });
     this._nodesSeriesData.updateData();
 
     this._setNodeOrdinalColorScale();
   }
 
   private linksSeriesDataUpdate() {
-    this.event.emit(ChartEvent.legendFilter, { model: this });
     this._linksSeriesData.updateData();
   }
 
@@ -1321,9 +1304,29 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   getSeriesKeys(): string[] {
     if (this._seriesField) {
       const keyArray: any[] = [];
-      this._nodesSeriesData?.getDataView()?.latestData.forEach((datum: { [x: string]: any }) => {
-        keyArray.push(datum[this._seriesField] ?? datum.datum[this._seriesField]);
-      });
+      const rawData = this.getRawData()?.latestData?.[0];
+
+      if (!rawData) {
+        return [];
+      }
+
+      if ((rawData as any).links) {
+        //node-link型数据
+        if ((rawData as any).nodes?.length) {
+          (rawData as any).nodes.forEach((node: any) => {
+            if (node[this._seriesField]) {
+              keyArray.push(node[this._seriesField]);
+            }
+          });
+        }
+      } else if ((rawData as any).nodes) {
+        const set = new Set<string>();
+        // 层级型数据
+        collectHierarchyField(set, (rawData as any).nodes, this._seriesField);
+
+        return Array.from(set);
+      }
+
       return keyArray;
     }
     return [];
@@ -1332,7 +1335,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     this._viewBox.set(0, 0, this._region.getLayoutRect().width, this._region.getLayoutRect().height);
-    this._rawData.reRunAllTransform();
+
+    // calculate the sankeyLayout
     this.getViewData().reRunAllTransform();
     this._nodesSeriesData.updateData();
     this._linksSeriesData.updateData();
