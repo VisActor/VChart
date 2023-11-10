@@ -64,7 +64,7 @@ function generateEntry(
   postKey?: string | number
 ) {
   const CustomComponent = (entry as ICustomBaseComponentConfig).component;
-  const value = forcePanelValue[section][entry.key] ?? panelValue[section][entry.key];
+  const value = forcePanelValue?.[section]?.[entry.key] ?? panelValue?.[section]?.[entry.key];
   switch (componentKey) {
     case 'input':
       return (
