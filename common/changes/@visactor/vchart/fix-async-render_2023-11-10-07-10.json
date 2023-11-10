@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: update vgrammar to ~0.8.3  to fix the issue that, vrender should not auto render during renderAsync",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
