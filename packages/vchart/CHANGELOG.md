@@ -1,6 +1,19 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 08 Nov 2023 11:05:21 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Nov 2023 09:56:51 GMT and should not be manually modified.
+
+## 1.6.3
+Fri, 10 Nov 2023 09:56:51 GMT
+
+### Updates
+
+- fix: fix the issue of update animation not work for line mark
+- fix: update vgrammar to ~0.8.3  to fix the issue that, vrender should not auto render during renderAsync
+-  fix: fix the error when quick release vchart during async render
+- fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446
+- perf: optimize the encode performance of sankey
+
+
 
 ## 1.6.2
 Wed, 08 Nov 2023 11:05:21 GMT

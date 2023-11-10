@@ -25,12 +25,12 @@ export declare class BaseMark<T extends ICommonSpec> extends CompilableMark impl
     protected _filterAttribute<U extends keyof T>(attr: U, style: MarkInputStyle<T[U]>, state: StateValueType, level: number, isUserLevel: boolean, stateStyle?: IMarkStateStyle<T>): StyleConvert<T[U]>;
     setReferer<U extends keyof T>(mark: IMarkRaw<T>, styleKey?: U, state?: StateValueType, stateStyle?: IMarkStateStyle<T>): void;
     setPostProcess<U extends keyof T>(key: U, postProcessFunc: any, state?: StateValueType): void;
-    getAttribute<U extends keyof T>(key: U, datum: Datum, state?: StateValueType, opt?: IAttributeOpt): unknown;
+    getAttribute<U extends keyof T>(key: U, datum: Datum, state?: StateValueType, opt?: IAttributeOpt): any;
     setAttribute<U extends keyof T>(attr: U, style: MarkInputStyle<T[U]>, state?: StateValueType, level?: number, stateStyle?: IMarkStateStyle<T>): void;
     protected _getDefaultStyle(): IMarkStyle<T>;
     protected _styleConvert<U extends keyof T>(style?: MarkInputStyle<T[U]>): StyleConvert<T[U]> | undefined;
-    protected _computeAttribute<U extends keyof T>(key: U, state: StateValueType): (datum: Datum, opt: IAttributeOpt) => unknown;
-    protected _computeStateAttribute<U extends keyof T>(stateStyle: any, key: U, state: StateValueType): (datum: Datum, opt: IAttributeOpt) => any;
+    protected _computeAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType, opt: IAttributeOpt): any;
+    protected _computeStateAttribute<U extends keyof T>(stateStyle: any, key: U, datum: Datum, state: StateValueType, opt: IAttributeOpt): any;
     private _initStyle;
     private _initSpecStyle;
     private _computeGradientAttr;

@@ -2,6 +2,30 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.6.3",
+      "tag": "@visactor/vchart_v1.6.3",
+      "date": "Fri, 10 Nov 2023 09:56:51 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix the issue of update animation not work for line mark"
+          },
+          {
+            "comment": "fix: update vgrammar to ~0.8.3  to fix the issue that, vrender should not auto render during renderAsync"
+          },
+          {
+            "comment": " fix: fix the error when quick release vchart during async render"
+          },
+          {
+            "comment": "fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446"
+          },
+          {
+            "comment": "perf: optimize the encode performance of sankey\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.6.2",
       "tag": "@visactor/vchart_v1.6.2",
       "date": "Wed, 08 Nov 2023 11:05:21 GMT",

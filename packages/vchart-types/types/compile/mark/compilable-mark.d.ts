@@ -1,7 +1,7 @@
 import type { IGroupMark, IMark, MarkAnimationSpec, MarkFunctionCallback, Nil, TransformSpec } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
-import type { Maybe, Datum, StringOrNumber } from '../../typings';
+import type { Maybe, StringOrNumber } from '../../typings';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import { MarkStateManager } from './mark-state-manager';
@@ -95,7 +95,6 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     compileAnimation(): void;
     compileContext(): void;
     compileSignal(): void;
-    protected _computeAttribute(key: string, state: StateValueType): (datum: Datum, opt: IAttributeOpt) => any;
     protected compileCommonAttributeCallback(key: string, state: string): MarkFunctionCallback<any>;
     protected compileTransform(): void;
     protected _lookupGrammar(id: string): IMark;
