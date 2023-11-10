@@ -307,6 +307,7 @@ export class LayoutEditorComponent {
     this._dragger = new DragComponent(container);
     this._dragger.dragHandler(this._dragElement);
     this._dragger.dragEndHandler(this._dragEnd);
+    this._dragger.unDragEndHandler(this._unDragEnd);
     this._lastBoxInDrag = createRect({
       pickable: false,
       stroke: '#4284FF',
@@ -360,6 +361,12 @@ export class LayoutEditorComponent {
   private _dragEnd = () => {
     this._opt.editorEvent.setCursorSyncToTriggerLayer();
     this._editorEnd();
+  };
+  private _unDragEnd = () => {
+    if (!this._el.editProperties.move) {
+      this._opt.editorEvent.setCursorSyncToTriggerLayer();
+      this._editorEnd();
+    }
   };
 
   protected _editorEnd = () => {

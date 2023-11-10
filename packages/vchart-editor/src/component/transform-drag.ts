@@ -16,6 +16,7 @@ export class DragComponent {
 
   protected _dragHandler: (moveX: number, moveY: number) => void;
   protected _dragEndHandler: () => void;
+  protected _unDragEndHandler: () => void;
 
   pointerMove = (event: PointerEvent) => {
     if (event.target !== this._container) {
@@ -38,6 +39,9 @@ export class DragComponent {
   dragEndHandler(handler: () => void) {
     this._dragEndHandler = handler;
   }
+  unDragEndHandler(handler: () => void) {
+    this._unDragEndHandler = handler;
+  }
 
   startDrag(event: PointerEvent) {
     this._state = 'startDrag';
@@ -46,7 +50,11 @@ export class DragComponent {
   }
 
   stopDrag = (event: PointerEvent) => {
+    if (event.target !== this._container) {
+      return;
+    }
     if (this._state !== 'dragging' && this._state !== 'startDrag') {
+      this._unDragEndHandler?.();
       return;
     }
     // const lastState = this._state;
@@ -54,9 +62,6 @@ export class DragComponent {
     // if (lastState !== 'dragging') {
     //   return;
     // }
-    if (event.target !== this._container) {
-      return;
-    }
     this._state = 'stopDrag';
     this._dragEndHandler?.();
   };
