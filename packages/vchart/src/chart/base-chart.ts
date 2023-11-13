@@ -189,7 +189,7 @@ export class BaseChart extends CompilableBase implements IChart {
     // TODO: 验证下
 
     this._paddingSpec = (
-      spec.padding ? normalizeLayoutPaddingSpec(spec.padding) : option.getTheme().padding
+      isValid(spec.padding) ? normalizeLayoutPaddingSpec(spec.padding) : option.getTheme().padding
     ) as ILayoutOrientPadding;
 
     this._event = new Event(option.eventDispatcher, option.mode);
@@ -873,7 +873,7 @@ export class BaseChart extends CompilableBase implements IChart {
   updateChartConfig(result: IUpdateSpecResult, oldSpec: IChartSpec) {
     // padding;
     this._paddingSpec = (
-      this._spec.padding ? normalizeLayoutPaddingSpec(this._spec.padding) : this._option?.getTheme().padding
+      isValid(this._spec.padding) ? normalizeLayoutPaddingSpec(this._spec.padding) : this._option?.getTheme().padding
     ) as ILayoutOrientPadding;
 
     // re compute padding & layout
