@@ -219,7 +219,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         labelPositionAttrs = {
           position: 'start',
           autoRotate: false,
-          ...getTextOffset(points[0], points[1], connectDirection, expandDistance),
+          ...getTextOffset(points[0], points[1], connectDirection, expandDistanceValue),
           refX: 0,
           refY: 0
         };
