@@ -24,8 +24,6 @@ import { isHorizontal, isVertical } from './utils/orient';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
 
 export class Player extends BaseComponent<IPlayer> implements IComponent {
-  protected layoutType: 'region' | 'region-relative' | 'normal' | 'absolute' | 'normal-inline';
-
   layoutZIndex: number = LayoutZIndex.Player;
   layoutLevel: number = LayoutLevel.Player;
 

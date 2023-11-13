@@ -33,20 +33,18 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
 
   interaction: IInteraction = new Interaction();
 
-  protected _maxRegionWidth?: number;
   getMaxWidth() {
-    return this._maxRegionWidth;
+    return this._layout.maxWidth;
   }
   setMaxWidth(value: number) {
-    this._maxRegionWidth = value;
+    this._layout.maxWidth = value;
   }
 
-  protected _maxRegionHeight?: number;
   getMaxHeight() {
-    return this._maxRegionHeight;
+    return this._layout.maxHeight;
   }
   setMaxHeight(value: number) {
-    this._maxRegionHeight = value;
+    this._layout.maxHeight = value;
   }
 
   protected _groupMark!: IGroupMark;

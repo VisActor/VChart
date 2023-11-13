@@ -100,10 +100,10 @@ export interface ILayoutItem {
   chartLayoutRect: ILayoutRect;
 
   readonly layoutRectLevelMap: ILayoutRect;
-  readonly minWidth: number;
-  readonly maxWidth: number;
-  readonly minHeight: number;
-  readonly maxHeight: number;
+  minWidth: number;
+  maxWidth: number;
+  minHeight: number;
+  maxHeight: number;
 
   readonly model: ILayoutModel;
 
