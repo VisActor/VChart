@@ -29,9 +29,10 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   layoutZIndex: number = LayoutZIndex.Player;
   layoutLevel: number = LayoutLevel.Player;
 
+  specKey: string = 'player';
   static type = ComponentTypeEnum.player;
   type = ComponentTypeEnum.player;
-  private _orient: IOrientType = 'bottom';
+  protected _orient: IOrientType = 'bottom';
   private _specs: Partial<IChartSpec>[];
 
   private _playerComponent: DiscretePlayer | ContinuousPlayer;
