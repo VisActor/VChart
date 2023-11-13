@@ -42,6 +42,10 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     return [MarkerTypeEnum.horizontalArea, MarkerTypeEnum.verticalArea];
   }
 
+  protected _setCursor(e: EventParams): void {
+    this._chart.option.editorEvent.setCursor('move');
+  }
+
   protected _handlePointerDown(e: EventParams): void {
     this._orient = this._element.name === MarkerTypeEnum.verticalArea ? 'vertical' : 'horizontal';
     const el = this._getEditorElement(e);
@@ -138,7 +142,8 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         lineWidth: 1,
         stroke: '#3073F2',
         fill: '#005DFF',
-        fillOpacity: 0.1
+        fillOpacity: 0.1,
+        cursor: 'move'
       })
     );
     overlayArea.name = 'overlay-mark-area-area';
@@ -260,7 +265,13 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   private _onHandlerDrag = (e: any) => {
     e.stopPropagation();
 
+    this._chart.option.editorEvent.setCursor(this._orient === 'horizontal' ? 'ns-resize' : 'ew-resize');
+
     this._silentAllMarkers();
+    this._overlayAreaGroup.setAttributes({
+      pickable: false,
+      childrenPickable: false
+    });
     this._editComponent.showAll();
 
     let currentPos;
@@ -331,6 +342,10 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     const points = overlayArea.attribute.points;
     this._overlayLabel.setAttribute('visible', false);
     this._activeAllMarkers();
+    this._overlayAreaGroup.setAttributes({
+      pickable: true,
+      childrenPickable: true
+    });
     vglobal.removeEventListener('pointermove', this._onHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
     // 更新当前图形以及保存 spec
@@ -359,6 +374,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   private _onAreaDrag = (e: any) => {
     e.stopPropagation();
+    this._chart.option.editorEvent.setCursor('move');
 
     this._controller.removeOverGraphic();
     this._silentAllMarkers();
@@ -447,7 +463,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   private _onAreaDragEnd = (e: any) => {
     e.preventDefault();
-
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
     const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
     this._editComponent.setAttribute('pickable', false);

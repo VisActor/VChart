@@ -14,7 +14,7 @@ import { SpecProcess } from './spec-process/spec-process';
 import type { ISpecProcess } from './spec-process/interface';
 import { Data } from './data/data';
 import type { IData } from './data/interface';
-import type { IChartElementOption, IChartModel } from './interface';
+import { type IChartElementOption, type IChartModel } from './interface';
 import {
   ValueLineEditor,
   MarkAreaEditor,

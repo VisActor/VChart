@@ -39,6 +39,10 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     return [MarkerTypeEnum.hierarchyDiffLine];
   }
 
+  protected _setCursor(e: EventParams): void {
+    // no nothing
+  }
+
   protected _handlePointerDown(e: EventParams): void {
     this._spec = this._model.getSpec();
 
@@ -110,7 +114,8 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       shadowOffsetX: 0,
       shadowOffsetY: 4,
       shadowColor: 'rgba(0, 0, 0, 0.25)',
-      zIndex: 2
+      zIndex: 2,
+      cursor: 'move'
     });
     startHandler.name = START_LINK_HANDLER;
     this._overlayStartHandler = startHandler;
@@ -127,18 +132,21 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       shadowOffsetX: 0,
       shadowOffsetY: 4,
       shadowColor: 'rgba(0, 0, 0, 0.25)',
-      zIndex: 2
+      zIndex: 2,
+      cursor: 'move'
     });
     endHandler.name = END_LINK_HANDLER;
     this._overlayEndHandler = endHandler;
     editComponent.add(endHandler);
 
+    const series = (model as MarkLine).getRelativeSeries();
     const middleHandler = createLine({
       points: points[1],
       zIndex: 2,
       lineDash: [0],
       lineWidth: 2,
-      stroke: '#3073F2'
+      stroke: '#3073F2',
+      cursor: series.direction === 'horizontal' ? 'ns-resize' : 'ew-resize'
     });
     middleHandler.name = MIDDLE_LINK_HANDLER;
     this._overlayMiddleHandler = middleHandler;
@@ -188,6 +196,8 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _onAnchorHandlerDrag = (e: PointerEvent) => {
     e.stopPropagation();
+
+    this._chart.option.editorEvent.setCursor('move');
 
     // Important: 拖拽过程中，关闭对应 markLine 的交互
     this._silentAllMarkers();
@@ -267,6 +277,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
   private _onAnchorHandlerDragEnd = (e: any) => {
     e.preventDefault();
     this._activeAllMarkers();
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
 
     // 隐藏可吸附数据锚点
     this._getDataAnchors()?.hideAll();
@@ -536,6 +547,9 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
   private _onMiddleHandlerDrag = (e: PointerEvent) => {
     e.stopPropagation();
 
+    const series = this._model.getRelativeSeries();
+    this._chart.option.editorEvent.setCursor(series.direction === 'horizontal' ? 'ns-resize' : 'ew-resize');
+
     // Important: 拖拽过程中，关闭对应 markLine 的交互
     this._silentAllMarkers();
     const splitGroup = this._getSplitGroup();
@@ -550,7 +564,6 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     this._overlayMiddleHandler.setAttribute('points', closestPoint.points);
 
     // 2. 更新 _overlayLine
-    const series = this._model.getRelativeSeries();
     if (series.direction === 'horizontal') {
       this._overlayLine.setAttribute('points', [
         {
@@ -587,6 +600,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
     this._splitAnchors.hideAll();
     this._activeAllMarkers();
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
 
     const model = this._model;
     const series = model.getRelativeSeries();

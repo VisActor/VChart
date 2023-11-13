@@ -1,4 +1,4 @@
-export const version = __VERSION__;
+// export const version = __VERSION__;
 
 export { VChartEditor } from './core/vchart-editor';
 
@@ -36,3 +36,8 @@ EditorFactory.registerTemp('pie', PieTemp);
 EditorFactory.registerParser('csv', CSVParser);
 EditorFactory.registerParser('standard', StandardParser);
 EditorFactory.registerParser('clipBoard', ClipBoardParser);
+
+// import { CSVParser } from './elements/chart/data/parser/csv';
+// import { StandardParser } from './elements/chart/data/parser/standard';
+// EditorFactory.registerParser('csv', CSVParser);
+// EditorFactory.registerParser('standard', StandardParser);
