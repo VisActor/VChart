@@ -17,12 +17,14 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite ./__tests__/browser preview",
     "clear": "rm -rf build && rm -rf esm && rm -rf cjs",
-    "prepublishOnly": "npm run build",
-    "postpublish": "npm run clear",
     "test": "jest",
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit/",
-    "test-watch": "DEBUG_MODE=1 jest --watch"
+    "test-watch": "DEBUG_MODE=1 jest --watch",
+    "prepublishOnly": "npm run build",
+    "postpublish": "npm run clear",
+    "release-alpha": "npm version prerelease --preid alpha && npm publish && git commit -a -m 'chore: release alpha version for vmind' && git push",
+    "release": "npm version patch && npm publish && git commit -a -m 'chore: release patch version for vmind' && git push"
   },
   "devDependencies": {
     "vite-plugin-libcss": "~1.1.1",
