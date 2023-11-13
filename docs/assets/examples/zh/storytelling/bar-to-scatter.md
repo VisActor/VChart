@@ -1,23 +1,23 @@
 ---
 category: examples
-group: morphing
-title: Global animation for switching between bar charts and scatter plots
+group: storytelling
+title: 柱状图、散点图间切换的全局动画
 keywords: animation,morphing,bar,scatter,barChart,scatterChart
 order: 42-1
 cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-scatter.gif
 option: commonChart#series-bar.animationUpdate
 ---
 
-# Global animation for switching between bar charts and scatter plots
+# 柱状图、散点图间切换的全局动画
 
-Global animation enhances the observer's tracking of data changes in certain scenarios, such as in the example below, where the blending of scatter points toward the columns becomes more vivid.
+全局动画在一定场景下，可以增强观察者对数据变化的追踪，比如下面这个例子中，散点向柱子的融合变得更加生动。
 
-## Key configuration
+## 关键配置
 
-- `morph.morphKey`: Specifies the correlation between the series of different charts; changes in the data of series with the same `morphKey` will be analyzed automatically.
-- `morph.morphElementKey`: specifies the matching field for the data of the series that owns the association.
+- `morph.morphKey`: 指定不同图表的系列之间的关联关系；拥有相同 `morphKey` 的系列数据变化将被自动分析。
+- `morph.morphElementKey`：指定拥有关联关系的系列数据的匹配字段。
 
-## Demo source
+## 代码演示
 
 ```javascript livedemo
 function calculateAverage(data, dim) {
@@ -112,6 +112,6 @@ vchart.renderAsync().then(() => {
 });
 ```
 
-## Related Tutorials
+## 相关教程
 
-[Scatterplot](link)
+[散点图](link)
