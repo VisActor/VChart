@@ -47,7 +47,7 @@ export const registerTheme = (name: string, theme: Partial<ITheme>) => {
  * @param transformed 是否获取 token 转换后的主题
  * @returns 返回主题
  */
-export const getTheme = (name: string = defaultThemeName, transformed?: boolean) => {
+export const getTheme = (name: string = defaultThemeName, transformed: boolean = false) => {
   if (hasThemeMerged.has(name) && !hasThemeMerged.get(name)) {
     // 重新 merge 默认主题
     registerTheme(name, themes.get(name));
