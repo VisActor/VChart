@@ -269,7 +269,7 @@ export class GridLayout implements IBaseLayout {
     items.sort((a, b) => b.layoutLevel - a.layoutLevel);
 
     // 剔除 region 后，其余元素先布局运算
-    const normalItems = items.filter(item => item.layoutType === 'normal' && item.getVisible() !== false);
+    const normalItems = items.filter(item => item.layoutType === 'normal' && item.getModelVisible() !== false);
     const normalItemsCol = normalItems.filter(item => isColItem(item));
     const normalItemsRow = normalItems.filter(item => !isColItem(item));
     normalItems.forEach(item => {
