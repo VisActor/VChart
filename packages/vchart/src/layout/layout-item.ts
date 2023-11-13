@@ -122,7 +122,7 @@ export class LayoutItem implements ILayoutItem {
     if (option.layoutOrient) {
       this.layoutOrient = option.layoutOrient;
     }
-    this._spec = model.getSpec();
+    this._spec = model?.getSpec?.();
   }
 
   private _setLayoutAttributeFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {
