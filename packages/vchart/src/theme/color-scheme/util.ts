@@ -38,24 +38,28 @@ export function getDataScheme(
     }
     // 渐进式色板的情况
     if (isProgressiveDataColorScheme(dataScheme)) {
+      // TODO: 完善类型
+      // @ts-ignore
       return dataScheme.map(item => ({
         ...item,
         scheme: item.scheme
           .map(color => {
-            if (isColorKey(color)) {
-              return queryColorFromColorScheme(colorScheme, color, seriesSpec);
-            }
+            // if (isColorKey(color)) {
+            //   return queryColorFromColorScheme(colorScheme, color, seriesSpec);
+            // }
             return color;
           })
           .filter(isValid)
       }));
     }
     // 普通色板的情况
+    // TODO: 完善类型
+    // @ts-ignore
     return dataScheme
       .map(color => {
-        if (isColorKey(color)) {
-          return queryColorFromColorScheme(colorScheme, color, seriesSpec);
-        }
+        // if (isColorKey(color)) {
+        //   return queryColorFromColorScheme(colorScheme, color, seriesSpec);
+        // }
         return color;
       })
       .filter(isValid);

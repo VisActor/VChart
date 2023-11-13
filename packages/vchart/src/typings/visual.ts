@@ -113,7 +113,7 @@ export interface ICommonSpec {
   x?: number;
   y?: number;
   z?: number;
-  stroke?: string | IGradient | IColorKey | false | (number | boolean)[];
+  stroke?: string | IGradient | false | (number | boolean)[];
   strokeOpacity?: number;
   opacity?: number;
   lineWidth?: number;
@@ -177,7 +177,7 @@ export interface ICommonSpec {
 }
 
 export interface IFillMarkSpec extends ICommonSpec {
-  fill?: VisualType<string> | IGradient | false | IColorKey;
+  fill?: VisualType<string> | IGradient | false;
   fillOpacity?: number;
   // TODO：waite VRender support this api
   // backgroundMode: number; // 填充模式（与具体图元有关）

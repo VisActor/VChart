@@ -63,7 +63,7 @@ import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { has, isFunction, isEmpty, isNil, isString, isEqual } from '@visactor/vutils';
-import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
+import { getDataScheme } from '../theme/color-scheme/util';
 import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../compile/compilable-base';
 import type { IStateInfo } from '../compile/mark/interface';
@@ -77,7 +77,6 @@ import type { IRectMark } from '../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../data/initialize';
-import { getThemeFromOption } from '../theme/util';
 import { defaultChartLevelTheme } from '../theme';
 
 export class BaseChart extends CompilableBase implements IChart {
@@ -187,7 +186,10 @@ export class BaseChart extends CompilableBase implements IChart {
 
   constructor(spec: any, option: IChartOption) {
     super(option);
-    this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? getThemeFromOption('padding', this._option));
+    // TODO: 验证下
+    this._paddingSpec = (
+      spec.padding ? normalizeLayoutPaddingSpec(spec.padding) : option.getTheme().padding
+    ) as ILayoutOrientPadding;
 
     this._event = new Event(option.eventDispatcher, option.mode);
     this._dataSet = option.dataSet;
@@ -745,12 +747,13 @@ export class BaseChart extends CompilableBase implements IChart {
 
         // range array
         if (isArray(colorSpec)) {
-          colorScaleSpec.range = colorSpec.map(color => getActualColor(color, colorScheme));
+          // colorScaleSpec.range = colorSpec.map(color => getActualColor(color, colorScheme));
+          colorScaleSpec.range = colorSpec;
         } else {
           const tempSpec = colorSpec as IVisualSpecScale<any, any>;
-          if (tempSpec.range) {
-            tempSpec.range = tempSpec.range.map(color => getActualColor(color, colorScheme));
-          }
+          // if (tempSpec.range) {
+          //   tempSpec.range = tempSpec.range.map(color => getActualColor(color, colorScheme));
+          // }
           Object.prototype.hasOwnProperty.call(tempSpec, 'type') && (colorScaleSpec.type = tempSpec.type);
           Object.prototype.hasOwnProperty.call(tempSpec, 'domain') && (colorScaleSpec.domain = tempSpec.domain);
           Object.prototype.hasOwnProperty.call(tempSpec, 'range') && (colorScaleSpec.range = tempSpec.range);
@@ -868,7 +871,9 @@ export class BaseChart extends CompilableBase implements IChart {
 
   updateChartConfig(result: IUpdateSpecResult, oldSpec: IChartSpec) {
     // padding;
-    this._paddingSpec = normalizeLayoutPaddingSpec(this._spec.padding ?? getThemeFromOption('padding', this._option));
+    this._paddingSpec = (
+      this._spec.padding ? normalizeLayoutPaddingSpec(this._spec.padding) : this._option?.getTheme().padding
+    ) as ILayoutOrientPadding;
 
     // re compute padding & layout
     this._updateLayoutRect(this._viewBox);
@@ -965,7 +970,7 @@ export class BaseChart extends CompilableBase implements IChart {
       seriesStyle: spec.seriesStyle,
 
       animation: spec.animation,
-      animationThreshold: spec.animationThreshold ?? getThemeFromOption('animationThreshold', this._option),
+      animationThreshold: spec.animationThreshold ?? this._option?.getTheme().animationThreshold,
       animationAppear: spec.animationAppear,
       animationDisappear: spec.animationDisappear,
       animationEnter: spec.animationEnter,
@@ -1372,6 +1377,6 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   getColorScheme() {
-    return (this._option.getThemeConfig?.().chartLevelTheme ?? defaultChartLevelTheme).colorScheme;
+    return this._option.getTheme?.().colorScheme ?? defaultChartLevelTheme.colorScheme;
   }
 }

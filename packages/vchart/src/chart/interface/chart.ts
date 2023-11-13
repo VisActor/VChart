@@ -158,7 +158,7 @@ export interface IChart extends ICompilable {
   getCanvas: () => HTMLCanvasElement | undefined;
 
   setCurrentTheme: (reInit?: boolean) => void;
-  getColorScheme: () => IThemeColorScheme | undefined;
+  // getColorScheme: () => IThemeColorScheme | undefined;
 
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
   // setDimensionIndex

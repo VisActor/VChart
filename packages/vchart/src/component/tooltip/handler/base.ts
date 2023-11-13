@@ -656,12 +656,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   // 计算 tooltip 内容区域的宽高，并缓存结果
   protected _getTooltipBoxSize(actualTooltip: IToolTipActual, changePositionOnly: boolean): IContainerSize | undefined {
     if (!changePositionOnly || isNil(this._attributes)) {
-      const { chartLevelTheme = defaultChartLevelTheme } = this._chartOption.getThemeConfig?.() ?? {};
-      this._attributes = getTooltipAttributes(
-        actualTooltip,
-        this._component.getSpec(),
-        chartLevelTheme as IChartLevelTheme
-      );
+      const chartTheme = this._chartOption?.getTheme() ?? {};
+      this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), chartTheme);
     }
     return {
       width: this._attributes?.panel?.width,

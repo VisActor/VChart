@@ -9,11 +9,12 @@ import { getActualColor } from '../color-scheme/util';
 import type { ITheme } from '../interface';
 import { darkTheme } from './dark';
 import { lightTheme } from './light';
+import { preprocessTheme } from '../../util';
 
 /** 声明内置主题 */
 export const builtinThemes: Record<string, ITheme> = {
-  [lightTheme.name]: lightTheme,
-  [darkTheme.name]: darkTheme
+  [lightTheme.name]: preprocessTheme(lightTheme, lightTheme.colorScheme),
+  [darkTheme.name]: preprocessTheme(darkTheme, darkTheme.colorScheme)
 };
 
 /** 获取默认主题 */

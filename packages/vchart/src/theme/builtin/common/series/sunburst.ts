@@ -15,6 +15,8 @@ export const sunburst: ISunburstSeriesTheme = {
   },
   sunburst: {
     style: {
+      // TODO: 类型问题
+      // @ts-ignore
       stroke: { type: 'palette', key: 'backgroundColor' },
       fillOpacity: 1,
       cursor: 'pointer'
@@ -24,6 +26,8 @@ export const sunburst: ISunburstSeriesTheme = {
     visible: true,
     style: {
       cursor: 'pointer',
+      // TODO: 类型问题
+      // @ts-ignore
       fill: { type: 'palette', key: 'primaryFontColor' },
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight

@@ -289,12 +289,14 @@ export interface IModelOption extends ICompilableInitOption {
   specIndex?: number;
   specKey?: string;
 
-  getThemeConfig?: () => {
-    globalTheme?: string;
-    optionTheme?: string | ITheme;
-    specTheme?: string | ITheme;
-    chartLevelTheme: IChartLevelTheme;
-  };
+  getTheme?: () => ITheme;
+
+  // getThemeConfig?: () => {
+  //   globalTheme?: string;
+  //   optionTheme?: string | ITheme;
+  //   specTheme?: string | ITheme;
+  //   chartLevelTheme: IChartLevelTheme;
+  // };
 
   getChartLayoutRect: () => IRect;
   getChartViewRect: () => ILayoutRect;

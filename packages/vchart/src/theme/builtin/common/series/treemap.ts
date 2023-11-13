@@ -23,6 +23,8 @@ export const treemap: ITreemapSeriesTheme = {
     padding: THEME_CONSTANTS.l5FontSize * 2,
     style: {
       fill: 'black',
+      // TODO: 完善类型
+      // @ts-ignore
       stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 2,
       fontSize: THEME_CONSTANTS.l5FontSize,

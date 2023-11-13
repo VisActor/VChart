@@ -12,7 +12,7 @@ import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
 import type { Datum } from '../../typings';
-import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
+// import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { IComponentSpec } from './interface';
 
@@ -68,11 +68,12 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   protected _getTheme() {
-    return preprocessSpecOrTheme(
-      'theme',
-      getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option, this._originalSpec),
-      this.getColorScheme()
-    );
+    // return preprocessSpecOrTheme(
+    //   'theme',
+    //   getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option, this._originalSpec),
+    //   this.getColorScheme()
+    // );
+    return getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option, this._originalSpec);
   }
 
   protected _mergeThemeToSpec() {

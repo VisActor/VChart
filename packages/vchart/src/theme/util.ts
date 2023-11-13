@@ -87,12 +87,12 @@ const getMergedValue = (...sources: any[]) => {
   return obj[tmpKey];
 };
 
-export const getThemeFromOption = (path: string, option: Partial<IModelOption>) => {
-  const {
-    globalTheme = defaultThemeName,
-    optionTheme,
-    specTheme,
-    chartLevelTheme = defaultChartLevelTheme
-  } = option.getThemeConfig?.() ?? {};
-  return mergeThemeAndGet(path, globalTheme, optionTheme, specTheme, chartLevelTheme?.colorScheme);
-};
+// export const getThemeFromOption = (path: string, option: Partial<IModelOption>) => {
+//   const {
+//     globalTheme = defaultThemeName,
+//     optionTheme,
+//     specTheme,
+//     chartLevelTheme = defaultChartLevelTheme
+//   } = option.getThemeConfig?.() ?? {};
+//   return mergeThemeAndGet(path, globalTheme, optionTheme, specTheme, chartLevelTheme?.colorScheme);
+// };

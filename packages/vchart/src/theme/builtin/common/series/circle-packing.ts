@@ -7,6 +7,8 @@ export const circlePacking: ICirclePackingSeriesTheme = {
     visible: true,
     style: {
       cursor: 'pointer',
+      // TODO: 类型问题
+      // @ts-ignore
       stroke: { type: 'palette', key: 'backgroundColor' }
     }
   },
@@ -15,6 +17,8 @@ export const circlePacking: ICirclePackingSeriesTheme = {
     style: {
       cursor: 'pointer',
       fill: 'black',
+      // TODO: 类型问题
+      // @ts-ignore
       stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 2,
       fontSize: THEME_CONSTANTS.l5FontSize,

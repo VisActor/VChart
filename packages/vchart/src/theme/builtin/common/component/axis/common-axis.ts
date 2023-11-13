@@ -14,6 +14,8 @@ export const commonAxis: IAxisCommonTheme = {
     visible: true,
     style: {
       lineWidth: 1,
+      // TODO: 完善类型
+      // @ts-ignore
       stroke: { type: 'palette', key: 'axisGridColor' },
       strokeOpacity: 1,
       lineDash: []
@@ -23,6 +25,8 @@ export const commonAxis: IAxisCommonTheme = {
     visible: false,
     style: {
       lineWidth: 1,
+      // TODO: 完善类型
+      // @ts-ignore
       stroke: { type: 'palette', key: 'axisGridColor' },
       strokeOpacity: 1,
       lineDash: [4, 4]
@@ -33,6 +37,8 @@ export const commonAxis: IAxisCommonTheme = {
     tickSize: THEME_CONSTANTS.axisTickSize,
     style: {
       lineWidth: 1,
+      // TODO: 完善类型
+      // @ts-ignore
       stroke: { type: 'palette', key: 'axisDomainColor' },
       strokeOpacity: 1
     }
@@ -52,7 +58,8 @@ export const commonAxis: IAxisCommonTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
       // lineHeight: THEME_CONSTANTS.l5LineHeight,
-
+      // TODO: 完善类型
+      // @ts-ignore
       fill: { type: 'palette', key: 'axisFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1

@@ -148,7 +148,7 @@ export interface IChartSpec {
   /**
    * 图表色系配置
    */
-  color?: string[] | Omit<IVisualSpecScale<unknown, string | IColorKey>, 'id'>;
+  color?: string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>;
   /**
    * 系列
    * @description 仅在组合图中使用, 文档中除组合图外均未透出该配置

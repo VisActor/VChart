@@ -29,7 +29,7 @@ import { isTrueBrowser } from '../util/env';
 import { warn } from '../util/debug';
 import { mergeSpec, mergeSpecWithFilter } from '../util/spec/merge-spec';
 import { specTransform } from '../util/spec/transform';
-import { preprocessSpecOrTheme } from '../util/spec/preprocess';
+// import { preprocessSpecOrTheme } from '../util/spec/preprocess';
 import { getThemeObject } from '../util/spec/common';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -80,7 +80,8 @@ import {
   isValid,
   isNil,
   array,
-  debounce
+  debounce,
+  get
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IChartLevelTheme, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
@@ -245,8 +246,8 @@ export class VChart implements IVChart {
   private _observer: ResizeObserver = null;
 
   private _currentThemeName: string;
-  //private _currentTheme: ITheme;
-  private _currentChartLevelTheme: IChartLevelTheme = {};
+  private _currentTheme: ITheme;
+  // private _currentChartLevelTheme: IChartLevelTheme = {};
 
   private _onError?: (...args: any[]) => void;
 
@@ -309,9 +310,10 @@ export class VChart implements IVChart {
     this._eventDispatcher = new EventDispatcher(this, this._compiler);
     this._event = new Event(this._eventDispatcher, mode);
     this._compiler.initView();
+    // TODO: 如果通过 updateSpec 更新主题字体的验证
     // 设置全局字体
     this.getStage()?.setTheme({
-      text: { fontFamily: this._currentChartLevelTheme.fontFamily }
+      text: { fontFamily: this._currentTheme.fontFamily }
     });
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
@@ -352,12 +354,14 @@ export class VChart implements IVChart {
       performanceHook: this._option.performanceHook,
       viewBox: this._viewBox,
       animation: this._option.animation,
-      getThemeConfig: () => ({
-        globalTheme: this._currentThemeName,
-        optionTheme: this._option.theme,
-        specTheme: this._spec?.theme,
-        chartLevelTheme: this._currentChartLevelTheme
-      }),
+      // getThemeConfig: () => ({
+      //   globalTheme: this._currentThemeName,
+      //   optionTheme: this._option.theme,
+      //   specTheme: this._spec?.theme,
+      //   chartLevelTheme: this._currentChartLevelTheme
+      // }),
+      getTheme: () => this._currentTheme,
+
       layout: this._option.layout,
       onError: this._onError
     });
@@ -1112,21 +1116,24 @@ export class VChart implements IVChart {
       this._currentThemeName = nextThemeName;
     }
 
-    const colorScheme = mergeThemeAndGet('colorScheme', this._currentThemeName, optionTheme, specTheme);
-    this._currentChartLevelTheme = {
-      colorScheme,
-      background: mergeThemeAndGet('background', this._currentThemeName, optionTheme, specTheme, colorScheme),
-      fontFamily: mergeThemeAndGet('fontFamily', this._currentThemeName, optionTheme, specTheme, colorScheme)
-    };
+    // TODO: 处理 specTheme 和 optionTheme, merge -> transform
+    // TODO: 还需要判断 optionTheme 和 specTheme 是否为转换后的 themeObject
+    if (optionTheme || specTheme) {
+      // TODO
+    }
+
+    // TODO: 暂时先这么写，把逻辑跑通
+    this._currentTheme = this.getCurrentTheme();
+
+    // const colorScheme = mergeThemeAndGet('colorScheme', this._currentThemeName, optionTheme, specTheme);
+    // this._currentChartLevelTheme = {
+    //   colorScheme,
+    //   background: mergeThemeAndGet('background', this._currentThemeName, optionTheme, specTheme, colorScheme),
+    //   fontFamily: mergeThemeAndGet('fontFamily', this._currentThemeName, optionTheme, specTheme, colorScheme)
+    // };
 
     // 设置 poptip 的主题
-    setPoptipTheme(
-      preprocessSpecOrTheme(
-        'mark-theme',
-        mergeThemeAndGet('component.poptip', this._currentThemeName, optionTheme, specTheme, colorScheme),
-        colorScheme
-      )
-    );
+    setPoptipTheme(get(this._currentTheme, 'component.poptip'));
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
   }
@@ -1157,7 +1164,7 @@ export class VChart implements IVChart {
   private _getBackground() {
     const specBackground = typeof this._spec.background === 'string' ? this._spec.background : null;
     // spec > spec.theme > initOptions.theme
-    return specBackground || (this._currentChartLevelTheme.background as string) || this._option.background;
+    return specBackground || (this._currentTheme.background as string) || this._option.background;
   }
 
   /**

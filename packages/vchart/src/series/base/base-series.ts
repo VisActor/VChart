@@ -46,7 +46,7 @@ import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../.
 import { mergeFields, getFieldAlias } from '../../util/data';
 import { couldBeValidNumber } from '../../util/type';
 import { mergeSpec } from '../../util/spec/merge-spec';
-import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
+// import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
@@ -65,12 +65,13 @@ import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
-import { array, isEqual, isNil, isValid, isBoolean, isString, isFunction, isArray } from '@visactor/vutils';
-import { getThemeFromOption } from '../../theme/util';
+import { array, isEqual, isNil, isValid, isBoolean, isString, isFunction, isArray, get } from '@visactor/vutils';
+// import { getThemeFromOption } from '../../theme/util';
 import { getDirectionFromSeriesSpec } from '../util/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { isAnimationEnabledForSeries } from '../../animation/utils';
+import { transformSeriesThemeToMerge } from '../../util/spec/merge-theme';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -1056,9 +1057,26 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _getTheme() {
     const direction = getDirectionFromSeriesSpec(this._spec);
-    const theme = getThemeFromOption(`series.${this.type}`, this._option);
-    const themeWithDirection = getThemeFromOption(`series.${this.type}_${direction}`, this._option);
-    return preprocessSpecOrTheme('theme', mergeSpec({}, theme, themeWithDirection), this.getColorScheme(), this._spec);
+    // const theme = getThemeFromOption(`series.${this.type}`, this._option);
+    // const themeWithDirection = getThemeFromOption(`series.${this.type}_${direction}`, this._option);
+    // return preprocessSpecOrTheme('theme', mergeSpec({}, theme, themeWithDirection), this.getColorScheme(), this._spec);
+
+    const chartTheme = this._option?.getTheme();
+    const { markByName, mark } = chartTheme;
+    // const seriesPath: keyof ITheme = 'series';
+    // if (paths.length === 2 && paths[0] === seriesPath) {
+    //   const { markByName, mark } = themeObject;
+    //   return transformSeriesThemeToMerge(get(themeObject, paths), paths[1], mark, markByName);
+    // }
+
+    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${this.type}`), this.type, mark, markByName);
+    const themeWithDirection = transformSeriesThemeToMerge(
+      get(chartTheme, `series.${this.type}_${direction}`),
+      `${this.type}_${direction}`,
+      mark,
+      markByName
+    );
+    return mergeSpec({}, theme, themeWithDirection);
   }
 
   protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {

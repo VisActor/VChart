@@ -521,7 +521,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       const baseSpec = this._spec;
       this._spec = merge(baseSpec);
     }
-    this._prepareSpecAfterMergingTheme();
+    // this._prepareSpecAfterMergingTheme();
   }
 }
 

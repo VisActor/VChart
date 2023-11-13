@@ -13,6 +13,8 @@ export const axisX: ICartesianAxisCommonTheme = {
     visible: false,
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
+      // TODO: 完善类型
+      // @ts-ignore
       fill: { type: 'palette', key: 'axisFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1
@@ -34,6 +36,8 @@ export const axisY: ICartesianAxisCommonTheme = {
     visible: false,
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
+      // TODO: 完善类型
+      // @ts-ignore
       fill: { type: 'palette', key: 'axisFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1

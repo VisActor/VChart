@@ -17,7 +17,11 @@ export const map: IMapSeriesTheme = {
       fontSize: THEME_CONSTANTS.l6FontSize,
       lineHeight: THEME_CONSTANTS.l6LineHeight,
       textBaseline: 'middle',
+      // TODO: 类型问题
+      // @ts-ignore
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' },
+      // TODO: 类型问题
+      // @ts-ignore
       stroke: { type: 'palette', key: 'backgroundColor' }
     }
   }

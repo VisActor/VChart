@@ -9,6 +9,8 @@ export const rose: IRoseSeriesTheme = {
   label: {
     style: {
       lineWidth: 2,
+      // TODO: 类型问题
+      // @ts-ignore
       stroke: { type: 'palette', key: 'backgroundColor' },
       textAlign: 'center',
       textBaseline: 'middle'

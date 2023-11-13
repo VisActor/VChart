@@ -15,7 +15,7 @@ import type { ITooltipSpec } from '../../interface/spec';
 import type { ITooltipTextTheme, ITooltipTheme } from '../../interface/theme';
 import { THEME_CONSTANTS } from '../../../../theme/builtin/common/constants';
 import { measureTooltipText } from './common';
-import type { IChartLevelTheme } from '../../../../core/interface';
+import type { ITheme } from '../../../../theme';
 
 const DEFAULT_TEXT_ATTRIBUTES: Partial<ITooltipTextStyle> = {
   fontFamily: THEME_CONSTANTS.defaultFontFamily,
@@ -25,7 +25,7 @@ const DEFAULT_TEXT_ATTRIBUTES: Partial<ITooltipTextStyle> = {
 
 export function getTextAttributes(
   style: ITooltipTextTheme = {},
-  globalTheme?: IChartLevelTheme,
+  globalTheme?: ITheme,
   defaultAttributes?: Partial<ITooltipTextStyle>
 ): ITooltipTextStyle {
   const attrs: ITooltipTextStyle = {
@@ -75,7 +75,7 @@ export const getPanelAttributes = (style: ITooltipTheme['panel']): TooltipPanelA
 export const getTooltipAttributes = (
   actualTooltip: IToolTipActual,
   spec: ITooltipSpec,
-  globalTheme: IChartLevelTheme
+  globalTheme: ITheme
 ): TooltipAttributes => {
   const { style = {}, enterable, transitionDuration } = spec;
   const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow } = style;

@@ -5,6 +5,8 @@ export const markLine: IMarkLineTheme = {
   line: {
     style: {
       lineDash: [3, 3],
+      // TODO: 类型问题
+      // @ts-ignore
       stroke: { type: 'palette', key: 'primaryFontColor' }
     }
   },
