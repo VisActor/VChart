@@ -58,13 +58,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return this._orient;
   }
 
-  get layoutOrient() {
-    return this._orient;
-  }
-  set layoutOrient(v: IOrientType) {
-    this._orient = v;
-  }
-
   // 数据
   protected _stateScale: IBaseScale;
   protected _relatedAxisComponent!: IComponent;

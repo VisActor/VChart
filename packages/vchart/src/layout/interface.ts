@@ -197,6 +197,7 @@ export interface ILayoutItemSpec {
 export interface ILayoutItemInitOption {
   layoutType: ILayoutType;
   layoutLevel: number;
+  layoutOrient?: IOrientType;
   transformLayoutRect?: (rect: ILayoutRect) => ILayoutRect;
   transformLayoutPosition?: (pos: Partial<IPoint>) => Partial<IPoint>;
 }

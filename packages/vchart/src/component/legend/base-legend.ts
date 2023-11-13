@@ -34,13 +34,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     return this._position;
   }
 
-  get layoutOrient() {
-    return this._orient;
-  }
-  set layoutOrient(v: IOrientType) {
-    this._orient = v;
-  }
-
   protected _legendData!: CompilableData;
   /**
    * 获取图例数据
