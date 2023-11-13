@@ -96,14 +96,14 @@ export function preprocessTheme(obj: any, colorScheme?: IThemeColorScheme, serie
   if (isEmpty(obj)) {
     return obj;
   }
-  if (isArray(obj)) {
-    return obj.map(element => {
-      if (isPlainObject(element)) {
-        return preprocessTheme(element, colorScheme, seriesSpec);
-      }
-      return element;
-    });
-  }
+  // if (isArray(obj)) {
+  //   return obj.map(element => {
+  //     if (isPlainObject(element)) {
+  //       return preprocessTheme(element, colorScheme, seriesSpec);
+  //     }
+  //     return element;
+  //   });
+  // }
 
   const newObj = {};
   Object.keys(obj).forEach(key => {
@@ -120,18 +120,20 @@ export function preprocessTheme(obj: any, colorScheme?: IThemeColorScheme, serie
     } else if (key === 'padding') {
       // 标准化 padding
       newObj[key] = normalizeLayoutPaddingSpec(value);
-    } else if (key === 'lineHeight' && isString(value) && value[value.length - 1] === '%') {
-      if (isValid(obj.fontSize)) {
-        // 处理 lineHeight 的比例值
-        // FIXME: vrender 支持行高字符串后删掉这段逻辑
-        const scale = Number.parseFloat(value.substring(0, value.length - 1)) / 100;
-        const newValue = obj.fontSize * scale;
-        if (isValidNumber(newValue)) {
-          newObj[key] = newValue;
-        }
-      }
-      // 如果 spec 同级里没有 fontSize 配置，lineHeight 比例值失效
-    } else {
+    }
+    // else if (key === 'lineHeight' && isString(value) && value[value.length - 1] === '%') {
+    //   if (isValid(obj.fontSize)) {
+    //     // 处理 lineHeight 的比例值
+    //     // FIXME: vrender 支持行高字符串后删掉这段逻辑
+    //     const scale = Number.parseFloat(value.substring(0, value.length - 1)) / 100;
+    //     const newValue = obj.fontSize * scale;
+    //     if (isValidNumber(newValue)) {
+    //       newObj[key] = newValue;
+    //     }
+    //   }
+    //   // 如果 spec 同级里没有 fontSize 配置，lineHeight 比例值失效
+    // }
+    else {
       newObj[key] = value;
     }
   });

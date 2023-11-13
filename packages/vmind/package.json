@@ -52,7 +52,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "6.9.0",
-    "@visactor/vrender": "~0.16.13",
+    "@visactor/vrender": "0.16.14-alpha.3",
     "@visactor/vdataset": "~0.16.7",
     "@rollup/plugin-dynamic-import-vars": "~2.1.0",
     "@visactor/vutils-extension": "workspace:1.6.3",
@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@visactor/vchart": "workspace:1.6.3",
-    "@visactor/vrender": "~0.16.13",
+    "@visactor/vrender": "0.16.14-alpha.3",
     "@visactor/vdataset": "~0.16.7",
     "@visactor/vutils": "~0.16.7",
     "axios": "^1.4.0",
