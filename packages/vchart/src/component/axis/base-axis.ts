@@ -117,7 +117,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         { type: 'component', name: `axis-${this.getOrient()}` },
         {
           componentType: this.getOrient() === 'angle' ? 'circleAxis' : 'axis',
-          mode: this._spec.mode
+          mode: this._spec.mode,
+          noSeparateStyle: true,
+          skipTheme: true // skip theme of vgrammar to avoid merge
         }
       );
       this._axisMark = axisMark;
@@ -132,7 +134,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           { type: 'component', name: `axis-${this.getOrient()}-grid` },
           {
             componentType: this.getOrient() === 'angle' ? GridEnum.circleAxisGrid : GridEnum.lineAxisGrid,
-            mode: this._spec.mode
+            mode: this._spec.mode,
+            noSeparateStyle: true,
+            skipTheme: true
           }
         );
         gridMark.setZIndex(this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid);

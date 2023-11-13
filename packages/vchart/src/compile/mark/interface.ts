@@ -31,6 +31,10 @@ export interface ICompilableMarkOption extends GrammarItemInitOption {
   support3d?: boolean;
   /* VGrammar的组件是否支持3d */
   mode?: '2d' | '3d';
+  /** skip theme of vgrammar or not */
+  skipTheme?: boolean;
+  /** don't separate style of mark */
+  noSeparateStyle?: boolean;
 }
 
 export interface ICompilableMark extends IGrammarItem {
