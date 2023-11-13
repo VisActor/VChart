@@ -2,9 +2,9 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum } from '../../typings';
-import { array, mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { registerHeatmapAnimation, type HeatmapAppearPreset } from './animation';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { ITextMark } from '../../mark/text';
@@ -12,13 +12,14 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ICellMark } from '../../mark/cell';
-import { normalizePadding } from '@visactor/vutils';
+import { normalizePadding, array } from '@visactor/vutils';
 import { HeatmapSeriesTooltipHelper } from './tooltip-helper';
 import { CellMark } from '../../mark/cell';
 import { TextMark } from '../../mark/text';
 import { heatmapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
+import { registerCellMark } from '@visactor/vgrammar-core';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -55,7 +56,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     };
 
     this._cellMark = this._createMark(HeatmapSeries.mark.cell, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('cell', this._spec)),
+      morph: shouldMarkDoMorph(this._spec, HeatmapSeries.mark.cell.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
       label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
@@ -157,7 +158,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
     this._cellMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('heatmap')?.(appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.cell, this._spec),
+        userAnimationConfig(SeriesMarkNameEnum.cell, this._spec, this._markAttributeContext),
         {
           dataIndex
         }
@@ -192,6 +193,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
 }
 
 export const registerHeatmapSeries = () => {
+  registerCellMark();
   Factory.registerMark(CellMark.type, CellMark);
   Factory.registerMark(TextMark.type, TextMark);
   Factory.registerSeries(HeatmapSeries.type, HeatmapSeries);

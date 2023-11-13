@@ -1,5 +1,5 @@
 import { Factory } from '../../core/factory';
-import { Direction } from '../../typings';
+import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import type { Datum, DirectionType } from '../../typings';
 import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar-core';

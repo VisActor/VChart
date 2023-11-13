@@ -35,7 +35,7 @@ jobs:
       - name: Build VChart
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js build --only @visactor/vchart
+        run: node common/scripts/install-run-rush.js run -p @visactor/vchart -s build:ci
       - name: Compile
         run: node common/scripts/install-run-rush.js compile --only tag:package
       - name: Test

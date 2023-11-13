@@ -1,6 +1,6 @@
 import { BaseChart } from '../base-chart';
-import { ChartTypeEnum } from '../interface';
-import { SeriesTypeEnum } from '../../series/interface';
+import { ChartTypeEnum } from '../interface/type';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ISankeyChartSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../series/interface';

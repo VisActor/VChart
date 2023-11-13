@@ -1,12 +1,13 @@
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption } from '../../model/interface';
 import type { LayoutItem } from '../../model/layout-item';
 import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
-import { eachSeries, mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { eachSeries } from '../../util/model';
 import type { ISeries } from '../../series/interface';
 import {
   registerLabel as registerVGrammarLabel,
@@ -240,8 +241,8 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       .labelStyle((mark: IMark, params: Record<string, any>) => {
         const labelInfo = labelInfos[params.labelIndex];
         if (labelInfo) {
-          const { baseMark, labelSpec, labelMark } = labelInfo;
-          const rule = labelMark.getRule() || baseMark.type;
+          const { labelSpec, labelMark } = labelInfo;
+          const rule = labelMark.getRule();
           const configFunc = labelRuleMap[rule] ?? labelRuleMap.point;
           const interactive = this._interactiveConfig(labelSpec);
           const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);

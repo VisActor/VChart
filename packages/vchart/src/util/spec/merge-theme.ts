@@ -4,7 +4,8 @@ import { transformColorSchemeToStandardStruct } from '../../theme/color-scheme/u
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 import type { ISeriesTheme } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { seriesMarkInfoMap, type ISeriesMarkInfo } from '../../series/interface';
+import type { ISeriesMarkInfo } from '../../series/interface/common';
+import { seriesMarkInfoMap } from '../../series/interface/theme';
 import { mergeSpec } from './merge-spec';
 
 export function mergeTheme(target: Maybe<ITheme>, ...sources: Maybe<ITheme>[]): Maybe<ITheme> {
@@ -20,21 +21,21 @@ function transformThemeToMerge(theme?: Maybe<ITheme>): Maybe<ITheme> {
   const colorScheme = transformColorSchemeToMerge(theme.colorScheme);
 
   // 将全局 mark 主题 merge 进系列主题
-  let { series } = theme;
+  const { series } = theme;
   const { mark: markByType, markByName } = theme;
+  let newSeriesTheme;
   if (markByType || markByName) {
-    series = Object.keys(seriesMarkInfoMap).reduce((newSeriesTheme, key) => {
+    newSeriesTheme = Object.keys(seriesMarkInfoMap).reduce((newSeriesTheme, key) => {
       const value = series?.[key] ?? {};
       newSeriesTheme[key] = transformSeriesThemeToMerge(value, key, markByType, markByName);
       return newSeriesTheme;
     }, {} as ISeriesTheme);
   }
 
-  return {
-    ...theme,
+  return Object.assign({}, theme, {
     colorScheme,
-    series
-  };
+    series: Object.assign({}, theme.series, newSeriesTheme)
+  });
 }
 
 /** 将色板转化为标准形式 */
@@ -56,6 +57,9 @@ export function transformSeriesThemeToMerge(
   markByType: IGlobalMarkThemeByType,
   markByName: IGlobalMarkThemeByName
 ): any {
+  if (!seriesMarkInfoMap[seriesType]) {
+    return seriesTheme;
+  }
   const newTheme: any = {};
   Object.values<ISeriesMarkInfo>(seriesMarkInfoMap[seriesType]).forEach(({ type, name }) => {
     newTheme[name] = mergeSpec({}, markByType?.[array(type)[0]], markByName?.[name], seriesTheme?.[name]);

@@ -1,5 +1,4 @@
-import { isArray } from '@visactor/vutils';
-import { isNil, isNumber, degreeToRadian } from '@visactor/vutils';
+import { isNil, isNumber, degreeToRadian, isArray } from '@visactor/vutils';
 import { field as getFieldAccessor, extent, toPercent } from '@visactor/vgrammar-util';
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant';
 

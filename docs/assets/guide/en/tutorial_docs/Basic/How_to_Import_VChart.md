@@ -6,6 +6,10 @@ In the [How to Get VChart](./How_to_Get_VChart) chapter, we introduced the ways 
 
 After getting the VChart file from [cdn](./How_to_Get_VChart#cdn-获取), you can add it to the `<script>` tag in the HTML file:
 
+**Note: When introducing in cdn mode, you need to pay attention to the reference method of VChart:**
+
+`const vchart = new VChart.default(spec, { dom: 'chart' });`
+
 ```html
 <body>
   <div id="chart" style="outline: solid red 1px; width: 100%; height: 500px"></div>
@@ -121,3 +125,66 @@ const vchart = new VChart(spec, {
 // Call the rendering method to draw the chart
 vchart.renderAsync();
 ```
+
+## Import on demand
+
+`@visactor/vchart` provides all VChart functionality by default. If your project has strong requirements for code size, you can also import the relevant charts and components on demand. Let's take a bar chart as an example to demonstrate how to import on demand:
+
+```ts
+// Import the VChart core module
+import { VChart } from '@visactor/vchart/esm/core';
+// Import bar chart register
+import { registerBarChart } from '@visactor/vchart/esm/chart';
+// Import Cartesian axes, Tooltip, CrossHair components' registers
+import {
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerTooltip,
+  registerCartesianCrossHair
+} from '@visactor/vchart/esm/component';
+// Import cross-environment code, here we only load code for browser
+
+// Register
+VChart.useRegisters([
+  registerBarChart,
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerTooltip,
+  registerCartesianCrossHair
+]);
+```
+
+VChart provides support for browser and node environments by default. If your project needs to run in a mini program environment for on-demand loading, please be careful to import the mini program environment code when necessary.
+For example, when using in WeChat Mini Program, you need to call `registerWXEnv`:
+
+```ts
+import { registerWXEnv } from '@visactor/vchart/esm/env';
+VChart.useRegisters([registerWXEnv]);
+```
+
+Note that if your project uses cjs (commonJS), please import from the `@visactor/vchart/cjs` directory as follows:
+
+```js
+// Import the VChart core module
+const { VChart } = require('@visactor/vchart/cjs/core');
+// Import bar chart register
+const { registerBarChart } = require('@visactor/vchart/cjs/chart');
+// Import Cartesian axes, Tooltip, CrossHair components' registers
+const {
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerTooltip,
+  registerCartesianCrossHair
+} = require('@visactor/vchart/cjs/component');
+
+// Register
+VChart.useRegisters([
+  registerBarChart,
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerTooltip,
+  registerCartesianCrossHair
+]);
+```
+
+You can specifically view the code example: [On-demand import of bar chart](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn)

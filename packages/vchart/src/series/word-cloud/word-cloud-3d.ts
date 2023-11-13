@@ -16,6 +16,8 @@ import type { ICompilableMark } from '../../compile/mark';
 import { BaseWordCloudSeries } from './base';
 import { Factory } from '../../core/factory';
 import { registerWordCloud3dAnimation } from './animation';
+import { registerWordCloudTransforms } from '@visactor/vgrammar-wordcloud';
+import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-shape';
 
 export class WordCloud3dSeries<
   T extends IWordCloud3dSeriesSpec = IWordCloud3dSeriesSpec
@@ -259,7 +261,7 @@ export class WordCloud3dSeries<
               r
             };
           }),
-          userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.word, this._spec, this._markAttributeContext)
         )
       );
     }
@@ -276,7 +278,7 @@ export class WordCloud3dSeries<
               r
             };
           }),
-          userAnimationConfig(SeriesMarkNameEnum.fillingWord, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.fillingWord, this._spec, this._markAttributeContext)
         )
       );
     }
@@ -284,7 +286,13 @@ export class WordCloud3dSeries<
 }
 
 export const registerWordCloud3dSeries = () => {
+  registerWordCloudTransforms();
   Factory.registerMark(TextMark.type, TextMark);
   Factory.registerSeries(WordCloud3dSeries.type, WordCloud3dSeries);
   registerWordCloud3dAnimation();
+};
+
+export const registerWordCloudShape3dSeries = () => {
+  registerWordCloudShapeTransforms();
+  registerWordCloud3dSeries();
 };

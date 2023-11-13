@@ -123,6 +123,7 @@ export const registerLineAnimation = () => {
       exit: { type: 'fadeOut' },
       update: [
         {
+          type: 'update',
           options: { excludeChannels: 'points' }
         },
         {

@@ -20,65 +20,84 @@ VChart 的全局配置项。这个对象里的属性可以直接修改，配置�
 
 ## 静态方法
 
+### useRegisters
+
+```ts
+  /**
+   *  按需注册图表和组件
+   * @param comps
+   * @since 1.5.1
+   */
+  static useRegisters(comps: (() => void)[]) {
+    comps.forEach((fn: () => void) => {
+      fn();
+    });
+  }
+
+```
+
+1.5.1 版本开始支持。  
+用于按需加载图表、系列、组件、环境兼容代码等。具体使用请参考 [按需引入教程](../../../guide/zh/tutorial_docs/Basic/How_to_Import_VChart.md)
+
 ### useChart
 
 ```ts
 /**
- * 注册图表
+ * 注册自定义图表
  * @param charts 图表类
  */
 useChart: (charts: IChartConstructor[]) => void;
 ```
 
-用于注册需要的图表 Chart，常用于按需加载。
+用于注册扩展的自定义图表 Chart。
 
 ### useSeries
 
 ```ts
 /**
- * 注册系列
+ * 注册自定义系列
  * @param series 系列类
  */
 useSeries: (series: ISeriesConstructor[]) => void;
 ```
 
-用于注册需要的系列 Series，常用于按需加载。
+用于注册扩展的自定义系列 Series。
 
 ### useComponent
 
 ```ts
 /**
- * 注册组件
+ * 注册自定义组件
  * @param components 组件类
  */
 useComponent: (components: IComponentConstructor[]) => void;
 ```
 
-用于注册需要的组件 Component，常用于按需加载。
+用于注册扩展的自定义组件 Component。
 
 ### useMark
 
 ```ts
 /**
- * 注册 Mark
+ * 注册自定义 Mark
  * @param  marks Mark 图元类
  */
 useMark: (marks: MarkConstructor[]) => void;
 ```
 
-用于注册需要的组件 Mark，常用于按需加载。
+用于注册扩展的自定义 组件 Mark。
 
 ### useLayout
 
 ```ts
 /**
- * 注册布局
+ * 注册自定义的布局
  * @param layouts 布局类
  */
 useLayout: (layouts: ILayoutConstructor[]) => void;
 ```
 
-用于注册需要的布局 Layout，常用于按需加载。
+用于注册扩展的自定义布局 Layout。
 
 ### registerDataSetTransform
 
@@ -201,7 +220,7 @@ new VChart(spec: ISpec, options: IInitOption);
 ```ts
 export interface srIOption3DType extends IOption3D {
   enable?: boolean;
-  enableView3dTranform?: boolean;
+  enableView3dTransform?: boolean;
 }
 export interface IOption3D {
   alpha?: number;

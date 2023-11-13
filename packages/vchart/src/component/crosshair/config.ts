@@ -1,34 +1,25 @@
-import { RenderModeEnum } from '../../typings/spec/common';
+import type { RenderMode } from '../../typings/spec';
+import { RenderModeEnum } from '../../typings/spec';
+import { isMiniAppLikeMode, isMobileLikeMode } from '../../util';
 
-export const defaultCrosshairTriggerEvent = {
-  [RenderModeEnum['desktop-browser']]: {
-    click: 'pointertap',
-    hover: 'pointermove',
-    hoverOut: 'pointerleave',
-    clickOut: 'pointerleave'
-  },
-  [RenderModeEnum['desktop-miniApp']]: {
-    click: 'pointertap',
-    hover: 'pointermove',
-    hoverOut: 'pointerleave',
-    clickOut: 'pointerleave'
-  },
-  [RenderModeEnum['mobile-browser']]: {
-    click: 'tap',
-    hover: ['pointerdown', 'pointermove'],
-    hoverOut: 'pointerleave',
-    clickOut: 'pointerleave'
-  },
-  [RenderModeEnum.miniApp]: {
-    click: 'tap',
-    hover: ['pointerdown', 'pointermove'],
-    hoverOut: 'pointerleave',
-    clickOut: 'pointerleave'
-  },
-  [RenderModeEnum.lynx]: {
-    click: 'tap',
-    hover: ['pointerdown', 'pointermove'],
-    hoverOut: 'pointerleave',
-    clickOut: 'pointerleave'
+export function getDefaultCrosshairTriggerEventByMode(mode: RenderMode) {
+  if (mode === RenderModeEnum['desktop-browser'] || mode === RenderModeEnum['desktop-miniApp']) {
+    return {
+      click: 'pointertap',
+      hover: 'pointermove',
+      hoverOut: 'pointerleave',
+      clickOut: 'pointerleave'
+    };
   }
-};
+
+  if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
+    return {
+      click: 'tap',
+      hover: ['pointerdown', 'pointermove'],
+      hoverOut: 'pointerleave',
+      clickOut: 'pointerleave'
+    };
+  }
+
+  return null;
+}

@@ -1,16 +1,17 @@
-import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
+import type { ICartesianSeriesSpec } from '../cartesian/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { ISymbolMarkSpec, ILineMarkSpec, IAreaMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface/type';
-import type { ILineLikeSeriesTheme } from '../mixin/line-mixin';
+import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mixin';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AreaAppearPreset } from './animation';
-import type { IMarkProgressiveConfig } from '../../mark/interface';
-
+import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 export interface IAreaSeriesSpec
   extends ICartesianSeriesSpec,
     IAnimationSpec<string, AreaAppearPreset>,
-    IMarkProgressiveConfig {
+    IMarkProgressiveConfig,
+    IDataSamping,
+    IMarkOverlap {
   /**
    * 系列类型
    */
@@ -36,12 +37,15 @@ export interface IAreaSeriesSpec
    */
   [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
   /**
+   * 标签配置
+   */
+  [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+  /**
    * 系列主 mark 类型配置，该配置会影响图例的展示
    * @default 'area'
    * @since 1.2.0
    */
   seriesMark?: 'point' | 'line' | 'area';
-
   /**
    * 是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点
    * @default false
@@ -50,6 +54,6 @@ export interface IAreaSeriesSpec
   activePoint?: boolean;
 }
 
-export interface IAreaSeriesTheme extends ICartesianSeriesTheme, ILineLikeSeriesTheme {
+export interface IAreaSeriesTheme extends ILineLikeSeriesTheme {
   [SeriesMarkNameEnum.area]?: Partial<IMarkTheme<IAreaMarkSpec>>;
 }

@@ -135,6 +135,20 @@
             "zh": "折线图轴 padding 调整",
             "en": "Offline Chart Axis padding adjustment"
           }
+        },
+        {
+          "path": "line-sampling",
+          "title": {
+            "zh": "折线图数据采样",
+            "en": "line chart sampling"
+          }
+        },
+        {
+          "path": "line-overlap",
+          "title": {
+            "zh": "折线图防重叠",
+            "en": "line chart overlap"
+          }
         }
       ]
     },
@@ -362,6 +376,27 @@
           "title": {
             "zh": "分组柱图组内间距调整",
             "en": "Spacing adjustment within grouped bars"
+          }
+        },
+        {
+          "path": "bar-background",
+          "title": {
+            "zh": "带条形背景的条形图",
+            "en": "Bar Chart with Background"
+          }
+        },
+        {
+          "path": "bar-functional-label-position",
+          "title": {
+            "zh": "水平条形图标签位置自定义",
+            "en": "Bar Chart with functional label position"
+          }
+        },
+        {
+          "path": "bar-markPoint",
+          "title": {
+            "zh": "柱状图标注",
+            "en": "Bar Chart with MarkPoint"
           }
         }
       ]

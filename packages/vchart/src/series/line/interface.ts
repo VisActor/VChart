@@ -1,11 +1,10 @@
 import type { IMarkSpec } from '../../typings/spec/common';
-import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
+import type { ICartesianSeriesSpec } from '../cartesian/interface';
 import type { ISymbolMarkSpec, ILineMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
-import type { ILineLikeSeriesTheme } from '../mixin/line-mixin';
-import type { ILabelSpec } from '../../component/label';
-import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mixin';
+import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 
 type LineMarks = 'point' | 'line';
@@ -13,7 +12,9 @@ type LineMarks = 'point' | 'line';
 export interface ILineSeriesSpec
   extends ICartesianSeriesSpec,
     IAnimationSpec<LineMarks, LineAppearPreset>,
-    IMarkProgressiveConfig {
+    IMarkProgressiveConfig,
+    IDataSamping,
+    IMarkOverlap {
   /** 系列类型 */
   type: 'line';
   /**
@@ -32,20 +33,10 @@ export interface ILineSeriesSpec
    * 线图元配置
    */
   [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
-  /** 标签配置 */
-  label?: ILabelSpec & {
-    /** 标签位置 */
-    position?:
-      | 'top'
-      | 'bottom'
-      | 'left'
-      | 'right'
-      | 'top-right'
-      | 'top-left'
-      | 'bottom-right'
-      | 'bottom-left'
-      | 'center';
-  };
+  /**
+   * 标签配置
+   */
+  [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
   /**
    * 系列主 mark 类型配置，该配置会影响图例的展示
    * @default 'line'
@@ -61,6 +52,4 @@ export interface ILineSeriesSpec
   activePoint?: boolean;
 }
 
-export interface ILineSeriesTheme extends Omit<ICartesianSeriesTheme, 'label'>, ILineLikeSeriesTheme {
-  label?: Partial<ILineSeriesSpec['label']>;
-}
+export type ILineSeriesTheme = ILineLikeSeriesTheme;

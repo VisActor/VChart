@@ -164,7 +164,7 @@ const vchart = new VChart(spec, {
   disableDirtyBounds: true,
   options3d: {
     enable: true,
-    enableView3dTranform: true,
+    enableView3dTransform: true,
     center: { x: 500, y: 250 }
   }
 });

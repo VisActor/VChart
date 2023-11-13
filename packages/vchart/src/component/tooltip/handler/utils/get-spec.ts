@@ -9,11 +9,11 @@ import type {
   TooltipPatternProperty
 } from '../../../../typings';
 import type { ISeries } from '../../../../series/interface';
-import { cloneDeep, isValid, mergeSpec, array, isFunction, isNil } from '../../../../util';
+import { mergeSpec } from '../../../../util/spec/merge-spec';
 import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
-import { getTooltipActualActiveType } from '../../utils';
-import { memoize } from '@visactor/vutils';
+import { getTooltipActualActiveType } from '../../utils/common';
+import { memoize, isValid, array, isFunction, isNil, cloneDeep } from '@visactor/vutils';
 
 export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,

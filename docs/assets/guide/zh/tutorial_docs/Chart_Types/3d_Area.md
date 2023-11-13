@@ -28,7 +28,7 @@
 作为 3d 图表，3d 面积图需要开启 3d 视图，需要在 vChart 的初始化参数中配置 3d 视角:
 
 - `options3d.enable`: 启用 3d 视角
-- `options3d.enableView3dTranform`: 支持 3d 的自由变换
+- `options3d.enableView3dTransform`: 支持 3d 的自由变换
 <!-- qAA -->
 
 ## 快速上手
@@ -130,7 +130,7 @@ const vchart = new VChart(spec, {
   disableDirtyBounds: true,
   options3d: {
     enable: true,
-    enableView3dTranform: true,
+    enableView3dTransform: true,
     center: { x: 500, y: 250 }
   }
 });

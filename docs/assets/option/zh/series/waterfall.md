@@ -38,6 +38,30 @@ bar 图元样式配置。
 
 {{ use: mark-state-style() }}
 
+#${prefix} barBackground(Object)
+
+barBackground 图元样式配置。该图元默认不显示。
+
+自 1.6.0 版本开始支持。
+
+{{ use: common-mark(
+  prefix = '#' + ${prefix}
+) }}
+
+##${prefix} style(Object)
+
+{{ use: mark-style(
+  markName = 'barBackground'
+) }}
+
+{{ use: mark-rect(
+  prefix = '##' + ${prefix}
+) }}
+
+##${prefix} state(Object)
+
+{{ use: mark-state-style() }}
+
 #${prefix} barWidth(number)
 
 柱体宽度。

@@ -1,4 +1,4 @@
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import { barSeriesMark } from '../bar/constant';
 import type { SeriesMarkMap } from '../interface/common';
 import { SeriesMarkNameEnum } from '../interface/type';

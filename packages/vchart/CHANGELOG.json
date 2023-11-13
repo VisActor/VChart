@@ -2,6 +2,177 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.6.3",
+      "tag": "@visactor/vchart_v1.6.3",
+      "date": "Fri, 10 Nov 2023 09:56:51 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix the issue of update animation not work for line mark"
+          },
+          {
+            "comment": "fix: update vgrammar to ~0.8.3  to fix the issue that, vrender should not auto render during renderAsync"
+          },
+          {
+            "comment": " fix: fix the error when quick release vchart during async render"
+          },
+          {
+            "comment": "fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446"
+          },
+          {
+            "comment": "perf: optimize the encode performance of sankey\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.6.2",
+      "tag": "@visactor/vchart_v1.6.2",
+      "date": "Wed, 08 Nov 2023 11:05:21 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.6.1",
+      "tag": "@visactor/vchart_v1.6.1",
+      "date": "Wed, 08 Nov 2023 05:29:48 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: label formatMethod callback add context parmas to provide series object"
+          },
+          {
+            "comment": "feat: add components `<Title />` and `<Indicator />` of react-vchart, close #1424\n\n"
+          },
+          {
+            "comment": "fix: `centroidProperty` not work in map chart"
+          },
+          {
+            "comment": "fix: fix incorrect legend filter result caused by animation in #1403"
+          },
+          {
+            "comment": "fix: if layout item is invisible, do not participate in grid layout, related #1425"
+          },
+          {
+            "comment": "fix(marker): aggregation return value infinity problem. fix#1380'"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.6.0",
+      "tag": "@visactor/vchart_v1.6.0",
+      "date": "Fri, 03 Nov 2023 05:16:41 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add `updateElement` callback in tooltip spec to configure custom tooltip DOM elements based on the default tooltip handler, related #1338"
+          },
+          {
+            "comment": "feat: enable exit animation while updating data"
+          },
+          {
+            "comment": " feat: support functional label.position config in line/area/scatter/bar series"
+          },
+          {
+            "comment": "feat: load browser or node env code dynamically"
+          },
+          {
+            "comment": "feat: support functional label.position config in line/area/scatter/bar series"
+          },
+          {
+            "comment": "feat: dataScheme supports configuration by distinguishing series directions, related #1209"
+          },
+          {
+            "comment": "feat: data sampling & point overlap. close #460"
+          },
+          {
+            "comment": "fix: react-vchart mode not work"
+          },
+          {
+            "comment": "fix: optimize the trigger of hover in non-browser env"
+          },
+          {
+            "comment": "fix: if series mark is line, return stroke value when user want fill value, fixed #1388"
+          },
+          {
+            "comment": "fix: fix the angle offset in rose dimension tooltip, related #1263"
+          },
+          {
+            "comment": "perf: create Stack and calculate stack attributes when need\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.5.4",
+      "tag": "@visactor/vchart_v1.5.4",
+      "date": "Mon, 30 Oct 2023 06:09:01 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add bar background mark for bar-like series, related #1154"
+          },
+          {
+            "comment": "fix: unexpected funnel transform ratio label, see #1348"
+          },
+          {
+            "comment": "fix: tooltip value label clipped on lark mini app, related #1346"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.5.3",
+      "tag": "@visactor/vchart_v1.5.3",
+      "date": "Fri, 27 Oct 2023 06:56:41 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support the exportCanvas api of vchart\n\n"
+          },
+          {
+            "comment": "fix: sankey chart downstream highlight, related #1269"
+          },
+          {
+            "comment": "fix(brush): slove first select not effect problem. fix #1129"
+          },
+          {
+            "comment": "fix: new layout method for circle axis label, related #1123"
+          },
+          {
+            "comment": "fix: change default zIndex of axis in gauge chart, related #1122"
+          },
+          {
+            "comment": "fix(datazoom): datazoom location error when resize. fix #520"
+          },
+          {
+            "comment": "fix: slove event off error after release"
+          },
+          {
+            "comment": "fix: fix the issue where invalidType of scatter chart checks x and y at the same time\n\n"
+          },
+          {
+            "comment": "fix: fix the issue in markline as min/max aggr result is not correct, see #1261"
+          },
+          {
+            "comment": "fix: fix: fix the issue that the map tooltip title does not display the name from nameMap, see #1260"
+          },
+          {
+            "comment": "fix: sankey supports string value"
+          },
+          {
+            "comment": "fix: fix the issue of crosshair can not trigger in weapp, fixed #1322"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.5.2",
       "tag": "@visactor/vchart_v1.5.2",
       "date": "Tue, 24 Oct 2023 01:48:10 GMT",

@@ -132,7 +132,7 @@ export interface IMarkerSpec extends IComponentSpec {
    * 标注数据关联的series
    */
   relativeSeriesIndex?: number;
-  relativeSeriesId?: number;
+  relativeSeriesId?: number | string;
   /**
    * marker组件是否可见
    * @default true

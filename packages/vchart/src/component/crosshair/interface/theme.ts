@@ -11,14 +11,14 @@ export interface ICrosshairTheme extends ICommonCrosshairSpec {
    * band 轴 crosshair 的公共配置
    * @since 1.3.0
    */
-  bandField?: ICrosshairCategoryFieldSpec;
+  bandField?: Partial<ICrosshairCategoryFieldSpec>;
   /**
    * linear 轴 crosshair 的公共配置
    * @since 1.3.0
    */
-  linearField?: ICrosshairValueFieldSpec;
-  xField?: ICartesianCrosshairSpec['xField'];
-  yField?: ICartesianCrosshairSpec['yField'];
-  categoryField?: IPolarCrosshairSpec['categoryField'];
-  valueField?: IPolarCrosshairSpec['valueField'];
+  linearField?: Partial<ICrosshairValueFieldSpec>;
+  xField?: Partial<ICartesianCrosshairSpec['xField']>;
+  yField?: Partial<ICartesianCrosshairSpec['yField']>;
+  categoryField?: Partial<IPolarCrosshairSpec['categoryField']>;
+  valueField?: Partial<IPolarCrosshairSpec['valueField']>;
 }

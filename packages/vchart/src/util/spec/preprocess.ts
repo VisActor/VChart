@@ -1,9 +1,11 @@
 import { isArray, isFunction, isNil, isObject, isString, isValid, isValidNumber } from '@visactor/vutils';
-import { seriesMarkNameSet, type SeriesTypeEnum } from '../../series/interface';
+import type { SeriesTypeEnum } from '../../series/interface/type';
+import { seriesMarkNameSet } from '../../series/interface/type';
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 import { isDataView, isHTMLElement } from './common';
 import { getActualColor, isColorKey } from '../../theme/color-scheme/util';
 import { normalizeLayoutPaddingSpec } from '../space';
+import type { ISeriesSpec } from '../../typings';
 
 /**
  * 对 spec 或者类 spec 配置（如 theme）进行预处理，如进行语义化颜色的转换等
@@ -17,7 +19,7 @@ export function preprocessSpecOrTheme(
   type: 'spec' | 'theme' | 'mark-spec' | 'mark-theme',
   obj: any,
   colorScheme?: IThemeColorScheme,
-  seriesType?: SeriesTypeEnum
+  seriesSpec?: ISeriesSpec
 ): any {
   if (isNil(obj)) {
     return obj;
@@ -25,7 +27,7 @@ export function preprocessSpecOrTheme(
   if (isArray(obj)) {
     return obj.map(element => {
       if (isObject(element) && !isFunction(element)) {
-        return preprocessSpecOrTheme(type, element, colorScheme, seriesType);
+        return preprocessSpecOrTheme(type, element, colorScheme, seriesSpec);
       }
       return element;
     });
@@ -47,13 +49,13 @@ export function preprocessSpecOrTheme(
       }
       if (isColorKey(value)) {
         // 查询、替换语义化颜色
-        newObj[key] = getActualColor(value, colorScheme, seriesType);
+        newObj[key] = getActualColor(value, colorScheme, seriesSpec);
       } else {
         newObj[key] = preprocessSpecOrTheme(
           seriesMarkNameSet.has(key) ? (type.includes('spec') ? 'mark-spec' : 'mark-theme') : type,
           value,
           colorScheme,
-          seriesType
+          seriesSpec
         );
       }
     } else if (!type.includes('mark') && key === 'padding') {

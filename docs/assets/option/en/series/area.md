@@ -99,9 +99,21 @@ Connection method for non-compliant data points. Connection method for null, und
 
 Label configuration.
 
-##${prefix} position(string) = 'top'
+##${prefix} position(string|Function) = 'top'
 
-Label position. Optional values:
+Label position.
+
+Since `1.6.0` version, in bar series, `position` can be a function, for example:
+
+```ts
+label: {
+  position: (datum: any) => {
+    return datum.year === '2000' ? 'top' : 'bottom';
+  };
+}
+```
+
+Optional string values:
 
 - `'top'`
 - `'bottom'`
@@ -111,6 +123,7 @@ Label position. Optional values:
 - `'top-left'`
 - `'bottom-right'`
 - `'bottom-left'`
+- `'center'`
 
 {{ use: component-label(
   prefix = '#' + ${prefix},
@@ -132,3 +145,25 @@ Total label, working when the data is stacked. Supported since version `1.3.0`.
   defaultOffset = 5,
   ignoreCustom = true
 ) }}
+
+#${prefix} sampling(string)
+Data Sampling - Sampling method. Supported since version `1.6.0`.
+The downsampling strategy of the line chart when the amount of data is much larger than the pixels can effectively optimize the drawing efficiency of the chart when it is turned on. It is turned off by default, that is, all data points are drawn without filtering.
+Optional values:
+- `'lttb'`: Using the Largest-Triangle-Three-Bucket algorithm, the trend, shape and extreme value of the sampled line can be guaranteed to the greatest extent.
+- `'min'`: Get the minimum value of filter points
+- `'max'`: Take the maximum value of filter points
+- `'sum'`: Take the sum of filter points
+- `'average'`: Take the average of the filtered points
+
+#${prefix} samplingFactor(number) = 1
+Data Sampling - Sampling coefficients. Supported since version `1.6.0`.
+
+#${prefix} markOverlap(boolean) = false
+Anti-overlap - Whether to allow marker graphics to overlap each other. Supported since version `1.6.0`
+
+#${prefix} pointDis(number)
+Anti-overlap - Distance between marker points, in px. Supported since version `1.6.0`
+
+#${prefix} pointDisMul(number) = 1
+Anti-overlap - distance between marker points, multiple of pointSize. Supported since version `1.6.0`

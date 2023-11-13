@@ -23,8 +23,13 @@ jobs:
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
 
-      - name: Build
-        run: node common/scripts/install-run-rush.js build -t @visactor/vchart
+      - name: Build vutils-extension
+        run: node common/scripts/install-run-rush.js build --only @visactor/vutils-extension
+
+      - name: Build VChart
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node common/scripts/install-run-rush.js run -p @visactor/vchart -s build:ci
 
       # action below will calculate pr base branch without skip_step which might cause error
       # - uses: andresz1/size-limit-action@v1

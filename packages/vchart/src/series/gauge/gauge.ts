@@ -1,4 +1,4 @@
-import { isValid, mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -14,7 +14,7 @@ import { animationConfig, userAnimationConfig } from '../../animation/utils';
 // eslint-disable-next-line no-duplicate-imports
 import { ProgressArcMark } from '../../mark/progress-arc';
 import { gaugeSeriesMark } from './constant';
-import { degreeToRadian } from '@visactor/vutils';
+import { degreeToRadian, isValid } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { registerCircularProgressAnimation } from '../polar/progress-like';
 import type { IMark } from '../../mark/interface';
@@ -60,7 +60,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     };
 
     registerDataSetInstanceTransform(this._option.dataSet, 'spiltSegment', spiltSegment);
-    this.getViewDataFilter()?.transform(
+    this.getViewData()?.transform(
       {
         type: 'spiltSegment'
       },
@@ -171,7 +171,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
           },
           appearPreset
         ),
-        userAnimationConfig(SeriesMarkNameEnum.segment, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.segment, this._spec, this._markAttributeContext)
       )
     );
   }

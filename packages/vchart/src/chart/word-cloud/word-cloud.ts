@@ -1,12 +1,10 @@
-import { SeriesTypeEnum } from '../../series/interface';
-import { ChartTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
+import { ChartTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IWordCloudChartSpec } from './interface';
 import { BaseWordCloudChart } from './base';
-import { registerWordCloudSeries } from '../../series/word-cloud/word-cloud';
+import { registerWordCloudSeries, registerWordCloudShapeSeries } from '../../series/word-cloud/word-cloud';
 import { Factory } from '../../core/factory';
-import { registerWordCloudTransforms } from '@visactor/vgrammar-wordcloud';
-import { registerWordCloudShapeTransforms } from '@visactor/vgrammar-wordcloud-shape';
 
 export class WordCloudChart extends BaseWordCloudChart {
   static readonly type: string = ChartTypeEnum.wordCloud;
@@ -48,9 +46,13 @@ export class WordCloudChart extends BaseWordCloudChart {
 }
 
 export const registerWordCloudChart = () => {
-  // vgrammar transform
-  registerWordCloudTransforms();
-  registerWordCloudShapeTransforms();
   registerWordCloudSeries();
   Factory.registerChart(WordCloudChart.type, WordCloudChart);
+};
+
+// Splitting the register logic into two parts is to tree-shake the unused transforms as much as possible.
+// Especially in the cross-terminal environment,  word-cloud shape is not compatible.
+export const registerWordCloudShapeChart = () => {
+  registerWordCloudShapeSeries();
+  registerWordCloudChart();
 };

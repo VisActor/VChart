@@ -10,23 +10,37 @@ import {
 import type { SunburstSeries } from '../../series/sunburst/sunburst';
 import type { CirclePackingSeries } from '../../series/circle-packing/circle-packing';
 
-export const initKeyMap = () => {
-  return { keyMap: new Map() };
-};
+export function initKeyMap(this: BaseSeries<any>) {
+  return {
+    keyMap: new Map(),
+    needDefaultSeriesField: !this._seriesField,
+    defaultSeriesField: !this._seriesField ? this.getSeriesKeys()[0] : null,
+    getKey: this.generateDefaultDataKey(this._spec.dataKey)
+  };
+}
 
-export function addDataKey(this: BaseSeries<any>, d: any, i: number, context: AddVChartPropertyContext) {
+export function addDataKey(d: any, i: number, context: AddVChartPropertyContext) {
   if (!d) {
     return;
   }
-  if (!this._seriesField) {
-    d[DEFAULT_DATA_SERIES_FIELD] = this.getSeriesKeys()[0];
+  if (context.needDefaultSeriesField) {
+    d[DEFAULT_DATA_SERIES_FIELD] = context.defaultSeriesField;
   }
   d[DEFAULT_DATA_INDEX] = i;
-  d[DEFAULT_DATA_KEY] = this.generateDefaultDataKey(this._spec.dataKey, d, i, context);
+  d[DEFAULT_DATA_KEY] = context.getKey(d, i, context);
+}
+
+export function initHierarchyKeyMap(this: TreemapSeries | SunburstSeries | CirclePackingSeries) {
+  return {
+    keyMap: new Map(),
+    needDefaultSeriesField: true,
+    defaultSeriesField: this.getSeriesKeys()[0],
+    getKey: (this as any).generateDefaultDataKey((this as any)._spec.dataKey),
+    categoryField: this.getCategoryField()
+  };
 }
 
 export function addHierarchyDataKey(
-  this: TreemapSeries | SunburstSeries | CirclePackingSeries,
   d: any,
   i: number,
   context: AddVChartPropertyContext,
@@ -37,20 +51,13 @@ export function addHierarchyDataKey(
   if (rootIndex === undefined) {
     rootIndex = i;
   }
-  addDataKey.bind(this)(d, i, context);
+  addDataKey(d, i, context);
   d[DEFAULT_HIERARCHY_DEPTH] = depth;
-  d[DEFAULT_HIERARCHY_ROOT] = root || d[this.getCategoryField()];
+  d[DEFAULT_HIERARCHY_ROOT] = root || d[context.categoryField];
   d[DEFAULT_HIERARCHY_ROOT_INDEX] = rootIndex;
   if (d.children && d.children.length) {
     d.children.forEach((_d: any, _i: number) =>
-      addHierarchyDataKey.bind(this)(
-        _d,
-        _i,
-        context,
-        d[DEFAULT_HIERARCHY_DEPTH] + 1,
-        d[DEFAULT_HIERARCHY_ROOT],
-        rootIndex
-      )
+      addHierarchyDataKey(_d, _i, context, d[DEFAULT_HIERARCHY_DEPTH] + 1, d[DEFAULT_HIERARCHY_ROOT], rootIndex)
     );
   }
 }

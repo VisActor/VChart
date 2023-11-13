@@ -4,7 +4,7 @@ import type { IEvent, IEventDispatcher } from '../event/interface';
 import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { VChart } from '../vchart-all';
-import type { IData, IElement, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
+import type { IData } from '@visactor/vgrammar-core';
 import type {
   IOrientType,
   IPoint,
@@ -17,8 +17,6 @@ import type {
 } from '../typings';
 import type { ITheme } from '../theme';
 import type { StateValueType } from '../typings/spec';
-import type { ITooltipHelper } from './tooltip-helper';
-import type { ModelStateManager } from './model-state-manager';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
@@ -236,14 +234,6 @@ export interface IModel extends ICompilable, ILayoutItem {
   // 副作用
   readonly effect: IEffect;
 
-  // state如果绑定到mark的更新？
-  // 组件的 mark 要怎么样描述，才能正确的基于组件状态进行样式更新？
-  // 方案1: 组件的 state 关联到 mark 的状态。
-  // 方案2: 组件设置 mark 属性，mark自身属性变化时，自己去更新。
-  // react state
-  readonly state: ModelStateManager;
-  getState: () => ModelStateManager['_stateMap'];
-
   coordinate?: CoordinateType;
 
   // 初始化参数
@@ -288,13 +278,6 @@ export interface IModel extends ICompilable, ILayoutItem {
   ) => void;
 
   initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;
-
-  /** 绑定场景结点 */
-  bindSceneNode: (node: IElement) => void;
-  /** 获取场景结点 */
-  getSceneNodes: () => IElement[];
-  /** 获取场景结点对应 mark */
-  getSceneNodeMarks: () => IVGrammarMark[];
 }
 
 export interface IModelOption extends ICompilableInitOption {
@@ -330,7 +313,10 @@ export interface IModelConstructor {
   new (ctx: IModelOption): IModel;
 }
 
-export type ILayoutModelState = ModelStateManager['_stateMap'];
+export type ILayoutModelState = {
+  layoutUpdateRank: number;
+  [key: string]: unknown;
+};
 
 // TODO: 补充model共有配置
 export type IModelSpec = ILayoutItemSpec & { id?: StringOrNumber };

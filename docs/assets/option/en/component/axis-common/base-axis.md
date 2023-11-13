@@ -8,6 +8,14 @@
 
 Whether or not to display the axes, default display.
 
+#${prefix} mode('2d'|'3d') = '2d'
+
+Is it the axis in 3D mode? The axis style in 3D mode may differ from that in 2D mode.
+
+#${prefix} depth(number)
+
+The configuration of the z-axis in 3D mode is used to define the length of the z-axis (the length of the x-axis is width, the length of the y-axis is height, and the length of the z-axis is depth).
+
 #${prefix} sampling(boolean) = true
 
 If or not axis data sampling is enabled, the default is enabled. When axis sampling is enabled, axis data will be sampled and displayed to prevent overlapping of axis data. You can control the spacing between axis labels by configuring `label.minGap`.

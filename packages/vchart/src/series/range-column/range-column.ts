@@ -1,15 +1,16 @@
 import { BarSeries } from '../bar/bar';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
 import { RectMark, type IRectMark } from '../../mark/rect';
 import { TextMark, type ITextMark } from '../../mark/text';
-import { mergeSpec, valueInScaleRange } from '../../util';
+import { valueInScaleRange } from '../../util/scale';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { setRectLabelPos } from '../util/label-mark';
 import { AttributeLevel } from '../../constant';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { RangeColumnSeriesTooltipHelper } from './tooltip-helper';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import type { Datum } from '../../typings';
@@ -39,9 +40,11 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   private _labelMark?: ITextMark;
 
   initMark(): void {
+    this._initBarBackgroundMark();
+
     const labelPosition = this._spec.label?.position;
-    this._rectMark = this._createMark(RangeColumnSeries.mark.bar, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('bar', this._spec)),
+    this._barMark = this._createMark(RangeColumnSeries.mark.bar, {
+      morph: shouldMarkDoMorph(this._spec, RangeColumnSeries.mark.bar.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       label: labelPosition === PositionEnum.bothEnd ? undefined : mergeSpec({}, this._spec.label),
@@ -86,19 +89,19 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         minLabelMark,
         position,
         offset,
-        (datum: Datum) => this._rectMark.getAttribute('x', datum) as number,
+        (datum: Datum) => this._barMark.getAttribute('x', datum) as number,
         (datum: Datum) => {
           return this._direction === 'vertical'
-            ? (this._rectMark.getAttribute('x', datum) as number) +
-                (this._rectMark.getAttribute('width', datum) as number)
-            : (this._rectMark.getAttribute('x1', datum) as number);
+            ? (this._barMark.getAttribute('x', datum) as number) +
+                (this._barMark.getAttribute('width', datum) as number)
+            : (this._barMark.getAttribute('x1', datum) as number);
         },
-        (datum: Datum) => this._rectMark.getAttribute('y', datum) as number,
+        (datum: Datum) => this._barMark.getAttribute('y', datum) as number,
         (datum: Datum) => {
           return this._direction === 'vertical'
-            ? (this._rectMark.getAttribute('y1', datum) as number)
-            : (this._rectMark.getAttribute('y', datum) as number) +
-                (this._rectMark.getAttribute('height', datum) as number);
+            ? (this._barMark.getAttribute('y1', datum) as number)
+            : (this._barMark.getAttribute('y', datum) as number) +
+                (this._barMark.getAttribute('height', datum) as number);
         },
         () => this._direction
       );
@@ -125,19 +128,19 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         maxLabelMark,
         position,
         offset,
-        (datum: Datum) => this._rectMark.getAttribute('x', datum) as number,
+        (datum: Datum) => this._barMark.getAttribute('x', datum) as number,
         (datum: Datum) => {
           return this._direction === 'vertical'
-            ? (this._rectMark.getAttribute('x', datum) as number) +
-                (this._rectMark.getAttribute('width', datum) as number)
-            : (this._rectMark.getAttribute('x1', datum) as number);
+            ? (this._barMark.getAttribute('x', datum) as number) +
+                (this._barMark.getAttribute('width', datum) as number)
+            : (this._barMark.getAttribute('x1', datum) as number);
         },
-        (datum: Datum) => this._rectMark.getAttribute('y', datum) as number,
+        (datum: Datum) => this._barMark.getAttribute('y', datum) as number,
         (datum: Datum) => {
           return this._direction === 'vertical'
-            ? (this._rectMark.getAttribute('y1', datum) as number)
-            : (this._rectMark.getAttribute('y', datum) as number) +
-                (this._rectMark.getAttribute('height', datum) as number);
+            ? (this._barMark.getAttribute('y1', datum) as number)
+            : (this._barMark.getAttribute('y', datum) as number) +
+                (this._barMark.getAttribute('height', datum) as number);
         },
         () => this._direction
       );
@@ -172,7 +175,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     const { dataToPosition } = this.direction === Direction.horizontal ? this._xAxisHelper : this._yAxisHelper;
     if (this.direction === Direction.horizontal) {
       this.setMarkStyle(
-        this._rectMark,
+        this._barMark,
         {
           x: (datum: Datum) =>
             valueInScaleRange(
@@ -196,7 +199,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       );
     } else {
       this.setMarkStyle(
-        this._rectMark,
+        this._barMark,
         {
           x: (datum: Datum) => this._getPosition(this.direction, datum),
           y: (datum: Datum) =>
@@ -221,21 +224,22 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         AttributeLevel.Series
       );
     }
+    this._initBarBackgroundMarkStyle();
   }
 
   initAnimation() {
     // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
     const dataIndex = (datum: Datum) => {
       const xValue = datum?.[this._fieldX[0]];
-      const xIndex = this._viewDataStatistics?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
+      const xIndex = this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
       // 不应该出现xIndex === -1 || undefined的情况
       return xIndex || 0;
     };
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<RangeColumnAppearPreset>)?.preset;
-    this._rectMark.setAnimationConfig(
+    this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('rangeColumn')?.({ direction: this.direction }, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.bar, this._spec),
+        userAnimationConfig(SeriesMarkNameEnum.bar, this._spec, this._markAttributeContext),
         { dataIndex }
       )
     );
@@ -244,7 +248,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       this._minLabelMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.label, this._spec),
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext),
           { dataIndex }
         )
       );
@@ -254,7 +258,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       this._maxLabelMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.label, this._spec),
+          userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext),
           { dataIndex }
         )
       );

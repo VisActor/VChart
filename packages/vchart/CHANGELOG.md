@@ -1,6 +1,91 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 24 Oct 2023 01:48:10 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Nov 2023 09:56:51 GMT and should not be manually modified.
+
+## 1.6.3
+Fri, 10 Nov 2023 09:56:51 GMT
+
+### Updates
+
+- fix: fix the issue of update animation not work for line mark
+- fix: update vgrammar to ~0.8.3  to fix the issue that, vrender should not auto render during renderAsync
+-  fix: fix the error when quick release vchart during async render
+- fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446
+- perf: optimize the encode performance of sankey
+
+
+
+## 1.6.2
+Wed, 08 Nov 2023 11:05:21 GMT
+
+### Updates
+
+- fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446
+
+## 1.6.1
+Wed, 08 Nov 2023 05:29:48 GMT
+
+### Updates
+
+- feat: label formatMethod callback add context parmas to provide series object
+- feat: add components `<Title />` and `<Indicator />` of react-vchart, close #1424
+
+
+- fix: `centroidProperty` not work in map chart
+- fix: fix incorrect legend filter result caused by animation in #1403
+- fix: if layout item is invisible, do not participate in grid layout, related #1425
+- fix(marker): aggregation return value infinity problem. fix#1380'
+
+## 1.6.0
+Fri, 03 Nov 2023 05:16:41 GMT
+
+### Updates
+
+- feat: add `updateElement` callback in tooltip spec to configure custom tooltip DOM elements based on the default tooltip handler, related #1338
+- feat: enable exit animation while updating data
+-  feat: support functional label.position config in line/area/scatter/bar series
+- feat: load browser or node env code dynamically
+- feat: support functional label.position config in line/area/scatter/bar series
+- feat: dataScheme supports configuration by distinguishing series directions, related #1209
+- feat: data sampling & point overlap. close #460
+- fix: react-vchart mode not work
+- fix: optimize the trigger of hover in non-browser env
+- fix: if series mark is line, return stroke value when user want fill value, fixed #1388
+- fix: fix the angle offset in rose dimension tooltip, related #1263
+- perf: create Stack and calculate stack attributes when need
+
+
+
+## 1.5.4
+Mon, 30 Oct 2023 06:09:01 GMT
+
+### Updates
+
+- feat: add bar background mark for bar-like series, related #1154
+- fix: unexpected funnel transform ratio label, see #1348
+- fix: tooltip value label clipped on lark mini app, related #1346
+
+## 1.5.3
+Fri, 27 Oct 2023 06:56:41 GMT
+
+### Updates
+
+- feat: support the exportCanvas api of vchart
+
+
+- fix: sankey chart downstream highlight, related #1269
+- fix(brush): slove first select not effect problem. fix #1129
+- fix: new layout method for circle axis label, related #1123
+- fix: change default zIndex of axis in gauge chart, related #1122
+- fix(datazoom): datazoom location error when resize. fix #520
+- fix: slove event off error after release
+- fix: fix the issue where invalidType of scatter chart checks x and y at the same time
+
+
+- fix: fix the issue in markline as min/max aggr result is not correct, see #1261
+- fix: fix: fix the issue that the map tooltip title does not display the name from nameMap, see #1260
+- fix: sankey supports string value
+- fix: fix the issue of crosshair can not trigger in weapp, fixed #1322
 
 ## 1.5.2
 Tue, 24 Oct 2023 01:48:10 GMT

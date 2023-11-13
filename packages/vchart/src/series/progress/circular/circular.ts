@@ -2,7 +2,7 @@
 import type { BandScale } from '@visactor/vscale';
 import type { IArcMark } from '../../../mark/arc';
 import type { Maybe, Datum } from '../../../typings';
-import { isValidNumber } from '../../../util';
+import { isValidNumber } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
@@ -174,14 +174,14 @@ export class CircularProgressSeries<
     this._progressMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('circularProgress')?.({ startAngle: this._startAngle }, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.progress, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.progress, this._spec, this._markAttributeContext)
       )
     );
 
     this._trackMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('fadeInOut')?.(),
-        userAnimationConfig(SeriesMarkNameEnum.track, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.track, this._spec, this._markAttributeContext)
       )
     );
   }

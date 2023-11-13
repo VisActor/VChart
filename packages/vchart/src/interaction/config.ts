@@ -1,59 +1,35 @@
+import type { RenderMode } from '../typings/spec/common';
 import { RenderModeEnum } from '../typings/spec/common';
+import { isMiniAppLikeMode, isMobileLikeMode } from '../util';
 
-export const defaultInteractionConfig = {
-  [RenderModeEnum['desktop-miniApp']]: {
-    hover: {
-      enable: true,
-      trigger: 'pointermove',
-      triggerOff: ['pointermove', 'pointerleave']
-    },
-    select: {
-      enable: true,
-      trigger: 'pointertap'
-    }
-  },
-  [RenderModeEnum['desktop-browser']]: {
-    hover: {
-      enable: true,
-      trigger: 'pointermove',
-      triggerOff: ['pointermove', 'pointerleave']
-    },
-    select: {
-      enable: true,
-      trigger: 'pointertap'
-    }
-  },
-  [RenderModeEnum['mobile-browser']]: {
-    hover: {
-      enable: true,
-      trigger: 'pointerover',
-      triggerOff: 'pointerout'
-    },
-    select: {
-      enable: true,
-      trigger: 'tap'
-    }
-  },
-  [RenderModeEnum.miniApp]: {
-    hover: {
-      enable: true,
-      trigger: 'pointerover',
-      triggerOff: 'pointerout'
-    },
-    select: {
-      enable: true,
-      trigger: 'tap'
-    }
-  },
-  [RenderModeEnum.lynx]: {
-    hover: {
-      enable: true,
-      trigger: 'pointerover',
-      triggerOff: 'pointerout'
-    },
-    select: {
-      enable: true,
-      trigger: 'tap'
-    }
+export function getDefaultInteractionConfigByMode(mode: RenderMode) {
+  if (mode === RenderModeEnum['desktop-browser'] || mode === RenderModeEnum['desktop-miniApp']) {
+    return {
+      hover: {
+        enable: true,
+        trigger: 'pointermove',
+        triggerOff: ['pointermove', 'pointerleave']
+      },
+      select: {
+        enable: true,
+        trigger: 'pointertap'
+      }
+    };
   }
-};
+
+  if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
+    return {
+      hover: {
+        enable: true,
+        trigger: ['pointerdown', 'pointermove'],
+        triggerOff: ['pointermove', 'pointerleave']
+      },
+      select: {
+        enable: true,
+        trigger: 'tap'
+      }
+    };
+  }
+
+  return null;
+}

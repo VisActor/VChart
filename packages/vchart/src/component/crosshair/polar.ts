@@ -1,8 +1,8 @@
 import type { IPolarSeries } from '../../series/interface/series';
-import { isArray, isValid, isValidNumber, mergeSpec, isNil, clamp } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import type { IPolarCrosshairSpec } from './interface';
 import type { BandScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -16,7 +16,17 @@ import type { IPoint, StringOrNumber } from '../../typings';
 import type { IHair } from './base';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseCrossHair } from './base';
-import { polarToCartesian, getIntersectPoint, PointService, getAngleByPoint } from '@visactor/vutils';
+import {
+  polarToCartesian,
+  getIntersectPoint,
+  PointService,
+  getAngleByPoint,
+  isArray,
+  isValid,
+  isValidNumber,
+  isNil,
+  clamp
+} from '@visactor/vutils';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
 import { limitTagInBounds } from './util';

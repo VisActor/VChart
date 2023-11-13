@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { regression } from '../../util';
+import { regression } from '../../util/math';
 
 export type IOptionRegr = {
   fieldX: string;

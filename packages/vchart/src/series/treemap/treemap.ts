@@ -1,14 +1,14 @@
 /* eslint-disable no-duplicate-imports */
-import { STATE_VALUE_ENUM } from '../../compile/mark';
-import { AttributeLevel, DEFAULT_DATA_KEY, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
+import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
+import { AttributeLevel, DEFAULT_DATA_KEY, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IRectMark } from '../../mark/rect';
 import type { ITextMark } from '../../mark/text';
 import type { Datum, IRectMarkSpec, ITextMarkSpec } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../interface/type';
 import type { ITreemapSeriesSpec } from './interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { ITreemapOpt } from '../../data/transforms/treemap';
@@ -21,7 +21,7 @@ import type { TreemapNodeElement } from '@visactor/vgrammar-hierarchy';
 import { DataView } from '@visactor/vdataset';
 import { hierarchyDimensionStatistics } from '../../data/transforms/hierarchy-dimension-statistics';
 import { addVChartProperty } from '../../data/transforms/add-property';
-import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { TreemapTooltipHelper } from './tooltip-helper';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -31,12 +31,12 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { VChart } from '../../core/vchart';
 import { RectMark } from '../../mark/rect';
 import { TextMark } from '../../mark/text';
 import { treemapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerTreemapAnimation } from './animation';
+import { TransformLevel } from '../../data/initialize';
 
 export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
@@ -109,7 +109,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     super.initData();
     // 矩形树图中原始数据为层次结果，图元数据为平坦化后的结构，具体逻辑如下：
     // spec.data => rawData(hierarchy) => viewDataFilter => treemap transform => flatten transform => viewData
-    if (this._viewDataFilter) {
+    if (this.getViewData()) {
       // 对原始数据进行上卷下钻筛选
       if (this._spec.drill) {
         (this as unknown as IDrillable).initDrillableData(this._dataSet);
@@ -139,7 +139,8 @@ export class TreemapSeries extends CartesianSeries<any> {
           minVisibleArea: this._spec.minVisibleArea ?? 10,
           minChildrenVisibleArea: this._spec.minChildrenVisibleArea,
           minChildrenVisibleSize: this._spec.minChildrenVisibleSize
-        } as ITreemapOpt
+        } as ITreemapOpt,
+        level: TransformLevel.treemapFilter
       });
 
       this.addViewDataFilter({
@@ -152,7 +153,8 @@ export class TreemapSeries extends CartesianSeries<any> {
             }
             return node;
           }
-        }
+        },
+        level: TransformLevel.treemapFlatten
       });
     }
   }
@@ -164,8 +166,8 @@ export class TreemapSeries extends CartesianSeries<any> {
         {
           type: 'addVChartProperty',
           options: {
-            beforeCall: initKeyMap,
-            call: addHierarchyDataKey.bind(this)
+            beforeCall: initHierarchyKeyMap.bind(this),
+            call: addHierarchyDataKey
           }
         }
         // rawDataStatistic 需要统计 addHierarchyDataKey 的一些字段，所以必须要运行一下
@@ -174,11 +176,15 @@ export class TreemapSeries extends CartesianSeries<any> {
     }
   }
 
-  protected _statisticRawData() {
-    const rawDataName = `${PREFIX}_series_${this.id}_rawDataStatic`;
-    this._rawDataStatistics = this._createHierarchyDataStatistics(rawDataName, [this._rawData]);
-    this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
-    this._rawDataStatistics.reRunAllTransform();
+  getRawDataStatisticsByField(field: string, isNumeric?: boolean) {
+    if (!this._rawDataStatistics) {
+      const rawDataName = `${this.type}_${this.id}_rawDataStatic`;
+      this._rawDataStatistics = this._createHierarchyDataStatistics(rawDataName, [this._rawData]);
+      this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
+      this._rawDataStatistics.reRunAllTransform();
+    }
+
+    return this._rawDataStatistics.latestData?.[field];
   }
 
   protected _createHierarchyDataStatistics(dataName: string, rawData: DataView[]) {
@@ -405,13 +411,19 @@ export class TreemapSeries extends CartesianSeries<any> {
   initAnimation(): void {
     this.getMarksInType(MarkTypeEnum.rect).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('treemap')?.(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('treemap')?.(),
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+        )
       );
     });
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('fadeInOut')?.(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('fadeInOut')?.(),
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+        )
       );
     });
   }

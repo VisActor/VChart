@@ -1,9 +1,9 @@
 import { get } from '@visactor/vutils';
-import { mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import type { IOrientType, IPolarOrientType } from '../../typings';
 import type { AxisType, ICommonAxisSpec, ILinearAxisSpec } from './interface';
 import { transformComponentStyle } from '../../util/style';
-import { isXAxis } from './cartesian/util';
+import { isXAxis } from './cartesian/util/common';
 import type { IModelOption } from '../../model/interface';
 import { getComponentThemeFromOption } from '../util';
 

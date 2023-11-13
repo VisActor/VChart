@@ -10,14 +10,15 @@ VChart 基于 [Taro](https://docs.taro.zone/docs/) 封装的图表组件。
 
 ## 支持环境
 
-目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web')。
+目前组件支持的环境有：**微信小程序**('weapp')，**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('web')，**h5 移动端**('h5')。
 
 以上环境通过 `type` 属性进行声明，`type` 属性值及对应环境如下：
 
+- `weapp` 微信小程序。
 - `tt` 字节小程序。
 - `lark` 飞书小程序。
-- `h5` 浏览器环境, 与`web`等价。
-- `web` 浏览器环境, 与`h5`等价。
+- `h5` h5 移动端环境。
+- `web` 浏览器环境。
 
 ### 跨端支持
 
@@ -79,17 +80,17 @@ import VChart from '@visactor/taro-vchart';
 />;
 ```
 
-| API           | 类型     | 说明                                                                                                                                                      |
-| ------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type          | String   | 配置的环境，目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('h5', 'web') ，如果没有声明，则会通过 `Taro.getEnv()` 自动获取 |
-| canvasId      | String   | 图表 id, 必确唯一                                                                                                                                         |
-| spec          | Object   | 图表配置项, 请参考[VChart 配置项](https://www.visactor.io/vchart/option/)                                                                                 |
-| style         | Object   | 图表容器样式                                                                                                                                              |
-| events        | Object[] | 事件绑定配置，具体配置为定义[如下](#事件配置)                                                                                                             |
-| options       | Object   | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](https://www.visactor.io/vchart/api/API/vchart#options)                                       |
-| onChartInit   | Function | 图表初始化完后触发的回调                                                                                                                                  |
-| onChartReady  | Function | 图表渲染完毕后触发的回调                                                                                                                                  |
-| onChartUpdate | Function | 图表更新完毕后触发的回调                                                                                                                                  |
+| API           | 类型     | 说明                                                                                                                                                                    |
+| ------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type          | String   | 配置的环境，目前组件支持的环境有：**字节小程序**('tt')，**飞书小程序**('lark')，**浏览器**('web')，**h5 移动端**('h5')，如果没有声明，则会通过 `Taro.getEnv()` 自动获取 |
+| canvasId      | String   | 图表 id, 必确唯一                                                                                                                                                       |
+| spec          | Object   | 图表配置项, 请参考[VChart 配置项](https://www.visactor.io/vchart/option/)                                                                                               |
+| style         | Object   | 图表容器样式                                                                                                                                                            |
+| events        | Object[] | 事件绑定配置，具体配置为定义[如下](#事件配置)                                                                                                                           |
+| options       | Object   | 初始化 VChart 实例传入的额外配置项，同 [VChart 实例化配置项](https://www.visactor.io/vchart/api/API/vchart#options)                                                     |
+| onChartInit   | Function | 图表初始化完后触发的回调                                                                                                                                                |
+| onChartReady  | Function | 图表渲染完毕后触发的回调                                                                                                                                                |
+| onChartUpdate | Function | 图表更新完毕后触发的回调                                                                                                                                                |
 
 ### 事件配置
 
@@ -319,6 +320,10 @@ $ rush run -p @visactor/vchart -s build:es5
 
 # 运行 lark 小程序
 $ rush run -p @visactor/taro-vchart -s dev:lark
+
+
+# 运行微信小程序
+$ rush run -p @visactor/taro-vchart -s dev:wx
 ```
 
-然后使用飞书开发者工具导入 `packages/taro-vchart/dist/lark` 目录即可。
+然后使用飞书开发者工具导入 `packages/taro-vchart/dist/lark` 或者 `packages/taro-vchart/dist/weapp` 目录即可。

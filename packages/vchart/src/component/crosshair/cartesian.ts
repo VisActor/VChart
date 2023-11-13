@@ -1,7 +1,7 @@
-import { isArray, isValid, isValidNumber, isNil } from '../../util';
+import { isArray, isValid, isValidNumber, isNil } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import type { ICartesianCrosshairSpec } from './interface';
 import type { ICartesianSeries } from '../../series/interface';
 import { isDiscrete, isContinuous } from '@visactor/vscale';
@@ -14,7 +14,7 @@ import { getDatumByValue, limitTagInBounds } from './util';
 import { getAxisLabelOffset } from '../axis/util';
 import type { IAxis } from '../axis/interface';
 import type { IOrientType, StringOrNumber } from '../../typings';
-import { isXAxis } from '../axis/cartesian/util';
+import { isXAxis } from '../axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 
 interface ICrosshairInfoX {

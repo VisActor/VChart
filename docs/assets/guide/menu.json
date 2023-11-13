@@ -692,13 +692,6 @@
             "zh": "事件",
             "en": "Events"
           }
-        },
-        {
-          "path": "FAQ",
-          "title": {
-            "zh": "FAQ",
-            "en": "FAQ"
-          }
         }
       ]
     }

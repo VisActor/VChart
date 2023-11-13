@@ -65,6 +65,18 @@
       "versionPolicyName": "vchartMain"
     },
     {
+      "packageName": "@visactor/vchart-types",
+      "projectFolder": "packages/vchart-types",
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
+    },
+    {
+      "packageName": "@visactor/vchart-theme",
+      "projectFolder": "packages/vchart-theme",
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
+    },
+    {
       "packageName": "@visactor/vutils-extension",
       "projectFolder": "packages/vutils-extension",
       "tags": ["package"],
@@ -115,7 +127,6 @@
     {
       "packageName": "@visactor/vmind",
       "projectFolder": "packages/vmind",
-      "tags": ["package"],
       "shouldPublish": false
     }
   ]

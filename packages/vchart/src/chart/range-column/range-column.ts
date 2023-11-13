@@ -1,6 +1,6 @@
 import { CartesianChart } from '../cartesian/cartesian';
-import { ChartTypeEnum } from '../interface';
-import { SeriesTypeEnum } from '../../series/interface';
+import { ChartTypeEnum } from '../interface/type';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { Direction } from '../../typings';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IRangeColumnChartSpec } from './interface';
@@ -16,7 +16,8 @@ export class RangeColumnChart extends CartesianChart {
   protected _getDefaultSeriesSpec(spec: any): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
-      barGapInGroup: (spec as IRangeColumnChartSpec).barGapInGroup
+      barGapInGroup: (spec as IRangeColumnChartSpec).barGapInGroup,
+      barBackground: (spec as IRangeColumnChartSpec).barBackground
     };
     series.bar = spec.bar;
     if (spec.direction === Direction.horizontal) {

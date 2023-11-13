@@ -11,9 +11,10 @@ import type {
   IRenderOption
 } from './interface';
 // eslint-disable-next-line no-duplicate-imports
-import { GrammarType } from './interface';
+import { GrammarType } from './interface/compilable-item';
 import { toRenderMode } from './util';
-import { isMobileLikeMode, isString, isTrueBrowser } from '../util';
+import { isMobileLikeMode, isTrueBrowser } from '../util/env';
+import { isString } from '../util/type';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
@@ -169,6 +170,9 @@ export class Compiler {
   }
 
   async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
+    if (this.isReleased) {
+      return;
+    }
     this.initView();
     if (!this._view) {
       return Promise.reject('srView init fail');
