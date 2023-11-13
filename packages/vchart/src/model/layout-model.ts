@@ -9,7 +9,7 @@ import type { IPoint } from '../typings/coordinate';
 import type { ILayoutType, ILayoutPoint, ILayoutRect } from '../typings/layout';
 
 export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
-  protected abstract layoutType: ILayoutType;
+  protected layoutType: ILayoutType = 'normal';
   protected layoutLevel?: number = 0;
   protected layoutZIndex: number = 0;
   layoutClip: boolean;
