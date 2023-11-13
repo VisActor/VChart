@@ -19,6 +19,11 @@ export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> exte
   layoutType: ILayoutType = 'absolute';
   layoutZIndex: number = LayoutZIndex.Label;
 
+  constructor(spec: T, options: IComponentOption) {
+    super(spec, options);
+    this._regions = options.getRegionsInIndex([options.specIndex]);
+  }
+
   protected _interactiveConfig(labelSpec: ILabelSpec) {
     const { interactive } = labelSpec;
     if (interactive !== true) {

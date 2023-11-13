@@ -44,17 +44,29 @@ export class LayoutItem implements ILayoutItem {
   get minWidth() {
     return this._minWidth;
   }
+  set minWidth(v: number) {
+    this._minWidth = v;
+  }
   protected _maxWidth: number = null;
   get maxWidth() {
     return this._maxWidth;
+  }
+  set maxWidth(v: number) {
+    this._maxWidth = v;
   }
   protected _minHeight: number = null;
   get minHeight() {
     return this._minHeight;
   }
+  set minHeight(v: number) {
+    this._minHeight = v;
+  }
   protected _maxHeight: number = null;
   get maxHeight() {
     return this._maxHeight;
+  }
+  set maxHeight(v: number) {
+    this._maxHeight = v;
   }
   /** for layout diff */
   protected _lastComputeRect: ILayoutRect = null;
@@ -123,16 +135,16 @@ export class LayoutItem implements ILayoutItem {
       this.layoutPaddingBottom = paddingValue.bottom;
 
       this._minHeight = isNil(spec.minHeight)
-        ? null
+        ? this._minHeight ?? null
         : calcLayoutNumber(spec.minHeight, chartViewRect.height, chartViewRect);
       this._maxHeight = isNil(spec.maxHeight)
-        ? null
+        ? this._maxHeight ?? null
         : calcLayoutNumber(spec.maxHeight, chartViewRect.height, chartViewRect);
       this._minWidth = isNil(spec.minWidth)
-        ? null
+        ? this._minWidth ?? null
         : calcLayoutNumber(spec.minWidth, chartViewRect.width, chartViewRect);
       this._maxWidth = isNil(spec.maxWidth)
-        ? null
+        ? this._maxWidth ?? null
         : calcLayoutNumber(spec.maxWidth, chartViewRect.width, chartViewRect);
       // 处理 user width
       if (spec.width) {
