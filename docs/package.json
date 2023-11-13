@@ -14,7 +14,7 @@
     "@visactor/vchart": "workspace:1.6.3",
     "@visactor/vchart-theme": "workspace:1.6.3",
     "@visactor/vmind": "workspace:1.0.8",
-    "@visactor/vutils": "~0.16.7",
+    "@visactor/vutils": "0.16.8-alpha.1",
     "@visactor/vrender": "0.16.14-alpha.3",
     "@visactor/vrender-kits": "0.16.14-alpha.3",
     "@visactor/vgrammar": "~0.8.3",
