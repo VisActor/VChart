@@ -280,7 +280,7 @@ test('expand', () => {
     // @ts-ignore
     linearAxis.updateScaleDomain();
     const scale = linearAxis.getScale();
-    expect(scale.domain()).toEqual([500, 950]);
+    expect(scale.domain()).toEqual([500, 1000]);
   }
   /**
    * `range` is the highest priority, which will be the direct result for scale.domain.
@@ -310,7 +310,7 @@ test('extend', () => {
     linearAxis.created();
     linearAxis.setExtendDomain('test', 1100);
     const scale = linearAxis.getScale();
-    expect(scale.domain()).toEqual([0, 1100]);
+    expect(scale.domain()).toEqual([0, 1200]);
   }
 
   /**

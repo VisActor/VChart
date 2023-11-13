@@ -1,4 +1,4 @@
-import { isString, get, isObject, isNil } from '@visactor/vutils';
+import { isString, get, isObject } from '@visactor/vutils';
 import type { ITheme } from './interface';
 import { ThemeManager } from './theme-manager';
 import { mergeSpec } from '../util/spec/merge-spec';
