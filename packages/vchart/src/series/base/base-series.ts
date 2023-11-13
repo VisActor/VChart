@@ -118,7 +118,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   };
 
   getLayoutStartPoint(): ILayoutPoint {
-    return this._layoutStartPoint;
+    return this._region.getLayoutStartPoint();
   }
 
   private _layoutRect: ILayoutRect = { width: null, height: null };
