@@ -26,6 +26,11 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
     return [MarkerTypeEnum.horizontalLine, MarkerTypeEnum.verticalLine];
   }
 
+  protected _setCursor(e: EventParams): void {
+    const orient = this._element.name === MarkerTypeEnum.verticalLine ? 'vertical' : 'horizontal';
+    this._chart.option.editorEvent.setCursor(orient === 'horizontal' ? 'ns-resize' : 'ew-resize');
+  }
+
   protected _handlePointerDown(e: EventParams): void {
     this._orient = this._element.name === MarkerTypeEnum.verticalLine ? 'vertical' : 'horizontal';
     const el = this._getEditorElement(e);
@@ -40,17 +45,11 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
       const currentY = (this._element.attribute.points[0] as Point).y;
       this._limitRange = [regionStartY - currentY, regionStartY + regionHeight - currentY];
       this._prePos = e.event.clientY;
-      this._editComponent.setAttributes({
-        cursor: 'ns-resize'
-      });
       this._preOffset = this._editComponent.attribute.dy ?? 0;
     } else {
       const currentX = (this._element.attribute.points[0] as Point).x;
       this._limitRange = [regionStartX - currentX, regionStartX + regionWidth - currentX];
       this._prePos = e.event.clientX;
-      this._editComponent.setAttributes({
-        cursor: 'ew-resize'
-      });
       this._preOffset = this._editComponent.attribute.dx ?? 0;
     }
 
@@ -85,6 +84,8 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
     e.preventDefault();
     this._editComponent.hideAll();
     this._activeAllMarkers();
+    // 恢复 cursor
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
 
     const offset = (this._editComponent.attribute[this._orient === 'horizontal' ? 'dy' : 'dx'] ?? 0) - this._preOffset;
     const points = this._element.attribute.points as Point[];
