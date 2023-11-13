@@ -26,7 +26,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   pluginService?: IComponentPluginService;
   protected declare _option: IComponentOption;
 
-  protected _regions: IRegion[] = [];
+  protected _regions: IRegion[];
   getRegions() {
     return this._regions;
   }
