@@ -17,15 +17,16 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   protected abstract _getEnableMarkerTypes(): string[];
   protected abstract _createEditorGraphic(el: IEditorElement, e: PointerEvent): IGraphic;
   protected abstract _handlePointerDown(e: EventParams): void;
+  protected abstract _setCursor(e: EventParams): void;
   protected _handlePointerUp(e: EventParams): void {
     this.endEditor();
   }
 
   initWithVChart(): void {
     const vchart = this._chart.vchart;
-    vchart.on('pointermove', { level: 'model', type: this.type, consume: true }, this._onHover);
-    vchart.on('pointerdown', { level: 'model', type: this.type, consume: true }, this._onDown);
-    vchart.on('pointerup', { level: 'model', type: this.type, consume: true }, this._onUp);
+    vchart.on('pointermove', { level: 'model', type: this.type }, this._onHover);
+    vchart.on('pointerdown', { level: 'model', type: this.type }, this._onDown);
+    vchart.on('pointerup', { level: 'model', type: this.type }, this._onUp);
   }
 
   private _checkEventEnable(e: EventParams) {
@@ -47,6 +48,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     const el = this._getEditorElement(e);
     this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
     this._modelId = el.model.userId;
+    this._setCursor(e);
   };
 
   protected _onDown = (e: EventParams) => {
