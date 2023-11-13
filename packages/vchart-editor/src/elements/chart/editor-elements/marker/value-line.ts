@@ -59,7 +59,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
 
   private _onDrag = (e: any) => {
     e.stopPropagation();
-
+    this._setCursor(e);
     this._silentAllMarkers();
     this._editComponent.showAll();
     let currentPos;

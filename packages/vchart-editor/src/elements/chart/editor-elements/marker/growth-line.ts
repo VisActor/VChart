@@ -44,6 +44,10 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     return [MarkerTypeEnum.growthLine, MarkerTypeEnum.totalDiffLine];
   }
 
+  protected _setCursor(e: EventParams): void {
+    // do nothing
+  }
+
   protected _handlePointerDown(e: EventParams): void {
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
@@ -216,6 +220,10 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     this._layer.editorGroup.add(editComponent as unknown as IGraphic);
     this._editComponent = editComponent;
 
+    startLinkLine.addEventListener('pointerenter', this._onHandlerHover as EventListenerOrEventListenerObject);
+    endLinkLine.addEventListener('pointerenter', this._onHandlerHover as EventListenerOrEventListenerObject);
+    startLinkLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
+    endLinkLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
     startLinkLine.addEventListener('pointerdown', this._onHandlerDragStart as EventListenerOrEventListenerObject);
     endLinkLine.addEventListener('pointerdown', this._onHandlerDragStart as EventListenerOrEventListenerObject);
 
@@ -249,6 +257,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   // 交互描述：拖拽过程中，根据当前的鼠标垫查找最近的数据点，然后更新图形位置
   private _onHandlerDragStart = (e: any) => {
     e.stopPropagation();
+    this._chart.option.editorEvent.setCursor('move');
 
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
     this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;
@@ -264,6 +273,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
   private _onHandlerDrag = (e: any) => {
     e.stopPropagation();
+    this._chart.option.editorEvent.setCursor('move');
 
     // Important: 拖拽过程中，关闭所有标注的交互
     this._silentAllMarkers();
@@ -371,6 +381,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   private _onHandlerDragEnd = (e: any) => {
     e.preventDefault();
 
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
     // Important: 拖拽结束，恢复所有 marker 交互
     this._activeAllMarkers();
     // 隐藏可吸附数据锚点
@@ -561,4 +572,11 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       return dataPoints;
     }
   }
+
+  private _onHandlerHover = () => {
+    this._chart.option.editorEvent.setCursor('move');
+  };
+  private _onHandlerUnHover = () => {
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
+  };
 }
