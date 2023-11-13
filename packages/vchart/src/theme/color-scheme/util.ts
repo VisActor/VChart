@@ -139,19 +139,17 @@ export function queryColorFromColorScheme(
 
 /** 查询语义化颜色 */
 export const getActualColor = (value: any, colorScheme?: IThemeColorScheme, seriesSpec?: ISeriesSpec) => {
-  if (isColorKey(value)) {
-    if (colorScheme) {
-      const color = queryColorFromColorScheme(colorScheme, value, seriesSpec);
-      if (color) {
-        return color;
-      }
+  if (colorScheme && isColorKey(value)) {
+    const color = queryColorFromColorScheme(colorScheme, value, seriesSpec);
+    if (color) {
+      return color;
     }
   }
   return value;
 };
 
 export function isColorKey(obj: any): obj is IColorKey {
-  return isObject(obj) && (obj as IColorKey).type === 'palette' && !!(obj as IColorKey).key;
+  return obj && (obj as IColorKey).type === 'palette' && !!(obj as IColorKey).key;
 }
 
 export function isProgressiveDataColorScheme<T>(obj: any): obj is ProgressiveDataScheme<T> {

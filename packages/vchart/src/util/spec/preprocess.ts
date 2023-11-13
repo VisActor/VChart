@@ -1,4 +1,14 @@
-import { isArray, isFunction, isNil, isObject, isString, isValid, isValidNumber } from '@visactor/vutils';
+import {
+  isArray,
+  isEmpty,
+  isFunction,
+  isNil,
+  isObject,
+  isPlainObject,
+  isString,
+  isValid,
+  isValidNumber
+} from '@visactor/vutils';
 import { seriesMarkNameSet } from '../../series/interface/type';
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 import { isDataView, isHTMLElement } from './common';
@@ -80,13 +90,15 @@ import type { ISeriesSpec } from '../../typings';
 //   return newObj;
 // }
 
+const IGNORE_KEYS = ['animationThreshold', 'colorScheme', 'fontFamily', 'name'];
+
 export function preprocessTheme(obj: any, colorScheme?: IThemeColorScheme, seriesSpec?: ISeriesSpec): any {
-  if (isNil(obj)) {
+  if (isEmpty(obj)) {
     return obj;
   }
   if (isArray(obj)) {
     return obj.map(element => {
-      if (isObject(element) && !isFunction(element)) {
+      if (isPlainObject(element)) {
         return preprocessTheme(element, colorScheme, seriesSpec);
       }
       return element;
@@ -96,12 +108,9 @@ export function preprocessTheme(obj: any, colorScheme?: IThemeColorScheme, serie
   const newObj = {};
   Object.keys(obj).forEach(key => {
     const value = obj[key];
-    if (isObject(value)) {
-      // 绕过不可深拷贝的对象
-      if (isFunction(value) || isDataView(value) || isHTMLElement(value)) {
-        newObj[key] = value;
-        return;
-      }
+    if (IGNORE_KEYS.includes(key)) {
+      newObj[key] = value;
+    } else if (isPlainObject(value)) {
       if (isColorKey(value)) {
         // 查询、替换语义化颜色
         newObj[key] = getActualColor(value, colorScheme, seriesSpec);

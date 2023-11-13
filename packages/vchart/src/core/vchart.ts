@@ -94,7 +94,7 @@ import { GroupMark } from '../mark/group';
 import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
-import { mergeThemeAndGet } from '../theme/util';
+// import { mergeThemeAndGet } from '../theme/util';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
 import { mergeTheme, preprocessTheme } from '../util';
 
@@ -248,7 +248,6 @@ export class VChart implements IVChart {
 
   private _currentThemeName: string;
   private _currentTheme: ITheme;
-  // private _currentChartLevelTheme: IChartLevelTheme = {};
 
   private _onError?: (...args: any[]) => void;
 
@@ -314,7 +313,7 @@ export class VChart implements IVChart {
     // TODO: 如果通过 updateSpec 更新主题字体的验证
     // 设置全局字体
     this.getStage()?.setTheme({
-      text: { fontFamily: this._currentTheme.fontFamily }
+      text: { fontFamily: this._currentTheme?.fontFamily }
     });
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
@@ -361,7 +360,7 @@ export class VChart implements IVChart {
       //   specTheme: this._spec?.theme,
       //   chartLevelTheme: this._currentChartLevelTheme
       // }),
-      getTheme: () => this._currentTheme,
+      getTheme: () => this._currentTheme ?? {},
 
       layout: this._option.layout,
       onError: this._onError
@@ -1117,12 +1116,15 @@ export class VChart implements IVChart {
       this._currentThemeName = nextThemeName;
     }
 
+    const currentTheme = getThemeObject(this._currentThemeName, true); // 获取token 转换过后的主题
     // 处理 specTheme 和 optionTheme, merge -> transform
     // 优先级 currentTheme < optionTheme < specTheme
     if (!isEmpty(optionTheme) || !isEmpty(specTheme)) {
       this._currentTheme = preprocessTheme(
-        mergeTheme({}, this.getCurrentTheme(), getThemeObject(optionTheme), getThemeObject(specTheme))
+        mergeTheme({}, currentTheme, getThemeObject(optionTheme), getThemeObject(specTheme))
       );
+    } else {
+      this._currentTheme = currentTheme;
     }
 
     // 设置 poptip 的主题

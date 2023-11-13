@@ -33,7 +33,7 @@ import type { IGroupMark } from '@visactor/vgrammar-core';
 import { isArray, isEqual, isValid } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import { MarkSet } from '../mark/mark-set';
-import { defaultChartLevelTheme } from '../theme/builtin';
+// import { defaultChartLevelTheme } from '../theme/builtin';
 
 export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> implements IModel {
   readonly type: string = 'null';
@@ -388,6 +388,7 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   }
 
   getColorScheme() {
-    return this._option.getTheme?.().colorScheme ?? defaultChartLevelTheme.colorScheme;
+    return this._option.getTheme?.().colorScheme;
+    // return this._option.getTheme?.().colorScheme ?? defaultChartLevelTheme.colorScheme;
   }
 }

@@ -24,8 +24,8 @@ export class ThemeManager {
    * @param name 主题名称
    * @returns
    */
-  static getTheme(name: string) {
-    return getTheme(name);
+  static getTheme(name: string, transformed: boolean) {
+    return getTheme(name, transformed);
   }
 
   /**

@@ -77,7 +77,7 @@ import type { IRectMark } from '../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../data/initialize';
-import { defaultChartLevelTheme } from '../theme';
+// import { defaultChartLevelTheme } from '../theme/color-scheme';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -187,6 +187,7 @@ export class BaseChart extends CompilableBase implements IChart {
   constructor(spec: any, option: IChartOption) {
     super(option);
     // TODO: 验证下
+
     this._paddingSpec = (
       spec.padding ? normalizeLayoutPaddingSpec(spec.padding) : option.getTheme().padding
     ) as ILayoutOrientPadding;
@@ -1377,6 +1378,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   getColorScheme() {
-    return this._option.getTheme?.().colorScheme ?? defaultChartLevelTheme.colorScheme;
+    return this._option.getTheme?.().colorScheme;
+    // return this._option.getTheme?.().colorScheme ?? defaultChartLevelTheme.colorScheme;
   }
 }

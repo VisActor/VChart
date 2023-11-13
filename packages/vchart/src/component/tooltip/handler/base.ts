@@ -40,8 +40,6 @@ import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-compon
 import { getTooltipAttributes } from './utils/attribute';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { IChartOption } from '../../../chart/interface';
-import type { IChartLevelTheme } from '../../../core/interface';
-import { defaultChartLevelTheme } from '../../../theme/builtin';
 
 type ChangeTooltipFunc = (
   visible: boolean,
