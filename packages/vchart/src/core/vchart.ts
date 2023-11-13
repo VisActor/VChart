@@ -96,6 +96,7 @@ import { View, registerFilterTransform, registerMapTransform } from '@visactor/v
 import { VCHART_UTILS } from './util';
 import { mergeThemeAndGet } from '../theme/util';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
+import { mergeTheme, preprocessTheme } from '../util';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -1116,21 +1117,13 @@ export class VChart implements IVChart {
       this._currentThemeName = nextThemeName;
     }
 
-    // TODO: 处理 specTheme 和 optionTheme, merge -> transform
-    // TODO: 还需要判断 optionTheme 和 specTheme 是否为转换后的 themeObject
-    if (optionTheme || specTheme) {
-      // TODO
+    // 处理 specTheme 和 optionTheme, merge -> transform
+    // 优先级 currentTheme < optionTheme < specTheme
+    if (!isEmpty(optionTheme) || !isEmpty(specTheme)) {
+      this._currentTheme = preprocessTheme(
+        mergeTheme({}, this.getCurrentTheme(), getThemeObject(optionTheme), getThemeObject(specTheme))
+      );
     }
-
-    // TODO: 暂时先这么写，把逻辑跑通
-    this._currentTheme = this.getCurrentTheme();
-
-    // const colorScheme = mergeThemeAndGet('colorScheme', this._currentThemeName, optionTheme, specTheme);
-    // this._currentChartLevelTheme = {
-    //   colorScheme,
-    //   background: mergeThemeAndGet('background', this._currentThemeName, optionTheme, specTheme, colorScheme),
-    //   fontFamily: mergeThemeAndGet('fontFamily', this._currentThemeName, optionTheme, specTheme, colorScheme)
-    // };
 
     // 设置 poptip 的主题
     setPoptipTheme(get(this._currentTheme, 'component.poptip'));
