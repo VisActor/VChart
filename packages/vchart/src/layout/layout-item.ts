@@ -122,9 +122,13 @@ export class LayoutItem implements ILayoutItem {
     if (option.layoutOrient) {
       this.layoutOrient = option.layoutOrient;
     }
+    this._spec = model.getSpec();
   }
 
   private _setLayoutAttributeFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {
+    if (!this._spec) {
+      return;
+    }
     if ((this._spec as unknown as any).visible !== false) {
       // 处理 user spec value to px;
       const padding = normalizeLayoutPaddingSpec(spec.padding);
