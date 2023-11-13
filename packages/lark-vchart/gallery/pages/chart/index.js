@@ -26,7 +26,7 @@ Page({
       // events: [
       //   {
       //     element: 'chart',
-      //     type: 'initialized',
+      //     type: 'touchstart',
       //     handler: (event, item) => console.log('touchstart', event, item),
       //   },
       //   {
@@ -44,7 +44,7 @@ Page({
   },
 
   onChartInit(event) {
-    console.log('chart 实例初始化完成', event);
+    console.log("chart 实例初始化完成", event);
     // function labelFormat(key) {
     //   return key + 'test';
     // }
@@ -55,6 +55,6 @@ Page({
   },
 
   onChartReady(event) {
-    console.log('chart 实例渲染完成', event);
+    console.log("chart 实例渲染完成", event);
   }
 });
