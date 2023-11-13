@@ -12,6 +12,15 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
   protected abstract layoutType: ILayoutType;
   protected layoutLevel?: number = 0;
   protected layoutZIndex: number = 0;
+  layoutClip: boolean;
+  get layoutOrient() {
+    return this._orient as IOrientType;
+  }
+
+  set layoutOrient(v: IOrientType) {
+    this._orient = v;
+    this._layout.layoutOrient = v;
+  }
 
   protected _forceLayoutTag: boolean = false;
   protected _layout: ILayoutItem = null;
@@ -24,6 +33,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
     this._layout = new LayoutItem(this, {
       layoutType: this.layoutType,
       layoutLevel: this.layoutLevel,
+      layoutOrient: this._orient as IOrientType,
       transformLayoutRect: this._transformLayoutRect,
       transformLayoutPosition: this._transformLayoutPosition
     });
@@ -87,6 +97,12 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
       y2: this._layout.getLayoutStartPoint().y + this._layout.getLayoutRect().height
     };
   };
+
+  setAttrFromSpec(): void {
+    super.setAttrFromSpec();
+    this.layoutClip = this._spec.clip ?? this.layoutClip;
+    this.layoutZIndex = this._spec.zIndex ?? this.layoutZIndex;
+  }
 
   abstract getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike;
 

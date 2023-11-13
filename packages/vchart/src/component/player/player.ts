@@ -49,10 +49,6 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     return this._orient;
   }
 
-  get layoutOrient() {
-    return this._orient;
-  }
-
   set layoutOrient(v: IOrientType) {
     this._orient = v;
   }

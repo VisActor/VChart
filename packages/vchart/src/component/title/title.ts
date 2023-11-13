@@ -33,15 +33,6 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
     return this._orient;
   }
 
-  get layoutOrient() {
-    return this._layout.layoutOrient;
-  }
-
-  set layoutOrient(v: IOrientType) {
-    this._orient = v;
-    this._layout.layoutOrient = v;
-  }
-
   constructor(spec: ITitleSpec, options: IComponentOption) {
     super(spec, options);
     this._orient = isValidOrient(spec.orient) ? spec.orient : 'top';

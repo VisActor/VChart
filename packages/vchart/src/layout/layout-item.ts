@@ -107,6 +107,9 @@ export class LayoutItem implements ILayoutItem {
     this._option = option;
     this.layoutLevel = option.layoutLevel;
     this.layoutType = option.layoutType;
+    if (option.layoutOrient) {
+      this.layoutOrient = option.layoutOrient;
+    }
   }
 
   private _setLayoutAttributeFromSpec(spec: ILayoutItemSpec, chartViewRect: ILayoutRect) {

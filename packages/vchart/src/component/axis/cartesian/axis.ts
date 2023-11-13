@@ -71,14 +71,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return this._orient;
   }
 
-  get layoutOrient() {
-    return this._layout.layoutOrient;
-  }
-  set layoutOrient(v: IOrientType) {
-    this._orient = v;
-    this._layout.layoutOrient = v;
-  }
-
   protected _scales: IBaseScale[] = [];
   getScales() {
     return this._scales;
