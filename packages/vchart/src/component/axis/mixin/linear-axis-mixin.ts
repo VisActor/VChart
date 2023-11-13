@@ -9,6 +9,7 @@ import type { IEvent } from '../../../event/interface';
 export const e10 = Math.sqrt(50);
 export const e5 = Math.sqrt(10);
 export const e2 = Math.sqrt(2);
+const DEFAULT_TICK_COUNT = 5;
 
 export interface LinearAxisMixin {
   _scale: LinearScale;
@@ -40,7 +41,7 @@ export class LinearAxisMixin {
   }
 
   setLinearScaleNice() {
-    let tickCount = this._spec.tick?.forceTickCount ?? this._spec.tick?.tickCount ?? 10;
+    let tickCount = this._spec.tick?.forceTickCount ?? this._spec.tick?.tickCount ?? DEFAULT_TICK_COUNT;
     if (!isValidNumber(tickCount)) {
       // tickCount 为函数通常是为了通过图表大小动态自适应 tick 数量
       // 这里在计算 nice 的时候可以相对粗略预估，不用精确值
@@ -143,7 +144,7 @@ export class LinearAxisMixin {
         domain[0] = 0;
         domain[1] = 1; // 在[0, 1) 区间变成[0, 1]
       } else {
-        let step = num / 5; // 默认5个ticks
+        let step = num / DEFAULT_TICK_COUNT; // 默认5个ticks
         const power = Math.floor(Math.log(step) / Math.LN10);
         const err = step / Math.pow(10, power);
         step = (err >= e10 ? 10 : err >= e5 ? 5 : err >= e2 ? 2 : 1) * Math.pow(10, power);
