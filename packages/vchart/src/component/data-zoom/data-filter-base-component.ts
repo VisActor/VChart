@@ -33,9 +33,10 @@ import type { BaseEventParams } from '../../event/interface';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 // eslint-disable-next-line no-duplicate-imports
 import { Zoomable } from '../../interaction/zoom/zoomable';
-import type { AbstractComponent } from '@visactor/vrender-components';
+import type { AbstractComponent, DataZoom } from '@visactor/vrender-components';
 import type { IDelayType } from '../../typings/event';
 import { TransformLevel } from '../../data/initialize';
+import type { IDataZoomSpec } from './data-zoom/interface';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
@@ -52,7 +53,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _auto?: boolean;
   protected _fixedBandSize?: number;
   protected _cacheRect?: ILayoutRect;
-  protected _cacheVisibility?: boolean;
+  protected _cacheVisibility?: boolean = undefined;
 
   get orient() {
     return this._orient;
@@ -156,13 +157,19 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   effect: IEffect = {
-    onZoomChange: () => {
+    onZoomChange: (tag?: string) => {
       if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
         const axisScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
         const axisSpec = (this._relatedAxisComponent as CartesianAxis<any>).getSpec() as ICartesianBandAxisSpec;
         if (this._auto && this._getAxisBandSize(axisSpec)) {
           // 提前更改 scale
           axisScale.range(this._stateScale?.range(), true);
+          // 判断是否允许自由更改轴 bandSize
+          if ((this._spec as IDataZoomSpec).ignoreBandSize) {
+            axisScale.bandwidth('auto');
+            axisScale.maxBandwidth('auto');
+            axisScale.minBandwidth('auto');
+          }
         }
 
         // 轴的range有时是相反的
@@ -175,7 +182,17 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           axisScale.range()[0] < axisScale.range()[1] || axisSpec.inverse
             ? [this._start, this._end]
             : [1 - this._end, 1 - this._start];
-        axisScale.rangeFactor(newRangeFactor);
+        if (tag === 'startHandler') {
+          axisScale.rangeFactorStart(newRangeFactor[0]);
+        } else if (tag === 'endHandler') {
+          axisScale.rangeFactorEnd(newRangeFactor[1]);
+        } else {
+          axisScale.rangeFactor(newRangeFactor);
+        }
+        const newFactor = axisScale.rangeFactor();
+        this._start = newFactor?.[0] ?? 0;
+        this._end = newFactor?.[1] ?? 1;
+        (this._component as DataZoom)?.setStartAndEnd(this._start, this._end);
         this._relatedAxisComponent.effect.scaleUpdate();
       } else {
         eachSeries(
@@ -655,13 +672,13 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return allDomain.slice(Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
   }
 
-  protected _handleStateChange = (startValue: number, endValue: number) => {
+  protected _handleStateChange = (startValue: number, endValue: number, tag?: string) => {
     this._startValue = startValue;
     this._endValue = endValue;
 
     this._newDomain = this._parseDomainFromState(this._startValue, this._endValue);
 
-    this.effect.onZoomChange?.();
+    this.effect.onZoomChange?.(tag);
     return true;
   };
 
@@ -804,6 +821,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _autoUpdate(rect?: ILayoutRect): boolean {
     if (!this._auto) {
+      this._cacheVisibility = undefined;
       return true;
     }
 
@@ -838,32 +856,25 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         scale.rescale();
       }
       let [start, end] = scale.rangeFactor() ?? [];
-      if ((!start && !end) || !scale.isBandwidthFixed()) {
+      if (isNil(start) || isNil(end)) {
         start = 0;
         end = 1;
-        this.hide();
         isShown = false;
       } else {
-        if (start === 0 && end === 1) {
-          this.hide();
-          isShown = false;
-        } else {
-          this.show();
-        }
+        isShown = !(start === 0 && end === 1);
       }
       this._start = start;
       this._end = end;
     } else {
       const [start, end] = scale.rangeFactor() ?? [this._start, this._end];
-      if (start === 0 && end === 1) {
-        this.hide();
-        isShown = false;
-      } else {
-        this.show();
-        isShown = true;
-      }
+      isShown = !(start === 0 && end === 1);
     }
     this.setStartAndEnd(this._start, this._end);
+    if (isShown) {
+      this.show();
+    } else {
+      this.hide();
+    }
     this._cacheVisibility = isShown;
     return isShown;
   }

@@ -69,8 +69,8 @@ const getSpec = (): IAreaChartSpec => ({
     { orient: 'left', type: 'linear' },
     { orient: 'right', type: 'linear' }
   ],
-  scrollBar: [
-    { orient: 'bottom', start: 0, filterMode: 'axis', axisIndex: 0, auto: true }
+  dataZoom: [
+    { orient: 'bottom', start: 0, filterMode: 'axis', axisIndex: 0, auto: true, ignoreBandSize: true }
     // { orient: 'bottom', start: 0, end: 0.5, roam: true, filterMode: 'axis' }
   ],
   tooltip: {
@@ -117,7 +117,10 @@ const run = () => {
   const cs = new VChart(getSpec(), {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser',
-    theme: 'dark'
+    theme: 'dark',
+    onError: err => {
+      console.error(err);
+    }
   });
   console.time('renderTime');
 

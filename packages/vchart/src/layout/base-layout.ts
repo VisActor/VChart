@@ -6,13 +6,6 @@ import type { IPadding, IRect } from '../typings/space';
 import { error } from '../util/debug';
 import { layoutBottomInlineItems, layoutLeftInlineItems, layoutRightInlineItems, layoutTopInlineItems } from './util';
 
-type LayoutSideType = {
-  top: number;
-  left: number;
-  bottom: number;
-  right: number;
-};
-
 export class Layout implements IBaseLayout {
   static type = 'base';
 
@@ -43,11 +36,11 @@ export class Layout implements IBaseLayout {
     this.layoutNormalInlineItems(items.filter(x => x.layoutType === 'normal-inline'));
     this.layoutNormalItems(items.filter(x => x.layoutType === 'normal'));
 
-    const layoutTemp: LayoutSideType = {
-      left: this.leftCurrent,
-      top: this.topCurrent,
-      right: this.rightCurrent,
-      bottom: this.bottomCurrent
+    const layoutTemp = {
+      leftCurrent: this.leftCurrent,
+      topCurrent: this.topCurrent,
+      rightCurrent: this.rightCurrent,
+      bottomCurrent: this.bottomCurrent
     };
     const regionItems = items.filter(x => x.layoutType === 'region');
     const relativeItems = items.filter(x => x.layoutType === 'region-relative');
@@ -57,14 +50,14 @@ export class Layout implements IBaseLayout {
     this.layoutRegionItems(regionItems, relativeItems);
     if (relativeItems.some(i => i.autoIndent)) {
       // check auto indent
-      const { top, bottom, left, right } = this._checkAutoIndent(relativeItems, layoutTemp);
+      const { top, bottom, left, right } = this._checkAutoIndent(relativeItems);
       // 如果出现了需要自动缩进的场景 则基于缩进再次布局
       if (top || bottom || left || right) {
         // set outer bounds to padding
-        this.topCurrent = layoutTemp.top + top;
-        this.bottomCurrent = layoutTemp.bottom - bottom;
-        this.leftCurrent = layoutTemp.left + left;
-        this.rightCurrent = layoutTemp.right - right;
+        this.topCurrent = layoutTemp.topCurrent + top;
+        this.bottomCurrent = layoutTemp.bottomCurrent - bottom;
+        this.leftCurrent = layoutTemp.leftCurrent + left;
+        this.rightCurrent = layoutTemp.rightCurrent - right;
         // reLayout
         this.layoutRegionItems(regionItems, relativeItems);
       }
@@ -271,49 +264,29 @@ export class Layout implements IBaseLayout {
     return result;
   }
 
-  protected _checkAutoIndent(
-    items: ILayoutItem[],
-    layoutTemp: {
-      top: number;
-      left: number;
-      bottom: number;
-      right: number;
-    }
-  ): IPadding {
+  protected _checkAutoIndent(items: ILayoutItem[]): IPadding {
     const result = {
       top: 0,
       left: 0,
       bottom: 0,
       right: 0
     };
+    const rightCurrent = this._chartViewBox.x2 - this._chartViewBox.x1 - this.rightCurrent;
+    const bottomCurrent = this._chartViewBox.y2 - this._chartViewBox.y1 - this.bottomCurrent;
     items.forEach(i => {
       if (!i.getModelVisible() || !i.autoIndent) {
         return;
       }
       const vOrH = i.layoutOrient === 'left' || i.layoutOrient === 'right';
-      const itemOuter = i.getLastComputeOutBounds();
-      const outer = this._getOutInLayout(itemOuter, i, layoutTemp);
+      const outer = i.getLastComputeOutBounds();
       if (vOrH) {
-        result.top = Math.max(result.top, outer.top);
-        result.bottom = Math.max(result.bottom, outer.bottom);
+        result.top = Math.max(result.top, outer.y1 - this.topCurrent);
+        result.bottom = Math.max(result.bottom, outer.y2 - bottomCurrent);
       } else {
-        result.left = Math.max(result.left, outer.left);
-        result.right = Math.max(result.right, outer.right);
+        result.left = Math.max(result.left, outer.x1 - this.leftCurrent);
+        result.right = Math.max(result.right, outer.x2 - rightCurrent);
       }
     });
-    return result;
-  }
-
-  private _getOutInLayout(itemOuter: IBoundsLike, i: ILayoutItem, tempBorder: LayoutSideType): LayoutSideType {
-    const { x, y } = i.getLayoutStartPoint();
-    const { width, height } = i.getLayoutRect();
-
-    const result: LayoutSideType = {
-      left: tempBorder.left - (x - itemOuter.x1),
-      right: x + width + itemOuter.x2 - tempBorder.right,
-      top: tempBorder.top - (y - itemOuter.y1),
-      bottom: y + height + itemOuter.y2 - tempBorder.bottom
-    };
     return result;
   }
 }
