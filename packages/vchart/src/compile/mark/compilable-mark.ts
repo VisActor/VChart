@@ -56,6 +56,14 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   /** key field */
   readonly key: ICompilableMark['key'];
 
+  protected _skipTheme?: boolean;
+  getSkipTheme() {
+    return this._skipTheme;
+  }
+  setSkipTheme(skipTheme: boolean) {
+    this._skipTheme = skipTheme;
+  }
+
   /** 3d开关 */
   protected _support3d?: boolean;
   getSupport3d() {
@@ -244,6 +252,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       this
     );
     this._option.support3d && this.setSupport3d(true);
+    this._option.skipTheme && this.setSkipTheme(true);
     this._event = new Event(model.getOption().eventDispatcher, model.getOption().mode);
   }
 
@@ -335,25 +344,29 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       return;
     }
     const { enterStyles } = this._separateStyle();
-    this._product.encodeState('group', enterStyles);
+
+    if (enterStyles) {
+      this._product.encodeState('group', enterStyles);
+    }
   }
 
   protected _separateStyle() {
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...temp } = this.stateStyle;
 
-    const enterStyles: Record<string, MarkFunctionType<any>> = {};
+    const enterStyles: Record<string, MarkFunctionType<any>> = this._option.noSeparateStyle ? null : {};
     const updateStyles: Record<string, MarkFunctionType<any>> = {};
     Object.keys(normalStyle).forEach(key => {
       if (this._unCompileChannel[key]) {
         return;
       }
-      if (isStateAttrChangeable(key, normalStyle, this.getFacet())) {
+
+      if (keptInUpdateAttribute[key]) {
+        updateStyles[key] = normalStyle[key].style;
+      } else if (this._option.noSeparateStyle || isStateAttrChangeable(key, normalStyle, this.getFacet())) {
         updateStyles[key] = {
           callback: this.compileCommonAttributeCallback(key, 'normal'),
           dependency: [this.stateKeyToSignalName('markUpdateRank')]
         };
-      } else if (keptInUpdateAttribute[key]) {
-        updateStyles[key] = normalStyle[key].style;
       } else {
         enterStyles[key] = this.compileCommonAttributeCallback(key, 'normal');
       }
@@ -365,7 +378,9 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...temp } = this.stateStyle;
     const { enterStyles, updateStyles } = this._separateStyle();
     this._product.encode(updateStyles);
-    this._product.encodeState('group', enterStyles);
+    if (enterStyles) {
+      this._product.encodeState('group', enterStyles);
+    }
 
     Object.keys(temp).forEach(state => {
       const styles: Record<string, MarkFunctionType<any>> = {};
@@ -430,6 +445,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         markUserId: this._userId,
         modelUserId: this.model.userId
       },
+      skipTheme: this.getSkipTheme(),
       support3d: this.getSupport3d()
     };
 
