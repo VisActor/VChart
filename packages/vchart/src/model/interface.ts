@@ -23,7 +23,6 @@ import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart } from '../chart/interface';
-import type { ExpressionFunction } from '../core/expression-function';
 import type { IChartLevelTheme } from '../core/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 
@@ -306,7 +305,6 @@ export interface IModelOption extends ICompilableInitOption {
   globalInstance: VChart;
   specIndex?: number;
   specKey?: string;
-  exprFunc?: ExpressionFunction;
 
   getThemeConfig?: () => {
     globalTheme?: string;

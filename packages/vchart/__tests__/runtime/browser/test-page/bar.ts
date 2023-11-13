@@ -41,7 +41,7 @@ const run = () => {
   }
 
   // // 全局注册函数
-  // VChart.expressionFunction('labelFormat1', labelFormat);
+  // VChart.registerFunction('labelFormat1', labelFormat);
 
   const spec = {
     type: 'bar',
@@ -775,10 +775,10 @@ const run = () => {
   cs.unregisterFunction('labelFormat');
   console.log('移除实例函数', cs.getFunction('labelFormat'));
 
-  // console.log('注册全局函数', VChart.getExpressionFunction('labelFormat'));
-  // console.log('获取全局函数列表', VChart.getExpressionFunctionList());
-  // VChart.unregisterExpressionFunction('labelFormat');
-  // console.log('移除全局函数', VChart.getExpressionFunction('labelFormat'));
+  // console.log('注册全局函数', VChart.getFunction('labelFormat'));
+  // console.log('获取全局函数列表', VChart.getFunctionList());
+  // VChart.unregisterFunction('labelFormat');
+  // console.log('移除全局函数', VChart.getFunction('labelFormat'));
 
   window['vchart'] = cs;
   console.log(cs);

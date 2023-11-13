@@ -142,7 +142,7 @@ describe('register function test', () => {
 
   test('global function register', () => {
     // 全局注册函数
-    VChart.expressionFunction('labelFormat', labelFormat);
+    VChart.registerFunction('labelFormat', labelFormat);
 
     chart = new BarChart(
       spec as unknown as IChartSpec,
@@ -176,15 +176,15 @@ describe('register function test', () => {
     chart.init();
 
     // sepc
-    expect(VChart.getExpressionFunctionList()?.length).toBe(1);
-    expect(VChart.getExpressionFunctionList()?.[0]).toBe('labelFormat');
-    expect(VChart.getExpressionFunction('labelFormat')?.(2000)).toBe(2000 + 'test');
+    expect(VChart.getFunctionList()?.length).toBe(1);
+    expect(VChart.getFunctionList()?.[0]).toBe('labelFormat');
+    expect(VChart.getFunction('labelFormat')?.(2000)).toBe(2000 + 'test');
 
     // 注销函数
-    VChart.unregisterExpressionFunction('labelFormat');
+    VChart.unregisterFunction('labelFormat');
 
     // sepc
-    expect(VChart.getExpressionFunctionList()?.length).toBe(0);
+    expect(VChart.getFunctionList()?.length).toBe(0);
   });
 
   test('instance function register', () => {
@@ -210,7 +210,7 @@ describe('register function test', () => {
   });
 
   test('updateSpec with expression function', () => {
-    VChart.expressionFunction('labelColor', labelColor);
+    VChart.registerFunction('labelColor', labelColor);
     chart.updateSpec(spec3);
 
     // sepc

@@ -6,7 +6,7 @@ This tutorial will introduce the use of registered functions through two example
 
 ## Global registration function
 
-When using a globally registered function, call the chart method `expressionFunction` to register a custom function, and callback processing will be performed at runtime, as shown in the example below.
+When using a global registration function, call the chart method `registerFunction` to register a custom function, and callback processing will be performed at runtime, as shown in the example below.
 
 ```ts
   labelFormat(key: string) {
@@ -17,7 +17,7 @@ When using a globally registered function, call the chart method `expressionFunc
   renderCharts(json: string) {
 
     // Global registration function
-    VChart.expressionFunction("labelFormat",this.labelFormat);
+    VChart.registerFunction("labelFormat",this.labelFormat);
 
     const vchart = new VChart(json, { dom: CONTAINER_ID });
 
@@ -33,7 +33,7 @@ function labelFormat(key) {
 }
 
 // Global registration function
-VChart.expressionFunction('labelFormat', labelFormat);
+VChart.registerFunction('labelFormat', labelFormat);
 
 const spec = {
   type: 'bar',
@@ -76,7 +76,7 @@ When using an instance to register a function, call the instance method `registe
     const vchart = new VChart(json, { dom: CONTAINER_ID });
 
     // Instance registration function
-    vChart.expressionFunction("labelFormat",this.labelFormat);
+    vChart.registerFunction("labelFormat",this.labelFormat);
 
     vchart.renderAsync();
   }

@@ -6,7 +6,7 @@ VChart 提供注册表达式函数相关的方法。开发者可以通过注册�
 
 ## 全局注册函数
 
-在使用全局注册函数时，调用图表方法`expressionFunction`注册自定义函数，在运行时便会进行回调处理，如下方的示例。
+在使用全局注册函数时，调用图表方法`registerFunction`注册自定义函数，在运行时便会进行回调处理，如下方的示例。
 
 ```ts
   labelFormat(key: string) {
@@ -17,7 +17,7 @@ VChart 提供注册表达式函数相关的方法。开发者可以通过注册�
   renderCharts(json: string) {
 
     // Global registration function
-    VChart.expressionFunction("labelFormat",this.labelFormat);
+    VChart.registerFunction("labelFormat",this.labelFormat);
 
     const vchart = new VChart(json, { dom: CONTAINER_ID });
 
@@ -33,7 +33,7 @@ function labelFormat(key) {
 }
 
 // Global registration function
-VChart.expressionFunction('labelFormat', labelFormat);
+VChart.registerFunction('labelFormat', labelFormat);
 
 const spec = {
   type: 'bar',
@@ -76,7 +76,7 @@ vchart.renderAsync();
     const vchart = new VChart(json, { dom: CONTAINER_ID });
 
     // Instance registration function
-    vChart.expressionFunction("labelFormat",this.labelFormat);
+    vChart.registerFunction("labelFormat",this.labelFormat);
 
     vchart.renderAsync();
   }

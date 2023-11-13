@@ -45,13 +45,6 @@ Page({
 
   onChartInit(event) {
     console.log("chart 实例初始化完成", event);
-    // function labelFormat(key) {
-    //   return key + 'test';
-    // }
-    // this.selectComponent('#chart', res => {
-    //   const chartInstance = res && res.chart; // 获取 chart 实例
-    //   chartInstance.registerFunction('labelFormat', labelFormat);
-    // });
   },
 
   onChartReady(event) {

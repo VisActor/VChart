@@ -34,6 +34,7 @@ import {
   isTrueBrowser,
   warn,
   specTransform,
+  functionTransform,
   convertPoint,
   preprocessSpecOrTheme,
   getThemeObject,
@@ -83,7 +84,8 @@ import {
   merge as mergeOrigin,
   isFunction,
   LoggerLevel,
-  isEqual
+  isEqual,
+  isPlainObject
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IChartLevelTheme, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
@@ -170,7 +172,7 @@ export class VChart implements IVChart {
    * @param key 函数名称
    * @param fun 函数内容
    */
-  static expressionFunction(key: string, fun: Function) {
+  static registerFunction(key: string, fun: Function) {
     if (!key || !fun) {
       return;
     }
@@ -181,7 +183,7 @@ export class VChart implements IVChart {
    * 注销函数（全局注销）
    * @param key 函数名称
    */
-  static unregisterExpressionFunction(key: string) {
+  static unregisterFunction(key: string) {
     if (!key) {
       return;
     }
@@ -189,18 +191,22 @@ export class VChart implements IVChart {
   }
 
   /**
-   * 获取函数（全局获取）
-   * @param key 函数名称
+   * 获取函数（全局）
+   * @param key
+   * @returns
    */
-  static getExpressionFunction(key: string): Function | null {
+  static getFunction(key: string): Function | null {
     if (!key) {
       return null;
     }
     return ExpressionFunction.instance().getFunction(key);
   }
 
-  // 获取函数列表（全局获取）
-  static getExpressionFunctionList(): string[] | null {
+  /**
+   * 获取函数列表（全局获取）
+   * @returns
+   */
+  static getFunctionList(): string[] | null {
     return ExpressionFunction.instance().getFunctionNameList();
   }
 
@@ -251,9 +257,6 @@ export class VChart implements IVChart {
   /** 主题管理器 */
   static readonly ThemeManager = ThemeManager;
 
-  /** 图表函数管理器 */
-  static exprFunc: ExpressionFunction = ExpressionFunction.instance(); // 自定义format函数
-
   /** 全局配置 */
   static globalConfig: IGlobalConfig = {
     uniqueTooltip: true
@@ -275,7 +278,6 @@ export class VChart implements IVChart {
   }[] = [];
   private _eventDispatcher: Maybe<IEventDispatcher>;
   private _dataSet!: Maybe<DataSet>;
-  private _exprFunc: ExpressionFunction = ExpressionFunction.instance(); // 自定义format函数
   getDataSet() {
     return this._dataSet;
   }
@@ -362,8 +364,6 @@ export class VChart implements IVChart {
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
 
-    // this._event.emit(ChartEvent.initialized, {});
-
     InstanceManager.registerInstance(this);
   }
 
@@ -375,38 +375,6 @@ export class VChart implements IVChart {
     this._spec = specTransform(isString(spec) ? JSON.parse(spec) : spec);
   }
 
-  /**
-   * functionTransform is used to replace the function registered by the instance
-   * @param spec
-   * @param exprFunc
-   * @returns
-   */
-  private _functionTransform(spec: ISeriesSpec): any {
-    if (!spec) {
-      return spec;
-    }
-    // 如果是普通对象
-    if (spec?.constructor === Object) {
-      const result: any = {};
-      for (const key in spec as any) {
-        if (Object.prototype.hasOwnProperty.call(spec, key)) {
-          // 如果使用了注册函数
-          if (isString(spec[key]) && VChart.getExpressionFunction(spec[key])) {
-            result[key] = VChart.getExpressionFunction(spec[key]);
-            continue;
-          }
-          result[key] = this._functionTransform(spec[key]);
-        }
-      }
-      return result;
-    }
-    // 如果是数组
-    if (isArray(spec)) {
-      return spec.map(s => this._functionTransform(s));
-    }
-    return spec;
-  }
-
   private _initChart(spec: any) {
     if (!this._compiler) {
       this._option?.onError('compiler is not initialized');
@@ -414,8 +382,8 @@ export class VChart implements IVChart {
     }
 
     // 如果用户注册了函数，在配置中替换相应函数名为函数内容
-    if (VChart.getExpressionFunctionList() && VChart.getExpressionFunctionList().length) {
-      spec = this._functionTransform(spec);
+    if (VChart.getFunctionList() && VChart.getFunctionList().length) {
+      spec = functionTransform(spec, VChart);
     }
 
     // 放到这里而不是放到chart内的考虑
@@ -442,8 +410,7 @@ export class VChart implements IVChart {
         chartLevelTheme: this._currentChartLevelTheme
       }),
       layout: this._option.layout,
-      onError: this._onError,
-      exprFunc: this._exprFunc
+      onError: this._onError
     });
     if (!chart) {
       this._option?.onError('init chart fail');
@@ -1729,7 +1696,7 @@ export class VChart implements IVChart {
    * @returns
    */
   getFunction(key: string): Function | null {
-    return VChart.exprFunc.getFunction(key);
+    return ExpressionFunction.instance().getFunction(key);
   }
 
   /**
@@ -1742,7 +1709,7 @@ export class VChart implements IVChart {
     if (!key || !fun) {
       return;
     }
-    VChart.exprFunc.registerFunction(key, fun);
+    ExpressionFunction.instance().registerFunction(key, fun);
   }
 
   /**
@@ -1753,7 +1720,7 @@ export class VChart implements IVChart {
     if (!key) {
       return;
     }
-    VChart.exprFunc.unregisterFunction(key);
+    ExpressionFunction.instance().unregisterFunction(key);
   }
 
   /**
@@ -1761,7 +1728,7 @@ export class VChart implements IVChart {
    * @returns
    */
   getFunctionList() {
-    return VChart.exprFunc.getFunctionNameList();
+    return ExpressionFunction.instance().getFunctionNameList();
   }
 }
 
