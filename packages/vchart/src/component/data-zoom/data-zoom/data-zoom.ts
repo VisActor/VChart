@@ -138,7 +138,9 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   /** LifeCycle API**/
   onLayoutEnd(ctx: any): void {
     this._updateScaleRange();
-    super.onLayoutEnd(ctx);
+    if (this._cacheVisibility !== false) {
+      super.onLayoutEnd(ctx);
+    }
   }
 
   protected _initValueScale() {
@@ -178,7 +180,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       this._valueScale.range([0, this._computeWidth() - this._middleHandlerSize]);
     }
 
-    if (this._component) {
+    if (this._component && this._cacheVisibility !== false) {
       this._component.setAttributes({
         size: {
           width: this._computeWidth(),
@@ -324,8 +326,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
       }
       this._component.setStatePointToData((state: number) => this._statePointToData(state));
-      this._component.setUpdateStateCallback((start: number, end: number) => {
-        this._handleChange(start, end);
+      this._component.setUpdateStateCallback((start: number, end: number, tag?: string) => {
+        this._handleChange(start, end, undefined, tag);
       });
 
       container.add(this._component as unknown as INode);
@@ -334,7 +336,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     }
   }
 
-  protected _handleChange(start: number, end: number, updateComponent?: boolean) {
+  protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string) {
     super._handleChange(start, end, updateComponent);
     if (updateComponent && this._component) {
       this._component.setStartAndEnd(start, end);
@@ -342,7 +344,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
     this._start = start;
     this._end = end;
-    const hasChange = this._handleStateChange(this._statePointToData(start), this._statePointToData(end));
+    const hasChange = this._handleStateChange(this._statePointToData(start), this._statePointToData(end), tag);
     if (hasChange) {
       this.event.emit(ChartEvent.dataZoomChange, {
         model: this,
