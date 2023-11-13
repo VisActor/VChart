@@ -1,6 +1,40 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 03 Nov 2023 05:16:41 GMT and should not be manually modified.
+This log was last generated on Fri, 10 Nov 2023 09:56:51 GMT and should not be manually modified.
+
+## 1.6.3
+Fri, 10 Nov 2023 09:56:51 GMT
+
+### Updates
+
+- fix: fix the issue of update animation not work for line mark
+- fix: update vgrammar to ~0.8.3  to fix the issue that, vrender should not auto render during renderAsync
+-  fix: fix the error when quick release vchart during async render
+- fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446
+- perf: optimize the encode performance of sankey
+
+
+
+## 1.6.2
+Wed, 08 Nov 2023 11:05:21 GMT
+
+### Updates
+
+- fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446
+
+## 1.6.1
+Wed, 08 Nov 2023 05:29:48 GMT
+
+### Updates
+
+- feat: label formatMethod callback add context parmas to provide series object
+- feat: add components `<Title />` and `<Indicator />` of react-vchart, close #1424
+
+
+- fix: `centroidProperty` not work in map chart
+- fix: fix incorrect legend filter result caused by animation in #1403
+- fix: if layout item is invisible, do not participate in grid layout, related #1425
+- fix(marker): aggregation return value infinity problem. fix#1380'
 
 ## 1.6.0
 Fri, 03 Nov 2023 05:16:41 GMT

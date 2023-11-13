@@ -458,12 +458,12 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
   }
 
   protected _getInvalidDefined = (datum: Datum) => {
-    if (this._xAxisHelper.isContinuous) {
+    if (this._xAxisHelper?.isContinuous) {
       if (!couldBeValidNumber(datum[this._specXField[0]])) {
         return false;
       }
     }
-    if (this._yAxisHelper.isContinuous) {
+    if (this._yAxisHelper?.isContinuous) {
       if (!couldBeValidNumber(datum[this._specYField[0]])) {
         return false;
       }

@@ -6,19 +6,13 @@ const sizes = require('rollup-plugin-sizes');
 const bundleSize = require('rollup-plugin-bundle-size');
 
 function copyFile(source, target) {
-  fs.copyFile(source, target, error => {
-    if (error) {
-      console.error(error);
-    }
-    console.log('File copied successfully!');
-  });
+  try {
+    fs.copyFileSync(source, target);
+  } catch(err) {
+    throw new Error(err);
+  }
 }
 
-function copyStart(source, destinations) {
-  destinations.forEach(target => {
-    copyFile(source, target);
-  });
-}
 
 const bundle_analyze_mode = process.env.BUNDLE_ANALYZE;
 let umdInput = 'index.ts';

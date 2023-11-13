@@ -170,6 +170,9 @@ export class Compiler {
   }
 
   async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
+    if (this.isReleased) {
+      return;
+    }
     this.initView();
     if (!this._view) {
       return Promise.reject('srView init fail');

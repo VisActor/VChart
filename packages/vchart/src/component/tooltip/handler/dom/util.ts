@@ -167,7 +167,7 @@ function getLabelStyle(
   styleObj.lineHeight = getPixelPropertyStr(lineHeight);
   styleObj.fontWeight = fontWeight as FontWeight;
   styleObj.whiteSpace = multiLine ? 'initial' : 'nowrap';
-  styleObj.wordBreak = wordBreak;
+  styleObj.wordBreak = multiLine ? wordBreak ?? 'break-word' : 'normal';
   styleObj.maxWidth = getPixelPropertyStr(maxWidth);
   return styleObj;
 }

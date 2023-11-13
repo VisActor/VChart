@@ -251,6 +251,7 @@ export class VChart implements IVChart {
   private _onError?: (...args: any[]) => void;
 
   private _context: any = {}; // 存放用户在model初始化前通过实例方法传入的配置等
+  private _isReleased: boolean;
 
   constructor(spec: ISpec, options: IInitOption) {
     this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
@@ -454,6 +455,9 @@ export class VChart implements IVChart {
 
   /** **异步方法** 执行自定义的回调修改图表配置，并重新渲染 */
   async updateCustomConfigAndRerender(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
+    if (this._isReleased) {
+      return this as unknown as IVChart;
+    }
     const result = modifyConfig(); // 执行回调
     if (!isValid(result)) {
       return this as unknown as IVChart;
@@ -549,6 +553,9 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   async renderAsync(morphConfig?: IMorphConfig) {
+    if (this._isReleased) {
+      return this as unknown as IVChart;
+    }
     if (!this._chart) {
       this._option.performanceHook?.beforeInitializeChart?.();
       this._initChart(this._spec);
@@ -563,6 +570,10 @@ export class VChart implements IVChart {
     }
     // 最后填充数据绘图
     await this._compiler?.renderAsync(morphConfig);
+
+    if (this._isReleased) {
+      return this as unknown as IVChart;
+    }
 
     if (this._option.animation) {
       this._chart?.getAllRegions().forEach(region => {
@@ -599,6 +610,7 @@ export class VChart implements IVChart {
     this._userEvents = null;
     this._event = null;
     this._eventDispatcher = null;
+    this._isReleased = true;
 
     InstanceManager.unregisterInstance(this);
   }
@@ -968,6 +980,10 @@ export class VChart implements IVChart {
     this._chart.onResize(width, height);
     this._option.performanceHook?.afterResizeWithUpdate?.();
     await this._compiler.resize?.(width, height);
+
+    if (this._isReleased) {
+      return this as unknown as IVChart;
+    }
     // emit resize event
     this._event.emit(ChartEvent.afterResize, { chart: this._chart });
     return this as unknown as IVChart;

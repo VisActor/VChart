@@ -38,6 +38,7 @@ import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
+import type { IBaseScale } from '@visactor/vscale';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -59,6 +60,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   private _viewBox: IBounds = new Bounds();
 
   protected _categoryField!: string;
+  private _colorScale: IBaseScale;
   getCategoryField() {
     return this._categoryField;
   }
@@ -246,7 +248,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         y: (datum: Datum) => datum.y0,
         y1: (datum: Datum) => datum.y1,
         fill: (datum: Datum) => {
-          return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(this._getNodeNameFromData(datum));
+          return this._spec.node?.style?.fill ?? this._colorScale?.scale(this._getNodeNameFromData(datum));
         }
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
@@ -273,7 +275,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             this._spec?.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
               ? datum.source
               : this.getNodeList()[datum.source];
-          return this._spec.link?.style?.fill ?? this.getNodeOrdinalColorScale(sourceName);
+          return this._spec.link?.style?.fill ?? this._colorScale?.scale(sourceName);
         },
         direction: this._spec.direction ?? 'horizontal'
       },
@@ -345,7 +347,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
               return datum.y1;
             },
             fill: (datum: Datum) => {
-              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(this._getNodeNameFromData(datum));
+              return this._spec.node?.style?.fill ?? this._colorScale?.scale(this._getNodeNameFromData(datum));
             },
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
@@ -414,7 +416,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             x: (datum: Datum) => datum.x0,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: (datum: Datum) => {
-              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(this._getNodeNameFromData(datum));
+              return this._spec.node?.style?.fill ?? this._colorScale?.scale(this._getNodeNameFromData(datum));
             },
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
@@ -431,7 +433,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             x: (datum: Datum) => datum.x1,
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: (datum: Datum) => {
-              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(this._getNodeNameFromData(datum));
+              return this._spec.node?.style?.fill ?? this._colorScale?.scale(this._getNodeNameFromData(datum));
             },
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
@@ -453,7 +455,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             },
             y: (datum: Datum) => (datum.y0 + datum.y1) / 2,
             fill: (datum: Datum) => {
-              return this._spec.node?.style?.fill ?? this.getNodeOrdinalColorScale(this._getNodeNameFromData(datum));
+              return this._spec.node?.style?.fill ?? this._colorScale?.scale(this._getNodeNameFromData(datum));
             },
             text: (datum: Datum) => this._createText(datum),
             limit: this._labelLimit,
@@ -553,6 +555,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   private nodesSeriesDataUpdate() {
     this.event.emit(ChartEvent.legendFilter, { model: this });
     this._nodesSeriesData.updateData();
+
+    this._setNodeOrdinalColorScale();
   }
 
   private linksSeriesDataUpdate() {
@@ -1232,32 +1236,30 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
   }
 
-  getNodeOrdinalColorScale(item: string) {
-    if (!isNil((this._option?.globalScale?.getScale('color') as any)?._specified)) {
-      const specified = (this._option.globalScale.getScale('color') as any)._specified;
-      const colorDomain: string[] = [];
-      const colorRange: string[] = [];
+  _setNodeOrdinalColorScale() {
+    const colorScale = this._option?.globalScale?.getScale('color');
 
-      for (const key in specified) {
-        colorDomain.push(key);
-        colorRange.push(specified[key]);
-      }
-      const ordinalScale = new ColorOrdinalScale();
-
-      ordinalScale.domain(colorDomain).range?.(colorRange);
-
-      return ordinalScale.scale(item);
+    if ((colorScale as any)?._specified) {
+      this._colorScale = colorScale;
+      return;
     }
-    const colorDomain = !isNil(this._option.globalScale.getScale('color')?.domain()?.[0])
-      ? this._option.globalScale.getScale('color').domain()
-      : this.getNodeList();
 
-    let colorRange = this._option.globalScale.getScale('color')?.range() ?? this._getDataScheme();
+    let colorDomain: string[];
+    let colorRange: string[];
 
-    if (
-      this._option.globalScale.getScale('color')?.domain().length === 0 ||
-      isNil(this._option.globalScale.getScale('color').domain()[0])
-    ) {
+    if (colorScale) {
+      colorDomain = colorScale.domain();
+      colorRange = colorScale.range();
+    }
+
+    if (!colorRange) {
+      colorRange = this._getDataScheme() as unknown as string[];
+    }
+
+    if (!colorDomain || isNil(colorDomain[0])) {
+      // no validate domain
+      colorDomain = this.getNodeList();
+
       if (colorDomain.length > 10) {
         colorRange = (this._getDataScheme()[1] as any)?.scheme;
       }
@@ -1267,7 +1269,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     ordinalScale.domain(colorDomain).range?.(colorRange);
 
-    return ordinalScale.scale(item);
+    this._colorScale = ordinalScale;
+    return;
   }
 
   getNodeList() {

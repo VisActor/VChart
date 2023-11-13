@@ -47,13 +47,7 @@ export const colorScheme: IThemeColorScheme = {
       tooltipBackgroundColor: '#ffffff',
 
       /** 标注标签背景颜色 */
-      markLabelBackgroundColor: '#ffc528',
-
-      // 已弃用的语义色值
-      /** @deprecated 图表标题颜色 */
-      titleFontColor: '#21252c',
-      /** @deprecated 标签字色 */
-      labelFontColor: '#89909d'
+      markLabelBackgroundColor: '#ffc528'
     } as BuiltinColorPalette
   }
 };
