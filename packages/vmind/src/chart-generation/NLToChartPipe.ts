@@ -12,26 +12,26 @@ import { GPTChartAdvisorResult, GPTDataProcessResult, IGPTOptions, NLToChartResu
 import { parseGPTJson, parseGPTResponse, patchUserInput, readTopNLine, requestGPT } from './utils';
 import { DataSet, DataView, csvParser, fold } from '@visactor/vdataset';
 import { vizDataToSpec } from './vizDataToSpec';
-import {
-  getMockData1,
-  getMockData2,
-  getMockData3,
-  getMockData4,
-  getMockData5,
-  getMockData6,
-  getMockDataDynamicBar,
-  getMockDataDynamicBar2,
-  getMockDataScatter1,
-  getMockDataScatter2,
-  getMockDataWordCloud1,
-  getMockDataWordCloud2
-} from '../site/constants/mockData';
+// import {
+//   getMockData1,
+//   getMockData2,
+//   getMockData3,
+//   getMockData4,
+//   getMockData5,
+//   getMockData6,
+//   getMockDataDynamicBar,
+//   getMockDataDynamicBar2,
+//   getMockDataScatter1,
+//   getMockDataScatter2,
+//   getMockDataWordCloud1,
+//   getMockDataWordCloud2
+// } from '../site/constants/mockData';
 
-import {
-  mockGPTResponseBarChart,
-  mockGPTResponseLineChart,
-  mockGPTResponsePieChart
-} from '../site/constants/mockResponse';
+// import {
+//   mockGPTResponseBarChart,
+//   mockGPTResponseLineChart,
+//   mockGPTResponsePieChart
+// } from '../site/constants/mockResponse';
 
 export const estimateVideoTime = (chartType: string, spec: any, parsedTime?: number) => {
   //估算视频长度

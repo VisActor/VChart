@@ -23,7 +23,7 @@
     "test-watch": "DEBUG_MODE=1 jest --watch",
     "prepublishOnly": "npm run build",
     "postpublish": "npm run clear",
-    "release-alpha": "npm version prerelease --preid alpha && npm publish && git commit -a -m 'chore: release alpha version for vmind' && git push",
+    "release-alpha": "npm version prerelease --preid alpha && npm publish --tag alpha && git commit -a -m 'chore: release alpha version for vmind' && git push",
     "release": "npm version patch && npm publish && git commit -a -m 'chore: release patch version for vmind' && git push"
   },
   "devDependencies": {
