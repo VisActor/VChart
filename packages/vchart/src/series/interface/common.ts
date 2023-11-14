@@ -7,7 +7,7 @@ import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { StringOrNumber } from '../../typings';
-import type { ILabelSpec } from '../../component/label';
+import type { TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from './type';
 
 // export type SeriesStyle = 'color' | 'size' | 'shape';
@@ -103,7 +103,7 @@ export interface ISeriesMarkInitOption {
   progressive?: IMarkProgressiveConfig;
 
   /** 标签spec */
-  label?: ILabelSpec;
+  label?: TransformedLabelSpec;
 
   /** 是否支持 3d */
   support3d?: boolean;

@@ -25,7 +25,8 @@ export class LineChart extends CartesianChart {
       samplingFactor: spec.samplingFactor,
       pointDis: spec.pointDis,
       pointDisMul: spec.pointDisMul,
-      markOverlap: spec.markOverlap
+      markOverlap: spec.markOverlap,
+      lineLabel: spec.lineLabel
     };
   }
   transformSpec(spec: any): void {

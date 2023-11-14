@@ -2,7 +2,6 @@
 import type { IArcMark } from '../../mark/arc';
 import type { Maybe, Datum } from '../../typings';
 import { valueInScaleRange } from '../../util/scale';
-import { mergeSpec } from '../../util/spec/merge-spec';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -15,6 +14,7 @@ import { ArcMark } from '../../mark/arc';
 import { roseSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
+import type { ILabelMark } from '../../mark/label';
 
 export const DefaultBandWidth = 0.5;
 
@@ -45,7 +45,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
-      label: mergeSpec({ animation: this._spec.animation }, this._spec.label)
+      label: this._preprocessLabelSpec(this._spec.label)
     }) as IArcMark;
   }
 
@@ -97,7 +97,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
     this._roseMark && this._tooltipHelper.activeTriggerSet.mark.add(this._roseMark);
   }
 
-  initLabelMarkStyle(textMark: ITextMark) {
+  initLabelMarkStyle(textMark: ILabelMark) {
     if (!textMark) {
       return;
     }
