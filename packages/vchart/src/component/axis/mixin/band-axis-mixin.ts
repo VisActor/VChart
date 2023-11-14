@@ -15,7 +15,6 @@ export interface BandAxisMixin {
   _defaultBandOuterPadding: number;
   event: IEvent;
   isSeriesDataEnable: () => boolean;
-  computeStatisticsDomain: () => void;
   collectData: (depth: number) => { min: number; max: number; values: any[] }[];
   computeDomain: (data: { min: number; max: number; values: any[] }[]) => StringOrNumber[];
   transformScaleDomain: () => void;
