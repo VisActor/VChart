@@ -38,7 +38,10 @@ import {
   funnelField,
   funnelData,
   dualAxisSeries,
-  dualAxisAxes
+  dualAxisAxes,
+  waterfallField,
+  waterfallAxes,
+  waterfallStackLabel
 } from './pipes';
 import { Cell, ChartType, Context, Pipe } from '../typings';
 import { DataView } from '@visactor/vdataset';
@@ -235,6 +238,8 @@ const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, rad
 
 const pipelineSankey = [chartType, sankeyData, color, sankeyField, sankeyLink, sankeyLabel, legend];
 
+const pipelineWaterfall = [chartType, data, color, waterfallField, waterfallAxes, waterfallStackLabel, legend];
+
 export const pipelineMap: { [chartType: string]: any } = {
   'BAR CHART': pipelineBar,
   'LINE CHART': pipelineLine,
@@ -246,7 +251,8 @@ export const pipelineMap: { [chartType: string]: any } = {
   'DUAL AXIS CHART': pipelineDualAxis,
   'ROSE CHART': pipelineRose,
   'RADAR CHART': pipelineRadar,
-  'SANKEY CHART': pipelineSankey
+  'SANKEY CHART': pipelineSankey,
+  'WATERFALL CHART': pipelineWaterfall
 };
 
 export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>

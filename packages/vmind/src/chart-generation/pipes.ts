@@ -31,7 +31,8 @@ const chartTypeMap: { [chartName: string]: string } = {
   'DUAL AXIS CHART': 'common',
   'ROSE CHART': 'rose',
   'RADAR CHART': 'radar',
-  'SANKEY CHART': 'sankey'
+  'SANKEY CHART': 'sankey',
+  'WATERFALL CHART': 'waterfall'
 };
 
 export const chartType = (spec: any, context: Context) => {
@@ -397,6 +398,53 @@ export const funnelField = (spec: any, context: Context) => {
   spec.categoryField = cell.x;
   spec.valueField = cell.y;
 
+  return spec;
+};
+
+export const waterfallField = (spec: any, context: Context) => {
+  //漏斗图根据cell分配字段
+  const { cell } = context;
+  spec.xField = cell.x;
+  spec.yField = cell.y;
+  spec.total = {
+    type: 'end',
+    text: '总计'
+  };
+
+  return spec;
+};
+
+export const waterfallAxes = (spec: any, context: Context) => {
+  //双轴图根据cell分配坐标轴
+  spec.axes = [
+    {
+      orient: 'left',
+      title: { visible: true, text: 'favorability' },
+      label: {
+        formatMethod: v => {
+          return v + '%';
+        }
+      }
+    },
+    {
+      orient: 'bottom',
+      label: { visible: true },
+      type: 'band',
+      paddingInner: 0.4,
+      title: { visible: true, text: 'date' }
+    }
+  ];
+  return spec;
+};
+
+export const waterfallStackLabel = (spec: any, context: Context) => {
+  //双轴图根据cell分配坐标轴
+  spec.stackLabel = {
+    valueType: 'absolute',
+    formatMethod: (text: any) => {
+      return text + '%';
+    }
+  };
   return spec;
 };
 
