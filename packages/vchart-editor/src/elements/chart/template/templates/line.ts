@@ -117,20 +117,7 @@ const spec = {
   title: {
     id: 'title',
     visible: true,
-    align: 'left',
-    verticalAlign: 'top',
-    orient: 'top',
-    textStyle: {
-      character: [
-        {
-          text: '标题',
-          fontSize: 30,
-          textAlign: 'center',
-          textDecoration: 'underline',
-          stroke: '#0f51b5'
-        }
-      ]
-    }
+    text: '标题'
   },
   region: [
     {

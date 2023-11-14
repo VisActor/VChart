@@ -1,5 +1,5 @@
 import { InputNumber, Slider } from '@douyinfe/semi-ui';
-import { isArray } from '@visactor/vutils';
+import { isArray, isValid } from '@visactor/vutils';
 import type { IBaseSliderNumberComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
 import { tooltipWrapper } from '../utils/node';
@@ -31,9 +31,11 @@ export function SliderNumber(props: IBaseSliderNumberComponentProps) {
         max={max}
         step={step}
         onChange={value => {
-          const finalValue = isArray(value) ? value[0] : value;
+          const singleValue = isArray(value) ? value[0] : value;
+          const finalValue = !isValid(singleValue) || singleValue === '' ? null : singleValue;
           props.onChange?.(finalValue);
         }}
+        width={40}
         formatter={value => `${value}${unit ?? ''}`}
         parser={value => {
           if (unit) {

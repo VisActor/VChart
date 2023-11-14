@@ -51,9 +51,7 @@ const spec = {
   title: {
     id: 'title',
     visible: true,
-    textStyle: {
-      text: '标题'
-    }
+    text: '标题'
   }
 };
 
