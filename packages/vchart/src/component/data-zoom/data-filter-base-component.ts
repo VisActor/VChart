@@ -162,8 +162,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         const axisScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
         const axisSpec = (this._relatedAxisComponent as CartesianAxis<any>).getSpec() as ICartesianBandAxisSpec;
         if (this._auto && this._getAxisBandSize(axisSpec)) {
-          // 提前更改 scale
-          axisScale.range(this._stateScale?.range(), true);
           // 判断是否允许自由更改轴 bandSize
           if ((this._spec as IDataZoomSpec).ignoreBandSize) {
             axisScale.bandwidth('auto');
@@ -828,13 +826,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       return true;
     }
 
-    const axisSpec = this._relatedAxisComponent?.getSpec() as ICartesianBandAxisSpec | undefined;
+    const axis = this._relatedAxisComponent as CartesianAxis<any>;
+    const axisSpec = axis?.getSpec() as ICartesianBandAxisSpec | undefined;
+    const axisScale = axis?.getScale() as IBandLikeScale;
     const bandSizeResult = this._getAxisBandSize(axisSpec);
     const { bandSize, maxBandSize, minBandSize } = bandSizeResult ?? {};
     let isShown = true;
-    const scale = this._stateScale as BandScale;
-    scale.range(this._isHorizontal ? [0, rect.width] : axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
-    if (isDiscrete(scale.type)) {
+    axisScale.range(this._isHorizontal ? [0, rect.width] : axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
+    if (isDiscrete(axisScale.type)) {
       if (
         rect?.height === this._cacheRect?.height &&
         rect?.width === this._cacheRect?.width &&
@@ -845,20 +844,20 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       this._cacheRect = rect;
       if (bandSizeResult) {
         if (this._start || this._end) {
-          scale.rangeFactor([this._start, this._end], true);
+          axisScale.rangeFactor([this._start, this._end], true);
         }
         if (bandSize) {
-          scale.bandwidth(bandSize, true);
+          axisScale.bandwidth(bandSize, true);
         }
         if (maxBandSize) {
-          scale.maxBandwidth(maxBandSize, true);
+          axisScale.maxBandwidth(maxBandSize, true);
         }
         if (minBandSize) {
-          scale.minBandwidth(minBandSize, true);
+          axisScale.minBandwidth(minBandSize, true);
         }
-        scale.rescale();
+        axisScale.rescale();
       }
-      let [start, end] = scale.rangeFactor() ?? [];
+      let [start, end] = axisScale.rangeFactor() ?? [];
       if (isNil(start) || isNil(end)) {
         start = 0;
         end = 1;
@@ -869,7 +868,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       this._start = start;
       this._end = end;
     } else {
-      const [start, end] = scale.rangeFactor() ?? [this._start, this._end];
+      const [start, end] = axisScale.rangeFactor() ?? [this._start, this._end];
       isShown = !(start === 0 && end === 1);
     }
     this.setStartAndEnd(this._start, this._end);
