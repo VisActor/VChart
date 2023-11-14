@@ -17,6 +17,7 @@ import type { IDataZoomSpec } from './interface';
 import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
+import type { CartesianAxis } from '../../axis/cartesian';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -156,14 +157,19 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     if (!this._stateScale || !this._valueScale) {
       return;
     }
+    let stateScaleRange;
+    const relatedAxisRange = (this._relatedAxisComponent as CartesianAxis<any>).getScale().range();
     if (this._isHorizontal) {
-      this._stateScale.range([0, this._computeWidth() - handlerSize]);
+      stateScaleRange = this._visible ? [0, this._computeWidth() - handlerSize] : relatedAxisRange;
+      this._stateScale.range(stateScaleRange);
       this._valueScale.range([this._computeHeight() - this._middleHandlerSize, 0]);
     } else if (this.layoutOrient === 'left') {
-      this._stateScale.range([0, this._computeHeight() - handlerSize]);
+      stateScaleRange = this._visible ? [0, this._computeHeight() - handlerSize] : relatedAxisRange;
+      this._stateScale.range(stateScaleRange);
       this._valueScale.range([this._computeWidth() - this._middleHandlerSize, 0]);
     } else {
-      this._stateScale.range([0, this._computeHeight() - handlerSize]);
+      stateScaleRange = this._visible ? [0, this._computeHeight() - handlerSize] : relatedAxisRange;
+      this._stateScale.range(stateScaleRange);
       this._valueScale.range([0, this._computeWidth() - this._middleHandlerSize]);
     }
 
