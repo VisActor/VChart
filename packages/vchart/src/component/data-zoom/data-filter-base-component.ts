@@ -158,16 +158,15 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   effect: IEffect = {
     onZoomChange: (tag?: string) => {
-      if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
-        const axisScale = (this._relatedAxisComponent as CartesianAxis<any>).getScale() as IBandLikeScale;
-        const axisSpec = (this._relatedAxisComponent as CartesianAxis<any>).getSpec() as ICartesianBandAxisSpec;
-        if (this._auto && this._getAxisBandSize(axisSpec)) {
-          // 判断是否允许自由更改轴 bandSize
-          if ((this._spec as IDataZoomSpec).ignoreBandSize) {
-            axisScale.bandwidth('auto');
-            axisScale.maxBandwidth('auto');
-            axisScale.minBandwidth('auto');
-          }
+      const axis = this._relatedAxisComponent as CartesianAxis<any>;
+      if (axis && this._filterMode === IFilterMode.axis) {
+        const axisScale = axis.getScale() as IBandLikeScale;
+        const axisSpec = axis.getSpec() as ICartesianBandAxisSpec;
+        // 判断是否允许自由更改轴 bandSize
+        if (this._auto && this._getAxisBandSize(axisSpec) && (this._spec as IDataZoomSpec).ignoreBandSize) {
+          axisScale.bandwidth('auto');
+          axisScale.maxBandwidth('auto');
+          axisScale.minBandwidth('auto');
         }
 
         // 轴的range有时是相反的
@@ -190,8 +189,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         const newFactor = axisScale.rangeFactor();
         this._start = newFactor?.[0] ?? 0;
         this._end = newFactor?.[1] ?? 1;
-        (this._component as DataZoom)?.setStartAndEnd(this._start, this._end);
-        this._relatedAxisComponent.effect.scaleUpdate();
+        (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
+        axis.effect.scaleUpdate();
       } else {
         eachSeries(
           this._regions,
@@ -830,32 +829,19 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const axisSpec = axis?.getSpec() as ICartesianBandAxisSpec | undefined;
     const axisScale = axis?.getScale() as IBandLikeScale;
     const bandSizeResult = this._getAxisBandSize(axisSpec);
-    const { bandSize, maxBandSize, minBandSize } = bandSizeResult ?? {};
     let isShown = true;
     axisScale.range(this._isHorizontal ? [0, rect.width] : axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
     if (isDiscrete(axisScale.type)) {
       if (
         rect?.height === this._cacheRect?.height &&
         rect?.width === this._cacheRect?.width &&
-        this._fixedBandSize === bandSize
+        this._fixedBandSize === bandSizeResult?.bandSize
       ) {
         return this._cacheVisibility;
       }
       this._cacheRect = rect;
-      if (bandSizeResult) {
-        if (this._start || this._end) {
-          axisScale.rangeFactor([this._start, this._end], true);
-        }
-        if (bandSize) {
-          axisScale.bandwidth(bandSize, true);
-        }
-        if (maxBandSize) {
-          axisScale.maxBandwidth(maxBandSize, true);
-        }
-        if (minBandSize) {
-          axisScale.minBandwidth(minBandSize, true);
-        }
-        axisScale.rescale();
+      if (bandSizeResult && (this._start || this._end)) {
+        axisScale.rangeFactor([this._start, this._end]);
       }
       let [start, end] = axisScale.rangeFactor() ?? [];
       if (isNil(start) || isNil(end)) {
