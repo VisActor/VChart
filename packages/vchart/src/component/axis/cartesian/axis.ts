@@ -78,14 +78,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   protected declare _theme: ICartesianAxisCommonTheme;
 
-  protected _statisticsDomain: {
-    domain: any[];
-    index: { [key in StringOrNumber]: number };
-  } = { domain: [], index: {} };
-  getStatisticsDomain() {
-    return this._statisticsDomain;
-  }
-
   protected _tick: ITick | undefined = undefined;
 
   private _axisStyle: Partial<LineAxisAttributes>;
@@ -334,7 +326,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       isContinuous: isContinuous(this._scale.type),
       dataToPosition: this.dataToPosition.bind(this),
       getScale,
-      getStatisticsDomain: () => this.getStatisticsDomain(),
       getAxisType: () => this.type,
       getAxisId: () => this.id,
       isInverse: () => this._spec.inverse === true

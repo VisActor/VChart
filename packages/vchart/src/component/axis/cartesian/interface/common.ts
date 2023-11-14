@@ -103,12 +103,6 @@ export interface IAxisHelper {
   // 用户其他模块扩充轴scale的区间
   setExtendDomain?: (key: string, value: number | undefined) => void;
 
-  // domain 类型是any[]
-  getStatisticsDomain?: () => {
-    domain: any[];
-    index: { [key in StringOrNumber]: number };
-  };
-
   getAxisType: () => string;
 
   getAxisId: () => number;

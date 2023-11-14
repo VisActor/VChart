@@ -20,7 +20,6 @@ export interface LinearAxisMixin {
   _expand?: { max?: number; min?: number };
   _tick: ITick | undefined;
   isSeriesDataEnable: any;
-  computeStatisticsDomain: any;
   computeDomain: any;
   collectData: any;
   event: IEvent;
