@@ -264,6 +264,10 @@ export class LayoutEditorElement extends BaseEditorElement {
           height: { offset: bounds.y2 - bounds.y1 }
         }
       });
+      if (!model.getVisible()) {
+        // 删除当前编辑框
+        this.clearLayoutEditorBox();
+      }
     }
   }
 

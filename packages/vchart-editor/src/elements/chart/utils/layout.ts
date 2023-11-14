@@ -116,7 +116,8 @@ export const IgnoreModelTypeInLayout = {
   crosshair: true,
   brush: true,
   cartesianCrosshair: true,
-  polarCrosshair: true
+  polarCrosshair: true,
+  geoCoordinate: true
 };
 
 export const IgnoreModelTypeInCommon = {

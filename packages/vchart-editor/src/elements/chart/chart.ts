@@ -191,14 +191,18 @@ export class EditorChart extends BaseElement {
   }
 
   protected _currentVChartFlow: any = null;
-  async _updateNextTick() {
-    if (!this._currentVChartFlow) {
-      this._currentVChartFlow = Promise.resolve().then(() => {
-        this._updateVChartSpec();
-        this._currentVChartFlow = null;
-      });
-    }
-    await this._currentVChartFlow;
+  // async _updateNextTick() {
+  //   if (!this._currentVChartFlow) {
+  //     this._currentVChartFlow = Promise.resolve().then(() => {
+  //       this._updateVChartSpec();
+  //       this._currentVChartFlow = null;
+  //     });
+  //   }
+  //   await this._currentVChartFlow;
+  //   return this;
+  // }
+  _updateNextTick() {
+    this._updateVChartSpec();
     return this;
   }
 
