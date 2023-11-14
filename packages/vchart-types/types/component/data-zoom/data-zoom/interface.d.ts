@@ -50,6 +50,7 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
         formatMethod?: (text: string | number) => string | string[];
     };
     brushSelect?: boolean;
+    ignoreBandSize?: boolean;
 }
 export type IDataZoomTheme = IComponentSpec & IDataZoomStyle & {
     orient?: IDataZoomSpec['orient'];

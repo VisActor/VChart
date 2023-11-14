@@ -2,8 +2,7 @@ import type { Dict, IBoundsLike } from '@visactor/vutils';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
-import type { IPadding, Maybe, StringOrNumber } from '../../typings';
-import type { LayoutItem } from '../../model/layout-item';
+import type { ILayoutType, IPadding, Maybe, StringOrNumber } from '../../typings';
 import type { IComponentOption } from '../interface';
 import type { ICrossHair, CrossHairTrigger, ICartesianCrosshairSpec, IPolarCrosshairSpec, ICrosshairTheme, ICrosshairCategoryFieldSpec } from './interface';
 import type { IAxis } from '../axis/interface';
@@ -32,9 +31,9 @@ export interface IHair {
     };
 }
 export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCrosshairSpec> extends BaseComponent<T> implements ICrossHair {
-    layoutType: LayoutItem['layoutType'];
-    gridZIndex: LayoutItem['layoutZIndex'];
-    labelZIndex: LayoutItem['layoutZIndex'];
+    layoutType: ILayoutType;
+    gridZIndex: number;
+    labelZIndex: number;
     trigger: CrossHairTrigger;
     enable: boolean;
     showDefault: boolean;

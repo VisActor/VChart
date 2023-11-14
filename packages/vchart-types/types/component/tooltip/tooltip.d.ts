@@ -1,11 +1,11 @@
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
 import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
-import type { Datum, IShowTooltipOption } from '../../typings';
+import type { Datum, ILayoutType, IShowTooltipOption } from '../../typings';
 import type { ITooltip, ITooltipActiveTypeAsKeys, ITooltipSpec, ITooltipTheme, TooltipHandlerParams, TotalMouseEventData } from './interface';
 import { TooltipResult } from './interface/common';
 import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
@@ -16,10 +16,11 @@ export type TooltipActualTitleContent = {
     content?: IToolTipLineActual[];
 };
 export declare class Tooltip extends BaseComponent<any> implements ITooltip {
+    protected layoutZIndex: number;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutType: ILayoutItem['layoutType'];
+    layoutType: ILayoutType;
     protected _spec: ITooltipSpec;
     static createComponent(spec: any, options: IComponentOption): Tooltip | Tooltip[];
     tooltipHandler?: ITooltipHandler;

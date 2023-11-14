@@ -2,13 +2,12 @@ import { DataView } from '@visactor/vdataset';
 import type { DataSet, ITransformOptions } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
 import type { IMark } from '../../mark/interface';
-import type { CoordinateType, IInvalidType, IPoint, DataKeyType, Datum, Maybe, ISeriesSpec, IGroup } from '../../typings';
+import type { CoordinateType, IInvalidType, IPoint, DataKeyType, Datum, Maybe, ISeriesSpec, IGroup, ILayoutType, ILayoutPoint, ILayoutRect } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo } from '../interface';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 import type { ITrigger } from '../../interaction/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import { SeriesData } from './series-data';
 import type { IGroupMark } from '../../mark/group';
@@ -16,7 +15,7 @@ import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
     readonly specKey: string;
     readonly type: string;
-    layoutType: LayoutItem['layoutType'];
+    layoutType: ILayoutType;
     readonly modelType: string;
     readonly name: string | undefined;
     static readonly mark: SeriesMarkMap;
@@ -26,6 +25,10 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     readonly coordinate: CoordinateType;
     protected _region: IRegion;
     getRegion(): IRegion;
+    private _layoutStartPoint;
+    getLayoutStartPoint(): ILayoutPoint;
+    private _layoutRect;
+    getLayoutRect: () => ILayoutRect;
     protected _rootMark: IGroupMark;
     getRootMark(): IGroupMark;
     protected _seriesMark: Maybe<IMark>;
@@ -64,6 +67,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected _dataSet: DataSet;
     protected _tooltipHelper: ISeriesTooltipHelper | undefined;
     get tooltipHelper(): ISeriesTooltipHelper;
+    layoutZIndex: number;
     protected _invalidType: IInvalidType;
     getInvalidType(): IInvalidType;
     setInvalidType(t: IInvalidType): void;
@@ -144,7 +148,8 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
     onRender(ctx: IModelRenderOption): void;
     release(): void;
-    onLayoutEnd(ctx: any): void;
+    setLayoutStartPosition(pos: Partial<IPoint>): void;
+    setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>): void;
     getSeriesKeys(): string[];
     getSeriesStyle(datum: Datum): (attribute: string) => unknown;
     protected _getSeriesInfo(field: string, keys: string[]): {

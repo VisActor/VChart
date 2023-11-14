@@ -1,19 +1,20 @@
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
-import type { IEffect, IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IEffect, IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IGeoRegionSpec, IRegion } from '../../region/interface';
 import type { IGeoCoordinate, IGeoCoordinateSpec, IProjectionSpec } from './interface';
-import type { IChartSpec, StringOrNumber } from '../../typings';
+import type { IChartSpec, ILayoutType, StringOrNumber } from '../../typings';
 import type { IGraphic } from '@visactor/vrender-core';
 export declare function projectionName(key: string, id: number): string;
 export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeoCoordinate {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutType: ILayoutItem['layoutType'];
+    layoutType: ILayoutType;
+    protected layoutZIndex: number;
     _longitudeField?: string;
     get longitudeField(): string;
     _latitudeField?: string;

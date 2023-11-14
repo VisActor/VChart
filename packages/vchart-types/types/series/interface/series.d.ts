@@ -1,6 +1,6 @@
 import type { ITrigger } from '../../interaction/interface';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { IModel, ILayoutItem } from '../../model/interface';
+import type { IModel } from '../../model/interface';
 import type { DataSet, DataView, ITransformOptions } from '@visactor/vdataset';
 import type { IMark } from '../../mark/interface';
 import type { CoordinateType, IPoint, IPolarPoint } from '../../typings/coordinate';
@@ -17,12 +17,13 @@ import type { IGroupMark } from '../../mark/group';
 import type { IArcLabelSpec } from '../pie/interface';
 import type { IGeoCoordinateHelper } from '../../component/geo/interface';
 import type { ILabelMark } from '../../mark/label';
-export interface ISeries extends IModel, ILayoutItem {
+export interface ISeries extends IModel {
     readonly type: string;
     readonly name?: string;
     tooltipHelper: ISeriesTooltipHelper;
     getSpec: () => any;
     readonly coordinate: CoordinateType;
+    onLayoutEnd: (ctx: any) => void;
     getRawData: () => DataView | undefined;
     getViewDataFilter: () => DataView | undefined;
     getViewData: () => DataView | undefined;

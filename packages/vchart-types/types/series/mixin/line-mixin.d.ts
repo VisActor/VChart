@@ -5,7 +5,7 @@ import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import type { ILineMark } from '../../mark/line';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
-import type { DirectionType, IInvalidType, InterpolateType, ILineMarkSpec, ISymbolMarkSpec, Maybe, Datum, IMarkTheme } from '../../typings';
+import type { DirectionType, IInvalidType, InterpolateType, ILineMarkSpec, ISymbolMarkSpec, Maybe, Datum, IMarkTheme, ILayoutRect } from '../../typings';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
 import type { ILabelSpec } from '../../component/label';
 import { type DimensionEventParams } from '../../event/events/dimension';
@@ -44,6 +44,7 @@ export interface LineLikeSeriesMixin extends ISeries {
     _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption) => IMark;
     _getInvalidDefined: () => boolean;
     _getInvalidConnectType: () => IInvalidType;
+    getLayoutRect: () => ILayoutRect;
 }
 export declare class LineLikeSeriesMixin {
     addSamplingCompile(): void;

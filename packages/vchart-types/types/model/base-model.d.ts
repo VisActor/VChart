@@ -1,13 +1,16 @@
 import type { IEvent } from '../event/interface';
-import { LayoutItem } from './layout-item';
-import type { IEffect, IModel, IModelInitOption, IModelOption, IModelRenderOption, IModelEvaluateOption, IModelSpec, ILayoutRect, IModelMarkInfo } from './interface';
+import type { IEffect, IModel, IModelInitOption, IModelOption, IModelRenderOption, IModelEvaluateOption, IModelSpec, IModelMarkInfo } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
-import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect } from '../typings';
+import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect, ILayoutRect } from '../typings';
 import type { CompilableData } from '../compile/data/compilable-data';
 import type { IGroupMark } from '@visactor/vgrammar-core';
 import { MarkSet } from '../mark/mark-set';
-export declare abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> implements IModel {
+import type { ILayoutItem } from '../layout/interface';
+import { CompilableBase } from '../compile/compilable-base';
+export declare abstract class BaseModel<T extends IModelSpec> extends CompilableBase implements IModel {
+    protected _spec: T;
+    getSpec(): T;
     readonly type: string;
     readonly modelType: string;
     readonly id: number;
@@ -16,6 +19,8 @@ export declare abstract class BaseModel<T extends IModelSpec> extends LayoutItem
     readonly effect: IEffect;
     protected _data: CompilableData;
     getData(): CompilableData;
+    protected _layout?: ILayoutItem;
+    get layout(): ILayoutItem;
     protected _specIndex: number;
     getSpecIndex(): number;
     readonly specKey: string;
@@ -30,16 +35,15 @@ export declare abstract class BaseModel<T extends IModelSpec> extends LayoutItem
     getChart(): import("../chart/interface").IChart;
     protected _theme?: any;
     protected _lastLayoutRect: ILayoutRect;
-    protected _isLayout: boolean;
     constructor(spec: T, option: IModelOption);
     coordinate?: CoordinateType;
     protected _releaseEvent(): void;
     created(): void;
     init(option: IModelInitOption): void;
     afterInit(): void;
+    getVisible(): boolean;
     onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
     onLayoutEnd(ctx: any): void;
-    protected _forceLayout(): void;
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
     abstract onRender(ctx: IModelRenderOption): void;
     onDataUpdate(): void;

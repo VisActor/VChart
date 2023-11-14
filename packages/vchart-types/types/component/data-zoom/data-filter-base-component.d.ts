@@ -1,8 +1,7 @@
 import { BaseComponent } from '../base/base-component';
-import type { IEffect, IModelInitOption, ILayoutRect } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
+import type { IEffect, IModelInitOption } from '../../model/interface';
 import type { IComponent, IComponentOption } from '../interface';
-import type { AdaptiveSpec, IOrientType, StringOrNumber } from '../../typings';
+import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, StringOrNumber } from '../../typings';
 import type { IBaseScale } from '@visactor/vscale';
 import type { ICartesianBandAxisSpec } from '../axis/cartesian';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -11,7 +10,7 @@ import type { IDataFilterComponent, IDataFilterComponentSpec, IRoamDragSpec, IRo
 import type { BaseEventParams } from '../../event/interface';
 import type { AbstractComponent } from '@visactor/vrender-components';
 export declare abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec> extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>> implements IDataFilterComponent {
-    layoutType: LayoutItem['layoutType'];
+    layoutType: ILayoutType;
     protected _component: AbstractComponent;
     protected _orient: IOrientType;
     protected _isHorizontal: boolean;
@@ -20,8 +19,6 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _cacheRect?: ILayoutRect;
     protected _cacheVisibility?: boolean;
     get orient(): IOrientType;
-    get layoutOrient(): IOrientType;
-    set layoutOrient(v: IOrientType);
     protected _stateScale: IBaseScale;
     protected _relatedAxisComponent: IComponent;
     protected _originalStateFields: Record<number, string | number>;
@@ -68,6 +65,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     get visible(): boolean;
     constructor(spec: T, options: IComponentOption);
     created(): void;
+    initLayout(): void;
     protected _setAxisFromSpec(): void;
     protected _setRegionsFromSpec(): void;
     onDataUpdate(): void;
@@ -96,7 +94,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected update(ctx: IComponentOption): void;
     protected resize(ctx: IComponentOption): void;
     protected _parseDomainFromState(startValue: number | string, endValue: number | string): any;
-    protected _handleStateChange: (startValue: number, endValue: number) => boolean;
+    protected _handleStateChange: (startValue: number, endValue: number, tag?: string) => boolean;
     protected _handleChartZoom: (params: {
         zoomDelta: number;
         zoomX?: number;
@@ -110,7 +108,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _handleChartMove: (value: number, rate: number) => void;
     protected _initCommonEvent(): void;
     updateLayoutAttribute(): void;
-    _boundsInRect(rect: ILayoutRect): IBoundsLike;
+    getBoundsInRect(rect: ILayoutRect): IBoundsLike;
     hide(): void;
     show(): void;
     protected _getAxisBandSize(axisSpec?: ICartesianBandAxisSpec): {

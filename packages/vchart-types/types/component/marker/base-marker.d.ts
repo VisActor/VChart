@@ -1,14 +1,13 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IModelRenderOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
-import type { StringOrNumber } from '../../typings';
+import type { ILayoutType, StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IAggrType, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
 import type { IGraphic } from '@visactor/vrender-core';
 export declare abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
-    layoutType: LayoutItem['layoutType'];
+    layoutType: ILayoutType;
     protected _startRelativeSeries: ICartesianSeries;
     protected _endRelativeSeries: ICartesianSeries;
     protected _relativeSeries: ICartesianSeries;

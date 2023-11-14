@@ -29237,6 +29237,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "ignoreBandSize": {
+          "description": "是否忽略轴上配置的固定 bandSize\n如果置为 true，则 datazoom 可以任意改变轴的 bandSize。\n但如果轴上配置了 bandSize 范围，则第一次渲染会保持 bandSize 在配置范围内。\n该配置仅在 auto 设为 true 时生效。",
+          "since": "1.7.0",
+          "type": "boolean"
+        },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
           "type": "number"
@@ -67266,7 +67271,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         },
         "size": {
@@ -67274,14 +67279,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14230",
+        "__@toStringTag@13721",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         },
         "size": {
@@ -67289,14 +67294,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14230",
+        "__@toStringTag@13721",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         },
         "size": {
@@ -67304,14 +67309,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14230",
+        "__@toStringTag@13721",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         },
         "size": {
@@ -67319,14 +67324,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14230",
+        "__@toStringTag@13721",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         },
         "size": {
@@ -67334,14 +67339,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14230",
+        "__@toStringTag@13721",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         },
         "size": {
@@ -67349,14 +67354,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14230",
+        "__@toStringTag@13721",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         },
         "size": {
@@ -67364,14 +67369,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14230",
+        "__@toStringTag@13721",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         },
         "size": {
@@ -67379,14 +67384,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14230",
+        "__@toStringTag@13721",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         },
         "size": {
@@ -67394,7 +67399,7 @@
         }
       },
       "required": [
-        "__@toStringTag@14230",
+        "__@toStringTag@13721",
         "size"
       ],
       "type": "object"
@@ -83089,34 +83094,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14230"
+        "__@toStringTag@13721"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14230"
+        "__@toStringTag@13721"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@14230": {
+        "__@toStringTag@13721": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14230"
+        "__@toStringTag@13721"
       ],
       "type": "object"
     },

@@ -1,7 +1,7 @@
 import { ChartData } from './chart-meta/data';
-import type { ISeriesSpec, Datum, IMarkStateSpec, IRegionQuerier, MaybeArray, IPadding, IRect, StringOrNumber, IChartSpec, IDataValues } from '../typings';
-import type { LayoutCallBack } from '../layout/interface';
-import type { ILayoutModelState, ILayoutOrientPadding, ILayoutRect, IModel, IModelOption, IUpdateSpecResult } from '../model/interface';
+import type { ISeriesSpec, Datum, IMarkStateSpec, IRegionQuerier, MaybeArray, IPadding, IRect, StringOrNumber, IChartSpec, IDataValues, ILayoutRect, ILayoutOrientPadding } from '../typings';
+import type { ILayoutItem, LayoutCallBack } from '../layout/interface';
+import type { ILayoutModelState, IModel, IModelOption, IUpdateSpecResult } from '../model/interface';
 import type { IChart, IChartLayoutOption, IChartRenderOption, IChartOption, IChartEvaluateOption, ILayoutParams, DimensionIndexOption } from './interface';
 import type { ISeries } from '../series/interface';
 import type { IRegion } from '../region/interface';
@@ -82,7 +82,7 @@ export declare class BaseChart extends CompilableBase implements IChart {
     onLayoutStart(option: IChartLayoutOption): void;
     onLayoutEnd(option: IChartLayoutOption): void;
     onEvaluateEnd(option: IChartEvaluateOption): void;
-    getLayoutElements(): (IComponent | IRegion | ISeries)[];
+    getLayoutElements(): ILayoutItem[];
     getRegionsInIndex: (index?: number[]) => IRegion[];
     getAllRegions: () => IRegion[];
     getRegionsInIds: (ids: number[]) => IRegion[];

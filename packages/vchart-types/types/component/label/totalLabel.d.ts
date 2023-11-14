@@ -1,17 +1,17 @@
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
-import type { LayoutItem } from '../../model/layout-item';
 import type { MarkType } from '../../mark/interface';
 import type { ISeries } from '../../series/interface';
 import { BaseLabelComponent } from './base-label';
 import type { ITotalLabelSpec, ITotalLabelTheme } from './interface';
 import type { IModelInitOption } from '../../model/interface';
+import type { ILayoutType } from '../../typings';
 export declare class TotalLabel extends BaseLabelComponent {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutType: LayoutItem['layoutType'];
-    layoutZIndex: LayoutItem['layoutZIndex'];
+    layoutType: ILayoutType;
+    layoutZIndex: number;
     private _textMark?;
     private _baseMark?;
     series: ISeries;

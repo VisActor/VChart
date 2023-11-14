@@ -3,15 +3,15 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import type { ILabelSpec } from './interface';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { ILayoutType } from '../../typings/layout';
 export declare abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> extends BaseComponent<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutType: LayoutItem['layoutType'];
-    layoutZIndex: LayoutItem['layoutZIndex'];
+    layoutType: ILayoutType;
+    layoutZIndex: number;
     constructor(spec: T, options: IComponentOption);
     protected _interactiveConfig(labelSpec: ILabelSpec): {
         hover: boolean;
@@ -26,7 +26,6 @@ export declare abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSp
         hover: boolean;
         select: boolean;
     };
-    setLayoutStartPosition(): void;
     _compareSpec(): {
         change: boolean;
         reMake: boolean;
