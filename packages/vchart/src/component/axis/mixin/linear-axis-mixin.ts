@@ -225,7 +225,6 @@ export class LinearAxisMixin {
     if (!this.isSeriesDataEnable()) {
       return;
     }
-    this.computeStatisticsDomain();
     const data = this.collectData();
     const domain: number[] = this.computeDomain(data) as number[];
     this.updateScaleDomainByModel(domain);

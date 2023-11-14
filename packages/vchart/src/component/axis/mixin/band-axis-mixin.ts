@@ -98,7 +98,7 @@ export class BandAxisMixin {
     if (!this.isSeriesDataEnable()) {
       return;
     }
-    this.computeStatisticsDomain();
+
     const userDomain = this._spec.domain;
     for (let i = 0; i < this._scales.length; i++) {
       if (userDomain && userDomain.length && i === 0) {
