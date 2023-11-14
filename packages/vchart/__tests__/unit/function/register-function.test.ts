@@ -125,7 +125,7 @@ function labelColor() {
 
 describe('register function test', () => {
   let canvasDom: HTMLCanvasElement;
-  let chart: BarChart;
+  let chart: VChart;
   let chart2: VChart;
   beforeEach(() => {
     canvasDom = createCanvas();
@@ -144,41 +144,19 @@ describe('register function test', () => {
     // 全局注册函数
     VChart.registerFunction('labelFormat', labelFormat);
 
-    chart = new BarChart(
-      spec as unknown as IChartSpec,
-      {
-        eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
-        globalInstance: {
-          getContainer: () => ({}),
-          getTooltipHandlerByUser: (() => undefined) as () => undefined
-        },
-        render: {} as any,
-        dataSet,
-        map: new Map(),
-        container: null,
-        mode: 'desktop-browser',
-        getCompiler: () => {
-          return {
-            updateData: () => {},
-            updateState: () => {},
-            renderAsync: () => {},
-            getVGrammarView: () => {
-              return {
-                updateLayoutTag: () => {}
-              };
-            }
-          } as any;
-        },
-        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any)
-      } as any
-    );
-    chart.created();
-    chart.init();
+    chart = new VChart(spec as unknown as IBarChartSpec, {
+      renderCanvas: canvasDom
+    });
+
+    chart.renderAsync();
 
     // sepc
     expect(VChart.getFunctionList()?.length).toBe(1);
     expect(VChart.getFunctionList()?.[0]).toBe('labelFormat');
     expect(VChart.getFunction('labelFormat')?.(2000)).toBe(2000 + 'test');
+
+    // label上是否应用
+    expect(chart.getChart()!.getAllSeries()[0].getMarks()[1]._label[0].formatMethod).toBe(labelFormat);
 
     // 注销函数
     VChart.unregisterFunction('labelFormat');
@@ -202,6 +180,9 @@ describe('register function test', () => {
     expect(chart2.getFunctionList()?.[0]).toBe('labelFormat');
     expect(chart2.getFunction('labelFormat')?.(2000)).toBe(2000 + 'test');
 
+    // label上是否应用
+    expect(chart2.getChart()!.getAllSeries()[0].getMarks()[1]._label[0].formatMethod).toBe(labelFormat);
+
     // 注销函数
     chart2.unregisterFunction('labelFormat');
 
@@ -211,12 +192,15 @@ describe('register function test', () => {
 
   test('updateSpec with expression function', () => {
     VChart.registerFunction('labelColor', labelColor);
-    chart.updateSpec(spec3);
+    chart2.updateSpec(spec3);
 
     // sepc
     expect(chart2.getFunctionList()?.length).toBe(1);
     expect(chart2.getFunctionList()?.[0]).toBe('labelColor');
     expect(chart2.getFunction('labelColor')?.()).toBe('red');
+
+    // label上是否应用
+    expect(chart2.getChart()!.getAllSeries()[0].getMarks()[1]._label[0].style.fill).toBe(labelColor);
 
     // 注销函数
     chart2.unregisterFunction('labelColor');
