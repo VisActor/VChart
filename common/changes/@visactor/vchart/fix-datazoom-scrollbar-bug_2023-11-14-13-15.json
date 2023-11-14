@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: filter mode error when roam in scrollbar and datazoom. fix #1460",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
