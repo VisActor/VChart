@@ -3638,7 +3638,7 @@ export const mockUserInput14 = {
  * 桑基图
  */
 export const mockUserInput15 = {
-  csv: `source,target,value
+  csv: `始发地,终点站,value
   Node A,Node 1,10
   Node A,Node 2,5
   Node B,Node 1,8
@@ -3646,11 +3646,11 @@ export const mockUserInput15 = {
   Node C,Node 2,4
   `,
   input: '展示数据流动'
-}
+};
 /*
  * 箱型图
  */
-export const mockUserInput12 = {
+export const mockUserInput16 = {
   csv: `分类,最小值,下四分位数,中位数,上四分位数,最大值
 Sub-Saharan Africa,8.72,9.73,10.17,10.51,11.64
 South Asia,9.4,10.06,10.75,11.56,12.5

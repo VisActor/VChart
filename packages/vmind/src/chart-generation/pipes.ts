@@ -423,7 +423,7 @@ export const waterfallAxes = (spec: any, context: Context) => {
       orient: 'left',
       title: { visible: true, text: 'favorability' },
       label: {
-        formatMethod: v => {
+        formatMethod: (v: any) => {
           return v + '%';
         }
       }

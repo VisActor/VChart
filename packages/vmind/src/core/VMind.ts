@@ -26,25 +26,9 @@ class VMind {
     this._OPENAI_KEY = key;
   }
 
-  // Load ffmpeg outside of vmind.
-  // async initFFMPEG() {
-  //   this._FFMPEG = createFFmpeg({ log: true });
-  //   await this.loadFFmpeg();
-  // }
-  // async loadFFmpeg() {
-  //   if (!this._FFMPEG) {
-  //     this._FFMPEG = createFFmpeg({ log: true });
-  //   }
-  //   await this._FFMPEG.load();
-  //   this._FFMPEG_Loaded = true;
-  // }
-
   async generateChart(csvFile: string, userInput: string) {
     const dataView = dataProcessVChart(csvFile);
     const userInputFinal = patchUserInput(userInput);
-    //if (!this._OPENAI_KEY) {
-    //  throw Error('OpenAI Key Unset!')
-    //}
 
     const dataProcessResJson: GPTDataProcessResult = await dataProcessGPT(
       csvFile,
