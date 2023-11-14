@@ -3582,3 +3582,16 @@ export const mockUserInput11 = {
 周六,10,15
 周日,12,14`
 };
+
+/**
+ * 箱型图
+ */
+export const mockUserInput12 = {
+  csv: `分类,最小值,下四分位数,中位数,上四分位数,最大值
+Sub-Saharan Africa,8.72,9.73,10.17,10.51,11.64
+South Asia,9.4,10.06,10.75,11.56,12.5
+Middle East & North Africa,9.54,10.6,11.05,11.5,11.92
+Latin America & Caribbean,8.74,9.46,10.35,10.94,12.21
+East Asia & Pacific,7.8,8.95,10.18,11.57,13.25
+Europe & Central Asia,9.52,10.39,10.93,11.69,12.63`
+};

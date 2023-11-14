@@ -78,7 +78,7 @@ class VMind {
       colors,
       parsedTime ? parsedTime * 1000 : undefined
     );
-    spec.background = '#00000033';
+    // spec.background = '#00000033';
     console.log(spec);
     return {
       spec,
