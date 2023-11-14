@@ -14,7 +14,7 @@ import { textAttribute } from './util';
 import { BaseLabelComponent } from './base-label';
 import type { ITotalLabelSpec, ITotalLabelTheme } from './interface';
 import type { IModelInitOption } from '../../model/interface';
-import type { Datum, ILayoutType } from '../../typings';
+import type { Datum } from '../../typings';
 import { Factory } from '../../core/factory';
 
 export class TotalLabel extends BaseLabelComponent {
@@ -22,7 +22,6 @@ export class TotalLabel extends BaseLabelComponent {
   type = ComponentTypeEnum.totalLabel;
   name: string = ComponentTypeEnum.totalLabel;
 
-  layoutType: ILayoutType = 'absolute';
   layoutZIndex: number = LayoutZIndex.Label;
 
   private _textMark?: ILabelMark;
