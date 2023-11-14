@@ -138,7 +138,8 @@ VChart.useRegisters([
 ]);
 
 // VChart很少会有元素超过边界，低于300个元素的时候，禁用超出边界的判定，节省小数据量的耗时
-vglobal.optmizeSkipCheckBoundariesThreshold = 300;
+// @ts-ignore TODO 0.17.0的VRender会开放该API
+// vglobal.optmizeSkipCheckBoundariesThreshold = 300;
 // load env code
 if (isBrowserEnv()) {
   VChart.useRegisters([registerBrowserEnv]);
