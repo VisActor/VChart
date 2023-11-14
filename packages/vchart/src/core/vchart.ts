@@ -1116,15 +1116,18 @@ export class VChart implements IVChart {
       this._currentThemeName = nextThemeName;
     }
 
-    const currentTheme = getThemeObject(this._currentThemeName, true); // 获取token 转换过后的主题
     // 处理 specTheme 和 optionTheme, merge -> transform
     // 优先级 currentTheme < optionTheme < specTheme
     if (!isEmpty(optionTheme) || !isEmpty(specTheme)) {
-      this._currentTheme = preprocessTheme(
-        mergeTheme({}, currentTheme, getThemeObject(optionTheme), getThemeObject(specTheme))
+      const finalTheme = mergeTheme(
+        {},
+        getThemeObject(this._currentThemeName),
+        getThemeObject(optionTheme),
+        getThemeObject(specTheme)
       );
+      this._currentTheme = preprocessTheme(finalTheme, finalTheme.colorScheme);
     } else {
-      this._currentTheme = currentTheme;
+      this._currentTheme = getThemeObject(this._currentThemeName, true);
     }
 
     // 设置 poptip 的主题

@@ -36,7 +36,7 @@ export function getTextAttributes(
     fontFamily: style.fontFamily ?? globalTheme?.fontFamily,
     fontSize: style.fontSize,
     fontWeight: style.fontWeight,
-    lineHeight: style.lineHeight as any, // FIXME: vrender 支持行高字符串后删除 any
+    lineHeight: style.lineHeight,
     spacing: style.spacing,
     multiLine: style.multiLine,
     maxWidth: style.maxWidth,

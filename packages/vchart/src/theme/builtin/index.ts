@@ -1,4 +1,5 @@
 export * from './light';
+export * from './dark';
 /** 历史弃用主题 */
 export * from './common/legacy';
 
@@ -6,13 +7,13 @@ import { isString } from '@visactor/vutils';
 import { mergeTheme } from '../../util/spec/merge-theme';
 import type { ITheme } from '../interface';
 import { lightTheme } from './light';
-import { darkTheme } from './dark';
+// import { darkTheme } from './dark';
 import { preprocessTheme } from '../../util';
 
 /** 声明内置主题(含 token 未转换) */
 export const builtinThemes: Record<string, ITheme> = {
-  [lightTheme.name]: lightTheme,
-  [darkTheme.name]: darkTheme
+  [lightTheme.name]: lightTheme
+  // [darkTheme.name]: darkTheme
 };
 /** 默认主题名称 */
 export const defaultThemeName = lightTheme.name;
