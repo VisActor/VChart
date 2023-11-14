@@ -38,8 +38,7 @@ export const markByName: IGlobalMarkThemeByName = {
   point: {
     style: {
       size: 8,
-      // TODO: 类型问题
-      // @ts-ignore
+
       stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 1,
       fillOpacity: 1

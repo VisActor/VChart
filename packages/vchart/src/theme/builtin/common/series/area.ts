@@ -6,8 +6,6 @@ export const area: IAreaSeriesTheme = {
     offset: 5,
     position: 'top',
     style: {
-      // TODO: 类型问题
-      // @ts-ignore
       stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 2
     }

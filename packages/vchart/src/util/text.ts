@@ -9,8 +9,6 @@ export const initTextMeasure = (
   textSpec?: Partial<ITextGraphicAttribute>,
   option?: Partial<ITextMeasureOption>,
   useNaiveCanvas?: boolean
-  // TODO 类型完善
-  // @ts-ignore
 ): TextMeasure<ITextGraphicAttribute> => {
   return initTextMeasureFunc(textSpec, option, useNaiveCanvas, {
     fontFamily: THEME_CONSTANTS.defaultFontFamily,

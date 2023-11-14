@@ -6,8 +6,6 @@ export const rangeColumn: IRangeColumnSeriesTheme = {
     offset: 5,
     position: 'inside',
     style: {
-      // TODO: 类型问题
-      // @ts-ignore
       fill: { type: 'palette', key: 'labelReverseFontColor' }
     },
     minLabel: {

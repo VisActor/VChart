@@ -4,8 +4,6 @@ import { THEME_CONSTANTS } from '../constants';
 export const markArea: IMarkAreaTheme = {
   area: {
     style: {
-      // TODO: 类型问题
-      // @ts-ignore
       fill: { type: 'palette', key: 'axisDomainColor', a: 0.25 }
     }
   },

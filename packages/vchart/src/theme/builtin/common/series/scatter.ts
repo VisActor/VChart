@@ -15,8 +15,7 @@ export const scatter: IScatterSeriesTheme = {
     position: 'top',
     style: {
       lineWidth: 2,
-      // TODO: 类型问题
-      // @ts-ignore
+
       stroke: { type: 'palette', key: 'backgroundColor' }
     }
   }

@@ -10,24 +10,18 @@ export const player: IPlayerTheme = {
   slider: {
     space: 10,
     trackStyle: {
-      // TODO: 类型问题
-      // @ts-ignore
       fill: { type: 'palette', key: 'dataZoomSelectedColor' },
       fillOpacity: 0.8
     },
     railStyle: {
-      // TODO: 类型问题
-      // @ts-ignore
       fill: { type: 'palette', key: 'dataZoomBackgroundColor' }
     },
     handlerStyle: {
       size: 15,
-      // TODO: 类型问题
-      // @ts-ignore
+
       stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 2,
-      // TODO: 类型问题
-      // @ts-ignore
+
       fill: { type: 'palette', key: 'dataZoomSelectedColor' }
     }
   },
@@ -37,8 +31,6 @@ export const player: IPlayerTheme = {
       space: 0,
       style: {
         size: 25,
-        // TODO: 类型问题
-        // @ts-ignore
         fill: { type: 'palette', key: 'dataZoomSelectedColor' },
         fillOpacity: 0.8
       }
@@ -48,8 +40,6 @@ export const player: IPlayerTheme = {
       space: 0,
       style: {
         size: 25,
-        // TODO: 类型问题
-        // @ts-ignore
         fill: { type: 'palette', key: 'dataZoomSelectedColor' },
         fillOpacity: 0.8
       }
@@ -60,8 +50,6 @@ export const player: IPlayerTheme = {
       position: 'start',
       style: {
         size: 12,
-        // TODO: 类型问题
-        // @ts-ignore
         fill: { type: 'palette', key: 'dataZoomSelectedColor' },
         fillOpacity: 0.8
       }
@@ -72,8 +60,6 @@ export const player: IPlayerTheme = {
       position: 'end',
       style: {
         size: 12,
-        // TODO: 类型问题
-        // @ts-ignore
         fill: { type: 'palette', key: 'dataZoomSelectedColor' },
         fillOpacity: 0.8
       }

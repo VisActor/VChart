@@ -23,8 +23,6 @@ export const funnel3d: IFunnel3dSeriesTheme = {
     },
     line: {
       style: {
-        // TODO: 类型问题
-        // @ts-ignore
         stroke: { type: 'palette', key: 'axisDomainColor' }
       }
     }

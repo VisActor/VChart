@@ -72,7 +72,6 @@ import type { IRectMark } from '../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../data/initialize';
-// import { defaultChartLevelTheme } from '../theme/color-scheme';
 
 export class BaseChart extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -181,8 +180,6 @@ export class BaseChart extends CompilableBase implements IChart {
 
   constructor(spec: any, option: IChartOption) {
     super(option);
-    // TODO: 验证下
-
     this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme().padding);
 
     this._event = new Event(option.eventDispatcher, option.mode);
@@ -743,13 +740,9 @@ export class BaseChart extends CompilableBase implements IChart {
 
         // range array
         if (isArray(colorSpec)) {
-          // colorScaleSpec.range = colorSpec.map(color => getActualColor(color, colorScheme));
           colorScaleSpec.range = colorSpec;
         } else {
           const tempSpec = colorSpec as IVisualSpecScale<any, any>;
-          // if (tempSpec.range) {
-          //   tempSpec.range = tempSpec.range.map(color => getActualColor(color, colorScheme));
-          // }
           Object.prototype.hasOwnProperty.call(tempSpec, 'type') && (colorScaleSpec.type = tempSpec.type);
           Object.prototype.hasOwnProperty.call(tempSpec, 'domain') && (colorScaleSpec.domain = tempSpec.domain);
           Object.prototype.hasOwnProperty.call(tempSpec, 'range') && (colorScaleSpec.range = tempSpec.range);
@@ -1372,6 +1365,5 @@ export class BaseChart extends CompilableBase implements IChart {
 
   getColorScheme() {
     return this._option.getTheme?.().colorScheme;
-    // return this._option.getTheme?.().colorScheme ?? defaultChartLevelTheme.colorScheme;
   }
 }

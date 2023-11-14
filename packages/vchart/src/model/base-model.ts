@@ -23,7 +23,6 @@ import type {
   ICommonSpec,
   StringOrNumber,
   IRect,
-  ISeriesSpec,
   ILayoutRect
 } from '../typings';
 import type { CompilableData } from '../compile/data/compilable-data';
@@ -31,7 +30,6 @@ import type { IGroupMark } from '@visactor/vgrammar-core';
 import { isArray, isValid } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import { MarkSet } from '../mark/mark-set';
-// import { defaultChartLevelTheme } from '../theme/builtin';
 import type { ILayoutItem } from '../layout/interface';
 import { CompilableBase } from '../compile/compilable-base';
 import { PREFIX } from '../constant/base';
@@ -386,6 +384,5 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   getColorScheme() {
     return this._option.getTheme?.().colorScheme;
-    // return this._option.getTheme?.().colorScheme ?? defaultChartLevelTheme.colorScheme;
   }
 }

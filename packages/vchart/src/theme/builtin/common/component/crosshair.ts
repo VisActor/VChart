@@ -12,8 +12,6 @@ const getLabelSpec = (): ICrosshairLabelSpec => ({
   visible: false,
   style: {
     fontWeight: 'normal',
-    // TODO: 类型问题
-    // @ts-ignore
     fill: { type: 'palette', key: 'labelReverseFontColor' },
     fontSize: THEME_CONSTANTS.l5FontSize
     //lineHeight: THEME_CONSTANTS.l5LineHeight,
@@ -26,8 +24,6 @@ const getLabelSpec = (): ICrosshairLabelSpec => ({
       right: 2
     },
     style: {
-      // TODO: 类型问题
-      // @ts-ignore
       fill: { type: 'palette', key: 'primaryFontColor' },
       outerBorder: {
         stroke: { type: 'palette', key: 'primaryFontColor' } as any,
@@ -41,8 +37,6 @@ const getLabelSpec = (): ICrosshairLabelSpec => ({
 
 const getBandField = (): ICrosshairCategoryFieldSpec => ({
   visible: false,
-  // TODO: 类型问题
-  // @ts-ignore
   line: {
     type: 'rect',
     visible: true,
@@ -57,8 +51,6 @@ const getBandField = (): ICrosshairCategoryFieldSpec => ({
 
 const getLinearField = (): ICrosshairValueFieldSpec => ({
   visible: false,
-  // TODO: 类型问题
-  // @ts-ignore
   line: {
     type: 'line',
     visible: true,
