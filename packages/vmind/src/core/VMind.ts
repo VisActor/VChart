@@ -3,7 +3,8 @@ import {
   chartAdvisorGPT,
   dataProcessVChart,
   dataProcessGPT,
-  estimateVideoTime
+  estimateVideoTime,
+  getSchemaFromFieldInfo
 } from '../chart-generation/NLToChartPipe';
 import { SUPPORTED_CHART_LIST } from '../chart-generation/constants';
 import { GPTDataProcessResult, IGPTOptions, TimeType } from '../typings';
@@ -51,7 +52,8 @@ class VMind {
       this._OPENAI_KEY,
       this._options
     );
-    const resJson: any = await chartAdvisorGPT(dataProcessResJson, userInput, this._OPENAI_KEY, this._options);
+    const schema = getSchemaFromFieldInfo(dataProcessResJson);
+    const resJson: any = await chartAdvisorGPT(schema, dataProcessResJson, userInput, this._OPENAI_KEY, this._options);
     if (resJson.error) {
       throw Error('Network Error!');
     }

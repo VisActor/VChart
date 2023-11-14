@@ -12,7 +12,12 @@ export interface IGPTOptions {
 
 export type GPTDataProcessResult = {
   DOUBLE_CHECK: string;
-  FIELD_INFO: { description: string; fieldName: string }[];
+  FIELD_INFO: {
+    fieldName: string;
+    description: string;
+    type: string;
+    role: string;
+  }[];
   VIDEO_DURATION?: number;
   COLOR_PALETTE?: string[];
   REASON: string;
