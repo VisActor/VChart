@@ -1,6 +1,6 @@
 # function
 
-VChart provides the method `registerFunction` to register expression functions globally and on instances.
+Since version `1.7.0`, VChart provides the method `registerFunction` to register expression functions globally and on instances.
 In principle, registration functions can be applied wherever user-defined callback functions are supported.
 Supports function registration mechanism, aiming to solve the problem of inability to serialize scene functions such as mini programs and Feishu cards.
 

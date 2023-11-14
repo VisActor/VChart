@@ -176,7 +176,7 @@ Lark Mini-Program Widget desktop versions also support mouse events, so you can 
 
 ### Register function
 
-The desktop version of the Feishu widget supports registering custom functions. You can register functions using global registration or instance registration `registerFunction`.
+Since version `1.7.0`, the desktop version of the Feishu widget supports registering custom functions. You can register functions using global registration or instance registration `registerFunction`.
 
 #### Global registration function
 
