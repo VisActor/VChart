@@ -1,8 +1,8 @@
 import type { IPolarSeries } from '../../series/interface/series';
-import { isArray, isValid, isValidNumber, mergeSpec, isNil, clamp } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import type { IPolarCrosshairSpec } from './interface';
 import type { BandScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -16,7 +16,17 @@ import type { IPoint, StringOrNumber } from '../../typings';
 import type { IHair } from './base';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseCrossHair } from './base';
-import { polarToCartesian, getIntersectPoint, PointService, getAngleByPoint } from '@visactor/vutils';
+import {
+  polarToCartesian,
+  getIntersectPoint,
+  PointService,
+  getAngleByPoint,
+  isArray,
+  isValid,
+  isValidNumber,
+  isNil,
+  clamp
+} from '@visactor/vutils';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
 import { limitTagInBounds } from './util';
@@ -52,6 +62,9 @@ type IBound = { x1: number; y1: number; x2: number; y2: number };
 type IAxisInfo = Map<number, IBound & { axis: IPolarAxis }>;
 
 export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
+  static specKey = 'crosshair';
+  specKey: string = 'crosshair';
+
   static type = ComponentTypeEnum.polarCrosshair;
   type = ComponentTypeEnum.polarCrosshair;
   name: string = ComponentTypeEnum.polarCrosshair;
@@ -70,29 +83,27 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
   private _angleLabelCrosshair: Tag;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const crosshairSpec = spec.crosshair || options.defaultSpec;
+    const crosshairSpec = spec.crosshair;
     if (isNil(crosshairSpec)) {
       return undefined;
     }
     if (!isArray(crosshairSpec)) {
       if (crosshairSpec.categoryField || crosshairSpec.valueField) {
-        return new PolarCrossHair(crosshairSpec, { ...options, specKey: 'crosshair' });
+        return new PolarCrossHair(crosshairSpec, options);
       }
       return undefined;
     }
     const components: PolarCrossHair[] = [];
     crosshairSpec.forEach((s: IPolarCrosshairSpec, i: number) => {
       if (s.categoryField || s.valueField) {
-        components.push(new PolarCrossHair(s, { ...options, specIndex: i, specKey: 'crosshair' }));
+        components.push(new PolarCrossHair(s, { ...options, specIndex: i }));
       }
     });
     return components;
   }
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this.currValueX = new Map();
     this.currValueY = new Map();
   }

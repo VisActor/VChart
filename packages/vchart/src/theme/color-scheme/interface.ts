@@ -1,4 +1,4 @@
-import type { SeriesTypeEnum } from '../../series/interface';
+import type { SeriesTypeEnum, SeriesTypeForThemeEnum } from '../../series/interface';
 import type { IGradient } from '../../typings';
 
 /** 色板总结构，包含数据色板和语义色板 */
@@ -61,4 +61,5 @@ export type ColorScheme = Array<string> | ProgressiveDataScheme<string> | IColor
 export type IThemeColorScheme = {
   /** 必选 */
   default: ColorScheme;
-} & Partial<Record<SeriesTypeEnum, ColorScheme>>;
+} & Partial<Record<SeriesTypeEnum, ColorScheme>> &
+  Partial<Record<SeriesTypeForThemeEnum, ColorScheme>>;

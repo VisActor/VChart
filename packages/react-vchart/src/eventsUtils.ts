@@ -31,6 +31,24 @@ export interface ScrollBarEventProps {
   onScrollBarChange?: (e: any) => void;
 }
 
+export interface DimensionEventProps {
+  onDimensionHover?: (e: any) => void;
+  onDimensionClick?: (e: any) => void;
+}
+
+export interface HierarchyEventProps {
+  onDrill?: (e: any) => void;
+}
+
+export interface ChartLifeCycleEventProps {
+  onInitialized?: (e: any) => void;
+  onRendered?: (e: any) => void;
+  onRenderFinished?: (e: any) => void;
+  onAnimationFinished?: (e: any) => void;
+  onLayoutStart?: (e: any) => void;
+  onLayoutEnd?: (e: any) => void;
+}
+
 export interface EventsProps {
   onPointerDown?: EventCallback<EventParamsDefinition['pointerdown']>;
   onPointerUp?: EventCallback<EventParamsDefinition['pointerup']>;
@@ -157,12 +175,33 @@ export const SCROLLBAR_CUSTOMIZED_EVENTS = {
   onScrollBarChange: 'scrollBarChange'
 };
 
+export const DIMENSION_EVENTS = {
+  onDimensionHover: 'dimensionHover',
+  onDimensionClick: 'dimensionClick'
+};
+
+export const HIERARCHY_EVENTS = {
+  onDrill: 'drill'
+};
+
+export const CHART_LIFECYCLE_EVENTS = {
+  onInitialized: 'initialized',
+  onRendered: 'rendered',
+  onRenderFinished: 'renderFinished',
+  onAnimationFinished: 'animationFinished',
+  onLayoutStart: 'layoutStart',
+  onLayoutEnd: 'layoutEnd'
+};
+
 export const CHART_EVENTS = {
   ...LEGEND_CUSTOMIZED_EVENTS,
   ...BRUSH_CUSTOMIZED_EVENTS,
   ...PLAYER_CUSTOMIZED_EVENTS,
   ...DATAZOOM_CUSTOMIZED_EVENTS,
   ...SCROLLBAR_CUSTOMIZED_EVENTS,
+  ...DIMENSION_EVENTS,
+  ...CHART_LIFECYCLE_EVENTS,
+  ...HIERARCHY_EVENTS,
   ...REACT_TO_VCHART_EVENTS
 };
 

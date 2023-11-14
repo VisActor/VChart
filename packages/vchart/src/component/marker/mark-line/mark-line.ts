@@ -1,9 +1,8 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkLine, IMarkLineSpec, IMarkLineTheme, IStepMarkLineSpec } from './interface';
-import { isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
@@ -13,11 +12,10 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty, isValid } from '@visactor/vutils';
+import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import type { INode } from '@visactor/vrender-core';
-import type { LayoutItem } from '../../../model/layout-item';
 import type { IDataPos } from '../interface';
 import type { IOptionRegr } from '../../../data/transforms/regression';
 // eslint-disable-next-line no-duplicate-imports
@@ -31,26 +29,24 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkLine;
-
-  static speckey = 'markLine';
+  layoutZIndex: number = LayoutZIndex.MarkLine;
 
   protected declare _theme: IMarkLineTheme;
 
   protected declare _markerComponent: MarkLineComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markLineSpec = spec.markLine || options.defaultSpec;
+    const markLineSpec = spec.markLine;
     if (isEmpty(markLineSpec)) {
       return undefined;
     }
     if (!isArray(markLineSpec) && markLineSpec.visible !== false) {
-      return new MarkLine(markLineSpec, { ...options, specKey: MarkLine.speckey });
+      return new MarkLine(markLineSpec, { ...options });
     }
     const markLines: MarkLine[] = [];
     markLineSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markLines.push(new MarkLine(m, { ...options, specIndex: i, specKey: MarkLine.speckey }));
+        markLines.push(new MarkLine(m, { ...options, specIndex: i }));
       }
     });
     return markLines;
@@ -204,16 +200,16 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         limitRect,
         multiSegment,
         mainSegmentIndex,
-        dx: this.layoutOffsetX,
-        dy: this.layoutOffsetY
+        dx: this._layout.layoutOffsetX,
+        dy: this._layout.layoutOffsetY
       });
     } else {
       this._markerComponent?.setAttributes({
         points: points,
         label: labelAttrs,
         limitRect,
-        dx: this.layoutOffsetX,
-        dy: this.layoutOffsetY
+        dx: this._layout.layoutOffsetX,
+        dy: this._layout.layoutOffsetY
       });
     }
   }
@@ -249,7 +245,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     } else if (isCoordinateProcess) {
       options = this._processSpecCoo(spec);
 
-      processData = new DataView(this._option.dataSet)
+      processData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` })
         .parse([relativeSeries.getViewData()], {
           type: 'dataview'
         })

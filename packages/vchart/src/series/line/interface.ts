@@ -4,7 +4,7 @@ import type { ISymbolMarkSpec, ILineMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
 import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mixin';
-import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 
 type LineMarks = 'point' | 'line';
@@ -12,7 +12,9 @@ type LineMarks = 'point' | 'line';
 export interface ILineSeriesSpec
   extends ICartesianSeriesSpec,
     IAnimationSpec<LineMarks, LineAppearPreset>,
-    IMarkProgressiveConfig {
+    IMarkProgressiveConfig,
+    IDataSamping,
+    IMarkOverlap {
   /** 系列类型 */
   type: 'line';
   /**

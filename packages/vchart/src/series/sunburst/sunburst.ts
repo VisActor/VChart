@@ -16,15 +16,15 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import { flatten } from '../../data/transforms/flatten';
 import { sunburstLayout } from '../../data/transforms/sunburst';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../interface/type';
 
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
-import { STATE_VALUE_ENUM } from '../../compile/mark';
+import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { registerFadeInOutAnimation } from '../../animation/config';
-import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { PolarSeries } from '../polar/polar';
@@ -232,8 +232,8 @@ export class SunburstSeries extends PolarSeries<any> {
     rawData.transform({
       type: 'addVChartProperty',
       options: {
-        beforeCall: initKeyMap,
-        call: addHierarchyDataKey.bind(this)
+        beforeCall: initHierarchyKeyMap.bind(this),
+        call: addHierarchyDataKey
       }
     });
   }
@@ -350,14 +350,17 @@ export class SunburstSeries extends PolarSeries<any> {
       mark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('sunburst')?.(animationParams, appearPreset),
-          userAnimationConfig(mark.name, this._spec)
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
         )
       );
     });
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('fadeInOut')?.(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('fadeInOut')?.(),
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+        )
       );
     });
   }

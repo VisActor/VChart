@@ -1,12 +1,12 @@
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
-import { eachSeries, mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { eachSeries } from '../../util/model';
 import type { ISeries } from '../../series/interface';
 import {
   registerLabel as registerVGrammarLabel,
@@ -25,6 +25,7 @@ import type { ILabelSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { LabelMark, type ILabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
+import type { ILayoutType } from '../../typings/layout';
 
 export interface ILabelInfo {
   baseMark: ICompilableMark;
@@ -43,8 +44,8 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Label;
+  layoutType: ILayoutType = 'absolute';
+  layoutZIndex: number = LayoutZIndex.Label;
 
   protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;
 
@@ -69,7 +70,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         return mark.getLabelSpec()?.some(labelSpec => labelSpec.visible);
       });
       if (labelVisible) {
-        labelComponents.push(new Label(spec, { ...options, specIndex: i, specKey: 'label' }));
+        labelComponents.push(new Label(spec, { ...options, specIndex: i }));
         continue;
       }
     }
@@ -302,5 +303,5 @@ export const registerLabel = () => {
   registerVGrammarLabel();
   Factory.registerMark(LabelMark.constructorType, LabelMark);
   Factory.registerMark(ComponentMark.type, ComponentMark);
-  Factory.registerComponent(Label.type, Label);
+  Factory.registerComponent(Label.type, Label, true);
 };

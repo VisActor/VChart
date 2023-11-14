@@ -15,9 +15,15 @@ import { TextModel } from './text-model';
 import { TOOLTIP_EMPTY_STRING } from '../../constants';
 import { getPixelPropertyStr } from '../util';
 import type { IToolTipLineActual } from '../../../../../typings';
-import { mergeSpec } from '../../../../../util';
+import { mergeSpec } from '../../../../../util/spec/merge-spec';
 
 export type ContentColumnType = 'shape-box' | 'key-box' | 'value-box';
+
+/** 默认的标签样式，覆盖外界对这些属性的预先配置 */
+const defaultLabelStyle: Partial<CSSStyleDeclaration> = {
+  overflowWrap: 'normal',
+  wordWrap: 'normal'
+};
 
 export class ContentColumnModel extends BaseTooltipModel {
   readonly className: ContentColumnType;
@@ -84,9 +90,10 @@ export class ContentColumnModel extends BaseTooltipModel {
         const { key, isKeyAdaptive } = line;
         childStyle = mergeSpec({}, isKeyAdaptive ? defaultAdaptiveKeyStyle : defaultKeyStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
+          ...defaultLabelStyle,
           ...tooltipStyle.keyColumn.common,
           ...tooltipStyle.keyColumn.items?.[i]
-        });
+        } as Partial<CSSStyleDeclaration>);
         const hasContent = (isString(key) && key?.trim?.() !== '') || isNumber(key);
         if (!hasContent && !childStyle.visibility) {
           childStyle.visibility = 'hidden';
@@ -97,9 +104,10 @@ export class ContentColumnModel extends BaseTooltipModel {
       } else if (this.className === 'value-box') {
         childStyle = mergeSpec({}, defaultValueStyle, {
           height: getPixelPropertyStr(contentAttributes[i].height),
+          ...defaultLabelStyle,
           ...tooltipStyle.valueColumn.common,
           ...tooltipStyle.valueColumn.items?.[i]
-        });
+        } as Partial<CSSStyleDeclaration>);
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'shape-box') {
         childStyle = mergeSpec({}, defaultShapeStyle, {
@@ -177,7 +185,8 @@ export class ContentColumnModel extends BaseTooltipModel {
       stroke: line.shapeStroke,
       lineWidth: line.shapeLineWidth,
       hollow: line.shapeHollow,
-      marginTop: `calc((${keyColumn.lineHeight ?? keyColumn.fontSize ?? '18px'} - ${shapeColumn.width ?? '8px'}) / 2)`
+      marginTop: `calc((${keyColumn.lineHeight ?? keyColumn.fontSize ?? '18px'} - ${shapeColumn.width ?? '8px'}) / 2)`,
+      index
     } as IShapeSvgOption;
   }
 }

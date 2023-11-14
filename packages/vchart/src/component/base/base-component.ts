@@ -1,22 +1,24 @@
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
-import { BaseModel } from '../../model/base-model';
 import type { IRegion } from '../../region/interface';
 import type { ComponentTypeEnum, IComponent, IComponentOption } from '../interface';
 import type { BaseEventParams } from '../../event/interface';
 import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
+import type { IBoundsLike } from '@visactor/vutils';
 import { isEqual } from '@visactor/vutils';
 import { getComponentThemeFromGlobalTheme } from './util';
 import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
-import type { Datum } from '../../typings';
-import { normalizeLayoutPaddingSpec, preprocessSpecOrTheme } from '../../util';
+import type { Datum, ILayoutRect } from '../../typings';
+import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
+import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { IComponentSpec } from './interface';
+import { LayoutModel } from '../../model/layout-model';
 
 export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
-  extends BaseModel<T>
+  extends LayoutModel<T>
   implements IComponent
 {
   name: string = 'component';
@@ -24,7 +26,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   pluginService?: IComponentPluginService;
   protected declare _option: IComponentOption;
 
-  protected _regions: IRegion[] = [];
+  protected _regions: IRegion[];
   getRegions() {
     return this._regions;
   }
@@ -32,6 +34,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   protected _container: IGroup;
 
   created() {
+    this.initLayout();
     super.created();
     this.pluginService = new ComponentPluginService(this);
   }
@@ -40,14 +43,18 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
-    this._regions = options.getRegionsInIndex();
-    this.layoutBindRegionID = this._regions.map(x => x.id);
     // 创建组件自己的动画管理器
     if (this._option.animation) {
       this.animate = new AnimateManager({
         getCompiler: options.getCompiler
       });
     }
+  }
+
+  initLayout(): void {
+    super.initLayout();
+    this._regions = this._regions ?? this._option.getRegionsInIndex();
+    this._layout.layoutBindRegionID = this._regions.map(x => x.id);
   }
 
   abstract changeRegions(regions: IRegion[]): void;
@@ -132,7 +139,6 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   compile(): void {
-    this.compileSignal();
     this.compileMarks();
   }
 
@@ -164,7 +170,11 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
     );
   };
 
-  getGraphicBounds() {
+  getGraphicBounds = () => {
     return this.getVRenderComponents()?.[0]?.AABBBounds ?? super.getGraphicBounds();
+  };
+
+  getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike {
+    return { x1: 0, x2: 0, y1: 0, y2: 0 };
   }
 }

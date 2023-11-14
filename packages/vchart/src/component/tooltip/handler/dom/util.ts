@@ -1,6 +1,8 @@
 import type { Maybe } from '@visactor/vutils';
 import type { FontWeight, TextAlign } from '../../../../typings';
-import { isValid, mergeSpec, isArray, normalizeLayoutPaddingSpec } from '../../../../util';
+import { mergeSpec } from '../../../../util/spec/merge-spec';
+import { normalizeLayoutPaddingSpec } from '../../../../util/space';
+import { isValid, isArray } from '@visactor/vutils';
 import type { ITooltipTheme } from '../../interface';
 import type { ITooltipTextStyle } from '../interface';
 import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from './interface';
@@ -165,7 +167,7 @@ function getLabelStyle(
   styleObj.lineHeight = getPixelPropertyStr(lineHeight);
   styleObj.fontWeight = fontWeight as FontWeight;
   styleObj.whiteSpace = multiLine ? 'initial' : 'nowrap';
-  styleObj.wordBreak = wordBreak;
+  styleObj.wordBreak = multiLine ? wordBreak ?? 'break-word' : 'normal';
   styleObj.maxWidth = getPixelPropertyStr(maxWidth);
   return styleObj;
 }

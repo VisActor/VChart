@@ -8,7 +8,7 @@ import type { ISeriesConstructor } from '../series/interface';
 import type { DimensionIndexOption, IChart, IChartConstructor } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../component/interface';
+import { ComponentTypeEnum } from '../component/interface/type';
 import type {
   EventCallback,
   EventParams,
@@ -23,23 +23,15 @@ import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
-import {
-  isString,
-  isValid,
-  isNil,
-  array,
-  mergeSpec,
-  createID,
-  debounce,
-  isTrueBrowser,
-  warn,
-  specTransform,
-  functionTransform,
-  convertPoint,
-  preprocessSpecOrTheme,
-  getThemeObject,
-  mergeSpecWithFilter
-} from '../util';
+import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
+import { createID } from '../util/id';
+import { convertPoint } from '../util/space';
+import { isTrueBrowser } from '../util/env';
+import { warn } from '../util/debug';
+import { mergeSpec, mergeSpecWithFilter } from '../util/spec/merge-spec';
+import { specTransform } from '../util/spec/transform';
+import { preprocessSpecOrTheme } from '../util/spec/preprocess';
+import { getThemeObject } from '../util/spec/common';
 import { Factory } from './factory';
 import { Event } from '../event/event';
 import { EventDispatcher } from '../event/event-dispatcher';
@@ -47,6 +39,7 @@ import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
 // eslint-disable-next-line no-duplicate-imports
 import { getMapSource } from '../series/map/geo-source';
+// eslint-disable-next-line no-duplicate-imports
 import type { IMark, MarkConstructor } from '../mark/interface';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../data/register';
 import { dataToDataView } from '../data/initialize';
@@ -84,8 +77,7 @@ import {
   merge as mergeOrigin,
   isFunction,
   LoggerLevel,
-  isEqual,
-  isPlainObject
+  isEqual
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IChartLevelTheme, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
@@ -93,13 +85,14 @@ import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
-import { Layout } from '../layout';
-import { GroupMark } from '../mark';
+import { Layout } from '../layout/base-layout';
+import { GroupMark } from '../mark/group';
 import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 import { mergeThemeAndGet } from '../theme/util';
 import { ExpressionFunction } from './expression-function';
+import { registerBrowserEnv, registerNodeEnv } from '../env';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -289,7 +282,6 @@ export class VChart implements IVChart {
   private _autoSize: boolean = true;
   private _option: IInitOption = {
     mode: RenderModeEnum['desktop-browser'],
-    animation: true,
     onError: (msg: string) => {
       throw new Error(msg);
     }
@@ -305,9 +297,10 @@ export class VChart implements IVChart {
   private _onError?: (...args: any[]) => void;
 
   private _context: any = {}; // 存放用户在model初始化前通过实例方法传入的配置等
+  private _isReleased: boolean;
 
   constructor(spec: ISpec, options: IInitOption) {
-    this._option = mergeOrigin(this._option, options);
+    this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
     this._onError = this._option?.onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
@@ -325,6 +318,13 @@ export class VChart implements IVChart {
     if (mode !== 'node' && !this._container && !this._canvas && !this._stage) {
       this._option?.onError('please specify container or renderCanvas!');
       return;
+    }
+
+    // 根据 mode 配置动态加载浏览器或 node 环境代码
+    if (isTrueBrowser(mode)) {
+      registerBrowserEnv();
+    } else if (mode === 'node') {
+      registerNodeEnv();
     }
 
     this._viewBox = this._option.viewBox;
@@ -506,6 +506,9 @@ export class VChart implements IVChart {
 
   /** **异步方法** 执行自定义的回调修改图表配置，并重新渲染 */
   async updateCustomConfigAndRerender(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
+    if (this._isReleased) {
+      return this as unknown as IVChart;
+    }
     const result = modifyConfig(); // 执行回调
     if (!isValid(result)) {
       return this as unknown as IVChart;
@@ -601,6 +604,9 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   async renderAsync(morphConfig?: IMorphConfig) {
+    if (this._isReleased) {
+      return this as unknown as IVChart;
+    }
     if (!this._chart) {
       this._option.performanceHook?.beforeInitializeChart?.();
       this._initChart(this._spec);
@@ -615,6 +621,10 @@ export class VChart implements IVChart {
     }
     // 最后填充数据绘图
     await this._compiler?.renderAsync(morphConfig);
+
+    if (this._isReleased) {
+      return this as unknown as IVChart;
+    }
 
     if (this._option.animation) {
       this._chart?.getAllRegions().forEach(region => {
@@ -651,6 +661,7 @@ export class VChart implements IVChart {
     this._userEvents = null;
     this._event = null;
     this._eventDispatcher = null;
+    this._isReleased = true;
 
     InstanceManager.unregisterInstance(this);
   }
@@ -1020,6 +1031,10 @@ export class VChart implements IVChart {
     this._chart.onResize(width, height);
     this._option.performanceHook?.afterResizeWithUpdate?.();
     await this._compiler.resize?.(width, height);
+
+    if (this._isReleased) {
+      return this as unknown as IVChart;
+    }
     // emit resize event
     this._event.emit(ChartEvent.afterResize, { chart: this._chart });
     return this as unknown as IVChart;
@@ -1611,7 +1626,7 @@ export class VChart implements IVChart {
         .getViewData()
         // eslint-disable-next-line eqeqeq
         .latestData.find((viewDatum: Datum) => keys.every(k => viewDatum[k] == datum[k]));
-      const seriesLayoutStartPoint = series.getLayoutStartPoint();
+      const seriesLayoutStartPoint = series.getRegion().getLayoutStartPoint();
       let point: IPoint;
       if (handledDatum) {
         point = series.dataToPosition(handledDatum);
@@ -1685,7 +1700,7 @@ export class VChart implements IVChart {
 
     return convertPoint(
       (series as ISeries).valueToPosition(value[0], value[1]),
-      series.getLayoutStartPoint(),
+      series.getRegion().getLayoutStartPoint(),
       isRelativeToCanvas
     );
   }

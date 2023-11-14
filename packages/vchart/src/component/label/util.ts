@@ -1,5 +1,6 @@
 import type { WaterfallSeries } from './../../series/waterfall/waterfall';
-import { Direction, type Datum } from '../../typings';
+import type { Datum } from '../../typings/common';
+import { Direction } from '../../typings/space';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
@@ -25,11 +26,7 @@ export enum LabelRule {
   stackLabel = 'stackLabel'
 }
 
-export function textAttribute(
-  labelInfo: ILabelInfo,
-  datum: Datum,
-  formatMethod?: (text: string | string[], datum?: any) => string | string[]
-) {
+export function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod']) {
   const { labelMark, series } = labelInfo;
   const field = series.getMeasureField()[0];
   const textAttribute = { text: datum[field], data: datum } as any;
@@ -39,7 +36,7 @@ export function textAttribute(
     const attr = labelMark.getAttribute(key as any, datum);
     textAttribute[key] = attr;
     if (key === 'text' && formatMethod) {
-      textAttribute[key] = formatMethod(textAttribute[key], datum);
+      textAttribute[key] = formatMethod(textAttribute[key], datum, { series });
     }
   }
   return textAttribute;

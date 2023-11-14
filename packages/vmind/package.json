@@ -1,21 +1,28 @@
 {
   "name": "@visactor/vmind",
-  "version": "1.0.6-alpha.3",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "1.0.8",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
   "author": "chengda <sduchd@gmail.com>",
   "license": "MIT",
   "files": [
-    "dist",
-    "README.md",
-    "readme-zh.md",
-    "LICENSE"
+    "cjs",
+    "esm",
+    "build"
   ],
   "scripts": {
-    "start": "vite",
-    "build": "tsc && vite build",
+    "start": "vite ./__tests__/browser",
+    "build": "bundle --clean",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite ./__tests__/browser preview",
+    "clear": "rm -rf build && rm -rf esm && rm -rf cjs",
+    "prepublishOnly": "npm run build",
+    "postpublish": "npm run clear",
+    "test": "jest",
+    "test-cov": "jest -w 16 --coverage",
+    "test-live": "npm run test-watch __tests__/unit/",
+    "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "devDependencies": {
     "vite-plugin-libcss": "~1.1.1",
@@ -26,6 +33,7 @@
     "@internal/eslint-config": "workspace:*",
     "@internal/ts-config": "workspace:*",
     "@arco-design/web-react": "2.46.1",
+    "@types/jest": "^26.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "5.30.0",
@@ -39,21 +47,26 @@
     "eslint-plugin-react": "7.30.1",
     "typescript": "4.9.5",
     "vite": "3.2.6",
+    "jest": "^26.0.0",
+    "jest-electron": "^0.1.12",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "6.9.0",
-    "@visactor/vrender": "~0.16.9",
-    "@visactor/vdataset": "~0.16.6",
+    "@visactor/vrender": "~0.16.13",
+    "@visactor/vdataset": "~0.16.7",
     "@rollup/plugin-dynamic-import-vars": "~2.1.0",
-    "@visactor/vutils-extension": "workspace:1.5.4"
+    "@visactor/vutils-extension": "workspace:1.6.3",
+    "@ffmpeg/core": "^0.11.0",
+    "@ffmpeg/ffmpeg": "^0.11.6"
   },
   "peerDependencies": {
     "@arco-design/web-react": "2.46.1"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.5.4",
-    "@ffmpeg/core": "^0.11.0",
-    "@ffmpeg/ffmpeg": "^0.11.6",
+    "@visactor/vchart": "workspace:1.6.3",
+    "@visactor/vrender": "~0.16.13",
+    "@visactor/vdataset": "~0.16.7",
+    "@visactor/vutils": "~0.16.7",
     "axios": "^1.4.0",
     "exceljs": "^4.3.0",
     "lodash": "4.17.21",

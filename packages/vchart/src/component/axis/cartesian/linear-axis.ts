@@ -2,11 +2,10 @@ import type { LogScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
-import { isValid } from '../../../util';
+import { isValid, mixin } from '@visactor/vutils';
 import type { IAxisHelper, ICartesianLinearAxisSpec } from './interface';
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
-import { mixin } from '@visactor/vutils';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
 
@@ -18,7 +17,6 @@ export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICarte
       | 'valueToPosition'
       | 'setScaleNice'
       | '_domain'
-      | 'dataToPosition'
       | 'transformScaleDomain'
       | 'setExtendDomain'
     >,

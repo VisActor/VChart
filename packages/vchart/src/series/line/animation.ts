@@ -1,4 +1,4 @@
-import { Direction } from '../../typings';
+import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import type { DirectionType } from '../../typings';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';

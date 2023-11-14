@@ -9,6 +9,15 @@ import {
   pieField,
   scatterField,
   wordCloudField,
+  roseField,
+  roseAxis,
+  radarField,
+  radarDisplayConf,
+  radarAxis,
+  sankeyData,
+  sankeyField,
+  sankeyLabel,
+  sankeyLink,
   sequenceData,
   rankingBarAxis,
   rankingBarField,
@@ -28,7 +37,7 @@ import {
   wordCloudDisplayConf,
   rankingBarLabel
 } from './pipes';
-import { Cell, ChartType, Context, Pipe } from './type';
+import { Cell, ChartType, Context, Pipe } from '../typings';
 import { DataView } from '@visactor/vdataset';
 import { detectAxesType } from './utils';
 
@@ -203,13 +212,22 @@ const pipelineWordCloud = [chartType, wordCloudData, color, wordCloudField, word
 
 const pipelineScatterPlot = [chartType, data, color, scatterField, scatterAxis, legend, animationOneByOne];
 
+const pipelineRose = [chartType, data, color, roseField, roseAxis, legend, animationCartesianPie];
+
+const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, radarAxis, legend, animationCartisianLine];
+
+const pipelineSankey = [chartType, sankeyData, color, sankeyField, sankeyLink, sankeyLabel, legend];
+
 export const pipelineMap: { [chartType: string]: any } = {
   'BAR CHART': pipelineBar,
   'LINE CHART': pipelineLine,
   'PIE CHART': pipelinePie,
   'WORD CLOUD': pipelineWordCloud,
   'SCATTER PLOT': pipelineScatterPlot,
-  'DYNAMIC BAR CHART': pipelineRankingBar
+  'DYNAMIC BAR CHART': pipelineRankingBar,
+  'ROSE CHART': pipelineRose,
+  'RADAR CHART': pipelineRadar,
+  'SANKEY CHART': pipelineSankey
 };
 
 export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>

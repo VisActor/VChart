@@ -1,8 +1,9 @@
 import type { IAnimationTimeline, IAnimationTypeConfig } from '@visactor/vgrammar-core';
-import { isValidNumber, polarToCartesian } from '../../../util';
+import { polarToCartesian } from '../../../util/math';
 import { ARC_MIDDLE_ANGLE } from '../../../constant';
 import type { IArcMark } from '../../../mark/arc';
 import type { Datum } from '../../../typings';
+import { isValidNumber } from '@visactor/vutils';
 
 export type ICenterOffsetAnimationOptions = {
   distance?: number;

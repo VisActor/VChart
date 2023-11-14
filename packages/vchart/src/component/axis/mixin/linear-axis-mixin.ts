@@ -1,10 +1,8 @@
-import { DEFAULT_CONTINUOUS_TICK_COUNT } from './../../../../../vutils-extension/src/transform/tick-data/config';
-import { isValidNumber } from '@visactor/vutils';
+import { isValidNumber, isNil, isValid } from '@visactor/vutils';
 import type { LinearScale } from '@visactor/vscale';
-import { isNil, isValid, maxInArr, minInArr } from '../../../util';
+import { maxInArr, minInArr } from '../../../util/array';
 import { getLinearAxisSpecDomain } from '../util';
-import type { IAxisLocationCfg } from '../cartesian/interface';
-import type { ITick } from '../interface';
+import type { IAxisLocationCfg, ITick } from '../interface';
 import { ChartEvent } from '../../../constant';
 import type { IEvent } from '../../../event/interface';
 
@@ -184,7 +182,7 @@ export class LinearAxisMixin {
     this._scale.domain(domain, this._nice);
     this.setScaleNice();
 
-    this.event.emit(ChartEvent.scaleUpdate, { model: this as any });
+    this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
   }
 
   protected extendDomain(domain: number[]) {
@@ -250,6 +248,6 @@ export class LinearAxisMixin {
     // 设置scale的nice-min-max
     this.setScaleNice();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
-    this.event.emit(ChartEvent.scaleUpdate, { model: this as any });
+    this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
   }
 }

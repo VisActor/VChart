@@ -1,6 +1,6 @@
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { CartesianChart } from '../cartesian/cartesian';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { ILineChartSpec } from './interface';
 import { registerLineSeries } from '../../series/line/line';
@@ -20,7 +20,12 @@ export class LineChart extends CartesianChart {
       point: spec.point,
       line: spec.line,
       seriesMark: spec.seriesMark ?? 'line',
-      activePoint: spec.activePoint
+      activePoint: spec.activePoint,
+      sampling: spec.sampling,
+      samplingFactor: spec.samplingFactor,
+      pointDis: spec.pointDis,
+      pointDisMul: spec.pointDisMul,
+      markOverlap: spec.markOverlap
     };
   }
   transformSpec(spec: any): void {

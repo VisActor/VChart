@@ -1,6 +1,6 @@
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { CartesianChart } from '../cartesian/cartesian';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import { HeatmapSeries, registerHeatmapSeries } from '../../series/heatmap/heatmap';
 import { Factory } from '../../core/factory';
 

@@ -1,12 +1,10 @@
 import { registerAreaSeries } from '../../series/area/area';
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { CartesianChart } from '../cartesian/cartesian';
-import type { IChartOption } from '../interface';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { IAreaChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { Factory } from '../../core/factory';
-import { Stack } from '../stack';
 
 export class AreaChart extends CartesianChart {
   static readonly type: string = ChartTypeEnum.area;
@@ -22,7 +20,12 @@ export class AreaChart extends CartesianChart {
       line: spec.line,
       area: spec.area,
       seriesMark: spec.seriesMark ?? 'area',
-      activePoint: spec.activePoint
+      activePoint: spec.activePoint,
+      sampling: spec.sampling,
+      samplingFactor: spec.samplingFactor,
+      pointDis: spec.pointDis,
+      pointDisMul: spec.pointDisMul,
+      markOverlap: spec.markOverlap
     };
   }
 

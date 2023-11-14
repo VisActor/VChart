@@ -85,7 +85,7 @@ export interface IMarkOption extends ICompilableMarkOption {
   map: Map<StringOrNumber, IModel | IMark>;
 
   globalScale: IGlobalScale;
-  dataStatistics?: DataView;
+  seriesId?: number;
 
   /** 组件 mark 的具体类型 */
   componentType?: string;
@@ -107,4 +107,46 @@ export type MarkConstructor = IMarkConstructor | IComponentMarkConstructor;
 
 export interface IMarkDataInitOption extends IMarkOption {
   mark: IMark;
+}
+
+export type ISamplingMethod = 'lttb' | 'min' | 'max' | 'sum' | 'average';
+
+export interface IDataSamping {
+  /**
+   * 是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点
+   * @default false
+   * @since 1.3.0
+   */
+  activePoint?: boolean;
+  /**
+   * 数据采样 - 采样方法
+   * @since 1.6.0
+   */
+  sampling?: ISamplingMethod;
+  /**
+   * 数据采样 - 采样系数
+   * @since 1.6.0
+   * @default 1
+   */
+  samplingFactor?: number;
+}
+
+export interface IMarkOverlap {
+  /**
+   * 标记点之间的距离，px
+   * @since 1.6.0
+   */
+  pointDis?: number;
+  /**
+   * 标记点之间的距离， pointSize 的倍数
+   * @since 1.6.0
+   * @default 1
+   */
+  pointDisMul?: number;
+  /**
+   * 是否允许标记图形相互覆盖
+   * @since 1.6.0
+   * @default false
+   */
+  markOverlap?: boolean;
 }

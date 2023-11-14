@@ -1,9 +1,8 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkArea, IMarkAreaSpec, IMarkAreaTheme } from './interface';
-import { isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
@@ -12,11 +11,10 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty, isValid } from '@visactor/vutils';
+import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
-import type { LayoutItem } from '../../../model/layout-item';
 import type { INode } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
@@ -27,9 +25,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkArea;
-
-  static speckey = 'markArea';
+  layoutZIndex: number = LayoutZIndex.MarkArea;
 
   protected declare _theme: IMarkAreaTheme;
 
@@ -37,17 +33,17 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
   protected declare _markerComponent: MarkAreaComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markAreaSpec = spec.markArea || options.defaultSpec;
+    const markAreaSpec = spec.markArea;
     if (isEmpty(markAreaSpec)) {
       return undefined;
     }
     if (!isArray(markAreaSpec) && markAreaSpec.visible !== false) {
-      return new MarkArea(markAreaSpec, { ...options, specKey: MarkArea.speckey });
+      return new MarkArea(markAreaSpec, options);
     }
     const markAreas: MarkArea[] = [];
     markAreaSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markAreas.push(new MarkArea(m, { ...options, specIndex: i, specKey: MarkArea.speckey }));
+        markAreas.push(new MarkArea(m, { ...options, specIndex: i }));
       }
     });
     return markAreas;
@@ -143,8 +139,8 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
           : this._markerComponent?.attribute?.label?.text
       },
       limitRect,
-      dx: this.layoutOffsetX,
-      dy: this.layoutOffsetY
+      dx: this._layout.layoutOffsetX,
+      dy: this._layout.layoutOffsetY
     });
   }
 
@@ -171,7 +167,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       options = this._processSpecCoo(spec);
     }
 
-    const data = new DataView(this._option.dataSet);
+    const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     data.parse([relativeSeries.getViewData()], {
       type: 'dataview'
     });

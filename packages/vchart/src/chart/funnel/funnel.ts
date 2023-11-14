@@ -1,6 +1,6 @@
 import { registerFunnelSeries } from './../../series/funnel/funnel';
-import { SeriesTypeEnum } from '../../series/interface';
-import { ChartTypeEnum } from '../interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
+import { ChartTypeEnum } from '../interface/type';
 import { BaseFunnelChart } from './base';
 import { Factory } from '../../core/factory';
 

@@ -1,4 +1,4 @@
-import { Matrix } from '@visactor/vutils';
+import { Matrix, isValid, isValidNumber } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import type { FeatureData } from '@visactor/vgrammar-core';
 import { registerProjection } from '@visactor/vgrammar-projection';
@@ -7,7 +7,7 @@ import type { IPathMark } from '../../mark/path';
 import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { isValid, isValidNumber, mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { GeoSeries } from '../geo/geo';
 import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
@@ -19,7 +19,7 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import { PathMark } from '../../mark/path';
 import { mapSeriesMark } from './constant';
@@ -27,6 +27,7 @@ import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import { registerGeoCoordinate } from '../../component/geo';
 import type { IMark } from '../../mark/interface';
+import { TransformLevel } from '../../data/initialize';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
@@ -79,13 +80,13 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     if (!features) {
       this._option?.onError('no valid map data found!');
     }
-    const mapData = new DataView(this._dataSet);
+    const mapData = new DataView(this._dataSet, { name: `map_${this.id}_data` });
 
     mapData
       .parse([features], {
         type: 'dataview'
       })
-      .transform({ type: 'copyDataView', options: { deep: true } })
+      .transform({ type: 'copyDataView', options: { deep: true }, level: TransformLevel.copyDataView })
       .transform({
         type: 'map',
         options: {
@@ -117,7 +118,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
   // mark
   initMark() {
     this._pathMark = this._createMark(MapSeries.mark.area, {
-      morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig('area', this._spec)),
+      morph: shouldMarkDoMorph(this._spec, MapSeries.mark.area.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this.getDimensionField()[0],
       isSeriesMark: true,
@@ -186,7 +187,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._pathMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('fadeInOut')?.(),
-        userAnimationConfig(SeriesMarkNameEnum.area, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.area, this._spec, this._markAttributeContext)
       )
     );
   }

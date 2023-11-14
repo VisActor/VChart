@@ -14,18 +14,13 @@ import type {
   IRect,
   StringOrNumber,
   IChartSpec,
-  IDataValues
-} from '../typings';
-import type { LayoutCallBack } from '../layout/interface';
-import { GlobalScale } from '../scale/global-scale';
-import type {
-  ILayoutModelState,
-  ILayoutOrientPadding,
+  IDataValues,
   ILayoutRect,
-  IModel,
-  IModelOption,
-  IUpdateSpecResult
-} from '../model/interface';
+  ILayoutOrientPadding
+} from '../typings';
+import type { ILayoutItem, LayoutCallBack } from '../layout/interface';
+import { GlobalScale } from '../scale/global-scale';
+import type { ILayoutModelState, IModel, IModelOption, IUpdateSpecResult } from '../model/interface';
 import type {
   IChart,
   IChartLayoutOption,
@@ -64,12 +59,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { has, isFunction, isEmpty, isNil, isString, isEqual } from '@visactor/vutils';
 import { getActualColor, getDataScheme } from '../theme/color-scheme/util';
-import type {
-  IGroupMark,
-  IRunningConfig as IMorphConfig,
-  IMark as IVGrammarMark,
-  IView
-} from '@visactor/vgrammar-core';
+import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import { CompilableBase } from '../compile/compilable-base';
 import type { IStateInfo } from '../compile/mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -316,8 +306,7 @@ export class BaseChart extends CompilableBase implements IChart {
     regionSpec.forEach((s, i) => {
       const region = Factory.createRegion('region', s, {
         ...this._modelOption,
-        specIndex: i,
-        specKey: 'region'
+        specIndex: i
       });
       if (region) {
         region.created();
@@ -359,7 +348,6 @@ export class BaseChart extends CompilableBase implements IChart {
         ...this._modelOption,
         region,
         specIndex: index,
-        specKey: 'series',
         globalScale: this._globalScale,
         getSeriesData: this._chartData.getSeriesData.bind(this._chartData),
         sourceDataList: this._chartData.dataList
@@ -400,12 +388,21 @@ export class BaseChart extends CompilableBase implements IChart {
       getComponentsByKey: this.getComponentsByKey
     });
     if (!component) {
-      return;
+      return false;
     }
-    array(component).forEach(c => {
+
+    const components = isArray(component) ? component : [component];
+
+    if (!components.length) {
+      return false;
+    }
+
+    components.forEach(c => {
       c.created();
       this._components.push(c);
     });
+
+    return true;
   }
 
   createComponent(spec: any) {
@@ -413,24 +410,33 @@ export class BaseChart extends CompilableBase implements IChart {
     // 坐标轴组件只需要调用一次
     let cartesianAxis;
     let polarAxis;
+    let geoCoordinate;
     const noAxisComponents = [];
     for (let index = 0; index < components.length; index++) {
-      const component = components[index];
-      if (component.type.startsWith(ComponentTypeEnum.cartesianAxis)) {
-        cartesianAxis = component;
-      } else if (component.type.startsWith(ComponentTypeEnum.polarAxis)) {
-        polarAxis = component;
-      } else {
-        noAxisComponents.push(component);
+      const { cmp, alwaysCheck } = components[index];
+      if (cmp.type.startsWith(ComponentTypeEnum.cartesianAxis)) {
+        cartesianAxis = cmp;
+      } else if (cmp.type.startsWith(ComponentTypeEnum.polarAxis)) {
+        polarAxis = cmp;
+      } else if (cmp.type === ComponentTypeEnum.geoCoordinate) {
+        geoCoordinate = cmp;
+      } else if (alwaysCheck || spec[cmp.specKey ?? cmp.type]) {
+        noAxisComponents.push(cmp);
       }
     }
+
+    let hasInitAxis = false;
     // NOTE: 坐标轴组件需要在其他组件之前创建
     if (cartesianAxis) {
-      this._createComponent(cartesianAxis, spec);
+      hasInitAxis = this._createComponent(cartesianAxis, spec);
     }
 
-    if (polarAxis) {
-      this._createComponent(polarAxis, spec);
+    if (polarAxis && !hasInitAxis) {
+      hasInitAxis = this._createComponent(polarAxis, spec);
+    }
+
+    if (geoCoordinate && !hasInitAxis) {
+      this._createComponent(geoCoordinate, spec);
     }
 
     noAxisComponents.forEach(C => {
@@ -458,7 +464,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
     let index = 0;
     return this.getAllModels().find(m => {
-      if (m.specKey === filter.type) {
+      if ((m.specKey ?? m.type) === filter.type) {
         if (index === filter.index) {
           return true;
         }
@@ -529,12 +535,14 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   onEvaluateEnd(option: IChartEvaluateOption) {
-    const elements = this.getLayoutElements();
+    const elements = [...this._components, ...this._regions, ...this._series];
     elements.forEach(element => element.onEvaluateEnd(option));
   }
 
-  getLayoutElements() {
-    return [...this._components, ...this._regions, ...this._series];
+  getLayoutElements(): ILayoutItem[] {
+    return this.getAllModels()
+      .map(i => i.layout)
+      .filter(i => !!i);
   }
 
   // 区域
@@ -627,7 +635,7 @@ export class BaseChart extends CompilableBase implements IChart {
   };
 
   getComponentByIndex = (key: string, index: number) => {
-    const components = this._components.filter(c => c.specKey === key);
+    const components = this._components.filter(c => (c.specKey ?? c.type) === key);
     if (!components || components.length === 0) {
       return undefined;
     }
@@ -635,7 +643,7 @@ export class BaseChart extends CompilableBase implements IChart {
   };
 
   getComponentsByKey = (key: string) => {
-    return this._components.filter(c => c.specKey === key);
+    return this._components.filter(c => (c.specKey ?? c.type) === key);
   };
 
   getComponentByUserId = (userId: StringOrNumber) => {
@@ -919,14 +927,15 @@ export class BaseChart extends CompilableBase implements IChart {
       };
     } = {};
     this._components.forEach(c => {
+      const compSpecKey = c.specKey ?? c.type;
       // 每一个组件获取对应的speck
-      const cmpSpec = this._spec[c.specKey] ?? {};
+      const cmpSpec = this._spec[compSpecKey] ?? {};
       if (isArray(cmpSpec)) {
-        componentCache[c.specKey] = componentCache[c.specKey] || {
+        componentCache[compSpecKey] = componentCache[compSpecKey] || {
           specCount: cmpSpec.length,
           componentCount: 0
         };
-        componentCache[c.specKey].componentCount++;
+        componentCache[compSpecKey].componentCount++;
         mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()], cmpSpec));
       } else {
         mergeUpdateResult(result, c.updateSpec(cmpSpec));
@@ -1056,7 +1065,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
   clear() {
     // call on recompile & release
-    this.getLayoutElements().forEach(i => i.clear?.());
+    this.getAllModels().forEach(i => i.clear?.());
   }
 
   compile() {
@@ -1149,32 +1158,7 @@ export class BaseChart extends CompilableBase implements IChart {
 
   onLayout(srView: IView) {
     const root = srView.rootMark;
-    this.checkUpdate(root, null, null);
     this.layout({ group: root, srView });
-  }
-
-  /**
-   * 未下沉组件通过这里绑定场景元素，保持布局逻辑
-   * TODO: 但是不应该通过getProduct吗？
-   * @param mark
-   * @param model
-   * @param sceneRoot
-   * @returns
-   */
-  checkUpdate(mark: IVGrammarMark, model: IModel, sceneRoot: IVGrammarMark) {
-    if (mark.context?.model) {
-      sceneRoot = mark;
-      model = mark.context.model;
-    }
-    if (model && mark.isUpdated) {
-      model.bindSceneNode?.(sceneRoot.elements[0]);
-      return;
-    }
-    if (mark.markType === 'group') {
-      (mark as IGroupMark).children.forEach(child => {
-        this.checkUpdate(child, model, sceneRoot);
-      });
-    }
   }
 
   /**

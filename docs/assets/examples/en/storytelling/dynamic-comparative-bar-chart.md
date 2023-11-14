@@ -8479,6 +8479,7 @@ const spec = {
   ],
 
   data: dataSpec[0].data,
+  animationExit: false,
   series: [
     {
       id: 'male',
@@ -8496,10 +8497,12 @@ const spec = {
       label: {
         visible: true,
         position: 'left',
+        overlap: false,
         style: {
+          fontSize: 12,
           fill: '#6F6F6F'
         },
-        formatMethod: val => `${(val / 100).toFixed(1)}M`
+        formatMethod: val => `${val.toFixed(1)}`
       },
       tooltip: {
         mark: {
@@ -8534,10 +8537,12 @@ const spec = {
       },
       label: {
         visible: true,
+        overlap: false,
         style: {
+          fontSize: 12,
           fill: '#6F6F6F'
         },
-        formatMethod: val => `${(val / 100).toFixed(1)}M`
+        formatMethod: val => `${val.toFixed(1)}`
       },
       tooltip: {
         mark: {

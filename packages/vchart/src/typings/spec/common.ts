@@ -1,5 +1,4 @@
 import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
-import type { ILayoutPaddingSpec } from '../../model/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
 import type {
@@ -42,8 +41,6 @@ import type {
 } from '../visual';
 import type { StateValue } from '../../compile/mark';
 import type { ISeriesStyle, SeriesType } from '../../series/interface';
-// eslint-disable-next-line no-duplicate-imports
-import type { ILayoutOrientPadding } from '../../model/interface';
 import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
 import type { IMorphSeriesSpec } from '../../animation/spec';
@@ -57,6 +54,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { IColorKey } from '../../theme/color-scheme/interface';
+import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 

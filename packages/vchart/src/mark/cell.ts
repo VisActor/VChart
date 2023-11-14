@@ -1,7 +1,7 @@
 import type { ICellMarkSpec } from '../typings';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum } from './interface';
+import { MarkTypeEnum } from './interface/type';
 import { BaseSymbolMark } from './symbol';
 
 export type ICellMark = IMarkRaw<ICellMarkSpec>;

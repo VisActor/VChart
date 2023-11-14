@@ -1,6 +1,6 @@
 import type { Datum } from '@visactor/vgrammar-core';
 import type { MaybeArray, TooltipContentProperty, TooltipData, TooltipPatternProperty } from '../../../../typings';
-import { isFunction, isObject, isString, isNil, isArray, isValid, initTextMeasure } from '../../../../util';
+import { isFunction, isObject, isString, isNil, isArray, isValid } from '@visactor/vutils';
 import type { TooltipHandlerParams } from '../../interface';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension';
 import type { IRichTextParagraphCharacter } from '@visactor/vrender-core';

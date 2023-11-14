@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
-import { isValid } from '../../util';
+import { MarkTypeEnum } from '../../mark/interface/type';
+import { isValid } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme } from './interface';
@@ -187,7 +187,7 @@ export class GaugePointerSeries<
           },
           appearPreset
         ),
-        userAnimationConfig(SeriesMarkNameEnum.pointer, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.pointer, this._spec, this._markAttributeContext)
       )
     );
   }

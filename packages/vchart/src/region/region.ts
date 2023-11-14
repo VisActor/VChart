@@ -1,59 +1,50 @@
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty, isEqual } from '@visactor/vutils';
-import type {
-  Element,
-  IElement,
-  IGroupMark as IVGrammarGroupMark,
-  ILayoutOptions,
-  IMark
-} from '@visactor/vgrammar-core';
+import { isEmpty, isEqual, array, isValid } from '@visactor/vutils';
+import type { IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark } from '@visactor/vgrammar-core';
 import { STATE_VALUE_ENUM_REVERSE } from '../compile/mark/interface';
 import { DimensionTrigger } from '../interaction/dimension-trigger';
-import { MarkTypeEnum } from '../mark/interface';
-import { BaseModel } from '../model/base-model';
+import { MarkTypeEnum } from '../mark/interface/type';
 import type { ISeries } from '../series/interface';
-import type { IModelOption, ILayoutItem } from '../model/interface';
+import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IRegion, IRegionSpec } from './interface';
 import type { IGroupMark } from '../mark/group';
 import type { IInteraction, ITrigger } from '../interaction/interface';
 import { Interaction } from '../interaction/interaction';
 import { AttributeLevel, ChartEvent, LayoutZIndex } from '../constant';
-import { array, isValid } from '../util';
 import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
-import type { StringOrNumber } from '../typings';
+import type { ILayoutType, StringOrNumber } from '../typings';
 import { IFilterMode } from '../component/data-zoom/constant';
+import { LayoutModel } from '../model/layout-model';
 
-export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> implements IRegion {
+export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
   readonly modelType: string = 'region';
 
   type = Region.type;
   protected _series: ISeries[] = [];
-  layoutType: ILayoutItem['layoutType'] = 'region';
+  layoutType: ILayoutType = 'region';
   layoutZIndex: number = LayoutZIndex.Region;
 
   animate?: IAnimate;
 
   interaction: IInteraction = new Interaction();
 
-  protected _maxRegionWidth?: number;
   getMaxWidth() {
-    return this._maxRegionWidth;
+    return this._layout.maxWidth;
   }
   setMaxWidth(value: number) {
-    this._maxRegionWidth = value;
+    this._layout.maxWidth = value;
   }
 
-  protected _maxRegionHeight?: number;
   getMaxHeight() {
-    return this._maxRegionHeight;
+    return this._layout.maxHeight;
   }
   setMaxHeight(value: number) {
-    this._maxRegionHeight = value;
+    this._layout.maxHeight = value;
   }
 
   protected _groupMark!: IGroupMark;
@@ -78,10 +69,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
         getCompiler: ctx.getCompiler
       });
     }
-    // 层级应当支持配置
-    if (isValid(spec.zIndex)) {
-      this.layoutZIndex = spec.zIndex;
-    }
   }
 
   protected _getClipDefaultValue() {
@@ -95,10 +82,15 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
       return filterMode === IFilterMode.axis;
     });
 
-    return hasDataZoom || hasScrollBar ? true : this.layoutClip;
+    return hasDataZoom || hasScrollBar ? true : this._layout.layoutClip;
+  }
+
+  _initTheme() {
+    // do nothing, region don't need to parse theme
   }
 
   created(): void {
+    this.initLayout();
     super.created();
     this._groupMark = this._createMark({ type: MarkTypeEnum.group, name: 'regionGroup' }) as IGroupMark;
     this._groupMark.setUserId(this.userId);
@@ -282,13 +274,17 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
   }
 
   initSeriesDataflow() {
-    const viewDataFilters = this._series.map(s => s.getViewDataFilter()).filter(v => !!v);
+    const viewDataFilters = this._series.map(s => s.getViewDataFilter() ?? s.getViewData()).filter(v => !!v);
     this._option.dataSet.multipleDataViewAddListener(viewDataFilters, 'change', this.seriesDataFilterOver);
   }
 
   seriesDataFilterOver = () => {
     this.event.emit(ChartEvent.regionSeriesDataFilterOver, { model: this });
-    this._series.forEach(s => s.reTransformViewData());
+    this._series.forEach(s => {
+      if (s.getViewDataFilter()) {
+        s.reTransformViewData();
+      }
+    });
   };
 
   release() {
@@ -346,17 +342,22 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
     });
   }
 
-  compileSignal() {
-    super.compileSignal();
-    this.animate?.compile();
-  }
-
   compile() {
-    this.compileSignal();
+    this.animate?.compile();
     this.compileMarks();
   }
 
-  bindSceneNode(node: IElement) {
-    this._sceneNodeMap.set('default', node as Element);
+  getBoundsInRect = () => {
+    return {
+      x1: this._layout.getLayoutStartPoint().x,
+      y1: this._layout.getLayoutStartPoint().y,
+      x2: this._layout.getLayoutStartPoint().x + this._layout.getLayoutRect().width,
+      y2: this._layout.getLayoutStartPoint().y + this._layout.getLayoutRect().height
+    };
+  };
+
+  onLayoutEnd(ctx: any): void {
+    this._series.forEach(s => s.onLayoutEnd(ctx));
+    super.onLayoutEnd(ctx);
   }
 }

@@ -1,5 +1,5 @@
 import type { IAnimationSpec } from '../../animation/spec';
-import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IAreaMarkSpec, ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface/type';
@@ -12,7 +12,8 @@ type RadarMarks = 'point' | 'line' | 'area';
 export interface IRadarSeriesSpec
   extends IRoseLikeSeriesSpec,
     IAnimationSpec<RadarMarks, RadarAppearPreset>,
-    IMarkProgressiveConfig {
+    IMarkProgressiveConfig,
+    IMarkOverlap {
   type: 'radar';
 
   /**

@@ -6,7 +6,7 @@ import { AttributeLevel, DEFAULT_DATA_KEY, DEFAULT_DATA_SERIES_FIELD } from '../
 import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';
-import { isTrueBrowser } from '../../util';
+import { isTrueBrowser } from '../../util/env';
 import {
   DEFAULT_DRAW_OUT_OF_BOUND,
   DEFAULT_FONTSIZE_RANGE,
@@ -229,7 +229,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         mark.setAnimationConfig(
           animationConfig(
             Factory.getAnimationInKey('wordCloud')(params, appearPreset),
-            userAnimationConfig(SeriesMarkNameEnum.word, this._spec)
+            userAnimationConfig(SeriesMarkNameEnum.word, this._spec, this._markAttributeContext)
           )
         );
       }

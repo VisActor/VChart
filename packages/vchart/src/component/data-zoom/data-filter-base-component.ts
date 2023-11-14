@@ -1,14 +1,13 @@
 import type { ICartesianSeries, IPolarSeries, ISeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { eachSeries, isValid, array, average } from '../../util';
+import { eachSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
-import { BaseComponent } from '../base';
-import type { IEffect, IModelInitOption, ILayoutRect } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
+import { BaseComponent } from '../base/base-component';
+import type { IEffect, IModelInitOption } from '../../model/interface';
 import type { IComponent, IComponentOption } from '../interface';
 import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
-import type { AdaptiveSpec, IOrientType, StringOrNumber } from '../../typings';
+import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -16,10 +15,10 @@ import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
-import { getDirectionByOrient, getOrient } from '../axis/cartesian/util';
+import { getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { mixin, clamp, isNil, merge, isEqual } from '@visactor/vutils';
+import { mixin, clamp, isNil, merge, isEqual, isValid, array } from '@visactor/vutils';
 import { IFilterMode } from './constant';
 import type {
   IDataFilterComponent,
@@ -29,19 +28,20 @@ import type {
   IRoamZoomSpec
 } from './interface';
 import { dataViewParser, DataView } from '@visactor/vdataset';
-import { CompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data/compilable-data';
 import type { BaseEventParams } from '../../event/interface';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 // eslint-disable-next-line no-duplicate-imports
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { AbstractComponent } from '@visactor/vrender-components';
 import type { IDelayType } from '../../typings/event';
+import { TransformLevel } from '../../data/initialize';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
   implements IDataFilterComponent
 {
-  layoutType: LayoutItem['layoutType'] = 'region-relative';
+  layoutType: ILayoutType = 'region-relative';
 
   protected _component: AbstractComponent;
 
@@ -56,13 +56,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   get orient() {
     return this._orient;
-  }
-
-  get layoutOrient() {
-    return this._orient;
-  }
-  set layoutOrient(v: IOrientType) {
-    this._orient = v;
   }
 
   // 数据
@@ -188,7 +181,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         eachSeries(
           this._regions,
           s => {
-            s.getViewDataFilter()?.markRunning();
+            s.getViewData()?.markRunning();
           },
           {
             userId: this._seriesUserId,
@@ -215,13 +208,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec as any, {
-      ...options
-    });
+    super(spec as any, options);
     this._orient = getOrient(spec as any);
-    this._layoutOrient = this._orient;
-    this._isHorizontal = getDirectionByOrient(this._layoutOrient) === Direction.horizontal;
-    isValid(spec.autoIndent) && (this._autoIndent = spec.autoIndent);
+    this._isHorizontal = getDirectionByOrient(this._orient) === Direction.horizontal;
   }
 
   /**
@@ -240,6 +229,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._initStateScale();
     // set state: _start, _end, _startValue, _endValue, _newDomain from spec
     this._setStateFromSpec();
+  }
+
+  initLayout(): void {
+    super.initLayout();
+    this._layout.layoutOrient = this._orient;
   }
 
   protected _setAxisFromSpec() {
@@ -417,7 +411,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const { dataSet } = this._option;
     registerDataSetInstanceParser(dataSet, 'dataview', dataViewParser);
     registerDataSetInstanceTransform(dataSet, 'dataFilterComputeDomain', dataFilterComputeDomain);
-    const data = new DataView(dataSet);
+    const data = new DataView(dataSet, { name: `${this.type}_${this.id}_data` });
     data.transform(
       {
         type: 'dataFilterComputeDomain',
@@ -601,7 +595,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
                 return this._field ?? this._parseFieldOfSeries(s);
               },
               isContinuous: () => isContinuous(this._stateScale.type)
-            }
+            },
+            level: TransformLevel.dataZoomFilter
           });
         },
         {
@@ -771,7 +766,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
    * @param rect
    * @returns
    */
-  _boundsInRect(rect: ILayoutRect): IBoundsLike {
+  getBoundsInRect(rect: ILayoutRect): IBoundsLike {
     const isShown = this._autoUpdate(rect);
     if (!isShown) {
       return { x1: 0, y1: 0, x2: 0, y2: 0 };

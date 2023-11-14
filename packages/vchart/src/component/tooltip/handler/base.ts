@@ -1,12 +1,13 @@
+import type { ILayoutModel } from './../../../../esm/model/interface.d';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../../constant/base';
 import type { Options } from './constants';
 // eslint-disable-next-line no-duplicate-imports
 import { DEFAULT_OPTIONS } from './constants';
 import type { Maybe, IPoint } from '../../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { TooltipPositionMode } from '../../../typings';
+import { TooltipPositionMode } from '../../../typings/tooltip/position';
 // eslint-disable-next-line no-duplicate-imports
-import { isTrueBrowser, isValid, throttle, isNil } from '../../../util';
+import { isTrueBrowser } from '../../../util/env';
 import type {
   TooltipData,
   IToolTipActual,
@@ -14,30 +15,24 @@ import type {
   ITooltipHandler,
   ITooltipPattern,
   ITooltipPositionActual,
-  TooltipPosition,
   ITooltipPositionPattern
 } from '../../../typings/tooltip';
 // eslint-disable-next-line no-duplicate-imports
 import type { TooltipFixedPosition } from '../../../typings/tooltip';
 import type { BaseEventParams } from '../../../event/interface';
-import {
-  getShowContent,
-  getTooltipSpecForShow,
-  getActualTooltipPositionValue,
-  getTooltipPatternValue,
-  getScale,
-  getHorizontalPositionType,
-  getVerticalPositionType
-} from './utils';
+import { getTooltipPatternValue, getScale } from './utils/common';
+import { getActualTooltipPositionValue, getHorizontalPositionType, getVerticalPositionType } from './utils/position';
+import { getShowContent } from './utils/compose';
+import { getTooltipSpecForShow } from './utils/get-spec';
 import type { Tooltip, TooltipActualTitleContent } from '../tooltip';
 import type { ISeries } from '../../../series/interface';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { TooltipResult } from '../interface';
+import { TooltipResult } from '../interface/common';
 import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNumber, isObject, isValidNumber } from '@visactor/vutils';
+import { isNumber, isObject, isValidNumber, isValid, throttle, isNil } from '@visactor/vutils';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { IModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
@@ -46,7 +41,7 @@ import { getTooltipAttributes } from './utils/attribute';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { IChartOption } from '../../../chart/interface';
 import type { IChartLevelTheme } from '../../../core/interface';
-import { defaultChartLevelTheme } from '../../../theme';
+import { defaultChartLevelTheme } from '../../../theme/builtin';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -58,9 +53,6 @@ type ChangeTooltipFunc = (
 
 type ChangeTooltipPositionFunc = (
   changePositionOnly: boolean,
-  actualTooltip: IToolTipActual,
-  spec: ITooltipSpec,
-  activeType: TooltipActiveType,
   data: TooltipData,
   params: TooltipHandlerParams
 ) => TooltipResult;
@@ -126,14 +118,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     if (changePositionOnly && this._cacheViewSpec && this._cacheActualTooltip) {
-      return this.changeTooltipPosition(
-        changePositionOnly,
-        this._cacheActualTooltip,
-        this._cacheViewSpec,
-        activeType,
-        data,
-        params
-      );
+      return this.changeTooltipPosition(changePositionOnly, data, params);
     }
     return this.changeTooltip(true, params, changePositionOnly, activeType, data);
   };
@@ -217,7 +202,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     this._cacheActualTooltip = actualTooltip;
-    return this._changeTooltipPosition(!!changePositionOnly, actualTooltip, spec, activeType!, data!, params);
+    return this._changeTooltipPosition(!!changePositionOnly, data!, params);
   };
 
   /** 改变 tooltip 位置（带 throttle 版本），返回是否遇到异常 */
@@ -226,9 +211,6 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   /** 改变 tooltip 位置（不带 throttle 版本），返回是否遇到异常 */
   protected _changeTooltipPosition: ChangeTooltipPositionFunc = (
     changePositionOnly: boolean,
-    actualTooltip: IToolTipActual,
-    spec: ITooltipSpec,
-    activeType: TooltipActiveType,
     data: TooltipData,
     params: TooltipHandlerParams
   ) => {
@@ -237,6 +219,13 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     const event = params.event as MouseEvent;
+    const spec = this._cacheViewSpec;
+    const actualTooltip = this._cacheActualTooltip;
+    if (!spec || !actualTooltip) {
+      return TooltipResult.failed;
+    }
+
+    const activeType = actualTooltip.activeType;
 
     /** 用户自定义逻辑 */
     if (spec.handler) {
@@ -446,7 +435,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       const element = params.item as IElement;
       const model = params.model as IModel;
       const bounds = element?.getBounds() as AABBBounds;
-      const startPoint = model?.getLayoutStartPoint();
+      const startPoint = (<ILayoutModel>(<unknown>model))?.getLayoutStartPoint();
       if (bounds && startPoint) {
         let { x1, y1, x2, y2 } = bounds;
         x1 += startPoint.x;

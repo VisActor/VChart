@@ -1,15 +1,14 @@
 import { CartesianLinearAxis } from './linear-axis';
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { LogScale } from '@visactor/vscale';
 import { mixin } from '@visactor/vutils';
 import type { ICartesianLogAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
-import { ComponentMark } from '../../../mark';
 import { registerAxis } from '../base-axis';
 
 export interface CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLogAxisSpec>
-  extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
+  extends Pick<LinearAxisMixin, 'valueToPosition'>,
     CartesianLinearAxis<T> {}
 
 export class CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLogAxisSpec> extends CartesianLinearAxis<T> {

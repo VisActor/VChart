@@ -1,4 +1,4 @@
-# @visactor/VMind
+# @visactor/vmind
 
 <div align="center">
 
@@ -6,11 +6,11 @@ English | [简体中文](readme-zh.md)
 
 </div>
 
-`@visactor/VMind` is an intelligent chart component based on large models provided by [VisActor](https://www.visactor.io/), including dialog-based chart generation and editing capabilities. It provides a natural language interaction interface, allowing you to easily create chart narrative works with `@visactor/VMind` with just one sentence, and edit them through continuous dialogue, greatly improving your efficiency in creating data visualization works.
+`@visactor/vmind` is an intelligent chart component based on large models provided by [VisActor](https://www.visactor.io/), including dialog-based chart generation and editing capabilities. It provides a natural language interaction interface, allowing you to easily create chart narrative works with `@visactor/VMind` with just one sentence, and edit them through continuous dialogue, greatly improving your efficiency in creating data visualization works.
 
-The main features of `@visactor/VMind` include:
+The main features of `@visactor/vmind` include:
 
-- **Easy to use**: Just provide the data you want to display and a sentence describing the information you want to display, and `@visactor/VMind` will automatically generate the chart for you. Based on the existing chart, describe the modifications you want to make to the chart in one sentence, and `@visactor/VMind` will help you achieve the desired effect.
+- **Easy to use**: Just provide the data you want to display and a sentence describing the information you want to display, and `@visactor/vmind` will automatically generate the chart for you. Based on the existing chart, describe the modifications you want to make to the chart in one sentence, and `@visactor/VMind` will help you achieve the desired effect.
 - **Strong scalability**: The components of `@visactor/VMind` can be easily extended and customized, and new functions and features can be added as needed. By default, the OpenAI GPT model is used, and you can easily replace it with any text large model.
 - **Easy narrative**: Based on the powerful chart narrative ability of `@visactor/vchart`, `@visactor/VMind` supports the generation of various types of charts, including line charts, bar charts, pie charts, etc., and can also generate dynamic bar charts and other dynamic charts, making it easy for you to narrate data. More chart types are being added. You can also use the dialog-based editing function to easily modify chart styles and animation effects, making it easy for you to create narratives.
 - **One-click export**: `@visactor/VMind` comes with a chart export module, and you can export the created chart narrative as a video or GIF for display.
@@ -21,10 +21,10 @@ The main features of `@visactor/VMind` include:
 
 ```bash
 # npm
-$ npm install @visactor/VMind
+$ npm install @visactor/vmind
 
 # yarn
-$ yarn add @visactor/VMind
+$ yarn add @visactor/vmind
 ```
 
 ### 📊 Usage example
@@ -32,7 +32,7 @@ $ yarn add @visactor/VMind
 #### Intelligent chart generation
 
 ```typescript
-import VMind from '@visactor/VMind'
+import VMind from '@visactor/vmind'
 
 const vmind = new VMind(openAIKey) //Pass in your openAI key
 

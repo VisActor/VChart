@@ -3,10 +3,10 @@ import { debounce, isNil, throttle } from '@visactor/vutils';
 import type { BaseEventParams, EventType, ExtendEventParam, IEvent } from '../../event/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec';
-import { RenderModeEnum } from '../../typings/spec';
+import { RenderModeEnum } from '../../typings/spec/common';
 import { getDefaultTriggerEventByMode } from '../../component/common/trigger/config';
 import type { IZoomTrigger } from '../../component/common/trigger/interface';
-import { isPointInRect } from '../../util';
+import { isPointInRect } from '../../util/space';
 import type { ISeries } from '../../series/interface';
 import { Event_Bubble_Level, Event_Source_Type } from '../../constant';
 import type { IDelayType } from '../../typings/event';
@@ -110,10 +110,7 @@ export class Zoomable implements IZoomable {
           x: zoomX,
           y: zoomY
         },
-        {
-          ...regionOrSeries.getLayoutRect(),
-          ...regionOrSeries.getLayoutStartPoint()
-        }
+        this._getRegionOrSeriesLayout(regionOrSeries)
       )
     ) {
       return;
@@ -129,6 +126,13 @@ export class Zoomable implements IZoomable {
       scaleCenter: { x: event.zoomX, y: event.zoomY },
       model: this
     } as unknown as ExtendEventParam);
+  }
+
+  private _getRegionOrSeriesLayout(rs: IRegion | ISeries) {
+    if (rs.type !== 'region') {
+      rs = (<ISeries>rs).getRegion();
+    }
+    return rs.layout.getLayout();
   }
 
   private _bindZoomEventAsRegion(
@@ -212,10 +216,7 @@ export class Zoomable implements IZoomable {
           x: event.canvasX,
           y: event.canvasY
         },
-        {
-          ...regionOrSeries.getLayoutRect(),
-          ...regionOrSeries.getLayoutStartPoint()
-        }
+        this._getRegionOrSeriesLayout(regionOrSeries)
       )
     ) {
       return;
@@ -309,10 +310,7 @@ export class Zoomable implements IZoomable {
           x: event.canvasX,
           y: event.canvasY
         },
-        {
-          ...regionOrSeries.getLayoutRect(),
-          ...regionOrSeries.getLayoutStartPoint()
-        }
+        this._getRegionOrSeriesLayout(regionOrSeries)
       );
       if (shouldTrigger) {
         this._handleDrag(params, callback, option);

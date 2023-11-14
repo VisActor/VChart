@@ -1,7 +1,7 @@
-import { isArray, isValid, isValidNumber, isNil } from '../../util';
+import { isArray, isValid, isValidNumber, isNil } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import type { ICartesianCrosshairSpec } from './interface';
 import type { ICartesianSeries } from '../../series/interface';
 import { isDiscrete, isContinuous } from '@visactor/vscale';
@@ -14,7 +14,7 @@ import { getDatumByValue, limitTagInBounds } from './util';
 import { getAxisLabelOffset } from '../axis/util';
 import type { IAxis } from '../axis/interface';
 import type { IOrientType, StringOrNumber } from '../../typings';
-import { isXAxis } from '../axis/cartesian/util';
+import { isXAxis } from '../axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 
 interface ICrosshairInfoX {
@@ -54,6 +54,9 @@ type IBound = { x1: number; y1: number; x2: number; y2: number };
 type IAxisInfo = Map<number, IBound & { axis: IAxis }>;
 
 export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCrosshairSpec> extends BaseCrossHair<T> {
+  static specKey = 'crosshair';
+  specKey: string = 'crosshair';
+
   static type = ComponentTypeEnum.cartesianCrosshair;
   type = ComponentTypeEnum.cartesianCrosshair;
   name: string = ComponentTypeEnum.cartesianCrosshair;
@@ -75,29 +78,27 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   private _yRightLabel: Tag;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const crosshairSpec = spec.crosshair || options.defaultSpec;
+    const crosshairSpec = spec.crosshair;
     if (isNil(crosshairSpec)) {
       return undefined;
     }
     if (!isArray(crosshairSpec)) {
       if (crosshairSpec.xField || crosshairSpec.yField) {
-        return new CartesianCrossHair(crosshairSpec, { ...options, specKey: 'crosshair' });
+        return new CartesianCrossHair(crosshairSpec, options);
       }
       return undefined;
     }
     const components: CartesianCrossHair[] = [];
     crosshairSpec.forEach((s: ICartesianCrosshairSpec, i: number) => {
       if (s.xField || s.yField) {
-        components.push(new CartesianCrossHair(s, { ...options, specIndex: i, specKey: 'crosshair' }));
+        components.push(new CartesianCrossHair(s, { ...options, specIndex: i }));
       }
     });
     return components;
   }
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this.currValueX = new Map();
     this.currValueY = new Map();
   }

@@ -17,7 +17,10 @@ import {
   ScrollBarEventProps,
   BrushEventProps,
   DataZoomEventProps,
-  PlayerEventProps
+  PlayerEventProps,
+  DimensionEventProps,
+  HierarchyEventProps,
+  ChartLifeCycleEventProps
 } from '../eventsUtils';
 
 export type ChartOptions = Omit<IInitOption, 'dom'>;
@@ -28,7 +31,10 @@ export interface BaseChartProps
     ScrollBarEventProps,
     BrushEventProps,
     DataZoomEventProps,
-    PlayerEventProps {
+    PlayerEventProps,
+    DimensionEventProps,
+    HierarchyEventProps,
+    ChartLifeCycleEventProps {
   type?: string;
   /** 上层container */
   container?: HTMLDivElement;
@@ -90,7 +96,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     const cs = new VChart(parseSpec(props), {
       ...props.options,
       autoFit: true,
-      mode: 'desktop-browser',
       dom: props.container
     });
     chartContext.current = { ...chartContext.current, chart: cs };

@@ -6,19 +6,13 @@ const sizes = require('rollup-plugin-sizes');
 const bundleSize = require('rollup-plugin-bundle-size');
 
 function copyFile(source, target) {
-  fs.copyFile(source, target, error => {
-    if (error) {
-      console.error(error);
-    }
-    console.log('File copied successfully!');
-  });
+  try {
+    fs.copyFileSync(source, target);
+  } catch(err) {
+    throw new Error(err);
+  }
 }
 
-function copyStart(source, destinations) {
-  destinations.forEach(target => {
-    copyFile(source, target);
-  });
-}
 
 const bundle_analyze_mode = process.env.BUNDLE_ANALYZE;
 let umdInput = 'index.ts';
@@ -45,6 +39,27 @@ const plugins = bundle_analyze_mode
     ]
   : [];
 
+const crossEnvs = {
+  lark: {
+    input: 'index-lark',
+    output: '../lark-vchart/src/vchart/index.js'
+  },
+  block: {
+    input: 'index-lark',
+    output: '../block-vchart/block/vchart/index.js'
+  },
+  tt: {
+    input: 'index-lark',
+    output: '../tt-vchart/src/vchart/index.js'
+  },
+  wx: {
+    input: 'index-wx',
+    output: '../wx-vchart/miniprogram/src/vchart/index.js'
+  }
+};
+const umdEntries = Object.keys(crossEnvs)
+  .map(env => crossEnvs[env].input)
+  .filter((input, index, arr) => arr.indexOf(input, 0) === index);
 /**
  * @type {import('@internal/bundler').Config}
  */
@@ -73,6 +88,7 @@ module.exports = {
   external: [
     // '@visactor/vrender'
   ],
+  umdEntries,
   postTasks: {
     // generateEntries: (config, projectRoot, rawPackageJson) => {
     //   ['core', 'chart', 'series', 'mark', 'component', 'layout'].forEach(entryName => {
@@ -83,16 +99,16 @@ module.exports = {
     //     fs.writeFileSync(path.join(__dirname, `./${entryName}.d.ts`), dtsCode, 'utf-8');
     //   });
     // },
-    copy: (config, projectRoot, rawPackageJson) => {
-      const vchartSource = path.join(__dirname, config.outputDir.umd, 'index.min.js');
-      const packagesDestinations = [
-        path.join(__dirname, '../block-vchart/block/vchart/index.js'),
-        path.join(__dirname, '../tt-vchart/src/vchart/index.js'),
-        path.join(__dirname, '../lark-vchart/src/vchart/index.js'),
-        path.join(__dirname, '../wx-vchart/miniprogram/src/vchart/index.js')
-      ];
-
-      copyStart(vchartSource, packagesDestinations);
+    copyCrossEnv: config => {
+      Object.keys(crossEnvs).forEach(env => {
+        const source = `${crossEnvs[env].input}.min.js`;
+        const dest = crossEnvs[env].output;
+        const envSource = path.join(__dirname, config.outputDir.umd, source);
+        copyFile(envSource, path.join(__dirname, dest));
+      });
+      umdEntries.forEach(entry => {
+        fs.unlinkSync(path.join(__dirname, config.outputDir.umd, `${entry}.min.js`));
+      });
     }
   }
 };

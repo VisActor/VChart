@@ -1,4 +1,4 @@
-import { DataSet, DataView, csvParser, dataViewParser } from '@visactor/vdataset';
+import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import type { ISeriesOption } from '../../../src/series/interface';
 import { dimensionStatistics } from '../../../src/data/transforms/dimension-statistics';
 import { initChartDataSet, seriesOption } from '../../util/context';
@@ -140,9 +140,8 @@ describe('[Domain-Series-Funnel] Funnel Series', () => {
     expect(funnel.tooltipHelper?.contentKeyCallback(transformData0, testParams)).toBe('转化率');
     expect(funnel.tooltipHelper?.contentKeyCallback(funnelData0)).toBe(funnelData0[funnel.getCategoryField()]);
 
-    // getPoints
+    // getPoints;
     funnel.setLayoutRect({ width: 500, height: 500 });
-    (funnel as any)._viewDataStatistics = (funnel as any)._rawDataStatistics;
     funnel.getLayoutRect = () => {
       return { width: 500, height: 500 };
     };

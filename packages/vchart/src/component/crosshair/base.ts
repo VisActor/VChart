@@ -1,15 +1,14 @@
 import type { Dict, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { throttle, PointService, isEqual, array } from '@visactor/vutils';
+import { throttle, PointService, isEqual, array, isArray, isNumber, get, isBoolean } from '@visactor/vutils';
 
 import { RenderModeEnum } from '../../typings/spec/common';
 import type { BaseEventParams, EventType } from '../../event/interface';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import { BaseComponent } from '../base';
-import type { IPadding, Maybe, StringOrNumber } from '../../typings';
-import { isArray, outOfBounds, isNumber, get, isBoolean } from '../../util';
-import type { LayoutItem } from '../../model/layout-item';
+import { BaseComponent } from '../base/base-component';
+import type { ILayoutType, IPadding, Maybe, StringOrNumber } from '../../typings';
+import { outOfBounds } from '../../util/math';
 import type { IComponentOption } from '../interface';
 import type {
   ICrossHair,
@@ -60,9 +59,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   extends BaseComponent<T>
   implements ICrossHair
 {
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  gridZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair_Grid;
-  labelZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair;
+  layoutType: ILayoutType = 'absolute';
+  gridZIndex: number = LayoutZIndex.CrossHair_Grid;
+  labelZIndex: number = LayoutZIndex.CrossHair;
   trigger: CrossHairTrigger = 'hover';
   enable: boolean;
   showDefault: boolean;
@@ -78,9 +77,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   private _limitBounds: Maybe<IBoundsLike>;
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this.enable = true;
     this.showDefault = true;
   }

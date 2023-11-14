@@ -1,32 +1,35 @@
 # Taro VChart
 
-- Repository address: [https://github.com/VisActor/VChart/tree/main/packages/taro-vchart](https://github.com/VisActor/VChart/tree/main/packages/taro-vchart)
+[Taro](https://docs.taro.zone/docs/) is a commonly used cross-end and cross-frame solution. VChart specially encapsulates the corresponding chart component based on the Taro framework: `@visactor/taro-vchart`.
 
-[Taro](https://docs.taro.zone/docs/) is a widely used cross-platform and cross-framework solution, and VChart also provides the corresponding chart component: `@visactor/taro-vchart`.
+- Warehouse address: [taro-vchart](https://github.com/VisActor/VChart/tree/main/packages/taro-vchart)
+- Example address: [taro-vchart-example](https://github.com/VisActor/taro-vchart-example)
 
-## Environment Requirements
+## Environmental requirements
 
-**Taro Version: >= 3.3.17**
+**Taro version: >= 3.3.17**
 
-> Taro has some incompatible break changes due to minor versions, so try to use version 3.3
+> taro Because the minor version has some incompatible break changes, try to use version 3.3
 
-## Supported Environments
+## Support environment
 
-The currently supported environments are: **Byte Mini Program** ('tt'), **Lark Mini Program** ('lark'), and **Browser** ('h5', 'web').
+|         | WeChat | Headlines | H5  | RN  | Baidu | Alibaba |
+| ------- | ------ | --------- | --- | --- | ----- | ------- |
+| Support | ✔️     | ✔️        | ✔️  | --  | --    | --      |
 
-The above environments are declared through the `type` attribute, and the `type` attribute values and corresponding environments are as follows:
+The environments currently supported by the component include: **WeChat Mini Program**, **Byte Mini Program**, **Feishu Mini Program**, and **Browser**.
 
-- `tt` Byte Mini Program.
+The above environment is declared through the `type` attribute. The `type` attribute value and corresponding environment are as follows:
 
-- `lark` Lark Mini Program.
+- `weapp` WeChat applet.
+- `tt` byte applet.
+- `lark` Feishu applet.
+- `h5` h5 mobile environment.
+- `web` browser environment.
 
-- `h5` Browser environment, equivalent to `web`.
+### Cross-end support
 
-- `web` Browser environment, equivalent to `h5`.
-
-### Cross-platform Support
-
-If users need to support multiple platforms, they need to dynamically pass the `type` attribute according to `Taro.getEnv()`.
+If users need cross-terminal support, they need to dynamically pass in the `type` attribute according to `Taro.getEnv()`.
 
 ```tsx
 <VChart
@@ -40,32 +43,103 @@ If users need to support multiple platforms, they need to dynamically pass the `
 />
 ```
 
-### Version Requirements
+### Version requirements
 
-**Byte Mini Program**
+> taro Because the minor version has some incompatible break changes, try to use version 3.3
 
-Make sure **Taro Version >= 3.3.17**
+1. **WeChat Mini Program**: Need to ensure **Taro version >= 3.3.17**
+2. **Byte applet**: Need to ensure that **Taro version >= 3.3.17**
+3. **Feishu Mini Program**: You need to ensure that **Taro version >= 3.2.0**, **Feishu version >= 3.45.0**
 
-> Taro has some incompatible break changes due to minor versions, so try to use version 3.3
+## how to use
 
-**Lark Mini Program**
-
-Make sure **Taro Version >= 3.2.0**, **Lark Version >= 3.45.0**
-
-> Taro has some incompatible break changes due to minor versions, so try to use version 3.3
-
-## Installation
+### Install
 
 ```
-npm install @visactor/taro-vchart
+# npm
+$ npm install @visactor/taro-vchart
+
+# yarn
+$ yarn add @visactor/taro-vchart
+```
+
+### Get started quickly
+
+`@visactor/taro-vchart` The method of chart component is very simple, the steps are as follows:
+
+1. Introduce chart component: `import VChart from '@visactor/taro-vchart'`
+2. Declare the chart component and declare necessary attributes
+   - The `type` attribute is used to declare the environment parameters. It does not need to be declared. `Taro.getEnv()` will be used by default internally.
+   - `canvasId` must be passed, used to identify the internal canvas component
+   - `spec` is the corresponding VChart chart configuration item
+
+The following is an example code for a column chart. For details, you can download our example project: [taro-vchart-example](https://github.com/VisActor/taro-vchart-example) for field running experience.
+
+```tsx
+import { VChart } from '@visactor/taro-vchart';
+import Taro from '@tarojs/taro';
+
+// VChart chart configuration items
+const barSpec = {
+  type: 'bar',
+  data: [
+    {
+      id: 'barData',
+      values: [
+        { type: 'Autocracies', year: '1930', value: 129 },
+        { type: 'Autocracies', year: '1940', value: 133 },
+        { type: 'Autocracies', year: '1950', value: 130 },
+        { type: 'Autocracies', year: '1960', value: 126 },
+        { type: 'Autocracies', year: '1970', value: 117 },
+        { type: 'Autocracies', year: '1980', value: 114 },
+        { type: 'Autocracies', year: '1990', value: 111 },
+        { type: 'Autocracies', year: '2000', value: 89 },
+        { type: 'Autocracies', year: '2010', value: 80 },
+        { type: 'Autocracies', year: '2018', value: 80 },
+        { type: 'Democracies', year: '1930', value: 22 },
+        { type: 'Democracies', year: '1940', value: 13 },
+        { type: 'Democracies', year: '1950', value: 25 },
+        { type: 'Democracies', year: '1960', value: 29 },
+        { type: 'Democracies', year: '1970', value: 38 },
+        { type: 'Democracies', year: '1980', value: 41 },
+        { type: 'Democracies', year: '1990', value: 57 },
+        { type: 'Democracies', year: '2000', value: 87 },
+        { type: 'Democracies', year: '2010', value: 98 },
+        { type: 'Democracies', year: '2018', value: 99 }
+      ]
+    }
+  ],
+  xField: ['year', 'type'],
+  yField: 'value',
+  seriesField: 'type',
+  legends: {
+    visible: true,
+    orient: 'top',
+    position: 'start'
+  }
+};
+
+export const BarChart = () => {
+  return (
+    <VChart
+      type={Taro.getEnv() as any}
+      style={{ width: '100%', height: '150px' }}
+      spec={barSpec}
+      canvasId="bar-chart"
+      onChartReady={() => {
+        console.log('onChartReady');
+      }}
+    />
+  );
+};
 ```
 
 ## API
 
-Usage example of the chart component:
+Examples of using the chart component are as follows:
 
 ```tsx
-<VCHart
+<VChart
   type="tt"
   spec={spec}
   canvasId="pie"
@@ -82,118 +156,43 @@ Usage example of the chart component:
 />
 ```
 
-| API           | Type     | Description  |
-| ------------- | -------- | -----------------------------------------------------------------------------------------------|
-| type          | string   | Configured environment, currently supported environments: **Byte Mini Program** ('tt'), **Lark Mini Program** ('lark'), **Browser** ('h5', 'web') |
-| canvasId      | String   | Chart id, must be unique |
-| spec          | Object   | Chart configuration item, please refer to [VChart Configuration Item](../../../option) |
-| style         | Object   | Chart container style |
-| events        | Object[] | Event binding configuration |
-| options       | Object   | Additional configuration items passed to the VChart instance during initialization, the same as [VChart instantiation configuration items](../../../api/API/vchart#options)|
-| onChartInit   | Function | Callback triggered after the chart is initialized |
-| onChartReady  | Function | Callback triggered after the chart is rendered |
-| onChartUpdate | Function | Callback triggered after the chart is updated |
+| API           | Type     | Is it required | Description                                                                                                                                                                                                                       |
+| ------------- | -------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type          | string   | No             | The configured environment. Currently, the environments supported by the component are: **WeChat mini program** ('weapp'), **Byte mini program** ('tt'), **Feishu mini program**('lark'), **browser**('web'), **h5 mobile**('h5') |
+| canvasId      | String   | Yes            | Chart id, must be unique                                                                                                                                                                                                          |
+| spec          | Object   | Yes            | Chart configuration items, please refer to [VChart configuration items](../../../option)                                                                                                                                          |
+| style         | Object   | No             | Chart container style                                                                                                                                                                                                             |
+| events        | Object[] | No             | Event binding configuration                                                                                                                                                                                                       |
+| options       | Object   | No             | Additional configuration items passed in to initialize the VChart instance, the same as [VChart instantiation configuration items](../../../api/API/vchart#options)                                                               |
+| onChartInit   | Function | No             | Callback triggered after chart initialization                                                                                                                                                                                     |
+| onChartReady  | Function | No             | Callback triggered after the chart is rendered                                                                                                                                                                                    |
+| onChartUpdate | Function | No             | Callback triggered after the chart is updated                                                                                                                                                                                     |
 
-## Quick Start
+## Common examples
 
-```tsx
-import React, { useState } from 'react';
-import { View } from '@tarojs/components';
-import VChart from '@visactor/taro-vchart';
+### Chart status update
 
-export function Pie() {
-  // 1. Prepare chart configuration items and data
-  const [spec, setSpec] = useState({
-    data: [
-      {
-        id: 'data1',
-        values: [
-          {
-            value: 335,
-            name: 'Direct access'
-          },
-          {
-            value: 310,
-            name: 'Email marketing'
-          },
-          {
-            value: 274,
-            name: 'Affiliate Advertising'
-          },
-          {
-            value: 235,
-            name: 'Video Advertising'
-          },
-          {
-            value: 400,
-            name: 'Search Engine'
-          }
-        ]
-      }
-    ],
-    type: 'pie',
-    outerRadius: 0.6,
-    innerRadius: 0.5,
-    categoryField: 'name',
-    valueField: 'value',
-    legends: {
-      visible: true
-    }
-  });
+Inside the chart, changes in `spec` are monitored. When spec changes, the chart will be updated based on the new `spec`.
 
-  // Pass parameters to the Chart component.
-  return (
-    <View
-      style={{
-        border: '1px solid #eeeeee',
-        width: '90vw'
-      }}
-    >
-      <VChart
-        type="tt"
-        spec={spec}
-        canvasId="pie"
-        style={{ height: '35vh', width: '100%' }}
-        onChartInit={() => {
-          console.log('init pie');
-        }}
-        onChartReady={() => {
-          console.log('ready pie');
-        }}
-        onChartUpdate={() => {
-          console.log('update pie');
-        }}
-      />
-    </View>
-  );
-}
-```
-
-## Common Examples
-
-### Chart State Update
-
-Inside the chart, `spec` changes are monitored. When `spec` changes, the chart will be updated based on the new `spec`.
-
-In addition, users can also use the rendering interface provided by the VChart instance for chart rendering, updating, and destruction operations.
+In addition, users can also use the rendering interface provided by the VChart instance to render, update, and destroy charts.
 
 > The VChart instance can be obtained through the `onChartInit` interface.
 
 #### API
 
-- `chartInstance.renderAsync()` Update chart
+- `chartInstance.renderAsync()` updates the chart
 
-- `chartInstance.release()` Destroy chart
+- `chartInstance.release()` destroys the chart
 
-- `chartInstance.updateSpec()` Update chart based on Spec
+- `chartInstance.updateSpec()` updates the chart based on Spec
 
-- `chartInstance.updateData()` Update chart based on data
+- `chartInstance.updateData()` updates the chart based on data
 
 For detailed usage, please refer to: [VChart API](../../../api/API)
 
 #### Example
 
-Compatible with React's state management. Update the configuration item through setState, and the chart can be redrawn.
+Compatible with React's state management method. Update configuration items through setState, and the chart can be redrawn.
 
 ```tsx
 import React, { useEffect, useState } from 'react';
@@ -208,23 +207,23 @@ export function Pie() {
         values: [
           {
             value: 335,
-            name: 'Direct access'
+            name: '直接访问'
           },
           {
             value: 310,
-            name: 'Email marketing'
+            name: '邮件营销'
           },
           {
             value: 274,
-            name: 'Affiliate Advertising'
+            name: '联盟广告'
           },
           {
             value: 235,
-            name: 'Video Advertising'
+            name: '视频广告'
           },
           {
             value: 400,
-            name: 'Search Engine'
+            name: '搜索引擎'
           }
         ]
       }
@@ -248,11 +247,11 @@ export function Pie() {
             values: [
               {
                 value: 335,
-                name: 'Direct access'
+                name: '直接访问'
               },
               {
                 value: 310,
-                name: 'Email marketing'
+                name: '邮件营销'
               }
             ]
           }

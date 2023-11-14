@@ -1,19 +1,19 @@
 import type { IPadding, IRect, IOrientType } from '../../typings/space';
 import { DataView } from '@visactor/vdataset';
-import { BaseComponent } from '../base';
+import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
 import { LayoutZIndex } from '../../constant';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
-import type { IPoint, Datum } from '../../typings';
+import type { IPoint, Datum, ILayoutType } from '../../typings';
 import type { IPairInfo } from './layout';
 // eslint-disable-next-line no-duplicate-imports
 import { layoutByPosition, layoutOuter, placeRectByOrient } from './layout';
-import { CompilableData } from '../../compile/data';
+
+import { CompilableData } from '../../compile/data/compilable-data';
 import { normalizeLayoutPaddingSpec } from '../../util/space';
-import type { LayoutItem } from '../../model/layout-item';
 import { MarkPoint } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
@@ -23,15 +23,14 @@ import { isValid } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel } from '../../model/interface';
 import { Factory } from '../../core/factory';
+import { TransformLevel } from '../../data/initialize';
 
 export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   static type = ComponentTypeEnum.mapLabel;
   type = ComponentTypeEnum.mapLabel;
   name: string = ComponentTypeEnum.mapLabel;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-
-  static speckey = 'mapLabel';
+  layoutType: ILayoutType = 'absolute';
 
   layoutZIndex = LayoutZIndex.MarkPoint;
 
@@ -89,12 +88,11 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     }
     const seriesData = series.getViewData();
     if (seriesData) {
-      const data = new DataView(this._option.dataSet);
+      const data = new DataView(this._option.dataSet, { name: `${this.name}_data` });
       data.parse([seriesData], {
         type: 'dataview'
       });
-      data.transform({ type: 'copyDataView' }, false);
-      data.name = `${this.name}_data`;
+      data.transform({ type: 'copyDataView', level: TransformLevel.copyDataView }, false);
 
       this._data = new CompilableData(this._option, data);
       data.target.addListener('change', () => {

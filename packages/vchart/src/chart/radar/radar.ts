@@ -1,7 +1,7 @@
 import { registerRadarSeries } from '../../series/radar/radar';
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { array, mergeSpec } from '../../util';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import { RoseLikeChart } from '../polar/rose-like';
 import { Factory } from '../../core/factory';
 
@@ -26,7 +26,10 @@ export class RadarChart extends RoseLikeChart {
         spec.area
       ),
       seriesMark: spec.seriesMark ?? 'area',
-      activePoint: spec.activePoint
+      activePoint: spec.activePoint,
+      pointDis: spec.pointDis,
+      pointDisMul: spec.pointDisMul,
+      markOverlap: spec.markOverlap
     };
   }
 

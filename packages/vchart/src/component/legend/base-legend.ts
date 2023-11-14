@@ -1,21 +1,22 @@
-import { isNil, isEqual } from '@visactor/vutils';
+import { isNil, isEqual, isValid, array, isValidNumber } from '@visactor/vutils';
 import type { DataView } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
-import { BaseComponent } from '../base';
-import type { IEffect, ILayoutRect } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
+import { BaseComponent } from '../base/base-component';
+import type { IEffect } from '../../model/interface';
 // eslint-disable-next-line no-duplicate-imports
-import type { IOrientType, IPoint, StringOrNumber } from '../../typings';
+import type { ILayoutRect, ILayoutType, IOrientType, IPoint, StringOrNumber } from '../../typings';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
-import { isValid, mergeSpec, isValidOrient, array, eachSeries, isValidNumber } from '../../util';
-import { CompilableData } from '../../compile/data';
+import { eachSeries } from '../../util/model';
+import { isValidOrient } from '../../util/space';
+import { mergeSpec } from '../../util/spec/merge-spec';
+import { CompilableData } from '../../compile/data/compilable-data';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILegend, ILegendCommonSpec } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 
 export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseComponent<T> implements ILegend {
-  layoutType: LayoutItem['layoutType'] = 'normal';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Legend;
+  layoutType: ILayoutType = 'normal';
+  layoutZIndex: number = LayoutZIndex.Legend;
   layoutLevel: number = LayoutLevel.Legend;
 
   protected _orient: IOrientType = 'left';
@@ -31,13 +32,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   protected _position: 'start' | 'middle' | 'end' = 'middle';
   get position() {
     return this._position;
-  }
-
-  get layoutOrient() {
-    return this._orient;
-  }
-  set layoutOrient(v: IOrientType) {
-    this._orient = v;
   }
 
   protected _legendData!: CompilableData;
@@ -66,7 +60,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       eachSeries(
         this._regions,
         s => {
-          s.getViewDataFilter()?.markRunning();
+          s.getViewData()?.markRunning();
         },
         {
           userId: this._seriesUserId,
@@ -162,7 +156,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     eachSeries(
       this._regions,
       s => {
-        s.event.on(ChartEvent.rawDataStatisticsUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
+        s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
           this._legendData.getDataView().reRunAllTransform();
         });
       },
@@ -187,8 +181,8 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     (this._legendComponent as unknown as any)?.setSelected(this._selectedData);
   }
 
-  setLayoutStartPosition(pos: Partial<IPoint>): void {
-    super.setLayoutStartPosition(pos);
+  afterSetLayoutStartPoint(pos: IPoint): void {
+    super.afterSetLayoutStartPoint(pos);
 
     if (this._legendComponent) {
       const { x, y } = pos;
@@ -198,7 +192,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     }
   }
 
-  _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
+  getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
     if (!this._visible) {
       return { x1: 0, y1: 0, x2: 0, y2: 0 };
     }

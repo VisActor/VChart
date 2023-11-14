@@ -1,7 +1,7 @@
 import { registerScatterSeries } from '../../series/scatter/scatter';
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../series/interface/type';
 import { CartesianChart } from '../cartesian/cartesian';
-import { ChartTypeEnum } from '../interface';
+import { ChartTypeEnum } from '../interface/type';
 import type { IScatterChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 

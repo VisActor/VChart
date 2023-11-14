@@ -23,11 +23,13 @@ import {
   DEFAULT_DATA_KEY
 } from '../../constant';
 import type { Maybe, IPoint, Datum, StateValueType } from '../../typings';
-import { field, isNil, isSpecValueWithScale, normalizeStartEndAngle, polarToCartesian } from '../../util';
+import { normalizeStartEndAngle, polarToCartesian } from '../../util/math';
+import { isSpecValueWithScale } from '../../util/scale';
+import { field } from '../../util/object';
 import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
 import type { IMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IArcMark } from '../../mark/arc';
 import type { ITextMark } from '../../mark/text';
 import type { IPathMark } from '../../mark/path';
@@ -38,7 +40,7 @@ import type { IPieOpt } from '../../data/transforms/pie';
 import { pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { registerPieAnimation, type IPieAnimationParams, type PieAppearPreset } from './animation/animation';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
 import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
@@ -46,9 +48,10 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
 import { ArcMark } from '../../mark/arc';
-import { mergeSpec } from '../../util';
+import { mergeSpec } from '../../util/spec/merge-spec';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { isNil } from '@visactor/vutils';
 
 type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
 
@@ -133,11 +136,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       false
     );
 
-    const viewDataLabel = new DataView(this._dataSet);
+    const viewDataLabel = new DataView(this._dataSet, { name: `${PREFIX}_series_${this.id}_viewDataLabel` });
     viewDataLabel.parse([this.getViewData()], {
       type: 'dataview'
     });
-    viewDataLabel.name = `${PREFIX}_series_${this.id}_viewDataLabel`;
 
     this._viewDataLabel = new SeriesData(this._option, viewDataLabel);
   }
@@ -150,7 +152,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         type: this._pieMarkType
       },
       {
-        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
+        morph: shouldMarkDoMorph(this._spec, this._pieMarkName),
         defaultMorphElementKey: this._seriesField,
         key: DEFAULT_DATA_KEY,
         groupKey: this._seriesField,
@@ -438,13 +440,12 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         }
 
         // 扇形不在边缘时，获取扇形生长点：获取相邻状态下相邻扇形的边缘
-        // @ts-ignore
-        // TODO: findLast is a new prototype function, we will later polyfill it in v-util.
-        const prevMarkElement = markElements.findLast(e => e.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex);
+        const prevMarkElement = [...markElements].reverse().find(e => e.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex);
+
         if (outState.includes(state)) {
-          return prevMarkElement?.getGraphicItem().nextAttrs?.endAngle;
+          return prevMarkElement?.getNextGraphicAttributes()?.endAngle;
         }
-        return prevMarkElement?.getGraphicItem().prevAttrs?.endAngle;
+        return prevMarkElement?.getGraphicAttribute('endAngle', true);
       }
     };
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<PieAppearPreset>)?.preset;
@@ -452,7 +453,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     if (this._pieMark) {
       const pieAnimationConfig = animationConfig(
         Factory.getAnimationInKey('pie')?.(animationParams, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.pie, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.pie, this._spec, this._markAttributeContext)
       );
 
       if (pieAnimationConfig.normal && (pieAnimationConfig.normal as IAnimationTypeConfig).type) {

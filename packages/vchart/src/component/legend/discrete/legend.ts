@@ -1,34 +1,40 @@
-import { isFunction, isNil, isValidNumber } from '@visactor/vutils';
+import { isFunction, isNil, isValidNumber, isArray, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import type { IDiscreteLegendSpec, IDiscreteLegendTheme } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../../series/interface';
-import type { IModelInitOption, ILayoutRect } from '../../../model/interface';
+import type { IModelInitOption } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import { getLegendAttributes } from './util';
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { isArray, eachSeries, get, getFieldAlias, isDataDomainSpec } from '../../../util';
+import { eachSeries } from '../../../util/model';
+import { getFieldAlias } from '../../../util/data';
+import { isDataDomainSpec } from '../../../util/type';
 // eslint-disable-next-line no-duplicate-imports
 import { LegendEvent } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components';
 import type { ILegend } from '../interface';
-import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/transforms/legend-data/discrete';
+import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/transforms/legend-data/discrete/discrete';
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
 import { Factory } from '../../../core/factory';
+import { TransformLevel } from '../../../data/initialize';
+import type { ILayoutRect } from '../../../typings/layout';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
+  static specKey = 'legends';
+  specKey: string = 'legends';
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
   protected declare _theme: IDiscreteLegendTheme;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const legendSpec = spec.legends || options.defaultSpec;
+    const legendSpec = spec.legends;
     if (!legendSpec) {
       return undefined;
     }
@@ -36,8 +42,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       if (!legendSpec.type || legendSpec.type === 'discrete') {
         return new DiscreteLegend(legendSpec, {
           ...options,
-          specIndex: 0,
-          specKey: 'legends'
+          specIndex: 0
         });
       }
       return undefined;
@@ -45,7 +50,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     const legends: ILegend[] = [];
     legendSpec.forEach((s: IDiscreteLegendSpec, i: number) => {
       if (!s.type || s.type === 'discrete') {
-        legends.push(new DiscreteLegend(s, { ...options, specIndex: i, specKey: 'legends' }));
+        legends.push(new DiscreteLegend(s, { ...options, specIndex: i }));
       }
     });
     return legends;
@@ -62,7 +67,8 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
             selected: () => this._selectedData,
             field: () => this._getSeriesLegendField(s),
             data: () => this._legendData.getLatestData().map((obj: any) => obj.key)
-          }
+          },
+          level: TransformLevel.legendFilter
         });
       },
       {
@@ -75,7 +81,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   protected _initLegendData(): DataView {
     registerDataSetInstanceTransform(this._option.dataSet, 'discreteLegendFilter', discreteLegendFilter);
     registerDataSetInstanceTransform(this._option.dataSet, 'discreteLegendDataMake', discreteLegendDataMake);
-    const legendData = new DataView(this._option.dataSet);
+    const legendData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     legendData.transform({
       type: 'discreteLegendDataMake',
       options: {

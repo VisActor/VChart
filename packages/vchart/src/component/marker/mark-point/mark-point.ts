@@ -1,9 +1,8 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkPoint, IMarkPointSpec, IMarkPointTheme } from './interface';
-import { isArray } from '../../../util';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { ComponentTypeEnum } from '../../interface';
+import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
 import { coordinateLayout } from '../utils';
@@ -11,11 +10,10 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty, isValid } from '@visactor/vutils';
+import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
-import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
 import type { INode } from '@visactor/vrender-core';
 
@@ -24,9 +22,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
   type = ComponentTypeEnum.markPoint;
   name: string = ComponentTypeEnum.markPoint;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkPoint;
-
-  static speckey = 'markPoint';
+  layoutZIndex: number = LayoutZIndex.MarkPoint;
 
   protected declare _theme: IMarkPointTheme;
 
@@ -34,17 +30,17 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
   protected declare _markerComponent: MarkPointComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markPointSpec = spec.markPoint || options.defaultSpec;
+    const markPointSpec = spec.markPoint;
     if (isEmpty(markPointSpec)) {
       return undefined;
     }
     if (!isArray(markPointSpec) && markPointSpec.visible !== false) {
-      return new MarkPoint(markPointSpec, { ...options, specKey: MarkPoint.speckey });
+      return new MarkPoint(markPointSpec, options);
     }
     const markPoints: MarkPoint[] = [];
     markPointSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markPoints.push(new MarkPoint(m, { ...options, specIndex: i, specKey: MarkPoint.speckey }));
+        markPoints.push(new MarkPoint(m, { ...options, specIndex: i }));
       }
     });
     return markPoints;
@@ -131,8 +127,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
         }
       },
       limitRect,
-      dx: this.layoutOffsetX,
-      dy: this.layoutOffsetY
+      dx: this._layout.layoutOffsetX,
+      dy: this._layout.layoutOffsetY
     });
   }
 
@@ -148,7 +144,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
 
     const options = this._processSpecCoo(spec);
 
-    const data = new DataView(this._option.dataSet);
+    const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     data.parse([relativeSeries.getViewData()], {
       type: 'dataview'
     });

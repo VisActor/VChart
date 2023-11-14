@@ -1,6 +1,7 @@
 import type { IGrammarBase } from '@visactor/vgrammar-core';
 import type { Maybe } from '../typings';
-import { createID, isValid } from '../util';
+import { isValid } from '@visactor/vutils';
+import { createID } from '../util/id';
 import { CompilableBase } from './compilable-base';
 import type { GrammarItemCompileOption, GrammarType, IGrammarItem, GrammarItemInitOption } from './interface';
 

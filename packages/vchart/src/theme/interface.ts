@@ -1,4 +1,3 @@
-import type { ILayoutPaddingSpec } from '../model/interface';
 import type { ISeriesTheme } from '../series/interface';
 import type { IMarkTheme } from '../typings/spec';
 import type {
@@ -8,7 +7,8 @@ import type {
   IRectMarkSpec,
   ISymbolMarkSpec,
   ITextMarkSpec,
-  IPathMarkSpec
+  IPathMarkSpec,
+  ILayoutPaddingSpec
 } from '../typings';
 import type { MarkTypeEnum } from '../mark/interface';
 import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';
@@ -21,6 +21,13 @@ export interface ITheme {
    */
   /** 主题命名 */
   name?: string;
+  /** 主题描述 */
+  description?: string;
+  /**
+   * 主题类别：亮色或者暗色
+   * 该配置用于指定该主题需要 merge 的是内置的亮色主题还是暗色主题
+   */
+  type?: 'light' | 'dark';
 
   /**
    * 第 2 种配置：图表层级的样式属性
