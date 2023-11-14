@@ -96,6 +96,7 @@ export const dataProcessGPT = async (
 };
 
 export const chartAdvisorGPT = async (
+  schema: any,
   dataProcessResJson: GPTDataProcessResult,
   userInput: string,
   openAIKey: string | undefined,
@@ -111,7 +112,7 @@ export const chartAdvisorGPT = async (
       field => true
       //usefulFields.includes(field.fieldName)
     );
-    const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(filteredFields)}`;
+    const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
     const advisorRes = await requestGPT(openAIKey, ChartAdvisorPromptEnglish, chartAdvisorMessage, options);
     // const advisorRes = getMockDataWordCloud2()
     //const advisorRes = getMockDataDynamicBar2();
@@ -131,4 +132,23 @@ export const chartAdvisorGPT = async (
     }
   }
   return {};
+};
+
+export const getSchemaFromFieldInfo = (dataProcessResJson: GPTDataProcessResult) => {
+  const fieldInfo = dataProcessResJson.FIELD_INFO;
+  const usefulFields = dataProcessResJson.USEFUL_FIELDS;
+  const schema = {
+    fields: fieldInfo
+      .filter(d => usefulFields.includes(d.fieldName))
+      .map(d => ({
+        id: d.fieldName,
+        alias: d.fieldName,
+        description: d.description,
+        visible: true,
+        type: d.type,
+        role: d.role,
+        location: d.role
+      }))
+  };
+  return schema;
 };

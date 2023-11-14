@@ -41,7 +41,8 @@ import {
   dualAxisAxes,
   waterfallField,
   waterfallAxes,
-  waterfallStackLabel
+  waterfallStackLabel,
+  boxPlotField
 } from './pipes';
 import { Cell, ChartType, Context, Pipe } from '../typings';
 import { DataView } from '@visactor/vdataset';
@@ -72,10 +73,19 @@ const patchChartTypeAndCell = (chartType: string, cell: any, dataView: DataView)
   //此时需要根据规则补全
   //TODO: 多个y字段时，使用fold
 
-  //y字段有多个, 使用散点图展示
   const { x, y } = cell;
 
+  // y轴字段有多个时，处理方式:
+  // 1. 图表类型为: 箱型图, 图表类型不做矫正
+  // 2. 图表类型为: 柱状图 或 折线图, 图表类型矫正为双轴图
+  // 3. 其他情况, 图表类型矫正为散点图
   if (y && typeof y !== 'string' && y.length > 1) {
+    if (chartType === 'BOX PLOT CHART') {
+      return {
+        chartTypeNew: chartType,
+        cellNew: cell
+      };
+    }
     if (chartType === 'BAR CHART' || chartType === 'LINE CHART') {
       return {
         chartTypeNew: 'DUAL AXIS CHART',
@@ -239,6 +249,7 @@ const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, rad
 const pipelineSankey = [chartType, sankeyData, color, sankeyField, sankeyLink, sankeyLabel, legend];
 
 const pipelineWaterfall = [chartType, data, color, waterfallField, waterfallAxes, waterfallStackLabel, legend];
+const pipelineBoxPlot = [chartType, data, color, boxPlotField, legend];
 
 export const pipelineMap: { [chartType: string]: any } = {
   'BAR CHART': pipelineBar,
@@ -252,7 +263,8 @@ export const pipelineMap: { [chartType: string]: any } = {
   'ROSE CHART': pipelineRose,
   'RADAR CHART': pipelineRadar,
   'SANKEY CHART': pipelineSankey,
-  'WATERFALL CHART': pipelineWaterfall
+  'WATERFALL CHART': pipelineWaterfall,
+  'BOX PLOT CHART': pipelineBoxPlot
 };
 
 export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>
