@@ -90,7 +90,7 @@ import type { ISeriesSpec } from '../../typings';
 //   return newObj;
 // }
 
-const IGNORE_KEYS = ['animationThreshold', 'colorScheme', 'fontFamily', 'name'];
+const IGNORE_KEYS = ['animationThreshold', 'colorScheme', 'fontFamily', 'name', 'padding'];
 
 export function preprocessTheme(obj: any, colorScheme?: IThemeColorScheme, seriesSpec?: ISeriesSpec): any {
   if (isEmpty(obj)) {
@@ -117,10 +117,11 @@ export function preprocessTheme(obj: any, colorScheme?: IThemeColorScheme, serie
       } else {
         newObj[key] = preprocessTheme(value, colorScheme, seriesSpec);
       }
-    } else if (key === 'padding') {
-      // 标准化 padding
-      newObj[key] = normalizeLayoutPaddingSpec(value);
     }
+    // else if (key === 'padding') {
+    //   // 标准化 padding
+    //   newObj[key] = normalizeLayoutPaddingSpec(value);
+    // }
     // else if (key === 'lineHeight' && isString(value) && value[value.length - 1] === '%') {
     //   if (isValid(obj.fontSize)) {
     //     // 处理 lineHeight 的比例值
