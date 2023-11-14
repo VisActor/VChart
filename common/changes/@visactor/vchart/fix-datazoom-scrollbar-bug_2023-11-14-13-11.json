@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: default realtime not effect in scrollbar and datazoom. fix#1462",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
