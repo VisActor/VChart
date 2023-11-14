@@ -4,7 +4,7 @@ import { CommonChart } from '../../../src/chart/common/common';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import { VChart, type IChartSpec, type ScatterSeries } from '../../../src';
+import { VChart, type IChartSpec, type ScatterSeries, ThemeManager } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
@@ -314,7 +314,8 @@ describe('global-scale test', () => {
               };
             }
           } as any;
-        }
+        },
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();
@@ -468,7 +469,8 @@ describe('global-scale test', () => {
               };
             }
           } as any;
-        }
+        },
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();

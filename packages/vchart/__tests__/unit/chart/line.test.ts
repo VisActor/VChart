@@ -6,9 +6,8 @@ import { LineChart } from '../../../src/chart/line/line';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { initChartDataSet } from '../../util/context';
-import VChart from '../../../src';
+import VChart, { ThemeManager } from '../../../src';
 
-const VChartClass = VChart; // 确保引用 vchart 以确保注册所需的图表
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
 dataSet.registerParser('csv', csvParser);
@@ -47,6 +46,7 @@ describe('line chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+      getTheme: () => ThemeManager.getCurrentTheme(),
       onError: () => {}
     } as any);
     chart.created();
@@ -118,7 +118,8 @@ describe('line chart test', () => {
         container: null,
         mode: 'mobile-browser',
         getCompiler: getTestCompiler,
-        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any)
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();

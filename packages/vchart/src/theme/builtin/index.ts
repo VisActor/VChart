@@ -8,7 +8,7 @@ import { mergeTheme } from '../../util/spec/merge-theme';
 import type { ITheme } from '../interface';
 import { lightTheme } from './light';
 // import { darkTheme } from './dark';
-import { preprocessTheme } from '../../util';
+import { preprocessTheme } from '../../util/spec/preprocess';
 
 /** 声明内置主题(含 token 未转换) */
 export const builtinThemes: Record<string, ITheme> = {
