@@ -233,7 +233,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   initLayout(): void {
     super.initLayout();
-    this._layout.layoutOrient = this._orient;
+    this._layout && (this._layout.layoutOrient = this._orient);
   }
 
   protected _setAxisFromSpec() {
