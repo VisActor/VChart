@@ -5,7 +5,6 @@ export const markLine: IMarkLineTheme = {
   line: {
     style: {
       lineDash: [3, 3],
-
       stroke: { type: 'palette', key: 'primaryFontColor' }
     }
   },

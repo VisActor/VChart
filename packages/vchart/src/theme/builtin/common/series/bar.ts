@@ -7,7 +7,6 @@ export const bar: IBarSeriesTheme = {
     offset: 5,
     style: {
       lineWidth: 2,
-
       stroke: { type: 'palette', key: 'backgroundColor' }
     }
   }

@@ -38,7 +38,6 @@ export const markByName: IGlobalMarkThemeByName = {
   point: {
     style: {
       size: 8,
-
       stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 1,
       fillOpacity: 1

@@ -9,7 +9,6 @@ export const rose: IRoseSeriesTheme = {
   label: {
     style: {
       lineWidth: 2,
-
       stroke: { type: 'palette', key: 'backgroundColor' },
       textAlign: 'center',
       textBaseline: 'middle'

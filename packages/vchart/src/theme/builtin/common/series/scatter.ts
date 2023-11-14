@@ -15,7 +15,6 @@ export const scatter: IScatterSeriesTheme = {
     position: 'top',
     style: {
       lineWidth: 2,
-
       stroke: { type: 'palette', key: 'backgroundColor' }
     }
   }

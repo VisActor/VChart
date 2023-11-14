@@ -29,7 +29,6 @@ import { isTrueBrowser } from '../util/env';
 import { warn } from '../util/debug';
 import { mergeSpec, mergeSpecWithFilter } from '../util/spec/merge-spec';
 import { specTransform } from '../util/spec/transform';
-// import { preprocessSpecOrTheme } from '../util/spec/preprocess';
 import { getThemeObject } from '../util/spec/common';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -83,7 +82,7 @@ import {
   debounce,
   get
 } from '@visactor/vutils';
-import type { DataLinkAxis, DataLinkSeries, IChartLevelTheme, IGlobalConfig, IVChart } from './interface';
+import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
@@ -94,7 +93,6 @@ import { GroupMark } from '../mark/group';
 import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
-// import { mergeThemeAndGet } from '../theme/util';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
 import { mergeTheme, preprocessTheme } from '../util';
 
@@ -354,12 +352,6 @@ export class VChart implements IVChart {
       performanceHook: this._option.performanceHook,
       viewBox: this._viewBox,
       animation: this._option.animation,
-      // getThemeConfig: () => ({
-      //   globalTheme: this._currentThemeName,
-      //   optionTheme: this._option.theme,
-      //   specTheme: this._spec?.theme,
-      //   chartLevelTheme: this._currentChartLevelTheme
-      // }),
       getTheme: () => this._currentTheme ?? {},
 
       layout: this._option.layout,

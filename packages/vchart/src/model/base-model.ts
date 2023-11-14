@@ -1,5 +1,4 @@
 import { cloneDeepSpec } from '../util/spec/clone-deep';
-// import { preprocessSpecOrTheme } from '../util/spec/preprocess';
 import { createID } from '../util/id';
 import { mergeSpec } from '../util/spec/merge-spec';
 import { Event } from '../event/event';
@@ -244,7 +243,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
         this._spec = merge(baseSpec);
       }
     }
-    // this._prepareSpecAfterMergingTheme();
   }
 
   /** 从 chart spec 提取配置作为 model 的默认 spec 配置 */
@@ -262,25 +260,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     // do nothing
     return obj;
   }
-
-  /** 在 merge 主题后对 spec 进行遍历和转换 */
-  // protected _prepareSpecAfterMergingTheme(obj?: any): any {
-  //   if (!arguments.length) {
-  //     obj = this._spec;
-  //   }
-
-  //   const newObj = preprocessSpecOrTheme(
-  //     'spec',
-  //     obj,
-  //     this.getColorScheme(),
-  //     this.modelType === 'series' ? (this._spec as unknown as ISeriesSpec) : undefined
-  //   );
-
-  //   if (!arguments.length) {
-  //     this._spec = newObj;
-  //   }
-  //   return newObj;
-  // }
 
   async setCurrentTheme(noRender?: boolean) {
     const modifyConfig = () => {

@@ -18,10 +18,8 @@ export const player: IPlayerTheme = {
     },
     handlerStyle: {
       size: 15,
-
       stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 2,
-
       fill: { type: 'palette', key: 'dataZoomSelectedColor' }
     }
   },

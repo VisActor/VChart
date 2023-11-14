@@ -7,7 +7,6 @@ export const line: ILineSeriesTheme = {
     offset: 5,
     style: {
       lineWidth: 2,
-
       stroke: { type: 'palette', key: 'backgroundColor' }
     }
   },

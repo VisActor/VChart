@@ -74,11 +74,6 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   protected _getTheme() {
-    // return preprocessSpecOrTheme(
-    //   'theme',
-    //   getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option, this._originalSpec),
-    //   this.getColorScheme()
-    // );
     return getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option, this._originalSpec);
   }
 

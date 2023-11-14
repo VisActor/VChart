@@ -362,7 +362,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   protected _initTheme(theme?: any) {
     super._initTheme(theme);
-    // this._spec.style = this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme, this._originalSpec.style));
     this._spec.style = mergeSpec({}, this._theme, this._originalSpec.style);
   }
 
