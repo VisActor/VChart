@@ -1,4 +1,4 @@
-import type { ILayoutModel } from './../../../../esm/model/interface.d';
+import type { ILayoutModel } from './../../../../src/model/interface';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../../constant/base';
 import type { Options } from './constants';
 // eslint-disable-next-line no-duplicate-imports
