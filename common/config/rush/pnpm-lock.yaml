@@ -4885,7 +4885,7 @@ packages:
     dev: false
 
   /@visactor/vrender-components/0.16.14-alpha.5:
-    resolution: {integrity: sha512-mH2neRBSG8ELar3q1H4+9nNy0IwOfve3MiEALUran2tOzZYag/0EuGzYzS3CMYnBTsoi8d5CM3n0QKUUwS2bcA==}
+    resolution: {integrity: sha512-GrtGjicA+VPYiVtD1SX688zvElLbmuTMz3rfaMLs9FfRuGN6EyB8swqfMmi4KZRFaCkAy91ozsNqjXMDDRTBXg==}
     dependencies:
       '@visactor/vrender-core': 0.16.14-alpha.5
       '@visactor/vrender-kits': 0.16.14-alpha.5
@@ -4894,14 +4894,14 @@ packages:
     dev: false
 
   /@visactor/vrender-core/0.16.14-alpha.5:
-    resolution: {integrity: sha512-peN6vKZJIEcPD9r1y+SakDAnT6U5FeSuziDBYWJOarhiciQLOqfx3/N87KiZ7ui64zErV6v4BY/cMm/sf1WBvw==}
+    resolution: {integrity: sha512-p8Aiz1n8qXvai5OGb3F8kRuQDy77woU/X0rznM/8CAapsjb8FYgil3otA7UFVJTgNvZu3eG2GbklWak5igN//g==}
     dependencies:
       '@visactor/vutils': 0.16.8-alpha.1
       color-convert: 2.0.1
     dev: false
 
   /@visactor/vrender-kits/0.16.14-alpha.5:
-    resolution: {integrity: sha512-ipSDG4ks1VLatDi0ujexbC/w1uHTY5oK6YNkFbSHYwGLmfvvroyIMRd/qVkoMcs9UHPAiMNMz2KXunb+bWPI/w==}
+    resolution: {integrity: sha512-3XIcHL46Etgydtr3jIJYL5a2ojIVRZiU1GsbUUEyXKygCIethQz97N/yeBwwt61zempQfVO7Ftj86Ofry6tFEQ==}
     dependencies:
       '@resvg/resvg-js': 2.4.1
       '@visactor/vrender-core': 0.16.14-alpha.5
@@ -4910,7 +4910,7 @@ packages:
     dev: false
 
   /@visactor/vrender/0.16.14-alpha.5:
-    resolution: {integrity: sha512-rDUdN65BuN+S2ZKE0hlfbkmRcx91azfJ/7ecbHSUD2X29wvtt4VUM568cF7Plqw77vqkXIns/onB0zNkPFyVCA==}
+    resolution: {integrity: sha512-f4Rn9jdTqyBy6lKNxo5vBINBQdx1+k7YtjpVVfbaPSe0TKbjvEDYvMMKbIsMybyCimOL6eIe5YA8JKccLSU+mA==}
     dependencies:
       '@visactor/vrender-core': 0.16.14-alpha.5
       '@visactor/vrender-kits': 0.16.14-alpha.5
@@ -6985,7 +6985,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001561
-      electron-to-chromium: 1.4.581
+      electron-to-chromium: 1.4.582
     dev: true
 
   /browserslist/4.22.1:
@@ -6994,7 +6994,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001561
-      electron-to-chromium: 1.4.581
+      electron-to-chromium: 1.4.582
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13_browserslist@4.22.1
 
@@ -9224,8 +9224,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.581:
-    resolution: {integrity: sha512-6uhqWBIapTJUxgPTCHH9sqdbxIMPt7oXl0VcAL1kOtlU6aECdcMncCrX5Z7sHQ/invtrC9jUQUef7+HhO8vVFw==}
+  /electron-to-chromium/1.4.582:
+    resolution: {integrity: sha512-89o0MGoocwYbzqUUjc+VNpeOFSOK9nIdC5wY4N+PVUarUK0MtjyTjks75AZS2bW4Kl8MdewdFsWaH0jLy+JNoA==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -20008,8 +20008,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /std-env/3.4.3:
-    resolution: {integrity: sha512-f9aPhy8fYBuMN+sNfakZV18U39PbalgjXG3lLB9WkaYTxijru61wb57V9wxxNthXM5Sd88ETBWi29qLAsHO52Q==}
+  /std-env/3.5.0:
+    resolution: {integrity: sha512-JGUEaALvL0Mf6JCfYnJOTcobY+Nc7sG/TemDRBqCA0wEr4DER7zDchaaixTlmOxAjG1uRJmX82EQcxwTQTkqVA==}
     dev: true
 
   /stealthy-require/1.1.1:
@@ -22179,7 +22179,7 @@ packages:
       pathe: 1.1.1
       picocolors: 1.0.0
       source-map: 0.6.1
-      std-env: 3.4.3
+      std-env: 3.5.0
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.4.0
