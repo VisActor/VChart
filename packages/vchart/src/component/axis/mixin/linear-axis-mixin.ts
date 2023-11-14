@@ -45,12 +45,12 @@ export class LinearAxisMixin {
     if (!isValidNumber(tickCount)) {
       // tickCount 为函数通常是为了通过图表大小动态自适应 tick 数量
       // 这里在计算 nice 的时候可以相对粗略预估，不用精确值
-      tickCount = 10;
+      tickCount = DEFAULT_TICK_COUNT;
     }
-    // 如果配置了精度优先，那么最低是10
+    // 如果配置了精度优先，那么最低是 5
     // 否则就直接使用tickCount即可
     if (this._spec.niceType === 'accurateFirst') {
-      tickCount = Math.max(10, tickCount);
+      tickCount = Math.max(DEFAULT_TICK_COUNT, tickCount);
     }
     if (isNil(this._domain?.min) && isNil(this._domain?.max)) {
       this._nice && this._scale.nice(tickCount);
