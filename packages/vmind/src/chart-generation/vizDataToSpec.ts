@@ -25,7 +25,6 @@ import {
   scatterAxis,
   animationOneByOne,
   animationCartesianBar,
-  animationScatter,
   animationCartisianLine,
   animationCartesianPie,
   wordCloudData,
@@ -40,7 +39,6 @@ import {
   funnelData,
   dualAxisSeries,
   dualAxisAxes,
-  dualAxisMarkStyle,
   boxPlotField
 } from './pipes';
 import { Cell, ChartType, Context, Pipe } from '../typings';
