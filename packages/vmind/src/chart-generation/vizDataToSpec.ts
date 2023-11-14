@@ -39,6 +39,9 @@ import {
   funnelData,
   dualAxisSeries,
   dualAxisAxes,
+  waterfallField,
+  waterfallAxes,
+  waterfallStackLabel,
   boxPlotField
 } from './pipes';
 import { Cell, ChartType, Context, Pipe } from '../typings';
@@ -245,6 +248,7 @@ const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, rad
 
 const pipelineSankey = [chartType, sankeyData, color, sankeyField, sankeyLink, sankeyLabel, legend];
 
+const pipelineWaterfall = [chartType, data, color, waterfallField, waterfallAxes, waterfallStackLabel, legend];
 const pipelineBoxPlot = [chartType, data, color, boxPlotField, legend];
 
 export const pipelineMap: { [chartType: string]: any } = {
@@ -259,6 +263,7 @@ export const pipelineMap: { [chartType: string]: any } = {
   'ROSE CHART': pipelineRose,
   'RADAR CHART': pipelineRadar,
   'SANKEY CHART': pipelineSankey,
+  'WATERFALL CHART': pipelineWaterfall,
   'BOX PLOT CHART': pipelineBoxPlot
 };
 

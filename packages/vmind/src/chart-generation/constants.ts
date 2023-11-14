@@ -10,6 +10,7 @@ export const SUPPORTED_CHART_LIST = [
   'Sankey Chart',
   'Funnel Chart',
   'Dual Axis Chart',
+  'Waterfall Chart',
   'Box Plot Chart'
 ];
 
