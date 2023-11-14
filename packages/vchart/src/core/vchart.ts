@@ -1111,13 +1111,26 @@ export class VChart implements IVChart {
     // 处理 specTheme 和 optionTheme, merge -> transform
     // 优先级 currentTheme < optionTheme < specTheme
     if (!isEmpty(optionTheme) || !isEmpty(specTheme)) {
-      const finalTheme = mergeTheme(
-        {},
-        getThemeObject(this._currentThemeName),
-        getThemeObject(optionTheme),
-        getThemeObject(specTheme)
-      );
-      this._currentTheme = preprocessTheme(finalTheme, finalTheme.colorScheme);
+      if (
+        (isString(optionTheme) && (!specTheme || isString(specTheme))) ||
+        (isString(specTheme) && (!optionTheme || isString(optionTheme)))
+      ) {
+        const finalTheme = mergeTheme(
+          {},
+          getThemeObject(this._currentThemeName, true),
+          getThemeObject(optionTheme, true),
+          getThemeObject(specTheme, true)
+        );
+        this._currentTheme = finalTheme;
+      } else {
+        const finalTheme = mergeTheme(
+          {},
+          getThemeObject(this._currentThemeName),
+          getThemeObject(optionTheme),
+          getThemeObject(specTheme)
+        );
+        this._currentTheme = preprocessTheme(finalTheme, finalTheme.colorScheme);
+      }
     } else {
       this._currentTheme = getThemeObject(this._currentThemeName, true);
     }
