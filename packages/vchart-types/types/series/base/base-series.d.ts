@@ -14,6 +14,7 @@ import { SeriesData } from './series-data';
 import type { IGroupMark } from '../../mark/group';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
+    readonly specKey: string;
     readonly type: string;
     layoutType: LayoutItem['layoutType'];
     readonly modelType: string;

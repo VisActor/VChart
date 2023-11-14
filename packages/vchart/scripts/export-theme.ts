@@ -19,7 +19,7 @@ const result: string[] = [];
     if (!themeExist(key)) {
       registerTheme(key, value);
     }
-    const theme = getTheme(value);
+    const theme = getTheme(key);
     const themeJson = JSON.stringify(theme);
     targetPaths.forEach(targetPath => {
       //try {

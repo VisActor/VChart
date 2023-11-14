@@ -7,6 +7,8 @@ import type { IGraphic } from '@visactor/vrender-core';
 import type { IAxis } from '../axis/interface';
 import type { StringOrNumber } from '../../typings';
 export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCrosshairSpec> extends BaseCrossHair<T> {
+    static specKey: string;
+    specKey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
