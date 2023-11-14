@@ -6,6 +6,8 @@ import type { ILegend } from '../interface';
 import type { IColorLegendSpec, IColorLegendTheme, ISizeLegendSpec } from './interface';
 import { BaseLegend } from '../base-legend';
 export declare class ContinuousLegend<T extends IColorLegendSpec | ISizeLegendSpec = IColorLegendSpec | ISizeLegendSpec> extends BaseLegend<T> {
+    static specKey: string;
+    specKey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
