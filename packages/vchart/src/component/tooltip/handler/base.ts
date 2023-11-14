@@ -1,4 +1,3 @@
-import type { ILayoutModel } from './../../../../esm/model/interface.d';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../../constant/base';
 import type { Options } from './constants';
 // eslint-disable-next-line no-duplicate-imports
@@ -34,7 +33,7 @@ import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNumber, isObject, isValidNumber, isValid, throttle, isNil } from '@visactor/vutils';
 import type { IElement } from '@visactor/vgrammar-core';
-import type { IModel } from '../../../model/interface';
+import type { ILayoutModel, IModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-components';
 import { getTooltipAttributes } from './utils/attribute';
