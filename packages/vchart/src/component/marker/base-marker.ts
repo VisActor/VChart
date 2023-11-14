@@ -13,7 +13,7 @@ import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { calcLayoutNumber } from '../../util/space';
 
 export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
-  layoutType: ILayoutType | 'none' = 'absolute';
+  layoutType: ILayoutType | 'none' = 'none';
 
   protected _startRelativeSeries!: ICartesianSeries;
   protected _endRelativeSeries!: ICartesianSeries;
