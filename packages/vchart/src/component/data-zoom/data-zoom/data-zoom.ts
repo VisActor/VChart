@@ -8,7 +8,7 @@ import { DataFilterBaseComponent } from '../data-filter-base-component';
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
-import type { Datum } from '../../../typings';
+import type { Datum, ILayoutType } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
@@ -25,6 +25,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
+  layoutType: ILayoutType = 'region-relative';
 
   // datazoom组件
   protected _component!: DataZoomComponent;

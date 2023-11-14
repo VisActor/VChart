@@ -30,7 +30,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   type = ComponentTypeEnum.mapLabel;
   name: string = ComponentTypeEnum.mapLabel;
 
-  layoutType: ILayoutType = 'absolute';
+  layoutType: 'none' = 'none';
 
   layoutZIndex = LayoutZIndex.MarkPoint;
 

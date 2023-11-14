@@ -71,6 +71,18 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return this._orient;
   }
 
+  protected _enableAutoIndent: boolean = true;
+  set enableAutoIndent(v: boolean) {
+    this._enableAutoIndent = v;
+    if (this._layout) {
+      if (!v) {
+        this._layout.autoIndent = false;
+      } else {
+        this._layout.autoIndent = this._spec.autoIndent !== false;
+      }
+    }
+  }
+
   protected _scales: IBaseScale[] = [];
   getScales() {
     return this._scales;
@@ -175,7 +187,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   initLayout(): void {
     super.initLayout();
-    this._layout.autoIndent = this._spec.autoIndent !== false;
+    this._layout.autoIndent = this._enableAutoIndent ? this._spec.autoIndent !== false : false;
     this._layout.layoutOrient = this._orient;
   }
 

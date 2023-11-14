@@ -8,7 +8,7 @@ import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../.
 import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
 import { DomTooltipHandler } from './handler/dom';
 import { CanvasTooltipHandler } from './handler/canvas';
-import type { Datum, ILayoutType, IPoint, IShowTooltipOption } from '../../typings';
+import type { Datum, IPoint, IShowTooltipOption } from '../../typings';
 import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode, domDocument } from '../../util/env';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import type {
@@ -52,7 +52,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
 
-  layoutType: ILayoutType = 'absolute';
+  layoutType: 'none' = 'none';
 
   protected declare _spec: ITooltipSpec;
 
