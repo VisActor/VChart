@@ -50,7 +50,7 @@ export type IMarkerLabelWithoutRefSpec = {
     /**
      * 背景面板样式
      */
-    style: Omit<IRectMarkSpec, 'visible'>;
+    style?: Omit<IRectMarkSpec, 'visible'>;
   };
   /**
    * label文本 - 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']

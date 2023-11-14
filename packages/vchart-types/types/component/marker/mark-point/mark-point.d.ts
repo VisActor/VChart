@@ -9,7 +9,6 @@ export declare class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointThe
     type: ComponentTypeEnum;
     name: string;
     layoutZIndex: LayoutItem['layoutZIndex'];
-    static speckey: string;
     protected _theme: IMarkPointTheme;
     protected _markerComponent: MarkPointComponent;
     static createComponent(spec: any, options: IComponentOption): MarkPoint | MarkPoint[];
