@@ -19,7 +19,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
 
   set layoutOrient(v: IOrientType) {
     this._orient = v;
-    this._layout.layoutOrient = v;
+    this._layout && (this._layout.layoutOrient = v);
   }
 
   protected _forceLayoutTag: boolean = false;
@@ -43,7 +43,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
       transformLayoutRect: this._transformLayoutRect,
       transformLayoutPosition: this._transformLayoutPosition
     });
-    if (this._orient && this._orient !== 'radius' && this._orient !== 'angle') {
+    if (this._orient && this._orient !== 'radius' && this._orient !== 'angle' && this.layout) {
       this._layout.layoutOrient = this._orient;
     }
   }
@@ -94,16 +94,19 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
   }
 
   getLastComputeOutBounds() {
-    return this._layout.getLastComputeOutBounds();
+    return this._layout?.getLastComputeOutBounds();
   }
 
   getGraphicBounds = () => {
-    return {
-      x1: this._layout.getLayoutStartPoint().x,
-      y1: this._layout.getLayoutStartPoint().y,
-      x2: this._layout.getLayoutStartPoint().x + this._layout.getLayoutRect().width,
-      y2: this._layout.getLayoutStartPoint().y + this._layout.getLayoutRect().height
-    };
+    if (this._layout) {
+      return {
+        x1: this._layout.getLayoutStartPoint().x,
+        y1: this._layout.getLayoutStartPoint().y,
+        x2: this._layout.getLayoutStartPoint().x + this._layout.getLayoutRect().width,
+        y2: this._layout.getLayoutStartPoint().y + this._layout.getLayoutRect().height
+      };
+    }
+    return { x1: 0, x2: 0, y1: 0, y2: 0 };
   };
 
   setAttrFromSpec(): void {
