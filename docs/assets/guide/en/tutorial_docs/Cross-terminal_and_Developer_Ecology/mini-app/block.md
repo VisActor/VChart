@@ -176,11 +176,11 @@ Lark Mini-Program Widget desktop versions also support mouse events, so you can 
 
 ### Register function
 
-The desktop version of the Feishu widget supports registering custom functions. You can register functions using global registration `expressionFunction` or instance registration `registerFunction`.
+The desktop version of the Feishu widget supports registering custom functions. You can register functions using global registration or instance registration `registerFunction`.
 
 #### Global registration function
 
-When using a globally registered function, call the chart method `expressionFunction` to register a custom function, and callback processing will be performed at runtime, as shown in the example below.
+When using a globally registered function, call the chart method `registerFunction` to register a custom function, and callback processing will be performed at runtime, as shown in the example below.
 
 ```js
 <!-- index.js  -->
@@ -203,7 +203,7 @@ methods: {
             }
 
             // 全局注册该自定义函数
-            VChart.expressionFunction('labelFormat', labelFormat);
+            VChart.registerFunction('labelFormat', labelFormat);
 
             const chartInstance = new VChart(
               {

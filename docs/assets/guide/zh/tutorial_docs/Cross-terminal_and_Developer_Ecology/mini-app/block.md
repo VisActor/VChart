@@ -176,11 +176,11 @@ methods: {
 
 ### 注册函数
 
-飞书小组件桌面端支持注册自定义函数，你可以使用全局注册`expressionFunction`或实例注册`registerFunction`两种方法进行函数注册。
+飞书小组件桌面端支持注册自定义函数，你可以使用全局注册或实例注册`registerFunction`两种方法进行函数注册。
 
 #### 全局注册函数
 
-在使用全局注册函数时，调用图表方法`expressionFunction`注册自定义函数，在运行时便会进行回调处理，如下方的示例。
+在使用全局注册函数时，调用图表方法`registerFunction`注册自定义函数，在运行时便会进行回调处理，如下方的示例。
 
 ```js
 <!-- index.js  -->
@@ -203,7 +203,7 @@ methods: {
             }
 
             // 全局注册该自定义函数
-            VChart.expressionFunction('labelFormat', labelFormat);
+            VChart.registerFunction('labelFormat', labelFormat);
 
             const chartInstance = new VChart(
               {
