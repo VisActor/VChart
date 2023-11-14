@@ -25,7 +25,6 @@ import {
   scatterAxis,
   animationOneByOne,
   animationCartesianBar,
-  animationScatter,
   animationCartisianLine,
   animationCartesianPie,
   wordCloudData,
@@ -39,8 +38,7 @@ import {
   funnelField,
   funnelData,
   dualAxisSeries,
-  dualAxisAxes,
-  dualAxisMarkStyle
+  dualAxisAxes
 } from './pipes';
 import { Cell, ChartType, Context, Pipe } from '../typings';
 import { DataView } from '@visactor/vdataset';
