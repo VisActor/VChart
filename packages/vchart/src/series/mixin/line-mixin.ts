@@ -20,7 +20,8 @@ import type {
   ISymbolMarkSpec,
   Maybe,
   Datum,
-  IMarkTheme
+  IMarkTheme,
+  ILayoutRect
 } from '../../typings';
 import { DEFAULT_LINEAR_INTERPOLATE, DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';
@@ -37,7 +38,6 @@ import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import type { Functional } from '@visactor/vrender-components';
-import { CartesianSeries } from '../cartesian';
 import type { IRegion } from '../../region/interface';
 import type { SeriesData } from '../base/series-data';
 
@@ -80,6 +80,8 @@ export interface LineLikeSeriesMixin extends ISeries {
   _createMark: (markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption) => IMark;
   _getInvalidDefined: () => boolean;
   _getInvalidConnectType: () => IInvalidType;
+
+  getLayoutRect: () => ILayoutRect;
 }
 
 export class LineLikeSeriesMixin {

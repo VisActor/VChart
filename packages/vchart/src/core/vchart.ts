@@ -1579,7 +1579,7 @@ export class VChart implements IVChart {
         .getViewData()
         // eslint-disable-next-line eqeqeq
         .latestData.find((viewDatum: Datum) => keys.every(k => viewDatum[k] == datum[k]));
-      const seriesLayoutStartPoint = series.getLayoutStartPoint();
+      const seriesLayoutStartPoint = series.getRegion().getLayoutStartPoint();
       let point: IPoint;
       if (handledDatum) {
         point = series.dataToPosition(handledDatum);
@@ -1653,7 +1653,7 @@ export class VChart implements IVChart {
 
     return convertPoint(
       (series as ISeries).valueToPosition(value[0], value[1]),
-      series.getLayoutStartPoint(),
+      series.getRegion().getLayoutStartPoint(),
       isRelativeToCanvas
     );
   }

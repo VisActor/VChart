@@ -4,7 +4,6 @@ import type { IBaseScale, BandScale, LinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { ChartEvent, LayoutZIndex, POLAR_START_ANGLE, POLAR_START_RADIAN } from '../../../constant';
-import type { LayoutItem } from '../../../model/layout-item';
 import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -18,7 +17,7 @@ import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import { ticks } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
-import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber } from '../../../typings';
+import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber, ILayoutType } from '../../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { isPolarAxisSeries } from '../../../series/util/utils';
 import { getAxisLabelOffset, isValidPolarAxis } from '../util';
@@ -44,7 +43,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   protected readonly _defaultBandInnerPadding = 0;
   protected readonly _defaultBandOuterPadding = 0;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
   layoutZIndex: number = LayoutZIndex.Axis;
   protected _tick: ITick | undefined = undefined;
 
@@ -181,11 +180,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     this._endAngle = degreeToRadian(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
   }
 
-  setLayoutStartPosition(pos: Partial<IPoint>): void {
+  _transformLayoutPosition = (pos: Partial<IPoint>) => {
     const region = this.getRegions()?.[0];
-    const startPoint = region ? region.getLayoutStartPoint() : pos;
-    super.setLayoutStartPosition(startPoint);
-  }
+    return region ? region.getLayoutStartPoint() : pos;
+  };
 
   onLayoutEnd(ctx: any): void {
     const isChanged = this.updateScaleRange();

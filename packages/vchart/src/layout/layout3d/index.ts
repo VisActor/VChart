@@ -1,9 +1,7 @@
 import type { IChart } from '../../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { ILayoutItem } from '../../model/interface';
 import type { IRect } from '../../typings/space';
-import type { IRegion } from '../../region/interface';
-import type { IBaseLayout } from '../interface';
+import type { IBaseLayout, ILayoutItem } from '../interface';
 import { Layout } from '../base-layout';
 import { isXAxis, isYAxis } from '../../component/axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
@@ -37,7 +35,7 @@ export class Layout3d extends Layout implements IBaseLayout {
       _rightCurrent: this.rightCurrent,
       _bottomCurrent: this.bottomCurrent
     };
-    const regionItems = items.filter(x => x.layoutType === 'region') as IRegion[];
+    const regionItems = items.filter(x => x.layoutType === 'region');
     const relativeItems = items.filter(x => x.layoutType === 'region-relative');
     // 计算3d轴
     const absoluteItem = items.filter(x => x.layoutType === 'absolute');
@@ -66,7 +64,7 @@ export class Layout3d extends Layout implements IBaseLayout {
     // TODO:目前只有普通占位布局下的 region-relative 元素支持
     // 主要考虑常规元素超出画布一般为用户个性设置，而且可以设置padding规避裁剪,不需要使用自动缩进
     this.layoutRegionItems(regionItems, relativeItems, offsetWH);
-    if (relativeItems.some(i => i.getAutoIndent())) {
+    if (relativeItems.some(i => i.autoIndent)) {
       // check auto indent
       const { top, bottom, left, right } = this._checkAutoIndent(relativeItems);
       // 如果出现了需要自动缩进的场景 则基于缩进再次布局
@@ -87,10 +85,10 @@ export class Layout3d extends Layout implements IBaseLayout {
 
     // 找到x轴
     const xAxis = relativeItems.filter(item => {
-      return (item as any).specKey === 'axes' && isXAxis(item.layoutOrient);
+      return item.model.specKey === 'axes' && isXAxis(item.layoutOrient);
     })[0];
     const yAxis = relativeItems.filter(item => {
-      return (item as any).specKey === 'axes' && isYAxis(item.layoutOrient);
+      return item.model.specKey === 'axes' && isYAxis(item.layoutOrient);
     })[0];
     if (xAxis && zItems.length) {
       const sp = xAxis.getLayoutStartPoint();
@@ -112,9 +110,9 @@ export class Layout3d extends Layout implements IBaseLayout {
         height: yRect.height
       };
 
-      (xAxis as any).setLayout3dBox && (xAxis as any).setLayout3dBox(box3d);
-      (yAxis as any).setLayout3dBox && (yAxis as any).setLayout3dBox(box3d);
-      (zItems[0] as any).setLayout3dBox && (zItems[0] as any).setLayout3dBox(box3d);
+      (<any>xAxis.model).setLayout3dBox && (<any>xAxis.model).setLayout3dBox(box3d);
+      (<any>yAxis.model).setLayout3dBox && (<any>yAxis.model).setLayout3dBox(box3d);
+      (<any>zItems[0].model).setLayout3dBox && (<any>zItems[0].model).setLayout3dBox(box3d);
 
       this.layoutZAxisItems(zItems, zRect);
     }
@@ -137,7 +135,11 @@ export class Layout3d extends Layout implements IBaseLayout {
    * 2. 补全 region rect 和 layoutStartPoint
    *
    */
-  protected layoutRegionItems(regionItems: IRegion[], regionRelativeItems: ILayoutItem[], extraOffset?: IOffset): void {
+  protected layoutRegionItems(
+    regionItems: ILayoutItem[],
+    regionRelativeItems: ILayoutItem[],
+    extraOffset?: IOffset
+  ): void {
     let regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
     let regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
 
@@ -266,7 +268,7 @@ export class Layout3d extends Layout implements IBaseLayout {
     const rightCurrent = this._chartViewBox.x2 - this._chartViewBox.x1 - this.rightCurrent;
     const bottomCurrent = this._chartViewBox.y2 - this._chartViewBox.y1 - this.bottomCurrent;
     items.forEach(i => {
-      if (!i.getVisible() || !i.getAutoIndent()) {
+      if (!i.getModelVisible() || !i.autoIndent) {
         return;
       }
       const vOrH = i.layoutOrient === 'left' || i.layoutOrient === 'right';

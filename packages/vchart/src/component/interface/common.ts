@@ -1,6 +1,6 @@
 import type { ISeriesFilter } from '../../region/interface';
 import type { IAnimate } from '../../animation/interface';
-import type { ILayoutItem, IModel, IModelOption } from '../../model/interface';
+import type { ILayoutModel, IModelOption } from '../../model/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
@@ -31,7 +31,7 @@ export interface IComponentOption extends IModelOption {
   getComponentsByKey: (key: string) => IComponent[];
 }
 
-export interface IComponent extends IModel, ILayoutItem {
+export interface IComponent extends ILayoutModel {
   readonly name: string;
   readonly animate?: IAnimate;
 

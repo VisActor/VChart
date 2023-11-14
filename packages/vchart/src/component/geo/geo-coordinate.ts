@@ -1,7 +1,8 @@
+import { LayoutZIndex } from './../../constant/index';
 /* eslint-disable no-duplicate-imports */
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
-import type { IEffect, IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IEffect, IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
@@ -13,7 +14,7 @@ import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { IGeoCoordinate, IGeoCoordinateHelper, IGeoCoordinateSpec, IProjectionSpec } from './interface';
 import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { IChartSpec, StringOrNumber } from '../../typings';
+import type { IChartSpec, ILayoutType, StringOrNumber } from '../../typings';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin, isNil } from '@visactor/vutils';
@@ -29,7 +30,8 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   type = ComponentTypeEnum.geoCoordinate;
   name: string = ComponentTypeEnum.geoCoordinate;
 
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
+  protected layoutZIndex: number = LayoutZIndex.Mark;
 
   _longitudeField?: string;
   get longitudeField() {

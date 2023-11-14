@@ -1,5 +1,4 @@
 import type { IChart } from '../../../../chart/interface';
-import type { ILayoutPoint } from '../../../../model/interface';
 import type { IDimensionInfo } from '../interface';
 import { isDiscrete } from '@visactor/vscale';
 import { getDimensionData, isInRegionBound } from './common';
@@ -9,6 +8,7 @@ import { isNil } from '@visactor/vutils';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
 import { isXAxis } from '../../../../component/axis/cartesian/util/common';
 import { Direction } from '../../../../typings/space';
+import type { ILayoutPoint } from '../../../../typings/layout';
 
 const getAxis = (chart: IChart, type: 'x' | 'y', pos: ILayoutPoint): CartesianAxis[] | null => {
   const axesComponents = chart

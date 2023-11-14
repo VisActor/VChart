@@ -1,14 +1,14 @@
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
 import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
 import { DomTooltipHandler } from './handler/dom';
 import { CanvasTooltipHandler } from './handler/canvas';
-import type { Datum, IPoint, IShowTooltipOption } from '../../typings';
+import type { Datum, ILayoutType, IPoint, IShowTooltipOption } from '../../typings';
 import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode, domDocument } from '../../util/env';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import type {
@@ -47,11 +47,12 @@ type EventHandlerList = {
 }[];
 
 export class Tooltip extends BaseComponent<any> implements ITooltip {
+  protected layoutZIndex: number = 1;
   static type = ComponentTypeEnum.tooltip;
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
 
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
 
   protected declare _spec: ITooltipSpec;
 

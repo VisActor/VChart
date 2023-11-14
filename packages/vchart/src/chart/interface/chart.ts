@@ -4,10 +4,9 @@ import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-c
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { ILayoutRect, IModel, IUpdateSpecResult } from '../../model/interface';
+import type { IModel, IUpdateSpecResult } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
-import type { ITheme } from '../../theme';
 import type {
   IChartEvaluateOption,
   IChartInitOption,
@@ -25,7 +24,8 @@ import type {
   IMarkStateSpec,
   StringOrNumber,
   IShowTooltipOption,
-  IDataValues
+  IDataValues,
+  ILayoutRect
 } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
