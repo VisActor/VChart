@@ -59,7 +59,7 @@ export interface ICrosshairLabelBackgroundSpec {
     minWidth?: number;
     maxWidth?: number;
     padding?: IPadding | number | number[];
-    style: Partial<IRectMarkSpec>;
+    style?: Partial<IRectMarkSpec>;
 }
 export interface ICrosshairDataBindSpec {
     bindingAxesIndex?: number[];

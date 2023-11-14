@@ -9,7 +9,6 @@ export declare class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme>
     type: ComponentTypeEnum;
     name: string;
     layoutZIndex: LayoutItem['layoutZIndex'];
-    static speckey: string;
     protected _theme: IMarkAreaTheme;
     protected _markerComponent: MarkAreaComponent;
     static createComponent(spec: any, options: IComponentOption): MarkArea | MarkArea[];

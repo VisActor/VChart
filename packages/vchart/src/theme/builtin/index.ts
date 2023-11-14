@@ -9,11 +9,15 @@ import { getActualColor } from '../color-scheme/util';
 import type { ITheme } from '../interface';
 import { darkTheme } from './dark';
 import { lightTheme } from './light';
+import { lightMobileTheme } from './light-mobile';
+import { darkMobileTheme } from './dark-mobile';
 
 /** 声明内置主题 */
 export const builtinThemes: Record<string, ITheme> = {
   [lightTheme.name]: lightTheme,
-  [darkTheme.name]: darkTheme
+  [darkTheme.name]: darkTheme,
+  [lightMobileTheme.name]: lightMobileTheme,
+  [darkMobileTheme.name]: darkMobileTheme
 };
 
 /** 获取默认主题 */

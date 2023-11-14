@@ -22,7 +22,7 @@ export type IMarkerLabelWithoutRefSpec = {
     labelBackground?: {
         visible?: boolean;
         padding?: IPadding | number[] | number;
-        style: Omit<IRectMarkSpec, 'visible'>;
+        style?: Omit<IRectMarkSpec, 'visible'>;
     };
     text?: string | string[] | number | number[];
     formatMethod?: (markData: Datum[], seriesData: Datum[]) => string | string[] | number | number[];
