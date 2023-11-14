@@ -18,6 +18,7 @@ export interface IPanelProps {
   onRefresh?: (values: any) => void;
   enabled?: boolean;
   onEnabled?: (enabled: boolean) => void;
+  defaultCollapsed?: boolean;
 }
 
 // Axis Panel

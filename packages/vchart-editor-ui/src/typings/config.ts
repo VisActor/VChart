@@ -32,6 +32,13 @@ export interface ISwitchComponentConfig extends IBaseComponentConfig {
   options?: { value: string; label: string }[];
 }
 
+export interface INumberComponentConfig extends IBaseComponentConfig {
+  default?: number;
+  value?: number;
+  unit?: string;
+  step?: number;
+}
+
 export interface ISliderNumberComponentConfig extends IBaseComponentConfig {
   default?: number;
   value?: number;
@@ -65,8 +72,9 @@ export interface IFontStyleComponentConfig extends IBaseComponentConfig {
 }
 
 export interface ITextAlignComponentConfig extends IBaseComponentConfig {
-  default?: 'left' | 'center' | 'right';
-  value?: 'left' | 'center' | 'right';
+  default?: 'left' | 'center' | 'right' | string;
+  value?: 'left' | 'center' | 'right' | string;
+  alignOptions?: [string, string, string];
 }
 
 export interface IPaletteComponentConfig extends IBaseComponentConfig {

@@ -27,6 +27,7 @@ export function LegendPanel(props: ILegendPanelProps) {
       sectionComponentMaps={sectionComponentMaps}
       className={props.className}
       style={props.style}
+      defaultCollapsed={props.defaultCollapsed}
       enabled={props.enabled}
       onEnabled={props.onEnabled}
       onChange={props.onChange}

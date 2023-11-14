@@ -28,7 +28,7 @@ export const defaultBaseComponentConfig = {
   sliderNumber: {
     label: '数值',
     default: 0,
-    min: 1,
+    min: 0,
     max: 10,
     unit: null
   } as Omit<ISliderNumberComponentConfig, 'key'>,
@@ -40,7 +40,8 @@ export const defaultBaseComponentConfig = {
     label: '字体',
     default: 'PingFangSC-Regular',
     options: [
-      { value: 'San Francisco', label: 'San Francisco' },
+      { value: '', label: '浏览器默认字体' },
+      // { value: 'San Francisco', label: 'San Francisco' },
       // { value: 'PingFangSC-Regular', label: '苹方(PingFang-SC)' },
       // { value: 'Microsoft YaHei', label: '微软雅黑(Microsoft YaHei)' },
       { value: 'Times New Roman', label: 'Times New Roman' },
@@ -51,7 +52,7 @@ export const defaultBaseComponentConfig = {
     label: '字号',
     default: 10,
     min: 0,
-    max: 20
+    max: 40
   } as Omit<IFontSizeComponentConfig, 'key'>,
   fontStyle: {
     label: '样式',

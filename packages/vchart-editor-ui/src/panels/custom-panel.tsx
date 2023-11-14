@@ -10,6 +10,7 @@ import type {
   IFontStyleComponentConfig,
   IInputComponentConfig,
   ILineTypeComponentConfig,
+  INumberComponentConfig,
   IPaletteComponentConfig,
   ISelectComponentConfig,
   IShapeComponentConfig,
@@ -32,6 +33,7 @@ import { defaultBaseComponentConfig } from '../config/base';
 import { Palette } from '../base/palette';
 import { LineType } from '../base/line-type';
 import { Shape } from '../base/shape';
+import { Number } from '../base/number';
 
 function generatePanelValue(
   sections: Record<string, IPanelSection>,
@@ -113,7 +115,21 @@ function generateEntry(
           config={entry as ISwitchComponentConfig}
         />
       );
-
+    case 'number':
+      return (
+        <Number
+          key={`${entry.key}-${postKey ?? 0}`}
+          label={entry.label}
+          tooltip={entry.tooltip}
+          value={value}
+          onChange={value => {
+            const newPanelValue = merge({}, panelValue, { [section]: { [entry.key]: value } });
+            setPanelValue(newPanelValue);
+            onChange?.(section, entry.key, value);
+          }}
+          config={entry as INumberComponentConfig}
+        />
+      );
     case 'sliderNumber':
       return (
         <SliderNumber
@@ -311,7 +327,7 @@ export function CustomPanel(props: ICustomPanelProps) {
   const label = props.label ?? '';
   const sections = props.sections ?? {};
 
-  const [collapsed, setCollapsed] = useState<boolean>(true);
+  const [collapsed, setCollapsed] = useState<boolean>(props.defaultCollapsed ?? true);
 
   const [panelValue, setPanelValue] = useState<any>(generatePanelValue(sections, props.sectionComponentMaps, true));
 

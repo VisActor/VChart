@@ -53,6 +53,10 @@ export interface IBaseSwitchComponentProps extends IBaseComponentProps<ISwitchCo
   value: boolean;
 }
 
+export interface IBaseNumberComponentProps extends IBaseComponentProps<ISliderNumberComponentConfig> {
+  value: number;
+}
+
 export interface IBaseSliderNumberComponentProps extends IBaseComponentProps<ISliderNumberComponentConfig> {
   value: number;
 }

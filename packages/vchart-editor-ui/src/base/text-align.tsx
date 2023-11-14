@@ -12,6 +12,7 @@ const selectedStyle = {
 
 export function TextAlign(props: IBaseTextAlignComponentProps) {
   const label = props.label ?? defaultBaseComponentConfig.textAlign.label;
+  const alignOptions = props.config.alignOptions ?? ['left', 'center', 'right'];
 
   return (
     <div className="vchart-editor-ui-panel-base-container">
@@ -19,28 +20,28 @@ export function TextAlign(props: IBaseTextAlignComponentProps) {
       <ButtonGroup>
         <IconButton
           icon={<IconAlignLeft />}
-          style={props.textAlign === 'left' ? selectedStyle : normalStyle}
+          style={props.textAlign === alignOptions[0] ? selectedStyle : normalStyle}
           onClick={() => {
-            if (props.textAlign !== 'left') {
-              props.onChange?.('left');
+            if (props.textAlign !== alignOptions[0]) {
+              props.onChange?.(alignOptions[0]);
             }
           }}
         />
         <IconButton
           icon={<IconAlignCenter />}
-          style={props.textAlign === 'center' ? selectedStyle : normalStyle}
+          style={props.textAlign === alignOptions[1] ? selectedStyle : normalStyle}
           onClick={() => {
-            if (props.textAlign !== 'center') {
-              props.onChange?.('center');
+            if (props.textAlign !== alignOptions[1]) {
+              props.onChange?.(alignOptions[1]);
             }
           }}
         />
         <IconButton
           icon={<IconAlignRight />}
-          style={props.textAlign === 'right' ? selectedStyle : normalStyle}
+          style={props.textAlign === alignOptions[2] ? selectedStyle : normalStyle}
           onClick={() => {
-            if (props.textAlign !== 'right') {
-              props.onChange?.('right');
+            if (props.textAlign !== alignOptions[2]) {
+              props.onChange?.(alignOptions[2]);
             }
           }}
         />

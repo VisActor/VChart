@@ -104,7 +104,8 @@ function App() {
             interval: 'sliderNumber',
             borderRadius: 'sliderNumber',
             lineType: 'lineType',
-            shape: 'shape'
+            shape: 'shape',
+            number: 'number'
           }
         }}
         sections={{
@@ -114,9 +115,13 @@ function App() {
               { key: 'interval', label: '柱间距', unit: '%', default: 50, min: 0, max: 100 },
               { key: 'borderRadius', label: '柱体圆角', unit: '%', default: 50, min: 0, max: 100 },
               { key: 'lineType', label: 'line dash' },
-              { key: 'shape', label: 'shape' }
+              { key: 'shape', label: 'shape' },
+              { key: 'number', label: 'number' }
             ]
           }
+        }}
+        onChange={(section, key, value) => {
+          console.log(section, key, value);
         }}
       />
       <CustomPanel
