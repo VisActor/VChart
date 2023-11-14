@@ -10,6 +10,7 @@ import {
 } from './constants';
 import { Context } from '../typings';
 import { detectAxesType } from './utils';
+import { array } from '@visactor/vutils';
 
 // const chartTypeMap: { [chartName: string]: string } = {
 //   柱状图: "bar",
@@ -31,7 +32,8 @@ const chartTypeMap: { [chartName: string]: string } = {
   'DUAL AXIS CHART': 'common',
   'ROSE CHART': 'rose',
   'RADAR CHART': 'radar',
-  'SANKEY CHART': 'sankey'
+  'SANKEY CHART': 'sankey',
+  'BOX PLOT CHART': 'boxPlot'
 };
 
 export const chartType = (spec: any, context: Context) => {
@@ -556,6 +558,25 @@ export const sankeyField = (spec: any, context: Context) => {
   spec.categoryField = 'name';
   spec.nodeKey = (datum: any) => datum.name;
 
+  return spec;
+};
+
+export const boxPlotField = (spec: any, context: Context) => {
+  const { cell, dataView } = context;
+  const { x, y } = cell;
+  const data = dataView.latestData;
+  // x字段映射
+  spec.xField = x;
+  // y字段映射
+  // 1. 对y字段按照value大小sort
+  array(y).sort((a, b) => data[0][a] - data[0][b]);
+  const yFieldsLen = y.length;
+  // 2. 按照数值大小逻辑分别映射最大值、最小值、中位数、及上下四分位数
+  spec.minField = y[0]; // 最小值字段: 数值最小的字段
+  spec.q1Field = y[Math.min(1, yFieldsLen - 1)]; // 下四分位数字段: 数值第二小的字段
+  spec.medianField = y[Math.floor((yFieldsLen - 1) / 2)]; // 中位数: 数值处于中间的字段
+  spec.q3Field = y[Math.max(0, yFieldsLen - 2)]; // 上四分位数字段: 数值第二大的字段
+  spec.maxField = y[yFieldsLen - 1]; // 最大值字段: 数值最大的字段
   return spec;
 };
 
