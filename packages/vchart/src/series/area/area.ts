@@ -26,6 +26,7 @@ import { Factory } from '../../core/factory';
 import { registerAreaAnimation } from './animation';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
+import type { ILabelSpec } from '../../component';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -41,6 +42,7 @@ export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
       | 'addSamplingCompile'
       | 'addOverlapCompile'
       | 'reCompileSampling'
+      | 'initLineLabelMarkStyle'
     >,
     CartesianSeries<T> {}
 
@@ -121,8 +123,14 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       progressive,
       isSeriesMark: isAreaVisible && seriesMark !== 'point'
     }) as IAreaMark;
-    if (!isPointVisible && this._areaMark) {
-      this._areaMark.setLabelSpec(mergeSpec({ animation: this._spec.animation }, this._spec.label));
+    if (this._areaMark && this._spec?.areaLabel?.visible) {
+      this._areaMark.addLabelSpec(
+        this._preprocessLabelSpec(this._spec.areaLabel as ILabelSpec, this.initLineLabelMarkStyle),
+        true
+      );
+    }
+    if (!isPointVisible && this._areaMark && this._spec.label?.visible) {
+      this._areaMark.addLabelSpec(this._preprocessLabelSpec(this._spec.label as ILabelSpec));
     }
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
@@ -218,13 +226,11 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
     this.initLineMarkStyle(this._direction, userCurveType);
     this.initSymbolMarkStyle();
-    this.initLabelMarkStyle();
   }
 
   initAnimation() {
     const animationParams = { direction: this.direction };
     const appearPreset = (this._spec?.animationAppear as IMarkAnimateSpec<string>)?.preset;
-
     if (this._lineMark) {
       this._lineMark.setAnimationConfig(
         animationConfig(

@@ -25,7 +25,8 @@ export class AreaChart extends CartesianChart {
       samplingFactor: spec.samplingFactor,
       pointDis: spec.pointDis,
       pointDisMul: spec.pointDisMul,
-      markOverlap: spec.markOverlap
+      markOverlap: spec.markOverlap,
+      areaLabel: spec.areaLabel
     };
   }
 

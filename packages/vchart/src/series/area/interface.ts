@@ -6,6 +6,7 @@ import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mix
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AreaAppearPreset } from './animation';
 import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
+import type { ILabelSpec } from '../../component';
 export interface IAreaSeriesSpec
   extends ICartesianSeriesSpec,
     IAnimationSpec<string, AreaAppearPreset>,
@@ -40,6 +41,13 @@ export interface IAreaSeriesSpec
    * 标签配置
    */
   [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+  /**
+   * 面积图元标签配置
+   * @since 1.7.0
+   */
+  [SeriesMarkNameEnum.areaLabel]?: Omit<ILabelSpec, 'position'> & {
+    position?: 'start' | 'end';
+  };
   /**
    * 系列主 mark 类型配置，该配置会影响图例的展示
    * @default 'area'
