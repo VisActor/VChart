@@ -101,7 +101,7 @@ function symbolLabelOverlapStrategy() {
  *
  */
 export function barLabel(labelInfo: ILabelInfo) {
-  const { series, labelSpec = {} } = labelInfo;
+  const { series, labelSpec = {} as ILabelSpec } = labelInfo;
 
   // encode position config
   const originPosition = uniformLabelPosition(labelSpec.position) ?? 'outside';

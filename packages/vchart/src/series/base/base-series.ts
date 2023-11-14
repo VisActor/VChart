@@ -643,7 +643,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   abstract valueToPosition(value1: any, value2?: any): IPoint;
   abstract initMark(): void;
   abstract initMarkStyle(): void;
-  abstract initLabelMarkStyle(label?: ILabelMark): void;
 
   /** stack start */
   abstract getStackGroupFields(): string[];
@@ -1273,7 +1272,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return {
       animation: hasAnimation ?? this._spec.animation,
       ...spec,
-      styleHandler: styleHandler ?? this.initLabelMarkStyle
+      styleHandler: styleHandler ?? (this as ISeries).initLabelMarkStyle
     } as TransformedLabelSpec;
   }
 }
