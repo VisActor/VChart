@@ -14,7 +14,7 @@ import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { IGeoCoordinate, IGeoCoordinateHelper, IGeoCoordinateSpec, IProjectionSpec } from './interface';
 import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { IChartSpec, ILayoutType, StringOrNumber } from '../../typings';
+import type { IChartSpec, StringOrNumber } from '../../typings';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin, isNil } from '@visactor/vutils';
@@ -30,7 +30,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   type = ComponentTypeEnum.geoCoordinate;
   name: string = ComponentTypeEnum.geoCoordinate;
 
-  layoutType: ILayoutType = 'absolute';
+  layoutType: 'none' = 'none';
   protected layoutZIndex: number = LayoutZIndex.Mark;
 
   _longitudeField?: string;

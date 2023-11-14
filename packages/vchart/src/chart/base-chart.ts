@@ -524,13 +524,13 @@ export class BaseChart extends CompilableBase implements IChart {
 
   // 通知所有需要通知的元素 onLayout 钩子
   onLayoutStart(option: IChartLayoutOption) {
-    const elements = this.getLayoutElements();
+    const elements = this.getAllModels();
     elements.forEach(element => element.onLayoutStart(this._layoutRect, this._viewRect, option));
   }
 
   // 通知所有需要通知的元素 onLayoutEnd 钩子
   onLayoutEnd(option: IChartLayoutOption) {
-    const elements = this.getLayoutElements();
+    const elements = this.getAllModels();
     elements.forEach(element => element.onLayoutEnd(option));
   }
 

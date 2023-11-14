@@ -41,7 +41,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
   implements IDataFilterComponent
 {
-  layoutType: ILayoutType = 'region-relative';
+  layoutType: ILayoutType | 'none' = 'none';
 
   protected _component: AbstractComponent;
 
@@ -256,6 +256,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
         this._relatedAxisComponent = bandAxis;
       }
+    }
+    this._relatedAxisComponent as CartesianAxis<any>;
+    if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
+      (this._relatedAxisComponent as CartesianAxis<any>).enableAutoIndent = false;
     }
   }
 
