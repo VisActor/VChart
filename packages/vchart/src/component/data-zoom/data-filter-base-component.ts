@@ -157,7 +157,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected abstract _handleDataCollectionChange(): void;
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
-    const zoomLock = this._spec.zoomLock ?? false;
+    const zoomLock = this._spec?.zoomLock ?? false;
     if (zoomLock || end - start < this._minSpan || end - start > this._maxSpan) {
       return;
     }
