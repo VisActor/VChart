@@ -6,6 +6,7 @@ import { ColorItem } from './util';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 import { IconGleam } from '../svg/gleam';
 import { SketchPicker } from 'react-color';
+import { isColorEqual } from '../utils/color';
 
 export function EditorBarFill(props: IEditorBarFillProps) {
   const fillColor = props.fill?.color ?? defaultEditorBarComponentConfig.fill.default.color;
@@ -27,7 +28,7 @@ export function EditorBarFill(props: IEditorBarFillProps) {
                 <ColorItem
                   key={color}
                   color={color}
-                  selected={fillColor === color}
+                  selected={isColorEqual(fillColor, color)}
                   onClick={() => {
                     props.onFillChange?.({
                       color: color,

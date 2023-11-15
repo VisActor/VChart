@@ -5,6 +5,7 @@ import { TextBackgroundColorItem, TextColorItem } from './util';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 import { SketchPicker } from 'react-color';
 import { IconGleam } from '../svg/gleam';
+import { isColorEqual } from '../utils/color';
 
 export function EditorBarTextColor(props: IEditorBarTextColorProps) {
   const textColorList = defaultEditorBarComponentConfig.textColor.colorList;
@@ -27,7 +28,7 @@ export function EditorBarTextColor(props: IEditorBarTextColorProps) {
                 <TextColorItem
                   key={color}
                   color={color}
-                  selected={color === textColor}
+                  selected={isColorEqual(color, textColor)}
                   onClick={() => {
                     props.onTextColorChange?.({
                       color: color,
@@ -64,7 +65,7 @@ export function EditorBarTextColor(props: IEditorBarTextColorProps) {
                     <TextBackgroundColorItem
                       key={color}
                       color={color}
-                      selected={color === textBackgroundColor}
+                      selected={isColorEqual(color, textBackgroundColor)}
                       onClick={() => {
                         props.onTextColorChange?.({
                           color: textColor,

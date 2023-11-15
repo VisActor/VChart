@@ -9,6 +9,7 @@ import { IconDashedLine, IconLine, IconThinDashedLine } from '../svg/line';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 import { SketchPicker } from 'react-color';
 import { IconGleam } from '../svg/gleam';
+import { isColorEqual } from '../utils/color';
 
 const strokeStyleList = [
   { icon: IconLineDisable, style: 'disable' },
@@ -44,7 +45,7 @@ function StrokePanel(props: IEditorBarStrokeProps) {
             <EditorBarPanelEntry
               key={style.style}
               icon={<Icon />}
-              selected={strokeStyle === style.style}
+              selected={isColorEqual(strokeStyle, style.style)}
               onClick={() => {
                 props.onStrokeChange?.({
                   style: style.style as Stroke['style'],
@@ -94,7 +95,7 @@ function StrokePanel(props: IEditorBarStrokeProps) {
               key={color}
               color={color}
               size={22}
-              selected={color === strokeColor}
+              selected={isColorEqual(color, strokeColor)}
               onClick={() => {
                 props.onStrokeChange?.({
                   style: strokeStyle,

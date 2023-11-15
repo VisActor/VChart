@@ -70,8 +70,8 @@ export const defaultEditorBarComponentConfig = {
     ]
   },
   textColor: {
-    default: { color: '#1F2329', backgroundColor: 'disable' } as TextColor,
-    colorList: [['#1F2329', '#8F959E', '#FFFFFF', '#7A35F0', '#1456F0', '#2EA121', '#865B03', '#A44904', '#C02A26']],
+    default: { color: '#000000', backgroundColor: 'disable' } as TextColor,
+    colorList: [['#000000', '#8F959E', '#FFFFFF', '#7A35F0', '#1456F0', '#2EA121', '#865B03', '#A44904', '#C02A26']],
     backgroundColorList: [
       ['disable', '#FFFFFF', '#EFF0F1', '#EFE6FE', '#E0E9FF', '#D0F5CE', '#FFFCA3', '#FEE7CD', '#FEE3E2'],
       ['#000000', '#646A73', '#BBBFC4', '#9F6FF1', '#5083FB', '#32A645', '#FFE928', '#ED6D0C', '#F54A45']
