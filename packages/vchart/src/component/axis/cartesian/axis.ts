@@ -71,16 +71,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return this._orient;
   }
 
-  protected _enableAutoIndent: boolean = true;
-  set enableAutoIndent(v: boolean) {
-    this._enableAutoIndent = v;
-    if (this._layout) {
-      if (!v) {
-        this._layout.autoIndent = false;
-      } else {
-        this._layout.autoIndent = this._spec.autoIndent !== false;
-      }
-    }
+  protected _autoIndentOnce: boolean = false;
+  protected _hasAutoIndent: boolean = false;
+  set autoIndentOnce(v: boolean) {
+    this._autoIndentOnce = v;
   }
 
   protected _scales: IBaseScale[] = [];
@@ -187,7 +181,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   initLayout(): void {
     super.initLayout();
-    this._layout.autoIndent = this._enableAutoIndent ? this._spec.autoIndent !== false : false;
+    this._layout.autoIndent = this._spec.autoIndent !== false;
     this._layout.layoutOrient = this._orient;
   }
 
@@ -839,18 +833,27 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     });
 
     // outBounds
-    ['x1', 'x2', 'y1', 'y2'].forEach(key => {
-      if (this.layout.getLastComputeOutBounds()[key] < this._layoutCache._lastComputeOutBounds[key]) {
+    if (this._autoIndentOnce && this._hasAutoIndent) {
+      // use cache
+      ['x1', 'x2', 'y1', 'y2'].forEach(key => {
         this.layout.getLastComputeOutBounds()[key] = this._layoutCache._lastComputeOutBounds[key];
-      } else {
-        this._layoutCache._lastComputeOutBounds[key] = this.layout.getLastComputeOutBounds()[key];
-      }
-    });
+      });
+    } else {
+      this._hasAutoIndent = true;
+      ['x1', 'x2', 'y1', 'y2'].forEach(key => {
+        if (this.layout.getLastComputeOutBounds()[key] < this._layoutCache._lastComputeOutBounds[key]) {
+          this.layout.getLastComputeOutBounds()[key] = this._layoutCache._lastComputeOutBounds[key];
+        } else {
+          this._layoutCache._lastComputeOutBounds[key] = this.layout.getLastComputeOutBounds()[key];
+        }
+      });
+    }
 
     return rect;
   }
 
   _clearLayoutCache() {
+    this._hasAutoIndent = false;
     this._layoutCache.width = 0;
     this._layoutCache.height = 0;
     this._layoutCache._lastComputeOutBounds = { x1: 0, x2: 0, y1: 0, y2: 0 };
