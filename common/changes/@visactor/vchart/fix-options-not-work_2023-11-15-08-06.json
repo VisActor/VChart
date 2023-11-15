@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix `options` can not work in lark-vchart, wx-vchart and tt-vchart\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "just_star@qq.com"
+}
