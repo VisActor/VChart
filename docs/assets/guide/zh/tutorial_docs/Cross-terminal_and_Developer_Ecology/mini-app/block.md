@@ -174,4 +174,116 @@ methods: {
 ></canvas>
 ```
 
+### 注册函数
+
+自从`1.7.0`版本, 飞书小组件桌面端支持注册自定义函数，你可以使用全局注册或实例注册`registerFunction`两种方法进行函数注册。
+
+#### 全局注册函数
+
+在使用全局注册函数时，调用图表方法`registerFunction`注册自定义函数，在运行时便会进行回调处理，如下方的示例。
+
+```js
+<!-- index.js  -->
+methods: {
+    init() {
+      this.data.chartList.forEach(item => {
+        tt.createSelectorQuery()
+          .select(`#${item.id}_draw_canvas`)
+          .boundingClientRect(domRef => {
+            if (!domRef) {
+              console.error(`未找到 #${item.id} 画布`);
+              return;
+            }
+
+            item.chart && item.chart.release();
+
+            // 自定义函数
+            function labelFormat(key){
+              return key + 'test';
+            }
+
+            // 全局注册该自定义函数
+            VChart.registerFunction('labelFormat', labelFormat);
+
+            const chartInstance = new VChart(
+              {
+                width: domRef.width,
+                height: domRef.height,
+                /**
+                 * spec中可使用该函数名'labelFormat'
+                 * 例如，使用该函数做label的格式化
+                 * label: {
+                 *   visible: true,
+                 *   formatMethod: 'labelFormat'
+                 * }
+                 */
+                ...item.spec
+              },
+              {
+                // do something
+              }
+            );
+
+            chartInstance.renderAsync();
+          })
+          .exec();
+      });
+    }
+  }
+```
+
+#### 实例注册函数
+
+在使用实例注册函数时，调用实例方法`registerFunction`注册自定义函数，在运行时便会进行回调处理，如下方的示例。
+
+```js
+<!-- index.js  -->
+methods: {
+    init() {
+      this.data.chartList.forEach(item => {
+        tt.createSelectorQuery()
+          .select(`#${item.id}_draw_canvas`)
+          .boundingClientRect(domRef => {
+            if (!domRef) {
+              console.error(`未找到 #${item.id} 画布`);
+              return;
+            }
+
+            item.chart && item.chart.release();
+
+            // 自定义函数
+            function labelFormat(key){
+              return key + 'test';
+            }
+
+            const chartInstance = new VChart(
+              {
+                width: domRef.width,
+                height: domRef.height,
+                /**
+                 * spec中可使用该函数名'labelFormat'
+                 * 例如，使用该函数做label的格式化
+                 * label: {
+                 *   visible: true,
+                 *   formatMethod: 'labelFormat'
+                 * }
+                 */
+                ...item.spec
+              },
+              {
+                // do something
+              }
+            );
+
+            // 实例注册该自定义函数
+            chartInstance.registerFunction('labelFormat', labelFormat);
+
+            chartInstance.renderAsync();
+          })
+          .exec();
+      });
+    }
+  }
+```
+
 具体详见：[https://github.com/VisActor/VChart/tree/main/packages/block-vchart](https://github.com/VisActor/VChart/tree/main/packages/block-vchart)

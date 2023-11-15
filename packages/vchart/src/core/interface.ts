@@ -401,6 +401,18 @@ export interface IVChart {
 
   /** 恢复暂停时正在进行的所有动画 */
   resumeAnimation: () => void;
+
+  /** 注册实例函数 */
+  registerFunction: (key: string, fun: Function) => void;
+
+  /** 注销实例函数 */
+  unregisterFunction: (key: string) => void;
+
+  /** 获取实例函数 */
+  getFunction: (key: string) => Function | null;
+
+  /** 获取实例函数列表 */
+  getFunctionList: () => string[] | null;
 }
 
 export interface IGlobalConfig {
