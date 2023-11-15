@@ -157,18 +157,24 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     if (!this._stateScale || !this._valueScale) {
       return;
     }
+
+    // visible为false时, 计算stateScale的兜底range
     let stateScaleRange;
-    const relatedAxisRange = (this._relatedAxisComponent as CartesianAxis<any>).getScale().range();
+    const defaultSize = this._isHorizontal
+      ? this.getLayoutRect().width - handlerSize
+      : this.getLayoutRect().height - handlerSize;
+    const defaultRange = (this._relatedAxisComponent as CartesianAxis<any>)?.getScale().range() ?? [0, defaultSize];
+
     if (this._isHorizontal) {
-      stateScaleRange = this._visible ? [0, this._computeWidth() - handlerSize] : relatedAxisRange;
+      stateScaleRange = this._visible ? [0, this._computeWidth() - handlerSize] : defaultRange;
       this._stateScale.range(stateScaleRange);
       this._valueScale.range([this._computeHeight() - this._middleHandlerSize, 0]);
     } else if (this.layoutOrient === 'left') {
-      stateScaleRange = this._visible ? [0, this._computeHeight() - handlerSize] : relatedAxisRange;
+      stateScaleRange = this._visible ? [0, this._computeHeight() - handlerSize] : defaultRange;
       this._stateScale.range(stateScaleRange);
       this._valueScale.range([this._computeWidth() - this._middleHandlerSize, 0]);
     } else {
-      stateScaleRange = this._visible ? [0, this._computeHeight() - handlerSize] : relatedAxisRange;
+      stateScaleRange = this._visible ? [0, this._computeHeight() - handlerSize] : defaultRange;
       this._stateScale.range(stateScaleRange);
       this._valueScale.range([0, this._computeWidth() - this._middleHandlerSize]);
     }
