@@ -2,10 +2,7 @@ import { DataSet } from '@visactor/vdataset';
 import { VChart } from '../../../src/vchart-all';
 import { createCanvas, removeDom } from '../../util/dom';
 import { initChartDataSet } from '../../util/context';
-import { GlobalScale } from '../../../src/scale/global-scale';
-import { BarChart } from '../../../src';
-import type { IBarChartSpec, IChartSpec } from '../../../src';
-import { EventDispatcher } from '../../../src/event/event-dispatcher';
+import type { IBarChartSpec } from '../../../src';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
@@ -148,7 +145,7 @@ describe('register function test', () => {
       renderCanvas: canvasDom
     });
 
-    chart.renderAsync();
+    chart.renderSync();
 
     // sepc
     expect(VChart.getFunctionList()?.length).toBe(1);
@@ -156,7 +153,7 @@ describe('register function test', () => {
     expect(VChart.getFunction('labelFormat')?.(2000)).toBe(2000 + 'test');
 
     // label上是否应用
-    expect(chart.getChart()!.getAllSeries()[0].getMarks()[1]._label[0].formatMethod).toBe(labelFormat);
+    expect(chart.getStage().getElementsByName('label')[0].children[0].attribute.text).toBe(data[0].y + 'test');
 
     // 注销函数
     VChart.unregisterFunction('labelFormat');
@@ -173,7 +170,7 @@ describe('register function test', () => {
     // 实例注册函数
     chart2.registerFunction('labelFormat', labelFormat);
 
-    chart2.renderAsync();
+    chart2.renderSync();
 
     // sepc
     expect(chart2.getFunctionList()?.length).toBe(1);
@@ -181,7 +178,7 @@ describe('register function test', () => {
     expect(chart2.getFunction('labelFormat')?.(2000)).toBe(2000 + 'test');
 
     // label上是否应用
-    expect(chart2.getChart()!.getAllSeries()[0].getMarks()[1]._label[0].formatMethod).toBe(labelFormat);
+    expect(chart2.getStage().getElementsByName('label')[0].children[0].attribute.text).toBe(data[0].y + 'test');
 
     // 注销函数
     chart2.unregisterFunction('labelFormat');
@@ -192,7 +189,7 @@ describe('register function test', () => {
 
   test('updateSpec with expression function', () => {
     VChart.registerFunction('labelColor', labelColor);
-    chart2.updateSpec(spec3);
+    chart2.updateSpecSync(spec3);
 
     // sepc
     expect(chart2.getFunctionList()?.length).toBe(1);
@@ -200,7 +197,7 @@ describe('register function test', () => {
     expect(chart2.getFunction('labelColor')?.()).toBe('red');
 
     // label上是否应用
-    expect(chart2.getChart()!.getAllSeries()[0].getMarks()[1]._label[0].style.fill).toBe(labelColor);
+    expect(chart2.getStage().getElementsByName('label')[0].children[0].attribute.fill).toBe('red');
 
     // 注销函数
     chart2.unregisterFunction('labelColor');

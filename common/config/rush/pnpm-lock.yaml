@@ -50,7 +50,7 @@ importers:
       '@visactor/vrender': 0.16.13
       '@visactor/vrender-kits': 0.16.13
       '@visactor/vutils': 0.16.7
-      axios: 1.6.1
+      axios: 1.6.2
       highlight.js: 11.9.0
       markdown-it: 13.0.2
       react: 18.2.0
@@ -580,7 +580,7 @@ importers:
       '@visactor/vdataset': 0.16.7
       '@visactor/vrender': 0.16.13
       '@visactor/vutils': 0.16.7
-      axios: 1.6.1
+      axios: 1.6.2
       exceljs: 4.4.0
       lodash: 4.17.21
     devDependencies:
@@ -6057,8 +6057,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /axios/1.6.1:
-    resolution: {integrity: sha512-vfBmhDpKafglh0EldBEbVuoe7DyAavGSLWhuSm5ZSEKQnHhBf0xAAwybbNH1IkrJNGnS/VG4I5yxig1pCEXE4g==}
+  /axios/1.6.2:
+    resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
     dependencies:
       follow-redirects: 1.15.3
       form-data: 4.0.0
@@ -6977,7 +6977,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001562
-      electron-to-chromium: 1.4.582
+      electron-to-chromium: 1.4.583
     dev: true
 
   /browserslist/4.22.1:
@@ -6986,7 +6986,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001562
-      electron-to-chromium: 1.4.582
+      electron-to-chromium: 1.4.583
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13_browserslist@4.22.1
 
@@ -9216,8 +9216,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.582:
-    resolution: {integrity: sha512-89o0MGoocwYbzqUUjc+VNpeOFSOK9nIdC5wY4N+PVUarUK0MtjyTjks75AZS2bW4Kl8MdewdFsWaH0jLy+JNoA==}
+  /electron-to-chromium/1.4.583:
+    resolution: {integrity: sha512-93y1gcONABZ7uqYe/JWDVQP/Pj/sQSunF0HVAPdlg/pfBnOyBMLlQUxWvkqcljJg1+W6cjvPuYD+r1Th9Tn8mA==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
