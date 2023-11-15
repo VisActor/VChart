@@ -18,7 +18,7 @@ importers:
       '@visactor/vchart': workspace:1.5.4
       '@visactor/vchart-theme': workspace:1.5.4
       '@visactor/vgrammar': ~0.8.1
-      '@visactor/vmind': workspace:1.0.8
+      '@visactor/vmind': workspace:*
       '@visactor/vrender': ~0.16.9
       '@visactor/vrender-kits': ~0.16.9
       '@visactor/vutils': ~0.16.6
