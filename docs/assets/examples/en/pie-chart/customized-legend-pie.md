@@ -4,7 +4,7 @@ group: pie
 title: Customized legend interaction of pie chart
 keywords: pieChart,comparison,composition,proportion,circle
 order: 6-9
-cover:
+cover: /vchart/preview/pie-chart-customized-legend-pie_1.6.3.png
 option: pieChart
 ---
 
