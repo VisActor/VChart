@@ -56,9 +56,9 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
     super.onLayoutEnd(ctx);
     // diff layoutRect
     // if (this._layout) {
+    this.updateLayoutAttribute();
     const layoutRect = this.getLayoutRect();
     if (this._forceLayoutTag || !isEqual(this._lastLayoutRect, layoutRect)) {
-      this.updateLayoutAttribute();
       this._lastLayoutRect = { ...layoutRect };
     }
     this._forceLayoutTag = false;
