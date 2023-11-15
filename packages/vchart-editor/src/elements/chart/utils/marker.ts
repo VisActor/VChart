@@ -61,7 +61,8 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           },
           position: 'end',
           labelBackground: {
-            visible: false
+            visible: false,
+            padding: { left: 4, right: 4, top: 4, bottom: 4 }
           },
           style: {
             fill: '#000'
@@ -95,7 +96,8 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         text: seriesData[0][series.fieldY[0]],
         position: 'end',
         labelBackground: {
-          visible: false
+          visible: false,
+          padding: { left: 4, right: 4, top: 4, bottom: 4 }
         },
         style: {
           fill: '#000'
@@ -134,7 +136,8 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           },
           position: 'end',
           labelBackground: {
-            visible: false
+            visible: false,
+            padding: { left: 4, right: 4, top: 4, bottom: 4 }
           },
           style: {
             fill: '#000',
@@ -170,7 +173,8 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         text: seriesData[0][series.fieldX[0]],
         position: 'end',
         labelBackground: {
-          visible: false
+          visible: false,
+          padding: { left: 4, right: 4, top: 4, bottom: 4 }
         },
         style: {
           fill: '#000',
@@ -222,7 +226,8 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
           position: 'right',
           text: `${min(seriesData, series.getSpec().yField)} - ${median(seriesData, series.getSpec().yField)}`,
           labelBackground: {
-            visible: false
+            visible: false,
+            padding: { left: 4, right: 4, top: 4, bottom: 4 }
           },
           style: {
             fill: '#000'
@@ -248,7 +253,8 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         position: 'right',
         text: `${seriesData[0][series.fieldY[0]]} - ${seriesData[Math.floor(seriesData.length / 2)][series.fieldY[0]]}`,
         labelBackground: {
-          visible: false
+          visible: false,
+          padding: { left: 4, right: 4, top: 4, bottom: 4 }
         },
         style: {
           fill: '#000'
@@ -277,7 +283,8 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
           position: 'top',
           text: `${min(seriesData, series.getSpec().xField)} - ${median(seriesData, series.getSpec().xField)}`,
           labelBackground: {
-            visible: false
+            visible: false,
+            padding: { left: 4, right: 4, top: 4, bottom: 4 }
           },
           style: {
             fill: '#000'
@@ -303,7 +310,8 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         position: 'top',
         text: `${seriesData[0][series.fieldX[0]]} - ${seriesData[Math.floor(seriesData.length / 2)][series.fieldX[0]]}`,
         labelBackground: {
-          visible: false
+          visible: false,
+          padding: { left: 4, right: 4, top: 4, bottom: 4 }
         },
         style: {
           fill: '#000'
@@ -388,6 +396,7 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
           ? '<超过 0 的百分比>'
           : `${(calculateCAGR(endData[valueFieldInData], startData[valueFieldInData], length) * 100).toFixed(0)}%`,
       labelBackground: {
+        padding: { left: 4, right: 4, top: 4, bottom: 4 },
         style: {
           fill: '#fff',
           fillOpacity: 1,
@@ -488,6 +497,7 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
       // TODO：计算公式需要确认
       text: startValue === 0 ? '<超过 0 的百分比>' : `${(((endValue - startValue) / startValue) * 100).toFixed(0)}%`,
       labelBackground: {
+        padding: { left: 4, right: 4, top: 4, bottom: 4 },
         style: {
           fill: '#fff',
           fillOpacity: 1,
@@ -600,6 +610,7 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
               100
             ).toFixed(0)}%`,
       labelBackground: {
+        padding: { left: 4, right: 4, top: 4, bottom: 4 },
         style: {
           fill: '#fff',
           fillOpacity: 1,
