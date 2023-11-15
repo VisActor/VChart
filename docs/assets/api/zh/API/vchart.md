@@ -36,7 +36,7 @@ VChart 的全局配置项。这个对象里的属性可以直接修改，配置�
 
 ```
 
-1.5.1 版本开始支持。  
+1.5.1 版本开始支持。
 用于按需加载图表、系列、组件、环境兼容代码等。具体使用请参考 [按需引入教程](../../../guide/zh/tutorial_docs/Basic/How_to_Import_VChart.md)
 
 ### useChart
@@ -482,7 +482,7 @@ on(event: string, callback: (params: EventParams) => void): void;
 on(event: string, query: EventQuery, callback: (params: EventParams) => void): void;
 ```
 
-事件绑定。更加具体的使用，请移步[event](./event.md)。
+事件绑定。更加具体的使用，请移步[event](./event)。
 
 ### off
 

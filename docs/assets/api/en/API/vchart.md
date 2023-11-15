@@ -36,7 +36,7 @@ This configuration modification takes effect immediately.
 
 ```
 
-API is supported since version `1.5.1`.  
+API is supported since version `1.5.1`.
 It is used to load charts, series, components, environment-compatible codes, etc. on demand. For details, please refer to the [On-demand Import Tutorial](../../../guide/en/tutorial_docs/Basic/How_to_Import_VChart.md).
 
 ### useChart
@@ -483,7 +483,7 @@ on(event: string, callback: (params: EventParams) => void): void;
 on(event: string, query: EventQuery, callback: (params: EventParams) => void): void;
 ```
 
-Event binding. For more specific use, please move to[Event](./event.md).
+Event binding. For more specific use, please move to[Event](./event).
 
 ### Off
 
