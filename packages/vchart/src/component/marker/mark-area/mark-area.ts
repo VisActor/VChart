@@ -139,8 +139,8 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
           : this._markerComponent?.attribute?.label?.text
       },
       limitRect,
-      dx: this._layout.layoutOffsetX,
-      dy: this._layout.layoutOffsetY
+      dx: this._layoutOffsetX,
+      dy: this._layoutOffsetY
     });
   }
 
