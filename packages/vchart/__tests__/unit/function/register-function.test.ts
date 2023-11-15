@@ -153,7 +153,8 @@ describe('register function test', () => {
     expect(VChart.getFunction('labelFormat')?.(2000)).toBe(2000 + 'test');
 
     // label上是否应用
-    expect(chart.getStage().getElementsByName('label')[0].children[0].attribute.text).toBe(data[0].y + 'test');
+    const labelItem: any = chart.getStage().getElementsByName('label')[0];
+    expect(labelItem.children[0].attribute.text).toBe(data[0].y + 'test');
 
     // 注销函数
     VChart.unregisterFunction('labelFormat');
@@ -178,7 +179,8 @@ describe('register function test', () => {
     expect(chart2.getFunction('labelFormat')?.(2000)).toBe(2000 + 'test');
 
     // label上是否应用
-    expect(chart2.getStage().getElementsByName('label')[0].children[0].attribute.text).toBe(data[0].y + 'test');
+    const labelItem: any = chart2.getStage().getElementsByName('label')[0];
+    expect(labelItem.children[0].attribute.text).toBe(data[0].y + 'test');
 
     // 注销函数
     chart2.unregisterFunction('labelFormat');
@@ -189,7 +191,7 @@ describe('register function test', () => {
 
   test('updateSpec with expression function', () => {
     VChart.registerFunction('labelColor', labelColor);
-    chart2.updateSpecSync(spec3);
+    chart2.updateSpecSync(spec3 as any);
 
     // sepc
     expect(chart2.getFunctionList()?.length).toBe(1);
@@ -197,7 +199,8 @@ describe('register function test', () => {
     expect(chart2.getFunction('labelColor')?.()).toBe('red');
 
     // label上是否应用
-    expect(chart2.getStage().getElementsByName('label')[0].children[0].attribute.fill).toBe('red');
+    const labelItem: any = chart2.getStage().getElementsByName('label')[0];
+    expect(labelItem.children[0].attribute.fill).toBe('red');
 
     // 注销函数
     chart2.unregisterFunction('labelColor');
