@@ -6,6 +6,7 @@ import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 import { SketchPicker } from 'react-color';
 import { IconGleam } from '../svg/gleam';
 import { isColorEqual } from '../utils/color';
+import { RGB } from '@visactor/vutils';
 
 export function EditorBarTextColor(props: IEditorBarTextColorProps) {
   const textColorList = defaultEditorBarComponentConfig.textColor.colorList;
@@ -44,8 +45,10 @@ export function EditorBarTextColor(props: IEditorBarTextColorProps) {
               <ColorPicker
                 color={textColor === 'disable' ? '#000000' : textColor}
                 onChange={color => {
+                  const rgba = new RGB(color.rgb.r, color.rgb.g, color.rgb.b, color.rgb.a);
+                  const hex = rgba.formatHex();
                   props.onTextColorChange?.({
-                    color: color.hex,
+                    color: hex,
                     backgroundColor: textBackgroundColor
                   });
                 }}
@@ -81,9 +84,11 @@ export function EditorBarTextColor(props: IEditorBarTextColorProps) {
                   <ColorPicker
                     color={textBackgroundColor === 'disable' ? '#000000' : textBackgroundColor}
                     onChange={color => {
+                      const rgba = new RGB(color.rgb.r, color.rgb.g, color.rgb.b, color.rgb.a);
+                      const hex = rgba.formatHex();
                       props.onTextColorChange?.({
                         color: textColor,
-                        backgroundColor: color.hex
+                        backgroundColor: hex
                       });
                     }}
                   />

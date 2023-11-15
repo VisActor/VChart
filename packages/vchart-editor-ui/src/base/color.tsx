@@ -1,4 +1,5 @@
 import { SketchPicker } from 'react-color';
+import { RGB } from '@visactor/vutils';
 import type { IBaseColorComponentProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
 import { Button, Popover } from '@douyinfe/semi-ui';
@@ -15,7 +16,8 @@ export function Color(props: IBaseColorComponentProps) {
           <SketchPicker
             color={props.color}
             onChange={color => {
-              props.onChange?.(color.hex);
+              const rgba = new RGB(color.rgb.r, color.rgb.g, color.rgb.b, color.rgb.a);
+              props.onChange?.(rgba.formatHex());
             }}
           />
         }

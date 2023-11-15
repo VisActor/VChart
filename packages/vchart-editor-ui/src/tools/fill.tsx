@@ -1,7 +1,7 @@
 import { Button, Popover, Slider } from '@douyinfe/semi-ui';
 import type { IEditorBarFillProps } from '../typings/editor-bar';
 import { IconChevronDown } from '@douyinfe/semi-icons';
-import { isArray } from '@visactor/vutils';
+import { RGB, isArray } from '@visactor/vutils';
 import { ColorItem } from './util';
 import { defaultEditorBarComponentConfig } from '../config/editor-bar';
 import { IconGleam } from '../svg/gleam';
@@ -44,8 +44,10 @@ export function EditorBarFill(props: IEditorBarFillProps) {
               <ColorPicker
                 color={fillColor === 'disable' ? '#000000' : fillColor}
                 onChange={color => {
+                  const rgba = new RGB(color.rgb.r, color.rgb.g, color.rgb.b, color.rgb.a);
+                  const hex = rgba.formatHex();
                   props.onFillChange?.({
-                    color: color.hex,
+                    color: hex,
                     opacity: fillOpacity
                   });
                 }}

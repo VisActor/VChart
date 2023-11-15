@@ -1,7 +1,7 @@
 import { Button, Divider, Popover, Slider } from '@douyinfe/semi-ui';
 import type { IEditorBarStrokeProps, Stroke } from '../typings/editor-bar';
 import { IconChevronDown } from '@douyinfe/semi-icons';
-import { isArray } from '@visactor/vutils';
+import { RGB, isArray } from '@visactor/vutils';
 import { ColorItem, EditorBarPanelEntry } from './util';
 import { IconStroke } from '../svg/stroke';
 import { IconLineDisable } from '../svg/disable';
@@ -113,9 +113,11 @@ function StrokePanel(props: IEditorBarStrokeProps) {
           <ColorPicker
             color={strokeColor === 'disable' ? '#000000' : strokeColor}
             onChange={color => {
+              const rgba = new RGB(color.rgb.r, color.rgb.g, color.rgb.b, color.rgb.a);
+              const hex = rgba.formatHex();
               props.onStrokeChange?.({
                 style: strokeStyle,
-                color: color.hex,
+                color: hex,
                 opacity: strokeOpacity,
                 lineWidth: strokeLineWidth
               });
