@@ -880,6 +880,10 @@ export const rankingBarLabel = (spec: any, context: Context) => {
     style: {
       fill: '#FFFFFF',
       stroke: null
+    },
+    animation: {
+      duration: spec.animationUpdate.axis.duration,
+      easing: 'linear'
     }
   };
   return spec;

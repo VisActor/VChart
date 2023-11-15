@@ -139,7 +139,7 @@ export const getSchemaFromFieldInfo = (dataProcessResJson: GPTDataProcessResult)
   const usefulFields = dataProcessResJson.USEFUL_FIELDS;
   const schema = {
     fields: fieldInfo
-      .filter(d => usefulFields.includes(d.fieldName))
+      //.filter(d => usefulFields.includes(d.fieldName))
       .map(d => ({
         id: d.fieldName,
         alias: d.fieldName,
