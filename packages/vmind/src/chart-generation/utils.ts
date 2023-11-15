@@ -131,3 +131,14 @@ export const patchUserInput = (userInput: string) => {
     '严格按照prompt中的格式回复，不要有任何多余内容。 Use the original fieldName and DO NOT change or translate any word of the data fields in the response.';
   return finalStr;
 };
+
+export const CARTESIAN_CHART_LIST = [
+  'Dynamic Bar Chart',
+  'Bar Chart',
+  'Line Chart',
+  'Scatter Plot',
+  'Funnel Chart',
+  'Dual Axis Chart',
+  'Waterfall Chart',
+  'Box Plot Chart'
+];

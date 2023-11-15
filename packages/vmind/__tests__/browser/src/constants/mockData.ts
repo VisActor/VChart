@@ -3566,7 +3566,8 @@ export const mockUserInput9 = {
 Step1,100,1
 Step2,80,1
 Step3,60,1
-Step4,40,1`
+Step4,40,1`,
+  input: '展示各个流程转化率'
 };
 
 /**
@@ -3580,7 +3581,8 @@ export const mockUserInput11 = {
 周四,10,12
 周五,13,15
 周六,10,15
-周日,12,14`
+周日,12,14`,
+  input: '展示男女早餐饭量不同'
 };
 
 /**
@@ -3657,5 +3659,6 @@ South Asia,9.4,10.06,10.75,11.56,12.5
 Middle East & North Africa,9.54,10.6,11.05,11.5,11.92
 Latin America & Caribbean,8.74,9.46,10.35,10.94,12.21
 East Asia & Pacific,7.8,8.95,10.18,11.57,13.25
-Europe & Central Asia,9.52,10.39,10.93,11.69,12.63`
+Europe & Central Asia,9.52,10.39,10.93,11.69,12.63`,
+  input: '看下各地区gdp情况'
 };

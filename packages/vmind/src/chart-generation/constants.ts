@@ -489,13 +489,13 @@ Respone in the following format:
 "FIELD_MAP": { // Visual channels and the fields mapped to them, available visual channels: ["x", "y", "color", "size", "angle", "time"]
 "x": the field mapped to the x-axis, can be empty. Can Only has one field.
 "y": the field mapped to the y-axis, can be empty. Can only has one field.
-"color": the field mapped to the color channel. Can't be empty in Word Cloud, Pie Chart and Rose Chart
-"size": the field mapped to the size channel, can be empty
-"angle": the field mapped to the angle channel of the pie chart, can be empty
+"color": the field mapped to the color channel. Must use a string field. Can't be empty in Word Cloud, Pie Chart and Rose Chart.
+"size": the field mapped to the size channel. Must use a number field. Can be empty
+"angle": the field mapped to the angle channel of the pie chart, can be empty.
 "time": This is usually a date field and can be used only in Dynamic Bar Chart. Can't be empty in Dynamic Bar Chart.
-"source": the field mapped to the source channel. Can't be empty in Sankey Chart
-"target": the field mapped to the target channel. Can't be empty in Sankey Chart
-"value": the field mapped to the value channel. Can't be empty in Sankey Chart
+"source": the field mapped to the source channel. Can't be empty in Sankey Chart.
+"target": the field mapped to the target channel. Can't be empty in Sankey Chart.
+"value": the field mapped to the value channel. Can't be empty in Sankey Chart.
 },
 "Reason": the reason for selecting the chart type and visual mapping.
 }
@@ -505,7 +505,7 @@ Constraints:
 1. No user assistance.
 2. The selected chart type in CHART_TYPE must be in the list of supported charts.
 3. Just ignore the user's request about duration and style in their input.
-4. All fields in the data must be mapped to at least one visual channel in FIELD_MAP. DO NOT change or translate the field names in FIELD_MAP.
+4. DO NOT change or translate the field names in FIELD_MAP.
 5. The keys in FIELD_MAP must be selected from the list of available visual channels.
 6. Wrap the reply content using \`\`\`, and the returned content must be directly parsed by JSON.parse() in JavaScript.
 

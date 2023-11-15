@@ -46,7 +46,7 @@ import {
 } from './pipes';
 import { Cell, ChartType, Context, Pipe } from '../typings';
 import { DataView } from '@visactor/vdataset';
-import { detectAxesType } from './utils';
+import { CARTESIAN_CHART_LIST, detectAxesType } from './utils';
 
 export const vizDataToSpec = (
   dataView: DataView,
@@ -67,7 +67,7 @@ export const vizDataToSpec = (
   return { spec, chartTypeNew };
 };
 
-const patchChartTypeAndCell = (chartType: string, cell: any, dataView: DataView) => {
+const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataView: DataView) => {
   //对GPT返回结果进行修正
   //某些时候由于用户输入的意图不明确，GPT返回的cell中可能缺少字段。
   //此时需要根据规则补全
@@ -75,6 +75,7 @@ const patchChartTypeAndCell = (chartType: string, cell: any, dataView: DataView)
 
   const { x, y } = cell;
 
+  let chartType = chartTypeOutter;
   // y轴字段有多个时，处理方式:
   // 1. 图表类型为: 箱型图, 图表类型不做矫正
   // 2. 图表类型为: 柱状图 或 折线图, 图表类型矫正为双轴图
@@ -87,12 +88,7 @@ const patchChartTypeAndCell = (chartType: string, cell: any, dataView: DataView)
       };
     }
     if (chartType === 'BAR CHART' || chartType === 'LINE CHART') {
-      return {
-        chartTypeNew: 'DUAL AXIS CHART',
-        cellNew: {
-          ...cell
-        }
-      };
+      chartType = 'DUAL AXIS CHART';
     } else {
       return {
         chartTypeNew: 'SCATTER PLOT',
@@ -104,6 +100,13 @@ const patchChartTypeAndCell = (chartType: string, cell: any, dataView: DataView)
         }
       };
     }
+  }
+  //双轴图 订正yLeft和yRight
+  if (chartType === 'DUAL AXIS CHART' && cell.yLeft && cell.yRight) {
+    return {
+      chartTypeNew: chartType,
+      cellNew: { ...cell, y: [cell.yLeft, cell.yRight] }
+    };
   }
   //饼图 必须有color字段和angle字段
   if (chartType === 'PIE CHART') {
@@ -208,6 +211,29 @@ const patchChartTypeAndCell = (chartType: string, cell: any, dataView: DataView)
         cellNew.time = timeField;
       } else {
         cellNew.time = remainedFields[0];
+      }
+    }
+    return {
+      chartTypeNew: chartType,
+      cellNew
+    };
+  }
+  //直角坐标图表 必须有x字段
+  if (CARTESIAN_CHART_LIST.map(chart => chart.toUpperCase()).includes(chartType)) {
+    const cellNew = { ...cell };
+    if (!cellNew.x) {
+      const usedFields = Object.values(cell);
+      const dataFields = Object.keys(dataView.latestData[0]);
+      const remainedFields = dataFields.filter(f => !usedFields.includes(f));
+      //没有分配x字段，从剩下的字段里选择一个离散字段分配到x上
+      const xField = remainedFields.find(f => {
+        const fieldType = detectAxesType(dataView.latestData, f);
+        return fieldType === 'band';
+      });
+      if (xField) {
+        cellNew.x = xField;
+      } else {
+        cellNew.x = remainedFields[0];
       }
     }
     return {
