@@ -62,8 +62,8 @@ class VMind {
       colors,
       parsedTime ? parsedTime * 1000 : undefined
     );
-    // spec.background = '#00000033';
-    console.log(spec);
+    spec.background = '#00000033';
+    console.info(spec);
     return {
       spec,
       time: estimateVideoTime(chartTypeNew, spec, parsedTime ? parsedTime * 1000 : undefined)
