@@ -259,7 +259,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     this._relatedAxisComponent as CartesianAxis<any>;
     if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
-      (this._relatedAxisComponent as CartesianAxis<any>).enableAutoIndent = false;
+      (this._relatedAxisComponent as CartesianAxis<any>).autoIndentOnce = true;
     }
   }
 
