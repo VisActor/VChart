@@ -28,7 +28,7 @@ export function LineType(props: IBaseLineTypeComponentProps) {
           return (
             <SemiSelect.Option key={lineTypeOption.value} value={lineTypeOption.value}>
               <div className="vchart-editor-ui-panel-line-type-container">
-                <Icon />
+                <Icon style={lineTypeOption.value === 'thinDashedLine' ? { width: 25, height: 20 } : {}} />
               </div>
             </SemiSelect.Option>
           );

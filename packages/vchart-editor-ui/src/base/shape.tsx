@@ -64,7 +64,7 @@ const shapeList = [
   'arrow2Right',
   'wedge',
   'thinTriangle',
-  'triangle',
+  // 'triangle',
   'triangleUp',
   'triangleDown',
   'triangleRight',
@@ -99,6 +99,9 @@ function ShapePanel(props: { shape?: string; onChange?: (shape: string) => void 
 export function Shape(props: IBaseShapeComponentProps) {
   const label = props.label ?? defaultBaseComponentConfig.select.label;
 
+  // triangleUp is same as triangleUp
+  const currentShape = props.shape === 'triangle' ? 'triangleUp' : props.shape;
+
   return (
     <div className="vchart-editor-ui-panel-base-container">
       {tooltipWrapper(<p className="vchart-editor-ui-panel-base-label">{label}</p>, props.tooltip)}
@@ -106,7 +109,7 @@ export function Shape(props: IBaseShapeComponentProps) {
         spacing={10}
         content={
           <ShapePanel
-            shape={props.shape}
+            shape={currentShape}
             onChange={shape => {
               props.onChange?.(shape);
             }}
@@ -114,18 +117,9 @@ export function Shape(props: IBaseShapeComponentProps) {
         }
       >
         <Button>
-          <SvgShape shape={props.shape} />
+          <SvgShape shape={currentShape} />
         </Button>
       </Popover>
-
-      {/* <SemiSelect
-        value={props.value}
-        style={{ width: 180 }}
-        optionList={selectOptions}
-        onChange={value => {
-          props.onChange?.(value);
-        }}
-      ></SemiSelect> */}
     </div>
   );
 }

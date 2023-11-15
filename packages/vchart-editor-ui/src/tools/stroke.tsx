@@ -151,7 +151,7 @@ function StrokePanel(props: IEditorBarStrokeProps) {
             left: 0,
             bottom: 6,
             width: '100%',
-            height: 180,
+            height: 170,
             background: 'rgb(255 255 255 / 75%)',
             position: 'absolute'
           }}
@@ -177,7 +177,7 @@ export function EditorBarStrokeLine(props: IEditorBarStrokeProps) {
   return (
     <Popover spacing={10} content={<StrokePanel {...props} />}>
       <span className="vchart-editor-ui-editor-bar-tool">
-        <Icon fill={props.stroke.color} style={{ width: 24 }} />
+        <Icon fill={props.stroke.style === 'disable' ? '#2B2F36' : props.stroke.color} style={{ width: 24 }} />
         <IconChevronDown className="vchart-editor-ui-editor-bar-open-icon" />
       </span>
     </Popover>
