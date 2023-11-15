@@ -3,6 +3,10 @@
   "children": [
     {
       "path": "API",
+      "title": {
+        "zh": "api",
+        "en": "api"
+      },
       "children": [
         {
           "path": "vchart",
