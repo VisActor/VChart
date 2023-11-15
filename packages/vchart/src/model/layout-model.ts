@@ -55,14 +55,11 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     // diff layoutRect
-    // if (this._layout) {
     this.updateLayoutAttribute();
     const layoutRect = this.getLayoutRect();
     if (this._forceLayoutTag || !isEqual(this._lastLayoutRect, layoutRect)) {
       this._lastLayoutRect = { ...layoutRect };
     }
-    this._forceLayoutTag = false;
-    // }
     this._forceLayoutTag = false;
     this._isLayout = false;
   }
@@ -92,7 +89,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
     return this._layout ? this._layout.getLayoutRect() : this._layoutRect;
   }
   setLayoutRect(rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) {
-    return this._layout ? this._layout.setLayoutRect(rect) : (this._layoutStartPos = merge(this._layoutRect, rect));
+    return this._layout ? this._layout.setLayoutRect(rect) : (this._lastLayoutRect = merge(this._layoutRect, rect));
   }
 
   getLastComputeOutBounds() {
