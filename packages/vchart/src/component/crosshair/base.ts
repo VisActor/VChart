@@ -9,7 +9,6 @@ import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { IPadding, Maybe, StringOrNumber } from '../../typings';
 import { outOfBounds } from '../../util/math';
-import type { LayoutItem } from '../../model/layout-item';
 import type { IComponentOption } from '../interface';
 import type {
   ICrossHair,
@@ -60,9 +59,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   extends BaseComponent<T>
   implements ICrossHair
 {
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  gridZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair_Grid;
-  labelZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CrossHair;
+  layoutType: 'none' = 'none';
+  gridZIndex: number = LayoutZIndex.CrossHair_Grid;
+  labelZIndex: number = LayoutZIndex.CrossHair;
   trigger: CrossHairTrigger = 'hover';
   enable: boolean;
   showDefault: boolean;
@@ -78,9 +77,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   private _limitBounds: Maybe<IBoundsLike>;
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this.enable = true;
     this.showDefault = true;
   }

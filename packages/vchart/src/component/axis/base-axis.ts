@@ -36,6 +36,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   implements IAxis
 {
   static specKey = 'axes';
+  specKey = 'axes';
 
   protected _orient: IPolarOrientType | IOrientType;
   getOrient() {
@@ -57,11 +58,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected _tickData!: CompilableData;
   getTickData() {
     return this._tickData;
-  }
-
-  protected _statisticsDomain: StatisticsDomain = { domain: [], index: {} };
-  getStatisticsDomain() {
-    return this._statisticsDomain;
   }
 
   // 与系列的关联关系
@@ -95,9 +91,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected _gridMark: IComponentMark;
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this._visible = spec.visible ?? true;
   }
 
@@ -213,7 +207,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     isValid(regionIndex) && (this._regionIndex = array(regionIndex));
     this._regions = this._option.getRegionsInUserIdOrIndex(this._regionUserId as string[], this._regionIndex);
     // _regions 被更新了，layoutBindRegionID 也要更新
-    this.layoutBindRegionID = this._regions.map(x => x.id);
+    this.layout.layoutBindRegionID = this._regions.map(x => x.id);
   }
 
   getBindSeriesFilter() {
@@ -222,32 +216,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       specIndex: this._seriesIndex
     };
   }
-
-  protected computeStatisticsDomain = () => {
-    const data: { min: number; max: number; values: any[] }[] = [];
-    eachSeries(
-      this._regions,
-      s => {
-        const vd = s.getViewDataStatistics?.();
-        vd &&
-          this.getSeriesStatisticsField(s as ISeries).forEach(f => {
-            vd.latestData?.[f] && data.push(vd.latestData[f]);
-          });
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
-
-    this._statisticsDomain.domain = this.computeDomain(data);
-    if (!isContinuous(this._scale.type)) {
-      this._statisticsDomain.index = {};
-      for (let i = 0; i < this._statisticsDomain.domain.length; i++) {
-        this._statisticsDomain.index[this._statisticsDomain.domain[i]] = i;
-      }
-    }
-  };
 
   protected initEvent() {
     this.event.on(

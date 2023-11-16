@@ -1,6 +1,6 @@
 import type { ISeriesFilter } from '../../region/interface';
 import type { IAnimate } from '../../animation/interface';
-import type { ILayoutItem, IModel, IModelOption } from '../../model/interface';
+import type { ILayoutModel, IModelOption } from '../../model/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
@@ -19,7 +19,6 @@ export interface IComponentOption extends IModelOption {
   getRegionsInIndex: (index?: number[]) => IRegion[];
   getRegionsInIds: (ids: number[]) => IRegion[];
   getRegionsInUserIdOrIndex: (user_ids?: StringOrNumber[], index?: number[]) => IRegion[];
-  defaultSpec?: any;
   // series
   getAllSeries: () => ISeries[];
   getSeriesInIndex: (index?: number[]) => ISeries[];
@@ -32,7 +31,7 @@ export interface IComponentOption extends IModelOption {
   getComponentsByKey: (key: string) => IComponent[];
 }
 
-export interface IComponent extends IModel, ILayoutItem {
+export interface IComponent extends ILayoutModel {
   readonly name: string;
   readonly animate?: IAnimate;
 
@@ -48,6 +47,7 @@ export interface IComponent extends IModel, ILayoutItem {
 
 export interface IComponentConstructor {
   type: string;
+  specKey?: string;
   createComponent: (spec: any, options: IComponentOption) => IComponent | IComponent[] | undefined;
   new (spec: any, options: IComponentOption): IComponent;
 }

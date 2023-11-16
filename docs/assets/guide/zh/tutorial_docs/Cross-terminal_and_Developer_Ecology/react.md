@@ -141,6 +141,59 @@ export default App;
 
 通过调整配置，我们得到了一个更符合在实际项目中的柱状图。
 
+## 典型场景
+
+### 自定义图例组件
+
+当 VChart 内置的图例组件不能满足业务需求的时候，在 react 项目中经常存在使用 react 组件实现业务中自定义的图例组件的场景，这种情况下可以通过`updateState`API 实现 react 组件和图表的事件关联；具体实现案例可以[参考](https://codesandbox.io/s/visactor-vchart-legend-demo-tdqmq3?file=/src/PieChart.tsx)
+
+其中核心代码如下：
+
+```javascript
+export function PieChart() {
+  const chartInstance = useRef(null);
+  const legendData = useMemo(() => {
+    return (spec as any).data[0].values.map((entry: any) => {
+      return {
+        key: entry.type,
+        value: entry.value,
+        text: entry.type
+      };
+    });
+  }, []);
+
+  const handleLegendHover = useCallback(
+    (activeDatum: CustomizedLegendDatum, active: boolean) => {
+      if (chartInstance.current) {
+        if (active) {
+          (chartInstance.current as any).updateState({
+            cutomizedLegendHover: {
+              filter: (datum: any) => datum.type === activeDatum.key
+            }
+          });
+        } else {
+          (chartInstance.current as any).updateState({
+            cutomizedLegendHover: {
+              filter: (datum: any) => false
+            }
+          });
+        }
+      }
+    },
+    []
+  );
+
+  return (
+    <div className="cusomized-pie-chart">
+      <CustomizedLegend data={legendData} onHoverItem={handleLegendHover} />
+      <VChart ref={chartInstance} spec={spec} />
+    </div>
+  );
+}
+```
+
+关键点在于通过`ref`获取到 vchart 实例，调用[`updateState`API](../../../api/API/vchart) 更新自定义状态对应的的 filter；
+
 ## 总结
 
 通过本教程，你应该已经学会了如何在 React 项目中使用 VChart 图表创建一个简单的柱状图。同时，你还了解了如何根据需求配置图表，以满足项目中不同的场景。VChart 提供了丰富的配置选项和组件，相信你在实际项目中会更好地掌握它们的使用，并发挥出更大的作用。希望你能在项目中愉快地使用 VChart 表库！

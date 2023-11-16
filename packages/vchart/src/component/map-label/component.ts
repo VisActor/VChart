@@ -7,14 +7,13 @@ import { ComponentTypeEnum } from '../interface/type';
 import { LayoutZIndex } from '../../constant';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
-import type { IPoint, Datum } from '../../typings';
+import type { IPoint, Datum, ILayoutType } from '../../typings';
 import type { IPairInfo } from './layout';
 // eslint-disable-next-line no-duplicate-imports
 import { layoutByPosition, layoutOuter, placeRectByOrient } from './layout';
 
 import { CompilableData } from '../../compile/data/compilable-data';
 import { normalizeLayoutPaddingSpec } from '../../util/space';
-import type { LayoutItem } from '../../model/layout-item';
 import { MarkPoint } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
@@ -31,9 +30,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   type = ComponentTypeEnum.mapLabel;
   name: string = ComponentTypeEnum.mapLabel;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-
-  static speckey = 'mapLabel';
+  layoutType: 'none' = 'none';
 
   layoutZIndex = LayoutZIndex.MarkPoint;
 

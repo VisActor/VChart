@@ -1,5 +1,4 @@
 import type { IChart } from '../../../../chart/interface';
-import type { ILayoutPoint } from '../../../../model/interface';
 import type { IDimensionInfo } from '../interface';
 import { isDiscrete } from '@visactor/vscale';
 import { getDimensionData, isInRegionBound } from './common';
@@ -8,6 +7,7 @@ import { isNil } from '@visactor/vutils';
 import type { PolarAxis } from '../../../../component/axis/polar';
 import { distance, vectorAngle } from '../../../../util/math';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
+import type { ILayoutPoint } from '../../../../typings/layout';
 
 const getAxis = (chart: IChart, type: 'radius' | 'angle', pos: ILayoutPoint): PolarAxis[] | null => {
   const axesComponents = chart

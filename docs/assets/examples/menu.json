@@ -560,6 +560,13 @@
             "zh": "线性渐变颜色饼图",
             "en": "Linear Gradient Color Pie Chart"
           }
+        },
+        {
+          "path": "customized-legend-pie",
+          "title": {
+            "zh": "自定义饼图的图例交互",
+            "en": "Customized legend interaction of pie chart"
+          }
         }
       ]
     },

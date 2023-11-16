@@ -29,7 +29,7 @@
     "postpublish": "npm run clear",
     "test": "jest",
     "test-cov": "jest -w 16 --coverage",
-    "test-live": "npm run test-watch __tests__/unit/theme/line.test.ts",
+    "test-live": "npm run test-watch __tests__/unit/layout/index.test.ts",
     "test-watch": "DEBUG_MODE=1 jest --watch",
     "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts",
     "build:es": "bundle --clean -f es --ignorePostTasks",

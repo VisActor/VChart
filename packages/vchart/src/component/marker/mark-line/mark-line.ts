@@ -16,7 +16,6 @@ import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import type { INode } from '@visactor/vrender-core';
-import type { LayoutItem } from '../../../model/layout-item';
 import type { IDataPos } from '../interface';
 import type { IOptionRegr } from '../../../data/transforms/regression';
 // eslint-disable-next-line no-duplicate-imports
@@ -31,26 +30,24 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkLine;
-
-  static speckey = 'markLine';
+  layoutZIndex: number = LayoutZIndex.MarkLine;
 
   protected declare _theme: IMarkLineTheme;
 
   protected declare _markerComponent: MarkLineComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markLineSpec = spec.markLine || options.defaultSpec;
+    const markLineSpec = spec.markLine;
     if (isEmpty(markLineSpec)) {
       return undefined;
     }
     if (!isArray(markLineSpec) && markLineSpec.visible !== false) {
-      return new MarkLine(markLineSpec, { ...options, specKey: MarkLine.speckey });
+      return new MarkLine(markLineSpec, { ...options });
     }
     const markLines: MarkLine[] = [];
     markLineSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markLines.push(new MarkLine(m, { ...options, specIndex: i, specKey: MarkLine.speckey }));
+        markLines.push(new MarkLine(m, { ...options, specIndex: i }));
       }
     });
     return markLines;
@@ -245,16 +242,16 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         limitRect,
         multiSegment,
         mainSegmentIndex,
-        dx: this.layoutOffsetX,
-        dy: this.layoutOffsetY
+        dx: this._layoutOffsetX,
+        dy: this._layoutOffsetY
       });
     } else {
       this._markerComponent?.setAttributes({
         points: points,
         label: labelAttrs,
         limitRect,
-        dx: this.layoutOffsetX,
-        dy: this.layoutOffsetY
+        dx: this._layoutOffsetX,
+        dy: this._layoutOffsetY
       });
     }
   }

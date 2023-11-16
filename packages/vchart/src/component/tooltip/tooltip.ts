@@ -1,7 +1,7 @@
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
@@ -47,11 +47,12 @@ type EventHandlerList = {
 }[];
 
 export class Tooltip extends BaseComponent<any> implements ITooltip {
+  protected layoutZIndex: number = 1;
   static type = ComponentTypeEnum.tooltip;
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
 
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: 'none' = 'none';
 
   protected declare _spec: ITooltipSpec;
 
@@ -61,11 +62,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return null;
     }
     if (!isArray(tooltipSpec)) {
-      return new Tooltip(tooltipSpec, { ...options, specKey: 'tooltip' });
+      return new Tooltip(tooltipSpec, options);
     }
     const tooltips: Tooltip[] = [];
     tooltipSpec.forEach((s: any, i: number) => {
-      tooltips.push(new Tooltip(s, { ...options, specIndex: i, specKey: 'tooltip' }));
+      tooltips.push(new Tooltip(s, { ...options, specIndex: i }));
     });
     return tooltips;
   }

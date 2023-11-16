@@ -20,7 +20,6 @@ export interface LinearAxisMixin {
   _expand?: { max?: number; min?: number };
   _tick: ITick | undefined;
   isSeriesDataEnable: any;
-  computeStatisticsDomain: any;
   computeDomain: any;
   collectData: any;
   event: IEvent;
@@ -225,7 +224,6 @@ export class LinearAxisMixin {
     if (!this.isSeriesDataEnable()) {
       return;
     }
-    this.computeStatisticsDomain();
     const data = this.collectData();
     const domain: number[] = this.computeDomain(data) as number[];
     this.updateScaleDomainByModel(domain);

@@ -14,7 +14,6 @@ import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
-import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
 import type { INode } from '@visactor/vrender-core';
 
@@ -23,9 +22,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
   type = ComponentTypeEnum.markPoint;
   name: string = ComponentTypeEnum.markPoint;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkPoint;
-
-  static speckey = 'markPoint';
+  layoutZIndex: number = LayoutZIndex.MarkPoint;
 
   protected declare _theme: IMarkPointTheme;
 
@@ -33,17 +30,17 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
   protected declare _markerComponent: MarkPointComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markPointSpec = spec.markPoint || options.defaultSpec;
+    const markPointSpec = spec.markPoint;
     if (isEmpty(markPointSpec)) {
       return undefined;
     }
     if (!isArray(markPointSpec) && markPointSpec.visible !== false) {
-      return new MarkPoint(markPointSpec, { ...options, specKey: MarkPoint.speckey });
+      return new MarkPoint(markPointSpec, options);
     }
     const markPoints: MarkPoint[] = [];
     markPointSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markPoints.push(new MarkPoint(m, { ...options, specIndex: i, specKey: MarkPoint.speckey }));
+        markPoints.push(new MarkPoint(m, { ...options, specIndex: i }));
       }
     });
     return markPoints;
@@ -141,8 +138,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
         }
       },
       limitRect,
-      dx: this.layoutOffsetX,
-      dy: this.layoutOffsetY
+      dx: this._layoutOffsetX,
+      dy: this._layoutOffsetY
     });
   }
 

@@ -1,19 +1,19 @@
 import type { DataView } from '@visactor/vdataset';
-import { array, isFunction, isValid } from '@visactor/vutils';
+import { array, isFunction, isValid, isNil } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
 import type { IModelRenderOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
-import type { StringOrNumber } from '../../typings';
+import type { ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
 import type { IRegressType } from './mark-area/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import { calcLayoutNumber } from '../../util/space';
 
 export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
-  layoutType: LayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType | 'none' = 'none';
 
   protected _startRelativeSeries!: ICartesianSeries;
   protected _endRelativeSeries!: ICartesianSeries;
@@ -26,6 +26,9 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
   protected _markerData!: DataView;
   // marker 组件
   protected _markerComponent!: any;
+
+  protected _layoutOffsetX: number = 0;
+  protected _layoutOffsetY: number = 0;
 
   created() {
     super.created();
@@ -214,5 +217,16 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
 
   getVRenderComponents(): IGraphic[] {
     return [this._markerComponent] as unknown as IGroup[];
+  }
+
+  onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect, ctx: any): void {
+    // offset
+    if (!isNil(this._spec.offsetX)) {
+      this._layoutOffsetX = calcLayoutNumber(this._spec.offsetX, chartViewRect.width, chartViewRect);
+    }
+    if (!isNil(this._spec.offsetY)) {
+      this._layoutOffsetY = calcLayoutNumber(this._spec.offsetY, chartViewRect.height, chartViewRect);
+    }
+    super.onLayoutStart(layoutRect, chartViewRect, ctx);
   }
 }

@@ -29,7 +29,10 @@ import type {
   IExtensionMarkSpec,
   IExtensionGroupMarkSpec,
   EnableMarkType,
-  IGroup
+  IGroup,
+  ILayoutType,
+  ILayoutPoint,
+  ILayoutRect
 } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
@@ -54,7 +57,6 @@ import { addVChartProperty } from '../../data/transforms/add-property';
 import type { ITrigger } from '../../interaction/interface';
 import { Trigger } from '../../interaction/trigger';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import type { LayoutItem } from '../../model/layout-item';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 // eslint-disable-next-line no-duplicate-imports
@@ -65,7 +67,17 @@ import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
-import { array, isEqual, isNil, isValid, isBoolean, isString, isFunction, isArray } from '@visactor/vutils';
+import {
+  array,
+  isEqual,
+  isNil,
+  isValid,
+  isBoolean,
+  isString,
+  isFunction,
+  isArray,
+  isValidNumber
+} from '@visactor/vutils';
 import { getThemeFromOption } from '../../theme/util';
 import { getDirectionFromSeriesSpec } from '../util/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
@@ -73,8 +85,9 @@ import { baseSeriesMark } from './constant';
 import { isAnimationEnabledForSeries } from '../../animation/utils';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
+  readonly specKey: string = 'series';
   readonly type: string = 'series';
-  layoutType: LayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
   readonly modelType: string = 'series';
   readonly name: string | undefined = undefined;
 
@@ -98,6 +111,24 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   getRegion(): IRegion {
     return this._region;
   }
+
+  private _layoutStartPoint: ILayoutPoint = {
+    x: 0,
+    y: 0
+  };
+
+  getLayoutStartPoint(): ILayoutPoint {
+    return this._region.getLayoutStartPoint();
+  }
+
+  private _layoutRect: ILayoutRect = { width: null, height: null };
+
+  getLayoutRect: () => ILayoutRect = () => {
+    return {
+      width: this._layoutRect.width ?? this._region.getLayoutRect().width,
+      height: this._layoutRect.height ?? this._region.getLayoutRect().height
+    };
+  };
 
   /** 系列的根 mark */
   protected _rootMark: IGroupMark = null;
@@ -215,6 +246,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     return this._tooltipHelper;
   }
+
+  layoutZIndex: number = 0;
 
   protected _invalidType: IInvalidType = 'break';
   getInvalidType() {
@@ -961,12 +994,23 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         null;
   }
 
-  onLayoutEnd(ctx: any) {
-    const region = this.getRegion();
-    this.setLayoutRect(region.getLayoutRect());
-    this.setLayoutStartPosition(region.getLayoutStartPoint());
+  setLayoutStartPosition(pos: Partial<IPoint>): void {
+    if (isValidNumber(pos.x)) {
+      this._layoutStartPoint.x = pos.x;
+    }
+    if (isValidNumber(pos.y)) {
+      this._layoutStartPoint.y = pos.y;
+    }
+  }
 
-    super.onLayoutEnd(ctx);
+  setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) {
+    if (isValidNumber(width)) {
+      this._layoutRect.width = width;
+    }
+
+    if (isValidNumber(height)) {
+      this._layoutRect.height = height;
+    }
   }
 
   /** seriesField */

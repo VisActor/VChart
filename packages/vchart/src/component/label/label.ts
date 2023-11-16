@@ -3,7 +3,6 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '../../util/spec/merge-spec';
@@ -44,8 +43,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Label;
+  layoutZIndex: number = LayoutZIndex.Label;
 
   protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;
 
@@ -70,7 +68,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         return mark.getLabelSpec()?.some(labelSpec => labelSpec.visible);
       });
       if (labelVisible) {
-        labelComponents.push(new Label(spec, { ...options, specIndex: i, specKey: 'label' }));
+        labelComponents.push(new Label(spec, { ...options, specIndex: i }));
         continue;
       }
     }
@@ -303,5 +301,5 @@ export const registerLabel = () => {
   registerVGrammarLabel();
   Factory.registerMark(LabelMark.constructorType, LabelMark);
   Factory.registerMark(ComponentMark.type, ComponentMark);
-  Factory.registerComponent(Label.type, Label);
+  Factory.registerComponent(Label.type, Label, true);
 };

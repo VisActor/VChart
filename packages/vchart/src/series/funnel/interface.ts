@@ -8,9 +8,9 @@ import type {
   IPolygonMarkSpec,
   IRuleMarkSpec,
   ITextMarkSpec,
-  IPyramid3dMarkSpec
+  IPyramid3dMarkSpec,
+  IPercent
 } from '../../typings';
-import type { IPercent } from '../../model/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 

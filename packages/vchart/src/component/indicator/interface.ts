@@ -1,4 +1,4 @@
-import type { IPercent } from '../../model/interface';
+import type { IPercent } from '../../typings/layout';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';

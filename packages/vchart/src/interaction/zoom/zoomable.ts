@@ -113,10 +113,7 @@ export class Zoomable implements IZoomable {
           x: zoomX,
           y: zoomY
         },
-        {
-          ...regionOrSeries.getLayoutRect(),
-          ...regionOrSeries.getLayoutStartPoint()
-        }
+        this._getRegionOrSeriesLayout(regionOrSeries)
       )
     ) {
       return;
@@ -132,6 +129,13 @@ export class Zoomable implements IZoomable {
       scaleCenter: { x: event.zoomX, y: event.zoomY },
       model: this
     } as unknown as ExtendEventParam);
+  }
+
+  private _getRegionOrSeriesLayout(rs: IRegion | ISeries) {
+    if (rs.type !== 'region') {
+      rs = (<ISeries>rs).getRegion();
+    }
+    return rs.layout.getLayout();
   }
 
   private _bindZoomEventAsRegion(
@@ -221,10 +225,7 @@ export class Zoomable implements IZoomable {
           x: event.canvasX,
           y: event.canvasY
         },
-        {
-          ...regionOrSeries.getLayoutRect(),
-          ...regionOrSeries.getLayoutStartPoint()
-        }
+        this._getRegionOrSeriesLayout(regionOrSeries)
       )
     ) {
       return;
@@ -321,10 +322,7 @@ export class Zoomable implements IZoomable {
           x: event.canvasX,
           y: event.canvasY
         },
-        {
-          ...regionOrSeries.getLayoutRect(),
-          ...regionOrSeries.getLayoutStartPoint()
-        }
+        this._getRegionOrSeriesLayout(regionOrSeries)
       );
       if (shouldTrigger) {
         this._handleDrag(params, callback, option);

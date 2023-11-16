@@ -4,7 +4,6 @@ import { createID } from '../util/id';
 import { mergeSpec } from '../util/spec/merge-spec';
 import { Event } from '../event/event';
 import type { IEvent } from '../event/interface';
-import { LayoutItem } from './layout-item';
 import type {
   IEffect,
   IModel,
@@ -13,7 +12,6 @@ import type {
   IModelRenderOption,
   IModelEvaluateOption,
   IModelSpec,
-  ILayoutRect,
   IModelMarkInfo
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
@@ -25,17 +23,25 @@ import type {
   ICommonSpec,
   StringOrNumber,
   IRect,
-  ISeriesSpec
+  ISeriesSpec,
+  ILayoutRect
 } from '../typings';
 import type { CompilableData } from '../compile/data/compilable-data';
-import { PREFIX } from '../constant';
 import type { IGroupMark } from '@visactor/vgrammar-core';
-import { isArray, isEqual, isValid } from '@visactor/vutils';
+import { isArray, isValid } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import { MarkSet } from '../mark/mark-set';
 import { defaultChartLevelTheme } from '../theme/builtin';
+import type { ILayoutItem } from '../layout/interface';
+import { CompilableBase } from '../compile/compilable-base';
+import { PREFIX } from '../constant/base';
 
-export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> implements IModel {
+export abstract class BaseModel<T extends IModelSpec> extends CompilableBase implements IModel {
+  protected _spec: T;
+  getSpec(): T {
+    return this._spec || ({} as T);
+  }
+
   readonly type: string = 'null';
   readonly modelType: string = 'null';
 
@@ -53,6 +59,12 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   protected _data: CompilableData = null;
   getData() {
     return this._data;
+  }
+
+  // 布局
+  protected _layout?: ILayoutItem = null;
+  get layout() {
+    return this._layout;
   }
 
   protected _specIndex: number = 0;
@@ -95,9 +107,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   /** for layout diff */
   protected _lastLayoutRect: ILayoutRect = null;
 
-  // TODO: 有些hack,这个tag是为了避免布局逻辑中，轴的数据变化，又由数据变化触发重新布局
-  protected _isLayout: boolean = true;
-
   constructor(spec: T, option: IModelOption) {
     super(option);
     this.id = createID();
@@ -106,7 +115,6 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     this._transformSpec();
     this.userId = spec.id;
     this._specIndex = option.specIndex ?? 0;
-    this.specKey = option.specKey ?? '';
     this.effect = {};
     this.event = new Event(option.eventDispatcher, option.mode);
     option.map?.set(this.id, this);
@@ -130,27 +138,17 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
     // do nothing
   }
 
-  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
-    super.onLayoutStart(layoutRect, viewRect, ctx);
-    this._isLayout = true;
-  }
-  onLayoutEnd(ctx: any): void {
-    // diff layoutRect
-    const layoutRect = this.getLayoutRect();
-    if (this._forceLayoutTag || !isEqual(this._lastLayoutRect, layoutRect)) {
-      this.updateLayoutAttribute();
-    }
-    this._forceLayoutTag = false;
-    this.getMarks().forEach(m => m.updateLayoutState(true, true));
-    this._isLayout = false;
+  getVisible() {
+    return (this._spec as unknown as any)?.visible !== false;
   }
 
-  protected _forceLayout() {
-    if (this._isLayout) {
-      return;
-    }
-    this._forceLayoutTag = true;
-    this._option.globalInstance.getChart()?.setLayoutTag(true);
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
+    // do nothing
+    this._layout?.onLayoutStart(layoutRect, viewRect, ctx);
+  }
+  onLayoutEnd(ctx: any): void {
+    this._layout?.onLayoutEnd(ctx);
+    this.getMarks().forEach(m => m.updateLayoutState(true, true));
   }
 
   onEvaluateEnd(ctx: IModelEvaluateOption) {
@@ -304,7 +302,7 @@ export abstract class BaseModel<T extends IModelSpec> extends LayoutItem<T> impl
   }
 
   setAttrFromSpec() {
-    super.setAttrFromSpec(this._spec, this._option.getChartViewRect());
+    this._layout?.setAttrFromSpec(this._spec, this._option.getChartViewRect());
   }
 
   /** mark style 内部转换逻辑，override 使用 */

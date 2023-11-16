@@ -1,5 +1,6 @@
 import { VChart } from './core';
 
+import { isBrowserEnv, isNodeEnv, vglobal } from '@visactor/vrender-core';
 import { registerLineChart } from './chart/line';
 import { registerAreaChart } from './chart/area';
 import { registerBar3dChart, registerBarChart } from './chart/bar';
@@ -58,7 +59,7 @@ import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
-import { registerAllEnv } from './env';
+import { registerAllEnv, registerBrowserEnv, registerNodeEnv } from './env';
 
 VChart.useRegisters([
   // charts
@@ -136,7 +137,13 @@ VChart.useRegisters([
   registerLayout3d
 ]);
 
+// VChart很少会有元素超过边界，低于300个元素的时候，禁用超出边界的判定，节省小数据量的耗时
+// @ts-ignore TODO 0.17.0的VRender会开放该API
+// vglobal.optmizeSkipCheckBoundariesThreshold = 300;
 // load env code
-VChart.useRegisters([registerAllEnv]);
-
+if (isBrowserEnv()) {
+  VChart.useRegisters([registerBrowserEnv]);
+} else if (isNodeEnv) {
+  VChart.useRegisters([registerNodeEnv]);
+}
 export { VChart };

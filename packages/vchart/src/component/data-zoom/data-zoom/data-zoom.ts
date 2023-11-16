@@ -8,7 +8,7 @@ import { DataFilterBaseComponent } from '../data-filter-base-component';
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
-import type { Datum } from '../../../typings';
+import type { Datum, ILayoutType } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
@@ -26,6 +26,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
+  layoutType: ILayoutType = 'region-relative';
 
   // datazoom组件
   protected _component!: DataZoomComponent;
@@ -38,24 +39,22 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _endHandlerSize!: number;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const compSpec = spec.dataZoom || options.defaultSpec;
+    const compSpec = spec.dataZoom;
     if (isNil(compSpec)) {
       return undefined;
     }
     if (!isArray(compSpec)) {
-      return new DataZoom(compSpec, { ...options, specKey: 'dataZoom' });
+      return new DataZoom(compSpec, options);
     }
     const zooms: DataZoom[] = [];
     compSpec.forEach((s, i: number) => {
-      zooms.push(new DataZoom(s, { ...options, specIndex: i, specKey: 'dataZoom' }));
+      zooms.push(new DataZoom(s, { ...options, specIndex: i }));
     });
     return zooms;
   }
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
 
     this._valueField = 'y';
     this._filterMode = spec.filterMode ?? IFilterMode.filter;
