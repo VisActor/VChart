@@ -264,6 +264,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         this._relatedAxisComponent = bandAxis;
       }
     }
+
+    if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
+      (this._relatedAxisComponent as CartesianAxis<any>).autoIndentOnce = true;
+    }
   }
 
   protected _setRegionsFromSpec() {
