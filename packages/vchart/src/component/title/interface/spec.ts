@@ -14,13 +14,25 @@ export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
    */
   orient?: IOrientType;
   /**
-   * 主标题内容
+   * 主标题文本内容
+   * - 支持富文本配置
    */
-  text: Text | Text[];
+  text?: string | number | string[] | number[] | IRichTextCharacter[];
   /**
-   * 副标题内容
+   * 主标题文本类型（默认类型为text）
+   * text, rich, html
    */
-  subtext?: Text | Text[];
+  textType?: string;
+  /**
+   * 副标题文本内容
+   * - 支持富文本配置
+   */
+  subtext?: string | number | string[] | number[] | IRichTextCharacter[];
+  /**
+   * 副标题文本类型（默认类型为text）
+   * text, rich, html
+   */
+  subtextType?: string;
   /**
    * 标题左上角x坐标像素值
    */
@@ -102,7 +114,7 @@ export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
      */
     lineClamp?: number;
     /**
-     * 富文本配置
+     * 富文本配置（暂时保留旧设置）
      */
     character?: IRichTextCharacter[];
   } & Partial<ITextGraphicAttribute>;
@@ -143,7 +155,7 @@ export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
      */
     lineClamp?: number;
     /**
-     * 富文本配置
+     * 富文本配置（暂时保留旧设置）
      */
     character?: IRichTextCharacter[];
   } & Partial<ITextGraphicAttribute>;

@@ -11,6 +11,7 @@ import type {
 } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, ITickCallbackOption, StyleCallback } from './common';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**
@@ -264,13 +265,15 @@ export interface ISubTick extends IAxisItem<IRuleMarkSpec> {
 
 // 轴标签配置
 export interface ILabel extends IAxisItem<ITextMarkSpec> {
+  /** 文本类型：text, rich, html */
+  type?: string;
   /**
    * 轴标签内容格式化函数
    * @param text 原始标签文本值
    * @param datum 图形数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: Datum) => string | string[];
+  formatMethod?: (text: string | string[], datum?: Datum) => string | string[] | IRichTextCharacter[];
   /** 标签同 tick 之间的间距 */
   space?: number;
   /**
@@ -352,7 +355,13 @@ export interface ITitle extends IAxisItem<ITextMarkSpec> {
      */
     state?: AxisItemStateStyle<Partial<ISymbolMarkSpec>>;
   };
-  text?: string | string[];
+  /** 文本类型：text, rich, html */
+  type?: string;
+  /**
+   * 文本内容
+   * 支持富文本内容, 如textConfig, html
+   */
+  text?: string | string[] | IRichTextCharacter[];
   /**
    * 标题整体的旋转角度（如果标题配置了 background、shape 等属性的话，需要使用该属性进行整体的配置旋转）。
    */

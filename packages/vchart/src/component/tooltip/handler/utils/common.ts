@@ -7,6 +7,8 @@ import type { IRichTextParagraphCharacter } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { getRichTextBounds } from '@visactor/vrender-core';
 import type { ITooltipTextStyle } from '../interface/style';
+import type { TooltipRichTextAttrs } from '@visactor/vrender-components';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 
 interface IGradientColor {
   [key: string]: any;
@@ -130,36 +132,53 @@ export const getScale = (element: HTMLElement, boundingClientRect?: DOMRect) => 
 interface ITooltipTextInfo {
   width: number;
   height: number;
-  text: MaybeArray<number> | MaybeArray<string>;
+  text: MaybeArray<number> | MaybeArray<string> | TooltipRichTextAttrs;
 }
 
 /** 测量 tooltip 标签文本 */
-export const measureTooltipText = (text: string, style: ITooltipTextStyle): ITooltipTextInfo => {
-  text = (text ?? '').toString();
-  let textLines: string[];
-  if (style.multiLine) {
-    textLines = text.split('\n');
-    textLines = textLines.map((line, i) => (i < textLines.length - 1 ? line + '\n' : line));
+export const measureTooltipText = (text: string | TooltipRichTextAttrs, style: ITooltipTextStyle): ITooltipTextInfo => {
+  if (typeof text === 'object' && text !== null && (text?.type === 'rich' || text?.type === 'html')) {
+    // text 是一个对象类型
+    const bound = getRichTextBounds({
+      wordBreak: style.wordBreak ?? 'break-word',
+      maxWidth: style.maxWidth ? style.maxWidth : undefined,
+      width: 0,
+      height: 0,
+      textConfig: (text as TooltipRichTextAttrs).text as IRichTextCharacter[]
+    });
+    return {
+      width: bound.width(),
+      height: bound.height(),
+      text: text
+    };
   } else {
-    textLines = [text];
-  }
+    // text 不是一个对象类型
+    text = (text ?? '').toString();
+    let textLines: string[];
+    if (style.multiLine) {
+      textLines = text.split('\n');
+      textLines = textLines.map((line, i) => (i < textLines.length - 1 ? line + '\n' : line));
+    } else {
+      textLines = [text];
+    }
 
-  const bound = getRichTextBounds({
-    wordBreak: style.wordBreak ?? 'break-word',
-    maxWidth: style.maxWidth ? style.maxWidth : undefined,
-    width: 0,
-    height: 0,
-    textConfig: textLines.map(
-      line =>
-        ({
-          ...style,
-          text: line
-        }) as unknown as IRichTextParagraphCharacter
-    )
-  });
-  return {
-    width: bound.width(),
-    height: bound.height(),
-    text: textLines
-  };
+    const bound = getRichTextBounds({
+      wordBreak: style.wordBreak ?? 'break-word',
+      maxWidth: style.maxWidth ? style.maxWidth : undefined,
+      width: 0,
+      height: 0,
+      textConfig: textLines.map(
+        line =>
+          ({
+            ...style,
+            text: line
+          } as unknown as IRichTextParagraphCharacter)
+      )
+    });
+    return {
+      width: bound.width(),
+      height: bound.height(),
+      text: textLines
+    };
+  }
 };

@@ -34,6 +34,7 @@ export interface IItemContent extends IMarkerRef {
   };
   /**
    * type为text时, text的样式
+   * 'text'类型的ItemContent新增三种子类型：'text','rich','html'。配置在textStyle.type上。
    */
   text?: IMarkerLabelSpec;
   /**

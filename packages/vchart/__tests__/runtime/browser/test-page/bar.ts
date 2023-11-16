@@ -58,9 +58,22 @@ const run = () => {
           style: {
             fill: '#505050',
             fontFamily: 'PingFang SC',
-            angle: -60,
-            textAlign: 'end',
-            textBaseline: 'middle'
+            angle: 0
+          },
+          type: 'rich',
+          formatMethod: text => {
+            return [
+              {
+                text: text,
+                fontWeight: 'bold',
+                fontSize: 12,
+                fill: '#3f51b5'
+              },
+              {
+                text: '🌞',
+                fill: '#3f51b5'
+              }
+            ];
           }
         },
         tick: {
@@ -74,7 +87,22 @@ const run = () => {
             fontFamily: 'PingFang SC',
             fontSize: 14,
             fontWeight: 'bold'
-          }
+          },
+          type: 'rich',
+          text: [
+            {
+              text: 'Date',
+              fontWeight: 'bold',
+              fontSize: 25,
+              fill: '#3f51b5'
+            },
+            {
+              text: '日期',
+              fontStyle: 'italic',
+              textDecoration: 'underline',
+              fill: '#3f51b5'
+            }
+          ]
         }
       },
       {
@@ -173,7 +201,28 @@ const run = () => {
       }
     },
     tooltip: {
-      enterable: true
+      enterable: true,
+      renderMode: 'canvas',
+      mark: {
+        title: {
+          value: {
+            type: 'rich',
+            text: [
+              {
+                text: 'TOOLTIP',
+                fontWeight: 'bold',
+                fill: '#3f51b5'
+              },
+              {
+                text: '替代方案',
+                fontStyle: 'italic',
+                textDecoration: 'underline',
+                fill: '#3f51b5'
+              }
+            ]
+          }
+        }
+      }
     },
     bar: {
       style: {
@@ -183,6 +232,43 @@ const run = () => {
         hover: {
           fill: '#1664FF'
         }
+      }
+    },
+    title: {
+      textType: 'rich',
+      text: [
+        {
+          text: 'RICHTEXT',
+          fontWeight: 'bold',
+          fontSize: 25,
+          fill: '#3f51b5'
+        },
+        {
+          text: '替代方案',
+          fontStyle: 'italic',
+          textDecoration: 'underline',
+          fill: '#3f51b5'
+        }
+      ]
+    },
+    label: {
+      visible: true,
+      textType: 'rich',
+      formatMethod: text => {
+        return [
+          {
+            text: text + '',
+            fontWeight: 'bold',
+            fontSize: 12,
+            fill: '#3f51b5'
+          },
+          {
+            text: 'K',
+            fontStyle: 'italic',
+            textDecoration: 'underline',
+            fill: '#3f51b5'
+          }
+        ];
       }
     }
   };

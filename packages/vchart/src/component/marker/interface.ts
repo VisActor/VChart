@@ -1,5 +1,5 @@
 import type { IPadding, IPointLike } from '@visactor/vutils';
-import type { SymbolType } from '@visactor/vrender-core';
+import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
@@ -53,16 +53,24 @@ export type IMarkerLabelWithoutRefSpec = {
     style: Omit<IRectMarkSpec, 'visible'>;
   };
   /**
-   * label文本 - 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
+   * 文本类型：text, rich, html
    */
-  text?: string | string[] | number | number[];
+  type?: string;
+  /**
+   * 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
+   * 支持富文本内容, 如textConfig, html, 设置富文本时要配置type类型为'rich'或'html'
+   */
+  text?: string | string[] | number | number[] | IRichTextCharacter[];
   /**
    * label文本 - 文本格式化
    * @param markData 组成标注的数据
    * @param seriesData 标注关联的数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (markData: Datum[], seriesData: Datum[]) => string | string[] | number | number[];
+  formatMethod?: (
+    markData: Datum[],
+    seriesData: Datum[]
+  ) => string | string[] | number | number[] | IRichTextCharacter[];
   /**
    * label文本 - 文本样式
    */

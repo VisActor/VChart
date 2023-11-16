@@ -29,7 +29,7 @@ export enum LabelRule {
 export function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod']) {
   const { labelMark, series } = labelInfo;
   const field = series.getMeasureField()[0];
-  const textAttribute = { text: datum[field], data: datum } as any;
+  const textAttribute = { text: datum[field], data: datum, textType: labelInfo.labelSpec.textType ?? 'text' } as any;
 
   const attributes = Object.keys(labelMark.stateStyle.normal);
   for (const key of attributes) {
