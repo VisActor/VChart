@@ -19,9 +19,28 @@ Where `datum` is the default data item corresponding to the current line of the 
 
 {{ /if }}
 
-#${prefix} value(string|Function)
+#${prefix} value(string|Function|Object)
 
-The content of the value column for the current line of the tooltip. If configured as a string, it will be displayed as the corresponding constant text. It can also be configured as a function callback, with the type:
+tooltip The contents of the value column of the current row.
+If configured as a string, it will be displayed as the corresponding constant text.
+It can also be configured as rich text configuration, the type is:
+
+```ts
+{
+    /**
+     * Main title text type (default type is text)
+     * text, rich, html
+     */
+    type?: string;
+    /**
+     * Title text content
+     * - Support rich text configuration
+     */
+    text?: IRichTextCharacter[] | string;
+}
+```
+
+It can also be configured as a function callback, the type is:
 
 ```ts
 (datum: Datum) => string;

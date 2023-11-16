@@ -8,6 +8,16 @@
 
 是否显示轴标签。
 
+#${prefix} type(string)
+
+自 1.7.0 版本开始支持，文本类型。
+
+可选：
+
+- 'text'
+- 'rich'
+- 'html'
+
 #${prefix} formatMethod(Function)
 
 轴标签内容格式化函数，函数定义如下：
@@ -19,7 +29,7 @@
    * @param datum 图形数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[];
+  formatMethod?: (text: string | string[], datum?: any) => string | string[] | IRichTextCharacter[];
 ```
 
 #${prefix} space(number)

@@ -8,9 +8,20 @@ Axis title configuration.
 
 Whether to display the axis title.
 
+#${prefix} type(string)
+
+Supported since version 1.7.0, text type.
+
+Optional:
+
+- 'text'
+- 'rich'
+- 'html'
+
 #${prefix} text(string|number|(string|number)[])
 
 Text content of the title.
+Starting from version 1.7.0, rich text content is supported
 
 #${prefix} position(string)
 

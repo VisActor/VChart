@@ -8,6 +8,16 @@ Axis Label Configuration.
 
 Whether to display the axis label.
 
+#${prefix} type(string)
+
+Supported since version 1.7.0, text type.
+
+Optional:
+
+- 'text'
+- 'rich'
+- 'html'
+
 #${prefix} formatMethod(Function)
 
 Axis label content formatting function, the function definition is as follows:
@@ -19,7 +29,7 @@ Axis label content formatting function, the function definition is as follows:
    * @param datum Graphic data
    * @returns Formatted text
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[];
+  formatMethod?: (text: string | string[], datum?: any) => string | string[] | IRichTextCharacter[];
 ```
 
 #${prefix} space(number)

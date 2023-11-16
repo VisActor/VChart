@@ -8,6 +8,16 @@ Display chart data labels or not, by default labels are not displayed.
 
 Whether the data label graphic element supports interaction events, not supported by default.
 
+#${prefix} textType(string)
+
+Supported since version 1.7.0, text type.
+
+Optional:
+
+- 'text'
+- 'rich'
+- 'html'
+
 #${prefix} formatMethod(Function)
 
 The data label content formatting function, defined as follows:
@@ -19,7 +29,7 @@ The data label content formatting function, defined as follows:
    * @param datum 图形数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[];
+  formatMethod?: (text: string | string[], datum?: any) => string | string[] | IRichTextCharacter[];
 ```
 
 {{ if: !${noOffset} }}
