@@ -51,6 +51,9 @@ export default function (props: any) {
             borderRadius: '4px',
             border: '1px solid #eeeeee'
           }}
+          options={{
+            disableDirtyBounds: true
+          }}
           onChartInit={() => {
             console.log(`init ${type}`);
           }}

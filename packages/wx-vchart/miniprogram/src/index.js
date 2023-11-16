@@ -91,7 +91,8 @@ Component({
               },
               // Get the dpr live as it will change at runtime due to dragging to different monitors
               dpr: wx.getSystemInfoSync().pixelRatio,
-              renderCanvas: `${this.data.canvasId}_draw_canvas`
+              renderCanvas: `${this.data.canvasId}_draw_canvas`,
+              ...this.data.options
             }
           );
           this.chart = chartInstance;
