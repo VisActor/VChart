@@ -64,6 +64,7 @@
     "@types/node": "*"
   },
   "dependencies": {
+    "@visactor/chart-advisor": "0.1.10",
     "@visactor/vrender": "~0.16.9",
     "@visactor/vdataset": "~0.16.6",
     "@visactor/vutils": "~0.16.6",
