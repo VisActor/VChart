@@ -164,7 +164,7 @@ function getLabelStyle(
   styleObj.fontSize = getPixelPropertyStr(labelFontSize);
   styleObj.color = labelColor as string;
   styleObj.textAlign = textAlign as TextAlign;
-  styleObj.lineHeight = getPixelPropertyStr(lineHeight);
+  styleObj.lineHeight = getPixelPropertyStr(lineHeight as number);
   styleObj.fontWeight = fontWeight as FontWeight;
   styleObj.whiteSpace = multiLine ? 'initial' : 'nowrap';
   styleObj.wordBreak = multiLine ? wordBreak ?? 'break-word' : 'normal';
