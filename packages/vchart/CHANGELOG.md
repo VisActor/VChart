@@ -1,6 +1,23 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 10 Nov 2023 09:56:51 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Nov 2023 06:35:43 GMT and should not be manually modified.
+
+## 1.6.4
+Thu, 16 Nov 2023 06:35:43 GMT
+
+### Updates
+
+- fix: fixed the problem of unreasonable automatic indentation being triggered after modifying the axis range in datazoom
+
+
+- fix: default realtime not effect in scrollbar and datazoom. fix#1462
+- fix: filter mode error when roam in scrollbar and datazoom. fix #1460
+- fix: fix `options` can not work in lark-vchart, wx-vchart and tt-vchart
+
+
+- perf: optimize the dataflow of sankey
+
+
 
 ## 1.6.3
 Fri, 10 Nov 2023 09:56:51 GMT

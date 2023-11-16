@@ -53,7 +53,12 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     extractNamesFromTree(tree: any, categoryName: string): Set<unknown>;
     getDimensionField(): string[];
     getMeasureField(): string[];
-    getSeriesKeys(): string[];
+    getRawDataStatisticsByField(field: string, isNumeric?: boolean): {
+        values?: any[];
+        min?: number;
+        max?: number;
+    };
+    private _collectByField;
     onLayoutEnd(ctx: any): void;
     getDefaultShapeType(): string;
     protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined;
