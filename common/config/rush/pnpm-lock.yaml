@@ -15,8 +15,8 @@ importers:
       '@types/markdown-it': ^13.0.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      '@visactor/vchart': workspace:1.6.3
-      '@visactor/vchart-theme': workspace:1.6.3
+      '@visactor/vchart': workspace:1.6.4
+      '@visactor/vchart-theme': workspace:1.6.4
       '@visactor/vgrammar': ~0.8.3
       '@visactor/vmind': workspace:1.0.8
       '@visactor/vrender': ~0.16.15
@@ -125,7 +125,7 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
-      '@visactor/vchart': workspace:1.6.3
+      '@visactor/vchart': workspace:1.6.4
       '@visactor/vgrammar-core': ~0.8.3
       '@visactor/vrender-core': ~0.16.15
       '@visactor/vrender-kits': ~0.16.15
@@ -207,7 +207,7 @@ importers:
       '@types/webpack-env': ^1.13.6
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:1.6.3
+      '@visactor/vchart': workspace:1.6.4
       '@vitejs/plugin-react': 3.1.0
       babel-preset-taro: 3.3.17
       eslint: ~8.18.0
@@ -295,7 +295,7 @@ importers:
       '@visactor/vrender-kits': ~0.16.15
       '@visactor/vscale': ~0.16.9
       '@visactor/vutils': ~0.16.9
-      '@visactor/vutils-extension': workspace:1.6.3
+      '@visactor/vutils-extension': workspace:1.6.4
       canvas: 2.11.2
       d3-array: ^1.2.4
       d3-dsv: ^3.0.1
@@ -393,7 +393,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vchart': workspace:1.6.3
+      '@visactor/vchart': workspace:1.6.4
       '@visactor/vdataset': ~0.16.9
       '@visactor/vrender-core': ~0.16.15
       '@visactor/vrender-kits': ~0.16.15
@@ -480,7 +480,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vchart-types': workspace:1.6.3
+      '@visactor/vchart-types': workspace:1.6.4
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -548,11 +548,11 @@ importers:
       '@types/react-dom': ^18.0.0
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:1.6.3
+      '@visactor/vchart': workspace:1.6.4
       '@visactor/vdataset': ~0.16.9
       '@visactor/vrender': ~0.16.15
       '@visactor/vutils': ~0.16.9
-      '@visactor/vutils-extension': workspace:1.6.3
+      '@visactor/vutils-extension': workspace:1.6.4
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
       eslint: ~8.18.0
@@ -890,7 +890,7 @@ importers:
       '@types/node': '*'
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:1.6.3
+      '@visactor/vchart': workspace:1.6.4
       '@visactor/vrender': ~0.16.15
       '@visactor/vrender-core': ~0.16.15
       '@visactor/vrender-kits': ~0.16.15
@@ -15697,7 +15697,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.5
+      minimist: 1.2.8
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -18130,7 +18130,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.5
+      minimist: 1.2.8
       strip-json-comments: 2.0.1
     dev: true
 
