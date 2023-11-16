@@ -13,7 +13,12 @@ const spec = {
       xField: 'State',
       yField: 'Population',
       seriesField: 'Age',
-      stack: false
+      stack: false,
+      line: {
+        style: {
+          lineCap: 'butt'
+        }
+      }
     }
   ],
   axes: [
