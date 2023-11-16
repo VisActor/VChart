@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-theme",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "The built-in themes for VChart",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -28,7 +28,7 @@
     "@internal/eslint-config": "workspace:*",
     "@internal/ts-config": "workspace:*",
     "@rushstack/eslint-patch": "~1.1.4",
-    "@visactor/vchart-types": "workspace:1.6.3",
+    "@visactor/vchart-types": "workspace:1.6.4",
     "eslint": "~8.18.0",
     "vite": "3.2.6",
     "typescript": "4.9.5",
