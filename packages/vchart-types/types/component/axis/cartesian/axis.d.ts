@@ -34,6 +34,9 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     getOrient(): IOrientType;
     get layoutOrient(): IOrientType;
     set layoutOrient(v: IOrientType);
+    protected _autoIndentOnce: boolean;
+    protected _hasAutoIndent: boolean;
+    set autoIndentOnce(v: boolean);
     protected _scales: IBaseScale[];
     getScales(): IBaseScale[];
     protected _theme: ICartesianAxisCommonTheme;
