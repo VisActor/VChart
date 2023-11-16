@@ -265,7 +265,12 @@ export const checkChartTypeAndCell = (chartType: string, cell: any): boolean => 
 };
 
 const checkChannel = (cell: any, channel: string, count = 1) => {
-  if (cell[channel].length === count) {
+  if (count === 1 && typeof cell[channel] === 'string') {
+    // channel exist and is a string
+    return true;
+  }
+  if (Array.isArray(cell[channel]) && cell[channel].length === count) {
+    // channel is a array
     return true;
   } else {
     throw `cell mismatch channel '${channel}'`;
