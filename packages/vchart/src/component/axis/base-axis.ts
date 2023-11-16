@@ -17,7 +17,7 @@ import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ISeries } from '../../series/interface';
 import { ChartEvent, LayoutZIndex } from '../../constant';
 import { animationConfig } from '../../animation/utils';
-import { degreeToRadian, pickWithout, type LooseFunction } from '@visactor/vutils';
+import { degreeToRadian, pickWithout, type LooseFunction, isEqual } from '@visactor/vutils';
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import type { ITransformOptions } from '@visactor/vdataset';
@@ -82,7 +82,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _tick: ITick | undefined = undefined;
   protected abstract computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[];
-  abstract dataToPosition(values: any[], cfg?: any): number;
   abstract valueToPosition(value: any): number;
   protected abstract axisHelper(): any;
   protected abstract getSeriesStatisticsField(s: ISeries): string[];
@@ -271,9 +270,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // 留给各个类型的 axis 来 override
   }
 
-  protected computeData(): void {
-    this._tickData.getDataView().reRunAllTransform();
-    this._tickData.updateData();
+  protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
+    if (updateType === 'force' || !isEqual(this._scale.range(), [0, 1])) {
+      this._tickData.getDataView().reRunAllTransform();
+      this._tickData.updateData();
+    }
   }
 
   protected initScales() {
@@ -466,6 +467,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   addTransformToTickData(options: ITransformOptions, execute?: boolean) {
     this._tickData?.getDataView()?.transform(options, execute);
+  }
+
+  dataToPosition(values: any[]): number {
+    return this._scale.scale(values);
   }
 }
 

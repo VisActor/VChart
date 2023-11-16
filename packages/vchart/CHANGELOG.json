@@ -2,6 +2,138 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.6.4",
+      "tag": "@visactor/vchart_v1.6.4",
+      "date": "Thu, 16 Nov 2023 06:35:43 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fixed the problem of unreasonable automatic indentation being triggered after modifying the axis range in datazoom\n\n"
+          },
+          {
+            "comment": "fix: default realtime not effect in scrollbar and datazoom. fix#1462"
+          },
+          {
+            "comment": "fix: filter mode error when roam in scrollbar and datazoom. fix #1460"
+          },
+          {
+            "comment": "fix: fix `options` can not work in lark-vchart, wx-vchart and tt-vchart\n\n"
+          },
+          {
+            "comment": "perf: optimize the dataflow of sankey\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.6.3",
+      "tag": "@visactor/vchart_v1.6.3",
+      "date": "Fri, 10 Nov 2023 09:56:51 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix the issue of update animation not work for line mark"
+          },
+          {
+            "comment": "fix: update vgrammar to ~0.8.3  to fix the issue that, vrender should not auto render during renderAsync"
+          },
+          {
+            "comment": " fix: fix the error when quick release vchart during async render"
+          },
+          {
+            "comment": "fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446"
+          },
+          {
+            "comment": "perf: optimize the encode performance of sankey\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.6.2",
+      "tag": "@visactor/vchart_v1.6.2",
+      "date": "Wed, 08 Nov 2023 11:05:21 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.6.1",
+      "tag": "@visactor/vchart_v1.6.1",
+      "date": "Wed, 08 Nov 2023 05:29:48 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: label formatMethod callback add context parmas to provide series object"
+          },
+          {
+            "comment": "feat: add components `<Title />` and `<Indicator />` of react-vchart, close #1424\n\n"
+          },
+          {
+            "comment": "fix: `centroidProperty` not work in map chart"
+          },
+          {
+            "comment": "fix: fix incorrect legend filter result caused by animation in #1403"
+          },
+          {
+            "comment": "fix: if layout item is invisible, do not participate in grid layout, related #1425"
+          },
+          {
+            "comment": "fix(marker): aggregation return value infinity problem. fix#1380'"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.6.0",
+      "tag": "@visactor/vchart_v1.6.0",
+      "date": "Fri, 03 Nov 2023 05:16:41 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add `updateElement` callback in tooltip spec to configure custom tooltip DOM elements based on the default tooltip handler, related #1338"
+          },
+          {
+            "comment": "feat: enable exit animation while updating data"
+          },
+          {
+            "comment": " feat: support functional label.position config in line/area/scatter/bar series"
+          },
+          {
+            "comment": "feat: load browser or node env code dynamically"
+          },
+          {
+            "comment": "feat: support functional label.position config in line/area/scatter/bar series"
+          },
+          {
+            "comment": "feat: dataScheme supports configuration by distinguishing series directions, related #1209"
+          },
+          {
+            "comment": "feat: data sampling & point overlap. close #460"
+          },
+          {
+            "comment": "fix: react-vchart mode not work"
+          },
+          {
+            "comment": "fix: optimize the trigger of hover in non-browser env"
+          },
+          {
+            "comment": "fix: if series mark is line, return stroke value when user want fill value, fixed #1388"
+          },
+          {
+            "comment": "fix: fix the angle offset in rose dimension tooltip, related #1263"
+          },
+          {
+            "comment": "perf: create Stack and calculate stack attributes when need\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.5.4",
       "tag": "@visactor/vchart_v1.5.4",
       "date": "Mon, 30 Oct 2023 06:09:01 GMT",

@@ -40,7 +40,7 @@ import type { IPieOpt } from '../../data/transforms/pie';
 import { pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { registerPieAnimation, type IPieAnimationParams, type PieAppearPreset } from './animation/animation';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
 import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
@@ -152,7 +152,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         type: this._pieMarkType
       },
       {
-        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
+        morph: shouldMarkDoMorph(this._spec, this._pieMarkName),
         defaultMorphElementKey: this._seriesField,
         key: DEFAULT_DATA_KEY,
         groupKey: this._seriesField,
@@ -440,13 +440,12 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         }
 
         // 扇形不在边缘时，获取扇形生长点：获取相邻状态下相邻扇形的边缘
-        // @ts-ignore
-        // TODO: findLast is a new prototype function, we will later polyfill it in v-util.
-        const prevMarkElement = markElements.findLast(e => e.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex);
+        const prevMarkElement = [...markElements].reverse().find(e => e.data[0]?.[DEFAULT_DATA_INDEX] < dataIndex);
+
         if (outState.includes(state)) {
-          return prevMarkElement?.getGraphicItem().nextAttrs?.endAngle;
+          return prevMarkElement?.getNextGraphicAttributes()?.endAngle;
         }
-        return prevMarkElement?.getGraphicItem().prevAttrs?.endAngle;
+        return prevMarkElement?.getGraphicAttribute('endAngle', true);
       }
     };
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<PieAppearPreset>)?.preset;
@@ -454,7 +453,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     if (this._pieMark) {
       const pieAnimationConfig = animationConfig(
         Factory.getAnimationInKey('pie')?.(animationParams, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.pie, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.pie, this._spec, this._markAttributeContext)
       );
 
       if (pieAnimationConfig.normal && (pieAnimationConfig.normal as IAnimationTypeConfig).type) {

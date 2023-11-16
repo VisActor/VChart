@@ -174,7 +174,7 @@ export class GridLayout implements IBaseLayout {
 
   protected getSizeFromUser(spec: ElementSpec, type: 'col' | 'row'): number | undefined {
     const sizeList = type === 'col' ? this._colSize : this._rowSize;
-    if (!sizeList[spec[type]].isUserSetting) {
+    if (!sizeList[spec[type]]?.isUserSetting) {
       return undefined;
     }
     let result = 0;
@@ -271,7 +271,7 @@ export class GridLayout implements IBaseLayout {
     items.sort((a, b) => b.layoutLevel - a.layoutLevel);
 
     // 剔除 region 后，其余元素先布局运算
-    const normalItems = items.filter(item => item.layoutType === 'normal');
+    const normalItems = items.filter(item => item.layoutType === 'normal' && item.getVisible() !== false);
     const normalItemsCol = normalItems.filter(item => isColItem(item));
     const normalItemsRow = normalItems.filter(item => !isColItem(item));
     normalItems.forEach(item => {

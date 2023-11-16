@@ -164,7 +164,7 @@ export type {
   ITooltipSpec
 };
 
-export {
+export type {
   IComponentTheme,
   ICrosshairTheme,
   IAxisItemTheme,

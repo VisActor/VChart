@@ -36,7 +36,7 @@ export {
 };
 
 export function couldBeValidNumber(v: any) {
-  if (isNil(v)) {
+  if (v === null || v === undefined || v === '') {
     return false;
   }
   if (isNumber(v)) {

@@ -1,11 +1,13 @@
 import type { Datum } from '../../typings/common';
 import type { ILabelInfo } from './label';
 import type { LabelItem, Strategy } from '@visactor/vrender-components';
+import type { ILabelSpec } from './interface';
 export declare const labelRuleMap: {
     rect: typeof barLabel;
     symbol: typeof symbolLabel;
     arc: typeof pieLabel;
     point: typeof pointLabel;
+    lineData: typeof lineDataLabel;
     stackLabel: typeof stackLabel;
 };
 export declare enum LabelRule {
@@ -15,16 +17,23 @@ export declare enum LabelRule {
     point = "point",
     stackLabel = "stackLabel"
 }
-export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: (text: string | string[], datum?: any) => string | string[]): any;
+export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod']): any;
 export declare function symbolLabel(labelInfo: ILabelInfo): {
-    position: string;
+    position: string | ((datum: Datum) => any);
+    overlap: boolean | {
+        strategy: Strategy[];
+        avoidBaseMark: boolean;
+    };
+};
+export declare function lineDataLabel(labelInfo: ILabelInfo): {
+    position: string | ((datum: Datum) => any);
     overlap: boolean | {
         strategy: Strategy[];
         avoidBaseMark: boolean;
     };
 };
 export declare function barLabel(labelInfo: ILabelInfo): {
-    position: string | ((data: any) => string);
+    position: import("@visactor/vrender-components").Functional<string>;
     overlap: boolean | {
         strategy: Strategy[];
     };

@@ -4,7 +4,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
-import type { Datum, Maybe } from '../../typings';
+import { Direction, type Datum, type Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerLineAnimation, registerScaleInOutAnimation } from '../../animation/config';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
@@ -15,6 +15,7 @@ import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
+import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -26,6 +27,9 @@ export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
       | 'initSymbolMarkStyle'
       | '_lineMark'
       | '_symbolMark'
+      | 'addSamplingCompile'
+      | 'addOverlapCompile'
+      | 'reCompileSampling'
     >,
     CartesianSeries<T> {}
 
@@ -38,6 +42,12 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   protected declare _theme: Maybe<ILineSeriesTheme>;
 
   protected _sortDataByAxis: boolean = false;
+
+  compile(): void {
+    super.compile();
+    this.addSamplingCompile();
+    this.addOverlapCompile();
+  }
 
   initMark(): void {
     const progressive = {
@@ -68,7 +78,7 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
     this._lineMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('line')?.(animationParams, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.line, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.line, this._spec, this._markAttributeContext)
       )
     );
 
@@ -76,10 +86,15 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
       this._symbolMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('scaleInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.point, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.point, this._spec, this._markAttributeContext)
         )
       );
     }
+  }
+
+  onLayoutEnd(ctx: any): void {
+    super.onLayoutEnd(ctx);
+    this.reCompileSampling();
   }
 
   getSeriesStyle(datum: Datum) {
@@ -105,6 +120,8 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
 mixin(LineSeries, LineLikeSeriesMixin);
 
 export const registerLineSeries = () => {
+  registerSampleTransform();
+  registerMarkOverlapTransform();
   Factory.registerMark(LineMark.type, LineMark);
   Factory.registerMark(SymbolMark.type, SymbolMark);
   Factory.registerSeries(LineSeries.type, LineSeries);

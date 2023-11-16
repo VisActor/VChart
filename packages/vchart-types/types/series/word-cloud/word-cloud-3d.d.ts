@@ -10,3 +10,4 @@ export declare class WordCloud3dSeries<T extends IWordCloud3dSeriesSpec = IWordC
     initAnimation(): void;
 }
 export declare const registerWordCloud3dSeries: () => void;
+export declare const registerWordCloudShape3dSeries: () => void;

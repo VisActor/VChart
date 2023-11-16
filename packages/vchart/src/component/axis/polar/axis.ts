@@ -31,7 +31,6 @@ import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
-import { DEFAULT_BAND_POSITION } from './config';
 
 export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec>
   extends AxisComponent<T>
@@ -40,6 +39,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   static type = ComponentTypeEnum.polarAxis;
   type = ComponentTypeEnum.polarAxis;
   name: string = ComponentTypeEnum.polarAxis;
+
+  protected readonly _defaultBandPosition = 0;
+  protected readonly _defaultBandInnerPadding = 0;
+  protected readonly _defaultBandOuterPadding = 0;
 
   layoutType: LayoutItem['layoutType'] = 'absolute';
   layoutZIndex: number = LayoutZIndex.Axis;
@@ -148,8 +151,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   effect: IEffect = {
-    scaleUpdate: () => {
-      this.computeData();
+    scaleUpdate: param => {
+      this.computeData(param?.value);
       eachSeries(
         this._regions,
         s => {
@@ -192,9 +195,12 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   onLayoutEnd(ctx: any): void {
-    this.updateScaleRange();
-    this.updateSeriesScale();
-    this.event.emit(ChartEvent.scaleUpdate, { model: this });
+    const isChanged = this.updateScaleRange();
+
+    if (isChanged) {
+      this.updateSeriesScale();
+      this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
+    }
 
     super.onLayoutEnd(ctx);
   }
@@ -263,15 +269,24 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   protected updateScaleRange() {
     const inverse = this._spec.inverse;
+    const prevRange = this._scale.range();
+    let newRange: [number, number];
+
     if (this.getOrient() === 'radius') {
-      this._scale.range(
-        inverse
-          ? [this.computeLayoutOuterRadius(), this.computeLayoutInnerRadius()]
-          : [this.computeLayoutInnerRadius(), this.computeLayoutOuterRadius()]
-      );
+      newRange = inverse
+        ? [this.computeLayoutOuterRadius(), this.computeLayoutInnerRadius()]
+        : [this.computeLayoutInnerRadius(), this.computeLayoutOuterRadius()];
     } else {
-      this._scale.range(inverse ? [this._endAngle, this._startAngle] : [this._startAngle, this._endAngle]);
+      newRange = inverse ? [this._endAngle, this._startAngle] : [this._startAngle, this._endAngle];
     }
+
+    if (prevRange && newRange && prevRange[0] === newRange[0] && prevRange[1] === newRange[1]) {
+      return false;
+    }
+
+    this._scale.range(newRange);
+
+    return true;
   }
 
   protected collectData(depth: number) {
@@ -358,31 +373,12 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return helper;
   }
 
-  dataToPosition(values: any[]): number {
-    return this._scale.scale(values);
-  }
-
   positionToData(position: IPoint) {
     const coord = this.pointToCoord(position);
     if (this.getOrient() === 'radius') {
-      return this._scale.invert(coord.radius);
+      return this.invert(coord.radius);
     }
-
-    if (this._scale.type === 'band') {
-      //极坐标轴需要手动取模，超出range时默认会截断
-      const range = this._scale.range();
-      const rangeValue = range[range.length - 1] - range[0];
-      const bandPosition = (this.getSpec() as IBandAxisSpec).bandPosition ?? DEFAULT_BAND_POSITION;
-      const offset = bandPosition === 0.5 ? 0 : (this._scale as BandScale).bandwidth() / 2;
-      if (range[0] < 0) {
-        const angle = coord.angle + offset;
-        const transformedAngle = ((angle + Math.abs(range[0])) % rangeValue) - Math.abs(range[0]);
-        return this._scale.invert(transformedAngle);
-      }
-      return this._scale.invert((coord.angle + offset) % rangeValue);
-    }
-
-    return this._scale.invert(coord.angle);
+    return this.invert(coord.angle);
   }
 
   /**
@@ -461,6 +457,13 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   tickValues(): number[] {
+    const latestData = this._tickData.getLatestData();
+
+    if (latestData && !isArray(latestData)) {
+      // the ticks data of scale has not be calculated
+      this.computeData('force');
+    }
+
     return this._tickData.getLatestData() || [];
   }
 
@@ -625,5 +628,23 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       const gridProduct = this._gridMark.getProduct(); // 获取语法元素并更新
       gridProduct.encode(mergeSpec({}, this._gridStyle, gridAttrs));
     }
+  }
+
+  invert(value: number): number {
+    if (this.getOrient() === 'angle' && this._scale.type === 'band') {
+      //极坐标轴需要手动取模，超出range时默认会截断
+      const range = this._scale.range();
+      const rangeValue = range[range.length - 1] - range[0];
+      const bandPosition = (this.getSpec() as IBandAxisSpec).bandPosition ?? this._defaultBandPosition;
+      const offset = bandPosition === 0.5 ? 0 : (this._scale as BandScale).bandwidth() / 2;
+      if (range[0] < 0) {
+        const angle = value + offset;
+        const transformedAngle = ((angle + Math.abs(range[0])) % rangeValue) - Math.abs(range[0]);
+        return this._scale.invert(transformedAngle);
+      }
+      return this._scale.invert((value + offset) % rangeValue);
+    }
+
+    return this._scale.invert(value);
   }
 }

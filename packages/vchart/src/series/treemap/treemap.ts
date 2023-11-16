@@ -21,7 +21,7 @@ import type { TreemapNodeElement } from '@visactor/vgrammar-hierarchy';
 import { DataView } from '@visactor/vdataset';
 import { hierarchyDimensionStatistics } from '../../data/transforms/hierarchy-dimension-statistics';
 import { addVChartProperty } from '../../data/transforms/add-property';
-import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
 import { DEFAULT_HIERARCHY_DEPTH, DEFAULT_HIERARCHY_ROOT } from '../../constant/hierarchy';
 import { TreemapTooltipHelper } from './tooltip-helper';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -166,8 +166,8 @@ export class TreemapSeries extends CartesianSeries<any> {
         {
           type: 'addVChartProperty',
           options: {
-            beforeCall: initKeyMap,
-            call: addHierarchyDataKey.bind(this)
+            beforeCall: initHierarchyKeyMap.bind(this),
+            call: addHierarchyDataKey
           }
         }
         // rawDataStatistic 需要统计 addHierarchyDataKey 的一些字段，所以必须要运行一下
@@ -176,11 +176,15 @@ export class TreemapSeries extends CartesianSeries<any> {
     }
   }
 
-  protected _statisticRawData() {
-    const rawDataName = `${this.type}_${this.id}_rawDataStatic`;
-    this._rawDataStatistics = this._createHierarchyDataStatistics(rawDataName, [this._rawData]);
-    this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
-    this._rawDataStatistics.reRunAllTransform();
+  getRawDataStatisticsByField(field: string, isNumeric?: boolean) {
+    if (!this._rawDataStatistics) {
+      const rawDataName = `${this.type}_${this.id}_rawDataStatic`;
+      this._rawDataStatistics = this._createHierarchyDataStatistics(rawDataName, [this._rawData]);
+      this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
+      this._rawDataStatistics.reRunAllTransform();
+    }
+
+    return this._rawDataStatistics.latestData?.[field];
   }
 
   protected _createHierarchyDataStatistics(dataName: string, rawData: DataView[]) {
@@ -407,13 +411,19 @@ export class TreemapSeries extends CartesianSeries<any> {
   initAnimation(): void {
     this.getMarksInType(MarkTypeEnum.rect).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('treemap')?.(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('treemap')?.(),
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+        )
       );
     });
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('fadeInOut')?.(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('fadeInOut')?.(),
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+        )
       );
     });
   }

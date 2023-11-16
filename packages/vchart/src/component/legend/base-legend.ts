@@ -164,7 +164,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     eachSeries(
       this._regions,
       s => {
-        s.event.on(ChartEvent.rawDataStatisticsUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
+        s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
           this._legendData.getDataView().reRunAllTransform();
         });
       },

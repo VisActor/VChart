@@ -191,7 +191,7 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   getSeriesKeys(): string[] {
     if (this._seriesField) {
       return (
-        this._rawDataStatistics?.latestData?.[this._seriesField]?.values ??
+        this.getRawDataStatisticsByField(this._seriesField)?.values ??
         this._mapViewDataStatistics?.latestData[this._seriesField]?.values ??
         []
       );

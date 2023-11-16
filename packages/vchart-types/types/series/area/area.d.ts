@@ -7,7 +7,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 import type { IMark } from '../../mark/interface';
-export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Pick<LineLikeSeriesMixin, 'initLineMark' | 'initSymbolMark' | 'initLabelMarkStyle' | 'initLineMarkStyle' | 'initSymbolMarkStyle' | 'encodeDefined' | '_lineMark' | '_symbolMark'>, CartesianSeries<T> {
+export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Pick<LineLikeSeriesMixin, 'initLineMark' | 'initSymbolMark' | 'initLabelMarkStyle' | 'initLineMarkStyle' | 'initSymbolMarkStyle' | 'encodeDefined' | '_lineMark' | '_symbolMark' | 'addSamplingCompile' | 'addOverlapCompile' | 'reCompileSampling'>, CartesianSeries<T> {
 }
 export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
@@ -23,8 +23,10 @@ export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> ext
     initAnimation(): void;
     protected initTooltip(): void;
     viewDataStatisticsUpdate(d: DataView): void;
+    compile(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];
+    onLayoutEnd(ctx: any): void;
     getSeriesStyle(datum: Datum): (attribute: string) => any;
 }
 export declare const registerAreaSeries: () => void;

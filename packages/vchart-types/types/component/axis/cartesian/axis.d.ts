@@ -2,7 +2,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { IEffect, IModelInitOption, ILayoutRect } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
-import type { IAxisLocationCfg, ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
+import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
 import type { IOrientType } from '../../../typings/space';
 import type { IBaseScale } from '@visactor/vscale';
 import type { LayoutItem } from '../../../model/layout-item';
@@ -17,6 +17,9 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    protected readonly _defaultBandPosition = 0.5;
+    protected readonly _defaultBandInnerPadding = 0.1;
+    protected readonly _defaultBandOuterPadding = 0.3;
     directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
     layoutType: LayoutItem['layoutType'];
     layoutZIndex: number;
@@ -31,6 +34,9 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     getOrient(): IOrientType;
     get layoutOrient(): IOrientType;
     set layoutOrient(v: IOrientType);
+    protected _autoIndentOnce: boolean;
+    protected _hasAutoIndent: boolean;
+    set autoIndentOnce(v: boolean);
     protected _scales: IBaseScale[];
     getScales(): IBaseScale[];
     protected _theme: ICartesianAxisCommonTheme;
@@ -71,7 +77,6 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
         max: number;
         values: any[];
     }[]): StringOrNumber[];
-    abstract dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
     abstract valueToPosition(value: any): number;
     protected updateScaleRange(): boolean;
     init(option: IModelInitOption): void;

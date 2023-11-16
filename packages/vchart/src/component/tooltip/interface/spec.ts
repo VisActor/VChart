@@ -1,30 +1,52 @@
-import type { ITooltipPattern, Maybe, TooltipActiveType, TooltipData } from '../../../typings';
+import type { IToolTipActual, ITooltipPattern, Maybe, TooltipActiveType, TooltipData } from '../../../typings';
 import type { ITooltipActiveTypeAsKeys, TooltipHandlerParams, TooltipResult } from './common';
 import type { ITooltipTheme } from './theme';
 
 export interface ITooltipSpec
   extends Partial<
-    /* mark tooltip pattern（*支持在series上设置）
+    /**
+     * mark tooltip pattern
      * & dimension tooltip pattern
+     * （*支持在series上设置）
      */
     ITooltipActiveTypeAsKeys<ITooltipPattern, ITooltipPattern>
   > {
-  /** 是否显示（*支持在series上设置）（*会影响自定义handler） */
+  /**
+   * 是否显示
+   * （*支持在series上设置）
+   * （*会影响自定义handler）
+   */
   visible?: boolean;
-  /** 受支持的激活类型（*支持在series上设置）（*会影响自定义handler） */
+  /**
+   * 受支持的激活类型
+   * （*支持在series上设置）
+   * （*会影响自定义handler）
+   */
   activeType?: TooltipActiveType | TooltipActiveType[];
-  /** tooltip触发方式（*会影响自定义handler） */
+  /**
+   * tooltip触发方式
+   * （*会影响自定义handler）
+   */
   trigger?: 'hover' | 'click' | 'none';
-  /** 隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）（*会影响自定义handler） */
+  /**
+   * 隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）
+   * （*会影响自定义handler）
+   */
   triggerOff?: 'hover' | 'click' | 'none';
 
-  /** tooltip样式 */
+  /**
+   * tooltip样式
+   */
   style?: Omit<ITooltipTheme, 'offset'>;
 
-  /** 自定义handler方法 */
+  /**
+   * 自定义handler方法
+   */
   handler?: Partial<ITooltipHandlerSpec>;
 
-  /** tooltip 渲染方式，默认为 html */
+  /**
+   * tooltip 渲染方式，默认为 html
+   */
   renderMode?: 'html' | 'canvas';
   /**
    * 是否将 tooltip 框限制在画布区域内，renderMode 为 canvas 时，默认开启。
@@ -51,8 +73,16 @@ export interface ITooltipSpec
    */
   transitionDuration?: number;
 
-  /** 更新 tooltip 的防抖动时间间隔，单位是 ms */
+  /**
+   * 更新 tooltip 的防抖动时间间隔，单位是 ms
+   */
   throttleInterval?: number;
+
+  /**
+   * 更新 tooltip dom 元素，仅当 renderMode: 'html' 时生效
+   * @since 1.6.0
+   */
+  updateElement?: (tooltipElement: HTMLElement, actualTooltip: IToolTipActual, params: TooltipHandlerParams) => void;
 
   offset?: {
     x?: number;

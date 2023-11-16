@@ -40,7 +40,7 @@ import {
   registerCartesianGroupClipAnimation,
   registerFadeInOutAnimation
 } from '../../animation/config';
-import { animationConfig, shouldDoMorph, userAnimationConfig } from '../../animation/utils';
+import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { PolygonMark } from '../../mark/polygon/polygon';
@@ -179,7 +179,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       },
       {
         themeSpec: this._theme?.funnel,
-        morph: shouldDoMorph(this._spec.animation, this._spec.morph, userAnimationConfig(this.type, this._spec)),
+        morph: shouldMarkDoMorph(this._spec, this._funnelMarkName),
         defaultMorphElementKey: this._seriesField,
         key: this._seriesField,
         groupKey: this._seriesField,
@@ -371,7 +371,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
               },
               appearPreset
             ),
-            userAnimationConfig(SeriesMarkNameEnum.group, this._spec)
+            userAnimationConfig(SeriesMarkNameEnum.group, this._spec, this._markAttributeContext)
           )
         );
       }
@@ -379,7 +379,10 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     [this._funnelOuterLabelMark?.label].forEach(m => {
       if (m) {
         m.setAnimationConfig(
-          animationConfig(Factory.getAnimationInKey('fadeInOut')(), userAnimationConfig(m.name, this._spec))
+          animationConfig(
+            Factory.getAnimationInKey('fadeInOut')(),
+            userAnimationConfig(m.name, this._spec, this._markAttributeContext)
+          )
         );
       }
     });
@@ -389,7 +392,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         m.setAnimationConfig(
           animationConfig(
             Factory.getAnimationInKey('funnel')({}, appearPreset),
-            userAnimationConfig(m.name, this._spec)
+            userAnimationConfig(m.name, this._spec, this._markAttributeContext)
           )
         );
       }
@@ -399,7 +402,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       this._funnelOuterLabelMark.line.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.outerLabelLine, this._spec)
+          userAnimationConfig(SeriesMarkNameEnum.outerLabelLine, this._spec, this._markAttributeContext)
         )
       );
     }

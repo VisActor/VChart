@@ -1,5 +1,9 @@
 export type AddVChartPropertyContext = {
     keyMap: Map<string, number>;
+    needDefaultSeriesField: boolean;
+    defaultSeriesField?: string;
+    getKey?: (d: any, i: number, context: AddVChartPropertyContext) => string;
+    categoryField?: string;
 };
 export interface IAddVChartPropertyOpt {
     beforeCall: () => AddVChartPropertyContext;

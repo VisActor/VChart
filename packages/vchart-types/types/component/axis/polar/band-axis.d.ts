@@ -3,7 +3,7 @@ import { ComponentTypeEnum } from '../../interface/type';
 import { PolarAxis } from './axis';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
-import type { IAxisLocationCfg, IPolarBandAxisSpec } from './interface';
+import type { IPolarBandAxisSpec } from './interface';
 export interface PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> extends Pick<BandAxisMixin, 'valueToPosition' | 'updateGroupScaleRange' | 'getPosition' | 'calcScales' | 'computeBandDomain'>, PolarAxis<T> {
 }
 export declare class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> extends PolarAxis<T> {
@@ -16,8 +16,7 @@ export declare class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxis
         max: number;
         values: any[];
     }[]): StringOrNumber[];
-    dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
-    protected updateScaleRange(): void;
+    protected updateScaleRange(): boolean;
     protected axisHelper(): {
         getBandwidth: (depth: number) => number;
         isContinuous: boolean;

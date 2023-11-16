@@ -43,10 +43,4 @@ export type BuiltinColorPalette = IColorSchemeStruct['palette'] & {
 
   /** 标注标签背景颜色 */
   markLabelBackgroundColor: string;
-
-  // 已弃用的语义色值
-  /** @deprecated 图表标题颜色 */
-  titleFontColor: string;
-  /** @deprecated 标签字色 */
-  labelFontColor: string;
 };

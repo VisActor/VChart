@@ -1,4 +1,3 @@
-import type { DataView } from '@visactor/vdataset';
 import type { IBaseScale } from '@visactor/vscale';
 import type { StatisticOperations } from '../data/transforms/dimension-statistics';
 import type { IChartSpec, IVisualScale, IVisualSpecScale } from '../typings';
@@ -12,7 +11,7 @@ export interface IGlobalScale {
         operations: StatisticOperations;
     }[];
     updateScaleDomain: (string: unknown[]) => void;
-    registerMarkAttributeScale: (spec: IVisualScale, dataStatistics: DataView) => IBaseScale;
+    registerMarkAttributeScale: (spec: IVisualScale, seriesId: number) => IBaseScale;
     registerModelScale: (spec: IVisualSpecScale<unknown, unknown>) => void;
     removeModelScale: (filter: (spec: IVisualSpecScale<unknown, unknown>) => boolean) => void;
     updateSpec: (spec: IChartSpec['scales']) => IUpdateSpecResult;

@@ -19,6 +19,7 @@ import { LineMark } from '../../mark/line';
 import { SymbolMark } from '../../mark/symbol';
 import { radarSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
@@ -31,6 +32,7 @@ export interface RadarSeries<T extends IRadarSeriesSpec>
       | 'encodeDefined'
       | '_lineMark'
       | '_symbolMark'
+      | 'addOverlapCompile'
     >,
     RoseLikeSeries<T> {}
 
@@ -47,6 +49,11 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 
   initGroups() {
     // do nothing
+  }
+
+  compile(): void {
+    super.compile();
+    this.addOverlapCompile();
   }
 
   initMark(): void {
@@ -158,7 +165,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         this._rootMark.setAnimationConfig(
           animationConfig(
             Factory.getAnimationInKey('radarGroup')?.(animationParams, appearPreset),
-            userAnimationConfig(SeriesMarkNameEnum.group, this._spec)
+            userAnimationConfig(SeriesMarkNameEnum.group, this._spec, this._markAttributeContext)
           )
         );
       }
@@ -176,7 +183,10 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
       if (isValid(mark)) {
         const getAnimation = Factory.getAnimationInKey(animation);
         mark.setAnimationConfig(
-          animationConfig(getAnimation?.(animationParams, appearPreset), userAnimationConfig(mark.name, this._spec))
+          animationConfig(
+            getAnimation?.(animationParams, appearPreset),
+            userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+          )
         );
       }
     });
@@ -208,6 +218,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 mixin(RadarSeries, LineLikeSeriesMixin);
 
 export const registerRadarSeries = () => {
+  registerMarkOverlapTransform();
   Factory.registerMark(AreaMark.type, AreaMark);
   Factory.registerMark(LineMark.type, LineMark);
   Factory.registerMark(SymbolMark.type, SymbolMark);

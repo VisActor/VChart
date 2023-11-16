@@ -58,18 +58,19 @@ import type { LayoutItem } from '../../model/layout-item';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 // eslint-disable-next-line no-duplicate-imports
-import { dimensionStatistics } from '../../data/transforms/dimension-statistics';
+import { dimensionStatistics, dimensionStatisticsOfSimpleData } from '../../data/transforms/dimension-statistics';
 import { invalidTravel } from '../../data/transforms/invalid-travel';
 import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
-import { array, isEqual, isNil, isValid, isBoolean, isString, isFunction, isArray } from '@visactor/vutils';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
-import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { baseSeriesMark } from './constant';
+import { array, isEqual, isNil, isValid, isBoolean, isString, isFunction, isArray } from '@visactor/vutils';
 import { getThemeFromOption } from '../../theme/util';
 import { getDirectionFromSeriesSpec } from '../util/spec';
+import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
+import { baseSeriesMark } from './constant';
+import { isAnimationEnabledForSeries } from '../../animation/utils';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly type: string = 'series';
@@ -135,10 +136,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._rawData;
   }
 
-  protected _rawDataStatistics!: DataView;
-  getRawDataStatistics() {
-    return this._rawDataStatistics;
-  }
+  protected _rawDataStatistics?: DataView;
+  protected _rawStatisticsCache: Record<string, { values?: any[]; min?: number; max?: number }>;
 
   protected _viewDataMap: Map<number, DataView> = new Map();
 
@@ -254,7 +253,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._initExtensionMark();
     this.initMarkStyle();
     this.initMarkState();
-    if (this._spec.animation !== false && isValid(this._region.animate)) {
+    if (isAnimationEnabledForSeries(this)) {
       this.initAnimation();
     }
     this.afterInitMark();
@@ -367,56 +366,32 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected initStatisticalData(): void {
-    if (this._rawData) {
-      this._statisticRawData();
-    }
     if (this._data) {
       this._statisticViewData();
     }
   }
 
-  protected _statisticRawData() {
-    registerDataSetInstanceTransform(this._dataSet, 'dimensionStatistics', dimensionStatistics);
-    const rawDataStatisticsName = `${this.type}_${this.id}_rawDataStatic`;
-    this._rawDataStatistics = new DataView(this._dataSet, { name: rawDataStatisticsName });
-    this._rawDataStatistics.parse([this._rawData], {
-      type: 'dataview'
-    });
-    // data.name = dataName;
-    this._rawDataStatistics.transform(
-      {
-        type: 'dimensionStatistics',
-        options: {
-          operations: ['max', 'min', 'values'],
-          fields: () => {
-            const fields = mergeFields(
-              this.getStatisticFields(),
-              this._option.globalScale.getStatisticalFields(this._rawData.name as string) ?? []
-            );
-            if (this._seriesField) {
-              mergeFields(fields, [
-                {
-                  key: this._seriesField,
-                  operations: ['values']
-                }
-              ]);
-            }
+  getRawDataStatisticsByField(field: string, isNumeric?: boolean) {
+    if (!this._rawStatisticsCache) {
+      this._rawStatisticsCache = {};
+    }
 
-            return fields.filter(
-              f =>
-                f.key !== STACK_FIELD_START_PERCENT &&
-                f.key !== STACK_FIELD_END_PERCENT &&
-                f.key !== STACK_FIELD_END &&
-                f.key !== STACK_FIELD_START
-            );
-          },
-          target: 'latest'
-        }
-      },
-      false
-    );
+    if (!this._rawStatisticsCache[field]) {
+      const canUseViewStatistics =
+        this._viewDataStatistics &&
+        (!this._viewDataFilter || this._viewDataFilter.transformsArr.length <= 1) &&
+        this.getViewData().transformsArr.length <= 1;
 
-    this._rawData.target.removeListener('change', this._rawDataStatistics.reRunAllTransform);
+      if (canUseViewStatistics && this._viewDataStatistics.latestData?.[field]) {
+        this._rawStatisticsCache[field] = this._viewDataStatistics.latestData[field];
+      } else if (this._rawData) {
+        this._rawStatisticsCache[field] = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
+          { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
+        ])[field];
+      }
+    }
+
+    return this._rawStatisticsCache[field];
   }
 
   protected _statisticViewData() {
@@ -430,14 +405,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       {
         type: 'dimensionStatistics',
         options: {
-          fieldFollowSource: (key: string) => {
-            if (this._viewDataFilter) {
-              return this._viewDataFilter.transformsArr.length <= 1;
-            }
-
-            return this.getViewData().transformsArr.length <= 1;
-          },
-          sourceStatistics: () => this._rawDataStatistics.latestData,
           fields: () => {
             const fields = this.getStatisticFields();
             if (this._seriesField) {
@@ -521,47 +488,45 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   // make sure this function fast
-  protected _noAnimationDataKey(datum: Datum, index: number, context: AddVChartPropertyContext): unknown | undefined {
+  protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined {
     return index;
   }
 
-  protected generateDefaultDataKey(
-    dataKey: DataKeyType,
-    datum: Datum,
-    index: number,
-    context: AddVChartPropertyContext
-  ) {
+  protected generateDefaultDataKey(dataKey: DataKeyType) {
     if (isNil(dataKey)) {
-      // check if need animation data key
-      if (this._spec.animation === false) {
-        const v = this._noAnimationDataKey(datum, index, context);
-        if (v !== undefined) {
-          return v;
+      return (datum: Datum, index: number, context: AddVChartPropertyContext) => {
+        // check if need animation data key
+        if (this._spec.animation === false) {
+          const v = this._noAnimationDataKey(datum, index);
+          if (v !== undefined) {
+            return v;
+          }
         }
-      }
-      const { keyMap } = context;
-      const seriesDataKey = this._getSeriesDataKey(datum);
-      if (keyMap.get(seriesDataKey) === undefined) {
-        keyMap.set(seriesDataKey, 0);
-      } else {
-        keyMap.set(seriesDataKey, keyMap.get(seriesDataKey) + 1);
-      }
-      return `${seriesDataKey}_${keyMap.get(seriesDataKey)}`;
+        const { keyMap } = context;
+        const seriesDataKey = this._getSeriesDataKey(datum);
+        if (keyMap.get(seriesDataKey) === undefined) {
+          keyMap.set(seriesDataKey, 0);
+        } else {
+          keyMap.set(seriesDataKey, keyMap.get(seriesDataKey) + 1);
+        }
+        return `${seriesDataKey}_${keyMap.get(seriesDataKey)}`;
+      };
     }
 
     if (isString(dataKey)) {
-      return datum[dataKey];
+      return (datum: Datum) => datum[dataKey];
     }
 
     if (isArray(dataKey) && dataKey.every(d => isString(d))) {
-      return dataKey.map(k => datum[k]).join('-');
+      return (datum: Datum) => dataKey.map(k => datum[k]).join('-');
     }
 
     if (isFunction(dataKey)) {
-      return dataKey(datum, index);
+      return (datum: Datum, index: number) => dataKey(datum, index);
     }
 
     this._option?.onError(`invalid dataKey: ${dataKey}`);
+    return (datum: Datum, index: number) => undefined as string;
   }
 
   protected _addDataIndexAndKey() {
@@ -571,8 +536,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         {
           type: 'addVChartProperty',
           options: {
-            beforeCall: initKeyMap,
-            call: addDataKey.bind(this)
+            beforeCall: initKeyMap.bind(this),
+            call: addDataKey
           }
         },
         false
@@ -588,10 +553,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
   rawDataUpdate(d: DataView): void {
     this._rawDataStatistics?.reRunAllTransform();
+    this._rawStatisticsCache = null;
     this.event.emit(ChartEvent.rawDataUpdate, { model: this });
-  }
-  rawDataStatisticsUpdate(d: DataView): void {
-    this.event.emit(ChartEvent.rawDataStatisticsUpdate, { model: this });
   }
   viewDataFilterOver(d: DataView): void {
     this.event.emit(ChartEvent.viewDataFilterOver, { model: this });
@@ -860,7 +823,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._trigger.init();
     this._data?.getDataView()?.target.addListener('change', this.viewDataUpdate.bind(this));
     this._viewDataStatistics?.target.addListener('change', this.viewDataStatisticsUpdate.bind(this));
-    this._rawDataStatistics?.target.addListener('change', this.rawDataStatisticsUpdate.bind(this));
   }
 
   protected _releaseEvent(): void {
@@ -1010,7 +972,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   /** seriesField */
   getSeriesKeys(): string[] {
     if (this._seriesField) {
-      return this._rawDataStatistics?.latestData[this._seriesField]?.values ?? [];
+      return this.getRawDataStatisticsByField(this._seriesField)?.values ?? [];
     }
     if (this.name) {
       return [this.name];
@@ -1039,7 +1001,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   getSeriesInfoInField(field: string) {
-    return this._getSeriesInfo(field, this._rawDataStatistics.latestData[field]?.values ?? []);
+    return this._getSeriesInfo(field, this.getRawDataStatisticsByField(field)?.values ?? []);
   }
 
   getSeriesInfoList() {
@@ -1109,7 +1071,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       dataProductId,
       parent,
       isSeriesMark,
-      dataStatistics,
       depend,
       label,
       progressive,
@@ -1119,7 +1080,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
-      dataStatistics: dataStatistics ?? this._rawDataStatistics,
+      seriesId: this.id,
       attributeContext: this._markAttributeContext
     });
     if (isValid(m)) {

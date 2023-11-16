@@ -53,9 +53,6 @@ type ChangeTooltipFunc = (
 
 type ChangeTooltipPositionFunc = (
   changePositionOnly: boolean,
-  actualTooltip: IToolTipActual,
-  spec: ITooltipSpec,
-  activeType: TooltipActiveType,
   data: TooltipData,
   params: TooltipHandlerParams
 ) => TooltipResult;
@@ -91,8 +88,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   protected _chartContainer: Maybe<HTMLElement>;
   protected _compiler: Compiler;
 
-  private _cacheViewSpec: ITooltipSpec | undefined;
-  private _cacheActualTooltip: IToolTipActual | undefined;
+  protected _cacheViewSpec: ITooltipSpec | undefined;
+  protected _cacheActualTooltip: IToolTipActual | undefined;
 
   // tooltip 容器
   protected _container!: Maybe<IGroup | HTMLElement>;
@@ -121,14 +118,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     if (changePositionOnly && this._cacheViewSpec && this._cacheActualTooltip) {
-      return this.changeTooltipPosition(
-        changePositionOnly,
-        this._cacheActualTooltip,
-        this._cacheViewSpec,
-        activeType,
-        data,
-        params
-      );
+      return this.changeTooltipPosition(changePositionOnly, data, params);
     }
     return this.changeTooltip(true, params, changePositionOnly, activeType, data);
   };
@@ -212,7 +202,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     this._cacheActualTooltip = actualTooltip;
-    return this._changeTooltipPosition(!!changePositionOnly, actualTooltip, spec, activeType!, data!, params);
+    return this._changeTooltipPosition(!!changePositionOnly, data!, params);
   };
 
   /** 改变 tooltip 位置（带 throttle 版本），返回是否遇到异常 */
@@ -221,9 +211,6 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   /** 改变 tooltip 位置（不带 throttle 版本），返回是否遇到异常 */
   protected _changeTooltipPosition: ChangeTooltipPositionFunc = (
     changePositionOnly: boolean,
-    actualTooltip: IToolTipActual,
-    spec: ITooltipSpec,
-    activeType: TooltipActiveType,
     data: TooltipData,
     params: TooltipHandlerParams
   ) => {
@@ -232,6 +219,13 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     }
 
     const event = params.event as MouseEvent;
+    const spec = this._cacheViewSpec;
+    const actualTooltip = this._cacheActualTooltip;
+    if (!spec || !actualTooltip) {
+      return TooltipResult.failed;
+    }
+
+    const activeType = actualTooltip.activeType;
 
     /** 用户自定义逻辑 */
     if (spec.handler) {
@@ -247,11 +241,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     // 计算 tooltip 位置
     const position = this._getActualTooltipPosition(
       actualTooltip,
-      getTooltipPatternValue(pattern.position, data, params),
-      getTooltipPatternValue(pattern.positionMode, data, params),
       params,
-      this._getParentElement(spec),
-      changePositionOnly
+      this._getTooltipBoxSize(actualTooltip, changePositionOnly)
     );
     actualTooltip.position = position;
     if (pattern.updatePosition) {
@@ -352,7 +343,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const actualTooltip: IToolTipActual = {
       ...tooltipContent,
       visible: isValid(tooltipContent) ? patternVisible !== false : false, // 最终展示数据为 null 则不展示
-      activeType: pattern.activeType
+      activeType: pattern.activeType,
+      data
     };
 
     return actualTooltip;
@@ -360,22 +352,13 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
   /**
    * 计算实际的 tooltip 位置
-   * @param actualTooltip
-   * @param position
-   * @param event
-   * @returns
    */
   protected _getActualTooltipPosition = (
     actualTooltip: IToolTipActual,
-    position: TooltipPosition | undefined,
-    positionMode: TooltipPositionMode | undefined,
     params: TooltipHandlerParams,
-    tooltipParentElement: HTMLElement,
-    changePositionOnly: boolean
+    tooltipBoxSize: IContainerSize | undefined
   ): ITooltipPositionActual => {
     const event = params.event as MouseEvent;
-    const { width: tooltipBoxWidth = 0, height: tooltipBoxHeight = 0 } =
-      this._getTooltipBoxSize(actualTooltip, changePositionOnly) ?? {};
 
     const invalidPosition = {
       x: Infinity,
@@ -383,10 +366,17 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     };
 
     const { offsetX, offsetY } = this._option;
-    const tooltipSpec = this._component.getSpec();
+    const tooltipSpec = this._cacheViewSpec;
     if (!tooltipSpec) {
       return invalidPosition;
     }
+
+    const { activeType, data } = actualTooltip;
+    const pattern = tooltipSpec[activeType];
+    const position = getTooltipPatternValue(pattern.position, data, params);
+    const positionMode = getTooltipPatternValue(pattern.positionMode, data, params);
+    const tooltipParentElement = this._getParentElement(tooltipSpec);
+    const { width: tooltipBoxWidth = 0, height: tooltipBoxHeight = 0 } = tooltipBoxSize ?? {};
 
     const isCanvas = tooltipSpec.renderMode === 'canvas';
     const canvasRect = params?.chart?.getCanvasRect();

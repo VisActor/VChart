@@ -291,7 +291,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       // const _style = style as IVisual<T[U]>;
       const scale = createScaleWithSpec(style as IVisual<T[U]>, {
         globalScale: this._option.globalScale,
-        dataStatistics: this._option.dataStatistics
+        seriesId: this._option.seriesId
       });
       if (scale) {
         return {

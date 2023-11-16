@@ -20,7 +20,12 @@ export class LineChart extends CartesianChart {
       point: spec.point,
       line: spec.line,
       seriesMark: spec.seriesMark ?? 'line',
-      activePoint: spec.activePoint
+      activePoint: spec.activePoint,
+      sampling: spec.sampling,
+      samplingFactor: spec.samplingFactor,
+      pointDis: spec.pointDis,
+      pointDisMul: spec.pointDisMul,
+      markOverlap: spec.markOverlap
     };
   }
   transformSpec(spec: any): void {

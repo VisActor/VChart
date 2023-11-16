@@ -18,7 +18,7 @@ import { registerAxis } from '../base-axis';
 import { PREFIX } from '../../../constant';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
-  extends Pick<LinearAxisMixin, 'valueToPosition' | 'dataToPosition'>,
+  extends Pick<LinearAxisMixin, 'valueToPosition'>,
     CartesianLinearAxis<T> {}
 
 export class CartesianTimeAxis<
@@ -32,8 +32,8 @@ export class CartesianTimeAxis<
   protected _zero: boolean = false;
 
   effect: IEffect = {
-    scaleUpdate: () => {
-      this.computeData();
+    scaleUpdate: params => {
+      this.computeData(params?.value);
       eachSeries(
         this._regions,
         s => {
@@ -97,8 +97,8 @@ export class CartesianTimeAxis<
   /**
    * @override
    */
-  protected computeData(): void {
-    super.computeData();
+  protected computeData(updateType?: 'range' | 'domain' | 'force'): void {
+    super.computeData(updateType);
     if (this._layerTickData) {
       this._layerTickData.getDataView().reRunAllTransform();
       this._layerTickData.updateData();

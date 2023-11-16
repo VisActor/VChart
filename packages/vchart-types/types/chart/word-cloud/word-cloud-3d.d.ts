@@ -8,3 +8,4 @@ export declare class WordCloud3dChart extends BaseWordCloudChart {
     protected _getDefaultSeriesSpec(spec: IWordCloud3dChartSpec): any;
 }
 export declare const registerWordCloud3dChart: () => void;
+export declare const registerWordCloudShape3dChart: () => void;

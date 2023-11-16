@@ -62,6 +62,7 @@ export declare class VChart implements IVChart {
     private _currentChartLevelTheme;
     private _onError?;
     private _context;
+    private _isReleased;
     constructor(spec: ISpec, options: IInitOption);
     private _setSpec;
     private _initChart;

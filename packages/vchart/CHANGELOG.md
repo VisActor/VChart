@@ -1,6 +1,77 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 30 Oct 2023 06:09:01 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Nov 2023 06:35:43 GMT and should not be manually modified.
+
+## 1.6.4
+Thu, 16 Nov 2023 06:35:43 GMT
+
+### Updates
+
+- fix: fixed the problem of unreasonable automatic indentation being triggered after modifying the axis range in datazoom
+
+
+- fix: default realtime not effect in scrollbar and datazoom. fix#1462
+- fix: filter mode error when roam in scrollbar and datazoom. fix #1460
+- fix: fix `options` can not work in lark-vchart, wx-vchart and tt-vchart
+
+
+- perf: optimize the dataflow of sankey
+
+
+
+## 1.6.3
+Fri, 10 Nov 2023 09:56:51 GMT
+
+### Updates
+
+- fix: fix the issue of update animation not work for line mark
+- fix: update vgrammar to ~0.8.3  to fix the issue that, vrender should not auto render during renderAsync
+-  fix: fix the error when quick release vchart during async render
+- fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446
+- perf: optimize the encode performance of sankey
+
+
+
+## 1.6.2
+Wed, 08 Nov 2023 11:05:21 GMT
+
+### Updates
+
+- fix: tooltip value is forced to wrap when the user globally configures css overflow-warp, related #1446
+
+## 1.6.1
+Wed, 08 Nov 2023 05:29:48 GMT
+
+### Updates
+
+- feat: label formatMethod callback add context parmas to provide series object
+- feat: add components `<Title />` and `<Indicator />` of react-vchart, close #1424
+
+
+- fix: `centroidProperty` not work in map chart
+- fix: fix incorrect legend filter result caused by animation in #1403
+- fix: if layout item is invisible, do not participate in grid layout, related #1425
+- fix(marker): aggregation return value infinity problem. fix#1380'
+
+## 1.6.0
+Fri, 03 Nov 2023 05:16:41 GMT
+
+### Updates
+
+- feat: add `updateElement` callback in tooltip spec to configure custom tooltip DOM elements based on the default tooltip handler, related #1338
+- feat: enable exit animation while updating data
+-  feat: support functional label.position config in line/area/scatter/bar series
+- feat: load browser or node env code dynamically
+- feat: support functional label.position config in line/area/scatter/bar series
+- feat: dataScheme supports configuration by distinguishing series directions, related #1209
+- feat: data sampling & point overlap. close #460
+- fix: react-vchart mode not work
+- fix: optimize the trigger of hover in non-browser env
+- fix: if series mark is line, return stroke value when user want fill value, fixed #1388
+- fix: fix the angle offset in rose dimension tooltip, related #1263
+- perf: create Stack and calculate stack attributes when need
+
+
 
 ## 1.5.4
 Mon, 30 Oct 2023 06:09:01 GMT

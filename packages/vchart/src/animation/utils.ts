@@ -7,13 +7,16 @@ import type {
   IAnimationTimeline
 } from '@visactor/vgrammar-core';
 import type { MarkAnimationSpec, IAnimationState } from './interface';
-import type { IStateAnimateSpec, IAnimationSpec, IMorphSeriesSpec } from './spec';
+import type { IStateAnimateSpec, IAnimationSpec } from './spec';
 import { isFunction, isValidNumber } from '../util/type';
 import { DEFAULT_DATA_INDEX } from '../constant';
 import { DEFAULT_ANIMATION_CONFIG } from './config';
-import { isArray, isValid } from '@visactor/vutils';
+import { cloneDeep, isArray, isObject, isValid } from '@visactor/vutils';
 import type { SeriesMarkNameEnum } from '../series/interface/type';
 import { mergeSpec } from '../util/spec/merge-spec';
+import type { ISeries } from '../series';
+import type { ISeriesSpec } from '../typings';
+import type { ISeriesMarkAttributeContext } from '../compile/mark';
 
 export const AnimationStates = ['appear', 'enter', 'update', 'exit', 'disappear', 'normal'];
 
@@ -27,7 +30,6 @@ export function animationConfig<Preset extends string>(
   }
 ) {
   const config = {} as MarkAnimationSpec;
-
   for (let i = 0; i < AnimationStates.length; i++) {
     const state = AnimationStates[i];
 
@@ -45,11 +47,13 @@ export function animationConfig<Preset extends string>(
       defaultStateConfig = defaultConfig[state] as IAnimationConfig[];
     } else {
       defaultStateConfig = [{ ...DEFAULT_ANIMATION_CONFIG[state], ...defaultConfig[state] } as any];
-      // FIXME: 用来控制当动画状态发生变更时是否清除正在执行的动画。
-      // 现在 vrender 对于同一个视觉通道的 tween 不会做覆盖的处理。若不做动画清空同时 exit 动画比 update 动画时间长的情况下，效果会不正确
-      if (state === 'exit') {
-        defaultStateConfig[0].controlOptions = { stopWhenStateChange: true };
-      }
+    }
+    // FIXME: 用来控制当动画状态发生变更时是否清除正在执行的动画。
+    // 现在 vrender 对于同一个视觉通道的 tween 不会做覆盖的处理。若不做动画清空同时 exit 动画比 update 动画时间长的情况下，效果会不正确
+    if (state === 'exit') {
+      defaultStateConfig.forEach(exitConfig => {
+        exitConfig.controlOptions = { stopWhenStateChange: true };
+      });
     }
 
     if (!userConfig?.[state]) {
@@ -59,23 +63,26 @@ export function animationConfig<Preset extends string>(
 
     // 开始处理用户配置的动画逻辑
     let stateConfig: IAnimationConfig[];
-
     if (isArray(userConfig[state])) {
       stateConfig = userConfig[state];
     } else {
-      let singleConfig: IAnimationConfig = mergeSpec({}, defaultStateConfig[0], userConfig[state]) as IAnimationConfig;
+      stateConfig = defaultStateConfig.map((stateConfig, i) => {
+        let singleConfig: IAnimationConfig = mergeSpec(
+          {},
+          defaultStateConfig[i],
+          userConfig[state]
+        ) as IAnimationConfig;
+        if (isChannelAnimation(singleConfig)) {
+          // `type` and `channel` is conflict, and `type` has a higher priority.
+          // here if user configured `channel`, we should remove `type` which will come from default animation config
+          delete (singleConfig as IAnimationTypeConfig).type;
+        }
 
-      if (isChannelAnimation(singleConfig)) {
-        // `type` and `channel` is conflict, and `type` has a higher priority.
-        // here if user configured `channel`, we should remove `type` which will come from default animation config
-        delete (singleConfig as IAnimationTypeConfig).type;
-      }
-
-      if (singleConfig.oneByOne) {
-        singleConfig = produceOneByOne(singleConfig as IAnimationTypeConfig, params?.dataIndex ?? defaultDataIndex);
-      }
-
-      stateConfig = [singleConfig];
+        if (singleConfig.oneByOne) {
+          singleConfig = produceOneByOne(singleConfig as IAnimationTypeConfig, params?.dataIndex ?? defaultDataIndex);
+        }
+        return singleConfig;
+      });
     }
 
     config[state] = stateConfig;
@@ -88,9 +95,10 @@ export function animationConfig<Preset extends string>(
 
 export function userAnimationConfig<M extends string, Preset extends string>(
   markName: SeriesMarkNameEnum | string,
-  spec: IAnimationSpec<M, Preset>
+  spec: IAnimationSpec<M, Preset>,
+  ctx: ISeriesMarkAttributeContext
 ) {
-  return {
+  const userConfig = {
     appear: spec.animationAppear?.[markName] ?? spec.animationAppear,
     disappear: spec.animationDisappear?.[markName] ?? spec.animationDisappear,
     enter: spec.animationEnter?.[markName] ?? spec.animationEnter,
@@ -98,6 +106,7 @@ export function userAnimationConfig<M extends string, Preset extends string>(
     update: spec.animationUpdate?.[markName] ?? spec.animationUpdate,
     normal: spec.animationNormal?.[markName]
   };
+  return uniformAnimationConfig(userConfig, ctx);
 }
 
 /**
@@ -127,20 +136,19 @@ function defaultDataIndex(datum: any) {
   return datum?.[DEFAULT_DATA_INDEX];
 }
 
-export function shouldDoMorph(
-  hasAnimation: boolean,
-  morphConfig?: IMorphSeriesSpec,
-  animationConfig?: ReturnType<typeof userAnimationConfig>
-) {
-  if (hasAnimation === false) {
+export function shouldMarkDoMorph(spec: ISeriesSpec & IAnimationSpec<string, string>, markName: string) {
+  if (spec.animation === false) {
     return false;
   }
 
-  if (animationConfig?.appear === false || animationConfig?.update === false) {
+  if (spec.morph?.enable === false) {
     return false;
   }
 
-  if (morphConfig?.enable === false) {
+  const appearAnimationEnabled = (spec.animationAppear?.[markName] ?? spec.animationAppear) !== false;
+  const updateAnimationEnabled = (spec.animationUpdate?.[markName] ?? spec.animationUpdate) !== false;
+
+  if (!appearAnimationEnabled || !updateAnimationEnabled) {
     return false;
   }
 
@@ -153,4 +161,45 @@ export function isTimeLineAnimation(animationConfig: IAnimationConfig) {
 
 export function isChannelAnimation(animationConfig: IAnimationConfig) {
   return !isTimeLineAnimation(animationConfig) && isValid((animationConfig as IAnimationTypeConfig).channel);
+}
+
+export function uniformAnimationConfig<Preset extends string>(
+  config: Partial<Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>>,
+  ctx: ISeriesMarkAttributeContext
+) {
+  if (!config) {
+    return config;
+  }
+  config = cloneDeep(config);
+  traverseSpec(config, (node: any) => {
+    // 将函数转换为 vchart 代理的函数
+    // 这里可能会传自定义动画的构造函数，不能被代理
+    if (isFunction(node) && node.prototype?.constructor !== node) {
+      const name = (...args: any) => {
+        return node(...args, ctx);
+      };
+      return name;
+    }
+    return node;
+  });
+
+  return config;
+}
+
+function traverseSpec(spec: any, transform: (node: any, key: string | number) => any) {
+  if (isArray(spec)) {
+    spec.forEach((i: any, index: number) => {
+      spec[index] = transform(spec[index], index);
+      traverseSpec(spec[index], transform);
+    });
+  } else if (isObject(spec)) {
+    for (const key in spec) {
+      spec[key] = transform(spec[key], key);
+      traverseSpec(spec[key], transform);
+    }
+  }
+}
+
+export function isAnimationEnabledForSeries(series: ISeries) {
+  return series.getSpec().animation !== false && isValid(series.getRegion().animate);
 }

@@ -64,7 +64,6 @@ export enum ChartEvent {
   afterInitMark = 'afterInitMark',
   // series.data
   rawDataUpdate = 'rawDataUpdate',
-  rawDataStatisticsUpdate = 'rawDataStatisticsUpdate',
   viewDataFilterOver = 'viewDataFilterOver',
   viewDataUpdate = 'viewDataUpdate',
   viewDataStatisticsUpdate = 'viewDataStatisticsUpdate',

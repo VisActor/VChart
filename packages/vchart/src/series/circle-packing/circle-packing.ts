@@ -24,7 +24,7 @@ import type { CirclePackingNodeElement } from '@visactor/vgrammar-hierarchy';
 import { flatten } from '../../data/transforms/flatten';
 import { CirclePackingTooltipHelper } from './tooltip-helper';
 import type { ITextMark } from '../../mark/text';
-import { addHierarchyDataKey, initKeyMap } from '../../data/transforms/data-key';
+import { addHierarchyDataKey, initHierarchyKeyMap } from '../../data/transforms/data-key';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerScaleInOutAnimation } from '../../animation/config';
@@ -163,8 +163,8 @@ export class CirclePackingSeries<
     rawData.transform({
       type: 'addVChartProperty',
       options: {
-        beforeCall: initKeyMap,
-        call: addHierarchyDataKey.bind(this)
+        beforeCall: initHierarchyKeyMap.bind(this),
+        call: addHierarchyDataKey
       }
     });
   }
@@ -283,14 +283,17 @@ export class CirclePackingSeries<
       mark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('circlePacking')?.(undefined, appearPreset),
-          userAnimationConfig(mark.name, this._spec)
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
         )
       );
     });
 
     this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
       mark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), userAnimationConfig(mark.name, this._spec))
+        animationConfig(
+          Factory.getAnimationInKey('scaleInOut')?.(),
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+        )
       );
     });
   }

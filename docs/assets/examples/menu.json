@@ -4,8 +4,8 @@
     {
       "path": "storytelling",
       "title": {
-        "zh": "storytelling",
-        "en": "storytelling"
+        "zh": "animation & storytelling",
+        "en": "动画 & 叙事"
       },
       "children": [
         {
@@ -48,6 +48,20 @@
           "title": {
             "zh": "环形图",
             "en": "Circular Chart"
+          }
+        },
+        {
+          "path": "bar-to-pie",
+          "title": {
+            "zh": "柱状图、饼图间切换的全局动画",
+            "en": "Global animation for switching between bar and pie charts"
+          }
+        },
+        {
+          "path": "bar-to-scatter",
+          "title": {
+            "zh": "柱状图、散点图间切换的全局动画",
+            "en": "Global animation for switching between bar charts and scatter plots"
           }
         }
       ]
@@ -134,6 +148,20 @@
           "title": {
             "zh": "折线图轴 padding 调整",
             "en": "Offline Chart Axis padding adjustment"
+          }
+        },
+        {
+          "path": "line-sampling",
+          "title": {
+            "zh": "折线图数据采样",
+            "en": "line chart sampling"
+          }
+        },
+        {
+          "path": "line-overlap",
+          "title": {
+            "zh": "折线图防重叠",
+            "en": "line chart overlap"
           }
         }
       ]
@@ -369,6 +397,13 @@
           "title": {
             "zh": "带条形背景的条形图",
             "en": "Bar Chart with Background"
+          }
+        },
+        {
+          "path": "bar-functional-label-position",
+          "title": {
+            "zh": "水平条形图标签位置自定义",
+            "en": "Bar Chart with functional label position"
           }
         },
         {
@@ -2052,62 +2087,6 @@
           }
         }
       ]
-    },
-    {
-      "path": "morphing",
-      "title": {
-        "zh": "全局动画",
-        "en": "morphing"
-      },
-      "children": [
-        {
-          "path": "bar-to-pie",
-          "title": {
-            "zh": "柱状图、饼图间切换的全局动画",
-            "en": "Global animation for switching between bar and pie charts"
-          }
-        },
-        {
-          "path": "bar-to-scatter",
-          "title": {
-            "zh": "柱状图、散点图间切换的全局动画",
-            "en": "Global animation for switching between bar charts and scatter plots"
-          }
-        }
-      ]
-    },
-    {
-      "path": "preview-image",
-      "title": {
-        "zh": "preview-image",
-        "en": "preview-image"
-      },
-      "children": [
-        {
-          "path": "bi-direction-stack-column_files",
-          "title": {
-            "zh": "bi-direction-stack-column_files",
-            "en": "bi-direction-stack-column_files"
-          },
-          "children": []
-        }
-      ]
-    },
-    {
-      "path": "log",
-      "title": {
-        "zh": "log",
-        "en": "log"
-      },
-      "children": []
-    },
-    {
-      "path": "preview-image-temp",
-      "title": {
-        "zh": "preview-image-temp",
-        "en": "preview-image-temp"
-      },
-      "children": []
     }
   ]
 }

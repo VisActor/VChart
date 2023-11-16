@@ -96,11 +96,31 @@ export function outOfBounds(bounds: IBoundsLike, x: number, y: number) {
   return bounds.x1 > x || bounds.x2 < x || bounds.y1 > y || bounds.y2 < y;
 }
 export function min(data: any[], field?: string): number {
-  return minInArray(data.map(d => +d[field]).filter(d => isValidNumber(d)));
+  const dataArray: any[] = [];
+  data.forEach(d => {
+    const value = +d[field];
+    if (isValidNumber(value)) {
+      dataArray.push(value);
+    }
+  });
+  if (dataArray.length === 0) {
+    return null;
+  }
+  return minInArray(dataArray);
 }
 
 export function max(data: any[], field?: string): number {
-  return maxInArray(data.map(d => +d[field]).filter(d => isValidNumber(d)));
+  const dataArray: any[] = [];
+  data.forEach(d => {
+    const value = +d[field];
+    if (isValidNumber(value)) {
+      dataArray.push(value);
+    }
+  });
+  if (dataArray.length === 0) {
+    return null;
+  }
+  return maxInArray(dataArray);
 }
 
 export function sum(data: any[], field?: string): number {

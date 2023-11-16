@@ -171,7 +171,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
           },
           appearPreset
         ),
-        userAnimationConfig(SeriesMarkNameEnum.segment, this._spec)
+        userAnimationConfig(SeriesMarkNameEnum.segment, this._spec, this._markAttributeContext)
       )
     );
   }

@@ -42,7 +42,7 @@ export default function (props: any) {
         }}
       >
         <VChart
-          type={'H5'}
+          type={Taro.getEnv()}
           spec={spec}
           canvasId={`${type}chart1`}
           style={{
@@ -50,6 +50,9 @@ export default function (props: any) {
             height: '100%',
             borderRadius: '4px',
             border: '1px solid #eeeeee'
+          }}
+          options={{
+            disableDirtyBounds: true
           }}
           onChartInit={() => {
             console.log(`init ${type}`);

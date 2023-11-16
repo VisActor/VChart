@@ -20,65 +20,84 @@ This configuration modification takes effect immediately.
 
 ## static method
 
+### useRegisters
+
+```ts
+  /**
+   * Register charts and components on demand
+   * @param comps
+   * @since 1.5.1
+   */
+  static useRegisters(comps: (() => void)[]) {
+    comps.forEach((fn: () => void) => {
+      fn();
+    });
+  }
+
+```
+
+API is supported since version `1.5.1`.
+It is used to load charts, series, components, environment-compatible codes, etc. on demand. For details, please refer to the [On-demand Import Tutorial](../../../guide/en/tutorial_docs/Basic/How_to_Import_VChart.md).
+
 ### useChart
 
 ```ts
 /**
- * register chart
+ * Register custom charts
  * @param charts chart class
  */
 useChart: (charts: IChartConstructor[]) => void;
 ```
 
-Charts for registration needs, often used for on-demand loading.
+Used to register custom charts for extensions.
 
 ### useSeries
 
 ```ts
 /**
- * register series
+ * register custom series
  * @param series series class
  */
 useSeries: (series: ISeriesConstructor[]) => void;
 ```
 
-Used to register required series Series, often used for on-demand loading.
+Used to register custom series for extensions.
 
 ### useComponent
 
 ```ts
 /**
- * register component
+ * register custom component
  * @param components components class
  */
 useComponent: (components: IComponentConstructor[]) => void;
 ```
 
-Used to register required component Components, often used for on-demand loading.
+Used to register custom component for extensions.
 
 ### useMark
 
 ```ts
 /**
- * register Mark
+ * register custom mark
  * @param marks Mark class
  */
 useMark: (marks: MarkConstructor[]) => void;
 ```
 
-Used to register required components Mark, often used for on-demand loading.
+Used to register custom mark for extensions.
 
 ### useLayout
 
 ```ts
 /**
- * register layout
+ * register custom layout
  * @param layouts layout class
  */
 useLayout: (layouts: ILayoutConstructor[]) => void;
 ```
 
-Used to register required layouts Layout, often used for on-demand loading.
+Used to register custom layout for extensions.
 
 ### registerDataSetTransform
 
@@ -91,7 +110,7 @@ Used to register required layouts Layout, often used for on-demand loading.
   registerDataSetTransform: (name: string, transform: Transform) => void;
 ```
 
-Used to register DataSet data methods, often used for on-demand loading.
+Used to register DataSet data methods.
 
 ### registerMap
 
@@ -464,7 +483,7 @@ on(event: string, callback: (params: EventParams) => void): void;
 on(event: string, query: EventQuery, callback: (params: EventParams) => void): void;
 ```
 
-Event binding. For more specific use, please move to[Event](./event.md).
+Event binding. For more specific use, please move to[Event](./event).
 
 ### Off
 
