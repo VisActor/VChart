@@ -196,12 +196,10 @@ export class LayoutItem implements ILayoutItem {
   onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any) {
     // 在 layoutStart 时重新计算 spec 中的布局属性值，确保 resize 后，这些值保持正确的px值。
     this._setLayoutAttributeFromSpec(this._spec, viewRect);
-    this._model.onLayoutStart(layoutRect, viewRect, ctx);
   }
 
   onLayoutEnd(option: IChartLayoutOption) {
-    // 在 layoutStart 时重新计算 spec 中的布局属性值，确保 resize 后，这些值保持正确的px值。
-    this._model.onLayoutEnd(option);
+    // do nothing
   }
 
   private _getAbsoluteSpecValue(layoutRect: ILayoutRect) {

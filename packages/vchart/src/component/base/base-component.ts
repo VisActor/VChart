@@ -54,7 +54,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   initLayout(): void {
     super.initLayout();
     this._regions = this._regions ?? this._option.getRegionsInIndex();
-    this._layout.layoutBindRegionID = this._regions.map(x => x.id);
+    this._layout && (this._layout.layoutBindRegionID = this._regions.map(x => x.id));
   }
 
   abstract changeRegions(regions: IRegion[]): void;

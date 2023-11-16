@@ -41,7 +41,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
   implements IDataFilterComponent
 {
-  layoutType: ILayoutType = 'region-relative';
+  layoutType: ILayoutType | 'none' = 'none';
 
   protected _component: AbstractComponent;
 
@@ -149,7 +149,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected abstract _handleDataCollectionChange(): void;
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
-    const zoomLock = this._spec.zoomLock ?? false;
+    const zoomLock = this._spec?.zoomLock ?? false;
     if (zoomLock || end - start < this._minSpan || end - start > this._maxSpan) {
       return;
     }
@@ -233,7 +233,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   initLayout(): void {
     super.initLayout();
-    this._layout.layoutOrient = this._orient;
+    this._layout && (this._layout.layoutOrient = this._orient);
   }
 
   protected _setAxisFromSpec() {
@@ -256,6 +256,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
         this._relatedAxisComponent = bandAxis;
       }
+    }
+    if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
+      (this._relatedAxisComponent as CartesianAxis<any>).autoIndentOnce = true;
     }
   }
 
@@ -741,7 +744,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _initCommonEvent() {
     const delayType: IDelayType = this._spec?.delayType ?? 'throttle';
     const delayTime = isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0;
-    const realTime = this._spec?.realTime ?? false;
+    const realTime = this._spec?.realTime ?? true;
     const option = { delayType, delayTime, realTime };
     if (this._zoomAttr.enable) {
       (this as unknown as IZoomable).initZoomEventOfRegions(this._regions, null, this._handleChartZoom, option);

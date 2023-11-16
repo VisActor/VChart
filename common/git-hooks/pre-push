@@ -1,3 +1,14 @@
 #!/bin/sh
 
-node common/scripts/install-run-rush.js test --only tag:package
+while read local_ref local_sha remote_ref remote_sha
+do
+  # 检查是否是删除操作
+  if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
+    echo "Ignoring push deletion. Skipping local test."
+    exit 0
+  fi
+
+  # 其他推送逻辑...
+  node common/scripts/install-run-rush.js test --only tag:package
+done
+

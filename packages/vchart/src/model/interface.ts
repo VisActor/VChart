@@ -111,6 +111,10 @@ export interface IModel extends ICompilable {
   getSpec?: () => any;
   getSpecIndex: () => number;
 
+  //布局周期
+  onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
+  onLayoutEnd: (ctx: IModelLayoutOption) => void;
+
   // theme
   setCurrentTheme: (noRender?: boolean) => void;
   getColorScheme: () => IThemeColorScheme | undefined;
@@ -137,9 +141,7 @@ export interface ILayoutModel extends IModel {
   getBoundsInRect: (rect: ILayoutRect, fullRect: ILayoutRect) => IBoundsLike;
 
   //布局周期
-  onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
   afterSetLayoutStartPoint: (pos: ILayoutPoint) => void;
-  onLayoutEnd: (ctx: IModelLayoutOption) => void;
 }
 
 export interface IModelOption extends ICompilableInitOption {

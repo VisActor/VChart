@@ -4,8 +4,8 @@
     {
       "path": "API",
       "title": {
-        "zh": "API",
-        "en": "API"
+        "zh": "api",
+        "en": "api"
       },
       "children": [
         {

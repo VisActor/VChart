@@ -5,7 +5,7 @@ import type { IComponentOption } from '../interface';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
 import { LayoutLevel, LayoutZIndex, PREFIX } from '../../constant';
-import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutType } from '../../typings';
+import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
 import type { IGroupMark } from '../../mark/group';
 import type { MarkTypeEnum } from '../../mark/interface';
 import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
@@ -17,7 +17,7 @@ export class CustomMark extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;
   type = ComponentTypeEnum.customMark;
 
-  layoutType: ILayoutType = 'absolute';
+  layoutType: 'none' = 'none';
   layoutZIndex: number = LayoutZIndex.CustomMark;
   layoutLevel: number = LayoutLevel.CustomMark;
 

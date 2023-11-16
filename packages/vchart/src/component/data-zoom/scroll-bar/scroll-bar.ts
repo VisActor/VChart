@@ -14,6 +14,7 @@ import type { IScrollBarSpec } from './interface';
 import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
+import type { ILayoutType } from '../../../typings/layout';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
@@ -22,6 +23,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
+  layoutType: ILayoutType = 'region-relative';
 
   // datazoom组件
   protected _component!: ScrollBarComponent;
