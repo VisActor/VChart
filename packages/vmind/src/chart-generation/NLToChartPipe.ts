@@ -8,7 +8,7 @@ import {
   CHARTTYP_VIDEO_ELENGTH,
   SUPPORTED_CHART_LIST
 } from './constants';
-import { GPTChartAdvisorResult, GPTDataProcessResult, IGPTOptions, NLToChartResult } from '../typings';
+import { GPTChartAdvisorResult, GPTDataProcessResult, IGPTOptions, NLToChartResult, VizSchema } from '../typings';
 import { parseGPTJson, parseGPTResponse, patchUserInput, readTopNLine, requestGPT } from './utils';
 import { DataSet, DataView, csvParser, fold } from '@visactor/vdataset';
 import { vizDataToSpec } from './vizDataToSpec';
@@ -96,7 +96,7 @@ export const dataProcessGPT = async (
 };
 
 export const chartAdvisorGPT = async (
-  schema: any,
+  schema: Partial<VizSchema>,
   dataProcessResJson: GPTDataProcessResult,
   userInput: string,
   openAIKey: string | undefined,
@@ -105,9 +105,9 @@ export const chartAdvisorGPT = async (
   if (!dataProcessResJson.error) {
     //GPT进行图表推荐、配色和字段映射
     const fieldInfo = dataProcessResJson.FIELD_INFO;
-    const usefulFields = dataProcessResJson.USEFUL_FIELDS;
-    const colorPalette = dataProcessResJson.COLOR_PALETTE;
-    const videoDuration = dataProcessResJson.VIDEO_DURATION;
+    // const usefulFields = dataProcessResJson.USEFUL_FIELDS;
+    // const colorPalette = dataProcessResJson.COLOR_PALETTE;
+    // const videoDuration = dataProcessResJson.VIDEO_DURATION;
     const filteredFields = fieldInfo.filter(
       field => true
       //usefulFields.includes(field.fieldName)
@@ -118,23 +118,25 @@ export const chartAdvisorGPT = async (
     //const advisorRes = getMockDataDynamicBar2();
 
     const advisorResJson: GPTChartAdvisorResult = parseGPTResponse(advisorRes) as unknown as GPTChartAdvisorResult;
-    if (colorPalette) {
-      advisorResJson.COLOR_PALETTE = colorPalette;
+    if (advisorResJson.error) {
+      throw Error('Network Error!');
     }
-    if (videoDuration) {
-      advisorResJson.VIDEO_DURATION = videoDuration;
+    if (!SUPPORTED_CHART_LIST.includes(advisorResJson['CHART_TYPE'])) {
+      throw Error('Unsupported Chart Type. Please Change User Input');
+      //return {
+      //  spec: undefined,
+      //  time: {
+      //    totalTime: DEFAULT_VIDEO_LENGTH,
+      //    frameArr: [],
+      //  }
+      //}
     }
-    if (!advisorResJson.error) {
-      return advisorResJson;
-    } else {
-      //传统方法做兜底
-      return advisorResJson;
-    }
+    return advisorResJson;
   }
   return {};
 };
 
-export const getSchemaFromFieldInfo = (dataProcessResJson: GPTDataProcessResult) => {
+export const getSchemaFromFieldInfo = (dataProcessResJson: GPTDataProcessResult): Partial<VizSchema> => {
   const fieldInfo = dataProcessResJson.FIELD_INFO;
   const usefulFields = dataProcessResJson.USEFUL_FIELDS;
   const schema = {

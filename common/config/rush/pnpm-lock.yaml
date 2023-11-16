@@ -548,6 +548,7 @@ importers:
       '@types/react-dom': ^18.0.0
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
+      '@visactor/chart-advisor': 0.1.10
       '@visactor/vchart': workspace:1.5.4
       '@visactor/vdataset': ~0.16.6
       '@visactor/vrender': ~0.16.9
@@ -575,6 +576,7 @@ importers:
       vite-plugin-css: ~1.0.4
       vite-plugin-libcss: ~1.1.1
     dependencies:
+      '@visactor/chart-advisor': 0.1.10
       '@visactor/vdataset': 0.16.7
       '@visactor/vrender': 0.16.13
       '@visactor/vutils': 0.16.7
@@ -4774,6 +4776,12 @@ packages:
   /@ungap/promise-all-settled/1.1.2:
     resolution: {integrity: sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==}
     dev: true
+
+  /@visactor/chart-advisor/0.1.10:
+    resolution: {integrity: sha512-br8EoI6uz2GwxjkHTUNOGkVhnTzNrf96h4LIeAz0IojXLxplqTp4USmKW8IRkgk9PJs5sDcB+/9cgZBpz5vR4A==}
+    dependencies:
+      lodash: 4.17.21
+    dev: false
 
   /@visactor/vdataset/0.16.7:
     resolution: {integrity: sha512-UQ6WJOj5EAMbq3qToU0hzTM4UnVUcoG/VULqvet2xF10oYTdMMWFlZ7+gXyblN9gHUbMZIuQ/+FtCqKl4Xztfw==}

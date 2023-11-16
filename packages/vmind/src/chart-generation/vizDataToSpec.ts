@@ -45,29 +45,27 @@ import {
   boxPlotField
 } from './pipes';
 import { Cell, ChartType, Context, Pipe } from '../typings';
-import { DataView } from '@visactor/vdataset';
 import { CARTESIAN_CHART_LIST, detectAxesType } from './utils';
 
 export const vizDataToSpec = (
-  dataView: DataView,
+  dataset: any[],
   chartType: ChartType,
   cell: Cell,
   colors: string[] | undefined,
   totalTime?: number
 ) => {
-  const { chartTypeNew, cellNew } = patchChartTypeAndCell(chartType, cell, dataView);
-  const pipelines = pipelineMap[chartTypeNew];
+  const pipelines = pipelineMap[chartType];
   const spec = execPipeline({}, pipelines, {
-    chartType: chartTypeNew,
-    dataView,
-    cell: cellNew,
+    chartType,
+    dataset,
+    cell,
     colors,
     totalTime
   });
-  return { spec, chartTypeNew };
+  return spec;
 };
 
-const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataView: DataView) => {
+export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataset: any[]) => {
   //对GPT返回结果进行修正
   //某些时候由于用户输入的意图不明确，GPT返回的cell中可能缺少字段。
   //此时需要根据规则补全
@@ -113,12 +111,12 @@ const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataView: Dat
     const cellNew = { ...cell };
     if (!cellNew.color || !cellNew.angle) {
       const usedFields = Object.values(cell);
-      const dataFields = Object.keys(dataView.latestData[0]);
+      const dataFields = Object.keys(dataset[0]);
       const remainedFields = dataFields.filter(f => !usedFields.includes(f));
       if (!cellNew.color) {
         //没有分配颜色字段，从剩下的字段里选择一个离散字段分配到颜色上
         const colorField = remainedFields.find(f => {
-          const fieldType = detectAxesType(dataView.latestData, f);
+          const fieldType = detectAxesType(dataset, f);
           return fieldType === 'band';
         });
         if (colorField) {
@@ -130,7 +128,7 @@ const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataView: Dat
       if (!cellNew.angle) {
         //没有分配角度字段，从剩下的字段里选择一个连续字段分配到角度上
         const angleField = remainedFields.find(f => {
-          const fieldType = detectAxesType(dataView.latestData, f);
+          const fieldType = detectAxesType(dataset, f);
           return fieldType === 'linear';
         });
         if (angleField) {
@@ -150,7 +148,7 @@ const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataView: Dat
     const cellNew = { ...cell };
     if (!cellNew.size || !cellNew.color || cellNew.color === cellNew.size) {
       const usedFields = Object.values(cell);
-      const dataFields = Object.keys(dataView.latestData[0]);
+      const dataFields = Object.keys(dataset[0]);
       const remainedFields = dataFields.filter(f => !usedFields.includes(f));
       //首先根据cell中的其他字段选择size和color
       //若没有，则从数据的剩余字段中选择
@@ -160,7 +158,7 @@ const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataView: Dat
           cellNew.size = newSize;
         } else {
           const sizeField = remainedFields.find(f => {
-            const fieldType = detectAxesType(dataView.latestData, f);
+            const fieldType = detectAxesType(dataset, f);
             return fieldType === 'linear';
           });
           if (sizeField) {
@@ -176,7 +174,7 @@ const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataView: Dat
           cellNew.color = newColor;
         } else {
           const colorField = remainedFields.find(f => {
-            const fieldType = detectAxesType(dataView.latestData, f);
+            const fieldType = detectAxesType(dataset, f);
             return fieldType === 'band';
           });
           if (colorField) {
@@ -199,12 +197,12 @@ const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataView: Dat
       const flattenedXField = Array.isArray(cell.x) ? cell.x : [cell.x];
       const usedFields = Object.values(cellNew).filter(f => !Array.isArray(f));
       usedFields.push(...flattenedXField);
-      const dataFields = Object.keys(dataView.latestData[0]);
+      const dataFields = Object.keys(dataset[0]);
       const remainedFields = dataFields.filter(f => !usedFields.includes(f));
 
       //动态条形图没有time字段，选择一个离散字段作为time
       const timeField = remainedFields.find(f => {
-        const fieldType = detectAxesType(dataView.latestData, f);
+        const fieldType = detectAxesType(dataset, f);
         return fieldType === 'band';
       });
       if (timeField) {
@@ -223,11 +221,11 @@ const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataView: Dat
     const cellNew = { ...cell };
     if (!cellNew.x) {
       const usedFields = Object.values(cell);
-      const dataFields = Object.keys(dataView.latestData[0]);
+      const dataFields = Object.keys(dataset[0]);
       const remainedFields = dataFields.filter(f => !usedFields.includes(f));
       //没有分配x字段，从剩下的字段里选择一个离散字段分配到x上
       const xField = remainedFields.find(f => {
-        const fieldType = detectAxesType(dataView.latestData, f);
+        const fieldType = detectAxesType(dataset, f);
         return fieldType === 'band';
       });
       if (xField) {
@@ -247,6 +245,38 @@ const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataView: Dat
     cellNew: cell
   };
 };
+
+export const checkChartTypeAndCell = (chartType: string, cell: any): boolean => {
+  switch (chartType) {
+    case 'BAR CHART':
+    case 'LINE CHART':
+      checkChannel(cell, 'x');
+      checkChannel(cell, 'y');
+      break;
+    case 'DUAL AXIS CHART':
+      checkChannel(cell, 'x');
+      checkChannel(cell, 'y', 2);
+      break;
+    default:
+      console.warn('Unchecked Chart Type', chartType);
+      break;
+  }
+  return true;
+};
+
+const checkChannel = (cell: any, channel: string, count = 1) => {
+  if (count === 1 && typeof cell[channel] === 'string') {
+    // channel exist and is a string
+    return true;
+  }
+  if (Array.isArray(cell[channel]) && cell[channel].length === count) {
+    // channel is a array
+    return true;
+  } else {
+    throw `cell mismatch channel '${channel}'`;
+  }
+};
+
 const pipelineBar = [chartType, data, colorBar, cartesianBar, axis, legend, displayConfBar, animationCartesianBar];
 const pipelineLine = [chartType, data, colorLine, cartesianLine, axis, legend, displayConfLine, animationCartisianLine];
 const pipelinePie = [chartType, data, color, pieField, legend, animationCartesianPie];
