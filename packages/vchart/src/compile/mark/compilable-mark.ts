@@ -453,16 +453,23 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this.state.compile();
   }
 
+  protected _computeAttribute(key: string, state: StateValueType) {
+    return (datum: Datum, opt: IAttributeOpt) => {
+      return undefined as any;
+    };
+  }
+
   // TODO: 1. opt内容待定，确实需要再来补充（之前是scale.bindScales/bindSignals，从context.params中可以获取到）
   // TODO: 2. stateSourceItem，是否根据attr区分，存在默认写死的情况，例如"hover"/"normal"；
   protected compileCommonAttributeCallback(key: string, state: string): MarkFunctionCallback<any> {
+    const attributeFunctor = this._computeAttribute(key, state);
     // remove state in opt
     const opt: IAttributeOpt = { mark: null, parent: null, element: null };
     return (datum: Datum, element: IElement) => {
       opt.mark = element.mark;
       opt.parent = element.mark.group;
       opt.element = element;
-      return this.getAttribute(key as any, datum, state, opt);
+      return attributeFunctor(datum, opt);
     };
   }
 
