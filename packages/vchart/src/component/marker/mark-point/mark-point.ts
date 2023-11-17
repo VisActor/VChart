@@ -77,8 +77,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
       clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markPoint;
-    this._markerComponent.name = 'markPoint';
-    this._markerComponent.id = this._spec.id ?? `markPoint-${this.id}`;
+    this._markerComponent.name = this._spec.name ?? this.type;
+    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
     this.getContainer().add(this._markerComponent as unknown as INode);
   }
 
@@ -95,6 +95,17 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
       point = coordinateLayout(data, relativeSeries, autoRange)[0];
     } else if (isPositionLayout) {
       point = spec.position;
+
+      if (spec.regionRelative) {
+        const region = relativeSeries.getRegion();
+        const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+        point = {
+          x: point.x + regionStartX,
+          y: point.y + regionStartY
+        };
+      } else {
+        point = spec.position;
+      }
     }
 
     const seriesData = this._relativeSeries.getViewData().latestData;
