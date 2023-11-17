@@ -26,20 +26,25 @@ export class DimensionEvent implements IComposedEvent {
   constructor(eventDispatcher: IEventDispatcher, mode: RenderMode) {
     this._eventDispatcher = eventDispatcher;
     this._mode = mode;
+  }
 
-    this._chart = this._eventDispatcher.globalInstance.getChart?.();
+  private get chart() {
+    if (!this._chart) {
+      this._chart = this._eventDispatcher.globalInstance.getChart?.();
+    }
+    return this._chart;
   }
 
   register<Evt extends string>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>): void {
-    (this._chart?.getOption().onError ?? error)('Method not implemented.');
+    (this.chart?.getOption().onError ?? error)('Method not implemented.');
   }
   unregister(): void {
-    (this._chart?.getOption().onError ?? error)('Method not implemented.');
+    (this.chart?.getOption().onError ?? error)('Method not implemented.');
   }
 
   protected getTargetDimensionInfo(x: number, y: number): IDimensionInfo[] | null {
-    const cartesianInfo = getCartesianDimensionInfo(this._chart, { x, y }) ?? [];
-    const polarInfo = getPolarDimensionInfo(this._chart, { x, y }) ?? [];
+    const cartesianInfo = getCartesianDimensionInfo(this.chart, { x, y }) ?? [];
+    const polarInfo = getPolarDimensionInfo(this.chart, { x, y }) ?? [];
 
     const result = [].concat(cartesianInfo, polarInfo);
     if (result.length === 0) {
@@ -51,7 +56,7 @@ export class DimensionEvent implements IComposedEvent {
 
   dispatch(v: unknown, opt: { filter?: (axis: IAxis) => boolean }) {
     // get all enable axis
-    const axis = this._chart?.getAllComponents().filter(c => {
+    const axis = this.chart?.getAllComponents().filter(c => {
       if (c.specKey !== 'axes') {
         return false;
       }

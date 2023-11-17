@@ -7,7 +7,11 @@ export const SUPPORTED_CHART_LIST = [
   'Word Cloud',
   'Rose Chart',
   'Radar Chart',
-  'Sankey Chart'
+  'Sankey Chart',
+  'Funnel Chart',
+  'Dual Axis Chart',
+  'Waterfall Chart',
+  'Box Plot Chart'
 ];
 
 export const DataProcessPrompt = `你是一个数据分析领域的专家，你的任务是：
@@ -151,7 +155,7 @@ Response:
 
 export const DataProcessPromptEnglish = `You are an expert in data analysis.
 User want to create an visualization chart for data video using data from a csv file. Let's think step by step. Fill your thoughts in {THOUGHT}.
-- Step1: Summarize the field names and descriptions contained in the csv file.
+- Step1: Summarize the field names, descriptions and field type in the csv file, and determine whether this field is a dimension or a measure contained.
 - Step2: Put all the string or date fields into USEFUL_FIELDS.
 - Step3: Filter out useful fields from the other fields based on the user's input.
 - Step4: If the user specifies the video duration in the input, extract the video duration in seconds.
@@ -166,17 +170,17 @@ Response in the following format:
 "VIDEO_DURATION": The duration of the video in seconds. It can be empty if the user does not specify the video duration.
 "COLOR_PALETTE": A color palette containing 8 colors based on the input. It can be empty if the user does not specify a style.
 "REASON": The reason for selecting the fields in FIELD_INFO,
-"DOUBLE_CHECK": Check if the response complies with the constraints.
 }
 \`\`\`
 
 Constraints:
 1. No user assistance.
-2. FIELD_INFO must include the type of the field (string, date, integer, float, percentage, etc.).
-3. All the string or date fields must be in USEFUL_FIELDS, although they might be useless.
-4. If the user specifies the video length, VIDEO_DURATION cannot be empty.
-5. If the user specifies the color style, COLOR_PALETTE cannot be empty.
-6. Wrap the response content with \`\`\`, and the content must be directly parsed by JSON.parse() in JavaScript.
+2. FIELD_INFO must include the type of the field (string, int, float, date, datetime, time).
+3. FIELD_INFO must include the role of the field (dimension or measure).
+4. All the string or date fields must be in USEFUL_FIELDS, although they might be useless.
+5. If the user specifies the video length, VIDEO_DURATION cannot be empty.
+6. If the user specifies the color style, COLOR_PALETTE cannot be empty.
+7. Wrap the response content with \`\`\`, and the content must be directly parsed by JSON.parse() in JavaScript.
 
 Here are some examples:
 
@@ -196,25 +200,32 @@ Response:
 "FIELD_INFO":[
 {
 "fieldName": "country",
-"description":"Represents the name of the country, which is a string."
+"description":"Represents the name of the country, which is a string.",
+"type": "string",
+"role": "dimension"
 },
 {
 "fieldName": "gdp",
-"description":"Represents the total GDP of each country, which is an integer."
+"description":"Represents the total GDP of each country, which is an integer.",
+"type": "int",
+"role": "measure"
 },
 {
 "fieldName": "year",
-"description":"Represents the current year, which is a date."
+"description":"Represents the current year, which is a date.",
+"type": "date",
+"role": "dimension"
 },
 {
 "fieldName": "co2_emissions",
-"description":"Represents the carbon dioxide emissions of each country, which is an integer."
+"description":"Represents the carbon dioxide emissions of each country, which is an integer.",
+"type": "int",
+"role": "measure"
 }
 ],
 "USEFUL_FIELDS": ["country","gdp","year"],
 "VIDEO_DURATION": 60,
-"REASON":  "The field 'country' is a string field, and 'year' is a date field, so they must be in USEFUL_FIELDS. User's intention is to show a comparison of the GDP rankings of different countries worldwide over the years, and 'gdp' represents the total GDP of each country. 'co2_emissions' represents carbon dioxide emissions, which is a is a numerical field and is irrelevant to the user's intention.",
-"DOUBLE_CHECK": "All the string and date fields are in USEFUL_FIELDS. FIELD_INFO includes the type of each field. The user specified the video duration, so VIDEO_DURATION is not empty. The user did not specify the color style of the video, so COLOR_PALETTE can be empty. The reply content can be directly parsed by JSON.parse() in JavaScript."
+"REASON":  "The field 'country' is a string field, and 'year' is a date field, so they must be in USEFUL_FIELDS. User's intention is to show a comparison of the GDP rankings of different countries worldwide over the years, and 'gdp' represents the total GDP of each country. 'co2_emissions' represents carbon dioxide emissions, which is a is a numerical field and is irrelevant to the user's intention."
 }
 \`\`\`
 
@@ -251,8 +262,7 @@ Response:
 ],
 "USEFUL_FIELDS": ["branch_name","percentage"],
 "COLOR_PALETTE":["#1DD0F3", "#2693FF", "#3259F4", "#1B0CA1", "#CB2BC6", "#FF581D", "#FBBB16", "#F6FB17"],
-"REASON": "User's intention is to show the market share, and 'percentage' represents the market share, which is the information needed. 'branch_name' is a string field, so it must be in USEFUL_FIELDS. 'average_price' represents the average price, and 'quality' represents the product quality. They are both numerical fields and are irrelevant to the user's intention.",
-"DOUBLE_CHECK": "All the string and date fields are in USEFUL_FIELDS, and there are no redundant fields. FIELD_INFO includes the type of each field. The user did not specify the video duration, so VIDEO_DURATION can be empty. The user specified the color style of the chart, so COLOR_PALETTE is not empty. The reply content can be directly parsed by JSON.parse() in JavaScript."
+"REASON": "User's intention is to show the market share, and 'percentage' represents the market share, which is the information needed. 'branch_name' is a string field, so it must be in USEFUL_FIELDS. 'average_price' represents the average price, and 'quality' represents the product quality. They are both numerical fields and are irrelevant to the user's intention."
 }
 \`\`\`
 ----------------------------------
@@ -272,20 +282,25 @@ Response:
 "FIELD_INFO":[
 {
 "fieldName": "country",
-"description":"Represents the name of the country, which is a string."
+"description":"Represents the name of the country, which is a string.",
+"type": "string",
+"role": "dimension"
 },
 {
 "fieldName": "year",
-"description":"Represents the current year, which is a date."
+"description":"Represents the current year, which is a date.",
+"type": "date",
+"role": "dimension"
 },
 {
 "fieldName": "population",
-"description":"Represents the total population of each country, which is an integer."
+"description":"Represents the total population of each country, which is an integer.",
+"type": "int",
+"role": "measure"
 }
 ],
 "USEFUL_FIELDS": ["country","year","population"],
-"REASON": "The field 'population' is directly related to the user's intention, so it need to be selected. 'country' and 'year' are string and date fields, so they must be in USEFUL_FIELDS",
-"DOUBLE_CHECK": "All the string and date fields are in USEFUL_FIELDS, and there are no redundant fields. FIELD_INFO includes the type of each field. The user did not specify the video duration, so VIDEO_DURATION can be empty. The user did not specify the color style of the chart, so COLOR_PALETTE can be empty. The reply content can be directly parsed by JSON.parse() in JavaScript."
+"REASON": "The field 'population' is directly related to the user's intention, so it need to be selected. 'country' and 'year' are string and date fields, so they must be in USEFUL_FIELDS"
 }
 \`\`\`
 
@@ -305,24 +320,31 @@ Response:
 "FIELD_INFO":[
 {
 "fieldName": "branch_name",
-"description":"Represents the name of the mobile phone brand, which is a string."
+"description":"Represents the name of the mobile phone brand, which is a string.",
+"type": "string",
+"role": "dimension"
 },
 {
 "fieldName": "percentage",
-"description":"Represents the market share of the brand, which is a percentage."
+"description":"Represents the market share of the brand, which is a percentage.",
+"type": "float",
+"role": "measure"
 },
 {
 "fieldName": "average_price",
-"description":"Represents the average price of the brand, which is a float."
+"description":"Represents the average price of the brand, which is a float.",
+"type": "float",
+"role": "measure"
 },
 {
 "fieldName": "quality",
-"description":"Represents the product quality of the brand, which is an integer."
+"description":"Represents the product quality of the brand, which is an integer.",
+"type": "int",
+"role": "measure"
 }
 ],
 "USEFUL_FIELDS": ["branch_name","average_price"],
-"REASON":  "The user wants to show average price, so average_price must be in USEFUL_FIELDS. 'branch_name' is a string field, so it is a useful field ",
-"DOUBLE_CHECK": "All the string and date fields are in USEFUL_FIELDS, and there are no redundant fields. The user did not specify the video duration, so VIDEO_DURATION can be empty. The user did not specify the color style of the chart, so COLOR_PALETTE can be empty. The reply content can be directly parsed by JSON.parse() in JavaScript."
+"REASON":  "The user wants to show average price, so average_price must be in USEFUL_FIELDS. 'branch_name' is a string field, so it is a useful field "
 }
 \`\`\`
 `;
@@ -447,7 +469,7 @@ export const ChartAdvisorPromptEnglish = `You are an expert in data visualizatio
 User want to create an visualization chart for data video using data from a csv file. Ignore the duration in User Input.
 Your task is:
 1. Based on the user's input, infer the user's intention, such as comparison, ranking, trend display, proportion, distribution, etc. If user did not show their intention, just ignore and do the next steps.
-2. Select the chart type that best suites the data from the list of supported charts. Supported chart types: ${JSON.stringify(
+2. Select the single chart type that best suites the data from the list of supported charts. Supported chart types: ${JSON.stringify(
   SUPPORTED_CHART_LIST
 )}.
 3. Map all the fields in the data to the visual channels according to user input and the chart type you choose.
@@ -467,16 +489,15 @@ Respone in the following format:
 "FIELD_MAP": { // Visual channels and the fields mapped to them, available visual channels: ["x", "y", "color", "size", "angle", "time"]
 "x": the field mapped to the x-axis, can be empty. Can Only has one field.
 "y": the field mapped to the y-axis, can be empty. Can only has one field.
-"color": the field mapped to the color channel. Can't be empty in Word Cloud, Pie Chart and Rose Chart
-"size": the field mapped to the size channel, can be empty
-"angle": the field mapped to the angle channel of the pie chart, can be empty
+"color": the field mapped to the color channel. Must use a string field. Can't be empty in Word Cloud, Pie Chart and Rose Chart.
+"size": the field mapped to the size channel. Must use a number field. Can be empty
+"angle": the field mapped to the angle channel of the pie chart, can be empty.
 "time": This is usually a date field and can be used only in Dynamic Bar Chart. Can't be empty in Dynamic Bar Chart.
-"source": the field mapped to the source channel. Can't be empty in Sankey Chart
-"target": the field mapped to the target channel. Can't be empty in Sankey Chart
-"value": the field mapped to the value channel. Can't be empty in Sankey Chart
+"source": the field mapped to the source channel. Can't be empty in Sankey Chart.
+"target": the field mapped to the target channel. Can't be empty in Sankey Chart.
+"value": the field mapped to the value channel. Can't be empty in Sankey Chart.
 },
 "Reason": the reason for selecting the chart type and visual mapping.
-"DOUBLE_CHECK": check if the reply meets the constraints
 }
 \`\`\`
 
@@ -484,7 +505,7 @@ Constraints:
 1. No user assistance.
 2. The selected chart type in CHART_TYPE must be in the list of supported charts.
 3. Just ignore the user's request about duration and style in their input.
-4. All fields in the data must be mapped to at least one visual channel in FIELD_MAP. DO NOT change or translate the field names in FIELD_MAP.
+4. DO NOT change or translate the field names in FIELD_MAP.
 5. The keys in FIELD_MAP must be selected from the list of available visual channels.
 6. Wrap the reply content using \`\`\`, and the returned content must be directly parsed by JSON.parse() in JavaScript.
 
@@ -493,16 +514,25 @@ Here are some examples:
 User Input: 帮我展示历届奥运会各国金牌数量的对比.
 Data field description: [
 {
-"fieldName": "country",
-"description": "Represents the name of the country, which is a string."
+"id": "country",
+"description": "Represents the name of the country, which is a string.",
+"type": "string",
+"role": "dimension",
+"location": "dimension"
 },
 {
-"fieldName": "金牌数量",
-"description": "Represents the number of gold medals won by the country in the current year, which is an integer."
+"id": "金牌数量",
+"description": "Represents the number of gold medals won by the country in the current year, which is an integer.",
+"type": "int",
+"role": "measure",
+"location": "measure"
 },
 {
-"fieldName": "year",
-"description": "Represents the current year, which is a date."
+"id": "year",
+"description": "Represents the current year, which is a date.",
+"type": "string",
+"role": "dimension",
+"location": "dimension"
 }
 ]
 
@@ -516,8 +546,7 @@ Response:
 "y": "金牌数量",
 "time": "year"
 },
-"REASON": "The data contains the year, country, and medal count, and the user's intention contains 'comparison', which is suitable for drawing a dynamic bar chart that changes over time to show the comparison of gold medal counts of various countries in each Olympic Games. The 'country' field is used as the x-axis of the bar chart, and '金牌数量' is used as the y-axis to show the comparison of gold medal counts of various countries in the current year. The 'year' field is used as the time field of the dynamic bar chart to show the comparison of gold medal counts of various countries at different years.",
-"DOUBLE_CHECK": "The dynamic bar chart is suitable for displaying changing data and can be used to compare data at each year, which can meet the user's intent. The Dynamic Bar Chart is in the list of supported charts. The visual mapping result meets the user's intent. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript."
+"REASON": "The data contains the year, country, and medal count, and the user's intention contains 'comparison', which is suitable for drawing a dynamic bar chart that changes over time to show the comparison of gold medal counts of various countries in each Olympic Games. The 'country' field is used as the x-axis of the bar chart, and '金牌数量' is used as the y-axis to show the comparison of gold medal counts of various countries in the current year. The 'year' field is used as the time field of the dynamic bar chart to show the comparison of gold medal counts of various countries at different years."
 }
 \`\`\`
 
@@ -526,12 +555,18 @@ Response:
 User Input: 帮我展示各手机品牌的市场占有率, 赛博朋克风格, 时长5s
 Data field description: [
 {
-"fieldName": "品牌名称",
-"description": "Represents the name of the mobile phone brand, which is a string."
+"id": "品牌名称",
+"description": "Represents the name of the mobile phone brand, which is a string.",
+"type": "string",
+"role": "dimension",
+"location": "dimension"
 },
 {
-"fieldName": "市场份额",
-"description": "Represents the market share of the brand, which is a percentage."
+"id": "市场份额",
+"description": "Represents the market share of the brand, which is a percentage.",
+"type": "float",
+"role": "measure",
+"location": "measure"
 }
 ]
 
@@ -544,8 +579,7 @@ Response:
 "angle": "市场份额",
 "color": "品牌名称"
 },
-"REASON": "The data contains the market share, and the user wants to show percentage data, which is suitable for displaying with a pie chart. The 市场份额 is used as the angle of the pie chart to show the market share of each brand. The 品牌名称 is used as the color to distinguish different brands. The duration is 5s but we just ignore it.",
-"DOUBLE_CHECK": "The pie chart is suitable for displaying percentage data such as market share, which can meet the user's intent. Pie Chart is in the list of supported charts. The visual mapping result meets the user's intent. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript."
+"REASON": "The data contains the market share, and the user wants to show percentage data, which is suitable for displaying with a pie chart. The 市场份额 is used as the angle of the pie chart to show the market share of each brand. The 品牌名称 is used as the color to distinguish different brands. The duration is 5s but we just ignore it."
 }
 \`\`\`
 
@@ -554,12 +588,18 @@ Response:
 User Input: 帮我展示降雨量变化趋势.
 Data field description: [
 {
-"fieldName": "日期",
-"description": "Represents the current month, which is a date."
+"id": "日期",
+"description": "Represents the current month, which is a date.",
+"type": "string",
+"role": "dimension",
+"location": "dimension"
 },
 {
-"fieldName": "降雨量",
-"description": "Represents the rainfall in the current month, which is a number."
+"id": "降雨量",
+"description": "Represents the rainfall in the current month, which is a number.",
+"type": "int",
+"role": "measure",
+"location": "measure"
 }
 ]
 
@@ -572,8 +612,7 @@ Response:
 "x": "日期",
 "y": "降雨量"
 },
-"REASON": "User wants to show the trend of the rainfall, which is suitable for displaying with a line chart. The '日期' is used as the x-axis because it's a date, and the 降雨量 is used as the y-axis because it's a number. This chart can show the trend of rainfall.",
-"DOUBLE_CHECK": "Line chart can show the trend of data, and can meet the user's intent. Line Chart is in the list of supported charts. The visual mapping result meets the user's intent. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript."
+"REASON": "User wants to show the trend of the rainfall, which is suitable for displaying with a line chart. The '日期' is used as the x-axis because it's a date, and the 降雨量 is used as the y-axis because it's a number. This chart can show the trend of rainfall."
 }
 \`\`\`
 
@@ -582,12 +621,18 @@ Response:
 User Input: 帮我绘制图表, 时长20s.
 Data field description: [
 {
-"fieldName": "日期",
-"description": "Represents the current month, which is a date."
+"id": "日期",
+"description": "Represents the current month, which is a date.",
+"type": "date",
+"role": "dimension",
+"location": "dimension"
 },
 {
-"fieldName": "降雨量",
-"description": "Represents the rainfall in the current month, which is a number."
+"id": "降雨量",
+"description": "Represents the rainfall in the current month, which is a number.",
+"type": "int",
+"role": "measure",
+"location": "measure"
 }
 ]
 
@@ -600,8 +645,7 @@ Response:
 "x": "日期",
 "y": "降雨量"
 },
-"REASON": "User did not show their intention about the data in their input. The data has two fields and it contains a date field, so Line Chart is best suitable to show the data. The field '日期' is used as the x-axis because it's a date, and the 降雨量 is used as the y-axis because it's a number. The duration is 20s but we just ignore it.",
-"DOUBLE_CHECK": "User did not show their intention about the data in their input, so the chart type is chosen only by the data. Line Chart is in the list of supported charts. All fields in the data are used in the visual mapping. The keys in FIELD_MAP are all available visual channels. The reply content can be directly parsed by JSON.parse() in JavaScript."
+"REASON": "User did not show their intention about the data in their input. The data has two fields and it contains a date field, so Line Chart is best suitable to show the data. The field '日期' is used as the x-axis because it's a date, and the 降雨量 is used as the y-axis because it's a number. The duration is 20s but we just ignore it."
 }
 \`\`\`
 `;
