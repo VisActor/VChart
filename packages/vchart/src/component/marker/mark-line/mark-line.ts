@@ -7,10 +7,9 @@ import { ComponentTypeEnum } from '../../interface/type';
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { xLayout, yLayout, coordinateLayout } from '../utils';
+import { coordinateLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
-import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
@@ -24,6 +23,7 @@ import { LayoutZIndex } from '../../../constant';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
 import { isPercent } from '../../../util';
+import type { IPoint } from '../../../typings';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
@@ -117,18 +117,18 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     const isPositionLayout = isValid(spec.positions);
     const autoRange = spec.autoRange ?? false;
 
-    let points: IPointLike[] = [];
+    let points: IPoint[] = [];
     if (isXLayout) {
-      points = xLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
+      points = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
     } else if (isYLayout) {
-      points = yLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
+      points = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
     } else if (isCoordinateLayout) {
       points = coordinateLayout(data, relativeSeries, autoRange);
     } else if (isPositionLayout) {
       if (spec.regionRelative) {
         const region = relativeSeries.getRegion();
         const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
-        points = spec.positions.map((point: IPointLike) => {
+        points = spec.positions.map((point: IPoint) => {
           return {
             x: point.x + regionStartX,
             y: point.y + regionStartY

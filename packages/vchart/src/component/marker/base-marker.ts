@@ -52,13 +52,11 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
 
   protected _processSpecX(specX: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
-    let processType: IAggrType | IRegressType;
     if (this._isSpecAggr(specX)) {
-      processType = specX as unknown as IAggrType;
       return {
         x: {
           field: relativeSeries.getSpec().xField,
-          aggrType: processType
+          aggrType: specX as unknown as IAggrType
         },
         ...this._getAllRelativeSeries()
       };
@@ -68,18 +66,42 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
 
   protected _processSpecY(specY: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
-    let processType: IAggrType | IRegressType;
     if (this._isSpecAggr(specY)) {
-      processType = specY as unknown as IAggrType;
       return {
         y: {
           field: relativeSeries.getSpec().yField,
-          aggrType: processType
+          aggrType: specY as unknown as IAggrType
         },
         ...this._getAllRelativeSeries()
       };
     }
     return { y: isFunction(specY) ? specY : [specY], ...this._getAllRelativeSeries() };
+  }
+
+  protected _processSpecXY(specX: IDataPos | IDataPosCallback, specY: IDataPos | IDataPosCallback) {
+    const result: any = {
+      ...this._getAllRelativeSeries()
+    };
+    const relativeSeries = this._relativeSeries;
+    if (this._isSpecAggr(specX)) {
+      result.x = {
+        field: relativeSeries.getSpec().xField,
+        aggrType: specX as unknown as IAggrType
+      };
+    } else {
+      result.x = isFunction(specX) ? specX : [specX];
+    }
+
+    if (this._isSpecAggr(specY)) {
+      result.y = {
+        field: relativeSeries.getSpec().yField,
+        aggrType: specY as unknown as IAggrType
+      };
+    } else {
+      result.y = isFunction(specY) ? specY : [specY];
+    }
+
+    return result;
   }
 
   protected _processSpecCoo(spec: any) {
