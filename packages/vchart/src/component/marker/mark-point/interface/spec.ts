@@ -29,4 +29,10 @@ export type IMarkPointCoordinateSpec = {
  */
 export type IMarkPointPositionsSpec = {
   position: IPointLike;
+  /**
+   * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
+   * @default false
+   * @since 1.7.0
+   */
+  regionRelative?: boolean;
 };

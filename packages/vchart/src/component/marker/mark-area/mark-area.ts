@@ -76,8 +76,8 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markArea;
-    this._markerComponent.name = 'markArea';
-    this._markerComponent.id = this._spec.id ?? `markArea-${this.id}`;
+    this._markerComponent.name = this._spec.name ?? this.type;
+    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
     this.getContainer().add(this._markerComponent as unknown as INode);
   }
 
@@ -105,7 +105,18 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
     } else if (isCoordinateLayout) {
       points = coordinateLayout(data, relativeSeries, autoRange);
     } else if (isPositionLayout) {
-      points = spec.positions;
+      if (spec.regionRelative) {
+        const region = relativeSeries.getRegion();
+        const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+        points = spec.positions.map((point: IPointLike) => {
+          return {
+            x: point.x + regionStartX,
+            y: point.y + regionStartY
+          };
+        });
+      } else {
+        points = spec.positions;
+      }
     }
 
     const seriesData = this._relativeSeries.getViewData().latestData;

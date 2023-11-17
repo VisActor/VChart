@@ -23,6 +23,7 @@ import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
+import { isPercent } from '../../../util';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
@@ -93,8 +94,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markLine;
-    this._markerComponent.name = 'markLine';
-    this._markerComponent.id = this._spec.id ?? `markLine-${this.id}`;
+    this._markerComponent.name = this._spec.name ?? this.type;
+    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
     this.getContainer().add(this._markerComponent as unknown as INode);
   }
 
@@ -124,7 +125,18 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     } else if (isCoordinateLayout) {
       points = coordinateLayout(data, relativeSeries, autoRange);
     } else if (isPositionLayout) {
-      points = spec.positions;
+      if (spec.regionRelative) {
+        const region = relativeSeries.getRegion();
+        const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+        points = spec.positions.map((point: IPointLike) => {
+          return {
+            x: point.x + regionStartX,
+            y: point.y + regionStartY
+          };
+        });
+      } else {
+        points = spec.positions;
+      }
     }
     const seriesData = this._relativeSeries.getViewData().latestData;
     const dataPoints = data
@@ -159,7 +171,37 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       const { multiSegment, mainSegmentIndex } = (this._spec as IStepMarkLineSpec).line || {};
       const { connectDirection, expandDistance = 0 } = this._spec as IStepMarkLineSpec;
 
-      const joinPoints = getInsertPoints(points[0], points[1], connectDirection, expandDistance);
+      let expandDistanceValue: number;
+      if (isPercent(expandDistance)) {
+        const regionStart = startRelativeSeries.getRegion();
+        const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
+        const regionEnd = endRelativeSeries.getRegion();
+        const regionEndLayoutStartPoint = regionEnd.getLayoutStartPoint();
+
+        if (connectDirection === 'bottom' || connectDirection === 'top') {
+          const regionHeight = Math.abs(
+            Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y) -
+              Math.max(
+                regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
+                regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
+              )
+          );
+          expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionHeight) / 100;
+        } else {
+          const regionWidth = Math.abs(
+            Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x) -
+              Math.max(
+                regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
+                regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
+              )
+          );
+          expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionWidth) / 100;
+        }
+      } else {
+        expandDistanceValue = expandDistance as number;
+      }
+
+      const joinPoints = getInsertPoints(points[0], points[1], connectDirection, expandDistanceValue);
 
       let labelPositionAttrs: any;
       if (multiSegment && isValid(mainSegmentIndex)) {
@@ -174,8 +216,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         labelPositionAttrs = {
           position: 'start',
           autoRotate: false,
-          ...getTextOffset(points[0], points[1], connectDirection, expandDistance),
-          efX: 0,
+          ...getTextOffset(points[0], points[1], connectDirection, expandDistanceValue),
+          refX: 0,
           refY: 0
         };
       }
@@ -235,11 +277,11 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);
 
     if (isXProcess) {
-      options = [this._processSpecX(spec.x as unknown as IDataPos)];
+      options = [this._processSpecX(spec.x as unknown as IDataPos)] as unknown as any;
       processData = relativeSeries.getViewData();
       needAgggr = true;
     } else if (isYProcess) {
-      options = [this._processSpecY(spec.y as unknown as IDataPos)];
+      options = [this._processSpecY(spec.y as unknown as IDataPos)] as unknown as any;
       processData = relativeSeries.getViewData();
       needAgggr = true;
     } else if (isCoordinateProcess) {
@@ -254,11 +296,11 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
           options
         });
       if (spec.process && 'x' in spec.process) {
-        options = [this._processSpecX(spec.process.x as unknown as IDataPos)];
+        options = [this._processSpecX(spec.process.x as unknown as IDataPos)] as unknown as any;
         needAgggr = true;
       }
       if (spec.process && 'y' in spec.process) {
-        options = [this._processSpecY(spec.process.y as unknown as IDataPos)];
+        options = [this._processSpecY(spec.process.y as unknown as IDataPos)] as unknown as any;
         needAgggr = true;
       }
       if (spec.process && 'xy' in spec.process) {

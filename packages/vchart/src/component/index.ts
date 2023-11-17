@@ -1,3 +1,4 @@
+import type { IComponent } from './interface/common';
 /* eslint-disable no-duplicate-imports */
 /**
  * @description export all component modules
@@ -59,7 +60,7 @@ import type { ICartesianCrosshairSpec, ICrosshairTheme, IPolarCrosshairSpec } fr
 import { CartesianCrossHair, PolarCrossHair, registerCartesianCrossHair, registerPolarCrossHair } from './crosshair';
 import type { IPlayerSpec, IPlayerTheme } from './player';
 import { Player, registerPlayer } from './player';
-import type { IMarkLineSpec, IMarkLineTheme } from './marker/mark-line';
+import type { IMarkLineSpec, IStepMarkLineSpec, IMarkLineTheme } from './marker/mark-line';
 import { MarkLine, registerMarkLine } from './marker/mark-line';
 import type { IMarkAreaSpec, IMarkAreaTheme } from './marker/mark-area';
 import { MarkArea, registerMarkArea } from './marker/mark-area';
@@ -137,6 +138,7 @@ export {
 };
 
 export type {
+  IComponent,
   IScrollBarSpec,
   IBrushSpec,
   ICartesianAxisSpec,
@@ -154,6 +156,7 @@ export type {
   IMapLabelSpec,
   IMarkAreaSpec,
   IMarkLineSpec,
+  IStepMarkLineSpec,
   IMarkPointSpec,
   IPlayerSpec,
   IPolarAxisSpec,
