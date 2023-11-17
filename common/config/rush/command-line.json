@@ -105,13 +105,6 @@
       "shellCommand": "rush run -p @visactor/vmind -s start"
     },
     {
-      "commandKind": "global",
-      "name": "theme",
-      "summary": "Start the development server of vchart-theme",
-      "description": "Run this command to start vchart-theme development server",
-      "shellCommand": "rush run -p @visactor/vchart-theme -s start"
-    },
-    {
       "name": "change-all",
       "commandKind": "global",
       "autoinstallerName": "run-script",
