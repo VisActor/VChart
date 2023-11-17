@@ -485,7 +485,7 @@ export class VChart implements IVChart {
       this._chart.release();
       this._chart = null as unknown as IChart;
       // 如果不需要动画，那么释放item，避免元素残留
-      this._compiler?.releaseGrammar(!this._option.animation && !this._spec.animation);
+      this._compiler?.releaseGrammar(!this._option.animation || !this._spec.animation);
       // chart 内部事件 模块自己必须删除
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
@@ -498,7 +498,7 @@ export class VChart implements IVChart {
       if (updateResult.reCompile) {
         // recompile
         // 清除之前的所有 compile 内容
-        this._compiler?.clear({ chart: this._chart, vChart: this }, !this._option.animation && !this._spec.animation);
+        this._compiler?.clear({ chart: this._chart, vChart: this }, !this._option.animation || !this._spec.animation);
         // TODO: 释放事件？ vgrammar 的 view 应该不需要释放，响应的stage也没有释放，所以事件可以不绑定
         // 重新绑定事件
         // TODO: 释放XX？
