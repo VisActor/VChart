@@ -81,7 +81,7 @@ describe('histogram chart test', () => {
     expect(trigger._hover).toEqual({
       enable: true,
       trigger: 'pointermove',
-      triggerOff: ['pointermove', 'pointerleave']
+      triggerOff: 'pointerleave'
     });
     expect(trigger._select).toEqual({
       enable: true,
