@@ -23,6 +23,7 @@ import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
+import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
 import { isTrueBrowser } from '../util/env';
@@ -54,7 +55,8 @@ import type {
   ISpec,
   Maybe,
   MaybeArray,
-  StringOrNumber
+  StringOrNumber,
+  ISeriesSpec
 } from '../typings';
 import { AnimationStateEnum } from '../animation/interface';
 import type { IBoundsLike, ILogger } from '@visactor/vutils';
@@ -75,12 +77,7 @@ import {
   merge as mergeOrigin,
   isFunction,
   LoggerLevel,
-  isEqual,
-  isString,
-  isValid,
-  isNil,
-  array,
-  debounce
+  isEqual
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IChartLevelTheme, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
@@ -94,6 +91,7 @@ import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 import { mergeThemeAndGet } from '../theme/util';
+import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
 
 export class VChart implements IVChart {
@@ -106,7 +104,12 @@ export class VChart implements IVChart {
    */
   static useRegisters(comps: (() => void)[]) {
     comps.forEach((fn: () => void) => {
-      fn();
+      if (typeof fn === 'function') {
+        // 确保元素是函数类型
+        fn();
+      } else {
+        console.error('Invalid function:', fn);
+      }
     });
   }
 
@@ -155,6 +158,49 @@ export class VChart implements IVChart {
    */
   static registerDataSetTransform(name: string, transform: Transform) {
     Factory.registerTransform(name, transform);
+  }
+
+  /**
+   * 注册函数（全局注册）
+   * @param key 函数名称
+   * @param fun 函数内容
+   */
+  static registerFunction(key: string, fun: Function) {
+    if (!key || !fun) {
+      return;
+    }
+    ExpressionFunction.instance().registerFunction(key, fun);
+  }
+
+  /**
+   * 注销函数（全局注销）
+   * @param key 函数名称
+   */
+  static unregisterFunction(key: string) {
+    if (!key) {
+      return;
+    }
+    ExpressionFunction.instance().unregisterFunction(key);
+  }
+
+  /**
+   * 获取函数（全局）
+   * @param key
+   * @returns
+   */
+  static getFunction(key: string): Function | null {
+    if (!key) {
+      return null;
+    }
+    return ExpressionFunction.instance().getFunction(key);
+  }
+
+  /**
+   * 获取函数列表（全局获取）
+   * @returns
+   */
+  static getFunctionList(): string[] | null {
+    return ExpressionFunction.instance().getFunctionNameList();
   }
 
   /**
@@ -317,7 +363,6 @@ export class VChart implements IVChart {
     this._autoSize = isTrueBrowser(mode) ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
-    this._event.emit(ChartEvent.initialized, {});
 
     InstanceManager.registerInstance(this);
   }
@@ -335,6 +380,12 @@ export class VChart implements IVChart {
       this._option?.onError('compiler is not initialized');
       return;
     }
+
+    // 如果用户注册了函数，在配置中替换相应函数名为函数内容
+    if (VChart.getFunctionList() && VChart.getFunctionList().length) {
+      spec = functionTransform(spec, VChart);
+    }
+
     // 放到这里而不是放到chart内的考虑
     // 用户spec更新，也许会有core上图表实例的内容存在
     // 如果要支持spec的类似Proxy监听，更新逻辑应当从这一层开始。如果在chart上做，就需要在再向上发送spec更新消息，不是很合理。
@@ -369,6 +420,7 @@ export class VChart implements IVChart {
     this._chart.setCanvasRect(this._curSize.width, this._curSize.height);
     this._chart.created();
     this._chart.init({});
+    this._event.emit(ChartEvent.initialized, {});
   }
 
   private _releaseData() {
@@ -1651,6 +1703,47 @@ export class VChart implements IVChart {
       series.getRegion().getLayoutStartPoint(),
       isRelativeToCanvas
     );
+  }
+
+  /**
+   * 获取实例函数
+   * @param key 函数名称
+   * @returns
+   */
+  getFunction(key: string): Function | null {
+    return ExpressionFunction.instance().getFunction(key);
+  }
+
+  /**
+   * 注册实例函数（对内包装一层，区分名字，避免重名问题）
+   * @param key 函数名称
+   * @param fun 函数内容
+   * @returns
+   */
+  registerFunction(key: string, fun: Function) {
+    if (!key || !fun) {
+      return;
+    }
+    ExpressionFunction.instance().registerFunction(key, fun);
+  }
+
+  /**
+   * 注销实例函数
+   * @param key 函数名称
+   */
+  unregisterFunction(key: string) {
+    if (!key) {
+      return;
+    }
+    ExpressionFunction.instance().unregisterFunction(key);
+  }
+
+  /**
+   * 获取实例函数列表
+   * @returns
+   */
+  getFunctionList() {
+    return ExpressionFunction.instance().getFunctionNameList();
   }
 }
 

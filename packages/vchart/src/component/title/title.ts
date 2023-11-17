@@ -40,7 +40,7 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
 
   initLayout(): void {
     super.initLayout();
-    this._layout.layoutOrient = this._orient;
+    this._layout && (this._layout.layoutOrient = this._orient);
   }
 
   static createComponent(spec: any, options: IComponentOption) {

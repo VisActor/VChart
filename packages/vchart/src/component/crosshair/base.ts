@@ -7,7 +7,7 @@ import type { BaseEventParams, EventType } from '../../event/interface';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
-import type { ILayoutType, IPadding, Maybe, StringOrNumber } from '../../typings';
+import type { IPadding, Maybe, StringOrNumber } from '../../typings';
 import { outOfBounds } from '../../util/math';
 import type { IComponentOption } from '../interface';
 import type {
@@ -59,7 +59,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   extends BaseComponent<T>
   implements ICrossHair
 {
-  layoutType: ILayoutType = 'absolute';
+  layoutType: 'none' = 'none';
   gridZIndex: number = LayoutZIndex.CrossHair_Grid;
   labelZIndex: number = LayoutZIndex.CrossHair;
   trigger: CrossHairTrigger = 'hover';

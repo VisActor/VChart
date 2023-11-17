@@ -1,20 +1,20 @@
 ---
 category: examples
-group: morphing
-title: 柱状图、饼图间切换的全局动画
+group: storytelling
+title: Global animation for switching between bar and pie charts
 keywords: animation,morphing,bar,pie,barChart,pieChart,comparison
 order: 42-0
 cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/morph-bar-to-pie.gif
 option: pieChart#animationUpdate
 ---
 
-# 柱状图、饼图间切换的全局动画
+# Global animation for switching between bar and pie charts
 
-我们常会根据不同的可视化目的，使用不同的图表类型。同一份数据，在切换不同图表类型时，也可以有全局的过渡动画，让可视化更加生动。
+We often use different chart types for different visualization purposes. The same data, when switching between different chart types, can also have global transition animations to make the visualization more vivid.
 
-## 关键配置
+## Key configuration
 
-## 代码演示
+## Demo source
 
 ```javascript livedemo
 const pieSpec = {
@@ -55,6 +55,6 @@ vchart.renderAsync().then(() => {
 });
 ```
 
-## 相关教程
+## Related Tutorials
 
-[散点图](link)
+[Scatterplot](link)

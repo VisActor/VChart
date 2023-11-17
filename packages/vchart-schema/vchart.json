@@ -17252,10 +17252,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -17266,10 +17266,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -17280,10 +17280,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -17298,10 +17298,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -19929,10 +19929,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -19943,10 +19943,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -19957,10 +19957,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -19980,10 +19980,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -20685,10 +20685,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -20699,10 +20699,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -20713,10 +20713,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -20736,10 +20736,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -21414,10 +21414,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -21428,10 +21428,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -21442,10 +21442,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -21465,10 +21465,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24185,10 +24185,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24199,10 +24199,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24213,10 +24213,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24236,10 +24236,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24596,10 +24596,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24610,10 +24610,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24624,10 +24624,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -24647,10 +24647,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<CirclePackingAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<CirclePackingMark,false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37072,10 +37072,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37086,10 +37086,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37100,10 +37100,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37123,10 +37123,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37801,10 +37801,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37815,10 +37815,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37829,10 +37829,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -37852,10 +37852,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -50590,10 +50590,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -50604,10 +50604,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -50618,10 +50618,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -50641,10 +50641,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51328,10 +51328,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51342,10 +51342,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51356,10 +51356,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51379,10 +51379,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51712,10 +51712,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51726,10 +51726,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51740,10 +51740,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -51763,10 +51763,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -52450,10 +52450,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -52464,10 +52464,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -52478,10 +52478,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -52501,10 +52501,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<RangeColumnAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -63944,10 +63944,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -63958,10 +63958,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -63972,10 +63972,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -63995,10 +63995,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -64702,10 +64702,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -64716,10 +64716,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -64730,10 +64730,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -64753,10 +64753,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -67269,7 +67269,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         },
         "size": {
@@ -67277,14 +67277,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13732",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         },
         "size": {
@@ -67292,14 +67292,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13732",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         },
         "size": {
@@ -67307,14 +67307,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13732",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         },
         "size": {
@@ -67322,14 +67322,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13732",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         },
         "size": {
@@ -67337,14 +67337,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13732",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         },
         "size": {
@@ -67352,14 +67352,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13732",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         },
         "size": {
@@ -67367,14 +67367,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13732",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         },
         "size": {
@@ -67382,14 +67382,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13732",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         },
         "size": {
@@ -67397,7 +67397,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13709",
+        "__@toStringTag@13732",
         "size"
       ],
       "type": "object"
@@ -68224,10 +68224,10 @@
         "animationDisappear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -68238,10 +68238,10 @@
         "animationEnter": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -68252,10 +68252,10 @@
         "animationExit": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -68275,10 +68275,10 @@
         "animationUpdate": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
             },
             {
-              "$ref": "#/definitions/Omit<IStateAnimateSpec<BarAppearPreset>,\"preset\">"
+              "$ref": "#/definitions/Partial<Record<\"bar\",false|IAnimationConfig|IAnimationConfig[]>>"
             },
             {
               "type": "boolean"
@@ -79737,7 +79737,10 @@
           "type": "number"
         },
         "lineHeight": {
-          "type": "number"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "lineJoin": {
           "$ref": "#/definitions/CanvasLineJoin"
@@ -80730,7 +80733,10 @@
           "type": "number"
         },
         "lineHeight": {
-          "type": "number"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "lineJoin": {
           "$ref": "#/definitions/CanvasLineJoin"
@@ -83092,34 +83098,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13709"
+        "__@toStringTag@13732"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13709"
+        "__@toStringTag@13732"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13709": {
+        "__@toStringTag@13732": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13709"
+        "__@toStringTag@13732"
       ],
       "type": "object"
     },
@@ -90008,7 +90014,10 @@
           "type": "number"
         },
         "lineHeight": {
-          "type": "number"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "lineJoin": {
           "$ref": "#/definitions/CanvasLineJoin"

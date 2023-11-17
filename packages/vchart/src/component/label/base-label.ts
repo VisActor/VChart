@@ -9,14 +9,13 @@ import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { isEqual } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
-import type { ILayoutType } from '../../typings/layout';
 
 export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
 
-  layoutType: ILayoutType = 'absolute';
+  layoutType: 'none' = 'none';
   layoutZIndex: number = LayoutZIndex.Label;
 
   constructor(spec: T, options: IComponentOption) {

@@ -144,8 +144,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
     // do nothing
+    this._layout?.onLayoutStart(layoutRect, viewRect, ctx);
   }
   onLayoutEnd(ctx: any): void {
+    this._layout?.onLayoutEnd(ctx);
     this.getMarks().forEach(m => m.updateLayoutState(true, true));
   }
 

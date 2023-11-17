@@ -10,12 +10,9 @@ export interface ISankeyOpt extends SankeyOptions {
         y1: number;
     };
 }
-export declare const sankey: (data: SankeyData, op: ISankeyOpt) => {
-    nodes?: import("@visactor/vgrammar-sankey").SankeyNodeDatum[];
-    links: import("@visactor/vgrammar-sankey").SankeyLinkDatum[];
-} | {
-    nodes: import("@visactor/vgrammar-sankey").HierarchyNodeDatum[];
-} | {
+export declare const collectHierarchyField: (set: Set<any>, data: any[], field: string) => void;
+export declare const sankeyFormat: (data: any[]) => SankeyData[];
+export declare const sankeyLayout: (data: SankeyData[], op: ISankeyOpt) => {
     nodes: import("@visactor/vgrammar-sankey").SankeyNodeElement[];
     links: import("@visactor/vgrammar-sankey").SankeyLinkElement[];
     columns: import("@visactor/vgrammar-sankey").SankeyNodeElement[][];

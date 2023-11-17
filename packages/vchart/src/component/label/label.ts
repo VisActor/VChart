@@ -25,7 +25,6 @@ import type { ILabelSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { LabelMark, type ILabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
-import type { ILayoutType } from '../../typings/layout';
 
 export interface ILabelInfo {
   baseMark: ICompilableMark;
@@ -44,7 +43,6 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
 
-  layoutType: ILayoutType = 'absolute';
   layoutZIndex: number = LayoutZIndex.Label;
 
   protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;

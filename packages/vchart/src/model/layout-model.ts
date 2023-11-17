@@ -1,5 +1,5 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import { isEqual } from '@visactor/vutils';
+import { isEqual, merge } from '@visactor/vutils';
 import type { ILayoutItem } from '../layout/interface';
 import type { IOrientType, IPolarOrientType, IRect } from '../typings/space';
 import { BaseModel } from './base-model';
@@ -9,7 +9,7 @@ import type { IPoint } from '../typings/coordinate';
 import type { ILayoutType, ILayoutPoint, ILayoutRect } from '../typings/layout';
 
 export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
-  protected layoutType: ILayoutType = 'normal';
+  protected layoutType: ILayoutType | 'none' = 'normal';
   protected layoutLevel?: number = 0;
   protected layoutZIndex: number = 0;
   layoutClip: boolean;
@@ -19,17 +19,23 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
 
   set layoutOrient(v: IOrientType) {
     this._orient = v;
-    this._layout.layoutOrient = v;
+    this._layout && (this._layout.layoutOrient = v);
   }
 
   protected _forceLayoutTag: boolean = false;
   protected _layout: ILayoutItem = null;
   protected _orient?: IPolarOrientType | IOrientType = null;
 
+  protected _layoutRect: ILayoutRect = { width: 0, height: 0 };
+  protected _layoutStartPos: IPoint = { x: 0, y: 0 };
+
   // TODO: 有些hack,这个tag是为了避免布局逻辑中，轴的数据变化，又由数据变化触发重新布局
   protected _isLayout: boolean = true;
 
   initLayout() {
+    if (this.layoutType === 'none') {
+      return;
+    }
     this._layout = new LayoutItem(this, {
       layoutType: this.layoutType,
       layoutLevel: this.layoutLevel,
@@ -37,7 +43,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
       transformLayoutRect: this._transformLayoutRect,
       transformLayoutPosition: this._transformLayoutPosition
     });
-    if (this._orient && this._orient !== 'radius' && this._orient !== 'angle') {
+    if (this._orient && this._orient !== 'radius' && this._orient !== 'angle' && this.layout) {
       this._layout.layoutOrient = this._orient;
     }
   }
@@ -47,15 +53,14 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
     super.onLayoutStart(layoutRect, viewRect, ctx);
   }
   onLayoutEnd(ctx: any): void {
-    // diff layoutRect
-    if (this._layout) {
-      const layoutRect = this._layout.getLayoutRect();
-      if (this._forceLayoutTag || !isEqual(this._lastLayoutRect, layoutRect)) {
-        this.updateLayoutAttribute();
-      }
-      this._forceLayoutTag = false;
-    }
     super.onLayoutEnd(ctx);
+    // diff layoutRect
+    this.updateLayoutAttribute();
+    const layoutRect = this.getLayoutRect();
+    if (this._forceLayoutTag || !isEqual(this._lastLayoutRect, layoutRect)) {
+      this._lastLayoutRect = { ...layoutRect };
+    }
+    this._forceLayoutTag = false;
     this._isLayout = false;
   }
 
@@ -73,29 +78,34 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
 
   // 布局相关
   getLayoutStartPoint() {
-    return this._layout.getLayoutStartPoint();
+    return this._layout ? this._layout.getLayoutStartPoint() : this._layoutStartPos;
   }
   setLayoutStartPosition(pos: Partial<IPoint>) {
-    return this._layout.setLayoutStartPosition(pos);
+    return this._layout
+      ? this._layout.setLayoutStartPosition(pos)
+      : (this._layoutStartPos = merge(this._layoutStartPos, pos));
   }
   getLayoutRect() {
-    return this._layout.getLayoutRect();
+    return this._layout ? this._layout.getLayoutRect() : this._layoutRect;
   }
   setLayoutRect(rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) {
-    return this._layout.setLayoutRect(rect, levelMap);
+    return this._layout ? this._layout.setLayoutRect(rect) : (this._lastLayoutRect = merge(this._layoutRect, rect));
   }
 
   getLastComputeOutBounds() {
-    return this._layout.getLastComputeOutBounds();
+    return this._layout?.getLastComputeOutBounds();
   }
 
   getGraphicBounds = () => {
-    return {
-      x1: this._layout.getLayoutStartPoint().x,
-      y1: this._layout.getLayoutStartPoint().y,
-      x2: this._layout.getLayoutStartPoint().x + this._layout.getLayoutRect().width,
-      y2: this._layout.getLayoutStartPoint().y + this._layout.getLayoutRect().height
-    };
+    if (this._layout) {
+      return {
+        x1: this._layout.getLayoutStartPoint().x,
+        y1: this._layout.getLayoutStartPoint().y,
+        x2: this._layout.getLayoutStartPoint().x + this._layout.getLayoutRect().width,
+        y2: this._layout.getLayoutStartPoint().y + this._layout.getLayoutRect().height
+      };
+    }
+    return { x1: 0, x2: 0, y1: 0, y2: 0 };
   };
 
   setAttrFromSpec(): void {

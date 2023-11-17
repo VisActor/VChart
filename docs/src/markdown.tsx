@@ -9,6 +9,7 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-light.css';
 
 const markdownParser = MarkdownIt({
+  html: true,
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {

@@ -1,5 +1,3 @@
-import { DataView } from '@visactor/vdataset';
-
 export interface IGPTOptions {
   url?: string;
   /** gpt request header, which has higher priority */
@@ -12,7 +10,12 @@ export interface IGPTOptions {
 
 export type GPTDataProcessResult = {
   DOUBLE_CHECK: string;
-  FIELD_INFO: { description: string; fieldName: string }[];
+  FIELD_INFO: {
+    fieldName: string;
+    description: string;
+    type: string;
+    role: string;
+  }[];
   VIDEO_DURATION?: number;
   COLOR_PALETTE?: string[];
   REASON: string;
@@ -57,7 +60,7 @@ export type NLToChartResult = {
 export type Context = {
   chartType: ChartType;
   cell: Cell;
-  dataView: DataView;
+  dataset: any[];
   colors?: string[];
   totalTime?: number;
 };
@@ -66,4 +69,9 @@ export type Pipe = (src: any, context: Context) => any;
 export type TimeType = {
   totalTime: number;
   frameArr: any[];
+};
+
+export type VizSchema = {
+  chartType?: string;
+  fields: any[];
 };

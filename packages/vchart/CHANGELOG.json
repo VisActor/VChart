@@ -2,6 +2,45 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.6.5",
+      "tag": "@visactor/vchart_v1.6.5",
+      "date": "Fri, 17 Nov 2023 05:56:10 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: dimension click not effect after update spec. fix #1532"
+          },
+          {
+            "comment": "feat: add `skipFunctionDiff` in react-vchart to skip difference of functions\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.6.4",
+      "tag": "@visactor/vchart_v1.6.4",
+      "date": "Thu, 16 Nov 2023 06:35:43 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fixed the problem of unreasonable automatic indentation being triggered after modifying the axis range in datazoom\n\n"
+          },
+          {
+            "comment": "fix: default realtime not effect in scrollbar and datazoom. fix#1462"
+          },
+          {
+            "comment": "fix: filter mode error when roam in scrollbar and datazoom. fix #1460"
+          },
+          {
+            "comment": "fix: fix `options` can not work in lark-vchart, wx-vchart and tt-vchart\n\n"
+          },
+          {
+            "comment": "perf: optimize the dataflow of sankey\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.6.3",
       "tag": "@visactor/vchart_v1.6.3",
       "date": "Fri, 10 Nov 2023 09:56:51 GMT",

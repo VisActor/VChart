@@ -127,8 +127,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
         }
       },
       limitRect,
-      dx: this._layout.layoutOffsetX,
-      dy: this._layout.layoutOffsetY
+      dx: this._layoutOffsetX,
+      dy: this._layoutOffsetY
     });
   }
 

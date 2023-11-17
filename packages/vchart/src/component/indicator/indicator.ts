@@ -6,7 +6,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec, IIndicatorTheme } from './interface';
-import type { ILayoutType, Maybe } from '../../typings';
+import type { Maybe } from '../../typings';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { eachSeries } from '../../util/model';
 import { transformToGraphic } from '../../util/style';
@@ -29,7 +29,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
   type = ComponentTypeEnum.indicator;
   name: string = ComponentTypeEnum.indicator;
 
-  layoutType: ILayoutType = 'absolute';
+  layoutType: 'none' = 'none';
   layoutZIndex: number = LayoutZIndex.Indicator;
   layoutLevel: number = LayoutLevel.Indicator;
 

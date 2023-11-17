@@ -10,6 +10,7 @@ import {
 } from './constants';
 import { Context } from '../typings';
 import { detectAxesType } from './utils';
+import { array } from '@visactor/vutils';
 
 // const chartTypeMap: { [chartName: string]: string } = {
 //   柱状图: "bar",
@@ -27,9 +28,13 @@ const chartTypeMap: { [chartName: string]: string } = {
   'WORD CLOUD': 'wordCloud',
   'SCATTER PLOT': 'scatter',
   'DYNAMIC BAR CHART': 'bar',
+  'FUNNEL CHART': 'funnel',
+  'DUAL AXIS CHART': 'common',
   'ROSE CHART': 'rose',
   'RADAR CHART': 'radar',
-  'SANKEY CHART': 'sankey'
+  'SANKEY CHART': 'sankey',
+  'WATERFALL CHART': 'waterfall',
+  'BOX PLOT CHART': 'boxPlot'
 };
 
 export const chartType = (spec: any, context: Context) => {
@@ -39,21 +44,32 @@ export const chartType = (spec: any, context: Context) => {
 };
 
 export const data = (spec: any, context: Context) => {
-  const { dataView } = context;
-  // spec.data = [dataView]
+  const { dataset } = context;
+  // spec.data = [dataset]
   spec.data = {
     id: 'data',
-    values: dataView.latestData
+    values: dataset
+  };
+
+  return spec;
+};
+
+export const funnelData = (spec: any, context: Context) => {
+  const { dataset, cell } = context;
+  // spec.data = [dataset]
+  spec.data = {
+    id: 'data',
+    values: dataset.sort((a: any, b: any) => b[cell.y] - a[cell.y])
   };
 
   return spec;
 };
 export const wordCloudData = (spec: any, context: Context) => {
-  const { dataView, cell } = context;
+  const { dataset, cell } = context;
   const { color, size } = cell;
   spec.data = {
     id: 'data',
-    values: dataView.latestData
+    values: dataset
       .filter((d: any) => d[color!] && d[size!] && d[color!].length > 0 && d[size!].length > 0)
       .slice(0, WORDCLOUD_NUM_LIMIT)
   };
@@ -62,9 +78,9 @@ export const wordCloudData = (spec: any, context: Context) => {
 };
 
 export const sequenceData = (spec: any, context: Context) => {
-  const { dataView, cell, totalTime } = context;
+  const { dataset, cell, totalTime } = context;
   const timeField = cell.time as string;
-  const latestData = dataView.latestData;
+  const latestData = dataset;
 
   // 数据按照时间分组
   const timeArray: any[] = [];
@@ -185,9 +201,9 @@ export const sequenceData = (spec: any, context: Context) => {
 };
 
 export const sankeyData = (spec: any, context: Context) => {
-  const { dataView, cell } = context;
+  const { dataset, cell } = context;
   const { source, target } = cell;
-  const linkData = dataView.latestData;
+  const linkData = dataset;
   const nodes = [
     ...new Set([
       ...linkData.map((item: any) => item[source as string]),
@@ -211,7 +227,7 @@ export const sankeyData = (spec: any, context: Context) => {
 
 export const color = (spec: any, context: Context) => {
   const { colors } = context;
-  // spec.data = [dataView]
+  // spec.data = [dataset]
   if (colors && colors.length > 0) {
     spec.color = colors;
   } else {
@@ -223,7 +239,7 @@ export const color = (spec: any, context: Context) => {
 
 export const colorBar = (spec: any, context: Context) => {
   const { colors } = context;
-  // spec.data = [dataView]
+  // spec.data = [dataset]
   let colorThemes = COLOR_THEMES.default;
   if (colors && colors.length > 0) {
     colorThemes = colors;
@@ -253,7 +269,7 @@ export const colorBar = (spec: any, context: Context) => {
 
 export const colorDynamicBar = (spec: any, context: Context) => {
   const { colors } = context;
-  // spec.data = [dataView]
+  // spec.data = [dataset]
   let colorThemes = COLOR_THEMES.default;
   if (colors && colors.length > 0) {
     colorThemes = colors;
@@ -283,7 +299,7 @@ export const colorDynamicBar = (spec: any, context: Context) => {
 
 export const colorLine = (spec: any, context: Context) => {
   const { colors } = context;
-  // spec.data = [dataView]
+  // spec.data = [dataset]
   if (colors && colors.length > 0) {
     spec.color = colors;
   } else {
@@ -316,14 +332,14 @@ export const colorLine = (spec: any, context: Context) => {
 
 export const cartesianLine = (spec: any, context: Context) => {
   //折线图根据cell分配字段
-  const { cell, dataView } = context;
+  const { cell, dataset } = context;
   spec.xField = cell.x;
   spec.yField = cell.y;
   if (cell.color) {
     spec.seriesField = cell.color;
   } else {
     //没有分配颜色字段，从剩下的字段里选择一个离散字段分配到颜色上
-    const dataFields = Object.keys(dataView.latestData[0]);
+    const dataFields = Object.keys(dataset[0]);
     const remainedFields = dataFields.filter(f => !spec.xField.includes(f) && spec.yField !== f);
     const colorField = remainedFields.find(f => {
       const fieldType = detectAxesType(spec.data.values, f);
@@ -375,6 +391,128 @@ export const wordCloudField = (spec: any, context: Context) => {
 
   spec.seriesField = spec.nameField;
 
+  return spec;
+};
+
+export const funnelField = (spec: any, context: Context) => {
+  //漏斗图根据cell分配字段
+  const { cell } = context;
+  spec.categoryField = cell.x;
+  spec.valueField = cell.y;
+
+  return spec;
+};
+
+export const waterfallField = (spec: any, context: Context) => {
+  //漏斗图根据cell分配字段
+  const { cell } = context;
+  spec.xField = cell.x;
+  spec.yField = cell.y;
+  spec.total = {
+    type: 'end',
+    text: '总计'
+  };
+
+  return spec;
+};
+
+export const waterfallAxes = (spec: any, context: Context) => {
+  //双轴图根据cell分配坐标轴
+  spec.axes = [
+    {
+      orient: 'left',
+      title: { visible: true, text: 'favorability' },
+      label: {
+        formatMethod: (v: any) => {
+          return v + '%';
+        }
+      }
+    },
+    {
+      orient: 'bottom',
+      label: { visible: true },
+      type: 'band',
+      paddingInner: 0.4,
+      title: { visible: true, text: 'date' }
+    }
+  ];
+  return spec;
+};
+
+export const waterfallStackLabel = (spec: any, context: Context) => {
+  //双轴图根据cell分配坐标轴
+  spec.stackLabel = {
+    valueType: 'absolute',
+    formatMethod: (text: any) => {
+      return text + '%';
+    }
+  };
+  return spec;
+};
+
+export const dualAxisSeries = (spec: any, context: Context) => {
+  //双轴图根据cell分配系列
+  const { cell } = context;
+  spec.series = [
+    {
+      type: 'bar',
+      id: cell.y[0],
+      data: {
+        id: spec.data.id + '_bar',
+        values: spec.data.values
+      },
+      dataIndex: 0,
+      label: { visible: true },
+      xField: cell.x,
+      yField: cell.y[0],
+      bar: {
+        style: {
+          fill: spec.color[0]
+        }
+      }
+    },
+    {
+      type: 'line',
+      id: cell.y[cell.y?.length - 1],
+      dataIndex: 0,
+      data: {
+        id: spec.data.id + '_line',
+        values: spec.data.values
+      },
+      label: { visible: true },
+      xField: cell.x,
+      yField: cell.y[cell.y?.length - 1],
+      line: {
+        style: {
+          stroke: spec.color[1]
+        }
+      },
+      point: {
+        style: {
+          fill: spec.color[1]
+        }
+      }
+    }
+  ];
+  return spec;
+};
+
+export const dualAxisAxes = (spec: any, context: Context) => {
+  //双轴图根据cell分配坐标轴
+  spec.axes = [
+    {
+      type: 'band',
+      orient: 'bottom'
+    },
+    {
+      type: 'linear',
+      orient: 'left'
+    },
+    {
+      type: 'linear',
+      orient: 'right'
+    }
+  ];
   return spec;
 };
 
@@ -471,6 +609,25 @@ export const sankeyField = (spec: any, context: Context) => {
   return spec;
 };
 
+export const boxPlotField = (spec: any, context: Context) => {
+  const { cell, dataset } = context;
+  const { x, y } = cell;
+  const data = dataset;
+  // x字段映射
+  spec.xField = x;
+  // y字段映射
+  // 1. 对y字段按照value大小sort
+  array(y).sort((a, b) => data[0][a] - data[0][b]);
+  const yFieldsLen = y.length;
+  // 2. 按照数值大小逻辑分别映射最大值、最小值、中位数、及上下四分位数
+  spec.minField = y[0]; // 最小值字段: 数值最小的字段
+  spec.q1Field = y[Math.min(1, yFieldsLen - 1)]; // 下四分位数字段: 数值第二小的字段
+  spec.medianField = y[Math.floor((yFieldsLen - 1) / 2)]; // 中位数: 数值处于中间的字段
+  spec.q3Field = y[Math.max(0, yFieldsLen - 2)]; // 上四分位数字段: 数值第二大的字段
+  spec.maxField = y[yFieldsLen - 1]; // 最大值字段: 数值最大的字段
+  return spec;
+};
+
 export const sankeyLabel = (spec: any, context: Context) => {
   spec.label = {
     visible: true,
@@ -501,7 +658,7 @@ export const sankeyLink = (spec: any, context: Context) => {
 
 export const cartesianBar = (spec: any, context: Context) => {
   //折线图根据cell分配字段
-  const { cell, dataView } = context;
+  const { cell, dataset } = context;
   const flattenedXField = Array.isArray(cell.x) ? cell.x : [cell.x];
   if (cell.color && cell.color.length > 0 && cell.color !== cell.x) {
     flattenedXField.push(cell.color);
@@ -512,7 +669,7 @@ export const cartesianBar = (spec: any, context: Context) => {
     spec.seriesField = cell.color;
   } else {
     //没有分配颜色字段，从剩下的字段里选择一个离散字段分配到颜色上
-    const dataFields = Object.keys(dataView.latestData[0]);
+    const dataFields = Object.keys(dataset[0]);
     const remainedFields = dataFields.filter(f => !spec.xField.includes(f) && spec.yField !== f);
     const colorField = remainedFields.find(f => {
       const fieldType = detectAxesType(spec.data.values, f);
@@ -665,7 +822,7 @@ export const axis = (spec: any, context: Context) => {
 export const legend = (spec: any, context: Context) => {
   //图例
   const { cell } = context;
-  if (!cell.color && !spec.seriesField) {
+  if (!cell.color && !spec.seriesField && spec.type !== 'common') {
     return spec;
   }
   spec.legends = [
@@ -723,6 +880,10 @@ export const rankingBarLabel = (spec: any, context: Context) => {
     style: {
       fill: '#FFFFFF',
       stroke: null
+    },
+    animation: {
+      duration: spec.animationUpdate.axis.duration,
+      easing: 'linear'
     }
   };
   return spec;
