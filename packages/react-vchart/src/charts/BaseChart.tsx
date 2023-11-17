@@ -50,7 +50,8 @@ export interface BaseChartProps
   height?: number;
   /** 图表配置 */
   options?: ChartOptions;
-
+  /** skip function diff when component update */
+  skipFunctionDiff?: boolean;
   /** 图表渲染完成事件 */
   onReady?: (instance: VChart, isInitial: boolean) => void;
   /** throw error when chart run into an error */
@@ -62,6 +63,7 @@ type Props = React.PropsWithChildren<BaseChartProps>;
 const notSpecKeys = [
   ...REACT_PRIVATE_PROPS,
   ...CHART_EVENTS_KEYS,
+  'skipFunctionDiff',
   'onError',
   'onReady',
   'spec',
@@ -80,6 +82,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const isUnmount = useRef<boolean>(false);
   const prevSpec = useRef(pickWithout(props, notSpecKeys));
   const eventsBinded = React.useRef<BaseChartProps>(null);
+  const skipFunctionDiff = !!props.skipFunctionDiff;
 
   const parseSpec = (props: Props) => {
     if (hasSpec && props.spec) {
@@ -140,7 +143,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     }
 
     if (hasSpec) {
-      if (!isEqual(eventsBinded.current.spec, props.spec)) {
+      if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
         eventsBinded.current = props;
         // eslint-disable-next-line promise/catch-or-return
         const updatePromise = chartContext.current.chart
@@ -156,7 +159,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     const newSpec = pickWithout(props, notSpecKeys);
 
-    if (!isEqual(newSpec, prevSpec.current) || chartContext.current.isChildrenUpdated) {
+    if (!isEqual(newSpec, prevSpec.current, { skipFunction: skipFunctionDiff }) || chartContext.current.isChildrenUpdated) {
       prevSpec.current = newSpec;
       // eslint-disable-next-line promise/catch-or-return
       const updatePromise = chartContext.current.chart
