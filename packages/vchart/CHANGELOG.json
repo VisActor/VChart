@@ -2,6 +2,21 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.6.5",
+      "tag": "@visactor/vchart_v1.6.5",
+      "date": "Fri, 17 Nov 2023 05:56:10 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: dimension click not effect after update spec. fix #1532"
+          },
+          {
+            "comment": "feat: add `skipFunctionDiff` in react-vchart to skip difference of functions\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.6.4",
       "tag": "@visactor/vchart_v1.6.4",
       "date": "Thu, 16 Nov 2023 06:35:43 GMT",

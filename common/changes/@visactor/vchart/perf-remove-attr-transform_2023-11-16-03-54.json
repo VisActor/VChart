@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "perf: dont need to call `attrTransform()` in compilable-mark\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

@@ -19,7 +19,7 @@ import { LayoutZIndex, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import type { ISeries } from '../../series/interface';
-import { attrTransform, isStateAttrChangeable, needAttrTransform } from './util';
+import { isStateAttrChangeable } from './util';
 import { MarkStateManager } from './mark-state-manager';
 import type {
   ICompilableMark,
@@ -456,18 +456,13 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   // TODO: 1. opt内容待定，确实需要再来补充（之前是scale.bindScales/bindSignals，从context.params中可以获取到）
   // TODO: 2. stateSourceItem，是否根据attr区分，存在默认写死的情况，例如"hover"/"normal"；
   protected compileCommonAttributeCallback(key: string, state: string): MarkFunctionCallback<any> {
-    // check need transform attribute
-    const noAttrTransform = !needAttrTransform(this.type, key);
     // remove state in opt
     const opt: IAttributeOpt = { mark: null, parent: null, element: null };
     return (datum: Datum, element: IElement) => {
       opt.mark = element.mark;
       opt.parent = element.mark.group;
       opt.element = element;
-      if (noAttrTransform) {
-        return this.getAttribute(key as any, datum, state, opt);
-      }
-      return attrTransform(this.type, key, this.getAttribute(key as any, datum, state, opt));
+      return this.getAttribute(key as any, datum, state, opt);
     };
   }
 
