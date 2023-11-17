@@ -58,6 +58,11 @@ export class EditorLayer implements IEditorLayer {
     return this._editorGroup;
   }
 
+  protected _elementGroup: IGroup;
+  get elementGroup() {
+    return this._elementGroup;
+  }
+
   protected _activeElement: IEditorElement | IEditorElement[];
   get activeElement() {
     return this._activeElement;
@@ -159,6 +164,7 @@ export class EditorLayer implements IEditorLayer {
     this._stage = null;
     this._elements = null;
     this._editorGroup = null;
+    this._elementGroup = null;
     this._elementReadyCallBack = null;
     this._eventHandler.clear();
     this._eventHandler = null;
@@ -173,6 +179,15 @@ export class EditorLayer implements IEditorLayer {
     });
     this._stage.defaultLayer.add(group);
     this._editorGroup = group;
+
+    const elementGroup = createGroup({
+      x: 0,
+      y: 0,
+      pickable: false,
+      zIndex: 999999
+    });
+    this._stage.defaultLayer.add(elementGroup);
+    this._elementGroup = elementGroup;
   }
 
   protected initCanvas() {
@@ -348,7 +363,7 @@ export class EditorLayer implements IEditorLayer {
 
   private _getAABBBounds(node: IGroup, b: Bounds, x: number, y: number) {
     node.getChildren?.().forEach(c => {
-      if ((<IGraphic>c).attribute.visible === false) {
+      if ((<IGraphic>c).attribute.visible === false || c === this._editorGroup) {
         return;
       }
       if (c.type === 'group') {

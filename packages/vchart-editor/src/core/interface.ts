@@ -26,6 +26,7 @@ export interface IEditorLayer {
   type: string;
   elements: IElement[];
   editorGroup: IGroup;
+  elementGroup: IGroup;
   activeElement: IEditorElement | IEditorElement[];
   isInActive: boolean;
   readonly isElementReady: boolean;
@@ -145,6 +146,7 @@ export interface IEditorElement {
    * vchart 模型实例
    */
   model: IChartModel;
+  modelInfo: IModelInfo;
   /**
    * vchart 模块原始配置
    */

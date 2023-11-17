@@ -22,18 +22,33 @@ export interface ILayoutRectLevel {
   height: number;
 }
 
-export interface IChartModel extends ILayoutItem {
+export interface IChartModel {
   userId?: string | number;
   type: string;
   specKey: string;
   getSpecIndex: () => number;
+
+  layout: ILayoutItem;
+  layoutOrient: IOrientType;
+
+  _clearLayoutCache?: () => void;
+  getBoundsInRect: (rect: ISize, fullSpace: ISize) => IBoundsLike;
+  getLayoutStartPoint: () => IPoint;
+  getLayoutRect: () => ISize;
+  // 获取绘图bounds
+  getGraphicBounds?: () => IBoundsLike;
+
   getSpec?: () => any;
+  /** 是否可见 */
+  getVisible: () => boolean;
 }
 
 /**
  * 因为这些元素都会继承到各个模块，所以这里统一有前缀避免语意冲突
  */
 export interface ILayoutItem {
+  model: IChartModel;
+
   /**
    * 标记这个布局Item的方向（left->right, right->left, top->bottom, bottom->top）
    */

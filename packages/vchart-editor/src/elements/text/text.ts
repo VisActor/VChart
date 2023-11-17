@@ -141,6 +141,7 @@ export class EditorText extends BaseElement {
       id: this._id,
       elementId: this._id,
       graphicsType: this.type,
+      modelInfo: null,
       model: undefined,
       color: [],
       rect,
@@ -149,9 +150,16 @@ export class EditorText extends BaseElement {
       updateAttribute: (attr: IUpdateAttributeParam) => {
         this.saveSnapshot();
         if (attr.spec) {
+          console.log('text attribute update');
           this._textGraphic.setAttributes(this._transformTextAttribute(attr.spec));
           el.originSpec = this._textGraphic.attribute;
           this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);
+          this._updateLayout({
+            x: this._textGraphic.AABBBounds.x1,
+            y: this._textGraphic.AABBBounds.y1,
+            width: 9999,
+            height: 9999
+          } as any);
         }
         if (attr.layout) {
           this._updateLayout(attr.layout as ILayoutAttribute);
@@ -201,6 +209,8 @@ export class EditorText extends BaseElement {
   initRender() {
     this._textGraphic = createWrapText(
       this._transformTextAttribute({
+        textAlign: 'left',
+        textBaseline: 'top',
         ...{
           text: '文本',
           fontSize: 16
@@ -208,7 +218,7 @@ export class EditorText extends BaseElement {
         ...this.option.attribute
       })
     );
-    this.option.layer.editorGroup.add(this._textGraphic);
+    this.option.layer.elementGroup.add(this._textGraphic);
   }
 
   moveBy(offsetX: number, offsetY: number) {

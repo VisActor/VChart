@@ -220,15 +220,15 @@ export class SpecProcess implements ISpecProcess {
     }
     if (attr.spec) {
       hasChange = true;
-      this.mergeModelEditorSpec(
-        { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() },
-        attr.spec
-      );
+      const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };
+      this.mergeModelEditorSpec(modelInfo, attr.spec);
+      this._chart.layout.resetModelLayoutDataAfterAttributeChanged(modelInfo, model);
     }
     if (attr.modelSpec) {
       hasChange = true;
       attr.modelSpec.forEach(mSpec => {
         this.mergeModelEditorSpec(mSpec, mSpec.spec);
+        this._chart.layout.resetModelLayoutDataAfterAttributeChanged(mSpec);
       });
     }
 

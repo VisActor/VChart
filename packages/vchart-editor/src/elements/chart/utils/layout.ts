@@ -90,12 +90,6 @@ export function getAxisLayoutInRegionRect(axis: ILayoutItem, rect: IRect): ILayo
 }
 
 export function getChartModelWithModelInfo(vchart: IVChart, info: IModelInfo) {
-  if (info.specKey === 'series') {
-    return vchart
-      .getChart()
-      .getAllSeries()
-      .find(c => isModelMatchModelInfo(c as unknown as IChartModel, info));
-  }
   if (info.specKey === 'region') {
     return vchart
       .getChart()
@@ -129,3 +123,39 @@ export const IgnoreModelTypeInCommon = {
   brush: true,
   polarCrosshair: true
 };
+
+const DefaultBoundsValue = {
+  x1: Number.MAX_SAFE_INTEGER,
+  x2: Number.MIN_SAFE_INTEGER,
+  y1: Number.MAX_SAFE_INTEGER,
+  y2: Number.MIN_SAFE_INTEGER
+};
+
+export function getBoundsInRects(
+  rects: IRect[],
+  attrs: ('x1' | 'x2' | 'y1' | 'y2')[]
+): Partial<{ [key in 'x1' | 'x2' | 'y1' | 'y2']: number }> {
+  const result = {};
+  attrs.forEach(key => {
+    result[key] = DefaultBoundsValue[key];
+    rects.forEach(r => {
+      if (key === 'x1') {
+        result[key] = Math.min(result[key], r.x);
+      } else if (key === 'x2') {
+        result[key] = Math.max(result[key], r.x + r.width);
+      } else if (key === 'y1') {
+        result[key] = Math.min(result[key], r.y);
+      } else if (key === 'y2') {
+        result[key] = Math.max(result[key], r.y + r.height);
+      }
+    });
+  });
+  return result;
+}
+
+export function getModelGraphicsBounds(model: IChartModel) {
+  if (model.type.includes('Axis')) {
+    return (<any>model).getMarks()[0].getProduct().graphicItem.AABBBounds;
+  }
+  return model.getGraphicBounds();
+}

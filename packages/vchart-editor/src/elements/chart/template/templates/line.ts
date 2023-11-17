@@ -25,12 +25,18 @@ const spec = {
     {
       orient: 'left',
       id: 'axis-left',
-      type: 'linear'
+      type: 'linear',
+      label: {
+        autoLimit: false
+      }
     },
     {
       orient: 'bottom',
       id: 'axis-bottom',
-      type: 'band'
+      type: 'band',
+      label: {
+        autoLimit: false
+      }
     }
   ],
   data: [

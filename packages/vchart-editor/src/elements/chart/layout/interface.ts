@@ -32,6 +32,8 @@ export interface IChartLayout {
   getOverModel: (pos: IPoint, layer: IEditorLayer) => LayoutMeta;
 
   getBoxConnectModel: (rect: IRect) => { layoutMeta: LayoutMeta; model: IChartModel }[];
+
+  resetModelLayoutDataAfterAttributeChanged: (modelInfo: IModelInfo, model?: IChartModel) => void;
 }
 
 export interface IChartLayoutConstructor {

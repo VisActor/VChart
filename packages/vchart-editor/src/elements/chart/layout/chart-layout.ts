@@ -1,14 +1,17 @@
 import type { IEditorLayer, IModelInfo } from './../../../core/interface';
-import type { IChartModel } from './../interface';
-import { DefaultLayout } from './default-layout';
+import type { IChartModel, ILayoutItem } from './../interface';
+// import { DefaultLayout } from './default-layout';
 import type { ISpecProcess } from '../spec-process/interface';
 import type { ILayoutData, IChartLayout, LayoutMeta } from './interface';
-import type { IVChart } from '@visactor/vchart';
-import { merge, type IBoundsLike } from '@visactor/vutils';
+import { Layout, type IVChart } from '@visactor/vchart';
+import type { IBoundsLike } from '@visactor/vutils';
+import { merge } from '@visactor/vutils';
 import type { IPoint, IRect } from '../../../typings/space';
 import { LayoutRectToRect, isPointInRect, isRectConnectRect } from '../../../utils/space';
 import {
   IgnoreModelTypeInLayout,
+  getAxisLayoutInRegionRect,
+  getBoundsInRects,
   getChartModelWithModelInfo,
   transformModelPos,
   transformModelRect
@@ -21,7 +24,7 @@ export class ChartLayout implements IChartLayout {
   protected _vchart: IVChart;
 
   // temp
-  protected _defaultLayout = new DefaultLayout();
+  protected _defaultLayout = new Layout();
 
   constructor(specProcess: ISpecProcess) {
     this._specProcess = specProcess;
@@ -60,10 +63,10 @@ export class ChartLayout implements IChartLayout {
     return this._layoutData;
   }
 
-  layout = (chart: IVChart, item: IChartModel[], chartLayoutRect: IRect, chartViewBox: IBoundsLike) => {
+  layout = (chart: IVChart, item: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike) => {
     // use vchart buildIn layout for demo test
     if (!this._layoutData?.data?.length) {
-      this._defaultLayout.layoutItems(chart, item, chartLayoutRect, chartViewBox);
+      this._defaultLayout.layoutItems(chart as any, item as any, chartLayoutRect, chartViewBox);
       this.saveLayoutData();
     }
     this.layoutWithData(chart, item, chartLayoutRect, chartViewBox);
@@ -77,15 +80,16 @@ export class ChartLayout implements IChartLayout {
     const startPos = { x: this._layoutData.viewBox?.x ?? 200, y: this._layoutData.viewBox?.y ?? 200 };
     const layoutData: LayoutMeta[] = [];
     const chart = this._vchart.getChart();
-    const items = (<IChartModel[]>chart.getAllRegions()).concat(chart.getAllComponents() as IChartModel[]);
-    items.forEach((item: IChartModel) => {
-      if (IgnoreModelTypeInLayout[item.type]) {
+    // @ts-ignore
+    const items = chart.getLayoutElements() as ILayoutItem[];
+    items.forEach(item => {
+      if (IgnoreModelTypeInLayout[item.model.type]) {
         return;
       }
       layoutData.push({
-        id: item.userId,
-        specKey: item.specKey,
-        specIndex: item.getSpecIndex(),
+        id: item.model.userId,
+        specKey: item.model.specKey === '' ? item.model.type : item.model.specKey,
+        specIndex: item.model.getSpecIndex(),
         layout: {
           x: { offset: startPos.x + item.getLayoutStartPoint().x },
           y: { offset: startPos.y + item.getLayoutStartPoint().y },
@@ -98,28 +102,49 @@ export class ChartLayout implements IChartLayout {
     this._specProcess.updateLayout(this._layoutData);
   }
 
-  layoutWithData(chart: IVChart, item: IChartModel[], chartLayoutRect: IRect, chartViewBox: IBoundsLike) {
+  layoutWithData(chart: IVChart, item: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike) {
     item
       .sort((a, b) => {
-        if (a.type === 'region') {
+        if (a.model.type === 'region') {
           return -1;
         }
-        if (b.type === 'region') {
+        if (b.model.type === 'region') {
           1;
         }
         return 0;
       })
       .forEach(i => {
-        const data = this._layoutData.data.find(d => isModelMatchModelInfo(i, d));
+        const data = this._layoutData.data.find(d => isModelMatchModelInfo(i.model, d));
         if (!data) {
           return;
         }
         const rect = LayoutRectToRect(data.layout);
-        i.computeBoundsInRect(rect);
+        if ((<IChartModel>i.model)._clearLayoutCache) {
+          (<IChartModel>i.model)._clearLayoutCache();
+        }
+        const size = i.computeBoundsInRect(rect);
+        if (rect.width !== size.width || rect.height !== size.height) {
+          if (i.model.type.startsWith('cartesianAxis')) {
+            if (i.layoutOrient === 'left' || i.layoutOrient === 'right') {
+              rect.width = size.width;
+            } else {
+              rect.height = size.height;
+            }
+          } else if (i.model.type === 'region') {
+            // nothing
+          } else {
+            rect.width = size.width;
+            rect.height = size.height;
+          }
+          i.computeBoundsInRect(rect);
+        }
         i.setLayoutRect(rect);
         const pos = { x: data.layout.x.offset, y: data.layout.y.offset };
-        transformModelPos(i, pos);
+        transformModelPos(i.model, pos);
         i.setLayoutStartPosition(pos);
+        data.layout.width.offset = rect.width;
+        data.layout.height.offset = rect.height;
+        this.setModelLayoutData(data);
       });
   }
 
@@ -170,7 +195,7 @@ export class ChartLayout implements IChartLayout {
       }
       const modelRect = transformModelRect(model as unknown as IChartModel, LayoutRectToRect(d.layout));
       if (isRectConnectRect(rect, modelRect)) {
-        result.push({ model, layoutMeta: d });
+        result.push({ model: model as unknown as IChartModel, layoutMeta: d });
       }
     });
     if (result.find(info => info.layoutMeta.specKey === 'region' || info.layoutMeta.specKey === 'axes')) {
@@ -181,10 +206,85 @@ export class ChartLayout implements IChartLayout {
             return;
           }
           const model = getChartModelWithModelInfo(this._vchart, d);
-          result.push({ model, layoutMeta: d });
+          result.push({ model: model as unknown as IChartModel, layoutMeta: d });
         }
       });
     }
     return result;
+  }
+
+  // 将模块的布局数据改为属性更新后的。
+  // 这里会设置一个非常大的bounds，尽可能保持模块基准点，增加它的可布局空间
+  // 布局后会根据模块bounds，再次调整bounds到合适的大小
+  resetModelLayoutDataAfterAttributeChanged(modelInfo: IModelInfo, model?: IChartModel) {
+    if (!model) {
+      model = getChartModelWithModelInfo(this._vchart, modelInfo) as unknown as IChartModel;
+    }
+    if (!model) {
+      return;
+    }
+    if (model.type.startsWith('region')) {
+      // region 不处理
+      return;
+    } else if (model.type.startsWith('cartesianAxis')) {
+      // 轴处理
+      this._resetAxisLayout(modelInfo, model);
+    } else if (model.type.startsWith('title')) {
+      // 标题 只增加可布局高度，因为默认会有宽度换行
+      this._resetTitleLayout(modelInfo, model);
+    } else {
+      // 通用逻辑 增加可布局宽高
+      this._resetModelLayout(modelInfo, model);
+    }
+  }
+
+  private _resetAxisLayout(modelInfo: IModelInfo, model: IChartModel) {
+    const regions = (<any>model)._regions;
+    const axisRegionLayoutData = regions.map((r: IChartModel) =>
+      getAxisLayoutInRegionRect(model.layout, { ...r.getLayoutStartPoint(), ...r.getLayoutRect() })
+    );
+    const layoutData = this.getModelLayoutData(modelInfo);
+    if (!layoutData) {
+      return;
+    }
+    if (model.layoutOrient === 'left') {
+      const b = getBoundsInRects(axisRegionLayoutData, ['x1', 'y1']);
+      layoutData.layout.x.offset = b.x1;
+      layoutData.layout.y.offset = b.y1;
+      layoutData.layout.width.offset = 999999;
+    } else if (model.layoutOrient === 'right') {
+      const b = getBoundsInRects(axisRegionLayoutData, ['x2', 'y1']);
+      layoutData.layout.x.offset = b.x1;
+      layoutData.layout.y.offset = b.y1;
+      layoutData.layout.width.offset = 999999;
+    } else if (model.layoutOrient === 'top') {
+      const b = getBoundsInRects(axisRegionLayoutData, ['x1', 'y1']);
+      layoutData.layout.x.offset = b.x1;
+      layoutData.layout.y.offset = b.y1;
+      layoutData.layout.height.offset = 999999;
+    } else if (model.layoutOrient === 'bottom') {
+      const b = getBoundsInRects(axisRegionLayoutData, ['x1', 'y2']);
+      layoutData.layout.x.offset = b.x1;
+      layoutData.layout.y.offset = b.y2;
+      layoutData.layout.height.offset = 999999;
+    }
+    this.setModelLayoutData(layoutData);
+  }
+  private _resetTitleLayout(modelInfo: IModelInfo, model: IChartModel) {
+    const layoutData = this.getModelLayoutData(modelInfo);
+    if (!layoutData) {
+      return;
+    }
+    layoutData.layout.height.offset = 999999;
+    this.setModelLayoutData(layoutData);
+  }
+  private _resetModelLayout(modelInfo: IModelInfo, model: IChartModel) {
+    const layoutData = this.getModelLayoutData(modelInfo);
+    if (!layoutData) {
+      return;
+    }
+    layoutData.layout.width.offset = 999999;
+    layoutData.layout.height.offset = 999999;
+    this.setModelLayoutData(layoutData);
   }
 }

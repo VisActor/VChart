@@ -103,6 +103,8 @@ export class CommonChartEditorElement implements IEditorElement {
   color: string[];
   allModel?: IModelSpec[];
   chartData?: DataView;
+  graphicsType?: string;
+  modelInfo: IModelInfo;
 
   protected _updateCall: UpdateAttributeCall;
   protected _finishCall: () => void;
@@ -116,8 +118,6 @@ export class CommonChartEditorElement implements IEditorElement {
     editProperties?: { [key: string]: unknown };
     rect?: IRect;
   };
-
-  protected _modelInfo: IModelInfo;
 
   constructor(
     context: BaseEditorElement,
@@ -158,8 +158,8 @@ export class CommonChartEditorElement implements IEditorElement {
   updateElement() {
     const context = this._context;
     let model;
-    if (this._modelInfo) {
-      model = getChartModelWithModelInfo(this._context.chart.vchart, this._modelInfo);
+    if (this.modelInfo) {
+      model = getChartModelWithModelInfo(this._context.chart.vchart, this.modelInfo);
     } else {
       model = this.model;
     }
@@ -174,7 +174,7 @@ export class CommonChartEditorElement implements IEditorElement {
     // @ts-ignore TODO: support get current colorTheme api in vchart
     this.color = context.chart.vchart.getChart()._globalScale.getScale('color').range();
     const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };
-    this._modelInfo = modelInfo;
+    this.modelInfo = modelInfo;
     this.layer = this._context.layer;
     this.id = id ?? model.userId;
     this.chartData = context.chart.data.getData();
