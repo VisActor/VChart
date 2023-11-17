@@ -8,7 +8,6 @@ import type { ICartesianSeries } from '../../series/interface';
 import type { ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
-import type { IRegressType } from './mark-area/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { calcLayoutNumber } from '../../util/space';
 
@@ -61,7 +60,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         ...this._getAllRelativeSeries()
       };
     }
-    return { x: isFunction(specX) ? specX : [specX], ...this._getAllRelativeSeries() };
+    return { x: specX, ...this._getAllRelativeSeries() };
   }
 
   protected _processSpecY(specY: IDataPos | IDataPosCallback) {
@@ -75,7 +74,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         ...this._getAllRelativeSeries()
       };
     }
-    return { y: isFunction(specY) ? specY : [specY], ...this._getAllRelativeSeries() };
+    return { y: specY, ...this._getAllRelativeSeries() };
   }
 
   protected _processSpecXY(specX: IDataPos | IDataPosCallback, specY: IDataPos | IDataPosCallback) {
@@ -89,7 +88,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         aggrType: specX as unknown as IAggrType
       };
     } else {
-      result.x = isFunction(specX) ? specX : [specX];
+      result.x = specX;
     }
 
     if (this._isSpecAggr(specY)) {
@@ -98,7 +97,7 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         aggrType: specY as unknown as IAggrType
       };
     } else {
-      result.y = isFunction(specY) ? specY : [specY];
+      result.y = specY;
     }
 
     return result;
