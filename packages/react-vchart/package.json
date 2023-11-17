@@ -32,7 +32,7 @@
     "@visactor/vutils": "~0.16.10",
     "@visactor/vrender-core": "~0.16.15",
     "@visactor/vrender-kits": "~0.16.15",
-    "@visactor/vgrammar-core": "~0.8.4",
+    "@visactor/vgrammar-core": "~0.8.6",
     "react-is": "^18.2.0"
   },
   "devDependencies": {
