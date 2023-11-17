@@ -86,7 +86,7 @@ describe('rangeColumn chart test', () => {
     expect(trigger.hover).toEqual({
       enable: true,
       trigger: 'pointermove',
-      triggerOff: ['pointermove', 'pointerleave']
+      triggerOff: 'pointerleave'
     });
     expect(trigger.select).toEqual({
       enable: true,
