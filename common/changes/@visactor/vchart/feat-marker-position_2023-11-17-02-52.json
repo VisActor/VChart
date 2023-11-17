@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: enhance marker's position ability",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
