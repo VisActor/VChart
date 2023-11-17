@@ -26,19 +26,39 @@ export enum LabelRule {
   stackLabel = 'stackLabel'
 }
 
-export function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod']) {
+export function textAttribute(
+  labelInfo: ILabelInfo,
+  datum: Datum,
+  formatMethod?: ILabelSpec['formatMethod'],
+  formatter?: ILabelSpec['formatter']
+) {
   const { labelMark, series } = labelInfo;
-  const field = series.getMeasureField()[0];
-  const textAttribute = { text: datum[field], data: datum } as any;
+  const textAttribute = { data: datum } as any;
 
   const attributes = Object.keys(labelMark.stateStyle.normal);
+
   for (const key of attributes) {
     const attr = labelMark.getAttribute(key as any, datum);
     textAttribute[key] = attr;
-    if (key === 'text' && formatMethod) {
-      textAttribute[key] = formatMethod(textAttribute[key], datum, { series });
+  }
+
+  if (formatter) {
+    if (formatter === 'catogory') {
+      textAttribute.text = datum[series.getDimensionField()[0]];
+    } else if (formatter === 'percentage' && series.type === 'pie') {
+      textAttribute.text = datum.__VCHART_ARC_RATIO;
+    } else {
+      /** if(formatter === 'value')
+       *  如果变量名无效，则返回'value'
+       */
+      textAttribute.text = datum[series.getMeasureField()[0]];
     }
   }
+
+  if (formatMethod) {
+    textAttribute.text = formatMethod(textAttribute.text, datum, { series });
+  }
+
   return textAttribute;
 }
 

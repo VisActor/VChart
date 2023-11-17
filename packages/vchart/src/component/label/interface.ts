@@ -14,6 +14,13 @@ export interface ILabelSpec extends IComponentSpec {
   interactive?: boolean;
   /** 格式化函数 */
   formatMethod?: (text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext) => string | string[];
+  /** 字符串模版变量
+   *  - 数值 'value'
+   *  - 分类值 'catogory'
+   *  - 百分比值 'percent' (饼图生效)
+   *  如果变量名无效，则返回数值
+   */
+  formatter?: string;
   /** 标签与其对应数据图元的间距 */
   offset?: number;
   /** 标签位置 */

@@ -184,6 +184,10 @@ const run = () => {
           fill: '#1664FF'
         }
       }
+    },
+    label: {
+      visible: true,
+      formatter: 'catogory'
     }
   };
 
