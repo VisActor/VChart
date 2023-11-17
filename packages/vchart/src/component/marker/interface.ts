@@ -1,4 +1,4 @@
-import type { IPadding, IPointLike } from '@visactor/vutils';
+import type { IPadding } from '@visactor/vutils';
 import type { SymbolType } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
@@ -41,8 +41,13 @@ export type IDataPointSpec = {
    */
   yFieldDim?: string;
 };
+
+type Point = {
+  x: number;
+  y: number;
+};
 export type IMarkerPositionsSpec = {
-  positions: IPointLike[];
+  positions: Point[];
   /**
    * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
    * @default false

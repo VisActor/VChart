@@ -17,6 +17,7 @@ export type IMarkAreaSpec = IMarkerSpec &
   (
     | IMarkAreaXSpec // 标注目标：笛卡尔坐标系坐标空间
     | IMarkAreaYSpec // 标注目标：笛卡尔坐标系坐标空间
+    | (IMarkAreaXSpec & IMarkAreaYSpec)
     // | IMarkAreaAngleSpec // TODO: 标注目标：极坐标系坐标空间
     // | IMarkAreaRadiusSpec // TODO: 标注目标：极坐标系坐标空间
     | IMarkAreaCoordinateSpec // 标注目标：数据元素

@@ -1,4 +1,4 @@
-import type { IPointLike } from '@visactor/vutils';
+import type { IPoint } from '../../../../typings';
 import type { IComponent } from '../../../interface';
 import type { IDataPointSpec, IMarkerSpec } from '../../interface';
 import type { IMarkPointTheme } from './theme';
@@ -28,7 +28,7 @@ export type IMarkPointCoordinateSpec = {
  * 指定坐标点的参考线。基于指定坐标进行参考线的绘制
  */
 export type IMarkPointPositionsSpec = {
-  position: IPointLike;
+  position: IPoint;
   /**
    * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
    * @default false
