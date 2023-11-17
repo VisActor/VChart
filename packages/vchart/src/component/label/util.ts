@@ -8,6 +8,7 @@ import { isBoolean, isFunction, isString } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
+import { ARC_RATIO } from '../../constant';
 
 export const labelRuleMap = {
   rect: barLabel,
@@ -43,16 +44,18 @@ export function textAttribute(
   }
 
   if (formatter) {
+    let field;
     if (formatter === 'catogory') {
-      textAttribute.text = datum[series.getDimensionField()[0]];
+      field = series.getDimensionField()[0];
     } else if (formatter === 'percentage' && series.type === 'pie') {
-      textAttribute.text = datum.__VCHART_ARC_RATIO;
+      field = ARC_RATIO;
     } else {
       /** if(formatter === 'value')
        *  如果变量名无效，则返回'value'
        */
-      textAttribute.text = datum[series.getMeasureField()[0]];
+      field = series.getMeasureField()[0];
     }
+    textAttribute.text = datum[field];
   }
 
   if (formatMethod) {
