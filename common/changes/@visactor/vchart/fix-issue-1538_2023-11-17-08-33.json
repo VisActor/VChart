@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: is mouse click in empty region, the hover shape should reset, fixed #1538",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
