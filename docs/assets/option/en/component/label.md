@@ -22,6 +22,18 @@ The data label content formatting function, defined as follows:
   formatMethod?: (text: string | string[], datum?: any) => string | string[];
 ```
 
+#${prefix} formatter(string)
+
+String template variables, supported since `1.7.0` version.
+
+Optional:
+
+- `'value'`: numerical value
+- `'catogory'`: categorical value
+- `'percent'`: percentage value (valid for pie charts)
+
+If the variable name is invalid, a numeric value is returned.
+
 {{ if: !${noOffset} }}
 
 {{ var: offsetNumber = ${defaultOffset} !== undefined ? ${defaultOffset} : 0 }}

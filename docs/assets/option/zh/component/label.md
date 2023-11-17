@@ -22,6 +22,18 @@
   formatMethod?: (text: string | string[], datum?: any) => string | string[];
 ```
 
+#${prefix} formatter(string)
+
+字符串模版变量，自`1.7.0`版本开始支持。
+
+可选：
+
+- `'value'`: 数值
+- `'catogory'`: 分类值
+- `'percent'`: 百分比值（饼图生效）
+
+如果变量名无效，则返回数值。
+
 {{ if: !${noOffset} }}
 
 {{ var: offsetNumber = ${defaultOffset} !== undefined ? ${defaultOffset} : 0 }}

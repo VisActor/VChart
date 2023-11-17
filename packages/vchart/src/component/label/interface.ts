@@ -19,6 +19,7 @@ export interface ILabelSpec extends IComponentSpec {
    *  - 分类值 'catogory'
    *  - 百分比值 'percent' (饼图生效)
    *  如果变量名无效，则返回数值
+   *  since version '1.7.0'
    */
   formatter?: string;
   /** 标签与其对应数据图元的间距 */
