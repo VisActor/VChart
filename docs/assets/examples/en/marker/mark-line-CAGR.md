@@ -52,7 +52,7 @@ const spec = {
     style: {
       fill: '#000'
     },
-    formatMethod: val => `${val}`,
+    formatMethod: val => `$${val}`,
     position: 'top',
     overlap: false,
     offset: 0
