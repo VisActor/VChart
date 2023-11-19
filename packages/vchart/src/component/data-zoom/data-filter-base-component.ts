@@ -37,6 +37,7 @@ import type { AbstractComponent, DataZoom } from '@visactor/vrender-components';
 import type { IDelayType } from '../../typings/event';
 import { TransformLevel } from '../../data/initialize';
 import type { IDataZoomSpec } from './data-zoom/interface';
+import type { IGraphic, IGroup } from '@visactor/vrender-core';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
@@ -865,6 +866,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     this._cacheVisibility = isShown;
     return isShown;
+  }
+
+  getVRenderComponents(): IGraphic[] {
+    return [this._component] as unknown as IGroup[];
   }
 }
 
