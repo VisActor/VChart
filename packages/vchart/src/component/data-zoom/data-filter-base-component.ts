@@ -176,20 +176,32 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         // 所以这里在转换时进行判断并做转置, 有待优化
         // 轴在inverse时，也要做转置处理
 
-        const newRangeFactor: [number, number] =
-          axisScale.range()[0] < axisScale.range()[1] || axisSpec.inverse
-            ? [this._start, this._end]
-            : [1 - this._end, 1 - this._start];
+        const reverse = axisScale.range()[0] > axisScale.range()[1] && !axisSpec.inverse;
+        const newRangeFactor: [number, number] = reverse ? [1 - this._end, 1 - this._start] : [this._start, this._end];
+
         if (tag === 'startHandler') {
           axisScale.rangeFactorStart(newRangeFactor[0]);
         } else if (tag === 'endHandler') {
           axisScale.rangeFactorEnd(newRangeFactor[1]);
         } else {
-          axisScale.rangeFactor(newRangeFactor);
+          if (reverse) {
+            axisScale.rangeFactorStart(newRangeFactor[0], true);
+            axisScale.rangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
+          } else {
+            axisScale.rangeFactorEnd(newRangeFactor[1], true);
+            axisScale.rangeFactorStart(newRangeFactor[0]); // start 保证为准确值
+          }
         }
+
         const newFactor = axisScale.rangeFactor();
-        this._start = newFactor?.[0] ?? 0;
-        this._end = newFactor?.[1] ?? 1;
+        if (newFactor) {
+          this._start = reverse ? 1 - newFactor[1] : newFactor[0];
+          this._end = reverse ? 1 - newFactor[0] : newFactor[1];
+        } else {
+          this._start = 0;
+          this._end = 1;
+        }
+
         (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
         axis.effect.scaleUpdate();
       } else {
