@@ -6,11 +6,12 @@ import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent } from '@
 import { createRect, createGroup, vglobal, createPolygon } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { clamp, merge } from '@visactor/vutils';
+import { PointService, clamp, merge } from '@visactor/vutils';
 import type { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { EventParams, MarkArea, IComponent, ICartesianSeries } from '@visactor/vchart';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
+import type { Point } from '../types';
 
 const handlerWidth = 9;
 const handlerHeight = 40;
@@ -37,6 +38,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   private _areaLength: number;
 
   private _prePos: number = 0;
+  private _prePoint: Point;
 
   protected _getEnableMarkerTypes(): string[] {
     return [MarkerTypeEnum.horizontalArea, MarkerTypeEnum.verticalArea];
@@ -62,6 +64,11 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     } else {
       this._limitRange = [regionStartX, regionStartX + regionWidth];
     }
+
+    this._prePoint = {
+      x: e.event.clientX,
+      y: e.event.clientY
+    };
 
     this._prePos = this._orient === 'vertical' ? e.event.clientX : e.event.clientY;
     const overlayArea = this._overlayArea;
@@ -142,13 +149,15 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         lineWidth: 1,
         stroke: '#3073F2',
         fill: '#005DFF',
-        fillOpacity: 0.1,
-        cursor: 'move'
+        fillOpacity: 0.1
       })
     );
     overlayArea.name = 'overlay-mark-area-area';
     this._overlayArea = overlayArea;
     overlayAreaGroup.add(overlayArea);
+
+    overlayArea.addEventListener('pointerenter', e => this._onHandlerHover('move'));
+    overlayArea.addEventListener('pointerleave', this._onHandlerUnHover);
 
     const labelShape = (markArea as unknown as MarkAreaComponent).getLabel() as unknown as IGroup;
     const overlayLabel = createRect({
@@ -175,7 +184,6 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         fill: '#3073F2',
         fillOpacity: 0.6,
         cornerRadius: 9,
-        cursor: 'ew-resize',
         zIndex: 1
       });
       rightHandler.name = 'overlay-right-handler';
@@ -190,7 +198,6 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         fill: '#3073F2',
         fillOpacity: 0.6,
         cornerRadius: 9,
-        cursor: 'ew-resize',
         zIndex: 1
       });
       leftHandler.name = 'overlay-left-handler';
@@ -203,6 +210,11 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         this._onHandlerDragStart as EventListenerOrEventListenerObject
       );
       this._leftHandler.addEventListener('pointerdown', this._onHandlerDragStart as EventListenerOrEventListenerObject);
+
+      this._rightHandler.addEventListener('pointerenter', e => this._onHandlerHover('ew-resize'));
+      this._rightHandler.addEventListener('pointerleave', this._onHandlerUnHover);
+      this._leftHandler.addEventListener('pointerenter', e => this._onHandlerHover('ew-resize'));
+      this._leftHandler.addEventListener('pointerleave', this._onHandlerUnHover);
     } else {
       const topHandler = createRect({
         x: (areaBounds.x1 + areaBounds.x2) / 2 - handlerHeight / 2,
@@ -212,7 +224,6 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         fill: '#3073F2',
         fillOpacity: 0.6,
         cornerRadius: 9,
-        cursor: 'ns-resize',
         zIndex: 1
       });
       topHandler.name = 'overlay-top-handler';
@@ -227,7 +238,6 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         fill: '#3073F2',
         fillOpacity: 0.6,
         cornerRadius: 9,
-        cursor: 'ns-resize',
         zIndex: 1
       });
       bottomHandler.name = 'overlay-bottom-handler';
@@ -240,6 +250,11 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         'pointerdown',
         this._onHandlerDragStart as EventListenerOrEventListenerObject
       );
+
+      this._topHandler.addEventListener('pointerenter', e => this._onHandlerHover('ns-resize'));
+      this._topHandler.addEventListener('pointerleave', this._onHandlerUnHover);
+      this._bottomHandler.addEventListener('pointerenter', e => this._onHandlerHover('ns-resize'));
+      this._bottomHandler.addEventListener('pointerleave', this._onHandlerUnHover);
     }
     // overlayArea 添加事件
     this._layer.editorGroup.add(overlayGraphic as unknown as IGraphic);
@@ -249,6 +264,10 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   private _onHandlerDragStart = (e: FederatedPointerEvent) => {
     e.stopPropagation();
+    this._prePoint = {
+      x: e.clientX,
+      y: e.clientY
+    };
 
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkArea;
     this._element = model.getVRenderComponents()[0] as unknown as MarkAreaComponent;
@@ -338,6 +357,9 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   private _onHandlerDragEnd = (e: any) => {
     e.preventDefault();
 
+    vglobal.removeEventListener('pointermove', this._onHandlerDrag);
+    vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
+
     const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
     this._overlayLabel.setAttribute('visible', false);
@@ -346,8 +368,11 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       pickable: true,
       childrenPickable: true
     });
-    vglobal.removeEventListener('pointermove', this._onHandlerDrag);
-    vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
+
+    if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 1) {
+      return;
+    }
+
     // 更新当前图形以及保存 spec
     this._save(points);
 
@@ -361,6 +386,11 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   private _onAreaDragStart = (e: any) => {
     e.stopPropagation();
+
+    this._prePoint = {
+      x: e.clientX,
+      y: e.clientY
+    };
 
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkArea;
     this._element = model.getVRenderComponents()[0] as unknown as MarkAreaComponent;
@@ -463,6 +493,9 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   private _onAreaDragEnd = (e: any) => {
     e.preventDefault();
+    vglobal.removeEventListener('pointermove', this._onAreaDrag);
+    vglobal.removeEventListener('pointerup', this._onAreaDragEnd);
+
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
     const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
@@ -472,8 +505,11 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       pickable: false
     });
     this._activeAllMarkers();
-    vglobal.removeEventListener('pointermove', this._onAreaDrag);
-    vglobal.removeEventListener('pointerup', this._onAreaDragEnd);
+
+    if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 1) {
+      return;
+    }
+
     // 更新当前图形以及保存 spec
     this._save(points);
   };
@@ -542,4 +578,12 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
     this._updateAndSave(newMarkAreaSpec, 'markArea');
   }
+
+  private _onHandlerHover(cursor: string) {
+    this._chart.option.editorEvent.setCursor(cursor);
+  }
+
+  private _onHandlerUnHover = () => {
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
+  };
 }

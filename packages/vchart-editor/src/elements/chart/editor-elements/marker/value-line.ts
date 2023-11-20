@@ -5,7 +5,7 @@
 import type { INode } from '@visactor/vrender-core';
 import { createRect, type IGraphic, createGroup, vglobal } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
-import { clamp, merge } from '@visactor/vutils';
+import { PointService, clamp, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent } from '@visactor/vchart';
@@ -19,6 +19,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
 
   private _orient: string;
   private _prePos!: number;
+  private _prePoint: Point;
   private _preOffset: number = 0;
   private _limitRange: [number, number];
 
@@ -32,6 +33,10 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
   }
 
   protected _handlePointerDown(e: EventParams): void {
+    this._prePoint = {
+      x: e.event.clientX,
+      y: e.event.clientY
+    };
     this._orient = this._element.name === MarkerTypeEnum.verticalLine ? 'vertical' : 'horizontal';
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
@@ -82,11 +87,18 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
 
   private _onDragEnd = (e: any) => {
     e.preventDefault();
-    this._editComponent.hideAll();
+
+    vglobal.removeEventListener('pointermove', this._onDrag);
+    vglobal.removeEventListener('pointerup', this._onDragEnd);
     this._activeAllMarkers();
+
     // 恢复 cursor
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
+    if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 1) {
+      return;
+    }
 
+    this._editComponent.hideAll();
     const offset = (this._editComponent.attribute[this._orient === 'horizontal' ? 'dy' : 'dx'] ?? 0) - this._preOffset;
     const points = this._element.attribute.points as Point[];
     const field = this._orient === 'horizontal' ? 'y' : 'x';
@@ -136,8 +148,6 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
         text: newText
       }
     });
-    vglobal.removeEventListener('pointermove', this._onDrag);
-    vglobal.removeEventListener('pointerup', this._onDragEnd);
 
     // 更新
     this._updateAndSave(newSpec, 'markLine');
