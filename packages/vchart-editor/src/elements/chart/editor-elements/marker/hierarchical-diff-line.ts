@@ -341,8 +341,8 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
               100
             }%`
           : `${
-              ((this._overlayMiddleHandler.attribute.points[0].y -
-                Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)) /
+              ((Math.min(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y) -
+                this._overlayMiddleHandler.attribute.points[0].y) /
                 region.getLayoutRect().height) *
               100
             }%`
@@ -643,14 +643,13 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
               100
             }%`
           : `${
-              ((this._overlayMiddleHandler.attribute.points[0].y -
-                Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)) /
+              ((Math.min(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y) -
+                this._overlayMiddleHandler.attribute.points[0].y) /
                 region.getLayoutRect().height) *
               100
             }%`
     });
     this._spec = newMarkLineSpec;
-
     vglobal.removeEventListener('pointermove', this._onMiddleHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onMiddleHandlerDragEnd);
     this._updateAndSave(newMarkLineSpec, 'markLine');
