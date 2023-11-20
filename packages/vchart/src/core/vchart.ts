@@ -77,7 +77,8 @@ import {
   isFunction,
   LoggerLevel,
   isEqual,
-  get
+  get,
+  cloneDeep
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
@@ -779,8 +780,8 @@ export class VChart implements IVChart {
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
       if (preDV) {
-        preDV.setFields(fields as IFields);
-        preDV.parse(values, parser as IParserOptions);
+        preDV.setFields(cloneDeep(fields) as IFields);
+        preDV.parse(values, cloneDeep(parser) as IParserOptions);
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
@@ -812,8 +813,8 @@ export class VChart implements IVChart {
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
       if (preDV) {
-        preDV.setFields(fields as IFields);
-        preDV.parse(values, parser as IParserOptions);
+        preDV.setFields(cloneDeep(fields) as IFields);
+        preDV.parse(values, cloneDeep(parser) as IParserOptions);
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
