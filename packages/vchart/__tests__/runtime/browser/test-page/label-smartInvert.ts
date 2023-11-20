@@ -373,22 +373,26 @@ const run = () => {
           { type: 'Autocracies', year: '2000', value: 89 },
           { type: 'Autocracies', year: '2010', value: 80 },
           { type: 'Autocracies', year: '2018', value: 80 },
-          { type: 'Democracies', year: '1930', value: 22 },
-          { type: 'Democracies', year: '1940', value: 13 },
-          { type: 'Democracies', year: '1950', value: 25 },
-          { type: 'Democracies', year: '1960', value: 29 },
-          { type: 'Democracies', year: '1970', value: 38 },
-          { type: 'Democracies', year: '1980', value: 41 },
-          { type: 'Democracies', year: '1990', value: 57 },
-          { type: 'Democracies', year: '2000', value: 87 },
-          { type: 'Democracies', year: '2010', value: 98 },
-          { type: 'Democracies', year: '2018', value: 99 }
+          { type: 'Autocracies', year: '2020', value: 72 },
+          { type: 'Autocracies', year: '2022', value: 50 }
+          // { type: 'Democracies', year: '1930', value: 22 },
+          // { type: 'Democracies', year: '1940', value: 13 },
+          // { type: 'Democracies', year: '1950', value: 25 },
+          // { type: 'Democracies', year: '1960', value: 29 },
+          // { type: 'Democracies', year: '1970', value: 38 },
+          // { type: 'Democracies', year: '1980', value: 41 },
+          // { type: 'Democracies', year: '1990', value: 57 },
+          // { type: 'Democracies', year: '2000', value: 87 },
+          // { type: 'Democracies', year: '2010', value: 98 },
+          // { type: 'Democracies', year: '2018', value: 99 }
         ]
       }
     ],
-    xField: ['year', 'type'],
+    // xField: ['year', 'type'],
+    xField: 'year',
     yField: 'value',
-    seriesField: 'type',
+    // seriesField: 'type',
+    seriesField: 'year',
     legends: {
       visible: true,
       orient: 'top',
@@ -404,9 +408,25 @@ const run = () => {
         stroke: 'red'
       },
       smartInvert: {
-        outsideEnable: true
+        outsideEnable: true,
+        mode: 'lightness',
+        strokeStrategy: 'similarBase'
       }
-    }
+    },
+    color: [
+      '#2E62F1',
+      '#4DC36A',
+      '#FF8406',
+      '#FFCC00',
+      '#4F44CF',
+      '#5AC8FA',
+      '#003A8C',
+      '#B08AE2',
+      '#FF6341',
+      '#98DD62',
+      '#07A199',
+      '#87DBDD'
+    ]
   };
 
   const cs = new VChart(spec2, {

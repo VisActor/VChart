@@ -168,6 +168,15 @@ hover 状态样式配置。
 
 - 在柱状图中，当标签位置为内部（ `'inside'` | `'inside-top'` | `'inside-bottom'` | `'inside-right'` | `'inside-left'`） 时，默认开启。
 
+##${prefix} mode(string)
+
+对比度度量。
+
+可选：
+
+- 'WCAG': 使用 Web 内容可访问性指南度量对比度。默认使用该标准。更多详情可参考 https://webaim.org/resources/contrastchecker/。
+- 'lightness': 使用色彩亮度度量对比度。更多详情可参考 https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl#l。
+
 ##${prefix} textType(string)
 
 文本类型。对应不同的色彩对比度标准以保证文本的可读性。

@@ -166,6 +166,17 @@ Overlap avoidance strategy for labels, providing 4 avoidance strategies, respect
 
 Smart Invert configuration.
 
+- In a histogram, when the label position is inside (`'inside'` | `'inside-top'` | `'inside-bottom'` | `'inside-right'` | `'inside-left'`) , it is enabled by default.
+
+##${prefix} mode(string)
+
+Contrast measure.
+
+Optional:
+
+- 'WCAG': Measure contrast using the Web Content Accessibility Guidelines. This standard is used by default. More details can be found at https://webaim.org/resources/contrastchecker/.
+- 'lightness': Use color brightness to measure contrast. More details can be found at https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl#l.
+
 ##${prefix} textType(string)
 
 Text type. Corresponds to different color contrast standards to ensure the readability of the text.
