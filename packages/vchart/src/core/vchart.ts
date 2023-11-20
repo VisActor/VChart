@@ -30,7 +30,6 @@ import { isTrueBrowser } from '../util/env';
 import { warn } from '../util/debug';
 import { mergeSpec, mergeSpecWithFilter } from '../util/spec/merge-spec';
 import { specTransform } from '../util/spec/transform';
-import { preprocessSpecOrTheme } from '../util/spec/preprocess';
 import { getThemeObject } from '../util/spec/common';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -77,9 +76,10 @@ import {
   merge as mergeOrigin,
   isFunction,
   LoggerLevel,
-  isEqual
+  isEqual,
+  get
 } from '@visactor/vutils';
-import type { DataLinkAxis, DataLinkSeries, IChartLevelTheme, IGlobalConfig, IVChart } from './interface';
+import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
@@ -90,9 +90,9 @@ import { GroupMark } from '../mark/group';
 import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
-import { mergeThemeAndGet } from '../theme/util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
+import { mergeTheme, preprocessTheme } from '../util';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -291,8 +291,7 @@ export class VChart implements IVChart {
   private _observer: ResizeObserver = null;
 
   private _currentThemeName: string;
-  //private _currentTheme: ITheme;
-  private _currentChartLevelTheme: IChartLevelTheme = {};
+  private _currentTheme: ITheme;
 
   private _onError?: (...args: any[]) => void;
 
@@ -304,8 +303,9 @@ export class VChart implements IVChart {
     this._onError = this._option?.onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
+    const isTrueBrowseEnv = isTrueBrowser(mode);
 
-    if (dom) {
+    if (isTrueBrowseEnv && dom) {
       this._container = isString(dom) ? document?.getElementById(dom) : dom;
     }
     if (renderCanvas) {
@@ -319,9 +319,8 @@ export class VChart implements IVChart {
       this._option?.onError('please specify container or renderCanvas!');
       return;
     }
-
     // 根据 mode 配置动态加载浏览器或 node 环境代码
-    if (isTrueBrowser(mode)) {
+    if (isTrueBrowseEnv) {
       registerBrowserEnv();
     } else if (mode === 'node') {
       registerNodeEnv();
@@ -355,12 +354,13 @@ export class VChart implements IVChart {
     this._eventDispatcher = new EventDispatcher(this, this._compiler);
     this._event = new Event(this._eventDispatcher, mode);
     this._compiler.initView();
+    // TODO: 如果通过 updateSpec 更新主题字体的验证
     // 设置全局字体
     this.getStage()?.setTheme({
-      text: { fontFamily: this._currentChartLevelTheme.fontFamily }
+      text: { fontFamily: this._currentTheme?.fontFamily }
     });
     this._initDataSet(this._option.dataSet);
-    this._autoSize = isTrueBrowser(mode) ? spec.autoFit ?? this._option.autoFit ?? true : false;
+    this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
 
@@ -403,12 +403,8 @@ export class VChart implements IVChart {
       performanceHook: this._option.performanceHook,
       viewBox: this._viewBox,
       animation: this._option.animation,
-      getThemeConfig: () => ({
-        globalTheme: this._currentThemeName,
-        optionTheme: this._option.theme,
-        specTheme: this._spec?.theme,
-        chartLevelTheme: this._currentChartLevelTheme
-      }),
+      getTheme: () => this._currentTheme ?? {},
+
       layout: this._option.layout,
       onError: this._onError
     });
@@ -419,7 +415,7 @@ export class VChart implements IVChart {
     this._chart = chart;
     this._chart.setCanvasRect(this._curSize.width, this._curSize.height);
     this._chart.created();
-    this._chart.init({});
+    this._chart.init();
     this._event.emit(ChartEvent.initialized, {});
   }
 
@@ -536,7 +532,8 @@ export class VChart implements IVChart {
       // 释放图表等等
       this._chart.release();
       this._chart = null as unknown as IChart;
-      this._compiler?.releaseGrammar();
+      // 如果不需要动画，那么释放item，避免元素残留
+      this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
       // chart 内部事件 模块自己必须删除
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
@@ -549,7 +546,7 @@ export class VChart implements IVChart {
       if (updateResult.reCompile) {
         // recompile
         // 清除之前的所有 compile 内容
-        this._compiler?.clear({ chart: this._chart, vChart: this });
+        this._compiler?.clear({ chart: this._chart, vChart: this }, !this._option.animation || !this._spec.animation);
         // TODO: 释放事件？ vgrammar 的 view 应该不需要释放，响应的stage也没有释放，所以事件可以不绑定
         // 重新绑定事件
         // TODO: 释放XX？
@@ -1059,7 +1056,7 @@ export class VChart implements IVChart {
       this._compiler.renderSync();
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      this._chart?.onEvaluateEnd();
+      this._chart.onEvaluateEnd();
     }
     // 获取 compiler
     this._compiler.updateViewBox(viewBox, reRender);
@@ -1164,21 +1161,35 @@ export class VChart implements IVChart {
       this._currentThemeName = nextThemeName;
     }
 
-    const colorScheme = mergeThemeAndGet('colorScheme', this._currentThemeName, optionTheme, specTheme);
-    this._currentChartLevelTheme = {
-      colorScheme,
-      background: mergeThemeAndGet('background', this._currentThemeName, optionTheme, specTheme, colorScheme),
-      fontFamily: mergeThemeAndGet('fontFamily', this._currentThemeName, optionTheme, specTheme, colorScheme)
-    };
+    // 处理 specTheme 和 optionTheme, merge -> transform
+    // 优先级 currentTheme < optionTheme < specTheme
+    if (!isEmpty(optionTheme) || !isEmpty(specTheme)) {
+      if (
+        (isString(optionTheme) && (!specTheme || isString(specTheme))) ||
+        (isString(specTheme) && (!optionTheme || isString(optionTheme)))
+      ) {
+        const finalTheme = mergeTheme(
+          {},
+          getThemeObject(this._currentThemeName, true),
+          getThemeObject(optionTheme, true),
+          getThemeObject(specTheme, true)
+        );
+        this._currentTheme = finalTheme;
+      } else {
+        const finalTheme = mergeTheme(
+          {},
+          getThemeObject(this._currentThemeName),
+          getThemeObject(optionTheme),
+          getThemeObject(specTheme)
+        );
+        this._currentTheme = preprocessTheme(finalTheme, finalTheme.colorScheme);
+      }
+    } else {
+      this._currentTheme = getThemeObject(this._currentThemeName, true);
+    }
 
     // 设置 poptip 的主题
-    setPoptipTheme(
-      preprocessSpecOrTheme(
-        'mark-theme',
-        mergeThemeAndGet('component.poptip', this._currentThemeName, optionTheme, specTheme, colorScheme),
-        colorScheme
-      )
-    );
+    setPoptipTheme(get(this._currentTheme, 'component.poptip'));
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
   }
@@ -1209,7 +1220,7 @@ export class VChart implements IVChart {
   private _getBackground() {
     const specBackground = typeof this._spec.background === 'string' ? this._spec.background : null;
     // spec > spec.theme > initOptions.theme
-    return specBackground || (this._currentChartLevelTheme.background as string) || this._option.background;
+    return specBackground || (this._currentTheme.background as string) || this._option.background;
   }
 
   /**

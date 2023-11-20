@@ -2,11 +2,11 @@
 
 VChart 实例上提供了事件监听相关的方法，开发者可以通过监听事件来满足业务需求。VChart 上提供的事件除了基础的 dom 事件外，还包含了组件交互事件、生命周期事件等。
 
-本教程将通过两个示例介绍事件的使用，更多详细信息请查阅[事件 API](../../../api/API/event)。
+本教程将通过两个示例介绍事件的使用，更多详细信息请查阅[事件 API](/vchart/api/API/event)。
 
 ## 如何监听图元上的鼠标事件
 
-VChart 支持常规的鼠标、指针等事件类型，支持的所有事件在 [events API 文档](../../../api/API/event)中均有描述。
+VChart 支持常规的鼠标、指针等事件类型，支持的所有事件在 [events API 文档](/vchart/api/API/event)中均有描述。
 
 下面的示例通过监听柱图上 bar 图元的 `click` 事件现了点击柱子后打开相应的百度搜索页面的交互。
 
@@ -40,7 +40,7 @@ vchart.on('click', { level: 'mark', type: 'bar' }, e => {
 
 ## 如何监听组件交互事件
 
-在 VChart 中，几乎所有的组件交互行为都会触发相应的事件。所有的组件交互事件及其参数在 [events API 文档](../../../api/API/event) 中均有描述。
+在 VChart 中，几乎所有的组件交互行为都会触发相应的事件。所有的组件交互事件及其参数在 [events API 文档](/vchart/api/API/event) 中均有描述。
 
 如下是一个监听鼠标 hover 到图例项时触发的 `'legendItemHover'` 事件：
 

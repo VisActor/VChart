@@ -1,3 +1,4 @@
+import { pickWithout } from '@visactor/vutils';
 import type { IBackgroundSpec, IBackgroundStyleSpec } from '../../typings';
 
 export function convertBackgroundSpec(
@@ -15,7 +16,7 @@ export function convertBackgroundSpec(
   if (typeof bg !== 'object') {
     return null;
   }
-  const { x, y, width, height, x1, y1, image, ...rest } = bg;
-  rest.background = image;
-  return rest;
+  const result = pickWithout(bg, ['x', 'y', 'width', 'height', 'x1', 'y1', 'image']);
+  result.background = bg.image;
+  return result;
 }

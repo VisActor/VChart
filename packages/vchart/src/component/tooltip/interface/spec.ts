@@ -37,7 +37,7 @@ export interface ITooltipSpec
   /**
    * tooltip样式
    */
-  style?: Omit<ITooltipTheme, 'offset'>;
+  style?: Omit<ITooltipTheme<string>, 'offset'>;
 
   /**
    * 自定义handler方法

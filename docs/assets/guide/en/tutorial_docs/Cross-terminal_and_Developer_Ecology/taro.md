@@ -163,7 +163,7 @@ Examples of using the chart component are as follows:
 | spec          | Object   | Yes            | Chart configuration items, please refer to [VChart configuration items](../../../option)                                                                                                                                          |
 | style         | Object   | No             | Chart container style                                                                                                                                                                                                             |
 | events        | Object[] | No             | Event binding configuration                                                                                                                                                                                                       |
-| options       | Object   | No             | Additional configuration items passed in to initialize the VChart instance, the same as [VChart instantiation configuration items](../../../api/API/vchart#options)                                                               |
+| options       | Object   | No             | Additional configuration items passed in to initialize the VChart instance, the same as [VChart instantiation configuration items](/vchart/api/API/vchart#options)                                                               |
 | onChartInit   | Function | No             | Callback triggered after chart initialization                                                                                                                                                                                     |
 | onChartReady  | Function | No             | Callback triggered after the chart is rendered                                                                                                                                                                                    |
 | onChartUpdate | Function | No             | Callback triggered after the chart is updated                                                                                                                                                                                     |
@@ -188,7 +188,7 @@ In addition, users can also use the rendering interface provided by the VChart i
 
 - `chartInstance.updateData()` updates the chart based on data
 
-For detailed usage, please refer to: [VChart API](../../../api/API)
+For detailed usage, please refer to: [VChart API](/vchart/api/API)
 
 #### Example
 

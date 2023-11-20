@@ -113,7 +113,11 @@ export interface ICommonSpec {
   x?: number;
   y?: number;
   z?: number;
-  stroke?: string | IGradient | IColorKey | false | (number | boolean)[];
+  /**
+   * @todo 隔离主题和 spec 配置
+   * IColorKey 类型只适用于主题
+   */
+  stroke?: string | IGradient | false | (number | boolean)[] | IColorKey;
   strokeOpacity?: number;
   opacity?: number;
   lineWidth?: number;
@@ -177,6 +181,10 @@ export interface ICommonSpec {
 }
 
 export interface IFillMarkSpec extends ICommonSpec {
+  /**
+   * @todo 隔离主题和 spec 配置
+   * IColorKey 类型只适用于主题
+   */
   fill?: VisualType<string> | IGradient | false | IColorKey;
   fillOpacity?: number;
   // TODO：waite VRender support this api
