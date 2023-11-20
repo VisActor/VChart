@@ -4,7 +4,7 @@ import { GlobalScale } from '../../../src/scale/global-scale';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { IWordCloudChartSpec } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
-import { default as VChart } from '../../../src';
+import { ThemeManager, default as VChart } from '../../../src';
 import { DataSet, csvParser } from '@visactor/vdataset';
 import { WordCloudChart } from '../../../src/chart/word-cloud/word-cloud';
 import type { WordCloudSeries } from '../../../src/series/word-cloud/word-cloud';
@@ -73,7 +73,8 @@ describe('wordCloud chart test', () => {
       container: null,
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
-      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any)
+      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+      getTheme: () => ThemeManager.getCurrentTheme()
     } as any);
     chart.created();
     chart.init();
@@ -95,7 +96,7 @@ describe('wordCloud chart test', () => {
     expect(trigger.hover).toEqual({
       enable: true,
       trigger: 'pointermove',
-      triggerOff: ['pointermove', 'pointerleave']
+      triggerOff: 'pointerleave'
     });
     expect(trigger.select).toEqual({
       enable: true,

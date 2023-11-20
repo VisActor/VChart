@@ -10,6 +10,7 @@ export declare class DimensionEvent implements IComposedEvent {
     protected _callback: (params: BaseEventParams) => void;
     protected _chart: Maybe<IChart>;
     constructor(eventDispatcher: IEventDispatcher, mode: RenderMode);
+    private get chart();
     register<Evt extends string>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>): void;
     unregister(): void;
     protected getTargetDimensionInfo(x: number, y: number): IDimensionInfo[] | null;

@@ -30,13 +30,13 @@
     "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.6.4",
-    "@visactor/vutils": "~0.16.9",
-    "@visactor/vdataset": "~0.16.9",
-    "@visactor/vrender-core": "~0.16.15",
-    "@visactor/vrender-kits": "~0.16.15",
-    "@visactor/vrender-components": "~0.16.15",
-    "@visactor/vscale": "~0.16.9",
+    "@visactor/vchart": "workspace:1.6.6",
+    "@visactor/vutils": "~0.16.10",
+    "@visactor/vdataset": "~0.16.10",
+    "@visactor/vrender-core": "~0.16.16",
+    "@visactor/vrender-kits": "~0.16.16",
+    "@visactor/vrender-components": "~0.16.16",
+    "@visactor/vscale": "~0.16.10",
     "uuid": "~9.0.1"
   },
   "devDependencies": {

@@ -38,7 +38,7 @@ export declare class Compiler {
     clear(ctx: {
         chart: IChart;
         vChart: VChart;
-    }): void;
+    }, removeGraphicItems?: boolean): void;
     renderAsync(morphConfig?: IMorphConfig): Promise<any>;
     renderSync(morphConfig?: IMorphConfig): void;
     updateViewBox(viewBox: IBoundsLike, reRender?: boolean): void;
@@ -50,7 +50,7 @@ export declare class Compiler {
     removeEventListener(source: EventSourceType, type: string, callback: (params: CompilerListenerParameters) => void): void;
     protected releaseEvent(): void;
     release(): void;
-    releaseGrammar(): void;
+    releaseGrammar(removeGraphicItems?: boolean): void;
     protected _releaseModel(): void;
     addGrammarItem(grammarItem: IGrammarItem): void;
     removeGrammarItem(grammarItem: IGrammarItem, reserveVGrammarModel?: boolean): void;

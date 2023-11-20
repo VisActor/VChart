@@ -3,13 +3,15 @@ import {
   chartAdvisorGPT,
   dataProcessVChart,
   dataProcessGPT,
-  estimateVideoTime
+  estimateVideoTime,
+  getSchemaFromFieldInfo
 } from '../chart-generation/NLToChartPipe';
 import { SUPPORTED_CHART_LIST } from '../chart-generation/constants';
 import { GPTDataProcessResult, IGPTOptions, TimeType } from '../typings';
 import { patchUserInput } from '../chart-generation/utils';
-import { vizDataToSpec } from '../chart-generation/vizDataToSpec';
+import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from '../chart-generation/vizDataToSpec';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
+import { chartAdvisorHandler } from '../chart-generation/chartAdvisorHandler';
 
 class VMind {
   private _OPENAI_KEY: string | undefined = undefined;
@@ -25,25 +27,9 @@ class VMind {
     this._OPENAI_KEY = key;
   }
 
-  // Load ffmpeg outside of vmind.
-  // async initFFMPEG() {
-  //   this._FFMPEG = createFFmpeg({ log: true });
-  //   await this.loadFFmpeg();
-  // }
-  // async loadFFmpeg() {
-  //   if (!this._FFMPEG) {
-  //     this._FFMPEG = createFFmpeg({ log: true });
-  //   }
-  //   await this._FFMPEG.load();
-  //   this._FFMPEG_Loaded = true;
-  // }
-
   async generateChart(csvFile: string, userInput: string) {
     const dataView = dataProcessVChart(csvFile);
     const userInputFinal = patchUserInput(userInput);
-    //if (!this._OPENAI_KEY) {
-    //  throw Error('OpenAI Key Unset!')
-    //}
 
     const dataProcessResJson: GPTDataProcessResult = await dataProcessGPT(
       csvFile,
@@ -51,36 +37,44 @@ class VMind {
       this._OPENAI_KEY,
       this._options
     );
-    const resJson: any = await chartAdvisorGPT(dataProcessResJson, userInput, this._OPENAI_KEY, this._options);
-    if (resJson.error) {
-      throw Error('Network Error!');
+    const schema = getSchemaFromFieldInfo(dataProcessResJson);
+
+    const colors = dataProcessResJson.COLOR_PALETTE;
+    const parsedTime = dataProcessResJson.VIDEO_DURATION;
+    let chartType;
+    let cell;
+    let dataset = dataView.latestData;
+    try {
+      // throw 'test chartAdvisorHandler';
+      const resJson: any = await chartAdvisorGPT(
+        schema,
+        dataProcessResJson,
+        userInput,
+        this._OPENAI_KEY,
+        this._options
+      );
+
+      const chartTypeRes = resJson['CHART_TYPE'].toUpperCase();
+      const cellRes = resJson['FIELD_MAP'];
+      const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset);
+      if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
+        chartType = patchResult.chartTypeNew;
+        cell = patchResult.cellNew;
+      }
+    } catch (err) {
+      console.warn(err);
+      console.warn('LLM generation error, use rule generation.');
+      const advisorResult = chartAdvisorHandler(schema, dataset);
+      chartType = advisorResult.chartType;
+      cell = advisorResult.cell;
+      dataset = advisorResult.dataset;
     }
-    if (!SUPPORTED_CHART_LIST.includes(resJson['CHART_TYPE'])) {
-      throw Error('Unsupported Chart Type. Please Change User Input');
-      //return {
-      //  spec: undefined,
-      //  time: {
-      //    totalTime: DEFAULT_VIDEO_LENGTH,
-      //    frameArr: [],
-      //  }
-      //}
-    }
-    const chartType = resJson['CHART_TYPE'].toUpperCase();
-    const cell = resJson['FIELD_MAP'];
-    const colors = resJson['COLOR_PALETTE'];
-    const parsedTime = resJson['VIDEO_DURATION'];
-    const { spec, chartTypeNew } = vizDataToSpec(
-      dataView,
-      chartType,
-      cell,
-      colors,
-      parsedTime ? parsedTime * 1000 : undefined
-    );
+    const spec = vizDataToSpec(dataset, chartType, cell, colors, parsedTime ? parsedTime * 1000 : undefined);
     spec.background = '#00000033';
-    console.log(spec);
+    console.info(spec);
     return {
       spec,
-      time: estimateVideoTime(chartTypeNew, spec, parsedTime ? parsedTime * 1000 : undefined)
+      time: estimateVideoTime(chartType, spec, parsedTime ? parsedTime * 1000 : undefined)
     };
   }
 

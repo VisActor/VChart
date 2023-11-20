@@ -163,10 +163,10 @@ export class Compiler {
     this.updateDepend();
   }
 
-  clear(ctx: { chart: IChart; vChart: VChart }, clearGraphic: boolean = false) {
+  clear(ctx: { chart: IChart; vChart: VChart }, removeGraphicItems: boolean = false) {
     const { chart } = ctx;
     chart.clear();
-    this.releaseGrammar(clearGraphic);
+    this.releaseGrammar(removeGraphicItems);
   }
 
   async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
@@ -349,16 +349,15 @@ export class Compiler {
     this.isReleased = true;
   }
 
-  releaseGrammar(clearGraphic: boolean = false) {
+  /**
+   * 释放VGrammar
+   * @param removeGraphicItems 是否删除场景元素，在同步渲染，并且无动画时，必须设置为true，否则有绘图残留
+   */
+  releaseGrammar(removeGraphicItems: boolean = false) {
     this._releaseModel();
-    // TODO vgrammar 后续会提供正式的api
-    // if (clearGraphic) {
-    //   this._view?.traverseMarkTree((mark: IMark) => {
-    //     if (mark.graphicItem && mark.graphicItem.parent) {
-    //       mark.graphicItem.parent.removeChild(mark.graphicItem);
-    //     }
-    //   });
-    // }
+    if (removeGraphicItems) {
+      this._view?.removeAllGraphicItems();
+    }
     this._view?.removeAllGrammars();
     // this._view = null;
   }

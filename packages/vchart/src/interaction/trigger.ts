@@ -133,6 +133,8 @@ export class Trigger implements ITrigger {
   private onHover = (params: BaseEventParams) => {
     if (this.filterEventMark(params)) {
       this.hoverItem(params);
+    } else {
+      this.unhoverItem();
     }
   };
 

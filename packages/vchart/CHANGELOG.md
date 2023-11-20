@@ -1,6 +1,26 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 16 Nov 2023 06:35:43 GMT and should not be manually modified.
+This log was last generated on Fri, 17 Nov 2023 09:42:57 GMT and should not be manually modified.
+
+## 1.6.6
+Fri, 17 Nov 2023 09:42:57 GMT
+
+### Updates
+
+- fix: fix chart screen remains when using updateSpecSync, details in #1421
+
+
+- fix: is mouse click in empty region, the hover shape should reset, fixed #1538
+
+## 1.6.5
+Fri, 17 Nov 2023 05:56:10 GMT
+
+### Updates
+
+- fix: dimension click not effect after update spec. fix #1532
+- feat: add `skipFunctionDiff` in react-vchart to skip difference of functions
+
+
 
 ## 1.6.4
 Thu, 16 Nov 2023 06:35:43 GMT

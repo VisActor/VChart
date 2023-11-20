@@ -469,16 +469,17 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   protected updateSeriesScale() {
+    const orient = this.getOrient();
     eachSeries(
       this._regions,
       s => {
-        if (isXAxis(this.getOrient())) {
+        if (isXAxis(orient)) {
           (s as ICartesianSeries).setScaleX(this._scale);
           (s as ICartesianSeries).setXAxisHelper(this.axisHelper());
-        } else if (isYAxis(this.getOrient())) {
+        } else if (isYAxis(orient)) {
           (s as ICartesianSeries).setScaleY(this._scale);
           (s as ICartesianSeries).setYAxisHelper(this.axisHelper());
-        } else if (isZAxis(this.getOrient())) {
+        } else if (isZAxis(orient)) {
           (s as ICartesianSeries).setScaleZ(this._scale);
           (s as ICartesianSeries).setZAxisHelper(this.axisHelper());
         }
