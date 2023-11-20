@@ -151,39 +151,45 @@ export class LayoutEditorElement extends BaseEditorElement {
     const chart = this._chart;
     // get new rect after layout
     const rect = this._getRectAfterLayout(model as IChartModel, layoutData);
-    // update layoutData
-    chart.layout.setModelLayoutData({
-      id: layoutMeta.id,
-      specKey: layoutMeta.specKey,
-      specIndex: layoutMeta.specIndex,
-      layout: {
-        x: { offset: rect.x as number },
-        y: { offset: rect.y as number },
-        width: { offset: rect.width as number },
-        height: { offset: rect.height as number }
-      }
-    });
-    if (model.type === 'region' && (<any>model).coordinate === 'cartesian') {
-      const regions = chart.vchart.getChart().getAllRegions() as any[];
-      const items = regions.concat(chart.vchart.getChart().getAllComponents() as any[]);
-      const axes = items.filter(
-        (_i: IChartModel) => (<any>_i)._regions && (<any>_i)._regions[0] === model && _i.type.includes('Axis')
-      );
-      axes.forEach((_a: IChartModel) => {
-        chart.layout.setModelLayoutData({
-          id: _a.userId,
-          specKey: _a.specKey,
-          specIndex: _a.getSpecIndex(),
-          layout: getAxisLayoutInRegionRect(_a.layout, { ..._a.getLayoutRect(), ...layoutData })
-        });
+
+    if (rect) {
+      // update layoutData
+      chart.layout.setModelLayoutData({
+        id: layoutMeta.id,
+        specKey: layoutMeta.specKey,
+        specIndex: layoutMeta.specIndex,
+        layout: {
+          x: { offset: rect.x as number },
+          y: { offset: rect.y as number },
+          width: { offset: rect.width as number },
+          height: { offset: rect.height as number }
+        }
       });
+      if (model.type === 'region' && (<any>model).coordinate === 'cartesian') {
+        const regions = chart.vchart.getChart().getAllRegions() as any[];
+        const items = regions.concat(chart.vchart.getChart().getAllComponents() as any[]);
+        const axes = items.filter(
+          (_i: IChartModel) => (<any>_i)._regions && (<any>_i)._regions[0] === model && _i.type.includes('Axis')
+        );
+        axes.forEach((_a: IChartModel) => {
+          chart.layout.setModelLayoutData({
+            id: _a.userId,
+            specKey: _a.specKey,
+            specIndex: _a.getSpecIndex(),
+            layout: getAxisLayoutInRegionRect(_a.layout, { ..._a.getLayoutRect(), ...layoutData })
+          });
+        });
+      }
+      // 更新当前编辑元素的bounds
+      this._updateLayoutComponent(model as IChartModel, rect, info, layoutData);
+      chart.vchart.getChart().setLayoutTag(true);
     }
-    // 更新当前编辑元素的bounds
-    this._updateLayoutComponent(model as IChartModel, rect, info, layoutData);
-    chart.vchart.getChart().setLayoutTag(true);
   }
 
   private _getRectAfterLayout(model: IChartModel, layoutData: ILayoutAttribute) {
+    if (!model) {
+      return;
+    }
     let rect: IRect;
     if (model.layout) {
       if ((<IChartModel>model)._clearLayoutCache) {
