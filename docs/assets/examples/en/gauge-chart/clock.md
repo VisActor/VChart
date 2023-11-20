@@ -25,7 +25,7 @@ const getClockData = () => {
 };
 
 const formatDate = date => {
-  let m = date.getMonth();
+  const m = date.getMonth();
   let d = date.getDate();
   d = d < 10 ? '0' + d : d;
   const mString = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
@@ -67,6 +67,15 @@ const getGalaxyData = time => {
   ];
 };
 
+const palette = {
+  darkest: '#383e65',
+  dark: '#6287f8',
+  light: '#73fffe',
+  lighter: '#ff6e27',
+  lightest: '#fbf665',
+  axisLabel: '#ccc'
+};
+
 const spec = {
   type: 'common',
   width: 500,
@@ -74,16 +83,7 @@ const spec = {
   background: 'black',
   theme: {
     colorScheme: {
-      default: {
-        palette: {
-          darkest: '#383e65',
-          dark: '#6287f8',
-          light: '#73fffe',
-          lighter: '#ff6e27',
-          lightest: '#fbf665',
-          axisLabel: '#ccc'
-        }
-      }
+      default: palette
     }
   },
   data: [
@@ -128,11 +128,7 @@ const spec = {
   ],
   startAngle: -90,
   endAngle: 270,
-  color: [
-    { type: 'palette', key: 'lighter' },
-    { type: 'palette', key: 'light' },
-    { type: 'palette', key: 'dark' }
-  ],
+  color: [palette.lighter, palette.light, palette.dark],
   series: [
     {
       type: 'radar',
@@ -209,7 +205,7 @@ const spec = {
         height: 0.88,
         center: [0.5, 0.25],
         style: {
-          fill: { type: 'palette', key: 'lightest' },
+          fill: palette.lightest,
           cornerRadius: 100
         }
       },
@@ -217,7 +213,7 @@ const spec = {
         width: 0.13,
         height: 0.13,
         style: {
-          fill: { type: 'palette', key: 'dark' },
+          fill: palette.dark,
           lineWidth: 0,
           fillOpacity: 0.5
         }
@@ -226,7 +222,7 @@ const spec = {
         width: 0.16,
         height: 0.16,
         style: {
-          fill: { type: 'palette', key: 'darkest' }
+          fill: palette.darkest
         }
       },
       animationAppear: false,
@@ -255,7 +251,7 @@ const spec = {
         style: {
           fontSize: 24,
           fontFamily: 'Times New Roman',
-          fill: { type: 'palette', key: 'axisLabel' },
+          fill: palette.axisLabel,
           text: ({ value }) => {
             if (!value) {
               return;
@@ -283,7 +279,7 @@ const spec = {
         style: {
           lineDash: [],
           lineWidth: 18,
-          stroke: { type: 'palette', key: 'darkest' },
+          stroke: palette.darkest,
           opacity: 0.65
         }
       },
@@ -363,7 +359,7 @@ vchart.renderAsync().then(() => {
   setInterval(update, 50);
 });
 
-// Just for the convenience of console debugging, do not copy
+// Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
 

@@ -1,5 +1,4 @@
 import type { IModelOption } from '../../model/interface';
-import { getThemeFromOption } from '../../theme/util';
 import { getOrient } from '../axis/cartesian/util/common';
 import { getCartesianAxisTheme, getPolarAxisTheme } from '../axis/util';
 import { getCartesianCrosshairTheme, getPolarCrosshairTheme } from '../crosshair/util';
@@ -37,7 +36,7 @@ export function getComponentThemeFromGlobalTheme(
       return getPolarCrosshairTheme(option, chart);
     case ComponentTypeEnum.colorLegend:
     case ComponentTypeEnum.sizeLegend:
-      return getThemeFromOption(`component.${type}.${getLayout(componentSpec)}`, option);
+      return getComponentThemeFromOption(`${type}.${getLayout(componentSpec)}`, option);
     default:
       return getComponentThemeFromOption(type, option);
   }

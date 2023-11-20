@@ -4,6 +4,7 @@
 
 import { VChart } from './vchart';
 import { Factory } from './factory';
+import { darkTheme, registerTheme } from '../theme/builtin';
 
 export { VChart, Factory };
 
@@ -25,6 +26,6 @@ export * from '../typings/spec/index';
 
 // theme
 export * from '../theme/index';
-
+registerTheme(darkTheme.name, darkTheme);
 // vrender
 export { vglobal } from '@visactor/vrender-core';

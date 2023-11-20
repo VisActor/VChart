@@ -1,27 +1,31 @@
 export * from './light';
+export * from './dark';
 /** 历史弃用主题 */
 export * from './common/legacy';
 
 import { isString } from '@visactor/vutils';
-import type { IChartLevelTheme } from '../../core/interface';
 import { mergeTheme } from '../../util/spec/merge-theme';
-import { getActualColor } from '../color-scheme/util';
 import type { ITheme } from '../interface';
-import { darkTheme } from './dark';
 import { lightTheme } from './light';
+// import { darkTheme } from './dark';
+import { preprocessTheme } from '../../util/spec/preprocess';
 
-/** 声明内置主题 */
+/** 声明内置主题(含 token 未转换) */
 export const builtinThemes: Record<string, ITheme> = {
-  [lightTheme.name]: lightTheme,
-  [darkTheme.name]: darkTheme
+  [lightTheme.name]: lightTheme
+  // [darkTheme.name]: darkTheme
 };
+/** 默认主题名称 */
+export const defaultThemeName = lightTheme.name;
 
-/** 获取默认主题 */
-export const getDefaultThemeName = (type?: ITheme['type']) => (type === 'dark' ? darkTheme.name : lightTheme.name);
-export const defaultThemeName = getDefaultThemeName();
-
-/** 全局主题 map (包含用户新注册的主题) */
+/** 全局主题 map (包含用户新注册的主题)(含 token 未转换) */
 export const themes: Map<string, ITheme> = new Map(Object.keys(builtinThemes).map(key => [key, builtinThemes[key]]));
+
+/** 全局已将 token 转换的主题 map (包含用户新注册的主题) */
+const transformedThemes: Map<string, ITheme> = new Map(
+  Object.keys(builtinThemes).map(key => [key, preprocessTheme(builtinThemes[key], builtinThemes[key].colorScheme)])
+);
+
 /** 主题 map 中的元素是否 merge 过默认主题 (非默认主题的其他内置主题没有 merge 过默认主题) */
 export const hasThemeMerged: Map<string, boolean> = new Map(
   Object.keys(builtinThemes).map(key => [key, key === defaultThemeName])
@@ -33,22 +37,33 @@ export const registerTheme = (name: string, theme: Partial<ITheme>) => {
     return;
   }
   // 所有主题基于默认主题扩展，保证基础值
-  themes.set(name, getMergedTheme(theme));
+  const mergedTheme = getMergedTheme(theme);
+  themes.set(name, mergedTheme);
+  transformedThemes.set(name, preprocessTheme(mergedTheme, mergedTheme.colorScheme));
   hasThemeMerged.set(name, true);
 };
-
-/** 获取注册过的主题 */
-export const getTheme = (name: string) => {
+/**
+ * 获取注册过的主题
+ * @param name 主题名称
+ * @param transformed 是否获取 token 转换后的主题
+ * @returns 返回主题
+ */
+export const getTheme = (name: string = defaultThemeName, transformed: boolean = false) => {
   if (hasThemeMerged.has(name) && !hasThemeMerged.get(name)) {
     // 重新 merge 默认主题
     registerTheme(name, themes.get(name));
   }
-  return themes.get(name) || themes.get(defaultThemeName);
+
+  if (transformed) {
+    return transformedThemes.get(name);
+  }
+
+  return themes.get(name);
 };
 
 /** 删除主题 */
 export const removeTheme = (name: string): boolean => {
-  return themes.delete(name) && hasThemeMerged.delete(name);
+  return themes.delete(name) && transformedThemes.delete(name) && hasThemeMerged.delete(name);
 };
 
 /** 主题是否存在 */
@@ -61,13 +76,6 @@ export const themeExist = (name: any) => {
 
 /** 使新主题基于默认主题扩展，保证基础值 */
 export const getMergedTheme = (theme: Partial<ITheme>): ITheme => {
-  const baseThemeName = getDefaultThemeName(theme.type);
-  const baseTheme = getTheme(baseThemeName);
+  const baseTheme = getTheme(defaultThemeName);
   return mergeTheme({}, baseTheme, theme);
-};
-
-export const defaultChartLevelTheme: IChartLevelTheme = {
-  background: getActualColor(builtinThemes[defaultThemeName].background, builtinThemes[defaultThemeName].colorScheme),
-  fontFamily: builtinThemes[defaultThemeName].fontFamily,
-  colorScheme: builtinThemes[defaultThemeName].colorScheme
 };
