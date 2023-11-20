@@ -27,6 +27,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     vchart.on('pointermove', { level: 'model', type: this.type }, this._onHover);
     vchart.on('pointerdown', { level: 'model', type: this.type }, this._onDown);
     vchart.on('pointerup', { level: 'model', type: this.type }, this._onUp);
+    vchart.on('pointerleave', { level: 'model', type: this.type }, this._onLeave);
   }
 
   private _checkEventEnable(e: EventParams) {
@@ -73,6 +74,14 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     this._handlePointerUp(e);
   };
 
+  protected _onLeave = (e: EventParams) => {
+    if (!this._checkEventEnable(e)) {
+      return;
+    }
+    // 恢复 cursor
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
+  };
+
   protected _getEditorElement(eventParams: EventParams): IEditorElement {
     const model = eventParams.model;
     const markerBounds = (this._element as unknown as IGroup).AABBBounds;
@@ -94,7 +103,6 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
         if (reRender) {
           this.chart.reRenderWithUpdateSpec();
         }
-
         return false;
       }
     });
@@ -166,7 +174,15 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       }
     });
     this._chart.reRenderWithUpdateSpec();
-    // TODO: 需要在这里对当前的编辑元素更新位置属性。外部ui需要使用编辑元素上的最新位置弹出编辑浮窗
+
+    const markerBounds = (this._element as unknown as IGroup).AABBBounds;
+    this._currentEl.updateRect({
+      x: markerBounds.x1,
+      y: markerBounds.y1,
+      width: markerBounds.width(),
+      height: markerBounds.height()
+    });
+
     this._controller.editorEnd();
   }
 
