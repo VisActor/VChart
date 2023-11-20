@@ -538,7 +538,11 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     },
     endSymbol: {
       size: 12,
-      refX: -6
+      refX: -4
+    },
+    startSymbol: {
+      size: 12,
+      refX: -4
     }
   };
 }
