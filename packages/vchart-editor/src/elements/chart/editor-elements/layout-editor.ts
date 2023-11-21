@@ -19,6 +19,7 @@ import { isSameModelInfo } from '../../../utils/spec';
 import type { VRenderPointerEvent } from '../../interface';
 import type { VChart } from '@visactor/vchart';
 import { refreshModelInVChart } from '../utils/common';
+import { LayoutRectToRect } from '../../../utils/space';
 
 const CartesianAxisResize = {
   left: [false, false, false, true, false, false, false, false],
@@ -132,12 +133,12 @@ export class LayoutEditorElement extends BaseEditorElement {
         this._chart.specProcess.saveSnapshot();
         this._updateLayout(info, data);
         this._controller.setOverGraphic(null, null, null);
-        this._controller.editorEnd();
         this._chart.specProcess.pushHistory();
         // enable over
         this._chart.option.getAllLayers().forEach(l => {
           l.elements.forEach(e => (e.overAble = true));
         });
+        this._controller.editorEnd();
       },
       event: e
     });
@@ -185,6 +186,9 @@ export class LayoutEditorElement extends BaseEditorElement {
 
   private _getRectAfterLayout(model: IChartModel, layoutData: ILayoutAttribute) {
     let rect: IRect;
+    if (model.type === 'region') {
+      return layoutData;
+    }
     if (model.layout) {
       if ((<IChartModel>model)._clearLayoutCache) {
         (<IChartModel>model)._clearLayoutCache();
@@ -304,12 +308,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       const model = refreshModelInVChart(this._currentEl.model, this._chart.vchart as VChart) as any;
       const region = model._regions[0];
       const rect = getAxisLayoutInRegionRect(model, { ...region.getLayoutStartPoint(), ...region.getLayoutRect() });
-      this._layoutComponent.updateBounds({
-        x1: rect.x.offset,
-        y1: rect.y.offset,
-        x2: rect.x.offset + rect.width.offset,
-        y2: rect.y.offset + rect.height.offset
-      });
+
       // update layout data
       this._chart.layout.setModelLayoutData({
         id: model.userId,
@@ -320,6 +319,14 @@ export class LayoutEditorElement extends BaseEditorElement {
       if (!model.getVisible()) {
         // 删除当前编辑框
         this.clearLayoutEditorBox();
+      } else {
+        const viewRect = transformModelRect(model, LayoutRectToRect(rect));
+        this._layoutComponent.updateBounds({
+          x1: viewRect.x,
+          y1: viewRect.y,
+          x2: viewRect.x + viewRect.width,
+          y2: viewRect.y + viewRect.height
+        });
       }
       this._chart.vchart.getChart().setLayoutTag(true);
       this._chart.vchart.renderSync();

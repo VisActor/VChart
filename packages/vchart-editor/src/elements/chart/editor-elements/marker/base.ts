@@ -95,6 +95,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
           this.chart.reRenderWithUpdateSpec();
         }
 
+        this._controller.editorEnd();
         return false;
       }
     });

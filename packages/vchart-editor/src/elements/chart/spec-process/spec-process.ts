@@ -243,7 +243,6 @@ export class SpecProcess implements ISpecProcess {
     }
 
     this._mergeEditorSpec();
-    this._controller.editorEnd();
     if (triggerHistory) {
       this.pushHistory();
     }
