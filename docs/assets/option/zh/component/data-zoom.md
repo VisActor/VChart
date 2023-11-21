@@ -220,6 +220,14 @@
   prefix = '#####'
 ) }}
 
+### ignoreBandSize(boolean)
+
+是否忽略轴上配置的固定 bandSize。自 1.7.0 版本开始支持。
+
+如果置为 true，则 datazoom 可以任意改变轴的 bandSize。但如果轴上配置了 bandSize 范围，则第一次渲染会保持 bandSize 在配置范围内。
+
+该配置仅在 `auto` 设为 true 时生效。
+
 {{ use: component-data-filter-base(
   prefix = '##'
 ) }}

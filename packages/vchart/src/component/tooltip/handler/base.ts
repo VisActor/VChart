@@ -14,7 +14,6 @@ import type {
   ITooltipHandler,
   ITooltipPattern,
   ITooltipPositionActual,
-  TooltipPosition,
   ITooltipPositionPattern
 } from '../../../typings/tooltip';
 // eslint-disable-next-line no-duplicate-imports
@@ -34,14 +33,12 @@ import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNumber, isObject, isValidNumber, isValid, throttle, isNil } from '@visactor/vutils';
 import type { IElement } from '@visactor/vgrammar-core';
-import type { IModel } from '../../../model/interface';
+import type { ILayoutModel, IModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-components';
 import { getTooltipAttributes } from './utils/attribute';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { IChartOption } from '../../../chart/interface';
-import type { IChartLevelTheme } from '../../../core/interface';
-import { defaultChartLevelTheme } from '../../../theme/builtin';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -435,7 +432,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       const element = params.item as IElement;
       const model = params.model as IModel;
       const bounds = element?.getBounds() as AABBBounds;
-      const startPoint = model?.getLayoutStartPoint();
+      const startPoint = (<ILayoutModel>(<unknown>model))?.getLayoutStartPoint();
       if (bounds && startPoint) {
         let { x1, y1, x2, y2 } = bounds;
         x1 += startPoint.x;
@@ -656,12 +653,8 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   // 计算 tooltip 内容区域的宽高，并缓存结果
   protected _getTooltipBoxSize(actualTooltip: IToolTipActual, changePositionOnly: boolean): IContainerSize | undefined {
     if (!changePositionOnly || isNil(this._attributes)) {
-      const { chartLevelTheme = defaultChartLevelTheme } = this._chartOption.getThemeConfig?.() ?? {};
-      this._attributes = getTooltipAttributes(
-        actualTooltip,
-        this._component.getSpec(),
-        chartLevelTheme as IChartLevelTheme
-      );
+      const chartTheme = this._chartOption?.getTheme() ?? {};
+      this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), chartTheme);
     }
     return {
       width: this._attributes?.panel?.width,

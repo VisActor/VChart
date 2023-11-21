@@ -154,7 +154,7 @@ export const measureTooltipText = (text: string, style: ITooltipTextStyle): IToo
         ({
           ...style,
           text: line
-        }) as unknown as IRichTextParagraphCharacter
+        } as unknown as IRichTextParagraphCharacter)
     )
   });
   return {

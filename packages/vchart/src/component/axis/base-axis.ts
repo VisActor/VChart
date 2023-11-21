@@ -36,6 +36,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   implements IAxis
 {
   static specKey = 'axes';
+  specKey = 'axes';
 
   protected _orient: IPolarOrientType | IOrientType;
   getOrient() {
@@ -57,11 +58,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected _tickData!: CompilableData;
   getTickData() {
     return this._tickData;
-  }
-
-  protected _statisticsDomain: StatisticsDomain = { domain: [], index: {} };
-  getStatisticsDomain() {
-    return this._statisticsDomain;
   }
 
   // 与系列的关联关系
@@ -95,9 +91,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected _gridMark: IComponentMark;
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this._visible = spec.visible ?? true;
   }
 
@@ -114,8 +108,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // scales
     this.initScales();
     this.updateSeriesScale();
-    // data
-    this._initData();
+    // data，当且仅当轴展示的时候处理
+    this.getVisible() && this._initData();
 
     if (this._visible) {
       // 创建语法元素
@@ -123,7 +117,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         { type: 'component', name: `axis-${this.getOrient()}` },
         {
           componentType: this.getOrient() === 'angle' ? 'circleAxis' : 'axis',
-          mode: this._spec.mode
+          mode: this._spec.mode,
+          noSeparateStyle: true,
+          skipTheme: true // skip theme of vgrammar to avoid merge
         }
       );
       this._axisMark = axisMark;
@@ -138,7 +134,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           { type: 'component', name: `axis-${this.getOrient()}-grid` },
           {
             componentType: this.getOrient() === 'angle' ? GridEnum.circleAxisGrid : GridEnum.lineAxisGrid,
-            mode: this._spec.mode
+            mode: this._spec.mode,
+            noSeparateStyle: true,
+            skipTheme: true
           }
         );
         gridMark.setZIndex(this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid);
@@ -213,7 +211,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     isValid(regionIndex) && (this._regionIndex = array(regionIndex));
     this._regions = this._option.getRegionsInUserIdOrIndex(this._regionUserId as string[], this._regionIndex);
     // _regions 被更新了，layoutBindRegionID 也要更新
-    this.layoutBindRegionID = this._regions.map(x => x.id);
+    this.layout.layoutBindRegionID = this._regions.map(x => x.id);
   }
 
   getBindSeriesFilter() {
@@ -222,32 +220,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       specIndex: this._seriesIndex
     };
   }
-
-  protected computeStatisticsDomain = () => {
-    const data: { min: number; max: number; values: any[] }[] = [];
-    eachSeries(
-      this._regions,
-      s => {
-        const vd = s.getViewDataStatistics?.();
-        vd &&
-          this.getSeriesStatisticsField(s as ISeries).forEach(f => {
-            vd.latestData?.[f] && data.push(vd.latestData[f]);
-          });
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
-
-    this._statisticsDomain.domain = this.computeDomain(data);
-    if (!isContinuous(this._scale.type)) {
-      this._statisticsDomain.index = {};
-      for (let i = 0; i < this._statisticsDomain.domain.length; i++) {
-        this._statisticsDomain.index[this._statisticsDomain.domain[i]] = i;
-      }
-    }
-  };
 
   protected initEvent() {
     this.event.on(
@@ -261,9 +233,16 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     })
       .map(s => s.getViewDataStatistics())
       .filter(v => !!v);
-    this._option.dataSet.multipleDataViewAddListener(viewStatistics, 'change', () => {
-      this.updateScaleDomain();
-    });
+
+    if (viewStatistics.length > 1) {
+      this._option.dataSet.multipleDataViewAddListener(viewStatistics, 'change', () => {
+        this.updateScaleDomain();
+      });
+    } else if (viewStatistics.length === 1) {
+      viewStatistics[0].target.addListener('change', () => {
+        this.updateScaleDomain();
+      });
+    }
   }
 
   protected updateScaleDomain() {
@@ -271,7 +250,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
-    if (updateType === 'force' || !isEqual(this._scale.range(), [0, 1])) {
+    if (this._tickData && (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))) {
       this._tickData.getDataView().reRunAllTransform();
       this._tickData.updateData();
     }
@@ -363,12 +342,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       label: {
         style: isFunction(spec.label.style)
           ? (datum: Datum, index: number, data: Datum[], layer?: number) => {
-              const style = this._prepareSpecAfterMergingTheme(
-                spec.label.style(datum.rawValue, index, datum, data, layer)
-              );
-              return transformToGraphic(
-                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.label?.style, style))
-              );
+              const style = spec.label.style(datum.rawValue, index, datum, data, layer);
+              return transformToGraphic(mergeSpec({}, this._theme.label?.style, style));
             }
           : transformToGraphic(spec.label.style),
         formatMethod: spec.label.formatMethod
@@ -386,10 +361,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         alignWithLabel: spec.tick.alignWithLabel,
         style: isFunction(spec.tick.style)
           ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = this._prepareSpecAfterMergingTheme((spec.tick.style as any)(value, index, datum, data));
-              return transformToGraphic(
-                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.tick?.style, style))
-              );
+              const style = (spec.tick.style as any)(value, index, datum, data);
+              return transformToGraphic(mergeSpec({}, this._theme.tick?.style, style));
             }
           : transformToGraphic(spec.tick.style),
         state: transformStateStyle(spec.tick.state),
@@ -450,9 +423,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         ? () => {
             return (datum: Datum, index: number) => {
               const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
-              return transformToGraphic(
-                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.grid?.style, style))
-              );
+              return transformToGraphic(mergeSpec({}, this._theme.grid?.style, style));
             };
           }
         : transformToGraphic(spec.grid.style),

@@ -545,17 +545,24 @@
           },
           "children": [
             {
+              "path": "Theme_Concept_and_Design_Rules",
+              "title": {
+                "zh": "主题概念和设计规范",
+                "en": "Theme Concept and Design Rules"
+              }
+            },
+            {
               "path": "Theme",
               "title": {
-                "zh": "图表主题",
-                "en": "Chart Theme"
+                "zh": "主题配置",
+                "en": "Theme Configuration"
               }
             },
             {
               "path": "Color_Theme",
               "title": {
-                "zh": "色板",
-                "en": "Color Palette"
+                "zh": "色板配置",
+                "en": "Color Palette Configuration"
               }
             },
             {
@@ -691,6 +698,20 @@
           "title": {
             "zh": "事件",
             "en": "Events"
+          }
+        },
+        {
+          "path": "Function",
+          "title": {
+            "zh": "函数",
+            "en": "Function"
+          }
+        },
+        {
+          "path": "FAQ",
+          "title": {
+            "zh": "FAQ",
+            "en": "FAQ"
           }
         }
       ]

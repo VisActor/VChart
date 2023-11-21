@@ -92,6 +92,9 @@ common/autoinstallers/*/.npmrc
 packages/lark-vchart/index.json
 packages/lark-vchart/index.ttml
 packages/lark-vchart/index.ttss
+packages/wx-vchart/index.json
+packages/wx-vchart/index.ttml
+packages/wx-vchart/index.ttss
 packages/vchart/examples
 
 # build
@@ -124,3 +127,5 @@ packages/wx-vchart/miniprogram/miniprogram_npm/
 docs/public/documents
 docs/public/vchart/preview/failedPreviewLists.json
 packages/vchart/__tests__/runtime/node/**.png
+# env files
+.env.local

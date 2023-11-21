@@ -1,6 +1,6 @@
 import type { ITrigger } from '../../interaction/interface';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { IModel, ILayoutItem } from '../../model/interface';
+import type { IModel } from '../../model/interface';
 import type { DataSet, DataView, ITransformOptions } from '@visactor/vdataset';
 import type { IMark } from '../../mark/interface';
 import type { CoordinateType, IPoint, IPolarPoint } from '../../typings/coordinate';
@@ -21,7 +21,7 @@ import type { ILabelMark } from '../../mark/label';
 // 使用类型约束系列支持的样式，但是感觉这样不合理 不使用这样的方式去做
 // export interface ISeries<A extends string> extends IModel
 
-export interface ISeries extends IModel, ILayoutItem {
+export interface ISeries extends IModel {
   readonly type: string;
   readonly name?: string;
 
@@ -33,6 +33,9 @@ export interface ISeries extends IModel, ILayoutItem {
 
   // 坐标系信息
   readonly coordinate: CoordinateType;
+
+  // layout
+  onLayoutEnd: (ctx: any) => void;
 
   // 数据
   getRawData: () => DataView | undefined;
@@ -181,6 +184,8 @@ export interface ISeries extends IModel, ILayoutItem {
   getDefaultShapeType: () => string;
   /** 获取系列标签配置 */
   initLabelMarkStyle?: (labelMark: ILabelMark) => void;
+
+  getGroupFields: () => string[];
 }
 
 export interface ICartesianSeries extends ISeries {

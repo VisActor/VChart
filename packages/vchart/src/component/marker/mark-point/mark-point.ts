@@ -8,24 +8,21 @@ import { markerAggregation } from '../../../data/transforms/aggregation';
 import { coordinateLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
-import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
-import type { LayoutItem } from '../../../model/layout-item';
 import { Factory } from '../../../core/factory';
 import type { INode } from '@visactor/vrender-core';
+import type { IPoint } from '../../../typings';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;
   type = ComponentTypeEnum.markPoint;
   name: string = ComponentTypeEnum.markPoint;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkPoint;
-
-  static speckey = 'markPoint';
+  layoutZIndex: number = LayoutZIndex.MarkPoint;
 
   protected declare _theme: IMarkPointTheme;
 
@@ -33,17 +30,17 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
   protected declare _markerComponent: MarkPointComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markPointSpec = spec.markPoint || options.defaultSpec;
+    const markPointSpec = spec.markPoint;
     if (isEmpty(markPointSpec)) {
       return undefined;
     }
     if (!isArray(markPointSpec) && markPointSpec.visible !== false) {
-      return new MarkPoint(markPointSpec, { ...options, specKey: MarkPoint.speckey });
+      return new MarkPoint(markPointSpec, options);
     }
     const markPoints: MarkPoint[] = [];
     markPointSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markPoints.push(new MarkPoint(m, { ...options, specIndex: i, specKey: MarkPoint.speckey }));
+        markPoints.push(new MarkPoint(m, { ...options, specIndex: i }));
       }
     });
     return markPoints;
@@ -80,8 +77,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
       clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markPoint;
-    this._markerComponent.name = 'markPoint';
-    this._markerComponent.id = this._spec.id ?? `markPoint-${this.id}`;
+    this._markerComponent.name = this._spec.name ?? this.type;
+    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
     this.getContainer().add(this._markerComponent as unknown as INode);
   }
 
@@ -93,11 +90,22 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
     const isPositionLayout = 'position' in spec;
     const autoRange = spec?.autoRange ?? false;
 
-    let point: IPointLike;
+    let point: IPoint;
     if (isCoordinateLayout) {
       point = coordinateLayout(data, relativeSeries, autoRange)[0];
     } else if (isPositionLayout) {
       point = spec.position;
+
+      if (spec.regionRelative) {
+        const region = relativeSeries.getRegion();
+        const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+        point = {
+          x: point.x + regionStartX,
+          y: point.y + regionStartY
+        };
+      } else {
+        point = spec.position;
+      }
     }
 
     const seriesData = this._relativeSeries.getViewData().latestData;
@@ -130,8 +138,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
         }
       },
       limitRect,
-      dx: this.layoutOffsetX,
-      dy: this.layoutOffsetY
+      dx: this._layoutOffsetX,
+      dy: this._layoutOffsetY
     });
   }
 

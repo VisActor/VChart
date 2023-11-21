@@ -3,6 +3,10 @@
   "children": [
     {
       "path": "API",
+      "title": {
+        "zh": "api",
+        "en": "api"
+      },
       "children": [
         {
           "path": "vchart",
@@ -23,6 +27,13 @@
           "title": {
             "zh": "主题",
             "en": "Theme"
+          }
+        },
+        {
+          "path": "function",
+          "title": {
+            "zh": "函数",
+            "en": "Function"
           }
         }
       ]

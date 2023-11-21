@@ -160,7 +160,7 @@ export class CorrelationSeries extends PolarSeries<any> {
   initMark(): void {
     const nodePointMark = this._createMark(CorrelationSeries.mark.nodePoint, {
       groupKey: this._seriesField,
-      label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
+      label: this._preprocessLabelSpec(this._spec.label),
       isSeriesMark: true,
       key: DEFAULT_DATA_INDEX
     }) as ISymbolMark;
@@ -179,7 +179,7 @@ export class CorrelationSeries extends PolarSeries<any> {
     }
 
     const centerPointMark = this._createMark(CorrelationSeries.mark.centerPoint, {
-      label: mergeSpec({ animation: this._spec.animation }, this._spec.centerLabel),
+      label: this._preprocessLabelSpec(this._spec.centerLabel),
       key: DEFAULT_DATA_INDEX,
       dataView: this._centerSeriesData.getDataView(),
       dataProductId: this._centerSeriesData.getProductId()

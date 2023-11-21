@@ -85,6 +85,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
 
   protected _padding?: IPadding;
+  protected _defaultFontFamily: string;
 
   /**
    * @override
@@ -130,6 +131,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       this._spec?.fillingWord?.padding ?? this._theme?.wordCloud?.fillingWord?.padding ?? DEFAULT_FONT_PADDING;
 
     this._isWordCloudShape = !SHAPE_TYPE.includes(this._maskShape);
+    this._defaultFontFamily = this._option.getTheme().fontFamily;
   }
 
   protected _wordMark: ITextMark;
@@ -172,7 +174,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       this.setMarkStyle(
         wordMark,
         {
-          fontFamily: this._spec.word?.style?.fontFamily ?? this._getChartLevelTheme()?.fontFamily
+          fontFamily: this._spec.word?.style?.fontFamily ?? this._defaultFontFamily
         },
         'normal',
         AttributeLevel.User_Mark
@@ -202,7 +204,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       this.setMarkStyle(
         fillingWordMark,
         {
-          fontFamily: this._spec.word?.style?.fontFamily ?? this._getChartLevelTheme()?.fontFamily
+          fontFamily: this._spec.word?.style?.fontFamily ?? this._defaultFontFamily
         },
         'normal',
         AttributeLevel.User_Mark
@@ -339,8 +341,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         fontSizeRange: this._fontSizeRange,
         padding: this._fontPadding,
         rotate: { field: WORD_CLOUD_ANGLE },
-        fontFamily:
-          this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._getChartLevelTheme()?.fontFamily,
+        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._defaultFontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
 
@@ -370,15 +371,14 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         fontSizeRange: this._fontSizeRange,
         padding: this._fontPadding,
         rotateList: rotateAngles,
-        fontFamily:
-          this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._getChartLevelTheme()?.fontFamily,
+        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._defaultFontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
 
         fillingFontFamily:
           this._wordCloudShapeConfig?.fillingFontFamilyField ??
           this._spec.word?.style?.fontFamily ??
-          this._getChartLevelTheme()?.fontFamily,
+          this._defaultFontFamily,
         fillingPadding: this._fillingFontPadding,
         fillingFontStyle: this._wordCloudShapeConfig?.fillingFontStyleField ?? this._spec.word?.style?.fontStyle,
         fillingFontWeight: this._wordCloudShapeConfig?.fillingFontWeightField ?? this._spec.word?.style?.fontWeight, // 填充词fontWeight默认不跟随valueField

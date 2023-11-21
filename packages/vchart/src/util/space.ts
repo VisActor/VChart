@@ -1,15 +1,15 @@
 import { isArray, type IBoundsLike } from '@visactor/vutils';
 import { isNumber, isNil, isString, isFunction, couldBeValidNumber, isObject } from './type';
-import type {
-  ILayoutPaddingSpec,
-  IPercentOffset,
-  ILayoutNumber,
-  IPercent,
-  ILayoutOrientPadding,
-  ILayoutRect
-} from '../model/interface';
 import type { IPadding, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
+import type {
+  ILayoutNumber,
+  ILayoutRect,
+  IPercent,
+  IPercentOffset,
+  ILayoutPaddingSpec,
+  ILayoutOrientPadding
+} from '../typings/layout';
 
 export function isValidOrient(orient: string): boolean {
   switch (orient) {

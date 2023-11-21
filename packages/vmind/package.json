@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vmind",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
@@ -17,12 +17,15 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite ./__tests__/browser preview",
     "clear": "rm -rf build && rm -rf esm && rm -rf cjs",
-    "prepublishOnly": "npm run build",
-    "postpublish": "npm run clear",
     "test": "jest",
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit/",
-    "test-watch": "DEBUG_MODE=1 jest --watch"
+    "test-watch": "DEBUG_MODE=1 jest --watch",
+    "prepublishOnly": "npm run build",
+    "postpublish": "npm run clear",
+    "release-minor": "npm version minor && npm publish && git commit -a -m 'chore: release minor version for vmind' && git push",
+    "release-alpha": "npm version prerelease --preid alpha && npm publish --tag alpha && git commit -a -m 'chore: release alpha version for vmind' && git push",
+    "release": "npm version patch && npm publish && git commit -a -m 'chore: release patch version for vmind' && git push"
   },
   "devDependencies": {
     "vite-plugin-libcss": "~1.1.1",
@@ -52,25 +55,22 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "6.9.0",
-    "@visactor/vrender": "~0.16.13",
-    "@visactor/vdataset": "~0.16.7",
+    "@visactor/vchart": "workspace:1.6.7",
+    "@visactor/vutils-extension": "workspace:1.6.7",
     "@rollup/plugin-dynamic-import-vars": "~2.1.0",
-    "@visactor/vutils-extension": "workspace:1.6.3",
     "@ffmpeg/core": "^0.11.0",
-    "@ffmpeg/ffmpeg": "^0.11.6"
-  },
-  "peerDependencies": {
-    "@arco-design/web-react": "2.46.1"
+    "@ffmpeg/ffmpeg": "^0.11.6",
+    "@types/lodash": "4.14.182",
+    "@types/node": "*"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.6.3",
-    "@visactor/vrender": "~0.16.13",
-    "@visactor/vdataset": "~0.16.7",
-    "@visactor/vutils": "~0.16.7",
+    "@visactor/chart-advisor": "0.1.10",
+    "@visactor/vrender": "~0.16.16",
+    "@visactor/vdataset": "~0.16.14",
+    "@visactor/vutils": "~0.16.14",
     "axios": "^1.4.0",
     "exceljs": "^4.3.0",
     "lodash": "4.17.21",
-    "@types/lodash": "4.14.182",
-    "@types/node": "*"
+    "json5": "~2.2.3"
   }
 }

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: optimize auto mode of data-zoom, related #1416",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -93,7 +93,7 @@ The continuous legend is divided into color legends and size legends, both of wh
 
 ## Customizing Legends
 
-VChart's legend component provides rich configuration options to meet various data visualization needs and also provides related [API interfaces](../../../api/API). When the default legend cannot meet the business requirements, the legend can be customized through the legend configuration options and related api interfaces.
+VChart's legend component provides rich configuration options to meet various data visualization needs and also provides related [API interfaces](/vchart/api/API). When the default legend cannot meet the business requirements, the legend can be customized through the legend configuration options and related api interfaces.
 
 ### UI Customization
 

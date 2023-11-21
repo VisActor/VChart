@@ -5,14 +5,12 @@ import type { IComponentOption } from '../interface';
 import { isValidOrient } from '../../util/space';
 import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
 import type { IRegion } from '../../region/interface';
-import type { ILayoutRect } from '../../model/interface';
 import { Title as TitleComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { TitleAttrs } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
-import type { IPoint, IOrientType } from '../../typings';
+import type { IPoint, IOrientType, ILayoutType, ILayoutRect } from '../../typings';
 import { isEqual, isArray, isValidNumber } from '@visactor/vutils';
-import type { LayoutItem } from '../../model/layout-item';
 import { LayoutLevel, LayoutZIndex } from '../../constant';
 import { Factory } from '../../core/factory';
 
@@ -20,8 +18,8 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
   static type = ComponentTypeEnum.title;
   type = ComponentTypeEnum.title;
 
-  layoutType: LayoutItem['layoutType'] = 'normal';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Title;
+  layoutType: ILayoutType = 'normal';
+  layoutZIndex: number = LayoutZIndex.Title;
   layoutLevel: number = LayoutLevel.Title;
 
   protected declare _theme: ITitleTheme;
@@ -35,21 +33,14 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
     return this._orient;
   }
 
-  get layoutOrient() {
-    return this._layoutOrient;
-  }
-
-  set layoutOrient(v: IOrientType) {
-    this._orient = v;
-    this._layoutOrient = v;
-  }
-
   constructor(spec: ITitleSpec, options: IComponentOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this._orient = isValidOrient(spec.orient) ? spec.orient : 'top';
-    this._layoutOrient = this._orient;
+  }
+
+  initLayout(): void {
+    super.initLayout();
+    this._layout && (this._layout.layoutOrient = this._orient);
   }
 
   static createComponent(spec: any, options: IComponentOption) {
@@ -58,12 +49,12 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
       return null;
     }
     if (!isArray(titleSpec)) {
-      return new Title(titleSpec, { ...options, specKey: 'title' });
+      return new Title(titleSpec, options);
     }
     const titles: Title[] = [];
     titleSpec.forEach((s: any, i: number) => {
       if (s.visible !== false) {
-        titles.push(new Title(s, { ...options, specIndex: i, specKey: 'title' }));
+        titles.push(new Title(s, { ...options, specIndex: i }));
       }
     });
     return titles;
@@ -100,18 +91,17 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
     // TODO
   }
 
-  setLayoutStartPosition(pos: Partial<IPoint>): void {
-    const { x, y } = pos;
-    if (isValidNumber(x)) {
-      this._titleComponent && this._titleComponent.setAttribute('x', x);
+  afterSetLayoutStartPoint(pos: IPoint): void {
+    if (isValidNumber(pos.x)) {
+      this._titleComponent && this._titleComponent.setAttribute('x', pos.x);
     }
-    if (isValidNumber(y)) {
-      this._titleComponent && this._titleComponent.setAttribute('y', y);
+    if (isValidNumber(pos.y)) {
+      this._titleComponent && this._titleComponent.setAttribute('y', pos.y);
     }
-    super.setLayoutStartPosition({ x, y });
+    super.afterSetLayoutStartPoint(pos);
   }
 
-  _boundsInRect(rect: ILayoutRect) {
+  getBoundsInRect(rect: ILayoutRect) {
     let result: Partial<ILayoutRect> = {};
     this.setLayoutRect(rect);
 

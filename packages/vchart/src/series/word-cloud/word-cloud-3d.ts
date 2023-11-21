@@ -93,8 +93,7 @@ export class WordCloud3dSeries<
         fontSizeRange: this._fontSizeRange,
         padding: this._fontPadding,
         rotate: { field: WORD_CLOUD_ANGLE },
-        fontFamily:
-          this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._getChartLevelTheme()?.fontFamily,
+        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._defaultFontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
         depth_3d: this._spec.depth_3d,
@@ -123,8 +122,7 @@ export class WordCloud3dSeries<
         fontSizeRange: this._fontSizeRange,
         padding: this._fontPadding,
         rotateList: rotateAngles,
-        fontFamily:
-          this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._getChartLevelTheme()?.fontFamily,
+        fontFamily: this._fontFamilyField ?? this._spec.word?.style?.fontFamily ?? this._defaultFontFamily,
         fontWeight: fontWeightField ? { field: fontWeightField } : valueField ? { field: WORD_CLOUD_WEIGHT } : null,
         fontStyle: this._fontStyleField ?? this._spec.word?.style?.fontStyle,
         depth_3d: this._spec.depth_3d,
@@ -132,7 +130,7 @@ export class WordCloud3dSeries<
         fillingFontFamily:
           this._wordCloudShapeConfig?.fillingFontFamilyField ??
           this._spec.word?.style?.fontFamily ??
-          this._getChartLevelTheme()?.fontFamily,
+          this._defaultFontFamily,
         fillingPadding: this._fillingFontPadding,
         fillingFontStyle: this._wordCloudShapeConfig?.fillingFontStyleField ?? this._spec.word?.style?.fontStyle,
         fillingFontWeight: this._wordCloudShapeConfig?.fillingFontWeightField ?? this._spec.word?.style?.fontWeight, // 填充词fontWeight默认不跟随valueField
@@ -207,7 +205,7 @@ export class WordCloud3dSeries<
       this.setMarkStyle(
         wordMark,
         {
-          fontFamily: this._spec.word?.style?.fontFamily ?? this._getChartLevelTheme()?.fontFamily
+          fontFamily: this._spec.word?.style?.fontFamily ?? this._defaultFontFamily
         },
         'normal',
         AttributeLevel.User_Mark
@@ -237,7 +235,7 @@ export class WordCloud3dSeries<
       this.setMarkStyle(
         fillingWordMark,
         {
-          fontFamily: this._spec.word?.style?.fontFamily ?? this._getChartLevelTheme()?.fontFamily
+          fontFamily: this._spec.word?.style?.fontFamily ?? this._defaultFontFamily
         },
         'normal',
         AttributeLevel.User_Mark

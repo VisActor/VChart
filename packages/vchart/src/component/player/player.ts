@@ -6,14 +6,14 @@ import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visa
 import { DiscretePlayer, ContinuousPlayer, PlayerEventEnum } from '@visactor/vrender-components';
 import { isNumber, array, isEqual, isNil, isValidNumber } from '@visactor/vutils';
 
-import type { ILayoutRect, IModelRenderOption } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IComponentOption } from '../interface';
 
 import type { DirectionType, IPlayer } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent } from '../interface';
-import type { IPoint, IOrientType } from '../../typings';
+import type { IPoint, IOrientType, ILayoutRect } from '../../typings';
 import { type IChartSpec, type IDataValues } from '../..';
 
 // eslint-disable-next-line no-duplicate-imports
@@ -27,10 +27,10 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   layoutZIndex: number = LayoutZIndex.Player;
   layoutLevel: number = LayoutLevel.Player;
 
+  specKey: string = 'player';
   static type = ComponentTypeEnum.player;
   type = ComponentTypeEnum.player;
-  specKey = 'player';
-  private _orient: IOrientType = 'bottom';
+  protected _orient: IOrientType = 'bottom';
   private _specs: Partial<IChartSpec>[];
 
   private _playerComponent: DiscretePlayer | ContinuousPlayer;
@@ -45,10 +45,6 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   private _position: 'start' | 'middle' | 'end';
 
   get orient() {
-    return this._orient;
-  }
-
-  get layoutOrient() {
     return this._orient;
   }
 
@@ -82,8 +78,8 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
    * 计算组件位置(布局的左上角起点)
    * @param pos
    */
-  setLayoutStartPosition(pos: Partial<IPoint>) {
-    super.setLayoutStartPosition(pos);
+  afterSetLayoutStartPoint(pos: IPoint) {
+    super.afterSetLayoutStartPoint(pos);
     if (isValidNumber(pos.x)) {
       const offsetX = isVertical(this._orient) ? pos.x + this._sliderExceededSize() / 2 : pos.x;
       this._playerComponent && this._playerComponent.setAttribute('x', offsetX);
@@ -99,7 +95,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
    * @param rect
    * @returns
    */
-  _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
+  getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect) {
     this._width = this._computeWidth(rect);
     this._height = this._computeHeight(rect);
     this._dx = this._computeDx(fullSpace);

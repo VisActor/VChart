@@ -11,7 +11,6 @@ import {
 import type { IMarkStyle } from '../../../mark/interface';
 import type { ConvertToMarkStyleSpec, ICommonSpec } from '../../../typings';
 import { valueInScaleRange } from '../../../util/scale';
-import { preprocessSpecOrTheme } from '../../../util/spec/preprocess';
 import { PolarSeries } from '../polar';
 import type { IContinuousTickData, IProgressLikeSeriesSpec } from './interface';
 import type { IPolarAxis, IPolarAxisSpec } from '../../../component/axis';
@@ -220,7 +219,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
             const subTickData = this._getAngleAxisSubTickData(axis);
             const { x, y } = this.angleAxisHelper.center();
             const radius = this._computeLayoutRadius();
-            const markStyle = preprocessSpecOrTheme('mark-spec', style, this.getColorScheme(), this._spec);
+            const markStyle = style as any;
             return subTickData.map(({ value }) => {
               const pos = this.angleAxisHelper.dataToPosition([value]) + degreeToRadian(offsetAngle);
               const angleUnit = degreeToRadian(angle) / 2;
@@ -265,7 +264,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
   }
 
   protected _getAngleAxisTickData(angleAxis?: IPolarAxis): IContinuousTickData[] {
-    const tickData = angleAxis?.getTickData().getLatestData();
+    const tickData = angleAxis?.getTickData()?.getLatestData();
     return tickData;
   }
 

@@ -7,16 +7,14 @@ import { ComponentTypeEnum } from '../../interface/type';
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { xLayout, yLayout, coordinateLayout } from '../utils';
+import { coordinateLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
-import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import type { INode } from '@visactor/vrender-core';
-import type { LayoutItem } from '../../../model/layout-item';
 import type { IDataPos } from '../interface';
 import type { IOptionRegr } from '../../../data/transforms/regression';
 // eslint-disable-next-line no-duplicate-imports
@@ -24,32 +22,32 @@ import { markerRegression } from '../../../data/transforms/regression';
 import { LayoutZIndex } from '../../../constant';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
+import { isPercent } from '../../../util';
+import type { IPoint } from '../../../typings';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.MarkLine;
-
-  static speckey = 'markLine';
+  layoutZIndex: number = LayoutZIndex.MarkLine;
 
   protected declare _theme: IMarkLineTheme;
 
   protected declare _markerComponent: MarkLineComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markLineSpec = spec.markLine || options.defaultSpec;
+    const markLineSpec = spec.markLine;
     if (isEmpty(markLineSpec)) {
       return undefined;
     }
     if (!isArray(markLineSpec) && markLineSpec.visible !== false) {
-      return new MarkLine(markLineSpec, { ...options, specKey: MarkLine.speckey });
+      return new MarkLine(markLineSpec, { ...options });
     }
     const markLines: MarkLine[] = [];
     markLineSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markLines.push(new MarkLine(m, { ...options, specIndex: i, specKey: MarkLine.speckey }));
+        markLines.push(new MarkLine(m, { ...options, specIndex: i }));
       }
     });
     return markLines;
@@ -96,8 +94,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       clipInRange: this._spec.clip ?? false
     });
     this._markerComponent = markLine;
-    this._markerComponent.name = 'markLine';
-    this._markerComponent.id = this._spec.id ?? `markLine-${this.id}`;
+    this._markerComponent.name = this._spec.name ?? this.type;
+    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
     this.getContainer().add(this._markerComponent as unknown as INode);
   }
 
@@ -119,15 +117,26 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     const isPositionLayout = isValid(spec.positions);
     const autoRange = spec.autoRange ?? false;
 
-    let points: IPointLike[] = [];
+    let points: IPoint[] = [];
     if (isXLayout) {
-      points = xLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
+      points = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
     } else if (isYLayout) {
-      points = yLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
+      points = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
     } else if (isCoordinateLayout) {
       points = coordinateLayout(data, relativeSeries, autoRange);
     } else if (isPositionLayout) {
-      points = spec.positions;
+      if (spec.regionRelative) {
+        const region = relativeSeries.getRegion();
+        const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+        points = spec.positions.map((point: IPoint) => {
+          return {
+            x: point.x + regionStartX,
+            y: point.y + regionStartY
+          };
+        });
+      } else {
+        points = spec.positions;
+      }
     }
     const seriesData = this._relativeSeries.getViewData().latestData;
     const dataPoints = data
@@ -162,7 +171,37 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       const { multiSegment, mainSegmentIndex } = (this._spec as IStepMarkLineSpec).line || {};
       const { connectDirection, expandDistance = 0 } = this._spec as IStepMarkLineSpec;
 
-      const joinPoints = getInsertPoints(points[0], points[1], connectDirection, expandDistance);
+      let expandDistanceValue: number;
+      if (isPercent(expandDistance)) {
+        const regionStart = startRelativeSeries.getRegion();
+        const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
+        const regionEnd = endRelativeSeries.getRegion();
+        const regionEndLayoutStartPoint = regionEnd.getLayoutStartPoint();
+
+        if (connectDirection === 'bottom' || connectDirection === 'top') {
+          const regionHeight = Math.abs(
+            Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y) -
+              Math.max(
+                regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
+                regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
+              )
+          );
+          expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionHeight) / 100;
+        } else {
+          const regionWidth = Math.abs(
+            Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x) -
+              Math.max(
+                regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
+                regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
+              )
+          );
+          expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionWidth) / 100;
+        }
+      } else {
+        expandDistanceValue = expandDistance as number;
+      }
+
+      const joinPoints = getInsertPoints(points[0], points[1], connectDirection, expandDistanceValue);
 
       let labelPositionAttrs: any;
       if (multiSegment && isValid(mainSegmentIndex)) {
@@ -177,8 +216,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         labelPositionAttrs = {
           position: 'start',
           autoRotate: false,
-          ...getTextOffset(points[0], points[1], connectDirection, expandDistance),
-          efX: 0,
+          ...getTextOffset(points[0], points[1], connectDirection, expandDistanceValue),
+          refX: 0,
           refY: 0
         };
       }
@@ -203,16 +242,16 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         limitRect,
         multiSegment,
         mainSegmentIndex,
-        dx: this.layoutOffsetX,
-        dy: this.layoutOffsetY
+        dx: this._layoutOffsetX,
+        dy: this._layoutOffsetY
       });
     } else {
       this._markerComponent?.setAttributes({
         points: points,
         label: labelAttrs,
         limitRect,
-        dx: this.layoutOffsetX,
-        dy: this.layoutOffsetY
+        dx: this._layoutOffsetX,
+        dy: this._layoutOffsetY
       });
     }
   }
@@ -238,11 +277,11 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);
 
     if (isXProcess) {
-      options = [this._processSpecX(spec.x as unknown as IDataPos)];
+      options = [this._processSpecX(spec.x as unknown as IDataPos)] as unknown as any;
       processData = relativeSeries.getViewData();
       needAgggr = true;
     } else if (isYProcess) {
-      options = [this._processSpecY(spec.y as unknown as IDataPos)];
+      options = [this._processSpecY(spec.y as unknown as IDataPos)] as unknown as any;
       processData = relativeSeries.getViewData();
       needAgggr = true;
     } else if (isCoordinateProcess) {
@@ -257,11 +296,11 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
           options
         });
       if (spec.process && 'x' in spec.process) {
-        options = [this._processSpecX(spec.process.x as unknown as IDataPos)];
+        options = [this._processSpecX(spec.process.x as unknown as IDataPos)] as unknown as any;
         needAgggr = true;
       }
       if (spec.process && 'y' in spec.process) {
-        options = [this._processSpecY(spec.process.y as unknown as IDataPos)];
+        options = [this._processSpecY(spec.process.y as unknown as IDataPos)] as unknown as any;
         needAgggr = true;
       }
       if (spec.process && 'xy' in spec.process) {

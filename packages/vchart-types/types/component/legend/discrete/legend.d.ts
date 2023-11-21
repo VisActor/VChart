@@ -8,6 +8,8 @@ import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components'
 import type { ILegend } from '../interface';
 import { BaseLegend } from '../base-legend';
 export declare class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
+    static specKey: string;
+    specKey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;

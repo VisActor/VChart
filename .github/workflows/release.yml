@@ -61,6 +61,11 @@ jobs:
           NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/lark-vchart
 
+      - name: Build wx-vchart
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node common/scripts/install-run-rush.js build --only @visactor/wx-vchart
+
       - name: Run Bugserver
         working-directory: ./packages/vchart
         env:

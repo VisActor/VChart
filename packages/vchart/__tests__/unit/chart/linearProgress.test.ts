@@ -2,7 +2,7 @@ import { DataSet, csvParser } from '@visactor/vdataset';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { LinearProgressSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
-import { LinearProgressChart } from '../../../src';
+import { LinearProgressChart, ThemeManager } from '../../../src';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
 import { initChartDataSet } from '../../util/context';
@@ -50,6 +50,7 @@ describe('linearProgress chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+      getTheme: () => ThemeManager.getCurrentTheme(),
       animation: false
     } as any);
     chart.created();
@@ -70,7 +71,7 @@ describe('linearProgress chart test', () => {
     expect(trigger.hover).toEqual({
       enable: true,
       trigger: 'pointermove',
-      triggerOff: ['pointermove', 'pointerleave']
+      triggerOff: 'pointerleave'
     });
     expect(trigger.select).toEqual({
       enable: true,

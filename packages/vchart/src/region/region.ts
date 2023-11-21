@@ -5,9 +5,8 @@ import type { IGroupMark as IVGrammarGroupMark, ILayoutOptions, IMark } from '@v
 import { STATE_VALUE_ENUM_REVERSE } from '../compile/mark/interface';
 import { DimensionTrigger } from '../interaction/dimension-trigger';
 import { MarkTypeEnum } from '../mark/interface/type';
-import { BaseModel } from '../model/base-model';
 import type { ISeries } from '../series/interface';
-import type { IModelOption, ILayoutItem } from '../model/interface';
+import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IRegion, IRegionSpec } from './interface';
 import type { IGroupMark } from '../mark/group';
@@ -17,36 +16,35 @@ import { AttributeLevel, ChartEvent, LayoutZIndex } from '../constant';
 import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
-import type { StringOrNumber } from '../typings';
+import type { ILayoutType, StringOrNumber } from '../typings';
 import { IFilterMode } from '../component/data-zoom/constant';
+import { LayoutModel } from '../model/layout-model';
 
-export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> implements IRegion {
+export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
   readonly modelType: string = 'region';
 
   type = Region.type;
   protected _series: ISeries[] = [];
-  layoutType: ILayoutItem['layoutType'] = 'region';
+  layoutType: ILayoutType = 'region';
   layoutZIndex: number = LayoutZIndex.Region;
 
   animate?: IAnimate;
 
   interaction: IInteraction = new Interaction();
 
-  protected _maxRegionWidth?: number;
   getMaxWidth() {
-    return this._maxRegionWidth;
+    return this._layout.maxWidth;
   }
   setMaxWidth(value: number) {
-    this._maxRegionWidth = value;
+    this._layout.maxWidth = value;
   }
 
-  protected _maxRegionHeight?: number;
   getMaxHeight() {
-    return this._maxRegionHeight;
+    return this._layout.maxHeight;
   }
   setMaxHeight(value: number) {
-    this._maxRegionHeight = value;
+    this._layout.maxHeight = value;
   }
 
   protected _groupMark!: IGroupMark;
@@ -71,10 +69,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
         getCompiler: ctx.getCompiler
       });
     }
-    // 层级应当支持配置
-    if (isValid(spec.zIndex)) {
-      this.layoutZIndex = spec.zIndex;
-    }
   }
 
   protected _getClipDefaultValue() {
@@ -88,7 +82,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
       return filterMode === IFilterMode.axis;
     });
 
-    return hasDataZoom || hasScrollBar ? true : this.layoutClip;
+    return hasDataZoom || hasScrollBar ? true : this._layout.layoutClip;
   }
 
   _initTheme() {
@@ -96,6 +90,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
   }
 
   created(): void {
+    this.initLayout();
     super.created();
     this._groupMark = this._createMark({ type: MarkTypeEnum.group, name: 'regionGroup' }) as IGroupMark;
     this._groupMark.setUserId(this.userId);
@@ -333,8 +328,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
   compileMarks(group?: string | IVGrammarGroupMark) {
     this.getMarks().forEach(m => {
       m.compile({ group });
-      m
-        .getProduct()
+      m.getProduct()
         ?.configure({
           context: {
             model: this
@@ -351,5 +345,19 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> im
   compile() {
     this.animate?.compile();
     this.compileMarks();
+  }
+
+  getBoundsInRect = () => {
+    return {
+      x1: this._layout.getLayoutStartPoint().x,
+      y1: this._layout.getLayoutStartPoint().y,
+      x2: this._layout.getLayoutStartPoint().x + this._layout.getLayoutRect().width,
+      y2: this._layout.getLayoutStartPoint().y + this._layout.getLayoutRect().height
+    };
+  };
+
+  onLayoutEnd(ctx: any): void {
+    this._series.forEach(s => s.onLayoutEnd(ctx));
+    super.onLayoutEnd(ctx);
   }
 }

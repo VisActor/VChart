@@ -7,6 +7,7 @@ import type { ITooltipTheme } from '../../interface';
 import type { ITooltipTextStyle } from '../interface';
 import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from './interface';
 import type { TooltipAttributes } from '@visactor/vrender-components';
+import { calculateLineHeight } from '@visactor/vrender-core';
 
 const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;
@@ -164,7 +165,7 @@ function getLabelStyle(
   styleObj.fontSize = getPixelPropertyStr(labelFontSize);
   styleObj.color = labelColor as string;
   styleObj.textAlign = textAlign as TextAlign;
-  styleObj.lineHeight = getPixelPropertyStr(lineHeight);
+  styleObj.lineHeight = getPixelPropertyStr(calculateLineHeight(lineHeight, labelFontSize));
   styleObj.fontWeight = fontWeight as FontWeight;
   styleObj.whiteSpace = multiLine ? 'initial' : 'nowrap';
   styleObj.wordBreak = multiLine ? wordBreak ?? 'break-word' : 'normal';

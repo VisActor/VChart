@@ -1,4 +1,3 @@
-import type { ILayoutPaddingSpec } from '../model/interface';
 import type { ISeriesTheme } from '../series/interface';
 import type { IMarkTheme } from '../typings/spec';
 import type {
@@ -8,7 +7,8 @@ import type {
   IRectMarkSpec,
   ISymbolMarkSpec,
   ITextMarkSpec,
-  IPathMarkSpec
+  IPathMarkSpec,
+  ILayoutPaddingSpec
 } from '../typings';
 import type { MarkTypeEnum } from '../mark/interface';
 import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';

@@ -1,6 +1,48 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 10 Nov 2023 09:56:51 GMT and should not be manually modified.
+This log was last generated on Tue, 21 Nov 2023 11:02:31 GMT and should not be manually modified.
+
+## 1.6.7
+Tue, 21 Nov 2023 11:02:31 GMT
+
+_Version update only_
+
+## 1.6.6
+Fri, 17 Nov 2023 09:42:57 GMT
+
+### Updates
+
+- fix: fix chart screen remains when using updateSpecSync, details in #1421
+
+
+- fix: is mouse click in empty region, the hover shape should reset, fixed #1538
+
+## 1.6.5
+Fri, 17 Nov 2023 05:56:10 GMT
+
+### Updates
+
+- fix: dimension click not effect after update spec. fix #1532
+- feat: add `skipFunctionDiff` in react-vchart to skip difference of functions
+
+
+
+## 1.6.4
+Thu, 16 Nov 2023 06:35:43 GMT
+
+### Updates
+
+- fix: fixed the problem of unreasonable automatic indentation being triggered after modifying the axis range in datazoom
+
+
+- fix: default realtime not effect in scrollbar and datazoom. fix#1462
+- fix: filter mode error when roam in scrollbar and datazoom. fix #1460
+- fix: fix `options` can not work in lark-vchart, wx-vchart and tt-vchart
+
+
+- perf: optimize the dataflow of sankey
+
+
 
 ## 1.6.3
 Fri, 10 Nov 2023 09:56:51 GMT

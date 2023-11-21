@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { isEmpty, isValid } from '@visactor/vutils';
-import type { ILayoutRect } from '../../../model/interface';
 import { isPercent } from '../../../util/space';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
 import { transformLegendTitleAttributes } from '../util';
 import type { IDiscreteLegendSpec } from './interface';
+import type { ILayoutRect } from '../../../typings/layout';
 
 export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect) {
   const {

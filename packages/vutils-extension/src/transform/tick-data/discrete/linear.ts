@@ -76,61 +76,66 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
     const count = isFunction(tickCount) ? tickCount({ axisLength: rangeSize, labelStyle }) : tickCount;
     scaleTicks = scale.ticks(count);
   } else if (op.sampling) {
-    let labelBoundsList: OneDimensionalBounds[];
-    let minBoundsLength = Number.MAX_VALUE;
-    let areAllBoundsSame = false;
-
     const fontSize = (op.labelStyle.fontSize ?? 12) + 2;
+    const rangeStart = Math.min(...range);
+    const rangeEnd = Math.max(...range);
+
     if (domain.length <= rangeSize / fontSize) {
-      labelBoundsList = getOneDimensionalLabelBounds(scale, domain, op, isHorizontal);
-      minBoundsLength = Math.min(...labelBoundsList.map(bounds => bounds[2]));
+      const incrementUnit = (rangeEnd - rangeStart) / domain.length;
+      const labelBoundsList = getOneDimensionalLabelBounds(scale, domain, op, isHorizontal);
+      const minBoundsLength = Math.min(...labelBoundsList.map(bounds => bounds[2]));
+
+      const stepResult = getStep(
+        domain,
+        labelBoundsList,
+        labelGap,
+        op.labelLastVisible,
+        Math.floor(minBoundsLength / incrementUnit), // 给step赋上合适的初值，有效改善外层循环次数
+        false
+      );
+
+      scaleTicks = (scale as BandScale).stepTicks(stepResult.step);
+      if (op.labelLastVisible) {
+        if (stepResult.delCount) {
+          scaleTicks = scaleTicks.slice(0, scaleTicks.length - stepResult.delCount);
+        }
+        scaleTicks.push(domain[domain.length - 1]);
+      }
     } else {
       // only check first middle last, use the max size to sampling
       const tempDomain = [domain[0], domain[Math.floor(domain.length / 2)], domain[domain.length - 1]];
       const tempList = getOneDimensionalLabelBounds(scale, tempDomain, op, isHorizontal);
       let maxBounds: OneDimensionalBounds = null;
-      let maxBoundsIndex = 0;
-      tempList.forEach((current, index) => {
+      tempList.forEach(current => {
         if (!maxBounds) {
           maxBounds = current;
-          maxBoundsIndex = index;
           return;
         }
         if (maxBounds[2] < current[2]) {
           maxBounds = current;
-          maxBoundsIndex = index;
         }
       });
-      const maxBoundsDomainIndex =
-        maxBoundsIndex === 0 ? 0 : maxBoundsIndex === 2 ? domain.length - 1 : Math.floor(domain.length / 2);
-      const maxBoundsPos = scale.scale(domain[maxBoundsDomainIndex]);
-      labelBoundsList = new Array(domain.length);
-      // set bounds to each pos
-      for (let i = 0; i < labelBoundsList.length; i++) {
-        const currentPos = scale.scale(domain[i]);
-        const delta = currentPos - maxBoundsPos;
-        labelBoundsList[i] = [maxBounds[0] + delta, maxBounds[1] + delta, maxBounds[2]];
+
+      const step =
+        rangeEnd - rangeStart - labelGap > 0
+          ? Math.ceil((domain.length * (labelGap + maxBounds[2])) / (rangeEnd - rangeStart - labelGap))
+          : domain.length - 1;
+
+      scaleTicks = (scale as BandScale).stepTicks(step);
+
+      if (
+        op.labelLastVisible &&
+        (!scaleTicks.length || scaleTicks[scaleTicks.length - 1] !== domain[domain.length - 1])
+      ) {
+        if (
+          scaleTicks.length &&
+          Math.abs(scale.scale(scaleTicks[scaleTicks.length - 1]) - scale.scale(domain[domain.length - 1])) <
+            maxBounds[2]
+        ) {
+          scaleTicks = scaleTicks.slice(0, -1);
+        }
+        scaleTicks.push(domain[domain.length - 1]);
       }
-      minBoundsLength = maxBounds[2];
-      areAllBoundsSame = true;
-    }
-
-    const rangeStart = Math.min(...range);
-    const rangeEnd = Math.max(...range);
-    const incrementUnit = (rangeEnd - rangeStart) / domain.length;
-    const result = getStep(
-      domain,
-      labelBoundsList,
-      labelGap,
-      op.labelLastVisible,
-      Math.floor(minBoundsLength / incrementUnit), // 给step赋上合适的初值，有效改善外层循环次数
-      areAllBoundsSame
-    );
-
-    scaleTicks = (scale as BandScale).stepTicks(result.step);
-    if (op.labelLastVisible) {
-      scaleTicks = scaleTicks.slice(0, scaleTicks.length - result.delCount);
-      scaleTicks.push(domain[domain.length - 1]);
     }
   } else {
     scaleTicks = scale.domain();

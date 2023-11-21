@@ -52,7 +52,6 @@ export const commonAxis: IAxisCommonTheme = {
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
       // lineHeight: THEME_CONSTANTS.l5LineHeight,
-
       fill: { type: 'palette', key: 'axisFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1

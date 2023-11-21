@@ -32,6 +32,7 @@ import { DataView } from '@visactor/vdataset';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { registerSampleTransform } from '@visactor/vgrammar-core';
+import type { ILabelSpec } from '../../component';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -77,7 +78,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
         isSeriesMark: true,
-        label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
+        label: this._preprocessLabelSpec(this._spec.label as ILabelSpec),
         progressive
       }
     ) as IRectMark;

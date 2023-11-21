@@ -2,7 +2,6 @@ import { LabelMark, type ILabelMark } from './../../mark/label';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { LayoutItem } from '../../model/layout-item';
 import { AttributeLevel, LayoutZIndex, STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant';
 import type { MarkType } from '../../mark/interface';
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
@@ -23,8 +22,7 @@ export class TotalLabel extends BaseLabelComponent {
   type = ComponentTypeEnum.totalLabel;
   name: string = ComponentTypeEnum.totalLabel;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Label;
+  layoutZIndex: number = LayoutZIndex.Label;
 
   private _textMark?: ILabelMark;
   private _baseMark?: IMark;
@@ -40,7 +38,7 @@ export class TotalLabel extends BaseLabelComponent {
       const series = getSeries(regions);
       series.forEach(s => {
         if (s.getSpec()?.totalLabel?.visible) {
-          const cmp = new TotalLabel(s.getSpec().totalLabel, { ...options, specIndex: i, specKey: 'totalLabel' });
+          const cmp = new TotalLabel(s.getSpec().totalLabel, { ...options, specIndex: i });
           cmp.series = s;
           labelComponents.push(cmp);
         }
@@ -84,6 +82,7 @@ export class TotalLabel extends BaseLabelComponent {
       { type: MarkTypeEnum.component, name: `${this.series.name}-total-label-component` },
       {
         componentType: 'label',
+        noSeparateStyle: true,
         support3d: this._spec.support3d
       }
     );
@@ -165,5 +164,5 @@ export function totalLabelPosition(series: ISeries, type: MarkType) {
 export const registerTotalLabel = () => {
   registerVGrammarLabel();
   Factory.registerMark(LabelMark.constructorType, LabelMark);
-  Factory.registerComponent(TotalLabel.type, TotalLabel);
+  Factory.registerComponent(TotalLabel.type, TotalLabel, true);
 };

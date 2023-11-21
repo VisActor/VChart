@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "perf: dont call bounds calculate when user specify width/height of components",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

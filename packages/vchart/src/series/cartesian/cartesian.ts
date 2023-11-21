@@ -317,36 +317,69 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._axisPosition(this._yAxisHelper, value, datum);
   }
 
+  protected _positionXEncoder?: (datum: Datum) => number;
+
   dataToPositionX(datum: Datum): number {
+    if (this._positionXEncoder) {
+      return this._positionXEncoder(datum);
+    }
+
     if (!this._xAxisHelper) {
+      this._positionXEncoder = (datum: Datum) => Number.NaN;
+
       return Number.NaN;
     }
     const fields = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._fieldX;
     if (!fields || fields.length === 0) {
+      this._positionXEncoder = (datum: Datum) => null;
       return null;
     }
-    return this.valueToPositionX(
-      this._xAxisHelper.isContinuous
-        ? this.getDatumPositionValue(datum, fields[0])
-        : this.getDatumPositionValues(datum, fields),
-      datum
-    );
+
+    if (this._xAxisHelper.isContinuous) {
+      this._positionXEncoder = (datum: Datum) => {
+        this._scaleConfig.datum = datum;
+        return this._xAxisHelper.valueToPosition(this.getDatumPositionValue(datum, fields[0]), this._scaleConfig);
+      };
+    } else {
+      this._positionXEncoder = (datum: Datum) => {
+        this._scaleConfig.datum = datum;
+        return this._xAxisHelper.dataToPosition(array(this.getDatumPositionValues(datum, fields)), this._scaleConfig);
+      };
+    }
+
+    return this._positionXEncoder(datum);
   }
 
+  protected _positionYEncoder?: (datum: Datum) => number;
+
   dataToPositionY(datum: Datum): number {
+    if (this._positionYEncoder) {
+      return this._positionYEncoder(datum);
+    }
+
     if (!this._yAxisHelper) {
+      this._positionYEncoder = (datum: Datum) => Number.NaN;
       return Number.NaN;
     }
     const fields = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._fieldY;
     if (!fields || fields.length === 0) {
+      this._positionYEncoder = (datum: Datum) => null;
       return null;
     }
-    return this.valueToPositionY(
-      this._yAxisHelper.isContinuous
-        ? this.getDatumPositionValue(datum, fields[0])
-        : this.getDatumPositionValues(datum, fields),
-      datum
-    );
+
+    if (this._yAxisHelper.isContinuous) {
+      this._positionYEncoder = (datum: Datum) => {
+        this._scaleConfig.datum = datum;
+        return this._yAxisHelper.valueToPosition(this.getDatumPositionValue(datum, fields[0]), this._scaleConfig);
+      };
+    } else {
+      this._positionYEncoder = (datum: Datum) => {
+        this._scaleConfig.datum = datum;
+        return this._yAxisHelper.dataToPosition(array(this.getDatumPositionValues(datum, fields)), this._scaleConfig);
+      };
+    }
+
+    return this._positionYEncoder(datum);
   }
 
   dataToPositionZ(datum: Datum): number {
@@ -470,4 +503,15 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     }
     return true;
   };
+
+  reInit(theme?: any, lastSpec?: any) {
+    if (this._positionXEncoder) {
+      this._positionXEncoder = null;
+    }
+    if (this._positionYEncoder) {
+      this._positionYEncoder = null;
+    }
+
+    super.reInit(theme);
+  }
 }
