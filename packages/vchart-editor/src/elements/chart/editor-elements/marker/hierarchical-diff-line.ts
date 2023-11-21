@@ -57,7 +57,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   protected _getOverGraphic(el: IEditorElement): IGraphic {
     const model = el.model;
-    const markLine = (model as IComponent).getVRenderComponents()[0];
+    const markLine = (model as unknown as IComponent).getVRenderComponents()[0];
     const lineShape = (markLine as unknown as MarkLineComponent).getLine();
     const overlayLine = new Segment(
       merge({}, lineShape.attribute, {
@@ -104,7 +104,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       childrenPickable: false
     });
     const model = el.model;
-    const markLine = (model as IComponent).getVRenderComponents()[0];
+    const markLine = (model as unknown as IComponent).getVRenderComponents()[0];
     const lineShape = markLine.getLine();
     const points = lineShape.attribute.points;
     const startHandler = createSymbol({

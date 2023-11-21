@@ -1,4 +1,5 @@
-import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import type { IChartModel } from './../../interface';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from '../base-editor-element';
 import type { EventParams } from '@visactor/vchart';
@@ -83,10 +84,10 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   };
 
   protected _getEditorElement(eventParams: EventParams): IEditorElement {
-    const model = eventParams.model;
+    const model = eventParams.model as any;
     const markerBounds = (this._element as unknown as IGroup).AABBBounds;
     const element: IEditorElement = new CommonChartEditorElement(this, {
-      model,
+      model: model as unknown as IChartModel,
       id: this._chart.vchart.id + '-' + this.type + '-' + model.id,
       rect: {
         x: markerBounds.x1,
@@ -136,7 +137,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       MarkerTypeEnum.verticalArea,
       MarkerTypeEnum.horizontalArea
     ];
-    root.getChildren().forEach(child => {
+    root.getChildren().forEach((child: INode) => {
       if (marks.includes(child.name)) {
         (child as IGroup).setAttributes({
           pickable: false,
@@ -158,7 +159,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       MarkerTypeEnum.verticalArea,
       MarkerTypeEnum.horizontalArea
     ];
-    root.getChildren().forEach(child => {
+    root.getChildren().forEach((child: INode) => {
       if (marks.includes(child.name)) {
         (child as IGroup).setAttributes({
           pickable: true,

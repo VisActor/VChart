@@ -272,6 +272,8 @@ export class BoxSelection {
         rotate: false,
         resize: false
       },
+      modelInfo: null,
+      updateRect: null,
       editorFinish: () => {
         // nothing
       },

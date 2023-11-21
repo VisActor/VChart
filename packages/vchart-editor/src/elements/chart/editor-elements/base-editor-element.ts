@@ -183,7 +183,9 @@ export class CommonChartEditorElement implements IEditorElement {
       this.rect = rect;
     } else {
       const layoutMeta = this._context.chart.layout.getModelLayoutData(modelInfo);
-      this.rect = layoutMeta ? transformModelRect(model, LayoutRectToRect(layoutMeta.layout)) : null;
+      this.rect = layoutMeta
+        ? transformModelRect(model as unknown as IChartModel, LayoutRectToRect(layoutMeta.layout))
+        : null;
     }
 
     this.part = model.type;
@@ -204,7 +206,7 @@ export class CommonChartEditorElement implements IEditorElement {
       this._context.chart.vchart
         .getChart()
         .getAllSeries()
-        .forEach((s: IChartModel) => {
+        .forEach((s: any) => {
           const { data, ...spec } = s.getSpec();
           this.allModelSpec.push({
             id: s.userId,

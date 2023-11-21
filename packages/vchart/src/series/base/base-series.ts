@@ -348,7 +348,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         onError: this._option?.onError
       });
     }
-    this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
+    this._rawData?.target?.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
     // 初始化viewData
     if (this._rawData) {
