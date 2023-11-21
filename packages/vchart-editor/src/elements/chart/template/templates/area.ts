@@ -6,9 +6,9 @@ import { getCartesianCommonSpec, getCartesianSpec, getDimensions } from './commo
 export function spec() {
   const _spec = getCartesianCommonSpec('vertical');
   _spec.series.push({
-    id: 'line-0',
-    type: 'line',
-    stack: false,
+    id: 'area-0',
+    type: 'area',
+    stack: true,
     line: {
       style: {
         lineCap: 'butt'
@@ -22,8 +22,8 @@ export function spec() {
   return _spec;
 }
 
-export class LineTemp extends BaseTemp {
-  type = 'line';
+export class AreaTemp extends BaseTemp {
+  type = 'area';
   checkDataEnable(data: StandardData, info: DataInfo, opt?: any): boolean {
     const { ordinalFields, linearFields } = getDimensions(info);
     if (ordinalFields.length === 0 || linearFields.length === 0) {

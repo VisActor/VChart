@@ -4,14 +4,18 @@ import { BaseTemp } from './baseTemp';
 import { getCartesianCommonSpec, getCartesianSpec, getDimensions } from './common';
 
 export function spec() {
-  const _spec = getCartesianCommonSpec('vertical');
+  const _spec = getCartesianCommonSpec('vertical', true);
   _spec.series.push({
-    id: 'line-0',
-    type: 'line',
-    stack: false,
-    line: {
-      style: {
-        lineCap: 'butt'
+    id: 'barPercent-0',
+    type: 'bar',
+    stack: true,
+    percent: true,
+    bar: {
+      state: {
+        hover: {
+          stroke: '#000',
+          lineWidth: 1
+        }
       }
     },
     label: {
@@ -22,8 +26,8 @@ export function spec() {
   return _spec;
 }
 
-export class LineTemp extends BaseTemp {
-  type = 'line';
+export class BarPercentTemp extends BaseTemp {
+  type = 'barPercent';
   checkDataEnable(data: StandardData, info: DataInfo, opt?: any): boolean {
     const { ordinalFields, linearFields } = getDimensions(info);
     if (ordinalFields.length === 0 || linearFields.length === 0) {

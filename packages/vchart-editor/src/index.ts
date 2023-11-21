@@ -20,16 +20,24 @@ import { ClipBoardParser } from './elements/chart/data/parser/clipboard';
 import { CSVParser } from './elements/chart/data/parser/csv';
 import { StandardParser } from './elements/chart/data/parser/standard';
 import { BarTemp } from './elements/chart/template/templates/bar';
-import { HorizontalBarTemp } from './elements/chart/template/templates/horizontal-bar';
 import { BarGroupTemp } from './elements/chart/template/templates/bar-group';
+import { BarPercentTemp } from './elements/chart/template/templates/bar-percent';
+import { HorizontalBarTemp } from './elements/chart/template/templates/horizontal-bar';
 import { HorizontalBarGroupTemp } from './elements/chart/template/templates/horizontal-bar-group';
+import { HorizontalBarPercentTemp } from './elements/chart/template/templates/horizontal-bar-percent';
+import { AreaTemp } from './elements/chart/template/templates/area';
+import { AreaPercentTemp } from './elements/chart/template/templates/area-percent';
 import { LineTemp } from './elements/chart/template/templates/line';
 import { PieTemp } from './elements/chart/template/templates/pie';
 
 EditorFactory.registerTemp('bar', BarTemp);
-EditorFactory.registerTemp('horizontalBar', HorizontalBarTemp);
 EditorFactory.registerTemp('barGroup', BarGroupTemp);
+EditorFactory.registerTemp('barPercent', BarPercentTemp);
+EditorFactory.registerTemp('horizontalBar', HorizontalBarTemp);
 EditorFactory.registerTemp('horizontalBarGroup', HorizontalBarGroupTemp);
+EditorFactory.registerTemp('horizontalBarPercentGroup', HorizontalBarPercentTemp);
+EditorFactory.registerTemp('area', AreaTemp);
+EditorFactory.registerTemp('areaPercent', AreaPercentTemp);
 EditorFactory.registerTemp('line', LineTemp);
 EditorFactory.registerTemp('pie', PieTemp);
 
