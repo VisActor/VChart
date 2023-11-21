@@ -172,7 +172,6 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         );
         if (component) {
           component.setSkipBeforeLayouted(true);
-          component.stateStyle.normal = {}; // 没有必要的 encoder，会造成多次组件 render 触发，待 vgrammar 性能修复后可以去掉
           this._marks.addMark(component);
           this._labelComponentMap.set(component, regionLabelInfo);
         }
@@ -188,7 +187,6 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           );
           if (component) {
             component.setSkipBeforeLayouted(true);
-            component.stateStyle.normal = {}; // 没有必要的 encoder，会造成多次组件 render 触发，待 vgrammar 性能修复后可以去掉
             this._marks.addMark(component);
             this._labelComponentMap.set(component, labelInfo);
             labelInfo.labelMark.setComponent(component);
