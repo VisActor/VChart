@@ -21,7 +21,7 @@ importers:
       '@visactor/vmind': workspace:1.1.0
       '@visactor/vrender': ~0.16.16
       '@visactor/vrender-kits': ~0.16.16
-      '@visactor/vutils': ~0.16.10
+      '@visactor/vutils': ~0.16.14
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
       canvas: 2.11.2
@@ -129,7 +129,7 @@ importers:
       '@visactor/vgrammar-core': ~0.9.1
       '@visactor/vrender-core': ~0.16.16
       '@visactor/vrender-kits': ~0.16.16
-      '@visactor/vutils': ~0.16.10
+      '@visactor/vutils': ~0.16.14
       '@vitejs/plugin-react': 3.1.0
       eslint: ~8.18.0
       eslint-config-prettier: 8.5.0
@@ -282,7 +282,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vdataset': ~0.16.10
+      '@visactor/vdataset': ~0.16.14
       '@visactor/vgrammar-core': ~0.9.1
       '@visactor/vgrammar-hierarchy': ~0.9.1
       '@visactor/vgrammar-projection': ~0.9.1
@@ -293,8 +293,8 @@ importers:
       '@visactor/vrender-components': ~0.16.16
       '@visactor/vrender-core': ~0.16.16
       '@visactor/vrender-kits': ~0.16.16
-      '@visactor/vscale': ~0.16.10
-      '@visactor/vutils': ~0.16.10
+      '@visactor/vscale': ~0.16.14
+      '@visactor/vutils': ~0.16.14
       '@visactor/vutils-extension': workspace:1.6.7
       canvas: 2.11.2
       d3-array: ^1.2.4
@@ -394,10 +394,10 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vchart': workspace:1.6.7
-      '@visactor/vdataset': ~0.16.10
+      '@visactor/vdataset': ~0.16.14
       '@visactor/vrender-core': ~0.16.16
       '@visactor/vrender-kits': ~0.16.16
-      '@visactor/vutils': ~0.16.10
+      '@visactor/vutils': ~0.16.14
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -500,9 +500,9 @@ importers:
       '@typescript-eslint/parser': 5.30.0
       '@visactor/chart-advisor': 0.1.10
       '@visactor/vchart': workspace:1.6.7
-      '@visactor/vdataset': ~0.16.10
+      '@visactor/vdataset': ~0.16.14
       '@visactor/vrender': ~0.16.16
-      '@visactor/vutils': ~0.16.10
+      '@visactor/vutils': ~0.16.14
       '@visactor/vutils-extension': workspace:1.6.7
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
@@ -581,8 +581,8 @@ importers:
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vrender-core': ~0.16.16
       '@visactor/vrender-kits': ~0.16.16
-      '@visactor/vscale': ~0.16.10
-      '@visactor/vutils': ~0.16.10
+      '@visactor/vscale': ~0.16.14
+      '@visactor/vutils': ~0.16.14
       eslint: ~8.18.0
       husky: 7.0.4
       jest: ^26.0.0
@@ -848,7 +848,7 @@ importers:
       '@visactor/vrender': ~0.16.16
       '@visactor/vrender-core': ~0.16.16
       '@visactor/vrender-kits': ~0.16.16
-      '@visactor/vutils': ~0.16.10
+      '@visactor/vutils': ~0.16.14
       cross-env: ^7.0.3
       eslint: ~8.18.0
       jest: ^26.0.0
@@ -13613,7 +13613,7 @@ packages:
       jest: ^24.0.0
     dependencies:
       electron: 11.5.0
-      jest: 26.6.3_ts-node@10.9.0
+      jest: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-haste-map: 24.9.0
       jest-message-util: 24.9.0
       jest-mock: 24.9.0

@@ -1,10 +1,11 @@
 import type { ICartesianSeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
-import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isValid, isNumber } from '@visactor/vutils';
+import { isValid, isNumber, array } from '@visactor/vutils';
+import type { Datum, IPoint, StringOrNumber } from '../../typings';
+import { isPercent } from '../../util';
 
-export function xLayout(
+export function xyLayout(
   data: DataView,
   startRelativeSeries: ICartesianSeries,
   endRelativeSeries: ICartesianSeries,
@@ -16,15 +17,34 @@ export function xLayout(
   const regionEnd = endRelativeSeries.getRegion();
   const regionEndLayoutStartPoint = regionEnd.getLayoutStartPoint();
 
-  const lines: [IPointLike, IPointLike][] = [];
+  const regionWidth = Math.abs(
+    Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x) -
+      Math.max(
+        regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
+        regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
+      )
+  );
+  const regionHeight = Math.abs(
+    Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y) -
+      Math.max(
+        regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
+        regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
+      )
+  );
+
+  const lines: IPoint[][] = [];
   const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
   const xDomain = relativeSeries.getXAxisHelper().getScale(0).domain();
-  dataPoints.forEach((datum: IPointLike) => {
-    if (isValid(datum.x)) {
-      isNumber(datum.x) &&
-        isNeedExtendDomain(xDomain, datum.x, autoRange) &&
-        relativeSeries?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
-      const x = relativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
+  const yDomain = relativeSeries.getYAxisHelper().getScale(0).domain();
+  dataPoints.forEach((datum: IPoint) => {
+    const isValidX = isValid(datum.x);
+    const isValidY = isValid(datum.y);
+    if (isValidX && isValidY) {
+      const x = getXValue(datum, xDomain, autoRange, relativeSeries, regionWidth, regionStartLayoutStartPoint);
+      const y = getYValue(datum, yDomain, autoRange, relativeSeries, regionHeight, regionStartLayoutStartPoint);
+      lines.push([{ x, y }]);
+    } else if (isValid(datum.x)) {
+      const x = getXValue(datum, xDomain, autoRange, relativeSeries, regionWidth, regionStartLayoutStartPoint);
       const y = Math.max(
         regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
         regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
@@ -40,34 +60,9 @@ export function xLayout(
           y: y1
         }
       ]);
-    }
-  });
-
-  return lines;
-}
-
-export function yLayout(
-  data: DataView,
-  startRelativeSeries: ICartesianSeries,
-  endRelativeSeries: ICartesianSeries,
-  relativeSeries: ICartesianSeries,
-  autoRange: boolean
-) {
-  const regionStart = startRelativeSeries.getRegion();
-  const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
-  const regionEnd = endRelativeSeries.getRegion();
-  const regionEndLayoutStartPoint = regionEnd.getLayoutStartPoint();
-
-  const lines: [IPointLike, IPointLike][] = [];
-  const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
-  const yDomain = relativeSeries.getYAxisHelper().getScale(0).domain();
-  dataPoints.forEach((datum: IPointLike) => {
-    if (isValid(datum.y)) {
-      isNumber(datum.y) &&
-        isNeedExtendDomain(yDomain, datum.y, autoRange) &&
-        relativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
+    } else if (isValid(datum.y)) {
       const x = Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x);
-      const y = relativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
+      const y = getYValue(datum, yDomain, autoRange, relativeSeries, regionHeight, regionStartLayoutStartPoint);
       const x1 = Math.max(
         regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
         regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
@@ -89,12 +84,12 @@ export function yLayout(
 }
 
 export function coordinateLayout(data: DataView, relativeSeries: ICartesianSeries, autoRange: boolean) {
-  const points: IPointLike[] = [];
+  const points: IPoint[] = [];
   const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
   dataPoints.forEach(
     (datum: {
-      x: string | number | null;
-      y: string | number | null;
+      x: StringOrNumber[] | StringOrNumber | null;
+      y: StringOrNumber[] | StringOrNumber | null;
       getRefRelativeSeries?: () => ICartesianSeries;
     }) => {
       const refRelativeSeries = datum?.getRefRelativeSeries ? datum.getRefRelativeSeries() : relativeSeries;
@@ -102,16 +97,20 @@ export function coordinateLayout(data: DataView, relativeSeries: ICartesianSerie
       const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
       const xDomain = refRelativeSeries.getXAxisHelper().getScale(0).domain();
       const yDomain = refRelativeSeries.getYAxisHelper().getScale(0).domain();
-      isNumber(datum.x) &&
-        isNeedExtendDomain(xDomain, datum.x, autoRange) &&
-        refRelativeSeries.getXAxisHelper()?.setExtendDomain?.('marker_xAxis_extend', datum.x as number);
+      const xValue = array(datum.x);
+      const yValue = array(datum.y);
+      xValue.length === 1 &&
+        isNumber(xValue[0]) &&
+        isNeedExtendDomain(xDomain, xValue[0], autoRange) &&
+        refRelativeSeries.getXAxisHelper()?.setExtendDomain?.('marker_xAxis_extend', xValue[0] as number);
 
-      isNumber(datum.y) &&
-        isNeedExtendDomain(yDomain, datum.y, autoRange) &&
-        refRelativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y as number);
+      yValue.length === 1 &&
+        isNumber(yValue[0]) &&
+        isNeedExtendDomain(yDomain, yValue[0], autoRange) &&
+        refRelativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', yValue[0] as number);
       points.push({
-        x: refRelativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x,
-        y: refRelativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y
+        x: refRelativeSeries.getXAxisHelper().dataToPosition(xValue) + regionStartLayoutStartPoint.x,
+        y: refRelativeSeries.getYAxisHelper().dataToPosition(yValue) + regionStartLayoutStartPoint.y
       });
     }
   );
@@ -128,4 +127,50 @@ function isNeedExtendDomain(domain: number[], datum: number, autoRange: boolean)
     return true;
   }
   return false;
+}
+
+function getXValue(
+  datum: Datum,
+  xDomain: number[],
+  autoRange: boolean,
+  relativeSeries: ICartesianSeries,
+  regionWidth: number,
+  regionStartLayoutStartPoint: IPoint
+) {
+  isNumber(datum.x) &&
+    isNeedExtendDomain(xDomain, datum.x, autoRange) &&
+    relativeSeries?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
+
+  let x: number;
+  if (isPercent(datum.x)) {
+    const percent = datum.x;
+    x = (Number(percent.substring(0, percent.length - 1)) * regionWidth) / 100 + regionStartLayoutStartPoint.x;
+  } else {
+    x = relativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
+  }
+
+  return x;
+}
+
+function getYValue(
+  datum: Datum,
+  yDomain: number[],
+  autoRange: boolean,
+  relativeSeries: ICartesianSeries,
+  regionHeight: number,
+  regionStartLayoutStartPoint: IPoint
+) {
+  isNumber(datum.y) &&
+    isNeedExtendDomain(yDomain, datum.y, autoRange) &&
+    relativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
+
+  let y: number;
+  if (isPercent(datum.y)) {
+    const percent = datum.y;
+    y = (Number(percent.substring(0, percent.length - 1)) * regionHeight) / 100 + regionStartLayoutStartPoint.y;
+  } else {
+    y = relativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
+  }
+
+  return y;
 }
