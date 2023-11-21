@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support optimize config, and auto set disableCheckGraphicWidthOutRange to true",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
