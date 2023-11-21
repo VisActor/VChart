@@ -26,6 +26,10 @@ Specifies the mark area for the coordinate point. Draw the mark area based on th
   prefix = '###'
 ) }}
 
+### regionRelative(boolean) = false
+
+自 `1.7.0` 版本支持，是否为相对 region 的坐标，默认为 false，即相对画布的坐标，默认 false。
+
 ### relativeRelativeSeriesIndex(number)
 
 The index of the series associated with the marked data (defaults to using the first valid series of the current region).
@@ -43,11 +47,12 @@ Mark point guide line.
 Mark point guide line type.
 
 Optional values:
+
 - `'type-s'`: Direct connection between start and end points
 - `'type-do'`: Indicates a folding point, where the x-coordinate of the folding point is the x-coordinate of 1/2 from the starting point to the end point, and the y-coordinate of the folding point is the y-coordinate of the starting point
 - `'type-po'`: Indicates a folding point, where the x-coordinate of the folding point is the x-coordinate of the end point, and the y-coordinate of the folding point is the y-coordinate of the starting point
 - `'type-op'`: Indicates a folding point, where the x-coordinate of the folding point is the x-coordinate of the starting point, and the y-coordinate of the folding point is the y-coordinate of the end point
-For more specific forms, refer to: https://journals.sagepub.com/doi/10.1177/1473871618799500
+  For more specific forms, refer to: https://journals.sagepub.com/doi/10.1177/1473871618799500
 
 #### visible(boolean)
 
@@ -100,6 +105,7 @@ Mark content.
 Mark content type.
 
 Optional values:
+
 - 'symbol'
 - 'text'
 - 'image'
@@ -110,6 +116,7 @@ Optional values:
 Position of the mark content relative to the positioning point.
 
 Optional values:
+
 - 'top'
 - 'bottom'
 - 'middle'
@@ -162,4 +169,3 @@ For mark content type 'richText', the richText style.
 {{ use: graphic-rich-text(
   prefix = '#####'
 ) }}
-
