@@ -352,8 +352,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
             }
           : null,
         state: transformAxisLabelStateStyle(spec.label.state),
-        type: spec.label.type,
-        text: spec.label.text,
         ...labelSpec
       },
       tick: {
@@ -407,8 +405,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         },
         pickable: spec.title.style?.pickable !== false,
         childrenPickable: spec.title.style?.pickable !== false,
-        type: spec.title.type,
-        text: spec.title.text,
         ...spec.title
       },
       panel: {

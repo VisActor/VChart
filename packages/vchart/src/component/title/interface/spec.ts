@@ -115,6 +115,7 @@ export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
     lineClamp?: number;
     /**
      * 富文本配置（暂时保留旧设置）
+     * @deprecated use text & textType instead
      */
     character?: IRichTextCharacter[];
   } & Partial<ITextGraphicAttribute>;
@@ -156,6 +157,7 @@ export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
     lineClamp?: number;
     /**
      * 富文本配置（暂时保留旧设置）
+     * @deprecated use subtext & subtextType instead
      */
     character?: IRichTextCharacter[];
   } & Partial<ITextGraphicAttribute>;
