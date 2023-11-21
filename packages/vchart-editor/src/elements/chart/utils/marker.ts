@@ -72,7 +72,10 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         },
         line: {
           style: {
-            stroke: '#000'
+            stroke: '#000',
+            lineWidth: 2,
+            boundsPadding: [4, 4, 4, 4],
+            pickMode: 'imprecise'
           }
         }
       };
@@ -107,7 +110,10 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
       },
       line: {
         style: {
-          stroke: '#000'
+          stroke: '#000',
+          lineWidth: 2,
+          boundsPadding: [4, 4, 4, 4],
+          pickMode: 'imprecise'
         }
       }
     };
@@ -411,7 +417,7 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
     },
     endSymbol: {
       size: 12,
-      refX: -6
+      refX: -4
     },
     [isHorizontal ? 'offsetX' : 'offsetY']: (isHorizontal ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
   };
@@ -476,7 +482,7 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     // region 边缘
     const startY = series.dataToPositionY(startData);
     const endY = series.dataToPositionY(endData);
-    expandDistance = region.getLayoutRect().height - Math.max(startY, endY);
+    expandDistance = Math.min(startY, endY);
     expandDistance = `${((expandDistance + 30) / region.getLayoutRect().height) * 100}%`;
   } else {
     const startX = series.dataToPositionX(startData);
@@ -532,7 +538,11 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     },
     endSymbol: {
       size: 12,
-      refX: -6
+      refX: -4
+    },
+    startSymbol: {
+      size: 12,
+      refX: -4
     }
   };
 }
@@ -625,7 +635,7 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
     },
     endSymbol: {
       size: 12,
-      refX: -6
+      refX: -4
     }
   };
 }

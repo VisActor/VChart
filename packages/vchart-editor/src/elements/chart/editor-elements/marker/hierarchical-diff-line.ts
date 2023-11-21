@@ -5,7 +5,7 @@
 import type { IGroup, ILine } from '@visactor/vrender-core';
 import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
-import { array, isValid, merge } from '@visactor/vutils';
+import { PointService, array, isValid, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent, ICartesianSeries } from '@visactor/vchart';
@@ -34,6 +34,12 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
   private _splitPoints: any[];
   private _splitAnchors: IGroup;
   private _spec: any;
+  private _prePos: Point;
+
+  protected _handlePointerUp(e: EventParams): void {
+    super._handlePointerUp(e);
+    this._editComponent.setAttribute('childrenPickable', true);
+  }
 
   protected _getEnableMarkerTypes(): string[] {
     return [MarkerTypeEnum.hierarchyDiffLine];
@@ -45,11 +51,8 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   protected _handlePointerDown(e: EventParams): void {
     this._spec = this._model.getSpec();
-
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
-
-    this._overlayMiddleHandler.addEventListener('pointerdown', this._onMiddleHandlerDragStart);
   }
 
   protected _getOverGraphic(el: IEditorElement): IGraphic {
@@ -97,7 +100,8 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   protected _createEditorGraphic(el: IEditorElement, e: any): IGraphic {
     const editComponent = createGroup({
-      pickable: false
+      pickable: false,
+      childrenPickable: false
     });
     const model = el.model;
     const markLine = (model as IComponent).getVRenderComponents()[0];
@@ -114,8 +118,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       shadowOffsetX: 0,
       shadowOffsetY: 4,
       shadowColor: 'rgba(0, 0, 0, 0.25)',
-      zIndex: 2,
-      cursor: 'move'
+      zIndex: 2
     });
     startHandler.name = START_LINK_HANDLER;
     this._overlayStartHandler = startHandler;
@@ -132,21 +135,19 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       shadowOffsetX: 0,
       shadowOffsetY: 4,
       shadowColor: 'rgba(0, 0, 0, 0.25)',
-      zIndex: 2,
-      cursor: 'move'
+      zIndex: 2
     });
     endHandler.name = END_LINK_HANDLER;
     this._overlayEndHandler = endHandler;
     editComponent.add(endHandler);
 
-    const series = (model as MarkLine).getRelativeSeries();
+    const series = (model as unknown as MarkLine).getRelativeSeries();
     const middleHandler = createLine({
       points: points[1],
       zIndex: 2,
       lineDash: [0],
       lineWidth: 2,
-      stroke: '#3073F2',
-      cursor: series.direction === 'horizontal' ? 'ns-resize' : 'ew-resize'
+      stroke: '#3073F2'
     });
     middleHandler.name = MIDDLE_LINK_HANDLER;
     this._overlayMiddleHandler = middleHandler;
@@ -171,6 +172,15 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     this._overlayEndHandler.addEventListener('pointerdown', this._onAnchorHandlerDragStart);
     this._overlayMiddleHandler.addEventListener('pointerdown', this._onMiddleHandlerDragStart);
 
+    this._overlayStartHandler.addEventListener('pointerenter', () => this._onHandlerHover('move'));
+    this._overlayEndHandler.addEventListener('pointerenter', () => this._onHandlerHover('move'));
+    this._overlayMiddleHandler.addEventListener('pointerenter', () =>
+      this._onHandlerHover(series.direction === 'horizontal' ? 'ns-resize' : 'ew-resize')
+    );
+    this._overlayStartHandler.addEventListener('pointerleave', this._onHandlerUnHover);
+    this._overlayEndHandler.addEventListener('pointerleave', this._onHandlerUnHover);
+    this._overlayMiddleHandler.addEventListener('pointerleave', this._onHandlerUnHover);
+
     return this._editComponent;
   }
 
@@ -182,6 +192,10 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _onAnchorHandlerDragStart = (e: PointerEvent) => {
     e.stopPropagation();
+    this._prePos = {
+      x: e.clientX,
+      y: e.clientY
+    };
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
     this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;
     this._model = model;
@@ -276,11 +290,19 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _onAnchorHandlerDragEnd = (e: any) => {
     e.preventDefault();
-    this._activeAllMarkers();
-    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
 
+    vglobal.removeEventListener('pointermove', this._onAnchorHandlerDrag);
+    vglobal.removeEventListener('pointerup', this._onAnchorHandlerDragEnd);
+
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
+    this._activeAllMarkers();
     // 隐藏可吸附数据锚点
     this._getDataAnchors()?.hideAll();
+
+    if (PointService.distancePP(this._prePos, { x: e.clientX, y: e.clientY }) <= 1) {
+      return;
+    }
+
     const model = this._model as MarkLine;
     const series = model.getRelativeSeries() as ICartesianSeries;
     const startDatum = (this._overlayStartHandler as unknown as any).data;
@@ -341,15 +363,13 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
               100
             }%`
           : `${
-              ((this._overlayMiddleHandler.attribute.points[0].y -
-                Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)) /
+              ((Math.min(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y) -
+                this._overlayMiddleHandler.attribute.points[0].y) /
                 region.getLayoutRect().height) *
               100
             }%`
     });
     this._spec = newMarkLineSpec;
-    vglobal.removeEventListener('pointermove', this._onAnchorHandlerDrag);
-    vglobal.removeEventListener('pointerup', this._onAnchorHandlerDragEnd);
 
     this._updateAndSave(newMarkLineSpec, 'markLine');
   };
@@ -537,6 +557,11 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
   private _onMiddleHandlerDragStart = (e: PointerEvent) => {
     e.stopPropagation();
 
+    this._prePos = {
+      x: e.clientX,
+      y: e.clientY
+    };
+
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
     this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;
     this._model = model;
@@ -598,7 +623,13 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
   private _onMiddleHandlerDragEnd = (e: any) => {
     e.preventDefault();
 
-    this._splitAnchors.hideAll();
+    vglobal.removeEventListener('pointermove', this._onMiddleHandlerDrag);
+    vglobal.removeEventListener('pointerup', this._onMiddleHandlerDragEnd);
+
+    if (PointService.distancePP(this._prePos, { x: e.clientX, y: e.clientY }) <= 1) {
+      return;
+    }
+    this._getSplitGroup().hideAll();
     this._activeAllMarkers();
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
 
@@ -643,16 +674,13 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
               100
             }%`
           : `${
-              ((this._overlayMiddleHandler.attribute.points[0].y -
-                Math.max(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y)) /
+              ((Math.min(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y) -
+                this._overlayMiddleHandler.attribute.points[0].y) /
                 region.getLayoutRect().height) *
               100
             }%`
     });
     this._spec = newMarkLineSpec;
-
-    vglobal.removeEventListener('pointermove', this._onMiddleHandlerDrag);
-    vglobal.removeEventListener('pointerup', this._onMiddleHandlerDragEnd);
     this._updateAndSave(newMarkLineSpec, 'markLine');
   };
 
@@ -1182,4 +1210,12 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
     return data.top ? data.data[valueField] : 0;
   }
+
+  private _onHandlerHover(cursor: string) {
+    this._chart.option.editorEvent.setCursor(cursor);
+  }
+
+  private _onHandlerUnHover = () => {
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
+  };
 }

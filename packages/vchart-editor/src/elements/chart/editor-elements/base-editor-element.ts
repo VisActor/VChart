@@ -232,4 +232,8 @@ export class CommonChartEditorElement implements IEditorElement {
       });
     }
   }
+
+  updateRect(rect: IRect) {
+    this._opt.rect = rect;
+  }
 }

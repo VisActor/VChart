@@ -8,7 +8,7 @@ import type { IGroup, ILine, ISymbol } from '@visactor/vrender-core';
 import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 import type { IPointLike } from '@visactor/vutils';
-import { array, last, merge } from '@visactor/vutils';
+import { PointService, array, last, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, ICartesianSeries, IComponent, IStepMarkLineSpec } from '@visactor/vchart';
@@ -39,6 +39,13 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   private _currentHandler: IGraphic;
   private _fixedHandler: IGraphic;
   private _dataAnchors: IGroup;
+
+  private _prePoint: Point;
+
+  protected _handlePointerUp(e: EventParams): void {
+    super._handlePointerUp(e);
+    this._editComponent.setAttribute('childrenPickable', true);
+  }
 
   protected _getEnableMarkerTypes(): string[] {
     return [MarkerTypeEnum.growthLine, MarkerTypeEnum.totalDiffLine];
@@ -91,7 +98,8 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     const dataPoints = this._getAnchorPoints();
     const lineShape = this._element.getLine();
     const editComponent = createGroup({
-      pickable: false
+      pickable: false,
+      childrenPickable: false
     });
     editComponent.name = 'overlay-growth-mark-line';
     const overlayLine = createLine({
@@ -257,6 +265,12 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   // 交互描述：拖拽过程中，根据当前的鼠标垫查找最近的数据点，然后更新图形位置
   private _onHandlerDragStart = (e: any) => {
     e.stopPropagation();
+
+    this._prePoint = {
+      x: e.clientX,
+      y: e.clientY
+    };
+
     this._chart.option.editorEvent.setCursor('move');
 
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
@@ -381,9 +395,17 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   private _onHandlerDragEnd = (e: any) => {
     e.preventDefault();
 
+    vglobal.removeEventListener('pointermove', this._onHandlerDrag);
+    vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
+
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
     // Important: 拖拽结束，恢复所有 marker 交互
     this._activeAllMarkers();
+
+    if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 1) {
+      return;
+    }
+
     // 隐藏可吸附数据锚点
     this._dataAnchors?.hideAll();
     // 更新 markLine
@@ -394,88 +416,75 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     const startDatum = (this._overlayStartHandler as unknown as any).data;
     const endDatum = (this._overlayEndHandler as unknown as any).data;
 
-    // 1. 生成新的 markLine spec，用于存储
-    const newMarkLineSpec = merge({}, model.getSpec(), {
-      coordinates: [
-        {
-          ...startDatum,
-          [valueFieldInData]: startDatum[valueField]
-        },
-        {
-          ...endDatum,
-          [valueFieldInData]: endDatum[valueField]
-        }
-      ]
-    });
-
-    // 2. 更新当前 markLine 组件
-    if (this._element.name === MarkerTypeEnum.growthLine) {
-      const dimensionField =
-        series.direction === 'horizontal' ? array(series.getSpec().yField)[0] : array(series.getSpec().xField)[0];
-      const dimensionTicks =
-        series.direction === 'horizontal'
-          ? (series.getYAxisHelper().getScale(0) as IBandLikeScale).ticks()
-          : (series.getXAxisHelper().getScale(0) as IBandLikeScale).ticks();
-      const n = Math.abs(
-        dimensionTicks.indexOf(endDatum[dimensionField]) - dimensionTicks.indexOf(startDatum[dimensionField])
-      );
-
-      const labelText =
-        startDatum[valueField] === 0
-          ? '<超过 0 的百分比>'
-          : `${(calculateCAGR(endDatum[valueField], startDatum[valueField], n) * 100).toFixed(0)}%`;
-      let attrKey;
-      let attrValue;
-      if (this._model.getRelativeSeries().direction === 'horizontal') {
-        attrKey = 'dx';
-        attrValue = DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
-      } else {
-        attrKey = 'dy';
-        attrValue = -DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
-      }
-      this._element.setAttributes({
-        pickable: true,
-        childrenPickable: true,
-        // @ts-ignore
-        points: [
-          (this._overlayStartHandler as unknown as Segment).attribute.points[0],
-          (this._overlayEndHandler as unknown as Segment).attribute.points[0]
-        ],
-        label: {
-          text: labelText
-        },
-        [attrKey]: attrValue
+    if (startDatum && endDatum) {
+      // 1. 生成新的 markLine spec，用于存储
+      const newMarkLineSpec = merge({}, model.getSpec(), {
+        coordinates: [
+          {
+            ...startDatum,
+            [valueFieldInData]: startDatum[valueField]
+          },
+          {
+            ...endDatum,
+            [valueFieldInData]: endDatum[valueField]
+          }
+        ]
       });
-      newMarkLineSpec[attrKey === 'dx' ? 'offsetX' : 'offsetY'] = attrValue;
-      newMarkLineSpec.label = {
-        ...newMarkLineSpec.label,
-        text: labelText
-      };
-    } else {
-      const labelText =
-        startDatum[valueField] === 0
-          ? '<超过 0 的百分比>'
-          : `${(((endDatum[valueField] - startDatum[valueField]) / startDatum[valueField]) * 100).toFixed(0)}%`;
 
-      this._element.setAttributes({
-        pickable: true,
-        childrenPickable: true,
-        // @ts-ignore
-        points: getInsertPoints(
-          {
-            x: this._overlayStartHandler.attribute.x,
-            y: this._overlayStartHandler.attribute.y
+      // 2. 更新当前 markLine 组件
+      if (this._element.name === MarkerTypeEnum.growthLine) {
+        const dimensionField =
+          series.direction === 'horizontal' ? array(series.getSpec().yField)[0] : array(series.getSpec().xField)[0];
+        const dimensionTicks =
+          series.direction === 'horizontal'
+            ? (series.getYAxisHelper().getScale(0) as IBandLikeScale).ticks()
+            : (series.getXAxisHelper().getScale(0) as IBandLikeScale).ticks();
+        const n = Math.abs(
+          dimensionTicks.indexOf(endDatum[dimensionField]) - dimensionTicks.indexOf(startDatum[dimensionField])
+        );
+
+        const labelText =
+          startDatum[valueField] === 0
+            ? '<超过 0 的百分比>'
+            : `${(calculateCAGR(endDatum[valueField], startDatum[valueField], n) * 100).toFixed(0)}%`;
+        let attrKey;
+        let attrValue;
+        if (this._model.getRelativeSeries().direction === 'horizontal') {
+          attrKey = 'dx';
+          attrValue = DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
+        } else {
+          attrKey = 'dy';
+          attrValue = -DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
+        }
+        this._element.setAttributes({
+          pickable: true,
+          childrenPickable: true,
+          // @ts-ignore
+          points: [
+            (this._overlayStartHandler as unknown as Segment).attribute.points[0],
+            (this._overlayEndHandler as unknown as Segment).attribute.points[0]
+          ],
+          label: {
+            text: labelText
           },
-          {
-            x: this._overlayEndHandler.attribute.x,
-            y: this._overlayEndHandler.attribute.y
-          },
-          (this._model.getSpec() as IStepMarkLineSpec).connectDirection,
-          DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
-        ),
-        label: {
-          text: labelText,
-          ...getTextOffset(
+          [attrKey]: attrValue
+        });
+        newMarkLineSpec[attrKey === 'dx' ? 'offsetX' : 'offsetY'] = attrValue;
+        newMarkLineSpec.label = {
+          ...newMarkLineSpec.label,
+          text: labelText
+        };
+      } else {
+        const labelText =
+          startDatum[valueField] === 0
+            ? '<超过 0 的百分比>'
+            : `${(((endDatum[valueField] - startDatum[valueField]) / startDatum[valueField]) * 100).toFixed(0)}%`;
+
+        this._element.setAttributes({
+          pickable: true,
+          childrenPickable: true,
+          // @ts-ignore
+          points: getInsertPoints(
             {
               x: this._overlayStartHandler.attribute.x,
               y: this._overlayStartHandler.attribute.y
@@ -486,21 +495,33 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
             },
             (this._model.getSpec() as IStepMarkLineSpec).connectDirection,
             DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
-          )
-        }
-      });
+          ),
+          label: {
+            text: labelText,
+            ...getTextOffset(
+              {
+                x: this._overlayStartHandler.attribute.x,
+                y: this._overlayStartHandler.attribute.y
+              },
+              {
+                x: this._overlayEndHandler.attribute.x,
+                y: this._overlayEndHandler.attribute.y
+              },
+              (this._model.getSpec() as IStepMarkLineSpec).connectDirection,
+              DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
+            )
+          }
+        });
 
-      newMarkLineSpec.expandDistance = DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
-      newMarkLineSpec.label = {
-        ...newMarkLineSpec.label,
-        text: labelText
-      };
+        newMarkLineSpec.expandDistance = DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
+        newMarkLineSpec.label = {
+          ...newMarkLineSpec.label,
+          text: labelText
+        };
+      }
+
+      this._updateAndSave(newMarkLineSpec, 'markLine');
     }
-
-    vglobal.removeEventListener('pointermove', this._onHandlerDrag);
-    vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
-
-    this._updateAndSave(newMarkLineSpec, 'markLine');
   };
 
   private _getAnchorPoints() {

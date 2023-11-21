@@ -174,6 +174,7 @@ export interface IEditorElement {
   updateAttribute: (attr: IUpdateAttributeParam, triggerHistory?: boolean) => false | { [key: string]: unknown };
   editorFinish: () => void;
   updateElement: () => void;
+  updateRect: (rect: IRect) => void;
 }
 
 export type EditorHandlerFunc = (el: IEditorElement) => void;
