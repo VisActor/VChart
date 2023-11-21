@@ -179,17 +179,29 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         const reverse = axisScale.range()[0] > axisScale.range()[1] && !axisSpec.inverse;
         const newRangeFactor: [number, number] = reverse ? [1 - this._end, 1 - this._start] : [this._start, this._end];
 
-        if (tag === 'startHandler') {
-          axisScale.rangeFactorStart(newRangeFactor[0]);
-        } else if (tag === 'endHandler') {
-          axisScale.rangeFactorEnd(newRangeFactor[1]);
+        if (reverse) {
+          switch (tag) {
+            case 'startHandler':
+              axisScale.rangeFactorEnd(newRangeFactor[1]);
+              break;
+            case 'endHandler':
+              axisScale.rangeFactorStart(newRangeFactor[0]);
+              break;
+            default:
+              axisScale.rangeFactorStart(newRangeFactor[0], true);
+              axisScale.rangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
+          }
         } else {
-          if (reverse) {
-            axisScale.rangeFactorStart(newRangeFactor[0], true);
-            axisScale.rangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
-          } else {
-            axisScale.rangeFactorEnd(newRangeFactor[1], true);
-            axisScale.rangeFactorStart(newRangeFactor[0]); // start 保证为准确值
+          switch (tag) {
+            case 'startHandler':
+              axisScale.rangeFactorStart(newRangeFactor[0]);
+              break;
+            case 'endHandler':
+              axisScale.rangeFactorEnd(newRangeFactor[1]);
+              break;
+            default:
+              axisScale.rangeFactorEnd(newRangeFactor[1], true);
+              axisScale.rangeFactorStart(newRangeFactor[0]); // start 保证为准确值
           }
         }
 
