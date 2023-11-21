@@ -979,7 +979,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // TODO: rawData transform clear;
     // this._dataSet=>// _rawData.tag = vchart
     // clear add transforms of rawData
-    const transformIndex = this._rawData.transformsArr.findIndex(t => t.type === 'addVChartProperty');
+    const transformIndex = this._rawData?.transformsArr?.findIndex(t => t.type === 'addVChartProperty');
     if (transformIndex >= 0) {
       this._rawData.transformsArr.splice(transformIndex, 1);
     }

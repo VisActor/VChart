@@ -166,7 +166,13 @@ export class HorizontalBarTemp extends BaseTemp {
   }
   getSpec(data: StandardData, info: DataInfo, opt?: any) {
     const tempSpec = cloneDeep(spec);
-    tempSpec.data = [data];
+    tempSpec.data = [
+      {
+        id: data.name,
+        values: data.latestData,
+        fields: data.getFields()
+      }
+    ];
     const yField: string[] = [];
     const xField: string[] = [];
     let seriesField: string = null;

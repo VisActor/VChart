@@ -77,7 +77,13 @@ export class PieTemp extends BaseTemp {
   }
   getSpec(data: StandardData, info: DataInfo, opt?: any) {
     const tempSpec = cloneDeep(spec);
-    tempSpec.data = [data];
+    tempSpec.data = [
+      {
+        id: data.name,
+        values: data.latestData,
+        fields: data.getFields()
+      }
+    ];
     let categoryField: string = null;
     let valueField: string = null;
     Object.keys(info).forEach(key => {

@@ -422,7 +422,11 @@ export class VChart implements IVChart {
 
   private _releaseData() {
     if (this._dataSet) {
-      this._dataSet.dataViewMap = {};
+      Object.values(this._dataSet.dataViewMap).forEach(d => {
+        d.target.removeAllListeners();
+        d.destroy();
+      });
+      this._dataSet.destroy();
       this._dataSet = null;
     }
   }
