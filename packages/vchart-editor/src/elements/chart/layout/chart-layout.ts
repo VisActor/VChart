@@ -249,7 +249,7 @@ export class ChartLayout implements IChartLayout {
     }
     if (model.layoutOrient === 'left') {
       const b = getBoundsInRects(axisRegionLayoutData, ['x1', 'y1']);
-      layoutData.layout.x.offset = b.x1;
+      layoutData.layout.x.offset = b.x2;
       layoutData.layout.y.offset = b.y1;
       layoutData.layout.width.offset = 999999;
     } else if (model.layoutOrient === 'right') {
@@ -260,12 +260,12 @@ export class ChartLayout implements IChartLayout {
     } else if (model.layoutOrient === 'top') {
       const b = getBoundsInRects(axisRegionLayoutData, ['x1', 'y1']);
       layoutData.layout.x.offset = b.x1;
-      layoutData.layout.y.offset = b.y1;
+      layoutData.layout.y.offset = b.y2;
       layoutData.layout.height.offset = 999999;
     } else if (model.layoutOrient === 'bottom') {
       const b = getBoundsInRects(axisRegionLayoutData, ['x1', 'y2']);
       layoutData.layout.x.offset = b.x1;
-      layoutData.layout.y.offset = b.y2;
+      layoutData.layout.y.offset = b.y1;
       layoutData.layout.height.offset = 999999;
     }
     this.setModelLayoutData(layoutData);

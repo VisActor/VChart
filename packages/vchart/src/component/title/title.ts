@@ -17,6 +17,8 @@ import { Factory } from '../../core/factory';
 export class Title extends BaseComponent<ITitleSpec> implements ITitle {
   static type = ComponentTypeEnum.title;
   type = ComponentTypeEnum.title;
+  static specKey = ComponentTypeEnum.title;
+  specKey: string = ComponentTypeEnum.title;
 
   layoutType: ILayoutType = 'normal';
   layoutZIndex: number = LayoutZIndex.Title;

@@ -93,6 +93,7 @@ export class CommonModelElement extends BaseEditorElement {
         if (reRender) {
           this.chart.reRenderWithUpdateSpec();
         }
+        this._controller.editorEnd();
         return false;
       }
     });

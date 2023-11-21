@@ -285,6 +285,8 @@ export class VChartEditor {
       return;
     }
 
+    this.clearCurrentEditorElement();
+    this.editorController.setEditorElements(null, null);
     const offsetX = (this._width - contentWidth) * 0.5 - b.x1;
     const offsetY = (this._height - contentHeight) * 0.5 - b.y1;
     this._layers.forEach(l => {

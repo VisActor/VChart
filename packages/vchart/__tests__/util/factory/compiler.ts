@@ -1,5 +1,6 @@
 export const getTestCompiler = () =>
   ({
     getVGrammarView: () => null as any,
-    addGrammarItem: () => {}
+    addGrammarItem: () => {},
+    removeAllGraphicItems: () => {}
   } as any);

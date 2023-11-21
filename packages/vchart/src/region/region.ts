@@ -23,6 +23,8 @@ import { LayoutModel } from '../model/layout-model';
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
   readonly modelType: string = 'region';
+  static specKey = 'region';
+  specKey: string = 'region';
 
   type = Region.type;
   protected _series: ISeries[] = [];
