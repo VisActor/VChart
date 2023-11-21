@@ -40,6 +40,14 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   private _prePos: number = 0;
   private _prePoint: Point;
 
+  protected _handlePointerUp(e: EventParams): void {
+    super._handlePointerUp(e);
+    this._editComponent?.setAttributes({
+      pickable: true,
+      childrenPickable: true
+    });
+  }
+
   protected _getEnableMarkerTypes(): string[] {
     return [MarkerTypeEnum.horizontalArea, MarkerTypeEnum.verticalArea];
   }
@@ -86,7 +94,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   // 创建 hover 浮层
   protected _getOverGraphic(el: IEditorElement): IGraphic {
     const model = el.model;
-    const markArea = (model as IComponent).getVRenderComponents()[0];
+    const markArea = (model as unknown as IComponent).getVRenderComponents()[0];
     const areaShape = (markArea as unknown as MarkAreaComponent).getArea();
     const overlayArea = createPolygon(
       merge({}, areaShape.attribute, {
@@ -102,12 +110,11 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   // 创建交互编辑框
   protected _createEditorGraphic(el: IEditorElement): IGraphic {
-    if (this._editComponent) {
-      return this._editComponent;
-    }
-
     const model = el.model;
-    const overlayGraphic = createGroup({});
+    const overlayGraphic = createGroup({
+      pickable: false,
+      childrenPickable: false
+    });
     const overlayAreaGroup = createGroup({
       x: 0,
       y: 0
@@ -116,7 +123,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     overlayGraphic.add(overlayAreaGroup);
     this._overlayAreaGroup = overlayAreaGroup;
 
-    const markArea = (model as IComponent).getVRenderComponents()[0];
+    const markArea = (model as unknown as IComponent).getVRenderComponents()[0];
     const areaShape = (markArea as unknown as MarkAreaComponent).getArea();
     const points = areaShape.attribute.points;
     if (this._orient === 'vertical') {
@@ -362,7 +369,10 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
     const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
-    this._overlayLabel.setAttribute('visible', false);
+    this._overlayLabel.setAttributes({
+      visible: false,
+      pickable: false
+    });
     this._activeAllMarkers();
     this._overlayAreaGroup.setAttributes({
       pickable: true,
@@ -409,6 +419,10 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     this._controller.removeOverGraphic();
     this._silentAllMarkers();
     this._editComponent.showAll();
+    this._editComponent.setAttributes({
+      pickable: true,
+      childrenPickable: true
+    });
     const overlayArea = this._overlayArea;
     let currentPos;
     let delta = 0;
@@ -495,7 +509,6 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     e.preventDefault();
     vglobal.removeEventListener('pointermove', this._onAreaDrag);
     vglobal.removeEventListener('pointerup', this._onAreaDragEnd);
-
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
     const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
@@ -506,9 +519,9 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     });
     this._activeAllMarkers();
 
-    if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 1) {
-      return;
-    }
+    // if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 0) {
+    //   return;
+    // }
 
     // 更新当前图形以及保存 spec
     this._save(points);

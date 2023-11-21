@@ -37,7 +37,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
   private _prePos: Point;
 
   protected _handlePointerUp(e: EventParams): void {
-    super.endEditor();
+    super._handlePointerUp(e);
     this._editComponent.setAttribute('childrenPickable', true);
   }
 

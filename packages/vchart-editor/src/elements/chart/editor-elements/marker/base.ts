@@ -104,7 +104,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
           this.chart.reRenderWithUpdateSpec();
         }
 
-        this._controller.editorEnd();
+        this._controller.removeOverGraphic();
         return false;
       }
     });

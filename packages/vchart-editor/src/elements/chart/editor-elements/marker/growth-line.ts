@@ -43,7 +43,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   private _prePoint: Point;
 
   protected _handlePointerUp(e: EventParams): void {
-    super.endEditor();
+    super._handlePointerUp(e);
     this._editComponent.setAttribute('childrenPickable', true);
   }
 
