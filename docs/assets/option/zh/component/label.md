@@ -24,15 +24,13 @@
 
 #${prefix} formatter(string)
 
-字符串模版变量，自`1.7.0`版本开始支持。
+字符串模版，自`1.7.0`版本开始支持。
 
-可选：
+用`{}`包裹变量名的字符串模版，变量名取自数据属性值。
 
-- `'value'`: 数值
-- `'catogory'`: 分类值
-- `'percent'`: 百分比值（饼图生效）
+在饼图中支持配置百分比, `{_percent_}`
 
-如果变量名无效，则返回数值。
+例如，`formatter: 'type={type},value={value},percent={_percent_}'`
 
 {{ if: !${noOffset} }}
 

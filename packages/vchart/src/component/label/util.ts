@@ -4,7 +4,7 @@ import { Direction } from '../../typings/space';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
-import { isBoolean, isFunction, isString } from '@visactor/vutils';
+import { isBoolean, isFunction, isString, substitute } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
@@ -43,25 +43,16 @@ export function textAttribute(
     textAttribute[key] = attr;
   }
 
-  if (formatter) {
-    let field;
-    if (formatter === 'catogory') {
-      field = series.getDimensionField()[0];
-    } else if (formatter === 'percentage' && series.type === 'pie') {
-      field = ARC_RATIO;
-    } else {
-      /** if(formatter === 'value')
-       *  如果变量名无效，则返回'value'
-       */
-      field = series.getMeasureField()[0];
-    }
-    textAttribute.text = datum[field];
-  }
-
   if (formatMethod) {
     textAttribute.text = formatMethod(textAttribute.text, datum, { series });
   }
 
+  if (formatter) {
+    if (series.type === 'pie') {
+      datum._percent_ = (datum[ARC_RATIO] * 100).toFixed(2) + '%';
+    }
+    textAttribute.text = substitute(formatter, datum);
+  }
   return textAttribute;
 }
 

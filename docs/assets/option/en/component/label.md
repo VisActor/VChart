@@ -24,15 +24,13 @@ The data label content formatting function, defined as follows:
 
 #${prefix} formatter(string)
 
-String template variables, supported since `1.7.0` version.
+String template, supported since `1.7.0` version.
 
-Optional:
+A string template that wraps the variable name with `{}`. The variable name is taken from the data attribute value.
 
-- `'value'`: numerical value
-- `'catogory'`: categorical value
-- `'percent'`: percentage value (valid for pie charts)
+Supports configuration of percentages in pie charts, `{_percent_}`
 
-If the variable name is invalid, a numeric value is returned.
+For example, `formatter: 'type={type},value={value},percent={_percent_}'`
 
 {{ if: !${noOffset} }}
 

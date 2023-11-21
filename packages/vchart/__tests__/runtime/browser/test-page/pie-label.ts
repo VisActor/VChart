@@ -325,11 +325,7 @@ const run = () => {
     },
     label: {
       visible: true,
-      formatter: 'percentage',
-      formatMethod: (text, datum) => {
-        console.log('datum.type', datum.type, datum);
-        return (text * 100).toFixed(2) + '%';
-      },
+      formatter: 'type={type},value={value},percent={_percent_}',
       style: {
         fontSize: 16,
         lineWidth: 2

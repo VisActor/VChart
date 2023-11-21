@@ -14,11 +14,10 @@ export interface ILabelSpec extends IComponentSpec {
   interactive?: boolean;
   /** 格式化函数 */
   formatMethod?: (text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext) => string | string[];
-  /** 字符串模版变量
-   *  - 数值 'value'
-   *  - 分类值 'catogory'
-   *  - 百分比值 'percent' (饼图生效)
-   *  如果变量名无效，则返回数值
+  /** 字符串模版
+   *  用{}包裹变量名的字符串模版, 变量名取自数据属性值
+   *  在饼图中支持配置百分比, {_percent_}
+   *  eg: 'type={type},value={value},percent={_percent_}'
    *  since version '1.7.0'
    */
   formatter?: string;
