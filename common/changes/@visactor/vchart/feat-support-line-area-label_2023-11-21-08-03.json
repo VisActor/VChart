@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support line/area label",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
