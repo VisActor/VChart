@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: chart padding won't update when switching global theme",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

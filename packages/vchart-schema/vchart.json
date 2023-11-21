@@ -28305,9 +28305,6 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "style"
-      ],
       "type": "object"
     },
     "ICrosshairLabelSpec": {

@@ -149,7 +149,7 @@ export interface ICrosshairLabelBackgroundSpec {
    * 内部边距
    */
   padding?: IPadding | number | number[];
-  style: Partial<IRectMarkSpec>;
+  style?: Partial<IRectMarkSpec>;
 }
 
 export interface ICrosshairDataBindSpec {

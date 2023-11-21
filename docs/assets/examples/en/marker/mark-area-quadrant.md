@@ -4,7 +4,8 @@ group: marker
 title: markArea Quadrant Chart Simulation
 keywords: marker,scatterChart,scatter
 order: 33-7
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-area-quadrant.png
+cover: /vchart/preview/mark-area-quadrant_1.7.0.png
+
 option: scatterChart#markArea
 ---
 
@@ -14,13 +15,13 @@ By using markArea, you can configure fill styles for different regions of the ch
 
 ## Key option
 
-Data point positioning:
+Relative positioning:
 
-- The `coordinates` attribute declares an array of data points or data aggregation values for constructing the markArea outline, with aggregation methods as mentioned before. The declaration of the data point is in the form `{xKey: value, yKey: value}`, where `xKey` is the data field corresponding to the x-axis, `yKey` is the data field corresponding to the y-axis, and `value` is the value corresponding to the data field or the aggregation type.
+- Draw an area by declaring `x`, `y`, `x1`, `y1` properties. These properties support percentage positioning.
 
-Area style configuration:
+area style configuration:
 
-- The `area.style` attribute declares the style for the area region, supporting graphic attributes such as `fill` and `stroke`.
+- The `area.style` attribute is declared as the style of the area area, and supports `fill`, `stroke` and other primitive attributes.
 
 ## Demo source
 
@@ -29,6 +30,15 @@ const spec = {
   type: 'scatter',
   xField: 'x',
   yField: 'y',
+  padding: [12, 12, 50, 50],
+  region: [
+    {
+      style: {
+        stroke: '#000',
+        lineWidth: 2
+      }
+    }
+  ],
   label: {
     visible: true,
     style: {
@@ -47,88 +57,249 @@ const spec = {
     },
     {
       orient: 'left',
+      max: 85,
       visible: false
     }
   ],
   markArea: [
+    // Quadrant 1
     {
-      coordinates: [
-        {
-          x: 140,
-          y: 0
-        },
-        {
-          x: 220,
-          y: 0
-        },
-        {
-          x: 220,
-          y: 80
-        },
-        {
-          x: 140,
-          y: 80
-        }
-      ],
-      area: {
-        style: {
-          fill: '#5B8FF9',
-          fillOpacity: 0,
-          stroke: '#5B8FF9'
-        }
-      }
-    },
-    {
-      coordinates: [
-        {
-          x: 140,
-          y: 0
-        },
-        {
-          x: 180,
-          y: 0
-        },
-        {
-          x: 180,
-          y: 40
-        },
-        {
-          x: 140,
-          y: 40
-        }
-      ],
+      x: '50%',
+      x1: '100%',
+      y: '0%',
+      y1: '50%',
       area: {
         style: {
           fill: '#5B8FF9',
           fillOpacity: 0.15
         }
+      },
+      label: {
+        text: 'Quadrant 1',
+        position: 'insideTop',
+        dy: 4,
+        labelBackground: {
+          style: {
+            fill: '#FFC400'
+          }
+        },
+        style: {
+          fill: '#fff'
+        }
       }
     },
+    // Quadrant 2
     {
-      coordinates: [
-        {
-          x: 180,
-          y: 40
-        },
-        {
-          x: 220,
-          y: 40
-        },
-        {
-          x: 220,
-          y: 80
-        },
-        {
-          x: 180,
-          y: 80
+      x: '0%',
+      x1: '50%',
+      y: '0%',
+      y1: '50%',
+      area: {
+        style: {
+          fill: '#fff'
         }
-      ],
+      },
+      label: {
+        text: 'Quadrant 2',
+        position: 'insideTop',
+        dy: 4,
+        labelBackground: {
+          style: {
+            fill: '#FFC400'
+          }
+        },
+        style: {
+          fill: '#fff'
+        }
+      }
+    },
+    // Quadrant 3
+    {
+      x: '0%',
+      x1: '50%',
+      y: '50%',
+      y1: '100%',
       area: {
         style: {
           fill: '#5B8FF9',
           fillOpacity: 0.15
         }
+      },
+      label: {
+        text: 'Quadrant 3',
+        position: 'insideBottom',
+        dy: -4,
+        labelBackground: {
+          style: {
+            fill: '#FFC400'
+          }
+        },
+        style: {
+          fill: '#fff'
+        }
       }
+    },
+    // Quadrant 4
+    {
+      x: '50%',
+      x1: '100%',
+      y: '50%',
+      y1: '100%',
+      area: {
+        style: {
+          fill: '#fff'
+        }
+      },
+      label: {
+        text: 'Quadrant 4',
+        position: 'insideBottom',
+        dy: -4,
+        labelBackground: {
+          style: {
+            fill: '#FFC400'
+          }
+        },
+        style: {
+          fill: '#fff'
+        }
+      }
+    }
+  ],
+  // split line
+  markLine: [
+    {
+      x: '50%',
+      line: {
+        style: {
+          lineDash: [0],
+          stroke: '#ccc'
+        }
+      },
+      endSymbol: {
+        visible: false
+      }
+    },
+    {
+      y: '50%',
+      line: {
+        style: {
+          lineDash: [0],
+          stroke: '#ccc'
+        }
+      },
+      endSymbol: {
+        visible: false
+      }
+    }
+  ],
+  // auxiliary text
+  extensionMark: [
+    // Vertical axis auxiliary text
+    {
+      type: 'group',
+      visible: true,
+      style: {
+        x: -12,
+        y: (datum, ctx, elements, dataView) => {
+          return ctx.getRegion().getLayoutRect().height;
+        }
+      },
+      children: [
+        {
+          type: 'text',
+          visible: true,
+          style: {
+            x: 0,
+            y: 0,
+            fontSize: 14,
+            lineHeight: 16,
+            fill: '#000',
+            text: 'ABILITY TO EXECUTE',
+            textAlign: 'start',
+            textBaseline: 'middle',
+            angle: -90
+          }
+        },
+        {
+          type: 'rule',
+          visible: true,
+          style: {
+            x: 0,
+            y: (datum, ctx, elements, dataView) => {
+              return -150;
+            },
+            x1: 0,
+            y1: (datum, ctx, elements, dataView) => {
+              return -190;
+            },
+            stroke: '#000',
+            lineWidth: 1
+          }
+        },
+        {
+          type: 'symbol',
+          visible: true,
+          style: {
+            x: 0,
+            y: (datum, ctx, elements, dataView) => {
+              return -186;
+            },
+            symbolType: 'triangleUp',
+            fill: '#000',
+            size: 12
+          }
+        }
+      ]
+    },
+    // Horizontal axis auxiliary text
+    {
+      type: 'group',
+      visible: true,
+      style: {
+        x: 0,
+        y: (datum, ctx, elements, dataView) => {
+          return ctx.getRegion().getLayoutRect().height + 12;
+        }
+      },
+      children: [
+        {
+          type: 'text',
+          visible: true,
+          style: {
+            x: 0,
+            y: 0,
+            fontSize: 14,
+            lineHeight: 16,
+            fill: '#000',
+            text: 'COMPLETENESS OF VISION',
+            textAlign: 'start',
+            textBaseline: 'middle'
+          }
+        },
+        {
+          type: 'rule',
+          visible: true,
+          style: {
+            x: 190,
+            y: 0,
+            x1: 230,
+            y1: 0,
+            stroke: '#000',
+            lineWidth: 1
+          }
+        },
+        {
+          type: 'symbol',
+          visible: true,
+          style: {
+            x: 236,
+            y: 0,
+            symbolType: 'triangleRight',
+            fill: '#000',
+            size: 12
+          }
+        }
+      ]
     }
   ],
   data: {
@@ -319,7 +490,7 @@ const spec = {
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 
-// Just for the convenience of console debugging, do not copy
+// Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
 

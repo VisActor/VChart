@@ -1,12 +1,12 @@
-import type { IPointLike } from '@visactor/vutils';
+import type { IPoint } from '../../../typings';
 
 export function getInsertPoints(
-  start: IPointLike,
-  end: IPointLike,
+  start: IPoint,
+  end: IPoint,
   direction: 'top' | 'bottom' | 'left' | 'right',
   offset: number = 0
 ) {
-  const points: IPointLike[] = [];
+  const points: IPoint[] = [];
   const dy = start.y - end.y;
   const dx = start.x - end.x;
 
@@ -60,8 +60,8 @@ export function getInsertPoints(
 }
 
 export function getTextOffset(
-  start: IPointLike,
-  end: IPointLike,
+  start: IPoint,
+  end: IPoint,
   direction: 'top' | 'bottom' | 'left' | 'right',
   offset: number = 0
 ) {

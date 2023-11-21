@@ -15,7 +15,6 @@ export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     type: ComponentTypeEnum;
     name: string;
     layoutZIndex: LayoutItem['layoutZIndex'];
-    static speckey: string;
     protected _brushComponents: BrushComponent[];
     protected _relativeRegions: IRegion[];
     protected _linkedSeries: ISeries[];

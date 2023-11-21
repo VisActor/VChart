@@ -16,7 +16,6 @@ export declare class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     type: ComponentTypeEnum;
     name: string;
     layoutType: LayoutItem['layoutType'];
-    static speckey: string;
     layoutZIndex: LayoutZIndex;
     protected nameField: string;
     protected valueField?: string;

@@ -1,11 +1,11 @@
-import type { IPadding, IPointLike } from '@visactor/vutils';
+import type { IPadding } from '@visactor/vutils';
 import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
-export type IDataPos = string | number | IAggrType;
+export type IDataPos = StringOrNumber | IAggrType;
 export type IDataPosCallback = (
   relativeSeriesData: any,
   startRelativeSeriesData: any,
@@ -18,9 +18,44 @@ export type IDataPointSpec = {
    */
   refRelativeSeriesIndex?: number;
   refRelativeSeriesId?: StringOrNumber;
+  /**
+   * 指定使用 xField 上的那个维度索引，因为 xField 字段有可能会包含多个维度，比如分组场景
+   * @default 0
+   * @since 1.7.0
+   */
+  xFieldIndex?: number;
+  /**
+   * 指定使用 xField 上的维度名称，因为 xField 字段有可能会包含多个维度，比如分组场景。
+   * `xFieldIndex` 和 `xFieldDim` 声明一个即可，同时声明则 `xFieldDim` 优先级更高。
+   * @since 1.7.0
+   */
+  xFieldDim?: string;
+  /**
+   * 指定使用 yField 上的那个维度索引，因为 yField 字段有可能会包含多个维度，比如分组场景。
+   * @default 0
+   * @since 1.7.0
+   */
+  yFieldIndex?: number;
+  /**
+   * 指定使用 yField 上的维度名称，因为 yField 字段有可能会包含多个维度，比如分组场景。
+   * `yFieldIndex` 和 `yFieldDim` 声明一个即可，同时声明则 `yFieldDim` 优先级更高。
+   * @since 1.7.0
+   */
+  yFieldDim?: string;
+};
+
+type Point = {
+  x: number;
+  y: number;
 };
 export type IMarkerPositionsSpec = {
-  positions: IPointLike[];
+  positions: Point[];
+  /**
+   * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
+   * @default false
+   * @since 1.7.0
+   */
+  regionRelative?: boolean;
 };
 
 export type IMarkerLabelWithoutRefSpec = {
@@ -50,7 +85,7 @@ export type IMarkerLabelWithoutRefSpec = {
     /**
      * 背景面板样式
      */
-    style: Omit<IRectMarkSpec, 'visible'>;
+    style?: Omit<IRectMarkSpec, 'visible'>;
   };
   /**
    * 文本类型：text, rich, html
@@ -163,6 +198,12 @@ export interface IMarkerSpec extends IComponentSpec {
    * @since 1.3.0
    */
   clip?: boolean;
+
+  /**
+   * 标注组件的名称标识
+   * @since 1.7.0
+   */
+  name?: string;
 }
 
 export interface IMarkerSymbol extends IMarkerRef {

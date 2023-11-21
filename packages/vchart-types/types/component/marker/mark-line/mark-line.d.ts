@@ -9,7 +9,6 @@ export declare class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme>
     type: ComponentTypeEnum;
     name: string;
     layoutZIndex: LayoutItem['layoutZIndex'];
-    static speckey: string;
     protected _theme: IMarkLineTheme;
     protected _markerComponent: MarkLineComponent;
     static createComponent(spec: any, options: IComponentOption): MarkLine | MarkLine[];

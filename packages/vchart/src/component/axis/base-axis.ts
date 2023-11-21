@@ -233,9 +233,16 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     })
       .map(s => s.getViewDataStatistics())
       .filter(v => !!v);
-    this._option.dataSet.multipleDataViewAddListener(viewStatistics, 'change', () => {
-      this.updateScaleDomain();
-    });
+
+    if (viewStatistics.length > 1) {
+      this._option.dataSet.multipleDataViewAddListener(viewStatistics, 'change', () => {
+        this.updateScaleDomain();
+      });
+    } else if (viewStatistics.length === 1) {
+      viewStatistics[0].target.addListener('change', () => {
+        this.updateScaleDomain();
+      });
+    }
   }
 
   protected updateScaleDomain() {

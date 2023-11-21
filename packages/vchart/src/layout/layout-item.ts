@@ -358,6 +358,16 @@ export class LayoutItem implements ILayoutItem {
   computeBoundsInRect(rect: ILayoutRect): ILayoutRect {
     // 保留布局使用的rect
     this._lastComputeRect = rect;
+
+    if (
+      this.layoutType === 'region-relative' &&
+      ((this._layoutRectLevelMap.width === USER_LAYOUT_RECT_LEVEL &&
+        (this.layoutOrient === 'left' || this.layoutOrient === 'right')) ||
+        (this._layoutRectLevelMap.height === USER_LAYOUT_RECT_LEVEL &&
+          (this.layoutOrient === 'bottom' || this.layoutOrient === 'top')))
+    ) {
+      return this._layoutRect;
+    }
     // 将布局空间限制到 spec 设置内
     // 避免操作到元素本身的 aabbbounds
     const bounds = { ...this._model.getBoundsInRect(this.setRectInSpec(rect), rect) };
@@ -375,6 +385,7 @@ export class LayoutItem implements ILayoutItem {
     if (this._option.transformLayoutRect) {
       result = this._option.transformLayoutRect(result);
     }
+
     return result;
   }
 
