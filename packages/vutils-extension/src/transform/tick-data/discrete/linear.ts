@@ -116,7 +116,7 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
         }
       });
 
-      const step = Math.ceil(
+      const step = Math.floor(
         (domain.length * (labelGap + maxBounds[2])) /
           ((tempList[1][0] + tempList[1][1] - tempList[0][0] - tempList[0][1]) / 2 - labelGap)
       );
