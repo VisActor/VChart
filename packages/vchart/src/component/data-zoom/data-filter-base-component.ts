@@ -176,7 +176,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         // 所以这里在转换时进行判断并做转置, 有待优化
         // 轴在inverse时，也要做转置处理
 
-        const reverse = axisScale.range()[0] > axisScale.range()[1] && !axisSpec.inverse;
+        const reverse = axisScale.range()[0] > axisScale.range()[1] && (!axisSpec.inverse || this._isHorizontal);
         const newRangeFactor: [number, number] = reverse ? [1 - this._end, 1 - this._start] : [this._start, this._end];
 
         if (reverse) {
@@ -855,7 +855,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const axisScale = axis?.getScale() as IBandLikeScale;
     const bandSizeResult = this._getAxisBandSize(axisSpec);
     let isShown = true;
-    axisScale.range(this._isHorizontal ? [0, rect.width] : axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
+    if (this._isHorizontal) {
+      axisScale.range(axisSpec.inverse ? [rect.width, 0] : [0, rect.width]);
+    } else {
+      axisScale.range(axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
+    }
     if (isDiscrete(axisScale.type)) {
       if (
         rect?.height === this._cacheRect?.height &&
@@ -869,7 +873,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         axisScale.rangeFactor([this._start, this._end]);
       }
       let [start, end] = axisScale.rangeFactor() ?? [];
-      if (isNil(start) || isNil(end)) {
+      if (isNil(start) && isNil(end)) {
         start = 0;
         end = 1;
         isShown = false;
