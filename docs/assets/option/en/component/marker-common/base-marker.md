@@ -27,6 +27,10 @@ Supported since `1.3.0` version, whether the marker component is clipped beyond 
 
 The annotation component ID.
 
+#${prefix} name(string)
+
+Supported since `1.7.0` version, mark the component name.
+
 {{ use: common-layout-item(
   prefix = ${prefix},
   defaultLayoutType = ${defaultLayoutType},
