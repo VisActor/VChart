@@ -123,10 +123,12 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
 
       scaleTicks = (scale as BandScale).stepTicks(step);
 
-      if (op.labelLastVisible) {
+      if (
+        op.labelLastVisible &&
+        (!scaleTicks.length || scaleTicks[scaleTicks.length - 1] !== domain[domain.length - 1])
+      ) {
         if (
           scaleTicks.length &&
-          scaleTicks[scaleTicks.length - 1] !== domain[domain.length - 1] &&
           Math.abs(scale.scale(scaleTicks[scaleTicks.length - 1]) - scale.scale(domain[domain.length - 1])) <
             maxBounds[2]
         ) {
