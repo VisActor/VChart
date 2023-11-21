@@ -285,6 +285,9 @@ export class VChart implements IVChart {
     mode: RenderModeEnum['desktop-browser'],
     onError: (msg: string) => {
       throw new Error(msg);
+    },
+    optimize: {
+      disableCheckGraphicWidthOutRange: true
     }
   };
 

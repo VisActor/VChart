@@ -10,6 +10,15 @@ export interface IRenderContainer {
   canvas?: HTMLCanvasElement | string;
 }
 
+export type IOptimizeType = {
+  // 视口不在可视区，跳过渲染，默认为true
+  skipRenderWithOutRange?: boolean;
+  // 跳过图元在区间外的判断
+  // 不存在dirtyBounds的时候，根据该配置判断是否关闭图元的超出边界判定
+  // 如果有dirtyBounds那么该配置不生效
+  disableCheckGraphicWidthOutRange?: boolean;
+};
+
 export interface IRenderOption {
   /**
    * 配置渲染环境，默认为 'desktop-browser'，当需要在非浏览器环境渲染 VChart 时，需要配置该属性。
@@ -91,6 +100,7 @@ export interface IRenderOption {
    * vrender 的插件列表
    */
   pluginList?: string[];
+  optimize?: IOptimizeType;
 }
 
 export type CompilerListenerParameters = {
