@@ -3,6 +3,7 @@ import type { ConvertToMarkStyleSpec, Datum, ITextMarkSpec } from '../../typings
 import type { IComponentSpec } from '../base/interface';
 import type { ISeries } from '../..';
 import type { IRichTextCharacter } from '@visactor/vrender-core';
+import type { ILabelMark } from '../../mark/label';
 
 export interface ILabelFormatMethodContext {
   series?: ISeries;
@@ -75,3 +76,6 @@ export interface ITotalLabelTheme
   extends Pick<ILabelSpec, 'visible' | 'interactive' | 'offset' | 'overlap' | 'smartInvert' | 'animation'> {
   style?: ITextMarkSpec;
 }
+
+// 内部处理转换后的标签配置
+export type TransformedLabelSpec = ILabelSpec & { styleHandler: (mark?: ILabelMark) => void };

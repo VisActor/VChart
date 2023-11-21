@@ -14,8 +14,10 @@ export const labelRuleMap = {
   symbol: symbolLabel,
   arc: pieLabel,
   point: pointLabel,
-  lineData: lineDataLabel,
-  stackLabel: stackLabel
+  'line-data': lineDataLabel,
+  stackLabel: stackLabel,
+  line: LineLabel,
+  area: LineLabel
 };
 
 export enum LabelRule {
@@ -23,7 +25,8 @@ export enum LabelRule {
   symbol = 'symbol',
   arc = 'arc',
   point = 'point',
-  stackLabel = 'stackLabel'
+  stackLabel = 'stackLabel',
+  line = 'line'
 }
 
 export function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod']) {
@@ -98,7 +101,7 @@ function symbolLabelOverlapStrategy() {
  *
  */
 export function barLabel(labelInfo: ILabelInfo) {
-  const { series, labelSpec = {} } = labelInfo;
+  const { series, labelSpec = {} as ILabelSpec } = labelInfo;
 
   // encode position config
   const originPosition = uniformLabelPosition(labelSpec.position) ?? 'outside';
@@ -294,4 +297,16 @@ export function stackLabel(labelInfo: ILabelInfo) {
       strategy: [] as any
     }
   };
+}
+
+/**
+ * line 图元标签
+ */
+
+export function LineLabel(labelInfo: ILabelInfo) {
+  const { labelSpec, series } = labelInfo;
+
+  const seriesData = series.getViewDataStatistics?.().latestData?.[series.getSeriesField()]?.values;
+  const data = seriesData ? seriesData.map((d: Datum, index: number) => ({ [series.getSeriesField()]: d, index })) : [];
+  return { position: labelSpec.position ?? 'end', data };
 }

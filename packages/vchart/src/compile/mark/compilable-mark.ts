@@ -14,7 +14,7 @@ import type { GrammarMarkType } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { array, isNil, isValid } from '@visactor/vutils';
+import { array, isEmpty, isNil, isValid } from '@visactor/vutils';
 import { LayoutZIndex, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
@@ -38,7 +38,7 @@ import type { IEvent } from '../../event/interface';
 import { Event } from '../../event/event';
 // eslint-disable-next-line no-duplicate-imports
 import { AnimationStateEnum } from '../../animation/interface';
-import type { ILabelSpec } from '../../component/label';
+import type { TransformedLabelSpec } from '../../component/label';
 
 const keptInUpdateAttribute = {
   defined: true
@@ -215,18 +215,23 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._groupKey = groupKey;
   }
 
-  protected _label?: ILabelSpec[];
+  protected _label?: TransformedLabelSpec[];
   getLabelSpec() {
     return this._label;
   }
-  setLabelSpec(label: ILabelSpec | ILabelSpec[]) {
+  setLabelSpec(label: TransformedLabelSpec | TransformedLabelSpec[]) {
     this._label = array(label);
   }
-  addLabelSpec(label: ILabelSpec) {
+  addLabelSpec(label: TransformedLabelSpec, head = false) {
     if (!this._label) {
       this._label = [];
     }
-    this._label.push(label);
+    if (head) {
+      // 排序靠前的 label 优先布局，尽可能避免碰撞隐藏
+      this._label.unshift(label);
+    } else {
+      this._label.push(label);
+    }
   }
 
   protected _progressiveConfig: IMarkProgressiveConfig;
@@ -378,7 +383,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...temp } = this.stateStyle;
     const { enterStyles, updateStyles } = this._separateStyle();
     this._product.encode(updateStyles);
-    if (enterStyles) {
+    if (!isEmpty(enterStyles)) {
       this._product.encodeState('group', enterStyles);
     }
 

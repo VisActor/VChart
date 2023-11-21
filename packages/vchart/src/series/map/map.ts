@@ -125,7 +125,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       skipBeforeLayouted: true,
       dataView: this._mapViewData.getDataView(),
       dataProductId: this._mapViewData.getProductId(),
-      label: mergeSpec({ animation: false }, this._spec.label) // 地图交互通过 vrender api，自身不支持动画，所以 label 也不支持动画
+      label: this._preprocessLabelSpec(this._spec.label, undefined, false) // 地图交互通过 vrender api，自身不支持动画，所以 label 也不支持动画
     }) as IPathMark;
   }
 
