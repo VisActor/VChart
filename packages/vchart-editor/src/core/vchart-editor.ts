@@ -3,7 +3,7 @@ import type { EditorMode, IEditorData, IHistory, IVChartEditorInitOption } from 
 import { EditorEvent } from './editor-event';
 import { ChartLayer } from '../elements/chart/chart-layer';
 import { EditorLayer } from './editor-layer';
-import type { Include } from './../typings/commnt';
+import type { Include } from '../typings/common';
 import { ElementsMap } from './../elements/index';
 import type { IElementOption, VRenderPointerEvent } from './../elements/interface';
 import { isString, Bounds, isValidNumber } from '@visactor/vutils';

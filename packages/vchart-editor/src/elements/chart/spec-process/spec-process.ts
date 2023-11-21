@@ -1,5 +1,5 @@
 import type { IChartModel } from './../interface';
-import { isArray, isObject, isEmpty, cloneDeep } from '@visactor/vutils';
+import { isArray, isObject, isEmpty, cloneDeep, isValid, array } from '@visactor/vutils';
 import type { IEditorController, IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
 import { EditorFactory } from './../../../core/factory';
 import type { IData, StandardData } from '../data/interface';
@@ -7,10 +7,13 @@ import type { ILayoutData } from '../layout/interface';
 import type { IChartTemp } from '../template/interface';
 import type { IEditorSpec, IModelSpec, ISpecProcess } from './interface';
 // @ts-ignore
-import type { ISpec, ITheme } from '@visactor/vchart';
+import type { ISeries, ISpec, ITheme } from '@visactor/vchart';
 import { diffSpec, isModelInfoMatchSpec, isSameModelInfo } from '../../../utils/spec';
 import type { EditorChart } from '../chart';
 import { mergeSpec } from '../utils/spec';
+import type { FormatConfig } from '../../../typings/common';
+import { IBandLikeScale } from '@visactor/vscale';
+import { calculateCAGR } from '../utils/marker';
 
 const DefaultEditorSpec: IEditorSpec = {
   theme: null,
@@ -169,6 +172,181 @@ export class SpecProcess implements ISpecProcess {
         // });
       });
     }
+
+    // process formatConfig
+    const traverseSpec = (spec: any, type?: string, modelSpec?: any) => {
+      const specKeys = Object.keys(spec);
+      if (specKeys.includes('formatConfig')) {
+        this.processFormatConfig(spec, type, modelSpec);
+      }
+      const currentType = spec.name ?? type;
+      const currentModel = isValid(spec.name) ? spec : modelSpec;
+      specKeys.forEach(specKey => {
+        if (specKey === 'data' || !isObject(spec[specKey])) {
+          return;
+        }
+        traverseSpec(spec[specKey], currentType, currentModel);
+      });
+    };
+    traverseSpec(this._vchartSpec);
+  }
+
+  private processFormatConfig(spec: any, type?: string, modelSpec?: any) {
+    let defaultFormatConfig: FormatConfig = {};
+    switch (type) {
+      case 'growth-line':
+        defaultFormatConfig = { content: 'CAGR', fixed: 0 };
+        break;
+      case 'total-diff-line':
+      case 'hierarchy-diff':
+      case 'hierarchy-diff-line':
+        defaultFormatConfig = { content: 'percentage', fixed: 0 };
+        break;
+    }
+    switch (type) {
+      case 'h-line':
+      case 'v-line':
+        spec.formatMethod = (value: any, datum: any, context: any) => {
+          const formatConfig = Object.assign(defaultFormatConfig, spec.formatConfig) as FormatConfig;
+          const labelValue = Number.parseFloat(spec.text);
+          const labelContent = this.formatNumber(labelValue, formatConfig);
+          return `${formatConfig.prefix ?? ''}${labelContent}${formatConfig.postfix ?? ''}`;
+        };
+        break;
+      case 'h-area':
+      case 'v-area':
+        spec.formatMethod = (value: any, datum: any, context: any) => {
+          const formatConfig = Object.assign(defaultFormatConfig, spec.formatConfig) as FormatConfig;
+          const fromValue = Number.parseFloat(spec.text.split('-')[0]);
+          const fromContent = this.formatNumber(fromValue, formatConfig);
+          const toValue = Number.parseFloat(spec.text.split('-')[1]);
+          const toContent = this.formatNumber(toValue, formatConfig);
+          return `${formatConfig.prefix ?? ''}${fromContent} - ${toContent}${formatConfig.postfix ?? ''}`;
+        };
+        break;
+      case 'growth-line':
+      case 'total-diff-line':
+      case 'hierarchy-diff-line':
+        spec.formatMethod = (value: any, datum: any, context: any) => {
+          const formatConfig = Object.assign(defaultFormatConfig, spec.formatConfig) as FormatConfig;
+          if (formatConfig.content === 'value(percentage)' || formatConfig.content === 'percentage(value)') {
+            const numberValue = this.getMarkerFormatContent('value', modelSpec);
+            const numberContent = this.formatNumber(numberValue, formatConfig);
+            const percentValue = this.getMarkerFormatContent('percentage', modelSpec);
+            const percentContent = this.formatNumber(percentValue, formatConfig, true);
+            const content =
+              formatConfig.content === 'value(percentage)'
+                ? `${numberContent}(${percentContent})`
+                : `${percentContent}(${numberContent})`;
+            return `${formatConfig.prefix ?? ''}${content}${formatConfig.postfix ?? ''}`;
+          }
+          const labelValue = this.getMarkerFormatContent(formatConfig.content, modelSpec);
+          const labelContent = this.formatNumber(
+            labelValue,
+            formatConfig,
+            formatConfig.content === 'percentage' || formatConfig.content === 'CAGR'
+          );
+          return `${formatConfig.prefix ?? ''}${labelContent}${formatConfig.postfix ?? ''}`;
+        };
+        break;
+      default:
+        spec.formatMethod = (value: any, datum: any, context: any) => {
+          const formatConfig = Object.assign(defaultFormatConfig, spec.formatConfig) as FormatConfig;
+          if (formatConfig.content === 'value(percentage)' || formatConfig.content === 'percentage(value)') {
+            const numberValue = this.getSeriesFormatContent('value', value, datum, context);
+            const numberContent = this.formatNumber(numberValue, formatConfig);
+            const percentValue = this.getSeriesFormatContent('percentage', value, datum, context);
+            const percentContent = this.formatNumber(percentValue, formatConfig, true);
+            const content =
+              formatConfig.content === 'value(percentage)'
+                ? `${numberContent}(${percentContent})`
+                : `${percentContent}(${numberContent})`;
+            return `${formatConfig.prefix ?? ''}${content}${formatConfig.postfix ?? ''}`;
+          }
+          const labelValue = this.getSeriesFormatContent(formatConfig.content, value, datum, context);
+          const labelContent = this.formatNumber(labelValue, formatConfig, formatConfig.content === 'percentage');
+          return `${formatConfig.prefix ?? ''}${labelContent}${formatConfig.postfix ?? ''}`;
+        };
+        break;
+    }
+  }
+
+  private getSeriesFormatContent(content: FormatConfig['content'], value: any, datum: any, context: any) {
+    switch (content) {
+      case 'abs':
+        return Math.abs(value);
+      case 'percentage':
+        return this.computeSeriesPercentage(datum, context.series);
+      case 'value':
+      default:
+        return Number.parseFloat(value);
+      // additional handle value&percentage case
+    }
+  }
+
+  private getMarkerFormatContent(content: FormatConfig['content'], spec: any) {
+    const series = (this._chart as any)._vchart.getChart().getAllSeries()[0];
+    const valueField = series.direction === 'horizontal' ? series.fieldX[0] : series.fieldY[0];
+    const dimensionField =
+      series.direction === 'horizontal' ? array(series.getSpec().yField)[0] : array(series.getSpec().xField)[0];
+
+    const startDatum = spec.coordinates[0];
+    const endDatum = spec.coordinates[1];
+
+    const diff = Number.parseFloat(endDatum[valueField]) - Number.parseFloat(startDatum[valueField]);
+
+    const dimensionTicks =
+      series.direction === 'horizontal'
+        ? (series.getYAxisHelper().getScale(0) as IBandLikeScale).ticks()
+        : (series.getXAxisHelper().getScale(0) as IBandLikeScale).ticks();
+    const n = Math.abs(
+      dimensionTicks.indexOf(endDatum[dimensionField]) - dimensionTicks.indexOf(startDatum[dimensionField])
+    );
+
+    switch (content) {
+      case 'abs':
+        return Math.abs(diff);
+      case 'percentage':
+        return ((endDatum[valueField] - startDatum[valueField]) / startDatum[valueField]) * 100;
+      case 'CAGR':
+        return calculateCAGR(endDatum[valueField], startDatum[valueField], n) * 100;
+      case 'value':
+      default:
+        return diff;
+      // additional handle value&percentage case
+    }
+  }
+
+  private computeSeriesPercentage(datum: any, series: ISeries) {
+    const dimensionField = series.getDimensionField()[0];
+    const measureField = series.getMeasureField()[0];
+    const dimensionData = series
+      .getViewData()
+      .latestData.filter((d: any) => datum[dimensionField] === d[dimensionField]);
+    const totalValue = dimensionData.reduce((sum: number, d: any) => {
+      return sum + Number.parseFloat(d[measureField]);
+    }, 0);
+    return (Number.parseFloat(datum[measureField]) / totalValue) * 100;
+  }
+
+  private formatNumber(value: number, formatConfig: FormatConfig, percentage?: boolean): string {
+    let result: number | string = value;
+    if (isValid(formatConfig.unit)) {
+      result /= 10 ** formatConfig.unit;
+    }
+    if (formatConfig.separator) {
+      result = isValid(formatConfig.fixed)
+        ? Intl.NumberFormat(undefined, {
+            minimumFractionDigits: formatConfig.fixed,
+            maximumFractionDigits: formatConfig.fixed
+          }).format(value)
+        : Intl.NumberFormat().format(value);
+    } else {
+      if (isValid(formatConfig.fixed)) {
+        result = (value as number).toFixed(formatConfig.fixed);
+      }
+    }
+    return percentage ? `${result.toString()}%` : result.toString();
   }
 
   private findChartSpec(s: IModelSpec, vchartSpec: ISpec) {

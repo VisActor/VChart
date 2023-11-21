@@ -11,8 +11,8 @@ export function Input(props: IBaseInputComponentProps) {
   return (
     <div className="vchart-editor-ui-panel-base-container">
       {singleline ? (
-        <div style={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
-          {tooltipWrapper(<span style={{ fontWeight: 'bolder' }}>{props.label}</span>, props.tooltip)}
+        <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          {tooltipWrapper(<p className="vchart-editor-ui-panel-base-label">{props.label}</p>, props.tooltip)}
           <SemiInput
             style={{ maxWidth: 200 }}
             defaultValue={props.value}
