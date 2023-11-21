@@ -118,7 +118,7 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
 
       const step =
         rangeEnd - rangeStart - labelGap > 0
-          ? Math.floor((domain.length * (labelGap + maxBounds[2])) / (rangeEnd - rangeStart - labelGap))
+          ? Math.ceil((domain.length * (labelGap + maxBounds[2])) / (rangeEnd - rangeStart - labelGap))
           : domain.length - 1;
 
       scaleTicks = (scale as BandScale).stepTicks(step);
