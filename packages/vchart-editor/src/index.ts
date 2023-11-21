@@ -35,7 +35,7 @@ EditorFactory.registerTemp('barGroup', BarGroupTemp);
 EditorFactory.registerTemp('barPercent', BarPercentTemp);
 EditorFactory.registerTemp('horizontalBar', HorizontalBarTemp);
 EditorFactory.registerTemp('horizontalBarGroup', HorizontalBarGroupTemp);
-EditorFactory.registerTemp('horizontalBarPercentGroup', HorizontalBarPercentTemp);
+EditorFactory.registerTemp('horizontalBarPercent', HorizontalBarPercentTemp);
 EditorFactory.registerTemp('area', AreaTemp);
 EditorFactory.registerTemp('areaPercent', AreaPercentTemp);
 EditorFactory.registerTemp('line', LineTemp);

@@ -4,13 +4,13 @@ import { IconChevronDown } from '@douyinfe/semi-icons';
 import { IconChart } from '../svg/chart';
 
 const selectedStyle = {
-  width: 144,
+  width: 160,
   height: 32,
   backgroundColor: 'rgba(117, 164, 255, 0.1)'
 };
 
 const unselectedStyle = {
-  width: 144,
+  width: 160,
   height: 32
 };
 
