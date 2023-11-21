@@ -220,6 +220,14 @@ The style of the selected part preview chart fill.
   prefix = '#####'
 ) }}
 
+### ignoreBandSize(boolean)
+
+Whether to ignore the fixed bandSize configured on the axis. Supported since version 1.7.0.
+
+If set to true, the data zoom can arbitrarily change the bandSize of the axis. But if the bandSize range is configured on the axis, the first rendering will keep the bandSize within the configured range.
+
+This configuration only takes effect when `auto` is set to true.
+
 {{ use: component-data-filter-base(
   prefix = '##'
 ) }}
