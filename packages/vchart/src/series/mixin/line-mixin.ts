@@ -28,9 +28,8 @@ import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { DEFAULT_CLOSE_STROKE_JOIN } from '../../typings/line-stroke';
 // eslint-disable-next-line no-duplicate-imports
-import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
 import { shouldMarkDoMorph } from '../../animation/utils';
 import { DimensionEventEnum, type DimensionEventParams } from '../../event/events/dimension';
 import type { EventCallback, EventParams } from '../../event/interface';
@@ -82,6 +81,11 @@ export interface LineLikeSeriesMixin extends ISeries {
   _getInvalidConnectType: () => IInvalidType;
 
   getLayoutRect: () => ILayoutRect;
+  _preprocessLabelSpec: (
+    label: ILabelSpec,
+    styleHandler?: (mark: ILabelMark) => void,
+    hasAnimation?: boolean
+  ) => TransformedLabelSpec;
 }
 
 export class LineLikeSeriesMixin {
@@ -133,7 +137,10 @@ export class LineLikeSeriesMixin {
     }) as ILineMark;
     const isPointVisible = this._spec.point?.visible !== false && this._spec.point?.style?.visible !== false;
     if (!isPointVisible && this._lineMark) {
-      this._lineMark.setLabelSpec(mergeSpec({ animation: this._spec.animation }, this._spec.label));
+      this._lineMark.setLabelSpec(this._preprocessLabelSpec(this._spec.label, this.initLabelMarkStyle));
+    }
+    if (this._lineMark && this._spec.lineLabel?.visible) {
+      this._lineMark.addLabelSpec(this._preprocessLabelSpec(this._spec.lineLabel, this.initLineLabelMarkStyle), true);
     }
     return this._lineMark;
   }
@@ -248,7 +255,7 @@ export class LineLikeSeriesMixin {
         morph: shouldMarkDoMorph(this._spec, lineLikeSeriesMark.point.name),
         defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
-        label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
+        label: this._preprocessLabelSpec(this._spec.label),
         progressive,
         isSeriesMark: !!isSeriesMark
       }) as ISymbolMark;
@@ -342,6 +349,9 @@ export class LineLikeSeriesMixin {
     if (!labelMark) {
       return;
     }
+    if (labelMark.getTarget()?.type !== 'symbol') {
+      labelMark.setRule('line-data');
+    }
     this.setMarkStyle(labelMark, {
       fill: this.getColorAttribute(),
       text: (datum: Datum) => {
@@ -349,6 +359,7 @@ export class LineLikeSeriesMixin {
       },
       z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });
+
     if (this._invalidType !== 'zero') {
       this.setMarkStyle(
         labelMark,
@@ -362,6 +373,20 @@ export class LineLikeSeriesMixin {
 
     this.event.on(ChartEvent.viewDataStatisticsUpdate, { filter: param => param.model === this }, () => {
       this.encodeDefined(labelMark, 'visible');
+    });
+  }
+
+  initLineLabelMarkStyle(labelMark?: ILabelMark) {
+    if (!labelMark) {
+      return;
+    }
+
+    this.setMarkStyle(labelMark, {
+      fill: this.getColorAttribute(),
+      text: (datum: Datum) => {
+        return datum[this.getSeriesField()];
+      },
+      z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
     });
   }
 

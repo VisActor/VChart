@@ -82,6 +82,7 @@ export class TotalLabel extends BaseLabelComponent {
       { type: MarkTypeEnum.component, name: `${this.series.name}-total-label-component` },
       {
         componentType: 'label',
+        noSeparateStyle: true,
         support3d: this._spec.support3d
       }
     );

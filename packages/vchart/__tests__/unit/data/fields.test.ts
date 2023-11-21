@@ -5,6 +5,7 @@ import * as bt from '../../../src/vchart-all';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
 import { initChartDataSet } from '../../util/context';
+import { ThemeManager } from '../../../src';
 bt;
 
 const dataSet = new DataSet();
@@ -67,7 +68,8 @@ describe('data fields test', () => {
         container: null,
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
-        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any)
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();
@@ -141,7 +143,8 @@ describe('data fields test', () => {
         container: null,
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
-        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any)
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();

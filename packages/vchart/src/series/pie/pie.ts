@@ -158,7 +158,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true,
-        label: mergeSpec({ animation: this._spec.animation }, this._spec.label)
+        label: this._preprocessLabelSpec(this._spec.label)
       }
     ) as IArcMark;
   }
@@ -521,7 +521,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       const baseSpec = this._spec;
       this._spec = merge(baseSpec);
     }
-    this._prepareSpecAfterMergingTheme();
   }
 }
 

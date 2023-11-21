@@ -1,5 +1,4 @@
 import { cloneDeepSpec } from '../util/spec/clone-deep';
-import { preprocessSpecOrTheme } from '../util/spec/preprocess';
 import { createID } from '../util/id';
 import { mergeSpec } from '../util/spec/merge-spec';
 import { Event } from '../event/event';
@@ -23,7 +22,6 @@ import type {
   ICommonSpec,
   StringOrNumber,
   IRect,
-  ISeriesSpec,
   ILayoutRect
 } from '../typings';
 import type { CompilableData } from '../compile/data/compilable-data';
@@ -31,7 +29,6 @@ import type { IGroupMark } from '@visactor/vgrammar-core';
 import { isArray, isValid } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import { MarkSet } from '../mark/mark-set';
-import { defaultChartLevelTheme } from '../theme/builtin';
 import type { ILayoutItem } from '../layout/interface';
 import { CompilableBase } from '../compile/compilable-base';
 import { PREFIX } from '../constant/base';
@@ -210,6 +207,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   }
 
   protected _initTheme(theme?: any) {
+    // if (this.getVisible() === false) {
+    //   // 不展示不需要处理主题
+    //   return;
+    // }
     if (theme) {
       this._theme = theme;
     } else {
@@ -244,7 +245,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
         this._spec = merge(baseSpec);
       }
     }
-    this._prepareSpecAfterMergingTheme();
   }
 
   /** 从 chart spec 提取配置作为 model 的默认 spec 配置 */
@@ -261,25 +261,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   protected _prepareSpecBeforeMergingTheme(obj?: any): any {
     // do nothing
     return obj;
-  }
-
-  /** 在 merge 主题后对 spec 进行遍历和转换 */
-  protected _prepareSpecAfterMergingTheme(obj?: any): any {
-    if (!arguments.length) {
-      obj = this._spec;
-    }
-
-    const newObj = preprocessSpecOrTheme(
-      'spec',
-      obj,
-      this.getColorScheme(),
-      this.modelType === 'series' ? (this._spec as unknown as ISeriesSpec) : undefined
-    );
-
-    if (!arguments.length) {
-      this._spec = newObj;
-    }
-    return newObj;
   }
 
   async setCurrentTheme(noRender?: boolean) {
@@ -383,10 +364,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   }
 
   getColorScheme() {
-    return (this._option.getThemeConfig?.().chartLevelTheme ?? defaultChartLevelTheme).colorScheme;
-  }
-
-  protected _getChartLevelTheme() {
-    return this._option.getThemeConfig?.().chartLevelTheme ?? defaultChartLevelTheme;
+    return this._option.getTheme?.().colorScheme;
   }
 }

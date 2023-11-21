@@ -295,7 +295,7 @@ export class SequenceChart extends BaseChart {
    * @override
    * @description 主要是将link series关联的dot data放到link series中
    */
-  createSeries(seriesSpec: ISequenceSeriesSpec[]) {
+  protected _createSeries(seriesSpec: ISequenceSeriesSpec[]) {
     seriesSpec.forEach((spec, index) => {
       // 自动填充数据
       if (!spec.data) {

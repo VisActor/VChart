@@ -71,12 +71,6 @@
       "versionPolicyName": "vchartMain"
     },
     {
-      "packageName": "@visactor/vchart-theme",
-      "projectFolder": "packages/vchart-theme",
-      "shouldPublish": true,
-      "versionPolicyName": "vchartMain"
-    },
-    {
       "packageName": "@visactor/vutils-extension",
       "projectFolder": "packages/vutils-extension",
       "tags": ["package"],

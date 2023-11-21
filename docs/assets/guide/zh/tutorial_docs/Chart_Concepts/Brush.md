@@ -4,7 +4,7 @@ Brush 是 VChart 提供的一款交互组件，该组件可以帮助用户在图
 
 ## 组成
 
-Brush 组件主要有一个框选区域组成，提供了丰富的框选类型、样式以及交互支持，同时也提供了对应的事件（`brushChange`，详见[事件 API](../../../api/API/event)）。
+Brush 组件主要有一个框选区域组成，提供了丰富的框选类型、样式以及交互支持，同时也提供了对应的事件（`brushChange`，详见[事件 API](/vchart/api/API/event)）。
 
 <div style="text-align: center;">
   <img src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a21b.png" alt="Brush 图示">

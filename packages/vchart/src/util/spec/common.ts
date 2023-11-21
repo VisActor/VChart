@@ -24,10 +24,10 @@ export function isHTMLElement(obj: any): obj is Element {
   }
 }
 
-export function getThemeObject(theme?: string | ITheme): ITheme {
+export function getThemeObject(theme?: string | ITheme, transformed?: boolean): ITheme {
   if (isString(theme)) {
     if (ThemeManager.themeExist(theme)) {
-      return ThemeManager.getTheme(theme);
+      return ThemeManager.getTheme(theme, transformed);
     }
     return {};
   } else if (isObject(theme)) {

@@ -42,7 +42,7 @@ export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec>
         themeSpec: this._theme?.funnel3d,
         key: this._seriesField,
         isSeriesMark: true,
-        label: this._spec.label,
+        label: this._preprocessLabelSpec(this._spec.label),
         support3d: true
       }
     ) as IPyramid3dMark;

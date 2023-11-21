@@ -204,7 +204,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       leaderLine.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
     }
     if (this._spec.stackLabel?.visible) {
-      this._barMark.addLabelSpec(this._spec.stackLabel);
+      this._barMark.addLabelSpec(this._preprocessLabelSpec(this._spec.stackLabel));
     }
   }
 

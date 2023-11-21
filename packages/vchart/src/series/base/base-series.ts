@@ -49,7 +49,6 @@ import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../.
 import { mergeFields, getFieldAlias } from '../../util/data';
 import { couldBeValidNumber } from '../../util/type';
 import { mergeSpec } from '../../util/spec/merge-spec';
-import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
@@ -76,13 +75,18 @@ import {
   isString,
   isFunction,
   isArray,
-  isValidNumber
+  isValidNumber,
+  get
 } from '@visactor/vutils';
-import { getThemeFromOption } from '../../theme/util';
+// import { getThemeFromOption } from '../../theme/util';
 import { getDirectionFromSeriesSpec } from '../util/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { isAnimationEnabledForSeries } from '../../animation/utils';
+import { transformSeriesThemeToMerge } from '../../util/spec/merge-theme';
+import type { ILabelSpec } from '../../component';
+import type { ILabelMark } from '../../mark/label';
+import type { TransformedLabelSpec } from '../../component/label';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -1099,9 +1103,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _getTheme() {
     const direction = getDirectionFromSeriesSpec(this._spec);
-    const theme = getThemeFromOption(`series.${this.type}`, this._option);
-    const themeWithDirection = getThemeFromOption(`series.${this.type}_${direction}`, this._option);
-    return preprocessSpecOrTheme('theme', mergeSpec({}, theme, themeWithDirection), this.getColorScheme(), this._spec);
+    const chartTheme = this._option?.getTheme();
+    const { markByName, mark } = chartTheme;
+    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${this.type}`), this.type, mark, markByName);
+    const themeWithDirection = transformSeriesThemeToMerge(
+      get(chartTheme, `series.${this.type}_${direction}`),
+      `${this.type}_${direction}`,
+      mark,
+      markByName
+    );
+    return mergeSpec({}, theme, themeWithDirection);
   }
 
   protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
@@ -1256,4 +1267,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
+
+  protected _preprocessLabelSpec(spec: ILabelSpec, styleHandler?: (mark: ILabelMark) => void, hasAnimation?: boolean) {
+    return {
+      animation: hasAnimation ?? this._spec.animation,
+      ...spec,
+      styleHandler: styleHandler ?? (this as ISeries).initLabelMarkStyle
+    } as TransformedLabelSpec;
+  }
 }
