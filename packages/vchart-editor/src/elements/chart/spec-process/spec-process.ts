@@ -194,6 +194,9 @@ export class SpecProcess implements ISpecProcess {
   private processFormatConfig(spec: any, type?: string, modelSpec?: any) {
     let defaultFormatConfig: FormatConfig = {};
     switch (type) {
+      case 'h-line':
+      case 'v-line':
+        defaultFormatConfig = { fixed: 0 };
       case 'growth-line':
         defaultFormatConfig = { content: 'CAGR', fixed: 0 };
         break;
@@ -208,8 +211,11 @@ export class SpecProcess implements ISpecProcess {
       case 'v-line':
         spec.formatMethod = (value: any, datum: any, context: any) => {
           const formatConfig = Object.assign(defaultFormatConfig, spec.formatConfig) as FormatConfig;
-          const labelValue = Number.parseFloat(spec.text);
+          const labelValue = Number.parseFloat(spec.text ?? value[0].x ?? value[0].y);
           const labelContent = this.formatNumber(labelValue, formatConfig);
+          if (isNaN(labelValue)) {
+            return `${formatConfig.prefix ?? ''}${spec.text}${formatConfig.postfix ?? ''}`;
+          }
           return `${formatConfig.prefix ?? ''}${labelContent}${formatConfig.postfix ?? ''}`;
         };
         break;
@@ -221,6 +227,9 @@ export class SpecProcess implements ISpecProcess {
           const fromContent = this.formatNumber(fromValue, formatConfig);
           const toValue = Number.parseFloat(spec.text.split('-')[1]);
           const toContent = this.formatNumber(toValue, formatConfig);
+          if (isNaN(fromValue) || isNaN(toValue)) {
+            return `${formatConfig.prefix ?? ''}${spec.text}${formatConfig.postfix ?? ''}`;
+          }
           return `${formatConfig.prefix ?? ''}${fromContent} - ${toContent}${formatConfig.postfix ?? ''}`;
         };
         break;
