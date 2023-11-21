@@ -1,6 +1,6 @@
 {
   "name": "@visactor/react-vchart",
-  "version": "1.6.5",
+  "version": "1.6.6",
   "description": "The react version of VChart 4.x",
   "keywords": [
     "react",
@@ -28,11 +28,11 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.6.5",
+    "@visactor/vchart": "workspace:1.6.6",
     "@visactor/vutils": "~0.16.10",
     "@visactor/vrender-core": "~0.16.16",
     "@visactor/vrender-kits": "~0.16.16",
-    "@visactor/vgrammar-core": "~0.9.0",
+    "@visactor/vgrammar-core": "~0.9.1",
     "react-is": "^18.2.0"
   },
   "devDependencies": {

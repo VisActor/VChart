@@ -2,11 +2,11 @@
 
 VChart provides event listening methods on its instances, allowing developers to meet their business needs by listening to events. The events available on VChart include not only basic DOM events but also component interaction events, lifecycle events, etc.
 
-This tutorial will introduce the use of events through two examples. For more detailed information, please refer to the [event API](../../../api/API/event).
+This tutorial will introduce the use of events through two examples. For more detailed information, please refer to the [event API](/vchart/api/API/event).
 
 ## How to listen for mouse events on graphic elements
 
-VChart supports regular mouse, pointer, and other event types, all of which are described in the [events API documentation](../../../api/API/event).
+VChart supports regular mouse, pointer, and other event types, all of which are described in the [events API documentation](/vchart/api/API/event).
 
 The following example demonstrates the interaction of opening the corresponding Baidu search page after clicking on a bar in a bar chart by listening for the `click` event on the bar graphic element.
 
@@ -40,7 +40,7 @@ vchart.on('click', { level: 'mark', type: 'bar' }, e => {
 
 ## How to listen for component interaction events
 
-In VChart, almost all component interaction behaviors will trigger corresponding events. All component interaction events and their parameters are described in the [events API documentation](../../../api/API/event).
+In VChart, almost all component interaction behaviors will trigger corresponding events. All component interaction events and their parameters are described in the [events API documentation](/vchart/api/API/event).
 
 The example below listens for the `'legendItemHover'` event triggered when the mouse hovers over a legend item:
 

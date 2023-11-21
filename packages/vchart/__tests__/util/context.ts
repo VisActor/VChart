@@ -51,6 +51,7 @@ export function modelOption(opt: Partial<IModelOption> = {}, chart?: TestChart):
 export function seriesOption(opt: Partial<IModelOption> = {}, chart?: TestChart): ISeriesOption {
   const option = modelOption(opt) as ISeriesOption;
   option.globalScale = new GlobalScale([], chart as any);
+  option.getTheme = () => ThemeManager.getCurrentTheme();
   option.region = (chart?.getAllRegions?.()?.[0] ?? new TestRegion({})) as IRegion;
   option.onError = msg => {
     console.log(msg);
@@ -64,6 +65,7 @@ export function seriesOption(opt: Partial<IModelOption> = {}, chart?: TestChart)
 
 export function componentOption(opt: Partial<IModelOption> = {}, chart: TestChart): IComponentOption {
   const option = modelOption(opt) as IComponentOption;
+  option.getTheme = () => ThemeManager.getCurrentTheme();
   // 区域
   option.getRegionsInIndex = chart.getRegionsInIndex.bind(chart);
   option.getRegionsInIds = chart.getRegionsInIds.bind(chart);

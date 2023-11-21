@@ -147,10 +147,13 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           mark.getLabelSpec().forEach((labelSpec, index) => {
             if (labelSpec.visible) {
               const info = this._labelInfoMap.get(region);
-              const labelMark = this._createMark({
-                type: MarkTypeEnum.label,
-                name: `${mark.name}-label-${index}`
-              }) as ILabelMark;
+              const labelMark = this._createMark(
+                {
+                  type: MarkTypeEnum.label,
+                  name: `${mark.name}-label-${index}`
+                },
+                { noSeparateStyle: true }
+              ) as ILabelMark;
               labelMark.setTarget(mark);
               info.push({ labelMark, baseMark: mark, series: s, labelSpec });
             }
@@ -167,6 +170,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           { type: MarkTypeEnum.component, name: `${region.getGroupMark().name}-label-component` },
           {
             componentType: 'label',
+            noSeparateStyle: true,
             support3d: this._spec.support3d
           }
         );
@@ -180,6 +184,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
             { type: MarkTypeEnum.component, name: `${labelInfo.labelMark.name}-component` },
             {
               componentType: 'label',
+              noSeparateStyle: true,
               support3d: labelInfo.baseMark.getSupport3d()
             }
           );

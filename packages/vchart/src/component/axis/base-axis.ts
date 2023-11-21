@@ -108,8 +108,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // scales
     this.initScales();
     this.updateSeriesScale();
-    // data
-    this._initData();
+    // data，当且仅当轴展示的时候处理
+    this.getVisible() && this._initData();
 
     if (this._visible) {
       // 创建语法元素
@@ -117,7 +117,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         { type: 'component', name: `axis-${this.getOrient()}` },
         {
           componentType: this.getOrient() === 'angle' ? 'circleAxis' : 'axis',
-          mode: this._spec.mode
+          mode: this._spec.mode,
+          noSeparateStyle: true,
+          skipTheme: true // skip theme of vgrammar to avoid merge
         }
       );
       this._axisMark = axisMark;
@@ -132,7 +134,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           { type: 'component', name: `axis-${this.getOrient()}-grid` },
           {
             componentType: this.getOrient() === 'angle' ? GridEnum.circleAxisGrid : GridEnum.lineAxisGrid,
-            mode: this._spec.mode
+            mode: this._spec.mode,
+            noSeparateStyle: true,
+            skipTheme: true
           }
         );
         gridMark.setZIndex(this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid);
@@ -239,7 +243,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
-    if (updateType === 'force' || !isEqual(this._scale.range(), [0, 1])) {
+    if (this._tickData && (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))) {
       this._tickData.getDataView().reRunAllTransform();
       this._tickData.updateData();
     }
@@ -331,12 +335,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       label: {
         style: isFunction(spec.label.style)
           ? (datum: Datum, index: number, data: Datum[], layer?: number) => {
-              const style = this._prepareSpecAfterMergingTheme(
-                spec.label.style(datum.rawValue, index, datum, data, layer)
-              );
-              return transformToGraphic(
-                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.label?.style, style))
-              );
+              const style = spec.label.style(datum.rawValue, index, datum, data, layer);
+              return transformToGraphic(mergeSpec({}, this._theme.label?.style, style));
             }
           : transformToGraphic(spec.label.style),
         formatMethod: spec.label.formatMethod
@@ -354,10 +354,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         alignWithLabel: spec.tick.alignWithLabel,
         style: isFunction(spec.tick.style)
           ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = this._prepareSpecAfterMergingTheme((spec.tick.style as any)(value, index, datum, data));
-              return transformToGraphic(
-                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.tick?.style, style))
-              );
+              const style = (spec.tick.style as any)(value, index, datum, data);
+              return transformToGraphic(mergeSpec({}, this._theme.tick?.style, style));
             }
           : transformToGraphic(spec.tick.style),
         state: transformStateStyle(spec.tick.state),
@@ -418,9 +416,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         ? () => {
             return (datum: Datum, index: number) => {
               const style = spec.grid.style(datum.datum?.rawValue, index, datum.datum);
-              return transformToGraphic(
-                this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme.grid?.style, style))
-              );
+              return transformToGraphic(mergeSpec({}, this._theme.grid?.style, style));
             };
           }
         : transformToGraphic(spec.grid.style),

@@ -15,7 +15,6 @@ import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart } from '../chart/interface';
-import type { IChartLevelTheme } from '../core/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
 import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
@@ -154,13 +153,7 @@ export interface IModelOption extends ICompilableInitOption {
   specIndex?: number;
   specKey?: string;
 
-  getThemeConfig?: () => {
-    globalTheme?: string;
-    optionTheme?: string | ITheme;
-    specTheme?: string | ITheme;
-    chartLevelTheme: IChartLevelTheme;
-  };
-
+  getTheme?: () => ITheme;
   getChartLayoutRect: () => IRect;
   getChartViewRect: () => ILayoutRect;
 

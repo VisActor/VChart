@@ -1,7 +1,7 @@
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { BarSeries } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
-import { HistogramChart } from '../../../src';
+import { HistogramChart, ThemeManager } from '../../../src';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
@@ -61,7 +61,8 @@ describe('histogram chart test', () => {
       container: null,
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
-      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any)
+      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+      getTheme: () => ThemeManager.getCurrentTheme()
     } as any);
     chart.created();
     chart.init();
@@ -81,7 +82,7 @@ describe('histogram chart test', () => {
     expect(trigger._hover).toEqual({
       enable: true,
       trigger: 'pointermove',
-      triggerOff: ['pointermove', 'pointerleave']
+      triggerOff: 'pointerleave'
     });
     expect(trigger._select).toEqual({
       enable: true,

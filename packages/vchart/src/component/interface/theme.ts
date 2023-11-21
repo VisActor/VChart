@@ -14,6 +14,7 @@ import type { ITooltipTheme } from '../tooltip/interface';
 import type { ComponentTypeEnum } from './type';
 import type { ITotalLabelTheme } from '../label';
 import type { IPoptipTheme } from '../poptip/interface';
+import type { IColorKey } from '../../theme';
 
 export interface IComponentTheme {
   /**
@@ -71,7 +72,7 @@ export interface IComponentTheme {
   /**
    * tooltip 组件配置
    */
-  [ComponentTypeEnum.tooltip]?: ITooltipTheme;
+  [ComponentTypeEnum.tooltip]?: ITooltipTheme<string | IColorKey>;
   /**
    * crosshair 配置
    */

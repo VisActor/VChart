@@ -1,6 +1,6 @@
 import { POLAR_DEFAULT_RADIUS, POLAR_END_ANGLE, POLAR_END_RADIAN } from '../../../constant/polar';
 import { DataView } from '@visactor/vdataset';
-import type { IBaseScale, BandScale } from '@visactor/vscale';
+import type { IBaseScale, BandScale, LinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { ChartEvent, LayoutZIndex, POLAR_START_ANGLE, POLAR_START_RADIAN } from '../../../constant';
@@ -448,14 +448,18 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   tickValues(): number[] {
-    const latestData = this._tickData.getLatestData();
+    if (this._tickData) {
+      const latestData = this._tickData.getLatestData();
 
-    if (latestData && !isArray(latestData)) {
-      // the ticks data of scale has not be calculated
-      this.computeData('force');
+      if (latestData && !isArray(latestData)) {
+        // the ticks data of scale has not be calculated
+        this.computeData('force');
+      }
+
+      return this._tickData.getLatestData() || [];
     }
 
-    return this._tickData.getLatestData() || [];
+    return (this._scale as BandScale | LinearScale).ticks();
   }
 
   updateLayoutAttribute(): void {

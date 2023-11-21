@@ -1,7 +1,8 @@
 import type { ITooltipTheme } from '../../../../component/tooltip/interface';
+import type { IColorKey } from '../../../color-scheme';
 import { THEME_CONSTANTS } from '../constants';
 
-export const tooltip: ITooltipTheme = {
+export const tooltip: ITooltipTheme<string | IColorKey> = {
   offset: {
     x: 10,
     y: 10
