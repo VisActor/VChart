@@ -127,7 +127,8 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
         if (
           scaleTicks.length &&
           scaleTicks[scaleTicks.length - 1] !== domain[domain.length - 1] &&
-          scale.scale(scaleTicks[scaleTicks.length - 1]) - scale.scale(domain[domain.length - 1]) < maxBounds[2]
+          Math.abs(scale.scale(scaleTicks[scaleTicks.length - 1]) - scale.scale(domain[domain.length - 1])) <
+            maxBounds[2]
         ) {
           scaleTicks = scaleTicks.slice(0, -1);
         }
