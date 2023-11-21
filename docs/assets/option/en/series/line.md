@@ -68,7 +68,7 @@ Point graphic style configuration.
 
 Label configuration.
 
-##${prefix} position(string|Function)
+##${prefix} position(string|Function)='top'
 
 Label position.
 
@@ -102,6 +102,29 @@ Available string options are:
   defaultOffset = 5,
 ) }}
 
+#${prefix} lineLabel(Object)
+
+Line mark label configuration
+
+Supported since version `1.7.0`.
+
+##${prefix} position(string)='end'
+
+Line label position.
+
+Available string options are:
+
+- `start`
+- `end`
+
+{{ use: component-label(
+  prefix = '#' + ${prefix},
+  noPosition = true,
+  hasOverlap = true,
+  hasSmartInvert = false,
+  defaultOffset = 5,
+) }}
+
 ##${prefix} invalidType(string) = 'break'
 
 Connection method for non-compliant data points. Connection methods for null, undefined, etc. illegal data points.
@@ -115,6 +138,7 @@ Connection method for non-compliant data points. Connection methods for null, un
 Data Sampling - Sampling method. Supported since version `1.6.0`.
 The downsampling strategy of the line chart when the amount of data is much larger than the pixels can effectively optimize the drawing efficiency of the chart when it is turned on. It is turned off by default, that is, all data points are drawn without filtering.
 Optional values:
+
 - `'lttb'`: Using the Largest-Triangle-Three-Bucket algorithm, the trend, shape and extreme value of the sampled line can be guaranteed to the greatest extent.
 - `'min'`: Get the minimum value of filter points
 - `'max'`: Take the maximum value of filter points
@@ -132,4 +156,3 @@ Anti-overlap - Distance between marker points, in px. Supported since version `1
 
 #${prefix} pointDisMul(number) = 1
 Anti-overlap - distance between marker points, multiple of pointSize. Supported since version `1.6.0`
-
