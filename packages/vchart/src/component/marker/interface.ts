@@ -26,18 +26,20 @@ export type IDataPointSpec = {
   xFieldIndex?: number;
   /**
    * 指定使用 xField 上的维度名称，因为 xField 字段有可能会包含多个维度，比如分组场景。
-   * `xFieldIndex` 和 `xFieldDim` 声明一个即可，同时声明则 `xFieldDim` 优先级更高
+   * `xFieldIndex` 和 `xFieldDim` 声明一个即可，同时声明则 `xFieldDim` 优先级更高。
+   * @since 1.7.0
    */
   xFieldDim?: string;
   /**
-   * 指定使用 yField 上的那个维度索引，因为 yField 字段有可能会包含多个维度，比如分组场景
+   * 指定使用 yField 上的那个维度索引，因为 yField 字段有可能会包含多个维度，比如分组场景。
    * @default 0
    * @since 1.7.0
    */
   yFieldIndex?: number;
   /**
    * 指定使用 yField 上的维度名称，因为 yField 字段有可能会包含多个维度，比如分组场景。
-   * `yFieldIndex` 和 `yFieldDim` 声明一个即可，同时声明则 `yFieldDim` 优先级更高
+   * `yFieldIndex` 和 `yFieldDim` 声明一个即可，同时声明则 `yFieldDim` 优先级更高。
+   * @since 1.7.0
    */
   yFieldDim?: string;
 };
