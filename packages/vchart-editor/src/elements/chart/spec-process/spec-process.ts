@@ -466,6 +466,9 @@ export class SpecProcess implements ISpecProcess {
   saveSnapshot() {
     this._snapShot = cloneDeep(this._chart.getData());
   }
+  clearSnapshot() {
+    this._snapShot = null;
+  }
 
   pushHistory() {
     const { from, to } = diffSpec(this._snapShot, this._chart.getData());

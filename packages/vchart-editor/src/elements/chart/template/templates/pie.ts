@@ -40,7 +40,8 @@ const spec = {
   ],
   legends: {
     id: 'legend-discrete',
-    visible: true
+    visible: true,
+    autoPage: false
   },
   region: [
     {

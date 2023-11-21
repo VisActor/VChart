@@ -43,5 +43,6 @@ export interface ISpecProcess {
 
   saveSnapshot: () => void;
   pushHistory: () => void;
+  clearSnapshot: () => void;
   updateAttributeFromHistory: (att: any) => void;
 }

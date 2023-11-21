@@ -131,13 +131,17 @@ export class LayoutEditorElement extends BaseEditorElement {
       },
       endHandler: data => {
         this._chart.specProcess.saveSnapshot();
-        this._updateLayout(info, data);
-        this._controller.setOverGraphic(null, null, null);
-        this._chart.specProcess.pushHistory();
         // enable over
         this._chart.option.getAllLayers().forEach(l => {
           l.elements.forEach(e => (e.overAble = true));
         });
+        this._controller.setOverGraphic(null, null, null);
+        if (!this._updateLayout(info, data)) {
+          this._chart.specProcess.clearSnapshot();
+          this._controller.editorEnd();
+          return;
+        }
+        this._chart.specProcess.pushHistory();
         this._controller.editorEnd();
       },
       event: e
@@ -154,6 +158,20 @@ export class LayoutEditorElement extends BaseEditorElement {
     const rect = this._getRectAfterLayout(model as IChartModel, layoutData);
 
     if (rect) {
+      const lastRect = chart.layout.getModelLayoutData({
+        id: layoutMeta.id,
+        specKey: layoutMeta.specKey,
+        specIndex: layoutMeta.specIndex
+      });
+      if (
+        lastRect &&
+        lastRect.layout.x.offset === rect.x &&
+        lastRect.layout.y.offset === rect.y &&
+        lastRect.layout.width.offset === rect.width &&
+        lastRect.layout.height.offset === rect.height
+      ) {
+        return false;
+      }
       // update layoutData
       chart.layout.setModelLayoutData({
         id: layoutMeta.id,
@@ -185,6 +203,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       this._updateLayoutComponent(model as IChartModel, rect, info, layoutData);
       chart.vchart.getChart().setLayoutTag(true);
     }
+    return true;
   }
 
   private _getRectAfterLayout(model: IChartModel, layoutData: ILayoutAttribute) {
