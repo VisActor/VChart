@@ -1,7 +1,7 @@
 import type { ICartesianSeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { isValid, isNumber, array, isArray } from '@visactor/vutils';
+import { isValid, isNumber, array } from '@visactor/vutils';
 import type { Datum, IPoint, StringOrNumber } from '../../typings';
 import { isPercent } from '../../util';
 
@@ -142,8 +142,8 @@ function getXValue(
     relativeSeries?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
 
   let x: number;
-  if (isArray(datum.x) && datum.x.length === 1 && isPercent(datum.x[0])) {
-    const percent = datum.x[0] + '';
+  if (isPercent(datum.x)) {
+    const percent = datum.x;
     x = (Number(percent.substring(0, percent.length - 1)) * regionWidth) / 100 + regionStartLayoutStartPoint.x;
   } else {
     x = relativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
@@ -165,8 +165,8 @@ function getYValue(
     relativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
 
   let y: number;
-  if (isArray(datum.y) && datum.y.length === 1 && isPercent(datum.y[0])) {
-    const percent = datum.y[0] + '';
+  if (isPercent(datum.y)) {
+    const percent = datum.y;
     y = (Number(percent.substring(0, percent.length - 1)) * regionHeight) / 100 + regionStartLayoutStartPoint.y;
   } else {
     y = relativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
