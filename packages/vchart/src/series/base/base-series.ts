@@ -698,7 +698,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
 
     // 自定义图元默认不添加动画
-    const config = animationConfig({}, userAnimationConfig(spec.type, spec as any));
+    const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
     mark.setAnimationConfig(config);
 
     if (spec.type === 'group') {
