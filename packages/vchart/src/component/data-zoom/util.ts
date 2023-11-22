@@ -1,5 +1,10 @@
-import { array, isNil } from '../../util';
+import type { IModelOption } from '../../model/interface';
+import { Direction, type IOrientType } from '../../typings';
+import { array, isNil, mergeSpec } from '../../util';
 import type { DataView } from '@visactor/vdataset';
+import type { ComponentTypeEnum } from '../interface';
+import { getComponentThemeFromOption } from '../util';
+import { getDirectionByOrient } from '../axis/cartesian/util';
 
 export interface IDataFilterWithNewDomainOption {
   getNewDomain: () => any[];
@@ -91,4 +96,14 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
   });
 
   return resultData;
+};
+
+export const getDataFilterTheme = (orient: IOrientType, type: ComponentTypeEnum, option: Partial<IModelOption>) => {
+  const theme = getComponentThemeFromOption(type, option);
+  const directionTheme = theme[getDirectionByOrient(orient)];
+  const finalTheme = mergeSpec({}, theme, directionTheme);
+
+  delete finalTheme[Direction.horizontal];
+  delete finalTheme[Direction.vertical];
+  return finalTheme;
 };

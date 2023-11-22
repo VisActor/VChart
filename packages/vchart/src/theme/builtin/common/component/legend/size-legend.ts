@@ -8,14 +8,14 @@ const handlerTheme: IContinuousLegendTheme['handler'] = {
     outerBorder: {
       lineWidth: 2,
       distance: 0.8,
-      stroke: { type: 'palette', key: 'dataZoomSelectedColor' }
+      stroke: { type: 'palette', key: 'sliderTrackColor' }
     },
-    fill: { type: 'palette', key: 'dataZoomHandlerFillColor' }
+    fill: { type: 'palette', key: 'sliderHandleColor' }
     /*
     shadowBlur: 12,
     shadowOffsetX: 0,
     shadowOffsetY: 4,
-    shadowColor: { type: 'palette', key: 'shadowColor', a: 0.3 }
+    shadowColor: { type: 'palette', key: 'shadowColor' }
     */
   }
 };
@@ -28,14 +28,14 @@ export const sizeLegend: ISizeLegendTheme = {
     },
     track: {
       style: {
-        fill: { type: 'palette', key: 'dataZoomSelectedColor', a: 0.8 }
+        fill: { type: 'palette', key: 'sliderTrackColor', a: 0.8 }
       }
     },
     rail: {
       width: 200,
       height: 4,
       style: {
-        fill: { type: 'palette', key: 'dataZoomBackgroundColor' }
+        fill: { type: 'palette', key: 'sliderRailColor' }
       }
     },
     handler: handlerTheme
@@ -47,14 +47,14 @@ export const sizeLegend: ISizeLegendTheme = {
     },
     track: {
       style: {
-        fill: { type: 'palette', key: 'dataZoomSelectedColor', a: 0.8 }
+        fill: { type: 'palette', key: 'sliderTrackColor', a: 0.8 }
       }
     },
     rail: {
       width: 4,
       height: 200,
       style: {
-        fill: { type: 'palette', key: 'dataZoomBackgroundColor' }
+        fill: { type: 'palette', key: 'sliderRailColor' }
       }
     },
     handler: handlerTheme
