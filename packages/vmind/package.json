@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@visactor/vchart": "workspace:1.6.7",
-    "@visactor/vrender": "0.16.17-alpha.3",
+    "@visactor/vrender": "0.17.0-alpha.7",
     "@visactor/vdataset": "~0.16.14",
     "@visactor/vutils": "~0.16.14",
     "axios": "^1.4.0",
