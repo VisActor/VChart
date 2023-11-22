@@ -120,7 +120,6 @@ export interface IBandAxisSpec {
   /**
    * 是否去除 band 轴两端的留白，如果为 true，则两端的 padding 为 0，
    * **并且 bandPadding、paddingInner 和 paddingOuter 的设置将被忽略**。
-   * 如果配置了该属性，
    * @default false
    * @since 1.7.0
    */

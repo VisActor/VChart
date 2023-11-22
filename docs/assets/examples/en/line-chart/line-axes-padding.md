@@ -74,8 +74,9 @@ const spec = {
   axes: [
     {
       orient: 'bottom',
-      paddingInner: 1,
-      paddingOuter: 0
+      // paddingInner: 1,
+      // paddingOuter: 0
+      trimPadding: true
     }
   ]
 };

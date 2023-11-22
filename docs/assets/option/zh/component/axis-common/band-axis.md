@@ -2,6 +2,10 @@
 
 <!-- IBandAxisSpec -->
 
+#${prefix} trimPadding(boolean)
+
+自 `1.7.0` 版本支持，用于配置是否去除 band 轴两端的留白，如果为 true，则两端不会有留白，**并且 bandPadding、paddingInner 和 paddingOuter 的设置将被忽略**。
+
 #${prefix} bandPadding(number|number[])
 默认值为: `0.2`。
 
