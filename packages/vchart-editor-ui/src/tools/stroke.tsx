@@ -45,7 +45,7 @@ function StrokePanel(props: IEditorBarStrokeProps) {
             <EditorBarPanelEntry
               key={style.style}
               icon={<Icon />}
-              selected={isColorEqual(strokeStyle, style.style)}
+              selected={strokeStyle === style.style}
               onClick={() => {
                 props.onStrokeChange?.({
                   style: style.style as Stroke['style'],
