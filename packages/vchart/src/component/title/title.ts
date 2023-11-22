@@ -1,18 +1,18 @@
+import { LayoutLevel, LayoutZIndex } from '../../constant';
+import { Factory } from '../../core/factory';
+import type { IRegion } from '../../region/interface';
+import type { IPoint, IOrientType, ILayoutType, ILayoutRect } from '../../typings';
+import { isValidOrient } from '../../util/space';
 import { BaseComponent } from '../base/base-component';
-import { ComponentTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponentOption } from '../interface';
-import { isValidOrient } from '../../util/space';
+import { ComponentTypeEnum } from '../interface/type';
 import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
-import type { IRegion } from '../../region/interface';
 import { Title as TitleComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { TitleAttrs } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
-import type { IPoint, IOrientType, ILayoutType, ILayoutRect } from '../../typings';
-import { isEqual, isArray, isValidNumber } from '@visactor/vutils';
-import { LayoutLevel, LayoutZIndex } from '../../constant';
-import { Factory } from '../../core/factory';
+import { isEqual, isArray, isValidNumber, pickWithout } from '@visactor/vutils';
 
 export class Title extends BaseComponent<ITitleSpec> implements ITitle {
   static type = ComponentTypeEnum.title;
@@ -159,7 +159,7 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
         width: realWidth,
         ...this._spec.subtextStyle
       },
-      ...this._spec
+      ...pickWithout(this._spec, ['padding'])
     } as TitleAttrs;
   }
 
