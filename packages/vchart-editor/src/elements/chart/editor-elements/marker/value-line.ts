@@ -108,25 +108,30 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
       return newPoint;
     });
     const series = this._model.getRelativeSeries() as ICartesianSeries;
+    const isPercent = series.getPercent();
     // 计算新的 label 值
     let newText;
     let fieldValue;
+    let originValue;
     if (this._orient === 'horizontal') {
       const convertPosition = newPoints[0].y - series.getRegion().getLayoutStartPoint().y;
       const isContinuousYAxis = series.getYAxisHelper().isContinuous;
+      originValue = series.positionToDataY(convertPosition);
+
       if (isContinuousYAxis) {
-        newText = parseInt(series.positionToDataY(convertPosition), 10);
+        newText = isPercent ? `${(originValue * 100).toFixed(0)}%` : parseInt(originValue, 10);
       } else {
-        newText = series.positionToDataY(convertPosition);
+        newText = originValue;
       }
       fieldValue = `${(convertPosition / series.getRegion().getLayoutRect().height) * 100}%`;
     } else {
       const convertPosition = newPoints[0].x - series.getRegion().getLayoutStartPoint().x;
       const isContinuousXAxis = series.getXAxisHelper().isContinuous;
+      originValue = series.positionToDataX(convertPosition);
       if (isContinuousXAxis) {
-        newText = parseInt(series.positionToDataX(convertPosition), 10);
+        newText = isPercent ? `${(originValue * 100).toFixed(0)}%` : parseInt(originValue, 10);
       } else {
-        newText = series.positionToDataX(convertPosition);
+        newText = originValue;
       }
 
       fieldValue = `${(convertPosition / series.getRegion().getLayoutRect().width) * 100}%`;
@@ -138,7 +143,8 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
         text: newText,
         formatMethod: null
       },
-      [field]: fieldValue
+      [field]: fieldValue,
+      _originValue_: originValue // 用于保存当前对应的原始数据
     });
 
     // 2. 计算新的 label 值，同时释放事件

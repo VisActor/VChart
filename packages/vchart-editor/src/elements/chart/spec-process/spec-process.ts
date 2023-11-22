@@ -12,7 +12,7 @@ import { diffSpec, isModelInfoMatchSpec, isSameModelInfo } from '../../../utils/
 import type { EditorChart } from '../chart';
 import { mergeSpec } from '../utils/spec';
 import type { FormatConfig } from '../../../typings/common';
-import { IBandLikeScale } from '@visactor/vscale';
+import type { IBandLikeScale } from '@visactor/vscale';
 import { calculateCAGR } from '../utils/marker';
 
 const DefaultEditorSpec: IEditorSpec = {

@@ -540,6 +540,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
     // 更新 spec
     const series = this._model.getRelativeSeries() as ICartesianSeries;
+    const isPercent = series.getPercent();
     const { x: regionStartX, y: regionStartY } = series.getRegion().getLayoutStartPoint();
     const { width: regionWidth, height: regionHeight } = series.getRegion().getLayoutRect();
 
@@ -552,7 +553,9 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       const start = series.positionToDataY(Math.max(bottomY, topY) - regionStartY);
       const end = series.positionToDataY(Math.min(bottomY, topY) - regionStartY);
       if (series.getYAxisHelper().isContinuous) {
-        labelText = `${start.toFixed(0)} - ${end.toFixed(0)}`;
+        labelText = isPercent
+          ? `${(start * 100).toFixed(0)}% - ${(end * 100).toFixed(0)}%`
+          : `${start.toFixed(0)} - ${end.toFixed(0)}`;
       } else {
         labelText = start === end ? start : `${start} - ${end}`;
       }
@@ -562,19 +565,19 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         y1: `${((topY - regionStartY) / regionHeight) * 100}%`,
         label: {
           text: labelText
-        }
+        },
+        _originValue_: [start, end]
       };
     } else {
       const leftX = newPoints.find(point => point.left).x;
       const rightX = newPoints.find(point => point.right).x;
-      labelText = `${series.positionToDataX(Math.min(leftX, rightX) - regionStartX)} - ${series.positionToDataX(
-        Math.max(leftX, rightX) - regionStartX
-      )}`;
-
       const start = series.positionToDataX(Math.min(leftX, rightX) - regionStartX);
       const end = series.positionToDataX(Math.max(leftX, rightX) - regionStartX);
+
       if (series.getXAxisHelper().isContinuous) {
-        labelText = `${start.toFixed(0)} - ${end.toFixed(0)}`;
+        labelText = isPercent
+          ? `${(start * 100).toFixed(0)}% - ${(end * 100).toFixed(0)}%`
+          : `${start.toFixed(0)} - ${end.toFixed(0)}`;
       } else {
         labelText = start === end ? start : `${start} - ${end}`;
       }
@@ -583,7 +586,8 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         x1: `${((rightX - regionStartX) / regionWidth) * 100}%`,
         label: {
           text: labelText
-        }
+        },
+        _originValue_: [start, end]
       };
     }
 

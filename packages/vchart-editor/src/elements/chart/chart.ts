@@ -284,6 +284,7 @@ export class EditorChart extends BaseElement {
   private _onAddMarkArea = (el: IEditorElement, attr: IUpdateAttributeParam) => {
     if (attr.markArea.enable) {
       const defaultMarkAreaSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type);
+
       attr.markArea.spec = defaultMarkAreaSpec;
     }
   };
