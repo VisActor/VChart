@@ -7,13 +7,13 @@ import {
   type ICartesianSeries,
   STACK_FIELD_TOTAL_TOP,
   STACK_FIELD_TOTAL,
-  STACK_FIELD_END
+  STACK_FIELD_END,
+  STACK_FIELD_END_PERCENT
 } from '@visactor/vchart';
-import { isValidNumber, type IPointLike, maxInArray, minInArray, array, median as visMedian } from '@visactor/vutils';
+import { isValidNumber, type IPointLike, maxInArray, minInArray, median as visMedian } from '@visactor/vutils';
 import { MarkerTypeEnum } from '../interface';
 
 // TODO: 不同的标注需要给不同的 zIndex
-// TODO: 加一个判断，仅支持直角坐标系图表或者仅支持特定类型的图表
 
 /**
  * CAGR（复合年增长率）是一种用于描述投资、业务或其他金融项目在一段时间内的平均增长率的度量
@@ -38,6 +38,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
   const xAxisTypeIsContinuous = series.getXAxisHelper().isContinuous;
   const yAxisIsContinuous = series.getYAxisHelper().isContinuous;
   const seriesData = series.getRawData().latestData;
+  const isPercent = series.getPercent();
   if (markerType === MarkerTypeEnum.horizontalLine) {
     // 水平值线
     if (yAxisIsContinuous) {
@@ -45,7 +46,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         id: uuidv4(), // id 用于查找更新
         name: MarkerTypeEnum.horizontalLine,
         interactive: true,
-        y: 'average',
+        y: isPercent ? 0.5 : 'average',
         endSymbol: {
           visible: true,
           size: 12,
@@ -57,7 +58,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           visible: true,
           autoRotate: false,
           formatMethod: (markData: any) => {
-            return parseInt(markData[0].y, 10);
+            return isPercent ? `${(markData[0].y * 100).toFixed(0)}%` : parseInt(markData[0].y, 10);
           },
           position: 'end',
           labelBackground: {
@@ -77,7 +78,8 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
             boundsPadding: [4, 4, 4, 4],
             pickMode: 'imprecise'
           }
-        }
+        },
+        _originValue_: isPercent ? 0.5 : average(seriesData, series.getSpec().yField)
       };
     }
 
@@ -115,7 +117,8 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           boundsPadding: [4, 4, 4, 4],
           pickMode: 'imprecise'
         }
-      }
+      },
+      _originValue_: seriesData[0][series.fieldY[0]]
     };
   }
 
@@ -126,7 +129,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         id: uuidv4(), // id 用于查找更新
         name: MarkerTypeEnum.verticalLine,
         interactive: true,
-        x: 'average',
+        x: isPercent ? 0.5 : 'average',
         endSymbol: {
           visible: true,
           size: 12,
@@ -138,7 +141,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           visible: true,
           autoRotate: false,
           formatMethod: (markData: any) => {
-            return parseInt(markData[0].x, 10);
+            return isPercent ? `${(markData[0].x * 100).toFixed(0)}%` : parseInt(markData[0].x, 10);
           },
           position: 'end',
           labelBackground: {
@@ -157,7 +160,8 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           style: {
             stroke: '#000'
           }
-        }
+        },
+        _originValue_: isPercent ? 0.5 : average(seriesData, series.getSpec().yField)
       };
     }
 
@@ -194,7 +198,8 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         style: {
           stroke: '#000'
         }
-      }
+      },
+      _originValue_: seriesData[0][series.fieldX[0]]
     };
   }
 
@@ -212,6 +217,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
   const xAxisTypeIsContinuous = series.getXAxisHelper().isContinuous;
   const yAxisIsContinuous = series.getYAxisHelper().isContinuous;
   const seriesData = series.getRawData().latestData;
+  const isPercent = series.getPercent();
   if (markerType === MarkerTypeEnum.horizontalArea) {
     // 水平区域标注
     if (yAxisIsContinuous) {
@@ -219,8 +225,8 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         id: uuidv4(), // id 用于查找更新
         name: MarkerTypeEnum.horizontalArea,
         interactive: true,
-        y: 'min',
-        y1: 'median',
+        y: isPercent ? 0 : 'min',
+        y1: isPercent ? 0.5 : 'median',
         zIndex: 500,
         area: {
           style: {
@@ -230,7 +236,9 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         },
         label: {
           position: 'right',
-          text: `${min(seriesData, series.getSpec().yField)} - ${median(seriesData, series.getSpec().yField)}`,
+          text: isPercent
+            ? '0% - 50%'
+            : `${min(seriesData, series.getSpec().yField)} - ${median(seriesData, series.getSpec().yField)}`,
           labelBackground: {
             visible: false,
             padding: { left: 4, right: 4, top: 4, bottom: 4 }
@@ -238,7 +246,10 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
           style: {
             fill: '#000'
           }
-        }
+        },
+        _originValue_: isPercent
+          ? [0, 0.5]
+          : [min(seriesData, series.getSpec().yField), median(seriesData, series.getSpec().yField)]
       };
     }
 
@@ -265,7 +276,8 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         style: {
           fill: '#000'
         }
-      }
+      },
+      _originValue_: [seriesData[0][series.fieldY[0]], seriesData[Math.floor(seriesData.length / 2)][series.fieldY[0]]]
     };
   }
 
@@ -276,8 +288,8 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         id: uuidv4(), // id 用于查找更新
         name: MarkerTypeEnum.verticalArea,
         interactive: true,
-        x: 'min',
-        x1: 'median',
+        x: isPercent ? 0 : 'min',
+        x1: isPercent ? 0.5 : 'median',
         zIndex: 500,
         area: {
           style: {
@@ -287,7 +299,9 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         },
         label: {
           position: 'top',
-          text: `${min(seriesData, series.getSpec().xField)} - ${median(seriesData, series.getSpec().xField)}`,
+          text: isPercent
+            ? '0% - 50%'
+            : `${min(seriesData, series.getSpec().xField)} - ${median(seriesData, series.getSpec().xField)}`,
           labelBackground: {
             visible: false,
             padding: { left: 4, right: 4, top: 4, bottom: 4 }
@@ -295,7 +309,10 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
           style: {
             fill: '#000'
           }
-        }
+        },
+        _originValue_: isPercent
+          ? [0, 0.5]
+          : [min(seriesData, series.getSpec().xField), median(seriesData, series.getSpec().xField)]
       };
     }
 
@@ -322,7 +339,8 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         style: {
           fill: '#000'
         }
-      }
+      },
+      _originValue_: [seriesData[0][series.fieldX[0]], seriesData[Math.floor(seriesData.length / 2)][series.fieldX[0]]]
     };
   }
 
@@ -340,11 +358,11 @@ export const DEFAULT_OFFSET_FOR_GROWTH_MARKLINE = 30;
  */
 export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
   // 根据已绘制的图表
-  // TODO: 分组字段只有一个值
 
   // 水平：offsetX 30
   // 垂直：offsetY -30
   const series = chart.getChart().getAllSeries()[0] as ICartesianSeries;
+  const isPercent = series.getPercent();
   const seriesData = series.getRawData().latestData;
   const groupFields = series.getGroupFields();
 
@@ -382,6 +400,11 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
     length = groupKeys.length - 1;
   }
 
+  if (isPercent) {
+    startData[valueFieldInData] = 1;
+    endData[valueFieldInData] = 1;
+  }
+
   return {
     id: uuidv4(),
     interactive: true,
@@ -396,7 +419,6 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
     },
     label: {
       position: 'middle',
-      // TODO：计算公式需要确认
       text:
         startData[valueFieldInData] === 0
           ? '<超过 0 的百分比>'
@@ -419,7 +441,8 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
       size: 12,
       refX: -4
     },
-    [isHorizontal ? 'offsetX' : 'offsetY']: (isHorizontal ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
+    [isHorizontal ? 'offsetX' : 'offsetY']: (isHorizontal ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE,
+    _originValue_: [startData[valueFieldInData], endData[valueFieldInData]]
   };
 }
 
@@ -432,9 +455,8 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
  * @returns
  */
 export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
-  // TODO: 线图验证
-  // TODO: 分组字段只有一个值
   const series = chart.getChart().getAllSeries()[0] as ICartesianSeries;
+  const isPercent = series.getPercent();
   const seriesData = series.getRawData().latestData;
   const groupFields = series.getGroupFields();
 
@@ -455,17 +477,31 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
 
     startData = groupData[groupKeys[0]][0];
     endData = groupData[groupKeys[1]][0];
-    startValue = startData[STACK_FIELD_END];
-    endValue = endData[STACK_FIELD_END];
 
-    startData = {
-      ...startData,
-      [valueFieldInData]: startData[STACK_FIELD_TOTAL]
-    };
-    endData = {
-      ...endData,
-      [valueFieldInData]: endData[STACK_FIELD_TOTAL]
-    };
+    if (isPercent) {
+      // 第一个维度的最大值和第二个维度的最小值
+      startValue = startData[STACK_FIELD_END_PERCENT];
+      endValue = 0;
+      startData = {
+        ...startData,
+        [valueFieldInData]: startValue
+      };
+      endData = {
+        ...endData,
+        [valueFieldInData]: endValue
+      };
+    } else {
+      startValue = startData[STACK_FIELD_END];
+      endValue = endData[STACK_FIELD_END];
+      startData = {
+        ...startData,
+        [valueFieldInData]: startData[STACK_FIELD_TOTAL]
+      };
+      endData = {
+        ...endData,
+        [valueFieldInData]: endData[STACK_FIELD_TOTAL]
+      };
+    }
   } else {
     const groupData = groupByFields(seriesData, [groupFields[0]]);
     const groupKeys = Object.keys(groupData);
@@ -500,7 +536,6 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     expandDistance,
     label: {
       position: 'middle',
-      // TODO：计算公式需要确认
       text: startValue === 0 ? '<超过 0 的百分比>' : `${(((endValue - startValue) / startValue) * 100).toFixed(0)}%`,
       labelBackground: {
         padding: { left: 4, right: 4, top: 4, bottom: 4 },
@@ -543,7 +578,8 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     startSymbol: {
       size: 12,
       refX: -4
-    }
+    },
+    _originValue_: [startValue, endValue]
   };
 }
 
@@ -556,9 +592,8 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
  * @returns
  */
 export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
-  // TODO: 线图验证
-  // TODO: 分组字段只有一个值
   const series = chart.getChart().getAllSeries()[0] as ICartesianSeries;
+  const isPercent = series.getPercent();
   const seriesData = series.getRawData().latestData;
   const groupFields = series.getGroupFields();
 
@@ -593,6 +628,11 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
     endData = groupData[groupKeys[1]][0];
   }
 
+  if (isPercent) {
+    startData[valueFieldInData] = 1;
+    endData[valueFieldInData] = 1;
+  }
+
   return {
     id: uuidv4(),
     interactive: true,
@@ -611,7 +651,6 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
     },
     label: {
       position: 'middle',
-      // TODO：计算公式需要确认
       text:
         startData[valueFieldInData] === 0
           ? '<超过 0 的百分比>'
@@ -636,7 +675,8 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
     endSymbol: {
       size: 12,
       refX: -4
-    }
+    },
+    _originValue_: [startData[valueFieldInData], endData[valueFieldInData]]
   };
 }
 
@@ -837,4 +877,19 @@ export function stackTotal(stackData: any, valueField: string) {
   for (const key in stackData.nodes) {
     stackTotal(stackData.nodes[key], valueField);
   }
+}
+
+export function average(data: any[], field?: string): number {
+  let sum = 0;
+  let count = 0;
+  data.forEach((x: any) => {
+    const v = field ? +x[field] : +x;
+    if (isValidNumber(v)) {
+      sum += v;
+      count++;
+    }
+  });
+
+  const average = sum / count;
+  return average;
 }

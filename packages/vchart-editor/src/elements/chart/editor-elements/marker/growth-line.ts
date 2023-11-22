@@ -428,7 +428,8 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
             ...endDatum,
             [valueFieldInData]: endDatum[valueField]
           }
-        ]
+        ],
+        _originValue_: [startDatum[valueField], endDatum[valueField]]
       });
 
       // 2. 更新当前 markLine 组件

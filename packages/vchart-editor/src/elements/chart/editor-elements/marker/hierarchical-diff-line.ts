@@ -15,6 +15,8 @@ import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
 import { SamePointApproximate, SameValueApproximate } from '../../../../utils/space';
+import { STACK_FIELD_START_PERCENT } from '@visactor/vchart';
+import { STACK_FIELD_END_PERCENT } from '@visactor/vchart';
 
 const START_LINK_HANDLER = 'overlay-hier-diff-mark-line-start-handler';
 const MIDDLE_LINK_HANDLER = 'overlay-hier-diff-mark-line-middle-handler';
@@ -305,15 +307,18 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
     const model = this._model as MarkLine;
     const series = model.getRelativeSeries() as ICartesianSeries;
+    const isPercent = series.getPercent();
     const startDatum = (this._overlayStartHandler as unknown as any).data;
     const endDatum = (this._overlayEndHandler as unknown as any).data;
     const valueField = series.direction === 'horizontal' ? series.fieldX[0] : series.fieldY[0];
     const valueFieldInData = series.direction === 'horizontal' ? series.getSpec().xField : series.getSpec().yField;
-
     const startValue = this._getValueFromAnchorHandler(startDatum, valueField);
     const endValue = this._getValueFromAnchorHandler(endDatum, valueField);
-    const labelText =
-      startValue === 0 ? '<超过 0 的百分比>' : `${(((endValue - startValue) / startValue) * 100).toFixed(0)}%`;
+    const labelText = isPercent
+      ? `${((endValue - startValue) * 100).toFixed(0)}%`
+      : startValue === 0
+      ? '<超过 0 的百分比>'
+      : `${(((endValue - startValue) / startValue) * 100).toFixed(0)}%`;
 
     // 更新真正的 markLine 组件
     //  Important: 拖拽结束，恢复对应 markLine 的交互
@@ -367,10 +372,10 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
                 this._overlayMiddleHandler.attribute.points[0].y) /
                 region.getLayoutRect().height) *
               100
-            }%`
+            }%`,
+      _originValue_: [startValue, endValue]
     });
     this._spec = newMarkLineSpec;
-
     this._updateAndSave(newMarkLineSpec, 'markLine');
   };
 
@@ -494,7 +499,6 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     if (series.type === 'area' || series.type === 'line') {
       const dataPoints: DataPoint[] = [];
       const seriesData = series.getRawData().latestData;
-
       seriesData.forEach((data: any) => {
         const position = series.dataToPosition(data);
         dataPoints.push({
@@ -522,8 +526,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
             data: {
               [xField]: min,
               [yField]: tick
-            },
-            top: true
+            }
           });
         });
       } else {
@@ -543,8 +546,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
             data: {
               [xField]: tick,
               [yField]: min
-            },
-            top: true
+            }
           });
         });
       }
@@ -1204,8 +1206,12 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _getValueFromAnchorHandler(data: DataPoint, valueField: string) {
     const series = this._model.getRelativeSeries();
+    const isPercent = series.getPercent();
     if (series.getStack()) {
-      return data.top ? data.data[valueField] : data.data[STACK_FIELD_START];
+      if (isPercent) {
+        return data.top ? data.data[STACK_FIELD_END_PERCENT] : data.data[STACK_FIELD_START_PERCENT] ?? 0;
+      }
+      return data.top ? data.data[valueField] : data.data[STACK_FIELD_START] ?? 0;
     }
 
     return data.top ? data.data[valueField] : 0;
