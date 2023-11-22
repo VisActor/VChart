@@ -1,4 +1,4 @@
-import type { ILayoutItemSpec } from '../../../model/interface';
+import type { ILayoutItemSpec } from '../../../layout/interface';
 import type { IColorKey } from '../../../theme/color-scheme/interface';
 import type { StringOrNumber } from '../../../typings';
 import type { TextAlign, TextBaseLine } from '../../../typings/visual';

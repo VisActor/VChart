@@ -76,7 +76,9 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     protected _axisPosition(helper: IAxisHelper, value: StringOrNumber | StringOrNumber[], datum?: any): number;
     valueToPositionX(value: StringOrNumber | StringOrNumber[], datum?: any): number;
     valueToPositionY(value: StringOrNumber | StringOrNumber[], datum?: any): number;
+    protected _positionXEncoder?: (datum: Datum) => number;
     dataToPositionX(datum: Datum): number;
+    protected _positionYEncoder?: (datum: Datum) => number;
     dataToPositionY(datum: Datum): number;
     dataToPositionZ(datum: Datum): number;
     dataToPositionX1(datum: Datum): number;
@@ -92,4 +94,5 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     viewDataUpdate(d: DataView): void;
     _sortDataInAxisDomain(): void;
     protected _getInvalidDefined: (datum: Datum) => boolean;
+    reInit(theme?: any, lastSpec?: any): void;
 }

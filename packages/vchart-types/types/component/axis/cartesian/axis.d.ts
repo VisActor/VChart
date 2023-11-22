@@ -1,12 +1,13 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IEffect, IModelInitOption, ILayoutRect } from '../../../model/interface';
+import type { IEffect, IModelInitOption } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
 import type { IOrientType } from '../../../typings/space';
 import type { IBaseScale } from '@visactor/vscale';
-import type { LayoutItem } from '../../../model/layout-item';
-import type { IPoint, StringOrNumber } from '../../../typings';
+import type { StringOrNumber } from '../../../typings/common';
+import type { IPoint } from '../../../typings/coordinate';
+import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { IAxis, ITick } from '../interface';
@@ -21,7 +22,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected readonly _defaultBandInnerPadding = 0.1;
     protected readonly _defaultBandOuterPadding = 0.3;
     directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
-    layoutType: LayoutItem['layoutType'];
+    layoutType: ILayoutType;
     layoutZIndex: number;
     layoutLevel: number;
     protected _dataSet: DataSet;
@@ -32,27 +33,12 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     };
     protected _orient: IOrientType;
     getOrient(): IOrientType;
-    get layoutOrient(): IOrientType;
-    set layoutOrient(v: IOrientType);
     protected _autoIndentOnce: boolean;
     protected _hasAutoIndent: boolean;
     set autoIndentOnce(v: boolean);
     protected _scales: IBaseScale[];
     getScales(): IBaseScale[];
     protected _theme: ICartesianAxisCommonTheme;
-    protected _statisticsDomain: {
-        domain: any[];
-        index: {
-            [key in StringOrNumber]: number;
-        };
-    };
-    getStatisticsDomain(): {
-        domain: any[];
-        index: {
-            [x: string]: number;
-            [x: number]: number;
-        };
-    };
     protected _tick: ITick | undefined;
     private _axisStyle;
     private _latestBounds;
@@ -66,6 +52,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     constructor(spec: T, options: IComponentOption);
     static createAxis(spec: any, options: IComponentOption, isHorizontal?: boolean): IAxis;
     static createComponent(spec: any, options: IComponentOption): IAxis | IAxis[];
+    initLayout(): void;
     setLayout3dBox(box3d: {
         width: number;
         height: number;
@@ -98,9 +85,12 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
         values: any[];
     }[];
     protected updateSeriesScale(): void;
-    setLayoutStartPosition(pos: Partial<IPoint>): void;
-    computeBoundsInRect(rect: ILayoutRect): ILayoutRect;
-    _boundsInRect(rect: ILayoutRect): IBoundsLike;
+    _transformLayoutPosition: (pos: Partial<IPoint>) => {
+        x: number;
+        y: number;
+    };
+    _transformLayoutRect: (result: ILayoutRect) => ILayoutRect;
+    getBoundsInRect(rect: ILayoutRect): IBoundsLike;
     updateLayoutAttribute(): void;
     private _getTitleLimit;
     private _getUpdateAttribute;

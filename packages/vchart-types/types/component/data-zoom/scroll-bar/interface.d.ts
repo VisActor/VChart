@@ -1,4 +1,4 @@
-import type { ILayoutItemSpec } from '../../../model/interface';
+import type { ILayoutItemSpec } from '../../../layout/interface';
 import type { IPadding } from '../../../typings';
 import type { IRectMarkSpec } from '../../../typings/visual';
 import type { IFilterMode } from '../constant';
@@ -14,10 +14,14 @@ export interface IScrollBarSpec extends IDataFilterComponentSpec, IScrollBarStyl
     range?: [number, number];
     limitRange?: [number, number];
 }
-export type IScrollBarTheme = ILayoutItemSpec & IScrollBarStyle & {
+export type IScrollBarCommonTheme = ILayoutItemSpec & IScrollBarStyle & {
     orient?: IScrollBarSpec['orient'];
     width?: IScrollBarSpec['width'];
     height?: IScrollBarSpec['height'];
     round?: IScrollBarSpec['round'];
     innerPadding?: IScrollBarSpec['innerPadding'];
+};
+export type IScrollBarTheme = IScrollBarCommonTheme & {
+    horizontal?: Omit<IScrollBarCommonTheme, 'orient'>;
+    vertical?: Omit<IScrollBarCommonTheme, 'orient'>;
 };

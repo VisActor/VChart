@@ -1,12 +1,11 @@
 import type { RichTextWordBreak } from '@visactor/vrender-core';
 import type { StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
-import type { IColorKey } from '../../../theme/color-scheme/interface';
 import type { Padding } from '@visactor/vrender-components/es/core/type';
-export interface ITooltipTextTheme {
+export interface ITooltipTextTheme<ColorType = string> {
     fontFamily?: string;
     fontSize?: number;
-    fill?: string | IColorKey;
-    fontColor?: string | IColorKey;
+    fill?: ColorType;
+    fontColor?: ColorType;
     fontWeight?: StringOrNumber;
     textAlign?: TextAlign;
     textBaseline?: TextBaseLine;
@@ -17,12 +16,12 @@ export interface ITooltipTextTheme {
     wordBreak?: RichTextWordBreak;
     autoWidth?: boolean;
 }
-export interface ITooltipTheme {
+export interface ITooltipTheme<ColorType = string> {
     panel?: {
         padding?: Padding;
-        backgroundColor?: string | IColorKey;
+        backgroundColor?: ColorType;
         border?: {
-            color?: string | IColorKey;
+            color?: ColorType;
             width?: number;
             radius?: number;
         };
@@ -31,16 +30,16 @@ export interface ITooltipTheme {
             y: number;
             blur: number;
             spread: number;
-            color: string | IColorKey;
+            color: ColorType;
         };
     };
     shape?: {
         size?: number;
         spacing?: number;
     };
-    titleLabel?: ITooltipTextTheme;
-    keyLabel?: Omit<ITooltipTextTheme, 'autoWidth'>;
-    valueLabel?: ITooltipTextTheme;
+    titleLabel?: ITooltipTextTheme<ColorType>;
+    keyLabel?: Omit<ITooltipTextTheme<ColorType>, 'autoWidth'>;
+    valueLabel?: ITooltipTextTheme<ColorType>;
     spaceRow?: number;
     offset?: {
         x?: number;

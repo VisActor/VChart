@@ -6,7 +6,7 @@ import { BaseComponent } from '../base/base-component';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
-import type { IAxis, ICommonAxisSpec, ITick, StatisticsDomain } from './interface';
+import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
 import type { ISeries } from '../../series/interface';
 import type { ITransformOptions } from '@visactor/vdataset';
@@ -23,8 +23,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _theme: ICartesianAxisCommonTheme | IPolarAxisCommonTheme;
     protected _tickData: CompilableData;
     getTickData(): CompilableData;
-    protected _statisticsDomain: StatisticsDomain;
-    getStatisticsDomain(): StatisticsDomain;
     protected _seriesUserId?: StringOrNumber[];
     protected _seriesIndex?: number[];
     protected _regionUserId?: StringOrNumber[];
@@ -60,7 +58,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         userId: StringOrNumber[];
         specIndex: number[];
     };
-    protected computeStatisticsDomain: () => void;
     protected initEvent(): void;
     protected updateScaleDomain(): void;
     protected computeData(updateType?: 'domain' | 'range' | 'force'): void;

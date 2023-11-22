@@ -3,12 +3,11 @@ import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { BaseMarker } from '../base-marker';
-import type { LayoutItem } from '../../../model/layout-item';
 export declare class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutZIndex: LayoutItem['layoutZIndex'];
+    layoutZIndex: number;
     protected _theme: IMarkLineTheme;
     protected _markerComponent: MarkLineComponent;
     static createComponent(spec: any, options: IComponentOption): MarkLine | MarkLine[];

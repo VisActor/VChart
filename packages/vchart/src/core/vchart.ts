@@ -54,8 +54,7 @@ import type {
   ISpec,
   Maybe,
   MaybeArray,
-  StringOrNumber,
-  ISeriesSpec
+  StringOrNumber
 } from '../typings';
 import { AnimationStateEnum } from '../animation/interface';
 import type { IBoundsLike, ILogger } from '@visactor/vutils';
@@ -93,7 +92,8 @@ import { View, registerFilterTransform, registerMapTransform } from '@visactor/v
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
-import { mergeTheme, preprocessTheme } from '../util';
+import { mergeTheme, preprocessTheme } from '../util/spec';
+import { darkTheme, registerTheme } from '../theme/builtin';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -1770,6 +1770,8 @@ export const registerVChartCore = () => {
   View.useRegisters([registerFilterTransform, registerMapTransform]);
   // install animation
   registerVGrammarAnimation();
+  // install default theme
+  registerTheme(darkTheme.name, darkTheme);
   // set default logger level to Level.error
   Logger.getInstance(LoggerLevel.Error);
 };
