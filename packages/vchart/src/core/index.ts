@@ -29,8 +29,6 @@ export * from '../typings/spec/index';
 
 // theme
 export * from '../theme/index';
-registerTheme(darkTheme.name, darkTheme);
-registerTheme(lightMobileTheme.name, lightMobileTheme);
-registerTheme(darkMobileTheme.name, darkMobileTheme);
+
 // vrender
 export { vglobal } from '@visactor/vrender-core';
