@@ -7,7 +7,6 @@ import type { IIndicator, IIndicatorSpec, IIndicatorTheme } from './interface';
 import type { Maybe } from '../../typings';
 import type { IGraphic } from '@visactor/vrender-core';
 export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
-    static speckey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;

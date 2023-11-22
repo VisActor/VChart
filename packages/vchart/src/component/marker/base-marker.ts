@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { array, isNil } from '@visactor/vutils';
+import { array, isFunction, isValid, isNil } from '@visactor/vutils';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IOptionAggr } from '../../data/transforms/aggregation';
 import type { IModelRenderOption } from '../../model/interface';
@@ -8,7 +8,6 @@ import type { ICartesianSeries } from '../../series/interface';
 import type { ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
-import type { IRegressType } from './mark-area/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { calcLayoutNumber } from '../../util/space';
 
@@ -18,6 +17,9 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
   protected _startRelativeSeries!: ICartesianSeries;
   protected _endRelativeSeries!: ICartesianSeries;
   protected _relativeSeries!: ICartesianSeries;
+  getRelativeSeries() {
+    return this._relativeSeries;
+  }
 
   // marker 组件数据
   protected _markerData!: DataView;
@@ -49,13 +51,11 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
 
   protected _processSpecX(specX: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
-    let processType: IAggrType | IRegressType;
     if (this._isSpecAggr(specX)) {
-      processType = specX as unknown as IAggrType;
       return {
         x: {
           field: relativeSeries.getSpec().xField,
-          aggrType: processType
+          aggrType: specX as unknown as IAggrType
         },
         ...this._getAllRelativeSeries()
       };
@@ -65,18 +65,42 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
 
   protected _processSpecY(specY: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
-    let processType: IAggrType | IRegressType;
     if (this._isSpecAggr(specY)) {
-      processType = specY as unknown as IAggrType;
       return {
         y: {
           field: relativeSeries.getSpec().yField,
-          aggrType: processType
+          aggrType: specY as unknown as IAggrType
         },
         ...this._getAllRelativeSeries()
       };
     }
     return { y: specY, ...this._getAllRelativeSeries() };
+  }
+
+  protected _processSpecXY(specX: IDataPos | IDataPosCallback, specY: IDataPos | IDataPosCallback) {
+    const result: any = {
+      ...this._getAllRelativeSeries()
+    };
+    const relativeSeries = this._relativeSeries;
+    if (this._isSpecAggr(specX)) {
+      result.x = {
+        field: relativeSeries.getSpec().xField,
+        aggrType: specX as unknown as IAggrType
+      };
+    } else {
+      result.x = specX;
+    }
+
+    if (this._isSpecAggr(specY)) {
+      result.y = {
+        field: relativeSeries.getSpec().yField,
+        aggrType: specY as unknown as IAggrType
+      };
+    } else {
+      result.y = specY;
+    }
+
+    return result;
   }
 
   protected _processSpecCoo(spec: any) {
@@ -88,22 +112,40 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
       );
 
       const { xField, yField } = refRelativeSeries.getSpec();
-      const { [xField]: coordinateX, [yField]: coordinateY } = coordinate;
+      const { xFieldDim, xFieldIndex, yFieldDim, yFieldIndex } = coordinate;
+      let bindXField = xField;
+      if (isValid(xFieldIndex)) {
+        bindXField = array(xField)[xFieldIndex];
+      }
+      if (xFieldDim && array(xField).includes(xFieldDim)) {
+        bindXField = xFieldDim;
+      }
+
+      let bindYField = yField;
+      if (isValid(yFieldIndex)) {
+        bindYField = array(yField)[yFieldIndex];
+      }
+      if (yFieldDim && array(yField).includes(yFieldDim)) {
+        bindYField = yFieldDim;
+      }
+
+      // const { [xField]: coordinateX, [yField]: coordinateY } = coordinate;
       const option: IOptionAggr = {
         x: undefined,
         y: undefined,
         ...this._getAllRelativeSeries()
       };
-      if (this._isSpecAggr(coordinateX)) {
-        option.x = { field: xField, aggrType: coordinateX as IAggrType };
+
+      if (this._isSpecAggr(coordinate[bindXField])) {
+        option.x = { field: bindXField, aggrType: coordinate[bindXField] as IAggrType };
       } else {
-        option.x = coordinateX;
+        option.x = array(bindXField).map(field => coordinate[field]);
       }
 
-      if (this._isSpecAggr(coordinateY)) {
-        option.y = { field: yField, aggrType: coordinateY as IAggrType };
+      if (this._isSpecAggr(coordinate[bindYField])) {
+        option.y = { field: bindYField, aggrType: coordinate[bindYField] as IAggrType };
       } else {
-        option.y = coordinateY;
+        option.y = array(bindYField).map(field => coordinate[field]);
       }
       option.getRefRelativeSeries = () => refRelativeSeries;
       return option;

@@ -1882,6 +1882,27 @@
             "zh": "markPoint 数据点定位",
             "en": "markPoint Data Point Positioning"
           }
+        },
+        {
+          "path": "mark-line-total-diff",
+          "title": {
+            "zh": "markLine 总计差异标注",
+            "en": "markLine Total-Diff annotation"
+          }
+        },
+        {
+          "path": "mark-line-CAGR",
+          "title": {
+            "zh": "markLine 复合增长差异（CAGR）标注",
+            "en": "markLine CAGR annotation"
+          }
+        },
+        {
+          "path": "mark-line-hierarchy-diff",
+          "title": {
+            "zh": "markLine 层级差异标注",
+            "en": "markLine hierarchy-diff annotation"
+          }
         }
       ]
     },

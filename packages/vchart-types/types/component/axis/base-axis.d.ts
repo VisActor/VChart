@@ -13,6 +13,7 @@ import type { ITransformOptions } from '@visactor/vdataset';
 import { type IComponentMark } from '../../mark/component';
 export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> extends BaseComponent<T> implements IAxis {
     static specKey: string;
+    specKey: string;
     protected _orient: IPolarOrientType | IOrientType;
     getOrient(): IOrientType | IPolarOrientType;
     protected _scale: IBaseScale;

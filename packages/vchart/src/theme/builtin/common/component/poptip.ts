@@ -7,26 +7,22 @@ export const poptip: IPoptipTheme = {
   padding: 8,
   titleStyle: {
     fontSize: THEME_CONSTANTS.l5FontSize,
-    // lineHeight: THEME_CONSTANTS.l5LineHeight, // FIXME: vrender 支持行高字符串后取消注释
-
     fontWeight: 'bold',
     fill: { type: 'palette', key: 'primaryFontColor' }
   },
   contentStyle: {
     fontSize: THEME_CONSTANTS.l5FontSize,
-    // lineHeight: THEME_CONSTANTS.l5LineHeight, // FIXME: vrender 支持行高字符串后取消注释
-
-    fill: { type: 'palette', key: 'secondaryFontColor' }
+    fill: { type: 'palette', key: 'primaryFontColor' }
   },
   panel: {
     visible: true,
-    fill: { type: 'palette', key: 'tooltipBackgroundColor' },
+    fill: { type: 'palette', key: 'popupBackgroundColor' },
     cornerRadius: 3,
     lineWidth: 0,
     shadowBlur: 12,
     shadowOffsetX: 0,
     shadowOffsetY: 4,
-    shadowColor: { type: 'palette', key: 'shadowColor', a: 0.1 },
+    shadowColor: { type: 'palette', key: 'shadowColor' },
     size: 0,
     space: 12
   }

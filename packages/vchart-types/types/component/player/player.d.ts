@@ -13,7 +13,6 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
     layoutLevel: number;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
-    specKey: string;
     private _orient;
     private _specs;
     private _playerComponent;

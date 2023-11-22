@@ -2,7 +2,6 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum } from '../../typings';
-import { mergeSpec } from '../../util/spec/merge-spec';
 import { registerHeatmapAnimation, type HeatmapAppearPreset } from './animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
@@ -59,7 +58,7 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       morph: shouldMarkDoMorph(this._spec, HeatmapSeries.mark.cell.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
-      label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
+      label: this._preprocessLabelSpec(this._spec.label),
       progressive
     }) as ICellMark;
 

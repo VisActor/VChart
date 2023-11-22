@@ -25,10 +25,10 @@ export const discreteLegend: IDiscreteLegendTheme = {
     background: {
       state: {
         selectedHover: {
-          fill: { type: 'palette', key: 'axisGridColor' }
+          fill: { type: 'palette', key: 'hoverBackgroundColor' }
         },
         unSelectedHover: {
-          fill: { type: 'palette', key: 'axisGridColor' }
+          fill: { type: 'palette', key: 'hoverBackgroundColor' }
         }
       }
     },

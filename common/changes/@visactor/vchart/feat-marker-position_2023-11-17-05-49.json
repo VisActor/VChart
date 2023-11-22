@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: mark area should support specify x x1 y and y1 both",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

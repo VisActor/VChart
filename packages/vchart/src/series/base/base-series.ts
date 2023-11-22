@@ -84,6 +84,9 @@ import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { isAnimationEnabledForSeries } from '../../animation/utils';
 import { transformSeriesThemeToMerge } from '../../util/spec/merge-theme';
+import type { ILabelSpec } from '../../component';
+import type { ILabelMark } from '../../mark/label';
+import type { TransformedLabelSpec } from '../../component/label';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -1264,4 +1267,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
+
+  protected _preprocessLabelSpec(spec: ILabelSpec, styleHandler?: (mark: ILabelMark) => void, hasAnimation?: boolean) {
+    return {
+      animation: hasAnimation ?? this._spec.animation,
+      ...spec,
+      styleHandler: styleHandler ?? (this as ISeries).initLabelMarkStyle
+    } as TransformedLabelSpec;
+  }
 }
