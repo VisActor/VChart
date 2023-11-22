@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: no longer register mobile theme in vchart",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
