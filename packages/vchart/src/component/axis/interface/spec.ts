@@ -118,6 +118,14 @@ export interface ILinearAxisSpec {
 
 export interface IBandAxisSpec {
   /**
+   * 是否去除 band 轴两端的留白，如果为 true，则两端的 padding 为 0，
+   * **并且 bandPadding、paddingInner 和 paddingOuter 的设置将被忽略**。
+   * 如果配置了该属性，
+   * @default false
+   * @since 1.7.0
+   */
+  trimPadding?: boolean;
+  /**
    * 同时设置轴的 paddingInner 和 paddingOuter
    * **因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 bandPadding 配置**
    */
