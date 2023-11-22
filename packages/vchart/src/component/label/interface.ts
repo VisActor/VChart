@@ -18,7 +18,7 @@ export interface ILabelSpec extends IComponentSpec {
    *  用{}包裹变量名的字符串模版, 变量名取自数据属性值
    *  在饼图中支持配置百分比, {_percent_}
    *  eg: 'type={type},value={value},percent={_percent_}'
-   *  since version '1.7.0'
+   *  @SInCE 1.7.0
    */
   formatter?: string;
   /** 标签与其对应数据图元的间距 */

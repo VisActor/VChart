@@ -28,7 +28,7 @@ String template, supported since `1.7.0` version.
 
 A string template that wraps the variable name with `{}`. The variable name is taken from the data attribute value.
 
-Supports configuration of percentages in pie charts, `{_percent_}`
+In pie charts, percentage stacked area charts, percentage stacked line charts, and percentage stacked column charts, percentage configuration is supported, `{_percent_}`
 
 For example, `formatter: 'type={type},value={value},percent={_percent_}'`
 

@@ -9,6 +9,7 @@ import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
 import { ARC_RATIO } from '../../constant';
+import { STACK_FIELD_END_PERCENT } from '../../constant';
 
 export const labelRuleMap = {
   rect: barLabel,
@@ -34,7 +35,8 @@ export function textAttribute(
   formatter?: ILabelSpec['formatter']
 ) {
   const { labelMark, series } = labelInfo;
-  const textAttribute = { data: datum } as any;
+  const field = series.getMeasureField()[0];
+  const textAttribute = { text: datum[field], data: datum } as any;
 
   const attributes = Object.keys(labelMark.stateStyle.normal);
 
@@ -50,6 +52,8 @@ export function textAttribute(
   if (formatter) {
     if (series.type === 'pie') {
       datum._percent_ = (datum[ARC_RATIO] * 100).toFixed(2) + '%';
+    } else if (datum[STACK_FIELD_END_PERCENT]) {
+      datum._percent_ = (datum[STACK_FIELD_END_PERCENT] * 100).toFixed(2) + '%';
     }
     textAttribute.text = substitute(formatter, datum);
   }
