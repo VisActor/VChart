@@ -8,7 +8,7 @@ import type { ColorSchemeItem, IColorSchemeStruct } from './interface';
 
 export const newTokenToLegacyToken: Record<keyof BuiltinColorPalette, string> = {
   primaryFontColor: 'titleFontColor',
-  secondaryFontColor: 'labelFontColor',
+  tertiaryFontColor: 'labelFontColor',
   axisLabelFontColor: 'axisFontColor',
   axisMarkerFontColor: 'labelReverseFontColor',
   dataZoomHandleStrokeColor: 'dataZoomHandlerStrokeColor',
@@ -25,7 +25,7 @@ export const newTokenToLegacyToken: Record<keyof BuiltinColorPalette, string> = 
 
 export const legacyTokenToNewToken: Record<string, keyof BuiltinColorPalette> = {
   titleFontColor: 'primaryFontColor',
-  labelFontColor: 'secondaryFontColor',
+  labelFontColor: 'tertiaryFontColor',
   axisFontColor: 'axisLabelFontColor',
   labelReverseFontColor: 'axisMarkerFontColor',
   dataZoomHandlerStrokeColor: 'dataZoomHandleStrokeColor',
