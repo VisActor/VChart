@@ -184,7 +184,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         key: this._seriesField,
         groupKey: this._seriesField,
         isSeriesMark: true,
-        label: this._preprocessLabelSpec(this._spec.label)
+        label: this._preprocessLabelSpec(this._spec.label),
+        customizedShape: this._spec.funnel?.customizedShape
       }
     ) as IPolygonMark;
 
@@ -201,7 +202,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
           skipBeforeLayouted: false,
           dataView: this._viewDataTransform.getDataView(),
           dataProductId: this._viewDataTransform.getProductId(),
-          label: this._preprocessLabelSpec(this._spec.transformLabel)
+          label: this._preprocessLabelSpec(this._spec.transformLabel),
+          customizedShape: this._spec.transform?.customizedShape
         }
       );
     }

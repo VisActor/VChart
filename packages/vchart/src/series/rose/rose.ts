@@ -45,7 +45,8 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
-      label: this._preprocessLabelSpec(this._spec.label)
+      label: this._preprocessLabelSpec(this._spec.label),
+      customizedShape: this._spec.rose?.customizedShape
     }) as IArcMark;
   }
 

@@ -19,6 +19,7 @@ import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { IRegion } from '../../region/interface';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 export interface ICompilableMarkOption extends GrammarItemInitOption {
   key?: string | ((datum: Datum) => string);
@@ -134,6 +135,8 @@ export interface ICompilableMark extends IGrammarItem {
   /** 是否跳过布局阶段 */
   setSkipBeforeLayouted: (skip: boolean) => void;
   getSkipBeforeLayouted: () => boolean;
+
+  setCustomizedShapeCallback: (callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) => void;
 
   /** 开始状态动画 */
   runAnimationByState: (animationState?: string) => IAnimateArranger;
