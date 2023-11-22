@@ -162,7 +162,8 @@ export class CorrelationSeries extends PolarSeries<any> {
       groupKey: this._seriesField,
       label: this._preprocessLabelSpec(this._spec.label),
       isSeriesMark: true,
-      key: DEFAULT_DATA_INDEX
+      key: DEFAULT_DATA_INDEX,
+      customizedShape: this._spec.nodePoint?.customizedShape
     }) as ISymbolMark;
     if (nodePointMark) {
       nodePointMark.setZIndex(LayoutZIndex.Node);
@@ -182,7 +183,8 @@ export class CorrelationSeries extends PolarSeries<any> {
       label: this._preprocessLabelSpec(this._spec.centerLabel),
       key: DEFAULT_DATA_INDEX,
       dataView: this._centerSeriesData.getDataView(),
-      dataProductId: this._centerSeriesData.getProductId()
+      dataProductId: this._centerSeriesData.getProductId(),
+      customizedShape: this._spec.centerPoint?.customizedShape
     }) as ISymbolMark;
     if (centerPointMark) {
       centerPointMark.setZIndex(LayoutZIndex.Node);

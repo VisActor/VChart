@@ -9,6 +9,7 @@ import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from './type';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 // export type SeriesStyle = 'color' | 'size' | 'shape';
 
@@ -107,6 +108,8 @@ export interface ISeriesMarkInitOption {
 
   /** 是否支持 3d */
   support3d?: boolean;
+  /* customized shape of mark  */
+  customizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
 }
 
 export interface ISeriesMarkInfo extends IModelMarkInfo {

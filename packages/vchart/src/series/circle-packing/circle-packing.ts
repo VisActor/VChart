@@ -185,7 +185,8 @@ export class CirclePackingSeries<
     }
 
     const circlePacking = this._createMark(CirclePackingSeries.mark.circlePacking, {
-      isSeriesMark: true
+      isSeriesMark: true,
+      customizedShape: this._spec.circlePacking?.customizedShape
     }) as IArcMark;
 
     this._circlePackingMark = circlePacking;
