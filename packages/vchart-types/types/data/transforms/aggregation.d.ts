@@ -1,6 +1,7 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IAggrType } from '../../component/marker/interface';
 import type { ICartesianSeries } from '../../series/interface';
+import type { StringOrNumber } from '../../typings';
 export type IOption = {
     field: string;
 };
@@ -8,7 +9,7 @@ export type IOptionAggrField = {
     field: string;
     aggrType: IAggrType;
 };
-export type IOptionPos = IOptionAggrField | string | number;
+export type IOptionPos = IOptionAggrField | string | number | StringOrNumber[];
 export type IOptionSeries = {
     getRelativeSeries: () => ICartesianSeries;
     getStartRelativeSeries: () => ICartesianSeries;
@@ -28,6 +29,6 @@ export declare function markerVariance(_data: Array<DataView>, opt: IOption): nu
 export declare function markerStandardDeviation(_data: Array<DataView>, opt: IOption): number;
 export declare function markerMedian(_data: Array<DataView>, opt: IOption): number;
 export declare function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]): {
-    x: string | number | null;
-    y: string | number | null;
+    x: StringOrNumber[] | StringOrNumber | null;
+    y: StringOrNumber[] | StringOrNumber | null;
 }[];

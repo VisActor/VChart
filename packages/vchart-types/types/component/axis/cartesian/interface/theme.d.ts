@@ -1,4 +1,4 @@
-import type { ILayoutPaddingSpec, ILayoutNumber } from '../../../../model/interface';
+import type { ILayoutNumber, ILayoutPaddingSpec } from '../../../../typings/layout';
 import type { ITick, IGrid } from '../../interface';
 import type { ICartesianAxisUnit, ICartesianDomainLine, ICartesianLabel, ICartesianTitle } from './common';
 import type { ICartesianAxisCommonSpec } from './spec';

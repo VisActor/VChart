@@ -1,2 +1,3 @@
 import type { ITooltipTheme } from '../../../../component/tooltip/interface';
-export declare const tooltip: ITooltipTheme;
+import type { IColorKey } from '../../../color-scheme';
+export declare const tooltip: ITooltipTheme<string | IColorKey>;

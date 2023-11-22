@@ -3,7 +3,7 @@ import { ComponentTypeEnum } from '../../interface/type';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import type { IRectGraphicAttribute, ISymbolGraphicAttribute, IGraphic } from '@visactor/vrender-core';
-import type { Datum } from '../../../typings';
+import type { Datum, ILayoutType } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 import type { IDataZoomSpec } from './interface';
 export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
@@ -12,6 +12,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     name: string;
     layoutZIndex: number;
     layoutLevel: number;
+    layoutType: ILayoutType;
     protected _component: DataZoomComponent;
     protected _valueScale: ILinearScale;
     protected _backgroundSize: number;
@@ -35,8 +36,9 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     protected _dataToPositionX2: (datum: Datum) => number;
     protected _dataToPositionY: (datum: Datum) => number;
     protected _dataToPositionY2: (datum: Datum) => number;
+    private _getAttrs;
     protected _createOrUpdateComponent(): void;
-    protected _handleChange(start: number, end: number, updateComponent?: boolean): void;
+    protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string): void;
     protected _handleDataCollectionChange(): void;
     protected _getComponentAttrs(): {
         backgroundStyle: IRectGraphicAttribute;

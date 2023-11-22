@@ -1,7 +1,7 @@
 import type { IGroupMark, IMark, MarkAnimationSpec, MarkFunctionCallback, Nil, TransformSpec } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
-import type { Maybe, StringOrNumber } from '../../typings';
+import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import { MarkStateManager } from './mark-state-manager';
@@ -9,12 +9,15 @@ import type { ICompilableMark, IMarkDataInitOption, ICompilableMarkOption, State
 import { MarkData } from './mark-data';
 import { GrammarType } from '../interface/compilable-item';
 import type { IEvent } from '../../event/interface';
-import type { ILabelSpec } from '../../component/label';
+import type { TransformedLabelSpec } from '../../component/label';
 export declare abstract class CompilableMark extends GrammarItem implements ICompilableMark {
     readonly grammarType = GrammarType.mark;
     readonly type: MarkType;
     readonly name: string;
     readonly key: ICompilableMark['key'];
+    protected _skipTheme?: boolean;
+    getSkipTheme(): boolean;
+    setSkipTheme(skipTheme: boolean): void;
     protected _support3d?: boolean;
     getSupport3d(): boolean;
     setSupport3d(support3d: boolean): void;
@@ -65,10 +68,10 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     protected _groupKey?: string;
     getGroupKey(): string;
     setGroupKey(groupKey: string): void;
-    protected _label?: ILabelSpec[];
-    getLabelSpec(): ILabelSpec[];
-    setLabelSpec(label: ILabelSpec | ILabelSpec[]): void;
-    addLabelSpec(label: ILabelSpec): void;
+    protected _label?: TransformedLabelSpec[];
+    getLabelSpec(): TransformedLabelSpec[];
+    setLabelSpec(label: TransformedLabelSpec | TransformedLabelSpec[]): void;
+    addLabelSpec(label: TransformedLabelSpec, head?: boolean): void;
     protected _progressiveConfig: IMarkProgressiveConfig;
     getProgressiveConfig(): IMarkProgressiveConfig;
     setProgressiveConfig(config: IMarkProgressiveConfig): void;
@@ -95,6 +98,7 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     compileAnimation(): void;
     compileContext(): void;
     compileSignal(): void;
+    protected _computeAttribute(key: string, state: StateValueType): (datum: Datum, opt: IAttributeOpt) => any;
     protected compileCommonAttributeCallback(key: string, state: string): MarkFunctionCallback<any>;
     protected compileTransform(): void;
     protected _lookupGrammar(id: string): IMark;

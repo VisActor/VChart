@@ -1,6 +1,6 @@
 import type { ISeriesFilter } from '../../region/interface';
 import type { IAnimate } from '../../animation/interface';
-import type { ILayoutItem, IModel, IModelOption } from '../../model/interface';
+import type { ILayoutModel, IModelOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
 import type { StringOrNumber } from '../../typings';
@@ -19,7 +19,7 @@ export interface IComponentOption extends IModelOption {
     getComponentByUserId: (userId: StringOrNumber) => IComponent | undefined;
     getComponentsByKey: (key: string) => IComponent[];
 }
-export interface IComponent extends IModel, ILayoutItem {
+export interface IComponent extends ILayoutModel {
     readonly name: string;
     readonly animate?: IAnimate;
     getRegions: () => IRegion[];

@@ -1,12 +1,13 @@
 import { DataView } from '@visactor/vdataset';
 import type { IDiscreteLegendSpec, IDiscreteLegendTheme } from './interface';
 import type { ISeries } from '../../../series/interface';
-import type { IModelInitOption, ILayoutRect } from '../../../model/interface';
+import type { IModelInitOption } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components';
 import type { ILegend } from '../interface';
 import { BaseLegend } from '../base-legend';
+import type { ILayoutRect } from '../../../typings/layout';
 export declare class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     static specKey: string;
     specKey: string;
