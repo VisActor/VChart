@@ -216,10 +216,6 @@ export interface ISymbolMarkSpec extends IFillMarkSpec {
 export interface ILineLikeMarkSpec extends IFillMarkSpec {
   curveType?: InterpolateType;
   defined?: boolean;
-  /**
-   * @private 一个标志位，用于通知 VGrammar 是否执行 getLineSegmentConfigs 方法
-   */
-  enableSegments?: boolean;
 }
 
 export interface IAreaMarkSpec extends ILineLikeMarkSpec {
