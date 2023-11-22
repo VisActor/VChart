@@ -9,12 +9,21 @@ export const markPoint: IMarkPointTheme = {
       size: 5,
       visible: true,
       style: {
-        fill: { type: 'palette', key: 'primaryFontColor' }
+        fill: { type: 'palette', key: 'markLineStrokeColor' },
+        stroke: null,
+        lineWidth: 0
+      }
+    },
+    endSymbol: {
+      style: {
+        fill: { type: 'palette', key: 'markLineStrokeColor' },
+        stroke: null,
+        lineWidth: 0
       }
     },
     line: {
       style: {
-        stroke: { type: 'palette', key: 'primaryFontColor' }
+        stroke: { type: 'palette', key: 'markLineStrokeColor' }
       }
     }
   },

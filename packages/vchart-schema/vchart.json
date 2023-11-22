@@ -18795,7 +18795,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -18808,7 +18808,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -20387,7 +20387,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -20400,7 +20400,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -21143,7 +21143,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -21156,7 +21156,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -22411,7 +22411,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -22424,7 +22424,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -26789,7 +26789,7 @@
           "description": "markLine 标记配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointTheme",
+          "$ref": "#/definitions/IMarkPointTheme<Partial<IMarkerSymbol>>",
           "description": "markPoint 标记配置"
         },
         "player": {
@@ -36416,7 +36416,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -36429,7 +36429,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -37527,7 +37527,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -37540,7 +37540,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -38256,7 +38256,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -38269,7 +38269,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -40718,7 +40718,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -40731,7 +40731,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -43804,7 +43804,7 @@
               "typeof": "function"
             },
             {
-              "$ref": "#/definitions/IMarkPointTheme"
+              "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
             }
           ]
         },
@@ -43817,13 +43817,25 @@
               "typeof": "function"
             },
             {
-              "$ref": "#/definitions/IMarkPointTheme"
+              "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
             }
           ]
         }
       ]
     },
-    "IMarkPointTheme": {
+    "IMarkPointTheme<IMarkerSymbol>": {
+      "properties": {
+        "itemContent": {
+          "$ref": "#/definitions/IItemContent",
+          "description": "标注内容"
+        },
+        "itemLine": {
+          "typeof": "function"
+        }
+      },
+      "type": "object"
+    },
+    "IMarkPointTheme<Partial<IMarkerSymbol>>": {
       "properties": {
         "itemContent": {
           "$ref": "#/definitions/IItemContent",
@@ -49923,7 +49935,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -49936,7 +49948,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -51045,7 +51057,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -51058,7 +51070,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -52167,7 +52179,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -52180,7 +52192,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -55964,7 +55976,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -55977,7 +55989,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -64403,7 +64415,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -64416,7 +64428,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },

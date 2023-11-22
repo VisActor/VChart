@@ -18,20 +18,20 @@ export interface IItemContent extends IMarkerRef {
         style?: IRichTextGraphicAttribute;
     };
 }
-export type IItemLine = {
+export type IItemLine<T extends Partial<IMarkerSymbol> = IMarkerSymbol> = {
     type?: 'type-s' | 'type-do' | 'type-po' | 'type-op';
     visible?: boolean;
     decorativeLine?: {
         visible?: boolean;
         length?: number;
     };
-    startSymbol?: IMarkerSymbol;
-    endSymbol?: IMarkerSymbol;
+    startSymbol?: T;
+    endSymbol?: T;
     line?: {
         style?: Omit<ILineMarkSpec, 'visible'>;
     };
 };
-export interface IMarkPointTheme {
-    itemLine?: IItemLine;
+export interface IMarkPointTheme<T extends Partial<IMarkerSymbol> = Partial<IMarkerSymbol>> {
+    itemLine?: IItemLine<T>;
     itemContent?: IItemContent;
 }

@@ -1,4 +1,4 @@
-import { IBarChartSpec, IHeatmapChartSpec } from '@visactor/vchart';
+import { IHeatmapChartSpec } from '@visactor/vchart';
 import { IChartInfo } from './interface';
 
 const items = [
@@ -62,7 +62,11 @@ const spec: IHeatmapChartSpec = {
         fields: ['value']
       }
     ],
-    range: ['#07A35A', { type: 'palette', key: 'backgroundColor' }, '#E33232']
+    range: [
+      { type: 'palette', key: 'successColor', default: '#07A35A' },
+      { type: 'palette', key: 'backgroundColor' },
+      { type: 'palette', key: 'dangerColor', default: '#E33232' }
+    ]
   },
   axes: [
     {

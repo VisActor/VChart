@@ -1,5 +1,6 @@
 import { getContainerSize, isString } from '@visactor/vutils';
 import { DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant/base';
+import type { IChartSpec } from '../typings';
 import { Direction } from '../typings';
 import { array, isMiniAppLikeMode, isTrueBrowser, isValid, mergeSpec } from '../util';
 import type { ICartesianChartSpec } from './cartesian/interface';
@@ -82,4 +83,21 @@ export function mergeUpdateResult(resultA: IUpdateSpecResult, resultB: IUpdateSp
   resultA.reRender = resultA.reRender || resultB.reRender;
   resultA.reSize = resultA.reSize || resultB.reSize;
   return resultA;
+}
+
+export function getTrimPaddingConfig(chartType: string, spec: IChartSpec) {
+  if (
+    chartType === 'line' ||
+    chartType === 'area' ||
+    (chartType === 'common' && spec.series.every(item => item.type === 'area' || item.type === 'line'))
+  ) {
+    return {
+      paddingInner: 1,
+      paddingOuter: 0
+    };
+  }
+
+  return {
+    paddingOuter: 0
+  };
 }
