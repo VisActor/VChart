@@ -166,7 +166,7 @@ export class EditorController implements IEditorController {
     this._currentOverGraphic.setAttributes({
       stroke: 'red'
     });
-    this._currentOverGraphic.parent.removeChild(this._currentOverGraphic);
+    this._currentOverGraphic.parent?.removeChild(this._currentOverGraphic);
     this._currentOverGraphic = null;
     this._currentOverGraphicId = null;
   }

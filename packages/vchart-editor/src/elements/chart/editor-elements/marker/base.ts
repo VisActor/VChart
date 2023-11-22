@@ -96,6 +96,8 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
         height: markerBounds.height()
       },
       updateCall: attr => {
+        this._controller.removeOverGraphic();
+
         const reRender = this.chart.specProcess.updateElementAttribute(element.model, attr);
         const releaseLast = reRender;
         if (releaseLast) {
@@ -104,8 +106,6 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
         if (reRender) {
           this.chart.reRenderWithUpdateSpec();
         }
-
-        this._controller.removeOverGraphic();
         return false;
       }
     });
