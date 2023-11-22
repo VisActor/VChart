@@ -31,6 +31,7 @@ bower_components
 build/Release
 output
 dist
+!**/packages/vchart/dist
 esm
 es
 cjs
