@@ -2,6 +2,7 @@ import type { BaseLabelAttrs } from '@visactor/vrender-components';
 import type { ConvertToMarkStyleSpec, Datum, ITextMarkSpec } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { ISeries } from '../..';
+import type { ILabelMark } from '../../mark/label';
 export interface ILabelFormatMethodContext {
     series?: ISeries;
 }
@@ -33,4 +34,7 @@ export type ITotalLabelSpec = Pick<ILabelSpec, 'visible' | 'formatMethod' | 'int
 export interface ITotalLabelTheme extends Pick<ILabelSpec, 'visible' | 'interactive' | 'offset' | 'overlap' | 'smartInvert' | 'animation'> {
     style?: ITextMarkSpec;
 }
+export type TransformedLabelSpec = ILabelSpec & {
+    styleHandler: (mark?: ILabelMark) => void;
+};
 export {};

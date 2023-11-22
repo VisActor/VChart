@@ -1,3 +1,6 @@
+import type { IModelOption } from '../../model/interface';
+import { type IOrientType } from '../../typings';
+import type { ComponentTypeEnum } from '../interface';
 export interface IDataFilterWithNewDomainOption {
     getNewDomain: () => any[];
     isContinuous: () => boolean;
@@ -17,3 +20,4 @@ export interface IDataFilterComputeDomainOption {
     };
 }
 export declare const dataFilterComputeDomain: (data: Array<any>, op: IDataFilterComputeDomainOption) => any[];
+export declare const getDataFilterTheme: (orient: IOrientType, type: ComponentTypeEnum, option: Partial<IModelOption>) => any;

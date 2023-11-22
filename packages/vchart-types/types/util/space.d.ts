@@ -1,7 +1,7 @@
 import { type IBoundsLike } from '@visactor/vutils';
-import type { ILayoutPaddingSpec, IPercentOffset, ILayoutNumber, IPercent, ILayoutOrientPadding, ILayoutRect } from '../model/interface';
 import type { IPadding, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
+import type { ILayoutNumber, ILayoutRect, IPercent, IPercentOffset, ILayoutPaddingSpec, ILayoutOrientPadding } from '../typings/layout';
 export declare function isValidOrient(orient: string): boolean;
 export declare function isPointInRect(point: IPoint, rect: IRect): boolean;
 export declare function isPercent(v: any): v is IPercent;

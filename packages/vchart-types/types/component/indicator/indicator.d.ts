@@ -1,6 +1,5 @@
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
-import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorSpec, IIndicatorTheme } from './interface';
@@ -10,7 +9,7 @@ export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutType: LayoutItem['layoutType'];
+    layoutType: 'none';
     layoutZIndex: number;
     layoutLevel: number;
     private _gap;

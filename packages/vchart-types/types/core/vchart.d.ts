@@ -31,6 +31,10 @@ export declare class VChart implements IVChart {
     static useMark(marks: MarkConstructor[]): void;
     static useLayout(layouts: ILayoutConstructor[]): void;
     static registerDataSetTransform(name: string, transform: Transform): void;
+    static registerFunction(key: string, fun: Function): void;
+    static unregisterFunction(key: string): void;
+    static getFunction(key: string): Function | null;
+    static getFunctionList(): string[] | null;
     static registerMap(key: string, source: GeoSourceType, option?: GeoSourceOption): void;
     static unregisterMap(key: string): void;
     static getMap(key: string): GeoSourceType;
@@ -59,7 +63,7 @@ export declare class VChart implements IVChart {
     private _curSize;
     private _observer;
     private _currentThemeName;
-    private _currentChartLevelTheme;
+    private _currentTheme;
     private _onError?;
     private _context;
     private _isReleased;
@@ -146,5 +150,9 @@ export declare class VChart implements IVChart {
     convertDatumToPosition(datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean): IPoint | null;
     convertValueToPosition(value: StringOrNumber, dataLinkInfo: DataLinkAxis, isRelativeToCanvas?: boolean): number | null;
     convertValueToPosition(value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries, isRelativeToCanvas?: boolean): IPoint | null;
+    getFunction(key: string): Function | null;
+    registerFunction(key: string, fun: Function): void;
+    unregisterFunction(key: string): void;
+    getFunctionList(): string[];
 }
 export declare const registerVChartCore: () => void;

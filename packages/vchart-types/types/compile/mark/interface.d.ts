@@ -7,7 +7,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { IAnimate, IAnimateArranger, IElement, IGroupMark, IMark, MarkAnimationSpec, Nil, TransformSpec } from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
-import type { ILabelSpec } from '../../component/label';
+import type { TransformedLabelSpec } from '../../component/label';
 import type { IRegion } from '../../region/interface';
 export interface ICompilableMarkOption extends GrammarItemInitOption {
     key?: string | ((datum: Datum) => string);
@@ -15,6 +15,8 @@ export interface ICompilableMarkOption extends GrammarItemInitOption {
     skipBeforeLayouted?: boolean;
     support3d?: boolean;
     mode?: '2d' | '3d';
+    skipTheme?: boolean;
+    noSeparateStyle?: boolean;
 }
 export interface ICompilableMark extends IGrammarItem {
     readonly type: MarkType;
@@ -28,9 +30,9 @@ export interface ICompilableMark extends IGrammarItem {
     setDataView: (d?: DataView, productId?: string) => void;
     getFacet: () => string | undefined;
     setFacet: (facet: string) => void;
-    getLabelSpec: () => ILabelSpec[];
-    setLabelSpec: (label: ILabelSpec | ILabelSpec[]) => void;
-    addLabelSpec: (label: ILabelSpec) => void;
+    getLabelSpec: () => TransformedLabelSpec[];
+    setLabelSpec: (label: TransformedLabelSpec | TransformedLabelSpec[]) => void;
+    addLabelSpec: (label: TransformedLabelSpec, head?: boolean) => void;
     state: MarkStateManager;
     readonly stateStyle: IMarkStateStyle<any>;
     hasState: (state: string) => boolean;

@@ -2,7 +2,7 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
-import { type Datum, type Maybe } from '../../typings';
+import type { Datum, Maybe } from '../../typings';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
 import type { IMark } from '../../mark/interface';
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Pick<LineLikeSeriesMixin, 'initLineMark' | 'initSymbolMark' | 'initLabelMarkStyle' | 'initLineMarkStyle' | 'initSymbolMarkStyle' | '_lineMark' | '_symbolMark' | 'addSamplingCompile' | 'addOverlapCompile' | 'reCompileSampling'>, CartesianSeries<T> {

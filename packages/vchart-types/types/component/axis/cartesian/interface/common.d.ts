@@ -31,12 +31,6 @@ export interface IAxisHelper {
     getScale?: (depth: number) => IBaseScale;
     getBandwidth?: (depth: number) => number;
     setExtendDomain?: (key: string, value: number | undefined) => void;
-    getStatisticsDomain?: () => {
-        domain: any[];
-        index: {
-            [key in StringOrNumber]: number;
-        };
-    };
     getAxisType: () => string;
     getAxisId: () => number;
     isInverse: () => boolean;

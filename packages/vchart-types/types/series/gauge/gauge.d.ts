@@ -25,7 +25,6 @@ export declare class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> 
     protected _getAngleValueEndWithoutMask(datum: Datum): number;
     protected _getAngleValueStartWithoutPadAngle(datum: Datum): number;
     protected _getAngleValueEndWithoutPadAngle(datum: Datum): number;
-    protected _preprocessLabelSpec(): import("../..").ILabelSpec;
     initAnimation(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];

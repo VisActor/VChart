@@ -2,8 +2,7 @@ import type { IComponent } from '../../../interface';
 import type { IAggrType, IMarkerPositionsSpec, IDataPointSpec, IMarkerSpec, IMarkerAxisSpec, IDataPos, IDataPosCallback, IMarkerLabelSpec } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
-import type { ILineMarkSpec } from '../../../../typings';
-import type { IPointLike } from '@visactor/vutils';
+import type { ILineMarkSpec, IPoint } from '../../../../typings';
 export type IMarkLine = IComponent;
 export type IMarkLineSpec = (IMarkerSpec & (IMarkLineXSpec | IMarkLineYSpec | IMarkLineCoordinateSpec | IMarkLinePositionsSpec) & IMarkLineTheme) | IStepMarkLineSpec;
 export interface IMarkLineXSpec extends IMarkerAxisSpec {
@@ -32,7 +31,7 @@ export type IMarkLinePositionsSpec = IMarkerPositionsSpec;
 export type IStepMarkLineSpec = IMarkerSpec & {
     type: 'type-step';
     connectDirection: 'top' | 'bottom' | 'left' | 'right';
-    expandDistance?: number;
+    expandDistance?: number | string;
     label?: IMarkerLabelSpec;
     line?: {
         multiSegment?: boolean;
@@ -49,5 +48,5 @@ export type IStepMarkLineSpec = IMarkerSpec & {
         xy: IRegressType;
     };
 } | {
-    positions: [IPointLike, IPointLike];
+    positions: [IPoint, IPoint];
 });
