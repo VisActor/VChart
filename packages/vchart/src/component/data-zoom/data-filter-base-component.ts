@@ -7,7 +7,7 @@ import type { IEffect, IModelInitOption } from '../../model/interface';
 import type { IComponent, IComponentOption } from '../interface';
 import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
-import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, StringOrNumber } from '../../typings';
+import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -38,6 +38,7 @@ import type { IDelayType } from '../../typings/event';
 import { TransformLevel } from '../../data/initialize';
 import type { IDataZoomSpec } from './data-zoom/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import { AttributeLevel } from '../../constant';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
@@ -803,17 +804,27 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     super.updateLayoutAttribute();
   }
+
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
+    super.onLayoutStart(layoutRect, viewRect, ctx);
+    const isShown = this._autoUpdate(layoutRect);
+    const sizeKey = this._isHorizontal ? 'height' : 'width';
+    this.layout.setLayoutRect(
+      {
+        [sizeKey]: isShown ? this[`_${sizeKey}`] : 0
+      },
+      {
+        [sizeKey]: AttributeLevel.Built_In
+      }
+    );
+  }
+
   /**
    * bounds预计算
    * @param rect
    * @returns
    */
   getBoundsInRect(rect: ILayoutRect): IBoundsLike {
-    const isShown = this._autoUpdate(rect);
-    if (!isShown) {
-      return { x1: 0, y1: 0, x2: 0, y2: 0 };
-    }
-
     const result: IBoundsLike = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
 
     if (this._isHorizontal) {
@@ -868,7 +879,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       ) {
         return this._cacheVisibility;
       }
-      this._cacheRect = rect;
+      this._cacheRect = {
+        width: rect?.width,
+        height: rect?.height
+      };
+      this._fixedBandSize = bandSizeResult?.bandSize;
       if (bandSizeResult && (this._start || this._end)) {
         axisScale.rangeFactor([this._start, this._end]);
       }
