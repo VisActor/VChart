@@ -1,6 +1,6 @@
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
@@ -16,10 +16,11 @@ export type TooltipActualTitleContent = {
     content?: IToolTipLineActual[];
 };
 export declare class Tooltip extends BaseComponent<any> implements ITooltip {
+    protected layoutZIndex: number;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutType: ILayoutItem['layoutType'];
+    layoutType: 'none';
     protected _spec: ITooltipSpec;
     static createComponent(spec: any, options: IComponentOption): Tooltip | Tooltip[];
     tooltipHandler?: ITooltipHandler;

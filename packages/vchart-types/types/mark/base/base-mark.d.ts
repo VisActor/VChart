@@ -29,8 +29,8 @@ export declare class BaseMark<T extends ICommonSpec> extends CompilableMark impl
     setAttribute<U extends keyof T>(attr: U, style: MarkInputStyle<T[U]>, state?: StateValueType, level?: number, stateStyle?: IMarkStateStyle<T>): void;
     protected _getDefaultStyle(): IMarkStyle<T>;
     protected _styleConvert<U extends keyof T>(style?: MarkInputStyle<T[U]>): StyleConvert<T[U]> | undefined;
-    protected _computeAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType, opt: IAttributeOpt): any;
-    protected _computeStateAttribute<U extends keyof T>(stateStyle: any, key: U, datum: Datum, state: StateValueType, opt: IAttributeOpt): any;
+    protected _computeAttribute<U extends keyof T>(key: U, state: StateValueType): any;
+    protected _computeStateAttribute<U extends keyof T>(stateStyle: any, key: U, state: StateValueType): any;
     private _initStyle;
     private _initSpecStyle;
     private _computeGradientAttr;

@@ -1,27 +1,25 @@
 import type { IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
-import { BaseModel } from '../model/base-model';
 import type { ISeries } from '../series/interface';
-import type { IModelOption, ILayoutItem } from '../model/interface';
+import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IRegion, IRegionSpec } from './interface';
 import type { IGroupMark } from '../mark/group';
 import type { IInteraction, ITrigger } from '../interaction/interface';
 import type { IRectMark } from '../mark/rect';
 import type { IAnimate } from '../animation/interface';
-import type { StringOrNumber } from '../typings';
-export declare class Region<T extends IRegionSpec = IRegionSpec> extends BaseModel<T> implements IRegion {
+import type { ILayoutType, StringOrNumber } from '../typings';
+import { LayoutModel } from '../model/layout-model';
+export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
     static type: string;
     readonly modelType: string;
     type: string;
     protected _series: ISeries[];
-    layoutType: ILayoutItem['layoutType'];
+    layoutType: ILayoutType;
     layoutZIndex: number;
     animate?: IAnimate;
     interaction: IInteraction;
-    protected _maxRegionWidth?: number;
     getMaxWidth(): number;
     setMaxWidth(value: number): void;
-    protected _maxRegionHeight?: number;
     getMaxHeight(): number;
     setMaxHeight(value: number): void;
     protected _groupMark: IGroupMark;
@@ -72,4 +70,11 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends BaseMod
     initInteraction(): void;
     compileMarks(group?: string | IVGrammarGroupMark): void;
     compile(): void;
+    getBoundsInRect: () => {
+        x1: number;
+        y1: number;
+        x2: number;
+        y2: number;
+    };
+    onLayoutEnd(ctx: any): void;
 }

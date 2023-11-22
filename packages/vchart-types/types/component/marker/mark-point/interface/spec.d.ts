@@ -1,4 +1,4 @@
-import type { IPointLike } from '@visactor/vutils';
+import type { IPoint } from '../../../../typings';
 import type { IComponent } from '../../../interface';
 import type { IDataPointSpec, IMarkerSpec, IMarkerSymbol } from '../../interface';
 import type { IMarkPointTheme } from './theme';
@@ -10,5 +10,6 @@ export type IMarkPointCoordinateSpec = {
     relativeRelativeSeriesId?: string;
 };
 export type IMarkPointPositionsSpec = {
-    position: IPointLike;
+    position: IPoint;
+    regionRelative?: boolean;
 };

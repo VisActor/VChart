@@ -5,92 +5,19 @@ import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interfac
 import type { RenderMode } from '../typings/spec/common';
 import type { VChart } from '../vchart-all';
 import type { IData } from '@visactor/vgrammar-core';
-import type { IOrientType, IPoint, IGroupMarkSpec, ConvertToMarkStyleSpec, CoordinateType, ICommonSpec, IRect, StringOrNumber } from '../typings';
+import type { StringOrNumber } from '../typings/common';
+import type { IGroupMarkSpec, ConvertToMarkStyleSpec, ICommonSpec } from '../typings/visual';
+import type { IRect } from '../typings/space';
+import type { IPoint, CoordinateType } from '../typings/coordinate';
 import type { ITheme } from '../theme';
 import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
 import type { IChart } from '../chart/interface';
-import type { IChartLevelTheme } from '../core/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
-export type ILayoutNumber = number | IPercent | ((layoutRect: ILayoutRect) => number) | IPercentOffset;
-export interface ILayoutPoint {
-    x: number;
-    y: number;
-}
-export interface ILayoutRectLevel {
-    width: number;
-    height: number;
-}
-export interface ILayoutRect {
-    width: number;
-    height: number;
-}
-export type IPercent = `${number}%`;
-export type IPercentOffset = {
-    percent?: number;
-    offset?: number;
-};
-export type ILayoutPercent = IPercent | number;
-type ILayoutType = 'region-relative' | 'region' | 'normal' | 'absolute' | 'normal-inline';
-export type ILayoutOrientPadding = {
-    left?: ILayoutNumber;
-    right?: ILayoutNumber;
-    top?: ILayoutNumber;
-    bottom?: ILayoutNumber;
-};
-export type ILayoutPaddingSpec = ILayoutOrientPadding | ILayoutNumber | ILayoutNumber[];
-export interface ILayoutItem {
-    directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
-    layoutClip: boolean;
-    layoutType: ILayoutType;
-    layoutBindRegionID: number | number[];
-    layoutOrient: IOrientType;
-    layoutPaddingLeft: number;
-    layoutPaddingTop: number;
-    layoutPaddingRight: number;
-    layoutPaddingBottom: number;
-    layoutOffsetX: number;
-    layoutOffsetY: number;
-    layoutLevel: number;
-    layoutZIndex: number;
-    chartLayoutRect: ILayoutRect;
-    getVisible: () => boolean;
-    getSpec?: () => any;
-    getAutoIndent: () => boolean;
-    getLayoutStartPoint: () => ILayoutPoint;
-    getLayoutRect: () => ILayoutRect;
-    getLastComputeOutBounds: () => IBoundsLike;
-    getGraphicBounds: () => IBoundsLike;
-    setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRectLevel>) => void;
-    computeBoundsInRect: (rect: ILayoutRect) => ILayoutRect;
-    setLayoutStartPosition: (pos: Partial<IPoint>) => void;
-    absoluteLayoutInRect: (rect: IRect) => void;
-    updateLayoutAttribute: () => void;
-}
-export interface ILayoutItemSpec {
-    layoutType?: ILayoutType;
-    layoutLevel?: number;
-    orient?: IOrientType;
-    padding?: ILayoutPaddingSpec;
-    noOuterPadding?: boolean;
-    width?: ILayoutNumber;
-    maxWidth?: ILayoutNumber;
-    minWidth?: ILayoutNumber;
-    height?: ILayoutNumber;
-    maxHeight?: ILayoutNumber;
-    minHeight?: ILayoutNumber;
-    offsetX?: ILayoutNumber;
-    offsetY?: ILayoutNumber;
-    zIndex?: number;
-    clip?: boolean;
-    left?: ILayoutNumber;
-    right?: ILayoutNumber;
-    top?: ILayoutNumber;
-    bottom?: ILayoutNumber;
-    center?: boolean;
-}
+import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
+import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
 export interface IModelInitOption {
 }
 export interface IModelLayoutOption {
@@ -118,7 +45,7 @@ export interface IUpdateSpecResult {
 export interface IModelProduct {
     srData: IData;
 }
-export interface IModel extends ICompilable, ILayoutItem {
+export interface IModel extends ICompilable {
     readonly modelType: string;
     readonly type: string;
     readonly specKey: string;
@@ -127,6 +54,8 @@ export interface IModel extends ICompilable, ILayoutItem {
     readonly event: IEvent;
     readonly effect: IEffect;
     coordinate?: CoordinateType;
+    layout?: ILayoutItem;
+    getVisible: () => boolean;
     getOption: () => IModelOption;
     getMarks: () => IMark[];
     getMarkNameMap: () => Record<string, IMark>;
@@ -137,18 +66,27 @@ export interface IModel extends ICompilable, ILayoutItem {
     init: (option: IModelInitOption) => void;
     reInit: (theme?: any, lastSpec?: any) => void;
     beforeRelease: () => void;
-    onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
-    onLayoutEnd: (ctx: IModelLayoutOption) => void;
     onEvaluateEnd: (ctx: IModelEvaluateOption) => void;
     onRender: (ctx: IModelRenderOption) => void;
     onDataUpdate: () => void;
     updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
     getSpec?: () => any;
     getSpecIndex: () => number;
+    onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
+    onLayoutEnd: (ctx: IModelLayoutOption) => void;
     setCurrentTheme: (noRender?: boolean) => void;
     getColorScheme: () => IThemeColorScheme | undefined;
     setMarkStyle: <T extends ICommonSpec>(mark?: IMarkRaw<T>, style?: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>, state?: StateValueType, level?: number) => void;
     initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;
+}
+export interface ILayoutModel extends IModel {
+    getLayoutStartPoint: () => IPoint;
+    setLayoutStartPosition: (pos: Partial<IPoint>) => void;
+    getLayoutRect: () => ILayoutRect;
+    setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) => void;
+    getLastComputeOutBounds: () => IBoundsLike;
+    getBoundsInRect: (rect: ILayoutRect, fullRect: ILayoutRect) => IBoundsLike;
+    afterSetLayoutStartPoint: (pos: ILayoutPoint) => void;
 }
 export interface IModelOption extends ICompilableInitOption {
     eventDispatcher: IEventDispatcher;
@@ -158,12 +96,7 @@ export interface IModelOption extends ICompilableInitOption {
     globalInstance: VChart;
     specIndex?: number;
     specKey?: string;
-    getThemeConfig?: () => {
-        globalTheme?: string;
-        optionTheme?: string | ITheme;
-        specTheme?: string | ITheme;
-        chartLevelTheme: IChartLevelTheme;
-    };
+    getTheme?: () => ITheme;
     getChartLayoutRect: () => IRect;
     getChartViewRect: () => ILayoutRect;
     getChart: () => IChart;
@@ -185,4 +118,3 @@ export interface IModelMarkInfo {
     type: MarkTypeEnum | string | (MarkTypeEnum | string)[];
     name: string;
 }
-export {};

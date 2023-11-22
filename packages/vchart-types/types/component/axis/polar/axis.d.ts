@@ -1,10 +1,9 @@
 import type { IBaseScale } from '@visactor/vscale';
-import type { LayoutItem } from '../../../model/layout-item';
 import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { IPolarSeries } from '../../../series/interface';
-import type { IPoint, IPolarOrientType, IPolarPoint, StringOrNumber } from '../../../typings';
+import type { IPoint, IPolarOrientType, IPolarPoint, StringOrNumber, ILayoutType } from '../../../typings';
 import type { IEffect } from '../../../model/interface';
 import { AxisComponent } from '../base-axis';
 import type { ITick } from '../interface';
@@ -15,7 +14,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     protected readonly _defaultBandPosition = 0;
     protected readonly _defaultBandInnerPadding = 0;
     protected readonly _defaultBandOuterPadding = 0;
-    layoutType: LayoutItem['layoutType'];
+    layoutType: ILayoutType;
     layoutZIndex: number;
     protected _tick: ITick | undefined;
     protected _center: IPoint | null;
@@ -37,7 +36,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     static createComponent(spec: any, options: IComponentOption): IPolarAxis | IPolarAxis[];
     effect: IEffect;
     setAttrFromSpec(): void;
-    setLayoutStartPosition(pos: Partial<IPoint>): void;
+    _transformLayoutPosition: (pos: Partial<IPoint>) => Partial<IPoint>;
     onLayoutEnd(ctx: any): void;
     onRender(ctx: any): void;
     changeRegions(): void;

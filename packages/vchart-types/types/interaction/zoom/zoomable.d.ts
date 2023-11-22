@@ -52,6 +52,7 @@ export declare class Zoomable implements IZoomable {
     initZoomable(evt: IEvent, mode?: RenderMode): void;
     private _getTriggerEvent;
     private _zoomEventDispatch;
+    private _getRegionOrSeriesLayout;
     private _bindZoomEventAsRegion;
     initZoomEventOfSeries(s: ISeries, callback?: (params: {
         zoomDelta: number;

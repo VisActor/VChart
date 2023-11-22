@@ -4,15 +4,14 @@ import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-c
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { ILayoutRect, IModel, IUpdateSpecResult } from '../../model/interface';
+import type { IModel, IUpdateSpecResult } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
-import type { IChartEvaluateOption, IChartInitOption, IChartLayoutOption, IChartOption, IChartRenderOption, ILayoutParams } from './common';
+import type { IChartEvaluateOption, IChartLayoutOption, IChartOption, IChartRenderOption, ILayoutParams } from './common';
 import type { IBoundsLike, IPadding } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
-import type { IRegionQuerier, MaybeArray, Datum, IMarkStateSpec, StringOrNumber, IShowTooltipOption, IDataValues } from '../../typings';
+import type { IRegionQuerier, MaybeArray, Datum, IMarkStateSpec, StringOrNumber, IShowTooltipOption, IDataValues, ILayoutRect } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
-import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 export type DimensionIndexOption = {
     filter?: (cmp: IComponent) => boolean;
     tooltip?: boolean;
@@ -38,7 +37,7 @@ export interface IChart extends ICompilable {
     updateGlobalScaleDomain: () => void;
     created: () => void;
     transformSpec: (spec: any) => void;
-    init: (option: IChartInitOption) => void;
+    init: () => void;
     onLayoutStart: (ctx: IChartLayoutOption) => void;
     onLayoutEnd: (ctx: IChartLayoutOption) => void;
     onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
@@ -75,7 +74,6 @@ export interface IChart extends ICompilable {
     updateViewBox: (viewBox: IBoundsLike, reLayout: boolean) => void;
     getCanvas: () => HTMLCanvasElement | undefined;
     setCurrentTheme: (reInit?: boolean) => void;
-    getColorScheme: () => IThemeColorScheme | undefined;
     getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
     setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
 }

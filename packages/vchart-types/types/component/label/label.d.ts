@@ -2,20 +2,19 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import type { ISeries } from '../../series/interface';
-import { type ILabel, type IMark } from '@visactor/vgrammar-core';
+import type { ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import { type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { IGroup } from '@visactor/vrender-core';
-import type { ILabelSpec } from './interface';
+import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { type ILabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
 export interface ILabelInfo {
     baseMark: ICompilableMark;
     labelMark: ILabelMark;
     series: ISeries;
-    labelSpec: ILabelSpec;
+    labelSpec: TransformedLabelSpec;
 }
 export interface ILabelComponentContext {
     region: IRegion;
@@ -25,8 +24,7 @@ export declare class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelC
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutType: LayoutItem['layoutType'];
-    layoutZIndex: LayoutItem['layoutZIndex'];
+    layoutZIndex: number;
     protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;
     protected _labelComponentMap: Map<IComponentMark, ILabelInfo | ILabelInfo[]>;
     protected _layoutRule: 'series' | 'region';
@@ -41,7 +39,7 @@ export declare class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelC
     updateLayoutAttribute(): void;
     protected _updateMultiLabelAttribute(labelInfo: ILabelInfo[], labelComponent: IComponentMark): void;
     protected _updateSingleLabelAttribute(labelInfo: ILabelInfo, labelComponent: IComponentMark): void;
-    protected _updateLabelComponentAttribute(component: ILabel, target: IMark | IMark[], labelInfos: ILabelInfo[]): void;
+    protected _updateLabelComponentAttribute(component: ILabel, target: IVGrammarMark | IVGrammarMark[], labelInfos: ILabelInfo[]): void;
     compileMarks(): void;
 }
 export declare const registerLabel: () => void;
