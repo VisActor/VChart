@@ -1,7 +1,9 @@
-import type { IRegion } from '../../region/interface';
 import { BaseChart } from '../base-chart';
 import type { ISeries } from '../../series/interface';
 import type { ICartesianAxisSpec } from '../../component';
+import { getTrimPaddingConfig } from '../util';
+import { get } from '@visactor/vutils';
+import { mergeSpec } from '../../util/spec';
 
 export class CartesianChart extends BaseChart {
   readonly seriesType: string;
@@ -44,37 +46,38 @@ export class CartesianChart extends BaseChart {
       if (!spec.axes) {
         spec.axes = [];
       }
-      spec.region.forEach((r: IRegion) => {
-        const haxAxes = { x: false, y: false, z: false };
-        spec.axes.forEach((axis: ICartesianAxisSpec) => {
-          const { orient } = axis;
-          if (orient === 'top' || orient === 'bottom') {
-            haxAxes.x = true;
-          }
-          if (orient === 'left' || orient === 'right') {
-            haxAxes.y = true;
-          }
-          if (orient === 'z') {
-            haxAxes.z = true;
-          }
-        });
-        if (!haxAxes.x) {
-          spec.axes.push({
-            orient: 'bottom'
-          });
+      const haxAxes = { x: false, y: false, z: false };
+      spec.axes.forEach((axis: ICartesianAxisSpec) => {
+        const { orient } = axis;
+        if (orient === 'top' || orient === 'bottom') {
+          haxAxes.x = true;
         }
-        if (!haxAxes.y) {
-          spec.axes.push({
-            orient: 'left'
-          });
+        if (orient === 'left' || orient === 'right') {
+          haxAxes.y = true;
         }
-        // 如果有zField字段，但是没有配置z轴，那么添加一个z轴
-        if (spec.zField && !haxAxes.z) {
-          spec.axes.push({
-            orient: 'z'
-          });
+        if (orient === 'z') {
+          haxAxes.z = true;
+        }
+        if (get(axis, 'trimPadding')) {
+          mergeSpec(axis, getTrimPaddingConfig(this.type, spec));
         }
       });
+      if (!haxAxes.x) {
+        spec.axes.push({
+          orient: 'bottom'
+        });
+      }
+      if (!haxAxes.y) {
+        spec.axes.push({
+          orient: 'left'
+        });
+      }
+      // 如果有zField字段，但是没有配置z轴，那么添加一个z轴
+      if (spec.zField && !haxAxes.z) {
+        spec.axes.push({
+          orient: 'z'
+        });
+      }
     }
 
     const defaultSeriesSpec = this._getDefaultSeriesSpec(spec);

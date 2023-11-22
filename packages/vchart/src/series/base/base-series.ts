@@ -78,11 +78,10 @@ import {
   isValidNumber,
   get
 } from '@visactor/vutils';
-// import { getThemeFromOption } from '../../theme/util';
 import { getDirectionFromSeriesSpec } from '../util/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
-import { isAnimationEnabledForSeries } from '../../animation/utils';
+import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
 import { transformSeriesThemeToMerge } from '../../util/spec/merge-theme';
 import type { ILabelSpec } from '../../component';
 import type { ILabelMark } from '../../mark/label';
@@ -697,6 +696,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (!mark) {
       return;
     }
+
+    // 自定义图元默认不添加动画
+    const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
+    mark.setAnimationConfig(config);
 
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;

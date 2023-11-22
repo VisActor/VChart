@@ -21062,7 +21062,7 @@ packages:
       bs-logger: 0.2.6
       buffer-from: 1.1.2
       fast-json-stable-stringify: 2.1.0
-      jest: 26.6.3
+      jest: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-util: 26.6.2
       json5: 2.2.3
       lodash: 4.17.21
