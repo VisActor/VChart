@@ -133,7 +133,7 @@ export interface IArcLabelLineSpec extends IMarkSpec<ILineMarkSpec> {
   /**
    * 引导线是否光滑
    * @default false
-   * @SInCE 1.4.0
+   * @since 1.4.0
    */
   smooth?: boolean;
 }
