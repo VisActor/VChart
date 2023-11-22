@@ -4,9 +4,6 @@
 
 import { VChart } from './vchart';
 import { Factory } from './factory';
-import { darkTheme, registerTheme } from '../theme/builtin';
-import { darkMobileTheme } from '../theme/builtin/dark-mobile';
-import { lightMobileTheme } from '../theme/builtin/light-mobile';
 
 export { VChart, Factory };
 
