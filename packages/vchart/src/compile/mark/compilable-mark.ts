@@ -248,6 +248,11 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._setCustomizedShape = callback;
   }
 
+  protected _enableSegments: boolean;
+  setEnableSegments(enable: boolean) {
+    this._enableSegments = enable;
+  }
+
   protected declare _option: ICompilableMarkOption;
 
   constructor(option: ICompilableMarkOption, name: string, model: IModel) {
@@ -457,7 +462,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         modelUserId: this.model.userId
       },
       skipTheme: this.getSkipTheme(),
-      support3d: this.getSupport3d()
+      support3d: this.getSupport3d(),
+      enableSegments: !!this._enableSegments
     };
 
     if (this._progressiveConfig) {
