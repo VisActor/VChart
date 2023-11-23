@@ -2097,6 +2097,13 @@
             "zh": "自定义 symbol mark",
             "en": "Custom Symbol Mark"
           }
+        },
+        {
+          "path": "customized-shape",
+          "title": {
+            "zh": "自定义 Shape",
+            "en": "Customized Shape"
+          }
         }
       ]
     },
