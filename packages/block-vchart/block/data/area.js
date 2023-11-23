@@ -45,5 +45,13 @@ export default {
   yField: 'value',
   label: {
    visible: true
-  }
+  },
+  axes: [
+    {
+      orient: 'left',
+      label: {
+        formatMethod: text => `$${text}`
+      }
+    }
+  ]
 };

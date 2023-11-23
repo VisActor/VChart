@@ -102,5 +102,12 @@ export default {
   },
   label: {
     visible: true
+  },
+  bar: {
+    style: {
+      fill: (datum) => {
+        return datum.name === 'Apple' ? '#ccc' : '#1664FF'
+      }
+    }
   }
 }

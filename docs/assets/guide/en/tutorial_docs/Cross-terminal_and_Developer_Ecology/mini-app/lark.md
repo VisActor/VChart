@@ -9,6 +9,41 @@ Example project: [examples](https://github.com/VisActor/VChart/tree/main/package
 Lark version >= 3.45.
 [Lark Developer Tools](https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN)
 
+## Important Notes
+
+### 1. Serialization problem
+
+Due to serialization issues, the Feishu applet currently does not support passing complex objects and functions in setData and triggerEvent, and only supports serializable data. **Therefore the `events` function, `chartinit` callback parameter, `chartready` callback parameter are temporarily unavailable**.
+
+If you need to use callbacks on the chart spec, you can currently solve this problem through the following methods. Let's take the label text callback function for the pie chart as an example (specific code: [link](https://github.com/VisActor/VChart/blob/251e9984a9b1e51894958b90ab10bcb432c6ebbd/packages/lark-vchart/gallery/pages/chart/index.js#L21)), the detailed steps are as follows (users can adjust the strategy according to the situation, only a basic idea and steps are provided here):
+
+- step1: Configure the id and chartOnReady events when declaring the chart component so that updateSpec can be updated after the empty chart is rendered.
+  ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-a.png)
+
+- step2: When initializing the chart, declare an empty chart (the chart type and data must be declared, and the data can be declared as an empty array)
+  ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-b.png)
+
+- step3: In the onChartReady event, obtain the component and chart instance through selectComponent, and update the spec of the chart instance
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-c.png)
+
+- Effect: The callback function of the pie chart label takes effect successfully.
+  ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-d.gif)
+
+### 2. How to get the chart instance
+
+For some functions that require the use of chart instances, you can currently use [selectComponent](https://open.feishu.cn/document/uYjL24iN/uADMx4CMwEjLwATM) to indicate the id attribute to the component `<chart id="chart1">` Finally, get the chart instance through `selectComponent`, as shown below:
+
+```javascript
+onChartReady() {
+  console.log('chart instance rendering completed');
+  this.selectComponent("#chart1", res => {
+  const chartInstance = res && res.chart; // Get chart instance
+  // ...
+  });
+},
+```
+
 ## API
 
 The usage of the `@visactor/lark-vchart` chart component is shown below:
@@ -143,37 +178,6 @@ Page({
   onLoad: function (options) {}
 });
 ```
-
-## Precautions
-
-1. Due to serialization issues, Lark Mini Programs currently do not support passing complex objects and functions in setData and triggerEvent, only serializable data. **Therefore, `events` function, `chartinit` callback parameters, and `chartready` callback parameters are temporarily not available**
-
-For some features that require the use of the chart instance, you can currently use [selectComponent](https://open.feishu.cn/document/uYjL24iN/uADMx4CMwEjLwATM), and after marking the id attribute in the component `<chart-space id="chart1">`, get the chart instance through `selectComponent`, as shown below:
-
-```javascript
-onChartReady() {
-	console.log('chart instance rendering complete');
-	this.selectComponent("#chart1", res => {
-		const chartInstance = res && res.chart; // Get the chart instance
-		// ...
-	});
-},
-```
-
-To give the pie chart to the label text callback function as an example, the detailed steps refer to the following (the user can adjust the strategy depending on the situation, here only provides a basic idea and steps):
-- step1: Configure the id and chartOnReady event when declaring the chart component to updateSpec when the empty chart is rendered.
-![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-a.png)
-
-- step2: when initializing the chart, declare an empty chart (chart type and data must be declared, data can be declared as an empty array)
-![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-b.png)
-
-- step3: In the onChartReady event, get the component and chart instance by selectComponent and update the spec of the chart instance
-
-![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-c.png)
-
-- Result: The callback function for the pie chart's label works.
-
-![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-d.gif)
 
 ## Feedback
 

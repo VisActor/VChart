@@ -18,12 +18,15 @@ export default {
   },
   legends: {
     visible: true,
-    orient: 'right'
+    orient: 'bottom'
   },
   radius: 0.8,
   valueField: 'value',
   categoryField: 'type',
   label: {
-    visible: true
-  }
+    visible: true,
+    formatMethod: (text, datum) => {
+      return [text, datum.value]
+    }
+  },
 }
