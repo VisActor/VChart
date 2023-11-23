@@ -14,13 +14,7 @@ import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, ICartesianSeries, IComponent, IStepMarkLineSpec } from '@visactor/vchart';
 import { STACK_FIELD_TOTAL_TOP } from '@visactor/vchart';
 import { findClosestPoint } from '../../utils/math';
-import {
-  DEFAULT_OFFSET_FOR_GROWTH_MARKLINE,
-  calculateCAGR,
-  getInsertPoints,
-  getTextOffset,
-  stackTotal
-} from '../../utils/marker';
+import { DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE, calculateCAGR, getInsertPoints, stackTotal } from '../../utils/marker';
 import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
@@ -40,11 +34,14 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   private _fixedHandler: IGraphic;
   private _dataAnchors: IGroup;
 
+  private _lastDownPoint: Point;
   private _prePoint: Point;
+  private _spec: any;
+  private _coordinateOffset: [Point, Point];
 
   protected _handlePointerUp(e: EventParams): void {
     super._handlePointerUp(e);
-    this._editComponent.setAttribute('childrenPickable', true);
+    this._editComponent?.setAttribute('childrenPickable', true);
   }
 
   protected _getEnableMarkerTypes(): string[] {
@@ -56,8 +53,38 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   }
 
   protected _handlePointerDown(e: EventParams): void {
+    this._spec = this._model.getSpec();
+    this._coordinateOffset = this._getCoordinateOffset();
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
+  }
+  private _getCoordinateOffset(): [Point, Point] {
+    const series = (this._model as unknown as MarkLine).getRelativeSeries();
+    const region = series.getRegion();
+    const { width: regionWidth, height: regionHeight } = region.getLayoutRect();
+
+    const coordinatesOffset = this._spec.coordinatesOffset ?? [
+      { x: 0, y: 0 },
+      { x: 0, y: 0 }
+    ];
+    return coordinatesOffset.map((offset: any) => {
+      let offsetX = 0;
+      let offsetY = 0;
+
+      const x = offset.x;
+      const y = offset.y;
+      if (x) {
+        offsetX = (Number(x.substring(0, x.length - 1)) * regionWidth) / 100;
+      }
+      if (y) {
+        offsetY = (Number(y.substring(0, y.length - 1)) * regionHeight) / 100;
+      }
+
+      return {
+        x: offsetX,
+        y: offsetY
+      };
+    });
   }
 
   protected _getOverGraphic(el: IEditorElement): IGraphic {
@@ -80,9 +107,9 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
           }
         },
         pickable: false,
-        childrenPickable: false,
-        dx: markLine.attribute.dx ?? 0,
-        dy: markLine.attribute.dy ?? 0
+        childrenPickable: false
+        // dx: markLine.attribute.dx ?? 0,
+        // dy: markLine.attribute.dy ?? 0
       })
     );
     overlayLine.name = 'overlay-growth-mark-line-line';
@@ -95,6 +122,8 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       return this._editComponent;
     }
 
+    const series = (this._model as unknown as MarkLine).getRelativeSeries();
+
     const dataPoints = this._getAnchorPoints();
     const lineShape = this._element.getLine();
     const editComponent = createGroup({
@@ -106,19 +135,22 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       points: lineShape.attribute.points as IPointLike[],
       lineDash: [0],
       lineWidth: 3,
-      stroke: '#3073F2',
-      dx: this._element.attribute.dx ?? 0,
-      dy: this._element.attribute.dy ?? 0,
-      pickable: false
+      stroke: '#3073F2'
     });
     overlayLine.name = 'overlay-growth-mark-line-line';
     this._overlayLine = overlayLine;
     editComponent.add(overlayLine);
+
     const relativeDataPoints = [
       (lineShape.attribute.points as Point[])[0],
       last(lineShape.attribute.points as Point[])
-    ].map(point => {
-      return dataPoints.find((dataPoint: DataPoint) => SamePointApproximate(dataPoint, point));
+    ].map((point, index) => {
+      return dataPoints.find((dataPoint: DataPoint) =>
+        SamePointApproximate(dataPoint, {
+          x: point.x + this._coordinateOffset[index].x * -1,
+          y: point.y + this._coordinateOffset[index].y * -1
+        })
+      );
     });
 
     let startLinkLine;
@@ -129,8 +161,8 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         points: [
           relativeDataPoints[0],
           {
-            x: relativeDataPoints[0].x + (this._element.attribute.dx ?? 0),
-            y: relativeDataPoints[0].y + (this._element.attribute.dy ?? 0)
+            x: relativeDataPoints[0].x + this._coordinateOffset[0].x,
+            y: relativeDataPoints[0].y + this._coordinateOffset[0].y
           }
         ],
         startSymbol: {
@@ -160,8 +192,8 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         points: [
           relativeDataPoints[1],
           {
-            x: relativeDataPoints[1].x + (this._element.attribute.dx ?? 0),
-            y: relativeDataPoints[1].y + (this._element.attribute.dy ?? 0)
+            x: relativeDataPoints[1].x + this._coordinateOffset[1].x,
+            y: relativeDataPoints[1].y + this._coordinateOffset[1].y
           }
         ],
         startSymbol: {
@@ -228,12 +260,18 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     this._layer.editorGroup.add(editComponent as unknown as IGraphic);
     this._editComponent = editComponent;
 
-    startLinkLine.addEventListener('pointerenter', this._onHandlerHover as EventListenerOrEventListenerObject);
-    endLinkLine.addEventListener('pointerenter', this._onHandlerHover as EventListenerOrEventListenerObject);
+    startLinkLine.addEventListener('pointerenter', () => this._onHandlerHover('move'));
+    endLinkLine.addEventListener('pointerenter', () => this._onHandlerHover('move'));
+    overlayLine.addEventListener('pointerenter', () =>
+      this._onHandlerHover(series.direction === 'horizontal' ? 'ew-resize' : 'ns-resize')
+    );
+
     startLinkLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
     endLinkLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
+    overlayLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
     startLinkLine.addEventListener('pointerdown', this._onHandlerDragStart as EventListenerOrEventListenerObject);
     endLinkLine.addEventListener('pointerdown', this._onHandlerDragStart as EventListenerOrEventListenerObject);
+    overlayLine.addEventListener('pointerdown', this._onLineHandlerDragStart as EventListenerOrEventListenerObject);
 
     const dataAnchors = createGroup({
       pickable: false,
@@ -266,7 +304,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   private _onHandlerDragStart = (e: any) => {
     e.stopPropagation();
 
-    this._prePoint = {
+    this._lastDownPoint = {
       x: e.clientX,
       y: e.clientY
     };
@@ -327,12 +365,8 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         points: [
           closestPoint,
           {
-            x:
-              closestPoint.x +
-              (this._model.getRelativeSeries().direction === 'horizontal' ? DEFAULT_OFFSET_FOR_GROWTH_MARKLINE : 0),
-            y:
-              closestPoint.y +
-              (this._model.getRelativeSeries().direction === 'horizontal' ? 0 : -DEFAULT_OFFSET_FOR_GROWTH_MARKLINE)
+            x: closestPoint.x + this._coordinateOffset[0].x,
+            y: closestPoint.y + this._coordinateOffset[0].y
           }
         ]
       });
@@ -341,32 +375,24 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
           (this._fixedHandler as unknown as Segment).attribute.points[0] as Point,
           {
             x:
-              ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).x +
-              (this._model.getRelativeSeries().direction === 'horizontal' ? DEFAULT_OFFSET_FOR_GROWTH_MARKLINE : 0),
-            y:
-              ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).y +
-              (this._model.getRelativeSeries().direction === 'horizontal' ? 0 : -DEFAULT_OFFSET_FOR_GROWTH_MARKLINE)
+              ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).x + this._coordinateOffset[0].x,
+            y: ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).y + this._coordinateOffset[0].y
           }
         ]
       });
-      let attrKey;
-      let attrValue;
-      if (this._model.getRelativeSeries().direction === 'horizontal') {
-        attrKey = 'dx';
-        attrValue = DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
-      } else {
-        attrKey = 'dy';
-        attrValue = -DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
-      }
+
       this._overlayLine.setAttributes({
         points: [
-          closestPoint,
           {
-            x: ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).x,
-            y: ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).y
+            x: closestPoint.x + this._coordinateOffset[0].x,
+            y: closestPoint.y + this._coordinateOffset[0].y
+          },
+          {
+            x:
+              ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).x + this._coordinateOffset[0].x,
+            y: ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).y + this._coordinateOffset[0].y
           }
-        ],
-        [attrKey]: attrValue
+        ]
       });
     } else {
       (this._currentHandler as unknown as Segment).setAttributes({
@@ -374,7 +400,6 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         y: closestPoint.y
       });
 
-      // TODO: 优化，可以缓存
       this._overlayLine.setAttributes({
         points: getInsertPoints(
           {
@@ -386,7 +411,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
             y: this._overlayEndHandler.attribute.y
           },
           (this._model.getSpec() as IStepMarkLineSpec).connectDirection,
-          DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
+          DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE
         )
       });
     }
@@ -402,7 +427,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     // Important: 拖拽结束，恢复所有 marker 交互
     this._activeAllMarkers();
 
-    if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 1) {
+    if (PointService.distancePP(this._lastDownPoint, { x: e.clientX, y: e.clientY }) <= 1) {
       return;
     }
 
@@ -418,7 +443,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
     if (startDatum && endDatum) {
       // 1. 生成新的 markLine spec，用于存储
-      const newMarkLineSpec = merge({}, model.getSpec(), {
+      const newMarkLineSpec = merge({}, this._spec, {
         coordinates: [
           {
             ...startDatum,
@@ -448,29 +473,6 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
           startDatum[valueField] === 0
             ? '<超过 0 的百分比>'
             : `${(calculateCAGR(endDatum[valueField], startDatum[valueField], n) * 100).toFixed(0)}%`;
-        let attrKey;
-        let attrValue;
-        if (this._model.getRelativeSeries().direction === 'horizontal') {
-          attrKey = 'dx';
-          attrValue = DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
-        } else {
-          attrKey = 'dy';
-          attrValue = -DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
-        }
-        this._element.setAttributes({
-          pickable: true,
-          childrenPickable: true,
-          // @ts-ignore
-          points: [
-            (this._overlayStartHandler as unknown as Segment).attribute.points[0],
-            (this._overlayEndHandler as unknown as Segment).attribute.points[0]
-          ],
-          label: {
-            text: labelText
-          },
-          [attrKey]: attrValue
-        });
-        newMarkLineSpec[attrKey === 'dx' ? 'offsetX' : 'offsetY'] = attrValue;
         newMarkLineSpec.label = {
           ...newMarkLineSpec.label,
           text: labelText
@@ -481,48 +483,179 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
             ? '<超过 0 的百分比>'
             : `${(((endDatum[valueField] - startDatum[valueField]) / startDatum[valueField]) * 100).toFixed(0)}%`;
 
-        this._element.setAttributes({
-          pickable: true,
-          childrenPickable: true,
-          // @ts-ignore
-          points: getInsertPoints(
-            {
-              x: this._overlayStartHandler.attribute.x,
-              y: this._overlayStartHandler.attribute.y
-            },
-            {
-              x: this._overlayEndHandler.attribute.x,
-              y: this._overlayEndHandler.attribute.y
-            },
-            (this._model.getSpec() as IStepMarkLineSpec).connectDirection,
-            DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
-          ),
-          label: {
-            text: labelText,
-            ...getTextOffset(
-              {
-                x: this._overlayStartHandler.attribute.x,
-                y: this._overlayStartHandler.attribute.y
-              },
-              {
-                x: this._overlayEndHandler.attribute.x,
-                y: this._overlayEndHandler.attribute.y
-              },
-              (this._model.getSpec() as IStepMarkLineSpec).connectDirection,
-              DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
-            )
-          }
-        });
-
-        newMarkLineSpec.expandDistance = DEFAULT_OFFSET_FOR_GROWTH_MARKLINE;
+        newMarkLineSpec.expandDistance = DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE;
         newMarkLineSpec.label = {
           ...newMarkLineSpec.label,
           text: labelText
         };
       }
 
+      this._spec = newMarkLineSpec;
       this._updateAndSave(newMarkLineSpec, 'markLine');
     }
+  };
+
+  // 连线拖拽交互
+  private _onLineHandlerDragStart = (e: any) => {
+    e.stopPropagation();
+
+    this._lastDownPoint = this._prePoint = {
+      x: e.clientX,
+      y: e.clientY
+    };
+
+    const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
+    const series = model.getRelativeSeries();
+    this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;
+    this._model = model;
+    this._chart.option.editorEvent.setCursor(series.direction === 'horizontal' ? 'ew-resize' : 'ns-resize');
+
+    vglobal.addEventListener('pointermove', this._onLineHandlerDrag);
+    vglobal.addEventListener('pointerup', this._onLineHandlerDragEnd);
+  };
+
+  private _onLineHandlerDrag = (e: any) => {
+    e.stopPropagation();
+    const series = this._model.getRelativeSeries();
+    const isHorizontal = series.direction === 'horizontal';
+    this._chart.option.editorEvent.setCursor(isHorizontal ? 'ew-resize' : 'ns-resize');
+
+    // Important: 拖拽过程中，关闭所有标注的交互
+    this._silentAllMarkers();
+
+    // 更新编辑元素的图形属性
+    let xDelta: number;
+    let yDelta: number;
+    if (isHorizontal) {
+      xDelta = e.clientX - this._prePoint.x;
+      yDelta = 0;
+    } else {
+      xDelta = 0;
+      yDelta = e.clientY - this._prePoint.y;
+    }
+
+    this._prePoint = {
+      x: e.clientX,
+      y: e.clientY
+    };
+
+    if (this._element.name === MarkerTypeEnum.growthLine) {
+      this._overlayLine.setAttribute(
+        'points',
+        this._overlayLine.attribute.points.map(point => {
+          return {
+            x: point.x + xDelta,
+            y: point.y + yDelta
+          };
+        })
+      );
+      this._overlayStartHandler.setAttribute(
+        'points',
+        this._overlayStartHandler.attribute.points.map(point => {
+          if (point.data) {
+            return point;
+          }
+
+          return {
+            x: point.x + xDelta,
+            y: point.y + yDelta
+          };
+        })
+      );
+      this._overlayEndHandler.setAttribute(
+        'points',
+        this._overlayEndHandler.attribute.points.map(point => {
+          if (point.data) {
+            return point;
+          }
+
+          return {
+            x: point.x + xDelta,
+            y: point.y + yDelta
+          };
+        })
+      );
+    } else {
+      this._overlayLine.setAttribute(
+        'points',
+        this._overlayLine.attribute.points.map((point, index) => {
+          if (index === 1 || index === 2) {
+            return {
+              x: point.x + xDelta,
+              y: point.y + yDelta
+            };
+          }
+          return {
+            ...point
+          };
+        })
+      );
+    }
+  };
+
+  private _onLineHandlerDragEnd = (e: any) => {
+    e.preventDefault();
+
+    vglobal.removeEventListener('pointermove', this._onLineHandlerDrag);
+    vglobal.removeEventListener('pointerup', this._onLineHandlerDragEnd);
+
+    this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
+    // Important: 拖拽结束，恢复所有 marker 交互
+    this._activeAllMarkers();
+
+    if (PointService.distancePP(this._lastDownPoint, { x: e.clientX, y: e.clientY }) <= 1) {
+      return;
+    }
+
+    const series = this._model.getRelativeSeries();
+    const { width: regionWidth, height: regionHeight } = series.getRegion().getLayoutRect();
+    const isHorizontal = series.direction === 'horizontal';
+    // 更新 spec
+    let newMarkLineSpec;
+    if (this._element.name === MarkerTypeEnum.growthLine) {
+      // 直接使用最后的编辑图形同数据点的距离
+      const points = (this._overlayStartHandler as unknown as Segment).attribute.points as Point[];
+      let offset;
+      if (isHorizontal) {
+        offset = `${((points[1].x - points[0].x) / regionWidth) * 100}%`;
+      } else {
+        offset = `${((points[1].y - points[0].y) / regionHeight) * 100}%`;
+      }
+
+      newMarkLineSpec = merge({}, this._spec, {
+        coordinatesOffset: [
+          {
+            x: isHorizontal ? offset : 0,
+            y: isHorizontal ? 0 : offset
+          },
+          {
+            x: isHorizontal ? offset : 0,
+            y: isHorizontal ? 0 : offset
+          }
+        ]
+      });
+      this._spec = newMarkLineSpec;
+      this._coordinateOffset = this._getCoordinateOffset();
+    } else {
+      const points = this._overlayLine.attribute.points;
+      let offset;
+      if (isHorizontal) {
+        offset = `${
+          ((points[1].x - Math.max(this._overlayStartHandler.attribute.x, this._overlayEndHandler.attribute.x)) /
+            regionWidth) *
+          100
+        }%`;
+      } else {
+        const relativeY = Math.min(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y);
+
+        offset = `${((relativeY - points[1].y) / regionHeight) * 100}%`;
+      }
+      newMarkLineSpec = merge({}, this._spec, {
+        expandDistance: offset
+      });
+      this._spec = newMarkLineSpec;
+    }
+    this._updateAndSave(newMarkLineSpec, 'markLine');
   };
 
   private _getAnchorPoints() {
@@ -595,9 +728,10 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     }
   }
 
-  private _onHandlerHover = () => {
-    this._chart.option.editorEvent.setCursor('move');
-  };
+  private _onHandlerHover(cursor: string) {
+    this._chart.option.editorEvent.setCursor(cursor);
+  }
+
   private _onHandlerUnHover = () => {
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
   };

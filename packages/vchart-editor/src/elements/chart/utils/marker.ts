@@ -348,6 +348,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
 }
 
 export const DEFAULT_OFFSET_FOR_GROWTH_MARKLINE = 30;
+export const DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE = 30;
 /**
  * 获取复合增长标记的初始配置
  * 1. 仅支持柱图和线图
@@ -405,6 +406,8 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
     endData[valueFieldInData] = 1;
   }
 
+  const offset = `${(isHorizontal ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE}%`;
+
   return {
     id: uuidv4(),
     interactive: true,
@@ -441,7 +444,16 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
       size: 12,
       refX: -4
     },
-    [isHorizontal ? 'offsetX' : 'offsetY']: (isHorizontal ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE,
+    coordinatesOffset: [
+      {
+        x: isHorizontal ? offset : 0,
+        y: isHorizontal ? 0 : offset
+      },
+      {
+        x: isHorizontal ? offset : 0,
+        y: isHorizontal ? 0 : offset
+      }
+    ],
     _originValue_: [startData[valueFieldInData], endData[valueFieldInData]]
   };
 }
@@ -633,6 +645,7 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
     endData[valueFieldInData] = 1;
   }
 
+  const { width, height } = series.getRegion().getLayoutRect();
   return {
     id: uuidv4(),
     interactive: true,
@@ -640,7 +653,9 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
     type: 'type-step',
     coordinates: [startData, endData],
     connectDirection: isHorizontal ? 'right' : 'top',
-    expandDistance: 30,
+    expandDistance: isHorizontal
+      ? `${(DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE / width) * 100}%`
+      : `${(DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE / height) * 100}%`,
     line: {
       style: {
         lineDash: [0],
