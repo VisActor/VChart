@@ -273,7 +273,7 @@ export interface ISubTick extends IAxisItem<IRuleMarkSpec> {
 // 轴标签配置
 export interface ILabel extends IAxisItem<ITextMarkSpec> {
   /** 文本类型：text, rich, html */
-  type?: string;
+  type?: 'text' | 'rich' | 'html';
   /**
    * 轴标签内容格式化函数
    * @param text 原始标签文本值
@@ -363,7 +363,7 @@ export interface ITitle extends IAxisItem<ITextMarkSpec> {
     state?: AxisItemStateStyle<Partial<ISymbolMarkSpec>>;
   };
   /** 文本类型：text, rich, html */
-  type?: string;
+  type?: 'text' | 'rich' | 'html';
   /**
    * 文本内容
    * 支持富文本内容, 如textConfig, html

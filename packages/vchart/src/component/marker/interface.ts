@@ -90,7 +90,7 @@ export type IMarkerLabelWithoutRefSpec = {
   /**
    * 文本类型：text, rich, html
    */
-  type?: string;
+  type?: 'text' | 'rich' | 'html';
   /**
    * 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
    * 支持富文本内容, 如textConfig, html, 设置富文本时要配置type类型为'rich'或'html'

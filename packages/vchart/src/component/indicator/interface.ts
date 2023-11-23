@@ -41,7 +41,7 @@ export interface IIndicatorItemSpec {
    */
   style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible' | 'text'> & {
     /** 文本类型：text, rich, html */
-    type?: string;
+    type?: 'text' | 'rich' | 'html';
     /**
      * 文本内容
      * 支持富文本内容, 如textConfig, html
