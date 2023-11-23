@@ -86,6 +86,8 @@ export declare enum SeriesMarkNameEnum {
     ripplePoint = "ripplePoint",
     centerPoint = "centerPoint",
     centerLabel = "centerLabel",
-    barBackground = "barBackground"
+    barBackground = "barBackground",
+    lineLabel = "lineLabel",
+    areaLabel = "areaLabel"
 }
 export declare const seriesMarkNameSet: Set<string>;

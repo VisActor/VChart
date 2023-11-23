@@ -45,7 +45,7 @@ export interface IItemContent extends IMarkerRef {
   };
 }
 
-export type IItemLine = {
+export type IItemLine<T extends Partial<IMarkerSymbol> = IMarkerSymbol> = {
   /** TODO：'type-opo' */
   /**
    * 引导线类型
@@ -73,11 +73,11 @@ export type IItemLine = {
   /**
    * 引导线起点symbol样式
    */
-  startSymbol?: IMarkerSymbol;
+  startSymbol?: T;
   /**
    * 引导线终点symbol样式
    */
-  endSymbol?: IMarkerSymbol;
+  endSymbol?: T;
   /**
    * 引导线样式
    */
@@ -86,11 +86,11 @@ export type IItemLine = {
   };
 };
 
-export interface IMarkPointTheme {
+export interface IMarkPointTheme<T extends Partial<IMarkerSymbol> = Partial<IMarkerSymbol>> {
   /**
    * 标注引导线
    */
-  itemLine?: IItemLine;
+  itemLine?: IItemLine<T>;
 
   /**
    * 标注内容

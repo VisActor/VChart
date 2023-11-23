@@ -12,3 +12,4 @@ export * from './visual';
 export * from './common';
 export * from './spec';
 export * from './group';
+export * from './layout';

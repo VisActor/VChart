@@ -1,5 +1,4 @@
 import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
-import type { ILayoutPaddingSpec } from '../../model/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
 import type { DataSet, DataView, ISimplifyOptions, IFieldsOptions, IFilterOptions, IFoldOptions, IDsvParserOptions } from '@visactor/vdataset';
@@ -11,7 +10,6 @@ import type { ILayoutSpec } from '../../layout/interface';
 import type { ConvertToMarkStyleSpec, IArc3dMarkSpec, IArcMarkSpec, IAreaMarkSpec, IBoxPlotMarkSpec, ICommonSpec, IGroupMarkSpec, ILineMarkSpec, ILinkPathMarkSpec, IPathMarkSpec, IPolygonMarkSpec, IProgressArcMarkSpec, IPyramid3dMarkSpec, IRect3dMarkSpec, IRectMarkSpec, IRuleMarkSpec, ISymbolMarkSpec, IRippleMarkSpec, ITextMarkSpec, IVisualSpecScale } from '../visual';
 import type { StateValue } from '../../compile/mark';
 import type { ISeriesStyle, SeriesType } from '../../series/interface';
-import type { ILayoutOrientPadding } from '../../model/interface';
 import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
 import type { IMorphSeriesSpec } from '../../animation/spec';
@@ -24,7 +22,7 @@ import type { ITitleSpec } from '../../component/title/interface';
 import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
-import type { IColorKey } from '../../theme/color-scheme/interface';
+import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 export type IChartPadding = ILayoutOrientPadding | number;
 export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
     dom?: string | HTMLElement;
@@ -57,7 +55,7 @@ export interface IChartSpec {
     height?: number;
     autoFit?: boolean;
     padding?: ILayoutPaddingSpec;
-    color?: string[] | Omit<IVisualSpecScale<unknown, string | IColorKey>, 'id'>;
+    color?: string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>;
     series?: ISeriesSpec[];
     seriesStyle?: ISeriesStyle;
     animationThreshold?: number;

@@ -7,7 +7,6 @@ import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import type { IPoint, Datum } from '../../typings';
 import type { IPairInfo } from './layout';
-import type { LayoutItem } from '../../model/layout-item';
 import { MarkPoint } from '@visactor/vrender-components';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
@@ -15,7 +14,7 @@ export declare class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutType: LayoutItem['layoutType'];
+    layoutType: 'none';
     layoutZIndex: LayoutZIndex;
     protected nameField: string;
     protected valueField?: string;

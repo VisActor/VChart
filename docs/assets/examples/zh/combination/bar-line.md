@@ -79,9 +79,10 @@ const spec = {
       domain: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'],
       label: { visible: true },
       type: 'band',
-      bandPadding: 0,
-      paddingInner: 1,
-      paddingOuter: 0
+      // bandPadding: 0,
+      // paddingInner: 1,
+      // paddingOuter: 0
+      trimPadding: true
     },
     {
       orient: 'bottom',

@@ -281,7 +281,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           const { labelSpec, labelMark } = labelInfos[params.labelIndex];
           return labelMark.skipEncode
             ? { data: datum }
-            : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod);
+            : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod, labelSpec.formatter);
         }
       })
       .size(() => labelInfos[0].series.getRegion().getLayoutRect());
