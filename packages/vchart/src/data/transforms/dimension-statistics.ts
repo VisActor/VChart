@@ -7,16 +7,16 @@ import type { Datum } from '../../typings';
 
 const methods = {
   min: (arr: any[]) => {
-    return arr.length ? minInArray(arr) : 0;
+    return arr.length ? minInArray(arr.map(n => n * 1)) : 0;
   },
   max: (arr: any[]) => {
-    return arr.length ? maxInArray(arr) : 0;
+    return arr.length ? maxInArray(arr.map(n => n * 1)) : 0;
   },
   'array-min': (arr: any[]) => {
-    return arr.length ? minInArray(arr) : 0;
+    return arr.length ? minInArray(arr.map(n => n * 1)) : 0;
   },
   'array-max': (arr: any[]) => {
-    return arr.length ? maxInArray(arr) : 0;
+    return arr.length ? maxInArray(arr.map(n => n * 1)) : 0;
   },
   values: (arr: any[]) => {
     const map = {};

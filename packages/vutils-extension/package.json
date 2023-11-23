@@ -22,8 +22,8 @@
     "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.16.17",
-    "@visactor/vscale": "~0.16.17",
+    "@visactor/vutils": "~0.16.18",
+    "@visactor/vscale": "~0.16.18",
     "@visactor/vrender-core": "~0.16.16",
     "@visactor/vrender-kits": "~0.16.16"
   },
