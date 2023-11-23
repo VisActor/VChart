@@ -18,6 +18,8 @@ import type {
 export interface IPanelTitleProps {
   label: string;
   tooltip?: string;
+  collapsed?: boolean;
+  onCollapse?: (collapsed?: boolean) => void;
 }
 
 export interface IEditorHeaderProps {

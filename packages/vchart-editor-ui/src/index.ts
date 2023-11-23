@@ -47,3 +47,6 @@ export { IconSumDiff } from './svg/sum-diff';
 export { IconText, IconStrokeText } from './svg/text';
 export { IconVerticalLine } from './svg/vertical-line';
 export { IconVerticalRect } from './svg/vertical-rect';
+
+// util
+export { tooltipWrapper } from './utils/node';

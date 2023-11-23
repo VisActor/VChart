@@ -34,6 +34,7 @@ import { Palette } from '../base/palette';
 import { LineType } from '../base/line-type';
 import { Shape } from '../base/shape';
 import { Number } from '../base/number';
+import { Divider } from '@douyinfe/semi-ui';
 
 function generatePanelValue(
   sections: Record<string, IPanelSection>,
@@ -313,14 +314,45 @@ export function generateSection(
   panelValue: any,
   setPanelValue: (value: any) => void,
   onChange: (entryType: string, key: string, value: any) => void,
+  panelCollapsed: Record<string, boolean>,
+  setPanelCollapsed: (collapsed: Record<string, boolean>) => void,
   componentMap?: Record<string, string>
 ) {
+  const collapsed = panelCollapsed[sectionKey];
   return section ? (
     <>
-      {!isNil(section.label) ? <PanelTitle label={section.label} tooltip={section.tooltip} /> : null}
-      {generateEntries(sectionKey, section.entries, forcePanelValue, panelValue, setPanelValue, onChange, componentMap)}
+      {!isNil(section.label) ? (
+        <PanelTitle
+          label={section.label}
+          tooltip={section.tooltip}
+          collapsed={collapsed}
+          onCollapse={collapsed => {
+            setPanelCollapsed(Object.assign({}, panelCollapsed, { [sectionKey]: collapsed }));
+          }}
+        />
+      ) : null}
+      {collapsed
+        ? generateEntries(
+            sectionKey,
+            section.entries,
+            forcePanelValue,
+            panelValue,
+            setPanelValue,
+            onChange,
+            componentMap
+          )
+        : null}
+      <Divider margin="12px" />
     </>
   ) : null;
+}
+
+function getSectionCollapsedMap(sections: Record<string, IPanelSection>) {
+  const collapsedMap = {};
+  Object.keys(sections).forEach(key => {
+    collapsedMap[key] = true;
+  });
+  return collapsedMap;
 }
 
 export function CustomPanel(props: ICustomPanelProps) {
@@ -328,6 +360,8 @@ export function CustomPanel(props: ICustomPanelProps) {
   const sections = props.sections ?? {};
 
   const [collapsed, setCollapsed] = useState<boolean>(props.defaultCollapsed ?? true);
+
+  const [panelCollapsed, setPanelCollapsed] = useState<Record<string, boolean>>(getSectionCollapsedMap(sections));
 
   const [panelValue, setPanelValue] = useState<any>(generatePanelValue(sections, props.sectionComponentMaps, true));
 
@@ -363,6 +397,8 @@ export function CustomPanel(props: ICustomPanelProps) {
                   panelValue,
                   setPanelValue,
                   props.onChange,
+                  panelCollapsed,
+                  setPanelCollapsed,
                   props.sectionComponentMaps?.[section]
                 )}
               </React.Fragment>
