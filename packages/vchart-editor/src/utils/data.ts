@@ -16,3 +16,7 @@ export function getStandardDataFields(values: {}[]) {
   });
   return fields;
 }
+
+export function validNumber(value: any) {
+  return isValidNumber(value) ? value : null;
+}

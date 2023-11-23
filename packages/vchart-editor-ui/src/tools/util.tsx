@@ -196,13 +196,13 @@ export function EditorBarPanelEntry(props: IEditorBarEntryProps) {
 }
 
 export const editorBarToolMap = {
-  horizontalLine: { icon: <IconHorizontalLine />, type: 'trigger' },
-  verticalLine: { icon: <IconVerticalLine />, type: 'trigger' },
-  horizontalRect: { icon: <IconHorizontalRect />, type: 'trigger' },
-  verticalRect: { icon: <IconVerticalRect />, type: 'trigger' },
-  combineMark: { icon: <IconCombineMark />, type: 'trigger' },
-  sumDiff: { icon: <IconSumDiff />, type: 'trigger' },
-  hierarchyDiff: { icon: <IconHierarchyDiff />, type: 'trigger' },
+  'h-line': { icon: <IconHorizontalLine />, type: 'trigger' },
+  'v-line': { icon: <IconVerticalLine />, type: 'trigger' },
+  'h-area': { icon: <IconHorizontalRect />, type: 'trigger' },
+  'v-area': { icon: <IconVerticalRect />, type: 'trigger' },
+  'growth-line': { icon: <IconCombineMark />, type: 'trigger' },
+  'total-diff-line': { icon: <IconSumDiff />, type: 'trigger' },
+  'hierarchy-diff-line': { icon: <IconHierarchyDiff />, type: 'trigger' },
   addText: { icon: <IconAddText />, type: 'trigger' },
 
   delete: { icon: <IconDelete />, type: 'trigger' },
