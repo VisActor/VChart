@@ -510,21 +510,21 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     // TODO：后续支持 renderMode === 'canvas' 场景
     if (this._spec.enterable && this._spec.renderMode === 'html') {
       const { event } = params;
-      let target: any;
+      let newTarget: any;
       if (isValid(event.nativeEvent)) {
         // get native event object
-        const nativeEvent = event.nativeEvent as Event;
-        target = nativeEvent.target;
+        const nativeEvent = event.nativeEvent as any;
+        newTarget = nativeEvent.relatedTarget;
         // if in shadow DOM use composedPath to access target
+        // FIXME: shadow DOM 的 relatedTarget 的属性是？
         if (nativeEvent.composedPath && nativeEvent.composedPath().length > 0) {
-          target = nativeEvent.composedPath()[0];
+          newTarget = nativeEvent.composedPath()[0];
         }
       } else {
-        target = event.target;
+        newTarget = event.relatedTarget;
       }
-
       const container = this.tooltipHandler?.getTooltipContainer?.();
-      if (isValid(container) && isValid(target) && hasParentElement(target, container)) {
+      if (isValid(container) && isValid(newTarget) && hasParentElement(newTarget, container)) {
         return true;
       }
     }
