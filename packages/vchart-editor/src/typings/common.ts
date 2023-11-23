@@ -8,7 +8,7 @@ export type FormatConfig = {
   prefix?: string;
   postfix?: string;
   unit?: number;
-  fixed?: number;
+  fixed?: number | 'auto';
   content?: 'value' | 'abs' | 'percentage' | 'value(percentage)' | 'percentage(value)' | 'CAGR';
   separator?: boolean;
 };

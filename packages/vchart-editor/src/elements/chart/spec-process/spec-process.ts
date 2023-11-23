@@ -1,5 +1,5 @@
 import type { IChartModel } from './../interface';
-import { isArray, isObject, isEmpty, cloneDeep, isValid, array } from '@visactor/vutils';
+import { isArray, isObject, isEmpty, cloneDeep, isValid, array, isString } from '@visactor/vutils';
 import type { IEditorController, IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
 import { EditorFactory } from './../../../core/factory';
 import type { IData, StandardData } from '../data/interface';
@@ -14,6 +14,7 @@ import { mergeSpec } from '../utils/spec';
 import type { FormatConfig } from '../../../typings/common';
 import type { IBandLikeScale } from '@visactor/vscale';
 import { calculateCAGR } from '../utils/marker';
+import { validNumber } from '../../../utils/data';
 
 const DefaultEditorSpec: IEditorSpec = {
   theme: null,
@@ -174,10 +175,15 @@ export class SpecProcess implements ISpecProcess {
     }
 
     // process formatConfig
+    // TODO: check percentage by template
+    const isPercentageChart =
+      this._specTemp.type === 'barPercent' ||
+      this._specTemp.type === 'horizontalBarPercent' ||
+      this._specTemp.type === 'areaPercent';
     const traverseSpec = (spec: any, type?: string, modelSpec?: any) => {
       const specKeys = Object.keys(spec);
       if (specKeys.includes('formatConfig')) {
-        this.processFormatConfig(spec, type, modelSpec);
+        this.processFormatConfig(spec, type, modelSpec, isPercentageChart);
       }
       const currentType = spec.name ?? type;
       const currentModel = isValid(spec.name) ? spec : modelSpec;
@@ -191,12 +197,15 @@ export class SpecProcess implements ISpecProcess {
     traverseSpec(this._vchartSpec);
   }
 
-  private processFormatConfig(spec: any, type?: string, modelSpec?: any) {
+  private processFormatConfig(spec: any, type: string, modelSpec: any, isPercentageChart: boolean) {
     let defaultFormatConfig: FormatConfig = {};
     switch (type) {
       case 'h-line':
       case 'v-line':
-        defaultFormatConfig = { fixed: 0 };
+      case 'h-area':
+      case 'v-area':
+        defaultFormatConfig = isPercentageChart ? { content: 'percentage' } : { fixed: 0 };
+        break;
       case 'growth-line':
         defaultFormatConfig = { content: 'CAGR', fixed: 0 };
         break;
@@ -211,9 +220,11 @@ export class SpecProcess implements ISpecProcess {
       case 'v-line':
         spec.formatMethod = (value: any, datum: any, context: any) => {
           const formatConfig = Object.assign(defaultFormatConfig, spec.formatConfig) as FormatConfig;
-          const labelValue = Number.parseFloat(spec.text ?? value[0].x ?? value[0].y);
-          const labelContent = this.formatNumber(labelValue, formatConfig);
-          if (isNaN(labelValue)) {
+          // line marker content only support value / percentage for now
+          const isPercentage = formatConfig.content === 'percentage';
+          const labelValue = modelSpec._originValue_ * (isPercentage ? 100 : 1);
+          const labelContent = this.formatNumber(labelValue, formatConfig, isPercentage);
+          if (!isFinite(labelValue)) {
             return `${formatConfig.prefix ?? ''}${spec.text}${formatConfig.postfix ?? ''}`;
           }
           return `${formatConfig.prefix ?? ''}${labelContent}${formatConfig.postfix ?? ''}`;
@@ -223,11 +234,13 @@ export class SpecProcess implements ISpecProcess {
       case 'v-area':
         spec.formatMethod = (value: any, datum: any, context: any) => {
           const formatConfig = Object.assign(defaultFormatConfig, spec.formatConfig) as FormatConfig;
-          const fromValue = Number.parseFloat(spec.text.split('-')[0]);
-          const fromContent = this.formatNumber(fromValue, formatConfig);
-          const toValue = Number.parseFloat(spec.text.split('-')[1]);
-          const toContent = this.formatNumber(toValue, formatConfig);
-          if (isNaN(fromValue) || isNaN(toValue)) {
+          // line marker content only support value / percentage for now
+          const isPercentage = formatConfig.content === 'percentage';
+          const fromValue = modelSpec._originValue_?.[0] * (isPercentage ? 100 : 1);
+          const fromContent = this.formatNumber(fromValue, formatConfig, isPercentage);
+          const toValue = modelSpec._originValue_?.[1] * (isPercentage ? 100 : 1);
+          const toContent = this.formatNumber(toValue, formatConfig, isPercentage);
+          if (!isFinite(fromValue) || !isFinite(toValue)) {
             return `${formatConfig.prefix ?? ''}${spec.text}${formatConfig.postfix ?? ''}`;
           }
           return `${formatConfig.prefix ?? ''}${fromContent} - ${toContent}${formatConfig.postfix ?? ''}`;
@@ -285,7 +298,7 @@ export class SpecProcess implements ISpecProcess {
       case 'abs':
         return Math.abs(value);
       case 'percentage':
-        return this.computeSeriesPercentage(datum, context.series);
+        return validNumber(this.computeSeriesPercentage(datum, context.series)) ?? '超过 0 的百分比';
       case 'value':
       default:
         return Number.parseFloat(value);
@@ -316,9 +329,12 @@ export class SpecProcess implements ISpecProcess {
       case 'abs':
         return Math.abs(diff);
       case 'percentage':
-        return ((endDatum[valueField] - startDatum[valueField]) / startDatum[valueField]) * 100;
+        return (
+          validNumber(((endDatum[valueField] - startDatum[valueField]) / startDatum[valueField]) * 100) ??
+          '超过 0 的百分比'
+        );
       case 'CAGR':
-        return calculateCAGR(endDatum[valueField], startDatum[valueField], n) * 100;
+        return validNumber(calculateCAGR(endDatum[valueField], startDatum[valueField], n) * 100) ?? '超过 0 的百分比';
       case 'value':
       default:
         return diff;
@@ -335,23 +351,28 @@ export class SpecProcess implements ISpecProcess {
     const totalValue = dimensionData.reduce((sum: number, d: any) => {
       return sum + Number.parseFloat(d[measureField]);
     }, 0);
+
     return (Number.parseFloat(datum[measureField]) / totalValue) * 100;
   }
 
-  private formatNumber(value: number, formatConfig: FormatConfig, percentage?: boolean): string {
+  private formatNumber(value: number | string, formatConfig: FormatConfig, percentage?: boolean): string {
+    if (isString(value)) {
+      return value;
+    }
     let result: number | string = value;
     if (isValid(formatConfig.unit)) {
       result /= 10 ** formatConfig.unit;
     }
     if (formatConfig.separator) {
-      result = isValid(formatConfig.fixed)
-        ? Intl.NumberFormat(undefined, {
-            minimumFractionDigits: formatConfig.fixed,
-            maximumFractionDigits: formatConfig.fixed
-          }).format(value)
-        : Intl.NumberFormat().format(value);
+      result =
+        isValid(formatConfig.fixed) && formatConfig.fixed !== 'auto'
+          ? Intl.NumberFormat(undefined, {
+              minimumFractionDigits: formatConfig.fixed,
+              maximumFractionDigits: formatConfig.fixed
+            }).format(value)
+          : Intl.NumberFormat().format(value);
     } else {
-      if (isValid(formatConfig.fixed)) {
+      if (isValid(formatConfig.fixed) && formatConfig.fixed !== 'auto') {
         result = (value as number).toFixed(formatConfig.fixed);
       }
     }
