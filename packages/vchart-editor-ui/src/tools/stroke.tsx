@@ -154,7 +154,7 @@ function StrokePanel(props: IEditorBarStrokeProps) {
             left: 0,
             bottom: 6,
             width: '100%',
-            height: 170,
+            height: 210,
             background: 'rgb(255 255 255 / 75%)',
             position: 'absolute'
           }}

@@ -17,6 +17,8 @@ function App() {
   const [enabled, setEnabled] = useState<boolean>(true);
   const [fontSize, setFontSize] = useState<number>(12);
 
+  const [enabled2, setEnabled2] = useState<boolean>(true);
+
   return (
     <div>
       <p>VChart Editor UI</p>
@@ -136,6 +138,11 @@ function App() {
         sections={{
           time: {
             label: '当前时间',
+            enabled: enabled2,
+            onEnabled: enabled => {
+              console.log(enabled);
+              setEnabled2(enabled);
+            },
             entries: [
               { key: 'switch', label: '显示当前时间' },
               { key: 'fontFamily', label: '字体' },

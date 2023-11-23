@@ -316,6 +316,7 @@ export function generateSection(
   onChange: (entryType: string, key: string, value: any) => void,
   panelCollapsed: Record<string, boolean>,
   setPanelCollapsed: (collapsed: Record<string, boolean>) => void,
+  onSectionEnabled: (section: string, enabled: boolean) => void,
   componentMap?: Record<string, string>
 ) {
   const collapsed = panelCollapsed[sectionKey];
@@ -325,23 +326,30 @@ export function generateSection(
         <PanelTitle
           label={section.label}
           tooltip={section.tooltip}
+          enabled={section.enabled}
+          onEnabled={enabled => {
+            onSectionEnabled?.(sectionKey, enabled);
+          }}
           collapsed={collapsed}
           onCollapse={collapsed => {
             setPanelCollapsed(Object.assign({}, panelCollapsed, { [sectionKey]: collapsed }));
           }}
         />
       ) : null}
-      {collapsed
-        ? generateEntries(
-            sectionKey,
-            section.entries,
-            forcePanelValue,
-            panelValue,
-            setPanelValue,
-            onChange,
-            componentMap
-          )
-        : null}
+      <div style={{ position: 'relative' }}>
+        {collapsed
+          ? generateEntries(
+              sectionKey,
+              section.entries,
+              forcePanelValue,
+              panelValue,
+              setPanelValue,
+              onChange,
+              componentMap
+            )
+          : null}
+        {section.enabled === false ? <div className="vchart-editor-ui-panel-container-mask"></div> : null}
+      </div>
       <Divider margin="12px" />
     </>
   ) : null;
@@ -399,6 +407,7 @@ export function CustomPanel(props: ICustomPanelProps) {
                   props.onChange,
                   panelCollapsed,
                   setPanelCollapsed,
+                  props.onSectionEnabled,
                   props.sectionComponentMaps?.[section]
                 )}
               </React.Fragment>

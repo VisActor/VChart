@@ -41,9 +41,9 @@ export function EditorHeader(props: IEditorHeaderProps) {
             onClick={() => props?.onCollapse?.(!props.collapsed)}
           >
             {collapsed ? (
-              <IconTriangleUp style={{ fontSize: '10px' }} />
+              <IconTriangleUp style={{ fontSize: '10px', color: '#141414', opacity: 0.65 }} />
             ) : (
-              <IconTriangleDown style={{ fontSize: '10px' }} />
+              <IconTriangleDown style={{ fontSize: '10px', color: '#141414', opacity: 0.65 }} />
             )}
           </span>
         </span>
