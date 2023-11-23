@@ -273,7 +273,68 @@ const run = () => {
     }
   };
 
-  const cs = new VChart(spec, {
+  const spec_tooltip = {
+    type: 'area',
+    data: {
+      values: [
+        {
+          type: 'Eyebrow pencil Eyebrow',
+          country: 'Africa',
+          value: 3932
+        },
+        {
+          type: 'Eyebrow pencil Eyebrow',
+          country: 'EU',
+          value: 3987
+        }
+      ]
+    },
+    title: {
+      visible: true,
+      text: 'Stacked area chart of cosmetic products sales'
+    },
+    // stack: true,
+    xField: 'type',
+    yField: 'value',
+    seriesField: 'country',
+    legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
+    crosshair: {
+      xField: { visible: true }
+    },
+    tooltip: {
+      renderMode: 'canvas',
+      transitionDuration: 0,
+      dimension: {
+        content: [
+          {
+            key: 'letterbreakletterbreak',
+            value: 'Eyebrow pencil Eyebrow pencil Eyebrow 我试试文字文字文字文字文字'
+          },
+          {
+            key: 'letterbreakletterbreakletter',
+            value: '我试试                        文字                文字           文字文      字文字'
+          }
+        ]
+      },
+      style: {
+        titleLabel: {
+          multiLine: true,
+          maxWidth: 200
+        },
+        keyLabel: {
+          multiLine: true,
+          wordBreak: 'break-all',
+          maxWidth: 80
+        },
+        valueLabel: {
+          multiLine: true,
+          maxWidth: 120
+        }
+      }
+    }
+  };
+
+  const cs = new VChart(spec_tooltip, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
