@@ -1,5 +1,5 @@
 import { DataView } from '@visactor/vdataset';
-import type { IMarkPoint, IMarkPointSpec, IMarkPointTheme } from './interface';
+import type { IMarkPoint, IMarkPointCoordinateSpec, IMarkPointSpec, IMarkPointTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -92,7 +92,12 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
 
     let point: IPointLike;
     if (isCoordinateLayout) {
-      point = coordinateLayout(data, relativeSeries, autoRange)[0];
+      point = coordinateLayout(
+        data,
+        relativeSeries,
+        autoRange,
+        (spec as IMarkPointCoordinateSpec).coordinatesOffset
+      )[0];
     } else if (isPositionLayout) {
       point = spec.position;
 

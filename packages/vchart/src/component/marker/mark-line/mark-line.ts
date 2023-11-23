@@ -123,7 +123,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     } else if (isYLayout) {
       points = yLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
     } else if (isCoordinateLayout) {
-      points = coordinateLayout(data, relativeSeries, autoRange);
+      points = coordinateLayout(data, relativeSeries, autoRange, spec.coordinatesOffset);
     } else if (isPositionLayout) {
       if (spec.regionRelative) {
         const region = relativeSeries.getRegion();

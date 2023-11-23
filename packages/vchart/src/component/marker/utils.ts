@@ -5,6 +5,7 @@ import type { IPointLike } from '@visactor/vutils';
 import { isValid, isNumber, array, isArray } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
 import { isPercent } from '../../util';
+import type { OffsetPoint } from './interface';
 
 export function xLayout(
   data: DataView,
@@ -122,18 +123,43 @@ export function yLayout(
   return lines;
 }
 
-export function coordinateLayout(data: DataView, relativeSeries: ICartesianSeries, autoRange: boolean) {
+export function coordinateLayout(
+  data: DataView,
+  relativeSeries: ICartesianSeries,
+  autoRange: boolean,
+  coordinatesOffset: OffsetPoint[] | OffsetPoint
+) {
   const points: IPointLike[] = [];
   const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+  const isArrayCoordinatesOffset = isArray(coordinatesOffset);
   dataPoints.forEach(
-    (datum: {
-      x: StringOrNumber[] | StringOrNumber | null;
-      y: StringOrNumber[] | StringOrNumber | null;
-      getRefRelativeSeries?: () => ICartesianSeries;
-    }) => {
+    (
+      datum: {
+        x: StringOrNumber[] | StringOrNumber | null;
+        y: StringOrNumber[] | StringOrNumber | null;
+        getRefRelativeSeries?: () => ICartesianSeries;
+      },
+      index: number
+    ) => {
       const refRelativeSeries = datum?.getRefRelativeSeries ? datum.getRefRelativeSeries() : relativeSeries;
       const regionStart = refRelativeSeries.getRegion();
       const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
+      const { width: regionWidth, height: regionHeight } = regionStart.getLayoutRect();
+
+      let offsetX = 0;
+      let offsetY = 0;
+      if (coordinatesOffset) {
+        const currentCoordinatesOffset = isArrayCoordinatesOffset ? coordinatesOffset[index] : coordinatesOffset;
+        const x = currentCoordinatesOffset.x;
+        const y = currentCoordinatesOffset.y;
+        if (x) {
+          offsetX = isPercent(x) ? (Number(x.substring(0, x.length - 1)) * regionWidth) / 100 : (x as number);
+        }
+        if (y) {
+          offsetY = isPercent(y) ? (Number(y.substring(0, y.length - 1)) * regionHeight) / 100 : (y as number);
+        }
+      }
+
       const xDomain = refRelativeSeries.getXAxisHelper().getScale(0).domain();
       const yDomain = refRelativeSeries.getYAxisHelper().getScale(0).domain();
       const xValue = array(datum.x);
@@ -148,8 +174,8 @@ export function coordinateLayout(data: DataView, relativeSeries: ICartesianSerie
         isNeedExtendDomain(yDomain, yValue[0], autoRange) &&
         refRelativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', yValue[0] as number);
       points.push({
-        x: refRelativeSeries.getXAxisHelper().dataToPosition(xValue) + regionStartLayoutStartPoint.x,
-        y: refRelativeSeries.getYAxisHelper().dataToPosition(yValue) + regionStartLayoutStartPoint.y
+        x: refRelativeSeries.getXAxisHelper().dataToPosition(xValue) + regionStartLayoutStartPoint.x + offsetX,
+        y: refRelativeSeries.getYAxisHelper().dataToPosition(yValue) + regionStartLayoutStartPoint.y + offsetY
       });
     }
   );

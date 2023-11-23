@@ -103,7 +103,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       lines = yLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
       points = [...lines[0], lines[1][1], lines[1][0]];
     } else if (isCoordinateLayout) {
-      points = coordinateLayout(data, relativeSeries, autoRange);
+      points = coordinateLayout(data, relativeSeries, autoRange, spec.coordinatesOffset);
     } else if (isPositionLayout) {
       if (spec.regionRelative) {
         const region = relativeSeries.getRegion();
