@@ -20,6 +20,8 @@ Whether to display chart elements.
 
 #${prefix} customizedShape(Function)
 
+** Support since 1.7.0 **
+
 Set the callback function for custom rendering of graphic elements; this uses the graphic rendering proxy mechanism provided by `@visactor/vrender`, so it requires some understanding of `@visactor/vrender`.
 
 The specific type definition of the callback function is as follows:
