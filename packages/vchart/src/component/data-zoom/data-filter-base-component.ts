@@ -158,6 +158,60 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
   }
 
+  protected _isReverse() {
+    const axis = this._relatedAxisComponent as CartesianAxis<any>;
+    const axisScale = axis.getScale() as IBandLikeScale;
+    const axisSpec = axis.getSpec() as ICartesianBandAxisSpec;
+    return axisScale.range()[0] > axisScale.range()[1] && (!axisSpec.inverse || this._isHorizontal);
+  }
+
+  protected _updateRangeFactor(tag?: string, label?: string) {
+    // 轴的range有时是相反的
+    // 比如相同的region范围, 有的场景range为[0, 500], 有的场景range为[500, 0]
+    // 而datazoom/scrollbar的range是根据布局强制转化为[0, 500]
+    // 所以这里在转换时进行判断并做转置, 有待优化
+    // 轴在inverse时，也要做转置处理
+    const axis = this._relatedAxisComponent as CartesianAxis<any>;
+    const axisScale = axis.getScale() as IBandLikeScale;
+    const reverse = this._isReverse();
+    const newRangeFactor: [number, number] = reverse ? [1 - this._end, 1 - this._start] : [this._start, this._end];
+
+    if (reverse) {
+      switch (tag) {
+        case 'startHandler':
+          axisScale.rangeFactorEnd(newRangeFactor[1]);
+          break;
+        case 'endHandler':
+          axisScale.rangeFactorStart(newRangeFactor[0]);
+          break;
+        default:
+          axisScale.rangeFactorStart(newRangeFactor[0], true);
+          axisScale.rangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
+      }
+    } else {
+      switch (tag) {
+        case 'startHandler':
+          axisScale.rangeFactorStart(newRangeFactor[0]);
+          break;
+        case 'endHandler':
+          axisScale.rangeFactorEnd(newRangeFactor[1]);
+          break;
+        default:
+          axisScale.rangeFactorEnd(newRangeFactor[1], true);
+          axisScale.rangeFactorStart(newRangeFactor[0]); // start 保证为准确值
+      }
+    }
+
+    const newFactor = axisScale.rangeFactor();
+    if (newFactor) {
+      this._start = reverse ? 1 - newFactor[1] : newFactor[0];
+      this._end = reverse ? 1 - newFactor[0] : newFactor[1];
+    } else {
+      this._start = 0;
+      this._end = 1;
+    }
+  }
+
   effect: IEffect = {
     onZoomChange: (tag?: string) => {
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
@@ -171,49 +225,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           axisScale.minBandwidth('auto');
         }
 
-        // 轴的range有时是相反的
-        // 比如相同的region范围, 有的场景range为[0, 500], 有的场景range为[500, 0]
-        // 而datazoom/scrollbar的range是根据布局强制转化为[0, 500]
-        // 所以这里在转换时进行判断并做转置, 有待优化
-        // 轴在inverse时，也要做转置处理
-
-        const reverse = axisScale.range()[0] > axisScale.range()[1] && (!axisSpec.inverse || this._isHorizontal);
-        const newRangeFactor: [number, number] = reverse ? [1 - this._end, 1 - this._start] : [this._start, this._end];
-
-        if (reverse) {
-          switch (tag) {
-            case 'startHandler':
-              axisScale.rangeFactorEnd(newRangeFactor[1]);
-              break;
-            case 'endHandler':
-              axisScale.rangeFactorStart(newRangeFactor[0]);
-              break;
-            default:
-              axisScale.rangeFactorStart(newRangeFactor[0], true);
-              axisScale.rangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
-          }
-        } else {
-          switch (tag) {
-            case 'startHandler':
-              axisScale.rangeFactorStart(newRangeFactor[0]);
-              break;
-            case 'endHandler':
-              axisScale.rangeFactorEnd(newRangeFactor[1]);
-              break;
-            default:
-              axisScale.rangeFactorEnd(newRangeFactor[1], true);
-              axisScale.rangeFactorStart(newRangeFactor[0]); // start 保证为准确值
-          }
-        }
-
-        const newFactor = axisScale.rangeFactor();
-        if (newFactor) {
-          this._start = reverse ? 1 - newFactor[1] : newFactor[0];
-          this._end = reverse ? 1 - newFactor[0] : newFactor[1];
-        } else {
-          this._start = 0;
-          this._end = 1;
-        }
+        this._updateRangeFactor(tag, 'zoomChange');
 
         (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
         axis.effect.scaleUpdate();
@@ -511,7 +523,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const scale = this._stateScale;
     let range = scale.range();
 
-    if (!this._isHorizontal && isContinuous(scale.type)) {
+    if (this._isReverse()) {
       range = range.slice().reverse();
     }
     const posInRange: number = range[0] + (range[1] - range[0]) * state;
@@ -865,38 +877,39 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const axisSpec = axis?.getSpec() as ICartesianBandAxisSpec | undefined;
     const axisScale = axis?.getScale() as IBandLikeScale;
     const bandSizeResult = this._getAxisBandSize(axisSpec);
+
+    if (
+      isDiscrete(axisScale.type) &&
+      rect?.height === this._cacheRect?.height &&
+      rect?.width === this._cacheRect?.width &&
+      this._fixedBandSize === bandSizeResult?.bandSize
+    ) {
+      return this._cacheVisibility;
+    }
+
     let isShown = true;
-    if (this._isHorizontal) {
+    if (this._isHorizontal && rect?.width !== this._cacheRect?.width) {
       axisScale.range(axisSpec.inverse ? [rect.width, 0] : [0, rect.width]);
-    } else {
+    } else if (rect?.height !== this._cacheRect?.height) {
       axisScale.range(axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
     }
+
+    this._cacheRect = {
+      width: rect?.width,
+      height: rect?.height
+    };
+    this._fixedBandSize = bandSizeResult?.bandSize;
+
     if (isDiscrete(axisScale.type)) {
-      if (
-        rect?.height === this._cacheRect?.height &&
-        rect?.width === this._cacheRect?.width &&
-        this._fixedBandSize === bandSizeResult?.bandSize
-      ) {
-        return this._cacheVisibility;
-      }
-      this._cacheRect = {
-        width: rect?.width,
-        height: rect?.height
-      };
-      this._fixedBandSize = bandSizeResult?.bandSize;
       if (bandSizeResult && (this._start || this._end)) {
-        axisScale.rangeFactor([this._start, this._end]);
+        this._updateRangeFactor(null, 'auto');
       }
-      let [start, end] = axisScale.rangeFactor() ?? [];
+      const [start, end] = axisScale.rangeFactor() ?? [];
       if (isNil(start) && isNil(end)) {
-        start = 0;
-        end = 1;
         isShown = false;
       } else {
         isShown = !(start === 0 && end === 1);
       }
-      this._start = start;
-      this._end = end;
     } else {
       const [start, end] = axisScale.rangeFactor() ?? [this._start, this._end];
       isShown = !(start === 0 && end === 1);
