@@ -20,6 +20,8 @@
 
 #${prefix} customizedShape(Function)
 
+** 自 1.7.0 版本支持 **
+
 设置图元自定义渲染形状的回调函数；底层使用的是`@visactor/vrender` 提供的图形渲染代理机制，需要对`@visactor/vrender`有一定的了解；
 
 回调函数的具体类型定义如下：
