@@ -4,6 +4,8 @@ import type { ComponentConfig } from './config';
 export interface IPanelSection {
   label?: string;
   tooltip?: string;
+  enabled?: boolean;
+  onEnabled?: (enabled: boolean) => void;
   entries?: ComponentConfig[];
 }
 
@@ -18,6 +20,7 @@ export interface IPanelProps {
   onRefresh?: (values: any) => void;
   enabled?: boolean;
   onEnabled?: (enabled: boolean) => void;
+  onSectionEnabled?: (section: string, enabled: boolean) => void;
   defaultCollapsed?: boolean;
 }
 

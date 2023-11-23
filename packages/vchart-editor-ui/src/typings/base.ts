@@ -20,6 +20,8 @@ export interface IPanelTitleProps {
   tooltip?: string;
   collapsed?: boolean;
   onCollapse?: (collapsed?: boolean) => void;
+  enabled?: boolean;
+  onEnabled?: (enabled?: boolean) => void;
 }
 
 export interface IEditorHeaderProps {
