@@ -160,6 +160,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _isReverse() {
     const axis = this._relatedAxisComponent as CartesianAxis<any>;
+    if (!axis) {
+      return false;
+    }
     const axisScale = axis.getScale() as IBandLikeScale;
     const axisSpec = axis.getSpec() as ICartesianBandAxisSpec;
     return axisScale.range()[0] > axisScale.range()[1] && (!axisSpec.inverse || this._isHorizontal);
