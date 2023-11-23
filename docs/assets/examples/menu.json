@@ -1554,6 +1554,13 @@
             "zh": "tooltip 格式化内容",
             "en": "Tooltip Custom Formatting"
           }
+        },
+        {
+          "path": "enterable-tooltip",
+          "title": {
+            "zh": "可交互的 tooltip",
+            "en": "Enterable Tooltip"
+          }
         }
       ]
     },
