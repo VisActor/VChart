@@ -86,6 +86,10 @@ Available options:
 
 Event-triggering delay duration.
 
+### sizeThreshold(number) = 5
+
+brush选框的大小阈值。自 `1.2.0` 版本开始支持。
+
 ### style(Object)
 
 Selection box style configuration.
