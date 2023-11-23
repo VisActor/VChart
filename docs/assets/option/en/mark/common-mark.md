@@ -18,7 +18,7 @@ Controls the display level of chart elements.
 
 Whether to display chart elements.
 
-#${prefix} customizedShape(Function)
+#${prefix} customShape(Function)
 
 ** Support since 1.7.0 **
 

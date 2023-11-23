@@ -46,7 +46,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       groupKey: this._seriesField,
       isSeriesMark: true,
       label: this._preprocessLabelSpec(this._spec.label),
-      customizedShape: this._spec.rose?.customizedShape
+      customShape: this._spec.rose?.customShape
     }) as IArcMark;
   }
 

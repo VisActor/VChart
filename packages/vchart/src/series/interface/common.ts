@@ -109,7 +109,7 @@ export interface ISeriesMarkInitOption {
   /** 是否支持 3d */
   support3d?: boolean;
   /* customized shape of mark  */
-  customizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+  customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
 }
 
 export interface ISeriesMarkInfo extends IModelMarkInfo {

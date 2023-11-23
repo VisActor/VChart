@@ -18,7 +18,7 @@
 
 是否显示图元。
 
-#${prefix} customizedShape(Function)
+#${prefix} customShape(Function)
 
 ** 自 1.7.0 版本支持 **
 

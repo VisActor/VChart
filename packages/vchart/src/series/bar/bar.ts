@@ -80,7 +80,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         isSeriesMark: true,
         label: this._preprocessLabelSpec(this._spec.label as ILabelSpec),
         progressive,
-        customizedShape: this._spec.bar?.customizedShape
+        customShape: this._spec.bar?.customShape
       }
     ) as IRectMark;
   }
@@ -91,7 +91,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         dataView: this._barBackgroundViewData.getDataView(),
         dataProductId: this._barBackgroundViewData.getProductId(),
         progressive,
-        customizedShape: this._spec.barBackground?.customizedShape
+        customShape: this._spec.barBackground?.customShape
       }) as IRectMark;
     }
   }

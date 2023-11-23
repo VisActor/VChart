@@ -66,7 +66,7 @@ export class LinearProgressSeries<
     this._progressMark = this._createMark(LinearProgressSeries.mark.progress, {
       isSeriesMark: true,
       parent: this._progressGroupMark,
-      customizedShape: this._spec.progress?.customizedShape
+      customShape: this._spec.progress?.customShape
     }) as IRectMark;
     return this._progressMark;
   }
@@ -130,7 +130,7 @@ export class LinearProgressSeries<
   private _initTrackMark() {
     this._trackMark = this._createMark(LinearProgressSeries.mark.track, {
       parent: this._progressGroupMark,
-      customizedShape: this._spec.track?.customizedShape
+      customShape: this._spec.track?.customShape
     }) as IRectMark;
     return this._trackMark;
   }
