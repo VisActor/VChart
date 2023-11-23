@@ -248,7 +248,7 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    * 可选，'html', 'rich', 'text'
    * @default 'text'
    */
-  type?: string;
+  type?: 'html' | 'rich' | 'text';
   /**
    * 文字内容
    */
