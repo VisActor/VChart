@@ -1849,6 +1849,13 @@
           }
         },
         {
+          "path": "mark-line-multi",
+          "title": {
+            "zh": "markLine 多轴线定位",
+            "en": "multi mark lines"
+          }
+        },
+        {
           "path": "mark-area-basic",
           "title": {
             "zh": "markArea",
@@ -1870,10 +1877,31 @@
           }
         },
         {
+          "path": "mark-area-with-label",
+          "title": {
+            "zh": "markArea 标签",
+            "en": "markArea with label"
+          }
+        },
+                {
+          "path": "mark-area-range",
+          "title": {
+            "zh": "markArea 标记range范围",
+            "en": "markArea to mark range"
+          }
+        },
+        {
           "path": "mark-point-basic",
           "title": {
             "zh": "markPoint 数据点定位",
             "en": "markPoint Data Point Positioning"
+          }
+        },
+        {
+          "path": "mark-point-image",
+          "title": {
+            "zh": "markPoint 图片标记",
+            "en": "markPoint with image"
           }
         }
       ]
