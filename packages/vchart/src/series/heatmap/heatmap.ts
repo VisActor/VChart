@@ -60,12 +60,12 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       isSeriesMark: true,
       label: this._preprocessLabelSpec(this._spec.label),
       progressive,
-      customizedShape: this._spec.cell?.customizedShape
+      customShape: this._spec.cell?.customShape
     }) as ICellMark;
 
     this._backgroundMark = this._createMark(HeatmapSeries.mark.cellBackground, {
       progressive,
-      customizedShape: this._spec.cellBackground?.customizedShape
+      customShape: this._spec.cellBackground?.customShape
     }) as ICellMark;
   }
 

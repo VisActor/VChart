@@ -691,7 +691,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         markSpec: spec,
         parent: parentMark,
         dataView: false,
-        customizedShape: spec?.customizedShape
+        customShape: spec?.customShape
       }
     ) as IGroupMark;
     if (!mark) {
@@ -1135,7 +1135,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       progressive,
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false,
-      customizedShape
+      customShape
     } = option;
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
@@ -1189,8 +1189,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         m.setGroupKey(groupKey);
       }
 
-      if (customizedShape) {
-        m.setCustomizedShapeCallback(customizedShape);
+      if (customShape) {
+        m.setCustomizedShapeCallback(customShape);
       }
 
       this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));

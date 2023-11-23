@@ -474,7 +474,7 @@ export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
   /* 是否是3d视角的mark */
   support3d?: boolean;
   /* customized shape of mark  */
-  customizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+  customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
 } & IMarkProgressiveConfig;
 
 export type IMarkStateFilter =

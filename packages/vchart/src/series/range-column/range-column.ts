@@ -49,7 +49,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       groupKey: this._seriesField,
       label: labelPosition === PositionEnum.bothEnd ? undefined : this._preprocessLabelSpec(this._spec.label),
       isSeriesMark: true,
-      customizedShape: this._spec.bar?.customizedShape
+      customShape: this._spec.bar?.customShape
     }) as IRectMark;
 
     if (this._spec.label?.visible !== false && labelPosition === PositionEnum.bothEnd) {

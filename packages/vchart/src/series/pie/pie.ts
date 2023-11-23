@@ -159,7 +159,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         skipBeforeLayouted: true,
         isSeriesMark: true,
         label: this._preprocessLabelSpec(this._spec.label),
-        customizedShape: this._spec.pie?.customizedShape
+        customShape: this._spec.pie?.customShape
       }
     ) as IArcMark;
   }

@@ -215,7 +215,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       label: this._preprocessLabelSpec(this._spec.label as ILabelSpec),
       progressive,
       isSeriesMark: true,
-      customizedShape: this._spec.point?.customizedShape
+      customShape: this._spec.point?.customShape
     }) as ISymbolMark;
   }
 

@@ -203,7 +203,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       key: DEFAULT_DATA_INDEX,
       dataView: this._nodesSeriesData.getDataView(),
       dataProductId: this._nodesSeriesData.getProductId(),
-      customizedShape: this._spec.node?.customizedShape
+      customShape: this._spec.node?.customShape
     }) as IRectMark;
     if (nodeMark) {
       nodeMark.setZIndex(this._nodeLayoutZIndex);
@@ -214,7 +214,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       key: DEFAULT_DATA_INDEX,
       dataView: this._linksSeriesData.getDataView(),
       dataProductId: this._linksSeriesData.getProductId(),
-      customizedShape: this._spec.link?.customizedShape
+      customShape: this._spec.link?.customShape
     }) as ILinkPathMark;
     if (linkMark) {
       this._linkMark = linkMark;

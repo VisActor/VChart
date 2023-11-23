@@ -255,7 +255,7 @@ export class SunburstSeries extends PolarSeries<any> {
     // SunburstMark
     const sunburstMark = this._createMark(SunburstSeries.mark.sunburst, {
       isSeriesMark: true,
-      customizedShape: this._spec.sunburst?.customizedShape
+      customShape: this._spec.sunburst?.customShape
     }) as IArcMark;
     this._sunburstMark = sunburstMark;
     this._trigger.registerMark(this._sunburstMark);

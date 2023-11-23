@@ -1,19 +1,19 @@
 ---
 category: examples
 group: customMark
-title: Customized Shape
+title: 自定义Shape
 order: 40-2
 cover:
 option: barChart#customMark
 ---
 
-# Customized Shape
+# 自定义 Shape
 
-## Key option
+## 关键配置
 
-- `customizedShape` set the customized shape of rectangles
+- `customShape` 属性，设置矩形对应的自定义形状绘制回调函数
 
-## Demo source
+## 代码演示
 
 ```javascript livedemo
 const images = {
@@ -62,7 +62,7 @@ const spec = {
       seriesField: 'type',
       bar: {
         style: { fillOpacity: 0.5 },
-        customizedShape: (data, attrs, path) => {
+        customShape: (data, attrs, path) => {
           const width = attrs.width;
           const deltaY = attrs.y1 - attrs.y;
 

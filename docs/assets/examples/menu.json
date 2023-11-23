@@ -2099,10 +2099,10 @@
           }
         },
         {
-          "path": "customized-shape",
+          "path": "custom-shape",
           "title": {
             "zh": "自定义 Shape",
-            "en": "Customized Shape"
+            "en": "Custom Shape"
           }
         }
       ]
