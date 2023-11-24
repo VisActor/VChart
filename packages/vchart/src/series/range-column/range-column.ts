@@ -47,8 +47,9 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       morph: shouldMarkDoMorph(this._spec, RangeColumnSeries.mark.bar.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      label: labelPosition === PositionEnum.bothEnd ? undefined : mergeSpec({}, this._spec.label),
-      isSeriesMark: true
+      label: labelPosition === PositionEnum.bothEnd ? undefined : this._preprocessLabelSpec(this._spec.label),
+      isSeriesMark: true,
+      customShape: this._spec.bar?.customShape
     }) as IRectMark;
 
     if (this._spec.label?.visible !== false && labelPosition === PositionEnum.bothEnd) {

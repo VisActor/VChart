@@ -8,20 +8,16 @@ import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { eachSeries } from '../../util/model';
 import type { ISeries } from '../../series/interface';
-import {
-  registerLabel as registerVGrammarLabel,
-  type IGroupMark,
-  type ILabel,
-  type IMark
-} from '@visactor/vgrammar-core';
+import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
+import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { labelRuleMap, textAttribute } from './util';
 import { ComponentMark, type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction } from '@visactor/vutils';
-import { isArray, pickWithout } from '@visactor/vutils';
+import { isArray, isFunction, pickWithout } from '@visactor/vutils';
 import type { IGroup, IText } from '@visactor/vrender-core';
 import type { LabelItem } from '@visactor/vrender-components';
-import type { ILabelSpec } from './interface';
+import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { LabelMark, type ILabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
@@ -30,7 +26,7 @@ export interface ILabelInfo {
   baseMark: ICompilableMark;
   labelMark: ILabelMark;
   series: ISeries;
-  labelSpec: ILabelSpec;
+  labelSpec: TransformedLabelSpec;
 }
 
 export interface ILabelComponentContext {
@@ -175,6 +171,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           }
         );
         if (component) {
+          component.setSkipBeforeLayouted(true);
           this._marks.addMark(component);
           this._labelComponentMap.set(component, regionLabelInfo);
         }
@@ -189,6 +186,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
             }
           );
           if (component) {
+            component.setSkipBeforeLayouted(true);
             this._marks.addMark(component);
             this._labelComponentMap.set(component, labelInfo);
             labelInfo.labelMark.setComponent(component);
@@ -202,8 +200,10 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this._labelInfoMap.forEach(labelInfos => {
       labelInfos.forEach(info => {
         const { labelMark, labelSpec, series } = info;
-        this.initMarkStyleWithSpec(labelMark, labelSpec);
-        series.initLabelMarkStyle?.(labelMark);
+        this.initMarkStyleWithSpec(labelMark, labelSpec, undefined);
+        if (isFunction(labelSpec?.styleHandler)) {
+          labelSpec.styleHandler.call(series, labelMark);
+        }
         if (labelMark.stateStyle?.normal?.lineWidth) {
           labelMark.setAttribute('stroke', series.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
         }
@@ -235,13 +235,17 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this._updateLabelComponentAttribute(labelComponent.getProduct() as ILabel, baseMark.getProduct(), [labelInfo]);
   }
 
-  protected _updateLabelComponentAttribute(component: ILabel, target: IMark | IMark[], labelInfos: ILabelInfo[]) {
+  protected _updateLabelComponentAttribute(
+    component: ILabel,
+    target: IVGrammarMark | IVGrammarMark[],
+    labelInfos: ILabelInfo[]
+  ) {
     const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
     component
       .target(target)
       .configure({ interactive: false })
       .depend(dependCmp.map(cmp => cmp.getMarks()[0].getProduct()))
-      .labelStyle((mark: IMark, params: Record<string, any>) => {
+      .labelStyle((mark: IVGrammarMark, params: Record<string, any>) => {
         const labelInfo = labelInfos[params.labelIndex];
         if (labelInfo) {
           const { labelSpec, labelMark } = labelInfo;
@@ -253,6 +257,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           const centerOffset = this._spec?.centerOffset ?? 0;
           return mergeSpec(
             {
+              type: rule,
               textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
               overlap: {
                 avoidMarks: this._option
@@ -276,7 +281,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           const { labelSpec, labelMark } = labelInfos[params.labelIndex];
           return labelMark.skipEncode
             ? { data: datum }
-            : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod);
+            : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod, labelSpec.formatter);
         }
       })
       .size(() => labelInfos[0].series.getRegion().getLayoutRect());

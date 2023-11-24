@@ -5,6 +5,8 @@ import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
 // eslint-disable-next-line no-duplicate-imports
+import type { DataZoomAttributes } from '@visactor/vrender-components';
+// eslint-disable-next-line no-duplicate-imports
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
@@ -138,7 +140,9 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   /** LifeCycle API**/
   onLayoutEnd(ctx: any): void {
     this._updateScaleRange();
-    super.onLayoutEnd(ctx);
+    if (this._cacheVisibility !== false) {
+      super.onLayoutEnd(ctx);
+    }
   }
 
   protected _initValueScale() {
@@ -178,7 +182,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       this._valueScale.range([0, this._computeWidth() - this._middleHandlerSize]);
     }
 
-    if (this._component) {
+    if (this._component && this._cacheVisibility !== false) {
       this._component.setAttributes({
         size: {
           width: this._computeWidth(),
@@ -285,56 +289,65 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     return yScale.scale(min) + this.getLayoutStartPoint().y + offsetTop + offsetHandler;
   };
 
+  private _getAttrs(isNeedPreview: boolean) {
+    return {
+      zIndex: this.layoutZIndex,
+      start: this._start,
+      end: this._end,
+      position: {
+        x: this.getLayoutStartPoint().x,
+        y: this.getLayoutStartPoint().y
+      },
+      orient: this._orient,
+      size: {
+        width: this.getLayoutRect().width,
+        height: this.getLayoutRect().height
+      },
+      showDetail: this._spec?.showDetail,
+      brushSelect: this._spec?.brushSelect ?? false,
+      zoomLock: this._spec?.zoomLock ?? false,
+      minSpan: this._minSpan,
+      maxSpan: this._maxSpan,
+      delayType: this._spec?.delayType,
+      delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
+      realTime: this._spec?.realTime ?? true,
+      previewData: isNeedPreview && this._data.getLatestData(),
+      previewPointsX: isNeedPreview && this._dataToPositionX,
+      previewPointsY: isNeedPreview && this._dataToPositionY,
+      ...(this._getComponentAttrs() as any)
+    } as DataZoomAttributes;
+  }
+
   protected _createOrUpdateComponent() {
-    if (!this._component && this._visible) {
-      const container = this.getContainer();
+    if (this._visible) {
       const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
       const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
       const isNeedPreview = this._isScaleValid(xScale) && this._isScaleValid(yScale);
-      this._component = new DataZoomComponent({
-        zIndex: this.layoutZIndex,
-        start: this._start,
-        end: this._end,
-        position: {
-          x: this.getLayoutStartPoint().x,
-          y: this.getLayoutStartPoint().y
-        },
-        orient: this._orient,
-        size: {
-          width: this.getLayoutRect().width,
-          height: this.getLayoutRect().height
-        },
-        showDetail: this._spec?.showDetail,
-        brushSelect: this._spec?.brushSelect ?? false,
-        zoomLock: this._spec?.zoomLock ?? false,
-        minSpan: this._minSpan,
-        maxSpan: this._maxSpan,
-        delayType: this._spec?.delayType,
-        delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
-        realTime: this._spec?.realTime ?? true,
-        previewData: isNeedPreview && this._data.getLatestData(),
-        previewPointsX: isNeedPreview && this._dataToPositionX,
-        previewPointsY: isNeedPreview && this._dataToPositionY,
-        ...(this._getComponentAttrs() as any)
-      });
-
-      if (this._isHorizontal) {
-        isNeedPreview && this._component.setPreviewPointsY1(this._dataToPositionY2);
+      const attrs = this._getAttrs(isNeedPreview);
+      if (this._component) {
+        this._component.setAttributes(attrs);
       } else {
-        isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
+        const container = this.getContainer();
+        this._component = new DataZoomComponent(attrs);
+
+        if (this._isHorizontal) {
+          isNeedPreview && this._component.setPreviewPointsY1(this._dataToPositionY2);
+        } else {
+          isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
+        }
+        this._component.setStatePointToData((state: number) => this._statePointToData(state));
+        this._component.setUpdateStateCallback((start: number, end: number, tag?: string) => {
+          this._handleChange(start, end, undefined, tag);
+        });
+
+        container.add(this._component as unknown as INode);
+
+        this._updateScaleRange();
       }
-      this._component.setStatePointToData((state: number) => this._statePointToData(state));
-      this._component.setUpdateStateCallback((start: number, end: number) => {
-        this._handleChange(start, end);
-      });
-
-      container.add(this._component as unknown as INode);
-
-      this._updateScaleRange();
     }
   }
 
-  protected _handleChange(start: number, end: number, updateComponent?: boolean) {
+  protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string) {
     super._handleChange(start, end, updateComponent);
     if (updateComponent && this._component) {
       this._component.setStartAndEnd(start, end);
@@ -342,7 +355,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
     this._start = start;
     this._end = end;
-    const hasChange = this._handleStateChange(this._statePointToData(start), this._statePointToData(end));
+    const hasChange = this._handleStateChange(this._statePointToData(start), this._statePointToData(end), tag);
     if (hasChange) {
       this.event.emit(ChartEvent.dataZoomChange, {
         model: this,

@@ -65,7 +65,8 @@ const getSpec = (): IAreaChartSpec => ({
       type: 'band',
       minBandSize: 50,
       maxBandSize: 100,
-      autoRegionSize: true
+      autoRegionSize: true,
+      inverse: true
     },
     { orient: 'top', type: 'linear' },
     { orient: 'bottom', type: 'linear' }

@@ -24,7 +24,8 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
     this._areaMark = this._createMark(RangeAreaSeries.mark.area, {
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      isSeriesMark: true
+      isSeriesMark: true,
+      customShape: this._spec.area?.customShape
     }) as IAreaMark;
   }
 

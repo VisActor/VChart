@@ -1,3 +1,4 @@
+import type { IComponent } from './interface/common';
 import type { IScrollBarSpec, IScrollBarTheme } from './data-zoom/scroll-bar';
 import { ScrollBar, registerScrollBar } from './data-zoom/scroll-bar/scroll-bar';
 import type { IDataZoomSpec, IDataZoomTheme } from './data-zoom/data-zoom';
@@ -25,7 +26,7 @@ import type { ICartesianCrosshairSpec, ICrosshairTheme, IPolarCrosshairSpec } fr
 import { CartesianCrossHair, PolarCrossHair, registerCartesianCrossHair, registerPolarCrossHair } from './crosshair';
 import type { IPlayerSpec, IPlayerTheme } from './player';
 import { Player, registerPlayer } from './player';
-import type { IMarkLineSpec, IMarkLineTheme } from './marker/mark-line';
+import type { IMarkLineSpec, IStepMarkLineSpec, IMarkLineTheme } from './marker/mark-line';
 import { MarkLine, registerMarkLine } from './marker/mark-line';
 import type { IMarkAreaSpec, IMarkAreaTheme } from './marker/mark-area';
 import { MarkArea, registerMarkArea } from './marker/mark-area';
@@ -42,5 +43,5 @@ import type { IAxisCommonTheme, IAxisItemTheme, IBandAxisTheme } from './axis/in
 import type { IPoptipTheme } from './poptip/interface';
 export { ScrollBar, DataZoom, CustomMark, Brush, MapLabelComponent, CartesianAxis, CartesianBandAxis, CartesianLinearAxis, CartesianTimeAxis, CartesianLogAxis, CartesianSymlogAxis, PolarAxis, PolarBandAxis, PolarLinearAxis, DiscreteLegend, ContinuousLegend, Indicator, Title, GeoCoordinate, CartesianCrossHair, PolarCrossHair, Player, MarkArea, MarkLine, MarkPoint, Tooltip, Label, TotalLabel };
 export { registerBrush, registerScrollBar, registerTitle, registerTooltip, registerCartesianBandAxis, registerCartesianCrossHair, registerCartesianLinearAxis, registerCartesianLogAxis, registerCartesianSymlogAxis, registerCartesianTimeAxis, registerContinuousLegend, registerCustomMark, registerDataZoom, registerDiscreteLegend, registerGeoCoordinate, registerIndicator, registerLabel, registerTotalLabel, registerMapLabel, registerMarkArea, registerMarkLine, registerMarkPoint, registerPlayer, registerPolarBandAxis, registerPolarCrossHair, registerPolarLinearAxis, registerPoptip };
-export type { IScrollBarSpec, IBrushSpec, ICartesianAxisSpec, ICartesianBandAxisSpec, ICartesianCrosshairSpec, ICartesianLinearAxisSpec, ICartesianTimeAxisSpec, ICartesianLogAxisSpec, IContinuousLegendSpec, IDataZoomSpec, IDiscreteLegendSpec, IGeoCoordinateSpec, IIndicatorSpec, ILabelSpec, IMapLabelSpec, IMarkAreaSpec, IMarkLineSpec, IMarkPointSpec, IPlayerSpec, IPolarAxisSpec, IPolarBandAxisSpec, IPolarCrosshairSpec, IPolarLinearAxisSpec, ITitleSpec, ITooltipSpec };
+export type { IComponent, IScrollBarSpec, IBrushSpec, ICartesianAxisSpec, ICartesianBandAxisSpec, ICartesianCrosshairSpec, ICartesianLinearAxisSpec, ICartesianTimeAxisSpec, ICartesianLogAxisSpec, IContinuousLegendSpec, IDataZoomSpec, IDiscreteLegendSpec, IGeoCoordinateSpec, IIndicatorSpec, ILabelSpec, IMapLabelSpec, IMarkAreaSpec, IMarkLineSpec, IStepMarkLineSpec, IMarkPointSpec, IPlayerSpec, IPolarAxisSpec, IPolarBandAxisSpec, IPolarCrosshairSpec, IPolarLinearAxisSpec, ITitleSpec, ITooltipSpec };
 export type { IComponentTheme, ICrosshairTheme, IAxisItemTheme, IAxisCommonTheme, IBandAxisTheme, IPolarAxisCommonTheme, ICartesianAxisCommonTheme, IBrushTheme, IDataZoomTheme, IScrollBarTheme, IIndicatorTheme, IMapLabelTheme, ITotalLabelTheme, ISizeLegendTheme, IColorLegendTheme, IDiscreteLegendTheme, IContinuousLegendTheme, IMarkAreaTheme, IMarkLineTheme, IMarkPointTheme, IPlayerTheme, IPoptipTheme, ITitleTheme, ITooltipTheme };

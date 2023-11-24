@@ -22,6 +22,16 @@
   formatMethod?: (text: string | string[], datum?: any) => string | string[];
 ```
 
+#${prefix} formatter(string)
+
+字符串模版，自`1.7.0`版本开始支持。
+
+用`{}`包裹变量名的字符串模版，变量名取自数据属性值。
+
+在饼图、百分比堆叠面积图、百分比堆叠折线图、百分比堆叠柱状图中，支持配置百分比, `{_percent_}`
+
+例如，`formatter: 'type={type},value={value},percent={_percent_}'`
+
 {{ if: !${noOffset} }}
 
 {{ var: offsetNumber = ${defaultOffset} !== undefined ? ${defaultOffset} : 0 }}

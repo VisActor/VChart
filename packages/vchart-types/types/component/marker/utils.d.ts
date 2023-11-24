@@ -1,6 +1,5 @@
 import type { ICartesianSeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
-import type { IPointLike } from '@visactor/vutils';
-export declare function xLayout(data: DataView, startRelativeSeries: ICartesianSeries, endRelativeSeries: ICartesianSeries, relativeSeries: ICartesianSeries, autoRange: boolean): [IPointLike, IPointLike][];
-export declare function yLayout(data: DataView, startRelativeSeries: ICartesianSeries, endRelativeSeries: ICartesianSeries, relativeSeries: ICartesianSeries, autoRange: boolean): [IPointLike, IPointLike][];
-export declare function coordinateLayout(data: DataView, relativeSeries: ICartesianSeries, autoRange: boolean): IPointLike[];
+import type { IPoint } from '../../typings';
+export declare function xyLayout(data: DataView, startRelativeSeries: ICartesianSeries, endRelativeSeries: ICartesianSeries, relativeSeries: ICartesianSeries, autoRange: boolean): IPoint[][];
+export declare function coordinateLayout(data: DataView, relativeSeries: ICartesianSeries, autoRange: boolean): IPoint[];

@@ -641,6 +641,13 @@
             "zh": "转化漏斗图",
             "en": "Conversion Funnel Chart"
           }
+        },
+        {
+          "path": "funnel-custom-annotation",
+          "title": {
+            "zh": "漏斗图自定义标注",
+            "en": "Custom Annotation in Funnel Chart"
+          }
         }
       ]
     },
@@ -1882,6 +1889,27 @@
             "zh": "markPoint 数据点定位",
             "en": "markPoint Data Point Positioning"
           }
+        },
+        {
+          "path": "mark-line-total-diff",
+          "title": {
+            "zh": "markLine 总计差异标注",
+            "en": "markLine Total-Diff annotation"
+          }
+        },
+        {
+          "path": "mark-line-CAGR",
+          "title": {
+            "zh": "markLine 复合增长差异（CAGR）标注",
+            "en": "markLine CAGR annotation"
+          }
+        },
+        {
+          "path": "mark-line-hierarchy-diff",
+          "title": {
+            "zh": "markLine 层级差异标注",
+            "en": "markLine hierarchy-diff annotation"
+          }
         }
       ]
     },
@@ -2068,6 +2096,13 @@
           "title": {
             "zh": "自定义 symbol mark",
             "en": "Custom Symbol Mark"
+          }
+        },
+        {
+          "path": "custom-shape",
+          "title": {
+            "zh": "自定义 Shape",
+            "en": "Custom Shape"
           }
         }
       ]

@@ -32,6 +32,7 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     protected _wordCloudConfig?: WordCloudConfigType;
     protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
     protected _padding?: IPadding;
+    protected _defaultFontFamily: string;
     setAttrFromSpec(): void;
     protected _wordMark: ITextMark;
     protected _fillingWordMark: ITextMark;

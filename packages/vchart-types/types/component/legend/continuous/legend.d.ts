@@ -1,11 +1,14 @@
 import { DataView } from '@visactor/vdataset';
-import type { IModelInitOption, ILayoutRect } from '../../../model/interface';
+import type { IModelInitOption } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { ILegend } from '../interface';
 import type { IColorLegendSpec, IColorLegendTheme, ISizeLegendSpec } from './interface';
 import { BaseLegend } from '../base-legend';
+import type { ILayoutRect } from '../../../typings/layout';
 export declare class ContinuousLegend<T extends IColorLegendSpec | ISizeLegendSpec = IColorLegendSpec | ISizeLegendSpec> extends BaseLegend<T> {
+    static specKey: string;
+    specKey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;

@@ -1,20 +1,20 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import type { ILayoutRect, IModelRenderOption } from '../../model/interface';
+import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IComponentOption } from '../interface';
 import type { IPlayer } from './interface';
 import type { IComponent } from '../interface';
-import type { IPoint, IOrientType } from '../../typings';
+import type { IPoint, IOrientType, ILayoutRect } from '../../typings';
 import { type IChartSpec } from '../..';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 export declare class Player extends BaseComponent<IPlayer> implements IComponent {
     layoutZIndex: number;
     layoutLevel: number;
+    specKey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
-    specKey: string;
-    private _orient;
+    protected _orient: IOrientType;
     private _specs;
     private _playerComponent;
     private _cacheAttrs;
@@ -26,12 +26,11 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
     private _height;
     private _position;
     get orient(): IOrientType;
-    get layoutOrient(): IOrientType;
     set layoutOrient(v: IOrientType);
     static createComponent: (spec: IChartSpec, options: IComponentOption) => Player;
     setAttrFromSpec(): void;
-    setLayoutStartPosition(pos: Partial<IPoint>): void;
-    _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): {
+    afterSetLayoutStartPoint(pos: IPoint): void;
+    getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): {
         x1: number;
         y1: number;
         x2: number;

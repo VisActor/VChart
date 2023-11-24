@@ -10,8 +10,6 @@ export const markArea: IMarkAreaTheme = {
   label: {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
-      // lineHeight: THEME_CONSTANTS.l4LineHeight,
-
       fontWeight: 'normal',
       fontStyle: 'normal',
       fill: { type: 'palette', key: 'primaryFontColor' }

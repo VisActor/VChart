@@ -9,6 +9,41 @@
 飞书版本 >= 3.45。
 [飞书开发者工具](https://open.feishu.cn/document/uYjL24iN/ucDOzYjL3gzM24yN4MjN)
 
+## 重要事项说明
+
+### 1. 序列化问题
+
+飞书小程序现阶段由于序列化问题，还不支持在 setData 以及 triggerEvent 中传递复杂对象及函数，只支持可序列号的数据。**因此 `events` 功能, `chartinit` 回调参数, `chartready` 回调参数暂不可用**。
+
+如果你需要在图表 spec 上使用回调，目前可以通过如下方法来解决这个问题，我们以给饼图给 label text 回调函数为例来说明（具体代码：[链接](https://github.com/VisActor/VChart/blob/251e9984a9b1e51894958b90ab10bcb432c6ebbd/packages/lark-vchart/gallery/pages/chart/index.js#L21)），详细步骤参考如下（用户可以视情况而调整策略，这里只提供一个基本的思路和步骤）：
+
+- step1: 在声明图表组件的时候配置 id 和 chartOnReady 事件，以便在空图表渲染完成后 updateSpec
+  ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-a.png)
+
+- step2: 在初始化图表时, 声明空图表（图表类型和数据是必须声明的，数据声明为空数组即可）
+  ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-b.png)
+
+- step3: 在 onChartReady 事件中，通过 selectComponent 来获取组件和图表实例，并更新图表实例的 spec
+
+![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-c.png)
+
+- 效果: 饼图的 label 的回调函数成功生效
+  ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-d.gif)
+
+### 2. 如何获取图表实例
+
+针对一些需要使用到 chart 实例的功能，目前可以通过 [selectComponent](https://open.feishu.cn/document/uYjL24iN/uADMx4CMwEjLwATM) ，在给组件 `<chart id="chart1">` 标明 id 属性后，通过 `selectComponent` 拿到图表实例，如下所示：
+
+```javascript
+onChartReady() {
+	console.log('chart 实例渲染完成');
+	this.selectComponent("#chart1", res => {
+		const chartInstance = res && res.chart; // 获取 chart 实例
+		// ...
+	});
+},
+```
+
 ## API
 
 `@visactor/lark-vchart` 图表组件使用示例如下：
@@ -143,37 +178,6 @@ Page({
   onLoad: function (options) {}
 });
 ```
-
-## 注意事项
-
-1. 飞书小程序现阶段由于序列化问题，还不支持在 setData 以及 triggerEvent 中传递复杂对象及函数，只支持可序列号的数据。**因此 `events` 功能, `chartinit` 回调参数, `chartready` 回调参数暂不可用**
-
-针对一些需要使用到 chart 实例的功能，目前可以通过 [selectComponent](https://open.feishu.cn/document/uYjL24iN/uADMx4CMwEjLwATM) ，在给组件 `<chart-space id="chart1">` 标明 id 属性后，通过 `selectComponent` 拿到图表实例，如下所示：
-
-```javascript
-onChartReady() {
-	console.log('chart 实例渲染完成');
-	this.selectComponent("#chart1", res => {
-		const chartInstance = res && res.chart; // 获取 chart 实例
-		// ...
-	});
-},
-```
-
-以给饼图给label text回调函数为例，详细步骤参考如下（用户可以视情况而调整策略，这里只提供一个基本的思路和步骤）：
-- step1: 在声明图表组件的时候配置id 和 chartOnReady事件，以便在空图表渲染完成后updateSpec
-![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-a.png)
-
-- step2: 在初始化图表时, 声明空图表（图表类型和数据是必须声明的，数据声明为空数组即可）
-![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-b.png)
-
-- step3: 在onChartReady事件中，通过selectComponent来获取组件和图表实例，并更新图表实例的spec
-
-![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-c.png)
-
-- 效果: 饼图的label的回调函数成功生效
-
-![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/miniapp-support-function-d.gif)
 
 ## 问题反馈
 

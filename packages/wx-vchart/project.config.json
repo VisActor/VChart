@@ -16,7 +16,8 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "condition": false
+    "condition": false,
+    "packNpmRelationList": []
   },
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},

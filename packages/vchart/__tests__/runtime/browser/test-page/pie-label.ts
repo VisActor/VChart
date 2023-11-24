@@ -325,6 +325,7 @@ const run = () => {
     },
     label: {
       visible: true,
+      formatter: 'type={type},value={value},percent={_percent_}',
       style: {
         fontSize: 16,
         lineWidth: 2
@@ -1154,7 +1155,7 @@ const run = () => {
     hash: '71691ed8529363540b58aa868da2aa7a'
   };
 
-  const cs = new VChart(spec_983, {
+  const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });

@@ -1,6 +1,6 @@
 import type { utilFunctionCtx } from '../typings/params';
 import { warn, error } from '../util/debug';
-import { isString } from '@visactor/vutils';
+import { isString, merge, cloneDeep } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, DataView } from '@visactor/vdataset';
 import type { IDataViewOptions, IFields, ITransformOptions } from '@visactor/vdataset';
@@ -55,8 +55,9 @@ export function dataToDataView(
     return data;
   }
 
-  const { id, values = [], fromDataIndex, fromDataId, transforms = [], fields } = data;
-  const parser = (data.parser ?? { clone: true }) as IParserOptions;
+  const { id, values = [], fromDataIndex, fromDataId, transforms = [] } = data;
+  const parser = (data.parser ? cloneDeep(data.parser) : { clone: true }) as IParserOptions;
+  const fields = cloneDeep(data.fields);
   // set parser.clone default value to true
   parser.clone = !(parser.clone === false);
   let dataView: DataView;

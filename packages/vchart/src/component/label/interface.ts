@@ -2,6 +2,7 @@ import type { BaseLabelAttrs } from '@visactor/vrender-components';
 import type { ConvertToMarkStyleSpec, Datum, ITextMarkSpec } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { ISeries } from '../..';
+import type { ILabelMark } from '../../mark/label';
 
 export interface ILabelFormatMethodContext {
   series?: ISeries;
@@ -14,6 +15,13 @@ export interface ILabelSpec extends IComponentSpec {
   interactive?: boolean;
   /** 格式化函数 */
   formatMethod?: (text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext) => string | string[];
+  /** 字符串模版
+   *  用{}包裹变量名的字符串模版, 变量名取自数据属性值
+   *  在饼图中支持配置百分比, {_percent_}
+   *  eg: 'type={type},value={value},percent={_percent_}'
+   *  @since 1.7.0
+   */
+  formatter?: string;
   /** 标签与其对应数据图元的间距 */
   offset?: number;
   /** 标签位置 */
@@ -66,3 +74,6 @@ export interface ITotalLabelTheme
   extends Pick<ILabelSpec, 'visible' | 'interactive' | 'offset' | 'overlap' | 'smartInvert' | 'animation'> {
   style?: ITextMarkSpec;
 }
+
+// 内部处理转换后的标签配置
+export type TransformedLabelSpec = ILabelSpec & { styleHandler: (mark?: ILabelMark) => void };

@@ -24,9 +24,7 @@ export class LabelMark extends TextMark implements ILabelMark {
   setTarget(target: IMark) {
     this._target = target;
     if (!this._rule) {
-      //  接入 line/area 图元标签后这里需要改造
-      const rule = ['line', 'area'].includes(target.type) ? 'lineData' : target.type;
-      this.setRule(rule);
+      this.setRule(target.type);
     }
   }
 

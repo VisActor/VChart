@@ -54,8 +54,7 @@ import type {
   ISpec,
   Maybe,
   MaybeArray,
-  StringOrNumber,
-  ISeriesSpec
+  StringOrNumber
 } from '../typings';
 import { AnimationStateEnum } from '../animation/interface';
 import type { IBoundsLike, ILogger } from '@visactor/vutils';
@@ -77,7 +76,8 @@ import {
   isFunction,
   LoggerLevel,
   isEqual,
-  get
+  get,
+  cloneDeep
 } from '@visactor/vutils';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
@@ -92,7 +92,8 @@ import { View, registerFilterTransform, registerMapTransform } from '@visactor/v
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
-import { mergeTheme, preprocessTheme } from '../util';
+import { mergeTheme, preprocessTheme } from '../util/spec';
+import { darkTheme, registerTheme } from '../theme/builtin';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -779,8 +780,8 @@ export class VChart implements IVChart {
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
       if (preDV) {
-        preDV.setFields(fields as IFields);
-        preDV.parse(values, parser as IParserOptions);
+        preDV.setFields(cloneDeep(fields) as IFields);
+        preDV.parse(values, cloneDeep(parser) as IParserOptions);
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
@@ -812,8 +813,8 @@ export class VChart implements IVChart {
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
       if (preDV) {
-        preDV.setFields(fields as IFields);
-        preDV.parse(values, parser as IParserOptions);
+        preDV.setFields(cloneDeep(fields) as IFields);
+        preDV.parse(values, cloneDeep(parser) as IParserOptions);
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
@@ -1769,6 +1770,8 @@ export const registerVChartCore = () => {
   View.useRegisters([registerFilterTransform, registerMapTransform]);
   // install animation
   registerVGrammarAnimation();
+  // install default theme
+  registerTheme(darkTheme.name, darkTheme);
   // set default logger level to Level.error
   Logger.getInstance(LoggerLevel.Error);
 };
