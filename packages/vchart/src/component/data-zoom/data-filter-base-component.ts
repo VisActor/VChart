@@ -18,7 +18,7 @@ import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { mixin, clamp, isNil, merge, isEqual, isValid, array } from '@visactor/vutils';
+import { mixin, clamp, isNil, merge, isEqual, isValid, array, minInArray, maxInArray } from '@visactor/vutils';
 import { IFilterMode } from './constant';
 import type {
   IDataFilterComponent,
@@ -369,7 +369,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const domain = this._data.getLatestData().map((d: any) => d[this._stateField]);
 
     if (isContinuous) {
-      return domain.length ? [Math.min.apply(null, domain), Math.max.apply(null, domain)] : [-Infinity, Infinity];
+      const domainNum = domain.map((n: any) => n * 1);
+      return domain.length ? [minInArray(domainNum), maxInArray(domainNum)] : [-Infinity, Infinity];
     }
 
     return domain;
@@ -613,8 +614,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
       this._stateScale = scale.clone();
       if (isContinuousScale) {
+        const domainNum = domain.map((n: any) => n * 1);
         this._stateScale
-          .domain(domain.length ? [Math.min.apply(null, domain), Math.max.apply(null, domain)] : [0, 1], true)
+          .domain(domain.length ? [minInArray(domainNum), maxInArray(domainNum)] : [0, 1], true)
           .range(defaultRange);
       } else {
         this._stateScale.domain(domain, true).range(defaultRange);
