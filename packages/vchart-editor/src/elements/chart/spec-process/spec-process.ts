@@ -198,13 +198,13 @@ export class SpecProcess implements ISpecProcess {
   }
 
   private processFormatConfig(spec: any, type: string, modelSpec: any, isPercentageChart: boolean) {
-    let defaultFormatConfig: FormatConfig = {};
+    let defaultFormatConfig: FormatConfig = { fixed: 0 };
     switch (type) {
       case 'h-line':
       case 'v-line':
       case 'h-area':
       case 'v-area':
-        defaultFormatConfig = isPercentageChart ? { content: 'percentage' } : { fixed: 0 };
+        defaultFormatConfig = isPercentageChart ? { content: 'percentage', fixed: 0 } : { fixed: 0 };
         break;
       case 'growth-line':
         defaultFormatConfig = { content: 'CAGR', fixed: 0 };
@@ -294,14 +294,20 @@ export class SpecProcess implements ISpecProcess {
   }
 
   private getSeriesFormatContent(content: FormatConfig['content'], value: any, datum: any, context: any) {
+    const series: ISeries = context.series;
+    const dimensionField = series.getDimensionField()[0];
+    const measureField = series.getMeasureField()[0];
+
     switch (content) {
+      case 'dimension':
+        return datum[dimensionField];
       case 'abs':
-        return Math.abs(value);
+        return Math.abs(datum[measureField]);
       case 'percentage':
         return validNumber(this.computeSeriesPercentage(datum, context.series)) ?? '超过 0 的百分比';
       case 'value':
       default:
-        return Number.parseFloat(value);
+        return Number.parseFloat(datum[measureField]);
       // additional handle value&percentage case
     }
   }
