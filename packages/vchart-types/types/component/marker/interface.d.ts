@@ -1,5 +1,5 @@
 import type { IPadding } from '@visactor/vutils';
-import type { SymbolType } from '@visactor/vrender-core';
+import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
@@ -33,8 +33,9 @@ export type IMarkerLabelWithoutRefSpec = {
         padding?: IPadding | number[] | number;
         style?: Omit<IRectMarkSpec, 'visible'>;
     };
-    text?: string | string[] | number | number[];
-    formatMethod?: (markData: Datum[], seriesData: Datum[]) => string | string[] | number | number[];
+    type?: 'text' | 'rich' | 'html';
+    text?: string | string[] | number | number[] | IRichTextCharacter[];
+    formatMethod?: (markData: Datum[], seriesData: Datum[]) => string | string[] | number | number[] | IRichTextCharacter[];
     style?: Omit<ITextMarkSpec, 'visible'>;
     shape?: {
         visible?: boolean;

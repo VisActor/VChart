@@ -27,7 +27,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     onLayoutEnd(ctx: any): void;
     protected _initValueScale(): void;
     protected _updateScaleRange(): void;
-    protected _computeDomainOfValueScale(): number[];
+    protected _computeDomainOfValueScale(): unknown[];
     protected _computeMiddleHandlerSize(): number;
     protected _computeWidth(): number;
     protected _computeHeight(): number;

@@ -23,6 +23,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 export type IChartPadding = ILayoutOrientPadding | number;
 export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
     dom?: string | HTMLElement;
@@ -169,6 +170,7 @@ export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
     style?: ConvertToMarkStyleSpec<T>;
     state?: Record<StateValue, IMarkStateSpec<T> | IMarkStateStyleSpec<T>>;
     support3d?: boolean;
+    customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
 } & IMarkProgressiveConfig;
 export type IMarkStateFilter = {
     fields: {

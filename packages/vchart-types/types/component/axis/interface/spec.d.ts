@@ -3,6 +3,7 @@ import type { IAnimationSpec } from '../../../animation/spec';
 import type { Datum, IPadding, IRectMarkSpec, IRuleMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, ITickCallbackOption, StyleCallback } from './common';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
     type?: AxisType;
     visible?: boolean;
@@ -31,6 +32,7 @@ export interface ILinearAxisSpec {
     tooltipFilterRange?: number | [number, number];
 }
 export interface IBandAxisSpec {
+    trimPadding?: boolean;
     bandPadding?: number | number[];
     paddingInner?: number | number[];
     paddingOuter?: number | number[];
@@ -63,7 +65,8 @@ export interface ISubTick extends IAxisItem<IRuleMarkSpec> {
     state?: AxisItemStateStyle<IRuleMarkSpec>;
 }
 export interface ILabel extends IAxisItem<ITextMarkSpec> {
-    formatMethod?: (text: string | string[], datum?: Datum) => string | string[];
+    type?: 'text' | 'rich' | 'html';
+    formatMethod?: (text: string | string[], datum?: Datum) => string | string[] | IRichTextCharacter[];
     space?: number;
     inside?: boolean;
     minGap?: number;
@@ -85,7 +88,8 @@ export interface ITitle extends IAxisItem<ITextMarkSpec> {
         space?: number;
         state?: AxisItemStateStyle<Partial<ISymbolMarkSpec>>;
     };
-    text?: string | string[];
+    type?: 'text' | 'rich' | 'html';
+    text?: string | string[] | IRichTextCharacter[];
     angle?: number;
     state?: AxisItemStateStyle<Partial<ITextMarkSpec>>;
 }

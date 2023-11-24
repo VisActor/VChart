@@ -99,31 +99,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
             style: any;
             state: {};
         };
-        title: {
-            visible: any;
-            position: any;
-            space: any;
-            autoRotate: boolean;
-            angle: number;
-            textStyle: any;
-            padding: any;
-            shape: {
-                visible: any;
-                space: any;
-                style: any;
-            };
-            background: {
-                visible: any;
-                style: any;
-            };
-            state: {
-                text: {};
-                shape: {};
-                background: {};
-            };
-            pickable: boolean;
-            childrenPickable: boolean;
-        };
+        title: any;
         panel: {
             visible: any;
             style: any;

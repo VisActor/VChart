@@ -1477,9 +1477,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -1601,9 +1598,6 @@
           "$ref": "#/definitions/VisualType<InterpolateType>"
         },
         "defined": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "enableSegments": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "fill": {
@@ -2501,9 +2495,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -2630,9 +2621,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -2757,9 +2745,6 @@
           "$ref": "#/definitions/VisualType<InterpolateType>"
         },
         "defined": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "enableSegments": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "fill": {
@@ -5008,9 +4993,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -5141,9 +5123,6 @@
           "$ref": "#/definitions/VisualType<InterpolateType>"
         },
         "defined": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "enableSegments": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "fill": {
@@ -5773,7 +5752,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "text": {
-          "$ref": "#/definitions/VisualType<string[]|StringOrNumber>",
+          "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
           "description": "文字内容"
         },
         "textAlign": {
@@ -5799,6 +5778,11 @@
         "textureSize": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "纹理单元的大小"
+        },
+        "type": {
+          "$ref": "#/definitions/VisualType<\"text\"|\"html\"|\"rich\">",
+          "default": "'text'",
+          "description": "文字类型\n可选，'html', 'rich', 'text'"
         },
         "underline": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -5950,7 +5934,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "text": {
-          "$ref": "#/definitions/VisualType<string[]|StringOrNumber>",
+          "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
           "description": "文字内容"
         },
         "textAlign": {
@@ -5976,6 +5960,11 @@
         "textureSize": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "纹理单元的大小"
+        },
+        "type": {
+          "$ref": "#/definitions/VisualType<\"text\"|\"html\"|\"rich\">",
+          "default": "'text'",
+          "description": "文字类型\n可选，'html', 'rich', 'text'"
         },
         "underline": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -6127,7 +6116,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "text": {
-          "$ref": "#/definitions/VisualType<string[]|StringOrNumber>",
+          "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
           "description": "文字内容"
         },
         "textAlign": {
@@ -6153,6 +6142,11 @@
         "textureSize": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "纹理单元的大小"
+        },
+        "type": {
+          "$ref": "#/definitions/VisualType<\"text\"|\"html\"|\"rich\">",
+          "default": "'text'",
+          "description": "文字类型\n可选，'html', 'rich', 'text'"
         },
         "underline": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -8352,6 +8346,29 @@
         "lighter",
         "normal"
       ]
+    },
+    "Function": {
+      "properties": {
+        "arguments": {},
+        "caller": {
+          "$ref": "#/definitions/Function"
+        },
+        "length": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "prototype": {}
+      },
+      "required": [
+        "arguments",
+        "caller",
+        "length",
+        "name",
+        "prototype"
+      ],
+      "type": "object"
     },
     "Functional<\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\">": {
       "anyOf": [
@@ -17317,6 +17334,9 @@
         "delay": {
           "$ref": "#/definitions/MarkFunctionValueType<number>"
         },
+        "delayAfter": {
+          "$ref": "#/definitions/MarkFunctionValueType<number>"
+        },
         "duration": {
           "$ref": "#/definitions/MarkFunctionValueType<number>"
         },
@@ -17414,6 +17434,9 @@
         },
         "customParameters": {},
         "delay": {
+          "$ref": "#/definitions/MarkFunctionValueType<number>"
+        },
+        "delayAfter": {
           "$ref": "#/definitions/MarkFunctionValueType<number>"
         },
         "duration": {
@@ -17742,6 +17765,9 @@
     },
     "IArcLabelLineSpec": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户id"
@@ -17779,6 +17805,7 @@
         "smooth": {
           "default": false,
           "description": "引导线是否光滑",
+          "since": "1.4.0",
           "type": "boolean"
         },
         "state": {
@@ -17850,6 +17877,11 @@
         },
         "formatMethod": {
           "typeof": "function"
+        },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
         },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -18067,6 +18099,9 @@
         "support3d": {
           "description": "是否支持3D",
           "type": "boolean"
+        },
+        "textType": {
+          "type": "string"
         },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -19157,9 +19192,6 @@
         "defined": {
           "type": "boolean"
         },
-        "enableSegments": {
-          "type": "boolean"
-        },
         "fill": {
           "anyOf": [
             {
@@ -19936,6 +19968,12 @@
           ],
           "default": 0.3,
           "description": "band 轴的外边距\n** 因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 paddingOuter 配置**"
+        },
+        "trimPadding": {
+          "default": false,
+          "description": "是否去除 band 轴两端的留白，如果为 true，则两端的 padding 为 0，\n**并且 bandPadding、paddingInner 和 paddingOuter 的设置将被忽略**。",
+          "since": "1.7.0",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -28884,6 +28922,9 @@
     },
     "ICustomMarkSpec<keyofIBuildinMarkSpec>": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "关联的数据id"
@@ -30985,6 +31026,9 @@
           },
           "type": "array"
         },
+        "customShape": {
+          "typeof": "function"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "关联的数据id"
@@ -31049,6 +31093,9 @@
     },
     "IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "关联的数据id"
@@ -32211,6 +32258,9 @@
     },
     "IFunnelLabelSpec": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "formatMethod": {
           "typeof": "function"
         },
@@ -32278,6 +32328,9 @@
           "default": true,
           "description": "文字是否对齐",
           "type": "boolean"
+        },
+        "customShape": {
+          "typeof": "function"
         },
         "formatMethod": {
           "typeof": "function"
@@ -38668,12 +38721,19 @@
           "type": "number"
         },
         "style": {
-          "additionalProperties": false,
-          "description": "文字样式",
-          "patternProperties": {
-            "^[a-zA-Z0-9]+$": {}
-          },
-          "type": "object"
+          "allOf": [
+            {
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-zA-Z0-9]+$": {}
+              },
+              "type": "object"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "文字样式"
         },
         "visible": {
           "default": true,
@@ -39210,7 +39270,7 @@
         },
         "text": {
           "$ref": "#/definitions/IMarkerLabelSpec",
-          "description": "type为text时, text的样式"
+          "description": "type为text时, text的样式\n'text'类型的ItemContent新增三种子类型：'text','rich','html'。配置在textStyle.type上。"
         },
         "type": {
           "description": "标注类型",
@@ -39259,6 +39319,15 @@
             }
           ],
           "description": "文本样式设置"
+        },
+        "type": {
+          "description": "文本类型：text, rich, html",
+          "enum": [
+            "html",
+            "rich",
+            "text"
+          ],
+          "type": "string"
         },
         "visible": {
           "type": "boolean"
@@ -39332,6 +39401,11 @@
         },
         "formatMethod": {
           "typeof": "function"
+        },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
         },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -39509,6 +39583,9 @@
         "support3d": {
           "description": "是否支持3D",
           "type": "boolean"
+        },
+        "textType": {
+          "type": "string"
         },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -41252,9 +41329,6 @@
           "$ref": "#/definitions/InterpolateType"
         },
         "defined": {
-          "type": "boolean"
-        },
-        "enableSegments": {
           "type": "boolean"
         },
         "fill": {
@@ -54804,9 +54878,6 @@
         "defined": {
           "type": "boolean"
         },
-        "enableSegments": {
-          "type": "boolean"
-        },
         "fill": {
           "anyOf": [
             {
@@ -60569,8 +60640,17 @@
         "text": {
           "anyOf": [
             {
+              "$ref": "#/definitions/Function"
+            },
+            {
               "items": {
                 "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IRichTextCharacter"
               },
               "type": "array"
             },
@@ -60606,6 +60686,16 @@
         "textureSize": {
           "description": "纹理单元的大小",
           "type": "number"
+        },
+        "type": {
+          "default": "'text'",
+          "description": "文字类型\n可选，'html', 'rich', 'text'",
+          "enum": [
+            "html",
+            "rich",
+            "text"
+          ],
+          "type": "string"
         },
         "underline": {
           "description": "下划线",
@@ -60936,9 +61026,25 @@
               "type": "array"
             },
             {
+              "items": {
+                "$ref": "#/definitions/IRichTextCharacter"
+              },
+              "type": "array"
+            },
+            {
               "type": "string"
             }
-          ]
+          ],
+          "description": "文本内容\n支持富文本内容, 如textConfig, html"
+        },
+        "type": {
+          "description": "文本类型：text, rich, html",
+          "enum": [
+            "html",
+            "rich",
+            "text"
+          ],
+          "type": "string"
         },
         "visible": {
           "type": "boolean"
@@ -61108,7 +61214,19 @@
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/StringOrNumber"
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IRichTextCharacter"
               },
               "type": "array"
             },
@@ -61119,7 +61237,7 @@
               ]
             }
           ],
-          "description": "副标题内容"
+          "description": "副标题文本内容\n- 支持富文本配置"
         },
         "subtextStyle": {
           "allOf": [
@@ -61132,11 +61250,27 @@
           ],
           "description": "副标题样式"
         },
+        "subtextType": {
+          "description": "副标题文本类型（默认类型为text）\ntext, rich, html",
+          "type": "string"
+        },
         "text": {
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/StringOrNumber"
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IRichTextCharacter"
               },
               "type": "array"
             },
@@ -61147,7 +61281,7 @@
               ]
             }
           ],
-          "description": "主标题内容"
+          "description": "主标题文本内容\n- 支持富文本配置"
         },
         "textStyle": {
           "allOf": [
@@ -61159,6 +61293,10 @@
             }
           ],
           "description": "主标题样式"
+        },
+        "textType": {
+          "description": "主标题文本类型（默认类型为text）\ntext, rich, html",
+          "type": "string"
         },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -61189,9 +61327,6 @@
           "type": "number"
         }
       },
-      "required": [
-        "text"
-      ],
       "type": "object"
     },
     "ITitleTextTheme": {
@@ -61399,8 +61534,8 @@
           "since": "1.4.0"
         },
         "value": {
-          "$ref": "#/definitions/TooltipContentProperty<string>",
-          "description": "tooltip value 值内容"
+          "$ref": "#/definitions/TooltipContentProperty<string|TooltipRichTextAttrs>",
+          "description": "tooltip value 值内容\n支持富文本配置\n - type 文本类型：text, rich, html\n - text 文本内容：string | string[] | number | number[] | IRichTextCharacter[];"
         },
         "valueStyle": {
           "$ref": "#/definitions/TooltipContentProperty<ITooltipTextTheme<string>>",
@@ -63177,6 +63312,43 @@
       ],
       "type": "object"
     },
+    "IVisualSpecStyle<unknown,\"text\"|\"html\"|\"rich\">": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "enum": [
+              "html",
+              "rich",
+              "text"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>": {
       "properties": {
         "domain": {
@@ -63415,6 +63587,60 @@
           "description": "will set to scale.range, it means output of scale",
           "items": {
             "$ref": "#/definitions/FontWeight"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,Function|string[]|StringOrNumber|IRichTextCharacter[]>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/Function"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "items": {
+                  "$ref": "#/definitions/IRichTextCharacter"
+                },
+                "type": "array"
+              },
+              {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              }
+            ]
           },
           "type": "array"
         },
@@ -64079,51 +64305,6 @@
           "description": "will set to scale.range, it means output of scale",
           "items": {
             "type": "string"
-          },
-          "type": "array"
-        },
-        "specified": {
-          "typeof": "function"
-        },
-        "type": {
-          "$ref": "#/definitions/ScaleType",
-          "description": "type of scale"
-        }
-      },
-      "required": [
-        "domain",
-        "range",
-        "type"
-      ],
-      "type": "object"
-    },
-    "IVisualSpecStyle<unknown,string[]|StringOrNumber>": {
-      "properties": {
-        "domain": {
-          "description": "will set to scale.domain, it means input of scale",
-          "items": {},
-          "type": "array"
-        },
-        "field": {
-          "type": "string"
-        },
-        "range": {
-          "description": "will set to scale.range, it means output of scale",
-          "items": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": [
-                  "string",
-                  "number"
-                ]
-              }
-            ]
           },
           "type": "array"
         },
@@ -67650,7 +67831,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         },
         "size": {
@@ -67658,14 +67839,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13826",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         },
         "size": {
@@ -67673,14 +67854,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13826",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         },
         "size": {
@@ -67688,14 +67869,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13826",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         },
         "size": {
@@ -67703,14 +67884,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13826",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         },
         "size": {
@@ -67718,14 +67899,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13826",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         },
         "size": {
@@ -67733,14 +67914,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13826",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         },
         "size": {
@@ -67748,14 +67929,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13826",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         },
         "size": {
@@ -67763,14 +67944,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13826",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         },
         "size": {
@@ -67778,7 +67959,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13826",
         "size"
       ],
       "type": "object"
@@ -71126,6 +71307,11 @@
         "formatMethod": {
           "typeof": "function"
         },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
+        },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
@@ -71299,6 +71485,9 @@
           "description": "是否支持3D",
           "type": "boolean"
         },
+        "textType": {
+          "type": "string"
+        },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -71331,6 +71520,9 @@
     },
     "Omit<IMarkSpec<IArcMarkSpec>,\"state\">": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户id"
@@ -76077,6 +76269,11 @@
         "formatMethod": {
           "typeof": "function"
         },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
+        },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
@@ -76253,6 +76450,9 @@
         "support3d": {
           "description": "是否支持3D",
           "type": "boolean"
+        },
+        "textType": {
+          "type": "string"
         },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -76715,6 +76915,11 @@
         "formatMethod": {
           "typeof": "function"
         },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
+        },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
@@ -76892,6 +77097,9 @@
         "support3d": {
           "description": "是否支持3D",
           "type": "boolean"
+        },
+        "textType": {
+          "type": "string"
         },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -79499,6 +79707,9 @@
         "enableScroll": {
           "type": "boolean"
         },
+        "event": {
+          "typeof": "function"
+        },
         "height": {
           "type": "number"
         },
@@ -80631,8 +80842,17 @@
         "text": {
           "anyOf": [
             {
+              "$ref": "#/definitions/Function"
+            },
+            {
               "items": {
                 "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IRichTextCharacter"
               },
               "type": "array"
             },
@@ -80668,6 +80888,16 @@
         "textureSize": {
           "description": "纹理单元的大小",
           "type": "number"
+        },
+        "type": {
+          "default": "'text'",
+          "description": "文字类型\n可选，'html', 'rich', 'text'",
+          "enum": [
+            "html",
+            "rich",
+            "text"
+          ],
+          "type": "string"
         },
         "underline": {
           "description": "下划线",
@@ -83527,34 +83757,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13759"
+        "__@toStringTag@13826"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13759"
+        "__@toStringTag@13826"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13826": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13759"
+        "__@toStringTag@13826"
       ],
       "type": "object"
     },
@@ -94142,6 +94372,9 @@
           ],
           "type": "string"
         },
+        "mode": {
+          "type": "string"
+        },
         "outsideEnable": {
           "type": "boolean"
         },
@@ -94324,6 +94557,19 @@
     },
     "TooltipContentProperty<string>": {
       "anyOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "TooltipContentProperty<string|TooltipRichTextAttrs>": {
+      "anyOf": [
+        {
+          "typeof": "function"
+        },
         {
           "typeof": "function"
         },
@@ -94538,6 +94784,27 @@
         }
       ]
     },
+    "VisualType<\"text\"|\"html\"|\"rich\">": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,\"text\"|\"html\"|\"rich\">"
+        },
+        {
+          "enum": [
+            "html",
+            "rich",
+            "text"
+          ],
+          "type": "string"
+        }
+      ]
+    },
     "VisualType<(datum:Datum)=>number>": {
       "anyOf": [
         {
@@ -94718,6 +94985,40 @@
             "bolder",
             "lighter",
             "normal"
+          ]
+        }
+      ]
+    },
+    "VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Function"
+        },
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/IRichTextCharacter"
+          },
+          "type": "array"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,Function|string[]|StringOrNumber|IRichTextCharacter[]>"
+        },
+        {
+          "type": [
+            "string",
+            "number"
           ]
         }
       ]
@@ -95127,31 +95428,6 @@
         },
         {
           "type": "string"
-        }
-      ]
-    },
-    "VisualType<string[]|StringOrNumber>": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "$ref": "#/definitions/IVisualScale"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,string[]|StringOrNumber>"
-        },
-        {
-          "type": [
-            "string",
-            "number"
-          ]
         }
       ]
     },
