@@ -1863,6 +1863,13 @@
           }
         },
         {
+          "path": "mark-line-multi",
+          "title": {
+            "zh": "markLine 多轴线定位",
+            "en": "multi mark lines"
+          }
+        },
+        {
           "path": "mark-area-basic",
           "title": {
             "zh": "markArea",
@@ -1881,6 +1888,20 @@
           "title": {
             "zh": "markArea 模拟象限图",
             "en": "markArea Quadrant Chart Simulation"
+          }
+        },
+        {
+          "path": "mark-area-with-label",
+          "title": {
+            "zh": "markArea 标签",
+            "en": "markArea with label"
+          }
+        },
+        {
+          "path": "mark-area-range",
+          "title": {
+            "zh": "markArea 标记range范围",
+            "en": "markArea to mark range"
           }
         },
         {
@@ -1909,6 +1930,13 @@
           "title": {
             "zh": "markLine 层级差异标注",
             "en": "markLine hierarchy-diff annotation"
+          }
+        },
+        {
+          "path": "mark-point-image",
+          "title": {
+            "zh": "markPoint 图片标记",
+            "en": "markPoint with image"
           }
         }
       ]
