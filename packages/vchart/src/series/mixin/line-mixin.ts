@@ -133,7 +133,8 @@ export class LineLikeSeriesMixin {
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: isSeriesMark ?? true,
-      progressive
+      progressive,
+      customShape: this._spec.line?.customShape
     }) as ILineMark;
     const isPointVisible = this._spec.point?.visible !== false && this._spec.point?.style?.visible !== false;
     if (!isPointVisible && this._lineMark) {
@@ -257,7 +258,8 @@ export class LineLikeSeriesMixin {
         groupKey: this._seriesField,
         label: this._preprocessLabelSpec(this._spec.label),
         progressive,
-        isSeriesMark: !!isSeriesMark
+        isSeriesMark: !!isSeriesMark,
+        customShape: this._spec.point?.customShape
       }) as ISymbolMark;
     }
 
@@ -270,7 +272,8 @@ export class LineLikeSeriesMixin {
           morph: false,
           groupKey: this._seriesField,
           isSeriesMark: false,
-          dataView: activeData
+          dataView: activeData,
+          customShape: this._spec.point?.customShape
         }
       ) as ISymbolMark;
       this._symbolActiveMark.setVisible(false);

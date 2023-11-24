@@ -28,23 +28,23 @@ Block({
       },
       {
         id: 'pie',
-        spec: pieInnerLabelSpec,
+        spec: null,
         chart: undefined
       },
       {
         id: 'bar',
-        spec: barSpec,
+        spec: null,
         chart: undefined
       }
     ]
   },
   onLoad(options) {
-    // Block 加载完成
-    // 通过 options 可以拿到宿主信息和 BlockInfo
-    // console.log(options.host, options.blockInfo);
-
     // 关闭 Block 的 Loading，当 useStartLoading=true 时有效
     tt.hideBlockLoading();
+    // 全局注册该自定义函数
+    VChart.registerFunction('labelFormat', (text) => {
+      return `$${text}`;
+    });
   },
   onReady() {
     // Block 首次渲染完成
@@ -133,6 +133,13 @@ Block({
             // will call on resize
             // release old first
             item.chart && item.chart.release();
+
+            // 不适用 setData 传递 spec
+            if (item.id === 'pie') {
+              item.spec = pieSpec;
+            } else if (item.id === 'bar') {
+              item.spec = barSpec;
+            }
 
             const chartInstance = new VChart(
               {

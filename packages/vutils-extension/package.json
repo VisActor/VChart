@@ -22,10 +22,10 @@
     "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.16.15",
-    "@visactor/vscale": "~0.16.15",
-    "@visactor/vrender-core": "0.16.14-alpha.11",
-    "@visactor/vrender-kits": "0.16.14-alpha.11"
+    "@visactor/vutils": "~0.16.18",
+    "@visactor/vscale": "~0.16.18",
+    "@visactor/vrender-core": "~0.16.17",
+    "@visactor/vrender-kits": "~0.16.17"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

@@ -64,10 +64,10 @@
     "@types/node": "*"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.7.0-alpha.1",
-    "@visactor/vrender": "0.16.14-alpha.11",
-    "@visactor/vdataset": "~0.16.15",
-    "@visactor/vutils": "~0.16.15",
+    "@visactor/chart-advisor": "0.1.10",
+    "@visactor/vrender": "~0.16.17",
+    "@visactor/vdataset": "~0.16.18",
+    "@visactor/vutils": "~0.16.18",
     "axios": "^1.4.0",
     "exceljs": "^4.3.0",
     "lodash": "4.17.21",

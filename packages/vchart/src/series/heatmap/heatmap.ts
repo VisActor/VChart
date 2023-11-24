@@ -59,11 +59,13 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
       label: this._preprocessLabelSpec(this._spec.label),
-      progressive
+      progressive,
+      customShape: this._spec.cell?.customShape
     }) as ICellMark;
 
     this._backgroundMark = this._createMark(HeatmapSeries.mark.cellBackground, {
-      progressive
+      progressive,
+      customShape: this._spec.cellBackground?.customShape
     }) as ICellMark;
   }
 

@@ -641,6 +641,13 @@
             "zh": "转化漏斗图",
             "en": "Conversion Funnel Chart"
           }
+        },
+        {
+          "path": "funnel-custom-annotation",
+          "title": {
+            "zh": "漏斗图自定义标注",
+            "en": "Custom Annotation in Funnel Chart"
+          }
         }
       ]
     },
@@ -2089,6 +2096,13 @@
           "title": {
             "zh": "自定义 symbol mark",
             "en": "Custom Symbol Mark"
+          }
+        },
+        {
+          "path": "custom-shape",
+          "title": {
+            "zh": "自定义 Shape",
+            "en": "Custom Shape"
           }
         }
       ]

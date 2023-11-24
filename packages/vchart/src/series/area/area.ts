@@ -121,7 +121,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       groupKey: this._seriesField,
       defaultMorphElementKey: this.getDimensionField()[0],
       progressive,
-      isSeriesMark: isAreaVisible && seriesMark !== 'point'
+      isSeriesMark: isAreaVisible && seriesMark !== 'point',
+      customShape: this._spec.area?.customShape
     }) as IAreaMark;
     if (this._areaMark && this._spec?.areaLabel?.visible) {
       this._areaMark.addLabelSpec(

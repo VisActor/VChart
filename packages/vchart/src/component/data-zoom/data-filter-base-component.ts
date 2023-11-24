@@ -7,7 +7,7 @@ import type { IEffect, IModelInitOption } from '../../model/interface';
 import type { IComponent, IComponentOption } from '../interface';
 import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
-import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, StringOrNumber } from '../../typings';
+import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -38,6 +38,7 @@ import type { IDelayType } from '../../typings/event';
 import { TransformLevel } from '../../data/initialize';
 import type { IDataZoomSpec } from './data-zoom/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import { AttributeLevel } from '../../constant';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
@@ -157,6 +158,63 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
   }
 
+  protected _isReverse() {
+    const axis = this._relatedAxisComponent as CartesianAxis<any>;
+    if (!axis) {
+      return false;
+    }
+    const axisScale = axis.getScale() as IBandLikeScale;
+    const axisSpec = axis.getSpec() as ICartesianBandAxisSpec;
+    return axisScale.range()[0] > axisScale.range()[1] && (!axisSpec.inverse || this._isHorizontal);
+  }
+
+  protected _updateRangeFactor(tag?: string, label?: string) {
+    // 轴的range有时是相反的
+    // 比如相同的region范围, 有的场景range为[0, 500], 有的场景range为[500, 0]
+    // 而datazoom/scrollbar的range是根据布局强制转化为[0, 500]
+    // 所以这里在转换时进行判断并做转置, 有待优化
+    // 轴在inverse时，也要做转置处理
+    const axis = this._relatedAxisComponent as CartesianAxis<any>;
+    const axisScale = axis.getScale() as IBandLikeScale;
+    const reverse = this._isReverse();
+    const newRangeFactor: [number, number] = reverse ? [1 - this._end, 1 - this._start] : [this._start, this._end];
+
+    if (reverse) {
+      switch (tag) {
+        case 'startHandler':
+          axisScale.rangeFactorEnd(newRangeFactor[1]);
+          break;
+        case 'endHandler':
+          axisScale.rangeFactorStart(newRangeFactor[0]);
+          break;
+        default:
+          axisScale.rangeFactorStart(newRangeFactor[0], true);
+          axisScale.rangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
+      }
+    } else {
+      switch (tag) {
+        case 'startHandler':
+          axisScale.rangeFactorStart(newRangeFactor[0]);
+          break;
+        case 'endHandler':
+          axisScale.rangeFactorEnd(newRangeFactor[1]);
+          break;
+        default:
+          axisScale.rangeFactorEnd(newRangeFactor[1], true);
+          axisScale.rangeFactorStart(newRangeFactor[0]); // start 保证为准确值
+      }
+    }
+
+    const newFactor = axisScale.rangeFactor();
+    if (newFactor) {
+      this._start = reverse ? 1 - newFactor[1] : newFactor[0];
+      this._end = reverse ? 1 - newFactor[0] : newFactor[1];
+    } else {
+      this._start = 0;
+      this._end = 1;
+    }
+  }
+
   effect: IEffect = {
     onZoomChange: (tag?: string) => {
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
@@ -170,49 +228,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           axisScale.minBandwidth('auto');
         }
 
-        // 轴的range有时是相反的
-        // 比如相同的region范围, 有的场景range为[0, 500], 有的场景range为[500, 0]
-        // 而datazoom/scrollbar的range是根据布局强制转化为[0, 500]
-        // 所以这里在转换时进行判断并做转置, 有待优化
-        // 轴在inverse时，也要做转置处理
-
-        const reverse = axisScale.range()[0] > axisScale.range()[1] && (!axisSpec.inverse || this._isHorizontal);
-        const newRangeFactor: [number, number] = reverse ? [1 - this._end, 1 - this._start] : [this._start, this._end];
-
-        if (reverse) {
-          switch (tag) {
-            case 'startHandler':
-              axisScale.rangeFactorEnd(newRangeFactor[1]);
-              break;
-            case 'endHandler':
-              axisScale.rangeFactorStart(newRangeFactor[0]);
-              break;
-            default:
-              axisScale.rangeFactorStart(newRangeFactor[0], true);
-              axisScale.rangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
-          }
-        } else {
-          switch (tag) {
-            case 'startHandler':
-              axisScale.rangeFactorStart(newRangeFactor[0]);
-              break;
-            case 'endHandler':
-              axisScale.rangeFactorEnd(newRangeFactor[1]);
-              break;
-            default:
-              axisScale.rangeFactorEnd(newRangeFactor[1], true);
-              axisScale.rangeFactorStart(newRangeFactor[0]); // start 保证为准确值
-          }
-        }
-
-        const newFactor = axisScale.rangeFactor();
-        if (newFactor) {
-          this._start = reverse ? 1 - newFactor[1] : newFactor[0];
-          this._end = reverse ? 1 - newFactor[0] : newFactor[1];
-        } else {
-          this._start = 0;
-          this._end = 1;
-        }
+        this._updateRangeFactor(tag, 'zoomChange');
 
         (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
         axis.effect.scaleUpdate();
@@ -510,7 +526,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const scale = this._stateScale;
     let range = scale.range();
 
-    if (!this._isHorizontal && isContinuous(scale.type)) {
+    if (this._isReverse()) {
       range = range.slice().reverse();
     }
     const posInRange: number = range[0] + (range[1] - range[0]) * state;
@@ -803,17 +819,27 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     super.updateLayoutAttribute();
   }
+
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
+    super.onLayoutStart(layoutRect, viewRect, ctx);
+    const isShown = this._autoUpdate(layoutRect);
+    const sizeKey = this._isHorizontal ? 'height' : 'width';
+    this.layout.setLayoutRect(
+      {
+        [sizeKey]: isShown ? this[`_${sizeKey}`] : 0
+      },
+      {
+        [sizeKey]: AttributeLevel.Built_In
+      }
+    );
+  }
+
   /**
    * bounds预计算
    * @param rect
    * @returns
    */
   getBoundsInRect(rect: ILayoutRect): IBoundsLike {
-    const isShown = this._autoUpdate(rect);
-    if (!isShown) {
-      return { x1: 0, y1: 0, x2: 0, y2: 0 };
-    }
-
     const result: IBoundsLike = { x1: this.getLayoutStartPoint().x, y1: this.getLayoutStartPoint().y, x2: 0, y2: 0 };
 
     if (this._isHorizontal) {
@@ -854,34 +880,39 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const axisSpec = axis?.getSpec() as ICartesianBandAxisSpec | undefined;
     const axisScale = axis?.getScale() as IBandLikeScale;
     const bandSizeResult = this._getAxisBandSize(axisSpec);
+
+    if (
+      isDiscrete(axisScale.type) &&
+      rect?.height === this._cacheRect?.height &&
+      rect?.width === this._cacheRect?.width &&
+      this._fixedBandSize === bandSizeResult?.bandSize
+    ) {
+      return this._cacheVisibility;
+    }
+
     let isShown = true;
-    if (this._isHorizontal) {
+    if (this._isHorizontal && rect?.width !== this._cacheRect?.width) {
       axisScale.range(axisSpec.inverse ? [rect.width, 0] : [0, rect.width]);
-    } else {
+    } else if (rect?.height !== this._cacheRect?.height) {
       axisScale.range(axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
     }
+
+    this._cacheRect = {
+      width: rect?.width,
+      height: rect?.height
+    };
+    this._fixedBandSize = bandSizeResult?.bandSize;
+
     if (isDiscrete(axisScale.type)) {
-      if (
-        rect?.height === this._cacheRect?.height &&
-        rect?.width === this._cacheRect?.width &&
-        this._fixedBandSize === bandSizeResult?.bandSize
-      ) {
-        return this._cacheVisibility;
-      }
-      this._cacheRect = rect;
       if (bandSizeResult && (this._start || this._end)) {
-        axisScale.rangeFactor([this._start, this._end]);
+        this._updateRangeFactor(null, 'auto');
       }
-      let [start, end] = axisScale.rangeFactor() ?? [];
+      const [start, end] = axisScale.rangeFactor() ?? [];
       if (isNil(start) && isNil(end)) {
-        start = 0;
-        end = 1;
         isShown = false;
       } else {
         isShown = !(start === 0 && end === 1);
       }
-      this._start = start;
-      this._end = end;
     } else {
       const [start, end] = axisScale.rangeFactor() ?? [this._start, this._end];
       isShown = !(start === 0 && end === 1);

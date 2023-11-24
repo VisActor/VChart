@@ -1,4 +1,4 @@
-import { isNil, isFunction } from '@visactor/vutils';
+import { isNil, isFunction, minInArray, maxInArray } from '@visactor/vutils';
 import type { IFieldsMeta } from '../../typings/spec';
 import { couldBeValidNumber } from '../../util/type';
 import { mergeFields } from '../../util/data';
@@ -7,16 +7,16 @@ import type { Datum } from '../../typings';
 
 const methods = {
   min: (arr: any[]) => {
-    return arr.length ? Math.min.apply(null, arr) : 0;
+    return arr.length ? minInArray(arr.map(n => n * 1)) : 0;
   },
   max: (arr: any[]) => {
-    return arr.length ? Math.max.apply(null, arr) : 0;
+    return arr.length ? maxInArray(arr.map(n => n * 1)) : 0;
   },
   'array-min': (arr: any[]) => {
-    return arr.length ? Math.min.apply(null, arr) : 0;
+    return arr.length ? minInArray(arr.map(n => n * 1)) : 0;
   },
   'array-max': (arr: any[]) => {
-    return arr.length ? Math.max.apply(null, arr) : 0;
+    return arr.length ? maxInArray(arr.map(n => n * 1)) : 0;
   },
   values: (arr: any[]) => {
     const map = {};

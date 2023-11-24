@@ -48,5 +48,13 @@ export default {
   xField: 'type',
   yField: 'value',
   seriesField: 'country',
-  legends: [{ visible: true, position: 'middle', orient: 'bottom' }]
+  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
+  axes: [
+    {
+      orient: 'left',
+      label: {
+        formatMethod: text => `$${text}`
+      }
+    }
+  ]
 };

@@ -55,7 +55,8 @@ export class CircularProgressSeries<
   private _initProgressMark() {
     this._progressMark = this._createMark(CircularProgressSeries.mark.progress, {
       parent: this._arcGroupMark,
-      isSeriesMark: true
+      isSeriesMark: true,
+      customShape: this._spec.progress?.customShape
     }) as IArcMark;
     return this._progressMark;
   }
@@ -97,7 +98,8 @@ export class CircularProgressSeries<
 
   private _initTrackMark() {
     this._trackMark = this._createMark(CircularProgressSeries.mark.track, {
-      parent: this._arcGroupMark
+      parent: this._arcGroupMark,
+      customShape: this._spec.track?.customShape
     }) as IArcMark;
     return this._trackMark;
   }

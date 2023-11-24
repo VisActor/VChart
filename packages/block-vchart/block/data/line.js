@@ -40,16 +40,13 @@ export default {
   point: {
     visible: false
   },
-  line: {
-    style: {
-      lineWidth: 2
-    }
-  },
   legends: {
     visible: true,
     orient: 'bottom'
   },
-  crosshair: {
-    xField: { visible: true }
-  }
+  label: {
+    visible: true,
+    position: 'top',
+    formatMethod: 'labelFormat',
+  },
 }

@@ -39,6 +39,7 @@ import { Event } from '../../event/event';
 // eslint-disable-next-line no-duplicate-imports
 import { AnimationStateEnum } from '../../animation/interface';
 import type { TransformedLabelSpec } from '../../component/label';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 const keptInUpdateAttribute = {
   defined: true
@@ -240,6 +241,11 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   }
   setProgressiveConfig(config: IMarkProgressiveConfig) {
     this._progressiveConfig = config;
+  }
+
+  protected _setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+  setCustomizedShapeCallback(callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) {
+    this._setCustomizedShape = callback;
   }
 
   protected declare _option: ICompilableMarkOption;
@@ -465,6 +471,10 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       config.morph = this._morph;
       config.morphKey = this._morphKey;
       config.morphElementKey = this._morphElementKey;
+    }
+
+    if (this._setCustomizedShape) {
+      config.setCustomizedShape = this._setCustomizedShape;
     }
 
     this._product.configure(config);
