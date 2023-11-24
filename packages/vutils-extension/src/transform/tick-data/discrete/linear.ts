@@ -1,5 +1,5 @@
 import type { BandScale, IBaseScale } from '@visactor/vscale';
-import { isFunction, isValid } from '@visactor/vutils';
+import { isFunction, isValid, maxInArray, minInArray } from '@visactor/vutils';
 import type { ICartesianTickDataOpt, ITickData } from '../interface';
 import { convertDomainToTickData, getCartesianLabelBounds, isAxisHorizontal } from '../util';
 import { binaryFuzzySearchInNumberRange } from '../../../algorithm';
@@ -77,8 +77,8 @@ export const linearDiscreteTicks = (scale: BandScale, op: ICartesianTickDataOpt)
     scaleTicks = scale.ticks(count);
   } else if (op.sampling) {
     const fontSize = (op.labelStyle.fontSize ?? 12) + 2;
-    const rangeStart = Math.min(...range);
-    const rangeEnd = Math.max(...range);
+    const rangeStart = minInArray(range);
+    const rangeEnd = maxInArray(range);
 
     if (domain.length <= rangeSize / fontSize) {
       const incrementUnit = (rangeEnd - rangeStart) / domain.length;

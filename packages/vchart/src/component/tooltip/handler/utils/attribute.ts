@@ -8,7 +8,7 @@ import type {
 } from '@visactor/vrender-components';
 import type { IPadding, IToolTipActual } from '../../../../typings';
 import type { ITooltipTextStyle } from '../interface';
-import { isValid, normalizePadding } from '@visactor/vutils';
+import { isValid, maxInArray, normalizePadding } from '@visactor/vutils';
 import { mergeSpec } from '../../../../util/spec/merge-spec';
 import { normalizeLayoutPaddingSpec } from '../../../../util/space';
 import type { ITooltipSpec } from '../../interface/spec';
@@ -226,10 +226,10 @@ export const getTooltipAttributes = (
       return itemAttrs;
     });
 
-    maxKeyWidth = keyWidths.length ? Math.max(...keyWidths) : 0; // name 需要对齐
-    maxAdaptiveKeyWidth = adaptiveKeyWidths.length ? Math.max(...adaptiveKeyWidths) : 0;
-    maxValueWidth = valueWidths.length ? Math.max(...valueWidths) : 0; // value 需要对齐
-    maxShapeWidth = shapeWidths.length ? Math.max(...shapeWidths) + shapeStyle.spacing : 0; // shape 列宽度
+    maxKeyWidth = keyWidths.length ? maxInArray(keyWidths) : 0; // name 需要对齐
+    maxAdaptiveKeyWidth = adaptiveKeyWidths.length ? maxInArray(adaptiveKeyWidths) : 0;
+    maxValueWidth = valueWidths.length ? maxInArray(valueWidths) : 0; // value 需要对齐
+    maxShapeWidth = shapeWidths.length ? maxInArray(shapeWidths) + shapeStyle.spacing : 0; // shape 列宽度
     contentMaxWidth = Math.max(
       maxShapeWidth + maxKeyWidth + keyStyle.spacing + maxValueWidth + valueStyle.spacing,
       maxShapeWidth + maxAdaptiveKeyWidth,
