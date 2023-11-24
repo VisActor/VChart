@@ -1,4 +1,4 @@
-import { isArray, isBoolean, isNil, isNumber, isValid, uniqArray } from '@visactor/vutils';
+import { isArray, isBoolean, isNil, isNumber, isValid, maxInArray, minInArray, uniqArray } from '@visactor/vutils';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -199,7 +199,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _computeDomainOfValueScale() {
     const domain = this._data.getLatestData().map((d: any) => d[this._valueField]);
 
-    return domain.length ? [Math.min.apply(null, domain), Math.max.apply(null, domain)] : null;
+    const domainNum = domain.map((n: any) => n * 1);
+    return domain.length ? [minInArray(domainNum), maxInArray(domainNum)] : null;
   }
 
   protected _computeMiddleHandlerSize(): number {

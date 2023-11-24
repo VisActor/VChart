@@ -1,5 +1,5 @@
 import type { BandScale } from '@visactor/vscale';
-import { isFunction, isValid } from '@visactor/vutils';
+import { isFunction, isValid, maxInArray, minInArray } from '@visactor/vutils';
 import type { IPolarTickDataOpt, ITickData } from '../interface';
 import { convertDomainToTickData, getPolarAngleLabelBounds, labelOverlap } from '../util';
 import type { AABBBounds } from '@visactor/vutils';
@@ -37,8 +37,8 @@ export const polarAngleAxisDiscreteTicks = (scale: BandScale, op: IPolarTickData
 
     const labelBoundsList = getPolarAngleLabelBounds(scale, domain, op);
 
-    const rangeStart = Math.min(...range);
-    const rangeEnd = Math.max(...range);
+    const rangeStart = minInArray(range);
+    const rangeEnd = maxInArray(range);
 
     const axisLength = Math.abs(rangeEnd - rangeStart) * (radius + labelOffset);
     const incrementUnit = axisLength / domain.length;

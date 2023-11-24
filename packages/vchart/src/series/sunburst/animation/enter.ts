@@ -2,7 +2,7 @@ import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import type { ISunburstAnimationParams } from './interface';
 import type { Datum } from '../../../typings';
 import { computeRatio, getInnerMostElements } from './utils';
-import { isEmpty } from '@visactor/vutils';
+import { isEmpty, maxInArray, minInArray } from '@visactor/vutils';
 
 const computeInnerAngleRange = (elements: IElement[], startAngle: number, endAngle: number): [number, number] => {
   // 处理enter时从无到有的case, 例如图例.
@@ -10,8 +10,8 @@ const computeInnerAngleRange = (elements: IElement[], startAngle: number, endAng
     return [startAngle, endAngle];
   }
 
-  const minStartAngle = Math.min(...elements.map(m => m.getGraphicAttribute('startAngle', false)));
-  const maxEndAngle = Math.max(...elements.map(m => m.getGraphicAttribute('endAngle', false)));
+  const minStartAngle = minInArray(elements.map(m => m.getGraphicAttribute('startAngle', false) * 1));
+  const maxEndAngle = maxInArray(elements.map(m => m.getGraphicAttribute('endAngle', false) * 1));
   return [minStartAngle, maxEndAngle];
 };
 

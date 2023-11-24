@@ -1,7 +1,7 @@
 import type { ICartesianSeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { isValid, isNumber, array } from '@visactor/vutils';
+import { isValid, isNumber, array, minInArray, maxInArray } from '@visactor/vutils';
 import type { Datum, IPoint, StringOrNumber } from '../../typings';
 import { isPercent } from '../../util';
 
@@ -121,8 +121,9 @@ function isNeedExtendDomain(domain: number[], datum: number, autoRange: boolean)
   if (!autoRange) {
     return false;
   }
-  const min = Math.min(...domain);
-  const max = Math.max(...domain);
+  const domainNum = domain.map((n: any) => n * 1);
+  const min = minInArray(domainNum);
+  const max = maxInArray(domainNum);
   if (datum < min || datum > max) {
     return true;
   }
