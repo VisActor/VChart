@@ -242,7 +242,7 @@ export class Compiler {
     }
     if (source === Event_Source_Type.chart) {
       const wrappedCallback = function (event: any, element: IElement | null) {
-        const context = element?.mark?.context ?? {};
+        const context = element?.mark?.getContext() ?? {};
         const modelId = isValid(context.modelId) ? context.modelId : null;
         const markId = isValid(context.markId) ? context.markId : null;
         const modelUserId = isValid(context.modelUserId) ? context.modelUserId : null;
