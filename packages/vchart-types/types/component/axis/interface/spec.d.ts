@@ -31,6 +31,7 @@ export interface ILinearAxisSpec {
     tooltipFilterRange?: number | [number, number];
 }
 export interface IBandAxisSpec {
+    trimPadding?: boolean;
     bandPadding?: number | number[];
     paddingInner?: number | number[];
     paddingOuter?: number | number[];

@@ -98,7 +98,6 @@ export interface ISymbolMarkSpec extends IFillMarkSpec {
 export interface ILineLikeMarkSpec extends IFillMarkSpec {
     curveType?: InterpolateType;
     defined?: boolean;
-    enableSegments?: boolean;
 }
 export interface IAreaMarkSpec extends ILineLikeMarkSpec {
     x1?: number;

@@ -1477,9 +1477,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -1601,9 +1598,6 @@
           "$ref": "#/definitions/VisualType<InterpolateType>"
         },
         "defined": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "enableSegments": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "fill": {
@@ -2501,9 +2495,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -2630,9 +2621,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -2757,9 +2745,6 @@
           "$ref": "#/definitions/VisualType<InterpolateType>"
         },
         "defined": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "enableSegments": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "fill": {
@@ -5008,9 +4993,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -5141,9 +5123,6 @@
           "$ref": "#/definitions/VisualType<InterpolateType>"
         },
         "defined": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "enableSegments": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "fill": {
@@ -17317,6 +17296,9 @@
         "delay": {
           "$ref": "#/definitions/MarkFunctionValueType<number>"
         },
+        "delayAfter": {
+          "$ref": "#/definitions/MarkFunctionValueType<number>"
+        },
         "duration": {
           "$ref": "#/definitions/MarkFunctionValueType<number>"
         },
@@ -17414,6 +17396,9 @@
         },
         "customParameters": {},
         "delay": {
+          "$ref": "#/definitions/MarkFunctionValueType<number>"
+        },
+        "delayAfter": {
           "$ref": "#/definitions/MarkFunctionValueType<number>"
         },
         "duration": {
@@ -17742,6 +17727,9 @@
     },
     "IArcLabelLineSpec": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户id"
@@ -17779,6 +17767,7 @@
         "smooth": {
           "default": false,
           "description": "引导线是否光滑",
+          "since": "1.4.0",
           "type": "boolean"
         },
         "state": {
@@ -17850,6 +17839,11 @@
         },
         "formatMethod": {
           "typeof": "function"
+        },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
         },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -19157,9 +19151,6 @@
         "defined": {
           "type": "boolean"
         },
-        "enableSegments": {
-          "type": "boolean"
-        },
         "fill": {
           "anyOf": [
             {
@@ -19936,6 +19927,12 @@
           ],
           "default": 0.3,
           "description": "band 轴的外边距\n** 因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 paddingOuter 配置**"
+        },
+        "trimPadding": {
+          "default": false,
+          "description": "是否去除 band 轴两端的留白，如果为 true，则两端的 padding 为 0，\n**并且 bandPadding、paddingInner 和 paddingOuter 的设置将被忽略**。",
+          "since": "1.7.0",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -28884,6 +28881,9 @@
     },
     "ICustomMarkSpec<keyofIBuildinMarkSpec>": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "关联的数据id"
@@ -30985,6 +30985,9 @@
           },
           "type": "array"
         },
+        "customShape": {
+          "typeof": "function"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "关联的数据id"
@@ -31049,6 +31052,9 @@
     },
     "IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "关联的数据id"
@@ -32211,6 +32217,9 @@
     },
     "IFunnelLabelSpec": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "formatMethod": {
           "typeof": "function"
         },
@@ -32278,6 +32287,9 @@
           "default": true,
           "description": "文字是否对齐",
           "type": "boolean"
+        },
+        "customShape": {
+          "typeof": "function"
         },
         "formatMethod": {
           "typeof": "function"
@@ -39333,6 +39345,11 @@
         "formatMethod": {
           "typeof": "function"
         },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
+        },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
@@ -41252,9 +41269,6 @@
           "$ref": "#/definitions/InterpolateType"
         },
         "defined": {
-          "type": "boolean"
-        },
-        "enableSegments": {
           "type": "boolean"
         },
         "fill": {
@@ -54804,9 +54818,6 @@
         "defined": {
           "type": "boolean"
         },
-        "enableSegments": {
-          "type": "boolean"
-        },
         "fill": {
           "anyOf": [
             {
@@ -67650,7 +67661,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         },
         "size": {
@@ -67658,14 +67669,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13814",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         },
         "size": {
@@ -67673,14 +67684,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13814",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         },
         "size": {
@@ -67688,14 +67699,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13814",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         },
         "size": {
@@ -67703,14 +67714,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13814",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         },
         "size": {
@@ -67718,14 +67729,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13814",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         },
         "size": {
@@ -67733,14 +67744,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13814",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         },
         "size": {
@@ -67748,14 +67759,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13814",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         },
         "size": {
@@ -67763,14 +67774,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13814",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         },
         "size": {
@@ -67778,7 +67789,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13759",
+        "__@toStringTag@13814",
         "size"
       ],
       "type": "object"
@@ -71126,6 +71137,11 @@
         "formatMethod": {
           "typeof": "function"
         },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
+        },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
@@ -71331,6 +71347,9 @@
     },
     "Omit<IMarkSpec<IArcMarkSpec>,\"state\">": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户id"
@@ -76077,6 +76096,11 @@
         "formatMethod": {
           "typeof": "function"
         },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
+        },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
@@ -76714,6 +76738,11 @@
         },
         "formatMethod": {
           "typeof": "function"
+        },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
         },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -79498,6 +79527,9 @@
         },
         "enableScroll": {
           "type": "boolean"
+        },
+        "event": {
+          "typeof": "function"
         },
         "height": {
           "type": "number"
@@ -83527,34 +83559,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13759"
+        "__@toStringTag@13814"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13759"
+        "__@toStringTag@13814"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13759": {
+        "__@toStringTag@13814": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13759"
+        "__@toStringTag@13814"
       ],
       "type": "object"
     },
@@ -94140,6 +94172,9 @@
             "null",
             "similarBase"
           ],
+          "type": "string"
+        },
+        "mode": {
           "type": "string"
         },
         "outsideEnable": {

@@ -10,6 +10,7 @@ export interface ILabelSpec extends IComponentSpec {
     visible?: boolean;
     interactive?: boolean;
     formatMethod?: (text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext) => string | string[];
+    formatter?: string;
     offset?: number;
     position?: string;
     style?: ConvertToMarkStyleSpec<ITextMarkSpec>;
