@@ -159,7 +159,7 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
         width: realWidth,
         ...this._spec.subtextStyle
       },
-      ...pickWithout(this._spec, ['padding'])
+      ...pickWithout(this._spec, ['padding', 'textStyle', 'subtextStyle', 'text', 'subtext'])
     } as TitleAttrs;
   }
 
