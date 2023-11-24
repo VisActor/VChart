@@ -102,7 +102,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this.event.on('afterElementEncode', eventParams => {
       const mark = eventParams.item;
 
-      if (this._option.getChart().getLayoutTag() === false && mark.context?.model === this) {
+      if (this._option.getChart().getLayoutTag() === false && mark.getContext()?.model === this) {
         this._delegateLabelEvent(mark.getGroupGraphicItem());
       }
     });
