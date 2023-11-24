@@ -20,7 +20,7 @@ export declare enum LabelRule {
     stackLabel = "stackLabel",
     line = "line"
 }
-export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod']): any;
+export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod'], formatter?: ILabelSpec['formatter']): any;
 export declare function symbolLabel(labelInfo: ILabelInfo): {
     position: string | ((datum: Datum) => any);
     overlap: boolean | {

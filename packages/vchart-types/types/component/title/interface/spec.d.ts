@@ -5,8 +5,10 @@ import type { IComponentSpec } from '../../base/interface';
 export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
     visible?: boolean;
     orient?: IOrientType;
-    text: Text | Text[];
-    subtext?: Text | Text[];
+    text?: string | number | string[] | number[] | IRichTextCharacter[];
+    textType?: string;
+    subtext?: string | number | string[] | number[] | IRichTextCharacter[];
+    subtextType?: string;
     x?: number;
     y?: number;
     width?: number;

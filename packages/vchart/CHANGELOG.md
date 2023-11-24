@@ -1,6 +1,45 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 21 Nov 2023 11:02:31 GMT and should not be manually modified.
+This log was last generated on Fri, 24 Nov 2023 09:43:25 GMT and should not be manually modified.
+
+## 1.7.0
+Fri, 24 Nov 2023 09:43:25 GMT
+
+### Updates
+
+- feat: support `trimPadding` for band type axis, which used to remove the blank space at both ends of the aixs, closed #1174
+- feat: custom mark support animation config
+- feat: support customShape of mark
+
+
+- feat: optimize auto mode of data-zoom, related #1416
+- feature: supports registered function expression syntax, related #1187
+- feat: enhance marker's position ability
+- feat: mark area should support specify x x1 y and y1 both
+- feat: add light-mobile and dark-mobile theme, related #1414
+- fix: chart padding won't update when switching global theme
+- feat: optmize performance of computing data
+- feat: support none in component layoutType
+
+
+- feat: support line/area label
+- fix: fix spec modified unexpectedly in data model, details in #1514
+
+
+- fix: update enableSegements implemention
+
+
+- perf: dont need to call `attrTransform()` in compilable-mark
+
+
+- perf: remove getStatisticsDomain()
+
+
+- perf: dont call bounds calculate when user specify width/height of components
+- refactor: refactor the inheritance structure of the chart module to make the layout system independent, details in #1428
+
+
+- feat: no longer register mobile theme in vchart
 
 ## 1.6.7
 Tue, 21 Nov 2023 11:02:31 GMT

@@ -1,7 +1,7 @@
 import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
 import type { IComponent, IComponentOption } from '../interface';
-import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, StringOrNumber } from '../../typings';
+import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, StringOrNumber } from '../../typings';
 import type { IBaseScale } from '@visactor/vscale';
 import type { ICartesianBandAxisSpec } from '../axis/cartesian';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -61,6 +61,8 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected abstract _computeHeight(): number;
     protected abstract _handleDataCollectionChange(): void;
     protected _handleChange(start: number, end: number, updateComponent?: boolean): void;
+    protected _isReverse(): boolean;
+    protected _updateRangeFactor(tag?: string, label?: string): void;
     effect: IEffect;
     protected _visible: boolean;
     get visible(): boolean;
@@ -109,6 +111,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _handleChartMove: (value: number, rate: number) => void;
     protected _initCommonEvent(): void;
     updateLayoutAttribute(): void;
+    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
     getBoundsInRect(rect: ILayoutRect): IBoundsLike;
     hide(): void;
     show(): void;

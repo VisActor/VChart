@@ -1,10 +1,10 @@
-import { BaseComponent } from '../base/base-component';
-import { ComponentTypeEnum } from '../interface/type';
-import type { IComponentOption } from '../interface';
-import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
 import type { IRegion } from '../../region/interface';
-import type { IGraphic } from '@visactor/vrender-core';
 import type { IPoint, IOrientType, ILayoutType, ILayoutRect } from '../../typings';
+import { BaseComponent } from '../base/base-component';
+import type { IComponentOption } from '../interface';
+import { ComponentTypeEnum } from '../interface/type';
+import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
+import type { IGraphic } from '@visactor/vrender-core';
 export declare class Title extends BaseComponent<ITitleSpec> implements ITitle {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
