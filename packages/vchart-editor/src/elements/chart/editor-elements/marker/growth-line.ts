@@ -592,7 +592,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       );
       this._overlayStartHandler.setAttribute(
         'points',
-        this._overlayStartHandler.attribute.points.map(point => {
+        (this._overlayStartHandler.attribute as any).points.map((point: any) => {
           if (point.data) {
             return point;
           }
@@ -605,7 +605,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       );
       this._overlayEndHandler.setAttribute(
         'points',
-        this._overlayEndHandler.attribute.points.map(point => {
+        (this._overlayEndHandler.attribute as any).points.map((point: any) => {
           if (point.data) {
             return point;
           }
@@ -786,7 +786,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     const dataPoints = this._getAnchorPoints();
     const series = this._getSeries();
     const fields = [].concat(series.getSpec().xField, series.getSpec().yField, series.getSpec().seriesField);
-    const totalDiffs = array(this._chart.specProcess.getVChartSpec().markLine ?? []).filter(
+    const totalDiffs = array(get(this._chart.specProcess.getVChartSpec(), 'markLine', [])).filter(
       spec => spec.name === MarkerTypeEnum.totalDiffLine
     );
 
@@ -813,7 +813,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     const valueField = isHorizontal ? series.fieldX[0] : series.fieldY[0];
     const valueFieldInData = isHorizontal ? series.getSpec().xField : series.getSpec().yField;
 
-    dataPoints.map(dataPoint => {
+    dataPoints.map((dataPoint: any) => {
       // 查找数据点上是否存在两个方向的 markLine
       // 存在，调整
       // 不存在，恢复
