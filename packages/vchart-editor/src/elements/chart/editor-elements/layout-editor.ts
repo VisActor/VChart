@@ -355,6 +355,24 @@ export class LayoutEditorElement extends BaseEditorElement {
       }
       this._chart.vchart.getChart().setLayoutTag(true);
       this._chart.vchart.renderSync();
+    } else if (this._currentEl.model.type.includes('region')) {
+      const model = refreshModelInVChart(this._currentEl.model, this._chart.vchart as VChart) as any;
+      const bounds = getModelGraphicsBounds(model as IChartModel);
+      this._layoutComponent.updateBounds({
+        ...bounds
+      });
+      // update layout data
+      this._chart.layout.setModelLayoutData({
+        id: model.userId,
+        specKey: model.specKey,
+        specIndex: model.getSpecIndex(),
+        layout: {
+          x: { offset: (<IChartModel>model).getLayoutStartPoint().x },
+          y: { offset: (<IChartModel>model).getLayoutStartPoint().y },
+          width: { offset: bounds.x2 - (<IChartModel>model).getLayoutStartPoint().x },
+          height: { offset: bounds.y2 - (<IChartModel>model).getLayoutStartPoint().y }
+        }
+      });
     }
   }
 

@@ -154,8 +154,13 @@ export function getBoundsInRects(
 }
 
 export function getModelGraphicsBounds(model: IChartModel) {
-  if (model.type.includes('Axis')) {
-    return (<any>model).getMarks()[0].getProduct().graphicItem.AABBBounds;
+  try {
+    if (model.type.includes('Axis')) {
+      return (<any>model).getMarks()[0].getProduct().graphicItem.AABBBounds;
+    }
+    // vchart 报错
+    return model.getGraphicBounds();
+  } catch (error) {
+    return { x1: 0, x2: 0, y1: 0, y2: 0 };
   }
-  return model.getGraphicBounds();
 }

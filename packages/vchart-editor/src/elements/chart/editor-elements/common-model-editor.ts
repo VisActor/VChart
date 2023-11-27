@@ -60,11 +60,8 @@ export class CommonModelElement extends BaseEditorElement {
         if (triggerHistory) {
           this.chart.specProcess.saveSnapshot();
         }
-        if (attr.chartType) {
-          this.emitter.emit('chartTypeChange', element, attr);
-        }
-        if (attr.data) {
-          this.emitter.emit('chartDataChange', this, attr);
+        if (attr.data || attr.chartType) {
+          this.emitter.emit('chartDataTempChange', this, attr);
         }
 
         if (attr.markLine) {

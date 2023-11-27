@@ -12,8 +12,6 @@ import { BaseElement } from '../base-element';
 import type { IChartLayout } from './layout/interface';
 import { SpecProcess } from './spec-process/spec-process';
 import type { ISpecProcess } from './spec-process/interface';
-import { Data } from './data/data';
-import type { IData } from './data/interface';
 import { MarkerTypeEnum, type IChartElementOption, type IChartModel } from './interface';
 import {
   ValueLineEditor,
@@ -29,10 +27,6 @@ import { LayoutRectToRect, getLayoutLine } from '../../utils/space';
 
 export class EditorChart extends BaseElement {
   type = 'chart';
-  protected _data: IData;
-  get data() {
-    return this._data;
-  }
   protected _specProcess: ISpecProcess;
   get specProcess() {
     return this._specProcess;
@@ -65,9 +59,9 @@ export class EditorChart extends BaseElement {
   constructor(opt: IChartElementOption) {
     super(opt);
     this._event = new ChartEvent(this);
-    this._data = new Data(this);
     this._specProcess = new SpecProcess(this, this.onSpecReady);
-    this._layout = new ChartLayout(this._specProcess);
+    this._specProcess.emitter.on('beforeTempChange', this.clearDataForChartTypeChange);
+    this._layout = new ChartLayout(this, this._specProcess);
     if (this._mode === 'editor') {
       this.initEditors();
     }
@@ -84,8 +78,7 @@ export class EditorChart extends BaseElement {
     this._hirarchicalDiffMarkLineEditor = new HierarchicalDiffLineEditor(this._opt.controller, this, this._opt.layer);
     // chart editor
     this._commonModelElement = new CommonModelElement(this._opt.controller, this, this._opt.layer);
-    this._commonModelElement.emitter.on('chartTypeChange', this.onChartTypeChange);
-    this._commonModelElement.emitter.on('chartDataChange', this._onChartDataChange);
+    this._commonModelElement.emitter.on('chartDataTempChange', this._onChartTempDataChange);
     this._commonModelElement.emitter.on('addMarkLine', this._onAddMarkLine);
     this._commonModelElement.emitter.on('addMarkArea', this._onAddMarkArea);
   }
@@ -113,9 +106,6 @@ export class EditorChart extends BaseElement {
     super.initWithOption();
     this._layout.setViewBox(this._opt.rect);
     if (this._opt.attribute) {
-      if (this._opt.attribute.data) {
-        this._data.changeDataSource(this._opt.attribute.data.type, this._opt.attribute.data.value);
-      }
       if (this._opt.attribute.layout) {
         this._layout.setLayoutData(this._opt.attribute.layout);
       }
@@ -127,7 +117,7 @@ export class EditorChart extends BaseElement {
 
   protected _initVChart(spec: ISpec) {
     spec = this._transformVchartSpec(spec);
-
+    console.log(this._mode === 'editor');
     this._vchart = new VChart(spec, {
       renderCanvas: this._opt.layer.getCanvas(),
       stage: this._opt.layer.getStage(),
@@ -152,14 +142,6 @@ export class EditorChart extends BaseElement {
       spec.height = this._vchart.getChart().getSpec().height;
     }
     return spec;
-  }
-
-  setTemp(key: string) {
-    this._specProcess.updateTemp(key);
-  }
-
-  setDataSource(type: string, value: any) {
-    this._data.changeDataSource(type, value);
   }
 
   onSpecReady = () => {
@@ -210,13 +192,12 @@ export class EditorChart extends BaseElement {
     super.release();
     this.releaseEditors();
 
-    this._data.clear();
     this._specProcess.clear();
     this._layout.clear();
     this._event.release();
     this._vchart?.release();
 
-    this._data = this._specProcess = this._layout = this._vchart = null;
+    this._specProcess = this._layout = this._vchart = null;
   }
 
   resize(rect: IRect): void {
@@ -232,7 +213,6 @@ export class EditorChart extends BaseElement {
   getData() {
     const data = super.getData();
     data.attribute = { ...this._specProcess.getEditorSpec() };
-    data.attribute.data = this._data.getSave();
     return data;
   }
 
@@ -254,25 +234,18 @@ export class EditorChart extends BaseElement {
     this.onSpecReady();
   }
 
-  onChartTypeChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {
-    this.clearDataForChartTypeChange(el, attr);
-    if (attr.chartType) {
-      this.specProcess.updateTemp(attr.chartType);
-    }
+  private _onChartTempDataChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {
+    this._specProcess.dataTempTransform.updateChartDataTemp(attr.data, attr.chartType);
   };
 
-  clearDataForChartTypeChange(el: IEditorElement, attr: IUpdateAttributeParam) {
+  clearDataForChartTypeChange = (attr?: IUpdateAttributeParam) => {
     console.log('clear chart data!');
-    el?.editorFinish();
+    this._opt.controller.currentEditorElement?.editorFinish();
     this._specProcess.clearMarker();
-    if (attr.clearCurrent) {
-      this._specProcess.updateEditorSpec(null);
+    if (attr?.clearCurrent) {
+      this._specProcess.clearEditorSpec();
       this._layout.clearLayoutData();
     }
-  }
-
-  private _onChartDataChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {
-    this.data.changeDataSource(attr.data.type, attr.data.value);
   };
 
   private _onAddMarkLine = (el: IEditorElement, attr: IUpdateAttributeParam) => {

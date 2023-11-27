@@ -2,6 +2,7 @@ import { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import type { DataErrorCall, DataUpdateCall, IDataParser } from './../interface';
 import { getStandardDataFields } from '../../../../utils/data';
+import { v4 as uuidv4 } from 'uuid';
 export class StandardParser implements IDataParser {
   static readonly type = 'standard';
   readonly type: string = StandardParser.type;
@@ -22,15 +23,19 @@ export class StandardParser implements IDataParser {
     }
   ) {
     this._dataSet = dataSet;
-    this._onDataErrorCall = errorCall;
-    this.onDataUpdate(updateCall);
-    this._data = new DataView(this._dataSet, { name: 'editor_standard' });
+    this.setDataUpdateHandler(updateCall);
+    this.setDataErrorHandler(errorCall);
+    this._data = new DataView(this._dataSet, { name: 'editor_standard_' + uuidv4() });
     if (value) {
       this.updateValue(value);
     }
   }
   getData() {
     return this._data;
+  }
+
+  getDataInfo() {
+    return this._data?.getFields();
   }
 
   getSave() {
@@ -47,9 +52,14 @@ export class StandardParser implements IDataParser {
     this._data.setFields(getStandardDataFields(this._data.latestData));
     this._onDataUpdateCall?.(this._data);
   }
-  onDataUpdate(call: DataUpdateCall) {
+
+  setDataUpdateHandler(call: DataUpdateCall) {
     this._onDataUpdateCall = call;
   }
+  setDataErrorHandler(call: DataErrorCall) {
+    this._onDataErrorCall = call;
+  }
+
   clear() {
     this._dataSet.removeDataView(this._data?.name);
     this._data = null;

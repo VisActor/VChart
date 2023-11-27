@@ -1,3 +1,4 @@
+import type { EditorChart } from './../chart';
 import type { IEditorLayer, IModelInfo } from './../../../core/interface';
 import type { IChartModel, ILayoutItem } from './../interface';
 // import { DefaultLayout } from './default-layout';
@@ -26,7 +27,10 @@ export class ChartLayout implements IChartLayout {
   // temp
   protected _defaultLayout = new Layout();
 
-  constructor(specProcess: ISpecProcess) {
+  private _chart: EditorChart;
+
+  constructor(chart: EditorChart, specProcess: ISpecProcess) {
+    this._chart = chart;
     this._specProcess = specProcess;
     this._layoutData = {
       viewBox: { x: 100, y: 100, width: 500, height: 500 },

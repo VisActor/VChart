@@ -3,6 +3,8 @@ import { DataView, csvParser } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import type { DataErrorCall, DataUpdateCall, IDataParser } from './../interface';
 import { getStandardDataFields } from '../../../../utils/data';
+import { v4 as uuidv4 } from 'uuid';
+
 export class ClipBoardParser implements IDataParser {
   static readonly type = 'clipBoard';
   readonly type: string = ClipBoardParser.type;
@@ -23,15 +25,19 @@ export class ClipBoardParser implements IDataParser {
     }
   ) {
     this._dataSet = dataSet;
-    this.onDataUpdate(updateCall);
-    this._onDataErrorCall = errorCall;
-    this._data = new DataView(this._dataSet, { name: 'editor_clipBoard' });
+    this.setDataUpdateHandler(updateCall);
+    this.setDataErrorHandler(errorCall);
+    this._data = new DataView(this._dataSet, { name: 'editor_clipBoard_' + uuidv4() });
     if (value) {
       this.updateValue(value);
     }
   }
   getData() {
     return this._data;
+  }
+
+  getDataInfo() {
+    return this._data?.getFields();
   }
 
   getSave() {
@@ -52,8 +58,12 @@ export class ClipBoardParser implements IDataParser {
     }
     this._onDataUpdateCall?.(this._data);
   }
-  onDataUpdate(call: DataUpdateCall) {
+
+  setDataUpdateHandler(call: DataUpdateCall) {
     this._onDataUpdateCall = call;
+  }
+  setDataErrorHandler(call: DataErrorCall) {
+    this._onDataErrorCall = call;
   }
   clear() {
     this._dataSet.removeDataView(this._data?.name);

@@ -10,7 +10,11 @@ export function refreshModelInVChart(model: IChartModel, vchart: VChart) {
   const modelInfo = {
     id: model.userId,
     specKey: model.specKey,
-    specIndex: model.getSpecIndex()
+    specIndex: model.getSpecIndex() ?? 0
   };
+  if (model.type.includes('region')) {
+    // region 作为特殊元素，永远可以刷新到一个
+    delete modelInfo.id;
+  }
   return getChartModelWithModelInfo(vchart, modelInfo);
 }
