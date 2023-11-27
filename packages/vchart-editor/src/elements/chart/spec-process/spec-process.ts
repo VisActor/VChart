@@ -108,14 +108,14 @@ export class SpecProcess implements ISpecProcess {
   }
 
   private _dataUpdateSuccess = () => {
-    const willPushHistory = !!this._editorSpec.data;
+    const willPushHistory = !!this._editorSpec.data && !!this._chart.vchart;
     willPushHistory && this.saveSnapshot();
     this._editorSpec.data = this._dataTempTransform.dataParser.getSave();
     willPushHistory && this.pushHistory();
   };
   private _tempUpdateSuccess = () => {
     this.emitter.emit('beforeTempChange');
-    const willPushHistory = !!this._editorSpec.data;
+    const willPushHistory = !!this._editorSpec.data && !!this._chart.vchart;
     willPushHistory && this.saveSnapshot();
     this._editorSpec.temp = this._dataTempTransform.specTemp.type;
     willPushHistory && this.pushHistory();
@@ -123,7 +123,7 @@ export class SpecProcess implements ISpecProcess {
   };
   private _dataTempUpdateSuccess = () => {
     this.emitter.emit('beforeTempChange');
-    const willPushHistory = !!this._editorSpec.data;
+    const willPushHistory = !!this._editorSpec.data && !!this._chart.vchart;
     willPushHistory && this.saveSnapshot();
     this._editorSpec.data = this._dataTempTransform.dataParser.getSave();
     this._editorSpec.temp = this._dataTempTransform.specTemp.type;
