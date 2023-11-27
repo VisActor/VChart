@@ -108,23 +108,26 @@ export class SpecProcess implements ISpecProcess {
   }
 
   private _dataUpdateSuccess = () => {
-    this.saveSnapshot();
+    const willPushHistory = !!this._editorSpec.data;
+    willPushHistory && this.saveSnapshot();
     this._editorSpec.data = this._dataTempTransform.dataParser.getSave();
-    this.pushHistory();
+    willPushHistory && this.pushHistory();
   };
   private _tempUpdateSuccess = () => {
     this.emitter.emit('beforeTempChange');
-    this.saveSnapshot();
+    const willPushHistory = !!this._editorSpec.data;
+    willPushHistory && this.saveSnapshot();
     this._editorSpec.temp = this._dataTempTransform.specTemp.type;
-    this.pushHistory();
+    willPushHistory && this.pushHistory();
     this.emitter.emit('afterTempChange');
   };
   private _dataTempUpdateSuccess = () => {
     this.emitter.emit('beforeTempChange');
-    this.saveSnapshot();
+    const willPushHistory = !!this._editorSpec.data;
+    willPushHistory && this.saveSnapshot();
     this._editorSpec.data = this._dataTempTransform.dataParser.getSave();
     this._editorSpec.temp = this._dataTempTransform.specTemp.type;
-    this.pushHistory();
+    willPushHistory && this.pushHistory();
     this.emitter.emit('afterTempChange');
   };
 

@@ -80,15 +80,16 @@ export class CommonModelElement extends BaseEditorElement {
           reRender = true;
         }
         reRender = this.chart.specProcess.updateElementAttribute(element.model, attr, false) || reRender;
-        if (triggerHistory) {
-          this.chart.specProcess.pushHistory();
-        }
+
         const releaseLast = reRender;
         if (releaseLast) {
           this.releaseLast();
         }
         if (reRender) {
           this.chart.reRenderWithUpdateSpec();
+        }
+        if (triggerHistory) {
+          this.chart.specProcess.pushHistory();
         }
         this._controller.editorEnd();
         return false;

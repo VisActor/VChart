@@ -11,7 +11,7 @@ import {
   transformModelRect,
   transformModelRectRevert
 } from '../utils/layout';
-import type { ILayoutAttribute, IRect, ISize } from '../../../typings/space';
+import type { ILayoutAttribute, IRect } from '../../../typings/space';
 import { MinSize, OverGraphicAttribute } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
 import type { EventParams } from '@visactor/vchart';

@@ -268,7 +268,7 @@ export class ChartLayout implements IChartLayout {
     if (model.layoutOrient === 'left' || model.layoutOrient === 'right') {
       layoutData.layout.width.offset = 999999;
     } else if (model.layoutOrient === 'top' || model.layoutOrient === 'bottom') {
-      layoutData.layout.width.offset = 999999;
+      layoutData.layout.height.offset = 999999;
     }
     this.setModelLayoutData(layoutData);
   }
