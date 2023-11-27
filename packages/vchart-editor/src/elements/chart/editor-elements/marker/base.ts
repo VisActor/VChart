@@ -224,8 +224,6 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     if (this._editComponent) {
       this._layer.editorGroup.removeChild(this._editComponent as unknown as IGraphic);
       this._editComponent = null;
-      // TODO: 清楚其他变量
-      this._model = null;
     }
   }
 

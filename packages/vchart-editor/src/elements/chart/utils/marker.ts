@@ -19,7 +19,7 @@ import type { IText } from '@visactor/vrender-core';
 const defaultLineStyle = {
   stroke: '#000',
   lineWidth: 2,
-  boundsPadding: 2,
+  boundsPadding: [2, 2, 2, 2],
   pickMode: 'imprecise'
 };
 /**
