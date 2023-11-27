@@ -18,7 +18,7 @@ import type {
   ISwitchComponentConfig,
   ITextAlignComponentConfig
 } from '../typings/config';
-import { isBoolean, isNil, merge } from '@visactor/vutils';
+import { isNil, merge } from '@visactor/vutils';
 import { Color } from '../base/color';
 import { FontFamily } from '../base/font-family';
 import { FontStyle } from '../base/font-style';
@@ -317,7 +317,8 @@ export function generateSection(
   panelCollapsed: Record<string, boolean>,
   setPanelCollapsed: (collapsed: Record<string, boolean>) => void,
   onSectionEnabled: (section: string, enabled: boolean) => void,
-  componentMap?: Record<string, string>
+  componentMap?: Record<string, string>,
+  divider: boolean = true
 ) {
   const collapsed = panelCollapsed[sectionKey];
   return section ? (
@@ -350,7 +351,7 @@ export function generateSection(
           : null}
         {section.enabled === false ? <div className="vchart-editor-ui-panel-container-mask"></div> : null}
       </div>
-      <Divider margin="12px" />
+      {divider ? <Divider margin="8px" /> : null}
     </>
   ) : null;
 }
@@ -382,20 +383,22 @@ export function CustomPanel(props: ICustomPanelProps) {
       }
     : null;
 
+  const sectionKeys = Object.keys(sections);
+
   return (
     <div className={`vchart-editor-ui-panel-container ${props.className ?? ''}`} style={props.style ?? {}}>
       <EditorHeader
         label={label}
         tooltip={props.tooltip}
-        checked={props.enabled}
-        onCheck={checked => (isBoolean(props.enabled) ? props.onEnabled(checked) : null)}
+        enabled={props.enabled}
+        onEnabled={enabled => props.onEnabled?.(enabled)}
         collapsed={collapsed}
         onCollapse={() => setCollapsed(!collapsed)}
         onRefresh={onRefresh}
       />
       <div className="vchart-editor-ui-panel-container-content">
         <div className="vchart-editor-ui-panel-collapse-container" style={{ height: !collapsed ? 0 : 'auto' }}>
-          {Object.keys(sections).map(section => {
+          {sectionKeys.map((section, sectionIndex) => {
             return (
               <React.Fragment key={section}>
                 {generateSection(
@@ -408,7 +411,8 @@ export function CustomPanel(props: ICustomPanelProps) {
                   panelCollapsed,
                   setPanelCollapsed,
                   props.onSectionEnabled,
-                  props.sectionComponentMaps?.[section]
+                  props.sectionComponentMaps?.[section],
+                  sectionIndex !== sectionKeys.length - 1
                 )}
               </React.Fragment>
             );

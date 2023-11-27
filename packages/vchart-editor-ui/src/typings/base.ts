@@ -27,9 +27,9 @@ export interface IPanelTitleProps {
 export interface IEditorHeaderProps {
   label: string;
   tooltip?: string;
-  checked?: boolean;
   collapsed?: boolean;
-  onCheck?: (checked?: boolean) => void;
+  enabled?: boolean;
+  onEnabled?: (enabled?: boolean) => void;
   onCollapse?: (collapsed?: boolean) => void;
   onRefresh?: () => void;
 }
