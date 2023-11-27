@@ -345,8 +345,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** data */
   protected initData(): void {
-    if (this._spec.data) {
-      this._rawData = dataToDataView(this._spec.data, this._dataSet, this._option.sourceDataList, {
+    const d = this._spec.data ?? this._option.getChart().getSeriesData(this._spec.dataId, this._spec.dataIndex);
+    if (d) {
+      this._rawData = dataToDataView(d, this._dataSet, this._option.sourceDataList, {
         onError: this._option?.onError
       });
     }

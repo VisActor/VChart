@@ -304,14 +304,7 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   protected _createSeries(seriesSpec: ISeriesSpec[]) {
-    seriesSpec.forEach((_spec, index) => {
-      // 自动填充数据
-      // 不要直接修改原始 spec
-      const spec = { ..._spec };
-      if (!spec.data) {
-        spec.data = this._chartData.getSeriesData(spec.dataId, spec.dataIndex);
-      }
-
+    seriesSpec.forEach((spec, index) => {
       // 如果用户在 vchart 构造函数参数中关闭了 animation, 则已该配置为准
       if (this._option.animation === false) {
         spec.animation = false;
