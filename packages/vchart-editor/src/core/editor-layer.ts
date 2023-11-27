@@ -2,11 +2,14 @@ import type { IElement, VRenderPointerEvent } from './../elements/interface';
 import { Bounds, isValid } from '@visactor/vutils';
 import type { EditorMode, IEditorElement, IEditorLayer, ILayoutLine } from './interface';
 import type { IStage, IGroup, IGraphic } from '@visactor/vrender-core';
-import { createGroup, createStage } from '@visactor/vrender-core';
+import { createGroup, createStage, container } from '@visactor/vrender-core';
+import { loadBrowserEnv } from '@visactor/vrender-kits';
 import { CreateID } from '../utils/common';
 import { IgnoreEvent, TriggerEvent } from './const';
 import type { BaseElement } from '../elements/base-element';
 import type { IPoint } from '../typings/space';
+// 加载浏览器环境
+loadBrowserEnv(container);
 
 export class EditorLayer implements IEditorLayer {
   type: string = 'default';

@@ -208,7 +208,7 @@ export class LayoutEditorElement extends BaseEditorElement {
 
   private _getRectAfterLayout(model: IChartModel, layoutData: ILayoutAttribute) {
     if (!model) {
-      return;
+      return layoutData;
     }
     let rect: IRect;
     if (model.type === 'region') {
