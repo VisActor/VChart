@@ -94,6 +94,7 @@ export class DataTempTransform {
         this._chart.option.editorData.clearHistory();
       }
     } else if (msg.type === 'error') {
+      this._chart.option.editorEvent.editor.emitter.emit('error', msg);
     }
   };
 
@@ -115,6 +116,7 @@ export class DataTempTransform {
         this._chart.option.editorData.clearHistory();
       }
     } else if (msg.type === 'error') {
+      this._chart.option.editorEvent.editor.emitter.emit('error', msg);
     }
   };
 
