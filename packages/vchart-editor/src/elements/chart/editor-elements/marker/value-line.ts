@@ -11,7 +11,6 @@ import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent } from '@visactor/vchart';
 import type { Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
-import type { ICartesianSeries } from '@visactor/vchart';
 import { BaseMarkerEditor } from './base';
 
 export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponent> {
@@ -40,10 +39,12 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
     this._orient = this._element.name === MarkerTypeEnum.verticalLine ? 'vertical' : 'horizontal';
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
+    this._controller.editorRun('layout');
 
     const isHorizontal = this._orient === 'horizontal';
 
-    const region = this._model.getRelativeSeries().getRegion();
+    const series = this._getSeries();
+    const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
     const { width: regionWidth, height: regionHeight } = region.getLayoutRect();
     if (isHorizontal) {
@@ -94,11 +95,13 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
 
     // 恢复 cursor
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
+    this._editComponent?.hideAll();
+
     if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 1) {
+      this._controller.editorEnd();
       return;
     }
 
-    this._editComponent.hideAll();
     const offset = (this._editComponent.attribute[this._orient === 'horizontal' ? 'dy' : 'dx'] ?? 0) - this._preOffset;
     const points = this._element.attribute.points as Point[];
     const field = this._orient === 'horizontal' ? 'y' : 'x';
@@ -107,7 +110,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
       newPoint[field] = point[field] + offset;
       return newPoint;
     });
-    const series = this._model.getRelativeSeries() as ICartesianSeries;
+    const series = this._getSeries();
     const isPercent = series.getPercent();
     // 计算新的 label 值
     let newText;
@@ -137,7 +140,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
       fieldValue = `${(convertPosition / series.getRegion().getLayoutRect().width) * 100}%`;
     }
     // 更新 markLine
-    // 1. 生成新的 markLine spec，用于存储
+    // 生成新的 markLine spec，用于存储
     const newSpec = merge({}, this._model.getSpec(), {
       label: {
         text: newText,
@@ -145,14 +148,6 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
       },
       [field]: fieldValue,
       _originValue_: originValue // 用于保存当前对应的原始数据
-    });
-
-    // 2. 计算新的 label 值，同时释放事件
-    this._element.setAttributes({
-      points: newPoints as Point[],
-      label: {
-        text: newText
-      }
     });
 
     // 更新

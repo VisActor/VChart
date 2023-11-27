@@ -11,7 +11,7 @@ import type { IPointLike } from '@visactor/vutils';
 import { PointService, array, isString, last, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
-import type { EventParams, MarkLine, ICartesianSeries, IComponent, IStepMarkLineSpec } from '@visactor/vchart';
+import type { EventParams, MarkLine, IComponent, IStepMarkLineSpec } from '@visactor/vchart';
 import { STACK_FIELD_TOTAL_TOP } from '@visactor/vchart';
 import { findClosestPoint } from '../../utils/math';
 import {
@@ -331,6 +331,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
   private _onHandlerDrag = (e: any) => {
     e.stopPropagation();
+    this._controller.editorRun('layout');
     this._chart.option.editorEvent.setCursor('move');
 
     // Important: 拖拽过程中，关闭所有标注的交互
@@ -445,6 +446,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     this._activeAllMarkers();
 
     if (PointService.distancePP(this._lastDownPoint, { x: e.clientX, y: e.clientY }) <= 1) {
+      this._controller.editorEnd();
       return;
     }
 
@@ -531,6 +533,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   // 连线拖拽交互
   private _onLineHandlerDragStart = (e: any) => {
     e.stopPropagation();
+    this._controller.editorRun('layout');
 
     this._lastDownPoint = this._prePoint = {
       x: e.clientX,
@@ -637,6 +640,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     this._activeAllMarkers();
 
     if (PointService.distancePP(this._lastDownPoint, { x: e.clientX, y: e.clientY }) <= 1) {
+      this._controller.editorEnd();
       return;
     }
 
@@ -866,11 +870,5 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         )
       ];
     }
-  }
-
-  private _getSeries() {
-    return (
-      this._model ? (this._model as MarkLine).getRelativeSeries() : this._chart.vchart.getChart().getAllSeries()[0]
-    ) as ICartesianSeries;
   }
 }

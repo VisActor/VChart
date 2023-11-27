@@ -194,6 +194,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _onAnchorHandlerDragStart = (e: PointerEvent) => {
     e.stopPropagation();
+    this._controller.editorRun('layout');
     this._prePos = {
       x: e.clientX,
       y: e.clientY
@@ -251,7 +252,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     // 2. 更新 _overlayMiddleHandler
     // series.direction === 'vertical' 下保持 x 刻度不变，除非 _overlayMiddleHandler 自己被拖拽
     // series.direction === 'horizontal' 下保持 y 刻度不变，除非 _overlayMiddleHandler 自己被拖拽
-    const series = this._model.getRelativeSeries();
+    const series = this._getSeries();
     const newOverlayMiddleHandlerPoints =
       series.direction === 'vertical'
         ? [
@@ -302,11 +303,11 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     this._getDataAnchors()?.hideAll();
 
     if (PointService.distancePP(this._prePos, { x: e.clientX, y: e.clientY }) <= 1) {
+      this._controller.editorEnd();
       return;
     }
 
-    const model = this._model as MarkLine;
-    const series = model.getRelativeSeries() as ICartesianSeries;
+    const series = this._getSeries();
     const isPercent = series.getPercent();
     const startDatum = (this._overlayStartHandler as unknown as any).data;
     const endDatum = (this._overlayEndHandler as unknown as any).data;
@@ -320,28 +321,6 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       ? '<超过 0 的百分比>'
       : `${(((endValue - startValue) / startValue) * 100).toFixed(0)}%`;
 
-    // 更新真正的 markLine 组件
-    //  Important: 拖拽结束，恢复对应 markLine 的交互
-    this._element.setAttributes({
-      points: [
-        [
-          { x: this._overlayStartHandler.attribute.x, y: this._overlayStartHandler.attribute.y },
-          {
-            ...this._overlayMiddleHandler.attribute.points[0]
-          }
-        ],
-        [...this._overlayMiddleHandler.attribute.points],
-        [
-          {
-            ...this._overlayMiddleHandler.attribute.points[1]
-          },
-          { x: this._overlayEndHandler.attribute.x, y: this._overlayEndHandler.attribute.y }
-        ]
-      ],
-      label: {
-        text: labelText
-      }
-    });
     const region = series.getRegion();
 
     // 生成新的 markLine spec
@@ -417,8 +396,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   // 获取所有的数据锚点
   private _getAllDataPoints() {
-    const model = this._model as MarkLine;
-    const series = model.getRelativeSeries() as ICartesianSeries;
+    const series = this._getSeries();
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
     const isHorizontal = series.direction === 'horizontal';
@@ -558,6 +536,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _onMiddleHandlerDragStart = (e: PointerEvent) => {
     e.stopPropagation();
+    this._controller.editorRun('layout');
 
     this._prePos = {
       x: e.clientX,
@@ -574,7 +553,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
   private _onMiddleHandlerDrag = (e: PointerEvent) => {
     e.stopPropagation();
 
-    const series = this._model.getRelativeSeries();
+    const series = this._getSeries();
     this._chart.option.editorEvent.setCursor(series.direction === 'horizontal' ? 'ns-resize' : 'ew-resize');
 
     // Important: 拖拽过程中，关闭对应 markLine 的交互
@@ -629,14 +608,14 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     vglobal.removeEventListener('pointerup', this._onMiddleHandlerDragEnd);
 
     if (PointService.distancePP(this._prePos, { x: e.clientX, y: e.clientY }) <= 1) {
+      this._controller.editorEnd();
       return;
     }
     this._getSplitGroup().hideAll();
     this._activeAllMarkers();
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
 
-    const model = this._model;
-    const series = model.getRelativeSeries();
+    const series = this._getSeries();
     // 更新真正的 markLine 组件
     //  Important: 拖拽结束，恢复对应 markLine 的交互
     let startPoint;
@@ -657,13 +636,6 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       );
     }
 
-    this._element.setAttributes({
-      points: [
-        [{ x: this._overlayStartHandler.attribute.x, y: this._overlayStartHandler.attribute.y }, startPoint],
-        [startPoint, endPoint],
-        [endPoint, { x: this._overlayEndHandler.attribute.x, y: this._overlayEndHandler.attribute.y }]
-      ]
-    });
     const region = series.getRegion();
     // 生成新的 markLine spec
     const newMarkLineSpec = merge({}, this._spec, {
@@ -717,7 +689,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   // 获取维度轴上的锚点
   private _getAllSplitPoints() {
-    const series = this._model.getRelativeSeries();
+    const series = this._getSeries();
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
 
@@ -1205,7 +1177,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
   }
 
   private _getValueFromAnchorHandler(data: DataPoint, valueField: string) {
-    const series = this._model.getRelativeSeries();
+    const series = this._getSeries();
     const isPercent = series.getPercent();
     if (series.getStack()) {
       if (isPercent) {

@@ -2,8 +2,7 @@ import type { IChartModel } from './../../interface';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from '../base-editor-element';
-import type { EventParams } from '@visactor/vchart';
-import type { IComponent } from '@visactor/vchart';
+import type { EventParams, ICartesianSeries, IComponent } from '@visactor/vchart';
 import { MarkerTypeEnum } from '../../interface';
 import { array, get } from '@visactor/vutils';
 
@@ -127,6 +126,11 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     return element;
   }
 
+  protected _getSeries() {
+    // TODO: 后续要根据 spec 关联的 series 信息来获取
+    return this._chart.vchart.getChart().getAllSeries()[0] as ICartesianSeries;
+  }
+
   startEditor(el: IEditorElement, e?: PointerEvent): boolean {
     if (!super.startEditor(el, e)) {
       return false;
@@ -193,7 +197,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     });
     this._chart.reRenderWithUpdateSpec();
 
-    const markerBounds = (this._element as unknown as IGroup).AABBBounds;
+    // 更新更新后的标注的 bounds
+    const currentMark = this._chart.vchart.getStage().getElementById(spec.id);
+    const markerBounds = currentMark.AABBBounds;
     this._currentEl.updateRect({
       x: markerBounds.x1,
       y: markerBounds.y1,

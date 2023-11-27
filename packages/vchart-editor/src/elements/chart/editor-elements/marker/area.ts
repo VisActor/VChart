@@ -8,7 +8,7 @@ import type { IEditorElement } from '../../../../core/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PointService, clamp, merge } from '@visactor/vutils';
 import type { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
-import type { EventParams, MarkArea, IComponent, ICartesianSeries } from '@visactor/vchart';
+import type { EventParams, MarkArea, IComponent } from '@visactor/vchart';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
 import type { Point } from '../types';
@@ -64,7 +64,8 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     this._overlayAreaGroup?.showAll();
 
     const isHorizontal = this._orient === 'horizontal';
-    const region = this._model.getRelativeSeries().getRegion();
+    const series = this._getSeries();
+    const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
     const { width: regionWidth, height: regionHeight } = region.getLayoutRect();
     if (isHorizontal) {
@@ -271,6 +272,8 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   private _onHandlerDragStart = (e: FederatedPointerEvent) => {
     e.stopPropagation();
+    this._controller.editorRun('layout');
+
     this._prePoint = {
       x: e.clientX,
       y: e.clientY
@@ -380,6 +383,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     });
 
     if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 1) {
+      this._controller.editorEnd();
       return;
     }
 
@@ -396,6 +400,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   private _onAreaDragStart = (e: any) => {
     e.stopPropagation();
+    this._controller.editorRun('layout');
 
     this._prePoint = {
       x: e.clientX,
@@ -519,27 +524,13 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     });
     this._activeAllMarkers();
 
-    // if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 0) {
-    //   return;
-    // }
-
     // 更新当前图形以及保存 spec
     this._save(points);
   };
 
   private _save(newPoints: PointLike[]) {
-    // 更新真正的图形
-    this._element?.setAttributes({
-      points: newPoints.map(point => {
-        return {
-          x: point.x,
-          y: point.y
-        };
-      })
-    });
-
     // 更新 spec
-    const series = this._model.getRelativeSeries() as ICartesianSeries;
+    const series = this._getSeries();
     const isPercent = series.getPercent();
     const { x: regionStartX, y: regionStartY } = series.getRegion().getLayoutStartPoint();
     const { width: regionWidth, height: regionHeight } = series.getRegion().getLayoutRect();
