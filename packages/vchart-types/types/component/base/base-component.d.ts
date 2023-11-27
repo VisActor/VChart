@@ -1,14 +1,15 @@
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
-import { BaseModel } from '../../model/base-model';
 import type { IRegion } from '../../region/interface';
 import type { IComponent, IComponentOption } from '../interface';
 import type { BaseEventParams } from '../../event/interface';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
+import type { IBoundsLike } from '@visactor/vutils';
 import type { IGroupMark } from '@visactor/vgrammar-core';
 import type { IAnimate } from '../../animation/interface';
-import type { Datum } from '../../typings';
+import type { Datum, ILayoutRect } from '../../typings';
 import type { IComponentSpec } from './interface';
-export declare abstract class BaseComponent<T extends IComponentSpec = IComponentSpec> extends BaseModel<T> implements IComponent {
+import { LayoutModel } from '../../model/layout-model';
+export declare abstract class BaseComponent<T extends IComponentSpec = IComponentSpec> extends LayoutModel<T> implements IComponent {
     name: string;
     readonly modelType: string;
     pluginService?: IComponentPluginService;
@@ -19,6 +20,7 @@ export declare abstract class BaseComponent<T extends IComponentSpec = IComponen
     created(): void;
     animate?: IAnimate;
     constructor(spec: T, options: IComponentOption);
+    initLayout(): void;
     abstract changeRegions(regions: IRegion[]): void;
     abstract getVRenderComponents(): IGraphic[];
     protected callPlugin(cb: (plugin: IComponentPlugin) => void): void;
@@ -41,5 +43,11 @@ export declare abstract class BaseComponent<T extends IComponentSpec = IComponen
     compile(): void;
     compileMarks(group?: string | IGroupMark): void;
     protected _delegateEvent: (component: IGraphic, event: any, type: string, item?: any, datum?: Datum) => void;
-    getGraphicBounds(): import("@visactor/vutils").IBoundsLike;
+    getGraphicBounds: () => {
+        x1: number;
+        y1: number;
+        x2: number;
+        y2: number;
+    };
+    getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike;
 }

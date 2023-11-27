@@ -1,15 +1,14 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
-import type { IEffect, ILayoutRect } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
-import type { IOrientType, IPoint, StringOrNumber } from '../../typings';
+import type { IEffect } from '../../model/interface';
+import type { ILayoutRect, ILayoutType, IOrientType, IPoint, StringOrNumber } from '../../typings';
 import { CompilableData } from '../../compile/data/compilable-data';
 import type { ILegend, ILegendCommonSpec } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseComponent<T> implements ILegend {
-    layoutType: LayoutItem['layoutType'];
-    layoutZIndex: LayoutItem['layoutZIndex'];
+    layoutType: ILayoutType;
+    layoutZIndex: number;
     layoutLevel: number;
     protected _orient: IOrientType;
     get orient(): IOrientType;
@@ -17,8 +16,6 @@ export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends Ba
     get visible(): boolean;
     protected _position: 'start' | 'middle' | 'end';
     get position(): "middle" | "start" | "end";
-    get layoutOrient(): IOrientType;
-    set layoutOrient(v: IOrientType);
     protected _legendData: CompilableData;
     getLegendData(): any;
     private _preSelectedData;
@@ -50,8 +47,8 @@ export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends Ba
     private _bindLegendDataChange;
     protected initData(): void;
     setSelectedData(selectedData: StringOrNumber[]): void;
-    setLayoutStartPosition(pos: Partial<IPoint>): void;
-    _boundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): {
+    afterSetLayoutStartPoint(pos: IPoint): void;
+    getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): {
         x1: number;
         y1: number;
         x2: number;

@@ -15,7 +15,6 @@ export interface IAxis extends IComponent {
     getScales: () => IBaseScale[];
     getOrient: () => ICartesianAxisSpec['orient'] | IPolarOrientType;
     visible: boolean;
-    getStatisticsDomain: () => StatisticsDomain;
 }
 export interface IAxisItem<T> {
     visible?: boolean;

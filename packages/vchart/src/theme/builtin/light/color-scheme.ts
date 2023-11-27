@@ -11,18 +11,30 @@ export const colorScheme: IThemeColorScheme = {
       /** 图表边框色 */
       borderColor: '#e3e5e8',
       /** 默认阴影颜色 */
-      shadowColor: '#21252c',
+      shadowColor: 'rgba(33,37,44,0.1)',
+      /** 鼠标 hover 项背景颜色 */
+      hoverBackgroundColor: '#f1f2f5',
+      /** 滑块类组件背景条填充颜色 */
+      sliderRailColor: '#f1f3f4',
+      /** 滑块类组件滑块填充颜色 */
+      sliderHandleColor: '#ffffff',
+      /** 滑块类组件已选范围填充颜色 */
+      sliderTrackColor: '#0040ff',
+      /** 浮层背景区域颜色 */
+      popupBackgroundColor: '#ffffff',
 
       /** 主要字色 */
       primaryFontColor: '#21252c',
       /** 次要字色 */
       secondaryFontColor: '#606773',
-      /** 轴字色 */
-      axisFontColor: '#89909d',
+      /** 第三字色 */
+      tertiaryFontColor: '#89909d',
+      /** 轴标签字色 */
+      axisLabelFontColor: '#89909d',
       /** 禁用字色 */
       disableFontColor: '#bcc1cb',
-      /** 标签反转字色 */
-      labelReverseFontColor: '#ffffff',
+      /** 轴高亮标记字色 */
+      axisMarkerFontColor: '#ffffff',
 
       /** 轴网格线颜色 */
       axisGridColor: '#f1f2f5',
@@ -30,24 +42,31 @@ export const colorScheme: IThemeColorScheme = {
       axisDomainColor: '#d9dde4',
 
       /** 缩略轴滑块描边颜色 */
-      dataZoomHandlerStrokeColor: '#aeb5be',
-      /** 缩略轴滑块填充颜色 */
-      dataZoomHandlerFillColor: '#ffffff',
-      /** 缩略轴背景区域颜色 */
-      dataZoomBackgroundColor: '#f1f3f4',
+      dataZoomHandleStrokeColor: '#aeb5be',
       /** 缩略轴图表区域颜色 */
       dataZoomChartColor: '#c9ced8',
-      /** 缩略轴选择区域颜色 */
-      dataZoomSelectedColor: '#0040ff',
+
+      /** 播放器控制器填充颜色 */
+      playerControllerColor: '#0040ff',
 
       /** 滚动条滑块颜色 */
-      scrollBarSliderColor: '#000000',
+      scrollBarSliderColor: 'rgba(0,0,0,0.3)',
 
-      /** 提示信息背景区域颜色 */
-      tooltipBackgroundColor: '#ffffff',
-
+      /** 轴高亮标记背景色 */
+      axisMarkerBackgroundColor: '#21252c',
       /** 标注标签背景颜色 */
-      markLabelBackgroundColor: '#ffc528'
+      markLabelBackgroundColor: '#f1f2f5',
+      /** 标注线颜色 */
+      markLineStrokeColor: '#606773',
+
+      /** 危险色 */
+      dangerColor: '#e33232',
+      /** 警告色 */
+      warningColor: '#ffc528',
+      /** 成功色 */
+      successColor: '#07a35a',
+      /** 信息色 */
+      infoColor: '#3073f2'
     } as BuiltinColorPalette
   }
 };

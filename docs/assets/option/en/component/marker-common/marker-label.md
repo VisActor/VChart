@@ -46,9 +46,20 @@ Label panel style.
   prefix = '##' + ${prefix}
 ) }}
 
-#${prefix} text(string)
+#${prefix} type(string)
+
+Supported since version 1.7.0, text type.
+
+Optional:
+
+- 'text'
+- 'rich'
+- 'html'
+
+#${prefix} text(string | Array)
 
 Label text - text content. If you need to wrap lines, use an array format, such as ['abc', '123'].
+Starting with version 1.7.0, rich text content is supported.
 
 #${prefix} formatMethod(Function)
 

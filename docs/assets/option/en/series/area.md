@@ -133,6 +133,29 @@ Optional string values:
   defaultOffset = 5,
 ) }}
 
+#${prefix} areaLabel(Object)
+
+Area mark label configuration
+
+Supported since version `1.7.0`.
+
+##${prefix} position(string)='end'
+
+Area label position.
+
+Available string options are:
+
+- `start`
+- `end`
+
+{{ use: component-label(
+  prefix = '#' + ${prefix},
+  noPosition = true,
+  hasOverlap = true,
+  hasSmartInvert = false,
+  defaultOffset = 5,
+) }}
+
 #${prefix} totalLabel(Object)
 
 Total label, working when the data is stacked. Supported since version `1.3.0`.
@@ -150,6 +173,7 @@ Total label, working when the data is stacked. Supported since version `1.3.0`.
 Data Sampling - Sampling method. Supported since version `1.6.0`.
 The downsampling strategy of the line chart when the amount of data is much larger than the pixels can effectively optimize the drawing efficiency of the chart when it is turned on. It is turned off by default, that is, all data points are drawn without filtering.
 Optional values:
+
 - `'lttb'`: Using the Largest-Triangle-Three-Bucket algorithm, the trend, shape and extreme value of the sampled line can be guaranteed to the greatest extent.
 - `'min'`: Get the minimum value of filter points
 - `'max'`: Take the maximum value of filter points

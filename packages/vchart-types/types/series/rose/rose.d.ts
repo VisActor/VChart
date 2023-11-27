@@ -5,6 +5,7 @@ import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { ITextMark } from '../../mark/text';
 import type { IMark } from '../../mark/interface';
+import type { ILabelMark } from '../../mark/label';
 export declare const DefaultBandWidth = 0.5;
 export declare class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends RoseLikeSeries<T> {
     static readonly type: string;
@@ -20,7 +21,7 @@ export declare class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> ext
     private getRoseAngle;
     private initRoseMarkStyle;
     protected initTooltip(): void;
-    initLabelMarkStyle(textMark: ITextMark): void;
+    initLabelMarkStyle(textMark: ILabelMark): void;
     initAnimation(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];

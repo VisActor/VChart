@@ -8,10 +8,10 @@ Tip: **Currently, VChart (@visactor/vchart) is not built into Lark Mini-Program 
 
 ## How to get VChart
 
-At present, VChart's umd packaging products are required on the widget. You can get them through the following channels:
+Currently, the widget requires VChart's umd packaged product, which you can obtain through the following channels:
 
-1.  Get it directly from the warehouse. [Packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index.js) , we will update each code packet of the released version
-2.  Get it from the following free CDNs
+1. Obtain [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index. js), we will update it every time we send a package. **This is specially built for the Feishu widget environment. In order to reduce the size as much as possible, this package only contains the rendering environment of the Feishu widget. **
+2. You can also get it from the following free CDN, **This is the vchart build product that includes all rendering environments and all functions**
 
 ```html
 <!-- unpkg -->
@@ -20,6 +20,13 @@ At present, VChart's umd packaging products are required on the widget. You can 
 <!-- jsDelivr -->
 <script src="https://cdn.jsdelivr.net/npm/@visactor/vchart/build/index.min.js"></script>
 ```
+
+## Functions not supported yet
+
+Due to serialization issues, Feishu widgets currently do not support passing complex objects and functions in `setData`, and only support serializable data. So you cannot configure callback functions for properties in the chart spec passed to `setData`. There are currently two methods to solve this problem:
+
+1. Do not pass spec through `setData`, or update the chart through `vchart.updateSpec(spec)` method after the VChart instance is created. At this time, pass in the spec with function
+2. Upgrade vchart to 1.7.0+ and use the registration custom function function we provide to achieve this. See the specific usage below: [Registration Function](#Registration Function)
 
 ## Demo Example
 
@@ -174,62 +181,45 @@ Lark Mini-Program Widget desktop versions also support mouse events, so you can 
 ></canvas>
 ```
 
-### Register function
+## Register function
 
-Since version `1.7.0`, the desktop version of the Feishu widget supports registering custom functions. You can register functions using global registration or instance registration `registerFunction`.
+Since version `1.7.0`, Feishu widget supports registering custom functions. You can use global registration or instance registration `registerFunction` to register functions.
 
 #### Global registration function
 
-When using a globally registered function, call the chart method `registerFunction` to register a custom function, and callback processing will be performed at runtime, as shown in the example below.
+When using a global registration function, call the chart method `VChart.registerFunction` to register a custom function, and callback processing will be performed at runtime, as shown in the example below.
+
+1. Introduce VChart in `index.js` and register the `labelFormat` custom function
 
 ```js
-<!-- index.js  -->
-methods: {
-    init() {
-      this.data.chartList.forEach(item => {
-        tt.createSelectorQuery()
-          .select(`#${item.id}_draw_canvas`)
-          .boundingClientRect(domRef => {
-            if (!domRef) {
-              console.error(`未找到 #${item.id} 画布`);
-              return;
-            }
+<!-- index.js -->
+import VChart from './vchart/index';
 
-            item.chart && item.chart.release();
+Block({
+   // ...
+   onLoad(options) {
 
-            // 自定义函数
-            function labelFormat(key){
-              return key + 'test';
-            }
+     // Register the custom function globally
+     VChart.registerFunction('labelFormat', (text) => {
+       return `$${text}`;
+     });
+   },
+   // ...
+});
+```
 
-            // 全局注册该自定义函数
-            VChart.registerFunction('labelFormat', labelFormat);
+2. The spec statement is as follows
 
-            const chartInstance = new VChart(
-              {
-                width: domRef.width,
-                height: domRef.height,
-                /**
-                 * spec中可使用该函数名'labelFormat'
-                 * 例如，使用该函数做label的格式化
-                 * label: {
-                 *   visible: true,
-                 *   formatMethod: 'labelFormat'
-                 * }
-                 */
-                ...item.spec
-              },
-              {
-                // do something
-              }
-            );
-
-            chartInstance.renderAsync();
-          })
-          .exec();
-      });
-    }
-  }
+```ts
+{
+   type: 'line',
+   // ...
+   label: {
+     visible: true,
+     position: 'top',
+     formatMethod: 'labelFormat', // Declare the function name used
+   }
+}
 ```
 
 #### Instance registration function
@@ -237,53 +227,53 @@ methods: {
 When using an instance to register a function, call the instance method `registerFunction` to register a custom function, and callback processing will be performed at runtime, as shown in the example below.
 
 ```js
-<!-- index.js  -->
+<!-- index.js -->
 methods: {
-    init() {
-      this.data.chartList.forEach(item => {
-        tt.createSelectorQuery()
-          .select(`#${item.id}_draw_canvas`)
-          .boundingClientRect(domRef => {
-            if (!domRef) {
-              console.error(`未找到 #${item.id} 画布`);
-              return;
-            }
+     init() {
+       this.data.chartList.forEach(item => {
+         tt.createSelectorQuery()
+           .select(`#${item.id}_draw_canvas`)
+           .boundingClientRect(domRef => {
+             if (!domRef) {
+               console.error(`#${item.id} canvas not found`);
+               return;
+             }
 
-            item.chart && item.chart.release();
+             item.chart && item.chart.release();
 
-            // 自定义函数
-            function labelFormat(key){
-              return key + 'test';
-            }
+             //Custom function
+             function labelFormat(key){
+               return key + 'test';
+             }
 
-            const chartInstance = new VChart(
-              {
-                width: domRef.width,
-                height: domRef.height,
-                /**
-                 * spec中可使用该函数名'labelFormat'
-                 * 例如，使用该函数做label的格式化
-                 * label: {
-                 *   visible: true,
-                 *   formatMethod: 'labelFormat'
-                 * }
-                 */
-                ...item.spec
-              },
-              {
-                // do something
-              }
-            );
+             const chartInstance = new VChart(
+               {
+                 width:domRef.width,
+                 height: domRef.height,
+                 /**
+                  * The function name 'labelFormat' can be used in spec
+                  * For example, use this function to format labels
+                  * label: {
+                  * visible: true,
+                  * formatMethod: 'labelFormat'
+                  * }
+                  */
+                 ...item.spec
+               },
+               {
+                 //do something
+               }
+             );
 
-            // 实例注册该自定义函数
-            chartInstance.registerFunction('labelFormat', labelFormat);
+             //Instance registers the custom function
+             chartInstance.registerFunction('labelFormat', labelFormat);
 
-            chartInstance.renderAsync();
-          })
-          .exec();
-      });
-    }
-  }
+             chartInstance.renderAsync();
+           })
+           .exec();
+       });
+     }
+   }
 ```
 
-For more details, see: [https://github.com/VisActor/VChart/tree/main/packages/block-vchart](https://github.com/VisActor/VChart/tree/main/packages/block-vchart)
+For details, see: [https://github.com/VisActor/VChart/tree/main/packages/block-vchart](https://github.com/VisActor/VChart/tree/main/packages/block-vchart)

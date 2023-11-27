@@ -7,8 +7,9 @@ import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { StringOrNumber } from '../../typings';
-import type { ILabelSpec } from '../../component/label';
+import type { TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from './type';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 export interface ISeriesSeriesInfo {
     key: string;
     index?: number;
@@ -64,8 +65,9 @@ export interface ISeriesMarkInitOption {
     dataProductId?: string;
     seriesId?: number;
     progressive?: IMarkProgressiveConfig;
-    label?: ILabelSpec;
+    label?: TransformedLabelSpec;
     support3d?: boolean;
+    customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
 }
 export interface ISeriesMarkInfo extends IModelMarkInfo {
     name: SeriesMarkNameEnum | string;

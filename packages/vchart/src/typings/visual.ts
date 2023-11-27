@@ -10,6 +10,7 @@ import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
 import type { IRepeatType, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
@@ -216,10 +217,6 @@ export interface ISymbolMarkSpec extends IFillMarkSpec {
 export interface ILineLikeMarkSpec extends IFillMarkSpec {
   curveType?: InterpolateType;
   defined?: boolean;
-  /**
-   * @private 一个标志位，用于通知 VGrammar 是否执行 getLineSegmentConfigs 方法
-   */
-  enableSegments?: boolean;
 }
 
 export interface IAreaMarkSpec extends ILineLikeMarkSpec {
@@ -243,9 +240,15 @@ export interface IRuleMarkSpec extends ILineMarkSpec {
 
 export interface ITextMarkSpec extends IFillMarkSpec {
   /**
+   * 文字类型
+   * 可选，'html', 'rich', 'text'
+   * @default 'text'
+   */
+  type?: 'html' | 'rich' | 'text';
+  /**
    * 文字内容
    */
-  text?: StringOrNumber | string[];
+  text?: StringOrNumber | string[] | IRichTextCharacter[] | Function;
   /**
    * x 方向偏移
    */

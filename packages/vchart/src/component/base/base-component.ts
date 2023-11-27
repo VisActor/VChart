@@ -5,6 +5,7 @@ import type { BaseEventParams } from '../../event/interface';
 import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
 import type { IBoundsLike } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
 import { getComponentThemeFromGlobalTheme } from './util';
 import type { IGroupMark } from '@visactor/vgrammar-core';

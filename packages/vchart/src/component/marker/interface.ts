@@ -1,5 +1,5 @@
-import type { IPadding, IPointLike } from '@visactor/vutils';
-import type { SymbolType } from '@visactor/vrender-core';
+import type { IPadding } from '@visactor/vutils';
+import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
@@ -21,33 +21,39 @@ export type IDataPointSpec = {
   /**
    * 指定使用 xField 上的那个维度索引，因为 xField 字段有可能会包含多个维度，比如分组场景
    * @default 0
-   * @since 1.5.1
+   * @since 1.7.0
    */
   xFieldIndex?: number;
   /**
    * 指定使用 xField 上的维度名称，因为 xField 字段有可能会包含多个维度，比如分组场景。
-   * `xFieldIndex` 和 `xFieldDim` 声明一个即可，同时声明则 `xFieldDim` 优先级更高
+   * `xFieldIndex` 和 `xFieldDim` 声明一个即可，同时声明则 `xFieldDim` 优先级更高。
+   * @since 1.7.0
    */
   xFieldDim?: string;
   /**
-   * 指定使用 yField 上的那个维度索引，因为 yField 字段有可能会包含多个维度，比如分组场景
+   * 指定使用 yField 上的那个维度索引，因为 yField 字段有可能会包含多个维度，比如分组场景。
    * @default 0
-   * @since 1.5.1
+   * @since 1.7.0
    */
   yFieldIndex?: number;
   /**
    * 指定使用 yField 上的维度名称，因为 yField 字段有可能会包含多个维度，比如分组场景。
-   * `yFieldIndex` 和 `yFieldDim` 声明一个即可，同时声明则 `yFieldDim` 优先级更高
+   * `yFieldIndex` 和 `yFieldDim` 声明一个即可，同时声明则 `yFieldDim` 优先级更高。
+   * @since 1.7.0
    */
   yFieldDim?: string;
 };
+
+type Point = {
+  x: number;
+  y: number;
+};
 export type IMarkerPositionsSpec = {
-  positions: IPointLike[];
+  positions: Point[];
   /**
-   * TODO：修改版本
    * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
    * @default false
-   * @since 1.6.0
+   * @since 1.7.0
    */
   regionRelative?: boolean;
 };
@@ -79,19 +85,27 @@ export type IMarkerLabelWithoutRefSpec = {
     /**
      * 背景面板样式
      */
-    style: Omit<IRectMarkSpec, 'visible'>;
+    style?: Omit<IRectMarkSpec, 'visible'>;
   };
   /**
-   * label文本 - 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
+   * 文本类型：text, rich, html
    */
-  text?: string | string[] | number | number[];
+  type?: 'text' | 'rich' | 'html';
+  /**
+   * 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
+   * 支持富文本内容, 如textConfig, html, 设置富文本时要配置type类型为'rich'或'html'
+   */
+  text?: string | string[] | number | number[] | IRichTextCharacter[];
   /**
    * label文本 - 文本格式化
    * @param markData 组成标注的数据
    * @param seriesData 标注关联的数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (markData: Datum[], seriesData: Datum[]) => string | string[] | number | number[];
+  formatMethod?: (
+    markData: Datum[],
+    seriesData: Datum[]
+  ) => string | string[] | number | number[] | IRichTextCharacter[];
   /**
    * label文本 - 文本样式
    */
@@ -187,7 +201,7 @@ export interface IMarkerSpec extends IComponentSpec {
 
   /**
    * 标注组件的名称标识
-   * @since 1.6.0
+   * @since 1.7.0
    */
   name?: string;
 }

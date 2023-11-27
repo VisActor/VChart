@@ -1,3 +1,3 @@
-import type { ILayoutRect } from '../../../model/interface';
 import type { IDiscreteLegendSpec } from './interface';
+import type { ILayoutRect } from '../../../typings/layout';
 export declare function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect): any;

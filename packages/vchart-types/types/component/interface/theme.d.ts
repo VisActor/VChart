@@ -14,6 +14,7 @@ import type { ITooltipTheme } from '../tooltip/interface';
 import type { ComponentTypeEnum } from './type';
 import type { ITotalLabelTheme } from '../label';
 import type { IPoptipTheme } from '../poptip/interface';
+import type { IColorKey } from '../../theme';
 export interface IComponentTheme {
     axis?: IAxisCommonTheme;
     axisBand?: IAxisCommonTheme;
@@ -28,7 +29,7 @@ export interface IComponentTheme {
     [ComponentTypeEnum.markLine]?: IMarkLineTheme;
     [ComponentTypeEnum.markArea]?: IMarkAreaTheme;
     [ComponentTypeEnum.markPoint]?: IMarkPointTheme;
-    [ComponentTypeEnum.tooltip]?: ITooltipTheme;
+    [ComponentTypeEnum.tooltip]?: ITooltipTheme<string | IColorKey>;
     [ComponentTypeEnum.crosshair]?: ICrosshairTheme;
     [ComponentTypeEnum.dataZoom]?: IDataZoomTheme;
     [ComponentTypeEnum.scrollBar]?: IScrollBarTheme;

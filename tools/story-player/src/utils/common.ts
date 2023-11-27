@@ -1,4 +1,4 @@
-import { array } from '@visactor/vutils';
+import { array, maxInArray } from '@visactor/vutils';
 import type { SinglePageConfigList, PageTransitionConfigList, TransitionType } from '../interface';
 
 export const getPageTransitionConfig = <T extends object>(
@@ -27,5 +27,5 @@ export const getSinglePageConfig = <T extends object>(
 };
 
 export const computeDuration = <T extends { duration?: number }>(list: T[]): number => {
-  return list.length ? Math.max(...list.map(({ duration }) => duration ?? 0)) : 0;
+  return list.length ? maxInArray(list.map(({ duration }) => duration ?? 0)) : 0;
 };

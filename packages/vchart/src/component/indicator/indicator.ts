@@ -22,6 +22,7 @@ import type { IndicatorAttributes } from '@visactor/vrender-components';
 import type { IGraphic, INode, IGroup } from '@visactor/vrender-core';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 import { Factory } from '../../core/factory';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static type = ComponentTypeEnum.indicator;
@@ -222,11 +223,9 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       | string
       | number
       | string[]
-      | IVisualScale
-      | VisualType<string>[]
-      | FunctionType<string | number | string[]>
-      | IVisualSpecStyle<unknown, string | number | string[]>
-      | undefined
+      | number[]
+      | IRichTextCharacter[]
+      | FunctionType<number | number[] | string | string[] | IRichTextCharacter[]>
   ) {
     if (field) {
       return this._activeDatum ? this._activeDatum[field] : '';

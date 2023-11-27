@@ -8,6 +8,16 @@ Display chart data labels or not, by default labels are not displayed.
 
 Whether the data label graphic element supports interaction events, not supported by default.
 
+#${prefix} textType(string)
+
+Supported since version 1.7.0, text type.
+
+Optional:
+
+- 'text'
+- 'rich'
+- 'html'
+
 #${prefix} formatMethod(Function)
 
 The data label content formatting function, defined as follows:
@@ -19,8 +29,18 @@ The data label content formatting function, defined as follows:
    * @param datum 图形数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[];
+  formatMethod?: (text: string | string[], datum?: any) => string | string[] | IRichTextCharacter[];
 ```
+
+#${prefix} formatter(string)
+
+String template, supported since `1.7.0` version.
+
+A string template that wraps the variable name with `{}`. The variable name is taken from the data attribute value.
+
+In pie charts, percentage stacked area charts, percentage stacked line charts, and percentage stacked column charts, percentage configuration is supported, `{_percent_}`
+
+For example, `formatter: 'type={type},value={value},percent={_percent_}'`
 
 {{ if: !${noOffset} }}
 
@@ -165,6 +185,17 @@ Overlap avoidance strategy for labels, providing 4 avoidance strategies, respect
 #${prefix} smartInvert(Object|false)
 
 Smart Invert configuration.
+
+- In a histogram, when the label position is inside (`'inside'` | `'inside-top'` | `'inside-bottom'` | `'inside-right'` | `'inside-left'`) , it is enabled by default.
+
+##${prefix} mode(string)
+
+Contrast measure.
+
+Optional:
+
+- 'WCAG': Measure contrast using the Web Content Accessibility Guidelines. This standard is used by default. More details can be found at https://webaim.org/resources/contrastchecker/.
+- 'lightness': Use color brightness to measure contrast. More details can be found at https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl#l.
 
 ##${prefix} textType(string)
 

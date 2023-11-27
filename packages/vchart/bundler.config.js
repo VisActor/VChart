@@ -55,6 +55,10 @@ const crossEnvs = {
   wx: {
     input: 'index-wx',
     output: '../wx-vchart/miniprogram/src/vchart/index.js'
+  },
+  'index-wx-simple':{
+    input:'index-wx-simple',
+    output:'./dist/index-wx-simple.min.js'
   }
 };
 const umdEntries = Object.keys(crossEnvs)

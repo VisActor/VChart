@@ -4,18 +4,22 @@ import { Direction } from '../../typings/space';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
-import { isBoolean, isFunction, isString } from '@visactor/vutils';
+import { isBoolean, isFunction, isString, substitute } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
+import { ARC_RATIO } from '../../constant';
+import { STACK_FIELD_END_PERCENT } from '../../constant';
 
 export const labelRuleMap = {
   rect: barLabel,
   symbol: symbolLabel,
   arc: pieLabel,
   point: pointLabel,
-  lineData: lineDataLabel,
-  stackLabel: stackLabel
+  'line-data': lineDataLabel,
+  stackLabel: stackLabel,
+  line: LineLabel,
+  area: LineLabel
 };
 
 export enum LabelRule {
@@ -23,21 +27,38 @@ export enum LabelRule {
   symbol = 'symbol',
   arc = 'arc',
   point = 'point',
-  stackLabel = 'stackLabel'
+  stackLabel = 'stackLabel',
+  line = 'line'
 }
 
-export function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod']) {
+export function textAttribute(
+  labelInfo: ILabelInfo,
+  datum: Datum,
+  formatMethod?: ILabelSpec['formatMethod'],
+  formatter?: ILabelSpec['formatter']
+) {
   const { labelMark, series } = labelInfo;
   const field = series.getMeasureField()[0];
-  const textAttribute = { text: datum[field], data: datum } as any;
+  const textAttribute = { text: datum[field], data: datum, textType: labelInfo.labelSpec.textType ?? 'text' } as any;
 
   const attributes = Object.keys(labelMark.stateStyle.normal);
+
   for (const key of attributes) {
     const attr = labelMark.getAttribute(key as any, datum);
     textAttribute[key] = attr;
-    if (key === 'text' && formatMethod) {
-      textAttribute[key] = formatMethod(textAttribute[key], datum, { series });
+  }
+
+  if (formatMethod) {
+    textAttribute.text = formatMethod(textAttribute.text, datum, { series });
+  }
+
+  if (formatter) {
+    if (series.type === 'pie') {
+      datum._percent_ = (datum[ARC_RATIO] * 100).toFixed(2) + '%';
+    } else if (datum[STACK_FIELD_END_PERCENT]) {
+      datum._percent_ = (datum[STACK_FIELD_END_PERCENT] * 100).toFixed(2) + '%';
     }
+    textAttribute.text = substitute(formatter, datum);
   }
   return textAttribute;
 }
@@ -98,7 +119,7 @@ function symbolLabelOverlapStrategy() {
  *
  */
 export function barLabel(labelInfo: ILabelInfo) {
-  const { series, labelSpec = {} } = labelInfo;
+  const { series, labelSpec = {} as ILabelSpec } = labelInfo;
 
   // encode position config
   const originPosition = uniformLabelPosition(labelSpec.position) ?? 'outside';
@@ -294,4 +315,16 @@ export function stackLabel(labelInfo: ILabelInfo) {
       strategy: [] as any
     }
   };
+}
+
+/**
+ * line 图元标签
+ */
+
+export function LineLabel(labelInfo: ILabelInfo) {
+  const { labelSpec, series } = labelInfo;
+
+  const seriesData = series.getViewDataStatistics?.().latestData?.[series.getSeriesField()]?.values;
+  const data = seriesData ? seriesData.map((d: Datum, index: number) => ({ [series.getSeriesField()]: d, index })) : [];
+  return { position: labelSpec.position ?? 'end', data };
 }

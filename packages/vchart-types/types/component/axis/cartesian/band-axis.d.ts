@@ -23,13 +23,6 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
         dataToPosition: (values: any[]) => number;
         getScale: (depth: number) => BandScale;
         getBandwidth: (depth: number) => number;
-        getStatisticsDomain: () => {
-            domain: any[];
-            index: {
-                [x: string]: number;
-                [x: number]: number;
-            };
-        };
         getAxisType: () => ComponentTypeEnum;
         getAxisId: () => number;
         isInverse: () => boolean;

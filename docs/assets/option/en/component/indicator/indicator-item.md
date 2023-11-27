@@ -32,6 +32,21 @@ The ratio of the text width to the available space when automatically fitting th
 
 Text style
 
+##${prefix} type(string)
+
+Supported since version 1.7.0, text type
+
+Optional:
+
+- 'text'
+- 'rich'
+- 'html'
+
+##${prefix} text(string | number | Array)
+
+Text content.
+Rich text content is supported since version 1.7.0.
+
 {{ use: graphic-text(
   prefix = '####'
 ) }}

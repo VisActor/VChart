@@ -6,6 +6,7 @@ import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mix
 import type { IAnimationSpec } from '../../animation/spec';
 import type { AreaAppearPreset } from './animation';
 import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
+import type { ILabelSpec } from '../../component';
 export interface IAreaSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<string, AreaAppearPreset>, IMarkProgressiveConfig, IDataSamping, IMarkOverlap {
     type: 'area';
     xField: string | string[];
@@ -14,6 +15,9 @@ export interface IAreaSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<st
     [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
     [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
     [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+    [SeriesMarkNameEnum.areaLabel]?: Omit<ILabelSpec, 'position'> & {
+        position?: 'start' | 'end';
+    };
     seriesMark?: 'point' | 'line' | 'area';
     activePoint?: boolean;
 }
