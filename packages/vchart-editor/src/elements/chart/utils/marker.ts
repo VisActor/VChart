@@ -64,9 +64,10 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         label: {
           visible: true,
           autoRotate: false,
-          formatMethod: (markData: any) => {
-            return isPercent ? `${(markData[0].y * 100).toFixed(0)}%` : parseInt(markData[0].y, 10);
-          },
+          // formatMethod: (markData: any) => {
+          //   return isPercent ? `${(markData[0].y * 100).toFixed(0)}%` : parseInt(markData[0].y, 10);
+          // },
+          text: isPercent ? '50%' : parseInt(`${average(seriesData, series.getSpec().yField)}`, 10),
           position: 'end',
           labelBackground: {
             visible: false,
@@ -137,9 +138,10 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         label: {
           visible: true,
           autoRotate: false,
-          formatMethod: (markData: any) => {
-            return isPercent ? `${(markData[0].x * 100).toFixed(0)}%` : parseInt(markData[0].x, 10);
-          },
+          // formatMethod: (markData: any) => {
+          //   return isPercent ? `${(markData[0].x * 100).toFixed(0)}%` : parseInt(markData[0].x, 10);
+          // },
+          text: isPercent ? '50%' : parseInt(`${average(seriesData, series.getSpec().yField)}`, 10),
           position: 'end',
           labelBackground: {
             visible: false,
