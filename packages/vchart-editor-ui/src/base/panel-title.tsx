@@ -8,7 +8,11 @@ export function PanelTitle(props: IPanelTitleProps) {
   const collapsed = props.collapsed ?? true;
 
   return (
-    <div className="vchart-editor-ui-panel-title-container" style={{ justifyContent: 'space-between' }}>
+    <div
+      className="vchart-editor-ui-panel-title-container"
+      // hack for chart editor
+      style={{ marginBottom: collapsed ? 8 : 0, justifyContent: 'space-between' }}
+    >
       <div style={{ display: 'flex' }}>
         {tooltipWrapper(<span className="vchart-editor-ui-panel-title">{props.label}</span>, props.tooltip)}
         <span
@@ -36,6 +40,12 @@ export function PanelTitle(props: IPanelTitleProps) {
           checked={props.enabled}
           onChange={value => {
             props.onEnabled?.(value);
+            // if (value && !collapsed) {
+            //   props.onCollapse?.(true);
+            // }
+            // if (!value && collapsed) {
+            //   props.onCollapse?.(false);
+            // }
           }}
         ></Switch>
       ) : null}

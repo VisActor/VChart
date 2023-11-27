@@ -1,23 +1,25 @@
-import { Checkbox, Divider } from '@douyinfe/semi-ui';
+import { Divider, Switch } from '@douyinfe/semi-ui';
 import type { IEditorHeaderProps } from '../typings/base';
 import { defaultBaseComponentConfig } from '../config/base';
-import { IconRefresh, IconTriangleDown, IconTriangleUp } from '@douyinfe/semi-icons';
+import { IconTriangleDown, IconTriangleUp } from '@douyinfe/semi-icons';
 import { isBoolean } from '@visactor/vutils';
 import { tooltipWrapper } from '../utils/node';
+import { IconAnchor } from '../svg/anchor';
 
 export function EditorHeader(props: IEditorHeaderProps) {
   const label = props.label ?? defaultBaseComponentConfig.switch.label;
-
-  const checked = props.checked ?? true;
   const collapsed = props.collapsed ?? true;
-
-  const enableChecked = isBoolean(props.checked);
 
   return (
     <>
-      <div className="vchart-editor-ui-panel-header">
+      <IconAnchor style={{ height: 20, position: 'absolute' }} />
+      <div
+        className="vchart-editor-ui-panel-header"
+        // hack for chart editor
+        style={{ marginBottom: collapsed ? 8 : 0 }}
+      >
         <span style={{ display: 'flex', alignItems: 'center' }}>
-          {enableChecked ? (
+          {/* {enableChecked ? (
             <Checkbox
               checked={checked}
               onChange={() => props?.onCheck?.(!checked)}
@@ -28,7 +30,8 @@ export function EditorHeader(props: IEditorHeaderProps) {
             </Checkbox>
           ) : (
             <span className="vchart-editor-ui-panel-title">{tooltipWrapper(label, props.tooltip)}</span>
-          )}
+          )} */}
+          {tooltipWrapper(<span className="vchart-editor-ui-panel-title">{label}</span>, props.tooltip)}
           <span
             style={{
               display: 'flex',
@@ -47,11 +50,24 @@ export function EditorHeader(props: IEditorHeaderProps) {
             )}
           </span>
         </span>
-        {props?.onRefresh ? (
-          <IconRefresh onClick={() => props?.onRefresh?.()} style={{ cursor: 'pointer', float: 'right' }} />
+
+        {isBoolean(props.enabled) ? (
+          <Switch
+            size="small"
+            checked={props.enabled}
+            onChange={value => {
+              props.onEnabled?.(value);
+              // if (value && !collapsed) {
+              //   props.onCollapse?.(true);
+              // }
+              // if (!value && collapsed) {
+              //   props.onCollapse?.(false);
+              // }
+            }}
+          ></Switch>
         ) : null}
       </div>
-      <Divider />
+      {collapsed ? <Divider /> : null}
     </>
   );
 }
