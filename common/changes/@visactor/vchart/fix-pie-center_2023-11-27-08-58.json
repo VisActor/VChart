@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(pie): get center error. fix #1610",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
