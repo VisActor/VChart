@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: read dataview of extension-mark by `dataId`\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
