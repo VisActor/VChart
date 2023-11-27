@@ -8,7 +8,7 @@ import type { IGroup, ILine, ISymbol } from '@visactor/vrender-core';
 import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 import type { IPointLike } from '@visactor/vutils';
-import { PointService, array, isString, last, merge } from '@visactor/vutils';
+import { PointService, array, get, isString, last, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent, IStepMarkLineSpec } from '@visactor/vchart';
@@ -147,137 +147,142 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     this._overlayLine = overlayLine;
     editComponent.add(overlayLine);
 
-    const relativeDataPoints = [
-      (lineShape.attribute.points as Point[])[0],
-      last(lineShape.attribute.points as Point[])
-    ].map((point, index) => {
-      return dataPoints.find((dataPoint: DataPoint) =>
-        SamePointApproximate(dataPoint, {
-          x: point.x + this._coordinateOffset[index].x * -1,
-          y: point.y + this._coordinateOffset[index].y * -1
-        })
-      );
-    });
+    const relativeDataPoints: Point[] = [];
+    [(lineShape.attribute.points as Point[])[0], last(lineShape.attribute.points as Point[])].forEach(
+      (point, index) => {
+        const result = dataPoints.find((dataPoint: DataPoint) =>
+          SamePointApproximate(dataPoint, {
+            x: point.x + get(this._coordinateOffset[index], 'x', 0) * -1,
+            y: point.y + get(this._coordinateOffset[index], 'y', 0) * -1
+          })
+        );
+        if (result) {
+          relativeDataPoints.push(result);
+        }
+      }
+    );
 
-    let startLinkLine;
-    let endLinkLine;
-    if (this._element.name === MarkerTypeEnum.growthLine) {
-      startLinkLine = new Segment({
-        zIndex: 1,
-        points: [
-          relativeDataPoints[0],
-          {
-            x: relativeDataPoints[0].x + this._coordinateOffset[0].x,
-            y: relativeDataPoints[0].y + this._coordinateOffset[0].y
-          }
-        ],
-        startSymbol: {
-          visible: true,
+    if (relativeDataPoints.length) {
+      let startLinkLine;
+      let endLinkLine;
+      if (this._element.name === MarkerTypeEnum.growthLine) {
+        startLinkLine = new Segment({
+          zIndex: 1,
+          points: [
+            relativeDataPoints[0],
+            {
+              x: relativeDataPoints[0].x + this._coordinateOffset[0].x,
+              y: relativeDataPoints[0].y + this._coordinateOffset[0].y
+            }
+          ],
+          startSymbol: {
+            visible: true,
+            symbolType: 'circle',
+            size: 10,
+            style: {
+              fill: '#fff',
+              stroke: '#3073F2',
+              lineWidth: 1,
+              shadowBlur: 4,
+              shadowOffsetX: 0,
+              shadowOffsetY: 4,
+              shadowColor: 'rgba(0, 0, 0, 0.25)'
+            }
+          },
+          endSymbol: { visible: false },
+          lineStyle: {
+            stroke: '#89909D',
+            lineWidth: 1
+          },
+          childrenPickable: false
+        });
+
+        endLinkLine = new Segment({
+          zIndex: 1,
+          points: [
+            relativeDataPoints[1],
+            {
+              x: relativeDataPoints[1].x + this._coordinateOffset[1].x,
+              y: relativeDataPoints[1].y + this._coordinateOffset[1].y
+            }
+          ],
+          startSymbol: {
+            visible: true,
+            symbolType: 'circle',
+            size: 10,
+            style: {
+              fill: '#fff',
+              stroke: '#3073F2',
+              lineWidth: 1,
+              shadowBlur: 4,
+              shadowOffsetX: 0,
+              shadowOffsetY: 4,
+              shadowColor: 'rgba(0, 0, 0, 0.25)'
+            }
+          },
+          endSymbol: { visible: false },
+          lineStyle: {
+            stroke: '#89909D',
+            lineWidth: 1
+          },
+          childrenPickable: false
+        });
+      } else {
+        startLinkLine = createSymbol({
+          zIndex: 1,
+          x: relativeDataPoints[0].x,
+          y: relativeDataPoints[0].y,
           symbolType: 'circle',
           size: 10,
-          style: {
-            fill: '#fff',
-            stroke: '#3073F2',
-            lineWidth: 1,
-            shadowBlur: 4,
-            shadowOffsetX: 0,
-            shadowOffsetY: 4,
-            shadowColor: 'rgba(0, 0, 0, 0.25)'
-          }
-        },
-        endSymbol: { visible: false },
-        lineStyle: {
-          stroke: '#89909D',
-          lineWidth: 1
-        },
-        childrenPickable: false
-      });
+          fill: '#fff',
+          stroke: '#3073F2',
+          lineWidth: 1,
+          shadowBlur: 4,
+          shadowOffsetX: 0,
+          shadowOffsetY: 4,
+          shadowColor: 'rgba(0, 0, 0, 0.25)'
+        });
 
-      endLinkLine = new Segment({
-        zIndex: 1,
-        points: [
-          relativeDataPoints[1],
-          {
-            x: relativeDataPoints[1].x + this._coordinateOffset[1].x,
-            y: relativeDataPoints[1].y + this._coordinateOffset[1].y
-          }
-        ],
-        startSymbol: {
-          visible: true,
+        endLinkLine = createSymbol({
+          zIndex: 1,
+          x: relativeDataPoints[1].x,
+          y: relativeDataPoints[1].y,
           symbolType: 'circle',
           size: 10,
-          style: {
-            fill: '#fff',
-            stroke: '#3073F2',
-            lineWidth: 1,
-            shadowBlur: 4,
-            shadowOffsetX: 0,
-            shadowOffsetY: 4,
-            shadowColor: 'rgba(0, 0, 0, 0.25)'
-          }
-        },
-        endSymbol: { visible: false },
-        lineStyle: {
-          stroke: '#89909D',
-          lineWidth: 1
-        },
-        childrenPickable: false
-      });
-    } else {
-      startLinkLine = createSymbol({
-        zIndex: 1,
-        x: relativeDataPoints[0].x,
-        y: relativeDataPoints[0].y,
-        symbolType: 'circle',
-        size: 10,
-        fill: '#fff',
-        stroke: '#3073F2',
-        lineWidth: 1,
-        shadowBlur: 4,
-        shadowOffsetX: 0,
-        shadowOffsetY: 4,
-        shadowColor: 'rgba(0, 0, 0, 0.25)'
-      });
+          fill: '#fff',
+          stroke: '#3073F2',
+          lineWidth: 1,
+          shadowBlur: 4,
+          shadowOffsetX: 0,
+          shadowOffsetY: 4,
+          shadowColor: 'rgba(0, 0, 0, 0.25)'
+        });
+      }
 
-      endLinkLine = createSymbol({
-        zIndex: 1,
-        x: relativeDataPoints[1].x,
-        y: relativeDataPoints[1].y,
-        symbolType: 'circle',
-        size: 10,
-        fill: '#fff',
-        stroke: '#3073F2',
-        lineWidth: 1,
-        shadowBlur: 4,
-        shadowOffsetX: 0,
-        shadowOffsetY: 4,
-        shadowColor: 'rgba(0, 0, 0, 0.25)'
-      });
+      startLinkLine.name = START_LINK_HANDLER;
+      this._overlayStartHandler = startLinkLine as unknown as IGraphic;
+      editComponent.add(startLinkLine as unknown as IGraphic);
+
+      endLinkLine.name = END_LINK_HANDLER;
+      this._overlayEndHandler = endLinkLine as unknown as IGraphic;
+      editComponent.add(endLinkLine as unknown as IGraphic);
+
+      startLinkLine.addEventListener('pointerenter', () => this._onHandlerHover('move'));
+      endLinkLine.addEventListener('pointerenter', () => this._onHandlerHover('move'));
+      startLinkLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
+      endLinkLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
+      startLinkLine.addEventListener('pointerdown', this._onHandlerDragStart as EventListenerOrEventListenerObject);
+      endLinkLine.addEventListener('pointerdown', this._onHandlerDragStart as EventListenerOrEventListenerObject);
     }
-
-    startLinkLine.name = START_LINK_HANDLER;
-    this._overlayStartHandler = startLinkLine as unknown as IGraphic;
-    editComponent.add(startLinkLine as unknown as IGraphic);
-
-    endLinkLine.name = END_LINK_HANDLER;
-    this._overlayEndHandler = endLinkLine as unknown as IGraphic;
-    editComponent.add(endLinkLine as unknown as IGraphic);
 
     this._layer.editorGroup.add(editComponent as unknown as IGraphic);
     this._editComponent = editComponent;
 
-    startLinkLine.addEventListener('pointerenter', () => this._onHandlerHover('move'));
-    endLinkLine.addEventListener('pointerenter', () => this._onHandlerHover('move'));
+    overlayLine.addEventListener('pointerdown', this._onLineHandlerDragStart as EventListenerOrEventListenerObject);
     overlayLine.addEventListener('pointerenter', () =>
       this._onHandlerHover(series.direction === 'horizontal' ? 'ew-resize' : 'ns-resize')
     );
-
-    startLinkLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
-    endLinkLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
     overlayLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
-    startLinkLine.addEventListener('pointerdown', this._onHandlerDragStart as EventListenerOrEventListenerObject);
-    endLinkLine.addEventListener('pointerdown', this._onHandlerDragStart as EventListenerOrEventListenerObject);
-    overlayLine.addEventListener('pointerdown', this._onLineHandlerDragStart as EventListenerOrEventListenerObject);
 
     const dataAnchors = createGroup({
       pickable: false,
