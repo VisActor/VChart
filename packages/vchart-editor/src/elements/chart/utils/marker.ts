@@ -16,6 +16,12 @@ import type { IText } from '@visactor/vrender-core';
 
 // TODO: 不同的标注需要给不同的 zIndex
 
+const defaultLineStyle = {
+  stroke: '#000',
+  lineWidth: 2,
+  boundsPadding: 2,
+  pickMode: 'imprecise'
+};
 /**
  * CAGR（复合年增长率）是一种用于描述投资、业务或其他金融项目在一段时间内的平均增长率的度量
  * @param EV 是结束值
@@ -73,12 +79,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           refY: 0
         },
         line: {
-          style: {
-            stroke: '#000',
-            lineWidth: 2,
-            boundsPadding: [4, 4, 4, 4],
-            pickMode: 'imprecise'
-          }
+          style: defaultLineStyle
         },
         _originValue_: isPercent ? 0.5 : average(seriesData, series.getSpec().yField)
       };
@@ -112,12 +113,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         refY: 0
       },
       line: {
-        style: {
-          stroke: '#000',
-          lineWidth: 2,
-          boundsPadding: [4, 4, 4, 4],
-          pickMode: 'imprecise'
-        }
+        style: defaultLineStyle
       },
       _originValue_: seriesData[0][series.fieldY[0]]
     };
@@ -158,9 +154,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           refY: 0
         },
         line: {
-          style: {
-            stroke: '#000'
-          }
+          style: defaultLineStyle
         },
         _originValue_: isPercent ? 0.5 : average(seriesData, series.getSpec().yField)
       };
@@ -196,9 +190,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         refY: 0
       },
       line: {
-        style: {
-          stroke: '#000'
-        }
+        style: defaultLineStyle
       },
       _originValue_: seriesData[0][series.fieldX[0]]
     };
@@ -416,9 +408,8 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
     coordinates: [startData, endData],
     line: {
       style: {
-        lineDash: [0],
-        lineWidth: 2,
-        stroke: '#000'
+        ...defaultLineStyle,
+        lineDash: [0]
       }
     },
     label: {
@@ -569,18 +560,13 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
       mainSegmentIndex: 1,
       style: [
         {
-          lineDash: [2, 2],
-          stroke: '#000',
-          lineWidth: 2
+          ...defaultLineStyle,
+          lineDash: [2, 2]
         },
+        defaultLineStyle,
         {
-          stroke: '#000',
-          lineWidth: 2
-        },
-        {
-          lineDash: [2, 2],
-          stroke: '#000',
-          lineWidth: 2
+          ...defaultLineStyle,
+          lineDash: [2, 2]
         }
       ]
     },
@@ -659,9 +645,8 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
       : `${(DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE / height) * 100}%`,
     line: {
       style: {
+        ...defaultLineStyle,
         lineDash: [0],
-        lineWidth: 2,
-        stroke: '#000',
         cornerRadius: 4
       }
     },

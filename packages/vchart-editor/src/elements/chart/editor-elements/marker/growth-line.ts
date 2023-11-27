@@ -708,8 +708,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   };
 
   private _getAnchorPoints() {
-    // TODO: 这里可能有问题
-    const series = this._chart.vchart.getChart().getAllSeries()[0];
+    const series = this._getSeries();
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
 
