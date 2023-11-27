@@ -242,6 +242,17 @@ export class ChartLayout implements IChartLayout {
     }
   }
 
+  resetAxisLayoutAfterTempChange() {
+    const axis = this._chart.vchart.getComponents().filter(a => a.type.startsWith('cartesianAxis'));
+    if (axis.length) {
+      axis.forEach(model => {
+        const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };
+        this._resetAxisLayout(modelInfo, model as unknown as IChartModel);
+      });
+      this._chart.vchart.getChart().setLayoutTag(true);
+    }
+  }
+
   private _resetAxisLayout(modelInfo: IModelInfo, model: IChartModel) {
     const regions = (<any>model)._regions;
     const axisRegionLayoutData = regions.map((r: IChartModel) =>
@@ -251,26 +262,13 @@ export class ChartLayout implements IChartLayout {
     if (!layoutData) {
       return;
     }
-    if (model.layoutOrient === 'left') {
-      const b = getBoundsInRects(axisRegionLayoutData, ['x1', 'y1']);
-      layoutData.layout.x.offset = b.x2;
-      layoutData.layout.y.offset = b.y1;
+    const b = getBoundsInRects(axisRegionLayoutData, ['x1', 'y1']);
+    layoutData.layout.x.offset = b.x1;
+    layoutData.layout.y.offset = b.y1;
+    if (model.layoutOrient === 'left' || model.layoutOrient === 'right') {
       layoutData.layout.width.offset = 999999;
-    } else if (model.layoutOrient === 'right') {
-      const b = getBoundsInRects(axisRegionLayoutData, ['x2', 'y1']);
-      layoutData.layout.x.offset = b.x1;
-      layoutData.layout.y.offset = b.y1;
+    } else if (model.layoutOrient === 'top' || model.layoutOrient === 'bottom') {
       layoutData.layout.width.offset = 999999;
-    } else if (model.layoutOrient === 'top') {
-      const b = getBoundsInRects(axisRegionLayoutData, ['x1', 'y1']);
-      layoutData.layout.x.offset = b.x1;
-      layoutData.layout.y.offset = b.y2;
-      layoutData.layout.height.offset = 999999;
-    } else if (model.layoutOrient === 'bottom') {
-      const b = getBoundsInRects(axisRegionLayoutData, ['x1', 'y2']);
-      layoutData.layout.x.offset = b.x1;
-      layoutData.layout.y.offset = b.y1;
-      layoutData.layout.height.offset = 999999;
     }
     this.setModelLayoutData(layoutData);
   }

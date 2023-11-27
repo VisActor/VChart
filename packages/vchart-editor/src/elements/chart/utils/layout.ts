@@ -132,7 +132,7 @@ const DefaultBoundsValue = {
 };
 
 export function getBoundsInRects(
-  rects: IRect[],
+  rects: ILayoutRect[],
   attrs: ('x1' | 'x2' | 'y1' | 'y2')[]
 ): Partial<{ [key in 'x1' | 'x2' | 'y1' | 'y2']: number }> {
   const result = {};
@@ -140,13 +140,13 @@ export function getBoundsInRects(
     result[key] = DefaultBoundsValue[key];
     rects.forEach(r => {
       if (key === 'x1') {
-        result[key] = Math.min(result[key], r.x);
+        result[key] = Math.min(result[key], r.x.offset);
       } else if (key === 'x2') {
-        result[key] = Math.max(result[key], r.x + r.width);
+        result[key] = Math.max(result[key], r.x.offset + r.width.offset);
       } else if (key === 'y1') {
-        result[key] = Math.min(result[key], r.y);
+        result[key] = Math.min(result[key], r.y.offset);
       } else if (key === 'y2') {
-        result[key] = Math.max(result[key], r.y + r.height);
+        result[key] = Math.max(result[key], r.y.offset + r.height.offset);
       }
     });
   });

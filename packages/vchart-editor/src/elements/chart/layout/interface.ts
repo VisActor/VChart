@@ -22,18 +22,22 @@ export interface ILayoutData {
 
 export interface IChartLayout {
   setViewBox: (r: IRect) => void;
+
   setLayoutData: (d: ILayoutData) => void;
   clearLayoutData: () => void;
   setModelLayoutData: (d: LayoutMeta) => void;
   getModelLayoutData: (info: IModelInfo) => LayoutMeta;
   getLayoutData: () => ILayoutData;
-  setVChart: (vchart: IVChart) => void;
-  clear: () => void;
-  getOverModel: (pos: IPoint, layer: IEditorLayer) => LayoutMeta;
 
+  setVChart: (vchart: IVChart) => void;
+
+  getOverModel: (pos: IPoint, layer: IEditorLayer) => LayoutMeta;
   getBoxConnectModel: (rect: IRect) => { layoutMeta: LayoutMeta; model: IChartModel }[];
 
+  resetAxisLayoutAfterTempChange: () => void;
   resetModelLayoutDataAfterAttributeChanged: (modelInfo: IModelInfo, model?: IChartModel) => void;
+
+  clear: () => void;
 }
 
 export interface IChartLayoutConstructor {

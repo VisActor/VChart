@@ -328,6 +328,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       if (!(<IChartModel>model).getVisible()) {
         // 删除当前编辑框
         this.clearLayoutEditorBox();
+        this._chart.option.controller.setOverGraphic(null, null, null);
       }
     } else if (this._currentEl.model.type.startsWith('cartesianAxis')) {
       const model = refreshModelInVChart(this._currentEl.model, this._chart.vchart as VChart) as any;

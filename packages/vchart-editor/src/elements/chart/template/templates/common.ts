@@ -48,7 +48,9 @@ export function getCartesianAxesSpec(direction: 'horizontal' | 'vertical', perce
                   return v * 100 + '%';
                 }
               : null
-          }
+          },
+          maxWidth: null as number,
+          maxHeight: null as number
         },
         {
           orient: 'bottom',
@@ -56,7 +58,9 @@ export function getCartesianAxesSpec(direction: 'horizontal' | 'vertical', perce
           type: 'band',
           label: {
             autoLimit: false
-          }
+          },
+          maxWidth: null as number,
+          maxHeight: null as number
         }
       ]
     : [
@@ -66,7 +70,9 @@ export function getCartesianAxesSpec(direction: 'horizontal' | 'vertical', perce
           type: 'band',
           label: {
             autoLimit: false
-          }
+          },
+          maxWidth: null as number,
+          maxHeight: null as number
         },
         {
           orient: 'bottom',
@@ -79,7 +85,9 @@ export function getCartesianAxesSpec(direction: 'horizontal' | 'vertical', perce
                   return v * 100 + '%';
                 }
               : null
-          }
+          },
+          maxWidth: null as number,
+          maxHeight: null as number
         }
       ];
 }

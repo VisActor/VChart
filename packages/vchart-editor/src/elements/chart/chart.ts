@@ -162,7 +162,7 @@ export class EditorChart extends BaseElement {
       // eslint-disable-next-line promise/catch-or-return
       //@ts-ignore
       this._vchart.updateSpecSync(this._transformVchartSpec(this._specProcess.getVChartSpec()), false, false);
-      console.log('onSpecReady update spec', this._vchart);
+      this._layout.resetAxisLayoutAfterTempChange();
       this._afterRender();
     }
   }
