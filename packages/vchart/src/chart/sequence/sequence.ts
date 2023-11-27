@@ -297,11 +297,6 @@ export class SequenceChart extends BaseChart {
    */
   protected _createSeries(seriesSpec: ISequenceSeriesSpec[]) {
     seriesSpec.forEach((spec, index) => {
-      // 自动填充数据
-      if (!spec.data) {
-        spec.data = this._chartData.getSeriesData(spec.dataId, spec.dataIndex);
-      }
-
       if (spec.type === SeriesTypeEnum.link) {
         spec.dotSeriesSpec = this._spec.series[spec.dotSeriesIndex];
       }
