@@ -304,8 +304,10 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   protected _createSeries(seriesSpec: ISeriesSpec[]) {
-    seriesSpec.forEach((spec, index) => {
+    seriesSpec.forEach((_spec, index) => {
       // 自动填充数据
+      // 不要直接修改原始 spec
+      const spec = { ..._spec };
       if (!spec.data) {
         spec.data = this._chartData.getSeriesData(spec.dataId, spec.dataIndex);
       }
