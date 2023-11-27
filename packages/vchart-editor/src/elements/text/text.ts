@@ -145,6 +145,9 @@ export class EditorText extends BaseElement {
       model: undefined,
       color: [],
       rect,
+      updateRect: () => {
+        // nothing
+      },
       editProperties,
       originSpec: { ...this._textGraphic.attribute },
       updateAttribute: (attr: IUpdateAttributeParam) => {
