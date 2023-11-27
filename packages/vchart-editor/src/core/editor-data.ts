@@ -90,6 +90,9 @@ export class EditorData {
   }
 
   saveData() {
+    if (this._editor.option.mode === 'view') {
+      return;
+    }
     //save
     // @ts-ignore
     this._data.save();
