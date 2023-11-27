@@ -858,21 +858,21 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       }
     });
 
-    if (currentMarkLineSpec) {
-      currentMarkLineSpec.coordinatesOffset = [
-        adjustTotalDiffCoordinatesOffset(
-          currentMarkLineSpec.coordinates[0],
-          series,
-          this._chart.vchart,
-          currentMarkLineSpec.coordinatesOffset[0]
-        ),
-        adjustTotalDiffCoordinatesOffset(
-          currentMarkLineSpec.coordinates[1],
-          series,
-          this._chart.vchart,
-          currentMarkLineSpec.coordinatesOffset[1]
-        )
-      ];
-    }
+    // if (currentMarkLineSpec) {
+    //   currentMarkLineSpec.coordinatesOffset = [
+    //     adjustTotalDiffCoordinatesOffset(
+    //       currentMarkLineSpec.coordinates[0],
+    //       series,
+    //       this._chart.vchart,
+    //       currentMarkLineSpec.coordinatesOffset[0]
+    //     ),
+    //     adjustTotalDiffCoordinatesOffset(
+    //       currentMarkLineSpec.coordinates[1],
+    //       series,
+    //       this._chart.vchart,
+    //       currentMarkLineSpec.coordinatesOffset[1]
+    //     )
+    //   ];
+    // }
   }
 }

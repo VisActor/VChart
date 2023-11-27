@@ -922,15 +922,20 @@ export function adjustTotalDiffCoordinatesOffset(
     };
     let matchLabels;
     if (isHorizontal) {
+      const fields = [].concat(series.getSpec().yField);
+
       matchLabels = allLabelTexts.filter(
         text =>
+          isDataSameInFields(datum, (text.attribute as any).data, fields) &&
           text.AABBBounds.y1 <= datumPosition.y &&
           text.AABBBounds.y2 >= datumPosition.y &&
           text.AABBBounds.x2 > datumPosition.x
       );
     } else {
+      const fields = [].concat(series.getSpec().xField);
       matchLabels = allLabelTexts.filter(
         text =>
+          isDataSameInFields(datum, (text.attribute as any).data, fields) &&
           text.AABBBounds.x1 <= datumPosition.x &&
           text.AABBBounds.x2 >= datumPosition.x &&
           text.AABBBounds.y1 < datumPosition.y
