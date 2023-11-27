@@ -1,10 +1,8 @@
+import { DataTempTransform } from './data-temp-transform';
 import type { IChartModel } from './../interface';
-import { isArray, isObject, isEmpty, cloneDeep, isValid, array, isString } from '@visactor/vutils';
-import type { IEditorController, IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
-import { EditorFactory } from './../../../core/factory';
-import type { IData, StandardData } from '../data/interface';
+import { isArray, isObject, isEmpty, cloneDeep, isValid, array, EventEmitter, isString } from '@visactor/vutils';
+import type { IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
 import type { ILayoutData } from '../layout/interface';
-import type { IChartTemp } from '../template/interface';
 import type { IEditorSpec, IModelSpec, ISpecProcess } from './interface';
 // @ts-ignore
 import type { ISeries, ISpec, ITheme } from '@visactor/vchart';
@@ -21,6 +19,7 @@ const DefaultEditorSpec: IEditorSpec = {
   temp: null,
   color: null,
   modelSpec: null,
+  data: null,
   layout: { viewBox: { x: 0, y: 0, width: 0, height: 0 }, data: [] },
   marker: {
     markLine: [],
@@ -37,21 +36,24 @@ export class SpecProcess implements ISpecProcess {
   protected _onSpecReadyCall: () => void = null;
   // vchartSpec 只作为临时转换结果，传递给vchart，不会存储。
   protected _vchartSpec: ISpec = {} as any;
-  protected _specTemp: IChartTemp = null;
-  get specTemp() {
-    return this._specTemp;
+
+  protected _dataTempTransform: DataTempTransform;
+  get dataTempTransform() {
+    return this._dataTempTransform;
   }
-  protected _data: IData = null;
+
   protected _chart: EditorChart = null;
 
-  private _controller: IEditorController;
+  emitter: EventEmitter = new EventEmitter();
 
   constructor(chart: EditorChart, call: () => void) {
     this._chart = chart;
-    this._data = chart.data;
+    this._dataTempTransform = new DataTempTransform(this._chart);
     this._onSpecReadyCall = call;
-    this._controller = chart.option.controller;
-    this._data.addDataUpdateListener(this.dataReady);
+    this._dataTempTransform.emitter.on('specReady', this.transformSpec);
+    this._dataTempTransform.emitter.on('tempUpdate', this._tempUpdateSuccess);
+    this._dataTempTransform.emitter.on('dataUpdate', this._dataUpdateSuccess);
+    this._dataTempTransform.emitter.on('dataTempUpdate', this._dataTempUpdateSuccess);
   }
 
   getEditorSpec() {
@@ -71,65 +73,73 @@ export class SpecProcess implements ISpecProcess {
     if (this._editorSpec.theme) {
       this.updateTheme(this._editorSpec.theme);
     }
-    if (this._editorSpec.temp) {
-      this.updateTemp(this._editorSpec.temp);
-    }
+
+    this._dataTempTransform.updateChartDataTemp(this._editorSpec.data, this._editorSpec.temp);
   }
+
+  clearEditorSpec() {
+    this._editorSpec = {
+      ...DefaultEditorSpec
+    };
+  }
+
   updateTheme(theme: ITheme) {
     this._editorSpec.theme = theme;
     this.transformSpec();
   }
-  updateTemp(key: string) {
-    const tCreate = EditorFactory.getTemp(key);
-    if (!tCreate) {
-      return;
-    }
-    this._specTemp = new tCreate();
-    this._editorSpec.temp = key;
-    this._checkSpecReady();
-  }
   updateLayout(layout: ILayoutData) {
     this._editorSpec.layout = layout;
+  }
+
+  updateTemp(key: string) {
+    this._dataTempTransform.updateChartDataTemp(null, key);
+  }
+
+  updateData(type: string, value: string) {
+    this._dataTempTransform.updateChartDataTemp({ type, value }, null);
+  }
+
+  updateDataValue(value: string) {
+    this._dataTempTransform.dataParser?.updateValue(value);
   }
 
   getVChartSpec() {
     return this._vchartSpec;
   }
 
-  dataReady = (_d: StandardData) => {
-    this._checkSpecReady();
+  private _dataUpdateSuccess = () => {
+    this.saveSnapshot();
+    this._editorSpec.data = this._dataTempTransform.dataParser.getSave();
+    this.pushHistory();
   };
-  protected transformSpec() {
-    const data = this._data.getData();
-    const info = this._data.getDataInfo();
-    const option = this._data.getSpecOption();
-    this._vchartSpec = this._specTemp.getSpec(data, info, option);
+  private _tempUpdateSuccess = () => {
+    this.emitter.emit('beforeTempChange');
+    this.saveSnapshot();
+    this._editorSpec.temp = this._dataTempTransform.specTemp.type;
+    this.pushHistory();
+    this.emitter.emit('afterTempChange');
+  };
+  private _dataTempUpdateSuccess = () => {
+    this.emitter.emit('beforeTempChange');
+    this.saveSnapshot();
+    this._editorSpec.data = this._dataTempTransform.dataParser.getSave();
+    this._editorSpec.temp = this._dataTempTransform.specTemp.type;
+    this.pushHistory();
+    this.emitter.emit('afterTempChange');
+  };
+
+  protected transformSpec = () => {
+    this._vchartSpec = this._dataTempTransform.getBaseSpec();
     this._mergeEditorSpec();
     this._onSpecReadyCall();
-  }
-
-  protected _checkSpecReady() {
-    const data = this._data.getData();
-    const info = this._data.getDataInfo();
-    if (!data) {
-      return false;
-    }
-    if (!this._specTemp) {
-      return false;
-    }
-    if (this._specTemp.checkDataEnable(data, info)) {
-      this.transformSpec();
-    }
-    return true;
-  }
+  };
 
   clear() {
     this._onSpecReadyCall = null;
-    this._specTemp.clear();
-    this._specTemp = null;
+    this._dataTempTransform.release();
+    this._dataTempTransform = null;
     this._editorSpec = null;
     this._vchartSpec = null;
-    this._data = null;
   }
 
   private _mergeEditorSpec() {
@@ -162,9 +172,9 @@ export class SpecProcess implements ISpecProcess {
     // process formatConfig
     // TODO: check percentage by template
     const isPercentageChart =
-      this._specTemp.type === 'barPercent' ||
-      this._specTemp.type === 'horizontalBarPercent' ||
-      this._specTemp.type === 'areaPercent';
+      this._dataTempTransform.specTemp.type === 'barPercent' ||
+      this._dataTempTransform.specTemp.type === 'horizontalBarPercent' ||
+      this._dataTempTransform.specTemp.type === 'areaPercent';
     const traverseSpec = (spec: any, type?: string, modelSpec?: any) => {
       const specKeys = Object.keys(spec);
       if (specKeys.includes('formatConfig')) {
@@ -508,7 +518,7 @@ export class SpecProcess implements ISpecProcess {
     this._chart.layout.setViewBox(att.rect);
     if (att.attribute) {
       if (att.attribute.data) {
-        this._data.changeDataSource(att.attribute.data.type, att.attribute.data.value);
+        this._dataTempTransform.updateChartDataTemp(att.attribute.data, att.attribute.temp);
       }
       if (att.attribute.layout) {
         this._chart.layout.setLayoutData(att.attribute.layout);
@@ -516,6 +526,7 @@ export class SpecProcess implements ISpecProcess {
       if (att.attribute) {
         this.updateEditorSpec(mergeSpec(this._editorSpec, att.attribute));
       }
+      this._chart.reRenderWithUpdateSpec();
     }
 
     this._updateEditorBox();

@@ -1,9 +1,11 @@
+import type { IDataParser } from './../data/interface';
 import type { IChartTemp } from './../template/interface';
 import type { IModelInfo } from './../../../core/interface';
 import type { ILayoutData } from '../layout/interface';
 import type { IMarkAreaSpec, IMarkLineSpec, ISpec, ITheme } from '@visactor/vchart';
 import type { IUpdateAttributeParam } from '../../../core/interface';
 import type { IChartModel } from '../interface';
+import type { EventEmitter } from '@visactor/vutils';
 
 export type IModelSpec = IModelInfo & {
   spec: any;
@@ -15,6 +17,7 @@ export interface IEditorSpec {
   layout: ILayoutData;
   color: string[];
   modelSpec: IModelSpec[];
+  data: { type: string; value: any };
   /**
    * 标注的信息
    */
@@ -24,9 +27,17 @@ export interface IEditorSpec {
   };
 }
 
+export interface IDataTempTransform {
+  readonly specTemp: IChartTemp;
+  readonly dataParser: IDataParser;
+  updateChartDataTemp: (data: { type: string; value: unknown }, temp: string) => void;
+}
+
 export interface ISpecProcess {
-  specTemp: IChartTemp;
+  dataTempTransform: IDataTempTransform;
+  emitter: EventEmitter;
   getEditorSpec: () => IEditorSpec;
+  clearEditorSpec: () => void;
   updateEditorSpec: (spec: IEditorSpec) => void;
   updateElementAttribute: (model: IChartModel, attr: IUpdateAttributeParam, triggerHistory?: boolean) => boolean;
   // for each mode

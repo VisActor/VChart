@@ -71,6 +71,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
         getCompiler: ctx.getCompiler
       });
     }
+    this.interaction.setDisableActiveEffect(this._option.disableTriggerEvent);
   }
 
   protected _getClipDefaultValue() {

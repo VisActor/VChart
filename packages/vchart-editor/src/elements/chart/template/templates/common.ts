@@ -28,6 +28,7 @@ export function getCommonSpec() {
 
 export function getCartesianCommonSpec(direction: 'horizontal' | 'vertical', percent: boolean = false) {
   return {
+    direction,
     ...getCommonSpec(),
     axes: getCartesianAxesSpec(direction, percent)
   };
