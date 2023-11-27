@@ -12,8 +12,7 @@ import type {
 } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
-import type { ILineMarkSpec } from '../../../../typings';
-import type { IPointLike } from '@visactor/vutils';
+import type { ILineMarkSpec, IPoint } from '../../../../typings';
 
 export type IMarkLine = IComponent;
 
@@ -144,6 +143,6 @@ export type IStepMarkLineSpec = IMarkerSpec & {
             };
       }
     | {
-        positions: [IPointLike, IPointLike];
+        positions: [IPoint, IPoint];
       }
   );

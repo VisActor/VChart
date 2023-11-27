@@ -54,6 +54,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -479,6 +480,8 @@ export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
 
   /* 是否是3d视角的mark */
   support3d?: boolean;
+  /* customized shape of mark  */
+  customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
 } & IMarkProgressiveConfig;
 
 export type IMarkStateFilter =

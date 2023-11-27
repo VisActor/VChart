@@ -8,8 +8,6 @@ export const indicator: IIndicatorTheme = {
     autoFit: false,
     style: {
       fontSize: THEME_CONSTANTS.l1FontSize,
-      // lineHeight: THEME_CONSTANTS.l1LineHeight,
-
       fill: { type: 'palette', key: 'primaryFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1,
@@ -21,9 +19,7 @@ export const indicator: IIndicatorTheme = {
     visible: true,
     style: {
       fontSize: THEME_CONSTANTS.l2FontSize,
-      // lineHeight: THEME_CONSTANTS.l2LineHeight,
-
-      fill: { type: 'palette', key: 'secondaryFontColor' },
+      fill: { type: 'palette', key: 'tertiaryFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1,
       textBaseline: 'top',

@@ -1,7 +1,8 @@
-import type { IPercent } from '../../model/interface';
+import type { IPercent } from '../../typings/layout';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 export interface IIndicatorItemSpec {
     visible?: boolean;
     field?: string;
@@ -9,7 +10,10 @@ export interface IIndicatorItemSpec {
     autoLimit?: boolean;
     autoFit?: boolean;
     fitPercent?: number;
-    style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible'>;
+    style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible' | 'text'> & {
+        type?: 'text' | 'rich' | 'html';
+        text?: string | string[] | number | number[] | IRichTextCharacter[];
+    };
 }
 export type IIndicator = IComponent;
 export interface IIndicatorSpec extends IComponentSpec {

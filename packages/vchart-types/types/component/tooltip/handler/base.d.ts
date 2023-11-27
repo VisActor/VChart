@@ -43,7 +43,7 @@ export declare abstract class BaseTooltipHandler implements ITooltipHandler {
     protected _getActualTooltipPosition: (actualTooltip: IToolTipActual, params: TooltipHandlerParams, tooltipBoxSize: IContainerSize | undefined) => ITooltipPositionActual;
     protected _getTooltipBoxSize(actualTooltip: IToolTipActual, changePositionOnly: boolean): IContainerSize | undefined;
     protected _getParentElement(spec: ITooltipSpec): HTMLElement;
-    getTooltipContainer(): HTMLElement | IGroup;
+    getTooltipContainer(): IGroup | HTMLElement;
     protected _initFromSpec(): void;
     reInit(): void;
 }

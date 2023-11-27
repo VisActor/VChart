@@ -11,10 +11,32 @@ Whether to display the title.
 ### text(string|number|Array)
 
 Maintitle content.
+Starting from version 1.7.0, rich text content configuration is supported.
+
+### textType(string)
+
+Starting with version 1.7.0, the main title text type is supported.
+
+Optional values:
+
+- 'text'
+- 'rich'
+- 'html'
 
 ### subtext(string|number|Array)
 
 Subtitle content.
+Starting from version 1.7.0, rich text content configuration is supported.
+
+### subtextType(string)
+
+Starting with version 1.7.0, the subtitle text type is supported.
+
+Optional values:
+
+- 'text'
+- 'rich'
+- 'html'
 
 ### orient(string) = 'top'
 

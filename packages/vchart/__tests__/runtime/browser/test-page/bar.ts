@@ -58,9 +58,22 @@ const run = () => {
           style: {
             fill: '#505050',
             fontFamily: 'PingFang SC',
-            angle: -60,
-            textAlign: 'end',
-            textBaseline: 'middle'
+            angle: 0
+          },
+          type: 'rich',
+          formatMethod: text => {
+            return [
+              {
+                text: text,
+                fontWeight: 'bold',
+                fontSize: 12,
+                fill: '#3f51b5'
+              },
+              {
+                text: '🌞',
+                fill: '#3f51b5'
+              }
+            ];
           }
         },
         tick: {
@@ -74,7 +87,22 @@ const run = () => {
             fontFamily: 'PingFang SC',
             fontSize: 14,
             fontWeight: 'bold'
-          }
+          },
+          type: 'rich',
+          text: [
+            {
+              text: 'Date',
+              fontWeight: 'bold',
+              fontSize: 25,
+              fill: '#3f51b5'
+            },
+            {
+              text: '日期',
+              fontStyle: 'italic',
+              textDecoration: 'underline',
+              fill: '#3f51b5'
+            }
+          ]
         }
       },
       {
@@ -173,7 +201,28 @@ const run = () => {
       }
     },
     tooltip: {
-      enterable: true
+      enterable: true,
+      renderMode: 'canvas',
+      mark: {
+        title: {
+          value: {
+            type: 'rich',
+            text: [
+              {
+                text: 'TOOLTIP',
+                fontWeight: 'bold',
+                fill: '#3f51b5'
+              },
+              {
+                text: '替代方案',
+                fontStyle: 'italic',
+                textDecoration: 'underline',
+                fill: '#3f51b5'
+              }
+            ]
+          }
+        }
+      }
     },
     bar: {
       style: {
@@ -184,10 +233,81 @@ const run = () => {
           fill: '#1664FF'
         }
       }
+    },
+    label: {
+      visible: true,
+      formatter: '{date}'
     }
   };
 
-  const cs = new VChart(spec, {
+  const percent_area_spec = {
+    type: 'area',
+    data: {
+      values: [
+        { type: 'Nail polish', country: 'Africa', value: 4229 },
+        { type: 'Nail polish', country: 'EU', value: 4376 },
+        { type: 'Nail polish', country: 'China', value: 3054 },
+        { type: 'Nail polish', country: 'USA', value: 12814 },
+        { type: 'Eyebrow pencil', country: 'Africa', value: 3932 },
+        { type: 'Eyebrow pencil', country: 'EU', value: 3987 },
+        { type: 'Eyebrow pencil', country: 'China', value: 5067 },
+        { type: 'Eyebrow pencil', country: 'USA', value: 13012 },
+        { type: 'Rouge', country: 'Africa', value: 5221 },
+        { type: 'Rouge', country: 'EU', value: 3574 },
+        { type: 'Rouge', country: 'China', value: 7004 },
+        { type: 'Rouge', country: 'USA', value: 11624 },
+        { type: 'Lipstick', country: 'Africa', value: 9256 },
+        { type: 'Lipstick', country: 'EU', value: 4376 },
+        { type: 'Lipstick', country: 'China', value: 9054 },
+        { type: 'Lipstick', country: 'USA', value: 8814 },
+        { type: 'Eyeshadows', country: 'Africa', value: 3308 },
+        { type: 'Eyeshadows', country: 'EU', value: 4572 },
+        { type: 'Eyeshadows', country: 'China', value: 12043 },
+        { type: 'Eyeshadows', country: 'USA', value: 12998 },
+        { type: 'Eyeliner', country: 'Africa', value: 5432 },
+        { type: 'Eyeliner', country: 'EU', value: 3417 },
+        { type: 'Eyeliner', country: 'China', value: 15067 },
+        { type: 'Eyeliner', country: 'USA', value: 12321 },
+        { type: 'Foundation', country: 'Africa', value: 13701 },
+        { type: 'Foundation', country: 'EU', value: 5231 },
+        { type: 'Foundation', country: 'China', value: 10119 },
+        { type: 'Foundation', country: 'USA', value: 10342 },
+        { type: 'Lip gloss', country: 'Africa', value: 4008 },
+        { type: 'Lip gloss', country: 'EU', value: 4572 },
+        { type: 'Lip gloss', country: 'China', value: 12043 },
+        { type: 'Lip gloss', country: 'USA', value: 22998 },
+        { type: 'Mascara', country: 'Africa', value: 18712 },
+        { type: 'Mascara', country: 'EU', value: 6134 },
+        { type: 'Mascara', country: 'China', value: 10419 },
+        { type: 'Mascara', country: 'USA', value: 11261 }
+      ]
+    },
+    title: {
+      visible: true,
+      text: '100% stacked area chart of cosmetic products sales'
+    },
+    percent: true,
+    xField: 'type',
+    yField: 'value',
+    seriesField: 'country',
+    legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
+    axes: [
+      {
+        orient: 'left',
+        label: {
+          formatMethod(val) {
+            return `${(val * 100).toFixed(2)}%`;
+          }
+        }
+      }
+    ],
+    label: {
+      visible: true,
+      formatter: '{_percent_}'
+    }
+  };
+
+  const cs = new VChart(percent_area_spec, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });

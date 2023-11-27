@@ -104,22 +104,29 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     return SCROLL_BAR_DEFAULT_SIZE;
   }
 
+  private _getAttrs() {
+    return {
+      zIndex: this.layoutZIndex,
+      x: this.getLayoutStartPoint().x,
+      y: this.getLayoutStartPoint().y,
+      width: this.getLayoutRect().width,
+      height: this.getLayoutRect().height,
+      range: [this._start, this._end],
+      direction: this._isHorizontal ? 'horizontal' : 'vertical',
+      delayType: this._spec?.delayType,
+      delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
+      realTime: this._spec?.realTime ?? true,
+      ...this._getComponentAttrs()
+    } as ScrollBarAttributes;
+  }
+
   protected _createOrUpdateComponent() {
-    if (!this._component) {
+    const attrs = this._getAttrs();
+    if (this._component) {
+      this._component.setAttributes(attrs);
+    } else {
       const container = this.getContainer();
-      this._component = new ScrollBarComponent({
-        zIndex: this.layoutZIndex,
-        x: this.getLayoutStartPoint().x,
-        y: this.getLayoutStartPoint().y,
-        width: this.getLayoutRect().width,
-        height: this.getLayoutRect().height,
-        range: [this._start, this._end],
-        direction: this._isHorizontal ? 'horizontal' : 'vertical',
-        delayType: this._spec?.delayType,
-        delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
-        realTime: this._spec?.realTime ?? true,
-        ...this._getComponentAttrs()
-      });
+      this._component = new ScrollBarComponent(attrs);
       // 绑定事件，防抖，防止频繁触发
       this._component.addEventListener('scroll', (e: any) => {
         const value = e.detail.value;

@@ -46,9 +46,20 @@
   prefix = '##' + ${prefix}
 ) }}
 
-#${prefix} text(string)
+#${prefix} type(string)
+
+自 1.7.0 版本开始支持，文本类型。
+
+可选：
+
+- 'text'
+- 'rich'
+- 'html'
+
+#${prefix} text(string | Array)
 
 标签文本 - 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']。
+自 1.7.0 版本开始，支持富文本内容。
 
 #${prefix} formatMethod(Function)
 

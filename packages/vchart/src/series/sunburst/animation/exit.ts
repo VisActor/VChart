@@ -2,10 +2,11 @@ import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
 import type { ISunburstAnimationParams } from './interface';
 import type { Datum } from '../../../typings';
 import { computeRatio, getInnerMostElements } from './utils';
+import { maxInArray, minInArray } from '@visactor/vutils';
 
 const computeInnerAngleRange = (elements: IElement[]): [number, number] => {
-  const minStartAngle = Math.min(...elements.map(m => m.getGraphicAttribute('startAngle', false)));
-  const maxEndAngle = Math.max(...elements.map(m => m.getGraphicAttribute('endAngle', false)));
+  const minStartAngle = minInArray(elements.map(m => m.getGraphicAttribute('startAngle', false) * 1));
+  const maxEndAngle = maxInArray(elements.map(m => m.getGraphicAttribute('endAngle', false) * 1));
   return [minStartAngle, maxEndAngle];
 };
 

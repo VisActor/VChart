@@ -1,8 +1,10 @@
-import { isArray } from '@visactor/vutils';
+import { get } from '@visactor/vutils';
 import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface/type';
 import type { ISeries } from '../../series';
 import { Factory } from '../../core/factory';
+import { mergeSpec } from '../../util/spec';
+import { getTrimPaddingConfig } from '../util';
 
 export class CommonChart extends BaseChart {
   static readonly type: string = ChartTypeEnum.common;
@@ -19,7 +21,7 @@ export class CommonChart extends BaseChart {
 
   transformSpec(spec: any): void {
     super.transformSpec(spec);
-    if (isArray(spec.series)) {
+    if (spec.series && spec.series.length) {
       const defaultSeriesSpec = this._getDefaultSeriesSpec(spec);
       spec.series.forEach((s: ISeries) => {
         if (!this.isValidSeries(s.type)) {
@@ -30,6 +32,13 @@ export class CommonChart extends BaseChart {
             s[k] = defaultSeriesSpec[k];
           }
         });
+      });
+    }
+    if (spec.axes && spec.axes.length) {
+      spec.axes.forEach((axis: any) => {
+        if (get(axis, 'trimPadding')) {
+          mergeSpec(axis, getTrimPaddingConfig(this.type, spec));
+        }
       });
     }
   }

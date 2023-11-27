@@ -18,6 +18,7 @@ export type IMarkAreaSpec = IMarkerSpec &
   (
     | IMarkAreaXSpec // 标注目标：笛卡尔坐标系坐标空间
     | IMarkAreaYSpec // 标注目标：笛卡尔坐标系坐标空间
+    | (IMarkAreaXSpec & IMarkAreaYSpec)
     // | IMarkAreaAngleSpec // TODO: 标注目标：极坐标系坐标空间
     // | IMarkAreaRadiusSpec // TODO: 标注目标：极坐标系坐标空间
     | IMarkAreaCoordinateSpec // 标注目标：数据元素
@@ -37,7 +38,7 @@ export interface IMarkAreaXSpec extends IMarkerAxisSpec {
 export interface IMarkAreaYSpec extends IMarkerAxisSpec {
   /**
    * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型
-   * 可以将 y 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处
+   * 可以将 y 配置为 '15%' 百分比的形式，用于表示将 y 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处
    */
   y: IDataPos | IDataPosCallback;
   y1: IDataPos | IDataPosCallback;

@@ -32,6 +32,21 @@
 
 文字样式
 
+##${prefix} type(string)
+
+自 1.7.0 版本支持，文本类型
+
+可选：
+
+- 'text'
+- 'rich'
+- 'html'
+
+##${prefix} text(string | number | Array)
+
+文本内容。
+自 1.7.0 版本支持富文本内容。
+
 {{ use: graphic-text(
   prefix = '####'
 ) }}

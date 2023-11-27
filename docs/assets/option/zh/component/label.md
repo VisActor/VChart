@@ -8,6 +8,16 @@
 
 数据标签图元是否支持交互事件，默认不支持。
 
+#${prefix} textType(string)
+
+自 1.7.0 版本支持，文本类型。
+
+可选：
+
+- 'text'
+- 'rich'
+- 'html'
+
 #${prefix} formatMethod(Function)
 
 数据标签内容格式化函数，函数定义如下：
@@ -19,8 +29,18 @@
    * @param datum 图形数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[];
+  formatMethod?: (text: string | string[], datum?: any) => string | string[] | IRichTextCharacter[];
 ```
+
+#${prefix} formatter(string)
+
+字符串模版，自`1.7.0`版本开始支持。
+
+用`{}`包裹变量名的字符串模版，变量名取自数据属性值。
+
+在饼图、百分比堆叠面积图、百分比堆叠折线图、百分比堆叠柱状图中，支持配置百分比, `{_percent_}`
+
+例如，`formatter: 'type={type},value={value},percent={_percent_}'`
 
 {{ if: !${noOffset} }}
 
@@ -167,6 +187,15 @@ hover 状态样式配置。
 智能反色配置，大部分图表中默认关闭了智能反色，除以下场景：
 
 - 在柱状图中，当标签位置为内部（ `'inside'` | `'inside-top'` | `'inside-bottom'` | `'inside-right'` | `'inside-left'`） 时，默认开启。
+
+##${prefix} mode(string)
+
+对比度度量。
+
+可选：
+
+- 'WCAG': 使用 Web 内容可访问性指南度量对比度。默认使用该标准。更多详情可参考 https://webaim.org/resources/contrastchecker/。
+- 'lightness': 使用色彩亮度度量对比度。更多详情可参考 https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl#l。
 
 ##${prefix} textType(string)
 

@@ -13,7 +13,7 @@ const handlerTheme: IContinuousLegendTheme['handler'] = {
     shadowBlur: 12,
     shadowOffsetX: 0,
     shadowOffsetY: 4,
-    shadowColor: { type: 'palette', key: 'shadowColor', a: 0.3 }
+    shadowColor: { type: 'palette', key: 'shadowColor' }
   }
 };
 
@@ -24,7 +24,7 @@ export const colorLegend: IColorLegendTheme = {
       width: 200,
       height: 8,
       style: {
-        fill: { type: 'palette', key: 'dataZoomBackgroundColor' }
+        fill: { type: 'palette', key: 'sliderRailColor' }
       }
     },
     handler: handlerTheme
@@ -35,7 +35,7 @@ export const colorLegend: IColorLegendTheme = {
       width: 8,
       height: 200,
       style: {
-        fill: { type: 'palette', key: 'dataZoomBackgroundColor' }
+        fill: { type: 'palette', key: 'sliderRailColor' }
       }
     },
     handler: handlerTheme

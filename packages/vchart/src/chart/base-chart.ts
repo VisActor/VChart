@@ -1008,6 +1008,9 @@ export class BaseChart extends CompilableBase implements IChart {
 
   /** 设置当前全局主题 */
   setCurrentTheme(reInit: boolean = true) {
+    // update chart config
+    this.updateChartConfig({ change: true, reMake: false }, this._spec);
+
     // 需要重新布局
     this.setLayoutTag(true);
 

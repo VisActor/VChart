@@ -11,7 +11,7 @@ import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick, StatisticsDomain } from './interface';
 import type { IComponentOption } from '../interface';
-import { array, get, isArray, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
+import { array, get, isArray, isBoolean, isFunction, isNil, isValid, maxInArray } from '@visactor/vutils';
 import { eachSeries, getSeries } from '../../util/model';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ISeries } from '../../series/interface';
@@ -233,9 +233,16 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     })
       .map(s => s.getViewDataStatistics())
       .filter(v => !!v);
-    this._option.dataSet.multipleDataViewAddListener(viewStatistics, 'change', () => {
-      this.updateScaleDomain();
-    });
+
+    if (viewStatistics.length > 1) {
+      this._option.dataSet.multipleDataViewAddListener(viewStatistics, 'change', () => {
+        this.updateScaleDomain();
+      });
+    } else if (viewStatistics.length === 1) {
+      viewStatistics[0].target.addListener('change', () => {
+        this.updateScaleDomain();
+      });
+    }
   }
 
   protected updateScaleDomain() {
@@ -264,7 +271,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       }
     );
     if (groups.length !== 0) {
-      const depth = Math.max(...groups.map(g => g.fields.length));
+      const depth = maxInArray(groups.map(g => g.fields.length));
       for (let i = 1; i < depth; i++) {
         const scale = this._scale.clone();
         this._scales.push(scale);
@@ -397,7 +404,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           background: transformStateStyle(spec.title.background?.state)
         },
         pickable: spec.title.style?.pickable !== false,
-        childrenPickable: spec.title.style?.pickable !== false
+        childrenPickable: spec.title.style?.pickable !== false,
+        ...spec.title
       },
       panel: {
         visible: spec.background?.visible,

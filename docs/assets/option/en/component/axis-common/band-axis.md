@@ -2,15 +2,19 @@
 
 <!-- IBandAxisSpec -->
 
+#${prefix} trimPadding(boolean)
+
+Supported since `1.7.0` version, used to configure whether to remove the white space at both ends of the band axis. If true, there will be no white space at both ends, **and the settings of bandPadding, paddingInner and paddingOuter will be ignored**.
+
 #${prefix} bandPadding(number|number[])
-default value is `0.2`. 
+default value is `0.2`.
 
 **Only valid when the axis is a discrete axis**, used to set `paddingInner` and `paddingOuter` of the axis at the same time, the value is between (0,1), the priority is lower than `paddingInner` and `paddingOuter`.
 
 **Because there may be multi-layer scales (xField is set to an array, that is, a grouping scene), the array type is supported for bandPadding configuration of multi-layer scales**
 
 #${prefix} paddingInner(number|number[])
-default value is `0.1`. 
+default value is `0.1`.
 
 **Only takes effect when the axis is a discrete axis**, the interval within the axis group, the value is between (0,1), and the priority is higher than `bandPadding`.
 
@@ -19,7 +23,7 @@ default value is `0.1`.
 For more information, please refer to https://github.com/d3/d3-scale#band-scales.
 
 #${prefix} paddingOuter(number|number[])
-default value is `0.3`. 
+default value is `0.3`.
 
 **Only effective when the axis is a discrete axis**, the interval outside the axis group, the value is between (0,1), and the priority is higher than `bandPadding`.
 

@@ -3,15 +3,14 @@ import { ComponentTypeEnum } from '../interface/type';
 import type { IComponentOption } from '../interface';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
 import type { MarkTypeEnum } from '../../mark/interface';
 import type { IGraphic } from '@visactor/vrender-core';
 export declare class CustomMark extends BaseComponent<any> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
-    layoutType: LayoutItem['layoutType'];
-    layoutZIndex: LayoutItem['layoutZIndex'];
+    layoutType: 'none';
+    layoutZIndex: number;
     layoutLevel: number;
     protected _spec: (ICustomMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | ICustomMarkGroupSpec)[];
     static createComponent(spec: any, options: IComponentOption): CustomMark[];

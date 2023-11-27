@@ -9,6 +9,6 @@ export type FormatConfig = {
   postfix?: string;
   unit?: number;
   fixed?: number | 'auto';
-  content?: 'value' | 'abs' | 'percentage' | 'value(percentage)' | 'percentage(value)' | 'CAGR';
+  content?: 'dimension' | 'value' | 'abs' | 'percentage' | 'value(percentage)' | 'percentage(value)' | 'CAGR';
   separator?: boolean;
 };

@@ -50,7 +50,7 @@ export class CommonModelElement extends BaseEditorElement {
 
   getElementWithModel(info: { model: IChartModel; layoutMeta: LayoutMeta }) {
     const { model } = info;
-    if (IgnoreModelTypeInCommon[model.type]) {
+    if (!model || IgnoreModelTypeInCommon[model.type]) {
       return null;
     }
     const element = new CommonChartEditorElement(this, {

@@ -14,7 +14,7 @@ import type { GrammarMarkType } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { array, isNil, isValid } from '@visactor/vutils';
+import { array, isEmpty, isNil, isValid } from '@visactor/vutils';
 import { LayoutZIndex, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
@@ -38,7 +38,8 @@ import type { IEvent } from '../../event/interface';
 import { Event } from '../../event/event';
 // eslint-disable-next-line no-duplicate-imports
 import { AnimationStateEnum } from '../../animation/interface';
-import type { ILabelSpec } from '../../component/label';
+import type { TransformedLabelSpec } from '../../component/label';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 const keptInUpdateAttribute = {
   defined: true
@@ -215,18 +216,23 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._groupKey = groupKey;
   }
 
-  protected _label?: ILabelSpec[];
+  protected _label?: TransformedLabelSpec[];
   getLabelSpec() {
     return this._label;
   }
-  setLabelSpec(label: ILabelSpec | ILabelSpec[]) {
+  setLabelSpec(label: TransformedLabelSpec | TransformedLabelSpec[]) {
     this._label = array(label);
   }
-  addLabelSpec(label: ILabelSpec) {
+  addLabelSpec(label: TransformedLabelSpec, head = false) {
     if (!this._label) {
       this._label = [];
     }
-    this._label.push(label);
+    if (head) {
+      // 排序靠前的 label 优先布局，尽可能避免碰撞隐藏
+      this._label.unshift(label);
+    } else {
+      this._label.push(label);
+    }
   }
 
   protected _progressiveConfig: IMarkProgressiveConfig;
@@ -235,6 +241,16 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   }
   setProgressiveConfig(config: IMarkProgressiveConfig) {
     this._progressiveConfig = config;
+  }
+
+  protected _setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+  setCustomizedShapeCallback(callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) {
+    this._setCustomizedShape = callback;
+  }
+
+  protected _enableSegments: boolean;
+  setEnableSegments(enable: boolean) {
+    this._enableSegments = enable;
   }
 
   protected declare _option: ICompilableMarkOption;
@@ -378,7 +394,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...temp } = this.stateStyle;
     const { enterStyles, updateStyles } = this._separateStyle();
     this._product.encode(updateStyles);
-    if (enterStyles) {
+    if (!isEmpty(enterStyles)) {
       this._product.encodeState('group', enterStyles);
     }
 
@@ -446,7 +462,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         modelUserId: this.model.userId
       },
       skipTheme: this.getSkipTheme(),
-      support3d: this.getSupport3d()
+      support3d: this.getSupport3d(),
+      enableSegments: !!this._enableSegments
     };
 
     if (this._progressiveConfig) {
@@ -460,6 +477,10 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       config.morph = this._morph;
       config.morphKey = this._morphKey;
       config.morphElementKey = this._morphElementKey;
+    }
+
+    if (this._setCustomizedShape) {
+      config.setCustomizedShape = this._setCustomizedShape;
     }
 
     this._product.configure(config);

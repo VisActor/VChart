@@ -1,7 +1,6 @@
-import type { ILayoutPaddingSpec } from '../model/interface';
 import type { ISeriesTheme } from '../series/interface';
 import type { IMarkTheme } from '../typings/spec';
-import type { IArcMarkSpec, IAreaMarkSpec, ILineMarkSpec, IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, IPathMarkSpec } from '../typings';
+import type { IArcMarkSpec, IAreaMarkSpec, ILineMarkSpec, IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, IPathMarkSpec, ILayoutPaddingSpec } from '../typings';
 import type { MarkTypeEnum } from '../mark/interface';
 import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';
 import type { IGradientColor } from '@visactor/vrender-core';
