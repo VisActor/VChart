@@ -156,21 +156,6 @@ export class SpecProcess implements ISpecProcess {
     if (this._editorSpec.marker) {
       Object.keys(this._editorSpec.marker).forEach(key => {
         this._vchartSpec[key] = this._editorSpec.marker[key];
-        // if (!this._vchartSpec[key]) {
-        //   this._vchartSpec[key] = [];
-        // }
-        // if (!isArray(this._vchartSpec[key])) {
-        //   this._vchartSpec[key] = [this._vchartSpec[key]];
-        // }
-        // const markers = this._editorSpec.marker[key];
-        // markers.forEach((marker: any) => {
-        //   const index = this._vchartSpec[key].findIndex((m: any) => m.id === marker.id);
-        //   if (index === -1) {
-        //     this._vchartSpec[key].push(marker);
-        //   } else {
-        //     this._vchartSpec[key][index] = merge(this._vchartSpec[key][index] || {}, marker);
-        //   }
-        // });
       });
     }
 

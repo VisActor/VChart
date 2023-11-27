@@ -10,8 +10,9 @@ import {
   STACK_FIELD_END,
   STACK_FIELD_END_PERCENT
 } from '@visactor/vchart';
-import { isValidNumber, type IPointLike, maxInArray, minInArray, median as visMedian } from '@visactor/vutils';
+import { isValidNumber, type IPointLike, maxInArray, minInArray, median as visMedian, array } from '@visactor/vutils';
 import { MarkerTypeEnum } from '../interface';
+import type { IText } from '@visactor/vrender-core';
 
 // TODO: 不同的标注需要给不同的 zIndex
 
@@ -691,7 +692,11 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
       size: 12,
       refX: -4
     },
-    _originValue_: [startData[valueFieldInData], endData[valueFieldInData]]
+    _originValue_: [startData[valueFieldInData], endData[valueFieldInData]],
+    coordinatesOffset: [
+      adjustTotalDiffCoordinatesOffset(startData, series, chart),
+      adjustTotalDiffCoordinatesOffset(endData, series, chart)
+    ]
   };
 }
 
@@ -907,4 +912,54 @@ export function average(data: any[], field?: string): number {
 
   const average = sum / count;
   return average;
+}
+
+export function isDataSameInFields(data1: Datum, data2: Datum, fields: string[]) {
+  return fields.every(field => data1[field] === data2[field]);
+}
+
+export function adjustTotalDiffCoordinatesOffset(
+  datum: Datum,
+  series: ICartesianSeries,
+  vchart: IVChart,
+  offset = { x: 0, y: 0 }
+) {
+  const labels = vchart.getStage().getElementsByName('data-label');
+  if (labels && labels.length) {
+    let allLabelTexts: IText[] = [];
+    labels.forEach(label => {
+      allLabelTexts = allLabelTexts.concat(label.getElementsByType('text'));
+    });
+    const isHorizontal = series.direction === 'horizontal';
+    const datumPosition = {
+      x: series.getXAxisHelper().dataToPosition(array(series.getSpec().xField).map(field => datum[field])),
+      y: series.getYAxisHelper().dataToPosition(array(series.getSpec().yField).map(field => datum[field]))
+    };
+    let matchLabels;
+    if (isHorizontal) {
+      matchLabels = allLabelTexts.filter(
+        text =>
+          text.AABBBounds.y1 <= datumPosition.y &&
+          text.AABBBounds.y2 >= datumPosition.y &&
+          text.AABBBounds.x2 > datumPosition.x
+      );
+    } else {
+      matchLabels = allLabelTexts.filter(
+        text =>
+          text.AABBBounds.x1 <= datumPosition.x &&
+          text.AABBBounds.x2 >= datumPosition.x &&
+          text.AABBBounds.y1 < datumPosition.y
+      );
+    }
+
+    if (matchLabels && matchLabels.length) {
+      if (isHorizontal) {
+        offset.x = Math.max(...matchLabels.map(text => text.AABBBounds.x2)) - datumPosition.x;
+      } else {
+        offset.y = Math.min(...matchLabels.map(text => text.AABBBounds.y1)) - datumPosition.y;
+      }
+    }
+  }
+
+  return offset;
 }

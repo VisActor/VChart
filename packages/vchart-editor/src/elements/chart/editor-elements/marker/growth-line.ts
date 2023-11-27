@@ -8,13 +8,20 @@ import type { IGroup, ILine, ISymbol } from '@visactor/vrender-core';
 import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 import type { IPointLike } from '@visactor/vutils';
-import { PointService, array, last, merge } from '@visactor/vutils';
+import { PointService, array, isString, last, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, ICartesianSeries, IComponent, IStepMarkLineSpec } from '@visactor/vchart';
 import { STACK_FIELD_TOTAL_TOP } from '@visactor/vchart';
 import { findClosestPoint } from '../../utils/math';
-import { DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE, calculateCAGR, getInsertPoints, stackTotal } from '../../utils/marker';
+import {
+  DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE,
+  adjustTotalDiffCoordinatesOffset,
+  calculateCAGR,
+  getInsertPoints,
+  isDataSameInFields,
+  stackTotal
+} from '../../utils/marker';
 import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
@@ -58,8 +65,9 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
   }
+
   private _getCoordinateOffset(): [Point, Point] {
-    const series = (this._model as unknown as MarkLine).getRelativeSeries();
+    const series = this._getSeries();
     const region = series.getRegion();
     const { width: regionWidth, height: regionHeight } = region.getLayoutRect();
 
@@ -68,16 +76,14 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       { x: 0, y: 0 }
     ];
     return coordinatesOffset.map((offset: any) => {
-      let offsetX = 0;
-      let offsetY = 0;
+      let offsetX = offset.x ?? 0;
+      let offsetY = offset.y ?? 0;
 
-      const x = offset.x;
-      const y = offset.y;
-      if (x) {
-        offsetX = (Number(x.substring(0, x.length - 1)) * regionWidth) / 100;
+      if (isString(offsetX)) {
+        offsetX = (Number(offsetX.substring(0, offsetX.length - 1)) * regionWidth) / 100;
       }
-      if (y) {
-        offsetY = (Number(y.substring(0, y.length - 1)) * regionHeight) / 100;
+      if (isString(offsetY)) {
+        offsetY = (Number(offsetY.substring(0, offsetY.length - 1)) * regionHeight) / 100;
       }
 
       return {
@@ -122,7 +128,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       return this._editComponent;
     }
 
-    const series = (this._model as unknown as MarkLine).getRelativeSeries();
+    const series = this._getSeries();
 
     const dataPoints = this._getAnchorPoints();
     const lineShape = this._element.getLine();
@@ -399,17 +405,28 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         x: closestPoint.x,
         y: closestPoint.y
       });
+      const isStart = this._currentHandler.name === START_LINK_HANDLER;
 
       this._overlayLine.setAttributes({
         points: getInsertPoints(
-          {
-            x: this._overlayStartHandler.attribute.x,
-            y: this._overlayStartHandler.attribute.y
-          },
-          {
-            x: this._overlayEndHandler.attribute.x,
-            y: this._overlayEndHandler.attribute.y
-          },
+          isStart
+            ? {
+                x: this._overlayStartHandler.attribute.x,
+                y: this._overlayStartHandler.attribute.y
+              }
+            : {
+                x: this._overlayStartHandler.attribute.x + this._coordinateOffset[0].x,
+                y: this._overlayStartHandler.attribute.y + this._coordinateOffset[0].y
+              },
+          isStart
+            ? {
+                x: this._overlayEndHandler.attribute.x + this._coordinateOffset[1].x,
+                y: this._overlayEndHandler.attribute.y + this._coordinateOffset[1].y
+              }
+            : {
+                x: this._overlayEndHandler.attribute.x,
+                y: this._overlayEndHandler.attribute.y
+              },
           (this._model.getSpec() as IStepMarkLineSpec).connectDirection,
           DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE
         )
@@ -434,10 +451,10 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     // 隐藏可吸附数据锚点
     this._dataAnchors?.hideAll();
     // 更新 markLine
-    const model = this._model as MarkLine;
-    const series = model.getRelativeSeries() as ICartesianSeries;
-    const valueField = series.direction === 'horizontal' ? series.fieldX[0] : series.fieldY[0];
-    const valueFieldInData = series.direction === 'horizontal' ? series.getSpec().xField : series.getSpec().yField;
+    const series = this._getSeries();
+    const isHorizontal = series.direction === 'horizontal';
+    const valueField = isHorizontal ? series.fieldX[0] : series.fieldY[0];
+    const valueFieldInData = isHorizontal ? series.getSpec().xField : series.getSpec().yField;
     const startDatum = (this._overlayStartHandler as unknown as any).data;
     const endDatum = (this._overlayEndHandler as unknown as any).data;
 
@@ -459,12 +476,10 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
       // 2. 更新当前 markLine 组件
       if (this._element.name === MarkerTypeEnum.growthLine) {
-        const dimensionField =
-          series.direction === 'horizontal' ? array(series.getSpec().yField)[0] : array(series.getSpec().xField)[0];
-        const dimensionTicks =
-          series.direction === 'horizontal'
-            ? (series.getYAxisHelper().getScale(0) as IBandLikeScale).ticks()
-            : (series.getXAxisHelper().getScale(0) as IBandLikeScale).ticks();
+        const dimensionField = isHorizontal ? array(series.getSpec().yField)[0] : array(series.getSpec().xField)[0];
+        const dimensionTicks = isHorizontal
+          ? (series.getYAxisHelper().getScale(0) as IBandLikeScale).ticks()
+          : (series.getXAxisHelper().getScale(0) as IBandLikeScale).ticks();
         const n = Math.abs(
           dimensionTicks.indexOf(endDatum[dimensionField]) - dimensionTicks.indexOf(startDatum[dimensionField])
         );
@@ -488,8 +503,26 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
           ...newMarkLineSpec.label,
           text: labelText
         };
-      }
 
+        this.autoAdjustTotalDiffLines(newMarkLineSpec);
+
+        // 调整 this._editorElement
+        // 1. 调整
+        const overlayLinePoints = getInsertPoints(
+          {
+            x: this._overlayStartHandler.attribute.x + newMarkLineSpec.coordinatesOffset[0].x,
+            y: this._overlayStartHandler.attribute.y + newMarkLineSpec.coordinatesOffset[0].y
+          },
+          {
+            x: this._overlayEndHandler.attribute.x + newMarkLineSpec.coordinatesOffset[1].x,
+            y: this._overlayEndHandler.attribute.y + newMarkLineSpec.coordinatesOffset[1].y
+          },
+          (this._model.getSpec() as IStepMarkLineSpec).connectDirection,
+          DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE
+        );
+
+        this._overlayLine.setAttribute('points', overlayLinePoints);
+      }
       this._spec = newMarkLineSpec;
       this._updateAndSave(newMarkLineSpec, 'markLine');
     }
@@ -641,12 +674,19 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       let offset;
       if (isHorizontal) {
         offset = `${
-          ((points[1].x - Math.max(this._overlayStartHandler.attribute.x, this._overlayEndHandler.attribute.x)) /
+          ((points[1].x -
+            Math.max(
+              this._overlayStartHandler.attribute.x + this._spec.coordinatesOffset[0].x,
+              this._overlayEndHandler.attribute.x + this._spec.coordinatesOffset[1].x
+            )) /
             regionWidth) *
           100
         }%`;
       } else {
-        const relativeY = Math.min(this._overlayStartHandler.attribute.y, this._overlayEndHandler.attribute.y);
+        const relativeY = Math.min(
+          this._overlayStartHandler.attribute.y + this._spec.coordinatesOffset[0].y,
+          this._overlayEndHandler.attribute.y + this._spec.coordinatesOffset[1].y
+        );
 
         offset = `${((relativeY - points[1].y) / regionHeight) * 100}%`;
       }
@@ -659,13 +699,12 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   };
 
   private _getAnchorPoints() {
-    const model = this._model as MarkLine;
-    const series = model.getRelativeSeries() as ICartesianSeries;
+    // TODO: 这里可能有问题
+    const series = this._chart.vchart.getChart().getAllSeries()[0];
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
 
     if (series.type === 'bar') {
-      // TODO: 需要根据不同的系列名称获取不同的图形节点
       const rectMark = series.getMarks().find((mark: any) => mark.type === 'rect');
       const vgrammarElements = rectMark.getProduct().elements;
 
@@ -692,8 +731,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
             (series.direction === 'horizontal'
               ? graphItem.attribute.y + graphItem.attribute.height / 2
               : graphItem.attribute.y) + regionStartY,
-          data: array(element.data)[0],
-          length: series.direction === 'horizontal' ? graphItem.attribute.width : graphItem.attribute.height
+          data: array(element.data)[0]
         };
       });
 
@@ -719,8 +757,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         return {
           x: position.x + regionStartX,
           y: position.y + regionStartY,
-          data,
-          length: series.direction === 'horizontal' ? position.x : position.y
+          data
         };
       });
 
@@ -735,4 +772,105 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   private _onHandlerUnHover = () => {
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
   };
+
+  autoAdjustTotalDiffLines(currentMarkLineSpec: any) {
+    const dataPoints = this._getAnchorPoints();
+    const series = this._getSeries();
+    const fields = [].concat(series.getSpec().xField, series.getSpec().yField, series.getSpec().seriesField);
+    const totalDiffs = array(this._chart.specProcess.getVChartSpec().markLine ?? []).filter(
+      spec => spec.name === MarkerTypeEnum.totalDiffLine
+    );
+
+    if (currentMarkLineSpec) {
+      const currentIndex = totalDiffs.findIndex(spec => spec.id === currentMarkLineSpec.id);
+      if (currentIndex >= 0) {
+        totalDiffs[currentIndex] = currentMarkLineSpec;
+      } else {
+        totalDiffs.push(currentMarkLineSpec);
+      }
+    }
+
+    // 先置空
+
+    totalDiffs.forEach(spec => {
+      const [start, end] = spec.coordinates;
+      // const [startOffset, endOffset] = spec.coordinatesOffset;
+      spec.coordinatesOffset = [
+        adjustTotalDiffCoordinatesOffset(start, series, this._chart.vchart),
+        adjustTotalDiffCoordinatesOffset(end, series, this._chart.vchart)
+      ];
+    });
+    const isHorizontal = series.direction === 'horizontal';
+    const valueField = isHorizontal ? series.fieldX[0] : series.fieldY[0];
+    const valueFieldInData = isHorizontal ? series.getSpec().xField : series.getSpec().yField;
+
+    dataPoints.map(dataPoint => {
+      // 查找数据点上是否存在两个方向的 markLine
+      // 存在，调整
+      // 不存在，恢复
+      const data = {
+        ...dataPoint.data,
+        [valueFieldInData]: dataPoint.data[valueField]
+      };
+      const startSpecs: any[] = [];
+      const endSpecs: any[] = [];
+      totalDiffs.forEach(spec => {
+        const [start, end] = spec.coordinates;
+        if (isDataSameInFields(start, data, fields)) {
+          startSpecs.push(spec);
+        }
+        if (isDataSameInFields(end, data, fields)) {
+          endSpecs.push(spec);
+        }
+      });
+
+      if (startSpecs.length && endSpecs.length) {
+        startSpecs.forEach(spec => {
+          spec.coordinatesOffset[0] = adjustTotalDiffCoordinatesOffset(
+            spec.coordinates[0],
+            series,
+            this._chart.vchart,
+            {
+              x: isHorizontal ? 0 : 4,
+              y: isHorizontal ? -4 : 0
+            }
+          );
+        });
+        endSpecs.forEach(spec => {
+          spec.coordinatesOffset[1] = adjustTotalDiffCoordinatesOffset(
+            spec.coordinates[1],
+            series,
+            this._chart.vchart,
+            {
+              x: isHorizontal ? 0 : -4,
+              y: isHorizontal ? 4 : 0
+            }
+          );
+        });
+      }
+    });
+
+    if (currentMarkLineSpec) {
+      currentMarkLineSpec.coordinatesOffset = [
+        adjustTotalDiffCoordinatesOffset(
+          currentMarkLineSpec.coordinates[0],
+          series,
+          this._chart.vchart,
+          currentMarkLineSpec.coordinatesOffset[0]
+        ),
+        adjustTotalDiffCoordinatesOffset(
+          currentMarkLineSpec.coordinates[1],
+          series,
+          this._chart.vchart,
+          currentMarkLineSpec.coordinatesOffset[1]
+        )
+      ];
+    }
+  }
+
+  private _getSeries() {
+    return (
+      this._model ? (this._model as MarkLine).getRelativeSeries() : this._chart.vchart.getChart().getAllSeries()[0]
+    ) as ICartesianSeries;
+  }
 }

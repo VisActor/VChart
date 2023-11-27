@@ -14,7 +14,7 @@ import { SpecProcess } from './spec-process/spec-process';
 import type { ISpecProcess } from './spec-process/interface';
 import { Data } from './data/data';
 import type { IData } from './data/interface';
-import { type IChartElementOption, type IChartModel } from './interface';
+import { MarkerTypeEnum, type IChartElementOption, type IChartModel } from './interface';
 import {
   ValueLineEditor,
   MarkAreaEditor,
@@ -278,6 +278,14 @@ export class EditorChart extends BaseElement {
   private _onAddMarkLine = (el: IEditorElement, attr: IUpdateAttributeParam) => {
     if (attr.markLine.enable) {
       const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markLine.type);
+
+      if (attr.markLine.type === MarkerTypeEnum.totalDiffLine) {
+        // 如果是总计差异标注，则需要进行如下场景的调整：
+        // 1. 是否与 label 冲撞
+        // 2. 是否相同数据点存在不同方向的总计差异标注，存在则调整
+        this._growthMarkLineEditor?.autoAdjustTotalDiffLines(defaultMarkLineSpec);
+      }
+
       attr.markLine.spec = defaultMarkLineSpec;
     }
   };

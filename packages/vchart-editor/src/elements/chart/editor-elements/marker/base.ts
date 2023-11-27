@@ -5,6 +5,7 @@ import { BaseEditorElement, CommonChartEditorElement } from '../base-editor-elem
 import type { EventParams } from '@visactor/vchart';
 import type { IComponent } from '@visactor/vchart';
 import { MarkerTypeEnum } from '../../interface';
+import { array, get } from '@visactor/vutils';
 
 export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEditorElement {
   readonly type: string = 'marker';
@@ -98,11 +99,25 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       updateCall: attr => {
         this._controller.removeOverGraphic();
 
+        // 如果是总计差异标注则需要进行相应的调整
+        let isTotalDiff;
+        if (attr?.markLine?.spec?.id) {
+          isTotalDiff = array(get(this._chart.specProcess.getVChartSpec(), 'markLine', [])).find(
+            spec => spec.name === MarkerTypeEnum.totalDiffLine && spec.id === attr?.markLine?.spec?.id
+          );
+        }
+
         const reRender = this.chart.specProcess.updateElementAttribute(element.model, attr);
+
+        if (isTotalDiff) {
+          this.chart._growthMarkLineEditor?.autoAdjustTotalDiffLines(null);
+        }
+
         const releaseLast = reRender;
         if (releaseLast) {
           this.releaseLast();
         }
+
         if (reRender) {
           this.chart.reRenderWithUpdateSpec();
         }
@@ -203,6 +218,8 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     if (this._editComponent) {
       this._layer.editorGroup.removeChild(this._editComponent as unknown as IGraphic);
       this._editComponent = null;
+      // TODO: 清楚其他变量
+      this._model = null;
     }
   }
 
