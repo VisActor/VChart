@@ -708,7 +708,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         this._createExtensionMark(s as any, mark, namePrefix, i);
       });
     } else if (!parentMark && (!isNil(spec.dataId) || !isNil(spec.dataIndex))) {
-      const dataView = this._option.getSeriesData(spec.id, spec.dataIndex);
+      const dataView = this._option.getSeriesData(spec.dataId, spec.dataIndex);
       if (dataView === this._rawData) {
         mark.setDataView(this.getViewData(), this.getViewDataProductId());
       } else {
