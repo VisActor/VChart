@@ -120,7 +120,7 @@ export interface IChart extends ICompilable {
   getAllMarks: () => IMark[];
 
   // spec
-  updateSpec: (spec: any, morphConfig?: IMorphConfig) => IUpdateSpecResult;
+  updateSpec: (spec: any) => IUpdateSpecResult;
 
   // state
   /**
@@ -163,7 +163,7 @@ export interface IChart extends ICompilable {
   // 获取实际渲染的 canvas
   getCanvas: () => HTMLCanvasElement | undefined;
 
-  setCurrentTheme: (reInit?: boolean) => void;
+  setCurrentTheme: () => void;
 
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
   // setDimensionIndex
