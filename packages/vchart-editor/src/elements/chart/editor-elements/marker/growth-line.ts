@@ -162,7 +162,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       }
     );
 
-    if (relativeDataPoints.length) {
+    if (relativeDataPoints.length && relativeDataPoints.length === 2) {
       let startLinkLine;
       let endLinkLine;
       if (this._element.name === MarkerTypeEnum.growthLine) {
@@ -377,8 +377,8 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         points: [
           closestPoint,
           {
-            x: closestPoint.x + this._coordinateOffset[0].x,
-            y: closestPoint.y + this._coordinateOffset[0].y
+            x: closestPoint.x + (this._coordinateOffset[0].x ?? 0),
+            y: closestPoint.y + (this._coordinateOffset[0].y ?? 0)
           }
         ]
       });
@@ -387,8 +387,11 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
           (this._fixedHandler as unknown as Segment).attribute.points[0] as Point,
           {
             x:
-              ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).x + this._coordinateOffset[0].x,
-            y: ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).y + this._coordinateOffset[0].y
+              ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).x +
+              (this._coordinateOffset[0].x ?? 0),
+            y:
+              ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).y +
+              (this._coordinateOffset[0].y ?? 0)
           }
         ]
       });
@@ -396,13 +399,16 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       this._overlayLine.setAttributes({
         points: [
           {
-            x: closestPoint.x + this._coordinateOffset[0].x,
-            y: closestPoint.y + this._coordinateOffset[0].y
+            x: closestPoint.x + (this._coordinateOffset[0].x ?? 0),
+            y: closestPoint.y + (this._coordinateOffset[0].y ?? 0)
           },
           {
             x:
-              ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).x + this._coordinateOffset[0].x,
-            y: ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).y + this._coordinateOffset[0].y
+              ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).x +
+              (this._coordinateOffset[0].x ?? 0),
+            y:
+              ((this._fixedHandler as unknown as Segment).attribute.points[0] as Point).y +
+              (this._coordinateOffset[0].y ?? 0)
           }
         ]
       });
@@ -781,7 +787,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
   };
 
-  autoAdjustTotalDiffLines(currentMarkLineSpec: any) {
+  autoAdjustTotalDiffLines(currentMarkLineSpec?: any) {
     const dataPoints = this._getAnchorPoints();
     const series = this._getSeries();
     const fields = [].concat(series.getSpec().xField, series.getSpec().yField, series.getSpec().seriesField);
@@ -857,22 +863,5 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         });
       }
     });
-
-    // if (currentMarkLineSpec) {
-    //   currentMarkLineSpec.coordinatesOffset = [
-    //     adjustTotalDiffCoordinatesOffset(
-    //       currentMarkLineSpec.coordinates[0],
-    //       series,
-    //       this._chart.vchart,
-    //       currentMarkLineSpec.coordinatesOffset[0]
-    //     ),
-    //     adjustTotalDiffCoordinatesOffset(
-    //       currentMarkLineSpec.coordinates[1],
-    //       series,
-    //       this._chart.vchart,
-    //       currentMarkLineSpec.coordinatesOffset[1]
-    //     )
-    //   ];
-    // }
   }
 }

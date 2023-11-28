@@ -4,7 +4,7 @@ import type { IEditorElement, ILayoutLine, IUpdateAttributeParam } from './../..
 /* eslint-disable no-console */
 import { LayoutEditorElement } from './editor-elements/layout-editor';
 import { ChartLayout } from './layout/chart-layout';
-import type { IBoundsLike } from '@visactor/vutils';
+import { array, get, type IBoundsLike } from '@visactor/vutils';
 import { VChart } from '@visactor/vchart';
 import type { ISpec, IVChart } from '@visactor/vchart';
 import type { IRect, IPoint } from '../../typings/space';
@@ -171,6 +171,16 @@ export class EditorChart extends BaseElement {
 
   protected _afterRender() {
     this._layoutEditor?.checkCurrentEditorElementBounds();
+
+    const spec = this._specProcess.getVChartSpec();
+    // 如果是总计差异标注，则需要进行如下场景的调整：
+    // 1. 是否与 label 冲撞
+    // 2. 是否相同数据点存在不同方向的总计差异标注，存在则调整
+    const totalDiffs = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.totalDiffLine);
+    if (totalDiffs && totalDiffs.length) {
+      this._growthMarkLineEditor?.autoAdjustTotalDiffLines();
+      this._vchart.updateSpecSync(spec, false, false);
+    }
     super._afterRender();
   }
 
@@ -253,14 +263,6 @@ export class EditorChart extends BaseElement {
   private _onAddMarkLine = (el: IEditorElement, attr: IUpdateAttributeParam) => {
     if (attr.markLine.enable) {
       const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markLine.type);
-
-      if (attr.markLine.type === MarkerTypeEnum.totalDiffLine) {
-        // 如果是总计差异标注，则需要进行如下场景的调整：
-        // 1. 是否与 label 冲撞
-        // 2. 是否相同数据点存在不同方向的总计差异标注，存在则调整
-        this._growthMarkLineEditor?.autoAdjustTotalDiffLines(defaultMarkLineSpec);
-      }
-
       attr.markLine.spec = defaultMarkLineSpec;
     }
   };
