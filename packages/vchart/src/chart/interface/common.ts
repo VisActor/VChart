@@ -15,7 +15,7 @@ export interface IAttributeParams {
 }
 
 export interface IChartOption
-  extends Omit<IModelOption, 'getChartViewRect' | 'getChartLayoutRect' | 'globalScale' | 'getChart'> {
+  extends Omit<IModelOption, 'getChartViewRect' | 'getChartLayoutRect' | 'globalScale' | 'getChart' | 'getSeriesData'> {
   container: HTMLElement | null;
   canvas?: HTMLCanvasElement | OffscreenCanvas | string;
   modeParams?: IRenderOption['modeParams'];
