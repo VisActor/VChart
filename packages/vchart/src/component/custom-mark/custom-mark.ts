@@ -111,7 +111,7 @@ export class CustomMark extends BaseComponent<any> {
     // do nothing;
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
   }
 

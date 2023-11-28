@@ -929,7 +929,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return isShown;
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
   }
 }

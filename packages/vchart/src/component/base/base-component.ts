@@ -59,7 +59,11 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   abstract changeRegions(regions: IRegion[]): void;
-  abstract getVRenderComponents(): IGraphic[];
+  protected abstract _getNeedClearVRenderComponents(): IGraphic[];
+
+  getVRenderComponents() {
+    return this._getNeedClearVRenderComponents();
+  }
 
   protected callPlugin(cb: (plugin: IComponentPlugin) => void) {
     if (this.pluginService) {
@@ -121,7 +125,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   clear() {
-    const components = this.getVRenderComponents();
+    const components = this._getNeedClearVRenderComponents();
     if (components && components.length) {
       components.forEach(c => {
         if (c) {
@@ -165,10 +169,6 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
       },
       'model'
     );
-  };
-
-  getGraphicBounds = () => {
-    return this.getVRenderComponents()?.[0]?.AABBBounds ?? super.getGraphicBounds();
   };
 
   getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike {

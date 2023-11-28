@@ -7,7 +7,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { LayoutZIndex } from '../../constant';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
-import type { IPoint, Datum, ILayoutType } from '../../typings';
+import type { IPoint, Datum } from '../../typings';
 import type { IPairInfo } from './layout';
 // eslint-disable-next-line no-duplicate-imports
 import { layoutByPosition, layoutOuter, placeRectByOrient } from './layout';
@@ -424,8 +424,8 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     // do nothing
   }
 
-  getVRenderComponents(): IGraphic[] {
-    return [];
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
+    return this._markerComponents as unknown as IGroup[];
   }
 }
 

@@ -15,7 +15,7 @@ import { ComponentMark, type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction } from '@visactor/vutils';
 import { isArray, isFunction, pickWithout } from '@visactor/vutils';
-import type { IGroup, IText } from '@visactor/vrender-core';
+import type { IGraphic, IGraphicAttribute, IGroup, IText } from '@visactor/vrender-core';
 import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
@@ -304,6 +304,17 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         }
       });
     });
+  }
+
+  getVRenderComponents() {
+    const labels: any[] = [];
+    this._labelComponentMap.forEach((info, component) => {
+      const graphicItem = component.getProduct().getGroupGraphicItem();
+      if (graphicItem) {
+        labels.push(graphicItem);
+      }
+    });
+    return labels;
   }
 }
 
