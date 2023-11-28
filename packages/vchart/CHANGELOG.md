@@ -1,6 +1,23 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 24 Nov 2023 09:43:25 GMT and should not be manually modified.
+This log was last generated on Tue, 28 Nov 2023 08:24:27 GMT and should not be manually modified.
+
+## 1.7.1
+Tue, 28 Nov 2023 08:24:27 GMT
+
+### Updates
+
+- fix: read dataview of extension-mark by `dataId`
+
+
+- fix: fixed the issue where the layout size of the axis is incorrect when only domainLine is displayed
+
+
+- fix: fix bug of changed spec when create series
+
+
+- fix(pie): get center error. fix #1610
+- fix: optimize the effect of `tooltip.enterable` that user's pointer can easily enter the tooltip, related #1598
 
 ## 1.7.0
 Fri, 24 Nov 2023 09:43:25 GMT

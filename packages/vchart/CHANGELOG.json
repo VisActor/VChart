@@ -2,6 +2,30 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.7.1",
+      "tag": "@visactor/vchart_v1.7.1",
+      "date": "Tue, 28 Nov 2023 08:24:27 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: read dataview of extension-mark by `dataId`\n\n"
+          },
+          {
+            "comment": "fix: fixed the issue where the layout size of the axis is incorrect when only domainLine is displayed\n\n"
+          },
+          {
+            "comment": "fix: fix bug of changed spec when create series\n\n"
+          },
+          {
+            "comment": "fix(pie): get center error. fix #1610"
+          },
+          {
+            "comment": "fix: optimize the effect of `tooltip.enterable` that user's pointer can easily enter the tooltip, related #1598"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.7.0",
       "tag": "@visactor/vchart_v1.7.0",
       "date": "Fri, 24 Nov 2023 09:43:25 GMT",

@@ -29,6 +29,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     protected _labelMark: ITextMark | null;
     protected _labelLineMark: IPathMark | null;
     protected _theme: Maybe<IPieSeriesTheme>;
+    protected _buildMarkAttributeContext(): void;
     setAttrFromSpec(): void;
     initData(): void;
     initMark(): void;
