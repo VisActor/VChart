@@ -116,7 +116,7 @@ export interface IModel extends ICompilable {
   onLayoutEnd: (ctx: IModelLayoutOption) => void;
 
   // theme
-  setCurrentTheme: (noRender?: boolean) => void;
+  setCurrentTheme: () => void;
   getColorScheme: () => IThemeColorScheme | undefined;
 
   setMarkStyle: <T extends ICommonSpec>(

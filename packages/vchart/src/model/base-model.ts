@@ -263,19 +263,9 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     return obj;
   }
 
-  async setCurrentTheme(noRender?: boolean) {
-    const modifyConfig = () => {
-      // 重新初始化
-      this.reInit(this._getTheme());
-
-      return { change: true, reMake: false };
-    };
-
-    if (noRender) {
-      modifyConfig();
-    } else {
-      await this._option.globalInstance.updateCustomConfigAndRerender(modifyConfig);
-    }
+  setCurrentTheme() {
+    // 重新初始化
+    this.reInit(this._getTheme());
   }
 
   updateLayoutAttribute() {
