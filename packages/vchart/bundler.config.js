@@ -84,7 +84,10 @@ module.exports = {
     __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production')
   },
   rollupOptions: {
-    plugins
+    plugins,
+    treeshake: {
+      moduleSideEffects:false
+    }
   },
   globals: {
     // '@visactor/vrender': 'VRender'
