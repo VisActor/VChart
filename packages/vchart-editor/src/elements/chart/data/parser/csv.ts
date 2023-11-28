@@ -34,6 +34,10 @@ export class CSVParser implements IDataParser {
     return this._data;
   }
 
+  getDataValue() {
+    return this._dataValue;
+  }
+
   getDataInfo() {
     return this._data?.getFields();
   }

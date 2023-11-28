@@ -35,6 +35,7 @@ export type DataSave = {
 export interface IDataParser {
   type: string;
   getData: () => StandardData;
+  getDataValue: () => IParserValue;
   getDataInfo?: () => DataInfo;
   getSpecOption?: () => any;
   getSave: () => DataSave;

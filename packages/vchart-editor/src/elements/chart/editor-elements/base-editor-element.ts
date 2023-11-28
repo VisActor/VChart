@@ -172,7 +172,7 @@ export class CommonChartEditorElement implements IEditorElement {
     // @ts-ignore
     this.chartType = context.chart.specProcess.getEditorSpec().temp;
     this.tempInfo = context.chart.specProcess.dataTempTransform.specTemp?.getTempInfo?.();
-    this.chartData = context.chart.specProcess.dataTempTransform.dataParser?.getData();
+    this.chartData = context.chart.specProcess.dataTempTransform.dataParser?.getDataValue();
     // @ts-ignore TODO: support get current colorTheme api in vchart
     this.color = context.chart.vchart.getChart()._globalScale.getScale('color').range();
     const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };

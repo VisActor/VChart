@@ -32,10 +32,14 @@ export class ClipBoardParser implements IDataParser {
       this.updateValue(value);
     }
   }
+  getSpecOption?: () => any;
   getData() {
     return this._data;
   }
 
+  getDataValue() {
+    return this._dataValue;
+  }
   getDataInfo() {
     return this._data?.getFields();
   }
