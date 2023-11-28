@@ -2127,6 +2127,13 @@
           }
         },
         {
+          "path": "pie-extension",
+          "title": {
+            "zh": "饼图自定义 mark",
+            "en": "Pie Extension Mark"
+          }
+        },
+        {
           "path": "custom-shape",
           "title": {
             "zh": "自定义 Shape",
