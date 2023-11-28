@@ -8,6 +8,8 @@
 
 #${prefix} defaultSelect(Object)
 
+crosshair 初始化显示信息，通过该配置可在图表绘制时默认展示 crosshair 组件。
+
 ##${prefix} axisIndex(number)
 
 声明要显示数据的轴索引。

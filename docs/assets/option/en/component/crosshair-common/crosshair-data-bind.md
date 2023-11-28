@@ -8,6 +8,8 @@ Declare the axis indices for crosshair binding. If not declared, it will bind to
 
 #${prefix} defaultSelect(Object)
 
+crosshair initializes the display information. Through this configuration, the crosshair component can be displayed by default when drawing the chart.
+
 ##${prefix} axisIndex(number)
 
 Declare the axis index for displaying data.
