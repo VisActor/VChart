@@ -193,7 +193,8 @@ export class BaseChart extends CompilableBase implements IChart {
       getChartViewRect: () => this._viewRect,
       getChart: () => this,
       globalScale: this._globalScale,
-      onError: this._option?.onError
+      onError: this._option?.onError,
+      getSeriesData: this._chartData.getSeriesData.bind(this._chartData)
     };
 
     this._spec = spec;
@@ -328,7 +329,6 @@ export class BaseChart extends CompilableBase implements IChart {
         region,
         specIndex: index,
         globalScale: this._globalScale,
-        getSeriesData: this._chartData.getSeriesData.bind(this._chartData),
         sourceDataList: this._chartData.dataList
       });
 
