@@ -282,7 +282,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     this.event.emit(ChartEvent.legendSelectedDataChange, { model: this });
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._legendComponent] as unknown as IGroup[];
   }
 

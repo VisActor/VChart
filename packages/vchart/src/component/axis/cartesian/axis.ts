@@ -915,7 +915,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return bounds;
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return this._unitText ? [this._unitText] : [];
   }
 }

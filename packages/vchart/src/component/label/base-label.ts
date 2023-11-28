@@ -57,7 +57,7 @@ export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> exte
   changeRegions(regions: IRegion[]): void {
     // do nothing
   }
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
   }
 }

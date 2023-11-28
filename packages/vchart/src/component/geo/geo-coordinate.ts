@@ -302,7 +302,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     // do nothing
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
   }
 
