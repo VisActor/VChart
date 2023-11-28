@@ -643,7 +643,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     limitTagInBounds(label, this._getLimitBounds());
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [
       this._xCrosshair,
       this._xTopLabel,

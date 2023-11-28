@@ -92,7 +92,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   changeRegions(regions: IRegion[]) {
     /* do nothing */
   }
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
   }
   protected _registerEvent() {

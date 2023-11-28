@@ -116,7 +116,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     // do nothing
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._playerComponent] as unknown as IGroup[];
   }
 

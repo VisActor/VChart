@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import type { IGroup, IGraphic } from '@visactor/vrender-core';
+import type { IGroup, IGraphic, IGraphicAttribute } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
 import type { IOrientType, IPolarOrientType, Datum, StringOrNumber, IGroup as ISeriesGroup } from '../../typings';
@@ -95,8 +95,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     this._visible = spec.visible ?? true;
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
+  }
+
+  getVRenderComponents() {
+    return array(this._axisMark?.getProduct()?.getGroupGraphicItem());
   }
 
   created() {
