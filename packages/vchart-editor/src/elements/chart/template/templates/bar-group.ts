@@ -35,6 +35,8 @@ export class BarGroupTemp extends BaseTemp {
     return true;
   }
   getSpec(data: StandardData, info: DataInfo, opt?: any) {
-    return getCartesianSpec(spec(), 'vertical', data, info, 10);
+    return getCartesianSpec(spec(), 'vertical', data, info, {
+      ordinalFieldCount: 10
+    });
   }
 }

@@ -4,7 +4,7 @@ import { BaseTemp } from './baseTemp';
 import { getCartesianCommonSpec, getCartesianSpec, getDimensions } from './common';
 
 export function spec() {
-  const _spec = getCartesianCommonSpec('vertical');
+  const _spec = getCartesianCommonSpec('vertical', false, true);
   _spec.series.push({
     id: 'line-0',
     type: 'line',
@@ -32,6 +32,8 @@ export class LineTemp extends BaseTemp {
     return true;
   }
   getSpec(data: StandardData, info: DataInfo, opt?: any) {
-    return getCartesianSpec(spec(), 'vertical', data, info, 1);
+    return getCartesianSpec(spec(), 'vertical', data, info, {
+      ordinalFieldCount: 1
+    });
   }
 }

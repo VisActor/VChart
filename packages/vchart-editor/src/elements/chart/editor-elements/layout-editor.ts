@@ -307,8 +307,14 @@ export class LayoutEditorElement extends BaseEditorElement {
     if (!this._currentEl?.model) {
       return;
     }
+    const model = refreshModelInVChart(this._currentEl.model, this._chart.vchart as VChart);
+    if (!model) {
+      // 删除当前编辑框
+      this.clearLayoutEditorBox();
+      this._chart.option.controller.setOverGraphic(null, null, null);
+      return;
+    }
     if (this._currentEl.model.type === 'title' || this._currentEl.model.type === 'discreteLegend') {
-      const model = refreshModelInVChart(this._currentEl.model, this._chart.vchart as VChart);
       const bounds = getModelGraphicsBounds(model as IChartModel);
       this._layoutComponent.updateBounds({
         ...bounds
@@ -331,7 +337,6 @@ export class LayoutEditorElement extends BaseEditorElement {
         this._chart.option.controller.setOverGraphic(null, null, null);
       }
     } else if (this._currentEl.model.type.startsWith('cartesianAxis')) {
-      const model = refreshModelInVChart(this._currentEl.model, this._chart.vchart as VChart) as any;
       const region = model._regions[0];
       const rect = getAxisLayoutInRegionRect(model, { ...region.getLayoutStartPoint(), ...region.getLayoutRect() });
 
@@ -357,7 +362,6 @@ export class LayoutEditorElement extends BaseEditorElement {
       this._chart.vchart.getChart().setLayoutTag(true);
       this._chart.vchart.renderSync();
     } else if (this._currentEl.model.type.includes('region')) {
-      const model = refreshModelInVChart(this._currentEl.model, this._chart.vchart as VChart) as any;
       const bounds = getModelGraphicsBounds(model as IChartModel);
       this._layoutComponent.updateBounds({
         ...bounds

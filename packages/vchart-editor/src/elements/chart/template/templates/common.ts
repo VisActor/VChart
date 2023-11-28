@@ -26,15 +26,23 @@ export function getCommonSpec() {
   };
 }
 
-export function getCartesianCommonSpec(direction: 'horizontal' | 'vertical', percent: boolean = false) {
+export function getCartesianCommonSpec(
+  direction: 'horizontal' | 'vertical',
+  percent: boolean = false,
+  trimPadding: boolean = false
+) {
   return {
     direction,
     ...getCommonSpec(),
-    axes: getCartesianAxesSpec(direction, percent)
+    axes: getCartesianAxesSpec(direction, percent, trimPadding)
   };
 }
 
-export function getCartesianAxesSpec(direction: 'horizontal' | 'vertical', percent: boolean = false) {
+export function getCartesianAxesSpec(
+  direction: 'horizontal' | 'vertical',
+  percent: boolean = false,
+  trimPadding: boolean = false
+) {
   return direction === 'vertical'
     ? [
         {
@@ -60,7 +68,8 @@ export function getCartesianAxesSpec(direction: 'horizontal' | 'vertical', perce
             autoLimit: false
           },
           maxWidth: null as number,
-          maxHeight: null as number
+          maxHeight: null as number,
+          trimPadding
         }
       ]
     : [
@@ -72,7 +81,8 @@ export function getCartesianAxesSpec(direction: 'horizontal' | 'vertical', perce
             autoLimit: false
           },
           maxWidth: null as number,
-          maxHeight: null as number
+          maxHeight: null as number,
+          trimPadding
         },
         {
           orient: 'bottom',
@@ -97,8 +107,12 @@ export function getCartesianSpec(
   direction: 'horizontal' | 'vertical',
   data: StandardData,
   info: DataInfo,
-  ordinalFieldCount: number = 1,
-  opt?: any
+  option: {
+    ordinalFieldCount: number;
+    [key: string]: unknown;
+  } = {
+    ordinalFieldCount: 1
+  }
 ) {
   spec.data = [
     {
@@ -118,7 +132,7 @@ export function getCartesianSpec(
       if (!seriesField) {
         seriesField = key;
       }
-      if (ordinalField.length < ordinalFieldCount) {
+      if (ordinalField.length < option.ordinalFieldCount) {
         ordinalField.push(key);
       }
     }
