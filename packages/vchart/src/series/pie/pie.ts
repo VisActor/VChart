@@ -530,7 +530,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         return mergeSpec({}, newTheme, chartSpec, userSpec);
       };
 
-      const baseSpec = this._spec;
+      const baseSpec = this._originalSpec;
       this._spec = merge(baseSpec);
     }
   }

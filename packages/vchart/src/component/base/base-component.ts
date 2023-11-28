@@ -79,7 +79,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   }
 
   protected _getTheme() {
-    return getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option, this._originalSpec);
+    return getComponentThemeFromGlobalTheme(this._option.type as ComponentTypeEnum, this._option, this._originalSpec);
   }
 
   protected _mergeThemeToSpec() {
