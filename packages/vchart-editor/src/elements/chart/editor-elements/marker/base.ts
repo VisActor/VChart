@@ -43,13 +43,10 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     if (!this._checkEventEnable(e) || (this._editComponent && this._editComponent.attribute.visible)) {
       return;
     }
-    this._element = (<T>e.model).getVRenderComponents()[0] as unknown as D;
-    this._model = e.model as T;
-    this._modelId = e.model.userId;
 
     const el = this._getEditorElement(e);
     this.showOverGraphic(el, el?.id + `${this._layer.id}`, e.event as PointerEvent);
-    this._modelId = el.model.userId;
+    // this._modelId = el.model.userId;
     this._setCursor(e);
   };
 
@@ -85,7 +82,8 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
 
   protected _getEditorElement(eventParams: EventParams): IEditorElement {
     const model = eventParams.model as any;
-    const markerBounds = (this._element as unknown as IGroup).AABBBounds;
+    const marker = model.getVRenderComponents()[0] as unknown as D;
+    const markerBounds = (marker as unknown as IGroup).AABBBounds;
     const element: IEditorElement = new CommonChartEditorElement(this, {
       model: model as unknown as IChartModel,
       id: this._chart.vchart.id + '-' + this.type + '-' + model.id,
@@ -98,20 +96,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       updateCall: attr => {
         this._controller.removeOverGraphic();
 
-        // 如果是总计差异标注则需要进行相应的调整
-        let isTotalDiff;
-        if (attr?.markLine?.spec?.id) {
-          isTotalDiff = array(get(this._chart.specProcess.getVChartSpec(), 'markLine', [])).find(
-            spec => spec.name === MarkerTypeEnum.totalDiffLine && spec.id === attr?.markLine?.spec?.id
-          );
-        }
-
         const reRender = this.chart.specProcess.updateElementAttribute(element.model, attr);
-
-        if (isTotalDiff) {
-          this.chart._growthMarkLineEditor?.autoAdjustTotalDiffLines(null);
-        }
-
         const releaseLast = reRender;
         if (releaseLast) {
           this.releaseLast();
