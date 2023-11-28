@@ -57,7 +57,11 @@ export const OverGraphicAttribute = {
 
 export const BoxSelectionMaskName = '_editor_box_selection_mask';
 export const TransformComponentName = 'TransformComponent2';
+export const MAX_HISTORY_COUNT = 100;
 
+/**
+ * EditorChart const
+ */
 export const ChartComponentKeys = [
   'axes',
   'title',
@@ -69,4 +73,9 @@ export const ChartComponentKeys = [
   'scrollBar'
 ];
 
-export const MAX_HISTORY_COUNT = 100;
+export const ComponentBoundsNormal: { [key: string]: boolean } = {
+  title: true,
+  legends: true,
+  player: true,
+  discreteLegend: true
+};

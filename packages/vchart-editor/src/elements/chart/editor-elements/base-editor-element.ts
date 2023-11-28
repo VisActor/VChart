@@ -11,6 +11,7 @@ import { merge, array } from '@visactor/vutils';
 import { getChartModelWithModelInfo, transformModelRect } from '../utils/layout';
 import type { IModelSpec } from '../spec-process/interface';
 import { ChartComponentKeys } from '../../../core/const';
+import { isRegionModel } from '../utils/common';
 
 export abstract class BaseEditorElement {
   protected _chart: EditorChart;
@@ -200,7 +201,7 @@ export class CommonChartEditorElement implements IEditorElement {
 
     this.originSpec = model.getSpec();
     //
-    if (model.type === 'region') {
+    if (isRegionModel(model.type)) {
       this.allModelSpec = [];
       // series
       this._context.chart.vchart

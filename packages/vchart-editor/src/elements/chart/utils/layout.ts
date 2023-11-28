@@ -1,3 +1,4 @@
+import type { IBoundsLike } from '@visactor/vutils';
 import type { IModelInfo } from './../../../core/interface';
 import type { ILayoutRect } from './../layout/interface';
 import type { IChartModel, ILayoutItem } from './../interface';
@@ -5,9 +6,10 @@ import type { IRect } from './../../../typings/space';
 import type { IPoint } from '../../../typings/space';
 import type { IVChart } from '@visactor/vchart';
 import { isModelMatchModelInfo } from '../../../utils/spec';
+import { isRegionModel, isRegionRelativeModel } from './common';
 
 export function transformModelPos(i: IChartModel, pos: IPoint) {
-  if (i.type.startsWith('cartesianAxis')) {
+  if (isRegionRelativeModel(i.type)) {
     if (i.layoutOrient === 'left') {
       pos.x -= i.getLayoutRect().width;
     } else if (i.layoutOrient === 'top') {
@@ -18,8 +20,7 @@ export function transformModelPos(i: IChartModel, pos: IPoint) {
 }
 
 export function transformModelRect(i: IChartModel, rect: IRect) {
-  // console.log('transformModelRect', i.type);
-  if (i.type.startsWith('cartesianAxis')) {
+  if (isRegionRelativeModel(i.type)) {
     if (i.layoutOrient === 'left') {
       rect.x -= rect.width;
     } else if (i.layoutOrient === 'top') {
@@ -30,7 +31,7 @@ export function transformModelRect(i: IChartModel, rect: IRect) {
 }
 
 export function transformModelRectRevert(i: IChartModel, rect: IRect, boundsRect: IRect) {
-  if (i.type.startsWith('cartesianAxis')) {
+  if (isRegionRelativeModel(i.type)) {
     if (i.layoutOrient === 'left') {
       boundsRect.x = rect.x + rect.width;
       rect.x = boundsRect.x - boundsRect.width;
@@ -90,16 +91,16 @@ export function getAxisLayoutInRegionRect(axis: ILayoutItem, rect: IRect): ILayo
 }
 
 export function getChartModelWithModelInfo(vchart: IVChart, info: IModelInfo) {
-  if (info.specKey === 'region') {
+  if (isRegionModel(info.specKey)) {
     return vchart
       .getChart()
       .getAllRegions()
-      .find(c => isModelMatchModelInfo(c as unknown as IChartModel, info));
+      .find((c: IChartModel) => isModelMatchModelInfo(c as unknown as IChartModel, info));
   }
   return vchart
     .getChart()
     .getAllComponents()
-    .find(c => isModelMatchModelInfo(c as unknown as IChartModel, info));
+    .find((c: IChartModel) => isModelMatchModelInfo(c as unknown as IChartModel, info));
 }
 
 export const IgnoreModelTypeInLayout = {
@@ -153,13 +154,17 @@ export function getBoundsInRects(
   return result;
 }
 
-export function getModelGraphicsBounds(model: IChartModel) {
+export function getModelGraphicsBounds(model: IChartModel): IBoundsLike {
   try {
     if (model.type.includes('Axis')) {
       return (<any>model).getMarks()[0].getProduct().graphicItem.AABBBounds;
     }
     // vchart 报错
-    return model.getGraphicBounds();
+    const cpt = model.getVRenderComponents()[0];
+    if (cpt) {
+      return cpt.AABBBounds;
+    }
+    return { x1: 0, x2: 0, y1: 0, y2: 0 };
   } catch (error) {
     return { x1: 0, x2: 0, y1: 0, y2: 0 };
   }

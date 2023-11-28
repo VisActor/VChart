@@ -2,6 +2,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { IPoint, IRect, ISize } from '../../typings/space';
 import type { IElementOption } from './../interface';
 import type { IParserValue } from './data/interface';
+import type { IGraphic } from '@visactor/vrender-core';
 export interface IChartElementOption extends IElementOption {
   dataSource?: { type: string; value: IParserValue };
   temp?: string;
@@ -36,7 +37,8 @@ export interface IChartModel {
   getLayoutStartPoint: () => IPoint;
   getLayoutRect: () => ISize;
   // 获取绘图bounds
-  getGraphicBounds?: () => IBoundsLike;
+  // getGraphicBounds?: () => IBoundsLike;
+  getVRenderComponents: () => IGraphic[];
 
   getSpec?: () => any;
   /** 是否可见 */
@@ -105,8 +107,7 @@ export interface ILayoutItem {
    */
   updateLayoutAttribute: () => void;
 
-  // 获取绘图bounds
-  getGraphicBounds?: () => IBoundsLike;
+  getVRenderComponents: () => IGraphic[];
 }
 
 export enum MarkerTypeEnum {

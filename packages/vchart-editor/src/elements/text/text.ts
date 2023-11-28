@@ -153,7 +153,6 @@ export class EditorText extends BaseElement {
       updateAttribute: (attr: IUpdateAttributeParam) => {
         this.saveSnapshot();
         if (attr.spec) {
-          console.log('text attribute update');
           this._textGraphic.setAttributes(this._transformTextAttribute(attr.spec));
           el.originSpec = this._textGraphic.attribute;
           this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);

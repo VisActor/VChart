@@ -251,7 +251,6 @@ export class EditorChart extends BaseElement {
   };
 
   clearDataForChartTypeChange = (attr?: IUpdateAttributeParam) => {
-    console.log('clear chart data!');
     this._opt.controller.currentEditorElement?.editorFinish();
     this._specProcess.clearMarker();
     if (attr?.clearCurrent) {

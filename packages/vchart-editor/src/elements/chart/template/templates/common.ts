@@ -7,7 +7,8 @@ export function getCommonSpec() {
     legends: {
       id: 'legend-discrete',
       visible: true,
-      autoPage: false
+      autoPage: false,
+      position: 'start'
     },
     region: [
       {

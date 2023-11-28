@@ -18,6 +18,7 @@ import {
   transformModelRect
 } from '../utils/layout';
 import { isModelMatchModelInfo, isSameModelInfo } from '../../../utils/spec';
+import { isRegionModel, isRegionRelativeModel } from '../utils/common';
 
 export class ChartLayout implements IChartLayout {
   protected _layoutData: ILayoutData = null;
@@ -109,10 +110,10 @@ export class ChartLayout implements IChartLayout {
   layoutWithData(chart: IVChart, item: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike) {
     item
       .sort((a, b) => {
-        if (a.model.type === 'region') {
+        if (isRegionModel(a.model.type)) {
           return -1;
         }
-        if (b.model.type === 'region') {
+        if (isRegionModel(b.model.type)) {
           1;
         }
         return 0;
@@ -128,13 +129,13 @@ export class ChartLayout implements IChartLayout {
         }
         const size = i.computeBoundsInRect(rect);
         if (rect.width !== size.width || rect.height !== size.height) {
-          if (i.model.type.startsWith('cartesianAxis')) {
+          if (isRegionRelativeModel(i.model.type)) {
             if (i.layoutOrient === 'left' || i.layoutOrient === 'right') {
               rect.width = size.width;
             } else {
               rect.height = size.height;
             }
-          } else if (i.model.type === 'region') {
+          } else if (isRegionModel(i.model.type)) {
             // nothing
           } else {
             rect.width = size.width;
@@ -202,10 +203,10 @@ export class ChartLayout implements IChartLayout {
         result.push({ model: model as unknown as IChartModel, layoutMeta: d });
       }
     });
-    if (result.find(info => info.layoutMeta.specKey === 'region' || info.layoutMeta.specKey === 'axes')) {
+    if (result.find(info => isRegionModel(info.layoutMeta.specKey) || info.layoutMeta.specKey === 'axes')) {
       // 如果包含了 region 或者 轴，那么需要需要将 region 和轴一起添加。它们布局时是一个整体 痛苦！
       this._layoutData.data.forEach(d => {
-        if (d.specKey === 'region' || d.specKey === 'axes') {
+        if (isRegionModel(d.specKey) || d.specKey === 'axes') {
           if (result.find(r => isSameModelInfo(r.layoutMeta, d))) {
             return;
           }
@@ -227,10 +228,10 @@ export class ChartLayout implements IChartLayout {
     if (!model) {
       return;
     }
-    if (model.type.startsWith('region')) {
+    if (isRegionModel(model.type)) {
       // region 不处理
       return;
-    } else if (model.type.startsWith('cartesianAxis')) {
+    } else if (isRegionRelativeModel(model.type)) {
       // 轴处理
       this._resetAxisLayout(modelInfo, model);
     } else if (model.type.startsWith('title')) {
@@ -243,7 +244,9 @@ export class ChartLayout implements IChartLayout {
   }
 
   resetAxisLayoutAfterTempChange() {
-    const axis = this._chart.vchart.getComponents().filter(a => a.type.startsWith('cartesianAxis'));
+    const axis = this._chart.vchart
+      .getComponents()
+      .filter((a: IChartModel) => isRegionRelativeModel(a.type)) as IChartModel[];
     if (axis.length) {
       axis.forEach(model => {
         const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };

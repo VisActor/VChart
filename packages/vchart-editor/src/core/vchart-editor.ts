@@ -94,7 +94,9 @@ export class VChartEditor {
 
   addElements(
     type: string,
-    option: Include<Omit<IElementOption, 'layer' | 'controller' | 'mode' | 'commonHistoryUse' | 'editorData'>>,
+    option: Include<
+      Omit<IElementOption, 'layer' | 'controller' | 'mode' | 'commonHistoryUse' | 'editorData' | 'editorEvent'>
+    >,
     triggerHistory: boolean = true
   ) {
     if (!ElementsMap[type]) {

@@ -12,9 +12,17 @@ export function refreshModelInVChart(model: IChartModel, vchart: VChart) {
     specKey: model.specKey,
     specIndex: model.getSpecIndex() ?? 0
   };
-  if (model.type.includes('region')) {
+  if (isRegionModel(model.type)) {
     // region 作为特殊元素，永远可以刷新到一个
     delete modelInfo.id;
   }
   return getChartModelWithModelInfo(vchart, modelInfo);
+}
+
+export function isRegionRelativeModel(type: string) {
+  return type.startsWith('cartesianAxis');
+}
+
+export function isRegionModel(type: string) {
+  return type.includes('region');
 }

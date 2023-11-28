@@ -12,13 +12,13 @@ import {
   transformModelRectRevert
 } from '../utils/layout';
 import type { ILayoutAttribute, IRect } from '../../../typings/space';
-import { MinSize, OverGraphicAttribute } from '../../../core/const';
+import { ComponentBoundsNormal, MinSize, OverGraphicAttribute } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
 import type { EventParams } from '@visactor/vchart';
 import { isSameModelInfo } from '../../../utils/spec';
 import type { VRenderPointerEvent } from '../../interface';
 import type { VChart } from '@visactor/vchart';
-import { refreshModelInVChart } from '../utils/common';
+import { isRegionModel, isRegionRelativeModel, refreshModelInVChart } from '../utils/common';
 import { LayoutRectToRect } from '../../../utils/space';
 
 const CartesianAxisResize = {
@@ -85,7 +85,7 @@ export class LayoutEditorElement extends BaseEditorElement {
           if (isSameModelInfo(line, el)) {
             return;
           }
-          if (el.model?.type === 'region' && line.specKey.includes('axes')) {
+          if (isRegionModel(el.model?.type) && line.specKey.includes('axes')) {
             return;
           }
           pre.push(line);
@@ -184,7 +184,7 @@ export class LayoutEditorElement extends BaseEditorElement {
           height: { offset: rect.height as number }
         }
       });
-      if (model.type === 'region' && (<any>model).coordinate === 'cartesian') {
+      if (isRegionModel(model.type) && (<any>model).coordinate === 'cartesian') {
         const regions = chart.vchart.getChart().getAllRegions() as any[];
         const items = regions.concat(chart.vchart.getChart().getAllComponents() as any[]);
         const axes = items.filter(
@@ -211,20 +211,29 @@ export class LayoutEditorElement extends BaseEditorElement {
       return layoutData;
     }
     let rect: IRect;
-    if (model.type === 'region') {
+    if (isRegionModel(model.type)) {
       return layoutData;
     }
     if (model.layout) {
       if ((<IChartModel>model)._clearLayoutCache) {
         (<IChartModel>model)._clearLayoutCache();
       }
-      // @ts-ignore
-      rect = model.layout.computeBoundsInRect(layoutData);
+      if (ComponentBoundsNormal[this._currentEl.model.type]) {
+        const b = getModelGraphicsBounds(model);
+        rect = {
+          x: b.x1,
+          width: b.x2 - b.x1,
+          y: b.y1,
+          height: b.y2 - b.y1
+        };
+      } else {
+        rect = model.layout.computeBoundsInRect(layoutData) as IRect;
+      }
     } else {
       const b = (<IChartModel>model).getBoundsInRect(layoutData, { width: 9999, height: 9999 });
       rect = { x: b.x1, y: b.x2, width: b.x2 - b.x1, height: b.y2 - b.y1 };
       const bounds = getModelGraphicsBounds(model as IChartModel);
-      if (model.type !== 'region' && bounds) {
+      if (!isRegionModel(model.type) && bounds) {
         rect.width = Math.max(rect.width, bounds.x2 - bounds.x1);
         rect.height = Math.max(rect.height, bounds.y2 - bounds.y1);
       }
@@ -232,7 +241,7 @@ export class LayoutEditorElement extends BaseEditorElement {
     rect.x = layoutData.x;
     rect.y = layoutData.y;
     transformModelRectRevert(<IChartModel>model, layoutData as IRect, rect);
-    if (model.type.startsWith('cartesianAxis')) {
+    if (isRegionRelativeModel(model.type)) {
       if ((<IChartModel>model).layoutOrient === 'left' || (<IChartModel>model).layoutOrient === 'right') {
         rect.height = layoutData.height;
       } else {
@@ -314,7 +323,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       this._chart.option.controller.setOverGraphic(null, null, null);
       return;
     }
-    if (this._currentEl.model.type === 'title' || this._currentEl.model.type === 'discreteLegend') {
+    if (ComponentBoundsNormal[this._currentEl.model.type]) {
       const bounds = getModelGraphicsBounds(model as IChartModel);
       this._layoutComponent.updateBounds({
         ...bounds
@@ -336,7 +345,7 @@ export class LayoutEditorElement extends BaseEditorElement {
         this.clearLayoutEditorBox();
         this._chart.option.controller.setOverGraphic(null, null, null);
       }
-    } else if (this._currentEl.model.type.startsWith('cartesianAxis')) {
+    } else if (isRegionRelativeModel(this._currentEl.model.type)) {
       const region = model._regions[0];
       const rect = getAxisLayoutInRegionRect(model, { ...region.getLayoutStartPoint(), ...region.getLayoutRect() });
 
@@ -361,10 +370,16 @@ export class LayoutEditorElement extends BaseEditorElement {
       }
       this._chart.vchart.getChart().setLayoutTag(true);
       this._chart.vchart.renderSync();
-    } else if (this._currentEl.model.type.includes('region')) {
-      const bounds = getModelGraphicsBounds(model as IChartModel);
+    } else if (isRegionModel(this._currentEl.model.type)) {
+      const rect = {
+        ...model.layout.getLayoutStartPoint(),
+        ...model.layout.getLayoutRect()
+      };
       this._layoutComponent.updateBounds({
-        ...bounds
+        x1: rect.x,
+        x2: rect.x + rect.width,
+        y1: rect.y,
+        y2: rect.y + rect.height
       });
       // update layout data
       this._chart.layout.setModelLayoutData({
@@ -372,10 +387,10 @@ export class LayoutEditorElement extends BaseEditorElement {
         specKey: model.specKey,
         specIndex: model.getSpecIndex(),
         layout: {
-          x: { offset: (<IChartModel>model).getLayoutStartPoint().x },
-          y: { offset: (<IChartModel>model).getLayoutStartPoint().y },
-          width: { offset: bounds.x2 - (<IChartModel>model).getLayoutStartPoint().x },
-          height: { offset: bounds.y2 - (<IChartModel>model).getLayoutStartPoint().y }
+          x: { offset: rect.x },
+          y: { offset: rect.y },
+          width: { offset: rect.width },
+          height: { offset: rect.height }
         }
       });
     }
