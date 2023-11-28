@@ -573,13 +573,12 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       const spec = mergeSpec({ ...this.getLayoutStartPoint() }, this._axisStyle, attrs, { line: { visible: false } });
       const updateBounds = axisComponent.getBoundsWithoutRender(spec);
 
+      hasBounds = true;
+      this._latestBounds = updateBounds;
       if (isFinite(updateBounds.width())) {
         // 因为轴单位在某些区域显示的时候，是不参与轴某个方向的包围盒计算的，
         // 所以不太合适放在轴组件内支持，所以就在 VChart 层的轴组件上通过添加 text 图元支持
         result = this._appendAxisUnit(updateBounds, isX);
-
-        hasBounds = true;
-        this._latestBounds = updateBounds;
       }
     }
 
