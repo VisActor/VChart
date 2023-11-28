@@ -154,6 +154,10 @@ export class SpecProcess implements ISpecProcess {
       this._editorSpec.modelSpec.forEach(s => {
         const chartSpec = this.findChartSpec(s, this._vchartSpec);
         if (!chartSpec) {
+          // 部分封装 chart series 配置会直接放到chart 上
+          if (s.specKey === 'series' && s.specIndex === 0) {
+            mergeSpec(this._vchartSpec, s.spec);
+          }
           return;
         }
         mergeSpec(chartSpec, s.spec);

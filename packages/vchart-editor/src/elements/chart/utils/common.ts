@@ -20,9 +20,9 @@ export function refreshModelInVChart(model: IChartModel, vchart: VChart) {
 }
 
 export function isRegionRelativeModel(type: string) {
-  return type.startsWith('cartesianAxis');
+  return type && type.startsWith('cartesianAxis');
 }
 
 export function isRegionModel(type: string) {
-  return type.includes('region');
+  return type && type.includes('region');
 }
