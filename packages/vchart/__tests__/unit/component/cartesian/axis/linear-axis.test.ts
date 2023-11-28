@@ -11,6 +11,7 @@ import type { IComponent, IComponentOption } from '../../../../../src/component/
 import { EventDispatcher } from '../../../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../../../util/factory/compiler';
 import { initChartDataSet } from '../../../../util/context';
+import type { StringOrNumber } from '../../../../../src/typings/common';
 
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
@@ -95,7 +96,8 @@ const ctx: IComponentOption = {
     throw new Error('Function not implemented.');
   },
   animation: false,
-  onError: () => {}
+  onError: () => {},
+  getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => undefined
 };
 
 const getAxisSpec = (spec: any) => {
