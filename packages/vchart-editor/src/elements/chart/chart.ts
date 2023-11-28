@@ -60,7 +60,9 @@ export class EditorChart extends BaseElement {
     super(opt);
     this._event = new ChartEvent(this);
     this._specProcess = new SpecProcess(this, this.onSpecReady);
-    this._specProcess.emitter.on('beforeTempChange', this.clearDataForChartTypeChange);
+    this._specProcess.emitter.on('beforeTempChange', (willPushHistory: boolean) => {
+      willPushHistory && this.clearDataForChartTypeChange();
+    });
     this._layout = new ChartLayout(this, this._specProcess);
     if (this._mode === 'editor') {
       this.initEditors();

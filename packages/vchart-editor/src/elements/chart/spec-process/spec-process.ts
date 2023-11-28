@@ -114,16 +114,16 @@ export class SpecProcess implements ISpecProcess {
     willPushHistory && this.pushHistory();
   };
   private _tempUpdateSuccess = () => {
-    this.emitter.emit('beforeTempChange');
     const willPushHistory = !!this._editorSpec.data && !!this._chart.vchart;
+    this.emitter.emit('beforeTempChange', willPushHistory);
     willPushHistory && this.saveSnapshot();
     this._editorSpec.temp = this._dataTempTransform.specTemp.type;
     willPushHistory && this.pushHistory();
     this.emitter.emit('afterTempChange');
   };
   private _dataTempUpdateSuccess = () => {
-    this.emitter.emit('beforeTempChange');
     const willPushHistory = !!this._editorSpec.data && !!this._chart.vchart;
+    this.emitter.emit('beforeTempChange', willPushHistory);
     willPushHistory && this.saveSnapshot();
     this._editorSpec.data = this._dataTempTransform.dataParser.getSave();
     this._editorSpec.temp = this._dataTempTransform.specTemp.type;

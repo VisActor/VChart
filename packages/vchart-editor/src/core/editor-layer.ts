@@ -381,6 +381,7 @@ export class EditorLayer implements IEditorLayer {
     this._isElementReady = false;
     this._elements.push(el);
     el.onAfterRender(this._checkElementReady);
+    this._checkElementReady();
   }
 
   delElements(el: BaseElement) {
