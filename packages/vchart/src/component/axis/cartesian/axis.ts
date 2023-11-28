@@ -116,7 +116,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
           ...spec,
           type: axisType
         },
-        options
+        {
+          ...options,
+          type: componentName
+        }
       ) as IAxis;
     }
     options.onError(`Component ${componentName} not found`);

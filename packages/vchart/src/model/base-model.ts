@@ -108,7 +108,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     super(option);
     this.id = createID();
     this._originalSpec = spec;
-    this._spec = cloneDeepSpec(spec);
+    this._initTheme();
     this._transformSpec();
     this.userId = spec.id;
     this._specIndex = option.specIndex ?? 0;
@@ -123,7 +123,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   }
 
   created() {
-    this._initTheme();
     this.setAttrFromSpec();
   }
 
@@ -238,7 +237,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
           this._prepareSpecBeforeMergingTheme(originalSpec)
         );
 
-      const baseSpec = this._spec;
+      const baseSpec = this._originalSpec;
       if (isArray(baseSpec)) {
         this._spec = baseSpec.map(spec => merge(spec)) as unknown as T;
       } else {

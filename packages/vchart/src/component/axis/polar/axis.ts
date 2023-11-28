@@ -94,7 +94,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
           ...spec,
           type: axisType
         },
-        options
+        {
+          ...options,
+          type: componentName
+        }
       ) as IPolarAxis;
     }
     options.onError(`Component ${componentName} not found`);

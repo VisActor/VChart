@@ -35,6 +35,7 @@ import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
+import { cloneDeepSpec } from '../../util/spec/clone-deep';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
@@ -362,6 +363,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   protected _initTheme(theme?: any) {
     super._initTheme(theme);
+
+    this._spec = cloneDeepSpec(this._originalSpec);
     this._spec.style = mergeSpec({}, this._theme, this._originalSpec.style);
   }
 

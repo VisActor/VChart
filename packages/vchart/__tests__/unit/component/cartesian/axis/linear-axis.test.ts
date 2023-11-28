@@ -7,7 +7,7 @@ import { dimensionStatistics } from '../../../../../src/data/transforms/dimensio
 import type { CartesianLinearAxis } from '../../../../../src/index';
 // eslint-disable-next-line no-duplicate-imports
 import { CartesianAxis, ThemeManager } from '../../../../../src/index';
-import type { IComponent, IComponentOption } from '../../../../../src/component/interface';
+import { ComponentTypeEnum, type IComponent, type IComponentOption } from '../../../../../src/component/interface';
 import { EventDispatcher } from '../../../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../../../util/factory/compiler';
 import { initChartDataSet } from '../../../../util/context';
@@ -41,6 +41,7 @@ dataSet.registerTransform('dimensionStatistics', dimensionStatistics);
 // });
 
 const ctx: IComponentOption = {
+  type: ComponentTypeEnum.cartesianLinearAxis,
   // region: {} as any,
   eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any) as IEventDispatcher,
   dataSet,
