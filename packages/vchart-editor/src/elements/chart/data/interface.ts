@@ -51,10 +51,12 @@ export interface IDataParserConstructor {
     value: any,
     {
       updateCall,
-      errorCall
+      errorCall,
+      currentData
     }: {
       updateCall: DataUpdateCall;
       errorCall: DataErrorCall;
+      currentData?: IDataParser;
     }
   ): IDataParser;
 }

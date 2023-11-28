@@ -32,7 +32,7 @@ export class DataTempTransform {
   }
 
   private _updateChartData(type: string, value: unknown) {
-    if (!this._createNextDataParser(type, value)) {
+    if (!this._createNextDataParser(type, value, true)) {
       return;
     }
     this._changeType = 'data';
@@ -40,7 +40,7 @@ export class DataTempTransform {
     this._nextDataParser.updateValue(value);
   }
 
-  private _createNextDataParser(type: string, value: unknown) {
+  private _createNextDataParser(type: string, value: unknown, compareCurrent: boolean = false) {
     if (!type && !value) {
       return false;
     }
@@ -52,7 +52,8 @@ export class DataTempTransform {
     }
     this._nextDataParser = new parserCreate(this._dataSet, null, {
       updateCall: this._nextDataUpdateCall,
-      errorCall: this._nextDataErrorCall
+      errorCall: this._nextDataErrorCall,
+      currentData: compareCurrent ? this._dataParser : null
     });
     return true;
   }

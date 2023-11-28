@@ -185,7 +185,7 @@ export class CommonChartEditorElement implements IEditorElement {
       const layoutMeta = this._context.chart.layout.getModelLayoutData(modelInfo);
       this.rect = layoutMeta
         ? transformModelRect(model as unknown as IChartModel, LayoutRectToRect(layoutMeta.layout))
-        : null;
+        : { x: 0, y: 0, width: 0, height: 0 };
     }
 
     this.part = model.type;

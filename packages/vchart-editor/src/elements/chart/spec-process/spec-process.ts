@@ -30,9 +30,7 @@ const DefaultEditorSpec: IEditorSpec = {
 export class SpecProcess implements ISpecProcess {
   // 编辑器spec 存储和加载都是这个数据结构
   // 保证结构可序列化。
-  protected _editorSpec: IEditorSpec = {
-    ...DefaultEditorSpec
-  };
+  protected _editorSpec: IEditorSpec = cloneDeep(DefaultEditorSpec);
   protected _onSpecReadyCall: () => void = null;
   // vchartSpec 只作为临时转换结果，传递给vchart，不会存储。
   protected _vchartSpec: ISpec = {} as any;
@@ -63,9 +61,7 @@ export class SpecProcess implements ISpecProcess {
   updateEditorSpec(spec: IEditorSpec) {
     this._editorSpec = spec;
     if (!this._editorSpec) {
-      this._editorSpec = {
-        ...DefaultEditorSpec
-      };
+      this._editorSpec = cloneDeep(DefaultEditorSpec);
     }
     if (this._editorSpec.layout) {
       this.updateLayout(this._editorSpec.layout);
@@ -78,9 +74,7 @@ export class SpecProcess implements ISpecProcess {
   }
 
   clearEditorSpec() {
-    this._editorSpec = {
-      ...DefaultEditorSpec
-    };
+    this._editorSpec = cloneDeep(DefaultEditorSpec);
   }
 
   updateTheme(theme: ITheme) {
