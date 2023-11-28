@@ -8,7 +8,7 @@
 
 主题配置由`ITheme`接口描述，大致可以分为 6 种配置：
 
-```ts
+```typescript
 interface ITheme {
   /**
    * 第 1 种配置：主题信息
@@ -108,7 +108,8 @@ interface ITheme {
 包含 2 个配置：
 
 - `ITheme.mark`: 全局 mark 样式属性，按 mark 类别索引。其类型 `IGlobalMarkThemeByType`定义如下：
-  ```ts
+
+  ```typescript
   interface IGlobalMarkThemeByType {
     [MarkTypeEnum.line]?: Partial<ILineMarkSpec>;
     [MarkTypeEnum.symbol]?: Partial<ISymbolMarkSpec>;
@@ -119,11 +120,13 @@ interface ITheme {
     [MarkTypeEnum.path]?: Partial<IPathMarkSpec>;
   }
   ```
+
   在 VChart 内部逻辑中，`ITheme.mark`的每个成员将**按照图元类型**合并到每个系列的各个图元的 spec 中。
+
 - `ITheme.markByName`: 全局 mark 样式属性，按 mark 名称索引，优先级更高。
   这个配置项十分便于对多个系列的一些公共配置进行修改。其类型`IGlobalMarkThemeByName`定义如下：
 
-  ```ts
+  ```typescript
   interface IGlobalMarkThemeByName {
     /** used in lineSeries, areaSeries, radarSeries, etc. */
     line?: Partial<ILineMarkSpec>;
@@ -153,7 +156,7 @@ interface ITheme {
 
 不难发现在上文中出现了类似于这样的主题类型定义：
 
-```ts
+```typescript
 {
   [MarkTypeEnum.line]?: Partial<ILineMarkSpec>;
 }
@@ -163,7 +166,7 @@ interface ITheme {
 
 事实上，为了区分图表元素 spec 和主题的区别，真实的主题配置类似于如下定义：
 
-```ts
+```typescript
 {
   [MarkTypeEnum.line]?: Partial<IMarkTheme<ILineMarkSpec>>;
 }
@@ -181,7 +184,7 @@ interface ITheme {
 
   其类型`ISeriesTheme`的定义如下：
 
-  ```ts
+  ```typescript
   interface ISeriesTheme {
     [SeriesTypeEnum.bar]?: IBarSeriesTheme;
     [SeriesTypeEnum.bar3d]?: IBar3dSeriesTheme;
@@ -231,7 +234,7 @@ interface ITheme {
 
   其类型`IComponentTheme`的定义如下：
 
-  ```ts
+  ```typescript
   interface IComponentTheme {
     /**
      * 通用坐标轴配置
@@ -332,7 +335,7 @@ interface ITheme {
 
   - `IComponentTheme.axis` 为所有轴的公共配置，但合并优先级最低。类型`IAxisCommonTheme`的定义如下：
 
-    ```ts
+    ```typescript
     interface IAxisCommonTheme {
       /** 网格线配置 */
       grid?: IGrid;
@@ -357,7 +360,7 @@ interface ITheme {
 
   - `IComponentTheme.axisX` 和 `IComponentTheme.axisY` 分别为平面直角坐标系两个轴的配置，优先级最高。类型为`ICartesianAxisCommonTheme`。类型定义如下：
 
-  ```ts
+  ```typescript
   interface ICartesianAxisCommonTheme {
     /** 网格线配置 */
     grid?: IGrid;
@@ -384,7 +387,7 @@ interface ITheme {
 
   - `IComponentTheme.axisAngle` 和 `IComponentTheme.axisRadius` 分别为平面极坐标系两个轴的配置，优先级同样最高。类型为`IPolarAxisCommonTheme`。类型定义如下：
 
-  ```ts
+  ```typescript
   interface IPolarAxisCommonTheme {
     /** 网格线配置 */
     grid?: IPolarGrid;
