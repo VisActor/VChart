@@ -9,7 +9,6 @@ import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
 import type {
   IChartEvaluateOption,
-  IChartInitOption,
   IChartLayoutOption,
   IChartOption,
   IChartRenderOption,
@@ -25,10 +24,10 @@ import type {
   StringOrNumber,
   IShowTooltipOption,
   IDataValues,
-  ILayoutRect
+  ILayoutRect,
+  IData
 } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
-import type { IThemeColorScheme } from '../../theme/color-scheme/interface';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
@@ -37,10 +36,17 @@ export type DimensionIndexOption = {
   crosshair?: boolean;
 };
 
+export interface IChartData {
+  parseData: (dataSpec: IData) => void;
+  updateData: (dataSpec: IData, fullUp?: boolean, forceMerge?: boolean) => boolean;
+  getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
+}
+
 export interface IChart extends ICompilable {
   padding: IPadding;
 
   readonly type: string;
+  readonly chartData: IChartData;
 
   getSpec: () => any;
   setSpec: (s: any) => void;
@@ -114,7 +120,7 @@ export interface IChart extends ICompilable {
   getAllMarks: () => IMark[];
 
   // spec
-  updateSpec: (spec: any, morphConfig?: IMorphConfig) => IUpdateSpecResult;
+  updateSpec: (spec: any) => IUpdateSpecResult;
 
   // state
   /**
@@ -157,7 +163,7 @@ export interface IChart extends ICompilable {
   // 获取实际渲染的 canvas
   getCanvas: () => HTMLCanvasElement | undefined;
 
-  setCurrentTheme: (reInit?: boolean) => void;
+  setCurrentTheme: () => void;
 
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
   // setDimensionIndex

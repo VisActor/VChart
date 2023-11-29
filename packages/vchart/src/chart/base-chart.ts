@@ -194,7 +194,8 @@ export class BaseChart extends CompilableBase implements IChart {
       getChart: () => this,
       globalScale: this._globalScale,
       onError: this._option?.onError,
-      disableTriggerEvent: this._option?.disableTriggerEvent === true
+      disableTriggerEvent: this._option?.disableTriggerEvent === true,
+      getSeriesData: this._chartData.getSeriesData.bind(this._chartData)
     };
 
     this._spec = spec;
@@ -306,11 +307,6 @@ export class BaseChart extends CompilableBase implements IChart {
 
   protected _createSeries(seriesSpec: ISeriesSpec[]) {
     seriesSpec.forEach((spec, index) => {
-      // 自动填充数据
-      if (!spec.data) {
-        spec.data = this._chartData.getSeriesData(spec.dataId, spec.dataIndex);
-      }
-
       // 如果用户在 vchart 构造函数参数中关闭了 animation, 则已该配置为准
       if (this._option.animation === false) {
         spec.animation = false;
@@ -334,7 +330,6 @@ export class BaseChart extends CompilableBase implements IChart {
         region,
         specIndex: index,
         globalScale: this._globalScale,
-        getSeriesData: this._chartData.getSeriesData.bind(this._chartData),
         sourceDataList: this._chartData.dataList
       });
 
@@ -799,7 +794,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
   }
 
-  updateSpec(spec: any, morphConfig?: IMorphConfig) {
+  updateSpec(spec: any) {
     const result = {
       change: false,
       reMake: false,
@@ -809,7 +804,7 @@ export class BaseChart extends CompilableBase implements IChart {
     };
     // width/height
     // 需要重新布局
-    this.setLayoutTag(true, morphConfig);
+    this.setLayoutTag(true, null, false);
     // 第一版简易逻辑如果配置项出现增删，直接重新创建chart
     // 如果出现类型不同，同上
     if (spec.type !== this.type) {
@@ -1007,39 +1002,21 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   /** 设置当前全局主题 */
-  setCurrentTheme(reInit: boolean = true) {
+  setCurrentTheme() {
     // update chart config
     this.updateChartConfig({ change: true, reMake: false }, this._spec);
 
     // 需要重新布局
-    this.setLayoutTag(true);
+    this.setLayoutTag(true, null, false);
 
     // transform
     this.transformSpec(this._spec);
     // 设置色板，只设置 colorScale 的 range
     this.updateGlobalScaleTheme();
 
-    this.setRegionTheme(reInit);
-    this.setComponentTheme(reInit);
-    this.setSeriesTheme(reInit);
-  }
-
-  protected setRegionTheme(reInit: boolean = true) {
-    this._regions.forEach(async r => {
-      await r.setCurrentTheme(reInit);
-    });
-  }
-
-  protected setComponentTheme(reInit: boolean = true) {
-    this._components.forEach(async c => {
-      await c.setCurrentTheme(reInit);
-    });
-  }
-
-  protected setSeriesTheme(reInit: boolean = true) {
-    this._series.forEach(async s => {
-      await s.setCurrentTheme(reInit);
-    });
+    this._regions.forEach(r => r.setCurrentTheme());
+    this._components.forEach(c => c.setCurrentTheme());
+    this._series.forEach(s => s.setCurrentTheme());
   }
 
   clear() {

@@ -508,7 +508,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     limitTagInBounds(label, this._getLimitBounds());
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [
       this._radiusCrosshair,
       this._radiusLabelCrosshair,

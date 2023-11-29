@@ -10,7 +10,7 @@ import type { ISeries } from '../../series/interface';
 import type { IChartEvaluateOption, IChartLayoutOption, IChartOption, IChartRenderOption, ILayoutParams } from './common';
 import type { IBoundsLike, IPadding } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
-import type { IRegionQuerier, MaybeArray, Datum, IMarkStateSpec, StringOrNumber, IShowTooltipOption, IDataValues, ILayoutRect } from '../../typings';
+import type { IRegionQuerier, MaybeArray, Datum, IMarkStateSpec, StringOrNumber, IShowTooltipOption, IDataValues, ILayoutRect, IData } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
 export type DimensionIndexOption = {
     filter?: (cmp: IComponent) => boolean;
@@ -18,9 +18,15 @@ export type DimensionIndexOption = {
     showTooltipOption?: IShowTooltipOption;
     crosshair?: boolean;
 };
+export interface IChartData {
+    parseData: (dataSpec: IData) => void;
+    updateData: (dataSpec: IData, fullUp?: boolean, forceMerge?: boolean) => boolean;
+    getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
+}
 export interface IChart extends ICompilable {
     padding: IPadding;
     readonly type: string;
+    readonly chartData: IChartData;
     getSpec: () => any;
     setSpec: (s: any) => void;
     reDataFlow: () => void;

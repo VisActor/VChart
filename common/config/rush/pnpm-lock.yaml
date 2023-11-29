@@ -15,9 +15,9 @@ importers:
       '@types/markdown-it': ^13.0.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      '@visactor/vchart': workspace:1.7.0
+      '@visactor/vchart': workspace:1.7.1
       '@visactor/vchart-theme': ~1.6.6
-      '@visactor/vgrammar': ~0.9.2
+      '@visactor/vgrammar': ~0.9.3
       '@visactor/vmind': workspace:1.1.0
       '@visactor/vrender': ~0.16.17
       '@visactor/vrender-kits': ~0.16.17
@@ -42,10 +42,10 @@ importers:
       vite: 3.2.6
       yargs: ^17.1.1
     dependencies:
-      '@arco-design/web-react': 2.46.1_p5xgpqf7wiayqxc6j6o5zt2pdy
+      '@arco-design/web-react': 2.46.1_dkfbrx5dbnqck2dtpdwvtytcpu
       '@visactor/vchart': link:../packages/vchart
       '@visactor/vchart-theme': 1.6.7
-      '@visactor/vgrammar': 0.9.2
+      '@visactor/vgrammar': 0.9.4
       '@visactor/vmind': link:../packages/vmind
       '@visactor/vrender': 0.16.17
       '@visactor/vrender-kits': 0.16.17
@@ -62,7 +62,7 @@ importers:
       '@internal/ts-config': link:../share/ts-config
       '@types/highlightjs': 9.12.6
       '@types/markdown-it': 13.0.7
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
       '@types/react-dom': 18.2.17
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
       canvas: 2.11.2
@@ -125,8 +125,8 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
-      '@visactor/vchart': workspace:1.7.0
-      '@visactor/vgrammar-core': ~0.9.2
+      '@visactor/vchart': workspace:1.7.1
+      '@visactor/vgrammar-core': ~0.9.3
       '@visactor/vrender-core': ~0.16.17
       '@visactor/vrender-kits': ~0.16.17
       '@visactor/vutils': ~0.16.18
@@ -148,7 +148,7 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vchart': link:../vchart
-      '@visactor/vgrammar-core': 0.9.2
+      '@visactor/vgrammar-core': 0.9.4
       '@visactor/vrender-core': 0.16.17
       '@visactor/vrender-kits': 0.16.17
       '@visactor/vutils': 0.16.18
@@ -162,7 +162,7 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 20.10.0
       '@types/offscreencanvas': 2019.6.4
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
       '@types/react-dom': 18.2.17
       '@types/react-is': 17.0.7
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
@@ -207,7 +207,7 @@ importers:
       '@types/webpack-env': ^1.13.6
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:1.7.0
+      '@visactor/vchart': workspace:1.7.1
       '@vitejs/plugin-react': 3.1.0
       babel-preset-taro: 3.3.17
       eslint: ~8.18.0
@@ -246,7 +246,7 @@ importers:
       '@tarojs/runtime': 3.3.17
       '@tarojs/taro': 3.3.17
       '@tarojs/webpack-runner': 3.3.17
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
       '@types/webpack-env': 1.18.4
       '@typescript-eslint/eslint-plugin': 5.30.0_cow5zg7tx6c3eisi5a4ud5kwia
       '@typescript-eslint/parser': 5.30.0_vwud3sodsb5zxmzckoj7rdwdbq
@@ -283,19 +283,19 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vdataset': ~0.16.18
-      '@visactor/vgrammar-core': ~0.9.2
-      '@visactor/vgrammar-hierarchy': ~0.9.2
-      '@visactor/vgrammar-projection': ~0.9.2
-      '@visactor/vgrammar-sankey': ~0.9.2
-      '@visactor/vgrammar-util': ~0.9.2
-      '@visactor/vgrammar-wordcloud': ~0.9.2
-      '@visactor/vgrammar-wordcloud-shape': ~0.9.2
+      '@visactor/vgrammar-core': ~0.9.3
+      '@visactor/vgrammar-hierarchy': ~0.9.3
+      '@visactor/vgrammar-projection': ~0.9.3
+      '@visactor/vgrammar-sankey': ~0.9.3
+      '@visactor/vgrammar-util': ~0.9.3
+      '@visactor/vgrammar-wordcloud': ~0.9.3
+      '@visactor/vgrammar-wordcloud-shape': ~0.9.3
       '@visactor/vrender-components': ~0.16.17
       '@visactor/vrender-core': ~0.16.17
       '@visactor/vrender-kits': ~0.16.17
       '@visactor/vscale': ~0.16.18
       '@visactor/vutils': ~0.16.18
-      '@visactor/vutils-extension': workspace:1.7.0
+      '@visactor/vutils-extension': workspace:1.7.1
       canvas: 2.11.2
       d3-array: ^1.2.4
       d3-dsv: ^3.0.1
@@ -328,13 +328,13 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vdataset': 0.16.18
-      '@visactor/vgrammar-core': 0.9.2
-      '@visactor/vgrammar-hierarchy': 0.9.2
-      '@visactor/vgrammar-projection': 0.9.2
-      '@visactor/vgrammar-sankey': 0.9.2
-      '@visactor/vgrammar-util': 0.9.2
-      '@visactor/vgrammar-wordcloud': 0.9.2
-      '@visactor/vgrammar-wordcloud-shape': 0.9.2
+      '@visactor/vgrammar-core': 0.9.4
+      '@visactor/vgrammar-hierarchy': 0.9.4
+      '@visactor/vgrammar-projection': 0.9.4
+      '@visactor/vgrammar-sankey': 0.9.4
+      '@visactor/vgrammar-util': 0.9.4
+      '@visactor/vgrammar-wordcloud': 0.9.4
+      '@visactor/vgrammar-wordcloud-shape': 0.9.4
       '@visactor/vrender-components': 0.16.17
       '@visactor/vrender-core': 0.16.17
       '@visactor/vrender-kits': 0.16.17
@@ -394,7 +394,7 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@types/uuid': 8.3.4
-      '@visactor/vchart': workspace:1.7.0
+      '@visactor/vchart': workspace:1.7.1
       '@visactor/vdataset': ~0.16.18
       '@visactor/vrender-components': ~0.16.17
       '@visactor/vrender-core': ~0.16.17
@@ -475,7 +475,7 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-color': ~3.0.6
       '@types/react-dom': ^18.0.0
-      '@visactor/vchart': workspace:1.7.0
+      '@visactor/vchart': workspace:1.7.1
       '@visactor/vrender-core': ~0.16.17
       '@visactor/vutils': ~0.16.18
       '@vitejs/plugin-react': 3.1.0
@@ -513,7 +513,7 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 20.10.0
       '@types/offscreencanvas': 2019.6.4
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
       '@types/react-color': 3.0.10
       '@types/react-dom': 18.2.17
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
@@ -562,7 +562,7 @@ importers:
       jest-electron: 0.1.12_jest@26.6.3
       semver: 7.3.4
       ts-jest: 26.5.6_jest@26.6.3
-      ts-json-schema-generator: 1.4.0
+      ts-json-schema-generator: 1.4.1
 
   ../../packages/vchart-types:
     specifiers:
@@ -592,11 +592,11 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
       '@visactor/chart-advisor': 0.1.10
-      '@visactor/vchart': workspace:1.7.0
+      '@visactor/vchart': workspace:1.7.1
       '@visactor/vdataset': ~0.16.18
       '@visactor/vrender': ~0.16.17
       '@visactor/vutils': ~0.16.18
-      '@visactor/vutils-extension': workspace:1.7.0
+      '@visactor/vutils-extension': workspace:1.7.1
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
       eslint: ~8.18.0
@@ -628,18 +628,18 @@ importers:
       json5: 2.2.3
       lodash: 4.17.21
     devDependencies:
-      '@arco-design/web-react': 2.46.1_p5xgpqf7wiayqxc6j6o5zt2pdy
+      '@arco-design/web-react': 2.46.1_dkfbrx5dbnqck2dtpdwvtytcpu
       '@ffmpeg/core': 0.11.0
       '@ffmpeg/ffmpeg': 0.11.6
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
       '@internal/ts-config': link:../../share/ts-config
-      '@rollup/plugin-dynamic-import-vars': 2.1.1
+      '@rollup/plugin-dynamic-import-vars': 2.1.2
       '@rushstack/eslint-patch': 1.1.4
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.182
       '@types/node': 20.10.0
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
       '@types/react-dom': 18.2.17
       '@typescript-eslint/eslint-plugin': 5.30.0_cow5zg7tx6c3eisi5a4ud5kwia
       '@typescript-eslint/parser': 5.30.0_vwud3sodsb5zxmzckoj7rdwdbq
@@ -937,7 +937,7 @@ importers:
       '@types/node': '*'
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:1.7.0
+      '@visactor/vchart': workspace:1.7.1
       '@visactor/vrender': ~0.16.17
       '@visactor/vrender-core': ~0.16.17
       '@visactor/vrender-kits': ~0.16.17
@@ -1031,7 +1031,7 @@ packages:
     dependencies:
       color: 3.2.1
 
-  /@arco-design/web-react/2.46.1_p5xgpqf7wiayqxc6j6o5zt2pdy:
+  /@arco-design/web-react/2.46.1_dkfbrx5dbnqck2dtpdwvtytcpu:
     resolution: {integrity: sha512-XjG44rODJklDu++OApvxjt/TbRrgkNqVq6grt/H+9skysm46jFn2SwhuSljBHmjo11LtIeB1m/OMPMaFtafeYg==}
     peerDependencies:
       react: '>=16'
@@ -1047,7 +1047,7 @@ packages:
       number-precision: 1.6.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-focus-lock: 2.9.6_vefaa57jiikjg7ztnhkaom6nr4
+      react-focus-lock: 2.9.6_d6xr7427ryrc3fdigbbbatktku
       react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
       resize-observer-polyfill: 1.5.1
       scroll-into-view-if-needed: 2.2.20
@@ -3503,7 +3503,7 @@ packages:
     dependencies:
       '@babel/core': 7.20.12
       '@babel/helper-module-imports': 7.22.15
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       '@types/babel__core': 7.20.0
       rollup: 3.20.5
     dev: false
@@ -3523,7 +3523,7 @@ packages:
     dependencies:
       '@babel/core': 7.20.12
       '@babel/helper-module-imports': 7.22.15
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       rollup: 3.20.5
     dev: true
 
@@ -3536,7 +3536,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       commondir: 1.0.1
       estree-walker: 2.0.2
       glob: 8.1.0
@@ -3544,8 +3544,8 @@ packages:
       magic-string: 0.27.0
       rollup: 3.20.5
 
-  /@rollup/plugin-dynamic-import-vars/2.1.1:
-    resolution: {integrity: sha512-HLZJCtZNz/9mgfLEme5Lebs6AzULCh/C5/CWIoRQQhKZgu/flcmncfaIGzn5qgP9UlwzUSI5cmWtw91SUcPeWQ==}
+  /@rollup/plugin-dynamic-import-vars/2.1.2:
+    resolution: {integrity: sha512-4lr2oXxs9hcxtGGaK8s0i9evfjzDrAs7ngw28TqruWKTEm0+U4Eljb+F6HXGYdFv8xRojQlrQwV7M/yxeh3yzQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -3553,7 +3553,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5
+      '@rollup/pluginutils': 5.1.0
       astring: 1.8.6
       estree-walker: 2.0.2
       fast-glob: 3.3.2
@@ -3569,7 +3569,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       rollup: 3.20.5
     dev: false
 
@@ -3582,7 +3582,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
@@ -3599,7 +3599,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       magic-string: 0.27.0
       rollup: 3.20.5
     dev: false
@@ -3632,7 +3632,7 @@ packages:
       tslib:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       resolve: 1.22.8
       rollup: 3.20.5
       tslib: 2.3.1
@@ -3652,7 +3652,7 @@ packages:
       tslib:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       resolve: 1.22.8
       rollup: 3.20.5
       typescript: 4.9.5
@@ -3671,7 +3671,7 @@ packages:
       tslib:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       resolve: 1.22.8
       rollup: 3.20.5
     dev: true
@@ -3685,14 +3685,14 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       make-dir: 3.1.0
       mime: 3.0.0
       rollup: 3.20.5
     dev: false
 
-  /@rollup/pluginutils/5.0.5:
-    resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
+  /@rollup/pluginutils/5.1.0:
+    resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -3705,8 +3705,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@rollup/pluginutils/5.0.5_rollup@3.20.5:
-    resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
+  /@rollup/pluginutils/5.1.0_rollup@3.20.5:
+    resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -4625,14 +4625,14 @@ packages:
   /@types/react-color/3.0.10:
     resolution: {integrity: sha512-6K5BAn3zyd8lW8UbckIAVeXGxR82Za9jyGD2DBEynsa7fKaguLDVtjfypzs7fgEV7bULgs7uhds8A8v1wABTvQ==}
     dependencies:
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
       '@types/reactcss': 1.2.10
     dev: true
 
   /@types/react-dom/18.2.17:
     resolution: {integrity: sha512-rvrT/M7Df5eykWFxn6MYt5Pem/Dbyc1N8Y0S9Mrkw2WFCRiqUgw9P7ul2NpwsXCSM1DVdENzdG9J5SreqfAIWg==}
     dependencies:
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
     dev: true
 
   /@types/react-is/17.0.7:
@@ -4649,8 +4649,8 @@ packages:
       csstype: 3.1.2
     dev: true
 
-  /@types/react/18.2.38:
-    resolution: {integrity: sha512-cBBXHzuPtQK6wNthuVMV6IjHAFkdl/FOPFIlkd81/Cd1+IqkHu/A+w4g43kaQQoYHik/ruaQBDL72HyCy1vuMw==}
+  /@types/react/18.2.39:
+    resolution: {integrity: sha512-Oiw+ppED6IremMInLV4HXGbfbG6GyziY3kqAwJYOR0PNbkYDmLWQA3a95EhdSmamsvbkJN96ZNN+YD+fGjzSBA==}
     dependencies:
       '@types/prop-types': 15.7.11
       '@types/scheduler': 0.16.8
@@ -4659,7 +4659,7 @@ packages:
   /@types/reactcss/1.2.10:
     resolution: {integrity: sha512-gf5qJ1wOYP8N5q9H8/5c3QZHQzu8ltPClhM0vEWuBu9SGg4KSzgpJd2TShEsQDwsYn+mtnJ1xHUdJyzj/r9WrA==}
     dependencies:
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
     dev: true
 
   /@types/request/2.48.12:
@@ -5009,19 +5009,19 @@ packages:
       topojson-client: 3.1.0
     dev: false
 
-  /@visactor/vgrammar-coordinate/0.9.2:
-    resolution: {integrity: sha512-B3xeAOBOCA/t/XFh/tXjIusdaTcEAf94fiO/7dsee21RSnsJkcQObrdyBa8+/xIcmT81xURVaSRYJHSppS+dug==}
+  /@visactor/vgrammar-coordinate/0.9.4:
+    resolution: {integrity: sha512-Lhzs1SpBM/Uw7EVMDlObD9wwhK/WTFvRagphwb9KwC4aRAeotI1lCsH647gr6rOGoEV5s3j1jhqQ9han/l+ygA==}
     dependencies:
-      '@visactor/vgrammar-util': 0.9.2
+      '@visactor/vgrammar-util': 0.9.4
       '@visactor/vutils': 0.16.18
     dev: false
 
-  /@visactor/vgrammar-core/0.9.2:
-    resolution: {integrity: sha512-SLfymC6qFzXBa2l7XaIPwcP1CQLnDGgrRnMgnPvC+A6pMwkac9N8H95H1Qr1D3pZPfBEkP4oy2o85btGKVERyg==}
+  /@visactor/vgrammar-core/0.9.4:
+    resolution: {integrity: sha512-b1FqHG8AVOQlsPYNLYdYlhxJh12WHhSBMTdSevfGVbVgn/qB4hBG1my+yugf0uwEIiwushJBVvs7yVuTmhZrSg==}
     dependencies:
       '@visactor/vdataset': 0.16.18
-      '@visactor/vgrammar-coordinate': 0.9.2
-      '@visactor/vgrammar-util': 0.9.2
+      '@visactor/vgrammar-coordinate': 0.9.4
+      '@visactor/vgrammar-util': 0.9.4
       '@visactor/vrender-components': 0.16.17
       '@visactor/vrender-core': 0.16.17
       '@visactor/vrender-kits': 0.16.17
@@ -5029,66 +5029,66 @@ packages:
       '@visactor/vutils': 0.16.18
     dev: false
 
-  /@visactor/vgrammar-hierarchy/0.9.2:
-    resolution: {integrity: sha512-7QZqEEVMrKTqYPahDgM8qPVjQTx+R9RPaP/z/dbmjFyw2Ey7ydEVXRhDfFh1Xv7x0fBlrEOnhRgTTFNiB5oeqA==}
+  /@visactor/vgrammar-hierarchy/0.9.4:
+    resolution: {integrity: sha512-mYHABCa68dM+kBZtFq+hdrRD7y4HnsTLbjonMO2iaOlhviGypoSr6fnebtgsTgs7MZiFegHdCAHJDAi/pVbLSw==}
     dependencies:
-      '@visactor/vgrammar-core': 0.9.2
-      '@visactor/vgrammar-util': 0.9.2
+      '@visactor/vgrammar-core': 0.9.4
+      '@visactor/vgrammar-util': 0.9.4
       '@visactor/vrender-core': 0.16.17
       '@visactor/vrender-kits': 0.16.17
       '@visactor/vutils': 0.16.18
     dev: false
 
-  /@visactor/vgrammar-projection/0.9.2:
-    resolution: {integrity: sha512-fCnwBSXA+8ibzDhnXtErtjVx8t5U1Jd5f6OBPJWJwGAzrOQmUJo3Dmtz3VUztbs48ZSxWMj6fz5SeGjyDQ9ABw==}
+  /@visactor/vgrammar-projection/0.9.4:
+    resolution: {integrity: sha512-sC82dOByPBWipsOfkfCnYDGUvHutaHyDa92TqWE+NoQKEZcWZJrzau49FN61qfDNNbkWstgO0hy0NubuH8807Q==}
     dependencies:
-      '@visactor/vgrammar-core': 0.9.2
-      '@visactor/vgrammar-util': 0.9.2
+      '@visactor/vgrammar-core': 0.9.4
+      '@visactor/vgrammar-util': 0.9.4
       '@visactor/vutils': 0.16.18
       d3-geo: 1.12.1
     dev: false
 
-  /@visactor/vgrammar-sankey/0.9.2:
-    resolution: {integrity: sha512-NBpFl0Oq1sHbrwHNu5DqB4Ql/CGkkTf+O3cc/mtxpzfex0aQrfzWY4ajcmemlqLO82/UxCTxD66LYKG/tSFyaQ==}
+  /@visactor/vgrammar-sankey/0.9.4:
+    resolution: {integrity: sha512-tO38gWS0SSJBU3qILscBPITqub95NbK9up+nvWjZgwqOoj1N4/NPqpAvFwxOg4EF7g48saC5QJvt4gyQWikIKg==}
     dependencies:
-      '@visactor/vgrammar-core': 0.9.2
-      '@visactor/vgrammar-util': 0.9.2
+      '@visactor/vgrammar-core': 0.9.4
+      '@visactor/vgrammar-util': 0.9.4
       '@visactor/vrender-core': 0.16.17
       '@visactor/vrender-kits': 0.16.17
       '@visactor/vutils': 0.16.18
     dev: false
 
-  /@visactor/vgrammar-util/0.9.2:
-    resolution: {integrity: sha512-Iq2ddGoehcL8HtD58MAsWGCHYnf4dxNy8ROWKop4ADAT6LfmcP8jIg2Ek+aLA9svS0n+XeNb/Gxyvf9Wh2wxDA==}
+  /@visactor/vgrammar-util/0.9.4:
+    resolution: {integrity: sha512-i+74qgnEjqdNceLf7qFtiqwhU8Dw5VrG5C7dwG7JF+lBIvLqDvQQ+8m3g0oUW0UfvgDu+9qcPCSht4uXqoM04Q==}
     dependencies:
       '@visactor/vutils': 0.16.18
     dev: false
 
-  /@visactor/vgrammar-wordcloud-shape/0.9.2:
-    resolution: {integrity: sha512-0xq05e0hVZgs1iS92lw/RF02kQ518zl572JtyX9RkvAsmE3GBtAxtpqYP94eFcq/4zsTTKOAqsaVMQY+0YTvGw==}
+  /@visactor/vgrammar-wordcloud-shape/0.9.4:
+    resolution: {integrity: sha512-VhG8BnUtBwzJ5PMpT0wql8ymaVhXzLo3h7+5IljfaV1cUTV3f+sAbyPZziYVsbxmPOyJZNNbhMcEHNTexayMnw==}
     dependencies:
-      '@visactor/vgrammar-core': 0.9.2
-      '@visactor/vgrammar-util': 0.9.2
+      '@visactor/vgrammar-core': 0.9.4
+      '@visactor/vgrammar-util': 0.9.4
       '@visactor/vrender-core': 0.16.17
       '@visactor/vrender-kits': 0.16.17
       '@visactor/vscale': 0.16.18
       '@visactor/vutils': 0.16.18
     dev: false
 
-  /@visactor/vgrammar-wordcloud/0.9.2:
-    resolution: {integrity: sha512-zzhI+eFPkvr8vmHb7Ss9Qx8eDB5mB7dtWhpQM41b1nuh4ZO+sPnmYygciisY/V2ed2/CAlyrTfx07yi4vB+VTA==}
+  /@visactor/vgrammar-wordcloud/0.9.4:
+    resolution: {integrity: sha512-v5geBndJaJQnGbm4kmVl1pQlcRPd6atIq1aTBKLOFpzFK30c0/VFqLy6E3fMrZ7DB2DfoOn5rU3EYq/hllUkzA==}
     dependencies:
-      '@visactor/vgrammar-core': 0.9.2
-      '@visactor/vgrammar-util': 0.9.2
+      '@visactor/vgrammar-core': 0.9.4
+      '@visactor/vgrammar-util': 0.9.4
       '@visactor/vrender-core': 0.16.17
       '@visactor/vrender-kits': 0.16.17
       '@visactor/vutils': 0.16.18
     dev: false
 
-  /@visactor/vgrammar/0.9.2:
-    resolution: {integrity: sha512-LhgGPUTjdHTbKHlWtIAmeui882EBw8xjgq//UCw74ZMOI5HTuf/E792L1SyRXvrwszSk+Rm2kmUU317d0cRluA==}
+  /@visactor/vgrammar/0.9.4:
+    resolution: {integrity: sha512-wSIm3rXAj7Go18JaTd42vJto6hjovsS5rnR87KpFQ+hvKZ3CyHOhZfkPir7G+STgPzblNow0eY/zwO+bWo0RMA==}
     dependencies:
-      '@visactor/vgrammar-core': 0.9.2
+      '@visactor/vgrammar-core': 0.9.4
     dev: false
 
   /@visactor/vrender-components/0.16.17:
@@ -7201,7 +7201,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001565
-      electron-to-chromium: 1.4.594
+      electron-to-chromium: 1.4.596
     dev: true
 
   /browserslist/4.22.1:
@@ -7210,7 +7210,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001565
-      electron-to-chromium: 1.4.594
+      electron-to-chromium: 1.4.596
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13_browserslist@4.22.1
 
@@ -9547,8 +9547,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.594:
-    resolution: {integrity: sha512-xT1HVAu5xFn7bDfkjGQi9dNpMqGchUkebwf1GL7cZN32NSwwlHRPMSDJ1KN6HkS0bWUtndbSQZqvpQftKG2uFQ==}
+  /electron-to-chromium/1.4.596:
+    resolution: {integrity: sha512-zW3zbZ40Icb2BCWjm47nxwcFGYlIgdXkAx85XDO7cyky9J4QQfq8t0W19/TLZqq3JPQXtlv8BPIGmfa9Jb4scg==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -16079,7 +16079,7 @@ packages:
       decamelize: 1.2.0
       loud-rejection: 1.6.0
       map-obj: 1.0.1
-      minimist: 1.2.5
+      minimist: 1.2.8
       normalize-package-data: 2.5.0
       object-assign: 4.1.1
       read-pkg-up: 1.0.1
@@ -18860,7 +18860,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.5
+      minimist: 1.2.8
       strip-json-comments: 2.0.1
     dev: true
 
@@ -18928,7 +18928,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /react-focus-lock/2.9.6_vefaa57jiikjg7ztnhkaom6nr4:
+  /react-focus-lock/2.9.6_d6xr7427ryrc3fdigbbbatktku:
     resolution: {integrity: sha512-B7gYnCjHNrNYwY2juS71dHbf0+UpXXojt02svxybj8N5bxceAkzPChKEncHuratjUHkIFNCn06k2qj1DRlzTug==}
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -18938,13 +18938,13 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.17.0
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
       focus-lock: 1.0.0
       prop-types: 15.8.1
       react: 18.2.0
       react-clientside-effect: 1.2.6_react@18.2.0
-      use-callback-ref: 1.3.0_vefaa57jiikjg7ztnhkaom6nr4
-      use-sidecar: 1.1.2_vefaa57jiikjg7ztnhkaom6nr4
+      use-callback-ref: 1.3.0_d6xr7427ryrc3fdigbbbatktku
+      use-sidecar: 1.1.2_d6xr7427ryrc3fdigbbbatktku
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -19809,7 +19809,7 @@ packages:
     peerDependencies:
       rollup: ^2.x.x || ^3.x.x || ^4.x.x
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       rollup: 3.20.5
     dev: true
 
@@ -21958,7 +21958,7 @@ packages:
       bs-logger: 0.2.6
       buffer-from: 1.1.2
       fast-json-stable-stringify: 2.1.0
-      jest: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
+      jest: 26.6.3
       jest-util: 26.6.2
       json5: 2.2.3
       lodash: 4.17.21
@@ -21969,8 +21969,8 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
-  /ts-json-schema-generator/1.4.0:
-    resolution: {integrity: sha512-wm8vyihmGgYpxrqRshmYkWGNwEk+sf3xV2rUgxv8Ryeh7bSpMO7pZQOht+2rS002eDkFTxR7EwRPXVzrS0WJTg==}
+  /ts-json-schema-generator/1.4.1:
+    resolution: {integrity: sha512-wnhPMtskk9KvsTuU8AYx0TNdm1YrLVUEontT22+jL12JIPqPXdaoxPgsYBhlqDXsR9R9Nm2bJgH5r4IrTMbTSg==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     dependencies:
@@ -21980,7 +21980,7 @@ packages:
       json5: 2.2.3
       normalize-path: 3.0.0
       safe-stable-stringify: 2.4.3
-      typescript: 5.2.2
+      typescript: 5.3.2
     dev: true
 
   /ts-loader/8.0.2_typescript@4.9.5:
@@ -22222,8 +22222,8 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
 
-  /typescript/5.2.2:
-    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+  /typescript/5.3.2:
+    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
@@ -22587,7 +22587,7 @@ packages:
       qs: 6.11.2
     dev: true
 
-  /use-callback-ref/1.3.0_vefaa57jiikjg7ztnhkaom6nr4:
+  /use-callback-ref/1.3.0_d6xr7427ryrc3fdigbbbatktku:
     resolution: {integrity: sha512-3FT9PRuRdbB9HfXhEq35u4oZkvpJ5kuYbpqhCfmiZyReuRgpnhDlbr2ZEnnuS0RrJAPn6l23xjFg9kpDM+Ms7w==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -22597,11 +22597,11 @@ packages:
       '@types/react':
         optional: true
     dependencies:
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
       react: 18.2.0
       tslib: 2.3.1
 
-  /use-sidecar/1.1.2_vefaa57jiikjg7ztnhkaom6nr4:
+  /use-sidecar/1.1.2_d6xr7427ryrc3fdigbbbatktku:
     resolution: {integrity: sha512-epTbsLuzZ7lPClpz2TyryBfztm7m+28DlEv2ZCQ3MDr5ssiwyOwGH/e5F9CkfWjJ1t4clvI58yF822/GUkjjhw==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -22611,7 +22611,7 @@ packages:
       '@types/react':
         optional: true
     dependencies:
-      '@types/react': 18.2.38
+      '@types/react': 18.2.39
       detect-node-es: 1.1.0
       react: 18.2.0
       tslib: 2.3.1

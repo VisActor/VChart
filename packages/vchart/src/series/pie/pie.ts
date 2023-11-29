@@ -85,6 +85,17 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   protected declare _theme: Maybe<IPieSeriesTheme>;
 
+  protected _buildMarkAttributeContext() {
+    super._buildMarkAttributeContext();
+    // center
+    this._markAttributeContext.getCenter = () => {
+      return {
+        x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
+        y: () => this._center?.y ?? this._region.getLayoutRect().height / 2
+      };
+    };
+  }
+
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
     this._centerOffset = this._spec?.centerOffset ?? 0;

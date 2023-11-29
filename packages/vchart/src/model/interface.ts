@@ -1,5 +1,5 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import type { DataSet } from '@visactor/vdataset';
+import type { DataSet, DataView } from '@visactor/vdataset';
 import type { IEvent, IEventDispatcher } from '../event/interface';
 import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
@@ -116,7 +116,7 @@ export interface IModel extends ICompilable {
   onLayoutEnd: (ctx: IModelLayoutOption) => void;
 
   // theme
-  setCurrentTheme: (noRender?: boolean) => void;
+  setCurrentTheme: () => void;
   getColorScheme: () => IThemeColorScheme | undefined;
 
   setMarkStyle: <T extends ICommonSpec>(
@@ -158,6 +158,7 @@ export interface IModelOption extends ICompilableInitOption {
   getChartViewRect: () => ILayoutRect;
 
   getChart: () => IChart;
+  getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
 
   globalScale: IGlobalScale;
   animation: boolean;

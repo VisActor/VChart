@@ -146,6 +146,17 @@ export class TotalLabel extends BaseLabelComponent {
       });
     });
   }
+
+  getVRenderComponents() {
+    const labels: any[] = [];
+    this.getMarks().forEach(m => {
+      const graphicItem = m.getProduct().getGroupGraphicItem();
+      if (graphicItem) {
+        labels.push(graphicItem);
+      }
+    });
+    return labels;
+  }
 }
 
 export function totalLabelPosition(series: ISeries, type: MarkType) {

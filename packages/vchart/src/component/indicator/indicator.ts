@@ -246,7 +246,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     return eachSeries(this._regions, s => model === s) || this._regions.includes(model as IRegion);
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._indicatorComponent] as unknown as IGroup[];
   }
 

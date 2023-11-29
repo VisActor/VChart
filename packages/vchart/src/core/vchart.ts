@@ -859,7 +859,7 @@ export class VChart implements IVChart {
       }
       const reSize = this._shouldChartResize(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
-      return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
+      return mergeUpdateResult(this._chart.updateSpec(spec), {
         change: reSize,
         reMake: false,
         reCompile: false,
@@ -904,7 +904,7 @@ export class VChart implements IVChart {
       }
       const reSize = this._shouldChartResize(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
-      return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
+      return mergeUpdateResult(this._chart.updateSpec(spec), {
         change: reSize,
         reMake: false,
         reCompile: false,
@@ -1256,7 +1256,7 @@ export class VChart implements IVChart {
 
     await this.updateCustomConfigAndRerender(() => {
       this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme(true);
+      this._chart?.setCurrentTheme();
       return { change: true, reMake: false };
     });
 
@@ -1276,7 +1276,7 @@ export class VChart implements IVChart {
 
     this.updateCustomConfigAndRerenderSync(() => {
       this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme(true);
+      this._chart?.setCurrentTheme();
       return { change: true, reMake: false };
     });
 
