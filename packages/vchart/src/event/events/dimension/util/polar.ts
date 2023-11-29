@@ -71,11 +71,10 @@ export const getPolarDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoi
   if (angleAxisList) {
     angleAxisList.forEach(axis => {
       const angleScale = axis.getScale();
-      const angleDomain = angleScale?.domain();
-      const angleRange = angleScale?.range();
-
       // 限定为离散轴
       if (angleScale && isDiscrete(angleScale.type)) {
+        const angleDomain = angleScale.domain();
+        const angleRange = angleScale.range();
         const center = axis.getCenter();
         const vector = {
           x: x - axis.getLayoutStartPoint().x - center.x,
