@@ -47,6 +47,6 @@ export declare class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     private _isRelativeSeries;
     onRender(ctx: any): void;
     changeRegions(): void;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
 }
 export declare const registerMapLabel: () => void;

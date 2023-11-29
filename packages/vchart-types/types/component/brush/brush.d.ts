@@ -63,7 +63,7 @@ export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     protected initEvent(): void;
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     _compareSpec(): {
         change: boolean;
         reMake: boolean;

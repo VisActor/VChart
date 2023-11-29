@@ -55,6 +55,6 @@ export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends Ba
         y2: number;
     };
     onDataUpdate(): void;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     clear(): void;
 }

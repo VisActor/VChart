@@ -74,7 +74,7 @@ export interface IModel extends ICompilable {
     getSpecIndex: () => number;
     onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
     onLayoutEnd: (ctx: IModelLayoutOption) => void;
-    setCurrentTheme: (noRender?: boolean) => void;
+    setCurrentTheme: () => void;
     getColorScheme: () => IThemeColorScheme | undefined;
     setMarkStyle: <T extends ICommonSpec>(mark?: IMarkRaw<T>, style?: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>, state?: StateValueType, level?: number) => void;
     initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;

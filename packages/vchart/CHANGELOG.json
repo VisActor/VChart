@@ -2,6 +2,27 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.7.2",
+      "tag": "@visactor/vchart_v1.7.2",
+      "date": "Wed, 29 Nov 2023 19:03:36 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: clear old encode when update, fix #1630\n\n"
+          },
+          {
+            "comment": "fix: fix the problem that track mark has multiple elements in gauge series, related #1643 "
+          },
+          {
+            "comment": "fix: fix the problem that gaugePointer series doesn't support custom `innerRadius`, related #1644"
+          },
+          {
+            "comment": "refactor: unify `getVRenderComponents` method in Component model"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.7.1",
       "tag": "@visactor/vchart_v1.7.1",
       "date": "Tue, 28 Nov 2023 08:24:27 GMT",

@@ -22,7 +22,8 @@ export declare abstract class BaseComponent<T extends IComponentSpec = IComponen
     constructor(spec: T, options: IComponentOption);
     initLayout(): void;
     abstract changeRegions(regions: IRegion[]): void;
-    abstract getVRenderComponents(): IGraphic[];
+    protected abstract _getNeedClearVRenderComponents(): IGraphic[];
+    getVRenderComponents(): IGraphic<Partial<import("@visactor/vrender-core").IGraphicAttribute>>[];
     protected callPlugin(cb: (plugin: IComponentPlugin) => void): void;
     protected eventPos(markEventParams: BaseEventParams): {
         x: number;
@@ -43,11 +44,5 @@ export declare abstract class BaseComponent<T extends IComponentSpec = IComponen
     compile(): void;
     compileMarks(group?: string | IGroupMark): void;
     protected _delegateEvent: (component: IGraphic, event: any, type: string, item?: any, datum?: Datum) => void;
-    getGraphicBounds: () => {
-        x1: number;
-        y1: number;
-        x2: number;
-        y2: number;
-    };
     getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike;
 }

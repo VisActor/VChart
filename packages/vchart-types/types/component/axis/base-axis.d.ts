@@ -50,7 +50,8 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _axisMark: IComponentMark;
     protected _gridMark: IComponentMark;
     constructor(spec: T, options: IComponentOption);
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
+    getVRenderComponents(): any[];
     created(): void;
     protected isSeriesDataEnable(): boolean;
     protected setSeriesAndRegionsFromSpec(): void;
