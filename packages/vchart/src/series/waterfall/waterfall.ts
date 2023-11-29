@@ -154,12 +154,15 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       // 不应该出现xIndex === -1 || undefined的情况
       return xIndex || 0;
     };
+    const dataCount = () => {
+      return this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values?.length ?? 0;
+    };
 
     this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('waterfall')?.(animationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.bar, this._spec, this._markAttributeContext),
-        { dataIndex }
+        { dataIndex, dataCount }
       )
     );
 
