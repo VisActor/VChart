@@ -854,7 +854,7 @@ export class VChart implements IVChart {
       }
       const reSize = this._shouldChartResize(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
-      return mergeUpdateResult(this._chart.updateSpec(spec), {
+      return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
         change: reSize,
         reMake: false,
         reCompile: false,

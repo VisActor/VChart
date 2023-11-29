@@ -793,7 +793,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
   }
 
-  updateSpec(spec: any) {
+  updateSpec(spec: any, morphConfig?: IMorphConfig) {
     const result = {
       change: false,
       reMake: false,
@@ -802,7 +802,7 @@ export class BaseChart extends CompilableBase implements IChart {
       reCompile: false
     };
     // 需要重新布局
-    this.setLayoutTag(true, null, false);
+    this.setLayoutTag(true, morphConfig);
     // 第一版简易逻辑如果配置项出现增删，直接重新创建chart
     // 如果出现类型不同，同上
     if (spec.type !== this.type) {
