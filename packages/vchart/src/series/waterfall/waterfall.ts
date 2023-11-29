@@ -149,13 +149,16 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
     // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
     const dataIndex = (datum: any) => {
-      const xValue = datum?.[this._fieldX[0]];
-      const xIndex = this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
+      const indexField = this.direction === 'horizontal' ? this._fieldY[0] : this._fieldX[0];
+      const indexValue = datum?.[indexField];
+      const scale = this.direction === 'horizontal' ? this._scaleY : this._scaleX;
+      const index = (scale?.domain?.() ?? []).indexOf(indexValue);
       // 不应该出现xIndex === -1 || undefined的情况
-      return xIndex || 0;
+      return index || 0;
     };
     const dataCount = () => {
-      return this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values?.length ?? 0;
+      const scale = this.direction === 'horizontal' ? this._scaleY : this._scaleX;
+      return (scale?.domain?.() ?? []).length ?? 0;
     };
 
     this._barMark.setAnimationConfig(
