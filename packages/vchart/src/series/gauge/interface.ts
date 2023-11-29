@@ -41,6 +41,9 @@ export type PointerMarkSpec = {
 
   /** 中心点坐标（0~1） */
   center?: [number, number];
+
+  /** 是否定位于极坐标系的中心，默认为 true。如果为 false，则位置受 innerRadius 影响 */
+  isOnCenter?: boolean;
 };
 
 export type PinMarkSpec = {
@@ -48,6 +51,8 @@ export type PinMarkSpec = {
   width?: number;
   /** 高度 */
   height?: number;
+  /** 是否定位于极坐标系的中心，默认为 true。如果为 false，则位置受 innerRadius 影响 */
+  isOnCenter?: boolean;
 };
 
 export interface IGaugePointerSeriesTheme extends IProgressLikeSeriesTheme {
