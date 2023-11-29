@@ -335,7 +335,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       if (this._originalSpec[fieldName]?.line?.style?.stroke) {
         hair.style.stroke = this._originalSpec[fieldName].line.style.stroke;
       }
-      const rectSize = get(line, 'line');
+      const rectSize = get(line, 'width');
       if (typeof rectSize === 'string') {
         const percent = parseInt(rectSize.substring(0, rectSize.length - 1), 10) / 100;
         hair.style.sizePercent = percent;
