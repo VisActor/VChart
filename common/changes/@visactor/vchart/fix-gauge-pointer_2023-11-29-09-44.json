@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the problem that gaugePointer series doesn't support custom `innerRadius`, related #1644",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
