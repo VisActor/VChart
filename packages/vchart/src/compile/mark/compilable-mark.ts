@@ -41,10 +41,6 @@ import { AnimationStateEnum } from '../../animation/interface';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { ICustomPath2D } from '@visactor/vrender-core';
 
-const keptInUpdateAttribute = {
-  defined: true
-};
-
 /** 可编译的 mark 对象，这个基类只存放编译相关的逻辑 */
 export abstract class CompilableMark extends GrammarItem implements ICompilableMark {
   readonly grammarType = GrammarType.mark;
@@ -376,9 +372,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         return;
       }
 
-      if (keptInUpdateAttribute[key]) {
-        updateStyles[key] = normalStyle[key].style;
-      } else if (this._option.noSeparateStyle || isStateAttrChangeable(key, normalStyle, this.getFacet())) {
+      if (this._option.noSeparateStyle || isStateAttrChangeable(key, normalStyle, this.getFacet())) {
         updateStyles[key] = {
           callback: this.compileCommonAttributeCallback(key, 'normal'),
           dependency: [this.stateKeyToSignalName('markUpdateRank')]
