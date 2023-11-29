@@ -54,6 +54,7 @@ export class ContinuousLegend<
       if (isContinuousLegend(legendSpec.type)) {
         return new ContinuousLegend(legendSpec, {
           ...options,
+          type: legendSpec.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend,
           specIndex: 0
         });
       }
