@@ -92,6 +92,7 @@ const spec = {
         visible: true,
         width: 0.04,
         height: 0.04,
+        inOnCenter: false,
         style: {
           fill: {
             type: 'threshold',
@@ -107,6 +108,7 @@ const spec = {
       pointer: {
         width: 0.2,
         height: 0.1,
+        inOnCenter: false,
         style: {
           fill: {
             type: 'threshold',
