@@ -34,7 +34,7 @@ export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T
     private _createText;
     private _computeLayoutRadius;
     private isRelativeModel;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     clear(): void;
 }
 export declare const registerIndicator: () => void;

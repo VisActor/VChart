@@ -34,5 +34,5 @@ export declare abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSp
     };
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
 }

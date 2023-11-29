@@ -47,7 +47,7 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
     onLayoutEnd(ctx: IModelLayoutOption): void;
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     protected collectFeatures(): any[];
     dataToPosition(values?: number[]): IPoint;
     dataToLatitude(lat: number): number;
