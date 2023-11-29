@@ -25,11 +25,6 @@ const getLabelSpec = (): ICrosshairLabelSpec => ({
     },
     style: {
       fill: { type: 'palette', key: 'axisMarkerBackgroundColor' },
-      outerBorder: {
-        stroke: { type: 'palette', key: 'axisMarkerBackgroundColor' } as any,
-        distance: 0,
-        lineWidth: 3
-      },
       cornerRadius: 1
     }
   }
