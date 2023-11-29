@@ -1,5 +1,5 @@
 import type React from 'react';
-import { LineType } from './common';
+import type { LineType } from './common';
 
 export interface IColorItemProps {
   color: string;

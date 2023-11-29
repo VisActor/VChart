@@ -171,31 +171,29 @@ export class SpecProcess implements ISpecProcess {
     }
 
     // process formatConfig
-    // TODO: check percentage by template
-    const isPercentageChart =
-      this._dataTempTransform.specTemp.type === 'barPercent' ||
-      this._dataTempTransform.specTemp.type === 'horizontalBarPercent' ||
-      this._dataTempTransform.specTemp.type === 'areaPercent';
-    const traverseSpec = (spec: any, type?: string, modelSpec?: any) => {
+    const traverseSpec = (spec: any, modelSpec?: any) => {
       const specKeys = Object.keys(spec);
       if (specKeys.includes('formatConfig')) {
-        this.processFormatConfig(spec, type, modelSpec, isPercentageChart);
+        this.processFormatConfig(spec, modelSpec, this._dataTempTransform.specTemp.type);
       }
-      const currentType = spec.name ?? type;
-      const currentModel = isValid(spec.name) ? spec : modelSpec;
+      const currentModel = isValid(spec.name) || isValid(spec.id) ? spec : modelSpec;
       specKeys.forEach(specKey => {
         if (specKey === 'data' || !isObject(spec[specKey])) {
           return;
         }
-        traverseSpec(spec[specKey], currentType, currentModel);
+        traverseSpec(spec[specKey], currentModel);
       });
     };
     traverseSpec(this._vchartSpec);
   }
 
-  private processFormatConfig(spec: any, type: string, modelSpec: any, isPercentageChart: boolean) {
-    let defaultFormatConfig: FormatConfig = { fixed: 0 };
-    switch (type) {
+  private processFormatConfig(spec: any, modelSpec: any, chartType: string) {
+    // TODO: check by template
+    const isPercentageChart =
+      chartType === 'barPercent' || chartType === 'horizontalBarPercent' || chartType === 'areaPercent';
+    const isDimensionChart = chartType === 'pie';
+    let defaultFormatConfig: FormatConfig = isDimensionChart ? { content: 'dimension', fixed: 0 } : { fixed: 0 };
+    switch (modelSpec.name) {
       case 'h-line':
       case 'v-line':
       case 'h-area':
@@ -211,7 +209,7 @@ export class SpecProcess implements ISpecProcess {
         defaultFormatConfig = { content: 'percentage', fixed: 0 };
         break;
     }
-    switch (type) {
+    switch (modelSpec.name) {
       case 'h-line':
       case 'v-line':
         spec.formatMethod = (value: any, datum: any, context: any) => {
@@ -271,9 +269,9 @@ export class SpecProcess implements ISpecProcess {
         spec.formatMethod = (value: any, datum: any, context: any) => {
           const formatConfig = Object.assign(defaultFormatConfig, spec.formatConfig) as FormatConfig;
           if (formatConfig.content === 'value(percentage)' || formatConfig.content === 'percentage(value)') {
-            const numberValue = this.getSeriesFormatContent('value', value, datum, context);
+            const numberValue = this.getNormalFormatContent('value', value, datum, context, modelSpec);
             const numberContent = this.formatNumber(numberValue, formatConfig);
-            const percentValue = this.getSeriesFormatContent('percentage', value, datum, context);
+            const percentValue = this.getNormalFormatContent('percentage', value, datum, context, modelSpec);
             const percentContent = this.formatNumber(percentValue, formatConfig, true);
             const content =
               formatConfig.content === 'value(percentage)'
@@ -281,7 +279,7 @@ export class SpecProcess implements ISpecProcess {
                 : `${percentContent}(${numberContent})`;
             return `${formatConfig.prefix ?? ''}${content}${formatConfig.postfix ?? ''}`;
           }
-          const labelValue = this.getSeriesFormatContent(formatConfig.content, value, datum, context);
+          const labelValue = this.getNormalFormatContent(formatConfig.content, value, datum, context, modelSpec);
           const labelContent = this.formatNumber(labelValue, formatConfig, formatConfig.content === 'percentage');
           return `${formatConfig.prefix ?? ''}${labelContent}${formatConfig.postfix ?? ''}`;
         };
@@ -289,7 +287,17 @@ export class SpecProcess implements ISpecProcess {
     }
   }
 
-  private getSeriesFormatContent(content: FormatConfig['content'], value: any, datum: any, context: any) {
+  private getNormalFormatContent(
+    content: FormatConfig['content'],
+    value: any,
+    datum: any,
+    context: any,
+    modelSpec: any
+  ) {
+    // axis not support format content
+    if (['axis-left', 'axis-right', 'axis-top', 'axis-bottom'].includes(modelSpec.id)) {
+      return validNumber(Number.parseFloat(value)) ?? value;
+    }
     const series: ISeries = context.series;
     const dimensionField = series.getDimensionField()[0];
     const measureField = series.getMeasureField()[0];

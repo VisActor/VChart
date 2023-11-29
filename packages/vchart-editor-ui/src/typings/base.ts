@@ -1,4 +1,4 @@
-import { LineType } from './common';
+import type { LineType } from './common';
 import type {
   IBaseComponentConfig,
   IColorComponentConfig,

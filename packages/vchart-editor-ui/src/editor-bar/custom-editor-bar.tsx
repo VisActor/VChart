@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Divider } from '@douyinfe/semi-ui';
 import type {
   ICustomEditorComponentProps,
@@ -224,7 +224,39 @@ function generateEditorEntry(
   );
 }
 
-export function CustomEditorBar(props: ICustomEditorComponentProps) {
+// export function CustomEditorBar(props: ICustomEditorComponentProps) {
+//   const [tool, setTool] = useState<string | null>(null);
+//   const [panelValue, setPanelValue] = useState<Record<string, any>>(generatePanelValue(props.entries, true));
+
+//   const forcePanelValue = generatePanelValue(props.entries);
+
+//   return (
+//     <div
+//       className={`vchart-editor-ui-editor-bar-container ${props.className ?? ''}`}
+//       style={{ display: 'flex', alignItems: 'center', padding: '4px 8px', height: 32, ...(props.style ?? {}) }}
+//       ref={props.ref}
+//     >
+//       {props.entries.map(entry => {
+//         return (
+//           <React.Fragment key={entry.key}>
+//             {generateEditorEntry(
+//               entry,
+//               props.onChange,
+//               tool,
+//               setTool,
+//               props.onToolChange,
+//               forcePanelValue,
+//               panelValue,
+//               setPanelValue
+//             )}
+//           </React.Fragment>
+//         );
+//       })}
+//     </div>
+//   );
+// }
+
+export const CustomEditorBar = forwardRef((props: ICustomEditorComponentProps, ref) => {
   const [tool, setTool] = useState<string | null>(null);
   const [panelValue, setPanelValue] = useState<Record<string, any>>(generatePanelValue(props.entries, true));
 
@@ -234,6 +266,7 @@ export function CustomEditorBar(props: ICustomEditorComponentProps) {
     <div
       className={`vchart-editor-ui-editor-bar-container ${props.className ?? ''}`}
       style={{ display: 'flex', alignItems: 'center', padding: '4px 8px', height: 32, ...(props.style ?? {}) }}
+      ref={ref as any}
     >
       {props.entries.map(entry => {
         return (
@@ -253,4 +286,6 @@ export function CustomEditorBar(props: ICustomEditorComponentProps) {
       })}
     </div>
   );
-}
+});
+
+CustomEditorBar.displayName = 'CustomEditorBar';

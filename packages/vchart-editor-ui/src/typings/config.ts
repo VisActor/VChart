@@ -2,7 +2,7 @@
 
 import type React from 'react';
 import type { ICustomComponentProps } from './base';
-import { LineType } from './common';
+import type { LineType } from './common';
 
 export interface IBaseComponentConfig {
   key: string;
