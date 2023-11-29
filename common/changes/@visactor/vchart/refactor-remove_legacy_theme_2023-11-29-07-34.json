@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: remove legacy theme for legends",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
