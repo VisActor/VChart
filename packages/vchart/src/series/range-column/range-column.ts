@@ -236,12 +236,16 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       // 不应该出现xIndex === -1 || undefined的情况
       return xIndex || 0;
     };
+    const dataCount = () => {
+      return this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values?.length ?? 0;
+    };
+
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<RangeColumnAppearPreset>)?.preset;
     this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('rangeColumn')?.({ direction: this.direction }, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.bar, this._spec, this._markAttributeContext),
-        { dataIndex }
+        { dataIndex, dataCount }
       )
     );
 
@@ -250,7 +254,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
           userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext),
-          { dataIndex }
+          { dataIndex, dataCount }
         )
       );
     }
@@ -260,7 +264,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
           userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext),
-          { dataIndex }
+          { dataIndex, dataCount }
         )
       );
     }
