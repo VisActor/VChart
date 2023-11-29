@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the type error of markArea",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
