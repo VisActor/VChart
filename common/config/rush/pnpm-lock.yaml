@@ -541,7 +541,7 @@ importers:
       '@internal/bundler': link:../../tools/bundler
       '@internal/eslint-config': link:../../share/eslint-config
       '@internal/ts-config': link:../../share/ts-config
-      '@rollup/plugin-dynamic-import-vars': 2.1.1
+      '@rollup/plugin-dynamic-import-vars': 2.1.2
       '@rushstack/eslint-patch': 1.1.4
       '@types/jest': 26.0.24
       '@types/lodash': 4.14.182
@@ -3275,7 +3275,7 @@ packages:
     dependencies:
       '@babel/core': 7.20.12
       '@babel/helper-module-imports': 7.22.15
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       '@types/babel__core': 7.20.0
       rollup: 3.20.5
     dev: false
@@ -3295,7 +3295,7 @@ packages:
     dependencies:
       '@babel/core': 7.20.12
       '@babel/helper-module-imports': 7.22.15
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       rollup: 3.20.5
     dev: true
 
@@ -3308,7 +3308,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       commondir: 1.0.1
       estree-walker: 2.0.2
       glob: 8.1.0
@@ -3316,8 +3316,8 @@ packages:
       magic-string: 0.27.0
       rollup: 3.20.5
 
-  /@rollup/plugin-dynamic-import-vars/2.1.1:
-    resolution: {integrity: sha512-HLZJCtZNz/9mgfLEme5Lebs6AzULCh/C5/CWIoRQQhKZgu/flcmncfaIGzn5qgP9UlwzUSI5cmWtw91SUcPeWQ==}
+  /@rollup/plugin-dynamic-import-vars/2.1.2:
+    resolution: {integrity: sha512-4lr2oXxs9hcxtGGaK8s0i9evfjzDrAs7ngw28TqruWKTEm0+U4Eljb+F6HXGYdFv8xRojQlrQwV7M/yxeh3yzQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -3325,7 +3325,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5
+      '@rollup/pluginutils': 5.1.0
       astring: 1.8.6
       estree-walker: 2.0.2
       fast-glob: 3.3.2
@@ -3341,7 +3341,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       rollup: 3.20.5
     dev: false
 
@@ -3354,7 +3354,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
@@ -3371,7 +3371,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       magic-string: 0.27.0
       rollup: 3.20.5
     dev: false
@@ -3404,7 +3404,7 @@ packages:
       tslib:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       resolve: 1.22.8
       rollup: 3.20.5
       tslib: 2.3.1
@@ -3424,7 +3424,7 @@ packages:
       tslib:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       resolve: 1.22.8
       rollup: 3.20.5
       typescript: 4.9.5
@@ -3443,7 +3443,7 @@ packages:
       tslib:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       resolve: 1.22.8
       rollup: 3.20.5
     dev: true
@@ -3457,14 +3457,14 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       make-dir: 3.1.0
       mime: 3.0.0
       rollup: 3.20.5
     dev: false
 
-  /@rollup/pluginutils/5.0.5:
-    resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
+  /@rollup/pluginutils/5.1.0:
+    resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -3477,8 +3477,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@rollup/pluginutils/5.0.5_rollup@3.20.5:
-    resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
+  /@rollup/pluginutils/5.1.0_rollup@3.20.5:
+    resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -6943,7 +6943,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001565
-      electron-to-chromium: 1.4.595
+      electron-to-chromium: 1.4.596
     dev: true
 
   /browserslist/4.22.1:
@@ -6952,7 +6952,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001565
-      electron-to-chromium: 1.4.595
+      electron-to-chromium: 1.4.596
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13_browserslist@4.22.1
 
@@ -9184,8 +9184,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium/1.4.595:
-    resolution: {integrity: sha512-+ozvXuamBhDOKvMNUQvecxfbyICmIAwS4GpLmR0bsiSBlGnLaOcs2Cj7J8XSbW+YEaN3Xl3ffgpm+srTUWFwFQ==}
+  /electron-to-chromium/1.4.596:
+    resolution: {integrity: sha512-zW3zbZ40Icb2BCWjm47nxwcFGYlIgdXkAx85XDO7cyky9J4QQfq8t0W19/TLZqq3JPQXtlv8BPIGmfa9Jb4scg==}
 
   /electron/11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -18990,7 +18990,7 @@ packages:
     peerDependencies:
       rollup: ^2.x.x || ^3.x.x || ^4.x.x
     dependencies:
-      '@rollup/pluginutils': 5.0.5_rollup@3.20.5
+      '@rollup/pluginutils': 5.1.0_rollup@3.20.5
       rollup: 3.20.5
     dev: true
 
