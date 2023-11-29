@@ -1112,7 +1112,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const chartTheme = this._option?.getTheme();
     const { markByName, mark } = chartTheme;
     const type = this._option.type;
-    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), this.type, mark, markByName);
+    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName);
     const themeWithDirection = transformSeriesThemeToMerge(
       get(chartTheme, `series.${type}_${direction}`),
       `${type}_${direction}`,
