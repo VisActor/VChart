@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refoctor: reduce the times of render on switching theme",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
