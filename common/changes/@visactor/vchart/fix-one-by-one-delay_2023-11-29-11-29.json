@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix oneByOne loop animation",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
