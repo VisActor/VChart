@@ -64,7 +64,13 @@ export class ContinuousLegend<
     const legends: ILegend[] = [];
     legendSpec.forEach((s: IColorLegendSpec | ISizeLegendSpec, i: number) => {
       if (isContinuousLegend(s.type)) {
-        legends.push(new ContinuousLegend(s, { ...options, specIndex: i }));
+        legends.push(
+          new ContinuousLegend(s, {
+            ...options,
+            specIndex: i,
+            type: s.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend
+          })
+        );
       }
     });
     return legends;
