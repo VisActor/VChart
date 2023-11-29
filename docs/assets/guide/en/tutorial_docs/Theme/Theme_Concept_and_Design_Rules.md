@@ -57,12 +57,12 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
       <td rowspan="1" colspan="1"><div style="margin: 14px 0">实际 case（截图来自默认主题真实图表）</div></td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="5" colspan="1"><div style="margin: 14px 0">图表层级样式</div></td>
-      <td rowspan="4" colspan="1"><div style="margin: 14px 0; text-align: center">1</div></td>
-      <td rowspan="4" colspan="1">
+      <td rowspan="2" colspan="1"><div style="margin: 14px 0">图表层级样式</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">1</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>backgroundColor</code></div>
       </td>
-      <td rowspan="4" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>背景色</b></div>
         <div style="margin: 14px 0">用于图表背景、图元描边。</div>
         <div style="margin: 14px 0; display: flex">
@@ -100,40 +100,16 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">point 图元描边颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/point-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/point-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">数据标签描边颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/bar-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/bar-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">播放器滑块描边颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
@@ -188,12 +164,12 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="15" colspan="1"><div style="margin: 14px 0">公共</div></td>
-      <td rowspan="3" colspan="1"><div style="margin: 14px 0; text-align: center">3</div></td>
-      <td rowspan="3" colspan="1">
+      <td rowspan="6" colspan="1"><div style="margin: 14px 0">公共</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">3</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>shadowColor</code></div>
       </td>
-      <td rowspan="3" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>默认阴影颜色</b></div>
         <div style="margin: 14px 0">用于浮层、滑块等带高度属性的图元阴影。</div>
         <div style="margin: 14px 0; display: flex">
@@ -231,27 +207,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">poptip 阴影颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">颜色图例滑块阴影颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-light.png" alt="light" />
@@ -307,11 +267,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="4" colspan="1"><div style="margin: 14px 0; text-align: center">5</div></td>
-      <td rowspan="4" colspan="1">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">5</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>sliderRailColor</code></div>
       </td>
-      <td rowspan="4" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>滑块类组件背景条填充颜色</b></div>
         <div style="margin: 14px 0">用于滑块类组件背景条的填充颜色。</div>
         <div style="margin: 14px 0; display: flex">
@@ -349,40 +309,16 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">播放器未播放轨道颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/player-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">颜色图例轨道颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">尺寸图例轨道颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-light.png" alt="light" />
@@ -392,11 +328,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="2" colspan="1"><div style="margin: 14px 0; text-align: center">6</div></td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">6</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>sliderHandleColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>滑块类组件滑块填充颜色</b></div>
         <div style="margin: 14px 0">用于滑块类组件滑块的填充颜色。</div>
         <div style="margin: 14px 0; display: flex">
@@ -434,14 +370,6 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">尺寸图例滑块填充颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-light.png" alt="light" />
@@ -451,11 +379,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="3" colspan="1"><div style="margin: 14px 0; text-align: center">7</div></td>
-      <td rowspan="3" colspan="1">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">7</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>sliderTrackColor</code></div>
       </td>
-      <td rowspan="3" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>滑块类组件已选范围填充颜色</b></div>
         <div style="margin: 14px 0">用于滑块类组件已选范围的填充颜色。</div>
         <div style="margin: 14px 0; display: flex">
@@ -493,27 +421,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">播放器已播放轨道颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/player-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">尺寸图例选中部分轨道颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-light.png" alt="light" />
@@ -523,11 +435,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="2" colspan="1"><div style="margin: 14px 0; text-align: center">8</div></td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">8</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>popupBackgroundColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>浮层背景区域颜色</b></div>
         <div style="margin: 14px 0">用于浮层的背景区域颜色。</div>
         <div style="margin: 14px 0; display: flex">
@@ -565,14 +477,6 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">poptip 背景框颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
@@ -581,12 +485,12 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="17" colspan="1"><div style="margin: 14px 0">字体颜色</div></td>
-      <td rowspan="8" colspan="1"><div style="margin: 14px 0; text-align: center">9</div></td>
-      <td rowspan="8" colspan="1">
+      <td rowspan="6" colspan="1"><div style="margin: 14px 0">字体颜色</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">9</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>primaryFontColor</code></div>
       </td>
-      <td rowspan="8" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>主要字色</b></div>
         <div style="margin: 14px 0">颜色和背景色差异最大的字色，用于最显要的信息展示。</div>
         <div style="margin: 14px 0; display: flex">
@@ -624,92 +528,36 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">指标卡主要字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">poptip 标题字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">poptip 内容字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">提示信息标题字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">Mark-line 标签字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">Mark-area 标签字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">图例标题字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-light.png" alt="light" />
@@ -719,11 +567,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="4" colspan="1"><div style="margin: 14px 0; text-align: center">10</div></td>
-      <td rowspan="4" colspan="1">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">10</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>secondaryFontColor</code></div>
       </td>
-      <td rowspan="4" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>次要字色</b></div>
         <div style="margin: 14px 0">颜色和背景色差异较小的字色，用于次要的信息展示。</div>
         <div style="margin: 14px 0; display: flex">
@@ -761,40 +609,16 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">图例标签字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">提示信息数据 key 字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">缩略轴标签字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
@@ -804,11 +628,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="2" colspan="1"><div style="margin: 14px 0; text-align: center">11</div></td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">11</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>tertiaryFontColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>第三字色</b></div>
         <div style="margin: 14px 0">颜色和背景色差异更小的字色，用于更次要的信息展示。</div>
         <div style="margin: 14px 0; display: flex">
@@ -846,14 +670,6 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">指标卡次要字色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-light.png" alt="light" />
@@ -1000,12 +816,12 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="3" colspan="1"><div style="margin: 14px 0">轴样式</div></td>
-      <td rowspan="2" colspan="1"><div style="margin: 14px 0; text-align: center">15</div></td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="2" colspan="1"><div style="margin: 14px 0">轴样式</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">15</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>axisGridColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>轴网格线颜色</b></div>
         <div style="margin: 14px 0">用于轴网格线颜色以及同级的颜色。</div>
         <div style="margin: 14px 0; display: flex">
@@ -1043,14 +859,6 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">十字准星矩形颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
@@ -1105,7 +913,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="3" colspan="1"><div style="margin: 14px 0">缩略轴</div></td>
+      <td rowspan="2" colspan="1"><div style="margin: 14px 0">缩略轴</div></td>
       <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">17</div></td>
       <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>dataZoomHandlerStrokeColor</code></div>
@@ -1152,11 +960,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="2" colspan="1"><div style="margin: 14px 0; text-align: center">18</div></td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">18</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>dataZoomChartColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>缩略轴图表区域颜色</b></div>
         <div style="margin: 14px 0">用于缩略轴预览图表的颜色以及同级的颜色。</div>
         <div style="margin: 14px 0; display: flex">
@@ -1194,14 +1002,6 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">尺寸图例尺寸标识颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-light.png" alt="light" />
@@ -1210,12 +1010,12 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="2" colspan="1"><div style="margin: 14px 0">播放器</div></td>
-      <td rowspan="2" colspan="1"><div style="margin: 14px 0; text-align: center">19</div></td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">播放器</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">19</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>playerControllerColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>播放器控制器填充颜色</b></div>
         <div style="margin: 14px 0">用于播放器控制器的填充颜色。</div>
         <div style="margin: 14px 0; display: flex">
@@ -1253,14 +1053,6 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/player-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">播放器滑块颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
@@ -1315,7 +1107,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="6" colspan="1"><div style="margin: 14px 0">标注</div></td>
+      <td rowspan="3" colspan="1"><div style="margin: 14px 0">标注</div></td>
       <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">21</div></td>
       <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>axisMarkerBackgroundColor</code></div>
@@ -1362,11 +1154,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="2" colspan="1"><div style="margin: 14px 0; text-align: center">22</div></td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">22</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>markLabelBackgroundColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>标注标签背景颜色</b></div>
         <div style="margin: 14px 0">用于普通标注标签的背景颜色。</div>
         <div style="margin: 14px 0; display: flex">
@@ -1404,14 +1196,6 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">Mark-area 标签背景色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-light.png" alt="light" />
@@ -1421,11 +1205,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="3" colspan="1"><div style="margin: 14px 0; text-align: center">23</div></td>
-      <td rowspan="3" colspan="1">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">23</div></td>
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><code>markLineStrokeColor</code></div>
       </td>
-      <td rowspan="3" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0"><b>标注线颜色</b></div>
         <div style="margin: 14px 0">用于普通标注线的颜色。</div>
         <div style="margin: 14px 0; display: flex">
@@ -1463,27 +1247,11 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">十字准星线形颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">Mark-point 线条颜色</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-point-light.png" alt="light" />
@@ -1723,70 +1491,34 @@ VChart 主题模块支持自定义语义色板，同时可以定义新的 token 
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="5" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">4（默认）</div>
       </td>
-      <td rowspan="5" colspan="1"><div style="margin: 14px 0">Medium</div></td>
-      <td rowspan="5" colspan="1"><div style="margin: 14px 0">14px</div></td>
-      <td rowspan="5" colspan="1"><div style="margin: 14px 0">1.5</div></td>
-      <td rowspan="5" colspan="1"><div style="margin: 14px 0">0</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">Medium</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">14px</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">1.5</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">0</div></td>
       <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">数据标签</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/bar-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/bar-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">Mark-line 标签</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">Mark-area 标签</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">提示信息</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">图表副标题</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
@@ -1795,140 +1527,59 @@ VChart 主题模块支持自定义语义色板，同时可以定义新的 token 
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="10" colspan="1">
+      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">5</div>
       </td>
-      <td rowspan="10" colspan="1"><div style="margin: 14px 0">Regular</div></td>
-      <td rowspan="10" colspan="1"><div style="margin: 14px 0">12px</div></td>
-      <td rowspan="10" colspan="1"><div style="margin: 14px 0">1.3</div></td>
-      <td rowspan="10" colspan="1"><div style="margin: 14px 0">0</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">Regular</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">12px</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">1.3</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">0</div></td>
       <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">poptip</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">图例标题</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">图例标签</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">颜色图例标签</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">尺寸图例标签</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr class="row--1000172" data-index="14">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">缩略轴标签</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">十字准星标签</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">轴标题</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">轴标签</div>
         <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
         </div>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
         <div style="margin: 14px 0">一些其他系列的标签，如：时序图、旭日图、矩形树图、嵌套圆图系列等</div>
       </td>
     </tr>
