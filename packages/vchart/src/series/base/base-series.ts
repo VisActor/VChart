@@ -957,12 +957,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   reInit(theme?: any, lastSpec?: any) {
     super.reInit(theme);
 
-    this.initMarkStyle();
-    this.getMarksWithoutRoot().forEach(mark => {
-      if (lastSpec && isEqual(lastSpec[mark.name], this._spec[mark.name])) {
-        return;
-      }
+    const marks = !lastSpec
+      ? this.getMarksWithoutRoot()
+      : this.getMarksWithoutRoot().filter(mark => !isEqual(lastSpec[mark.name], this._spec[mark.name]));
+    // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
+    marks.forEach(mark => {
       this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
+    });
+    this.initMarkStyle();
+    marks.forEach(mark => {
       mark.updateStaticEncode();
       mark.updateLayoutState(true);
     });
