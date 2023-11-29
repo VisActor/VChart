@@ -345,7 +345,12 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     }
     const labelBackground = label.labelBackground || {};
     const labelStyle = label.style || {};
-    const { fill: rectFill = 'rgba(47, 59, 82, 0.9)', stroke: rectStroke, ...rectStyle } = labelBackground.style || {};
+    const {
+      fill: rectFill = 'rgba(47, 59, 82, 0.9)',
+      stroke: rectStroke,
+      outerBorder,
+      ...rectStyle
+    } = labelBackground.style || {};
     hair.label = {
       visible: !!label.visible,
       formatMethod: label.formatMethod,
@@ -364,6 +369,13 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         pickable: false,
         fill: rectFill,
         stroke: rectStroke,
+        // Note: 通过这个配置可以保证 label 和 轴 label 对齐
+        outerBorder: {
+          stroke: rectFill,
+          distance: 0,
+          lineWidth: 3,
+          ...outerBorder
+        },
         ...rectStyle
       },
       zIndex: this.labelZIndex,
