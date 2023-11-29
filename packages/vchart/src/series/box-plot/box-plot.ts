@@ -349,19 +349,25 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   initAnimation() {
     // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
-    const dataIndex = (datum: Datum) => {
-      const xField = this._direction === Direction.vertical ? this._fieldX[0] : this._fieldY[0];
-      const xValue = datum?.[xField];
-      const xIndex = this.getViewDataStatistics()?.latestData?.[xField]?.values.indexOf(xValue);
+    const dataIndex = (datum: any) => {
+      const indexField = this.direction === 'horizontal' ? this._fieldY[0] : this._fieldX[0];
+      const indexValue = datum?.[indexField];
+      const scale = this.direction === 'horizontal' ? this._scaleY : this._scaleX;
+      const index = (scale?.domain?.() ?? []).indexOf(indexValue);
       // 不应该出现xIndex === -1 || undefined的情况
-      return xIndex || 0;
+      return index || 0;
     };
+    const dataCount = () => {
+      const scale = this.direction === 'horizontal' ? this._scaleY : this._scaleX;
+      return (scale?.domain?.() ?? []).length ?? 0;
+    };
+
     if (this._boxPlotMark) {
       const newDefaultConfig = this._initAnimationSpec(Factory.getAnimationInKey('scaleInOut')?.());
       const newConfig = this._initAnimationSpec(
         userAnimationConfig(SeriesMarkNameEnum.boxPlot, this._spec, this._markAttributeContext)
       );
-      this._boxPlotMark.setAnimationConfig(animationConfig(newDefaultConfig, newConfig, { dataIndex }));
+      this._boxPlotMark.setAnimationConfig(animationConfig(newDefaultConfig, newConfig, { dataIndex, dataCount }));
     }
 
     if (this._outlierMark) {
@@ -373,9 +379,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         update: (this._spec.animationUpdate as IMarkAnimateSpec<string>)?.symbol
       };
       this._outlierMark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), outlierMarkUserAnimation, {
-          dataIndex
-        })
+        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), outlierMarkUserAnimation, { dataIndex, dataCount })
       );
     }
   }
