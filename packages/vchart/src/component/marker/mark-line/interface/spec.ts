@@ -20,10 +20,8 @@ export type IMarkLineSpec =
       (
         | IMarkLineXSpec // 标注目标：笛卡尔坐标系坐标空间
         | IMarkLineYSpec // 标注目标：笛卡尔坐标系坐标空间
-        // | IMarkLineAngleSpec // TODO: 标注目标：极坐标系坐标空间
-        // | IMarkLineRadiusSpec // TODO: 标注目标：极坐标系坐标空间
         | IMarkLineCoordinateSpec // 标注目标：数据元素
-        | IMarkLinePositionsSpec
+        | IMarkerPositionsSpec
       ) &
       IMarkLineTheme)
   | IStepMarkLineSpec; // 标注目标：任意位置
@@ -42,20 +40,6 @@ export interface IMarkLineYSpec extends IMarkerAxisSpec {
    * 可以将 y 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处
    */
   y: IDataPos | IDataPosCallback;
-}
-
-export interface IMarkLineAngleSpec extends IMarkerAxisSpec {
-  /**
-   * todo: angle轴上的参考线。可以配置参考线在angle轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
-   */
-  angle: IDataPos | IDataPosCallback;
-}
-
-export interface IMarkLineRadiusSpec extends IMarkerAxisSpec {
-  /**
-   * todo: radius轴上的参考线。可以配置参考线在radius轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
-   */
-  radius: IDataPos | IDataPosCallback;
 }
 
 export type IMarkLineCoordinateSpec = {
@@ -77,10 +61,6 @@ export type IMarkLineCoordinateSpec = {
         xy: IRegressType; // FIXME: xy属性名称不太合理，可能需调整
       };
 };
-/**
- * 指定坐标点的参考线。基于指定坐标进行参考线的绘制
- */
-export type IMarkLinePositionsSpec = IMarkerPositionsSpec;
 
 export type IStepMarkLineSpec = IMarkerSpec & {
   /**
@@ -137,6 +117,15 @@ export type IStepMarkLineSpec = IMarkerSpec & {
             };
       }
     | {
+        /**
+         * 画布坐标
+         */
         positions: [IPoint, IPoint];
+        /**
+         * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
+         * @default false
+         * @since 1.7.0
+         */
+        regionRelative?: boolean;
       }
   );
