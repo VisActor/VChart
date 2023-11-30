@@ -64,7 +64,7 @@ const spec = {
         style: { fillOpacity: 0.5 },
         customShape: (data, attrs, path) => {
           const width = attrs.width;
-          const deltaY = attrs.y1 - attrs.y;
+          const deltaY = attrs.height == null ? attrs.y1 - attrs.y : attrs.height;
 
           path.moveTo(0, deltaY);
           path.quadraticCurveTo(0.45 * width, 0.67 * deltaY, 0.5 * width, 0);
@@ -82,13 +82,11 @@ const spec = {
       seriesField: 'type',
       point: {
         style: {
-          opacity: 0.1,
+          opacity: 0.5,
           size: 30,
           dy: -40,
           dx: -15,
-          // stroke: 'red',
           stroke: { scale: 'color', field: 'type' },
-          fill: { scale: 'color', field: 'type' },
           symbolType: datum => {
             return images[datum.type];
           }
