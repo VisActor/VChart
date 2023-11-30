@@ -19,6 +19,7 @@ import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { IFilterMode } from '../component/data-zoom/constant';
 import { LayoutModel } from '../model/layout-model';
+import { cloneDeepSpec } from '../util/spec/clone-deep';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
@@ -87,6 +88,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
 
   _initTheme() {
     // do nothing, region don't need to parse theme
+    this._spec = cloneDeepSpec(this._originalSpec);
   }
 
   created(): void {

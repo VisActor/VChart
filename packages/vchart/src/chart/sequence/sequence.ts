@@ -313,6 +313,7 @@ export class SequenceChart extends BaseChart {
       }
       const series = Factory.createSeries(spec.type, spec, {
         ...this._modelOption,
+        type: spec.type,
         region,
         specIndex: index,
         specKey: 'series',

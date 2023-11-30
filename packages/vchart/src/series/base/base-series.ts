@@ -264,9 +264,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   protected _markAttributeContext: ISeriesMarkAttributeContext;
 
   constructor(spec: T, options: ISeriesOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this._region = options.region;
     this._dataSet = options.dataSet;
     this._spec?.name && (this.name = this._spec.name);
@@ -1110,13 +1108,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getTheme() {
-    const direction = getDirectionFromSeriesSpec(this._spec);
+    const direction = getDirectionFromSeriesSpec(this._originalSpec);
     const chartTheme = this._option?.getTheme();
     const { markByName, mark } = chartTheme;
-    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${this.type}`), this.type, mark, markByName);
+    const type = this._option.type;
+    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName);
     const themeWithDirection = transformSeriesThemeToMerge(
-      get(chartTheme, `series.${this.type}_${direction}`),
-      `${this.type}_${direction}`,
+      get(chartTheme, `series.${type}_${direction}`),
+      `${type}_${direction}`,
       mark,
       markByName
     );
