@@ -33,7 +33,6 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
   layoutZIndex: number = LayoutZIndex.MarkLine;
 
   protected declare _theme: IMarkLineTheme;
-
   protected declare _markerComponent: MarkLineComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
@@ -67,14 +66,14 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
           y: 0
         }
       ],
-      lineStyle: this._spec?.line.style as unknown as any,
+      lineStyle: this._spec.line?.style as unknown as any,
       startSymbol: {
-        ...this._spec?.startSymbol,
+        ...this._spec.startSymbol,
         visible: this._spec.startSymbol?.visible,
         style: transformToGraphic(this._spec.startSymbol?.style)
       },
       endSymbol: {
-        ...this._spec?.endSymbol,
+        ...this._spec.endSymbol,
         visible: this._spec.endSymbol?.visible,
         style: transformToGraphic(this._spec.endSymbol?.style)
       },

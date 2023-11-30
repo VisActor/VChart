@@ -4,6 +4,12 @@ import type { DataView } from '@visactor/vdataset';
 import { isValid, isNumber, array, minInArray, maxInArray } from '@visactor/vutils';
 import type { Datum, IPoint, StringOrNumber } from '../../typings';
 import { isPercent } from '../../util';
+import type { IDataPos, IDataPosCallback } from './interface';
+import { AGGR_TYPE } from '../../constant/marker';
+
+export function isAggrSpec(spec: IDataPos | IDataPosCallback) {
+  return AGGR_TYPE.includes(spec as any);
+}
 
 export function xyLayout(
   data: DataView,
