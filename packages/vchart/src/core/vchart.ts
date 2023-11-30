@@ -392,6 +392,7 @@ export class VChart implements IVChart {
     // 如果要支持spec的类似Proxy监听，更新逻辑应当从这一层开始。如果在chart上做，就需要在再向上发送spec更新消息，不是很合理。
     // todo: 问题1 存不存在 chart 需要在这个阶段处理的特殊字段？目前没有，但是理论上可以有？
     const chart = Factory.createChart(spec.type, spec, {
+      type: spec.type,
       globalInstance: this,
       eventDispatcher: this._eventDispatcher!,
       dataSet: this._dataSet!,
