@@ -571,6 +571,13 @@
                 "zh": "自定义主题",
                 "en": "Custom Themes"
               }
+            },
+            {
+              "path": "Theme_Extension",
+              "title": {
+                "zh": "VChart 扩展主题包",
+                "en": "VChart Extended Theme Packages"
+              }
             }
           ]
         },
