@@ -21,6 +21,7 @@ export declare class TotalLabel extends BaseLabelComponent {
     protected _initLabelComponent(): void;
     updateLayoutAttribute(): void;
     compileMarks(): void;
+    getVRenderComponents(): any[];
 }
 export declare function totalLabelPosition(series: ISeries, type: MarkType): string;
 export declare const registerTotalLabel: () => void;

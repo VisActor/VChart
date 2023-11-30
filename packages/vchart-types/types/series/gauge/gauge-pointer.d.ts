@@ -2,7 +2,7 @@ import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme } from './interface';
+import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme, PinMarkSpec, PointerMarkSpec } from './interface';
 import type { Datum, Maybe } from '../../typings';
 import { ProgressLikeSeries } from '../polar/progress-like';
 export declare class GaugePointerSeries<T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec> extends ProgressLikeSeries<T> {
@@ -21,6 +21,7 @@ export declare class GaugePointerSeries<T extends IGaugePointerSeriesSpec = IGau
     initGroups(): void;
     private initPointerMarkStyle;
     protected initTooltip(): void;
+    protected _getPointerAnchor(datum: Datum, markSpec: PinMarkSpec | PointerMarkSpec): import("../../typings").IPoint;
     protected _getPointerWidth(): number;
     protected _getPointerHeight(datum: Datum): number;
     protected _getPointerAngle(datum: Datum): number;

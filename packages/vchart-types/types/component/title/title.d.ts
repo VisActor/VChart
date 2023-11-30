@@ -40,7 +40,7 @@ export declare class Title extends BaseComponent<ITitleSpec> implements ITitle {
     private _getTitleLayoutRect;
     private _getTitleAttrs;
     private _createOrUpdateTitleComponent;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     clear(): void;
 }
 export declare const registerTitle: () => void;

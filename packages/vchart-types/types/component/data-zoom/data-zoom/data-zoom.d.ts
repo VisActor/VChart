@@ -62,6 +62,6 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
             area: any;
         };
     };
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
 }
 export declare const registerDataZoom: () => void;

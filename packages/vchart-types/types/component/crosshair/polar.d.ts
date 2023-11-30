@@ -74,7 +74,7 @@ export declare class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrossh
     private _layoutHorizontal;
     protected _parseFieldInfo(): void;
     private _updateCrosshairLabel;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
 }
 export declare const registerPolarCrossHair: () => void;
 export {};

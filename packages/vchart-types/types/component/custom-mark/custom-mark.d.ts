@@ -26,7 +26,7 @@ export declare class CustomMark extends BaseComponent<any> {
         reCompile: boolean;
     };
     changeRegions(regions: IRegion[]): void;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     onRender(ctx: IModelRenderOption): void;
     private _getMarkAttributeContext;
 }
