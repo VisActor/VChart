@@ -1,7 +1,6 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkArea, IMarkAreaSpec, IMarkAreaTheme } from './interface';
 import type { IComponentOption } from '../../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
@@ -9,18 +8,15 @@ import { markerAggregation } from '../../../data/transforms/aggregation';
 import { coordinateLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
-// eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import type { INode } from '@visactor/vrender-core';
-// eslint-disable-next-line no-duplicate-imports
-import { markerRegression } from '../../../data/transforms/regression';
 import { Factory } from '../../../core/factory';
 import type { IPoint } from '../../../typings';
 
-export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> implements IMarkArea {
+export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
@@ -50,6 +46,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
   }
 
   protected _createMarkerComponent() {
+    // TODO：可以抽象
     const markArea = new MarkAreaComponent({
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? false,
@@ -179,12 +176,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
     if (!isXProcess && !isYProcess && !isCoordinateProcess) {
       return null;
     }
-
     let options: IOptionAggr[];
-
-    registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
-    registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);
-
     if (isXYProcess) {
       options = [this._processSpecXY(spec.x, spec.y), this._processSpecXY(spec.x1, spec.y1)];
     } else if (isXProcess) {
@@ -195,8 +187,10 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       options = this._processSpecCoo(spec);
     }
 
+    const seriesData = relativeSeries.getViewData();
+    registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
     const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
-    data.parse([relativeSeries.getViewData()], {
+    data.parse([seriesData], {
       type: 'dataview'
     });
     data.transform({
