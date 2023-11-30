@@ -33,7 +33,7 @@ import { Factory } from '../../../core/factory';
 import { isPercent } from '../../../util';
 import type { IPoint } from '../../../typings';
 
-export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> implements IMarkLine {
+export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
@@ -276,15 +276,16 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     if (!doXProcess && !doYProcess && !doXYY1Process && !doYXX1Process && !doXYProcess && !isCoordinateProcess) {
       return;
     }
+
+    registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
+    registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);
+
     this._isXYLayout = doXProcess || doXYY1Process || doYProcess || doYXX1Process || doXYProcess;
 
     let options: IOptionAggr[] | IOptionRegr;
     let processData: DataView = relativeSeries.getViewData();
     let needAggr: boolean = true;
     let needRegr: boolean = false;
-
-    registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
-    registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);
 
     if (doXYProcess) {
       const { x, x1, y, y1 } = spec as IMarkLineXYSpec;
@@ -331,6 +332,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     }
 
     this._markerData = processData;
+
+    // TODO: 应该通过判断 spec 上是否配置了 aggr 来决定
     if (needAggr || needRegr) {
       const data = new DataView(this._option.dataSet);
       data.parse([processData], {

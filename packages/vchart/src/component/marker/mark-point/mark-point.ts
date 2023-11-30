@@ -1,14 +1,11 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkPoint, IMarkPointSpec, IMarkPointTheme } from './interface';
 import type { IComponentOption } from '../../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
-// eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { coordinateLayout } from '../utils';
+import { coordinateLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
-// eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
@@ -17,7 +14,7 @@ import { Factory } from '../../../core/factory';
 import type { INode } from '@visactor/vrender-core';
 import type { IPoint } from '../../../typings';
 
-export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> implements IMarkPoint {
+export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;
   type = ComponentTypeEnum.markPoint;
   name: string = ComponentTypeEnum.markPoint;
@@ -86,12 +83,16 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
     const spec = this._spec;
     const data = this._markerData;
     const relativeSeries = this._relativeSeries;
+    // TODO: 需要统一判断方法
+    const isXYLayout = 'x' in spec && 'y' in spec;
     const isCoordinateLayout = 'coordinate' in spec;
     const isPositionLayout = 'position' in spec;
     const autoRange = spec?.autoRange ?? false;
 
     let point: IPoint;
-    if (isCoordinateLayout) {
+    if (isXYLayout) {
+      point = xyLayout(data, relativeSeries, relativeSeries, relativeSeries, autoRange)[0][0];
+    } else if (isCoordinateLayout) {
       point = coordinateLayout(data, relativeSeries, autoRange)[0];
     } else if (isPositionLayout) {
       point = spec.position;
@@ -146,14 +147,20 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> impl
   protected _initDataView(): void {
     const spec = this._spec as any;
     const relativeSeries = this._relativeSeries;
+    const isXYProcess = isValid(spec.x) && isValid(spec.y);
     const isCoordinateProcess = isValid(spec.coordinate);
-    if (!isCoordinateProcess) {
+    if (!isCoordinateProcess && !isXYProcess) {
       return;
     }
 
     registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
 
-    const options = this._processSpecCoo(spec);
+    let options;
+    if (isXYProcess) {
+      options = [this._processSpecXY(spec.x, spec.y)];
+    } else if (isCoordinateProcess) {
+      options = this._processSpecCoo(spec);
+    }
 
     const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     data.parse([relativeSeries.getViewData()], {
