@@ -197,14 +197,14 @@ export class ContinuousLegend<
     }
 
     const attrs: any = {
-      ...getContinuousLegendAttributes(this._spec),
       layout,
       align,
       zIndex: this.layoutZIndex,
       min,
       max,
       value: this._spec.defaultSelected,
-      [this._legendType === 'color' ? 'colors' : 'sizeRange']: visualMappingRange
+      [this._legendType === 'color' ? 'colors' : 'sizeRange']: visualMappingRange,
+      ...getContinuousLegendAttributes(this._spec)
     };
     this._addDefaultTitleText(attrs);
     return attrs;
