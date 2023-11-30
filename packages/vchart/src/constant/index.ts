@@ -71,7 +71,9 @@ export enum LayoutZIndex {
 
   Brush = 500,
 
-  CustomMark = 500
+  CustomMark = 500,
+
+  interaction = 700
 }
 /**
  * 数值越大，越先布局
