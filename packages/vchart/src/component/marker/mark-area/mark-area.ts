@@ -113,10 +113,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
         },
         lines[1][0]
       ];
-    } else if (isXLayout) {
-      lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
-      points = [...lines[0], lines[1][1], lines[1][0]];
-    } else if (isYLayout) {
+    } else if (isXLayout || isYLayout) {
       lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
       points = [...lines[0], lines[1][1], lines[1][0]];
     } else if (isCoordinateLayout) {

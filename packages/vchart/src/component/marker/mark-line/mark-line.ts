@@ -1,5 +1,13 @@
 import { DataView } from '@visactor/vdataset';
-import type { IMarkLine, IMarkLineSpec, IMarkLineTheme, IStepMarkLineSpec } from './interface';
+import type {
+  IMarkLine,
+  IMarkLineSpec,
+  IMarkLineTheme,
+  IMarkLineXYSpec,
+  IMarkLineXYY1Spec,
+  IMarkLineYXX1Spec,
+  IStepMarkLineSpec
+} from './interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -34,6 +42,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
 
   protected declare _theme: IMarkLineTheme;
   protected declare _markerComponent: MarkLineComponent;
+
+  private _isXYLayout: boolean;
 
   static createComponent(spec: any, options: IComponentOption) {
     const markLineSpec = spec.markLine;
@@ -105,22 +115,19 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     const endRelativeSeries = this._endRelativeSeries;
     const relativeSeries = this._relativeSeries;
 
-    // eslint-disable-next-line max-len
-    const isXLayout =
-      isValid(spec.x) || (isValid(spec.coordinates) && isValid(spec.process) && isValid(spec.process.x));
-    // eslint-disable-next-line max-len
-    const isYLayout =
-      isValid(spec.y) || (isValid(spec.coordinates) && isValid(spec.process) && isValid(spec.process.y));
-    const isCoordinateLayout =
-      isValid(spec.coordinates) && (!isValid(spec.process) || ('process' in spec && 'xy' in spec.process));
+    const isValidCoordinates = isValid(spec.coordinates);
+    const isValidProcess = isValid(spec.process);
+    const isValidProcessX = isValidProcess && isValid(spec.process.x);
+    const isValidProcessY = isValidProcess && isValid(spec.process.y);
+    const isCoordinateLayout = isValidCoordinates && (!isValidProcess || ('process' in spec && 'xy' in spec.process));
     const isPositionLayout = isValid(spec.positions);
     const autoRange = spec.autoRange ?? false;
 
     let points: IPoint[] = [];
-    if (isXLayout) {
-      points = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
-    } else if (isYLayout) {
-      points = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange)[0];
+    if (this._isXYLayout || (isValidCoordinates && isValidProcessX) || (isValidCoordinates && isValidProcessY)) {
+      const xyPoints = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
+      // 这里不同的场景返回的值不同，如果同时声明了 x x1 y y1，会返回两个数值的数组（如 [[{}], [{}]]），所以需要分别处理下
+      points = (xyPoints.length === 1 ? xyPoints[0] : xyPoints.map(point => point[0])) as IPoint[];
     } else if (isCoordinateLayout) {
       points = coordinateLayout(data, relativeSeries, autoRange);
     } else if (isPositionLayout) {
@@ -138,11 +145,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
       }
     }
     const seriesData = this._relativeSeries.getViewData().latestData;
-    const dataPoints = data
-      ? data.latestData[0].latestData
-        ? data.latestData[0].latestData
-        : data.latestData
-      : seriesData;
+    const dataPoints = data.latestData[0].latestData || data.latestData;
 
     let limitRect;
     if (spec.clip || spec.label?.confine) {
@@ -260,32 +263,45 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
     const relativeSeries = this._relativeSeries;
     const isXProcess = 'x' in spec;
     const isYProcess = 'y' in spec;
+    const isX1Process = 'x1' in spec;
+    const isY1Process = 'y1' in spec;
     const isCoordinateProcess = 'coordinates' in spec;
 
-    if (!isXProcess && !isYProcess && !isCoordinateProcess) {
+    const doXProcess = isXProcess && !isYProcess && !isY1Process;
+    const doXYY1Process = isXProcess && isYProcess && isY1Process;
+    const doYProcess = isYProcess && !isXProcess && !isX1Process;
+    const doYXX1Process = isYProcess && isXProcess && isX1Process;
+    const doXYProcess = isXProcess && isYProcess && isX1Process && isY1Process;
+
+    if (!doXProcess && !doYProcess && !doXYY1Process && !doYXX1Process && !doXYProcess && !isCoordinateProcess) {
       return;
     }
+    this._isXYLayout = doXProcess || doXYY1Process || doYProcess || doYXX1Process || doXYProcess;
 
     let options: IOptionAggr[] | IOptionRegr;
-    let processData: DataView;
-    let needAgggr: boolean = false;
+    let processData: DataView = relativeSeries.getViewData();
+    let needAggr: boolean = true;
     let needRegr: boolean = false;
 
     registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
-    // eslint-disable-next-line no-undef
     registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);
 
-    if (isXProcess) {
-      options = [this._processSpecX(spec.x as unknown as IDataPos)] as unknown as any;
-      processData = relativeSeries.getViewData();
-      needAgggr = true;
-    } else if (isYProcess) {
-      options = [this._processSpecY(spec.y as unknown as IDataPos)] as unknown as any;
-      processData = relativeSeries.getViewData();
-      needAgggr = true;
+    if (doXYProcess) {
+      const { x, x1, y, y1 } = spec as IMarkLineXYSpec;
+      options = [this._processSpecXY(x, y), this._processSpecXY(x1, y1)];
+    } else if (doXProcess) {
+      options = [this._processSpecX(spec.x)];
+    } else if (doYProcess) {
+      options = [this._processSpecY(spec.y)];
+    } else if (doXYY1Process) {
+      const { x, y, y1 } = spec as IMarkLineXYY1Spec;
+      options = [this._processSpecXY(x, y), this._processSpecXY(x, y1)];
+    } else if (doYXX1Process) {
+      const { x, x1, y } = spec as IMarkLineYXX1Spec;
+      options = [this._processSpecXY(x, y), this._processSpecXY(x1, y)];
     } else if (isCoordinateProcess) {
       options = this._processSpecCoo(spec);
-
+      needAggr = false;
       processData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` })
         .parse([relativeSeries.getViewData()], {
           type: 'dataview'
@@ -296,11 +312,11 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         });
       if (spec.process && 'x' in spec.process) {
         options = [this._processSpecX(spec.process.x as unknown as IDataPos)] as unknown as any;
-        needAgggr = true;
+        needAggr = true;
       }
       if (spec.process && 'y' in spec.process) {
         options = [this._processSpecY(spec.process.y as unknown as IDataPos)] as unknown as any;
-        needAgggr = true;
+        needAggr = true;
       }
       if (spec.process && 'xy' in spec.process) {
         const { xField, yField } = relativeSeries.getSpec();
@@ -310,29 +326,34 @@ export class MarkLine extends BaseMarker<IMarkLineSpec & IMarkLineTheme> impleme
         };
         needRegr = true;
       }
+    } else {
+      needAggr = false;
     }
 
-    const data = new DataView(this._option.dataSet);
-    data.parse([processData], {
-      type: 'dataview'
-    });
-    if (needAgggr) {
-      data.transform({
-        type: 'markerAggregation',
-        options
+    this._markerData = processData;
+    if (needAggr || needRegr) {
+      const data = new DataView(this._option.dataSet);
+      data.parse([processData], {
+        type: 'dataview'
       });
-    }
-    if (needRegr) {
-      data.transform({
-        type: 'markerRegression',
-        options
-      });
-    }
+      if (needAggr) {
+        data.transform({
+          type: 'markerAggregation',
+          options
+        });
+      }
+      if (needRegr) {
+        data.transform({
+          type: 'markerRegression',
+          options
+        });
+      }
 
-    data.target.on('change', () => {
-      this._markerLayout();
-    });
-    this._markerData = data;
+      data.target.on('change', () => {
+        this._markerLayout();
+      });
+      this._markerData = data;
+    }
   }
 }
 

@@ -20,6 +20,9 @@ export type IMarkLineSpec =
       (
         | IMarkLineXSpec // 标注目标：笛卡尔坐标系坐标空间
         | IMarkLineYSpec // 标注目标：笛卡尔坐标系坐标空间
+        | IMarkLineXYSpec
+        | IMarkLineXYY1Spec
+        | IMarkLineYXX1Spec
         | IMarkLineCoordinateSpec // 标注目标：数据元素
         | IMarkerPositionsSpec
       ) &
@@ -28,18 +31,83 @@ export type IMarkLineSpec =
 
 export interface IMarkLineXSpec extends IMarkerAxisSpec {
   /**
-   * x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * 可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处
+   * 单独声明 x 属性，可以绘制一条贯穿 y 轴的标注线
+   * x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处。
    */
   x: IDataPos | IDataPosCallback;
 }
 
+export interface IMarkLineXYY1Spec extends IMarkerAxisSpec {
+  /**
+   * 参考线在 x 轴上位置，可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
+   */
+  x: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线在 y 轴的起点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。
+   */
+  y: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线在 y 轴的终点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。
+   * @since 1.7.3
+   */
+  y1: IDataPos | IDataPosCallback;
+}
+
 export interface IMarkLineYSpec extends IMarkerAxisSpec {
   /**
+   * 单独声明 y 属性，可以绘制一条贯穿 x 轴的标注线
    * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
    * 可以将 y 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处
    */
   y: IDataPos | IDataPosCallback;
+}
+
+export interface IMarkLineYXX1Spec extends IMarkerAxisSpec {
+  /**
+   * 参考线在 y 轴上位置，可以配置参考线在 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于  region 纵轴（从上到下）的百分之 15 位置处。
+   */
+  y: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线在 x 轴的起点位置，可以配置 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
+   */
+  x: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线在 x 轴的终点位置，可以配置 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
+   * @since 1.7.3
+   */
+  x1: IDataPos | IDataPosCallback;
+}
+
+export interface IMarkLineXYSpec extends IMarkerAxisSpec {
+  /**
+   * 参考线起始点在 x 轴上位置，可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
+   */
+  x: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线起始点在 y 轴的起点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。
+   */
+  y: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线终点在 x 轴的终点位置，可以配置 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
+   * @since 1.7.3
+   */
+  x1: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线终点在 y 轴的终点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。
+   * @since 1.7.3
+   */
+  y1: IDataPos | IDataPosCallback;
 }
 
 export type IMarkLineCoordinateSpec = {
