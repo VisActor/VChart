@@ -12,6 +12,7 @@ import type { IChartTempConstructor } from '../elements/chart/template/interface
 import { EditorFactory } from './factory';
 import { getCommonHistoryUse } from '../elements/common/editor-history';
 import { EditorData } from './editor-data';
+import type { EditorChart } from '../elements/chart/chart';
 
 export class VChartEditor {
   static registerParser(key: string, parser: IDataParserConstructor) {
@@ -308,6 +309,18 @@ export class VChartEditor {
 
   getPosWithPath(path: any[]) {
     return this._layers[0].getPosWithPath(path);
+  }
+
+  getChartElements() {
+    const charts: EditorChart[] = [];
+    this._layers.forEach(l => {
+      l.elements.forEach(e => {
+        if (l.type === 'chart') {
+          charts.push(e as EditorChart);
+        }
+      });
+    });
+    return charts;
   }
 
   clearCurrentEditorElement() {

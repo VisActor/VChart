@@ -193,7 +193,7 @@ export class SpecProcess implements ISpecProcess {
       chartType === 'barPercent' || chartType === 'horizontalBarPercent' || chartType === 'areaPercent';
     const isDimensionChart = chartType === 'pie';
     let defaultFormatConfig: FormatConfig = isDimensionChart ? { content: 'dimension', fixed: 0 } : { fixed: 0 };
-    switch (modelSpec.name) {
+    switch (modelSpec?.name) {
       case 'h-line':
       case 'v-line':
       case 'h-area':
@@ -209,7 +209,7 @@ export class SpecProcess implements ISpecProcess {
         defaultFormatConfig = { content: 'percentage', fixed: 0 };
         break;
     }
-    switch (modelSpec.name) {
+    switch (modelSpec?.name) {
       case 'h-line':
       case 'v-line':
         spec.formatMethod = (value: any, datum: any, context: any) => {

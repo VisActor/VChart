@@ -207,7 +207,7 @@ export const editorBarToolMap = {
 
   delete: { icon: <IconDelete />, type: 'trigger' },
 
-  editData: { icon: <IconEditData />, type: 'trigger' },
+  editData: { icon: <IconEditData />, type: 'switch' },
   comment: { icon: <IconComment />, type: 'trigger' },
   more: { icon: <IconMore />, type: 'switch' },
 

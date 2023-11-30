@@ -11,7 +11,13 @@ export function IconAnchor(props: IconBaseProps) {
       style={props.style}
       onClick={props.onClick}
     >
-      <path d="M0 0C1.65685 0 3 1.34315 3 3V11C3 12.6569 1.65685 14 0 14V0Z" fill={props.fill ?? '#21252C'} />
+      <path d="M0 0C1.65685 0 3 1.34315 3 3V11C3 12.6569 1.65685 14 0 14V0Z" fill="url(#paint0_linear_691_30303)" />
+      <defs>
+        <linearGradient id="paint0_linear_691_30303" x1="1.5" y1="0" x2="1.5" y2="14" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#3073F2" />
+          <stop offset="1" stopColor="#30E6F2" />
+        </linearGradient>
+      </defs>
     </svg>
   );
 }
