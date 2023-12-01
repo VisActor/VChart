@@ -246,7 +246,7 @@ export class ChartLayout implements IChartLayout {
   resetAxisLayoutAfterTempChange() {
     const axis = this._chart.vchart
       .getComponents()
-      .filter((a: IChartModel) => isRegionRelativeModel(a.type)) as IChartModel[];
+      .filter((a: any) => isRegionRelativeModel(a.type)) as any as IChartModel[];
     if (axis.length) {
       axis.forEach(model => {
         const modelInfo = { id: model.userId, specKey: model.specKey, specIndex: model.getSpecIndex() };

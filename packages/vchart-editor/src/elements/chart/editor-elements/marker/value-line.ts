@@ -27,7 +27,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
   }
 
   protected _setCursor(e: EventParams): void {
-    const element = e.model ? e.model.getVRenderComponents()[0] : this._element;
+    const element = e.model ? (e.model as IComponent).getVRenderComponents()[0] : this._element;
     if (element) {
       const orient = element.name === MarkerTypeEnum.verticalLine ? 'vertical' : 'horizontal';
       this._chart.option.editorEvent.setCursor(orient === 'horizontal' ? 'ns-resize' : 'ew-resize');

@@ -95,12 +95,12 @@ export function getChartModelWithModelInfo(vchart: IVChart, info: IModelInfo) {
     return vchart
       .getChart()
       .getAllRegions()
-      .find((c: IChartModel) => isModelMatchModelInfo(c as unknown as IChartModel, info));
+      .find((c: any) => isModelMatchModelInfo(c as any as IChartModel, info));
   }
   return vchart
     .getChart()
     .getAllComponents()
-    .find((c: IChartModel) => isModelMatchModelInfo(c as unknown as IChartModel, info));
+    .find((c: any) => isModelMatchModelInfo(c as unknown as IChartModel, info));
 }
 
 export const IgnoreModelTypeInLayout = {

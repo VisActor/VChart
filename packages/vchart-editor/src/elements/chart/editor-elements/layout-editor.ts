@@ -346,8 +346,11 @@ export class LayoutEditorElement extends BaseEditorElement {
         this._chart.option.controller.setOverGraphic(null, null, null);
       }
     } else if (isRegionRelativeModel(this._currentEl.model.type)) {
-      const region = model._regions[0];
-      const rect = getAxisLayoutInRegionRect(model, { ...region.getLayoutStartPoint(), ...region.getLayoutRect() });
+      const region = (model as any)._regions[0];
+      const rect = getAxisLayoutInRegionRect(model as any, {
+        ...region.getLayoutStartPoint(),
+        ...region.getLayoutRect()
+      });
 
       // update layout data
       this._chart.layout.setModelLayoutData({
@@ -360,7 +363,7 @@ export class LayoutEditorElement extends BaseEditorElement {
         // 删除当前编辑框
         this.clearLayoutEditorBox();
       } else {
-        const viewRect = transformModelRect(model, LayoutRectToRect(rect));
+        const viewRect = transformModelRect(model as any, LayoutRectToRect(rect));
         this._layoutComponent.updateBounds({
           x1: viewRect.x,
           y1: viewRect.y,

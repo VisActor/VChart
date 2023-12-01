@@ -915,7 +915,7 @@ export function adjustTotalDiffCoordinatesOffset(
   if (labels && labels.length) {
     let allLabelTexts: IText[] = [];
     labels.forEach(label => {
-      allLabelTexts = allLabelTexts.concat(label.getElementsByType('text'));
+      allLabelTexts = allLabelTexts.concat(label.getElementsByType('text') as IText[]);
     });
     const isHorizontal = series.direction === 'horizontal';
     const datumPosition = {

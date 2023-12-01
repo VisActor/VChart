@@ -183,7 +183,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     this._chart.reRenderWithUpdateSpec();
 
     // 更新更新后的标注的 bounds
-    const currentMark = this._chart.vchart.getStage().getElementById(spec.id);
+    const currentMark = this._chart.vchart.getStage().getElementById(spec.id) as IGraphic;
     const markerBounds = currentMark.AABBBounds;
     this._currentEl.updateRect({
       x: markerBounds.x1,
