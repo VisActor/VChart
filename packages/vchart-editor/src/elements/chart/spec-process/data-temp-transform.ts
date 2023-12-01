@@ -67,7 +67,9 @@ export class DataTempTransform {
     } else if (this._changeType === 'dataTemp') {
       if (this._checkEnable(this._nextDataParser, this._nextTemp)) {
         // 数据 + 模版更新成功
-        this._chart.clearDataForChartTypeChange({ clearCurrent: true });
+        if (this._specTemp) {
+          this._chart.clearDataForChartTypeChange({ clearCurrent: true });
+        }
         this._setTempToNext();
         this._dataChangeSuccess(d, this._changeType);
       }
