@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "  feat: marker's position property support relative coordinate",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
