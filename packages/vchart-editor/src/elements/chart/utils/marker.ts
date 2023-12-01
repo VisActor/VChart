@@ -80,7 +80,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           refY: 0
         },
         line: {
-          style: defaultLineStyle
+          style: Object.assign({}, defaultLineStyle)
         },
         _originValue_: isPercent ? 0.5 : average(seriesData, series.getSpec().yField)
       };
@@ -114,7 +114,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         refY: 0
       },
       line: {
-        style: defaultLineStyle
+        style: Object.assign({}, defaultLineStyle)
       },
       _originValue_: seriesData[0][series.fieldY[0]]
     };
@@ -156,7 +156,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           refY: 0
         },
         line: {
-          style: defaultLineStyle
+          style: Object.assign({}, defaultLineStyle)
         },
         _originValue_: isPercent ? 0.5 : average(seriesData, series.getSpec().yField)
       };
@@ -192,7 +192,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         refY: 0
       },
       line: {
-        style: defaultLineStyle
+        style: Object.assign({}, defaultLineStyle)
       },
       _originValue_: seriesData[0][series.fieldX[0]]
     };
@@ -565,7 +565,7 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
           ...defaultLineStyle,
           lineDash: [2, 2]
         },
-        defaultLineStyle,
+        Object.assign({}, defaultLineStyle),
         {
           ...defaultLineStyle,
           lineDash: [2, 2]
