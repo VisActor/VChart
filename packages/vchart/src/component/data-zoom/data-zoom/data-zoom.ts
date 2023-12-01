@@ -390,14 +390,16 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     return {
       backgroundStyle: transformToGraphic(this._spec.background?.style) as unknown as IRectGraphicAttribute,
       startHandlerStyle: transformToGraphic(this._spec.startHandler?.style) as unknown as ISymbolGraphicAttribute,
-      middleHandlerStyle: {
-        visible: this._spec.middleHandler?.visible ?? false,
-        icon: transformToGraphic(this._spec.middleHandler?.icon?.style) as unknown as ISymbolGraphicAttribute,
-        background: {
-          size: this._spec.middleHandler?.background?.size,
-          style: transformToGraphic(this._spec.middleHandler.background?.style)
-        } as any
-      },
+      middleHandlerStyle: this._spec.middleHandler?.visible
+        ? {
+            visible: true,
+            icon: transformToGraphic(this._spec.middleHandler?.icon?.style) as unknown as ISymbolGraphicAttribute,
+            background: {
+              size: this._spec.middleHandler?.background?.size,
+              style: transformToGraphic(this._spec.middleHandler.background?.style)
+            } as any
+          }
+        : { visible: false },
       endHandlerStyle: transformToGraphic(this._spec.endHandler?.style) as unknown as ISymbolGraphicAttribute,
       startTextStyle: {
         padding: this._spec.startText?.padding,

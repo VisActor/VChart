@@ -358,64 +358,82 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         state: transformAxisLabelStateStyle(spec.label.state),
         ...labelSpec
       },
-      tick: {
-        visible: spec.tick.visible,
-        length: spec.tick.tickSize,
-        inside: spec.tick.inside,
-        alignWithLabel: spec.tick.alignWithLabel,
-        style: isFunction(spec.tick.style)
-          ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = (spec.tick.style as any)(value, index, datum, data);
-              return transformToGraphic(mergeSpec({}, this._theme.tick?.style, style));
+      tick:
+        spec.tick.visible === false
+          ? { visible: false }
+          : {
+              visible: spec.tick.visible,
+              length: spec.tick.tickSize,
+              inside: spec.tick.inside,
+              alignWithLabel: spec.tick.alignWithLabel,
+              style: isFunction(spec.tick.style)
+                ? (value: number, index: number, datum: Datum, data: Datum[]) => {
+                    const style = (spec.tick.style as any)(value, index, datum, data);
+                    return transformToGraphic(mergeSpec({}, this._theme.tick?.style, style));
+                  }
+                : transformToGraphic(spec.tick.style),
+              state: transformStateStyle(spec.tick.state),
+              dataFilter: spec.tick.dataFilter
+            },
+      subTick:
+        spec.subTick.visible === false
+          ? { visible: false }
+          : {
+              visible: spec.subTick.visible,
+              length: spec.subTick.tickSize,
+              inside: spec.subTick.inside,
+              count: spec.subTick.tickCount,
+              style: isFunction(spec.subTick.style)
+                ? (value: number, index: number, datum: Datum, data: Datum[]) => {
+                    const style = (spec.subTick.style as any)(value, index, datum, data);
+                    return transformToGraphic(mergeSpec({}, this._theme.subTick?.style, style));
+                  }
+                : transformToGraphic(spec.subTick.style),
+              state: transformStateStyle(spec.subTick.state)
+            },
+      title:
+        spec.title.visible === false
+          ? { visible: false }
+          : {
+              visible: spec.title.visible,
+              position: spec.title.position,
+              space: spec.title.space,
+              autoRotate: false, // 默认不对外提供该配置
+              angle: titleAngle ? degreeToRadian(titleAngle) : null,
+              textStyle: mergeSpec({}, titleTextStyle, transformToGraphic(spec.title.style)),
+              padding: spec.title.padding,
+              shape:
+                spec.title.shape?.visible === false
+                  ? { visible: false }
+                  : {
+                      visible: spec.title.shape?.visible,
+                      space: spec.title.shape?.space,
+                      style: transformToGraphic(spec.title.shape?.style)
+                    },
+              background:
+                spec.title.background?.visible === false
+                  ? { visible: false }
+                  : {
+                      visible: spec.title.background?.visible,
+                      style: transformToGraphic(spec.title.background?.style)
+                    },
+              state: {
+                text: transformStateStyle(spec.title.state),
+                shape: transformStateStyle(spec.title.shape?.state),
+                background: transformStateStyle(spec.title.background?.state)
+              },
+              pickable: spec.title.style?.pickable !== false,
+              childrenPickable: spec.title.style?.pickable !== false,
+              ...spec.title
+            },
+      panel:
+        spec.background?.visible === false
+          ? { visible: false }
+          : {
+              visible: spec.background?.visible,
+              style: transformToGraphic(spec.background?.style),
+              state: transformStateStyle(spec.background?.state)
             }
-          : transformToGraphic(spec.tick.style),
-        state: transformStateStyle(spec.tick.state),
-        dataFilter: spec.tick.dataFilter
-      },
-      subTick: {
-        visible: spec.subTick.visible,
-        length: spec.subTick.tickSize,
-        inside: spec.subTick.inside,
-        count: spec.subTick.tickCount,
-        style: isFunction(spec.subTick.style)
-          ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-              const style = (spec.subTick.style as any)(value, index, datum, data);
-              return transformToGraphic(mergeSpec({}, this._theme.subTick?.style, style));
-            }
-          : transformToGraphic(spec.subTick.style),
-        state: transformStateStyle(spec.subTick.state)
-      },
-      title: {
-        visible: spec.title.visible,
-        position: spec.title.position,
-        space: spec.title.space,
-        autoRotate: false, // 默认不对外提供该配置
-        angle: titleAngle ? degreeToRadian(titleAngle) : null,
-        textStyle: mergeSpec({}, titleTextStyle, transformToGraphic(spec.title.style)),
-        padding: spec.title.padding,
-        shape: {
-          visible: spec.title.shape?.visible,
-          space: spec.title.shape?.space,
-          style: transformToGraphic(spec.title.shape?.style)
-        },
-        background: {
-          visible: spec.title.background?.visible,
-          style: transformToGraphic(spec.title.background?.style)
-        },
-        state: {
-          text: transformStateStyle(spec.title.state),
-          shape: transformStateStyle(spec.title.shape?.state),
-          background: transformStateStyle(spec.title.background?.state)
-        },
-        pickable: spec.title.style?.pickable !== false,
-        childrenPickable: spec.title.style?.pickable !== false,
-        ...spec.title
-      },
-      panel: {
-        visible: spec.background?.visible,
-        style: transformToGraphic(spec.background?.style),
-        state: transformStateStyle(spec.background?.state)
-      }
     };
   }
 
@@ -432,12 +450,15 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
             };
           }
         : transformToGraphic(spec.grid.style),
-      subGrid: {
-        type: 'line',
-        visible: spec.subGrid.visible,
-        alternateColor: spec.subGrid.alternateColor,
-        style: transformToGraphic(spec.subGrid.style)
-      }
+      subGrid:
+        spec.subGrid.visible === false
+          ? { visible: false }
+          : {
+              type: 'line',
+              visible: spec.subGrid.visible,
+              alternateColor: spec.subGrid.alternateColor,
+              style: transformToGraphic(spec.subGrid.style)
+            }
     };
   }
 
