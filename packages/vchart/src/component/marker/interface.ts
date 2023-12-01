@@ -3,16 +3,22 @@ import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
+import type { ICartesianSeries } from '../../series/interface';
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = StringOrNumber | IAggrType;
 export type IDataPosCallback = (
-  relativeSeriesData: any,
-  startRelativeSeriesData: any,
-  endRelativeSeriesData: any
-) => IDataPos;
+  relativeSeriesData: Datum[],
+  startRelativeSeriesData: Datum[],
+  endRelativeSeriesData: Datum[],
+  relativeSeries: ICartesianSeries,
+  startRelativeSeries: ICartesianSeries,
+  endRelativeSeries: ICartesianSeries
+) => StringOrNumber;
+
+export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
 export type IDataPointSpec = {
-  [key: string]: IDataPos;
+  [key: string]: IDataPos | IDataPointCallback;
   /**
    * 具体某个数据元素关联的series（仅在标注目标：数据元素下有效）
    */
