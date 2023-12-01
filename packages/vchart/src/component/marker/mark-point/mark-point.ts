@@ -3,7 +3,7 @@ import type { IMarkPoint, IMarkPointSpec, IMarkPointTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { coordinateLayout, positionLayout, xyLayout } from '../utils';
+import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
@@ -11,7 +11,7 @@ import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import { Factory } from '../../../core/factory';
-import type { INode } from '@visactor/vrender-core';
+import type { IGroup } from '@visactor/vrender-core';
 import type { IPoint } from '../../../typings';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {
@@ -73,17 +73,13 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
       },
       clipInRange: this._spec.clip ?? false
     });
-    this._markerComponent = markPoint;
-    this._markerComponent.name = this._spec.name ?? this.type;
-    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
-    this.getContainer().add(this._markerComponent as unknown as INode);
+    return markPoint as unknown as IGroup;
   }
 
   protected _markerLayout() {
     const spec = this._spec;
     const data = this._markerData;
     const relativeSeries = this._relativeSeries;
-    // TODO: 需要统一判断方法
     const isXYLayout = 'x' in spec && 'y' in spec;
     const isCoordinateLayout = 'coordinate' in spec;
     const isPositionLayout = 'position' in spec;
@@ -107,7 +103,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
 
     let limitRect;
     if (spec.clip) {
-      const { minX, maxX, minY, maxY } = this._computeClipRange([relativeSeries.getRegion()]);
+      const { minX, maxX, minY, maxY } = computeClipRange([relativeSeries.getRegion()]);
       limitRect = {
         x: minX,
         y: minY,

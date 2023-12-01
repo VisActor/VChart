@@ -5,6 +5,7 @@ import type { Datum, IPoint, StringOrNumber } from '../../typings';
 import { isPercent } from '../../util';
 import type { IDataPointCallback, IDataPos, IDataPosCallback, MarkerPositionPoint } from './interface';
 import { AGGR_TYPE } from '../../constant/marker';
+import type { IRegion } from '../../region/interface';
 
 function isNeedExtendDomain(domain: number[], datum: number, autoRange: boolean) {
   if (!autoRange) {
@@ -96,7 +97,7 @@ function convertPercentToValue(percent: string, relativeLength: number) {
   return (Number(percent.substring(0, percent.length - 1)) * relativeLength) / 100;
 }
 
-export function isAggrSpec(spec: IDataPos | IDataPosCallback) {
+export function isAggrSpec(spec: IDataPos) {
   return AGGR_TYPE.includes(spec as any);
 }
 
@@ -267,4 +268,26 @@ export function positionLayout(positions: MarkerPositionPoint[], series: ISeries
       y: y as number
     };
   });
+}
+
+export function computeClipRange(regions: IRegion[]) {
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+  regions.forEach((region: IRegion) => {
+    if (region.getLayoutStartPoint().x < minX) {
+      minX = region.getLayoutStartPoint().x;
+    }
+    if (region.getLayoutStartPoint().x + region.getLayoutRect().width > maxX) {
+      maxX = region.getLayoutStartPoint().x + region.getLayoutRect().width;
+    }
+    if (region.getLayoutStartPoint().y < minY) {
+      minY = region.getLayoutStartPoint().y;
+    }
+    if (region.getLayoutStartPoint().y + region.getLayoutRect().height > maxY) {
+      maxY = region.getLayoutStartPoint().y + region.getLayoutRect().height;
+    }
+  });
+  return { minX, maxX, minY, maxY };
 }

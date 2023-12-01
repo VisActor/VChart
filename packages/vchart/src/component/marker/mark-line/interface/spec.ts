@@ -4,10 +4,11 @@ import type {
   IMarkerPositionsSpec,
   IDataPointSpec,
   IMarkerSpec,
-  IMarkerAxisSpec,
   IDataPos,
   IDataPosCallback,
-  IMarkerLabelSpec
+  IMarkerLabelSpec,
+  IMarkerCrossSeriesSpec,
+  IMarkerRelativeSeriesSpec
 } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
@@ -29,7 +30,7 @@ export type IMarkLineSpec =
       IMarkLineTheme)
   | IStepMarkLineSpec; // 标注目标：任意位置
 
-export interface IMarkLineXSpec extends IMarkerAxisSpec {
+export interface IMarkLineXSpec extends IMarkerCrossSeriesSpec, IMarkerRelativeSeriesSpec {
   /**
    * 单独声明 x 属性，可以绘制一条贯穿 y 轴的标注线
    * x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
@@ -38,7 +39,7 @@ export interface IMarkLineXSpec extends IMarkerAxisSpec {
   x: IDataPos | IDataPosCallback;
 }
 
-export interface IMarkLineXYY1Spec extends IMarkerAxisSpec {
+export interface IMarkLineXYY1Spec extends IMarkerCrossSeriesSpec, IMarkerRelativeSeriesSpec {
   /**
    * 参考线在 x 轴上位置，可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
    * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
@@ -57,7 +58,7 @@ export interface IMarkLineXYY1Spec extends IMarkerAxisSpec {
   y1: IDataPos | IDataPosCallback;
 }
 
-export interface IMarkLineYSpec extends IMarkerAxisSpec {
+export interface IMarkLineYSpec extends IMarkerCrossSeriesSpec, IMarkerRelativeSeriesSpec {
   /**
    * 单独声明 y 属性，可以绘制一条贯穿 x 轴的标注线
    * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
@@ -66,7 +67,7 @@ export interface IMarkLineYSpec extends IMarkerAxisSpec {
   y: IDataPos | IDataPosCallback;
 }
 
-export interface IMarkLineYXX1Spec extends IMarkerAxisSpec {
+export interface IMarkLineYXX1Spec extends IMarkerCrossSeriesSpec, IMarkerRelativeSeriesSpec {
   /**
    * 参考线在 y 轴上位置，可以配置参考线在 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
    * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于  region 纵轴（从上到下）的百分之 15 位置处。
@@ -85,7 +86,7 @@ export interface IMarkLineYXX1Spec extends IMarkerAxisSpec {
   x1: IDataPos | IDataPosCallback;
 }
 
-export interface IMarkLineXYSpec extends IMarkerAxisSpec {
+export interface IMarkLineXYSpec extends IMarkerCrossSeriesSpec, IMarkerRelativeSeriesSpec {
   /**
    * 参考线起始点在 x 轴上位置，可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
    * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
