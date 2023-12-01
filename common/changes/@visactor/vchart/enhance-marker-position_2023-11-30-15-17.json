@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: markLine supports x,y,y1 y,x,x1 and x,y,x1,y1 position",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
