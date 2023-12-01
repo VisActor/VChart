@@ -314,12 +314,15 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     if (isNumber(opacity)) {
       finalOpacity = (finalOpacity ?? 1) * opacity;
     }
-    hair.style = {
-      opacity: finalOpacity,
-      pickable: false,
-      visible: isBoolean(line?.visible) ? line.visible : true,
-      ...restStyle
-    };
+    hair.style =
+      line?.visible === false
+        ? { visible: false }
+        : {
+            opacity: finalOpacity,
+            pickable: false,
+            visible: true,
+            ...restStyle
+          };
     if (isLineType) {
       hair.style.stroke = stroke || fill;
       hair.style.lineWidth = line?.width || lineWidth || 2;
@@ -339,30 +342,34 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     const labelBackground = label?.labelBackground;
     const labelStyle = label?.style || {};
     const { fill: rectFill = 'rgba(47, 59, 82, 0.9)', stroke: rectStroke, ...rectStyle } = labelBackground?.style || {};
-    hair.label = {
-      visible: !!label?.visible,
-      formatMethod: label?.formatMethod,
-      minWidth: labelBackground?.minWidth,
-      maxWidth: labelBackground?.maxWidth,
-      padding: labelBackground?.padding,
-      textStyle: {
-        fontSize: 14,
-        pickable: false,
-        ...labelStyle,
-        fill: labelStyle?.fill ?? '#fff',
-        stroke: get(labelStyle, 'stroke')
-      },
-      panel: {
-        visible: isBoolean(labelBackground?.visible) ? labelBackground?.visible : !!labelBackground,
-        pickable: false,
-        fill: rectFill,
-        stroke: rectStroke,
-        ...rectStyle
-      },
-      zIndex: this.labelZIndex,
-      childrenPickable: false,
-      pickable: false
-    };
+    hair.label = !!label?.visible
+      ? {
+          visible: !!label?.visible,
+          formatMethod: label?.formatMethod,
+          minWidth: labelBackground?.minWidth,
+          maxWidth: labelBackground?.maxWidth,
+          padding: labelBackground?.padding,
+          textStyle: {
+            fontSize: 14,
+            pickable: false,
+            ...labelStyle,
+            fill: labelStyle?.fill ?? '#fff',
+            stroke: get(labelStyle, 'stroke')
+          },
+          panel: (isBoolean(labelBackground?.visible) ? labelBackground?.visible : !!labelBackground)
+            ? {
+                visible: true,
+                pickable: false,
+                fill: rectFill,
+                stroke: rectStroke,
+                ...rectStyle
+              }
+            : { visible: false },
+          zIndex: this.labelZIndex,
+          childrenPickable: false,
+          pickable: false
+        }
+      : { visible: false };
 
     return hair;
   }
