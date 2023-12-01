@@ -4,7 +4,7 @@ import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } fr
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
-import type { IOptionAggrField, IOptionPos, IOptionSeries } from '../../data/transforms/aggregation';
+import type { IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = StringOrNumber | IAggrType;
