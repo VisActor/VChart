@@ -6,7 +6,8 @@ import type {
   IDataPosCallback,
   IMarkerAxisSpec,
   IMarkerSpec,
-  IMarkerSymbol
+  IMarkerSymbol,
+  MarkerPositionPoint
 } from '../../interface';
 import type { IMarkPointTheme } from './theme';
 
@@ -53,7 +54,7 @@ export type IMarkPointCoordinateSpec = {
  * 指定坐标点的参考线。基于指定坐标进行参考线的绘制
  */
 export type IMarkPointPositionsSpec = {
-  position: IPoint;
+  position: MarkerPositionPoint;
   /**
    * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
    * @default false

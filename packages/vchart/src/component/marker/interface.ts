@@ -1,6 +1,6 @@
 import type { IPadding } from '@visactor/vutils';
 import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
-import type { IPoint, IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
+import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 
@@ -44,11 +44,22 @@ export type IDataPointSpec = {
   yFieldDim?: string;
 };
 
+export type MarkerPositionPoint = {
+  /**
+   * x 坐标位置，number 类型表示像素值，string 类型表示相对画布宽度或者 region 宽度的占比（从左往右）
+   */
+  x: StringOrNumber;
+  /**
+   * y 坐标位置，number 类型表示像素值，string 类型表示相对画布高度或者 region 高度的占比（从上至下）
+   */
+  y: StringOrNumber;
+};
+
 export type IMarkerPositionsSpec = {
   /**
    * 画布坐标
    */
-  positions: IPoint[];
+  positions: MarkerPositionPoint[];
   /**
    * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
    * @default false
