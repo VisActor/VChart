@@ -3,7 +3,7 @@ import type { IAggrType } from '../../component/marker/interface';
 import type { ICartesianSeries } from '../../series/interface';
 import type { Datum, StringOrNumber } from '../../typings';
 
-import { isFunction, isPlainObject, isValid } from '@visactor/vutils';
+import { isPlainObject, isValid } from '@visactor/vutils';
 import { variance, average, min, max, sum, standardDeviation, median } from '../../util/math';
 
 export type IOption = {
@@ -26,7 +26,10 @@ export type IOptionSeries = {
 export type IOptionCallback = (
   relativeSeriesData: any,
   startRelativeSeriesData: any,
-  endRelativeSeriesData: any
+  endRelativeSeriesData: any,
+  relativeSeries: ICartesianSeries,
+  startRelative: ICartesianSeries,
+  endRelative: ICartesianSeries
 ) => IOptionPos;
 
 export type IOptionAggr = {
@@ -86,17 +89,15 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
     median: markerMedian
   };
   const results: {
-    x: StringOrNumber[] | StringOrNumber | null;
-    y: StringOrNumber[] | StringOrNumber | null;
+    x: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
+    y: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
   }[] = [];
-
   options.forEach(option => {
     const result: {
       x: StringOrNumber[] | StringOrNumber | null;
       y: StringOrNumber[] | StringOrNumber | null;
       getRefRelativeSeries?: () => ICartesianSeries;
     } = { x: null, y: null };
-
     if (isValid(option.x)) {
       const x = option.x;
       if (isPlainObject(x)) {

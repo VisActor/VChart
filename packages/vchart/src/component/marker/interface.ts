@@ -4,6 +4,7 @@ import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } fr
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
+import type { IOptionAggrField, IOptionPos, IOptionSeries } from '../../data/transforms/aggregation';
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = StringOrNumber | IAggrType;
@@ -60,6 +61,12 @@ export type MarkerPositionPoint = {
    */
   y: StringOrNumber;
 };
+
+export type ICoordinateOption = {
+  x?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
+  y?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
+  getRefRelativeSeries?: () => ICartesianSeries;
+} & IOptionSeries;
 
 export type IMarkerPositionsSpec = {
   /**
@@ -172,7 +179,8 @@ export interface IMarkerRef {
   refAngle?: number;
 }
 
-export interface IMarkerAxisSpec {
+// 跨越系列的配置
+export interface IMarkerCrossSeriesSpec {
   /**
    * 起点和终点关联的series（仅在标注目标：坐标空间下有效）
    */
@@ -180,10 +188,14 @@ export interface IMarkerAxisSpec {
   endRelativeSeriesIndex?: number;
   startRelativeSeriesId?: string;
   endRelativeSeriesId?: string;
+}
+
+export interface IMarkerRelativeSeriesSpec {
   /**
    * 被标注数据关联的series
    */
   relativeRelativeSeriesIndex?: number;
+  relativeRelativeSeriesId?: string;
 }
 
 export interface IMarkerSpec extends IComponentSpec {

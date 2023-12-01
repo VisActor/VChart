@@ -5,14 +5,14 @@ import { ComponentTypeEnum } from '../../interface/type';
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { coordinateLayout, positionLayout, xyLayout } from '../utils';
+import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
-import type { INode } from '@visactor/vrender-core';
+import type { IGroup } from '@visactor/vrender-core';
 import { Factory } from '../../../core/factory';
 import type { IPoint } from '../../../typings';
 
@@ -46,7 +46,6 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   }
 
   protected _createMarkerComponent() {
-    // TODO：可以抽象
     const markArea = new MarkAreaComponent({
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? false,
@@ -72,10 +71,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
       },
       clipInRange: this._spec.clip ?? false
     });
-    this._markerComponent = markArea;
-    this._markerComponent.name = this._spec.name ?? this.type;
-    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
-    this.getContainer().add(this._markerComponent as unknown as INode);
+    return markArea as unknown as IGroup;
   }
 
   protected _markerLayout() {
@@ -128,7 +124,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
 
     let limitRect;
     if (spec.clip || spec.label?.confine) {
-      const { minX, maxX, minY, maxY } = this._computeClipRange([
+      const { minX, maxX, minY, maxY } = computeClipRange([
         startRelativeSeries.getRegion(),
         endRelativeSeries.getRegion(),
         relativeSeries.getRegion()
