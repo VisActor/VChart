@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: markPoint support xy position",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
