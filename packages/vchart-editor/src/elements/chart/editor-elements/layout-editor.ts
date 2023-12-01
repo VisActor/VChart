@@ -218,6 +218,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       if ((<IChartModel>model)._clearLayoutCache) {
         (<IChartModel>model)._clearLayoutCache();
       }
+      rect = model.layout.computeBoundsInRect(layoutData) as IRect;
       if (ComponentBoundsNormal[this._currentEl.model.type]) {
         const b = getModelGraphicsBounds(model);
         rect = {
@@ -226,8 +227,6 @@ export class LayoutEditorElement extends BaseEditorElement {
           y: b.y1,
           height: b.y2 - b.y1
         };
-      } else {
-        rect = model.layout.computeBoundsInRect(layoutData) as IRect;
       }
     } else {
       const b = (<IChartModel>model).getBoundsInRect(layoutData, { width: 9999, height: 9999 });
