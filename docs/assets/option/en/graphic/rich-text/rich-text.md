@@ -10,15 +10,24 @@ Rich text container width.
 
 Rich text container height.
 
-#${prefix} ellipsis(boolean｜string)
+#${prefix} ellipsis(boolean ｜ string)
 
 Text ellipsis method when exceeding the container scope.
+
+#${prefix} suffixPosition(string) = 'end'
+
+Supported since `1.7.3` version, used to configure the position of text omission, the default is to omit the tail.
+
+- 'start' text header is omitted
+- 'middle' omitted from the middle of the text
+- 'end' omit the end of the text
 
 #${prefix} wordBreak(string)
 
 Rich text line wrap mode.
 
 Optional values:
+
 - `'break-word'`: Wrap between words
 - `'break-all'`: Wrap between any characters
 
@@ -27,9 +36,10 @@ Optional values:
 Rich text text alignment direction.
 
 Optional values:
+
 - `'top'`
 - `'middle'`
-- `'bottom'` 
+- `'bottom'`
 
 #${prefix} maxHeight(number)
 
@@ -44,6 +54,7 @@ Rich text container minimum width.
 Rich text text alignment mode.
 
 Optional values:
+
 - `'left'`: Left aligned
 - `'right'`: Right aligned
 - `'center'`: Center aligned
@@ -53,6 +64,7 @@ Optional values:
 Rich text text baseline.
 
 Optional values:
+
 - `'top'`
 - `'middle'`
 - `'bottom'`
@@ -62,6 +74,7 @@ Optional values:
 Rich text text layout direction.
 
 Optional values:
+
 - `'horizontal'`: Horizontal arrangement
 - `'vertical'`: Vertical arrangement
 

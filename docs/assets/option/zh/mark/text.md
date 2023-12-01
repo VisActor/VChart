@@ -8,17 +8,18 @@
 
 #${prefix} dx(number)
 
-x方向偏移。
+x 方向偏移。
 
 #${prefix} dy(number)
 
-y方向偏移。
+y 方向偏移。
 
 #${prefix} textAlgin(string)
 
 文字对齐方式。
 
 可选值：
+
 - `'left'`: 左对齐
 - `'right'`: 右对齐
 - `'center'`: 居中对齐
@@ -28,6 +29,7 @@ y方向偏移。
 文字基线。
 
 可选值：
+
 - `'top'`
 - `'bottom'`
 - `'middle'`
@@ -66,5 +68,10 @@ y方向偏移。
 
 文字省略方式。
 
+#${prefix} suffixPosition(string) = 'end'
 
+自 `1.7.3` 版本开始支持，用于配置文本省略的位置，默认尾部省略。
 
+- 'start' 文字首部省略
+- 'middle' 文本中间省略
+- 'end' 文本尾部省略

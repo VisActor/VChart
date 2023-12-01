@@ -289,6 +289,15 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    * 文字超出 maxLineWidth 后的省略符
    */
   ellipsis?: string;
+  /**
+   * 文本省略的位置，默认尾部省略
+   * 1. 'start' 文字首部省略
+   * 2. 'middle' 文本中间省略
+   * 3. 'end' 文本尾部省略
+   * @default 'end'
+   * @since 1.7.3
+   */
+  suffixPosition?: 'start' | 'end' | 'middle';
   // TODO: 这些不是常规的文字mark属性，待确认需求背景
   lineBreak?: string;
   /**
