@@ -3,7 +3,7 @@ import type { IMarkPoint, IMarkPointSpec, IMarkPointTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { coordinateLayout, xyLayout } from '../utils';
+import { coordinateLayout, positionLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
@@ -95,18 +95,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
     } else if (isCoordinateLayout) {
       point = coordinateLayout(data, relativeSeries, autoRange)[0];
     } else if (isPositionLayout) {
-      point = spec.position;
-
-      if (spec.regionRelative) {
-        const region = relativeSeries.getRegion();
-        const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
-        point = {
-          x: point.x + regionStartX,
-          y: point.y + regionStartY
-        };
-      } else {
-        point = spec.position;
-      }
+      point = positionLayout([spec.position], relativeSeries, spec.regionRelative)[0];
     }
 
     const seriesData = this._relativeSeries.getViewData().latestData;

@@ -5,7 +5,7 @@ import { ComponentTypeEnum } from '../../interface/type';
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { coordinateLayout, xyLayout } from '../utils';
+import { coordinateLayout, positionLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
@@ -116,18 +116,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
     } else if (isCoordinateLayout) {
       points = coordinateLayout(data, relativeSeries, autoRange);
     } else if (isPositionLayout) {
-      if (spec.regionRelative) {
-        const region = relativeSeries.getRegion();
-        const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
-        points = spec.positions.map((point: IPoint) => {
-          return {
-            x: point.x + regionStartX,
-            y: point.y + regionStartY
-          };
-        });
-      } else {
-        points = spec.positions;
-      }
+      points = positionLayout(spec.positions, relativeSeries, spec.regionRelative);
     }
 
     const seriesData = this._relativeSeries.getViewData().latestData;

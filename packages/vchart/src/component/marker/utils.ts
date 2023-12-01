@@ -1,11 +1,71 @@
-import type { ICartesianSeries } from '../../series/interface';
+import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
-// eslint-disable-next-line no-duplicate-imports
 import { isValid, isNumber, array, minInArray, maxInArray } from '@visactor/vutils';
 import type { Datum, IPoint, StringOrNumber } from '../../typings';
 import { isPercent } from '../../util';
-import type { IDataPos, IDataPosCallback } from './interface';
+import type { IDataPos, IDataPosCallback, MarkerPositionPoint } from './interface';
 import { AGGR_TYPE } from '../../constant/marker';
+
+function isNeedExtendDomain(domain: number[], datum: number, autoRange: boolean) {
+  if (!autoRange) {
+    return false;
+  }
+  const domainNum = domain.map((n: any) => n * 1);
+  const min = minInArray(domainNum);
+  const max = maxInArray(domainNum);
+  if (datum < min || datum > max) {
+    return true;
+  }
+  return false;
+}
+
+function getXValue(
+  datum: Datum,
+  xDomain: number[],
+  autoRange: boolean,
+  relativeSeries: ICartesianSeries,
+  regionWidth: number,
+  regionStartLayoutStartPoint: IPoint
+) {
+  isNumber(datum.x) &&
+    isNeedExtendDomain(xDomain, datum.x, autoRange) &&
+    relativeSeries?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
+
+  let x: number;
+  if (isPercent(datum.x)) {
+    x = convertPercentToValue(datum.x, regionWidth) + regionStartLayoutStartPoint.x;
+  } else {
+    x = relativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
+  }
+
+  return x;
+}
+
+function getYValue(
+  datum: Datum,
+  yDomain: number[],
+  autoRange: boolean,
+  relativeSeries: ICartesianSeries,
+  regionHeight: number,
+  regionStartLayoutStartPoint: IPoint
+) {
+  isNumber(datum.y) &&
+    isNeedExtendDomain(yDomain, datum.y, autoRange) &&
+    relativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
+
+  let y: number;
+  if (isPercent(datum.y)) {
+    y = convertPercentToValue(datum.y, regionHeight) + regionStartLayoutStartPoint.y;
+  } else {
+    y = relativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
+  }
+
+  return y;
+}
+
+function convertPercentToValue(percent: string, relativeLength: number) {
+  return (Number(percent.substring(0, percent.length - 1)) * relativeLength) / 100;
+}
 
 export function isAggrSpec(spec: IDataPos | IDataPosCallback) {
   return AGGR_TYPE.includes(spec as any);
@@ -123,61 +183,41 @@ export function coordinateLayout(data: DataView, relativeSeries: ICartesianSerie
   return points;
 }
 
-function isNeedExtendDomain(domain: number[], datum: number, autoRange: boolean) {
-  if (!autoRange) {
-    return false;
-  }
-  const domainNum = domain.map((n: any) => n * 1);
-  const min = minInArray(domainNum);
-  const max = maxInArray(domainNum);
-  if (datum < min || datum > max) {
-    return true;
-  }
-  return false;
-}
+export function positionLayout(positions: MarkerPositionPoint[], series: ISeries, regionRelative: boolean): IPoint[] {
+  if (regionRelative) {
+    const region = series.getRegion();
+    const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
+    const { width: regionWidth, height: regionHeight } = region.getLayoutRect();
+    return positions.map(position => {
+      let { x, y } = position;
+      if (isPercent(x)) {
+        x = convertPercentToValue(x, regionWidth);
+      }
+      x = (x as number) + regionStartX;
+      if (isPercent(y)) {
+        y = convertPercentToValue(y, regionHeight);
+      }
+      y = (y as number) + regionStartY;
 
-function getXValue(
-  datum: Datum,
-  xDomain: number[],
-  autoRange: boolean,
-  relativeSeries: ICartesianSeries,
-  regionWidth: number,
-  regionStartLayoutStartPoint: IPoint
-) {
-  isNumber(datum.x) &&
-    isNeedExtendDomain(xDomain, datum.x, autoRange) &&
-    relativeSeries?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
-
-  let x: number;
-  if (isPercent(datum.x)) {
-    const percent = datum.x;
-    x = (Number(percent.substring(0, percent.length - 1)) * regionWidth) / 100 + regionStartLayoutStartPoint.x;
-  } else {
-    x = relativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
+      return {
+        x,
+        y
+      };
+    });
   }
 
-  return x;
-}
-
-function getYValue(
-  datum: Datum,
-  yDomain: number[],
-  autoRange: boolean,
-  relativeSeries: ICartesianSeries,
-  regionHeight: number,
-  regionStartLayoutStartPoint: IPoint
-) {
-  isNumber(datum.y) &&
-    isNeedExtendDomain(yDomain, datum.y, autoRange) &&
-    relativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
-
-  let y: number;
-  if (isPercent(datum.y)) {
-    const percent = datum.y;
-    y = (Number(percent.substring(0, percent.length - 1)) * regionHeight) / 100 + regionStartLayoutStartPoint.y;
-  } else {
-    y = relativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
-  }
-
-  return y;
+  const { width: canvasWidth, height: canvasHeight } = series.getOption().getChart().getCanvasRect();
+  return positions.map(position => {
+    let { x, y } = position;
+    if (isPercent(x)) {
+      x = convertPercentToValue(x, canvasWidth);
+    }
+    if (isPercent(y)) {
+      y = convertPercentToValue(y, canvasHeight);
+    }
+    return {
+      x: x as number,
+      y: y as number
+    };
+  });
 }
