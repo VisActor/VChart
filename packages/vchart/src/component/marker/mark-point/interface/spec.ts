@@ -1,10 +1,8 @@
-import type { IPoint } from '../../../../typings';
 import type { IComponent } from '../../../interface';
 import type {
   IDataPointSpec,
   IDataPos,
   IDataPosCallback,
-  IMarkerAxisSpec,
   IMarkerSpec,
   IMarkerSymbol,
   MarkerPositionPoint

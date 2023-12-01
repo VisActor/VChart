@@ -97,15 +97,8 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
       getRefRelativeSeries?: () => ICartesianSeries;
     } = { x: null, y: null };
 
-    const relativeSeriesData = option.getRelativeSeries().getData().getLatestData();
-    const startRelativeSeriesData = option.getStartRelativeSeries().getData().getLatestData();
-    const endRelativeSeriesData = option.getEndRelativeSeries().getData().getLatestData();
-
     if (isValid(option.x)) {
-      let x = option.x;
-      if (isFunction(x)) {
-        x = x(relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData);
-      }
+      const x = option.x;
       if (isPlainObject(x)) {
         const { aggrType, field } = x as IOptionAggrField;
         result.x = aggrMap[aggrType](_data, { field: field });
@@ -114,11 +107,7 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
       }
     }
     if (isValid(option.y)) {
-      let y = option.y;
-      if (isFunction(y)) {
-        y = y(relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData);
-      }
-
+      const y = option.y;
       if (isPlainObject(y)) {
         const { aggrType, field } = y as IOptionAggrField;
         result.y = aggrMap[aggrType](_data, { field: field });
