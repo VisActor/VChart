@@ -273,6 +273,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
     const doYXX1Process = isYProcess && isXProcess && isX1Process;
     const doXYProcess = isXProcess && isYProcess && isX1Process && isY1Process;
 
+    this._markerData = relativeSeries.getViewData();
+
     if (!doXProcess && !doYProcess && !doXYY1Process && !doYXX1Process && !doXYProcess && !isCoordinateProcess) {
       return;
     }
@@ -331,32 +333,27 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       needAggr = false;
     }
 
-    this._markerData = processData;
-
-    // TODO: 应该通过判断 spec 上是否配置了 aggr 来决定
-    if (needAggr || needRegr) {
-      const data = new DataView(this._option.dataSet);
-      data.parse([processData], {
-        type: 'dataview'
+    const data = new DataView(this._option.dataSet);
+    data.parse([processData], {
+      type: 'dataview'
+    });
+    if (needAggr) {
+      data.transform({
+        type: 'markerAggregation',
+        options
       });
-      if (needAggr) {
-        data.transform({
-          type: 'markerAggregation',
-          options
-        });
-      }
-      if (needRegr) {
-        data.transform({
-          type: 'markerRegression',
-          options
-        });
-      }
-
-      data.target.on('change', () => {
-        this._markerLayout();
-      });
-      this._markerData = data;
     }
+    if (needRegr) {
+      data.transform({
+        type: 'markerRegression',
+        options
+      });
+    }
+
+    data.target.on('change', () => {
+      this._markerLayout();
+    });
+    this._markerData = data;
   }
 }
 
