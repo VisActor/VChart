@@ -5,8 +5,7 @@ import type {
   IDataPos,
   IMarkerSpec,
   IDataPosCallback,
-  IMarkerCrossSeriesSpec,
-  IMarkerRelativeSeriesSpec
+  IMarkerCrossSeriesSpec
 } from '../../interface';
 import type { IMarkAreaTheme } from './theme';
 
@@ -24,7 +23,7 @@ export type IMarkAreaSpec = IMarkerSpec &
   ) &
   IMarkAreaTheme; // 标注目标：任意位置
 
-export interface IMarkAreaXSpec extends IMarkerCrossSeriesSpec, IMarkerRelativeSeriesSpec {
+export interface IMarkAreaXSpec extends IMarkerCrossSeriesSpec {
   /**
    * x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型
    * 可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处
@@ -33,7 +32,7 @@ export interface IMarkAreaXSpec extends IMarkerCrossSeriesSpec, IMarkerRelativeS
   x1: IDataPos | IDataPosCallback;
 }
 
-export interface IMarkAreaYSpec extends IMarkerCrossSeriesSpec, IMarkerRelativeSeriesSpec {
+export interface IMarkAreaYSpec extends IMarkerCrossSeriesSpec {
   /**
    * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型
    * 可以将 y 配置为 '15%' 百分比的形式，用于表示将 y 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处
@@ -42,7 +41,7 @@ export interface IMarkAreaYSpec extends IMarkerCrossSeriesSpec, IMarkerRelativeS
   y1: IDataPos | IDataPosCallback;
 }
 
-export interface IMarkAreaXYSpec extends IMarkerCrossSeriesSpec, IMarkerRelativeSeriesSpec {
+export interface IMarkAreaXYSpec extends IMarkerCrossSeriesSpec {
   /**
    * x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型
    * 可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处
