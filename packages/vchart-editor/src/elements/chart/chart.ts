@@ -179,7 +179,8 @@ export class EditorChart extends BaseElement {
     const totalDiffs = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.totalDiffLine);
     if (totalDiffs && totalDiffs.length) {
       this._growthMarkLineEditor?.autoAdjustTotalDiffLines();
-      this._vchart.updateSpecSync(spec, false, null);
+      // @ts-ignore
+      this._vchart.updateSpecSync(spec, false, false);
     }
     super._afterRender();
   }

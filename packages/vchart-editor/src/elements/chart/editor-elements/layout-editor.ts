@@ -170,6 +170,7 @@ export class LayoutEditorElement extends BaseEditorElement {
         lastRect.layout.width.offset === rect.width &&
         lastRect.layout.height.offset === rect.height
       ) {
+        this._updateLayoutComponent(model as IChartModel, rect, info, layoutData);
         return false;
       }
       // update layoutData
