@@ -174,8 +174,14 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
   protected _bindSeries() {
     const spec = this._spec;
     this._relativeSeries = this._getSeriesByIdOrIndex(spec.relativeSeriesId, spec.relativeSeriesIndex);
-    this._startRelativeSeries = this._getSeriesByIdOrIndex(spec.startRelativeSeriesId, spec.startRelativeSeriesIndex);
-    this._endRelativeSeries = this._getSeriesByIdOrIndex(spec.endRelativeSeriesId, spec.endRelativeSeriesIndex);
+    this._startRelativeSeries = this._getSeriesByIdOrIndex(
+      (spec as any).startRelativeSeriesId,
+      (spec as any).startRelativeSeriesIndex
+    );
+    this._endRelativeSeries = this._getSeriesByIdOrIndex(
+      (spec as any).endRelativeSeriesId,
+      (spec as any).endRelativeSeriesIndex
+    );
   }
 
   protected abstract _initDataView(): void;
