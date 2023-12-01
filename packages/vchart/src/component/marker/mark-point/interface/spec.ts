@@ -30,10 +30,6 @@ export type IMarkPointXYSpec = {
    * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
    */
   x: IDataPos | IDataPosCallback;
-  /**
-   * 被标注数据关联的series
-   */
-  relativeRelativeSeriesIndex?: number;
 };
 
 export type IMarkPointCoordinateSpec = {
@@ -41,11 +37,6 @@ export type IMarkPointCoordinateSpec = {
    * 指定数据点的参考线。基于指定数据点进行参考线的绘制，可以对数据点进行数据处理
    */
   coordinates: IDataPointSpec;
-  /**
-   * 被标注数据关联的series
-   */
-  relativeRelativeSeriesIndex?: number;
-  relativeRelativeSeriesId?: string;
 };
 
 /**

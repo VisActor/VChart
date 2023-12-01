@@ -190,14 +190,6 @@ export interface IMarkerCrossSeriesSpec {
   endRelativeSeriesId?: string;
 }
 
-export interface IMarkerRelativeSeriesSpec {
-  /**
-   * 被标注数据关联的series
-   */
-  relativeRelativeSeriesIndex?: number;
-  relativeRelativeSeriesId?: string;
-}
-
 export interface IMarkerSpec extends IComponentSpec {
   /**
    * 标注数据关联的series

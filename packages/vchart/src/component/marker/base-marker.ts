@@ -11,17 +11,13 @@ import type {
   IDataPointSpec,
   IDataPos,
   IDataPosCallback,
-  IMarkerCrossSeriesSpec,
-  IMarkerRelativeSeriesSpec,
   IMarkerSpec
 } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { calcLayoutNumber } from '../../util/space';
 import { isAggrSpec } from './utils';
 
-export abstract class BaseMarker<
-  T extends IMarkerSpec & IMarkerCrossSeriesSpec & IMarkerRelativeSeriesSpec
-> extends BaseComponent<T> {
+export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';
 
   protected _startRelativeSeries!: ICartesianSeries;
