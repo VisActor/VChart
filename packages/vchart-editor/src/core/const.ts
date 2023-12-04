@@ -39,6 +39,11 @@ export const IgnoreEvent: { [key in keyof HTMLElementEventMap]?: true } = {
   dblclick: true
 };
 
+export const IsWheelEvent: { [key in keyof HTMLElementEventMap]?: true } = {
+  // mousedown: true,
+  wheel: true
+};
+
 export const MinSize = 5;
 
 export const DeleteElementKeyCode = {

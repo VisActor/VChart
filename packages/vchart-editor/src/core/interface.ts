@@ -34,11 +34,10 @@ export interface IEditorLayer {
   getStage: () => IStage;
   getCanvas: () => HTMLCanvasElement;
   getAABBBounds: () => IBoundsLike;
-  moveTo: (x: number, y: number) => void;
-  scaleTo: (s: number) => void;
   resizeLayer: (width: number, height: number, x: number, y: number, scale: number) => void;
   onElementReady: (callBack: () => void) => void;
-  transformPosInLayer: (pos: IPoint) => IPoint;
+  transformPosToLayer: (pos: IPoint) => IPoint;
+  transformPosToClient: (pos: IPoint) => IPoint;
   getLayoutLineInLayer: () => ILayoutLine[];
 
   removeElement: (id: string | number, triggerHistory: boolean) => void;
@@ -231,4 +230,20 @@ export interface IHistory {
   to: HistorySnapshot;
   // 将数据从 from 改为 to 或者从 to 改为 from
   use: (element: ElementInfo, from: HistorySnapshot, to: HistorySnapshot) => void;
+}
+
+export interface IElementPathRoot extends IElementPath {
+  elementId: string | number;
+  opt?: any;
+  rect: IRect;
+}
+
+export interface IElementPath {
+  index: number;
+  child: IElementPath | IElementPathEnd;
+}
+
+export interface IElementPathEnd {
+  percentX: number;
+  percentY: number;
 }

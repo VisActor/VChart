@@ -322,7 +322,8 @@ export class LayoutEditorComponent {
 
   protected _dragElement = (moveX: number, moveY: number) => {
     this._lastBoxInDrag.setAttribute('visible', true);
-    this._editorBox.moveBy(moveX, moveY);
+    const scale = this._opt.editorGroup.layer?.globalTransMatrix.a ?? 1;
+    this._editorBox.moveBy(moveX / scale, moveY / scale);
   };
 
   private _matchLine(source: ILayoutLine[], target: ILayoutLine[], minDistance: number) {
@@ -433,7 +434,6 @@ export class LayoutEditorComponent {
     // this._opt.editorGroup.removeChild(this._currentBox);
 
     this._editorBox.release();
-    this._dragger.release();
     this._dragger.release();
     this._opt.stage.removeEventListener('pointerdown', this._dragStartCheck);
     this._endHandler = this._startHandler = this._updateHandler = this._el = this._editorBox = this._dragger = null;

@@ -1,4 +1,11 @@
-import type { EditorMode, IEditorController, IEditorElement, IEditorLayer, IHistory } from './../core/interface';
+import type {
+  EditorMode,
+  IEditorController,
+  IEditorElement,
+  IEditorLayer,
+  IElementPathRoot,
+  IHistory
+} from './../core/interface';
 import type { IRect, IPoint } from '../typings/space';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { EditorData } from '../core/editor-data';
@@ -53,6 +60,10 @@ export interface IElement {
   getEditorElementsConnectBox: (rect: IRect) => IEditorElement[];
   startEditorElement: (el: IEditorElement, e: PointerEvent) => void;
   clearCurrentEditorElement: () => void;
+
+  // event
+  getTargetWithPos?: (pos: IPoint) => IElementPathRoot;
+  getPosWithPath?: (path: IElementPathRoot) => IPoint;
 }
 
 export interface IElementConstructor {

@@ -1,13 +1,16 @@
+import type { VChartEditor } from './vchart-editor';
 import type { IElement, VRenderPointerEvent } from './../elements/interface';
-import { Bounds, isValid } from '@visactor/vutils';
-import type { EditorMode, IEditorElement, IEditorLayer, ILayoutLine } from './interface';
+import { Bounds, Matrix } from '@visactor/vutils';
+import type { EditorMode, IEditorElement, IEditorLayer, IElementPathRoot, ILayoutLine } from './interface';
 import type { IStage, IGroup, IGraphic } from '@visactor/vrender-core';
 import { createGroup, createStage, container } from '@visactor/vrender-core';
 import { loadBrowserEnv } from '@visactor/vrender-kits';
 import { CreateID } from '../utils/common';
-import { IgnoreEvent, TriggerEvent } from './const';
+import { IgnoreEvent, IsWheelEvent, TriggerEvent } from './const';
 import type { BaseElement } from '../elements/base-element';
 import type { IPoint } from '../typings/space';
+import { transformPointWithMatrix } from '../utils/space';
+import { LayerZoomMove } from '../component/layer-zoom-move';
 // 加载浏览器环境
 loadBrowserEnv(container);
 
@@ -79,62 +82,36 @@ export class EditorLayer implements IEditorLayer {
   }
 
   protected _mode: EditorMode = 'view';
-
-  protected _offsetX: number = 0;
-  get offsetY() {
-    return this._offsetX;
-  }
-  protected _offsetY: number = 0;
-  get offsetX() {
-    return this._offsetY;
-  }
-  protected _scale: number = 1;
   get scale() {
-    return this._scale;
+    return this._stage.defaultLayer.globalTransMatrix.a ?? 1;
   }
 
   protected _eventHandler: Map<string, ((e: Event) => void)[]> = new Map();
 
-  constructor(container: HTMLElement, mode: EditorMode, id?: string | number) {
+  private _zoomMove: LayerZoomMove;
+
+  private _editor: VChartEditor;
+
+  constructor(
+    container: HTMLElement,
+    { mode, editor }: { mode: EditorMode; editor: VChartEditor },
+    id?: string | number
+  ) {
     this._id = id ?? CreateID();
     this._container = container;
+    this._editor = editor;
     this._mode = mode;
     this.initCanvas();
     this.initEvent();
     this.initEditorGroup();
-  }
-
-  moveTo(x: number, y: number) {
-    if (this._mode !== 'editor') {
-      return;
+    if (this._mode === 'editor') {
+      this._zoomMove = new LayerZoomMove(this._stage.defaultLayer, editor.emitter, container);
     }
-    this._offsetX = x;
-    this._offsetY = y;
-    this._stage.defaultLayer.setAttributes({
-      x,
-      y
-    });
-  }
-  scaleTo(s: number) {
-    if (this._mode !== 'editor') {
-      return;
-    }
-    this._scale = s;
-    this._stage.defaultLayer.setAttributes({
-      scaleX: s,
-      scaleY: s
-    });
   }
 
   resizeLayer(width: number, height: number, x: number, y: number, scale: number) {
-    this._offsetX = x;
-    this._offsetY = y;
-    this._scale = scale;
     this._stage.defaultLayer.setAttributes({
-      x,
-      y,
-      scaleX: scale,
-      scaleY: scale
+      postMatrix: new Matrix(scale, 0, 0, scale, x, y)
     });
     this._canvas.style.width = width + 'px';
     this._canvas.style.height = height + 'px';
@@ -152,16 +129,18 @@ export class EditorLayer implements IEditorLayer {
     this._elements.forEach(el => el.moveBy(offsetX, offsetY));
   }
 
-  transformPosInLayer(pos: IPoint) {
+  transformPosToLayer = (pos: IPoint) => {
     // pos in layer
-    const inLayer = { x: pos.x - this._offsetX, y: pos.y - this._offsetY };
-    return {
-      x: inLayer.x / this._scale,
-      y: inLayer.y / this._scale
-    };
-  }
+    return transformPointWithMatrix(this._stage.defaultLayer.globalTransMatrix.getInverse(), pos);
+  };
+
+  transformPosToClient = (pos: IPoint) => {
+    // pos in layer
+    return transformPointWithMatrix(this._stage.defaultLayer.globalTransMatrix, pos);
+  };
 
   release() {
+    this._zoomMove?.release();
     this._elements.forEach(el => el.release());
     this._stage.release();
     this._stage = null;
@@ -251,8 +230,7 @@ export class EditorLayer implements IEditorLayer {
         const result = { index };
         if (path.length === 0) {
           const inverse = node.globalTransMatrix.getInverse();
-          const nodePosX = inverse.a * e.canvas.x + inverse.c * e.canvas.y + inverse.e;
-          const nodePosY = inverse.b * e.canvas.x + inverse.d * e.canvas.y + inverse.f;
+          const { x: nodePosX, y: nodePosY } = transformPointWithMatrix(inverse, { x: e.canvas.x, y: e.canvas.y });
           // @ts-ignore
           result.percentX = nodePosX / node.AABBBounds.width();
           // @ts-ignore
@@ -265,42 +243,61 @@ export class EditorLayer implements IEditorLayer {
     return path;
   }
 
-  getPosWithPath(path: any[]) {
-    let node = this._stage.defaultLayer as IGraphic;
-    if (path.length === 1) {
-      return {
-        x: this._container.clientWidth * path[0].percentX,
-        y: this._container.clientHeight * path[0].percentY
-      };
-    }
-    const nodePos = { x: 0, y: 0 };
-    for (let i = 0; i < path.length; i++) {
-      const p = path[i];
-      let lastNode = node;
-      if (isValid(p.index)) {
-        // eslint-disable-next-line no-loop-func
-        node.forEachChildren((n, i) => {
-          if (i === p.index) {
-            node = n as IGraphic;
-            return true;
-          }
-          return false;
-        });
-      }
-      if (node === lastNode) {
-        // not found
-        return { x: -1, y: -1 };
-      }
-      lastNode = node;
-      if (isValid(p.percentX)) {
-        nodePos.x = node.AABBBounds.width() * p.percentX;
-        nodePos.y = node.AABBBounds.height() * p.percentY;
+  getPathWithPos(pos: IPoint) {
+    for (let i = 0; i < this._elements.length; i++) {
+      const element = this._elements[i];
+      const path = element.getTargetWithPos?.(pos);
+      if (path) {
+        return path;
       }
     }
-    const matrix = node.globalTransMatrix;
-    nodePos.x = matrix.a * nodePos.x + matrix.c * nodePos.y + matrix.e;
-    nodePos.y = matrix.b * nodePos.x + matrix.d * nodePos.y + matrix.f;
-    return nodePos;
+    return null;
+  }
+
+  getPosWithPath(path: IElementPathRoot) {
+    if (!path) {
+      return null;
+    }
+    const el = this._elements.find(e => e.id === path.elementId);
+    if (!el) {
+      return null;
+    }
+    return el.getPosWithPath(path);
+    // let node = this._stage.defaultLayer as IGraphic;
+    // if (path.length === 1) {
+    //   return {
+    //     x: this._container.clientWidth * path[0].percentX,
+    //     y: this._container.clientHeight * path[0].percentY
+    //   };
+    // }
+    // const nodePos = { x: 0, y: 0 };
+    // for (let i = 0; i < path.length; i++) {
+    //   const p = path[i];
+    //   let lastNode = node;
+    //   if (isValid(p.index)) {
+    //     // eslint-disable-next-line no-loop-func
+    //     node.forEachChildren((n, i) => {
+    //       if (i === p.index) {
+    //         node = n as IGraphic;
+    //         return true;
+    //       }
+    //       return false;
+    //     });
+    //   }
+    //   if (node === lastNode) {
+    //     // not found
+    //     return { x: -1, y: -1 };
+    //   }
+    //   lastNode = node;
+    //   if (isValid(p.percentX)) {
+    //     nodePos.x = node.AABBBounds.width() * p.percentX;
+    //     nodePos.y = node.AABBBounds.height() * p.percentY;
+    //   }
+    // }
+    // const matrix = node.globalTransMatrix;
+    // nodePos.x = matrix.a * nodePos.x + matrix.c * nodePos.y + matrix.e;
+    // nodePos.y = matrix.b * nodePos.x + matrix.d * nodePos.y + matrix.f;
+    // return nodePos;
   }
 
   on(eventType: string, cb: (e: Event) => void) {
@@ -334,7 +331,10 @@ export class EditorLayer implements IEditorLayer {
     // const pos = this.getPosWithPath(path);
   }
 
-  tryEvent(e: MouseEvent) {
+  tryEvent(e: MouseEvent | WheelEvent) {
+    if (this._zoomMove?.state === 'drag') {
+      return;
+    }
     if (IgnoreEvent[e.type]) {
       return;
     }
@@ -342,9 +342,16 @@ export class EditorLayer implements IEditorLayer {
       this._isTrigger = false;
     }
     this._isInActive = false;
-    const event = new MouseEvent(e.type, {
+    const eventCreate = IsWheelEvent[e.type] ? WheelEvent : MouseEvent;
+    const event = new eventCreate(e.type, {
       view: window,
       ...e,
+      ctrlKey: e.ctrlKey,
+      deltaMode: (<WheelEvent>e).deltaMode,
+      deltaX: (<WheelEvent>e).deltaX,
+      deltaY: (<WheelEvent>e).deltaY,
+      deltaZ: (<WheelEvent>e).deltaZ,
+      detail: (<WheelEvent>e).detail,
       clientX: e.clientX,
       clientY: e.clientY,
       movementX: e.movementX,

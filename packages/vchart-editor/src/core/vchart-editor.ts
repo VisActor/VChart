@@ -1,5 +1,6 @@
+import { HightLightBox } from './../component/hight-light-box';
 import { EditorController } from './editor-controller';
-import type { EditorMode, IEditorData, IHistory, IVChartEditorInitOption } from './interface';
+import type { EditorMode, IEditorData, IElementPathRoot, IHistory, IVChartEditorInitOption } from './interface';
 import { EditorEvent } from './editor-event';
 import { ChartLayer } from '../elements/chart/chart-layer';
 import { EditorLayer } from './editor-layer';
@@ -13,6 +14,7 @@ import { EditorFactory } from './factory';
 import { getCommonHistoryUse } from '../elements/common/editor-history';
 import { EditorData } from './editor-data';
 import type { EditorChart } from '../elements/chart/chart';
+import type { IPoint } from '../typings/space';
 
 export class VChartEditor {
   static registerParser(key: string, parser: IDataParserConstructor) {
@@ -34,6 +36,11 @@ export class VChartEditor {
   protected _layers: EditorLayer[] = [];
   get layers() {
     return this._layers;
+  }
+
+  protected _hightLightBox: HightLightBox;
+  get hightLightBox() {
+    return this._hightLightBox;
   }
 
   protected _event: EditorEvent;
@@ -64,6 +71,7 @@ export class VChartEditor {
     const { dom, mode } = this._option;
     this._mode = mode;
     this._editorData = new EditorData(this, this._option.data);
+    this._hightLightBox = new HightLightBox();
 
     this._commonHistoryUse = getCommonHistoryUse(this);
 
@@ -105,12 +113,12 @@ export class VChartEditor {
     }
     let layer = this.layers[0];
     if (type === 'chart') {
-      layer = new ChartLayer(this._container, this._mode);
+      layer = new ChartLayer(this._container, { mode: this._mode, editor: this }, option.id);
       this.addLayer(layer);
       option.renderCanvas = layer.getCanvas();
     } else {
       if (!layer) {
-        layer = new EditorLayer(this._container, this._mode);
+        layer = new EditorLayer(this._container, { mode: this._mode, editor: this }, option.id);
         this.addLayer(layer);
       }
     }
@@ -157,6 +165,7 @@ export class VChartEditor {
     this._layers.push(l);
     if (this._layers.length === 1) {
       this._event.changeTriggerLayer(l, null);
+      this._hightLightBox.setLayer(l);
     }
   }
 
@@ -188,7 +197,7 @@ export class VChartEditor {
     }
     layerData.forEach(l => {
       if (l.type === 'chart') {
-        const layer = new ChartLayer(this._container, this._mode);
+        const layer = new ChartLayer(this._container, { mode: this._mode, editor: this });
         this.addLayer(layer);
         l.elements.forEach(e => {
           const el = new ElementsMap[e.type]({
@@ -250,6 +259,10 @@ export class VChartEditor {
     if (!isValidNumber(width) || !isValidNumber(height)) {
       return;
     }
+    if (this._mode !== 'view') {
+      return;
+    }
+    // padding
     this._width = width;
     this._height = height;
     const b = new Bounds();
@@ -260,6 +273,8 @@ export class VChartEditor {
     this._layers.forEach(l => {
       b.union(l.getAABBBounds());
     });
+    // padding
+    b.expand(12);
     const contentWidth = b.width();
     const contentHeight = b.height();
     if (contentWidth === 0 || contentWidth === Infinity || contentHeight === 0 || contentHeight === Infinity) {
@@ -303,12 +318,29 @@ export class VChartEditor {
     this._layers.forEach(l => l.on(eventType, cb));
   }
 
-  getPathWithEvent(e: VRenderPointerEvent) {
-    return this._layers[0].getEventPath(e);
+  getPathWithEvent(e: PointerEvent) {
+    return this._layers[0].getPathWithPos({ x: e.offsetX, y: e.offsetY });
   }
 
-  getPosWithPath(path: any[]) {
+  getPathWithPos(pos: IPoint) {
+    return this._layers[0].getPathWithPos(pos);
+  }
+
+  getPosWithPath(path: IElementPathRoot) {
     return this._layers[0].getPosWithPath(path);
+  }
+
+  hightLightWithPos(pos: IPoint, boxKey: string) {
+    const path = this._layers[0].getPathWithPos(pos);
+    if (path) {
+      this._hightLightBox.showBox(boxKey, path.rect);
+    } else {
+      this._hightLightBox.hiddenBox(boxKey);
+    }
+  }
+
+  clearHightLightPos(boxKey: string) {
+    this._hightLightBox.hiddenBox(boxKey);
   }
 
   getChartElements() {

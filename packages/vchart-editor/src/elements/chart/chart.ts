@@ -1,12 +1,19 @@
+import type { IGraphic } from '@visactor/vrender-core';
 /* eslint-disable promise/no-nesting */
 import type { VRenderPointerEvent } from './../interface';
-import type { IEditorElement, ILayoutLine, IUpdateAttributeParam } from './../../core/interface';
+import type {
+  IEditorElement,
+  IElementPathEnd,
+  IElementPathRoot,
+  ILayoutLine,
+  IUpdateAttributeParam
+} from './../../core/interface';
 /* eslint-disable no-console */
 import { LayoutEditorElement } from './editor-elements/layout-editor';
 import { ChartLayout } from './layout/chart-layout';
 import { array, get, type IBoundsLike } from '@visactor/vutils';
 import { VChart } from '@visactor/vchart';
-import type { ISpec, IVChart } from '@visactor/vchart';
+import type { ISpec, IVChart, IMarkAreaSpec, IMarkLineSpec } from '@visactor/vchart';
 import type { IRect, IPoint } from '../../typings/space';
 import { BaseElement } from '../base-element';
 import type { IChartLayout } from './layout/interface';
@@ -23,7 +30,8 @@ import { ChartEvent } from './event';
 import { CommonModelElement } from './editor-elements/common-model-editor';
 import { getDefaultMarkerConfigByType } from './utils/marker';
 import { IgnoreModelTypeInLayout, getChartModelWithModelInfo, transformModelRect } from './utils/layout';
-import { LayoutRectToRect, getLayoutLine } from '../../utils/space';
+import { LayoutRectToRect, getLayoutLine, transformPointWithMatrix } from '../../utils/space';
+import { addRectToPathElement, getEndPathWithNode, getPosInClient } from '../../utils/element';
 
 export class EditorChart extends BaseElement {
   type = 'chart';
@@ -119,7 +127,6 @@ export class EditorChart extends BaseElement {
 
   protected _initVChart(spec: ISpec) {
     spec = this._transformVchartSpec(spec);
-    console.log(this._mode === 'editor');
     this._vchart = new VChart(spec, {
       renderCanvas: this._opt.layer.getCanvas(),
       stage: this._opt.layer.getStage(),
@@ -265,14 +272,14 @@ export class EditorChart extends BaseElement {
 
   private _onAddMarkLine = (el: IEditorElement, attr: IUpdateAttributeParam) => {
     if (attr.markLine.enable) {
-      const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markLine.type);
+      const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markLine.type) as IMarkLineSpec;
       defaultMarkLineSpec.zIndex = 510;
       attr.markLine.spec = defaultMarkLineSpec;
     }
   };
   private _onAddMarkArea = (el: IEditorElement, attr: IUpdateAttributeParam) => {
     if (attr.markArea.enable) {
-      const defaultMarkAreaSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type);
+      const defaultMarkAreaSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type) as IMarkAreaSpec;
       defaultMarkAreaSpec.zIndex = 500;
 
       attr.markArea.spec = defaultMarkAreaSpec;
@@ -358,5 +365,165 @@ export class EditorChart extends BaseElement {
 
   pushHistory() {
     this._specProcess.pushHistory();
+  }
+
+  getTargetWithPos(pos: IPoint): IElementPathRoot {
+    const modelInfo = this.layout.getOverModel(pos, this._opt.layer);
+    if (!modelInfo) {
+      return this._pickElement(pos);
+    }
+    if (modelInfo.specKey === 'region') {
+    }
+    const model = getChartModelWithModelInfo(this._vchart, modelInfo);
+    if (!model) {
+      return null;
+    }
+    if (model.type !== 'region') {
+      const boundsComponent = (<any>model).getVRenderComponents()?.[0];
+      if (!boundsComponent) {
+        return null;
+      }
+      const endPath = getEndPathWithNode(pos, boundsComponent);
+      return {
+        elementId: this.id,
+        opt: {
+          type: 'layoutModel',
+          id: modelInfo.id,
+          specKey: modelInfo.specKey,
+          specIndex: modelInfo.specIndex
+        },
+        index: 0,
+        child: endPath,
+        rect: addRectToPathElement(boundsComponent)
+      };
+    }
+
+    return this._pickElement(pos);
+  }
+
+  private _pickElement(pos: IPoint): IElementPathRoot {
+    const el = this._opt.layer.getStage().pick(pos.x, pos.y);
+    if (!el || !el.graphic) {
+      return null;
+    }
+    const result = this._checkPickMarker(el.graphic, pos);
+    if (result) {
+      return result;
+    }
+    return this._checkPickDatumMark(el.graphic, pos);
+  }
+
+  private _checkPickMarker(el: IGraphic, pos: IPoint): IElementPathRoot {
+    if (!this._specProcess.getEditorSpec().marker) {
+      return null;
+    }
+    let idEl = el;
+    while (idEl && !(idEl.id && idEl.type === 'group')) {
+      idEl = idEl.parent;
+    }
+    if (!idEl) {
+      return null;
+    }
+    let marker = this._specProcess.getEditorSpec().marker.markLine?.find(s => s.id === idEl.id) as any;
+    if (!marker) {
+      marker = this._specProcess.getEditorSpec().marker.markArea?.find(s => s.id === idEl.id) as any;
+    }
+    if (!marker) {
+      return null;
+    }
+    const endPath = getEndPathWithNode(pos, idEl);
+    return {
+      elementId: this.id,
+      opt: {
+        type: 'marker',
+        id: idEl.id
+      },
+      index: 0,
+      child: endPath,
+      rect: addRectToPathElement(idEl)
+    };
+  }
+
+  private _checkPickDatumMark(el: IGraphic, pos: IPoint): IElementPathRoot {
+    const elMarkId = el.parent._uid;
+    if (!elMarkId) {
+      return null;
+    }
+    const series = this._vchart.getChart().getAllSeries();
+    for (let i = 0; i < series.length; i++) {
+      const s = series[i];
+      for (let j = 0; j < s.getMarks().length; j++) {
+        const mark = s.getMarks()[j];
+        const product = mark.getProduct();
+        if (product?.graphicItem?._uid === elMarkId) {
+          let index = 0;
+          // eslint-disable-next-line no-loop-func
+          el.parent.forEachChildren((n, i) => {
+            if (n === el) {
+              index = i;
+              return true;
+            }
+            return false;
+          });
+          return {
+            elementId: this.id,
+            opt: {
+              type: 'series',
+              seriesType: s.type,
+              seriesIndex: s.getSpecIndex(),
+              markType: mark.type,
+              markIndex: j
+            },
+            index,
+            child: getEndPathWithNode(pos, el),
+            rect: addRectToPathElement(el)
+          };
+        }
+      }
+    }
+    return null;
+  }
+
+  getPosWithPath(path: IElementPathRoot): IPoint {
+    if (path.opt.type === 'layoutModel' || path.opt.type === 'marker') {
+      const model = getChartModelWithModelInfo(this._vchart, path.opt);
+      if (!model) {
+        return null;
+      }
+      if (model.type !== 'region') {
+        const boundsComponent = (<any>model).getVRenderComponents()?.[0];
+        if (!boundsComponent) {
+          return null;
+        }
+        const end = path.child;
+        return getPosInClient(end as IElementPathEnd, boundsComponent);
+      }
+      return null;
+    } else if (path.opt.type === 'series') {
+      const series = this._vchart.getChart().getAllSeries();
+      let _s = series.find((s: any) => s.type === path.opt.seriesType && s.getSpecIndex() === path.opt.seriesIndex);
+      if (!_s) {
+        _s = series.find((s: any) => s.type === path.opt.seriesType);
+      }
+      if (!_s) {
+        return null;
+      }
+      const marks = _s.getMarks();
+      let _m = marks.find((m: any, j: number) => m.type === path.opt.markType && j === path.opt.markIndex);
+      if (!_m) {
+        _m = marks.find((m: any) => m.type === path.opt.markType);
+      }
+      if (!_m) {
+        return null;
+      }
+      const el = _m.getProduct()?.graphicItem?.getChildAt?.(path.index) as IGraphic;
+      if (!el) {
+        return null;
+      }
+
+      const end = path.child;
+      return getPosInClient(end as IElementPathEnd, el);
+    }
+    return null;
   }
 }

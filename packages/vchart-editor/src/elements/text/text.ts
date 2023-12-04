@@ -1,7 +1,14 @@
 import type { VRenderPointerEvent } from './../interface';
-import type { IGraphic, IText } from '@visactor/vrender-core';
+import type { IGraphic, IText, INode, IGroup } from '@visactor/vrender-core';
 import { createRect, createWrapText } from '@visactor/vrender-core';
-import type { IEditorElement, ILayoutLine, IUpdateAttributeParam } from './../../core/interface';
+import type {
+  IEditorElement,
+  IElementPath,
+  IElementPathEnd,
+  IElementPathRoot,
+  ILayoutLine,
+  IUpdateAttributeParam
+} from './../../core/interface';
 /* eslint-disable no-console */
 
 import type { IBoundsLike } from '@visactor/vutils';
@@ -11,8 +18,9 @@ import { BaseElement } from '../base-element';
 import type { IElementOption } from '../interface';
 import { LayoutEditorComponent } from '../../component/layout-component';
 import { MinSize } from '../../core/const';
-import { getLayoutLine, isRectConnectRect } from '../../utils/space';
+import { getLayoutLine, isPointInBounds, isRectConnectRect, transformPointWithMatrix } from '../../utils/space';
 import { diffSpec } from '../../utils/spec';
+import { addRectToPathElement, getElementPath, getEndPathWithNode, getPosInClient } from '../../utils/element';
 
 export class EditorText extends BaseElement {
   type = 'text';
@@ -419,5 +427,28 @@ export class EditorText extends BaseElement {
         });
       }
     }
+  }
+
+  getTargetWithPos(pos: IPoint): IElementPathRoot {
+    if (isPointInBounds(this._opt.layer.transformPosToLayer(pos), this._textGraphic.AABBBounds)) {
+      const endPath = getEndPathWithNode(pos, this._textGraphic);
+      const result = getElementPath(
+        this._textGraphic,
+        this._opt.layer.getStage().defaultLayer,
+        endPath
+      ) as IElementPathRoot;
+      result.elementId = this._id;
+      result.rect = addRectToPathElement(this._textGraphic);
+      return result;
+    }
+    return null;
+  }
+
+  getPosWithPath(path: IElementPathRoot) {
+    let end = path as IElementPathEnd | IElementPath;
+    while (!isValid((<IElementPathEnd>end).percentX)) {
+      end = (<IElementPath>end).child;
+    }
+    return getPosInClient(end as IElementPathEnd, this._textGraphic);
   }
 }

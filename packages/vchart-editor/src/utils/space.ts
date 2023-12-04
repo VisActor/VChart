@@ -1,8 +1,9 @@
 import type { IRect } from './../typings/space';
-import type { IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike, Matrix } from '@visactor/vutils';
 import type { IPoint } from '../typings/space';
 import type { ILayoutRect } from '../elements/chart/layout/interface';
 import type { ILayoutLine } from '../core/interface';
+import type { ILayer } from '@visactor/vrender-core';
 
 export function isPointInBounds(point: IPoint, rect: IBoundsLike) {
   const { x1, y1, x2, y2 } = rect;
@@ -95,4 +96,15 @@ export function SamePointApproximate(a: IPoint, b: IPoint, accuracy: number = 3)
 
 export function SameValueApproximate(a: number, b: number, accuracy: number = 3) {
   return Math.floor(a * 10 ** accuracy) === Math.floor(b * 10 ** accuracy);
+}
+
+export function transformPointWithMatrix(m: Matrix, pos: IPoint) {
+  return {
+    x: m.a * pos.x + m.c * pos.y + m.e,
+    y: m.b * pos.x + m.d * pos.y + m.f
+  };
+}
+
+export function transformPointWithLayer(pos: IPoint, layer: ILayer) {
+  return transformPointWithMatrix(layer.globalTransMatrix.getInverse(), pos);
 }

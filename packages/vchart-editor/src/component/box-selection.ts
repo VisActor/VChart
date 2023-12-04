@@ -6,7 +6,7 @@ import type { IElement, VRenderPointerEvent } from './../elements/interface';
 import type { IPoint, IRect as ILayoutRect } from '../typings/space';
 import { BoxSelectionMaskName, OverGraphicAttribute } from '../core/const';
 import { LayoutEditorComponent } from './layout-component';
-import { isPointInBounds } from '../utils/space';
+import { isPointInBounds, transformPointWithLayer } from '../utils/space';
 import type { EditorEvent } from '../core/editor-event';
 
 export class BoxSelection {
@@ -93,6 +93,7 @@ export class BoxSelection {
   }
 
   protected _pointerDown = (e: VRenderPointerEvent) => {
+    this._transformEventPoint(e);
     this._overGroup.removeAllChild();
     const lastLayoutEditorBox = this._layoutComponent?.editorBox;
     if (this._state === 'editor') {
@@ -115,7 +116,7 @@ export class BoxSelection {
     ) {
       // start
       this._state = 'per-editor';
-      this._startPos = { ...e.canvas };
+      this._startPos = { ...(<any>e)._layerPoint };
       this._currentBox = { x: this._startPos.x, y: this._startPos.y, width: 0, height: 0 };
       this._boxGraphic.setAttributes({
         ...this._currentBox
@@ -124,6 +125,7 @@ export class BoxSelection {
   };
 
   protected _pointerMove = (e: VRenderPointerEvent) => {
+    this._transformEventPoint(e);
     if (this._state === 'start') {
       this._state = 'drag';
     }
@@ -144,10 +146,10 @@ export class BoxSelection {
     if (this._state !== 'drag') {
       return;
     }
-    this._currentBox.x = Math.min(this._startPos.x, e.canvas.x);
-    this._currentBox.y = Math.min(this._startPos.y, e.canvas.y);
-    this._currentBox.width = Math.abs(this._startPos.x - e.canvas.x);
-    this._currentBox.height = Math.abs(this._startPos.y - e.canvas.y);
+    this._currentBox.x = Math.min(this._startPos.x, (<any>e)._layerPoint.x);
+    this._currentBox.y = Math.min(this._startPos.y, (<any>e)._layerPoint.y);
+    this._currentBox.width = Math.abs(this._startPos.x - (<any>e)._layerPoint.x);
+    this._currentBox.height = Math.abs(this._startPos.y - (<any>e)._layerPoint.y);
     this._boxGraphic.setAttributes({
       ...this._currentBox
     });
@@ -156,6 +158,7 @@ export class BoxSelection {
   };
 
   protected _pointerUp = (e: VRenderPointerEvent) => {
+    this._transformEventPoint(e);
     // up
     this.context.setElementPickable(true);
     this.context.setElementsOverAble(true);
@@ -366,7 +369,7 @@ export class BoxSelection {
 
   protected _editorPointerDown(e: VRenderPointerEvent) {
     this._stateInEditor = 'down';
-    if (isPointInBounds(e.canvas, this._layoutComponent.editorBox.rect.AABBBounds)) {
+    if (isPointInBounds((<any>e)._layerPoint, this._layoutComponent.editorBox.rect.AABBBounds)) {
       return true;
     }
     this._outBoxSelection();
@@ -423,12 +426,16 @@ export class BoxSelection {
 
   private _editorOver(e: VRenderPointerEvent) {
     if (!isValid(this.context.editor.editorController.currentOverGraphicId)) {
-      if (isPointInBounds(e.canvas, this._layoutComponent.editorBox.rect.AABBBounds)) {
+      if (isPointInBounds((<any>e)._layerPoint, this._layoutComponent.editorBox.rect.AABBBounds)) {
         this.context.setCursor('grab');
         return;
       }
     }
 
     this.context.setCursorSyncToTriggerLayer();
+  }
+
+  private _transformEventPoint(e: VRenderPointerEvent) {
+    (<any>e)._layerPoint = transformPointWithLayer(e.canvas, this.layer.getStage().defaultLayer);
   }
 }

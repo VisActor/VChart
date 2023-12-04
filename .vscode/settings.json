@@ -22,5 +22,6 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   // Typescript
-  "typescript.preferences.importModuleSpecifier": "project-relative"
+  "typescript.preferences.importModuleSpecifier": "project-relative",
+  "commentTranslate.multiLineMerge": true
 }

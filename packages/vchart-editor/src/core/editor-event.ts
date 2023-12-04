@@ -4,7 +4,7 @@ import type { EditorLayer } from './editor-layer';
 import { MouseEvents, TriggerEvent } from './const';
 import type { VChartEditor } from './vchart-editor';
 import type { TransformComponent2 } from '../component/transform-component2';
-import { isPointInBounds } from '../utils/space';
+import { isPointInBounds, transformPointWithLayer } from '../utils/space';
 
 export class EditorEvent {
   protected _editor: VChartEditor;
@@ -59,7 +59,7 @@ export class EditorEvent {
     if (e.target !== this._editor.container) {
       return;
     }
-    e.stopImmediatePropagation();
+    // e.stopImmediatePropagation();
     let hasTrigger = false;
     let hasActive = false;
     //  current trigger layer first
@@ -163,7 +163,13 @@ export class EditorEvent {
     if (!this._currentEditorBox || !e) {
       return false;
     }
-    if (isPointInBounds(e.canvas, this._currentEditorBox.rect.AABBBounds)) {
+
+    if (
+      isPointInBounds(
+        transformPointWithLayer(e.canvas, this._currentEditorBox.layer),
+        this._currentEditorBox.rect.AABBBounds
+      )
+    ) {
       return true;
     }
     return false;

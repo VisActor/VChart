@@ -167,7 +167,7 @@ export class ChartLayout implements IChartLayout {
         return false;
       }
       return isPointInRect(
-        layer.transformPosInLayer(pos),
+        layer.transformPosToLayer(pos),
         transformModelRect(model as any, LayoutRectToRect(d.layout))
       );
     });
