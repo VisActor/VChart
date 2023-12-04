@@ -410,7 +410,8 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
     coordinates: [startData, endData],
     line: {
       style: {
-        ...defaultLineStyle,
+        stroke: '#000',
+        lineWidth: 2,
         lineDash: [0]
       }
     },
@@ -562,12 +563,14 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
       mainSegmentIndex: 1,
       style: [
         {
-          ...defaultLineStyle,
+          stroke: '#000',
+          lineWidth: 2,
           lineDash: [2, 2]
         },
         Object.assign({}, defaultLineStyle),
         {
-          ...defaultLineStyle,
+          stroke: '#000',
+          lineWidth: 2,
           lineDash: [2, 2]
         }
       ]
@@ -647,7 +650,8 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
       : `${(DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE / height) * 100}%`,
     line: {
       style: {
-        ...defaultLineStyle,
+        stroke: '#000',
+        lineWidth: 2,
         lineDash: [0],
         cornerRadius: 4
       }
