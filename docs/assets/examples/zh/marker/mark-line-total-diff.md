@@ -21,6 +21,39 @@ option: barChart#markLine
 ## 代码演示
 
 ```javascript livedemo
+const markLineSpec = {
+  connectDirection: 'top',
+  expandDistance: 30,
+  line: {
+    style: {
+      lineDash: [0],
+      lineWidth: 2,
+      stroke: '#000',
+      cornerRadius: 4
+    }
+  },
+  label: {
+    position: 'middle',
+    labelBackground: {
+      padding: { left: 4, right: 4, top: 4, bottom: 4 },
+      style: {
+        fill: '#fff',
+        fillOpacity: 1,
+        stroke: '#000',
+        lineWidth: 1,
+        cornerRadius: 4
+      }
+    },
+    style: {
+      fill: '#000'
+    }
+  },
+  endSymbol: {
+    size: 12,
+    refX: -4
+  }
+};
+
 const spec = {
   type: 'bar',
   data: [
@@ -58,44 +91,40 @@ const spec = {
     orient: 'top',
     position: 'start'
   },
-  markLine: {
-    type: 'type-step',
-    coordinates: [
-      { type: 'Autocracies', year: '1930', value: 129 },
-      { type: 'Autocracies', year: '2000', value: 89 }
-    ],
-    connectDirection: 'top',
-    expandDistance: 30,
-    line: {
-      style: {
-        lineDash: [0],
-        lineWidth: 2,
-        stroke: '#000',
-        cornerRadius: 4
+  markLine: [
+    {
+      type: 'type-step',
+      coordinates: [
+        { type: 'Autocracies', year: '1930', value: 129 },
+        { type: 'Autocracies', year: '2000', value: 89 }
+      ],
+      coordinatesOffset: [
+        { x: 0, y: 0 },
+        { x: -5, y: 0 }
+      ],
+      ...markLineSpec,
+      label: {
+        ...markLineSpec.label,
+        text: `${(((89 - 129) / 89) * 100).toFixed(0)}%`
       }
     },
-    label: {
-      position: 'middle',
-      text: `${(((89 - 129) / 89) * 100).toFixed(0)}%`,
-      labelBackground: {
-        padding: { left: 4, right: 4, top: 4, bottom: 4 },
-        style: {
-          fill: '#fff',
-          fillOpacity: 1,
-          stroke: '#000',
-          lineWidth: 1,
-          cornerRadius: 4
-        }
-      },
-      style: {
-        fill: '#000'
+    {
+      type: 'type-step',
+      coordinates: [
+        { type: 'Autocracies', year: '2000', value: 89 },
+        { type: 'Autocracies', year: '2018', value: 80 }
+      ],
+      coordinatesOffset: [
+        { x: 5, y: 0 },
+        { x: 0, y: 0 }
+      ],
+      ...markLineSpec,
+      label: {
+        ...markLineSpec.label,
+        text: `${(((89 - 129) / 89) * 100).toFixed(0)}%`
       }
-    },
-    endSymbol: {
-      size: 12,
-      refX: -4
     }
-  }
+  ]
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });

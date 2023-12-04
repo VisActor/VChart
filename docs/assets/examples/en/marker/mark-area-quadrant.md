@@ -208,6 +208,22 @@ const spec = {
       endSymbol: {
         visible: false
       }
+    },
+    // diagonal
+    {
+      x: '0%',
+      y: '0%',
+      x1: '100%',
+      y1: '100%',
+      line: {
+        style: {
+          lineDash: [0],
+          stroke: '#ccc'
+        }
+      },
+      endSymbol: {
+        visible: false
+      }
     }
   ],
   // auxiliary text
