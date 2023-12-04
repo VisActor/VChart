@@ -59,7 +59,7 @@ const spec = {
         type: 'image',
         imageStyle: {
           dx: -50,
-          dy: 40,
+          dy: 50,
           image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/airplane.png'
         }
       }
