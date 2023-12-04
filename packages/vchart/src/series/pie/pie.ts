@@ -514,10 +514,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
       // this._originalSpec + specFromChart + this._theme = this._spec
       const merge = (originalSpec: any) => {
-        const chartSpec = this._prepareSpecBeforeMergingTheme(specFromChart);
-        const userSpec = this._prepareSpecBeforeMergingTheme(originalSpec);
-
-        const labelSpec = mergeSpec({}, this._theme.label, chartSpec.label, userSpec.label) as IArcLabelSpec;
+        const labelSpec = mergeSpec({}, this._theme.label, specFromChart.label, originalSpec.label) as IArcLabelSpec;
         const labelTheme = mergeSpec(
           {},
           this._theme.label,
@@ -527,7 +524,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           ...this._theme,
           label: labelTheme
         } as IPieSeriesTheme;
-        return mergeSpec({}, newTheme, chartSpec, userSpec);
+        return mergeSpec({}, newTheme, specFromChart, originalSpec);
       };
 
       const baseSpec = this._originalSpec;

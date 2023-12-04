@@ -15,7 +15,7 @@ import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
-import type { IDataZoomSpec } from './interface';
+import type { IDataZoomSpec, IDataZoomStyle } from './interface';
 import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
@@ -70,6 +70,24 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
+    // 为了减少主题更改造成的影响，如果用户在 spec 配置了主题默认关闭的 mark，则自动加上 visible: true
+    // 为了减少主题更改造成的影响，如果用户在 spec 配置了主题默认关闭的 mark，则自动加上 visible: true
+    const { selectedBackgroundChart = {} } = this._spec as IDataZoomStyle;
+    const { line, area } = selectedBackgroundChart;
+
+    if (line && line.visible !== false) {
+      this._spec.selectedBackgroundChart.line.style = {
+        ...this._spec.selectedBackgroundChart.line.style,
+        visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
+      };
+    }
+    if (area && area.visible !== false) {
+      this._spec.selectedBackgroundChart.area.style = {
+        ...this._spec.selectedBackgroundChart.area.style,
+        visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
+      };
+    }
+
     if (isBoolean((this._spec as any).roam)) {
       this._zoomAttr.enable = (this._spec as any).roam;
       this._dragAttr.enable = (this._spec as any).roam;
@@ -100,41 +118,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const endHandlerVisble = this._spec.endHandler.style.visible ?? true;
     this._startHandlerSize = startHandlerVisble ? this._spec.startHandler.style.size : 0;
     this._endHandlerSize = endHandlerVisble ? this._spec.endHandler.style.size : 0;
-  }
-
-  protected _prepareSpecBeforeMergingTheme(originalSpec: T): T {
-    const newSpec: T = {
-      ...originalSpec
-    };
-    // 为了减少主题更改造成的影响，如果用户在 spec 配置了主题默认关闭的 mark，则自动加上 visible: true
-    const { selectedBackgroundChart = {} } = newSpec;
-    const { line, area } = selectedBackgroundChart;
-    if (line || area) {
-      newSpec.selectedBackgroundChart = {
-        ...selectedBackgroundChart,
-        line:
-          line && line.visible !== false
-            ? {
-                ...line,
-                style: {
-                  ...line.style,
-                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
-                }
-              }
-            : line,
-        area:
-          area && area.visible !== false
-            ? {
-                ...area,
-                style: {
-                  ...area.style,
-                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
-                }
-              }
-            : area
-      };
-    }
-    return newSpec;
   }
 
   /** LifeCycle API**/
