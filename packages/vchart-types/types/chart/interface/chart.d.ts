@@ -1,6 +1,6 @@
 import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
+import type { IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
@@ -73,13 +73,13 @@ export interface IChart extends ICompilable {
     getAllModels: () => IModel[];
     getMarkById: (id: number) => IMark | undefined;
     getAllMarks: () => IMark[];
-    updateSpec: (spec: any, morphConfig?: IMorphConfig) => IUpdateSpecResult;
+    updateSpec: (spec: any) => IUpdateSpecResult;
     updateState: (state: Record<string, Omit<IMarkStateSpec<unknown>, 'style'>>, filter?: (series: ISeries, mark: IMark, stateKey: string) => boolean) => void;
     setSelected: (datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;
     setHovered: (datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier) => void;
     updateViewBox: (viewBox: IBoundsLike, reLayout: boolean) => void;
     getCanvas: () => HTMLCanvasElement | undefined;
-    setCurrentTheme: (reInit?: boolean) => void;
+    setCurrentTheme: () => void;
     getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
     setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
 }

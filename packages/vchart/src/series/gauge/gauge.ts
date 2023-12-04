@@ -70,7 +70,8 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   initMark(): void {
     super.initMark();
     this._trackMark = this._createMark(GaugeSeries.mark.track, {
-      parent: this._arcGroupMark
+      parent: this._arcGroupMark,
+      dataView: false
     }) as IProgressArcMark;
     this._segmentMark = this._createMark(GaugeSeries.mark.segment, {
       parent: this._arcGroupMark,
@@ -94,8 +95,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         startAngle: this._getAngleValueStart.bind(this),
         endAngle: this._getAngleValueEnd.bind(this),
         innerRadius: () => this._computeLayoutRadius() * (this._spec.innerRadius ?? 0),
-        // 需要优先兼容this._spec.radius
-        outerRadius: () => this._computeLayoutRadius() * (this._spec.radius ?? this._spec.outerRadius ?? 1),
+        outerRadius: () => this._computeLayoutRadius() * (this._spec.radius ?? this._spec.outerRadius ?? 1), // 需要优先兼容this._spec.radius
         cap: this._spec.roundCap ?? false,
         boundsMode: 'imprecise',
         cornerRadius: this._spec.cornerRadius,
@@ -125,6 +125,10 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         y: () => this.angleAxisHelper.center().y,
         startAngle: this._startAngle,
         endAngle: this._endAngle,
+        innerRadius: () => this._computeLayoutRadius() * (this._spec.innerRadius ?? 0),
+        outerRadius: () => this._computeLayoutRadius() * (this._spec.radius ?? this._spec.outerRadius ?? 1), // 需要优先兼容this._spec.radius
+        cap: this._spec.roundCap ?? false,
+        boundsMode: 'imprecise',
         cornerRadius: this._spec.cornerRadius,
         zIndex: 100
       });

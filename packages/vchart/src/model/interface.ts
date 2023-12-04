@@ -145,6 +145,7 @@ export interface ILayoutModel extends IModel {
 }
 
 export interface IModelOption extends ICompilableInitOption {
+  type: string;
   eventDispatcher: IEventDispatcher;
   dataSet: DataSet;
   map: Map<StringOrNumber, IModel | IMark>;

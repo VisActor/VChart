@@ -22,7 +22,7 @@ In the thumbnail axis, you can configure the preview chart to display statistica
 
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/stocks.json');
-consr data = await response.json();
+const data = await response.json();
 const spec = {
   color: ['#1ac7c2', '#6f40aa', '#ccf59a', '#D4ADFC'],
   type: 'bar',

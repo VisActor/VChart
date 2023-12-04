@@ -4,7 +4,7 @@ import { MarkTypeEnum } from '../../mark/interface/type';
 import { isValid } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme } from './interface';
+import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme, PinMarkSpec, PointerMarkSpec } from './interface';
 import type { Datum, Maybe } from '../../typings';
 import type { IPathMark } from '../../mark/path';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -70,18 +70,18 @@ export class GaugePointerSeries<
     const pointerSpec = this._spec.pointer;
     if (pointerMark) {
       this.setMarkStyle(pointerMark, {
-        x: () => {
-          const { x } = this.angleAxisHelper.center();
+        x: (datum: Datum) => {
+          const { x } = this._getPointerAnchor(datum, pointerSpec);
           const dx = this._getPointerWidth() * (pointerSpec?.center?.[0] ?? 0);
           return x - dx;
         },
         y: (datum: Datum) => {
-          const { y } = this.angleAxisHelper.center();
+          const { y } = this._getPointerAnchor(datum, pointerSpec);
           const dy = this._getPointerHeight(datum) * (pointerSpec?.center?.[1] ?? 0);
           return y - dy;
         },
-        anchor: () => {
-          const { x, y } = this.angleAxisHelper.center();
+        anchor: (datum: Datum) => {
+          const { x, y } = this._getPointerAnchor(datum, pointerSpec);
           return [x, y];
         },
         fill: this.getColorAttribute(),
@@ -108,6 +108,16 @@ export class GaugePointerSeries<
     super.initTooltip();
 
     this._pointerMark && this._tooltipHelper.activeTriggerSet.mark.add(this._pointerMark);
+  }
+
+  protected _getPointerAnchor(datum: Datum, markSpec: PinMarkSpec | PointerMarkSpec) {
+    if (markSpec.isOnCenter ?? true) {
+      return this.angleAxisHelper.center();
+    }
+    return this.radiusAxisHelper.coordToPoint({
+      radius: this._innerRadius * this._computeLayoutRadius(),
+      angle: this.angleAxisHelper.dataToPosition([datum[this._angleField[0]]])
+    });
   }
 
   protected _getPointerWidth() {
@@ -151,8 +161,8 @@ export class GaugePointerSeries<
     const pinBackgroundSpec = this._spec.pinBackground;
     if (pinBackgroundMark) {
       this.setMarkStyle(pinBackgroundMark, {
-        x: () => this.angleAxisHelper.center().x,
-        y: () => this.angleAxisHelper.center().y,
+        x: (datum: Datum) => this._getPointerAnchor(datum, pinBackgroundSpec).x,
+        y: (datum: Datum) => this._getPointerAnchor(datum, pinBackgroundSpec).y,
         scaleX: () => pinBackgroundSpec.width * this._computeLayoutRadius(),
         scaleY: () => pinBackgroundSpec.height * this._computeLayoutRadius(),
         fill: this.getColorAttribute(),
@@ -166,8 +176,8 @@ export class GaugePointerSeries<
     const pinSpec = this._spec.pin;
     if (pinMark) {
       this.setMarkStyle(pinMark, {
-        x: () => this.angleAxisHelper.center().x,
-        y: () => this.angleAxisHelper.center().y,
+        x: (datum: Datum) => this._getPointerAnchor(datum, pinSpec).x,
+        y: (datum: Datum) => this._getPointerAnchor(datum, pinSpec).y,
         scaleX: () => pinSpec.width * this._computeLayoutRadius(),
         scaleY: () => pinSpec.height * this._computeLayoutRadius(),
         fill: this.getColorAttribute(),

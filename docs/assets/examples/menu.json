@@ -154,14 +154,21 @@
           "path": "line-sampling",
           "title": {
             "zh": "折线图数据采样",
-            "en": "line chart sampling"
+            "en": "Line chart sampling"
           }
         },
         {
           "path": "line-overlap",
           "title": {
             "zh": "折线图防重叠",
-            "en": "line chart overlap"
+            "en": "Line chart overlap"
+          }
+        },
+        {
+          "path": "line-custom-state",
+          "title": {
+            "zh": "点击维度项高亮所有相关点",
+            "en": "Highlight All Related Points When Clicking the Dimension Item"
           }
         }
       ]
@@ -983,6 +990,13 @@
           "title": {
             "zh": "仪表图自定义区间tick和目标值",
             "en": "Gauge Chart with Segment Ticks and Target Value"
+          }
+        },
+        {
+          "path": "gauge-track",
+          "title": {
+            "zh": "带背景的仪表图",
+            "en": "Gauge Chart with Track Mark"
           }
         }
       ]
@@ -2145,6 +2159,20 @@
           "title": {
             "zh": "自定义 Shape",
             "en": "Custom Shape"
+          }
+        },
+        {
+          "path": "bar-image-extension",
+          "title": {
+            "zh": "条形图image填充",
+            "en": "image in bar chart"
+          }
+        },
+        {
+          "path": "pie-extend-bars",
+          "title": {
+            "zh": "饼图扩展柱图",
+            "en": "pie and bar"
           }
         }
       ]

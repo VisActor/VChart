@@ -41,5 +41,6 @@ export declare class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelC
     protected _updateSingleLabelAttribute(labelInfo: ILabelInfo, labelComponent: IComponentMark): void;
     protected _updateLabelComponentAttribute(component: ILabel, target: IVGrammarMark | IVGrammarMark[], labelInfos: ILabelInfo[]): void;
     compileMarks(): void;
+    getVRenderComponents(): any[];
 }
 export declare const registerLabel: () => void;

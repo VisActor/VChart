@@ -71,7 +71,7 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     protected _getDefaultSpecFromChart(chartSpec: any): Partial<T>;
     protected _shouldMergeThemeToSpec(): boolean;
     protected _prepareSpecBeforeMergingTheme(obj?: any): any;
-    setCurrentTheme(noRender?: boolean): Promise<void>;
+    setCurrentTheme(): void;
     updateLayoutAttribute(): void;
     setAttrFromSpec(): void;
     protected _convertMarkStyle<T extends ICommonSpec = ICommonSpec>(style: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>): Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>;

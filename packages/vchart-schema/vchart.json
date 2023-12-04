@@ -67831,7 +67831,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         },
         "size": {
@@ -67839,14 +67839,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13834",
+        "__@toStringTag@13835",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         },
         "size": {
@@ -67854,14 +67854,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13834",
+        "__@toStringTag@13835",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         },
         "size": {
@@ -67869,14 +67869,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13834",
+        "__@toStringTag@13835",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         },
         "size": {
@@ -67884,14 +67884,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13834",
+        "__@toStringTag@13835",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         },
         "size": {
@@ -67899,14 +67899,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13834",
+        "__@toStringTag@13835",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         },
         "size": {
@@ -67914,14 +67914,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13834",
+        "__@toStringTag@13835",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         },
         "size": {
@@ -67929,14 +67929,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13834",
+        "__@toStringTag@13835",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         },
         "size": {
@@ -67944,14 +67944,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13834",
+        "__@toStringTag@13835",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         },
         "size": {
@@ -67959,7 +67959,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13834",
+        "__@toStringTag@13835",
         "size"
       ],
       "type": "object"
@@ -77235,6 +77235,10 @@
           "description": "可交互的开关",
           "type": "boolean"
         },
+        "isOnCenter": {
+          "description": "是否定位于极坐标系的中心，默认为 true。如果为 false，则位置受 innerRadius 影响",
+          "type": "boolean"
+        },
         "state": {
           "$ref": "#/definitions/Record<string,IPathMarkSpec>",
           "description": "不同状态下的样式配置"
@@ -77406,6 +77410,10 @@
         },
         "interactive": {
           "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "isOnCenter": {
+          "description": "是否定位于极坐标系的中心，默认为 true。如果为 false，则位置受 innerRadius 影响",
           "type": "boolean"
         },
         "outerPadding": {
@@ -83757,34 +83765,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13834"
+        "__@toStringTag@13835"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13834"
+        "__@toStringTag@13835"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13834": {
+        "__@toStringTag@13835": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13834"
+        "__@toStringTag@13835"
       ],
       "type": "object"
     },

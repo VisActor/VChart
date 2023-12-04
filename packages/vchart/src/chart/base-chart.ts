@@ -327,6 +327,7 @@ export class BaseChart extends CompilableBase implements IChart {
       }
       const series = Factory.createSeries(spec.type, spec, {
         ...this._modelOption,
+        type: spec.type,
         region,
         specIndex: index,
         globalScale: this._globalScale,
@@ -351,6 +352,7 @@ export class BaseChart extends CompilableBase implements IChart {
   private _createComponent(Component: any, spec: any) {
     const component = Component.createComponent(spec, {
       ...this._modelOption,
+      type: Component.type,
       getAllRegions: this.getAllRegions,
       getRegionsInIndex: this.getRegionsInIndex,
       getRegionsInIds: this.getRegionsInIds,

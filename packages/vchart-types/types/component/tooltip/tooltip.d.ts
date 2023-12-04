@@ -32,7 +32,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _isTooltipShown: boolean;
     isTooltipShown(): boolean;
     changeRegions(regions: IRegion[]): void;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     protected _registerEvent(): void;
     protected _releaseEvent(): void;
     onLayout(ctx: IModelLayoutOption): void;

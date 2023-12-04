@@ -38,7 +38,7 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
     };
     changeRegions(regions: IRegion[]): void;
     onRender(ctx: IModelRenderOption): void;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     private _getPlayerAttrs;
     private _createOrUpdatePlayerComponent;
     private _computeLayoutRect;

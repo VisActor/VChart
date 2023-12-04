@@ -121,5 +121,5 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
         minBandSize: number;
     };
     protected _autoUpdate(rect?: ILayoutRect): boolean;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
 }

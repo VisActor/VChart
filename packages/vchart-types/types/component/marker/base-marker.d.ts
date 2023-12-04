@@ -65,6 +65,6 @@ export declare abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
     protected getFirstSeries(): ICartesianSeries;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect, ctx: any): void;
 }

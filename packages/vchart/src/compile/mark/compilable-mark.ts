@@ -41,10 +41,6 @@ import { AnimationStateEnum } from '../../animation/interface';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { ICustomPath2D } from '@visactor/vrender-core';
 
-const keptInUpdateAttribute = {
-  defined: true
-};
-
 /** 可编译的 mark 对象，这个基类只存放编译相关的逻辑 */
 export abstract class CompilableMark extends GrammarItem implements ICompilableMark {
   readonly grammarType = GrammarType.mark;
@@ -359,11 +355,11 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     if (!this._product) {
       return;
     }
-    const { enterStyles } = this._separateStyle();
+    const { enterStyles, updateStyles } = this._separateStyle();
 
-    if (enterStyles) {
-      this._product.encodeState('group', enterStyles);
-    }
+    this._product.encodeState('group', enterStyles, true);
+
+    this._product.encode(updateStyles, true);
   }
 
   protected _separateStyle() {
@@ -376,9 +372,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         return;
       }
 
-      if (keptInUpdateAttribute[key]) {
-        updateStyles[key] = normalStyle[key].style;
-      } else if (this._option.noSeparateStyle || isStateAttrChangeable(key, normalStyle, this.getFacet())) {
+      if (this._option.noSeparateStyle || isStateAttrChangeable(key, normalStyle, this.getFacet())) {
         updateStyles[key] = {
           callback: this.compileCommonAttributeCallback(key, 'normal'),
           dependency: [this.stateKeyToSignalName('markUpdateRank')]
@@ -393,10 +387,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   compileEncode() {
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...temp } = this.stateStyle;
     const { enterStyles, updateStyles } = this._separateStyle();
-    this._product.encode(updateStyles);
-    if (!isEmpty(enterStyles)) {
-      this._product.encodeState('group', enterStyles);
-    }
+    this._product.encode(updateStyles, true);
+    this._product.encodeState('group', enterStyles, true);
 
     Object.keys(temp).forEach(state => {
       const styles: Record<string, MarkFunctionType<any>> = {};
@@ -409,7 +401,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
           dependency: [this.stateKeyToSignalName('markUpdateRank')]
         };
       });
-      this._product.encodeState(state, styles);
+      this._product.encodeState(state, styles, true);
     });
 
     // 在布局完成前不进行encode

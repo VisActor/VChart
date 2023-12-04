@@ -64,6 +64,6 @@ export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICar
     protected _parseFieldInfo(): void;
     private _updateCrosshair;
     private _updateCrosshairLabel;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
 }
 export declare const registerCartesianCrossHair: () => void;

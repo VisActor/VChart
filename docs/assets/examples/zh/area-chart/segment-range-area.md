@@ -91,10 +91,10 @@ const spec = {
   markPoint: [
     {
       coordinate: {
-        year: 1730
+        year: 1730,
+        exports: 50
       },
       itemContent: {
-        offsetY: -180,
         type: 'text',
         autoRotate: false,
         text: {
@@ -114,10 +114,10 @@ const spec = {
     },
     {
       coordinate: {
-        year: 1765
+        year: 1765,
+        exports: 75
       },
       itemContent: {
-        offsetY: -240,
         offsetX: -40,
         type: 'text',
         autoRotate: false,

@@ -50,1660 +50,1374 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
 <table>
   <tbody>
     <tr>
-      <td rowspan="1" colspan="1"><p>分类</p></td>
-      <td rowspan="1" colspan="1"><p>序号</p></td>
-      <td rowspan="1" colspan="1"><p>token（默认主题的语义色板）</p></td>
-      <td rowspan="1" colspan="1"><p>描述、应用范围和默认色值</p></td>
-      <td rowspan="1" colspan="1"><p>实际 case（截图来自默认主题真实图表）</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">分类</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">序号</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">token（默认主题的语义色板）</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">描述、应用范围和默认色值</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">实际 case（截图来自默认主题真实图表）</div></td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="5" colspan="1"><p>图表层级样式</p></td>
-      <td rowspan="4" colspan="1"><p style="text-align: center">1</p></td>
-      <td rowspan="4" colspan="1">
-        <p><code>backgroundColor</code></p>
+      <td rowspan="2" colspan="1"><div style="margin: 14px 0">图表层级样式</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">1</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>backgroundColor</code></div>
       </td>
-      <td rowspan="4" colspan="1">
-        <p><b>背景色</b></p>
-        <p>用于图表背景、图元描边。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>背景色</b></div>
+        <div style="margin: 14px 0">用于图表背景、图元描边。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #ffffff;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#ffffff</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#ffffff</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #202226;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#202226</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#202226</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>图表背景色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">图表背景色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>point 图元描边颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">point 图元描边颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/point-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/point-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>数据标签描边颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">数据标签描边颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/bar-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/bar-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>播放器滑块描边颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">播放器滑块描边颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/player-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">2</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">2</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>borderColor</code></p>
+        <div style="margin: 14px 0"><code>borderColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>图表边框色</b></p>
-        <p>用于图表边框（图表内暂时没有实际应用，仅有指导意义）。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>图表边框色</b></div>
+        <div style="margin: 14px 0">用于图表边框（图表内暂时没有实际应用，仅有指导意义）。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #e3e5e8;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#e3e5e8</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#e3e5e8</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #404349;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#404349</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#404349</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>图表边框色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">图表边框色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="15" colspan="1"><p>公共</p></td>
-      <td rowspan="3" colspan="1"><p style="text-align: center">3</p></td>
-      <td rowspan="3" colspan="1">
-        <p><code>shadowColor</code></p>
+      <td rowspan="6" colspan="1"><div style="margin: 14px 0">公共</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">3</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>shadowColor</code></div>
       </td>
-      <td rowspan="3" colspan="1">
-        <p><b>默认阴影颜色</b></p>
-        <p>用于浮层、滑块等带高度属性的图元阴影。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>默认阴影颜色</b></div>
+        <div style="margin: 14px 0">用于浮层、滑块等带高度属性的图元阴影。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: rgba(33, 37, 44, 0.1);
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">rgba(33,37,44,0.1)</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">rgba(33,37,44,0.1)</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: rgba(0, 0, 0, 0.1);
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">rgba(0,0,0,0.1)</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">rgba(0,0,0,0.1)</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>提示信息阴影颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">提示信息阴影颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>poptip 阴影颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">poptip 阴影颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>颜色图例滑块阴影颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">颜色图例滑块阴影颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">4</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">4</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>hoverBackgroundColor</code></p>
+        <div style="margin: 14px 0"><code>hoverBackgroundColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>鼠标 Hover 背景颜色</b></p>
-        <p>用于元素在鼠标 hover 状态的背景颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>鼠标 Hover 背景颜色</b></div>
+        <div style="margin: 14px 0">用于元素在鼠标 hover 状态的背景颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #f1f2f5;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#f1f2f5</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#f1f2f5</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #404349;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#404349</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#404349</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>图例项 hover 背景色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">图例项 hover 背景色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="4" colspan="1"><p style="text-align: center">5</p></td>
-      <td rowspan="4" colspan="1">
-        <p><code>sliderRailColor</code></p>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">5</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>sliderRailColor</code></div>
       </td>
-      <td rowspan="4" colspan="1">
-        <p><b>滑块类组件背景条填充颜色</b></p>
-        <p>用于滑块类组件背景条的填充颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>滑块类组件背景条填充颜色</b></div>
+        <div style="margin: 14px 0">用于滑块类组件背景条的填充颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #f1f3f4;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#f1f3f4</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#f1f3f4</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #404349;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#404349</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#404349</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>缩略轴背景区域颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">缩略轴背景区域颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>播放器未播放轨道颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">播放器未播放轨道颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/player-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>颜色图例轨道颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">颜色图例轨道颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>尺寸图例轨道颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">尺寸图例轨道颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="2" colspan="1"><p style="text-align: center">6</p></td>
-      <td rowspan="2" colspan="1">
-        <p><code>sliderHandleColor</code></p>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">6</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>sliderHandleColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
-        <p><b>滑块类组件滑块填充颜色</b></p>
-        <p>用于滑块类组件滑块的填充颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>滑块类组件滑块填充颜色</b></div>
+        <div style="margin: 14px 0">用于滑块类组件滑块的填充颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #ffffff;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#ffffff</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#ffffff</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #202226;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#202226</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#202226</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>缩略轴滑块填充颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">缩略轴滑块填充颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>尺寸图例滑块填充颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">尺寸图例滑块填充颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="3" colspan="1"><p style="text-align: center">7</p></td>
-      <td rowspan="3" colspan="1">
-        <p><code>sliderTrackColor</code></p>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">7</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>sliderTrackColor</code></div>
       </td>
-      <td rowspan="3" colspan="1">
-        <p><b>滑块类组件已选范围填充颜色</b></p>
-        <p>用于滑块类组件已选范围的填充颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>滑块类组件已选范围填充颜色</b></div>
+        <div style="margin: 14px 0">用于滑块类组件已选范围的填充颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #0040ff;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#0040ff</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#0040ff</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #4284ff;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#4284FF</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#4284FF</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>缩略轴选择区域颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">缩略轴选择区域颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>播放器已播放轨道颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">播放器已播放轨道颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/player-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>尺寸图例选中部分轨道颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">尺寸图例选中部分轨道颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="2" colspan="1"><p style="text-align: center">8</p></td>
-      <td rowspan="2" colspan="1">
-        <p><code>popupBackgroundColor</code></p>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">8</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>popupBackgroundColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
-        <p><b>浮层背景区域颜色</b></p>
-        <p>用于浮层的背景区域颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>浮层背景区域颜色</b></div>
+        <div style="margin: 14px 0">用于浮层的背景区域颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #ffffff;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#ffffff</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#ffffff</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #404349;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#404349</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#404349</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>提示信息背景框颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">提示信息背景框颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>poptip 背景框颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">poptip 背景框颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="17" colspan="1"><p>字体颜色</p></td>
-      <td rowspan="8" colspan="1"><p style="text-align: center">9</p></td>
-      <td rowspan="8" colspan="1">
-        <p><code>primaryFontColor</code></p>
+      <td rowspan="6" colspan="1"><div style="margin: 14px 0">字体颜色</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">9</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>primaryFontColor</code></div>
       </td>
-      <td rowspan="8" colspan="1">
-        <p><b>主要字色</b></p>
-        <p>颜色和背景色差异最大的字色，用于最显要的信息展示。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>主要字色</b></div>
+        <div style="margin: 14px 0">颜色和背景色差异最大的字色，用于最显要的信息展示。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #21252c;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#21252c</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#21252c</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #fdfdfd;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#fdfdfd</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#fdfdfd</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>图表主标题字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">图表主标题字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>指标卡主要字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">指标卡主要字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>poptip 标题字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">poptip 标题字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>poptip 内容字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">poptip 内容字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>提示信息标题字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">提示信息标题字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>Mark-line 标签字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">Mark-line 标签字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>Mark-area 标签字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">Mark-area 标签字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>图例标题字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">图例标题字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="4" colspan="1"><p style="text-align: center">10</p></td>
-      <td rowspan="4" colspan="1">
-        <p><code>secondaryFontColor</code></p>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">10</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>secondaryFontColor</code></div>
       </td>
-      <td rowspan="4" colspan="1">
-        <p><b>次要字色</b></p>
-        <p>颜色和背景色差异较小的字色，用于次要的信息展示。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>次要字色</b></div>
+        <div style="margin: 14px 0">颜色和背景色差异较小的字色，用于次要的信息展示。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #606773;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#606773</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#606773</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #888c93;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#888c93</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#888c93</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>轴标题字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">轴标题字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>图例标签字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">图例标签字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>提示信息数据 key 字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">提示信息数据 key 字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>缩略轴标签字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">缩略轴标签字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="2" colspan="1"><p style="text-align: center">11</p></td>
-      <td rowspan="2" colspan="1">
-        <p><code>tertiaryFontColor</code></p>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">11</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>tertiaryFontColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
-        <p><b>第三字色</b></p>
-        <p>颜色和背景色差异更小的字色，用于更次要的信息展示。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>第三字色</b></div>
+        <div style="margin: 14px 0">颜色和背景色差异更小的字色，用于更次要的信息展示。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #89909d;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#89909d</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#89909d</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #bbbdc3;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#bbbdc3</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#bbbdc3</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>图表副标题字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">图表副标题字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>指标卡次要字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">指标卡次要字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">12</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">12</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>axisLabelFontColor</code></p>
+        <div style="margin: 14px 0"><code>axisLabelFontColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>轴标签字色</b></p>
-        <p>用于轴标签字色，默认与第三字色颜色相同。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>轴标签字色</b></div>
+        <div style="margin: 14px 0">用于轴标签字色，默认与第三字色颜色相同。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #89909d;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#89909d</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#89909d</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #bbbdc3;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#bbbdc3</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#bbbdc3</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>轴标签字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">轴标签字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">13</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">13</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>disableFontColor</code></p>
+        <div style="margin: 14px 0"><code>disableFontColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>禁用字色</b></p>
-        <p>用于禁用状态字色或非激活态字色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>禁用字色</b></div>
+        <div style="margin: 14px 0">用于禁用状态字色或非激活态字色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #bcc1cb;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#bcc1cb</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#bcc1cb</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #55595f;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#55595f</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#55595f</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>非激活态图例标签字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">非激活态图例标签字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">14</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">14</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>axisMarkerFontColor</code></p>
+        <div style="margin: 14px 0"><code>axisMarkerFontColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>轴高亮标记字色</b></p>
-        <p>用于轴标签上的高亮标记字色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>轴高亮标记字色</b></div>
+        <div style="margin: 14px 0">用于轴标签上的高亮标记字色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #ffffff;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#ffffff</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#ffffff</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #202226;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#202226</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#202226</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>十字准星标签字色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">十字准星标签字色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="3" colspan="1"><p>轴样式</p></td>
-      <td rowspan="2" colspan="1"><p style="text-align: center">15</p></td>
-      <td rowspan="2" colspan="1">
-        <p><code>axisGridColor</code></p>
+      <td rowspan="2" colspan="1"><div style="margin: 14px 0">轴样式</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">15</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>axisGridColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
-        <p><b>轴网格线颜色</b></p>
-        <p>用于轴网格线颜色以及同级的颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>轴网格线颜色</b></div>
+        <div style="margin: 14px 0">用于轴网格线颜色以及同级的颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #f1f2f5;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#f1f2f5</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#f1f2f5</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #404349;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#404349</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#404349</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>轴网格线颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">轴网格线颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>十字准星矩形颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">十字准星矩形颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">16</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">16</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>axisDomainColor</code></p>
+        <div style="margin: 14px 0"><code>axisDomainColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>轴线颜色</b></p>
-        <p>用于轴线颜色以及同级的颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>轴线颜色</b></div>
+        <div style="margin: 14px 0">用于轴线颜色以及同级的颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #d9dde4;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#d9dde4</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#d9dde4</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #4b4f54;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#4b4f54</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#4b4f54</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>轴线颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">轴线颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="3" colspan="1"><p>缩略轴</p></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">17</p></td>
+      <td rowspan="2" colspan="1"><div style="margin: 14px 0">缩略轴</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">17</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>dataZoomHandlerStrokeColor</code></p>
+        <div style="margin: 14px 0"><code>dataZoomHandlerStrokeColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>缩略轴滑块描边颜色</b></p>
-        <p>用于缩略轴滑块描边颜色以及同级的颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>缩略轴滑块描边颜色</b></div>
+        <div style="margin: 14px 0">用于缩略轴滑块描边颜色以及同级的颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #aeb5be;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#aeb5be</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#aeb5be</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #888c93;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#888c93</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#888c93</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>缩略轴滑块描边颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">缩略轴滑块描边颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="2" colspan="1"><p style="text-align: center">18</p></td>
-      <td rowspan="2" colspan="1">
-        <p><code>dataZoomChartColor</code></p>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">18</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>dataZoomChartColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
-        <p><b>缩略轴图表区域颜色</b></p>
-        <p>用于缩略轴预览图表的颜色以及同级的颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>缩略轴图表区域颜色</b></div>
+        <div style="margin: 14px 0">用于缩略轴预览图表的颜色以及同级的颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #c9ced8;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#c9ced8</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#c9ced8</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #55595f;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#55595F</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#55595F</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>缩略轴图表区域颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">缩略轴图表区域颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>尺寸图例尺寸标识颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">尺寸图例尺寸标识颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="2" colspan="1"><p>播放器</p></td>
-      <td rowspan="2" colspan="1"><p style="text-align: center">19</p></td>
-      <td rowspan="2" colspan="1">
-        <p><code>playerControllerColor</code></p>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">播放器</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">19</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>playerControllerColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
-        <p><b>播放器控制器填充颜色</b></p>
-        <p>用于播放器控制器的填充颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>播放器控制器填充颜色</b></div>
+        <div style="margin: 14px 0">用于播放器控制器的填充颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #0040ff;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#0040ff</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#0040ff</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #0040ff;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#0040ff</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#0040ff</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>播放器按钮颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">播放器按钮颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/player-dark.png" alt="dark" />
-        </p>
+        </div>
+        <div style="margin: 14px 0">播放器滑块颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
+          <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
+          <img style="max-width: 50%" src="/vchart/guide/theme/player-dark.png" alt="dark" />
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">滚动条</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">20</div></td>
       <td rowspan="1" colspan="1">
-        <p>播放器滑块颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
-          <img style="max-width: 50%" src="/vchart/guide/theme/player-light.png" alt="light" />
-          <img style="max-width: 50%" src="/vchart/guide/theme/player-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1"><p>滚动条</p></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">20</p></td>
-      <td rowspan="1" colspan="1">
-        <p><code>scrollBarSliderColor</code></p>
+        <div style="margin: 14px 0"><code>scrollBarSliderColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>滚动条滑块颜色</b></p>
-        <p>用于滚动条滑块的填充颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>滚动条滑块颜色</b></div>
+        <div style="margin: 14px 0">用于滚动条滑块的填充颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: rgba(0, 0, 0, 0.3);
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">rgba(0,0,0,0.3)</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">rgba(0,0,0,0.3)</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: rgba(255, 255, 255, 0.3);
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">rgba(255,255,255,0.3)</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">rgba(255,255,255,0.3)</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>滚动条滑块颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">滚动条滑块颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/scroll-bar-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/scroll-bar-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="6" colspan="1"><p>标注</p></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">21</p></td>
+      <td rowspan="3" colspan="1"><div style="margin: 14px 0">标注</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">21</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>axisMarkerBackgroundColor</code></p>
+        <div style="margin: 14px 0"><code>axisMarkerBackgroundColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>轴高亮标记背景色</b></p>
-        <p>用于轴标签上的高亮标记背景色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>轴高亮标记背景色</b></div>
+        <div style="margin: 14px 0">用于轴标签上的高亮标记背景色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #21252c;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#21252c</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#21252c</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #fdfdfd;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#fdfdfd</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#fdfdfd</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>十字准星标签背景色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">十字准星标签背景色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="2" colspan="1"><p style="text-align: center">22</p></td>
-      <td rowspan="2" colspan="1">
-        <p><code>markLabelBackgroundColor</code></p>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">22</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>markLabelBackgroundColor</code></div>
       </td>
-      <td rowspan="2" colspan="1">
-        <p><b>标注标签背景颜色</b></p>
-        <p>用于普通标注标签的背景颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>标注标签背景颜色</b></div>
+        <div style="margin: 14px 0">用于普通标注标签的背景颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #f1f2f5;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#f1f2f5</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#f1f2f5</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #404349;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#404349</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#404349</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>Mark-line 标签背景色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">Mark-line 标签背景色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>Mark-area 标签背景色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">Mark-area 标签背景色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="3" colspan="1"><p style="text-align: center">23</p></td>
-      <td rowspan="3" colspan="1">
-        <p><code>markLineStrokeColor</code></p>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">23</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><code>markLineStrokeColor</code></div>
       </td>
-      <td rowspan="3" colspan="1">
-        <p><b>标注线颜色</b></p>
-        <p>用于普通标注线的颜色。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0"><b>标注线颜色</b></div>
+        <div style="margin: 14px 0">用于普通标注线的颜色。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #606773;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#606773</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#606773</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #888c93;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#888c93</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#888c93</div>
+          </div>
+        </div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>Mark-line 线条颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">Mark-line 线条颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>十字准星线形颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">十字准星线形颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>Mark-point 线条颜色</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">Mark-point 线条颜色</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-point-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-point-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="4" colspan="1"><p>功能色</p></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">24</p></td>
+      <td rowspan="4" colspan="1"><div style="margin: 14px 0">功能色</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">24</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>dangerColor</code></p>
+        <div style="margin: 14px 0"><code>dangerColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>危险色</b></p>
-        <p>危险、错误、失败、盈利、上升、女性。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>危险色</b></div>
+        <div style="margin: 14px 0">危险、错误、失败、盈利、上升、女性。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #e33232;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#e33232</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#e33232</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #eb4b4b;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#eb4b4b</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#eb4b4b</div>
+          </div>
+        </div>
       </td>
-      <td rowspan="1" colspan="1"><p>无内置应用场景</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">无内置应用场景</div></td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">25</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">25</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>warningColor</code></p>
+        <div style="margin: 14px 0"><code>warningColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>警告色</b></p>
-        <p>预警、警示。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>警告色</b></div>
+        <div style="margin: 14px 0">预警、警示。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #ffc528;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#ffc528</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#ffc528</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #f0bd30;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#f0bd30</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#f0bd30</div>
+          </div>
+        </div>
       </td>
-      <td rowspan="1" colspan="1"><p>无内置应用场景</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">无内置应用场景</div></td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">26</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">26</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>successColor</code></p>
+        <div style="margin: 14px 0"><code>successColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>成功色</b></p>
-        <p>安全、正确、成功、亏损、下降。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>成功色</b></div>
+        <div style="margin: 14px 0">安全、正确、成功、亏损、下降。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #07a35a;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#07a35a</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#07a35a</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #14b267;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#14b267</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#14b267</div>
+          </div>
+        </div>
       </td>
-      <td rowspan="1" colspan="1"><p>无内置应用场景</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">无内置应用场景</div></td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1"><p style="text-align: center">27</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">27</div></td>
       <td rowspan="1" colspan="1">
-        <p><code>infoColor</code></p>
+        <div style="margin: 14px 0"><code>infoColor</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><b>信息色</b></p>
-        <p>正常、寒冷、男性。</p>
-        <p style="display: flex">
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">light</span>
-            <span
+        <div style="margin: 14px 0"><b>信息色</b></div>
+        <div style="margin: 14px 0">正常、寒冷、男性。</div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">light</div>
+            <div
               style="
-                display: block;
                 background: #3073f2;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#3073f2</span>
-          </span>
-          <span style="display: block; width: 50%; text-align: center; font-size: 12px">
-            <span style="display: block; margin: 5px">dark</span>
-            <span
+            ></div>
+            <div style="margin: 5px">#3073f2</div>
+          </div>
+          <div style="width: 50%; text-align: center; font-size: 12px">
+            <div style="margin: 5px">dark</div>
+            <div
               style="
-                display: block;
                 background: #4284ff;
                 border-radius: 5px;
                 height: 30px;
                 margin: 5px;
                 box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
               "
-            ></span>
-            <span style="display: block; margin: 5px">#4284ff</span>
-          </span>
-        </p>
+            ></div>
+            <div style="margin: 5px">#4284ff</div>
+          </div>
+        </div>
       </td>
-      <td rowspan="1" colspan="1"><p>无内置应用场景</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">无内置应用场景</div></td>
     </tr>
   </tbody>
 </table>
@@ -1721,281 +1435,164 @@ VChart 主题模块支持自定义语义色板，同时可以定义新的 token 
 <table>
   <tbody>
     <tr style="background: none">
-      <td rowspan="1" colspan="1"><p>字阶</p></td>
-      <td rowspan="1" colspan="1"><p>字重</p></td>
-      <td rowspan="1" colspan="1"><p>字号</p></td>
-      <td rowspan="1" colspan="1"><p>行高（仅作指导意义）</p></td>
-      <td rowspan="1" colspan="1"><p>字间距（仅作指导意义）</p></td>
-      <td rowspan="1" colspan="1"><p>应用范围（截图来自实际图表）</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">字阶</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">字重</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">字号</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">行高（仅作指导意义）</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">字间距（仅作指导意义）</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">应用范围（截图来自实际图表）</div></td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>1</p>
+        <div style="margin: 14px 0">1</div>
       </td>
-      <td rowspan="1" colspan="1"><p>Medium</p></td>
-      <td rowspan="1" colspan="1"><p>32px</p></td>
-      <td rowspan="1" colspan="1"><p>1.5</p></td>
-      <td rowspan="1" colspan="1"><p>-0.5</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">Medium</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">32px</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">1.5</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">-0.5</div></td>
       <td rowspan="1" colspan="1">
-        <p>指标卡标题</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">指标卡标题</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>2</p>
+        <div style="margin: 14px 0">2</div>
       </td>
-      <td rowspan="1" colspan="1"><p>Medium</p></td>
-      <td rowspan="1" colspan="1"><p>20px</p></td>
-      <td rowspan="1" colspan="1"><p>1.4</p></td>
-      <td rowspan="1" colspan="1"><p>-0.4</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">Medium</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">20px</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">1.4</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">-0.4</div></td>
       <td rowspan="1" colspan="1">
-        <p>指标卡内容</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">指标卡内容</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/gauge-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>3</p>
+        <div style="margin: 14px 0">3</div>
       </td>
-      <td rowspan="1" colspan="1"><p>Medium</p></td>
-      <td rowspan="1" colspan="1"><p>16px</p></td>
-      <td rowspan="1" colspan="1"><p>1.5</p></td>
-      <td rowspan="1" colspan="1"><p>-0.2</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">Medium</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">16px</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">1.5</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">-0.2</div></td>
       <td rowspan="1" colspan="1">
-        <p>图表标题</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">图表标题</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="5" colspan="1">
-        <p>4（默认）</p>
-      </td>
-      <td rowspan="5" colspan="1"><p>Medium</p></td>
-      <td rowspan="5" colspan="1"><p>14px</p></td>
-      <td rowspan="5" colspan="1"><p>1.5</p></td>
-      <td rowspan="5" colspan="1"><p>0</p></td>
       <td rowspan="1" colspan="1">
-        <p>数据标签</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">4（默认）</div>
+      </td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">Medium</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">14px</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">1.5</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">0</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0">数据标签</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/bar-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/bar-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>Mark-line 标签</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">Mark-line 标签</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-line-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>Mark-area 标签</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">Mark-area 标签</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/mark-area-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>提示信息</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">提示信息</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>图表副标题</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">图表副标题</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
-      <td rowspan="10" colspan="1">
-        <p>5</p>
-      </td>
-      <td rowspan="10" colspan="1"><p>Regular</p></td>
-      <td rowspan="10" colspan="1"><p>12px</p></td>
-      <td rowspan="10" colspan="1"><p>1.3</p></td>
-      <td rowspan="10" colspan="1"><p>0</p></td>
       <td rowspan="1" colspan="1">
-        <p>poptip</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0">5</div>
+      </td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">Regular</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">12px</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">1.3</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">0</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0">poptip</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>图例标题</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">图例标题</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>图例标签</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">图例标签</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/pie-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>颜色图例标签</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">颜色图例标签</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/color-legend-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>尺寸图例标签</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">尺寸图例标签</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-light.png" alt="light" />
           <img style="max-width: 100px" src="/vchart/guide/theme/size-legend-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr class="row--1000172" data-index="14">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>缩略轴标签</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">缩略轴标签</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>十字准星标签</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">十字准星标签</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/tooltip-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>轴标题</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">轴标题</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>轴标签</p>
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        </div>
+        <div style="margin: 14px 0">轴标签</div>
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
-      </td>
-    </tr>
-    <tr style="background: none; vertical-align: top">
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1" style="display: none"></td>
-      <td rowspan="1" colspan="1">
-        <p>一些其他系列的标签，如：时序图、旭日图、矩形树图、嵌套圆图系列等</p>
+        </div>
+        <div style="margin: 14px 0">一些其他系列的标签，如：时序图、旭日图、矩形树图、嵌套圆图系列等</div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>6</p>
+        <div style="margin: 14px 0">6</div>
       </td>
-      <td rowspan="1" colspan="1"><p>Regular</p></td>
-      <td rowspan="1" colspan="1"><p>10px</p></td>
-      <td rowspan="1" colspan="1"><p>1.2</p></td>
-      <td rowspan="1" colspan="1"><p>0</p></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">Regular</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">10px</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">1.2</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">0</div></td>
       <td rowspan="1" colspan="1">
-        <p>地图标签</p>
+        <div style="margin: 14px 0">地图标签</div>
       </td>
     </tr>
   </tbody>
@@ -2019,119 +1616,119 @@ VChart 主题模块支持自定义语义色板，同时可以定义新的 token 
   <tbody>
     <tr style="background: none">
       <td rowspan="1" colspan="1">
-        <p>图表元素（组件）</p>
+        <div style="margin: 14px 0">图表元素（组件）</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>位置和对齐</p>
+        <div style="margin: 14px 0">位置和对齐</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>边距（padding）</p>
+        <div style="margin: 14px 0">边距（padding）</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>示例</p>
+        <div style="margin: 14px 0">示例</div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>图表整体</p>
+        <div style="margin: 14px 0">图表整体</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>无</p>
+        <div style="margin: 14px 0">无</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><code>20 20 20 20</code></p>
+        <div style="margin: 14px 0"><code>20 20 20 20</code></div>
       </td>
       <td rowspan="3" colspan="1">
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/line-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>标题</p>
+        <div style="margin: 14px 0">标题</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>top，左对齐</p>
+        <div style="margin: 14px 0">top，左对齐</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><code>4 0 20 0</code></p>
+        <div style="margin: 14px 0"><code>4 0 20 0</code></div>
       </td>
       <td rowspan="1" colspan="1" style="display: none"></td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>离散图例</p>
+        <div style="margin: 14px 0">离散图例</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>bottom，居中对齐</p>
+        <div style="margin: 14px 0">bottom，居中对齐</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><code>16 24 16 24</code></p>
+        <div style="margin: 14px 0"><code>16 24 16 24</code></div>
       </td>
       <td rowspan="1" colspan="1" style="display: none"></td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>缩略轴</p>
+        <div style="margin: 14px 0">缩略轴</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>跟随轴</p>
+        <div style="margin: 14px 0">跟随轴</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><code>12 0 12 0</code></p>
+        <div style="margin: 14px 0"><code>12 0 12 0</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/column-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>颜色图例</p>
+        <div style="margin: 14px 0">颜色图例</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>right，竖直居中对齐</p>
+        <div style="margin: 14px 0">right，竖直居中对齐</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><code>16 24 16 24</code></p>
+        <div style="margin: 14px 0"><code>16 24 16 24</code></div>
       </td>
       <td rowspan="1" colspan="1">
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/heatmap-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>尺寸图例</p>
+        <div style="margin: 14px 0">尺寸图例</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>right，竖直居中对齐</p>
+        <div style="margin: 14px 0">right，竖直居中对齐</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><code>16 24 16 24</code></p>
+        <div style="margin: 14px 0"><code>16 24 16 24</code></div>
       </td>
       <td rowspan="2" colspan="1">
-        <p style="display: flex; justify-content: center; max-width: 400px">
+        <div style="margin: 14px 0; display: flex; justify-content: center; max-width: 400px">
           <img style="max-width: 50%" src="/vchart/guide/theme/scatter-chart-light.png" alt="light" />
           <img style="max-width: 50%" src="/vchart/guide/theme/scatter-chart-dark.png" alt="dark" />
-        </p>
+        </div>
       </td>
     </tr>
     <tr style="background: none; vertical-align: top">
       <td rowspan="1" colspan="1">
-        <p>播放器</p>
+        <div style="margin: 14px 0">播放器</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p>bottom，左对齐</p>
+        <div style="margin: 14px 0">bottom，左对齐</div>
       </td>
       <td rowspan="1" colspan="1">
-        <p><code>20 0 20 0</code></p>
+        <div style="margin: 14px 0"><code>20 0 20 0</code></div>
       </td>
       <td rowspan="1" colspan="1" style="display: none"></td>
     </tr>

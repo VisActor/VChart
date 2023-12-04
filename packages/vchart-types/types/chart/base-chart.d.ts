@@ -109,7 +109,7 @@ export declare class BaseChart extends CompilableBase implements IChart {
     updateGlobalScaleDomain(): void;
     updateGlobalScale(result: IUpdateSpecResult): void;
     updateGlobalScaleTheme(): void;
-    updateSpec(spec: any, morphConfig?: IMorphConfig): {
+    updateSpec(spec: any): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;
@@ -125,10 +125,7 @@ export declare class BaseChart extends CompilableBase implements IChart {
     protected isValidSeries(seriesType: string): boolean;
     protected _getDefaultSeriesSpec(spec: any): any;
     private _updateLayoutRect;
-    setCurrentTheme(reInit?: boolean): void;
-    protected setRegionTheme(reInit?: boolean): void;
-    protected setComponentTheme(reInit?: boolean): void;
-    protected setSeriesTheme(reInit?: boolean): void;
+    setCurrentTheme(): void;
     clear(): void;
     compile(): void;
     afterCompile(): void;
