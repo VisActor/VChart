@@ -3,6 +3,7 @@ import { SeriesTypeEnum } from '../interface/type';
 import type { Datum } from '../../typings';
 import { isContinuous } from '@visactor/vscale';
 import type { IPolarAxisHelper } from '../../component/axis';
+import type { ICartesianSeries, ISeries } from '..';
 
 export function isPolarAxisSeries(type: string) {
   return ([SeriesTypeEnum.rose, SeriesTypeEnum.radar, SeriesTypeEnum.circularProgress] as string[]).includes(type);
@@ -21,4 +22,21 @@ export function sortDataInAxisHelper(axisHelper: CartesianHelper | IPolarAxisHel
       return (scale._index.get(datumA[field]) - scale._index.get(datumB[field])) * (isRevert ? -1 : 1);
     });
   }
+}
+
+export function getGroupAnimationParams(series: ICartesianSeries) {
+  // 分组数据的 dataIndex 应该与轴顺序一致，而非 data[DEFAULT_DATA_INDEX] 顺序
+  const dataIndex = (datum: any) => {
+    const indexField = series.direction === 'horizontal' ? series.fieldY[0] : series.fieldX[0];
+    const indexValue = datum?.[indexField];
+    const scale = series.direction === 'horizontal' ? series.scaleY : series.scaleX;
+    const index = (scale?.domain?.() ?? []).indexOf(indexValue);
+    // 不应该出现xIndex === -1 || undefined的情况
+    return index || 0;
+  };
+  const dataCount = () => {
+    const scale = series.direction === 'horizontal' ? series.scaleY : series.scaleX;
+    return (scale?.domain?.() ?? []).length ?? 0;
+  };
+  return { dataIndex, dataCount };
 }

@@ -34,6 +34,7 @@ import type { ILabelMark } from '../../mark/label';
 import { LabelRule } from '../../component/label/util';
 import { Factory } from '../../core/factory';
 import { RectMark } from '../../mark';
+import { getGroupAnimationParams } from '../util/utils';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -136,7 +137,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   initAnimation() {
     // 这个数据在这个时候拿不到，因为组件还没创建结束，统计和筛选也还没添加。
     // 而且这个值理论上是动态的，建议 监听 viewDataStatisticsUpdate 消息动态更新
-    const animationParams: IBarAnimationParams = {
+    const waterfallAnimationParams: IBarAnimationParams = {
       yField: this.direction === 'horizontal' ? this._fieldY[0] : this.getStackValueField(),
       xField: this.direction === 'horizontal' ? this.getStackValueField() : this._fieldX[0],
       direction: this.direction,
@@ -146,26 +147,13 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
           : this._yAxisHelper?.getScale(0).scale(0)
     };
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<WaterfallAppearPreset>)?.preset;
-
-    // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
-    const dataIndex = (datum: any) => {
-      const indexField = this.direction === 'horizontal' ? this._fieldY[0] : this._fieldX[0];
-      const indexValue = datum?.[indexField];
-      const scale = this.direction === 'horizontal' ? this._scaleY : this._scaleX;
-      const index = (scale?.domain?.() ?? []).indexOf(indexValue);
-      // 不应该出现xIndex === -1 || undefined的情况
-      return index || 0;
-    };
-    const dataCount = () => {
-      const scale = this.direction === 'horizontal' ? this._scaleY : this._scaleX;
-      return (scale?.domain?.() ?? []).length ?? 0;
-    };
+    const animationParams = getGroupAnimationParams(this);
 
     this._barMark.setAnimationConfig(
       animationConfig(
-        Factory.getAnimationInKey('waterfall')?.(animationParams, appearPreset),
+        Factory.getAnimationInKey('waterfall')?.(waterfallAnimationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.bar, this._spec, this._markAttributeContext),
-        { dataIndex, dataCount }
+        animationParams
       )
     );
 
