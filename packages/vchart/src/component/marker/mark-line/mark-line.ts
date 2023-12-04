@@ -126,7 +126,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       // 这里不同的场景返回的值不同，如果同时声明了 x x1 y y1，会返回两个数值的数组（如 [[{}], [{}]]），所以需要分别处理下
       points = (xyPoints.length === 1 ? xyPoints[0] : xyPoints.map(point => point[0])) as IPoint[];
     } else if (isCoordinateLayout) {
-      points = coordinateLayout(data, relativeSeries, autoRange);
+      points = coordinateLayout(data, relativeSeries, autoRange, spec.coordinatesOffset);
     } else if (isPositionLayout) {
       points = positionLayout(spec.positions, relativeSeries, spec.regionRelative);
     }

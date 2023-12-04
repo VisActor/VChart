@@ -1,5 +1,5 @@
 import { DataView } from '@visactor/vdataset';
-import type { IMarkPoint, IMarkPointSpec, IMarkPointTheme } from './interface';
+import type { IMarkPoint, IMarkPointCoordinateSpec, IMarkPointSpec, IMarkPointTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { markerAggregation } from '../../../data/transforms/aggregation';
@@ -89,7 +89,12 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
     if (isXYLayout) {
       point = xyLayout(data, relativeSeries, relativeSeries, relativeSeries, autoRange)[0][0];
     } else if (isCoordinateLayout) {
-      point = coordinateLayout(data, relativeSeries, autoRange)[0];
+      point = coordinateLayout(
+        data,
+        relativeSeries,
+        autoRange,
+        (spec as IMarkPointCoordinateSpec).coordinatesOffset
+      )[0];
     } else if (isPositionLayout) {
       point = positionLayout([spec.position], relativeSeries, spec.regionRelative)[0];
     }
