@@ -6,6 +6,21 @@ import type { Datum } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
 import type { IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
 
+export type OffsetPoint = {
+  /**
+   * x 方向的偏移
+   * 1. number 类型表示像素值，如 12
+   * 2. string 类型表示百分比，如 '10%' 表示相对于所在 region 宽度的占比
+   */
+  x?: number | string;
+  /**
+   * y 方向的偏移
+   * 1. number 类型表示像素值，如 12
+   * 2. string 类型表示百分比，如 '10%' 表示相对于所在 region 高度的占比
+   */
+  y?: number | string;
+};
+
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = StringOrNumber | IAggrType;
 export type IDataPosCallback = (
