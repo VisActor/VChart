@@ -222,7 +222,6 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         interactive: true,
         y: isPercent ? 0 : 'min',
         y1: isPercent ? 0.5 : 'median',
-        zIndex: 500,
         area: {
           style: {
             fill: '#005DFF',
@@ -254,7 +253,6 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
       interactive: true,
       y: seriesData[0][series.fieldY[0]],
       y1: seriesData[Math.floor(seriesData.length / 2)][series.fieldY[0]],
-      zIndex: 500,
       area: {
         style: {
           fill: '#005DFF',
@@ -285,7 +283,6 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         interactive: true,
         x: isPercent ? 0 : 'min',
         x1: isPercent ? 0.5 : 'median',
-        zIndex: 500,
         area: {
           style: {
             fill: '#005DFF',
@@ -317,7 +314,6 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
       interactive: true,
       x: seriesData[0][series.fieldX[0]],
       x1: seriesData[Math.floor(seriesData.length / 2)][series.fieldX[0]],
-      zIndex: 500,
       area: {
         style: {
           fill: '#005DFF',

@@ -153,17 +153,20 @@ export class EditorChart extends BaseElement {
 
   protected _updateVChartSpec() {
     if (!this._vchart) {
-      console.log('onSpecReady init chart');
-      this._initVChart(this._specProcess.getVChartSpec());
+      const chartSpec = this._specProcess.getVChartSpec();
+      console.log('onSpecReady init chart', chartSpec);
+      this._initVChart(chartSpec);
       // eslint-disable-next-line promise/catch-or-return
       this._vchart.renderSync();
       this._afterRender();
     } else {
+      const chartUpdateSpec = this._transformVchartSpec(this._specProcess.getVChartSpec());
+      console.log('_updateVChartSpec', chartUpdateSpec);
       this._isRendered = false;
       // HACK: 屏蔽报错临时修改
       // eslint-disable-next-line promise/catch-or-return
       //@ts-ignore
-      this._vchart.updateSpecSync(this._transformVchartSpec(this._specProcess.getVChartSpec()), false, false);
+      this._vchart.updateSpecSync(chartUpdateSpec, false, false);
       this._layout.resetAxisLayoutAfterTempChange();
       this._afterRender();
     }
@@ -263,12 +266,14 @@ export class EditorChart extends BaseElement {
   private _onAddMarkLine = (el: IEditorElement, attr: IUpdateAttributeParam) => {
     if (attr.markLine.enable) {
       const defaultMarkLineSpec = getDefaultMarkerConfigByType(this.vchart, attr.markLine.type);
+      defaultMarkLineSpec.zIndex = 510;
       attr.markLine.spec = defaultMarkLineSpec;
     }
   };
   private _onAddMarkArea = (el: IEditorElement, attr: IUpdateAttributeParam) => {
     if (attr.markArea.enable) {
       const defaultMarkAreaSpec = getDefaultMarkerConfigByType(this.vchart, attr.markArea.type);
+      defaultMarkAreaSpec.zIndex = 500;
 
       attr.markArea.spec = defaultMarkAreaSpec;
     }
