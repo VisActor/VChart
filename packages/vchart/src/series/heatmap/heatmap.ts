@@ -19,6 +19,7 @@ import { heatmapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { registerCellMark } from '@visactor/vgrammar-core';
+import { getGroupAnimationParams } from '../util/utils';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -148,25 +149,13 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
 
   initAnimation() {
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<HeatmapAppearPreset>)?.preset;
-    // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
-    const dataIndex = (datum: any) => {
-      const indexField = this.direction === 'horizontal' ? this._fieldY[0] : this._fieldX[0];
-      const indexValue = datum?.[indexField];
-      const scale = this.direction === 'horizontal' ? this._scaleY : this._scaleX;
-      const index = (scale?.domain?.() ?? []).indexOf(indexValue);
-      // 不应该出现xIndex === -1 || undefined的情况
-      return index || 0;
-    };
-    const dataCount = () => {
-      const scale = this.direction === 'horizontal' ? this._scaleY : this._scaleX;
-      return (scale?.domain?.() ?? []).length ?? 0;
-    };
+    const animationParams = getGroupAnimationParams(this);
 
     this._cellMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('heatmap')?.(appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.cell, this._spec, this._markAttributeContext),
-        { dataIndex, dataCount }
+        animationParams
       )
     );
   }
