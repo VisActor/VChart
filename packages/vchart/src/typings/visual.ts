@@ -9,8 +9,7 @@ import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark'
 import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
-import type { IRepeatType, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
+import type { IRepeatType, TextAlignType, TextBaselineType, IRichTextCharacter } from '@visactor/vrender-core';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
@@ -150,6 +149,13 @@ export interface ICommonSpec {
    */
   pickMode?: 'accurate' | 'imprecise' | 'custom';
   boundsMode?: 'accurate' | 'imprecise';
+
+  /**
+   * 用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽
+   * @default 0
+   * @since 1.7.3
+   */
+  pickStrokeBuffer?: number;
 
   // 以下是纹理相关的属性
   /**
