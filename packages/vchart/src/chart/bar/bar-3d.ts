@@ -11,7 +11,6 @@ export class Bar3dChart extends BarChart {
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.bar3d;
   readonly seriesType: string = SeriesTypeEnum.bar3d;
-  protected _canStack: boolean = true;
 
   protected _getDefaultSeriesSpec(spec: any): any {
     return {
