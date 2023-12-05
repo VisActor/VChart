@@ -66,8 +66,8 @@
   "dependencies": {
     "@visactor/chart-advisor": "0.1.10",
     "@visactor/vrender": "~0.16.19",
-    "@visactor/vdataset": "~0.16.18",
-    "@visactor/vutils": "~0.16.18",
+    "@visactor/vdataset": "~0.17.1",
+    "@visactor/vutils": "~0.17.1",
     "axios": "^1.4.0",
     "exceljs": "^4.3.0",
     "lodash": "4.17.21",

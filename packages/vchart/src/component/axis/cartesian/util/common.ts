@@ -48,29 +48,3 @@ export function transformInverse(spec: ICartesianAxisCommonSpec, isHorizontal: b
   }
   return inverse;
 }
-
-// FIXME: 等 vscale 暴露这两个方法后，删掉这两个方法
-
-/** 计算 scale 的实际 range 长度 */
-export function scaleWholeRangeSize(count: number, bandwidth: number, paddingInner: number, paddingOuter: number) {
-  if (paddingInner === 1) {
-    paddingInner = 0; // 保护
-    // FIXME: vscale 同样需要加保护，目前这里加了保护以后，在 paddingInner为 1 的情况还是会崩溃
-  }
-  const space = bandSpace(count, paddingInner, paddingOuter);
-  const step = bandwidth / (1 - paddingInner);
-  const wholeSize = space * step;
-  return wholeSize;
-}
-
-export function bandSpace(count: number, paddingInner: number, paddingOuter: number): number {
-  let space;
-  // count 等于 1 时需要特殊处理，否则 step 会超出 range 范围
-  // 计算公式: step = paddingOuter * step * 2 + paddingInner * step + bandwidth
-  if (count === 1) {
-    space = count + paddingOuter * 2;
-  } else {
-    space = count - paddingInner + paddingOuter * 2;
-  }
-  return count ? (space > 0 ? space : 1) : 0;
-}
