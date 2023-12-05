@@ -1,8 +1,8 @@
 import { isMobile } from 'react-device-detect';
-import type { IAreaSeriesSpec, ICommonChartSpec, ILineChartSpec, ITheme } from '../../../../src/index';
-import { ThemeManager, default as VChart } from '../../../../src/index';
-import { DataSet, DataView, csvParser } from '@visactor/vdataset';
-import { scaleWholeRangeSize } from '../../../../src/component/axis/cartesian/util';
+import type { ILineChartSpec } from '../../../../src/index';
+// eslint-disable-next-line no-duplicate-imports
+import { default as VChart } from '../../../../src/index';
+import { scaleWholeRangeSize } from '@visactor/vscale';
 
 const run = async () => {
   const size = {
