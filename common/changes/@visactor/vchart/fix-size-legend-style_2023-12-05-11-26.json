@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support text omission position configuration `suffixPosition`",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
