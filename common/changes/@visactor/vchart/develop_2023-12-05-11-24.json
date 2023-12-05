@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: marker supports `coordinatesOffset` for points adjusting",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
