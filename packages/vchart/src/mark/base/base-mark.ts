@@ -219,7 +219,7 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
   }
 
   getAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType = 'normal', opt?: IAttributeOpt) {
-    return this._computeAttribute(key, datum, state, opt);
+    return this._computeAttribute(key, state)(datum, opt);
   }
 
   setAttribute<U extends keyof T>(
@@ -304,55 +304,72 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     return style as StyleConvert<T[U]>;
   }
 
-  protected _computeAttribute<U extends keyof T>(key: U, datum: Datum, state: StateValueType, opt: IAttributeOpt) {
+  protected _computeAttribute<U extends keyof T>(key: U, state: StateValueType) {
     let stateStyle = this.stateStyle[state]?.[key];
     if (!stateStyle) {
       stateStyle = this.stateStyle.normal[key];
     }
-    let baseValue = this._computeStateAttribute(stateStyle, key, datum, state, opt);
+    const baseValueFunctor = this._computeStateAttribute(stateStyle, key, state);
+    const hasPostProcess = isFunction(stateStyle?.postProcess);
+    const hasExCompute = key in this._computeExChannel;
 
-    if (isFunction(stateStyle?.postProcess)) {
-      baseValue = stateStyle.postProcess(baseValue, datum, this._attributeContext, opt, this.getDataView());
+    if (hasPostProcess && hasExCompute) {
+      const exCompute = this._computeExChannel[key];
+      return (datum: Datum, opt: IAttributeOpt) => {
+        let baseValue = baseValueFunctor(datum, opt);
+
+        baseValue = stateStyle.postProcess(baseValue, datum, this._attributeContext, opt, this.getDataView());
+
+        return exCompute(key, datum, state, opt, baseValue);
+      };
+    } else if (hasPostProcess) {
+      return (datum: Datum, opt: IAttributeOpt) => {
+        return stateStyle.postProcess(
+          baseValueFunctor(datum, opt),
+          datum,
+          this._attributeContext,
+          opt,
+          this.getDataView()
+        );
+      };
+    } else if (hasExCompute) {
+      const exCompute = this._computeExChannel[key];
+      return (datum: Datum, opt: IAttributeOpt) => {
+        return exCompute(key, datum, state, opt, baseValueFunctor(datum, opt));
+      };
     }
-    // add effect to base
-    if (key in this._computeExChannel) {
-      return this._computeExChannel[key](key, datum, state, opt, baseValue);
-    }
-    return baseValue;
+    return baseValueFunctor;
   }
 
-  protected _computeStateAttribute<U extends keyof T>(
-    stateStyle: any,
-    key: U,
-    datum: Datum,
-    state: StateValueType,
-    opt: IAttributeOpt
-  ) {
+  protected _computeStateAttribute<U extends keyof T>(stateStyle: any, key: U, state: StateValueType) {
     if (!stateStyle) {
-      return undefined;
+      return (datum: Datum, opt: IAttributeOpt) => undefined as any;
     }
     if (stateStyle.referer) {
-      return stateStyle.referer.getAttribute(key, datum, state, opt);
+      return stateStyle.referer._computeAttribute(key, state);
     }
+
     if (typeof stateStyle.style === 'function') {
-      return stateStyle.style(datum, this._attributeContext, opt, this.getDataView());
+      return (datum: Datum, opt: IAttributeOpt) =>
+        stateStyle.style(datum, this._attributeContext, opt, this.getDataView());
     }
 
     if (GradientType.includes(stateStyle.style.gradient)) {
       // 渐变色处理，支持各个属性回调
-      return this._computeGradientAttr(stateStyle.style, datum, opt);
+      return this._computeGradientAttr(stateStyle.style);
     }
 
     if (['outerBorder', 'innerBorder'].includes(key as string)) {
       // 内外描边处理，支持各个属性回调
-      return this._computeBorderAttr(stateStyle.style, datum, opt);
+      return this._computeBorderAttr(stateStyle.style);
     }
 
     if (isValidScaleType(stateStyle.style.scale?.type)) {
-      return stateStyle.style.scale.scale(datum[stateStyle.style.field]);
+      return (datum: Datum, opt: IAttributeOpt) => stateStyle.style.scale.scale(datum[stateStyle.style.field]);
     }
-
-    return stateStyle.style;
+    return (datum: Datum, opt: IAttributeOpt) => {
+      return stateStyle.style;
+    };
   }
 
   private _initStyle(): void {
@@ -394,9 +411,9 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
   }
 
-  private _computeGradientAttr(gradientStyle: any, data: Datum, opt: IAttributeOpt) {
+  private _computeGradientAttr(gradientStyle: any) {
     const { gradient, scale, field, ...rest } = gradientStyle;
-    const markData = this.getDataView();
+
     let colorScale = scale;
     let colorField = field;
     if ((!scale || !field) && this.model.modelType === 'series') {
@@ -418,81 +435,86 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
       ),
       (this.model as ISeries).getDefaultColorDomain()
     );
-    const computeStyle: any = {};
     // 默认配置处理
     const mergedStyle = {
       ...DEFAULT_GRADIENT_CONFIG[gradient],
       ...rest
     };
-    Object.keys(mergedStyle).forEach(key => {
-      const value = mergedStyle[key];
-      if (key === 'stops') {
-        computeStyle.stops = value.map((stop: GradientStop) => {
-          const { opacity, color, offset } = stop;
-          let computeColor = color ?? colorScale?.scale(data[colorField]);
-          if (isFunction(color)) {
-            computeColor = color(data, this._attributeContext, opt, markData);
-          }
+    return (data: Datum, opt: IAttributeOpt) => {
+      const computeStyle: any = {};
+      const markData = this.getDataView();
+      Object.keys(mergedStyle).forEach(key => {
+        const value = mergedStyle[key];
+        if (key === 'stops') {
+          computeStyle.stops = value.map((stop: GradientStop) => {
+            const { opacity, color, offset } = stop;
+            let computeColor = color ?? colorScale?.scale(data[colorField]);
+            if (isFunction(color)) {
+              computeColor = color(data, this._attributeContext, opt, markData);
+            }
 
-          if (isValid(opacity)) {
-            computeColor = Color.SetOpacity(computeColor as string, opacity);
-          }
+            if (isValid(opacity)) {
+              computeColor = Color.SetOpacity(computeColor as string, opacity);
+            }
 
-          return {
-            offset: isFunction(offset) ? offset(data, this._attributeContext, opt, markData) : offset,
-            color: computeColor || themeColor[0]
-          };
-        });
-      } else if (isFunction(value)) {
-        computeStyle[key] = value(data, this._attributeContext, opt, markData);
-      } else {
-        computeStyle[key] = value;
-      }
-    });
+            return {
+              offset: isFunction(offset) ? offset(data, this._attributeContext, opt, markData) : offset,
+              color: computeColor || themeColor[0]
+            };
+          });
+        } else if (isFunction(value)) {
+          computeStyle[key] = value(data, this._attributeContext, opt, markData);
+        } else {
+          computeStyle[key] = value;
+        }
+      });
 
-    computeStyle.gradient = gradient;
+      computeStyle.gradient = gradient;
 
-    return computeStyle;
+      return computeStyle;
+    };
   }
 
-  private _computeBorderAttr(borderStyle: any, data: Datum, opt: IAttributeOpt) {
+  private _computeBorderAttr(borderStyle: any) {
     const { scale, field, ...mergedStyle } = borderStyle;
 
-    const computeStyle: any = {};
+    return (data: Datum, opt: IAttributeOpt) => {
+      const computeStyle: any = {};
 
-    Object.keys(mergedStyle).forEach(key => {
-      const value = mergedStyle[key];
-      if (isFunction(value)) {
-        computeStyle[key] = value(data, this._attributeContext, opt, this.getDataView());
-      } else {
-        computeStyle[key] = value;
-      }
-    });
-    if (!('stroke' in computeStyle)) {
-      const themeColor = computeActualDataScheme(
-        getDataScheme(
-          this.model.getColorScheme(),
-          this.model.modelType === 'series' ? this.model.getSpec?.() : undefined
-        ),
-        (this.model as ISeries).getDefaultColorDomain()
-      );
-      let colorScale = scale;
-      let colorField = field;
-      if ((!scale || !field) && this.model.modelType === 'series') {
-        // 目前只有series有这个属性
-        const { scale: globalColorScale, field: globalField } = (this.model as BaseSeries<any>).getColorAttribute();
-        if (!scale) {
-          // 获取全局的 colorScale
-          colorScale = globalColorScale;
+      Object.keys(mergedStyle).forEach(key => {
+        const value = mergedStyle[key];
+        if (isFunction(value)) {
+          computeStyle[key] = value(data, this._attributeContext, opt, this.getDataView());
+        } else {
+          computeStyle[key] = value;
         }
-        if (!colorField) {
-          colorField = globalField;
+      });
+      if (!('stroke' in computeStyle)) {
+        const themeColor = computeActualDataScheme(
+          getDataScheme(
+            this.model.getColorScheme(),
+            this.model.modelType === 'series' ? this.model.getSpec?.() : undefined
+          ),
+          (this.model as ISeries).getDefaultColorDomain()
+        );
+        let colorScale = scale;
+        let colorField = field;
+        if ((!scale || !field) && this.model.modelType === 'series') {
+          // 目前只有series有这个属性
+          const { scale: globalColorScale, field: globalField } = (this.model as BaseSeries<any>).getColorAttribute();
+          if (!scale) {
+            // 获取全局的 colorScale
+            colorScale = globalColorScale;
+          }
+          if (!colorField) {
+            colorField = globalField;
+          }
+          computeStyle.stroke = colorScale?.scale(data[colorField]) || themeColor[0];
         }
-        computeStyle.stroke = colorScale?.scale(data[colorField]) || themeColor[0];
+      } else if (GradientType.includes(mergedStyle.stroke?.gradient)) {
+        computeStyle.stroke = this._computeGradientAttr(mergedStyle.stroke)(data, opt);
       }
-    } else if (GradientType.includes(mergedStyle.stroke?.gradient)) {
-      computeStyle.stroke = this._computeGradientAttr(mergedStyle.stroke, data, opt);
-    }
-    return computeStyle;
+      return computeStyle;
+    };
   }
 }

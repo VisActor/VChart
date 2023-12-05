@@ -1,10 +1,10 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IAggrType } from '../../component/marker/interface';
 import type { ICartesianSeries } from '../../series/interface';
+import type { Datum, StringOrNumber } from '../../typings';
 
-import { isValid, isFunction } from '@visactor/vutils';
-import { average, sum, standardDeviation, variance, median, min, max } from '../../util/math';
-import type { Datum } from '../../typings';
+import { isPlainObject, isValid } from '@visactor/vutils';
+import { variance, average, min, max, sum, standardDeviation, median } from '../../util/math';
 
 export type IOption = {
   field: string;
@@ -15,7 +15,7 @@ export type IOptionAggrField = {
   aggrType: IAggrType;
 };
 
-export type IOptionPos = IOptionAggrField | string | number;
+export type IOptionPos = IOptionAggrField | string | number | StringOrNumber[];
 
 export type IOptionSeries = {
   getRelativeSeries: () => ICartesianSeries;
@@ -26,7 +26,10 @@ export type IOptionSeries = {
 export type IOptionCallback = (
   relativeSeriesData: any,
   startRelativeSeriesData: any,
-  endRelativeSeriesData: any
+  endRelativeSeriesData: any,
+  relativeSeries: ICartesianSeries,
+  startRelative: ICartesianSeries,
+  endRelative: ICartesianSeries
 ) => IOptionPos;
 
 export type IOptionAggr = {
@@ -86,43 +89,31 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
     median: markerMedian
   };
   const results: {
-    x: string | number | null;
-    y: string | number | null;
+    x: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
+    y: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
   }[] = [];
-
   options.forEach(option => {
     const result: {
-      x: string | number | null;
-      y: string | number | null;
+      x: StringOrNumber[] | StringOrNumber | null;
+      y: StringOrNumber[] | StringOrNumber | null;
       getRefRelativeSeries?: () => ICartesianSeries;
     } = { x: null, y: null };
-
-    const relativeSeriesData = option.getRelativeSeries().getData().getLatestData();
-    const startRelativeSeriesData = option.getStartRelativeSeries().getData().getLatestData();
-    const endRelativeSeriesData = option.getEndRelativeSeries().getData().getLatestData();
-
     if (isValid(option.x)) {
-      let x = option.x;
-      if (isFunction(x)) {
-        x = x(relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData);
-      }
-      if (typeof x === 'string' || typeof x === 'number') {
-        result.x = x;
-      } else {
-        const { aggrType, field } = x;
+      const x = option.x;
+      if (isPlainObject(x)) {
+        const { aggrType, field } = x as IOptionAggrField;
         result.x = aggrMap[aggrType](_data, { field: field });
+      } else {
+        result.x = x;
       }
     }
     if (isValid(option.y)) {
-      let y = option.y;
-      if (isFunction(y)) {
-        y = y(relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData);
-      }
-      if (typeof y === 'string' || typeof y === 'number') {
-        result.y = y;
-      } else {
-        const { aggrType, field } = y;
+      const y = option.y;
+      if (isPlainObject(y)) {
+        const { aggrType, field } = y as IOptionAggrField;
         result.y = aggrMap[aggrType](_data, { field: field });
+      } else {
+        result.y = y;
       }
     }
     if (option.getRefRelativeSeries) {

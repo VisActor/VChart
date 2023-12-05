@@ -1,4 +1,3 @@
-import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
@@ -10,12 +9,11 @@ import type { ISeries } from '../../series/interface';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec } from './interface';
 export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
-    layoutType: LayoutItem['layoutType'];
+    layoutType: 'none';
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutZIndex: LayoutItem['layoutZIndex'];
-    static speckey: string;
+    layoutZIndex: number;
     protected _brushComponents: BrushComponent[];
     protected _relativeRegions: IRegion[];
     protected _linkedSeries: ISeries[];
@@ -65,7 +63,7 @@ export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     protected initEvent(): void;
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     _compareSpec(): {
         change: boolean;
         reMake: boolean;

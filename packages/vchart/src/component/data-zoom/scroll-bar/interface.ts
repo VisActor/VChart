@@ -1,4 +1,4 @@
-import type { ILayoutItemSpec } from '../../../model/interface';
+import type { ILayoutItemSpec } from '../../../layout/interface';
 import type { IPadding } from '../../../typings';
 import type { IRectMarkSpec } from '../../../typings/visual';
 import type { IFilterMode } from '../constant';
@@ -36,7 +36,7 @@ export interface IScrollBarSpec extends IDataFilterComponentSpec, IScrollBarStyl
   limitRange?: [number, number];
 }
 
-export type IScrollBarTheme = ILayoutItemSpec &
+export type IScrollBarCommonTheme = ILayoutItemSpec &
   IScrollBarStyle & {
     /** 显示的位置 */
     orient?: IScrollBarSpec['orient'];
@@ -51,3 +51,10 @@ export type IScrollBarTheme = ILayoutItemSpec &
      */
     innerPadding?: IScrollBarSpec['innerPadding'];
   };
+
+export type IScrollBarTheme = IScrollBarCommonTheme /* 通用主题，留作兼容 */ & {
+  /** 横向主题 */
+  horizontal?: Omit<IScrollBarCommonTheme, 'orient'>;
+  /** 纵向主题 */
+  vertical?: Omit<IScrollBarCommonTheme, 'orient'>;
+};

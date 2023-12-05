@@ -1,17 +1,16 @@
 import type { RichTextWordBreak } from '@visactor/vrender-core';
 import type { StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
-import type { IColorKey } from '../../../theme/color-scheme/interface';
 import type { Padding } from '@visactor/vrender-components/es/core/type';
 
-export interface ITooltipTextTheme {
+export interface ITooltipTextTheme<ColorType = string> {
   /** 字体 */
   fontFamily?: string;
   /** 字体大小 */
   fontSize?: number;
   /** 字体颜色 */
-  fill?: string | IColorKey;
+  fill?: ColorType;
   /** @deprecated 字体颜色（兼容旧版本） */
-  fontColor?: string | IColorKey;
+  fontColor?: ColorType;
   /** 字重 */
   fontWeight?: StringOrNumber;
   /** 对齐方式 */
@@ -38,16 +37,16 @@ export interface ITooltipTextTheme {
   autoWidth?: boolean;
 }
 
-export interface ITooltipTheme {
+export interface ITooltipTheme<ColorType = string> {
   /** 容器样式配置 */
   panel?: {
     /** tooltip 容器内边距 */
     padding?: Padding;
     /** 背景色 */
-    backgroundColor?: string | IColorKey;
+    backgroundColor?: ColorType;
     /** tooltip边框 */
     border?: {
-      color?: string | IColorKey;
+      color?: ColorType;
       width?: number;
       /** 圆角 */
       radius?: number;
@@ -58,7 +57,7 @@ export interface ITooltipTheme {
       y: number;
       blur: number;
       spread: number;
-      color: string | IColorKey;
+      color: ColorType;
     };
   };
   shape?: {
@@ -68,11 +67,11 @@ export interface ITooltipTheme {
     spacing?: number;
   };
   /** tooltip标题 */
-  titleLabel?: ITooltipTextTheme;
+  titleLabel?: ITooltipTextTheme<ColorType>;
   /** tooltip内容，key字段 */
-  keyLabel?: Omit<ITooltipTextTheme, 'autoWidth'>;
+  keyLabel?: Omit<ITooltipTextTheme<ColorType>, 'autoWidth'>;
   /** tooltip内容，value字段 */
-  valueLabel?: ITooltipTextTheme;
+  valueLabel?: ITooltipTextTheme<ColorType>;
   /** 内容项行间距 */
   spaceRow?: number;
   /** 偏移量 */

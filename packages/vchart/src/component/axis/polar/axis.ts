@@ -1,10 +1,9 @@
 import { POLAR_DEFAULT_RADIUS, POLAR_END_ANGLE, POLAR_END_RADIAN } from '../../../constant/polar';
 import { DataView } from '@visactor/vdataset';
-import type { IBaseScale, BandScale } from '@visactor/vscale';
+import type { IBaseScale, BandScale, LinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { ChartEvent, LayoutZIndex, POLAR_START_ANGLE, POLAR_START_RADIAN } from '../../../constant';
-import type { LayoutItem } from '../../../model/layout-item';
 import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -18,7 +17,7 @@ import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import { ticks } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
-import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber } from '../../../typings';
+import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber, ILayoutType } from '../../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { isPolarAxisSeries } from '../../../series/util/utils';
 import { getAxisLabelOffset, isValidPolarAxis } from '../util';
@@ -44,7 +43,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   protected readonly _defaultBandInnerPadding = 0;
   protected readonly _defaultBandOuterPadding = 0;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
   layoutZIndex: number = LayoutZIndex.Axis;
   protected _tick: ITick | undefined = undefined;
 
@@ -95,7 +94,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
           ...spec,
           type: axisType
         },
-        options
+        {
+          ...options,
+          type: componentName
+        }
       ) as IPolarAxis;
     }
     options.onError(`Component ${componentName} not found`);
@@ -103,10 +105,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   static createComponent(spec: any, options: IComponentOption) {
-    if (!this.type.startsWith(PolarAxis.type)) {
-      return null;
-    }
-    const axesSpec = spec.axes || options.defaultSpec;
+    const axesSpec = spec.axes;
     if (!axesSpec) {
       return null;
     }
@@ -117,10 +116,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       axesSpec.center = spec.center;
       axesSpec.startAngle = spec.startAngle ?? POLAR_START_ANGLE;
       axesSpec.endAngle = spec.endAngle ?? (isValid(spec.startAngle) ? spec.startAngle + 360 : POLAR_END_ANGLE);
-      return PolarAxis.createAxis(axesSpec, {
-        ...options,
-        specKey: 'axes'
-      });
+      return PolarAxis.createAxis(axesSpec, options);
     }
     const axes: IPolarAxis[] = [];
     let angleAxes: IPolarAxis;
@@ -136,8 +132,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       s.outerRadius = s.radius ?? spec.outerRadius ?? spec.radius ?? POLAR_DEFAULT_RADIUS;
       const polarAxes = PolarAxis.createAxis(s, {
         ...options,
-        specIndex: i,
-        specKey: 'axes'
+        specIndex: i
       }) as IPolarAxis;
       axes.push(polarAxes);
       if (s.orient === 'radius') {
@@ -188,11 +183,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     this._endAngle = degreeToRadian(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
   }
 
-  setLayoutStartPosition(pos: Partial<IPoint>): void {
+  _transformLayoutPosition = (pos: Partial<IPoint>) => {
     const region = this.getRegions()?.[0];
-    const startPoint = region ? region.getLayoutStartPoint() : pos;
-    super.setLayoutStartPosition(startPoint);
-  }
+    return region ? region.getLayoutStartPoint() : pos;
+  };
 
   onLayoutEnd(ctx: any): void {
     const isChanged = this.updateScaleRange();
@@ -457,14 +451,18 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   tickValues(): number[] {
-    const latestData = this._tickData.getLatestData();
+    if (this._tickData) {
+      const latestData = this._tickData.getLatestData();
 
-    if (latestData && !isArray(latestData)) {
-      // the ticks data of scale has not be calculated
-      this.computeData('force');
+      if (latestData && !isArray(latestData)) {
+        // the ticks data of scale has not be calculated
+        this.computeData('force');
+      }
+
+      return this._tickData.getLatestData() || [];
     }
 
-    return this._tickData.getLatestData() || [];
+    return (this._scale as BandScale | LinearScale).ticks();
   }
 
   updateLayoutAttribute(): void {

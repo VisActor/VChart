@@ -14,12 +14,12 @@ import type { GrammarMarkType } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { array, isNil, isValid } from '@visactor/vutils';
+import { array, isEmpty, isNil, isValid } from '@visactor/vutils';
 import { LayoutZIndex, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import type { ISeries } from '../../series/interface';
-import { attrTransform, isStateAttrChangeable, needAttrTransform } from './util';
+import { isStateAttrChangeable } from './util';
 import { MarkStateManager } from './mark-state-manager';
 import type {
   ICompilableMark,
@@ -38,11 +38,8 @@ import type { IEvent } from '../../event/interface';
 import { Event } from '../../event/event';
 // eslint-disable-next-line no-duplicate-imports
 import { AnimationStateEnum } from '../../animation/interface';
-import type { ILabelSpec } from '../../component/label';
-
-const keptInUpdateAttribute = {
-  defined: true
-};
+import type { TransformedLabelSpec } from '../../component/label';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 /** 可编译的 mark 对象，这个基类只存放编译相关的逻辑 */
 export abstract class CompilableMark extends GrammarItem implements ICompilableMark {
@@ -55,6 +52,14 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
 
   /** key field */
   readonly key: ICompilableMark['key'];
+
+  protected _skipTheme?: boolean;
+  getSkipTheme() {
+    return this._skipTheme;
+  }
+  setSkipTheme(skipTheme: boolean) {
+    this._skipTheme = skipTheme;
+  }
 
   /** 3d开关 */
   protected _support3d?: boolean;
@@ -207,18 +212,23 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._groupKey = groupKey;
   }
 
-  protected _label?: ILabelSpec[];
+  protected _label?: TransformedLabelSpec[];
   getLabelSpec() {
     return this._label;
   }
-  setLabelSpec(label: ILabelSpec | ILabelSpec[]) {
+  setLabelSpec(label: TransformedLabelSpec | TransformedLabelSpec[]) {
     this._label = array(label);
   }
-  addLabelSpec(label: ILabelSpec) {
+  addLabelSpec(label: TransformedLabelSpec, head = false) {
     if (!this._label) {
       this._label = [];
     }
-    this._label.push(label);
+    if (head) {
+      // 排序靠前的 label 优先布局，尽可能避免碰撞隐藏
+      this._label.unshift(label);
+    } else {
+      this._label.push(label);
+    }
   }
 
   protected _progressiveConfig: IMarkProgressiveConfig;
@@ -227,6 +237,16 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   }
   setProgressiveConfig(config: IMarkProgressiveConfig) {
     this._progressiveConfig = config;
+  }
+
+  protected _setCustomizedShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+  setCustomizedShapeCallback(callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) {
+    this._setCustomizedShape = callback;
+  }
+
+  protected _enableSegments: boolean;
+  setEnableSegments(enable: boolean) {
+    this._enableSegments = enable;
   }
 
   protected declare _option: ICompilableMarkOption;
@@ -244,6 +264,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       this
     );
     this._option.support3d && this.setSupport3d(true);
+    this._option.skipTheme && this.setSkipTheme(true);
     this._event = new Event(model.getOption().eventDispatcher, model.getOption().mode);
   }
 
@@ -334,26 +355,28 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     if (!this._product) {
       return;
     }
-    const { enterStyles } = this._separateStyle();
-    this._product.encodeState('group', enterStyles);
+    const { enterStyles, updateStyles } = this._separateStyle();
+
+    this._product.encodeState('group', enterStyles, true);
+
+    this._product.encode(updateStyles, true);
   }
 
   protected _separateStyle() {
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...temp } = this.stateStyle;
 
-    const enterStyles: Record<string, MarkFunctionType<any>> = {};
+    const enterStyles: Record<string, MarkFunctionType<any>> = this._option.noSeparateStyle ? null : {};
     const updateStyles: Record<string, MarkFunctionType<any>> = {};
     Object.keys(normalStyle).forEach(key => {
       if (this._unCompileChannel[key]) {
         return;
       }
-      if (isStateAttrChangeable(key, normalStyle, this.getFacet())) {
+
+      if (this._option.noSeparateStyle || isStateAttrChangeable(key, normalStyle, this.getFacet())) {
         updateStyles[key] = {
           callback: this.compileCommonAttributeCallback(key, 'normal'),
           dependency: [this.stateKeyToSignalName('markUpdateRank')]
         };
-      } else if (keptInUpdateAttribute[key]) {
-        updateStyles[key] = normalStyle[key].style;
       } else {
         enterStyles[key] = this.compileCommonAttributeCallback(key, 'normal');
       }
@@ -364,8 +387,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   compileEncode() {
     const { [STATE_VALUE_ENUM.STATE_NORMAL]: normalStyle, ...temp } = this.stateStyle;
     const { enterStyles, updateStyles } = this._separateStyle();
-    this._product.encode(updateStyles);
-    this._product.encodeState('group', enterStyles);
+    this._product.encode(updateStyles, true);
+    this._product.encodeState('group', enterStyles, true);
 
     Object.keys(temp).forEach(state => {
       const styles: Record<string, MarkFunctionType<any>> = {};
@@ -378,7 +401,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
           dependency: [this.stateKeyToSignalName('markUpdateRank')]
         };
       });
-      this._product.encodeState(state, styles);
+      this._product.encodeState(state, styles, true);
     });
 
     // 在布局完成前不进行encode
@@ -430,7 +453,9 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         markUserId: this._userId,
         modelUserId: this.model.userId
       },
-      support3d: this.getSupport3d()
+      skipTheme: this.getSkipTheme(),
+      support3d: this.getSupport3d(),
+      enableSegments: !!this._enableSegments
     };
 
     if (this._progressiveConfig) {
@@ -446,6 +471,10 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       config.morphElementKey = this._morphElementKey;
     }
 
+    if (this._setCustomizedShape) {
+      config.setCustomizedShape = this._setCustomizedShape;
+    }
+
     this._product.configure(config);
   }
 
@@ -453,21 +482,23 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this.state.compile();
   }
 
+  protected _computeAttribute(key: string, state: StateValueType) {
+    return (datum: Datum, opt: IAttributeOpt) => {
+      return undefined as any;
+    };
+  }
+
   // TODO: 1. opt内容待定，确实需要再来补充（之前是scale.bindScales/bindSignals，从context.params中可以获取到）
   // TODO: 2. stateSourceItem，是否根据attr区分，存在默认写死的情况，例如"hover"/"normal"；
   protected compileCommonAttributeCallback(key: string, state: string): MarkFunctionCallback<any> {
-    // check need transform attribute
-    const noAttrTransform = !needAttrTransform(this.type, key);
+    const attributeFunctor = this._computeAttribute(key, state);
     // remove state in opt
     const opt: IAttributeOpt = { mark: null, parent: null, element: null };
     return (datum: Datum, element: IElement) => {
       opt.mark = element.mark;
       opt.parent = element.mark.group;
       opt.element = element;
-      if (noAttrTransform) {
-        return this.getAttribute(key as any, datum, state, opt);
-      }
-      return attrTransform(this.type, key, this.getAttribute(key as any, datum, state, opt));
+      return attributeFunctor(datum, opt);
     };
   }
 

@@ -28,6 +28,7 @@ import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
+import type { ILabelSpec } from '../../component';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -211,9 +212,10 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       morph: shouldMarkDoMorph(this._spec, ScatterSeries.mark.point.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
+      label: this._preprocessLabelSpec(this._spec.label as ILabelSpec),
       progressive,
-      isSeriesMark: true
+      isSeriesMark: true,
+      customShape: this._spec.point?.customShape
     }) as ISymbolMark;
   }
 

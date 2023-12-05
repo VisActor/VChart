@@ -1,18 +1,27 @@
-import type { IPadding, IPointLike } from '@visactor/vutils';
-import type { SymbolType } from '@visactor/vrender-core';
+import type { IPadding } from '@visactor/vutils';
+import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
-export type IDataPos = string | number | IAggrType;
+export type IDataPos = StringOrNumber | IAggrType;
 export type IDataPosCallback = (relativeSeriesData: any, startRelativeSeriesData: any, endRelativeSeriesData: any) => IDataPos;
 export type IDataPointSpec = {
     [key: string]: IDataPos;
     refRelativeSeriesIndex?: number;
     refRelativeSeriesId?: StringOrNumber;
+    xFieldIndex?: number;
+    xFieldDim?: string;
+    yFieldIndex?: number;
+    yFieldDim?: string;
+};
+type Point = {
+    x: number;
+    y: number;
 };
 export type IMarkerPositionsSpec = {
-    positions: IPointLike[];
+    positions: Point[];
+    regionRelative?: boolean;
 };
 export type IMarkerLabelWithoutRefSpec = {
     visible?: boolean;
@@ -22,10 +31,11 @@ export type IMarkerLabelWithoutRefSpec = {
     labelBackground?: {
         visible?: boolean;
         padding?: IPadding | number[] | number;
-        style: Omit<IRectMarkSpec, 'visible'>;
+        style?: Omit<IRectMarkSpec, 'visible'>;
     };
-    text?: string | string[] | number | number[];
-    formatMethod?: (markData: Datum[], seriesData: Datum[]) => string | string[] | number | number[];
+    type?: 'text' | 'rich' | 'html';
+    text?: string | string[] | number | number[] | IRichTextCharacter[];
+    formatMethod?: (markData: Datum[], seriesData: Datum[]) => string | string[] | number | number[] | IRichTextCharacter[];
     style?: Omit<ITextMarkSpec, 'visible'>;
     shape?: {
         visible?: boolean;
@@ -56,6 +66,7 @@ export interface IMarkerSpec extends IComponentSpec {
     interactive?: boolean;
     autoRange?: boolean;
     clip?: boolean;
+    name?: string;
 }
 export interface IMarkerSymbol extends IMarkerRef {
     visible: boolean;
@@ -63,3 +74,4 @@ export interface IMarkerSymbol extends IMarkerRef {
     size?: number;
     style?: Omit<ISymbolMarkSpec, 'visible'>;
 }
+export {};

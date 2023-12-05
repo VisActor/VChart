@@ -1477,9 +1477,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -1601,9 +1598,6 @@
           "$ref": "#/definitions/VisualType<InterpolateType>"
         },
         "defined": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "enableSegments": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "fill": {
@@ -2501,9 +2495,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -2630,9 +2621,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -2757,9 +2745,6 @@
           "$ref": "#/definitions/VisualType<InterpolateType>"
         },
         "defined": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "enableSegments": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
         "fill": {
@@ -5008,9 +4993,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -5143,9 +5125,6 @@
         "defined": {
           "$ref": "#/definitions/VisualType<boolean>"
         },
-        "enableSegments": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
         "fill": {
           "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
         },
@@ -5245,80 +5224,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
-          "description": "style格式转换"
-        }
-      ],
-      "description": "style格式转换"
-    },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5333,6 +5239,26 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>_1",
           "description": "style格式转换"
         },
@@ -5341,27 +5267,11 @@
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>_1",
           "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5387,9 +5297,78 @@
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>_1",
           "description": "style格式转换"
+        }
+      ],
+      "description": "style格式转换"
+    },
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
+          "description": "style格式转换"
         },
         {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IProgressArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
           "description": "style格式转换"
         }
       ],
@@ -5773,7 +5752,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "text": {
-          "$ref": "#/definitions/VisualType<string[]|StringOrNumber>",
+          "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
           "description": "文字内容"
         },
         "textAlign": {
@@ -5799,6 +5778,11 @@
         "textureSize": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "纹理单元的大小"
+        },
+        "type": {
+          "$ref": "#/definitions/VisualType<\"text\"|\"html\"|\"rich\">",
+          "default": "'text'",
+          "description": "文字类型\n可选，'html', 'rich', 'text'"
         },
         "underline": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -5950,7 +5934,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "text": {
-          "$ref": "#/definitions/VisualType<string[]|StringOrNumber>",
+          "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
           "description": "文字内容"
         },
         "textAlign": {
@@ -5976,6 +5960,11 @@
         "textureSize": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "纹理单元的大小"
+        },
+        "type": {
+          "$ref": "#/definitions/VisualType<\"text\"|\"html\"|\"rich\">",
+          "default": "'text'",
+          "description": "文字类型\n可选，'html', 'rich', 'text'"
         },
         "underline": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -6127,7 +6116,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "text": {
-          "$ref": "#/definitions/VisualType<string[]|StringOrNumber>",
+          "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
           "description": "文字内容"
         },
         "textAlign": {
@@ -6153,6 +6142,11 @@
         "textureSize": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "纹理单元的大小"
+        },
+        "type": {
+          "$ref": "#/definitions/VisualType<\"text\"|\"html\"|\"rich\">",
+          "default": "'text'",
+          "description": "文字类型\n可选，'html', 'rich', 'text'"
         },
         "underline": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -8352,6 +8346,29 @@
         "lighter",
         "normal"
       ]
+    },
+    "Function": {
+      "properties": {
+        "arguments": {},
+        "caller": {
+          "$ref": "#/definitions/Function"
+        },
+        "length": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        },
+        "prototype": {}
+      },
+      "required": [
+        "arguments",
+        "caller",
+        "length",
+        "name",
+        "prototype"
+      ],
+      "type": "object"
     },
     "Functional<\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\">": {
       "anyOf": [
@@ -17317,6 +17334,9 @@
         "delay": {
           "$ref": "#/definitions/MarkFunctionValueType<number>"
         },
+        "delayAfter": {
+          "$ref": "#/definitions/MarkFunctionValueType<number>"
+        },
         "duration": {
           "$ref": "#/definitions/MarkFunctionValueType<number>"
         },
@@ -17414,6 +17434,9 @@
         },
         "customParameters": {},
         "delay": {
+          "$ref": "#/definitions/MarkFunctionValueType<number>"
+        },
+        "delayAfter": {
           "$ref": "#/definitions/MarkFunctionValueType<number>"
         },
         "duration": {
@@ -17742,6 +17765,9 @@
     },
     "IArcLabelLineSpec": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户id"
@@ -17779,6 +17805,7 @@
         "smooth": {
           "default": false,
           "description": "引导线是否光滑",
+          "since": "1.4.0",
           "type": "boolean"
         },
         "state": {
@@ -17850,6 +17877,11 @@
         },
         "formatMethod": {
           "typeof": "function"
+        },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
         },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -18067,6 +18099,9 @@
         "support3d": {
           "description": "是否支持3D",
           "type": "boolean"
+        },
+        "textType": {
+          "type": "string"
         },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -18452,6 +18487,18 @@
           "$ref": "#/definitions/IMarkSpec<IAreaMarkSpec>",
           "description": "面积图元配置"
         },
+        "areaLabel": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "面积图元标签配置",
+          "since": "1.7.0"
+        },
         "autoFit": {
           "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
           "type": "boolean"
@@ -18480,7 +18527,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -18667,6 +18714,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -18795,7 +18858,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -18808,7 +18871,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -19127,9 +19190,6 @@
           "$ref": "#/definitions/InterpolateType"
         },
         "defined": {
-          "type": "boolean"
-        },
-        "enableSegments": {
           "type": "boolean"
         },
         "fill": {
@@ -19467,6 +19527,18 @@
         "area": {
           "$ref": "#/definitions/IMarkSpec<IAreaMarkSpec>",
           "description": "面积图元配置"
+        },
+        "areaLabel": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "面积图元标签配置",
+          "since": "1.7.0"
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -19896,6 +19968,12 @@
           ],
           "default": 0.3,
           "description": "band 轴的外边距\n** 因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 paddingOuter 配置**"
+        },
+        "trimPadding": {
+          "default": false,
+          "description": "是否去除 band 轴两端的留白，如果为 true，则两端的 padding 为 0，\n**并且 bandPadding、paddingInner 和 paddingOuter 的设置将被忽略**。",
+          "since": "1.7.0",
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -20075,7 +20153,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -20265,6 +20343,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -20387,7 +20481,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -20400,7 +20494,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -20831,7 +20925,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -21021,6 +21115,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -21143,7 +21253,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -21156,7 +21266,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -22110,7 +22220,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -22289,6 +22399,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -22411,7 +22537,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -22424,7 +22550,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -24276,7 +24402,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -25027,7 +25153,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -26180,7 +26306,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -26427,19 +26553,16 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/ISankeySeriesSpec"
+                "$ref": "#/definitions/IPieSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/IPie3dSeriesSpec"
               },
               {
                 "$ref": "#/definitions/IBoxPlotSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ITreemapSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IPieSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/IPie3dSeriesSpec"
               },
               {
                 "$ref": "#/definitions/ISunburstSeriesSpec"
@@ -26494,6 +26617,9 @@
               },
               {
                 "$ref": "#/definitions/IFunnel3dSeriesSpec"
+              },
+              {
+                "$ref": "#/definitions/ISankeySeriesSpec"
               },
               {
                 "$ref": "#/definitions/IGaugePointerSeriesSpec"
@@ -26789,7 +26915,7 @@
           "description": "markLine 标记配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointTheme",
+          "$ref": "#/definitions/IMarkPointTheme<Partial<IMarkerSymbol>>",
           "description": "markPoint 标记配置"
         },
         "player": {
@@ -26813,7 +26939,7 @@
           "description": "图表标题配置"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipTheme",
+          "$ref": "#/definitions/ITooltipTheme<string|IColorKey>",
           "description": "tooltip 组件配置"
         },
         "totalLabel": {
@@ -27535,7 +27661,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -28305,9 +28431,6 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "style"
-      ],
       "type": "object"
     },
     "ICrosshairLabelSpec": {
@@ -28799,6 +28922,9 @@
     },
     "ICustomMarkSpec<keyofIBuildinMarkSpec>": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "关联的数据id"
@@ -28833,11 +28959,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -29240,6 +29366,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "ignoreBandSize": {
+          "description": "是否忽略轴上配置的固定 bandSize\n如果置为 true，则 datazoom 可以任意改变轴的 bandSize。\n但如果轴上配置了 bandSize 范围，则第一次渲染会保持 bandSize 在配置范围内。\n该配置仅在 auto 设为 true 时生效。",
+          "since": "1.7.0",
+          "type": "boolean"
+        },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
           "type": "number"
@@ -29581,6 +29712,9 @@
         },
         {
           "$ref": "#/definitions/IDataZoomStyle"
+        },
+        {
+          "typeof": "function"
         },
         {
           "typeof": "function"
@@ -30892,6 +31026,9 @@
           },
           "type": "array"
         },
+        "customShape": {
+          "typeof": "function"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "关联的数据id"
@@ -30956,6 +31093,9 @@
     },
     "IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "dataId": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "关联的数据id"
@@ -30990,11 +31130,11 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -31249,7 +31389,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -31756,7 +31896,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -32118,6 +32258,9 @@
     },
     "IFunnelLabelSpec": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "formatMethod": {
           "typeof": "function"
         },
@@ -32185,6 +32328,9 @@
           "default": true,
           "description": "文字是否对齐",
           "type": "boolean"
+        },
+        "customShape": {
+          "typeof": "function"
         },
         "formatMethod": {
           "typeof": "function"
@@ -32768,7 +32914,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -36107,7 +36253,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -36297,6 +36443,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -36419,7 +36581,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -36432,7 +36594,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -37218,7 +37380,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -37408,6 +37570,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -37530,7 +37708,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -37543,7 +37721,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -37947,7 +38125,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -38137,6 +38315,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -38259,7 +38453,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -38272,7 +38466,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -38527,12 +38721,19 @@
           "type": "number"
         },
         "style": {
-          "additionalProperties": false,
-          "description": "文字样式",
-          "patternProperties": {
-            "^[a-zA-Z0-9]+$": {}
-          },
-          "type": "object"
+          "allOf": [
+            {
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-zA-Z0-9]+$": {}
+              },
+              "type": "object"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "文字样式"
         },
         "visible": {
           "default": true,
@@ -39069,7 +39270,7 @@
         },
         "text": {
           "$ref": "#/definitions/IMarkerLabelSpec",
-          "description": "type为text时, text的样式"
+          "description": "type为text时, text的样式\n'text'类型的ItemContent新增三种子类型：'text','rich','html'。配置在textStyle.type上。"
         },
         "type": {
           "description": "标注类型",
@@ -39118,6 +39319,15 @@
             }
           ],
           "description": "文本样式设置"
+        },
+        "type": {
+          "description": "文本类型：text, rich, html",
+          "enum": [
+            "html",
+            "rich",
+            "text"
+          ],
+          "type": "string"
         },
         "visible": {
           "type": "boolean"
@@ -39191,6 +39401,11 @@
         },
         "formatMethod": {
           "typeof": "function"
+        },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
         },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -39368,6 +39583,9 @@
         "support3d": {
           "description": "是否支持3D",
           "type": "boolean"
+        },
+        "textType": {
+          "type": "string"
         },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -40406,7 +40624,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -40546,6 +40764,18 @@
           "$ref": "#/definitions/IMarkSpec<ILineMarkSpec>",
           "description": "线图元配置"
         },
+        "lineLabel": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "折线标签配置",
+          "since": "1.7.0"
+        },
         "markArea": {
           "anyOf": [
             {
@@ -40578,6 +40808,22 @@
               "allOf": [
                 {
                   "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaYSpec"
@@ -40721,7 +40967,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -40734,7 +40980,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -41085,9 +41331,6 @@
         "defined": {
           "type": "boolean"
         },
-        "enableSegments": {
-          "type": "boolean"
-        },
         "fill": {
           "anyOf": [
             {
@@ -41423,6 +41666,18 @@
         "line": {
           "$ref": "#/definitions/IMarkSpec<ILineMarkSpec>",
           "description": "线图元配置"
+        },
+        "lineLabel": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "折线标签配置",
+          "since": "1.7.0"
         },
         "markOverlap": {
           "default": false,
@@ -41819,7 +42074,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -42798,7 +43053,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -43459,6 +43714,22 @@
               "$ref": "#/definitions/IMarkerSpec"
             },
             {
+              "$ref": "#/definitions/IMarkAreaXSpec"
+            },
+            {
+              "$ref": "#/definitions/IMarkAreaYSpec"
+            },
+            {
+              "$ref": "#/definitions/IMarkAreaTheme"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IMarkerSpec"
+            },
+            {
               "typeof": "function"
             },
             {
@@ -43517,7 +43788,7 @@
               ]
             }
           ],
-          "description": "x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型"
+          "description": "x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型\n可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处"
         },
         "x1": {
           "anyOf": [
@@ -43570,7 +43841,7 @@
               ]
             }
           ],
-          "description": "y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型"
+          "description": "y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型\n可以将 y 配置为 '15%' 百分比的形式，用于表示将 y 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处"
         },
         "y1": {
           "anyOf": [
@@ -43738,7 +44009,7 @@
               ]
             }
           ],
-          "description": "x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算"
+          "description": "x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处"
         }
       },
       "required": [
@@ -43777,7 +44048,7 @@
               ]
             }
           ],
-          "description": "y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算"
+          "description": "y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算\n可以将 y 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处"
         }
       },
       "required": [
@@ -43807,7 +44078,7 @@
               "typeof": "function"
             },
             {
-              "$ref": "#/definitions/IMarkPointTheme"
+              "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
             }
           ]
         },
@@ -43820,13 +44091,25 @@
               "typeof": "function"
             },
             {
-              "$ref": "#/definitions/IMarkPointTheme"
+              "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
             }
           ]
         }
       ]
     },
-    "IMarkPointTheme": {
+    "IMarkPointTheme<IMarkerSymbol>": {
+      "properties": {
+        "itemContent": {
+          "$ref": "#/definitions/IItemContent",
+          "description": "标注内容"
+        },
+        "itemLine": {
+          "typeof": "function"
+        }
+      },
+      "type": "object"
+    },
+    "IMarkPointTheme<Partial<IMarkerSymbol>>": {
       "properties": {
         "itemContent": {
           "$ref": "#/definitions/IItemContent",
@@ -44069,6 +44352,11 @@
         "minWidth": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最小宽度"
+        },
+        "name": {
+          "description": "标注组件的名称标识",
+          "since": "1.7.0",
+          "type": "string"
         },
         "noOuterPadding": {
           "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
@@ -45217,7 +45505,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -45738,7 +46026,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -48672,7 +48960,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -49583,6 +49871,18 @@
           "$ref": "#/definitions/IMarkSpec<IAreaMarkSpec>",
           "description": "面积图元配置"
         },
+        "areaLabel": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "面积图元标签配置",
+          "since": "1.7.0"
+        },
         "autoFit": {
           "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
           "type": "boolean"
@@ -49611,7 +49911,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -49798,6 +50098,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -49926,7 +50242,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -49939,7 +50255,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -50295,6 +50611,18 @@
         "area": {
           "$ref": "#/definitions/IMarkSpec<IAreaMarkSpec>",
           "description": "面积图元配置"
+        },
+        "areaLabel": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "面积图元标签配置",
+          "since": "1.7.0"
         },
         "data": {
           "$ref": "#/definitions/IDataType",
@@ -50736,7 +51064,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -50926,6 +51254,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -51048,7 +51392,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -51061,7 +51405,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -51858,7 +52202,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -52048,6 +52392,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -52170,7 +52530,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -52183,7 +52543,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -53787,7 +54147,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -54518,9 +54878,6 @@
         "defined": {
           "type": "boolean"
         },
-        "enableSegments": {
-          "type": "boolean"
-        },
         "fill": {
           "anyOf": [
             {
@@ -54822,7 +55179,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -55662,7 +56019,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -55845,6 +56202,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -55967,7 +56340,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -55980,7 +56353,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -56096,10 +56469,10 @@
               "type": "array"
             },
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IVisualSpecBase<unknown,string>"
             },
             {
-              "$ref": "#/definitions/IVisualSpecBase<unknown,string>"
+              "typeof": "function"
             },
             {
               "type": "string"
@@ -56462,10 +56835,10 @@
               "type": "array"
             },
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IVisualSpecBase<unknown,string>"
             },
             {
-              "$ref": "#/definitions/IVisualSpecBase<unknown,string>"
+              "typeof": "function"
             },
             {
               "type": "string"
@@ -57030,6 +57403,9 @@
         },
         {
           "typeof": "function"
+        },
+        {
+          "typeof": "function"
         }
       ]
     },
@@ -57155,7 +57531,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -58992,7 +59368,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -60264,8 +60640,17 @@
         "text": {
           "anyOf": [
             {
+              "$ref": "#/definitions/Function"
+            },
+            {
               "items": {
                 "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IRichTextCharacter"
               },
               "type": "array"
             },
@@ -60301,6 +60686,16 @@
         "textureSize": {
           "description": "纹理单元的大小",
           "type": "number"
+        },
+        "type": {
+          "default": "'text'",
+          "description": "文字类型\n可选，'html', 'rich', 'text'",
+          "enum": [
+            "html",
+            "rich",
+            "text"
+          ],
+          "type": "string"
         },
         "underline": {
           "description": "下划线",
@@ -60424,7 +60819,7 @@
           "typeof": "function"
         },
         "forceTickCount": {
-          "default": 10,
+          "default": 5,
           "description": "强制设置的tick数量，可能由于数据范围导致tick值为小数",
           "type": "number"
         },
@@ -60462,7 +60857,7 @@
               "type": "number"
             }
           ],
-          "default": 10,
+          "default": 5,
           "description": "建议的tick数量，并不保证结果一定是配置值",
           "since": "1.4.0 后支持函数回调。"
         },
@@ -60631,9 +61026,25 @@
               "type": "array"
             },
             {
+              "items": {
+                "$ref": "#/definitions/IRichTextCharacter"
+              },
+              "type": "array"
+            },
+            {
               "type": "string"
             }
-          ]
+          ],
+          "description": "文本内容\n支持富文本内容, 如textConfig, html"
+        },
+        "type": {
+          "description": "文本类型：text, rich, html",
+          "enum": [
+            "html",
+            "rich",
+            "text"
+          ],
+          "type": "string"
         },
         "visible": {
           "type": "boolean"
@@ -60803,7 +61214,19 @@
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/StringOrNumber"
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IRichTextCharacter"
               },
               "type": "array"
             },
@@ -60814,7 +61237,7 @@
               ]
             }
           ],
-          "description": "副标题内容"
+          "description": "副标题文本内容\n- 支持富文本配置"
         },
         "subtextStyle": {
           "allOf": [
@@ -60827,11 +61250,27 @@
           ],
           "description": "副标题样式"
         },
+        "subtextType": {
+          "description": "副标题文本类型（默认类型为text）\ntext, rich, html",
+          "type": "string"
+        },
         "text": {
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/StringOrNumber"
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IRichTextCharacter"
               },
               "type": "array"
             },
@@ -60842,7 +61281,7 @@
               ]
             }
           ],
-          "description": "主标题内容"
+          "description": "主标题文本内容\n- 支持富文本配置"
         },
         "textStyle": {
           "allOf": [
@@ -60854,6 +61293,10 @@
             }
           ],
           "description": "主标题样式"
+        },
+        "textType": {
+          "description": "主标题文本类型（默认类型为text）\ntext, rich, html",
+          "type": "string"
         },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -60884,9 +61327,6 @@
           "type": "number"
         }
       },
-      "required": [
-        "text"
-      ],
       "type": "object"
     },
     "ITitleTextTheme": {
@@ -61054,7 +61494,7 @@
           "description": "tooltip key 值内容"
         },
         "keyStyle": {
-          "$ref": "#/definitions/TooltipContentProperty<ITooltipTextTheme>",
+          "$ref": "#/definitions/TooltipContentProperty<ITooltipTextTheme<string>>",
           "description": "key 样式（只在 content 上需要配置）"
         },
         "seriesId": {
@@ -61094,11 +61534,11 @@
           "since": "1.4.0"
         },
         "value": {
-          "$ref": "#/definitions/TooltipContentProperty<string>",
-          "description": "tooltip value 值内容"
+          "$ref": "#/definitions/TooltipContentProperty<string|TooltipRichTextAttrs>",
+          "description": "tooltip value 值内容\n支持富文本配置\n - type 文本类型：text, rich, html\n - text 文本内容：string | string[] | number | number[] | IRichTextCharacter[];"
         },
         "valueStyle": {
-          "$ref": "#/definitions/TooltipContentProperty<ITooltipTextTheme>",
+          "$ref": "#/definitions/TooltipContentProperty<ITooltipTextTheme<string>>",
           "description": "value 样式"
         },
         "visible": {
@@ -61294,7 +61734,7 @@
           "type": "string"
         },
         "style": {
-          "$ref": "#/definitions/Omit<ITooltipTheme,\"offset\">",
+          "$ref": "#/definitions/Omit<ITooltipTheme<string>,\"offset\">",
           "description": "tooltip样式"
         },
         "throttleInterval": {
@@ -61333,7 +61773,67 @@
       },
       "type": "object"
     },
-    "ITooltipTextTheme": {
+    "ITooltipTextTheme<string>": {
+      "properties": {
+        "autoWidth": {
+          "description": "是否开启自动宽度。效果分为以下几种情况：\n- tooltip 标题：`autoWidth` 默认为 `false`。如果配置为 `true`，则 tooltip 标题会保持和 tooltip 内容一致的宽度\n- tooltip key 标签：`autoWidth` 不适用\n- tooltip value 标签：`autoWidth` 默认为 `true`。如果配置为 `true`，则 tooltip value 标签会自动占满 tooltip 整体宽度的剩余部分",
+          "since": "1.4.2",
+          "type": "boolean"
+        },
+        "fill": {
+          "description": "字体颜色",
+          "type": "string"
+        },
+        "fontColor": {
+          "type": "string"
+        },
+        "fontFamily": {
+          "description": "字体",
+          "type": "string"
+        },
+        "fontSize": {
+          "description": "字体大小",
+          "type": "number"
+        },
+        "fontWeight": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "字重"
+        },
+        "lineHeight": {
+          "description": "行高",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "maxWidth": {
+          "description": "最大宽度",
+          "type": "number"
+        },
+        "multiLine": {
+          "description": "是否支持换行",
+          "type": "boolean"
+        },
+        "spacing": {
+          "description": "与相邻元素的水平间距",
+          "type": "number"
+        },
+        "textAlign": {
+          "$ref": "#/definitions/TextAlign",
+          "description": "对齐方式"
+        },
+        "textBaseline": {
+          "$ref": "#/definitions/TextBaseLine",
+          "description": "字体基线"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/RichTextWordBreak",
+          "description": "换行模式，默认为'break-word'"
+        }
+      },
+      "type": "object"
+    },
+    "ITooltipTextTheme<string|IColorKey>": {
       "properties": {
         "autoWidth": {
           "description": "是否开启自动宽度。效果分为以下几种情况：\n- tooltip 标题：`autoWidth` 默认为 `false`。如果配置为 `true`，则 tooltip 标题会保持和 tooltip 内容一致的宽度\n- tooltip key 标签：`autoWidth` 不适用\n- tooltip value 标签：`autoWidth` 默认为 `true`。如果配置为 `true`，则 tooltip value 标签会自动占满 tooltip 整体宽度的剩余部分",
@@ -61407,10 +61907,10 @@
       },
       "type": "object"
     },
-    "ITooltipTheme": {
+    "ITooltipTheme<string|IColorKey>": {
       "properties": {
         "keyLabel": {
-          "$ref": "#/definitions/Omit<ITooltipTextTheme,\"autoWidth\">",
+          "$ref": "#/definitions/Omit<ITooltipTextTheme<string|IColorKey>,\"autoWidth\">",
           "description": "tooltip内容，key字段"
         },
         "offset": {
@@ -61427,11 +61927,11 @@
           "type": "number"
         },
         "titleLabel": {
-          "$ref": "#/definitions/ITooltipTextTheme",
+          "$ref": "#/definitions/ITooltipTextTheme<string|IColorKey>",
           "description": "tooltip标题"
         },
         "valueLabel": {
-          "$ref": "#/definitions/ITooltipTextTheme",
+          "$ref": "#/definitions/ITooltipTextTheme<string|IColorKey>",
           "description": "tooltip内容，value字段"
         }
       },
@@ -61650,7 +62150,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -62812,6 +63312,43 @@
       ],
       "type": "object"
     },
+    "IVisualSpecStyle<unknown,\"text\"|\"html\"|\"rich\">": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "enum": [
+              "html",
+              "rich",
+              "text"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
     "IVisualSpecStyle<unknown,(datum:Datum)=>number>": {
       "properties": {
         "domain": {
@@ -63050,6 +63587,60 @@
           "description": "will set to scale.range, it means output of scale",
           "items": {
             "$ref": "#/definitions/FontWeight"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,Function|string[]|StringOrNumber|IRichTextCharacter[]>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/Function"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "items": {
+                  "$ref": "#/definitions/IRichTextCharacter"
+                },
+                "type": "array"
+              },
+              {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              }
+            ]
           },
           "type": "array"
         },
@@ -63732,51 +64323,6 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,string[]|StringOrNumber>": {
-      "properties": {
-        "domain": {
-          "description": "will set to scale.domain, it means input of scale",
-          "items": {},
-          "type": "array"
-        },
-        "field": {
-          "type": "string"
-        },
-        "range": {
-          "description": "will set to scale.range, it means output of scale",
-          "items": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": [
-                  "string",
-                  "number"
-                ]
-              }
-            ]
-          },
-          "type": "array"
-        },
-        "specified": {
-          "typeof": "function"
-        },
-        "type": {
-          "$ref": "#/definitions/ScaleType",
-          "description": "type of scale"
-        }
-      },
-      "required": [
-        "domain",
-        "range",
-        "type"
-      ],
-      "type": "object"
-    },
     "IVisualSpecStyle<unknown,string|HTMLCanvasElement|HTMLImageElement>": {
       "properties": {
         "domain": {
@@ -64090,7 +64636,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -64284,6 +64830,22 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -64406,7 +64968,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -64419,7 +64981,7 @@
                   "typeof": "function"
                 },
                 {
-                  "$ref": "#/definitions/IMarkPointTheme"
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
                 }
               ]
             },
@@ -65467,7 +66029,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -66360,7 +66922,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -67269,7 +67831,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         },
         "size": {
@@ -67277,14 +67839,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13723",
+        "__@toStringTag@13831",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         },
         "size": {
@@ -67292,14 +67854,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13723",
+        "__@toStringTag@13831",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         },
         "size": {
@@ -67307,14 +67869,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13723",
+        "__@toStringTag@13831",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         },
         "size": {
@@ -67322,14 +67884,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13723",
+        "__@toStringTag@13831",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         },
         "size": {
@@ -67337,14 +67899,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13723",
+        "__@toStringTag@13831",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         },
         "size": {
@@ -67352,14 +67914,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13723",
+        "__@toStringTag@13831",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         },
         "size": {
@@ -67367,14 +67929,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13723",
+        "__@toStringTag@13831",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         },
         "size": {
@@ -67382,14 +67944,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13723",
+        "__@toStringTag@13831",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         },
         "size": {
@@ -67397,7 +67959,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13723",
+        "__@toStringTag@13831",
         "size"
       ],
       "type": "object"
@@ -70745,6 +71307,11 @@
         "formatMethod": {
           "typeof": "function"
         },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
+        },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
@@ -70918,6 +71485,9 @@
           "description": "是否支持3D",
           "type": "boolean"
         },
+        "textType": {
+          "type": "string"
+        },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -70950,6 +71520,9 @@
     },
     "Omit<IMarkSpec<IArcMarkSpec>,\"state\">": {
       "properties": {
+        "customShape": {
+          "typeof": "function"
+        },
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户id"
@@ -71787,7 +72360,62 @@
       },
       "type": "object"
     },
-    "Omit<ITooltipTextTheme,\"autoWidth\">": {
+    "Omit<ITooltipTextTheme<string>,\"autoWidth\">": {
+      "properties": {
+        "fill": {
+          "description": "字体颜色",
+          "type": "string"
+        },
+        "fontColor": {
+          "type": "string"
+        },
+        "fontFamily": {
+          "description": "字体",
+          "type": "string"
+        },
+        "fontSize": {
+          "description": "字体大小",
+          "type": "number"
+        },
+        "fontWeight": {
+          "$ref": "#/definitions/StringOrNumber",
+          "description": "字重"
+        },
+        "lineHeight": {
+          "description": "行高",
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "maxWidth": {
+          "description": "最大宽度",
+          "type": "number"
+        },
+        "multiLine": {
+          "description": "是否支持换行",
+          "type": "boolean"
+        },
+        "spacing": {
+          "description": "与相邻元素的水平间距",
+          "type": "number"
+        },
+        "textAlign": {
+          "$ref": "#/definitions/TextAlign",
+          "description": "对齐方式"
+        },
+        "textBaseline": {
+          "$ref": "#/definitions/TextBaseLine",
+          "description": "字体基线"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/RichTextWordBreak",
+          "description": "换行模式，默认为'break-word'"
+        }
+      },
+      "type": "object"
+    },
+    "Omit<ITooltipTextTheme<string|IColorKey>,\"autoWidth\">": {
       "properties": {
         "fill": {
           "anyOf": [
@@ -71856,10 +72484,10 @@
       },
       "type": "object"
     },
-    "Omit<ITooltipTheme,\"offset\">": {
+    "Omit<ITooltipTheme<string>,\"offset\">": {
       "properties": {
         "keyLabel": {
-          "$ref": "#/definitions/Omit<ITooltipTextTheme,\"autoWidth\">",
+          "$ref": "#/definitions/Omit<ITooltipTextTheme<string>,\"autoWidth\">",
           "description": "tooltip内容，key字段"
         },
         "panel": {
@@ -71873,17 +72501,17 @@
           "type": "number"
         },
         "titleLabel": {
-          "$ref": "#/definitions/ITooltipTextTheme",
+          "$ref": "#/definitions/ITooltipTextTheme<string>",
           "description": "tooltip标题"
         },
         "valueLabel": {
-          "$ref": "#/definitions/ITooltipTextTheme",
+          "$ref": "#/definitions/ITooltipTextTheme<string>",
           "description": "tooltip内容，value字段"
         }
       },
       "type": "object"
     },
-    "Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">": {
+    "Omit<IVisualSpecScale<unknown,string>,\"id\">": {
       "properties": {
         "domain": {
           "anyOf": [
@@ -71902,14 +72530,7 @@
         "range": {
           "description": "will set to scale.range, it means output of scale",
           "items": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/IColorKey"
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "type": "string"
           },
           "type": "array"
         },
@@ -75648,6 +76269,11 @@
         "formatMethod": {
           "typeof": "function"
         },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
+        },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
@@ -75824,6 +76450,9 @@
         "support3d": {
           "description": "是否支持3D",
           "type": "boolean"
+        },
+        "textType": {
+          "type": "string"
         },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -76286,6 +76915,11 @@
         "formatMethod": {
           "typeof": "function"
         },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "since": "1.7.0",
+          "type": "string"
+        },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
@@ -76464,6 +77098,9 @@
           "description": "是否支持3D",
           "type": "boolean"
         },
+        "textType": {
+          "type": "string"
+        },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -76596,6 +77233,10 @@
         },
         "interactive": {
           "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "isOnCenter": {
+          "description": "是否定位于极坐标系的中心，默认为 true。如果为 false，则位置受 innerRadius 影响",
           "type": "boolean"
         },
         "state": {
@@ -76769,6 +77410,10 @@
         },
         "interactive": {
           "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "isOnCenter": {
+          "description": "是否定位于极坐标系的中心，默认为 true。如果为 false，则位置受 innerRadius 影响",
           "type": "boolean"
         },
         "outerPadding": {
@@ -79070,6 +79715,9 @@
         "enableScroll": {
           "type": "boolean"
         },
+        "event": {
+          "typeof": "function"
+        },
         "height": {
           "type": "number"
         },
@@ -80202,8 +80850,17 @@
         "text": {
           "anyOf": [
             {
+              "$ref": "#/definitions/Function"
+            },
+            {
               "items": {
                 "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IRichTextCharacter"
               },
               "type": "array"
             },
@@ -80239,6 +80896,16 @@
         "textureSize": {
           "description": "纹理单元的大小",
           "type": "number"
+        },
+        "type": {
+          "default": "'text'",
+          "description": "文字类型\n可选，'html', 'rich', 'text'",
+          "enum": [
+            "html",
+            "rich",
+            "text"
+          ],
+          "type": "string"
         },
         "underline": {
           "description": "下划线",
@@ -80307,7 +80974,7 @@
               "type": "array"
             },
             {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string|IColorKey>,\"id\">"
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
             }
           ],
           "description": "图表色系配置"
@@ -83098,34 +83765,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13723"
+        "__@toStringTag@13831"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13723"
+        "__@toStringTag@13831"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13723": {
+        "__@toStringTag@13831": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13723"
+        "__@toStringTag@13831"
       ],
       "type": "object"
     },
@@ -83135,10 +83802,10 @@
     "Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IGroupMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IGroupMarkSpec|IAreaMarkSpec|IRectMarkSpec|IRect3dMarkSpec|IPathMarkSpec|IArcMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IImageMarkSpec|IArcMarkSpec|IPathMarkSpec|IBoxPlotMarkSpec|ISymbolMarkSpec|IAreaMarkSpec|IRect3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {
@@ -93713,6 +94380,9 @@
           ],
           "type": "string"
         },
+        "mode": {
+          "type": "string"
+        },
         "outsideEnable": {
           "type": "boolean"
         },
@@ -93863,10 +94533,10 @@
       ],
       "type": "string"
     },
-    "TooltipContentProperty<ITooltipTextTheme>": {
+    "TooltipContentProperty<ITooltipTextTheme<string>>": {
       "anyOf": [
         {
-          "$ref": "#/definitions/ITooltipTextTheme"
+          "$ref": "#/definitions/ITooltipTextTheme<string>"
         },
         {
           "typeof": "function"
@@ -93895,6 +94565,19 @@
     },
     "TooltipContentProperty<string>": {
       "anyOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "TooltipContentProperty<string|TooltipRichTextAttrs>": {
+      "anyOf": [
+        {
+          "typeof": "function"
+        },
         {
           "typeof": "function"
         },
@@ -94109,6 +94792,27 @@
         }
       ]
     },
+    "VisualType<\"text\"|\"html\"|\"rich\">": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,\"text\"|\"html\"|\"rich\">"
+        },
+        {
+          "enum": [
+            "html",
+            "rich",
+            "text"
+          ],
+          "type": "string"
+        }
+      ]
+    },
     "VisualType<(datum:Datum)=>number>": {
       "anyOf": [
         {
@@ -94289,6 +94993,40 @@
             "bolder",
             "lighter",
             "normal"
+          ]
+        }
+      ]
+    },
+    "VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Function"
+        },
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/IRichTextCharacter"
+          },
+          "type": "array"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,Function|string[]|StringOrNumber|IRichTextCharacter[]>"
+        },
+        {
+          "type": [
+            "string",
+            "number"
           ]
         }
       ]
@@ -94701,31 +95439,6 @@
         }
       ]
     },
-    "VisualType<string[]|StringOrNumber>": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "$ref": "#/definitions/IVisualScale"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,string[]|StringOrNumber>"
-        },
-        {
-          "type": [
-            "string",
-            "number"
-          ]
-        }
-      ]
-    },
     "VisualType<string|HTMLCanvasElement|HTMLImageElement>": {
       "anyOf": [
         {
@@ -95127,3 +95840,4 @@
     }
   }
 }
+

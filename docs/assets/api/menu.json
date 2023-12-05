@@ -28,6 +28,13 @@
             "zh": "主题",
             "en": "Theme"
           }
+        },
+        {
+          "path": "function",
+          "title": {
+            "zh": "函数",
+            "en": "Function"
+          }
         }
       ]
     }

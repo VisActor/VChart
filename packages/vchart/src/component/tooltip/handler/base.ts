@@ -2,7 +2,7 @@ import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../../constant/bas
 import type { Options } from './constants';
 // eslint-disable-next-line no-duplicate-imports
 import { DEFAULT_OPTIONS } from './constants';
-import type { Maybe, IPoint } from '../../../typings';
+import type { Maybe, IPoint, ILayoutPoint } from '../../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipPositionMode } from '../../../typings/tooltip/position';
 // eslint-disable-next-line no-duplicate-imports
@@ -14,7 +14,6 @@ import type {
   ITooltipHandler,
   ITooltipPattern,
   ITooltipPositionActual,
-  TooltipPosition,
   ITooltipPositionPattern
 } from '../../../typings/tooltip';
 // eslint-disable-next-line no-duplicate-imports
@@ -34,14 +33,13 @@ import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNumber, isObject, isValidNumber, isValid, throttle, isNil } from '@visactor/vutils';
 import type { IElement } from '@visactor/vgrammar-core';
-import type { IModel } from '../../../model/interface';
+import type { ILayoutModel, IModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-components';
 import { getTooltipAttributes } from './utils/attribute';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { IChartOption } from '../../../chart/interface';
-import type { IChartLevelTheme } from '../../../core/interface';
-import { defaultChartLevelTheme } from '../../../theme/builtin';
+import { isPointInRect, isPointInTriangle } from '../../../util';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -91,6 +89,13 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   protected _cacheViewSpec: ITooltipSpec | undefined;
   protected _cacheActualTooltip: IToolTipActual | undefined;
 
+  protected _isTooltipPaused: boolean;
+  protected _isPointerEscaped: boolean;
+  protected _cachePointerTimer: number;
+  protected _cachePointerPosition: ILayoutPoint;
+  protected _cacheTooltipPosition: ILayoutPoint;
+  protected _cacheTooltipSize: IContainerSize;
+
   // tooltip 容器
   protected _container!: Maybe<IGroup | HTMLElement>;
 
@@ -113,8 +118,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     let changePositionOnly = !!params.changePositionOnly;
     if (!params.changePositionOnly || this._cacheActualTooltip?.activeType !== activeType) {
       changePositionOnly = false;
-      this._cacheViewSpec = undefined;
-      this._cacheActualTooltip = undefined;
+      this._clearCacheOfContent();
     }
 
     if (changePositionOnly && this._cacheViewSpec && this._cacheActualTooltip) {
@@ -141,8 +145,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
     /** 关闭 tooltip */
     if (!visible) {
-      this._cacheViewSpec = undefined;
-      this._cacheActualTooltip = undefined;
+      this._clearAllCache();
 
       /** 用户自定义逻辑 */
       if (tooltipSpec.handler) {
@@ -225,6 +228,22 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       return TooltipResult.failed;
     }
 
+    if (spec.enterable) {
+      if (!this._isPointerEscaped && this._isPointerMovingToTooltip(params)) {
+        if (!this._isTooltipPaused) {
+          this._isTooltipPaused = true;
+          this._cachePointerTimer = setTimeout(() => {
+            this._isPointerEscaped = true;
+          }, 300) as unknown as number;
+        }
+        return TooltipResult.success;
+      }
+      this._isTooltipPaused = false;
+      this._isPointerEscaped = false;
+      clearTimeout(this._cachePointerTimer);
+      this._cachePointerPosition = this._getPointerPositionRelativeToTooltipParent(params);
+    }
+
     const activeType = actualTooltip.activeType;
 
     /** 用户自定义逻辑 */
@@ -276,9 +295,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
   }
 
   release(): void {
-    this._cacheViewSpec = undefined;
-    this._cacheActualTooltip = undefined;
-
+    this._clearAllCache();
     const spec = this._component.getSpec() ?? {};
     /** 用户自定义逻辑 */
     if (spec.handler) {
@@ -289,6 +306,26 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     this._removeTooltip();
 
     this._isReleased = true;
+  }
+
+  protected _clearAllCache() {
+    this._clearCacheOfContent();
+    this._clearCacheOfPosition();
+  }
+
+  protected _clearCacheOfContent() {
+    this._cacheViewSpec = undefined;
+    this._cacheActualTooltip = undefined;
+  }
+
+  protected _clearCacheOfPosition() {
+    this._isTooltipPaused = false;
+    this._isPointerEscaped = false;
+    clearTimeout(this._cachePointerTimer);
+    this._cachePointerTimer = -1;
+    this._cachePointerPosition = undefined;
+    this._cacheTooltipPosition = undefined;
+    this._cacheTooltipSize = undefined;
   }
 
   /* -----需要子类继承的方法开始----- */
@@ -368,6 +405,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const { offsetX, offsetY } = this._option;
     const tooltipSpec = this._cacheViewSpec;
     if (!tooltipSpec) {
+      this._cacheTooltipPosition = undefined;
       return invalidPosition;
     }
 
@@ -435,7 +473,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
       const element = params.item as IElement;
       const model = params.model as IModel;
       const bounds = element?.getBounds() as AABBBounds;
-      const startPoint = model?.getLayoutStartPoint();
+      const startPoint = (<ILayoutModel>(<unknown>model))?.getLayoutStartPoint();
       if (bounds && startPoint) {
         let { x1, y1, x2, y2 } = bounds;
         x1 += startPoint.x;
@@ -650,23 +688,98 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
         break;
     }
 
-    return { x, y };
+    const result = { x, y };
+    this._cacheTooltipPosition = result;
+    this._cacheTooltipSize = { width: tooltipBoxWidth, height: tooltipBoxHeight };
+    return result;
   };
 
   // 计算 tooltip 内容区域的宽高，并缓存结果
   protected _getTooltipBoxSize(actualTooltip: IToolTipActual, changePositionOnly: boolean): IContainerSize | undefined {
     if (!changePositionOnly || isNil(this._attributes)) {
-      const { chartLevelTheme = defaultChartLevelTheme } = this._chartOption.getThemeConfig?.() ?? {};
-      this._attributes = getTooltipAttributes(
-        actualTooltip,
-        this._component.getSpec(),
-        chartLevelTheme as IChartLevelTheme
-      );
+      const chartTheme = this._chartOption?.getTheme() ?? {};
+      this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), chartTheme);
     }
     return {
       width: this._attributes?.panel?.width,
       height: this._attributes?.panel?.height
     };
+  }
+
+  protected _getPointerPositionRelativeToTooltipParent(params: TooltipHandlerParams) {
+    let { canvasX: x, canvasY: y } = params.event;
+
+    const invalidPosition = {
+      x: Infinity,
+      y: Infinity
+    };
+
+    const tooltipSpec = this._cacheViewSpec;
+    const isCanvas = tooltipSpec.renderMode === 'canvas';
+    const tooltipParentElement = this._getParentElement(tooltipSpec);
+
+    let relativePosOffset = { x: 0, y: 0 };
+    let tooltipParentElementRect: IPoint | DOMRect = { x: 0, y: 0 };
+    let chartElementScale = 1;
+    let tooltipParentElementScale = 1;
+
+    if (isTrueBrowser(this._env) && !tooltipSpec.confine) {
+      if (!isCanvas) {
+        tooltipParentElementRect = tooltipParentElement?.getBoundingClientRect() ?? invalidPosition;
+        const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
+        const chartElementRect = chartElement?.getBoundingClientRect();
+        relativePosOffset = {
+          x: chartElementRect.x - tooltipParentElementRect.x,
+          y: chartElementRect.y - tooltipParentElementRect.y
+        };
+        chartElementScale = getScale(chartElement, chartElementRect);
+        tooltipParentElementScale = getScale(tooltipParentElement, tooltipParentElementRect as DOMRect);
+      }
+    }
+
+    x *= chartElementScale;
+    y *= chartElementScale;
+    if (isTrueBrowser(this._env)) {
+      x += relativePosOffset.x;
+      y += relativePosOffset.y;
+    }
+    x /= tooltipParentElementScale;
+    y /= tooltipParentElementScale;
+    return { x, y };
+  }
+
+  protected _isPointerMovingToTooltip(params: TooltipHandlerParams) {
+    if (!this._cacheTooltipPosition || !this._cacheTooltipSize || !this._cachePointerPosition) {
+      return false;
+    }
+    const { width: tooltipWidth, height: tooltipHeight } = this._cacheTooltipSize;
+    const { x: tooltipX = 0, y: tooltipY } = this._cacheTooltipPosition;
+
+    const pos = this._getPointerPositionRelativeToTooltipParent(params);
+
+    if (
+      isPointInRect(pos, {
+        x: tooltipX,
+        y: tooltipY,
+        width: tooltipWidth,
+        height: tooltipHeight
+      })
+    ) {
+      return true;
+    }
+
+    // 确定 tooltip 四端点坐标
+    const a = { x: tooltipX, y: tooltipY };
+    const b = { x: a.x + tooltipWidth, y: a.y };
+    const c = { x: a.x, y: a.y + tooltipHeight };
+    const d = { x: b.x, y: c.y };
+    const oldPos = this._cachePointerPosition;
+    return (
+      isPointInTriangle(pos, oldPos, a, b) ||
+      isPointInTriangle(pos, oldPos, c, d) ||
+      isPointInTriangle(pos, oldPos, a, d) ||
+      isPointInTriangle(pos, oldPos, b, c)
+    );
   }
 
   protected _getParentElement(spec: ITooltipSpec): HTMLElement {

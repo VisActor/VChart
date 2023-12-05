@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 import type { IComponent } from '../../../interface';
 import type { IPoint, IPolarOrientType, IPolarPoint } from '../../../../typings';
-import type { IGrid } from '../../interface';
+import type { IAxis, IGrid } from '../../interface';
 import type { ICompilableData } from '../../../../compile/data';
 
 export type IPolarGrid = IGrid & {
@@ -25,7 +25,7 @@ export interface IPolarAxisHelper {
   getAxisId: () => number;
 }
 
-export interface IPolarAxis extends IComponent {
+export interface IPolarAxis extends IAxis {
   startAngle: number;
   endAngle: number;
 

@@ -86,6 +86,10 @@
 
 事件触发延迟时长。
 
+### sizeThreshold(number) = 5
+
+The size threshold of the brush selection box. Supported since version `1.2.0`.
+
 ### style(Object)
 
 选框样式配置。

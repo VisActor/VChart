@@ -109,7 +109,7 @@ Content formatting example:
 
 ## Customization
 
-According to the chart and business requirements, we can further customize the tooltip. For details, please refer to the [`setTooltipHandler`](../../../api/API/vchart) method.
+According to the chart and business requirements, we can further customize the tooltip. For details, please refer to the [`setTooltipHandler`](/vchart/api/API/vchart) method.
 
 ```javascript livedemo
 const data = [

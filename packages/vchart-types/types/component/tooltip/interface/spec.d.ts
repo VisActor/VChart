@@ -6,7 +6,7 @@ export interface ITooltipSpec extends Partial<ITooltipActiveTypeAsKeys<ITooltipP
     activeType?: TooltipActiveType | TooltipActiveType[];
     trigger?: 'hover' | 'click' | 'none';
     triggerOff?: 'hover' | 'click' | 'none';
-    style?: Omit<ITooltipTheme, 'offset'>;
+    style?: Omit<ITooltipTheme<string>, 'offset'>;
     handler?: Partial<ITooltipHandlerSpec>;
     renderMode?: 'html' | 'canvas';
     confine?: boolean;

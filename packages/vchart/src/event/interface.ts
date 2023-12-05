@@ -1,4 +1,3 @@
-import type { ILayoutItem } from './../model/interface';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { IChart } from '../chart/interface';
@@ -10,6 +9,7 @@ import type { Datum, IPoint, StringOrNumber } from '../typings';
 import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant';
 import type { SeriesType } from '../series/interface';
 import type { TooltipEventParams } from '../component/tooltip/interface/event';
+import type { ILayoutItem } from '../layout/interface';
 
 export type EventType =
   | 'pointerdown'
@@ -71,6 +71,8 @@ export type ComponentType =
   | 'legend'
   | 'mapLabel'
   | 'markLine'
+  | 'markArea'
+  | 'markPoint'
   | 'tooltip'
   | 'title'
   | 'label';

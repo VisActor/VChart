@@ -163,10 +163,10 @@ export class Compiler {
     this.updateDepend();
   }
 
-  clear(ctx: { chart: IChart; vChart: VChart }) {
+  clear(ctx: { chart: IChart; vChart: VChart }, removeGraphicItems: boolean = false) {
     const { chart } = ctx;
     chart.clear();
-    this.releaseGrammar();
+    this.releaseGrammar(removeGraphicItems);
   }
 
   async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
@@ -242,7 +242,7 @@ export class Compiler {
     }
     if (source === Event_Source_Type.chart) {
       const wrappedCallback = function (event: any, element: IElement | null) {
-        const context = element?.mark?.context ?? {};
+        const context = element?.mark?.getContext() ?? {};
         const modelId = isValid(context.modelId) ? context.modelId : null;
         const markId = isValid(context.markId) ? context.markId : null;
         const modelUserId = isValid(context.modelUserId) ? context.modelUserId : null;
@@ -349,8 +349,15 @@ export class Compiler {
     this.isReleased = true;
   }
 
-  releaseGrammar() {
+  /**
+   * 释放VGrammar
+   * @param removeGraphicItems 是否删除场景元素，在同步渲染，并且无动画时，必须设置为true，否则有绘图残留
+   */
+  releaseGrammar(removeGraphicItems: boolean = false) {
     this._releaseModel();
+    if (removeGraphicItems) {
+      this._view?.removeAllGraphicItems();
+    }
     this._view?.removeAllGrammars();
   }
 

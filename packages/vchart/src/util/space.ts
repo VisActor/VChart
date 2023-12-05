@@ -1,15 +1,15 @@
 import { isArray, type IBoundsLike } from '@visactor/vutils';
 import { isNumber, isNil, isString, isFunction, couldBeValidNumber, isObject } from './type';
-import type {
-  ILayoutPaddingSpec,
-  IPercentOffset,
-  ILayoutNumber,
-  IPercent,
-  ILayoutOrientPadding,
-  ILayoutRect
-} from '../model/interface';
 import type { IPadding, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
+import type {
+  ILayoutNumber,
+  ILayoutRect,
+  IPercent,
+  IPercentOffset,
+  ILayoutPaddingSpec,
+  ILayoutOrientPadding
+} from '../typings/layout';
 
 export function isValidOrient(orient: string): boolean {
   switch (orient) {
@@ -27,6 +27,24 @@ export function isPointInRect(point: IPoint, rect: IRect) {
   const { x, y, width, height } = rect;
   const { x: x0, y: y0 } = point;
   return x0 < x + width && y0 < y + height && y0 > y && x0 > x;
+}
+
+export function isPointInTriangle(point: IPoint, v1: IPoint, v2: IPoint, v3: IPoint) {
+  const { x: x0, y: y0 } = point;
+  const { x: x1, y: y1 } = v1;
+  const { x: x2, y: y2 } = v2;
+  const { x: x3, y: y3 } = v3;
+
+  const divisor = (y2 - y3) * (x1 - x3) + (x3 - x2) * (y1 - y3);
+  if (!divisor) {
+    return false;
+  }
+
+  const a = ((y2 - y3) * (x0 - x3) + (x3 - x2) * (y0 - y3)) / divisor;
+  const b = ((y3 - y1) * (x0 - x3) + (x1 - x3) * (y0 - y3)) / divisor;
+  const c = 1 - a - b;
+
+  return a >= 0 && a <= 1 && b >= 0 && b <= 1 && c >= 0 && c <= 1;
 }
 
 export function isPercent(v: any): v is IPercent {

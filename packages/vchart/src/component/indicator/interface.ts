@@ -1,7 +1,8 @@
-import type { IPercent } from '../../model/interface';
+import type { IPercent } from '../../typings/layout';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 
 export interface IIndicatorItemSpec {
   /**
@@ -38,7 +39,15 @@ export interface IIndicatorItemSpec {
   /**
    * 文字样式
    */
-  style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible'>;
+  style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible' | 'text'> & {
+    /** 文本类型：text, rich, html */
+    type?: 'text' | 'rich' | 'html';
+    /**
+     * 文本内容
+     * 支持富文本内容, 如textConfig, html
+     */
+    text?: string | string[] | number | number[] | IRichTextCharacter[];
+  };
 }
 
 export type IIndicator = IComponent;

@@ -4,7 +4,6 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import { LayoutZIndex } from '../../constant';
 import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
@@ -16,13 +15,12 @@ export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> exte
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Label;
+  layoutType: 'none' = 'none';
+  layoutZIndex: number = LayoutZIndex.Label;
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._regions = options.getRegionsInIndex([options.specIndex]);
-    this.layoutBindRegionID = this._regions.map(x => x.id);
   }
 
   protected _interactiveConfig(labelSpec: ILabelSpec) {
@@ -42,10 +40,6 @@ export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> exte
     return result;
   }
 
-  setLayoutStartPosition() {
-    // do nothing
-  }
-
   /** Update API **/
   _compareSpec() {
     const result = super._compareSpec();
@@ -63,7 +57,7 @@ export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> exte
   changeRegions(regions: IRegion[]): void {
     // do nothing
   }
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
   }
 }

@@ -1,7 +1,8 @@
+import { LayoutZIndex } from './../../constant/index';
 /* eslint-disable no-duplicate-imports */
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
-import type { IEffect, IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IEffect, IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
@@ -29,7 +30,8 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   type = ComponentTypeEnum.geoCoordinate;
   name: string = ComponentTypeEnum.geoCoordinate;
 
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: 'none' = 'none';
+  protected layoutZIndex: number = LayoutZIndex.Mark;
 
   _longitudeField?: string;
   get longitudeField() {
@@ -300,7 +302,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     // do nothing
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
   }
 

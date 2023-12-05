@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: clear old encode when update, fix #1630\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

@@ -6,11 +6,12 @@ import { DataSet, csvParser } from '@visactor/vdataset';
 import { dimensionStatistics } from '../../../../../src/data/transforms/dimension-statistics';
 import type { CartesianLinearAxis } from '../../../../../src/index';
 // eslint-disable-next-line no-duplicate-imports
-import { CartesianAxis } from '../../../../../src/index';
-import type { IComponent, IComponentOption } from '../../../../../src/component/interface';
+import { CartesianAxis, ThemeManager } from '../../../../../src/index';
+import { ComponentTypeEnum, type IComponent, type IComponentOption } from '../../../../../src/component/interface';
 import { EventDispatcher } from '../../../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../../../util/factory/compiler';
 import { initChartDataSet } from '../../../../util/context';
+import type { StringOrNumber } from '../../../../../src/typings/common';
 
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
@@ -40,6 +41,7 @@ dataSet.registerTransform('dimensionStatistics', dimensionStatistics);
 // });
 
 const ctx: IComponentOption = {
+  type: ComponentTypeEnum.cartesianLinearAxis,
   // region: {} as any,
   eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any) as IEventDispatcher,
   dataSet,
@@ -90,11 +92,13 @@ const ctx: IComponentOption = {
     return { width: 500, height: 500 } as any;
   },
   globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+  getTheme: () => ThemeManager.getCurrentTheme(),
   getComponentByUserId: function (user_id: string | number): IComponent | undefined {
     throw new Error('Function not implemented.');
   },
   animation: false,
-  onError: () => {}
+  onError: () => {},
+  getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => undefined
 };
 
 const getAxisSpec = (spec: any) => {
@@ -280,7 +284,7 @@ test('expand', () => {
     // @ts-ignore
     linearAxis.updateScaleDomain();
     const scale = linearAxis.getScale();
-    expect(scale.domain()).toEqual([500, 950]);
+    expect(scale.domain()).toEqual([500, 1000]);
   }
   /**
    * `range` is the highest priority, which will be the direct result for scale.domain.
@@ -310,7 +314,7 @@ test('extend', () => {
     linearAxis.created();
     linearAxis.setExtendDomain('test', 1100);
     const scale = linearAxis.getScale();
-    expect(scale.domain()).toEqual([0, 1100]);
+    expect(scale.domain()).toEqual([0, 1200]);
   }
 
   /**

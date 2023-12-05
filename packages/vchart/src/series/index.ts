@@ -68,7 +68,7 @@ import { ProgressLikeSeries } from './polar/progress-like';
 import type { IRoseLikeSeriesSpec } from './polar/rose-like';
 import { RoseLikeSeries } from './polar/rose-like';
 
-import type { ISeries } from './interface';
+import type { ISeries, ICartesianSeries, IPolarSeries, IGeoSeries } from './interface';
 
 export {
   WaterfallSeries,
@@ -144,6 +144,9 @@ export {
 
 export type {
   ISeries,
+  ICartesianSeries,
+  IPolarSeries,
+  IGeoSeries,
   IRoseLikeSeriesSpec,
   IAreaSeriesSpec,
   IBar3dSeriesSpec,

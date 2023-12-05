@@ -1,5 +1,5 @@
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
-import { RangeColumnChart } from '../../../src';
+import { RangeColumnChart, ThemeManager } from '../../../src';
 import type { RangeColumnSeries } from '../../../src/series/range-column/range-column';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../util/factory/compiler';
@@ -63,6 +63,7 @@ describe('rangeColumn chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+      getTheme: () => ThemeManager.getCurrentTheme(),
       animation: false
     } as any);
     chart.created();
@@ -85,7 +86,7 @@ describe('rangeColumn chart test', () => {
     expect(trigger.hover).toEqual({
       enable: true,
       trigger: 'pointermove',
-      triggerOff: ['pointermove', 'pointerleave']
+      triggerOff: 'pointerleave'
     });
     expect(trigger.select).toEqual({
       enable: true,

@@ -4,7 +4,7 @@ group: marker
 title: markArea 模拟象限图
 keywords: marker,scatterChart,scatter
 order: 33-7
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/marker/mark-area-quadrant.png
+cover: /vchart/preview/mark-area-quadrant_1.7.0.png
 option: scatterChart#markArea
 ---
 
@@ -14,9 +14,9 @@ option: scatterChart#markArea
 
 ## 关键配置
 
-数据点定位:
+相对位置定位:
 
-- `coordinates`属性声明构建 markArea 轮廓的数据点或数据聚合值数组, 聚合方式同上. 数据点的声明方式为`{ xKey: value , yKey: value }`, 其中`xKey`为 x 轴对应的数据字段; `yKey`为 y 轴对应的数据字段; `value`为数据字段对应的数值 或 数据聚合类型
+- 通过声明 `x`, `y`, `x1`, `y1` 属性来绘制区域，这些属性支持百分比定位
 
 area 样式配置:
 
@@ -29,6 +29,15 @@ const spec = {
   type: 'scatter',
   xField: 'x',
   yField: 'y',
+  padding: [12, 12, 50, 50],
+  region: [
+    {
+      style: {
+        stroke: '#000',
+        lineWidth: 2
+      }
+    }
+  ],
   label: {
     visible: true,
     style: {
@@ -47,88 +56,283 @@ const spec = {
     },
     {
       orient: 'left',
+      max: 85,
       visible: false
     }
   ],
   markArea: [
+    // 第一象限
     {
-      coordinates: [
-        {
-          x: 140,
-          y: 0
-        },
-        {
-          x: 220,
-          y: 0
-        },
-        {
-          x: 220,
-          y: 80
-        },
-        {
-          x: 140,
-          y: 80
-        }
-      ],
-      area: {
-        style: {
-          fill: '#5B8FF9',
-          fillOpacity: 0,
-          stroke: '#5B8FF9'
-        }
-      }
-    },
-    {
-      coordinates: [
-        {
-          x: 140,
-          y: 0
-        },
-        {
-          x: 180,
-          y: 0
-        },
-        {
-          x: 180,
-          y: 40
-        },
-        {
-          x: 140,
-          y: 40
-        }
-      ],
+      x: '50%',
+      x1: '100%',
+      y: '0%',
+      y1: '50%',
       area: {
         style: {
           fill: '#5B8FF9',
           fillOpacity: 0.15
         }
+      },
+      label: {
+        text: '第一象限',
+        position: 'insideTop',
+        dy: 4,
+        labelBackground: {
+          style: {
+            fill: '#FFC400'
+          }
+        },
+        style: {
+          fill: '#fff'
+        }
       }
     },
+    // 第二象限
     {
-      coordinates: [
-        {
-          x: 180,
-          y: 40
-        },
-        {
-          x: 220,
-          y: 40
-        },
-        {
-          x: 220,
-          y: 80
-        },
-        {
-          x: 180,
-          y: 80
+      x: '0%',
+      x1: '50%',
+      y: '0%',
+      y1: '50%',
+      area: {
+        style: {
+          fill: '#fff'
         }
-      ],
+      },
+      label: {
+        text: '第二象限',
+        position: 'insideTop',
+        dy: 4,
+        labelBackground: {
+          style: {
+            fill: '#FFC400'
+          }
+        },
+        style: {
+          fill: '#fff'
+        }
+      }
+    },
+    // 第三象限
+    {
+      x: '0%',
+      x1: '50%',
+      y: '50%',
+      y1: '100%',
       area: {
         style: {
           fill: '#5B8FF9',
           fillOpacity: 0.15
         }
+      },
+      label: {
+        text: '第三象限',
+        position: 'insideBottom',
+        dy: -4,
+        labelBackground: {
+          style: {
+            fill: '#FFC400'
+          }
+        },
+        style: {
+          fill: '#fff'
+        }
       }
+    },
+    // 第四象限
+    {
+      x: '50%',
+      x1: '100%',
+      y: '50%',
+      y1: '100%',
+      area: {
+        style: {
+          fill: '#fff'
+        }
+      },
+      label: {
+        text: '第四象限',
+        position: 'insideBottom',
+        dy: -4,
+        labelBackground: {
+          style: {
+            fill: '#FFC400'
+          }
+        },
+        style: {
+          fill: '#fff'
+        }
+      }
+    }
+  ],
+  // 分割线
+  markLine: [
+    // 水平
+    {
+      x: '50%',
+      line: {
+        style: {
+          lineDash: [0],
+          stroke: '#ccc'
+        }
+      },
+      endSymbol: {
+        visible: false
+      }
+    },
+    // 垂直
+    {
+      y: '50%',
+      line: {
+        style: {
+          lineDash: [0],
+          stroke: '#ccc'
+        }
+      },
+      endSymbol: {
+        visible: false
+      }
+    },
+    // 对角线
+    {
+      x: '0%',
+      y: '100%',
+      x1: '100%',
+      y1: '0%',
+      line: {
+        style: {
+          lineDash: [0],
+          stroke: '#ccc'
+        }
+      },
+      endSymbol: {
+        visible: false
+      }
+    },
+    // 对角线
+    {
+      x: '0%',
+      y: '0%',
+      x1: '100%',
+      y1: '100%',
+      line: {
+        style: {
+          lineDash: [0],
+          stroke: '#ccc'
+        }
+      },
+      endSymbol: {
+        visible: false
+      }
+    }
+  ],
+  // 辅助文本
+  extensionMark: [
+    // 纵轴辅助文本
+    {
+      type: 'group',
+      visible: true,
+      style: {
+        x: -12,
+        y: (datum, ctx, elements, dataView) => {
+          return ctx.getRegion().getLayoutRect().height;
+        }
+      },
+      children: [
+        {
+          type: 'text',
+          visible: true,
+          style: {
+            x: 0,
+            y: 0,
+            fontSize: 14,
+            lineHeight: 16,
+            fill: '#000',
+            text: 'ABILITY TO EXECUTE',
+            textAlign: 'start',
+            textBaseline: 'middle',
+            angle: -90
+          }
+        },
+        {
+          type: 'rule',
+          visible: true,
+          style: {
+            x: 0,
+            y: (datum, ctx, elements, dataView) => {
+              return -150;
+            },
+            x1: 0,
+            y1: (datum, ctx, elements, dataView) => {
+              return -190;
+            },
+            stroke: '#000',
+            lineWidth: 1
+          }
+        },
+        {
+          type: 'symbol',
+          visible: true,
+          style: {
+            x: 0,
+            y: (datum, ctx, elements, dataView) => {
+              return -186;
+            },
+            symbolType: 'triangleUp',
+            fill: '#000',
+            size: 12
+          }
+        }
+      ]
+    },
+    // 横轴辅助文本
+    {
+      type: 'group',
+      visible: true,
+      style: {
+        x: 0,
+        y: (datum, ctx, elements, dataView) => {
+          return ctx.getRegion().getLayoutRect().height + 12;
+        }
+      },
+      children: [
+        {
+          type: 'text',
+          visible: true,
+          style: {
+            x: 0,
+            y: 0,
+            fontSize: 14,
+            lineHeight: 16,
+            fill: '#000',
+            text: 'COMPLETENESS OF VISION',
+            textAlign: 'start',
+            textBaseline: 'middle'
+          }
+        },
+        {
+          type: 'rule',
+          visible: true,
+          style: {
+            x: 190,
+            y: 0,
+            x1: 230,
+            y1: 0,
+            stroke: '#000',
+            lineWidth: 1
+          }
+        },
+        {
+          type: 'symbol',
+          visible: true,
+          style: {
+            x: 236,
+            y: 0,
+            symbolType: 'triangleRight',
+            fill: '#000',
+            size: 12
+          }
+        }
+      ]
     }
   ],
   data: {

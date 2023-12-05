@@ -1,17 +1,15 @@
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
-import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorSpec, IIndicatorTheme } from './interface';
 import type { Maybe } from '../../typings';
 import type { IGraphic } from '@visactor/vrender-core';
 export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
-    static speckey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutType: LayoutItem['layoutType'];
+    layoutType: 'none';
     layoutZIndex: number;
     layoutLevel: number;
     private _gap;
@@ -36,7 +34,7 @@ export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T
     private _createText;
     private _computeLayoutRadius;
     private isRelativeModel;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     clear(): void;
 }
 export declare const registerIndicator: () => void;

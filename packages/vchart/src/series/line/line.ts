@@ -4,7 +4,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
-import { Direction, type Datum, type Maybe } from '../../typings';
+import type { Datum, Maybe } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerLineAnimation, registerScaleInOutAnimation } from '../../animation/config';
 import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';

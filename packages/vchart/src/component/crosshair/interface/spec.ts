@@ -61,14 +61,14 @@ export interface ICrosshairCategoryFieldSpec extends ICrosshairDataBindSpec {
   /**
    * crosshair 辅助图形配置
    */
-  line?: ICrosshairLineSpec | ICrosshairRectSpec;
+  line?: ICrosshairLineSpec | Omit<ICrosshairRectSpec, 'width'>;
   /**
    * crosshair 文本配置
    */
   label?: ICrosshairLabelSpec;
 }
 
-export interface ICrosshairValueFieldSpec {
+export interface ICrosshairValueFieldSpec extends ICrosshairDataBindSpec {
   /**
    * 是否可见
    */
@@ -102,14 +102,17 @@ export interface ICrosshairLineSpec {
   style?: ICrosshairLineStyle;
 }
 
+export type ICrosshairRectWidthCallback = (axisSize: { width: number; height: number }, axis: IAxis) => number;
+
 export interface ICrosshairRectSpec {
   visible?: boolean;
   type?: 'rect';
   /**
-   * 字符串xx%表示此处是内容区间的百分比，数字表示宽度像素
+   * 字符串xx%表示此处是内容区间的百分比，数字表示宽度像素，
+   * 仅支持笛卡尔坐标系下的 crosshair 配置
    * @default '100%''
    */
-  width?: number | string;
+  width?: number | string | ICrosshairRectWidthCallback;
   style?: ICrosshairRectStyle;
 }
 
@@ -149,7 +152,7 @@ export interface ICrosshairLabelBackgroundSpec {
    * 内部边距
    */
   padding?: IPadding | number | number[];
-  style: Partial<IRectMarkSpec>;
+  style?: Partial<IRectMarkSpec>;
 }
 
 export interface ICrosshairDataBindSpec {

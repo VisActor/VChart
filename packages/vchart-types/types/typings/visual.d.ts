@@ -10,6 +10,7 @@ import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
 import type { IRepeatType, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 export interface IVisualSpecBase<D, T> {
     type: ScaleType;
     domain: D[];
@@ -55,7 +56,7 @@ export interface ICommonSpec {
     x?: number;
     y?: number;
     z?: number;
-    stroke?: string | IGradient | IColorKey | false | (number | boolean)[];
+    stroke?: string | IGradient | false | (number | boolean)[] | IColorKey;
     strokeOpacity?: number;
     opacity?: number;
     lineWidth?: number;
@@ -98,7 +99,6 @@ export interface ISymbolMarkSpec extends IFillMarkSpec {
 export interface ILineLikeMarkSpec extends IFillMarkSpec {
     curveType?: InterpolateType;
     defined?: boolean;
-    enableSegments?: boolean;
 }
 export interface IAreaMarkSpec extends ILineLikeMarkSpec {
     x1?: number;
@@ -116,7 +116,8 @@ export interface IRuleMarkSpec extends ILineMarkSpec {
     y1?: number;
 }
 export interface ITextMarkSpec extends IFillMarkSpec {
-    text?: StringOrNumber | string[];
+    type?: 'html' | 'rich' | 'text';
+    text?: StringOrNumber | string[] | IRichTextCharacter[] | Function;
     dx?: number;
     dy?: number;
     fontSize?: number;

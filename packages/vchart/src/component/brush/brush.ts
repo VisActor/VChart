@@ -1,5 +1,4 @@
 import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
-import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -31,14 +30,12 @@ const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
 
 export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
-  layoutType: LayoutItem['layoutType'] = 'absolute';
+  layoutType: 'none' = 'none';
   static type = ComponentTypeEnum.brush;
   type = ComponentTypeEnum.brush;
   name: string = ComponentTypeEnum.brush;
 
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Brush;
-
-  static speckey = 'brush';
+  layoutZIndex: number = LayoutZIndex.Brush;
 
   // brush组件
   protected _brushComponents!: BrushComponent[];
@@ -89,13 +86,13 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   }
 
   static createComponent(spec: any, options: IComponentOption) {
-    const brushSpec = spec.brush || options.defaultSpec;
+    const brushSpec = spec.brush;
     // brush不支持数组的形式配置
     if (isNil(brushSpec) || brushSpec.visible === false) {
       return undefined;
     }
 
-    return [new Brush(brushSpec, { ...options, specKey: Brush.speckey })];
+    return [new Brush(brushSpec, options)];
   }
 
   created() {
@@ -525,7 +522,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     // do nothing
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return this._brushComponents as unknown as IGroup[];
   }
 

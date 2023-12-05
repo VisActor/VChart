@@ -28,7 +28,7 @@ export interface ICartesianChartSpec extends IChartSpec {
   /**
    * 参考区域配置
    */
-  markArea?: IMarkAreaSpec | IMarkLineSpec[];
+  markArea?: IMarkAreaSpec | IMarkAreaSpec[];
   /**
    * 参考点配置
    */

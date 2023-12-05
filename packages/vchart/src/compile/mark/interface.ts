@@ -17,8 +17,9 @@ import type {
 } from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
-import type { ILabelSpec } from '../../component/label';
+import type { TransformedLabelSpec } from '../../component/label';
 import type { IRegion } from '../../region/interface';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 export interface ICompilableMarkOption extends GrammarItemInitOption {
   key?: string | ((datum: Datum) => string);
@@ -31,6 +32,10 @@ export interface ICompilableMarkOption extends GrammarItemInitOption {
   support3d?: boolean;
   /* VGrammar的组件是否支持3d */
   mode?: '2d' | '3d';
+  /** skip theme of vgrammar or not */
+  skipTheme?: boolean;
+  /** don't separate style of mark */
+  noSeparateStyle?: boolean;
 }
 
 export interface ICompilableMark extends IGrammarItem {
@@ -56,9 +61,9 @@ export interface ICompilableMark extends IGrammarItem {
   setFacet: (facet: string) => void;
 
   // 标签
-  getLabelSpec: () => ILabelSpec[];
-  setLabelSpec: (label: ILabelSpec | ILabelSpec[]) => void;
-  addLabelSpec: (label: ILabelSpec) => void;
+  getLabelSpec: () => TransformedLabelSpec[];
+  setLabelSpec: (label: TransformedLabelSpec | TransformedLabelSpec[]) => void;
+  addLabelSpec: (label: TransformedLabelSpec, head?: boolean) => void;
 
   // 状态
   state: MarkStateManager;
@@ -130,6 +135,8 @@ export interface ICompilableMark extends IGrammarItem {
   /** 是否跳过布局阶段 */
   setSkipBeforeLayouted: (skip: boolean) => void;
   getSkipBeforeLayouted: () => boolean;
+
+  setCustomizedShapeCallback: (callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) => void;
 
   /** 开始状态动画 */
   runAnimationByState: (animationState?: string) => IAnimateArranger;

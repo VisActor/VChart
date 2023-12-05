@@ -1,8 +1,7 @@
-import { mergeSpec } from '../../util/spec/merge-spec';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IGaugeLabelSpec, IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
+import type { IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { IProgressArcMark } from '../../mark/progress-arc';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -71,12 +70,13 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   initMark(): void {
     super.initMark();
     this._trackMark = this._createMark(GaugeSeries.mark.track, {
-      parent: this._arcGroupMark
+      parent: this._arcGroupMark,
+      dataView: false
     }) as IProgressArcMark;
     this._segmentMark = this._createMark(GaugeSeries.mark.segment, {
       parent: this._arcGroupMark,
       isSeriesMark: true,
-      label: this._preprocessLabelSpec()
+      label: this._preprocessLabelSpec(this._spec.label)
     }) as IProgressArcMark;
   }
 
@@ -95,8 +95,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         startAngle: this._getAngleValueStart.bind(this),
         endAngle: this._getAngleValueEnd.bind(this),
         innerRadius: () => this._computeLayoutRadius() * (this._spec.innerRadius ?? 0),
-        // 需要优先兼容this._spec.radius
-        outerRadius: () => this._computeLayoutRadius() * (this._spec.radius ?? this._spec.outerRadius ?? 1),
+        outerRadius: () => this._computeLayoutRadius() * (this._spec.radius ?? this._spec.outerRadius ?? 1), // 需要优先兼容this._spec.radius
         cap: this._spec.roundCap ?? false,
         boundsMode: 'imprecise',
         cornerRadius: this._spec.cornerRadius,
@@ -107,7 +106,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         // forceShowCap 是内部属性，不在接口中暴露
         forceShowCap: true
       });
-      segmentMark.setLabelSpec(this._preprocessLabelSpec());
+      segmentMark.setLabelSpec(this._preprocessLabelSpec(this._spec.label));
       this._trigger.registerMark(segmentMark);
     }
   }
@@ -126,6 +125,10 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         y: () => this.angleAxisHelper.center().y,
         startAngle: this._startAngle,
         endAngle: this._endAngle,
+        innerRadius: () => this._computeLayoutRadius() * (this._spec.innerRadius ?? 0),
+        outerRadius: () => this._computeLayoutRadius() * (this._spec.radius ?? this._spec.outerRadius ?? 1), // 需要优先兼容this._spec.radius
+        cap: this._spec.roundCap ?? false,
+        boundsMode: 'imprecise',
         cornerRadius: this._spec.cornerRadius,
         zIndex: 100
       });
@@ -153,11 +156,6 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 
   protected _getAngleValueEndWithoutPadAngle(datum: Datum) {
     return this.angleAxisHelper.dataToPosition([datum[SEGMENT_FIELD_END]]);
-  }
-
-  protected _preprocessLabelSpec() {
-    const labelSpec: IGaugeLabelSpec = mergeSpec({ animation: this._spec.animation }, this._spec.label);
-    return labelSpec;
   }
 
   initAnimation() {

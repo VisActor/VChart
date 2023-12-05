@@ -21,10 +21,12 @@ export type PointerMarkSpec = {
     innerPadding?: number;
     outerPadding?: number;
     center?: [number, number];
+    isOnCenter?: boolean;
 };
 export type PinMarkSpec = {
     width?: number;
     height?: number;
+    isOnCenter?: boolean;
 };
 export interface IGaugePointerSeriesTheme extends IProgressLikeSeriesTheme {
     [SeriesMarkNameEnum.pin]?: Partial<IMarkTheme<IPathMarkSpec> & PinMarkSpec>;

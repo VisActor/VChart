@@ -295,13 +295,8 @@ export class SequenceChart extends BaseChart {
    * @override
    * @description 主要是将link series关联的dot data放到link series中
    */
-  createSeries(seriesSpec: ISequenceSeriesSpec[]) {
+  protected _createSeries(seriesSpec: ISequenceSeriesSpec[]) {
     seriesSpec.forEach((spec, index) => {
-      // 自动填充数据
-      if (!spec.data) {
-        spec.data = this._chartData.getSeriesData(spec.dataId, spec.dataIndex);
-      }
-
       if (spec.type === SeriesTypeEnum.link) {
         spec.dotSeriesSpec = this._spec.series[spec.dotSeriesIndex];
       }
@@ -318,6 +313,7 @@ export class SequenceChart extends BaseChart {
       }
       const series = Factory.createSeries(spec.type, spec, {
         ...this._modelOption,
+        type: spec.type,
         region,
         specIndex: index,
         specKey: 'series',

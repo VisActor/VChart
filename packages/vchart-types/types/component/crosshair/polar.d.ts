@@ -16,6 +16,8 @@ type IAxisInfo = Map<number, IBound & {
     axis: IPolarAxis;
 }>;
 export declare class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
+    static specKey: string;
+    specKey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
@@ -72,7 +74,7 @@ export declare class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrossh
     private _layoutHorizontal;
     protected _parseFieldInfo(): void;
     private _updateCrosshairLabel;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
 }
 export declare const registerPolarCrossHair: () => void;
 export {};

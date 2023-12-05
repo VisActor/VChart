@@ -16,6 +16,6 @@ export const title: ITitleTheme = {
     fontSize: THEME_CONSTANTS.l4FontSize,
     lineHeight: THEME_CONSTANTS.l4LineHeight as any, // FIXME: vrender 支持行高字符串后删除 any
 
-    fill: { type: 'palette', key: 'secondaryFontColor' }
+    fill: { type: 'palette', key: 'tertiaryFontColor' }
   }
 };

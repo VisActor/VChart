@@ -15,7 +15,7 @@ import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
   private static _series: { [key: string]: ISeriesConstructor } = {};
-  private static _components: { [key: string]: IComponentConstructor } = {};
+  private static _components: { [key: string]: { cmp: IComponentConstructor; alwaysCheck?: boolean } } = {};
   private static _marks: { [key: string]: MarkConstructor } = {};
   private static _regions: { [key: string]: IRegionConstructor } = {};
   private static _animations: { [key: string]: (params?: any, preset?: any) => MarkAnimationSpec } = {};
@@ -42,8 +42,8 @@ export class Factory {
   static registerSeries(key: string, series: ISeriesConstructor) {
     Factory._series[key] = series;
   }
-  static registerComponent(key: string, cmp: IComponentConstructor) {
-    Factory._components[key] = cmp;
+  static registerComponent(key: string, cmp: IComponentConstructor, alwaysCheck?: boolean) {
+    Factory._components[key] = { cmp, alwaysCheck };
   }
   static registerMark(key: string, mark: MarkConstructor) {
     Factory._marks[key] = mark;
@@ -106,7 +106,7 @@ export class Factory {
   }
 
   static getComponentInKey(name: string) {
-    return Factory._components[name];
+    return Factory._components[name].cmp;
   }
 
   static getLayout() {

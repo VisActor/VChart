@@ -4,7 +4,7 @@ import { GlobalScale } from '../../../src/scale/global-scale';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import type { BarSeries, IChartSpec } from '../../../src';
 // eslint-disable-next-line no-duplicate-imports
-import { BarChart } from '../../../src';
+import { BarChart, ThemeManager } from '../../../src';
 import { DataSet } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import { initChartDataSet } from '../../util/context';
@@ -115,7 +115,8 @@ describe('Bar chart test', () => {
             }
           } as any;
         },
-        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any)
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();

@@ -95,7 +95,7 @@ const spec = {
       bindingAxesIndex: [1],
       defaultSelect: {
         axisIndex: 1,
-        datum: '回合6'
+        datum: 'Round 6'
       },
       label: {
         visible: true // label is off by default

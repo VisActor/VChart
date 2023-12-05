@@ -23,13 +23,13 @@ import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
+import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
 import { isTrueBrowser } from '../util/env';
 import { warn } from '../util/debug';
 import { mergeSpec, mergeSpecWithFilter } from '../util/spec/merge-spec';
 import { specTransform } from '../util/spec/transform';
-import { preprocessSpecOrTheme } from '../util/spec/preprocess';
 import { getThemeObject } from '../util/spec/common';
 import { Factory } from './factory';
 import { Event } from '../event/event';
@@ -76,13 +76,10 @@ import {
   isFunction,
   LoggerLevel,
   isEqual,
-  isString,
-  isValid,
-  isNil,
-  array,
-  debounce
+  get,
+  cloneDeep
 } from '@visactor/vutils';
-import type { DataLinkAxis, DataLinkSeries, IChartLevelTheme, IGlobalConfig, IVChart } from './interface';
+import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
@@ -93,8 +90,10 @@ import { GroupMark } from '../mark/group';
 import { registerVGrammarAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
-import { mergeThemeAndGet } from '../theme/util';
+import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
+import { mergeTheme, preprocessTheme } from '../util/spec';
+import { darkTheme, registerTheme } from '../theme/builtin';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -106,7 +105,12 @@ export class VChart implements IVChart {
    */
   static useRegisters(comps: (() => void)[]) {
     comps.forEach((fn: () => void) => {
-      fn();
+      if (typeof fn === 'function') {
+        // 确保元素是函数类型
+        fn();
+      } else {
+        console.error('Invalid function:', fn);
+      }
     });
   }
 
@@ -155,6 +159,49 @@ export class VChart implements IVChart {
    */
   static registerDataSetTransform(name: string, transform: Transform) {
     Factory.registerTransform(name, transform);
+  }
+
+  /**
+   * 注册函数（全局注册）
+   * @param key 函数名称
+   * @param fun 函数内容
+   */
+  static registerFunction(key: string, fun: Function) {
+    if (!key || !fun) {
+      return;
+    }
+    ExpressionFunction.instance().registerFunction(key, fun);
+  }
+
+  /**
+   * 注销函数（全局注销）
+   * @param key 函数名称
+   */
+  static unregisterFunction(key: string) {
+    if (!key) {
+      return;
+    }
+    ExpressionFunction.instance().unregisterFunction(key);
+  }
+
+  /**
+   * 获取函数（全局）
+   * @param key
+   * @returns
+   */
+  static getFunction(key: string): Function | null {
+    if (!key) {
+      return null;
+    }
+    return ExpressionFunction.instance().getFunction(key);
+  }
+
+  /**
+   * 获取函数列表（全局获取）
+   * @returns
+   */
+  static getFunctionList(): string[] | null {
+    return ExpressionFunction.instance().getFunctionNameList();
   }
 
   /**
@@ -245,8 +292,7 @@ export class VChart implements IVChart {
   private _observer: ResizeObserver = null;
 
   private _currentThemeName: string;
-  //private _currentTheme: ITheme;
-  private _currentChartLevelTheme: IChartLevelTheme = {};
+  private _currentTheme: ITheme;
 
   private _onError?: (...args: any[]) => void;
 
@@ -258,8 +304,9 @@ export class VChart implements IVChart {
     this._onError = this._option?.onError;
 
     const { dom, renderCanvas, mode, stage, poptip, ...restOptions } = this._option;
+    const isTrueBrowseEnv = isTrueBrowser(mode);
 
-    if (dom) {
+    if (isTrueBrowseEnv && dom) {
       this._container = isString(dom) ? document?.getElementById(dom) : dom;
     }
     if (renderCanvas) {
@@ -273,9 +320,8 @@ export class VChart implements IVChart {
       this._option?.onError('please specify container or renderCanvas!');
       return;
     }
-
     // 根据 mode 配置动态加载浏览器或 node 环境代码
-    if (isTrueBrowser(mode)) {
+    if (isTrueBrowseEnv) {
       registerBrowserEnv();
     } else if (mode === 'node') {
       registerNodeEnv();
@@ -309,15 +355,15 @@ export class VChart implements IVChart {
     this._eventDispatcher = new EventDispatcher(this, this._compiler);
     this._event = new Event(this._eventDispatcher, mode);
     this._compiler.initView();
+    // TODO: 如果通过 updateSpec 更新主题字体的验证
     // 设置全局字体
     this.getStage()?.setTheme({
-      text: { fontFamily: this._currentChartLevelTheme.fontFamily }
+      text: { fontFamily: this._currentTheme?.fontFamily }
     });
     this._initDataSet(this._option.dataSet);
-    this._autoSize = isTrueBrowser(mode) ? spec.autoFit ?? this._option.autoFit ?? true : false;
+    this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
-    this._event.emit(ChartEvent.initialized, {});
 
     InstanceManager.registerInstance(this);
   }
@@ -335,11 +381,18 @@ export class VChart implements IVChart {
       this._option?.onError('compiler is not initialized');
       return;
     }
+
+    // 如果用户注册了函数，在配置中替换相应函数名为函数内容
+    if (VChart.getFunctionList() && VChart.getFunctionList().length) {
+      spec = functionTransform(spec, VChart);
+    }
+
     // 放到这里而不是放到chart内的考虑
     // 用户spec更新，也许会有core上图表实例的内容存在
     // 如果要支持spec的类似Proxy监听，更新逻辑应当从这一层开始。如果在chart上做，就需要在再向上发送spec更新消息，不是很合理。
     // todo: 问题1 存不存在 chart 需要在这个阶段处理的特殊字段？目前没有，但是理论上可以有？
     const chart = Factory.createChart(spec.type, spec, {
+      type: spec.type,
       globalInstance: this,
       eventDispatcher: this._eventDispatcher!,
       dataSet: this._dataSet!,
@@ -352,12 +405,8 @@ export class VChart implements IVChart {
       performanceHook: this._option.performanceHook,
       viewBox: this._viewBox,
       animation: this._option.animation,
-      getThemeConfig: () => ({
-        globalTheme: this._currentThemeName,
-        optionTheme: this._option.theme,
-        specTheme: this._spec?.theme,
-        chartLevelTheme: this._currentChartLevelTheme
-      }),
+      getTheme: () => this._currentTheme ?? {},
+
       layout: this._option.layout,
       onError: this._onError
     });
@@ -368,7 +417,8 @@ export class VChart implements IVChart {
     this._chart = chart;
     this._chart.setCanvasRect(this._curSize.width, this._curSize.height);
     this._chart.created();
-    this._chart.init({});
+    this._chart.init();
+    this._event.emit(ChartEvent.initialized, {});
   }
 
   private _releaseData() {
@@ -484,7 +534,8 @@ export class VChart implements IVChart {
       // 释放图表等等
       this._chart.release();
       this._chart = null as unknown as IChart;
-      this._compiler?.releaseGrammar();
+      // 如果不需要动画，那么释放item，避免元素残留
+      this._compiler?.releaseGrammar(this._option?.animation === false || this._spec?.animation === false);
       // chart 内部事件 模块自己必须删除
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
@@ -497,7 +548,7 @@ export class VChart implements IVChart {
       if (updateResult.reCompile) {
         // recompile
         // 清除之前的所有 compile 内容
-        this._compiler?.clear({ chart: this._chart, vChart: this });
+        this._compiler?.clear({ chart: this._chart, vChart: this }, !this._option.animation || !this._spec.animation);
         // TODO: 释放事件？ vgrammar 的 view 应该不需要释放，响应的stage也没有释放，所以事件可以不绑定
         // 重新绑定事件
         // TODO: 释放XX？
@@ -730,8 +781,8 @@ export class VChart implements IVChart {
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
       if (preDV) {
-        preDV.setFields(fields as IFields);
-        preDV.parse(values, parser as IParserOptions);
+        preDV.setFields(cloneDeep(fields) as IFields);
+        preDV.parse(values, cloneDeep(parser) as IParserOptions);
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
@@ -763,8 +814,8 @@ export class VChart implements IVChart {
       const { id, values, parser, fields } = d;
       const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
       if (preDV) {
-        preDV.setFields(fields as IFields);
-        preDV.parse(values, parser as IParserOptions);
+        preDV.setFields(cloneDeep(fields) as IFields);
+        preDV.parse(values, cloneDeep(parser) as IParserOptions);
       } else {
         // new data
         const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
@@ -804,7 +855,7 @@ export class VChart implements IVChart {
       }
       const reSize = this._shouldChartResize(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
-      return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
+      return mergeUpdateResult(this._chart.updateSpec(spec), {
         change: reSize,
         reMake: false,
         reCompile: false,
@@ -849,7 +900,7 @@ export class VChart implements IVChart {
       }
       const reSize = this._shouldChartResize(lastSpec);
       this._compiler?.getVGrammarView()?.updateLayoutTag();
-      return mergeUpdateResult(this._chart.updateSpec(spec, morphConfig), {
+      return mergeUpdateResult(this._chart.updateSpec(spec), {
         change: reSize,
         reMake: false,
         reCompile: false,
@@ -1007,7 +1058,7 @@ export class VChart implements IVChart {
       this._compiler.renderSync();
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      this._chart?.onEvaluateEnd();
+      this._chart.onEvaluateEnd();
     }
     // 获取 compiler
     this._compiler.updateViewBox(viewBox, reRender);
@@ -1112,21 +1163,35 @@ export class VChart implements IVChart {
       this._currentThemeName = nextThemeName;
     }
 
-    const colorScheme = mergeThemeAndGet('colorScheme', this._currentThemeName, optionTheme, specTheme);
-    this._currentChartLevelTheme = {
-      colorScheme,
-      background: mergeThemeAndGet('background', this._currentThemeName, optionTheme, specTheme, colorScheme),
-      fontFamily: mergeThemeAndGet('fontFamily', this._currentThemeName, optionTheme, specTheme, colorScheme)
-    };
+    // 处理 specTheme 和 optionTheme, merge -> transform
+    // 优先级 currentTheme < optionTheme < specTheme
+    if (!isEmpty(optionTheme) || !isEmpty(specTheme)) {
+      if (
+        (isString(optionTheme) && (!specTheme || isString(specTheme))) ||
+        (isString(specTheme) && (!optionTheme || isString(optionTheme)))
+      ) {
+        const finalTheme = mergeTheme(
+          {},
+          getThemeObject(this._currentThemeName, true),
+          getThemeObject(optionTheme, true),
+          getThemeObject(specTheme, true)
+        );
+        this._currentTheme = finalTheme;
+      } else {
+        const finalTheme = mergeTheme(
+          {},
+          getThemeObject(this._currentThemeName),
+          getThemeObject(optionTheme),
+          getThemeObject(specTheme)
+        );
+        this._currentTheme = preprocessTheme(finalTheme, finalTheme.colorScheme);
+      }
+    } else {
+      this._currentTheme = getThemeObject(this._currentThemeName, true);
+    }
 
     // 设置 poptip 的主题
-    setPoptipTheme(
-      preprocessSpecOrTheme(
-        'mark-theme',
-        mergeThemeAndGet('component.poptip', this._currentThemeName, optionTheme, specTheme, colorScheme),
-        colorScheme
-      )
-    );
+    setPoptipTheme(get(this._currentTheme, 'component.poptip'));
     // 设置背景色
     this._compiler?.setBackground(this._getBackground());
   }
@@ -1157,7 +1222,7 @@ export class VChart implements IVChart {
   private _getBackground() {
     const specBackground = typeof this._spec.background === 'string' ? this._spec.background : null;
     // spec > spec.theme > initOptions.theme
-    return specBackground || (this._currentChartLevelTheme.background as string) || this._option.background;
+    return specBackground || (this._currentTheme.background as string) || this._option.background;
   }
 
   /**
@@ -1187,7 +1252,7 @@ export class VChart implements IVChart {
 
     await this.updateCustomConfigAndRerender(() => {
       this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme(true);
+      this._chart?.setCurrentTheme();
       return { change: true, reMake: false };
     });
 
@@ -1207,7 +1272,7 @@ export class VChart implements IVChart {
 
     this.updateCustomConfigAndRerenderSync(() => {
       this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme(true);
+      this._chart?.setCurrentTheme();
       return { change: true, reMake: false };
     });
 
@@ -1574,7 +1639,7 @@ export class VChart implements IVChart {
         .getViewData()
         // eslint-disable-next-line eqeqeq
         .latestData.find((viewDatum: Datum) => keys.every(k => viewDatum[k] == datum[k]));
-      const seriesLayoutStartPoint = series.getLayoutStartPoint();
+      const seriesLayoutStartPoint = series.getRegion().getLayoutStartPoint();
       let point: IPoint;
       if (handledDatum) {
         point = series.dataToPosition(handledDatum);
@@ -1648,9 +1713,50 @@ export class VChart implements IVChart {
 
     return convertPoint(
       (series as ISeries).valueToPosition(value[0], value[1]),
-      series.getLayoutStartPoint(),
+      series.getRegion().getLayoutStartPoint(),
       isRelativeToCanvas
     );
+  }
+
+  /**
+   * 获取实例函数
+   * @param key 函数名称
+   * @returns
+   */
+  getFunction(key: string): Function | null {
+    return ExpressionFunction.instance().getFunction(key);
+  }
+
+  /**
+   * 注册实例函数（对内包装一层，区分名字，避免重名问题）
+   * @param key 函数名称
+   * @param fun 函数内容
+   * @returns
+   */
+  registerFunction(key: string, fun: Function) {
+    if (!key || !fun) {
+      return;
+    }
+    ExpressionFunction.instance().registerFunction(key, fun);
+  }
+
+  /**
+   * 注销实例函数
+   * @param key 函数名称
+   */
+  unregisterFunction(key: string) {
+    if (!key) {
+      return;
+    }
+    ExpressionFunction.instance().unregisterFunction(key);
+  }
+
+  /**
+   * 获取实例函数列表
+   * @returns
+   */
+  getFunctionList() {
+    return ExpressionFunction.instance().getFunctionNameList();
   }
 }
 
@@ -1665,6 +1771,8 @@ export const registerVChartCore = () => {
   View.useRegisters([registerFilterTransform, registerMapTransform]);
   // install animation
   registerVGrammarAnimation();
+  // install default theme
+  registerTheme(darkTheme.name, darkTheme);
   // set default logger level to Level.error
   Logger.getInstance(LoggerLevel.Error);
 };

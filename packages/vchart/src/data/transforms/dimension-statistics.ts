@@ -1,4 +1,4 @@
-import { isNil, isFunction } from '@visactor/vutils';
+import { isNil, isFunction, minInArray, maxInArray } from '@visactor/vutils';
 import type { IFieldsMeta } from '../../typings/spec';
 import { couldBeValidNumber } from '../../util/type';
 import { mergeFields } from '../../util/data';
@@ -7,16 +7,16 @@ import type { Datum } from '../../typings';
 
 const methods = {
   min: (arr: any[]) => {
-    return arr.length ? Math.min.apply(null, arr) : 0;
+    return arr.length ? minInArray(arr.map(n => n * 1)) : 0;
   },
   max: (arr: any[]) => {
-    return arr.length ? Math.max.apply(null, arr) : 0;
+    return arr.length ? maxInArray(arr.map(n => n * 1)) : 0;
   },
   'array-min': (arr: any[]) => {
-    return arr.length ? Math.min.apply(null, arr) : 0;
+    return arr.length ? minInArray(arr.map(n => n * 1)) : 0;
   },
   'array-max': (arr: any[]) => {
-    return arr.length ? Math.max.apply(null, arr) : 0;
+    return arr.length ? maxInArray(arr.map(n => n * 1)) : 0;
   },
   values: (arr: any[]) => {
     const map = {};
@@ -96,6 +96,8 @@ export const dimensionStatisticsOfSimpleData = (
 ) => {
   const result = {};
 
+  let fValues: any[] = [];
+  let nextFValues: any[] = [];
   fields.forEach(f => {
     const key = f.key;
     // NOTE: the same key in fields has been merge already
@@ -104,16 +106,26 @@ export const dimensionStatisticsOfSimpleData = (
     const operations: StatisticOperations = f.operations;
     const isNumberField = operations.some(op => op === 'min' || op === 'max' || op === 'allValid');
     let allValid = true;
-    let fValues: any[] = latestData.reduce((res: any[], d: Datum) => {
+    fValues.length = 0;
+
+    latestData.forEach((d: Datum) => {
       if (d) {
-        res.push(d[key]);
+        fValues.push(d[key]);
       }
-      return res;
-    }, []);
+    });
     const len = fValues.length;
 
     if (isNumberField) {
-      fValues = fValues.filter(couldBeValidNumber);
+      nextFValues.length = 0;
+      fValues.forEach((item, i) => {
+        if (couldBeValidNumber(item)) {
+          nextFValues.push(item);
+        }
+      });
+      const t = fValues;
+      fValues = nextFValues;
+      nextFValues = t;
+      // fValues = fValues.filter(couldBeValidNumber);
       allValid = fValues.length === len;
     } else if (operations.some(op => op === 'array-min' || op === 'array-max')) {
       fValues = fValues.reduce((res, entry) => {

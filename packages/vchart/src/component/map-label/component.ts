@@ -14,7 +14,6 @@ import { layoutByPosition, layoutOuter, placeRectByOrient } from './layout';
 
 import { CompilableData } from '../../compile/data/compilable-data';
 import { normalizeLayoutPaddingSpec } from '../../util/space';
-import type { LayoutItem } from '../../model/layout-item';
 import { MarkPoint } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
@@ -31,9 +30,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   type = ComponentTypeEnum.mapLabel;
   name: string = ComponentTypeEnum.mapLabel;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-
-  static speckey = 'mapLabel';
+  layoutType: 'none' = 'none';
 
   layoutZIndex = LayoutZIndex.MarkPoint;
 
@@ -427,8 +424,8 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     // do nothing
   }
 
-  getVRenderComponents(): IGraphic[] {
-    return [];
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
+    return this._markerComponents as unknown as IGroup[];
   }
 }
 

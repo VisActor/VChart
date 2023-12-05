@@ -2,6 +2,153 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.7.2",
+      "tag": "@visactor/vchart_v1.7.2",
+      "date": "Wed, 29 Nov 2023 19:03:36 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: clear old encode when update, fix #1630\n\n"
+          },
+          {
+            "comment": "fix: fix the problem that track mark has multiple elements in gauge series, related #1643 "
+          },
+          {
+            "comment": "fix: fix the problem that gaugePointer series doesn't support custom `innerRadius`, related #1644"
+          },
+          {
+            "comment": "refactor: unify `getVRenderComponents` method in Component model"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.7.1",
+      "tag": "@visactor/vchart_v1.7.1",
+      "date": "Tue, 28 Nov 2023 08:24:27 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: read dataview of extension-mark by `dataId`\n\n"
+          },
+          {
+            "comment": "fix: fixed the issue where the layout size of the axis is incorrect when only domainLine is displayed\n\n"
+          },
+          {
+            "comment": "fix: fix bug of changed spec when create series\n\n"
+          },
+          {
+            "comment": "fix(pie): get center error. fix #1610"
+          },
+          {
+            "comment": "fix: optimize the effect of `tooltip.enterable` that user's pointer can easily enter the tooltip, related #1598"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.7.0",
+      "tag": "@visactor/vchart_v1.7.0",
+      "date": "Fri, 24 Nov 2023 09:43:25 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support `trimPadding` for band type axis, which used to remove the blank space at both ends of the aixs, closed #1174"
+          },
+          {
+            "comment": "feat: custom mark support animation config"
+          },
+          {
+            "comment": "feat: support customShape of mark\n\n"
+          },
+          {
+            "comment": "feat: optimize auto mode of data-zoom, related #1416"
+          },
+          {
+            "comment": "feature: supports registered function expression syntax, related #1187"
+          },
+          {
+            "comment": "feat: enhance marker's position ability"
+          },
+          {
+            "comment": "feat: mark area should support specify x x1 y and y1 both"
+          },
+          {
+            "comment": "feat: add light-mobile and dark-mobile theme, related #1414"
+          },
+          {
+            "comment": "fix: chart padding won't update when switching global theme"
+          },
+          {
+            "comment": "feat: optmize performance of computing data"
+          },
+          {
+            "comment": "feat: support none in component layoutType\n\n"
+          },
+          {
+            "comment": "feat: support line/area label"
+          },
+          {
+            "comment": "fix: fix spec modified unexpectedly in data model, details in #1514\n\n"
+          },
+          {
+            "comment": "fix: update enableSegements implemention\n\n"
+          },
+          {
+            "comment": "perf: dont need to call `attrTransform()` in compilable-mark\n\n"
+          },
+          {
+            "comment": "perf: remove getStatisticsDomain()\n\n"
+          },
+          {
+            "comment": "perf: dont call bounds calculate when user specify width/height of components"
+          },
+          {
+            "comment": "refactor: refactor the inheritance structure of the chart module to make the layout system independent, details in #1428\n\n"
+          },
+          {
+            "comment": "feat: no longer register mobile theme in vchart"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.6.7",
+      "tag": "@visactor/vchart_v1.6.7",
+      "date": "Tue, 21 Nov 2023 11:02:31 GMT",
+      "comments": {}
+    },
+    {
+      "version": "1.6.6",
+      "tag": "@visactor/vchart_v1.6.6",
+      "date": "Fri, 17 Nov 2023 09:42:57 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix chart screen remains when using updateSpecSync, details in #1421\n\n"
+          },
+          {
+            "comment": "fix: is mouse click in empty region, the hover shape should reset, fixed #1538"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.6.5",
+      "tag": "@visactor/vchart_v1.6.5",
+      "date": "Fri, 17 Nov 2023 05:56:10 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: dimension click not effect after update spec. fix #1532"
+          },
+          {
+            "comment": "feat: add `skipFunctionDiff` in react-vchart to skip difference of functions\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.6.4",
       "tag": "@visactor/vchart_v1.6.4",
       "date": "Thu, 16 Nov 2023 06:35:43 GMT",

@@ -571,6 +571,13 @@
                 "zh": "自定义主题",
                 "en": "Custom Themes"
               }
+            },
+            {
+              "path": "Theme_Extension",
+              "title": {
+                "zh": "VChart 扩展主题包",
+                "en": "VChart Extended Theme Packages"
+              }
             }
           ]
         },
@@ -698,6 +705,13 @@
           "title": {
             "zh": "事件",
             "en": "Events"
+          }
+        },
+        {
+          "path": "Function",
+          "title": {
+            "zh": "函数",
+            "en": "Function"
           }
         }
       ]

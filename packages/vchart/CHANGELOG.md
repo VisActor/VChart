@@ -1,6 +1,99 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 16 Nov 2023 06:35:43 GMT and should not be manually modified.
+This log was last generated on Wed, 29 Nov 2023 19:03:36 GMT and should not be manually modified.
+
+## 1.7.2
+Wed, 29 Nov 2023 19:03:36 GMT
+
+### Updates
+
+- fix: clear old encode when update, fix #1630
+
+
+- fix: fix the problem that track mark has multiple elements in gauge series, related #1643 
+- fix: fix the problem that gaugePointer series doesn't support custom `innerRadius`, related #1644
+- refactor: unify `getVRenderComponents` method in Component model
+
+## 1.7.1
+Tue, 28 Nov 2023 08:24:27 GMT
+
+### Updates
+
+- fix: read dataview of extension-mark by `dataId`
+
+
+- fix: fixed the issue where the layout size of the axis is incorrect when only domainLine is displayed
+
+
+- fix: fix bug of changed spec when create series
+
+
+- fix(pie): get center error. fix #1610
+- fix: optimize the effect of `tooltip.enterable` that user's pointer can easily enter the tooltip, related #1598
+
+## 1.7.0
+Fri, 24 Nov 2023 09:43:25 GMT
+
+### Updates
+
+- feat: support `trimPadding` for band type axis, which used to remove the blank space at both ends of the aixs, closed #1174
+- feat: custom mark support animation config
+- feat: support customShape of mark
+
+
+- feat: optimize auto mode of data-zoom, related #1416
+- feature: supports registered function expression syntax, related #1187
+- feat: enhance marker's position ability
+- feat: mark area should support specify x x1 y and y1 both
+- feat: add light-mobile and dark-mobile theme, related #1414
+- fix: chart padding won't update when switching global theme
+- feat: optmize performance of computing data
+- feat: support none in component layoutType
+
+
+- feat: support line/area label
+- fix: fix spec modified unexpectedly in data model, details in #1514
+
+
+- fix: update enableSegements implemention
+
+
+- perf: dont need to call `attrTransform()` in compilable-mark
+
+
+- perf: remove getStatisticsDomain()
+
+
+- perf: dont call bounds calculate when user specify width/height of components
+- refactor: refactor the inheritance structure of the chart module to make the layout system independent, details in #1428
+
+
+- feat: no longer register mobile theme in vchart
+
+## 1.6.7
+Tue, 21 Nov 2023 11:02:31 GMT
+
+_Version update only_
+
+## 1.6.6
+Fri, 17 Nov 2023 09:42:57 GMT
+
+### Updates
+
+- fix: fix chart screen remains when using updateSpecSync, details in #1421
+
+
+- fix: is mouse click in empty region, the hover shape should reset, fixed #1538
+
+## 1.6.5
+Fri, 17 Nov 2023 05:56:10 GMT
+
+### Updates
+
+- fix: dimension click not effect after update spec. fix #1532
+- feat: add `skipFunctionDiff` in react-vchart to skip difference of functions
+
+
 
 ## 1.6.4
 Thu, 16 Nov 2023 06:35:43 GMT
@@ -222,7 +315,7 @@ Mon, 25 Sep 2023 10:49:42 GMT
 - feat: support `label.confine` for markLine and markPoint to auto adjust label's position, relate https://github.com/VisActor/VChart/issues/699
 - fix: `offsetX` and `offsetY` can not work in mark component
 - feat: support `minAngle` for pie chart, relate #738
-- feat: disable label animation as default in map series
+- feat: disable label animation as default in map series 
 - fix: sankey chart support color config'
 - feat: increase chart stacking capabilities, provide stackValue to support independent stacking of multiple series
 
@@ -339,7 +432,7 @@ Tue, 05 Sep 2023 11:24:47 GMT
 
 ### Patches
 
-- fix: fix the issue of `seriesIndex` not work in discrete legend, see #732
+- fix: fix the issue of `seriesIndex` not work in discrete legend, see #732 
 
 ### Updates
 
@@ -499,7 +592,7 @@ Thu, 10 Aug 2023 05:23:25 GMT
 - feat: dimension tooltip supports linear axis
 
 
-- feat: filling full data to map mark data in #420
+- feat: filling full data to map mark data in #420 
 - feat(background): support background of chart & series
 - feat(onError): support configuration of onerror in chart instance initoption
 - feat: supplement sync methods in vchart instance
@@ -673,11 +766,11 @@ Wed, 26 Jul 2023 03:18:52 GMT
 - fix(label): pickable shoule be false if label component is configured `interactive: false`
 - fix the layoutOffsetX|Y not work in normal items
 - fix: line mark has a different easing in update animation causes strange animation effect
-- fix: `channel` config not work in animation
+- fix: `channel` config not work in animation 
 - No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug
 - fix: default tooltip handler needs to adapt to the scale property
 - fix(vchart): export IRegionSpec from VChart
-- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series
+- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series 
 - fix: compact window variable for non-browser env
 - fix: compact window variable for non-browser env
 

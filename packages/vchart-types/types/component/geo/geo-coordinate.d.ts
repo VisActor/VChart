@@ -1,6 +1,6 @@
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
-import type { IEffect, IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IEffect, IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
@@ -13,7 +13,8 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    layoutType: ILayoutItem['layoutType'];
+    layoutType: 'none';
+    protected layoutZIndex: number;
     _longitudeField?: string;
     get longitudeField(): string;
     _latitudeField?: string;
@@ -46,7 +47,7 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
     onLayoutEnd(ctx: IModelLayoutOption): void;
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
     protected collectFeatures(): any[];
     dataToPosition(values?: number[]): IPoint;
     dataToLatitude(lat: number): number;

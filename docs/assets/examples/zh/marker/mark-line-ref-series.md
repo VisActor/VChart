@@ -73,6 +73,7 @@ const spec = {
     {
       id: 'Active time'
     },
+
     {
       id: 'Total number of active users'
     }
@@ -92,241 +93,6 @@ const spec = {
       regionId: 'Active time',
       dataId: 'Active time per user in deep use',
       type: 'bar',
-      xField: ['x', 'type'],
-      yField: 'y',
-      seriesField: 'type'
-    },
-    {
-      id: 'Active timeseries1',
-      regionId: 'Active time',
-      type: 'bar',
-      data: {
-        id: 'Deep usage per user math study duration',
-        values: [
-          {
-            x: 0,
-            y: 32.4656226827,
-            originXData: '2022-08-01',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 1,
-            y: 0.5552382268,
-            originXData: '2022-08-02',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 2,
-            y: 1.4436532949,
-            originXData: '2022-08-03',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 3,
-            y: 3.1126381092,
-            originXData: '2022-08-04',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 4,
-            y: 1.1268964986,
-            originXData: '2022-08-05',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 5,
-            y: 0.5050388045,
-            originXData: '2022-08-06',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 6,
-            y: 4.0162738173,
-            originXData: '2022-08-07',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 7,
-            y: 0.9405286783000001,
-            originXData: '2022-08-08',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 8,
-            y: 3.0172404425,
-            originXData: '2022-08-09',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 9,
-            y: 7.2199749701,
-            originXData: '2022-08-10',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 10,
-            y: 2.0713092067,
-            originXData: '2022-08-11',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 11,
-            y: 0.1454215003,
-            originXData: '2022-08-12',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 12,
-            y: 0.34810792,
-            originXData: '2022-08-13',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 13,
-            y: 21.3149621065,
-            originXData: '2022-08-14',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 14,
-            y: 1.4820634174,
-            originXData: '2022-08-15',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 15,
-            y: 0.2719140554,
-            originXData: '2022-08-16',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 16,
-            y: 2.3799150001,
-            originXData: '2022-08-17',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 17,
-            y: 0.1894116861,
-            originXData: '2022-08-18',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 18,
-            y: 0.8476751264,
-            originXData: '2022-08-19',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 19,
-            y: 0.48242238330000003,
-            originXData: '2022-08-20',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 20,
-            y: 0.1947340727,
-            originXData: '2022-08-21',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 21,
-            y: 1.1067963307,
-            originXData: '2022-08-22',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 22,
-            y: 1.3933568114,
-            originXData: '2022-08-23',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 23,
-            y: 0.7905690988,
-            originXData: '2022-08-24',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 24,
-            y: 0.9146571015,
-            originXData: '2022-08-25',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 25,
-            y: 2.1289279778,
-            originXData: '2022-08-26',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 26,
-            y: 0.9739281597,
-            originXData: '2022-08-27',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 27,
-            y: 1.3985377548,
-            originXData: '2022-08-28',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 28,
-            y: 0.537922157,
-            originXData: '2022-08-29',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 29,
-            y: 0.46251733580000004,
-            originXData: '2022-08-30',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 30,
-            y: 1.3731678133,
-            originXData: '2022-08-31',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 31,
-            y: 1.1320447771,
-            originXData: '2022-09-01',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 32,
-            y: 0.6291209618,
-            originXData: '2022-09-02',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 33,
-            y: 0.5274874441,
-            originXData: '2022-09-03',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 34,
-            y: 4.7935580273,
-            originXData: '2022-09-04',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 35,
-            y: 0.9341368829000001,
-            originXData: '2022-09-05',
-            type: 'Deep usage per user math study duration'
-          },
-          {
-            x: 36,
-            y: 2.3758769585,
-            originXData: '2022-09-06',
-            type: 'Deep usage per user math study duration'
-          }
-        ]
-      },
       xField: ['x', 'type'],
       yField: 'y',
       seriesField: 'type'
@@ -370,8 +136,8 @@ const spec = {
         }
       },
       id: 'Active timeleft',
-      regionId: 'Active time',
-      seriesId: ['Active timeseries0', 'Active timeseries1'],
+      regionId: ['Active time'],
+      seriesId: ['Active timeseries0'],
       orient: 'left',
       range: {
         min: 0,
@@ -404,7 +170,7 @@ const spec = {
     },
     {
       id: 'Total number of active usersbottom',
-      regionId: ['DAU rate', 'Active time', 'Total number of active users'],
+      regionId: ['DAU rate', 'Active time', 'Active time1', 'Total number of active users'],
       orient: 'bottom',
       label: {
         firstVisible: true,
@@ -422,8 +188,19 @@ const spec = {
         { x: 2, y: 15, refRelativeSeriesId: 'DAU rateseries0' },
         { x: 8, y: 10, refRelativeSeriesId: 'Total number of active usersseries0' }
       ]
+    },
+    {
+      x: data => data[Math.ceil(data.length / 2)].x,
+      startRelativeSeriesIndex: 0,
+      endRelativeSeriesIndex: 2
     }
   ],
+  markArea: {
+    x: 10,
+    x1: 20,
+    startRelativeSeriesIndex: 0,
+    endRelativeSeriesIndex: 2
+  },
   data: [
     {
       id: 'Deep use of user DAU rate',
@@ -1108,7 +885,6 @@ const spec = {
     }
   ]
 };
-
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 

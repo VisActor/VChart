@@ -8,14 +8,14 @@ import type {
 } from '@visactor/vrender-components';
 import type { IPadding, IToolTipActual } from '../../../../typings';
 import type { ITooltipTextStyle } from '../interface';
-import { isValid, normalizePadding } from '@visactor/vutils';
+import { isValid, maxInArray, normalizePadding } from '@visactor/vutils';
 import { mergeSpec } from '../../../../util/spec/merge-spec';
 import { normalizeLayoutPaddingSpec } from '../../../../util/space';
 import type { ITooltipSpec } from '../../interface/spec';
 import type { ITooltipTextTheme, ITooltipTheme } from '../../interface/theme';
 import { THEME_CONSTANTS } from '../../../../theme/builtin/common/constants';
 import { measureTooltipText } from './common';
-import type { IChartLevelTheme } from '../../../../core/interface';
+import type { ITheme } from '../../../../theme';
 
 const DEFAULT_TEXT_ATTRIBUTES: Partial<ITooltipTextStyle> = {
   fontFamily: THEME_CONSTANTS.defaultFontFamily,
@@ -25,7 +25,7 @@ const DEFAULT_TEXT_ATTRIBUTES: Partial<ITooltipTextStyle> = {
 
 export function getTextAttributes(
   style: ITooltipTextTheme = {},
-  globalTheme?: IChartLevelTheme,
+  globalTheme?: ITheme,
   defaultAttributes?: Partial<ITooltipTextStyle>
 ): ITooltipTextStyle {
   const attrs: ITooltipTextStyle = {
@@ -36,7 +36,7 @@ export function getTextAttributes(
     fontFamily: style.fontFamily ?? globalTheme?.fontFamily,
     fontSize: style.fontSize,
     fontWeight: style.fontWeight,
-    lineHeight: style.lineHeight as any, // FIXME: vrender 支持行高字符串后删除 any
+    lineHeight: style.lineHeight,
     spacing: style.spacing,
     multiLine: style.multiLine,
     maxWidth: style.maxWidth,
@@ -75,7 +75,7 @@ export const getPanelAttributes = (style: ITooltipTheme['panel']): TooltipPanelA
 export const getTooltipAttributes = (
   actualTooltip: IToolTipActual,
   spec: ITooltipSpec,
-  globalTheme: IChartLevelTheme
+  globalTheme: ITheme
 ): TooltipAttributes => {
   const { style = {}, enterable, transitionDuration } = spec;
   const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow } = style;
@@ -226,10 +226,10 @@ export const getTooltipAttributes = (
       return itemAttrs;
     });
 
-    maxKeyWidth = keyWidths.length ? Math.max(...keyWidths) : 0; // name 需要对齐
-    maxAdaptiveKeyWidth = adaptiveKeyWidths.length ? Math.max(...adaptiveKeyWidths) : 0;
-    maxValueWidth = valueWidths.length ? Math.max(...valueWidths) : 0; // value 需要对齐
-    maxShapeWidth = shapeWidths.length ? Math.max(...shapeWidths) + shapeStyle.spacing : 0; // shape 列宽度
+    maxKeyWidth = keyWidths.length ? maxInArray(keyWidths) : 0; // name 需要对齐
+    maxAdaptiveKeyWidth = adaptiveKeyWidths.length ? maxInArray(adaptiveKeyWidths) : 0;
+    maxValueWidth = valueWidths.length ? maxInArray(valueWidths) : 0; // value 需要对齐
+    maxShapeWidth = shapeWidths.length ? maxInArray(shapeWidths) + shapeStyle.spacing : 0; // shape 列宽度
     contentMaxWidth = Math.max(
       maxShapeWidth + maxKeyWidth + keyStyle.spacing + maxValueWidth + valueStyle.spacing,
       maxShapeWidth + maxAdaptiveKeyWidth,

@@ -174,10 +174,30 @@ const run = () => {
       trigger: 'select',
       gap: 10,
       title: {
-        field: 'type',
         autoLimit: true,
         style: {
-          fontSize: 16
+          fontSize: 16,
+          type: 'rich',
+          text: datum => {
+            if (!datum) {
+              return '';
+            }
+
+            return [
+              {
+                text: 'type:',
+                fontWeight: 'bold',
+                fontSize: 20,
+                fill: '#3f51b5'
+              },
+              {
+                text: datum.type,
+                fontStyle: 'italic',
+                textDecoration: 'underline',
+                fill: '#3f51b5'
+              }
+            ];
+          }
         }
       },
       content: [
@@ -325,6 +345,7 @@ const run = () => {
     },
     label: {
       visible: true,
+      formatter: 'type={type},value={value},percent={_percent_}',
       style: {
         fontSize: 16,
         lineWidth: 2
@@ -1154,7 +1175,7 @@ const run = () => {
     hash: '71691ed8529363540b58aa868da2aa7a'
   };
 
-  const cs = new VChart(spec_983, {
+  const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the problem that track mark has multiple elements in gauge series, related #1643 ",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

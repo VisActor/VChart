@@ -8,9 +8,20 @@
 
 是否显示轴标题。
 
+#${prefix} type(string)
+
+自 1.7.0 版本开始支持，文本类型。
+
+可选：
+
+- 'text'
+- 'rich'
+- 'html'
+
 #${prefix} text(string|number|(string|number)[])
 
 标题的文本内容。
+自 1.7.0 版本开始，支持富文本内容
 
 #${prefix} position(string)
 

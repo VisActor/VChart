@@ -1,19 +1,21 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IModelRenderOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
-import type { StringOrNumber } from '../../typings';
+import type { ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IAggrType, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
 import type { IGraphic } from '@visactor/vrender-core';
 export declare abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
-    layoutType: LayoutItem['layoutType'];
+    layoutType: ILayoutType | 'none';
     protected _startRelativeSeries: ICartesianSeries;
     protected _endRelativeSeries: ICartesianSeries;
     protected _relativeSeries: ICartesianSeries;
+    getRelativeSeries(): ICartesianSeries;
     protected _markerData: DataView;
     protected _markerComponent: any;
+    protected _layoutOffsetX: number;
+    protected _layoutOffsetY: number;
     created(): void;
     private _isSpecAggr;
     private _getAllRelativeSeries;
@@ -45,6 +47,7 @@ export declare abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec
         getEndRelativeSeries: () => ICartesianSeries;
         y: IDataPos | IDataPosCallback;
     };
+    protected _processSpecXY(specX: IDataPos | IDataPosCallback, specY: IDataPos | IDataPosCallback): any;
     protected _processSpecCoo(spec: any): any;
     updateLayoutAttribute(): void;
     protected _getSeriesByIdOrIndex(seriesUserId: StringOrNumber, seriesIndex: number): ICartesianSeries;
@@ -62,5 +65,6 @@ export declare abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
     protected getFirstSeries(): ICartesianSeries;
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
+    onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect, ctx: any): void;
 }

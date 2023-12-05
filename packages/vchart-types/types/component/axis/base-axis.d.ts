@@ -6,13 +6,14 @@ import { BaseComponent } from '../base/base-component';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
-import type { IAxis, ICommonAxisSpec, ITick, StatisticsDomain } from './interface';
+import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
 import type { ISeries } from '../../series/interface';
 import type { ITransformOptions } from '@visactor/vdataset';
 import { type IComponentMark } from '../../mark/component';
 export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> extends BaseComponent<T> implements IAxis {
     static specKey: string;
+    specKey: string;
     protected _orient: IPolarOrientType | IOrientType;
     getOrient(): IOrientType | IPolarOrientType;
     protected _scale: IBaseScale;
@@ -22,8 +23,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _theme: ICartesianAxisCommonTheme | IPolarAxisCommonTheme;
     protected _tickData: CompilableData;
     getTickData(): CompilableData;
-    protected _statisticsDomain: StatisticsDomain;
-    getStatisticsDomain(): StatisticsDomain;
     protected _seriesUserId?: StringOrNumber[];
     protected _seriesIndex?: number[];
     protected _regionUserId?: StringOrNumber[];
@@ -51,7 +50,8 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _axisMark: IComponentMark;
     protected _gridMark: IComponentMark;
     constructor(spec: T, options: IComponentOption);
-    getVRenderComponents(): IGraphic[];
+    protected _getNeedClearVRenderComponents(): IGraphic[];
+    getVRenderComponents(): any[];
     created(): void;
     protected isSeriesDataEnable(): boolean;
     protected setSeriesAndRegionsFromSpec(): void;
@@ -59,7 +59,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         userId: StringOrNumber[];
         specIndex: number[];
     };
-    protected computeStatisticsDomain: () => void;
     protected initEvent(): void;
     protected updateScaleDomain(): void;
     protected computeData(updateType?: 'domain' | 'range' | 'force'): void;
@@ -101,31 +100,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
             style: any;
             state: {};
         };
-        title: {
-            visible: any;
-            position: any;
-            space: any;
-            autoRotate: boolean;
-            angle: number;
-            textStyle: any;
-            padding: any;
-            shape: {
-                visible: any;
-                space: any;
-                style: any;
-            };
-            background: {
-                visible: any;
-                style: any;
-            };
-            state: {
-                text: {};
-                shape: {};
-                background: {};
-            };
-            pickable: boolean;
-            childrenPickable: boolean;
-        };
+        title: any;
         panel: {
             visible: any;
             style: any;

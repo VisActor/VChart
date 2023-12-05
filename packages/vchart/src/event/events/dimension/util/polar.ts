@@ -1,13 +1,13 @@
 import type { IChart } from '../../../../chart/interface';
-import type { ILayoutPoint } from '../../../../model/interface';
 import type { IDimensionInfo } from '../interface';
 import { isDiscrete } from '@visactor/vscale';
 import { getDimensionData, isInRegionBound } from './common';
 import type { IPolarSeries } from '../../../../series/interface';
-import { isNil } from '@visactor/vutils';
+import { isNil, maxInArray, minInArray } from '@visactor/vutils';
 import type { PolarAxis } from '../../../../component/axis/polar';
 import { distance, vectorAngle } from '../../../../util/math';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
+import type { ILayoutPoint } from '../../../../typings/layout';
 
 const getAxis = (chart: IChart, type: 'radius' | 'angle', pos: ILayoutPoint): PolarAxis[] | null => {
   const axesComponents = chart
@@ -42,8 +42,8 @@ const getFirstSeries = (chart: IChart) => {
 /** 将角度标准化为 range 范围内的角度 */
 const angleStandardize = (angle: number, range: [number, number]) => {
   const unit = Math.PI * 2;
-  const min = Math.min(...range);
-  const max = Math.max(...range);
+  const min = minInArray(range);
+  const max = maxInArray(range);
   if (angle < min) {
     angle += Math.ceil((min - angle) / unit) * unit;
   } else if (angle > max) {
@@ -71,11 +71,10 @@ export const getPolarDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoi
   if (angleAxisList) {
     angleAxisList.forEach(axis => {
       const angleScale = axis.getScale();
-      const angleDomain = angleScale?.domain();
-      const angleRange = angleScale?.range();
-
       // 限定为离散轴
       if (angleScale && isDiscrete(angleScale.type)) {
+        const angleDomain = angleScale.domain();
+        const angleRange = angleScale.range();
         const center = axis.getCenter();
         const vector = {
           x: x - axis.getLayoutStartPoint().x - center.x,

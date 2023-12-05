@@ -7,7 +7,6 @@ import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum, DirectionType } from '../../typings';
-import { mergeSpec } from '../../util/spec/merge-spec';
 import { valueInScaleRange } from '../../util/scale';
 import { getRegionStackGroup } from '../../util/data';
 import { getActualNumValue } from '../../util/space';
@@ -32,6 +31,8 @@ import { DataView } from '@visactor/vdataset';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { registerSampleTransform } from '@visactor/vgrammar-core';
+import type { ILabelSpec } from '../../component';
+import { getGroupAnimationParams } from '../util/utils';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -77,8 +78,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
         isSeriesMark: true,
-        label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
-        progressive
+        label: this._preprocessLabelSpec(this._spec.label as ILabelSpec),
+        progressive,
+        customShape: this._spec.bar?.customShape
       }
     ) as IRectMark;
   }
@@ -88,7 +90,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this._barBackgroundMark = this._createMark(BarSeries.mark.barBackground, {
         dataView: this._barBackgroundViewData.getDataView(),
         dataProductId: this._barBackgroundViewData.getProductId(),
-        progressive
+        progressive,
+        customShape: this._spec.barBackground?.customShape
       }) as IRectMark;
     }
   }
@@ -478,7 +481,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   initAnimation() {
     // 这个数据在这个时候拿不到，因为组件还没创建结束，统计和筛选也还没添加。
     // 而且这个值理论上是动态的，建议 监听 viewDataStatisticsUpdate 消息动态更新
-    const animationParams: IBarAnimationParams = {
+    const barAnimationParams: IBarAnimationParams = {
       yField: this._fieldY[0],
       xField: this._fieldX[0],
       direction: this.direction,
@@ -488,19 +491,13 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           : this._yAxisHelper?.getScale(0).scale(0)
     };
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<BarAppearPreset>)?.preset;
-    // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
-    const dataIndex = (datum: any) => {
-      const xValue = datum?.[this._fieldX[0]];
-      const xIndex = this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
-      // 不应该出现xIndex === -1 || undefined的情况
-      return xIndex || 0;
-    };
+    const animationParams = getGroupAnimationParams(this);
 
     this._barMark.setAnimationConfig(
       animationConfig(
-        Factory.getAnimationInKey('bar')?.(animationParams, appearPreset),
+        Factory.getAnimationInKey('bar')?.(barAnimationParams, appearPreset),
         userAnimationConfig(this._barMarkName, this._spec, this._markAttributeContext),
-        { dataIndex }
+        animationParams
       )
     );
   }

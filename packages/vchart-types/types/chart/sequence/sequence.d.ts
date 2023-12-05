@@ -5,7 +5,7 @@ export declare class SequenceChart extends BaseChart {
     static readonly view: string;
     readonly type: string;
     transformSpec(spec: ISequenceChartSpec): void;
-    createSeries(seriesSpec: ISequenceSeriesSpec[]): void;
+    protected _createSeries(seriesSpec: ISequenceSeriesSpec[]): void;
     addAttrToComponentSpec(componentSpec: any, attr: string, value: any): any;
     private _getSeriesDataLength;
 }

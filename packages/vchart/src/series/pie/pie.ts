@@ -85,6 +85,17 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   protected declare _theme: Maybe<IPieSeriesTheme>;
 
+  protected _buildMarkAttributeContext() {
+    super._buildMarkAttributeContext();
+    // center
+    this._markAttributeContext.getCenter = () => {
+      return {
+        x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
+        y: () => this._center?.y ?? this._region.getLayoutRect().height / 2
+      };
+    };
+  }
+
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
     this._centerOffset = this._spec?.centerOffset ?? 0;
@@ -158,7 +169,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true,
-        label: mergeSpec({ animation: this._spec.animation }, this._spec.label)
+        label: this._preprocessLabelSpec(this._spec.label),
+        customShape: this._spec.pie?.customShape
       }
     ) as IArcMark;
   }
@@ -518,10 +530,9 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         return mergeSpec({}, newTheme, chartSpec, userSpec);
       };
 
-      const baseSpec = this._spec;
+      const baseSpec = this._originalSpec;
       this._spec = merge(baseSpec);
     }
-    this._prepareSpecAfterMergingTheme();
   }
 }
 

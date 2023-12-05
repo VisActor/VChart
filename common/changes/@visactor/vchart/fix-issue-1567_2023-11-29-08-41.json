@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: polar crosshair supports default show",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

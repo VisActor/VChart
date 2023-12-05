@@ -1,26 +1,102 @@
-import type { IPadding, IPointLike } from '@visactor/vutils';
-import type { SymbolType } from '@visactor/vrender-core';
+import type { IPadding } from '@visactor/vutils';
+import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
+import type { ICartesianSeries } from '../../series/interface';
+import type { IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
+
+export type OffsetPoint = {
+  /**
+   * x 方向的偏移
+   * 1. number 类型表示像素值，如 12
+   * 2. string 类型表示百分比，如 '10%' 表示相对于所在 region 宽度的占比
+   */
+  x?: number | string;
+  /**
+   * y 方向的偏移
+   * 1. number 类型表示像素值，如 12
+   * 2. string 类型表示百分比，如 '10%' 表示相对于所在 region 高度的占比
+   */
+  y?: number | string;
+};
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
-export type IDataPos = string | number | IAggrType;
+export type IDataPos = StringOrNumber | IAggrType;
 export type IDataPosCallback = (
-  relativeSeriesData: any,
-  startRelativeSeriesData: any,
-  endRelativeSeriesData: any
-) => IDataPos;
+  relativeSeriesData: Datum[],
+  startRelativeSeriesData: Datum[],
+  endRelativeSeriesData: Datum[],
+  relativeSeries: ICartesianSeries,
+  startRelativeSeries: ICartesianSeries,
+  endRelativeSeries: ICartesianSeries
+) => StringOrNumber;
+
+export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
 export type IDataPointSpec = {
-  [key: string]: IDataPos;
+  /**
+   * 数据字段配置
+   */
+  [key: string]: IDataPos | IDataPointCallback;
   /**
    * 具体某个数据元素关联的series（仅在标注目标：数据元素下有效）
    */
   refRelativeSeriesIndex?: number;
   refRelativeSeriesId?: StringOrNumber;
+  /**
+   * 指定使用 xField 上的那个维度索引，因为 xField 字段有可能会包含多个维度，比如分组场景
+   * @default 0
+   * @since 1.7.0
+   */
+  xFieldIndex?: number;
+  /**
+   * 指定使用 xField 上的维度名称，因为 xField 字段有可能会包含多个维度，比如分组场景。
+   * `xFieldIndex` 和 `xFieldDim` 声明一个即可，同时声明则 `xFieldDim` 优先级更高。
+   * @since 1.7.0
+   */
+  xFieldDim?: string;
+  /**
+   * 指定使用 yField 上的那个维度索引，因为 yField 字段有可能会包含多个维度，比如分组场景。
+   * @default 0
+   * @since 1.7.0
+   */
+  yFieldIndex?: number;
+  /**
+   * 指定使用 yField 上的维度名称，因为 yField 字段有可能会包含多个维度，比如分组场景。
+   * `yFieldIndex` 和 `yFieldDim` 声明一个即可，同时声明则 `yFieldDim` 优先级更高。
+   * @since 1.7.0
+   */
+  yFieldDim?: string;
 };
+
+export type MarkerPositionPoint = {
+  /**
+   * x 坐标位置，number 类型表示像素值，string 类型表示相对画布宽度或者 region 宽度的占比（从左往右）
+   */
+  x: StringOrNumber;
+  /**
+   * y 坐标位置，number 类型表示像素值，string 类型表示相对画布高度或者 region 高度的占比（从上至下）
+   */
+  y: StringOrNumber;
+};
+
+export type ICoordinateOption = {
+  x?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
+  y?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
+  getRefRelativeSeries?: () => ICartesianSeries;
+} & IOptionSeries;
+
 export type IMarkerPositionsSpec = {
-  positions: IPointLike[];
+  /**
+   * 画布坐标
+   */
+  positions: MarkerPositionPoint[];
+  /**
+   * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
+   * @default false
+   * @since 1.7.0
+   */
+  regionRelative?: boolean;
 };
 
 export type IMarkerLabelWithoutRefSpec = {
@@ -50,19 +126,27 @@ export type IMarkerLabelWithoutRefSpec = {
     /**
      * 背景面板样式
      */
-    style: Omit<IRectMarkSpec, 'visible'>;
+    style?: Omit<IRectMarkSpec, 'visible'>;
   };
   /**
-   * label文本 - 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
+   * 文本类型：text, rich, html
    */
-  text?: string | string[] | number | number[];
+  type?: 'text' | 'rich' | 'html';
+  /**
+   * 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
+   * 支持富文本内容, 如textConfig, html, 设置富文本时要配置type类型为'rich'或'html'
+   */
+  text?: string | string[] | number | number[] | IRichTextCharacter[];
   /**
    * label文本 - 文本格式化
    * @param markData 组成标注的数据
    * @param seriesData 标注关联的数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (markData: Datum[], seriesData: Datum[]) => string | string[] | number | number[];
+  formatMethod?: (
+    markData: Datum[],
+    seriesData: Datum[]
+  ) => string | string[] | number | number[] | IRichTextCharacter[];
   /**
    * label文本 - 文本样式
    */
@@ -113,7 +197,8 @@ export interface IMarkerRef {
   refAngle?: number;
 }
 
-export interface IMarkerAxisSpec {
+// 跨越系列的配置
+export interface IMarkerCrossSeriesSpec {
   /**
    * 起点和终点关联的series（仅在标注目标：坐标空间下有效）
    */
@@ -121,10 +206,6 @@ export interface IMarkerAxisSpec {
   endRelativeSeriesIndex?: number;
   startRelativeSeriesId?: string;
   endRelativeSeriesId?: string;
-  /**
-   * 被标注数据关联的series
-   */
-  relativeRelativeSeriesIndex?: number;
 }
 
 export interface IMarkerSpec extends IComponentSpec {
@@ -155,6 +236,12 @@ export interface IMarkerSpec extends IComponentSpec {
    * @since 1.3.0
    */
   clip?: boolean;
+
+  /**
+   * 标注组件的名称标识
+   * @since 1.7.0
+   */
+  name?: string;
 }
 
 export interface IMarkerSymbol extends IMarkerRef {

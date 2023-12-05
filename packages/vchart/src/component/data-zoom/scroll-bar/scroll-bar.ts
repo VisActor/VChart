@@ -14,6 +14,7 @@ import type { IScrollBarSpec } from './interface';
 import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
+import type { ILayoutType } from '../../../typings/layout';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
@@ -22,29 +23,28 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
+  layoutType: ILayoutType = 'region-relative';
 
   // datazoom组件
   protected _component!: ScrollBarComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const compSpec = spec.scrollBar || options.defaultSpec;
+    const compSpec = spec.scrollBar;
     if (isNil(compSpec)) {
       return undefined;
     }
     if (!isArray(compSpec)) {
-      return new ScrollBar(compSpec, { ...options, specKey: 'scrollBar' });
+      return new ScrollBar(compSpec, options);
     }
     const zooms: ScrollBar[] = [];
     compSpec.forEach((s, i: number) => {
-      zooms.push(new ScrollBar(s, { ...options, specIndex: i, specKey: 'scrollBar' }));
+      zooms.push(new ScrollBar(s, { ...options, specIndex: i }));
     });
     return zooms;
   }
 
   constructor(spec: T, options: IComponentOption) {
-    super(spec as any, {
-      ...options
-    });
+    super(spec as any, options);
     this._filterMode = spec.filterMode ?? IFilterMode.axis;
   }
 
@@ -104,22 +104,29 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     return SCROLL_BAR_DEFAULT_SIZE;
   }
 
+  private _getAttrs() {
+    return {
+      zIndex: this.layoutZIndex,
+      x: this.getLayoutStartPoint().x,
+      y: this.getLayoutStartPoint().y,
+      width: this.getLayoutRect().width,
+      height: this.getLayoutRect().height,
+      range: [this._start, this._end],
+      direction: this._isHorizontal ? 'horizontal' : 'vertical',
+      delayType: this._spec?.delayType,
+      delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
+      realTime: this._spec?.realTime ?? true,
+      ...this._getComponentAttrs()
+    } as ScrollBarAttributes;
+  }
+
   protected _createOrUpdateComponent() {
-    if (!this._component) {
+    const attrs = this._getAttrs();
+    if (this._component) {
+      this._component.setAttributes(attrs);
+    } else {
       const container = this.getContainer();
-      this._component = new ScrollBarComponent({
-        zIndex: this.layoutZIndex,
-        x: this.getLayoutStartPoint().x,
-        y: this.getLayoutStartPoint().y,
-        width: this.getLayoutRect().width,
-        height: this.getLayoutRect().height,
-        range: [this._start, this._end],
-        direction: this._isHorizontal ? 'horizontal' : 'vertical',
-        delayType: this._spec?.delayType,
-        delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
-        realTime: this._spec?.realTime ?? true,
-        ...this._getComponentAttrs()
-      });
+      this._component = new ScrollBarComponent(attrs);
       // 绑定事件，防抖，防止频繁触发
       this._component.addEventListener('scroll', (e: any) => {
         const value = e.detail.value;
@@ -184,7 +191,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     return attrs;
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
   }
 }

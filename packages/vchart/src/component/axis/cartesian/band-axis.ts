@@ -53,7 +53,6 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
       dataToPosition: this.dataToPosition.bind(this),
       getScale,
       getBandwidth,
-      getStatisticsDomain: () => this.getStatisticsDomain(),
       getAxisType: () => this.type,
       getAxisId: () => this.id,
       isInverse: () => this._spec.inverse

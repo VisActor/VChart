@@ -11,10 +11,32 @@
 ### text(string|number|Array)
 
 主标题内容。
+从 1.7.0 版本开始，支持富文本内容配置。
+
+### textType(string)
+
+从 1.7.0 版本开始，支持主标题文本类型。
+
+可选值：
+
+- 'text'
+- 'rich'
+- 'html'
 
 ### subtext(string|number|Array)
 
 副标题内容。
+从 1.7.0 版本开始，支持富文本内容配置。
+
+### subtextType(string)
+
+从 1.7.0 版本开始，支持副标题文本类型。
+
+可选值：
+
+- 'text'
+- 'rich'
+- 'html'
 
 ### orient(string) = 'top'
 

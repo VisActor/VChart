@@ -4,7 +4,6 @@ import { ComponentTypeEnum } from '../interface/type';
 import type { IComponentOption } from '../interface';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import { LayoutLevel, LayoutZIndex, PREFIX } from '../../constant';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
 import type { IGroupMark } from '../../mark/group';
@@ -18,8 +17,8 @@ export class CustomMark extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;
   type = ComponentTypeEnum.customMark;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.CustomMark;
+  layoutType: 'none' = 'none';
+  layoutZIndex: number = LayoutZIndex.CustomMark;
   layoutLevel: number = LayoutLevel.CustomMark;
 
   protected declare _spec: (ICustomMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | ICustomMarkGroupSpec)[];
@@ -29,7 +28,7 @@ export class CustomMark extends BaseComponent<any> {
     if (!customMarkSpec) {
       return null;
     }
-    return [new CustomMark(customMarkSpec, { ...options, specIndex: 0, specKey: 'customMark' })];
+    return [new CustomMark(customMarkSpec, { ...options, specIndex: 0 })];
   }
 
   created() {
@@ -112,7 +111,7 @@ export class CustomMark extends BaseComponent<any> {
     // do nothing;
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
   }
 

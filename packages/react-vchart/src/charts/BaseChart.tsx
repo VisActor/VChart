@@ -159,7 +159,10 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     const newSpec = pickWithout(props, notSpecKeys);
 
-    if (!isEqual(newSpec, prevSpec.current, { skipFunction: skipFunctionDiff }) || chartContext.current.isChildrenUpdated) {
+    if (
+      !isEqual(newSpec, prevSpec.current, { skipFunction: skipFunctionDiff }) ||
+      chartContext.current.isChildrenUpdated
+    ) {
       prevSpec.current = newSpec;
       // eslint-disable-next-line promise/catch-or-return
       const updatePromise = chartContext.current.chart

@@ -1,6 +1,7 @@
 import type { IElement } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { DiffState } from '@visactor/vgrammar-core';
+import { minInArray } from '@visactor/vutils';
 
 /**
  * 计算角度对于起点的比例
@@ -28,7 +29,7 @@ export const getInnerMostElements = (element: IElement) => {
   // 所有待更新的marks
   const updateElements = element.mark.elements.filter(e => e.diffState === DiffState.update);
   // 得到最内层级
-  const minDepth = Math.min(...updateElements.map(e => e?.data?.[0].depth));
+  const minDepth = minInArray(updateElements.map(e => e?.data?.[0].depth));
   // 内层的Marks
   return updateElements.filter(e => e?.data?.[0].depth === minDepth);
 };

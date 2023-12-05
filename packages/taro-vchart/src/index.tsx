@@ -3,6 +3,8 @@ import { WebChart } from './components/web-chart';
 import { GeneralChart } from './components/general-chart';
 import { IChartProps, VChartEnvType } from './typings';
 import Taro from '@tarojs/taro';
+// @ts-ignore
+import { registerLarkEnv, registerWXEnv } from '@visactor/vchart/build/es5';
 
 interface IVChartProps extends IChartProps {
   /**
@@ -21,12 +23,15 @@ export default function VChart({ type, ...args }: IVChartProps) {
 
   const strategies = {
     lark: () => {
+      registerLarkEnv();
       return <GeneralChart {...args} mode="miniApp" />;
     },
     tt: () => {
+      registerLarkEnv();
       return <GeneralChart {...args} mode="miniApp" />;
     },
     weapp: () => {
+      registerWXEnv();
       return <GeneralChart {...args} mode="wx" />;
     },
     web: () => {

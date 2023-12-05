@@ -8,29 +8,45 @@
   prefix = '##'
 ) }}
 
-### x(string|number)
+### x(string|number|function)
 
 标注目标：笛卡尔坐标系 x 坐标空间。
-x 轴上的标注区域边界，与 markArea.x1 共同构造标注区域。可以配置在 x 轴上的值，或者聚合计算类型。
+x 轴上的标注区域边界，与 markArea.x1 共同构造标注区域。可以配置在 x 轴上的值，相对位置，或者聚合计算类型。
+
+- 相对位置（string）：自 `1.7.0` 版本开始支持，可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处。
+- 聚合计算类型（string）
+- 回调函数
 
 {{ use: component-marker-aggregation-type() }}
 
-### x1(string|number)
+### x1(string|number|function)
 
 标注目标：笛卡尔坐标系 x 坐标空间。
-x 轴上的标注区域边界，与 markArea.x 共同构造标注区域。可以配置在 x 轴上的值，或者聚合计算类型
+x 轴上的标注区域边界，与 markArea.x 共同构造标注区域。可以配置在 x 轴上的值，相对位置，或者聚合计算类型。
+
+- 相对位置（string）：自 `1.7.0` 版本开始支持，可以将 x1 配置为 '15%' 百分比的形式，用于表示将 x1 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处。
+- 聚合计算类型（string）
+- 回调函数
 
 {{ use: component-marker-aggregation-type() }}
 
-### y(string|number)
+### y(string|number|function)
 
-y 轴上的标注区域边界，与 markArea.y1 共同构造标注区域。可以配置在 y 轴上的值，或者聚合计算类型
+y 轴上的标注区域边界，与 markArea.y1 共同构造标注区域。可以配置在 y 轴上的值，相对位置，或者聚合计算类型。
+
+- 相对位置（string）：自 `1.7.0` 版本开始支持，可以将 y 配置为 '15%' 百分比的形式，用于表示将 y 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处。
+- 聚合计算类型（string）
+- 回调函数
 
 {{ use: component-marker-aggregation-type() }}
 
-### y1(string|number)
+### y1(string|number|function)
 
-y 轴上的标注区域边界，与 markArea.y 共同构造标注区域。可以配置在 y 轴上的值，或者聚合计算类型
+y 轴上的标注区域边界，与 markArea.y 共同构造标注区域。可以配置在 y 轴上的值，相对位置，或者聚合计算类型。
+
+- 相对位置（string）：自 `1.7.0` 版本开始支持，可以将 y1 配置为 '15%' 百分比的形式，用于表示将 y1 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处。
+- 聚合计算类型（string）
+- 回调函数
 
 {{ use: component-marker-aggregation-type() }}
 
@@ -43,6 +59,10 @@ y 轴上的标注区域边界，与 markArea.y 共同构造标注区域。可以
   prefix = '###'
 ) }}
 
+{{ use: component-marker-data-point-offset(
+   prefix = '##'
+) }}
+
 ### positions(Array)
 
 标注目标：坐标点。
@@ -51,6 +71,10 @@ y 轴上的标注区域边界，与 markArea.y 共同构造标注区域。可以
 {{ use: component-marker-point-like(
   prefix = '###'
 ) }}
+
+### regionRelative(boolean) = false
+
+自 `1.7.0` 版本支持，仅对使用 `positions` 属性进行定位的情况生效，是否为相对 region 的坐标，默认为 false，即相对画布的坐标，默认 false。
 
 {{ use: component-marker-axis(
   prefix = '##'

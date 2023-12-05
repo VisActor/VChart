@@ -4,7 +4,7 @@ group: line chart
 title: 堆叠折线图
 keywords: lineChart,comparison,trend,line,composition
 order: 0-7
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/stacked-line.png
+cover: /vchart/preview/stacked-line_1.7.0.png
 option: lineChart
 ---
 
@@ -72,6 +72,7 @@ const spec = {
   xField: 'type',
   yField: 'value',
   seriesField: 'country',
+  lineLabel: { visible: true },
   legends: [{ visible: true, position: 'middle', orient: 'bottom' }]
 };
 

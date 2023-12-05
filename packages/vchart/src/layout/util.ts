@@ -1,6 +1,6 @@
 import { isNil, last } from '@visactor/vutils';
-import type { ILayoutItem } from '../model/interface';
 import type { Layout } from './base-layout';
+import type { ILayoutItem } from './interface';
 
 function getPositionItems(items: ILayoutItem[]) {
   const startItems: ILayoutItem[] = [];

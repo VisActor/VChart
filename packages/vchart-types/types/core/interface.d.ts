@@ -33,6 +33,7 @@ export interface IVChart {
     }[]) => Promise<IVChart>;
     updateDataSync: (id: StringOrNumber, data: Datum[], options?: IParserOptions) => IVChart;
     updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => Promise<IVChart>;
+    updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => void;
     updateModelSpecSync: (filter: string | {
         type: string;
         index: number;
@@ -81,6 +82,10 @@ export interface IVChart {
     stopAnimation: () => void;
     pauseAnimation: () => void;
     resumeAnimation: () => void;
+    registerFunction: (key: string, fun: Function) => void;
+    unregisterFunction: (key: string) => void;
+    getFunction: (key: string) => Function | null;
+    getFunctionList: () => string[] | null;
 }
 export interface IGlobalConfig {
     uniqueTooltip?: boolean;

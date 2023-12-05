@@ -10,8 +10,8 @@ Tip: **目前 VChart（@visactor/vchart）还未内置进飞书小组件，所�
 
 目前小组件上需要 VChart 的 umd 打包产物，你可以通过如下渠道获取：
 
-1. 直接仓库中获取 [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index.js) ，每次发包我们都会进行更新
-2. 从如下免费的 CDN 中获取
+1. 直接仓库中获取 [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index.js) ，每次发包我们都会进行更新，**这是我们专门为飞书小组件环境构建的，为了尽可能降低大小，该包只包含了飞书小组件的渲染环境。**
+2. 你也可以从如下免费的 CDN 中获取，**这是包含了所有渲染环境以及所有功能的 vchart 构建产物**
 
 ```html
 <!-- unpkg -->
@@ -20,6 +20,13 @@ Tip: **目前 VChart（@visactor/vchart）还未内置进飞书小组件，所�
 <!-- jsDelivr -->
 <script src="https://cdn.jsdelivr.net/npm/@visactor/vchart/build/index.min.js"></script>
 ```
+
+## 暂不支持的功能
+
+飞书小组件现阶段由于序列化问题，还不支持在 `setData` 传递复杂对象及函数，只支持可序列化的数据。所以你无法在传递给 `setData` 的图表 spec 中为属性配置回调函数。目前可以通过如下两个方法来解决这个问题：
+
+1. 不要通过 `setData` 传递 spec，或者在 VChart 实例创建之后，通过 `vchart.updateSpec(spec)` 方法来更新图表，这个时候将带函数的 spec 传入
+2. 升级 vchart 升级到 1.7.0+，使用我们提供的注册自定义函数功能来实现，具体的使用方式见下文: [注册函数](#注册函数)
 
 ## Demo 示例
 
@@ -172,6 +179,101 @@ methods: {
   bindmousemove="bindChartEvent"
   bindmouseover="bindChartEvent"
 ></canvas>
+```
+
+## 注册函数
+
+自从`1.7.0`版本, 飞书小组件支持注册自定义函数，你可以使用全局注册或实例注册`registerFunction`两种方法进行函数注册。
+
+#### 全局注册函数
+
+在使用全局注册函数时，调用图表方法`VChart.registerFunction`注册自定义函数，在运行时便会进行回调处理，如下方的示例。
+
+1. 在 `index.js` 中引入 VChart，并注册 `labelFormat` 自定义函数
+
+```js
+<!-- index.js  -->
+import VChart from './vchart/index';
+
+Block({
+  // ...
+  onLoad(options) {
+
+    // 全局注册该自定义函数
+    VChart.registerFunction('labelFormat', (text) => {
+      return `$${text}`;
+    });
+  },
+  // ...
+});
+```
+
+2. spec 声明如下
+
+```ts
+{
+  type: 'line',
+  // ...
+  label: {
+    visible: true,
+    position: 'top',
+    formatMethod: 'labelFormat', // 声明使用的函数名称
+  }
+}
+```
+
+#### 实例注册函数
+
+在使用实例注册函数时，调用实例方法`registerFunction`注册自定义函数，在运行时便会进行回调处理，如下方的示例。
+
+```js
+<!-- index.js  -->
+methods: {
+    init() {
+      this.data.chartList.forEach(item => {
+        tt.createSelectorQuery()
+          .select(`#${item.id}_draw_canvas`)
+          .boundingClientRect(domRef => {
+            if (!domRef) {
+              console.error(`未找到 #${item.id} 画布`);
+              return;
+            }
+
+            item.chart && item.chart.release();
+
+            // 自定义函数
+            function labelFormat(key){
+              return key + 'test';
+            }
+
+            const chartInstance = new VChart(
+              {
+                width: domRef.width,
+                height: domRef.height,
+                /**
+                 * spec中可使用该函数名'labelFormat'
+                 * 例如，使用该函数做label的格式化
+                 * label: {
+                 *   visible: true,
+                 *   formatMethod: 'labelFormat'
+                 * }
+                 */
+                ...item.spec
+              },
+              {
+                // do something
+              }
+            );
+
+            // 实例注册该自定义函数
+            chartInstance.registerFunction('labelFormat', labelFormat);
+
+            chartInstance.renderAsync();
+          })
+          .exec();
+      });
+    }
+  }
 ```
 
 具体详见：[https://github.com/VisActor/VChart/tree/main/packages/block-vchart](https://github.com/VisActor/VChart/tree/main/packages/block-vchart)

@@ -13,7 +13,7 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
     };
     background?: {
         visible?: boolean;
-        style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "width" | "height" | "visible">;
+        style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "visible" | "width" | "height">;
     };
     text?: string | number | string[] | number[];
     visible?: boolean;
@@ -23,4 +23,4 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
     space?: number;
     align?: "center" | "start" | "end";
 };
-export declare function getLayout(spec: ILegendCommonSpec): "vertical" | "horizontal";
+export declare function getLayout(spec: ILegendCommonSpec): "horizontal" | "vertical";

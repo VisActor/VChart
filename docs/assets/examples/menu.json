@@ -154,14 +154,21 @@
           "path": "line-sampling",
           "title": {
             "zh": "折线图数据采样",
-            "en": "line chart sampling"
+            "en": "Line chart sampling"
           }
         },
         {
           "path": "line-overlap",
           "title": {
             "zh": "折线图防重叠",
-            "en": "line chart overlap"
+            "en": "Line chart overlap"
+          }
+        },
+        {
+          "path": "line-custom-state",
+          "title": {
+            "zh": "点击维度项高亮所有相关点",
+            "en": "Highlight All Related Points When Clicking the Dimension Item"
           }
         }
       ]
@@ -560,6 +567,13 @@
             "zh": "线性渐变颜色饼图",
             "en": "Linear Gradient Color Pie Chart"
           }
+        },
+        {
+          "path": "customized-legend-pie",
+          "title": {
+            "zh": "自定义饼图的图例交互",
+            "en": "Customized legend interaction of pie chart"
+          }
         }
       ]
     },
@@ -633,6 +647,13 @@
           "title": {
             "zh": "转化漏斗图",
             "en": "Conversion Funnel Chart"
+          }
+        },
+        {
+          "path": "funnel-custom-annotation",
+          "title": {
+            "zh": "漏斗图自定义标注",
+            "en": "Custom Annotation in Funnel Chart"
           }
         }
       ]
@@ -969,6 +990,13 @@
           "title": {
             "zh": "仪表图自定义区间tick和目标值",
             "en": "Gauge Chart with Segment Ticks and Target Value"
+          }
+        },
+        {
+          "path": "gauge-track",
+          "title": {
+            "zh": "带背景的仪表图",
+            "en": "Gauge Chart with Track Mark"
           }
         }
       ]
@@ -1540,6 +1568,13 @@
             "zh": "tooltip 格式化内容",
             "en": "Tooltip Custom Formatting"
           }
+        },
+        {
+          "path": "enterable-tooltip",
+          "title": {
+            "zh": "可交互的 tooltip",
+            "en": "Enterable Tooltip"
+          }
         }
       ]
     },
@@ -1849,6 +1884,13 @@
           }
         },
         {
+          "path": "mark-line-multi",
+          "title": {
+            "zh": "markLine 多轴线定位",
+            "en": "multi mark lines"
+          }
+        },
+        {
           "path": "mark-area-basic",
           "title": {
             "zh": "markArea",
@@ -1870,10 +1912,52 @@
           }
         },
         {
+          "path": "mark-area-with-label",
+          "title": {
+            "zh": "markArea 标签",
+            "en": "markArea with label"
+          }
+        },
+        {
+          "path": "mark-area-range",
+          "title": {
+            "zh": "markArea 标记range范围",
+            "en": "markArea to mark range"
+          }
+        },
+        {
           "path": "mark-point-basic",
           "title": {
             "zh": "markPoint 数据点定位",
             "en": "markPoint Data Point Positioning"
+          }
+        },
+        {
+          "path": "mark-line-total-diff",
+          "title": {
+            "zh": "markLine 总计差异标注",
+            "en": "markLine Total-Diff annotation"
+          }
+        },
+        {
+          "path": "mark-line-CAGR",
+          "title": {
+            "zh": "markLine 复合增长差异（CAGR）标注",
+            "en": "markLine CAGR annotation"
+          }
+        },
+        {
+          "path": "mark-line-hierarchy-diff",
+          "title": {
+            "zh": "markLine 层级差异标注",
+            "en": "markLine hierarchy-diff annotation"
+          }
+        },
+        {
+          "path": "mark-point-image",
+          "title": {
+            "zh": "markPoint 图片标记",
+            "en": "markPoint with image"
           }
         }
       ]
@@ -2061,6 +2145,34 @@
           "title": {
             "zh": "自定义 symbol mark",
             "en": "Custom Symbol Mark"
+          }
+        },
+        {
+          "path": "pie-extension",
+          "title": {
+            "zh": "饼图自定义 mark",
+            "en": "Pie Extension Mark"
+          }
+        },
+        {
+          "path": "custom-shape",
+          "title": {
+            "zh": "自定义 Shape",
+            "en": "Custom Shape"
+          }
+        },
+        {
+          "path": "bar-image-extension",
+          "title": {
+            "zh": "条形图image填充",
+            "en": "image in bar chart"
+          }
+        },
+        {
+          "path": "pie-extend-bars",
+          "title": {
+            "zh": "饼图扩展柱图",
+            "en": "pie and bar"
           }
         }
       ]

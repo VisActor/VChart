@@ -3,7 +3,6 @@ import type { IComponentOption } from '../interface';
 import { LayoutLevel, LayoutZIndex } from '../../constant';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { LayoutItem } from '../../model/layout-item';
 import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
 import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec, IIndicatorTheme } from './interface';
@@ -23,14 +22,14 @@ import type { IndicatorAttributes } from '@visactor/vrender-components';
 import type { IGraphic, INode, IGroup } from '@visactor/vrender-core';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 import { Factory } from '../../core/factory';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
-  static speckey = 'indicator';
   static type = ComponentTypeEnum.indicator;
   type = ComponentTypeEnum.indicator;
   name: string = ComponentTypeEnum.indicator;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
+  layoutType: 'none' = 'none';
   layoutZIndex: number = LayoutZIndex.Indicator;
   layoutLevel: number = LayoutLevel.Indicator;
 
@@ -51,10 +50,10 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     if (this.type !== Indicator.type) {
       return null;
     }
-    const indicatorSpec = spec.indicator || options.defaultSpec;
+    const indicatorSpec = spec.indicator;
     const indicators: IIndicator[] = array(indicatorSpec)
       .filter(s => s && s.visible !== false)
-      .map((s, index) => new Indicator(s, { ...options, specIndex: index, specKey: Indicator.speckey }));
+      .map((s, index) => new Indicator(s, { ...options, specIndex: index }));
     return indicators;
   }
 
@@ -221,11 +220,9 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       | string
       | number
       | string[]
-      | IVisualScale
-      | VisualType<string>[]
-      | FunctionType<string | number | string[]>
-      | IVisualSpecStyle<unknown, string | number | string[]>
-      | undefined
+      | number[]
+      | IRichTextCharacter[]
+      | FunctionType<number | number[] | string | string[] | IRichTextCharacter[]>
   ) {
     if (field) {
       return this._activeDatum ? this._activeDatum[field] : '';
@@ -246,7 +243,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     return eachSeries(this._regions, s => model === s) || this._regions.includes(model as IRegion);
   }
 
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._indicatorComponent] as unknown as IGroup[];
   }
 

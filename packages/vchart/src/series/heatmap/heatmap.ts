@@ -2,7 +2,6 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
 import type { Maybe, Datum } from '../../typings';
-import { mergeSpec } from '../../util/spec/merge-spec';
 import { registerHeatmapAnimation, type HeatmapAppearPreset } from './animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
@@ -20,6 +19,7 @@ import { heatmapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { registerCellMark } from '@visactor/vgrammar-core';
+import { getGroupAnimationParams } from '../util/utils';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -59,12 +59,14 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       morph: shouldMarkDoMorph(this._spec, HeatmapSeries.mark.cell.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
-      label: mergeSpec({ animation: this._spec.animation }, this._spec.label),
-      progressive
+      label: this._preprocessLabelSpec(this._spec.label),
+      progressive,
+      customShape: this._spec.cell?.customShape
     }) as ICellMark;
 
     this._backgroundMark = this._createMark(HeatmapSeries.mark.cellBackground, {
-      progressive
+      progressive,
+      customShape: this._spec.cellBackground?.customShape
     }) as ICellMark;
   }
 
@@ -147,21 +149,13 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
 
   initAnimation() {
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<HeatmapAppearPreset>)?.preset;
-    // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
-    const dataIndex = (datum: any) => {
-      const xValue = datum?.[this._fieldX[0]];
-      const xIndex = this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
-      // 不应该出现xIndex === -1 || undefined的情况
-      return xIndex || 0;
-    };
+    const animationParams = getGroupAnimationParams(this);
 
     this._cellMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('heatmap')?.(appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.cell, this._spec, this._markAttributeContext),
-        {
-          dataIndex
-        }
+        animationParams
       )
     );
   }

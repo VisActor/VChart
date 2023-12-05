@@ -141,6 +141,59 @@ Here is a modified bar chart according to the requirements:
 
 By adjusting the configuration, we have created a bar chart that is more suitable for use in actual projects.
 
+## typical scenarios
+
+### customized legend component
+
+When the built-in legend component of VChart cannot meet the business requirements, it is common in React projects to use custom legend components implemented with React components. In such cases, the updateState API can be used to establish event associations between React components and charts. You can refer to [the specific implementation example here](https://codesandbox.io/s/visactor-vchart-legend-demo-tdqmq3?file=/src/PieChart.tsx).
+
+The core code is as follows:
+
+```javascript
+export function PieChart() {
+  const chartInstance = useRef(null);
+  const legendData = useMemo(() => {
+    return (spec as any).data[0].values.map((entry: any) => {
+      return {
+        key: entry.type,
+        value: entry.value,
+        text: entry.type
+      };
+    });
+  }, []);
+
+  const handleLegendHover = useCallback(
+    (activeDatum: CustomizedLegendDatum, active: boolean) => {
+      if (chartInstance.current) {
+        if (active) {
+          (chartInstance.current as any).updateState({
+            cutomizedLegendHover: {
+              filter: (datum: any) => datum.type === activeDatum.key
+            }
+          });
+        } else {
+          (chartInstance.current as any).updateState({
+            cutomizedLegendHover: {
+              filter: (datum: any) => false
+            }
+          });
+        }
+      }
+    },
+    []
+  );
+
+  return (
+    <div className="cusomized-pie-chart">
+      <CustomizedLegend data={legendData} onHoverItem={handleLegendHover} />
+      <VChart ref={chartInstance} spec={spec} />
+    </div>
+  );
+}
+```
+
+The key point is to obtain the VChart instance through the `ref` and use the [`updateState` API](../../../api/API/vchart) to update the filter corresponding to the custom state.
+
 ## Conclusion
 
 Through this tutorial, you should have learned how to use VChart to create a simple bar chart in a React project. At the same time, you have learned how to configure the chart according to requirements to meet different scenarios in the project. VChart provides a wealth of options and components, which will undoubtedly play a more significant role in your actual projects. We hope you enjoy using the VChart chart library in your projects!

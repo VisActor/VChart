@@ -3,26 +3,21 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption } from '../../model/interface';
-import type { LayoutItem } from '../../model/layout-item';
 import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { eachSeries } from '../../util/model';
 import type { ISeries } from '../../series/interface';
-import {
-  registerLabel as registerVGrammarLabel,
-  type IGroupMark,
-  type ILabel,
-  type IMark
-} from '@visactor/vgrammar-core';
+import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
+import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { labelRuleMap, textAttribute } from './util';
 import { ComponentMark, type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction } from '@visactor/vutils';
-import { isArray, pickWithout } from '@visactor/vutils';
-import type { IGroup, IText } from '@visactor/vrender-core';
+import { isArray, isFunction, pickWithout } from '@visactor/vutils';
+import type { IGraphic, IGraphicAttribute, IGroup, IText } from '@visactor/vrender-core';
 import type { LabelItem } from '@visactor/vrender-components';
-import type { ILabelSpec } from './interface';
+import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { LabelMark, type ILabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
@@ -31,7 +26,7 @@ export interface ILabelInfo {
   baseMark: ICompilableMark;
   labelMark: ILabelMark;
   series: ISeries;
-  labelSpec: ILabelSpec;
+  labelSpec: TransformedLabelSpec;
 }
 
 export interface ILabelComponentContext {
@@ -44,8 +39,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
 
-  layoutType: LayoutItem['layoutType'] = 'absolute';
-  layoutZIndex: LayoutItem['layoutZIndex'] = LayoutZIndex.Label;
+  layoutZIndex: number = LayoutZIndex.Label;
 
   protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;
 
@@ -70,7 +64,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         return mark.getLabelSpec()?.some(labelSpec => labelSpec.visible);
       });
       if (labelVisible) {
-        labelComponents.push(new Label(spec, { ...options, specIndex: i, specKey: 'label' }));
+        labelComponents.push(new Label(spec, { ...options, specIndex: i }));
         continue;
       }
     }
@@ -108,7 +102,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this.event.on('afterElementEncode', eventParams => {
       const mark = eventParams.item;
 
-      if (this._option.getChart().getLayoutTag() === false && mark.context?.model === this) {
+      if (this._option.getChart().getLayoutTag() === false && mark.getContext()?.model === this) {
         this._delegateLabelEvent(mark.getGroupGraphicItem());
       }
     });
@@ -149,10 +143,13 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           mark.getLabelSpec().forEach((labelSpec, index) => {
             if (labelSpec.visible) {
               const info = this._labelInfoMap.get(region);
-              const labelMark = this._createMark({
-                type: MarkTypeEnum.label,
-                name: `${mark.name}-label-${index}`
-              }) as ILabelMark;
+              const labelMark = this._createMark(
+                {
+                  type: MarkTypeEnum.label,
+                  name: `${mark.name}-label-${index}`
+                },
+                { noSeparateStyle: true }
+              ) as ILabelMark;
               labelMark.setTarget(mark);
               info.push({ labelMark, baseMark: mark, series: s, labelSpec });
             }
@@ -169,10 +166,12 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           { type: MarkTypeEnum.component, name: `${region.getGroupMark().name}-label-component` },
           {
             componentType: 'label',
+            noSeparateStyle: true,
             support3d: this._spec.support3d
           }
         );
         if (component) {
+          component.setSkipBeforeLayouted(true);
           this._marks.addMark(component);
           this._labelComponentMap.set(component, regionLabelInfo);
         }
@@ -182,10 +181,12 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
             { type: MarkTypeEnum.component, name: `${labelInfo.labelMark.name}-component` },
             {
               componentType: 'label',
+              noSeparateStyle: true,
               support3d: labelInfo.baseMark.getSupport3d()
             }
           );
           if (component) {
+            component.setSkipBeforeLayouted(true);
             this._marks.addMark(component);
             this._labelComponentMap.set(component, labelInfo);
             labelInfo.labelMark.setComponent(component);
@@ -199,8 +200,10 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this._labelInfoMap.forEach(labelInfos => {
       labelInfos.forEach(info => {
         const { labelMark, labelSpec, series } = info;
-        this.initMarkStyleWithSpec(labelMark, labelSpec);
-        series.initLabelMarkStyle?.(labelMark);
+        this.initMarkStyleWithSpec(labelMark, labelSpec, undefined);
+        if (isFunction(labelSpec?.styleHandler)) {
+          labelSpec.styleHandler.call(series, labelMark);
+        }
         if (labelMark.stateStyle?.normal?.lineWidth) {
           labelMark.setAttribute('stroke', series.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
         }
@@ -232,13 +235,17 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this._updateLabelComponentAttribute(labelComponent.getProduct() as ILabel, baseMark.getProduct(), [labelInfo]);
   }
 
-  protected _updateLabelComponentAttribute(component: ILabel, target: IMark | IMark[], labelInfos: ILabelInfo[]) {
+  protected _updateLabelComponentAttribute(
+    component: ILabel,
+    target: IVGrammarMark | IVGrammarMark[],
+    labelInfos: ILabelInfo[]
+  ) {
     const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
     component
       .target(target)
       .configure({ interactive: false })
       .depend(dependCmp.map(cmp => cmp.getMarks()[0].getProduct()))
-      .labelStyle((mark: IMark, params: Record<string, any>) => {
+      .labelStyle((mark: IVGrammarMark, params: Record<string, any>) => {
         const labelInfo = labelInfos[params.labelIndex];
         if (labelInfo) {
           const { labelSpec, labelMark } = labelInfo;
@@ -250,6 +257,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           const centerOffset = this._spec?.centerOffset ?? 0;
           return mergeSpec(
             {
+              type: rule,
               textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
               overlap: {
                 avoidMarks: this._option
@@ -273,7 +281,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           const { labelSpec, labelMark } = labelInfos[params.labelIndex];
           return labelMark.skipEncode
             ? { data: datum }
-            : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod);
+            : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod, labelSpec.formatter);
         }
       })
       .size(() => labelInfos[0].series.getRegion().getLayoutRect());
@@ -297,11 +305,22 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       });
     });
   }
+
+  getVRenderComponents() {
+    const labels: any[] = [];
+    this._labelComponentMap.forEach((info, component) => {
+      const graphicItem = component.getProduct().getGroupGraphicItem();
+      if (graphicItem) {
+        labels.push(graphicItem);
+      }
+    });
+    return labels;
+  }
 }
 
 export const registerLabel = () => {
   registerVGrammarLabel();
   Factory.registerMark(LabelMark.constructorType, LabelMark);
   Factory.registerMark(ComponentMark.type, ComponentMark);
-  Factory.registerComponent(Label.type, Label);
+  Factory.registerComponent(Label.type, Label, true);
 };

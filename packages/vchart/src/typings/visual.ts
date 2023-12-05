@@ -10,6 +10,7 @@ import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
 import type { IRepeatType, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
@@ -113,7 +114,11 @@ export interface ICommonSpec {
   x?: number;
   y?: number;
   z?: number;
-  stroke?: string | IGradient | IColorKey | false | (number | boolean)[];
+  /**
+   * @todo 隔离主题和 spec 配置
+   * IColorKey 类型只适用于主题
+   */
+  stroke?: string | IGradient | false | (number | boolean)[] | IColorKey;
   strokeOpacity?: number;
   opacity?: number;
   lineWidth?: number;
@@ -177,6 +182,10 @@ export interface ICommonSpec {
 }
 
 export interface IFillMarkSpec extends ICommonSpec {
+  /**
+   * @todo 隔离主题和 spec 配置
+   * IColorKey 类型只适用于主题
+   */
   fill?: VisualType<string> | IGradient | false | IColorKey;
   fillOpacity?: number;
   // TODO：waite VRender support this api
@@ -208,10 +217,6 @@ export interface ISymbolMarkSpec extends IFillMarkSpec {
 export interface ILineLikeMarkSpec extends IFillMarkSpec {
   curveType?: InterpolateType;
   defined?: boolean;
-  /**
-   * @private 一个标志位，用于通知 VGrammar 是否执行 getLineSegmentConfigs 方法
-   */
-  enableSegments?: boolean;
 }
 
 export interface IAreaMarkSpec extends ILineLikeMarkSpec {
@@ -235,9 +240,15 @@ export interface IRuleMarkSpec extends ILineMarkSpec {
 
 export interface ITextMarkSpec extends IFillMarkSpec {
   /**
+   * 文字类型
+   * 可选，'html', 'rich', 'text'
+   * @default 'text'
+   */
+  type?: 'html' | 'rich' | 'text';
+  /**
    * 文字内容
    */
-  text?: StringOrNumber | string[];
+  text?: StringOrNumber | string[] | IRichTextCharacter[] | Function;
   /**
    * x 方向偏移
    */

@@ -29,7 +29,10 @@ import type {
   IExtensionMarkSpec,
   IExtensionGroupMarkSpec,
   EnableMarkType,
-  IGroup
+  IGroup,
+  ILayoutType,
+  ILayoutPoint,
+  ILayoutRect
 } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
@@ -46,7 +49,6 @@ import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../.
 import { mergeFields, getFieldAlias } from '../../util/data';
 import { couldBeValidNumber } from '../../util/type';
 import { mergeSpec } from '../../util/spec/merge-spec';
-import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
@@ -54,7 +56,6 @@ import { addVChartProperty } from '../../data/transforms/add-property';
 import type { ITrigger } from '../../interaction/interface';
 import { Trigger } from '../../interaction/trigger';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import type { LayoutItem } from '../../model/layout-item';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 // eslint-disable-next-line no-duplicate-imports
@@ -65,16 +66,31 @@ import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
-import { array, isEqual, isNil, isValid, isBoolean, isString, isFunction, isArray } from '@visactor/vutils';
-import { getThemeFromOption } from '../../theme/util';
+import {
+  array,
+  isEqual,
+  isNil,
+  isValid,
+  isBoolean,
+  isString,
+  isFunction,
+  isArray,
+  isValidNumber,
+  get
+} from '@visactor/vutils';
 import { getDirectionFromSeriesSpec } from '../util/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
-import { isAnimationEnabledForSeries } from '../../animation/utils';
+import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
+import { transformSeriesThemeToMerge } from '../../util/spec/merge-theme';
+import type { ILabelSpec } from '../../component';
+import type { ILabelMark } from '../../mark/label';
+import type { TransformedLabelSpec } from '../../component/label';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
+  readonly specKey: string = 'series';
   readonly type: string = 'series';
-  layoutType: LayoutItem['layoutType'] = 'absolute';
+  layoutType: ILayoutType = 'absolute';
   readonly modelType: string = 'series';
   readonly name: string | undefined = undefined;
 
@@ -98,6 +114,24 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   getRegion(): IRegion {
     return this._region;
   }
+
+  private _layoutStartPoint: ILayoutPoint = {
+    x: 0,
+    y: 0
+  };
+
+  getLayoutStartPoint(): ILayoutPoint {
+    return this._region.getLayoutStartPoint();
+  }
+
+  private _layoutRect: ILayoutRect = { width: null, height: null };
+
+  getLayoutRect: () => ILayoutRect = () => {
+    return {
+      width: this._layoutRect.width ?? this._region.getLayoutRect().width,
+      height: this._layoutRect.height ?? this._region.getLayoutRect().height
+    };
+  };
 
   /** 系列的根 mark */
   protected _rootMark: IGroupMark = null;
@@ -216,6 +250,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._tooltipHelper;
   }
 
+  layoutZIndex: number = 0;
+
   protected _invalidType: IInvalidType = 'break';
   getInvalidType() {
     return this._invalidType;
@@ -228,9 +264,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   protected _markAttributeContext: ISeriesMarkAttributeContext;
 
   constructor(spec: T, options: ISeriesOption) {
-    super(spec, {
-      ...options
-    });
+    super(spec, options);
     this._region = options.region;
     this._dataSet = options.dataSet;
     this._spec?.name && (this.name = this._spec.name);
@@ -309,8 +343,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** data */
   protected initData(): void {
-    if (this._spec.data) {
-      this._rawData = dataToDataView(this._spec.data, this._dataSet, this._option.sourceDataList, {
+    const d = this._spec.data ?? this._option.getSeriesData(this._spec.dataId, this._spec.dataIndex);
+    if (d) {
+      this._rawData = dataToDataView(d, this._dataSet, this._option.sourceDataList, {
         onError: this._option?.onError
       });
     }
@@ -654,12 +689,17 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       {
         markSpec: spec,
         parent: parentMark,
-        dataView: false
+        dataView: false,
+        customShape: spec?.customShape
       }
     ) as IGroupMark;
     if (!mark) {
       return;
     }
+
+    // 自定义图元默认不添加动画
+    const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
+    mark.setAnimationConfig(config);
 
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;
@@ -667,7 +707,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         this._createExtensionMark(s as any, mark, namePrefix, i);
       });
     } else if (!parentMark && (!isNil(spec.dataId) || !isNil(spec.dataIndex))) {
-      const dataView = this._option.getSeriesData(spec.id, spec.dataIndex);
+      const dataView = this._option.getSeriesData(spec.dataId, spec.dataIndex);
       if (dataView === this._rawData) {
         mark.setDataView(this.getViewData(), this.getViewDataProductId());
       } else {
@@ -915,12 +955,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   reInit(theme?: any, lastSpec?: any) {
     super.reInit(theme);
 
-    this.initMarkStyle();
-    this.getMarksWithoutRoot().forEach(mark => {
-      if (lastSpec && isEqual(lastSpec[mark.name], this._spec[mark.name])) {
-        return;
-      }
+    const marks = !lastSpec
+      ? this.getMarksWithoutRoot()
+      : this.getMarksWithoutRoot().filter(mark => !isEqual(lastSpec[mark.name], this._spec[mark.name]));
+    // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
+    marks.forEach(mark => {
       this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
+    });
+    this.initMarkStyle();
+    marks.forEach(mark => {
       mark.updateStaticEncode();
       mark.updateLayoutState(true);
     });
@@ -961,12 +1004,23 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         null;
   }
 
-  onLayoutEnd(ctx: any) {
-    const region = this.getRegion();
-    this.setLayoutRect(region.getLayoutRect());
-    this.setLayoutStartPosition(region.getLayoutStartPoint());
+  setLayoutStartPosition(pos: Partial<IPoint>): void {
+    if (isValidNumber(pos.x)) {
+      this._layoutStartPoint.x = pos.x;
+    }
+    if (isValidNumber(pos.y)) {
+      this._layoutStartPoint.y = pos.y;
+    }
+  }
 
-    super.onLayoutEnd(ctx);
+  setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) {
+    if (isValidNumber(width)) {
+      this._layoutRect.width = width;
+    }
+
+    if (isValidNumber(height)) {
+      this._layoutRect.height = height;
+    }
   }
 
   /** seriesField */
@@ -1054,10 +1108,18 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getTheme() {
-    const direction = getDirectionFromSeriesSpec(this._spec);
-    const theme = getThemeFromOption(`series.${this.type}`, this._option);
-    const themeWithDirection = getThemeFromOption(`series.${this.type}_${direction}`, this._option);
-    return preprocessSpecOrTheme('theme', mergeSpec({}, theme, themeWithDirection), this.getColorScheme(), this._spec);
+    const direction = getDirectionFromSeriesSpec(this._originalSpec);
+    const chartTheme = this._option?.getTheme();
+    const { markByName, mark } = chartTheme;
+    const type = this._option.type;
+    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName);
+    const themeWithDirection = transformSeriesThemeToMerge(
+      get(chartTheme, `series.${type}_${direction}`),
+      `${type}_${direction}`,
+      mark,
+      markByName
+    );
+    return mergeSpec({}, theme, themeWithDirection);
   }
 
   protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
@@ -1075,7 +1137,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       label,
       progressive,
       support3d = this._spec.support3d || !!(this._spec as any).zField,
-      morph = false
+      morph = false,
+      customShape
     } = option;
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
@@ -1127,6 +1190,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       if (!isNil(groupKey)) {
         m.setGroupKey(groupKey);
+      }
+
+      if (customShape) {
+        m.setCustomizedShapeCallback(customShape);
       }
 
       this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));
@@ -1212,4 +1279,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
+
+  protected _preprocessLabelSpec(spec: ILabelSpec, styleHandler?: (mark: ILabelMark) => void, hasAnimation?: boolean) {
+    return {
+      animation: hasAnimation ?? this._spec.animation,
+      ...spec,
+      styleHandler: styleHandler ?? (this as ISeries).initLabelMarkStyle
+    } as TransformedLabelSpec;
+  }
 }

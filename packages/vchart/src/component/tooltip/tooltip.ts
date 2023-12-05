@@ -1,7 +1,7 @@
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption, ILayoutItem } from '../../model/interface';
+import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
@@ -35,6 +35,7 @@ import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
+import { cloneDeepSpec } from '../../util/spec/clone-deep';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
@@ -47,11 +48,12 @@ type EventHandlerList = {
 }[];
 
 export class Tooltip extends BaseComponent<any> implements ITooltip {
+  protected layoutZIndex: number = 1;
   static type = ComponentTypeEnum.tooltip;
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
 
-  layoutType: ILayoutItem['layoutType'] = 'absolute';
+  layoutType: 'none' = 'none';
 
   protected declare _spec: ITooltipSpec;
 
@@ -61,11 +63,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return null;
     }
     if (!isArray(tooltipSpec)) {
-      return new Tooltip(tooltipSpec, { ...options, specKey: 'tooltip' });
+      return new Tooltip(tooltipSpec, options);
     }
     const tooltips: Tooltip[] = [];
     tooltipSpec.forEach((s: any, i: number) => {
-      tooltips.push(new Tooltip(s, { ...options, specIndex: i, specKey: 'tooltip' }));
+      tooltips.push(new Tooltip(s, { ...options, specIndex: i }));
     });
     return tooltips;
   }
@@ -91,7 +93,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   changeRegions(regions: IRegion[]) {
     /* do nothing */
   }
-  getVRenderComponents(): IGraphic[] {
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
   }
   protected _registerEvent() {
@@ -361,7 +363,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   protected _initTheme(theme?: any) {
     super._initTheme(theme);
-    this._spec.style = this._prepareSpecAfterMergingTheme(mergeSpec({}, this._theme, this._originalSpec.style));
+
+    this._spec = cloneDeepSpec(this._originalSpec);
+    this._spec.style = mergeSpec({}, this._theme, this._originalSpec.style);
   }
 
   protected _shouldMergeThemeToSpec() {
@@ -509,21 +513,21 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     // TODO：后续支持 renderMode === 'canvas' 场景
     if (this._spec.enterable && this._spec.renderMode === 'html') {
       const { event } = params;
-      let target: any;
+      let newTarget: any;
       if (isValid(event.nativeEvent)) {
         // get native event object
-        const nativeEvent = event.nativeEvent as Event;
-        target = nativeEvent.target;
+        const nativeEvent = event.nativeEvent as any;
+        newTarget = nativeEvent.relatedTarget;
         // if in shadow DOM use composedPath to access target
+        // FIXME: shadow DOM 的 relatedTarget 的属性是？
         if (nativeEvent.composedPath && nativeEvent.composedPath().length > 0) {
-          target = nativeEvent.composedPath()[0];
+          newTarget = nativeEvent.composedPath()[0];
         }
       } else {
-        target = event.target;
+        newTarget = event.relatedTarget;
       }
-
       const container = this.tooltipHandler?.getTooltipContainer?.();
-      if (isValid(container) && isValid(target) && hasParentElement(target, container)) {
+      if (isValid(container) && isValid(newTarget) && hasParentElement(newTarget, container)) {
         return true;
       }
     }
@@ -531,7 +535,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   }
 
   getVisible() {
-    return this._spec.visible === true;
+    return this._spec.visible !== false;
   }
 }
 

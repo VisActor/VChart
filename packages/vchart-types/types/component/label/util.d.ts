@@ -7,17 +7,20 @@ export declare const labelRuleMap: {
     symbol: typeof symbolLabel;
     arc: typeof pieLabel;
     point: typeof pointLabel;
-    lineData: typeof lineDataLabel;
+    'line-data': typeof lineDataLabel;
     stackLabel: typeof stackLabel;
+    line: typeof LineLabel;
+    area: typeof LineLabel;
 };
 export declare enum LabelRule {
     rect = "rect",
     symbol = "symbol",
     arc = "arc",
     point = "point",
-    stackLabel = "stackLabel"
+    stackLabel = "stackLabel",
+    line = "line"
 }
-export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod']): any;
+export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod'], formatter?: ILabelSpec['formatter']): any;
 export declare function symbolLabel(labelInfo: ILabelInfo): {
     position: string | ((datum: Datum) => any);
     overlap: boolean | {
@@ -55,4 +58,8 @@ export declare function stackLabel(labelInfo: ILabelInfo): {
     overlap: {
         strategy: any;
     };
+};
+export declare function LineLabel(labelInfo: ILabelInfo): {
+    position: string;
+    data: any;
 };

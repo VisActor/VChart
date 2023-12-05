@@ -103,12 +103,6 @@ export interface IAxisHelper {
   // 用户其他模块扩充轴scale的区间
   setExtendDomain?: (key: string, value: number | undefined) => void;
 
-  // domain 类型是any[]
-  getStatisticsDomain?: () => {
-    domain: any[];
-    index: { [key in StringOrNumber]: number };
-  };
-
   getAxisType: () => string;
 
   getAxisId: () => number;
@@ -137,7 +131,7 @@ export interface ITimeLayerType {
   /**
    * 期望的连续轴tick数量
    * The desired number of ticks draw on linear axis.
-   * @default 10
+   * @default 5
    * @description 建议的tick数量，并不保证结果一定是配置值
    * @since 1.4.0 后支持函数回调方式配置
    */
@@ -145,7 +139,7 @@ export interface ITimeLayerType {
   /**
    * 强制设置tick数量
    * The exact number of ticks draw on linear axis. Might lead to decimal step.
-   * @default 10
+   * @default 5
    * @description 强制设置的tick数量，可能由于数据范围导致tick值为小数
    */
   forceTickCount?: number;

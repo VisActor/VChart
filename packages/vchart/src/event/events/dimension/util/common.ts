@@ -1,10 +1,9 @@
 /* eslint-disable max-depth */
-import type { ILayoutPoint } from '../../../../model/interface';
 import type { IChart } from '../../../../chart/interface';
 import type { IDimensionData, IDimensionInfo } from '../interface';
 import { isNil, array, isValid, isValidNumber } from '@visactor/vutils';
 import type { AxisComponent } from '../../../../component/axis/base-axis';
-import type { CoordinateType } from '../../../../typings';
+import type { CoordinateType, ILayoutPoint } from '../../../../typings';
 import { isDiscrete } from '@visactor/vscale';
 import type { ICartesianLinearAxisSpec } from '../../../../component';
 import type { Maybe } from '@visactor/vutils';
@@ -13,7 +12,7 @@ const isInBound = (pos: ILayoutPoint, min: ILayoutPoint, max: ILayoutPoint): boo
   pos.x >= min.x && pos.x <= max.x && pos.y >= min.y && pos.y <= max.y;
 
 export const isInRegionBound = (chart: IChart, axis: AxisComponent, pos: ILayoutPoint) => {
-  const regionList = chart.getRegionsInIds(array(axis.layoutBindRegionID));
+  const regionList = chart.getRegionsInIds(array(axis.layout.layoutBindRegionID));
   return regionList?.some(region => {
     const rect = region.getLayoutRect();
     const startPoint = region.getLayoutStartPoint();
