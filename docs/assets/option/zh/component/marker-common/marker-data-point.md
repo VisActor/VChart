@@ -2,17 +2,48 @@
 
 #${prefix} [key(string | number)](string | number)
 
-数据或聚合方式配置。
+数据字段及数据值配置，支持：
 
-可选值：
+1. 直接配置数据值，如 `{ x: 'A', y: 123 }`，其中 `'x'`, `'y'` 为原始数据集中对应的数据字段
+2. 对于数值类型的字段，也可以配置聚合方式，如：`{ x: 'A', y: 'sum' }`，聚合方式支持如下：
+   可选值：
 
-- 'sum'
-- 'average'
-- 'min'
-- 'max'
-- 'variance'
-- 'standardDeviation'
-- 'median'
+   - 'sum'
+   - 'average'
+   - 'min'
+   - 'max'
+   - 'variance'
+   - 'standardDeviation'
+   - 'median'
+
+3. 回调函数（自 `1.7.3` 版本开始支持），当你期望你的标注位置是动态的，你可以为对应的数据字段配置回调，然后在回调函数中根据你的需求进行处理，回调参数如下：
+
+```ts
+// relativeSeriesData 为标注关联的系列的数据集
+// relativeSeries 为标注关联的系列实例
+export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
+```
+
+`example`:
+
+```ts
+coordinates: [
+  {
+    x: (data, series) => {
+      const scale = series.getXAxisHelper().getScale(0);
+      console.log(scale.domain());
+
+      return scale.domain()[1];
+    },
+    y: (data, series) => {
+      const scale = series.getYAxisHelper().getScale();
+      console.log(scale.domain());
+
+      return scale.domain()[1];
+    }
+  }
+];
+```
 
 #${prefix} refRelativeSeriesIndex(number)
 

@@ -8,6 +8,26 @@ Data mark point.
   prefix = '##'
 ) }}
 
+### x(string|number|function)
+
+Supported since version `1.7.3`, the reference point is at the starting point of the x-axis. The value on the x-axis can be configured, or the aggregate calculation type, or calculated by itself through the data in the form of a callback.
+
+- Relative position (string): x can be configured as a '15%' percentage, which means that the position is located at 15 percent of the region's horizontal axis (from left to right).
+- Aggregation calculation type (string)
+- Callback
+
+{{ use: component-marker-aggregation-type() }}
+
+### y(string|number|function)
+
+Supported since `1.7.3` version, the position of the reference point on the y-axis can be configured with the value of the reference line on the y-axis, or the aggregate calculation type, or calculated by itself through data in the form of a callback.
+
+- Relative position (string): y can be configured as a '15%' percentage, which means that the position is located at 15 percent of the region's vertical axis (from top to bottom).
+- Aggregation calculation type (string)
+- Callback
+
+{{ use: component-marker-aggregation-type() }}
+
 ### coordinates(Object)
 
 Mark target: data element.
@@ -15,6 +35,11 @@ Specifies the mark area for the data point. Draw the mark area based on the spec
 
 {{ use: component-marker-data-point(
   prefix = '###'
+) }}
+
+{{ use: component-marker-data-point-offset(
+   prefix = '##',
+   isSingle = true
 ) }}
 
 ### position(Object)
@@ -28,7 +53,7 @@ Specifies the mark area for the coordinate point. Draw the mark area based on th
 
 ### regionRelative(boolean) = false
 
-自 `1.7.0` 版本支持，是否为相对 region 的坐标，默认为 false，即相对画布的坐标，默认 false。
+Supported since `1.7.0` version, it only takes effect when positioning using the `position` attribute. Whether it is the coordinate relative to the region, the default is false, that is, the coordinate relative to the canvas, the default is false.
 
 ### relativeRelativeSeriesIndex(number)
 
