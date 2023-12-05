@@ -145,6 +145,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this._spec = merge(baseSpec);
       }
     }
+
+    this._adjustPadding();
   }
   /** LifeCycle API**/
   onLayoutEnd(ctx: any): void {

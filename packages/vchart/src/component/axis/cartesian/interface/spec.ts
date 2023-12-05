@@ -1,5 +1,5 @@
-import type { IOrientType, IPadding, IRectMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../../typings';
-import type { IBandAxisSpec, ILinearAxisSpec, IGrid, ICommonAxisSpec, IAxisItem } from '../../interface';
+import type { IOrientType, IRectMarkSpec, StringOrNumber } from '../../../../typings';
+import type { IBandAxisSpec, ILinearAxisSpec, IGrid, ICommonAxisSpec } from '../../interface';
 import type {
   ICartesianDomainLine,
   ICartesianLabel,
