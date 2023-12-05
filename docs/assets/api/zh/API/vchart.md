@@ -184,7 +184,7 @@ new VChart(spec: ISpec, options: IInitOption);
 
 #### spec
 
-图表的 spec 配置，详见[配置项](../option/)页面。
+图表的 spec 配置，详见[配置项](../../option/)页面。
 
 #### options
 
