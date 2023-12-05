@@ -10,7 +10,7 @@
 
 富文本容器高度。
 
-#${prefix} ellipsis(boolean ｜ string)
+#${prefix} ellipsis(boolean|string)
 
 超出容器范围后文字的省略方式。
 
