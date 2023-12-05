@@ -567,7 +567,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
     this.setLayoutRect(rect);
     const isChanged = this.updateScaleRange();
-    if (isChanged) {
+    // 防止一直没有计算latestData
+    if (isChanged || !isArray(this._tickData.getLatestData())) {
       this.computeData('range');
     }
     const context = { skipLayout: false };
