@@ -4,6 +4,7 @@ import { DragComponent } from './transform-drag';
 export class LayerZoomMove {
   private _layer: ILayer;
   private _dragger: DragComponent;
+  private _container: HTMLElement;
 
   private _state: 'none' | 'drag' | 'zoom' = 'none';
   get state() {
@@ -16,6 +17,7 @@ export class LayerZoomMove {
   constructor(layer: ILayer, emitter: EventEmitter, container: HTMLElement) {
     this._layer = layer;
     this.emitter = emitter;
+    this._container = container;
     this._dragger = new DragComponent(container);
     this._dragger.dragHandler(this._dragElement);
     this._dragger.dragEndHandler(this._dragEnd);
@@ -24,30 +26,39 @@ export class LayerZoomMove {
   }
 
   private _initEvent() {
-    document.addEventListener('wheel', this._onWheel);
+    this._container.addEventListener('wheel', this._onWheel);
 
     document.addEventListener('keydown', this._checkDrag);
     document.addEventListener('keyup', this._checkDrag);
 
-    document.addEventListener('pointerdown', this._onTouchDown, true);
-    document.addEventListener('pointerup', this._onTouchUp, true);
+    this._container.addEventListener('pointerdown', this._onTouchDown, true);
+    this._container.addEventListener('pointerup', this._onTouchUp, true);
   }
 
   private _releaseEvent() {
-    document.removeEventListener('wheel', this._onWheel);
+    this._container.removeEventListener('wheel', this._onWheel);
 
     document.removeEventListener('keydown', this._checkDrag);
     document.removeEventListener('keyup', this._checkDrag);
 
-    document.removeEventListener('pointerdown', this._onTouchDown);
-    document.removeEventListener('pointerdown', this._onTouchUp);
+    this._container.removeEventListener('pointerdown', this._onTouchDown);
+    this._container.removeEventListener('pointerup', this._onTouchUp);
   }
 
   private _onWheel = (e: any) => {
-    const zoom = Math.pow(1.0005, -e.deltaY * Math.pow(16, e.deltaMode));
-    const center = { x: e.offsetX, y: e.offsetY };
-    this._layer.scale(zoom, zoom, center);
-    this.emitter.emit('onLayerWheel', { zoom, center });
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    if (e.ctrlKey) {
+      // zoom
+      const zoom = Math.pow(1.0005, -e.deltaY * Math.pow(16, e.deltaMode));
+      const center = { x: e.offsetX, y: e.offsetY };
+      this._layer.scale(zoom, zoom, center);
+      this.emitter.emit('onLayerWheel', { zoom, center });
+    } else {
+      // drag
+      this._layer.translate(-e.deltaX, -e.deltaY);
+      this.emitter.emit('onLayerDrag');
+    }
   };
 
   private _onTouchDown = (event: PointerEvent) => {
