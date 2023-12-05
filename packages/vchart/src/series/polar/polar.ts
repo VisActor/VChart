@@ -11,6 +11,7 @@ import { BaseSeries } from '../base/base-series';
 import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
 import { sortDataInAxisHelper } from '../util/utils';
+import { mergeSpec } from '../../util/spec/merge-spec';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>
@@ -178,6 +179,15 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   protected _getDefaultSpecFromChart(chartSpec: any) {
     const { outerRadius, innerRadius } = chartSpec;
     return { outerRadius, innerRadius } as Partial<T>;
+  }
+
+  /** 将 theme merge 到 spec 中 */
+  protected _mergeThemeToSpec() {
+    if (this._shouldMergeThemeToSpec()) {
+      const specFromChart = this._getDefaultSpecFromChart(this.getChart().getSpec());
+      // this._originalSpec + specFromChart + this._theme = this._spec
+      this._spec = mergeSpec({}, this._theme, specFromChart, this._originalSpec);
+    }
   }
 
   setAttrFromSpec() {
