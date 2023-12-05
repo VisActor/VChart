@@ -5,6 +5,7 @@ import type { IBaseLayout, ILayoutItem } from '../interface';
 import { Layout } from '../base-layout';
 import { isXAxis, isYAxis } from '../../component/axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
+import { IAxis } from '../../component/axis';
 
 interface IOffset {
   offsetLeft: number;
@@ -99,7 +100,7 @@ export class Layout3d extends Layout implements IBaseLayout {
         width: this._chartLayoutRect.width,
         height: this._chartLayoutRect.height
       };
-      zItems[0].directionStr = yAxis.layoutOrient === 'left' ? 'r2l' : 'l2r';
+      (zItems[0].model as IAxis).directionStr = yAxis.layoutOrient === 'left' ? 'r2l' : 'l2r';
       // 将长宽高信息传给所有的轴
       const xRect = xAxis.getLayoutRect();
       const yRect = yAxis.getLayoutRect();
