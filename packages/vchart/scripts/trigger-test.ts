@@ -125,6 +125,8 @@ const getFormData = (data: Record<string, string | ReadStream>) => {
 
 async function uploadFile() {
   const localFilePath = path.resolve(process.cwd(), 'build/index.js');
+  const version = require('../package.json').version;
+  console.log(version);
   console.info(`[uploadFile] local path: ${localFilePath}`);
 
   let stream = fs.createReadStream(localFilePath);
