@@ -10,6 +10,9 @@ export interface IRenderContainer {
   canvas?: HTMLCanvasElement | string;
 }
 
+/**
+ * @since 1.8.0
+ */
 export type IOptimizeType = {
   // 视口不在可视区，跳过渲染，默认为true
   skipRenderWithOutRange?: boolean;
@@ -100,6 +103,9 @@ export interface IRenderOption {
    * vrender 的插件列表
    */
   pluginList?: string[];
+  /**
+   * @since 1.8.0
+   */
   optimize?: IOptimizeType;
 }
 
