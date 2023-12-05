@@ -10,7 +10,7 @@ Rich text container width.
 
 Rich text container height.
 
-#${prefix} ellipsis(boolean ｜ string)
+#${prefix} ellipsis(boolean|string)
 
 Text ellipsis method when exceeding the container scope.
 
