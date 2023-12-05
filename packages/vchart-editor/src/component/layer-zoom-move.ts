@@ -1,6 +1,7 @@
 import type { EventEmitter } from '@visactor/vutils';
 import type { ILayer } from '@visactor/vrender-core';
 import { DragComponent } from './transform-drag';
+import type { IPoint } from '../typings/space';
 export class LayerZoomMove {
   private _layer: ILayer;
   private _dragger: DragComponent;
@@ -53,7 +54,7 @@ export class LayerZoomMove {
       const zoom = Math.pow(1.0005, -e.deltaY * Math.pow(16, e.deltaMode));
       const center = { x: e.offsetX, y: e.offsetY };
       this._layer.scale(zoom, zoom, center);
-      this.emitter.emit('onLayerWheel', { zoom, center });
+      this.emitter.emit('onLayerWheel', { zoom, center, globalZoom: this._layer.globalTransMatrix.a });
     } else {
       // drag
       this._layer.translate(-e.deltaX, -e.deltaY);
@@ -103,5 +104,18 @@ export class LayerZoomMove {
   release() {
     this._releaseEvent();
     this._dragger.release();
+  }
+
+  zoomTo(_zoom: number, center?: IPoint) {
+    const zoom = _zoom / this._layer.globalTransMatrix.a;
+    this._layer.scale(
+      zoom,
+      zoom,
+      center ?? { x: this._container.clientWidth * 0.5, y: this._container.clientHeight * 0.5 }
+    );
+  }
+
+  moveTo(startPos: IPoint) {
+    this._layer.translate(startPos.x - this._layer.globalTransMatrix.e, startPos.y - this._layer.globalTransMatrix.f);
   }
 }

@@ -355,6 +355,12 @@ export class VChartEditor {
     return charts;
   }
 
+  zoomTo(zoom: number, center?: IPoint) {
+    this._layers.forEach(l => {
+      l.zoomMove.zoomTo(zoom, center);
+    });
+  }
+
   clearCurrentEditorElement() {
     this._layers.forEach(l => {
       l.elements.forEach(e => {

@@ -89,6 +89,9 @@ export class EditorLayer implements IEditorLayer {
   protected _eventHandler: Map<string, ((e: Event) => void)[]> = new Map();
 
   private _zoomMove: LayerZoomMove;
+  get zoomMove() {
+    return this._zoomMove;
+  }
 
   private _editor: VChartEditor;
 
@@ -127,6 +130,7 @@ export class EditorLayer implements IEditorLayer {
 
   reLayoutWithOffset(offsetX: number, offsetY: number) {
     this._elements.forEach(el => el.moveBy(offsetX, offsetY));
+    this._zoomMove.moveTo({ x: 0, y: 0 });
   }
 
   transformPosToLayer = (pos: IPoint) => {
