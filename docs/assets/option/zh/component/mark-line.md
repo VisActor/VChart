@@ -23,23 +23,67 @@
 - number 类型为像素值
 - string 类型为百分比，相对于 region 区域宽度/高度的百分比，如 '30%'
 
-### x(string|number)
+### x(string|number|function)
 
 标注目标：笛卡尔坐标系 x 坐标空间。
-x 轴上的标注线。可以配置标注线在 x 轴上的值，相对位置，或者聚合计算类型。
+x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
 
 - 相对位置（string）：自 `1.7.0` 版本开始支持，可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处。
 - 聚合计算类型（string）
+- 回调函数
+
+**注意：**
+
+1. 单独声明 x 属性，可以绘制一条贯穿 y 轴的标注线
+2. 配合配置 y 和 y1 属性，可以声明 y 轴的绘制范围
+3. 配合配置 x1， y 和 y1 属性，为通过配置标注线两个端点 (x, y) 和 (x1, y1)
 
 {{ use: component-marker-aggregation-type() }}
 
-### y(string|number)
+### y(string|number|function)
 
 标注目标：笛卡尔坐标系 y 坐标空间。
-y 轴上的标注线。可以配置标注线在 y 轴上的值，相对位置，或者聚合计算类型。
+参考线在 y 轴上位置，可以配置参考线在 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
 
 - 相对位置（string）：自 `1.7.0` 版本开始支持，可以将 y 配置为 '15%' 百分比的形式，用于表示将 y 绘制在 marker 所在 region 纵轴（从上往下）的百分之 15 位置处。
 - 聚合计算类型（string）
+- 回调函数
+
+{{ use: component-marker-aggregation-type() }}
+
+**注意：**
+
+1. 单独声明 y 属性，可以绘制一条贯穿 x 轴的标注线
+2. 配合配置 x 和 x1 属性，可以声明 x 轴的绘制范围
+3. 配合配置 x， x1 和 y1 属性，为通过配置标注线两个端点 (x, y) 和 (x1, y1)
+
+### x1(string|number|function)
+
+自 `1.7.3` 版本开始支持，该参考线在 x 轴的终点位置，可以配置 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+
+**注意该属性的使用场景为：**
+
+1. 配合配置 y, x 和 x1 属性，用于在 y 轴上绘制 x 到 x1 范围的标注线
+2. 配合配置 x，x1， y 和 y1 属性，为通过配置标注线两个端点 (x, y) 和 (x1, y1)
+
+- 相对位置（string）：可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处。
+- 聚合计算类型（string）
+- 回调函数
+
+{{ use: component-marker-aggregation-type() }}
+
+### y1(string|number|function)
+
+自 `1.7.3` 版本开始支持，该参考线终点在 y 轴的终点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+
+**注意该属性的使用场景为：**
+
+1. 配合配置 x, y 和 y1 属性，用于在 x 轴上绘制 y 到 y1 范围的标注线
+2. 配合配置 x，x1， y 和 y1 属性，为通过配置标注线两个端点 (x, y) 和 (x1, y1)
+
+- 相对位置（string）：可以将 y 配置为 '15%' 百分比的形式，用于表示将 y 绘制在 marker 所在 region 纵轴（从上往下）的百分之 15 位置处。
+- 聚合计算类型（string）
+- 回调函数
 
 {{ use: component-marker-aggregation-type() }}
 
@@ -78,6 +122,10 @@ y 轴上的标注线。可以配置标注线在 y 轴上的值，相对位置，
 
 - `'regression'`: 数据回归处理
 
+{{ use: component-marker-data-point-offset(
+   prefix = '##'
+) }}
+
 ### positions(Array)
 
 标注目标：坐标点。
@@ -91,7 +139,7 @@ y 轴上的标注线。可以配置标注线在 y 轴上的值，相对位置，
 
 ### regionRelative(boolean) = false
 
-自 `1.7.0` 版本支持，是否为相对 region 的坐标，默认为 false，即相对画布的坐标，默认 false。
+自 `1.7.0` 版本支持，仅对使用 `positions` 属性进行定位的情况生效，是否为相对 region 的坐标，默认为 false，即相对画布的坐标，默认 false。
 
 {{ use: component-marker-axis(
   prefix = '##'

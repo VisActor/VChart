@@ -34,6 +34,9 @@ export type IDataPosCallback = (
 
 export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
 export type IDataPointSpec = {
+  /**
+   * 数据字段配置
+   */
   [key: string]: IDataPos | IDataPointCallback;
   /**
    * 具体某个数据元素关联的series（仅在标注目标：数据元素下有效）

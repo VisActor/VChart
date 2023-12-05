@@ -2,17 +2,48 @@
 
 #${prefix} [key(string | number)](string | number)
 
-Data or aggregation method configuration.
+Data field and data value configuration supports:
 
-Optional values:
+1. Directly configure the data value, such as `{ x: 'A', y: 123 }`, where `'x'`, `'y'` are the corresponding data fields in the original data set
+2. For numerical type fields, you can also configure the aggregation method, such as: `{ x: 'A', y: 'sum' }`. The aggregation method supports the following:
+   Optional values:
 
-- 'sum'
-- 'average'
-- 'min'
-- 'max'
-- 'variance'
-- 'standardDeviation'
-- 'median'
+   - 'sum'
+   - 'average'
+     -'min'
+   - 'max'
+   - 'variance'
+   - 'standardDeviation'
+   - 'median'
+
+3. Callback function(**Since `1.7.3` version**). When you expect your label position to be dynamic, you can configure a callback for the corresponding data field, and then process it according to your needs in the callback function. The callback parameters are as follows:
+
+```ts
+// relativeSeriesData is the data set of the series associated with the label
+// relativeSeries is the series instance associated with the label
+export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
+```
+
+`example`:
+
+```ts
+coordinates: [
+  {
+    x: (data, series) => {
+      const scale = series.getXAxisHelper().getScale(0);
+      console.log(scale.domain());
+
+      return scale.domain()[1];
+    },
+    y: (data, series) => {
+      const scale = series.getYAxisHelper().getScale();
+      console.log(scale.domain());
+
+      return scale.domain()[1];
+    }
+  }
+];
+```
 
 #${prefix} refRelativeSeriesIndex(number)
 
