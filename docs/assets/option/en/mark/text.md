@@ -19,6 +19,7 @@ Y-axis offset.
 Text alignment.
 
 Optional values:
+
 - `'left'`: Align left
 - `'right'`: Align right
 - `'center'`: Align center
@@ -28,6 +29,7 @@ Optional values:
 Text baseline.
 
 Optional values:
+
 - `'top'`
 - `'bottom'`
 - `'middle'`
@@ -65,3 +67,11 @@ Text length limit.
 #${prefix} ellipsis(string)
 
 Text truncation method.
+
+#${prefix} suffixPosition(string) = 'end'
+
+Supported since `1.7.3` version, used to configure the position of text omission, the default is to omit the tail.
+
+- 'start' text header is omitted
+- 'middle' omitted from the middle of the text
+- 'end' omit the end of the text

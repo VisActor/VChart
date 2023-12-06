@@ -62,6 +62,14 @@ The maximum length of the text. If `ellipsis` is not empty, it will be automatic
 
 Effective only when `maxLineWidth` is configured. If text exceeds, should it be automatically abbreviated? If the value is true, the default ellipsis is '...', or you can customize the ellipsis, like `ellipsis: 'etc.'`.
 
+#${prefix} suffixPosition(string) = 'end'
+
+Supported since `1.7.3` version, used to configure the position of text omission, the default is to omit the tail.
+
+- 'start' text header is omitted
+- 'middle' omitted from the middle of the text
+- 'end' omit the end of the text
+
 #${prefix} underline(boolean)
 
 Enable underline.

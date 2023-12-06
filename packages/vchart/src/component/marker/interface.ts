@@ -3,16 +3,41 @@ import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
+import type { ICartesianSeries } from '../../series/interface';
+import type { IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
+
+export type OffsetPoint = {
+  /**
+   * x 方向的偏移
+   * 1. number 类型表示像素值，如 12
+   * 2. string 类型表示百分比，如 '10%' 表示相对于所在 region 宽度的占比
+   */
+  x?: number | string;
+  /**
+   * y 方向的偏移
+   * 1. number 类型表示像素值，如 12
+   * 2. string 类型表示百分比，如 '10%' 表示相对于所在 region 高度的占比
+   */
+  y?: number | string;
+};
 
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = StringOrNumber | IAggrType;
 export type IDataPosCallback = (
-  relativeSeriesData: any,
-  startRelativeSeriesData: any,
-  endRelativeSeriesData: any
-) => IDataPos;
+  relativeSeriesData: Datum[],
+  startRelativeSeriesData: Datum[],
+  endRelativeSeriesData: Datum[],
+  relativeSeries: ICartesianSeries,
+  startRelativeSeries: ICartesianSeries,
+  endRelativeSeries: ICartesianSeries
+) => StringOrNumber;
+
+export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
 export type IDataPointSpec = {
-  [key: string]: IDataPos;
+  /**
+   * 数据字段配置
+   */
+  [key: string]: IDataPos | IDataPointCallback;
   /**
    * 具体某个数据元素关联的series（仅在标注目标：数据元素下有效）
    */
@@ -44,12 +69,28 @@ export type IDataPointSpec = {
   yFieldDim?: string;
 };
 
-type Point = {
-  x: number;
-  y: number;
+export type MarkerPositionPoint = {
+  /**
+   * x 坐标位置，number 类型表示像素值，string 类型表示相对画布宽度或者 region 宽度的占比（从左往右）
+   */
+  x: StringOrNumber;
+  /**
+   * y 坐标位置，number 类型表示像素值，string 类型表示相对画布高度或者 region 高度的占比（从上至下）
+   */
+  y: StringOrNumber;
 };
+
+export type ICoordinateOption = {
+  x?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
+  y?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
+  getRefRelativeSeries?: () => ICartesianSeries;
+} & IOptionSeries;
+
 export type IMarkerPositionsSpec = {
-  positions: Point[];
+  /**
+   * 画布坐标
+   */
+  positions: MarkerPositionPoint[];
   /**
    * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
    * @default false
@@ -156,7 +197,8 @@ export interface IMarkerRef {
   refAngle?: number;
 }
 
-export interface IMarkerAxisSpec {
+// 跨越系列的配置
+export interface IMarkerCrossSeriesSpec {
   /**
    * 起点和终点关联的series（仅在标注目标：坐标空间下有效）
    */
@@ -164,10 +206,6 @@ export interface IMarkerAxisSpec {
   endRelativeSeriesIndex?: number;
   startRelativeSeriesId?: string;
   endRelativeSeriesId?: string;
-  /**
-   * 被标注数据关联的series
-   */
-  relativeRelativeSeriesIndex?: number;
 }
 
 export interface IMarkerSpec extends IComponentSpec {

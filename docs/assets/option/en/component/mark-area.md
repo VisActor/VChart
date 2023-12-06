@@ -8,41 +8,45 @@ Data annotation area.
    prefix = '##'
 ) }}
 
-### x(string|number)
+### x(string|number|function)
 
 Annotation target: Cartesian coordinate system x coordinate space.
 The boundary of the marking area on the x-axis, used together with markArea.x1 to construct the marking area. You can configure the value on the x-axis, relative position, or aggregation calculation type.
 
 - Relative position (string): Supported since `1.7.0` version, x can be configured in the form of '15%' percentage, which is used to indicate that x is drawn on the horizontal axis (from left to right) of the region where the marker is located. 15/10 position.
 - Aggregation calculation type (string)
+- Callback
 
 {{ use: component-marker-aggregation-type() }}
 
-### x1(string|number)
+### x1(string|number|function)
 
 Annotation target: Cartesian coordinate system x coordinate space.
 The boundary of the marking area on the x-axis, used together with markArea.x to construct the marking area. You can configure the value on the x-axis, relative position, or aggregation calculation type.
 
 - Relative position (string): Supported since `1.7.0` version, x1 can be configured in the form of '15%' percentage, which is used to indicate that x1 is drawn on the horizontal axis (from left to right) of the region where the marker is located. 15/10 position.
 - Aggregation calculation type (string)
+- Callback
 
 {{ use: component-marker-aggregation-type() }}
 
-### y(string|number)
+### y(string|number|function)
 
 The boundary of the marking area on the y-axis, which together with markArea.y1 constructs the marking area. You can configure the value on the y-axis, relative position, or aggregation calculation type.
 
 - Relative position (string): Supported since `1.7.0` version, y can be configured in the form of '15%' percentage, which is used to indicate that y is drawn on the vertical axis (from top to bottom) of the region where the marker is located. 15/10 position.
 - Aggregation calculation type (string)
+- Callback
 
 {{ use: component-marker-aggregation-type() }}
 
-### y1(string|number)
+### y1(string|number|function)
 
 The boundary of the marking area on the y-axis, which together with markArea.y constructs the marking area. You can configure the value on the y-axis, relative position, or aggregation calculation type.
 
 - Relative position (string): Supported since `1.7.0` version, y1 can be configured in the form of '15%' percentage, which is used to indicate that y1 is drawn on the vertical axis (from top to bottom) of the region where the marker is located. 15/10 position.
 - Aggregation calculation type (string)
+- Callback
 
 {{ use: component-marker-aggregation-type() }}
 
@@ -53,6 +57,10 @@ Specifies the label area for data points. Draw the labeled area based on specifi
 
 {{ use: component-marker-data-point(
    prefix = '###'
+) }}
+
+{{ use: component-marker-data-point-offset(
+   prefix = '##'
 ) }}
 
 ### positions(Array)
@@ -66,7 +74,7 @@ Specify the labeling area of the coordinate point. Draw the labeled area based o
 
 ### regionRelative(boolean) = false
 
-Supported since `1.7.0` version, whether it is the coordinate relative to the region, the default is false, that is, the coordinate relative to the canvas, the default is false.
+Supported since `1.7.0` version, Only takes effect when positioning using the `positions` attribute, whether it is the coordinate relative to the region, the default is false, that is, the coordinate relative to the canvas, the default is false.
 
 {{ use: component-marker-axis(
    prefix = '##'

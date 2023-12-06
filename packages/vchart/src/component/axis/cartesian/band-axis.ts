@@ -1,4 +1,4 @@
-import { BandScale } from '@visactor/vscale';
+import { BandScale, scaleWholeRangeSize } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import type { ICartesianBandAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface';
@@ -7,7 +7,6 @@ import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
-import { scaleWholeRangeSize } from './util/common';
 
 export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec>
   extends Pick<

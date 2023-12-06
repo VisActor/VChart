@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: add `align` property for size legend, and fix the issue of the attribute assignment does not take effect, related #1553",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

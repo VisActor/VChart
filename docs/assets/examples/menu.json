@@ -2160,6 +2160,20 @@
             "zh": "自定义 Shape",
             "en": "Custom Shape"
           }
+        },
+        {
+          "path": "bar-image-extension",
+          "title": {
+            "zh": "条形图image填充",
+            "en": "image in bar chart"
+          }
+        },
+        {
+          "path": "pie-extend-bars",
+          "title": {
+            "zh": "饼图扩展柱图",
+            "en": "pie and bar"
+          }
         }
       ]
     },

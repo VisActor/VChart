@@ -21,6 +21,7 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerRangeColumnAnimation, type RangeColumnAppearPreset } from './animation';
 import { rangeColumnSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { getGroupAnimationParams } from '../util/utils';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -229,19 +230,14 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   }
 
   initAnimation() {
-    // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
-    const dataIndex = (datum: Datum) => {
-      const xValue = datum?.[this._fieldX[0]];
-      const xIndex = this.getViewDataStatistics()?.latestData?.[this._fieldX[0]]?.values.indexOf(xValue);
-      // 不应该出现xIndex === -1 || undefined的情况
-      return xIndex || 0;
-    };
+    const animationParams = getGroupAnimationParams(this);
+
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<RangeColumnAppearPreset>)?.preset;
     this._barMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('rangeColumn')?.({ direction: this.direction }, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.bar, this._spec, this._markAttributeContext),
-        { dataIndex }
+        animationParams
       )
     );
 
@@ -250,7 +246,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
           userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext),
-          { dataIndex }
+          animationParams
         )
       );
     }
@@ -260,7 +256,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         animationConfig(
           Factory.getAnimationInKey('fadeInOut')?.(),
           userAnimationConfig(SeriesMarkNameEnum.label, this._spec, this._markAttributeContext),
-          { dataIndex }
+          animationParams
         )
       );
     }

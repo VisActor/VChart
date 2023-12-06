@@ -123,6 +123,14 @@ export type ISizeLegendSpec = IContinuousLegendSpec & {
    * size 背景样式配置
    */
   sizeBackground?: Omit<NoVisibleMarkStyle<IRectMarkSpec>, 'visible' | 'width' | 'height'>;
+  /**
+   * 指定组件中手柄和文字的摆放位置，可选值为：
+   * 'left' 手柄和label在滑块左侧，layout 为 vertical 时有效。
+   * 'right' 手柄和label在滑块右侧，layout 为 vertical 时有效。
+   * 'top' 手柄和label在滑块上侧，layout 为 horizontal 时有效。
+   * 'bottom' 手柄和label在滑块下侧，layout 为 horizontal 时有效。
+   */
+  align?: 'top' | 'bottom' | 'left' | 'right';
 };
 
 export type IContinuousLegendTheme = Omit<

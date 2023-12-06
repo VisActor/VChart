@@ -9,8 +9,7 @@ import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark'
 import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
-import type { IRepeatType, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
+import type { IRepeatType, TextAlignType, TextBaselineType, IRichTextCharacter } from '@visactor/vrender-core';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
@@ -151,6 +150,13 @@ export interface ICommonSpec {
   pickMode?: 'accurate' | 'imprecise' | 'custom';
   boundsMode?: 'accurate' | 'imprecise';
 
+  /**
+   * 用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽
+   * @default 0
+   * @since 1.7.3
+   */
+  pickStrokeBuffer?: number;
+
   // 以下是纹理相关的属性
   /**
    * 纹理的类型
@@ -289,6 +295,15 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    * 文字超出 maxLineWidth 后的省略符
    */
   ellipsis?: string;
+  /**
+   * 文本省略的位置，默认尾部省略
+   * 1. 'start' 文字首部省略
+   * 2. 'middle' 文本中间省略
+   * 3. 'end' 文本尾部省略
+   * @default 'end'
+   * @since 1.7.3
+   */
+  suffixPosition?: 'start' | 'end' | 'middle';
   // TODO: 这些不是常规的文字mark属性，待确认需求背景
   lineBreak?: string;
   /**

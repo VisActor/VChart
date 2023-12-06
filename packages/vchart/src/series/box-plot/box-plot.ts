@@ -28,6 +28,7 @@ import { boxPlotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { merge, isNumber } from '@visactor/vutils';
+import { getGroupAnimationParams } from '../util/utils';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -348,20 +349,14 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   }
 
   initAnimation() {
-    // 分组数据的dataIndex应该与x轴顺序一致，而非data[DEFAULT_DATA_INDEX]顺序
-    const dataIndex = (datum: Datum) => {
-      const xField = this._direction === Direction.vertical ? this._fieldX[0] : this._fieldY[0];
-      const xValue = datum?.[xField];
-      const xIndex = this.getViewDataStatistics()?.latestData?.[xField]?.values.indexOf(xValue);
-      // 不应该出现xIndex === -1 || undefined的情况
-      return xIndex || 0;
-    };
+    const animationParams = getGroupAnimationParams(this);
+
     if (this._boxPlotMark) {
       const newDefaultConfig = this._initAnimationSpec(Factory.getAnimationInKey('scaleInOut')?.());
       const newConfig = this._initAnimationSpec(
         userAnimationConfig(SeriesMarkNameEnum.boxPlot, this._spec, this._markAttributeContext)
       );
-      this._boxPlotMark.setAnimationConfig(animationConfig(newDefaultConfig, newConfig, { dataIndex }));
+      this._boxPlotMark.setAnimationConfig(animationConfig(newDefaultConfig, newConfig, animationParams));
     }
 
     if (this._outlierMark) {
@@ -373,9 +368,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         update: (this._spec.animationUpdate as IMarkAnimateSpec<string>)?.symbol
       };
       this._outlierMark.setAnimationConfig(
-        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), outlierMarkUserAnimation, {
-          dataIndex
-        })
+        animationConfig(Factory.getAnimationInKey('scaleInOut')?.(), outlierMarkUserAnimation, animationParams)
       );
     }
   }

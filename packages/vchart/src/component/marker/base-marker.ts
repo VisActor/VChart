@@ -1,17 +1,23 @@
 import type { DataView } from '@visactor/vdataset';
-import { array, isFunction, isValid, isNil } from '@visactor/vutils';
-import { AGGR_TYPE } from '../../constant/marker';
-import type { IOptionAggr } from '../../data/transforms/aggregation';
+import { array, isValid, isNil, isString } from '@visactor/vutils';
 import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
 import type { ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base/base-component';
-import type { IAggrType, IDataPointSpec, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
+import type {
+  IAggrType,
+  ICoordinateOption,
+  IDataPointSpec,
+  IDataPos,
+  IDataPosCallback,
+  IMarkerSpec
+} from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { calcLayoutNumber } from '../../util/space';
+import { isAggrSpec } from './utils';
 
-export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
+export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';
 
   protected _startRelativeSeries!: ICartesianSeries;
@@ -29,16 +35,14 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
   protected _layoutOffsetX: number = 0;
   protected _layoutOffsetY: number = 0;
 
+  private _firstSeries: ICartesianSeries;
+
   created() {
     super.created();
     // event
     this.initEvent();
     this._bindSeries();
     this._initDataView();
-  }
-
-  private _isSpecAggr(spec: IDataPos | IDataPosCallback) {
-    return AGGR_TYPE.includes(spec as any);
   }
 
   private _getAllRelativeSeries() {
@@ -49,58 +53,41 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
     };
   }
 
-  protected _processSpecX(specX: IDataPos | IDataPosCallback) {
-    const relativeSeries = this._relativeSeries;
-    if (this._isSpecAggr(specX)) {
+  private _getFieldInfoFromSpec(dim: 'x' | 'y', spec: IDataPos | IDataPosCallback, relativeSeries: ICartesianSeries) {
+    const field = dim === 'x' ? relativeSeries.getSpec().xField : relativeSeries.getSpec().yField;
+    if (isString(spec) && isAggrSpec(spec)) {
       return {
-        x: {
-          field: relativeSeries.getSpec().xField,
-          aggrType: specX as unknown as IAggrType
-        },
-        ...this._getAllRelativeSeries()
+        field,
+        aggrType: spec as unknown as IAggrType
       };
     }
-    return { x: specX, ...this._getAllRelativeSeries() };
+    return spec;
+  }
+
+  protected _processSpecX(specX: IDataPos | IDataPosCallback) {
+    const relativeSeries = this._relativeSeries;
+    return {
+      x: this._getFieldInfoFromSpec('x', specX, relativeSeries),
+      ...this._getAllRelativeSeries()
+    };
   }
 
   protected _processSpecY(specY: IDataPos | IDataPosCallback) {
     const relativeSeries = this._relativeSeries;
-    if (this._isSpecAggr(specY)) {
-      return {
-        y: {
-          field: relativeSeries.getSpec().yField,
-          aggrType: specY as unknown as IAggrType
-        },
-        ...this._getAllRelativeSeries()
-      };
-    }
-    return { y: specY, ...this._getAllRelativeSeries() };
+    return {
+      y: this._getFieldInfoFromSpec('y', specY, relativeSeries),
+      ...this._getAllRelativeSeries()
+    };
   }
 
   protected _processSpecXY(specX: IDataPos | IDataPosCallback, specY: IDataPos | IDataPosCallback) {
-    const result: any = {
+    const relativeSeries = this._relativeSeries;
+
+    return {
+      x: this._getFieldInfoFromSpec('x', specX, relativeSeries),
+      y: this._getFieldInfoFromSpec('y', specY, relativeSeries),
       ...this._getAllRelativeSeries()
     };
-    const relativeSeries = this._relativeSeries;
-    if (this._isSpecAggr(specX)) {
-      result.x = {
-        field: relativeSeries.getSpec().xField,
-        aggrType: specX as unknown as IAggrType
-      };
-    } else {
-      result.x = specX;
-    }
-
-    if (this._isSpecAggr(specY)) {
-      result.y = {
-        field: relativeSeries.getSpec().yField,
-        aggrType: specY as unknown as IAggrType
-      };
-    } else {
-      result.y = specY;
-    }
-
-    return result;
   }
 
   protected _processSpecCoo(spec: any) {
@@ -129,20 +116,19 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
         bindYField = yFieldDim;
       }
 
-      // const { [xField]: coordinateX, [yField]: coordinateY } = coordinate;
-      const option: IOptionAggr = {
+      const option: ICoordinateOption = {
         x: undefined,
         y: undefined,
         ...this._getAllRelativeSeries()
       };
 
-      if (this._isSpecAggr(coordinate[bindXField])) {
+      if (isString(coordinate[bindXField]) && isAggrSpec(coordinate[bindXField] as IDataPos)) {
         option.x = { field: bindXField, aggrType: coordinate[bindXField] as IAggrType };
       } else {
         option.x = array(bindXField).map(field => coordinate[field]);
       }
 
-      if (this._isSpecAggr(coordinate[bindYField])) {
+      if (isString(coordinate[bindYField]) && isAggrSpec(coordinate[bindYField] as IDataPos)) {
         option.y = { field: bindYField, aggrType: coordinate[bindYField] as IAggrType };
       } else {
         option.y = array(bindYField).map(field => coordinate[field]);
@@ -157,7 +143,12 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
     if (markerVisible) {
       // 创建marker组件
       if (!this._markerComponent) {
-        this._createMarkerComponent();
+        const markerComponent = this._createMarkerComponent();
+        markerComponent.name = this._spec.name ?? this.type;
+        markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
+        this._markerComponent = markerComponent;
+
+        this.getContainer().add(this._markerComponent);
         // 代理 marker 组件上的事件
         this._markerComponent.on('*', (event: any, type: string) =>
           this._delegateEvent(this._markerComponent as unknown as IGraphic, event, type)
@@ -169,11 +160,13 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
     super.updateLayoutAttribute();
   }
 
-  protected _getSeriesByIdOrIndex(seriesUserId: StringOrNumber, seriesIndex: number) {
+  private _getSeriesByIdOrIndex(seriesUserId: StringOrNumber, seriesIndex: number) {
     let series: ICartesianSeries;
-    series = this._option.getSeriesInUserIdOrIndex(array(seriesUserId), [seriesIndex])?.[0] as ICartesianSeries;
+    series = this._option.getSeriesInUserIdOrIndex(isValid(seriesUserId) ? [seriesUserId] : [], [
+      seriesIndex
+    ])?.[0] as ICartesianSeries;
     if (!series) {
-      series = this._relativeSeries ?? this.getFirstSeries();
+      series = this._relativeSeries ?? this._getFirstSeries();
     }
     return series;
   }
@@ -181,34 +174,18 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
   protected _bindSeries() {
     const spec = this._spec;
     this._relativeSeries = this._getSeriesByIdOrIndex(spec.relativeSeriesId, spec.relativeSeriesIndex);
-    this._startRelativeSeries = this._getSeriesByIdOrIndex(spec.startRelativeSeriesId, spec.startRelativeSeriesIndex);
-    this._endRelativeSeries = this._getSeriesByIdOrIndex(spec.endRelativeSeriesId, spec.endRelativeSeriesIndex);
-  }
-
-  protected _computeClipRange(regions: IRegion[]) {
-    let minX = Infinity;
-    let maxX = -Infinity;
-    let minY = Infinity;
-    let maxY = -Infinity;
-    regions.forEach((region: IRegion) => {
-      if (region.getLayoutStartPoint().x < minX) {
-        minX = region.getLayoutStartPoint().x;
-      }
-      if (region.getLayoutStartPoint().x + region.getLayoutRect().width > maxX) {
-        maxX = region.getLayoutStartPoint().x + region.getLayoutRect().width;
-      }
-      if (region.getLayoutStartPoint().y < minY) {
-        minY = region.getLayoutStartPoint().y;
-      }
-      if (region.getLayoutStartPoint().y + region.getLayoutRect().height > maxY) {
-        maxY = region.getLayoutStartPoint().y + region.getLayoutRect().height;
-      }
-    });
-    return { minX, maxX, minY, maxY };
+    this._startRelativeSeries = this._getSeriesByIdOrIndex(
+      (spec as any).startRelativeSeriesId,
+      (spec as any).startRelativeSeriesIndex
+    );
+    this._endRelativeSeries = this._getSeriesByIdOrIndex(
+      (spec as any).endRelativeSeriesId,
+      (spec as any).endRelativeSeriesIndex
+    );
   }
 
   protected abstract _initDataView(): void;
-  protected abstract _createMarkerComponent(): void;
+  protected abstract _createMarkerComponent(): IGroup;
   protected abstract _markerLayout(): void;
 
   protected initEvent() {
@@ -221,13 +198,22 @@ export abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extend
     // do nothing
   }
 
-  protected getFirstSeries(): ICartesianSeries {
+  clear(): void {
+    super.clear();
+    this._firstSeries = null;
+  }
+
+  private _getFirstSeries(): ICartesianSeries {
+    if (this._firstSeries) {
+      return this._firstSeries;
+    }
     for (let i = 0; i < this._regions.length; i++) {
       const r = this._regions[i];
       const series = r.getSeries();
       for (let j = 0; j < series.length; j++) {
         const s = series[j];
         if (s) {
+          this._firstSeries = s as ICartesianSeries;
           return s as ICartesianSeries;
         }
       }

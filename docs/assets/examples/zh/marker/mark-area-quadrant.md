@@ -166,6 +166,7 @@ const spec = {
   ],
   // 分割线
   markLine: [
+    // 水平
     {
       x: '50%',
       line: {
@@ -178,8 +179,41 @@ const spec = {
         visible: false
       }
     },
+    // 垂直
     {
       y: '50%',
+      line: {
+        style: {
+          lineDash: [0],
+          stroke: '#ccc'
+        }
+      },
+      endSymbol: {
+        visible: false
+      }
+    },
+    // 对角线
+    {
+      x: '0%',
+      y: '100%',
+      x1: '100%',
+      y1: '0%',
+      line: {
+        style: {
+          lineDash: [0],
+          stroke: '#ccc'
+        }
+      },
+      endSymbol: {
+        visible: false
+      }
+    },
+    // 对角线
+    {
+      x: '0%',
+      y: '0%',
+      x1: '100%',
+      y1: '100%',
       line: {
         style: {
           lineDash: [0],

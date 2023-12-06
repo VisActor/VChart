@@ -53,7 +53,9 @@
 
 {{ if: !${noCrosshair} }}
 
-{{ use: component-crosshair() }}
+{{ use: component-crosshair(
+  isPolar = ${isPolar}
+) }}
 
 {{ /if }}
 

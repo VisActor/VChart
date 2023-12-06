@@ -62,6 +62,14 @@
 
 仅在配置了 `maxLineWidth` 时生效，文本超出是否自动省略，如果值为 true，则默认省略符为 '...'，也可以自定义省略符，直接 `ellipsis: 'etc.'`。
 
+#${prefix} suffixPosition(string) = 'end'
+
+自 `1.7.3` 版本开始支持，用于配置文本省略的位置，默认尾部省略。
+
+- 'start' 文字首部省略
+- 'middle' 文本中间省略
+- 'end' 文本尾部省略
+
 #${prefix} underline(boolean)
 
 是否开启下划线。

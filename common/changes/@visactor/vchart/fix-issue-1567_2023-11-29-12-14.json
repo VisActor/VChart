@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: the outerBorder's color should be equal with labelBackground's fill by default",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

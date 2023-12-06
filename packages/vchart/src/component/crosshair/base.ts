@@ -1,7 +1,6 @@
 import type { Dict, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { throttle, PointService, isEqual, array, isArray, isNumber, get, isBoolean } from '@visactor/vutils';
-
 import { RenderModeEnum } from '../../typings/spec/common';
 import type { BaseEventParams, EventType } from '../../event/interface';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
@@ -23,8 +22,8 @@ import { getDefaultCrosshairTriggerEventByMode } from './config';
 import type { IPolarAxis } from '../axis/polar/interface';
 import type { IAxis } from '../axis/interface';
 
-type IBound = { x1: number; y1: number; x2: number; y2: number };
-type IAxisInfo<T> = Map<number, IBound & { axis: T }>;
+export type IBound = { x1: number; y1: number; x2: number; y2: number };
+export type IAxisInfo<T> = Map<number, IBound & { axis: T }>;
 
 export interface IHair {
   /** 是否展示 crosshair 辅助图形 */
@@ -73,7 +72,6 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     return this.triggerOff === 'none';
   }
 
-  protected _crosshairConfig: ICartesianCrosshairSpec | IPolarCrosshairSpec;
   private _limitBounds: Maybe<IBoundsLike>;
 
   constructor(spec: T, options: IComponentOption) {
@@ -82,7 +80,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     this.showDefault = true;
   }
 
-  protected abstract _showDefaultCrosshair(): void;
+  protected abstract _showDefaultCrosshairBySpec(): void;
   protected abstract _layoutCrosshair(x: number, y: number): void;
   protected abstract _parseFieldInfo(): void;
   abstract hide(): void;
@@ -103,9 +101,16 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     return this._limitBounds;
   }
 
+  protected _showDefaultCrosshair() {
+    if (!this.showDefault) {
+      return;
+    }
+
+    this._showDefaultCrosshairBySpec();
+  }
+
   setAttrFromSpec() {
     super.setAttrFromSpec();
-    this._crosshairConfig = this._spec;
     this._parseCrosshairSpec();
   }
 
@@ -225,10 +230,11 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       }
       const regions = axis.getRegions();
       regions.forEach(r => {
-        x1 = Math.min(x1, r.getLayoutStartPoint().x - sx);
-        y1 = Math.min(y1, r.getLayoutStartPoint().y - sy);
-        x2 = Math.max(x2, r.getLayoutStartPoint().x + r.getLayoutRect().width - sx);
-        y2 = Math.max(y2, r.getLayoutStartPoint().y + r.getLayoutRect().height - sy);
+        const { x: regionStartX, y: regionStartY } = r.getLayoutStartPoint();
+        x1 = Math.min(x1, regionStartX - sx);
+        y1 = Math.min(y1, regionStartY - sy);
+        x2 = Math.max(x2, regionStartX + r.getLayoutRect().width - sx);
+        y2 = Math.max(y2, regionStartY + r.getLayoutRect().height - sy);
       });
       map.set(idx, { x1, y1, x2, y2, axis: axis as unknown as T });
     });
@@ -241,8 +247,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   onLayoutEnd(ctx: IModelLayoutOption): void {
-    this.setLayoutRect(this._regions[0].getLayoutRect());
-    this.setLayoutStartPosition(this._regions[0].getLayoutStartPoint());
+    const region = this._regions[0];
+    this.setLayoutRect(region.getLayoutRect());
+    this.setLayoutStartPosition(region.getLayoutStartPoint());
 
     super.onLayoutEnd(ctx);
   }
@@ -285,7 +292,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   protected _parseCrosshairSpec() {
     this._parseFieldInfo();
 
-    const { trigger, triggerOff, labelZIndex, gridZIndex } = this._crosshairConfig;
+    const { trigger, triggerOff, labelZIndex, gridZIndex } = this._spec;
     if (trigger) {
       this.trigger = trigger;
     }
@@ -304,10 +311,10 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
   protected _parseField(field: ICrosshairCategoryFieldSpec, fieldName: string) {
     const hair = {} as any;
-    const { line, label, visible } = field;
+    const { line = {}, label = {}, visible } = field;
     hair.visible = visible;
-    hair.type = line?.type || 'line';
-    const style = line?.style || {};
+    hair.type = line.type || 'line';
+    const style = line.style || {};
     const { strokeOpacity, fillOpacity, opacity, stroke, fill, lineWidth, ...restStyle } = style as any;
     const isLineType = hair.type === 'line';
     let finalOpacity = isLineType ? strokeOpacity : fillOpacity;
@@ -325,35 +332,40 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
           };
     if (isLineType) {
       hair.style.stroke = stroke || fill;
-      hair.style.lineWidth = line?.width || lineWidth || 2;
+      hair.style.lineWidth = get(line, 'width', lineWidth || 2);
     } else {
       hair.style.fill = fill || stroke;
-
       if (this._originalSpec[fieldName]?.line?.style?.stroke) {
         hair.style.stroke = this._originalSpec[fieldName].line.style.stroke;
       }
-      if (typeof line.width === 'string') {
-        const percent = parseInt(line.width.substring(0, line.width.length - 1), 10) / 100;
+      const rectSize = get(line, 'width');
+      if (typeof rectSize === 'string') {
+        const percent = parseInt(rectSize.substring(0, rectSize.length - 1), 10) / 100;
         hair.style.sizePercent = percent;
-      } else if (typeof line?.width === 'number') {
-        hair.style.size = line.width;
+      } else if (typeof rectSize === 'number' || typeof rectSize === 'function') {
+        hair.style.size = rectSize;
       }
     }
-    const labelBackground = label?.labelBackground;
-    const labelStyle = label?.style || {};
-    const { fill: rectFill = 'rgba(47, 59, 82, 0.9)', stroke: rectStroke, ...rectStyle } = labelBackground?.style || {};
+    const labelBackground = label.labelBackground || {};
+    const labelStyle = label.style || {};
+    const {
+      fill: rectFill = 'rgba(47, 59, 82, 0.9)',
+      stroke: rectStroke,
+      outerBorder,
+      ...rectStyle
+    } = labelBackground.style || {};
     hair.label = !!label?.visible
       ? {
-          visible: !!label?.visible,
-          formatMethod: label?.formatMethod,
-          minWidth: labelBackground?.minWidth,
-          maxWidth: labelBackground?.maxWidth,
-          padding: labelBackground?.padding,
+          visible: true,
+          formatMethod: label.formatMethod,
+          minWidth: labelBackground.minWidth,
+          maxWidth: labelBackground.maxWidth,
+          padding: labelBackground.padding,
           textStyle: {
             fontSize: 14,
             pickable: false,
             ...labelStyle,
-            fill: labelStyle?.fill ?? '#fff',
+            fill: labelStyle.fill ?? '#fff',
             stroke: get(labelStyle, 'stroke')
           },
           panel: (isBoolean(labelBackground?.visible) ? labelBackground?.visible : !!labelBackground)
@@ -362,6 +374,13 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
                 pickable: false,
                 fill: rectFill,
                 stroke: rectStroke,
+                // Note: 通过这个配置可以保证 label 和 轴 label 对齐
+                outerBorder: {
+                  stroke: rectFill,
+                  distance: 0,
+                  lineWidth: 3,
+                  ...outerBorder
+                },
                 ...rectStyle
               }
             : { visible: false },
@@ -376,7 +395,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
   protected _filterAxisByPoint<T>(axisMap: IAxisInfo<T>, relativeX: number, relativeY: number) {
     axisMap &&
-      axisMap.forEach((item, i) => {
+      axisMap.forEach(item => {
         const axis = item.axis as unknown as IAxis | IPolarAxis;
         if (outOfBounds(item, relativeX, relativeY)) {
           axisMap.delete(axis.getSpecIndex());

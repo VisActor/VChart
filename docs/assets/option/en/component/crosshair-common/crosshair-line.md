@@ -8,17 +8,34 @@ Display crosshair auxiliary line or not.
 
 The type of crosshair auxiliary line, optional values are `'line'` and `'rect'`.
 
+{{ if: ${isPolar} }}
+
+#${prefix} width(number|string)
+
+Only effective for `type: 'line'`, `width` represents the width of the auxiliary line, only supports numeric types, in px
+
+#${prefix} smooth(boolean)
+
+Only effective for `type: 'line'`, whether to draw smoothly under the polar coordinate system or not.
+
+{{ else }}
 #${prefix} width(number|string)
 
 Size configuration for the crosshair auxiliary line. Different configuration methods for different types:
 
 - When `type: 'line'`, `width` represents the width of the auxiliary line, only supports numeric types, in px
-- When `type: 'rect'`, `width` represents the width of the auxiliary box, supports numeric types and percentage strings, the percentage string (e.g., `'120%'`) represents the percentage relative to the content interval
+- When `type: 'rect'`, `width` represents the width of the auxiliary box, and supports numerical types and percentage strings. Percent strings (such as `'120%'`) represent the percentage relative to the content interval, ** since Starting from version 1.7.2, width also supports callbacks, and the corresponding callback parameters are as follows: **
 
-{{ if: ${isPolar} }}
-#${prefix} smooth(boolean)
-
-Only effective for `type: 'line'`, whether to draw smoothly under the polar coordinate system or not.
+```ts
+line: {
+  type: 'rect';
+  /**
+   * rect: Bind the width and height of the coordinate axis for crosshair
+   * axis: axis instance bound to crosshair
+   */
+  width: (rect: { width: number; height: number }, axis: IAxis) => number;
+}
+```
 
 {{ /if }}
 
