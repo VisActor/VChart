@@ -3,11 +3,18 @@ import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
+import type { ICartesianSeries } from '../../series/interface';
+import type { IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
+export type OffsetPoint = {
+    x?: number | string;
+    y?: number | string;
+};
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = StringOrNumber | IAggrType;
-export type IDataPosCallback = (relativeSeriesData: any, startRelativeSeriesData: any, endRelativeSeriesData: any) => IDataPos;
+export type IDataPosCallback = (relativeSeriesData: Datum[], startRelativeSeriesData: Datum[], endRelativeSeriesData: Datum[], relativeSeries: ICartesianSeries, startRelativeSeries: ICartesianSeries, endRelativeSeries: ICartesianSeries) => StringOrNumber;
+export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
 export type IDataPointSpec = {
-    [key: string]: IDataPos;
+    [key: string]: IDataPos | IDataPointCallback;
     refRelativeSeriesIndex?: number;
     refRelativeSeriesId?: StringOrNumber;
     xFieldIndex?: number;
@@ -15,12 +22,17 @@ export type IDataPointSpec = {
     yFieldIndex?: number;
     yFieldDim?: string;
 };
-type Point = {
-    x: number;
-    y: number;
+export type MarkerPositionPoint = {
+    x: StringOrNumber;
+    y: StringOrNumber;
 };
+export type ICoordinateOption = {
+    x?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
+    y?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
+    getRefRelativeSeries?: () => ICartesianSeries;
+} & IOptionSeries;
 export type IMarkerPositionsSpec = {
-    positions: Point[];
+    positions: MarkerPositionPoint[];
     regionRelative?: boolean;
 };
 export type IMarkerLabelWithoutRefSpec = {
@@ -52,12 +64,11 @@ export interface IMarkerRef {
     refY?: number;
     refAngle?: number;
 }
-export interface IMarkerAxisSpec {
+export interface IMarkerCrossSeriesSpec {
     startRelativeSeriesIndex?: number;
     endRelativeSeriesIndex?: number;
     startRelativeSeriesId?: string;
     endRelativeSeriesId?: string;
-    relativeRelativeSeriesIndex?: number;
 }
 export interface IMarkerSpec extends IComponentSpec {
     relativeSeriesIndex?: number;
@@ -74,4 +85,3 @@ export interface IMarkerSymbol extends IMarkerRef {
     size?: number;
     style?: Omit<ISymbolMarkSpec, 'visible'>;
 }
-export {};

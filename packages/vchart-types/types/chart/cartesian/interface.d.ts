@@ -10,6 +10,6 @@ export interface ICartesianChartSpec extends IChartSpec {
     axes?: ICartesianAxisSpec[];
     crosshair?: ICartesianCrosshairSpec | ICartesianCrosshairSpec[];
     markLine?: IMarkLineSpec | IMarkLineSpec[];
-    markArea?: IMarkAreaSpec | IMarkLineSpec[];
+    markArea?: IMarkAreaSpec | IMarkAreaSpec[];
     markPoint?: IMarkPointSpec | IMarkPointSpec[];
 }

@@ -8,6 +8,7 @@ import type { ISeriesMarkAttributeContext } from '../compile/mark';
 export declare const AnimationStates: string[];
 export declare function animationConfig<Preset extends string>(defaultConfig?: MarkAnimationSpec, userConfig?: Partial<Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>>, params?: {
     dataIndex: (datum: any) => number;
+    dataCount: () => number;
 }): MarkAnimationSpec;
 export declare function userAnimationConfig<M extends string, Preset extends string>(markName: SeriesMarkNameEnum | string, spec: IAnimationSpec<M, Preset>, ctx: ISeriesMarkAttributeContext): Partial<Record<"none" | "normal" | "state" | "update" | "appear" | "enter" | "exit" | "disappear", boolean | IAnimationConfig | IAnimationConfig[] | IStateAnimateSpec<string>>>;
 export declare function shouldMarkDoMorph(spec: ISeriesSpec & IAnimationSpec<string, string>, markName: string): boolean;

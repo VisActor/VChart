@@ -184,7 +184,7 @@ Used to create VChart instances.
 
 #### spec
 
-For the spec configuration of the chart, see[configuration item](../option/)Page.
+For the spec configuration of the chart, see[configuration item](../../option/)Page.
 
 #### Options
 
