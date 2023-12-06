@@ -31,7 +31,6 @@ import { RuleMark } from '../../mark/rule';
 import { waterfallSeriesMark } from './constant';
 import { Group } from '../base/group';
 import type { ILabelMark } from '../../mark/label';
-import { LabelRule } from '../../component/label/util';
 import { Factory } from '../../core/factory';
 import { RectMark } from '../../mark';
 import { getGroupAnimationParams } from '../util/utils';
@@ -217,7 +216,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     this._stackLabelMark = labelMark;
     // 瀑布图标签 encode 在自定义布局中计算
     labelMark.skipEncode = true;
-    labelMark.setRule(LabelRule.stackLabel);
+    labelMark.setRule('stackLabel');
     labelMark.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
 
     this.setMarkStyle(labelMark, {

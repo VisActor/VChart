@@ -19,17 +19,9 @@ export const labelRuleMap = {
   'line-data': lineDataLabel,
   stackLabel: stackLabel,
   line: LineLabel,
-  area: LineLabel
+  area: LineLabel,
+  rect3d: barLabel
 };
-
-export enum LabelRule {
-  rect = 'rect',
-  symbol = 'symbol',
-  arc = 'arc',
-  point = 'point',
-  stackLabel = 'stackLabel',
-  line = 'line'
-}
 
 export function textAttribute(
   labelInfo: ILabelInfo,
