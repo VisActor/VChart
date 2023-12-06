@@ -43,7 +43,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
 
   protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;
 
-  protected _labelComponentMap: Map<IComponentMark, ILabelInfo | ILabelInfo[]>;
+  protected _labelComponentMap: Map<IComponentMark, () => ILabelInfo | ILabelInfo[]>;
 
   protected _layoutRule: 'series' | 'region';
 
@@ -76,6 +76,12 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this.initEvent();
     this._initTextMark();
     this._initLabelComponent();
+    this._initTextMarkStyle();
+  }
+
+  reInit(theme?: any) {
+    this._labelInfoMap && this._labelInfoMap.clear();
+    this._initTextMark();
     this._initTextMarkStyle();
   }
 
@@ -151,7 +157,12 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
                 { noSeparateStyle: true }
               ) as ILabelMark;
               labelMark.setTarget(mark);
-              info.push({ labelMark, baseMark: mark, series: s, labelSpec });
+              info.push({
+                labelMark,
+                baseMark: mark,
+                series: s,
+                labelSpec
+              });
             }
           });
         }
@@ -173,10 +184,12 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         if (component) {
           component.setSkipBeforeLayouted(true);
           this._marks.addMark(component);
-          this._labelComponentMap.set(component, regionLabelInfo);
+          this._labelComponentMap.set(component, () => {
+            return this._labelInfoMap.get(region);
+          });
         }
       } else {
-        regionLabelInfo.forEach(labelInfo => {
+        regionLabelInfo.forEach((labelInfo, i) => {
           const component = this._createMark(
             { type: MarkTypeEnum.component, name: `${labelInfo.labelMark.name}-component` },
             {
@@ -188,7 +201,9 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           if (component) {
             component.setSkipBeforeLayouted(true);
             this._marks.addMark(component);
-            this._labelComponentMap.set(component, labelInfo);
+            this._labelComponentMap.set(component, () => {
+              return this._labelInfoMap.get(region)[i];
+            });
             labelInfo.labelMark.setComponent(component);
           }
         });
@@ -215,9 +230,9 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     super.updateLayoutAttribute();
     this._labelComponentMap.forEach((labelInfo, labelComponent) => {
       if (isArray(labelInfo)) {
-        this._updateMultiLabelAttribute(labelInfo, labelComponent);
+        this._updateMultiLabelAttribute(labelInfo() as ILabelInfo[], labelComponent);
       } else {
-        this._updateSingleLabelAttribute(labelInfo, labelComponent);
+        this._updateSingleLabelAttribute(labelInfo() as ILabelInfo, labelComponent);
       }
     });
   }
@@ -293,7 +308,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
 
   compileMarks() {
     this.getMarks().forEach(m => {
-      const labelInfo = this._labelComponentMap.get(m);
+      const labelInfo = this._labelComponentMap.get(m)();
       let group;
       if (isArray(labelInfo)) {
         group = labelInfo[0].series.getRegion().getGroupMark().getProduct() as IGroupMark;
