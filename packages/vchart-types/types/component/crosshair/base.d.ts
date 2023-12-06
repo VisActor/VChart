@@ -6,13 +6,13 @@ import type { IPadding, Maybe, StringOrNumber } from '../../typings';
 import type { IComponentOption } from '../interface';
 import type { ICrossHair, CrossHairTrigger, ICartesianCrosshairSpec, IPolarCrosshairSpec, ICrosshairTheme, ICrosshairCategoryFieldSpec } from './interface';
 import type { IAxis } from '../axis/interface';
-type IBound = {
+export type IBound = {
     x1: number;
     y1: number;
     x2: number;
     y2: number;
 };
-type IAxisInfo<T> = Map<number, IBound & {
+export type IAxisInfo<T> = Map<number, IBound & {
     axis: T;
 }>;
 export interface IHair {
@@ -40,14 +40,14 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     triggerOff: CrossHairTrigger | 'none';
     protected _theme: Maybe<ICrosshairTheme>;
     get enableRemain(): boolean;
-    protected _crosshairConfig: ICartesianCrosshairSpec | IPolarCrosshairSpec;
     private _limitBounds;
     constructor(spec: T, options: IComponentOption);
-    protected abstract _showDefaultCrosshair(): void;
+    protected abstract _showDefaultCrosshairBySpec(): void;
     protected abstract _layoutCrosshair(x: number, y: number): void;
     protected abstract _parseFieldInfo(): void;
     abstract hide(): void;
     protected _getLimitBounds(): IBoundsLike;
+    protected _showDefaultCrosshair(): void;
     setAttrFromSpec(): void;
     created(): void;
     _compareSpec(): {
@@ -73,4 +73,3 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     protected _parseField(field: ICrosshairCategoryFieldSpec, fieldName: string): any;
     protected _filterAxisByPoint<T>(axisMap: IAxisInfo<T>, relativeX: number, relativeY: number): IAxisInfo<T>;
 }
-export {};

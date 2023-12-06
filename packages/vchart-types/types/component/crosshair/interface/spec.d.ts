@@ -25,10 +25,10 @@ export interface IPolarCrosshairSpec extends ICommonCrosshairSpec {
 }
 export interface ICrosshairCategoryFieldSpec extends ICrosshairDataBindSpec {
     visible: boolean;
-    line?: ICrosshairLineSpec | ICrosshairRectSpec;
+    line?: ICrosshairLineSpec | Omit<ICrosshairRectSpec, 'width'>;
     label?: ICrosshairLabelSpec;
 }
-export interface ICrosshairValueFieldSpec {
+export interface ICrosshairValueFieldSpec extends ICrosshairDataBindSpec {
     visible: boolean;
     line?: ICrosshairLineSpec;
     label?: ICrosshairLabelSpec;
@@ -42,10 +42,14 @@ export interface ICrosshairLineSpec {
     smooth?: boolean;
     style?: ICrosshairLineStyle;
 }
+export type ICrosshairRectWidthCallback = (axisSize: {
+    width: number;
+    height: number;
+}, axis: IAxis) => number;
 export interface ICrosshairRectSpec {
     visible?: boolean;
     type?: 'rect';
-    width?: number | string;
+    width?: number | string | ICrosshairRectWidthCallback;
     style?: ICrosshairRectStyle;
 }
 export interface ICrosshairLabelSpec {

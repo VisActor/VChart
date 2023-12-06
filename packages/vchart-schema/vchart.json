@@ -835,6 +835,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -976,6 +982,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -1113,6 +1125,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
@@ -1252,6 +1270,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -1390,6 +1414,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -1509,6 +1539,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
@@ -1633,6 +1669,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -1755,6 +1797,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "q1": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_1"
@@ -1890,6 +1938,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "q1": {
           "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_1"
@@ -2027,6 +2081,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -2148,6 +2208,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -2268,6 +2334,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "repeatX": {
           "$ref": "#/definitions/VisualType<IRepeatType>"
@@ -2398,6 +2470,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "repeatX": {
           "$ref": "#/definitions/VisualType<IRepeatType>"
@@ -2534,6 +2612,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -2659,6 +2743,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
@@ -2786,6 +2876,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -2912,6 +3008,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "ratio": {
           "$ref": "#/definitions/VisualType<number>",
@@ -3063,6 +3165,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "ratio": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "the ratio of normal style path"
@@ -3200,6 +3308,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -3313,6 +3427,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
@@ -3429,6 +3549,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "points": {
           "$ref": "#/definitions/VisualType<IPoint[]>"
         },
@@ -3543,6 +3669,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "points": {
           "$ref": "#/definitions/VisualType<IPoint[]>"
@@ -3690,6 +3822,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -3836,6 +3974,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -3951,6 +4095,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "points": {
           "$ref": "#/definitions/VisualType<IPoint[]>"
         },
@@ -4065,6 +4215,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "points": {
           "$ref": "#/definitions/VisualType<IPoint[]>"
@@ -4186,6 +4342,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
@@ -4314,6 +4476,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -4437,6 +4605,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
@@ -4562,6 +4736,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -4686,6 +4866,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -4794,6 +4980,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "ripple": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "波纹密度ripple\nripple 取值范为[0,1]"
@@ -4900,6 +5092,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "ripple": {
           "$ref": "#/definitions/VisualType<number>",
@@ -5032,6 +5230,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -5163,6 +5367,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
@@ -5437,6 +5647,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
           "description": "图形缩放中心",
@@ -5561,6 +5777,12 @@
         "pickMode": {
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
         },
         "scaleCenter": {
           "$ref": "#/definitions/VisualType<[string|number,string|number]>",
@@ -5730,6 +5952,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "poptip": {
           "$ref": "#/definitions/VisualType<PopTipAttributes>",
           "description": "poptip 相关配置"
@@ -5750,6 +5978,12 @@
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "suffixPosition": {
+          "$ref": "#/definitions/VisualType<\"end\"|\"start\"|\"middle\">",
+          "default": "'end'",
+          "description": "文本省略的位置，默认尾部省略\n1. 'start' 文字首部省略\n2. 'middle' 文本中间省略\n3. 'end' 文本尾部省略",
+          "since": "1.7.3"
         },
         "text": {
           "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
@@ -5912,6 +6146,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "poptip": {
           "$ref": "#/definitions/VisualType<PopTipAttributes>",
           "description": "poptip 相关配置"
@@ -5932,6 +6172,12 @@
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "suffixPosition": {
+          "$ref": "#/definitions/VisualType<\"end\"|\"start\"|\"middle\">",
+          "default": "'end'",
+          "description": "文本省略的位置，默认尾部省略\n1. 'start' 文字首部省略\n2. 'middle' 文本中间省略\n3. 'end' 文本尾部省略",
+          "since": "1.7.3"
         },
         "text": {
           "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
@@ -6094,6 +6340,12 @@
           "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
           "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
         },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
         "poptip": {
           "$ref": "#/definitions/VisualType<PopTipAttributes>",
           "description": "poptip 相关配置"
@@ -6114,6 +6366,12 @@
         },
         "strokeOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "suffixPosition": {
+          "$ref": "#/definitions/VisualType<\"end\"|\"start\"|\"middle\">",
+          "default": "'end'",
+          "description": "文本省略的位置，默认尾部省略\n1. 'start' 文字首部省略\n2. 'middle' 文本中间省略\n3. 'end' 文本尾部省略",
+          "since": "1.7.3"
         },
         "text": {
           "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
@@ -6551,6 +6809,9 @@
         "_callMap": {
           "$ref": "#/definitions/Map<Function,(...args:any[])=>void>"
         },
+        "_logger": {
+          "$ref": "#/definitions/ILogger"
+        },
         "dataViewMap": {
           "additionalProperties": false,
           "patternProperties": {
@@ -6579,6 +6840,7 @@
       },
       "required": [
         "_callMap",
+        "_logger",
         "dataViewMap",
         "isDataSet",
         "name",
@@ -17641,6 +17903,12 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
         "scaleCenter": {
           "description": "图形缩放中心",
           "items": [
@@ -18293,6 +18561,12 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
         "scaleCenter": {
           "description": "图形缩放中心",
           "items": [
@@ -18714,10 +18988,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -18739,7 +19010,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -18781,6 +19052,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -18849,6 +19159,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -19265,6 +19588,12 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
         },
         "scaleCenter": {
           "description": "图形缩放中心",
@@ -20343,10 +20672,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -20368,7 +20694,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -20410,6 +20736,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -20472,6 +20837,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -21115,10 +21493,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -21140,7 +21515,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -21182,6 +21557,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -21244,6 +21658,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -22399,10 +22826,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -22424,7 +22848,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -22466,6 +22890,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -22528,6 +22991,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -22890,6 +23366,12 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
         },
         "q1": {
           "typeof": "function"
@@ -26450,6 +26932,45 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
                   "typeof": "function"
                 },
                 {
@@ -28380,7 +28901,7 @@
               "$ref": "#/definitions/ICrosshairLineSpec"
             },
             {
-              "$ref": "#/definitions/ICrosshairRectSpec"
+              "$ref": "#/definitions/Omit<ICrosshairRectSpec,\"width\">"
             }
           ],
           "description": "crosshair 辅助图形配置"
@@ -28524,29 +29045,6 @@
         },
         "strokeOpacity": {
           "type": "number"
-        }
-      },
-      "type": "object"
-    },
-    "ICrosshairRectSpec": {
-      "properties": {
-        "style": {
-          "$ref": "#/definitions/ICrosshairRectStyle"
-        },
-        "type": {
-          "const": "rect",
-          "type": "string"
-        },
-        "visible": {
-          "type": "boolean"
-        },
-        "width": {
-          "default": "'100%''",
-          "description": "字符串xx%表示此处是内容区间的百分比，数字表示宽度像素",
-          "type": [
-            "string",
-            "number"
-          ]
         }
       },
       "type": "object"
@@ -28787,6 +29285,16 @@
     },
     "ICrosshairValueFieldSpec": {
       "properties": {
+        "bindingAxesIndex": {
+          "description": "声明 crosshair 绑定的轴索引，如果没有声明，则会默认绑定所有同 crosshair 位置相对应的轴。",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "defaultSelect": {
+          "typeof": "function"
+        },
         "label": {
           "$ref": "#/definitions/ICrosshairLabelSpec",
           "description": "crosshair 文本配置"
@@ -29165,6 +29673,9 @@
     },
     "IDataSetOptions": {
       "properties": {
+        "logger": {
+          "$ref": "#/definitions/Logger"
+        },
         "name": {
           "type": "string"
         }
@@ -29915,7 +30426,13 @@
           "description": "图例背景配置"
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -30479,6 +30996,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -36443,10 +36963,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -36468,7 +36985,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -36510,6 +37027,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -36572,6 +37128,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -37570,10 +38139,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -37595,7 +38161,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -37637,6 +38203,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -37699,6 +38304,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -38315,10 +38933,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -38340,7 +38955,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -38382,6 +38997,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -38444,6 +39098,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -40823,10 +41490,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -40848,7 +41512,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -40890,6 +41554,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -40958,6 +41661,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -41406,6 +42122,12 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
         },
         "scaleCenter": {
           "description": "图形缩放中心",
@@ -42937,6 +43659,57 @@
       },
       "type": "object"
     },
+    "ILogger": {
+      "properties": {
+        "addErrorHandler": {
+          "typeof": "function"
+        },
+        "canLogDebug": {
+          "typeof": "function"
+        },
+        "canLogError": {
+          "typeof": "function"
+        },
+        "canLogInfo": {
+          "typeof": "function"
+        },
+        "canLogWarn": {
+          "typeof": "function"
+        },
+        "debug": {
+          "typeof": "function"
+        },
+        "error": {
+          "typeof": "function"
+        },
+        "info": {
+          "typeof": "function"
+        },
+        "level": {
+          "typeof": "function"
+        },
+        "removeErrorHandler": {
+          "typeof": "function"
+        },
+        "warn": {
+          "typeof": "function"
+        }
+      },
+      "required": [
+        "addErrorHandler",
+        "canLogDebug",
+        "canLogError",
+        "canLogInfo",
+        "canLogWarn",
+        "debug",
+        "error",
+        "info",
+        "level",
+        "removeErrorHandler",
+        "warn"
+      ],
+      "type": "object"
+    },
     "IMapChartSpec": {
       "properties": {
         "animation": {
@@ -43714,10 +44487,7 @@
               "$ref": "#/definitions/IMarkerSpec"
             },
             {
-              "$ref": "#/definitions/IMarkAreaXSpec"
-            },
-            {
-              "$ref": "#/definitions/IMarkAreaYSpec"
+              "$ref": "#/definitions/IMarkAreaXYSpec"
             },
             {
               "$ref": "#/definitions/IMarkAreaTheme"
@@ -43765,10 +44535,6 @@
         "endRelativeSeriesIndex": {
           "type": "number"
         },
-        "relativeRelativeSeriesIndex": {
-          "description": "被标注数据关联的series",
-          "type": "number"
-        },
         "startRelativeSeriesId": {
           "type": "string"
         },
@@ -43810,7 +44576,7 @@
       ],
       "type": "object"
     },
-    "IMarkAreaYSpec": {
+    "IMarkAreaXYSpec": {
       "properties": {
         "endRelativeSeriesId": {
           "type": "string"
@@ -43818,8 +44584,82 @@
         "endRelativeSeriesIndex": {
           "type": "number"
         },
-        "relativeRelativeSeriesIndex": {
-          "description": "被标注数据关联的series",
+        "startRelativeSeriesId": {
+          "type": "string"
+        },
+        "startRelativeSeriesIndex": {
+          "description": "起点和终点关联的series（仅在标注目标：坐标空间下有效）",
+          "type": "number"
+        },
+        "x": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型\n可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处"
+        },
+        "x1": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ]
+        },
+        "y": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型\n可以将 y 配置为 '15%' 百分比的形式，用于表示将 y 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处"
+        },
+        "y1": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "x",
+        "x1",
+        "y",
+        "y1"
+      ],
+      "type": "object"
+    },
+    "IMarkAreaYSpec": {
+      "properties": {
+        "endRelativeSeriesId": {
+          "type": "string"
+        },
+        "endRelativeSeriesIndex": {
           "type": "number"
         },
         "startRelativeSeriesId": {
@@ -43910,6 +44750,45 @@
               "$ref": "#/definitions/IMarkerSpec"
             },
             {
+              "$ref": "#/definitions/IMarkLineXYSpec"
+            },
+            {
+              "$ref": "#/definitions/IMarkLineTheme"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IMarkerSpec"
+            },
+            {
+              "$ref": "#/definitions/IMarkLineXYY1Spec"
+            },
+            {
+              "$ref": "#/definitions/IMarkLineTheme"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IMarkerSpec"
+            },
+            {
+              "$ref": "#/definitions/IMarkLineYXX1Spec"
+            },
+            {
+              "$ref": "#/definitions/IMarkLineTheme"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IMarkerSpec"
+            },
+            {
               "typeof": "function"
             },
             {
@@ -43986,8 +44865,39 @@
         "endRelativeSeriesIndex": {
           "type": "number"
         },
-        "relativeRelativeSeriesIndex": {
-          "description": "被标注数据关联的series",
+        "startRelativeSeriesId": {
+          "type": "string"
+        },
+        "startRelativeSeriesIndex": {
+          "description": "起点和终点关联的series（仅在标注目标：坐标空间下有效）",
+          "type": "number"
+        },
+        "x": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "单独声明 x 属性，可以绘制一条贯穿 y 轴的标注线\nx 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处。"
+        }
+      },
+      "required": [
+        "x"
+      ],
+      "type": "object"
+    },
+    "IMarkLineXYSpec": {
+      "properties": {
+        "endRelativeSeriesId": {
+          "type": "string"
+        },
+        "endRelativeSeriesIndex": {
           "type": "number"
         },
         "startRelativeSeriesId": {
@@ -44009,11 +44919,124 @@
               ]
             }
           ],
-          "description": "x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处"
+          "description": "参考线起始点在 x 轴上位置，可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。"
+        },
+        "x1": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "该参考线终点在 x 轴的终点位置，可以配置 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。",
+          "since": "1.7.3"
+        },
+        "y": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "该参考线起始点在 y 轴的起点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。"
+        },
+        "y1": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "该参考线终点在 y 轴的终点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。",
+          "since": "1.7.3"
         }
       },
       "required": [
-        "x"
+        "x",
+        "x1",
+        "y",
+        "y1"
+      ],
+      "type": "object"
+    },
+    "IMarkLineXYY1Spec": {
+      "properties": {
+        "endRelativeSeriesId": {
+          "type": "string"
+        },
+        "endRelativeSeriesIndex": {
+          "type": "number"
+        },
+        "startRelativeSeriesId": {
+          "type": "string"
+        },
+        "startRelativeSeriesIndex": {
+          "description": "起点和终点关联的series（仅在标注目标：坐标空间下有效）",
+          "type": "number"
+        },
+        "x": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "参考线在 x 轴上位置，可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。"
+        },
+        "y": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "该参考线在 y 轴的起点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。"
+        },
+        "y1": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "该参考线在 y 轴的终点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。",
+          "since": "1.7.3"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "y1"
       ],
       "type": "object"
     },
@@ -44023,10 +45046,6 @@
           "type": "string"
         },
         "endRelativeSeriesIndex": {
-          "type": "number"
-        },
-        "relativeRelativeSeriesIndex": {
-          "description": "被标注数据关联的series",
           "type": "number"
         },
         "startRelativeSeriesId": {
@@ -44048,10 +45067,76 @@
               ]
             }
           ],
-          "description": "y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算\n可以将 y 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处"
+          "description": "单独声明 y 属性，可以绘制一条贯穿 x 轴的标注线\ny轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算\n可以将 y 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处"
         }
       },
       "required": [
+        "y"
+      ],
+      "type": "object"
+    },
+    "IMarkLineYXX1Spec": {
+      "properties": {
+        "endRelativeSeriesId": {
+          "type": "string"
+        },
+        "endRelativeSeriesIndex": {
+          "type": "number"
+        },
+        "startRelativeSeriesId": {
+          "type": "string"
+        },
+        "startRelativeSeriesIndex": {
+          "description": "起点和终点关联的series（仅在标注目标：坐标空间下有效）",
+          "type": "number"
+        },
+        "x": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "该参考线在 x 轴的起点位置，可以配置 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。"
+        },
+        "x1": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "该参考线在 x 轴的终点位置，可以配置 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。",
+          "since": "1.7.3"
+        },
+        "y": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "参考线在 y 轴上位置，可以配置参考线在 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。\n可以将 y 配置为 '15%' 百分比的形式，表示该位置位于  region 纵轴（从上到下）的百分之 15 位置处。"
+        }
+      },
+      "required": [
+        "x",
+        "x1",
         "y"
       ],
       "type": "object"
@@ -44069,6 +45154,19 @@
     },
     "IMarkPointSpec": {
       "anyOf": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/IMarkerSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+            }
+          ]
+        },
         {
           "allOf": [
             {
@@ -45075,7 +46173,7 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/Omit<Omit<PagerAttributes,\"total\">&{space?:number;animation?:boolean;animationDuration?:number;animationEasing?:EasingType;},\"textStyle\"|\"handler\">"
+          "$ref": "#/definitions/Omit<Omit<PagerAttributes,\"total\">&{space?:number;animation?:boolean;animationDuration?:number;animationEasing?:EasingType;position?:\"end\"|\"start\"|\"middle\";},\"textStyle\"|\"handler\">"
         }
       ]
     },
@@ -45226,6 +46324,12 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
         },
         "scaleCenter": {
           "description": "图形缩放中心",
@@ -47606,6 +48710,12 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
         "points": {
           "items": {
             "$ref": "#/definitions/IPoint_1"
@@ -47808,7 +48918,13 @@
           "type": "number"
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -48063,6 +49179,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -48430,6 +49549,12 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
         "scaleCenter": {
           "description": "图形缩放中心",
           "items": [
@@ -48699,6 +49824,12 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
         },
         "points": {
           "items": {
@@ -50098,10 +51229,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -50123,7 +51251,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -50165,6 +51293,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -50233,6 +51400,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -51254,10 +52434,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -51279,7 +52456,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -51321,6 +52498,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -51383,6 +52599,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -52392,10 +53621,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -52417,7 +53643,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -52459,6 +53685,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -52521,6 +53786,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -53331,6 +54609,12 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
         "scaleCenter": {
           "description": "图形缩放中心",
           "items": [
@@ -53579,6 +54863,12 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
         },
         "scaleCenter": {
           "description": "图形缩放中心",
@@ -54954,6 +56244,12 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
         "scaleCenter": {
           "description": "图形缩放中心",
           "items": [
@@ -56202,10 +57498,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -56227,7 +57520,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -56269,6 +57562,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -56331,6 +57663,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -60271,6 +61616,12 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
         "scaleCenter": {
           "description": "图形缩放中心",
           "items": [
@@ -60571,6 +61922,12 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
         "poptip": {
           "$ref": "#/definitions/PopTipAttributes",
           "description": "poptip 相关配置"
@@ -60636,6 +61993,17 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "suffixPosition": {
+          "default": "'end'",
+          "description": "文本省略的位置，默认尾部省略\n1. 'start' 文字首部省略\n2. 'middle' 文本中间省略\n3. 'end' 文本尾部省略",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "since": "1.7.3",
+          "type": "string"
         },
         "text": {
           "anyOf": [
@@ -63198,6 +64566,43 @@
       ],
       "type": "object"
     },
+    "IVisualSpecStyle<unknown,\"end\"|\"start\"|\"middle\">": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "enum": [
+              "end",
+              "middle",
+              "start"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
     "IVisualSpecStyle<unknown,\"horizontal\"|\"vertical\">": {
       "properties": {
         "domain": {
@@ -64830,10 +66235,7 @@
                   "$ref": "#/definitions/IMarkerSpec"
                 },
                 {
-                  "$ref": "#/definitions/IMarkAreaXSpec"
-                },
-                {
-                  "$ref": "#/definitions/IMarkAreaYSpec"
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
                 },
                 {
                   "$ref": "#/definitions/IMarkAreaTheme"
@@ -64855,7 +66257,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IMarkLineSpec"
+                "$ref": "#/definitions/IMarkAreaSpec"
               },
               "type": "array"
             }
@@ -64897,6 +66299,45 @@
                 },
                 {
                   "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
                 },
                 {
                   "$ref": "#/definitions/IMarkLineTheme"
@@ -64959,6 +66400,19 @@
         },
         "markPoint": {
           "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
             {
               "allOf": [
                 {
@@ -67829,9 +69283,22 @@
     "LockManager": {
       "type": "object"
     },
+    "Logger": {
+      "properties": {
+        "_level": {},
+        "_method": {},
+        "_onErrorHandler": {}
+      },
+      "required": [
+        "_level",
+        "_method",
+        "_onErrorHandler"
+      ],
+      "type": "object"
+    },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         },
         "size": {
@@ -67839,14 +69306,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13831",
+        "__@toStringTag@14027",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         },
         "size": {
@@ -67854,14 +69321,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13831",
+        "__@toStringTag@14027",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         },
         "size": {
@@ -67869,14 +69336,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13831",
+        "__@toStringTag@14027",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         },
         "size": {
@@ -67884,14 +69351,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13831",
+        "__@toStringTag@14027",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         },
         "size": {
@@ -67899,14 +69366,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13831",
+        "__@toStringTag@14027",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         },
         "size": {
@@ -67914,14 +69381,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13831",
+        "__@toStringTag@14027",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         },
         "size": {
@@ -67929,14 +69396,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13831",
+        "__@toStringTag@14027",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         },
         "size": {
@@ -67944,14 +69411,14 @@
         }
       },
       "required": [
-        "__@toStringTag@13831",
+        "__@toStringTag@14027",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         },
         "size": {
@@ -67959,7 +69426,7 @@
         }
       },
       "required": [
-        "__@toStringTag@13831",
+        "__@toStringTag@14027",
         "size"
       ],
       "type": "object"
@@ -68388,7 +69855,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -68618,6 +70091,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -70178,6 +71654,21 @@
       },
       "type": "object"
     },
+    "Omit<ICrosshairRectSpec,\"width\">": {
+      "properties": {
+        "style": {
+          "$ref": "#/definitions/ICrosshairRectStyle"
+        },
+        "type": {
+          "const": "rect",
+          "type": "string"
+        },
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "Omit<IFunnelSeriesSpec,\"type\">": {
       "properties": {
         "animation": {
@@ -70941,7 +72432,13 @@
           "type": "number"
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -71139,6 +72636,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -72622,7 +74122,7 @@
       },
       "type": "object"
     },
-    "Omit<Omit<PagerAttributes,\"total\">&{space?:number;animation?:boolean;animationDuration?:number;animationEasing?:EasingType;},\"textStyle\"|\"handler\">": {
+    "Omit<Omit<PagerAttributes,\"total\">&{space?:number;animation?:boolean;animationDuration?:number;animationEasing?:EasingType;position?:\"end\"|\"start\"|\"middle\";},\"textStyle\"|\"handler\">": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -72747,7 +74247,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -72955,8 +74461,19 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "type": "number"
+        },
         "pickable": {
           "type": "boolean"
+        },
+        "position": {
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
@@ -73451,7 +74968,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -73635,6 +75158,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -73857,7 +75383,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -74023,6 +75555,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -74320,7 +75855,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -74463,6 +76004,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -74611,7 +76155,7 @@
               "$ref": "#/definitions/ICrosshairLineSpec"
             },
             {
-              "$ref": "#/definitions/ICrosshairRectSpec"
+              "$ref": "#/definitions/Omit<ICrosshairRectSpec,\"width\">"
             }
           ],
           "description": "crosshair 辅助图形配置"
@@ -74625,6 +76169,16 @@
     },
     "Partial<ICrosshairValueFieldSpec>": {
       "properties": {
+        "bindingAxesIndex": {
+          "description": "声明 crosshair 绑定的轴索引，如果没有声明，则会默认绑定所有同 crosshair 位置相对应的轴。",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "defaultSelect": {
+          "typeof": "function"
+        },
         "label": {
           "$ref": "#/definitions/ICrosshairLabelSpec",
           "description": "crosshair 文本配置"
@@ -74739,7 +76293,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -74908,6 +76468,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -75130,7 +76693,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -75270,6 +76839,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -75506,7 +77078,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -75704,6 +77282,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -75929,7 +77510,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -76098,6 +77685,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -76572,7 +78162,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -76741,6 +78337,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -77748,7 +79347,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -77901,6 +79506,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -78120,7 +79728,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -78276,6 +79890,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -78543,6 +80160,12 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
         "points": {
           "items": {
             "$ref": "#/definitions/IPoint_1"
@@ -78744,7 +80367,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -78903,6 +80532,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -79125,7 +80757,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -79281,6 +80919,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -79547,6 +81188,12 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
         },
         "scaleCenter": {
           "description": "图形缩放中心",
@@ -79853,7 +81500,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -79993,6 +81646,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -80235,7 +81891,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -80428,6 +82090,9 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "type": "number"
+        },
         "pickable": {
           "type": "boolean"
         },
@@ -80519,6 +82184,14 @@
         },
         "strokeSeg": {
           "typeof": "function"
+        },
+        "suffixPosition": {
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
         },
         "text": {
           "anyOf": [
@@ -80781,6 +82454,12 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
         "poptip": {
           "$ref": "#/definitions/PopTipAttributes",
           "description": "poptip 相关配置"
@@ -80846,6 +82525,17 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "suffixPosition": {
+          "default": "'end'",
+          "description": "文本省略的位置，默认尾部省略\n1. 'start' 文字首部省略\n2. 'middle' 文本中间省略\n3. 'end' 文本尾部省略",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "since": "1.7.3",
+          "type": "string"
         },
         "text": {
           "anyOf": [
@@ -81253,7 +82943,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -81443,6 +83139,9 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "type": "number"
+        },
         "pickable": {
           "type": "boolean"
         },
@@ -81534,6 +83233,14 @@
         },
         "strokeSeg": {
           "typeof": "function"
+        },
+        "suffixPosition": {
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
         },
         "text": {
           "anyOf": [
@@ -81712,7 +83419,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -81865,6 +83578,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -82085,7 +83801,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -82225,6 +83947,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -83765,34 +85490,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13831"
+        "__@toStringTag@14027"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13831"
+        "__@toStringTag@14027"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@13831": {
+        "__@toStringTag@14027": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@13831"
+        "__@toStringTag@14027"
       ],
       "type": "object"
     },
@@ -83973,7 +85698,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -84158,6 +85889,9 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "type": "number"
+        },
         "pickable": {
           "type": "boolean"
         },
@@ -84322,6 +86056,7 @@
         "padAngle",
         "padRadius",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "scaleCenter",
@@ -84451,7 +86186,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -84617,6 +86358,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -84790,6 +86534,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "points",
         "postMatrix",
@@ -84920,7 +86665,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -85063,6 +86814,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -85224,6 +86978,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "radius",
@@ -85354,7 +87109,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -85524,6 +87285,9 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "type": "number"
+        },
         "pickable": {
           "type": "boolean"
         },
@@ -85684,6 +87448,7 @@
         "overflow",
         "path",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "scaleCenter",
@@ -85830,7 +87595,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -86029,6 +87800,9 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "type": "number"
+        },
         "pickable": {
           "type": "boolean"
         },
@@ -86198,6 +87972,7 @@
         "overflow",
         "path",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "scaleCenter",
@@ -86328,7 +88103,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -86498,6 +88279,9 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "type": "number"
+        },
         "pickable": {
           "type": "boolean"
         },
@@ -86663,6 +88447,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "repeatX",
@@ -86794,7 +88579,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -86963,6 +88754,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -87137,6 +88931,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "points",
         "postMatrix",
@@ -87267,7 +89062,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -87420,6 +89221,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -87576,6 +89380,7 @@
         "overflow",
         "path",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "scaleCenter",
@@ -87704,7 +89509,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -87860,6 +89671,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -88022,6 +89836,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "points",
         "postMatrix",
@@ -88151,7 +89966,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -88310,6 +90131,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -88470,6 +90294,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "scaleCenter",
@@ -88599,7 +90424,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -88755,6 +90586,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -88914,6 +90748,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "scaleCenter",
@@ -89043,7 +90878,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -89201,6 +91042,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -89384,6 +91228,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "scaleCenter",
@@ -89544,7 +91389,13 @@
           "type": "number"
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundRadius": {
           "type": "number"
@@ -89769,6 +91620,9 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "type": "number"
+        },
         "pickable": {
           "type": "boolean"
         },
@@ -89951,6 +91805,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "repeatX",
@@ -90084,7 +91939,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -90224,6 +92085,9 @@
             "imprecise"
           ],
           "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "type": "number"
         },
         "pickable": {
           "type": "boolean"
@@ -90401,6 +92265,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "scaleCenter",
@@ -90531,7 +92396,13 @@
           ]
         },
         "backgroundMode": {
-          "type": "number"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "beta": {
           "type": "number"
@@ -90724,6 +92595,9 @@
           ],
           "type": "string"
         },
+        "pickStrokeBuffer": {
+          "type": "number"
+        },
         "pickable": {
           "type": "boolean"
         },
@@ -90815,6 +92689,14 @@
         },
         "strokeSeg": {
           "typeof": "function"
+        },
+        "suffixPosition": {
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
         },
         "text": {
           "anyOf": [
@@ -90941,6 +92823,7 @@
         "outerBorder",
         "overflow",
         "pickMode",
+        "pickStrokeBuffer",
         "pickable",
         "postMatrix",
         "scaleCenter",
@@ -90959,6 +92842,7 @@
         "strokeBoundsBuffer",
         "strokeOpacity",
         "strokeSeg",
+        "suffixPosition",
         "text",
         "textAlign",
         "textBaseline",
@@ -94721,6 +96605,27 @@
             "accurate",
             "custom",
             "imprecise"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "VisualType<\"end\"|\"start\"|\"middle\">": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,\"end\"|\"start\"|\"middle\">"
+        },
+        {
+          "enum": [
+            "end",
+            "middle",
+            "start"
           ],
           "type": "string"
         }

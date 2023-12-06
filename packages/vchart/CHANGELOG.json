@@ -2,6 +2,75 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.7.3",
+      "tag": "@visactor/vchart_v1.7.3",
+      "date": "Wed, 06 Dec 2023 07:34:11 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: marker supports `coordinatesOffset` for points adjusting"
+          },
+          {
+            "comment": "feat: markLine supports x,y,y1 y,x,x1 and x,y,x1,y1 position"
+          },
+          {
+            "comment": "feat: markPoint support xy position"
+          },
+          {
+            "comment": "  feat: marker's position property support relative coordinate"
+          },
+          {
+            "comment": "feat: marker's coordinate property supports callback"
+          },
+          {
+            "comment": "fix: fix 3d bar chart with seriesField issue, closed #1646"
+          },
+          {
+            "comment": "fix: fix 3d chart z axis not work noamally issue, closed #1668"
+          },
+          {
+            "comment": "fix: clear old encode when update, fix #1630\n\n"
+          },
+          {
+            "comment": "fix: fix the problem that track mark has multiple elements in gauge series, related #1643 "
+          },
+          {
+            "comment": "fix: fix the problem that gaugePointer series doesn't support custom `innerRadius`, related #1644"
+          },
+          {
+            "comment": "refactor: unify `getVRenderComponents` method in Component model"
+          },
+          {
+            "comment": "fix: fix the type error of markArea"
+          },
+          {
+            "comment": "feat: cartesion crosshair's rect width support callback, support #1567"
+          },
+          {
+            "comment": "feat: polar crosshair supports default show"
+          },
+          {
+            "comment": "fix: the outerBorder's color should be equal with labelBackground's fill by default"
+          },
+          {
+            "comment": "fix: fix oneByOne loop animation"
+          },
+          {
+            "comment": "fix: add `align` property for size legend, and fix the issue of the attribute assignment does not take effect, related #1553"
+          },
+          {
+            "comment": "feat: support text omission position configuration `suffixPosition`"
+          },
+          {
+            "comment": "feat: supports `pickStrokeBuffer` style attribute for extending the stroke picking range"
+          },
+          {
+            "comment": "perf: only call `cloneDeepSpec()` when need\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.7.2",
       "tag": "@visactor/vchart_v1.7.2",
       "date": "Wed, 29 Nov 2023 19:03:36 GMT",

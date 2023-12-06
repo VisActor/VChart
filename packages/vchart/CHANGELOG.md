@@ -1,6 +1,36 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 29 Nov 2023 19:03:36 GMT and should not be manually modified.
+This log was last generated on Wed, 06 Dec 2023 07:34:11 GMT and should not be manually modified.
+
+## 1.7.3
+Wed, 06 Dec 2023 07:34:11 GMT
+
+### Updates
+
+- feat: marker supports `coordinatesOffset` for points adjusting
+- feat: markLine supports x,y,y1 y,x,x1 and x,y,x1,y1 position
+- feat: markPoint support xy position
+-   feat: marker's position property support relative coordinate
+- feat: marker's coordinate property supports callback
+- fix: fix 3d bar chart with seriesField issue, closed #1646
+- fix: fix 3d chart z axis not work noamally issue, closed #1668
+- fix: clear old encode when update, fix #1630
+
+
+- fix: fix the problem that track mark has multiple elements in gauge series, related #1643 
+- fix: fix the problem that gaugePointer series doesn't support custom `innerRadius`, related #1644
+- refactor: unify `getVRenderComponents` method in Component model
+- fix: fix the type error of markArea
+- feat: cartesion crosshair's rect width support callback, support #1567
+- feat: polar crosshair supports default show
+- fix: the outerBorder's color should be equal with labelBackground's fill by default
+- fix: fix oneByOne loop animation
+- fix: add `align` property for size legend, and fix the issue of the attribute assignment does not take effect, related #1553
+- feat: support text omission position configuration `suffixPosition`
+- feat: supports `pickStrokeBuffer` style attribute for extending the stroke picking range
+- perf: only call `cloneDeepSpec()` when need
+
+
 
 ## 1.7.2
 Wed, 29 Nov 2023 19:03:36 GMT
