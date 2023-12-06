@@ -8,7 +8,7 @@ import {
   animationDuration,
   oneByOneGroupSize
 } from './constants';
-import { Context } from '../typings';
+import { Context } from '../../typings';
 import { detectAxesType } from './utils';
 import { array } from '@visactor/vutils';
 

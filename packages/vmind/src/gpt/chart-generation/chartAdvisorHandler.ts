@@ -1,5 +1,5 @@
 import { chartAdvisor, DataTypeName, ChartType } from '@visactor/chart-advisor';
-import { Cell, VizSchema } from '../typings';
+import { Cell, VizSchema } from '../../typings';
 
 export const chartAdvisorHandler = (schema: Partial<VizSchema>, dataset: any[]) => {
   const dimensionList = schema.fields

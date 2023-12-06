@@ -44,7 +44,7 @@ import {
   waterfallStackLabel,
   boxPlotField
 } from './pipes';
-import { Cell, ChartType, Context, Pipe } from '../typings';
+import { Cell, ChartType, Context, Pipe } from '../../typings';
 import { CARTESIAN_CHART_LIST, detectAxesType } from './utils';
 
 export const vizDataToSpec = (

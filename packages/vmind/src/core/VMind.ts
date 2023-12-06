@@ -5,13 +5,12 @@ import {
   dataProcessGPT,
   estimateVideoTime,
   getSchemaFromFieldInfo
-} from '../chart-generation/NLToChartPipe';
-import { SUPPORTED_CHART_LIST } from '../chart-generation/constants';
+} from '../gpt/chart-generation/NLToChartPipe';
 import { GPTDataProcessResult, IGPTOptions, TimeType } from '../typings';
-import { patchUserInput } from '../chart-generation/utils';
-import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from '../chart-generation/vizDataToSpec';
+import { patchUserInput } from '../gpt/chart-generation/utils';
+import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from '../gpt/chart-generation/vizDataToSpec';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
-import { chartAdvisorHandler } from '../chart-generation/chartAdvisorHandler';
+import { chartAdvisorHandler } from '../gpt/chart-generation/chartAdvisorHandler';
 
 class VMind {
   private _OPENAI_KEY: string | undefined = undefined;

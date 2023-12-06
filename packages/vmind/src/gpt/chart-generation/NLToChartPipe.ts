@@ -8,7 +8,7 @@ import {
   CHARTTYP_VIDEO_ELENGTH,
   SUPPORTED_CHART_LIST
 } from './constants';
-import { GPTChartAdvisorResult, GPTDataProcessResult, IGPTOptions, NLToChartResult, VizSchema } from '../typings';
+import { GPTChartAdvisorResult, GPTDataProcessResult, IGPTOptions, NLToChartResult, VizSchema } from '../../typings';
 import { parseGPTJson, parseGPTResponse, patchUserInput, readTopNLine, requestGPT } from './utils';
 import { DataSet, DataView, csvParser, fold } from '@visactor/vdataset';
 import { vizDataToSpec } from './vizDataToSpec';
@@ -113,6 +113,8 @@ export const chartAdvisorGPT = async (
       //usefulFields.includes(field.fieldName)
     );
     const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
+    console.log(chartAdvisorMessage);
+
     const advisorRes = await requestGPT(openAIKey, ChartAdvisorPromptEnglish, chartAdvisorMessage, options);
     // const advisorRes = getMockDataWordCloud2()
     //const advisorRes = getMockDataDynamicBar2();

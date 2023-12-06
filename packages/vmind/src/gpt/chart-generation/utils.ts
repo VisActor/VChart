@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GPTDataProcessResult, IGPTOptions } from '../typings';
+import { GPTDataProcessResult, IGPTOptions } from '../../typings';
 import { isValid } from '@visactor/vutils';
 import JSON5 from 'json5';
 
