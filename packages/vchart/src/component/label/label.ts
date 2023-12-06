@@ -228,11 +228,12 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
 
   updateLayoutAttribute(): void {
     super.updateLayoutAttribute();
-    this._labelComponentMap.forEach((labelInfo, labelComponent) => {
+    this._labelComponentMap.forEach((labelInfoCb, labelComponent) => {
+      const labelInfo = labelInfoCb();
       if (isArray(labelInfo)) {
-        this._updateMultiLabelAttribute(labelInfo() as ILabelInfo[], labelComponent);
+        this._updateMultiLabelAttribute(labelInfo, labelComponent);
       } else {
-        this._updateSingleLabelAttribute(labelInfo() as ILabelInfo, labelComponent);
+        this._updateSingleLabelAttribute(labelInfo, labelComponent);
       }
     });
   }
