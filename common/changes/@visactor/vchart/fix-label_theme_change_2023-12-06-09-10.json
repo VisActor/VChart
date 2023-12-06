@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: label style not update when change current theme in #1698",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
