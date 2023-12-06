@@ -9,8 +9,7 @@ import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark'
 import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
-import type { IRepeatType, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
+import type { IRepeatType, TextAlignType, TextBaselineType, IRichTextCharacter } from '@visactor/vrender-core';
 export interface IVisualSpecBase<D, T> {
     type: ScaleType;
     domain: D[];
@@ -74,6 +73,7 @@ export interface ICommonSpec {
     anchor3d?: [number, number];
     pickMode?: 'accurate' | 'imprecise' | 'custom';
     boundsMode?: 'accurate' | 'imprecise';
+    pickStrokeBuffer?: number;
     texture?: TextureType | string;
     textureColor?: string;
     textureSize?: number;
@@ -128,6 +128,7 @@ export interface ITextMarkSpec extends IFillMarkSpec {
     fontStyle?: FontStyle;
     maxLineWidth?: number;
     ellipsis?: string;
+    suffixPosition?: 'start' | 'end' | 'middle';
     lineBreak?: string;
     underline?: boolean;
     lineThrough?: boolean;

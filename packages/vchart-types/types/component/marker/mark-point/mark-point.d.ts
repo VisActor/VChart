@@ -3,7 +3,8 @@ import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import { BaseMarker } from '../base-marker';
-export declare class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointTheme> implements IMarkPoint {
+import type { IGroup } from '@visactor/vrender-core';
+export declare class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
@@ -11,7 +12,7 @@ export declare class MarkPoint extends BaseMarker<IMarkPointSpec & IMarkPointThe
     protected _theme: IMarkPointTheme;
     protected _markerComponent: MarkPointComponent;
     static createComponent(spec: any, options: IComponentOption): MarkPoint | MarkPoint[];
-    protected _createMarkerComponent(): void;
+    protected _createMarkerComponent(): IGroup;
     protected _markerLayout(): void;
     protected _initDataView(): void;
 }

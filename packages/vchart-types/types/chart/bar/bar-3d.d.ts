@@ -1,5 +1,5 @@
-import { CartesianChart } from '../cartesian/cartesian';
-export declare class Bar3dChart extends CartesianChart {
+import { BarChart } from './bar';
+export declare class Bar3dChart extends BarChart {
     static readonly type: string;
     static readonly view: string;
     readonly type: string;

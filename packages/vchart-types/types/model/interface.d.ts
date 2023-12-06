@@ -89,6 +89,7 @@ export interface ILayoutModel extends IModel {
     afterSetLayoutStartPoint: (pos: ILayoutPoint) => void;
 }
 export interface IModelOption extends ICompilableInitOption {
+    type: string;
     eventDispatcher: IEventDispatcher;
     dataSet: DataSet;
     map: Map<StringOrNumber, IModel | IMark>;

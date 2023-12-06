@@ -15,7 +15,7 @@ export type IOptionSeries = {
     getStartRelativeSeries: () => ICartesianSeries;
     getEndRelativeSeries: () => ICartesianSeries;
 };
-export type IOptionCallback = (relativeSeriesData: any, startRelativeSeriesData: any, endRelativeSeriesData: any) => IOptionPos;
+export type IOptionCallback = (relativeSeriesData: any, startRelativeSeriesData: any, endRelativeSeriesData: any, relativeSeries: ICartesianSeries, startRelative: ICartesianSeries, endRelative: ICartesianSeries) => IOptionPos;
 export type IOptionAggr = {
     x?: IOptionPos | IOptionCallback;
     y?: IOptionPos | IOptionCallback;
@@ -29,6 +29,6 @@ export declare function markerVariance(_data: Array<DataView>, opt: IOption): nu
 export declare function markerStandardDeviation(_data: Array<DataView>, opt: IOption): number;
 export declare function markerMedian(_data: Array<DataView>, opt: IOption): number;
 export declare function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]): {
-    x: StringOrNumber[] | StringOrNumber | null;
-    y: StringOrNumber[] | StringOrNumber | null;
+    x: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
+    y: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
 }[];
