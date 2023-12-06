@@ -73,7 +73,7 @@ export enum LayoutZIndex {
 
   CustomMark = 500,
 
-  Interaction = 700
+  interaction = 700
 }
 /**
  * 数值越大，越先布局
