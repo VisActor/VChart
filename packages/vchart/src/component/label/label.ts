@@ -255,7 +255,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state', 'type']);
           /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
           const centerOffset = this._spec?.centerOffset ?? 0;
-          return mergeSpec(
+          const spec = mergeSpec(
             {
               textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
               overlap: {
@@ -272,6 +272,11 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
               centerOffset
             }
           );
+          // TODO 可以优化。vgrammar 的 label 图元类型分发是完全依赖 baseMark 的类型。默认情况下，line/area 图元的标签会使用'line-data'标签，此时需要 vchart 将类型传给 vgrammar
+          if (rule === 'line' || rule === 'area') {
+            spec.type = rule;
+          }
+          return spec;
         }
       })
       .encode((datum, element, params: Record<string, any>) => {
