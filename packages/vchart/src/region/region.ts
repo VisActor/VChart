@@ -103,7 +103,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     const clip = this._spec.clip ?? this._getClipDefaultValue();
     this._groupMark = this._createGroupMark('regionGroup', this.userId, this.layoutZIndex);
     // 交互层
-    this._interactionMark = this._createGroupMark('regionInteractionGroup', this.userId, LayoutZIndex.interaction);
+    this._interactionMark = this._createGroupMark('regionInteractionGroup', this.userId, LayoutZIndex.Interaction);
 
     // hack: region 的样式不能设置在groupMark上，因为groupMark目前没有计算dirtyBound，会导致拖影问题
     if (this._spec.style) {
