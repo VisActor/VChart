@@ -217,26 +217,44 @@ export class CommonChartEditorElement implements IEditorElement {
           });
         });
       // component
-      this._context.chart.vchart
-        .getChart()
-        .getAllComponents()
-        .forEach((component: any) => {
-          if (ChartComponentKeys.includes(component.specKey)) {
-            const modelSpec = component.getSpec();
-            if (!modelSpec) {
-              return;
-            }
-            array(modelSpec).forEach((_s, i) => {
-              const { data, ...spec } = _s;
-              this.allModelSpec.push({
-                id: spec.id,
-                specKey: component.specKey,
-                specIndex: i,
-                spec
-              });
-            });
-          }
+      const chartSpec = this._context.chart.vchart.getChart().getSpec();
+      const components = this._context.chart.vchart.getChart().getAllComponents();
+      ChartComponentKeys.forEach(k => {
+        const component = components.find(component => component.specKey === k);
+        const modelSpec = component?.getSpec() ?? chartSpec[k];
+        if (!modelSpec) {
+          return;
+        }
+        array(modelSpec).forEach((_s, i) => {
+          const { data, ...spec } = _s;
+          this.allModelSpec.push({
+            id: spec.id,
+            specKey: k,
+            specIndex: i,
+            spec
+          });
         });
+      });
+      // this._context.chart.vchart
+      //   .getChart()
+      //   .getAllComponents()
+      //   .forEach((component: any) => {
+      //     if (ChartComponentKeys.includes(component.specKey)) {
+      //       const modelSpec = component.getSpec();
+      //       if (!modelSpec) {
+      //         return;
+      //       }
+      //       array(modelSpec).forEach((_s, i) => {
+      //         const { data, ...spec } = _s;
+      //         this.allModelSpec.push({
+      //           id: spec.id,
+      //           specKey: component.specKey,
+      //           specIndex: i,
+      //           spec
+      //         });
+      //       });
+      //     }
+      //   });
     }
   }
 

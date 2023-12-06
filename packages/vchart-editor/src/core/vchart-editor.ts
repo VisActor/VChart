@@ -318,22 +318,26 @@ export class VChartEditor {
     this._layers.forEach(l => l.on(eventType, cb));
   }
 
+  offLayerEvent(eventType: string, cb: (e: Event) => void) {
+    this._layers.forEach(l => l.off(eventType, cb));
+  }
+
   getPathWithEvent(e: PointerEvent) {
-    return this._layers[0].getPathWithPos({ x: e.offsetX, y: e.offsetY });
+    return this._layers[0]?.getPathWithPos?.({ x: e.offsetX, y: e.offsetY });
   }
 
   getPathWithPos(pos: IPoint) {
-    return this._layers[0].getPathWithPos(pos);
+    return this._layers[0]?.getPathWithPos?.(pos);
   }
 
   getPosWithPath(path: IElementPathRoot) {
-    return this._layers[0].getPosWithPath(path);
+    return this._layers[0]?.getPosWithPath?.(path);
   }
 
-  hightLightWithPos(pos: IPoint, boxKey: string) {
-    const path = this._layers[0].getPathWithPos(pos);
+  hightLightWithPos(pos: IPoint, boxKey: string, style?: any) {
+    const path = this._layers[0]?.getPathWithPos?.(pos);
     if (path) {
-      this._hightLightBox.showBox(boxKey, path.rect);
+      this._hightLightBox.showBox(boxKey, style ? { ...path.rect, ...style } : path.rect);
     } else {
       this._hightLightBox.hiddenBox(boxKey);
     }

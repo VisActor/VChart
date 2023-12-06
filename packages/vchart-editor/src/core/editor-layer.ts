@@ -11,6 +11,7 @@ import type { BaseElement } from '../elements/base-element';
 import type { IPoint } from '../typings/space';
 import { transformPointWithMatrix } from '../utils/space';
 import { LayerZoomMove } from '../component/layer-zoom-move';
+import { off } from 'process';
 // 加载浏览器环境
 loadBrowserEnv(container);
 
@@ -262,7 +263,8 @@ export class EditorLayer implements IEditorLayer {
     if (!path) {
       return null;
     }
-    const el = this._elements.find(e => e.id === path.elementId);
+    // const el = this._elements.find(e => e.id === path.elementId);
+    const el = this._elements[0];
     if (!el) {
       return null;
     }
@@ -311,6 +313,13 @@ export class EditorLayer implements IEditorLayer {
       this._eventHandler.set(eventType, list);
     }
     list.push(cb);
+  }
+
+  off(eventType: string, cb: (e: Event) => void) {
+    const list = this._eventHandler.get(eventType);
+    if (list && list.indexOf(cb) >= 0) {
+      list.splice(list.indexOf(cb), 1);
+    }
   }
 
   protected _onEvent(e: Event) {
