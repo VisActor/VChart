@@ -15,7 +15,7 @@ import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
-import type { IDataZoomSpec, IDataZoomStyle } from './interface';
+import type { IDataZoomSpec } from './interface';
 import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
@@ -348,7 +348,9 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
           isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
         }
         this._component.setStatePointToData((state: number) => this._statePointToData(state));
-        this._component.setUpdateStateCallback((start: number, end: number, tag?: string) => {
+
+        this._component.addEventListener('change', (e: any) => {
+          const { start, end, tag } = e.detail;
           this._handleChange(start, end, undefined, tag);
         });
 

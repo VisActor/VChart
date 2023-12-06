@@ -120,9 +120,19 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
    * @param end datazoom终点所在的相对位置
    * @returns
    */
-  setStartAndEnd(start: number, end: number) {
-    this._handleChange(start, end, true);
+  setStartAndEnd(
+    start: number | string,
+    end: number | string,
+    rangeMode: ['percent' | 'value', 'percent' | 'value'] = ['percent', 'percent']
+  ) {
+    const [startMode = 'percent', endMode = 'percent'] = rangeMode;
+
+    const startPercent = startMode === 'percent' ? start : this._dataToStatePoint(start);
+    const endPercent = endMode === 'percent' ? end : this._dataToStatePoint(end);
+
+    this._handleChange(startPercent, endPercent, true);
   }
+
   enableInteraction() {
     this._activeRoam = true;
   }
