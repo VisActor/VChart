@@ -144,7 +144,6 @@ export const registerVGrammarCommonAnimation = () => {
     registerScaleOutAnimation,
     registerFadeInAnimation,
     registerFadeOutAnimation,
-    registerGrowAngleInAnimation,
     registerMoveInAnimation,
     registerMoveOutAnimation,
     registerRotateInAnimation,
