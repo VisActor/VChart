@@ -43,9 +43,9 @@ import {
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { PolygonMark } from '../../mark/polygon/polygon';
-import { TextMark } from '../../mark/text';
-import { RuleMark } from '../../mark/rule';
+import { PolygonMark, registerPolygonMark } from '../../mark/polygon/polygon';
+import { TextMark, registerTextMark } from '../../mark/text';
+import { RuleMark, registerRuleMark } from '../../mark/rule';
 import { funnelSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import type { LabelItem } from '@visactor/vrender-components';
@@ -852,9 +852,9 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 }
 
 export const registerFunnelSeries = () => {
-  Factory.registerMark(PolygonMark.type, PolygonMark);
-  Factory.registerMark(TextMark.type, TextMark);
-  Factory.registerMark(RuleMark.type, RuleMark);
+  registerPolygonMark();
+  registerTextMark();
+  registerRuleMark();
   Factory.registerSeries(FunnelSeries.type, FunnelSeries);
   Factory.registerAnimation('funnel', (params: any, preset: FunnelAppearPreset) => ({
     appear: preset === 'clipIn' ? undefined : { type: 'fadeIn' },

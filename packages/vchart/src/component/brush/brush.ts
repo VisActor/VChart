@@ -16,7 +16,7 @@ import type {
   IPolygon,
   IRectGraphicAttribute,
   ISymbolGraphicAttribute
-} from '@visactor/vrender-core';
+} from '@visactor/vrender/es/core';
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';

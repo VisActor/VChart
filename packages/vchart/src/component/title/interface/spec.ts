@@ -1,5 +1,5 @@
 import type { IComponent } from '../../interface';
-import type { ITextGraphicAttribute, IRichTextCharacter, RichTextWordBreak } from '@visactor/vrender-core';
+import type { ITextGraphicAttribute, IRichTextCharacter, RichTextWordBreak } from '@visactor/vrender';
 import type { IOrientType, IPadding, StringOrNumber } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 

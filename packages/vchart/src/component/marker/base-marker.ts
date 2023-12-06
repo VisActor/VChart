@@ -13,7 +13,7 @@ import type {
   IDataPosCallback,
   IMarkerSpec
 } from './interface';
-import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import type { IGraphic, IGroup } from '@visactor/vrender';
 import { calcLayoutNumber } from '../../util/space';
 import { isAggrSpec } from './utils';
 

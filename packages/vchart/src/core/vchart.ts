@@ -22,7 +22,7 @@ import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
-import type { Stage } from '@visactor/vrender-core';
+import type { Stage } from '@visactor/vrender';
 import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
@@ -86,8 +86,8 @@ import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout/base-layout';
-import { GroupMark } from '../mark/group';
-import { registerVGrammarAnimation } from '../animation/config';
+import { GroupMark, registerGroupMark } from '../mark/group';
+import { registerVGrammarCommonAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
@@ -1766,11 +1766,11 @@ export const registerVChartCore = () => {
   // install layout module
   Factory.registerLayout('base', Layout);
   // install essential marks
-  Factory.registerMark(GroupMark.type, GroupMark);
+  registerGroupMark();
   // install essential vgrammar transform
   View.useRegisters([registerFilterTransform, registerMapTransform]);
   // install animation
-  registerVGrammarAnimation();
+  registerVGrammarCommonAnimation();
   // install default theme
   registerTheme(darkTheme.name, darkTheme);
   // set default logger level to Level.error

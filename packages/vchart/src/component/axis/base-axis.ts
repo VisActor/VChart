@@ -1,7 +1,7 @@
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import type { IGroup, IGraphic, IGraphicAttribute } from '@visactor/vrender-core';
+import type { IGroup, IGraphic, IGraphicAttribute } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
 import type { IOrientType, IPolarOrientType, Datum, StringOrNumber, IGroup as ISeriesGroup } from '../../typings';
@@ -26,10 +26,10 @@ import {
   registerAxis as registerVGrammarAxis,
   registerGrid as registerVGrammarGrid
 } from '@visactor/vgrammar-core';
-import { ComponentMark, type IComponentMark } from '../../mark/component';
+import { ComponentMark, registerComponentMark, type IComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
-import { GroupFadeOut } from '@visactor/vrender-core';
+import { GroupFadeOut } from '@visactor/vrender/es/core';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -474,7 +474,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 export const registerAxis = () => {
   registerVGrammarAxis();
   registerVGrammarGrid();
-  Factory.registerMark(ComponentMark.type, ComponentMark);
+  registerComponentMark();
   Factory.registerAnimation('axis', () => ({
     appear: {
       custom: GroupFadeIn

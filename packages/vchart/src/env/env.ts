@@ -6,8 +6,8 @@ import {
   loadNodeEnv,
   loadTaroEnv,
   loadWxEnv
-} from '@visactor/vrender-kits';
-import { container } from '@visactor/vrender-core';
+} from '@visactor/vrender/es/kits';
+import { container } from '@visactor/vrender/es/core';
 
 /**
  * 加载所有环境兼容代码

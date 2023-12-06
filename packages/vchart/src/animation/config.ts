@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import { TagPointsUpdate, ClipDirectionAnimate } from '@visactor/vrender-core';
+import { TagPointsUpdate, ClipDirectionAnimate } from '@visactor/vrender/es/core';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/animation';
 import { linePresetAnimation } from '../series/line/animation';
@@ -138,34 +138,54 @@ export const registerLineAnimation = () => {
   });
 };
 
-export const registerVGrammarAnimation = () => {
+export const registerVGrammarCommonAnimation = () => {
   View.useRegisters([
-    registerClipInAnimation,
-    registerClipOutAnimation,
     registerScaleInAnimation,
     registerScaleOutAnimation,
     registerFadeInAnimation,
     registerFadeOutAnimation,
     registerGrowAngleInAnimation,
-    registerGrowAngleOutAnimation,
-    registerGrowCenterInAnimation,
-    registerGrowCenterOutAnimation,
-    registerGrowHeightInAnimation,
-    registerGrowHeightOutAnimation,
-    registerGrowPointsInAnimation,
-    registerGrowPointsOutAnimation,
-    registerGrowPointsXInAnimation,
-    registerGrowPointsXOutAnimation,
-    registerGrowPointsYInAnimation,
-    registerGrowPointsYOutAnimation,
-    registerGrowRadiusInAnimation,
-    registerGrowRadiusOutAnimation,
-    registerGrowWidthInAnimation,
-    registerGrowWidthOutAnimation,
     registerMoveInAnimation,
     registerMoveOutAnimation,
     registerRotateInAnimation,
     registerRotateOutAnimation,
     registerUpdateAnimation
   ]);
+};
+
+export const registerVGrammarRectAnimation = () => {
+  View.useRegisters([
+    registerGrowHeightInAnimation,
+    registerGrowHeightOutAnimation,
+    registerGrowWidthInAnimation,
+    registerGrowWidthOutAnimation,
+    registerGrowCenterInAnimation,
+    registerGrowCenterOutAnimation
+  ]);
+};
+
+export const registerVGrammarArcAnimation = () => {
+  View.useRegisters([
+    registerGrowRadiusInAnimation,
+    registerGrowRadiusOutAnimation,
+    registerGrowAngleInAnimation,
+    registerGrowAngleOutAnimation
+  ]);
+};
+
+export const registerVGrammarLineOrAreaAnimation = () => {
+  View.useRegisters([
+    registerGrowPointsInAnimation,
+    registerGrowPointsOutAnimation,
+    registerGrowPointsXInAnimation,
+    registerGrowPointsXOutAnimation,
+    registerGrowPointsYInAnimation,
+    registerGrowPointsYOutAnimation,
+    registerClipInAnimation,
+    registerClipOutAnimation
+  ]);
+};
+
+export const registerVGrammarPolygonAnimation = () => {
+  View.useRegisters([registerGrowPointsInAnimation, registerGrowPointsOutAnimation]);
 };

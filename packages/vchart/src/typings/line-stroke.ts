@@ -1,5 +1,5 @@
 // somehow？ 使用 vrender 的声明文件会 build 报错
-// import { LineJoinType, LineCapType } from '@visactor/vrender-core';
+// import { LineJoinType, LineCapType } from '@visactor/vrender/es/core';
 export type ILineStrokeCap = 'butt' | 'round' | 'square';
 export type ILineStrokeJoin = 'arcs' | 'bevel' | 'miter' | 'miter-clip' | 'round';
 

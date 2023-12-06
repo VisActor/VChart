@@ -1,4 +1,4 @@
-import type { ILayer, INode, Stage } from '@visactor/vrender-core';
+import type { ILayer, INode, Stage } from '@visactor/vrender';
 import type { IToolTipActual } from '../../../../typings/tooltip';
 import type { TooltipHandlerParams } from '../../interface';
 import { BaseTooltipHandler } from '../base';

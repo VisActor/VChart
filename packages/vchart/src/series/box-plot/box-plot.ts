@@ -22,8 +22,8 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerScaleInOutAnimation } from '../../animation/config';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { BoxPlotMark } from '../../mark/box-plot';
-import { SymbolMark } from '../../mark/symbol';
+import { BoxPlotMark, registerBoxPlotMark } from '../../mark/box-plot';
+import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
@@ -404,8 +404,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 }
 
 export const registerBoxplotSeries = () => {
-  Factory.registerMark(BoxPlotMark.type, BoxPlotMark);
-  Factory.registerMark(SymbolMark.type, SymbolMark);
-  Factory.registerSeries(BoxPlotSeries.type, BoxPlotSeries);
+  registerBoxPlotMark();
+  registerSymbolMark();
   registerScaleInOutAnimation();
+  Factory.registerSeries(BoxPlotSeries.type, BoxPlotSeries);
 };

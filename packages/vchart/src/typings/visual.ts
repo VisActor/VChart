@@ -9,7 +9,7 @@ import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark'
 import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
-import type { IRepeatType, TextAlignType, TextBaselineType, IRichTextCharacter } from '@visactor/vrender-core';
+import type { IRepeatType, TextAlignType, TextBaselineType, IRichTextCharacter } from '@visactor/vrender';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {

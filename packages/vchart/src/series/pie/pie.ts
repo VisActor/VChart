@@ -47,7 +47,7 @@ import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
-import { ArcMark } from '../../mark/arc';
+import { ArcMark, registerArcMark } from '../../mark/arc';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
@@ -542,7 +542,7 @@ export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePi
 }
 
 export const registerPieSeries = () => {
-  Factory.registerMark(ArcMark.type, ArcMark);
-  Factory.registerSeries(PieSeries.type, PieSeries);
+  registerArcMark();
   registerPieAnimation();
+  Factory.registerSeries(PieSeries.type, PieSeries);
 };

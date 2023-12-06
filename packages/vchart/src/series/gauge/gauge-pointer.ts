@@ -11,8 +11,8 @@ import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { ProgressLikeSeries, registerCircularProgressAnimation } from '../polar/progress-like';
 import type { IRectMark } from '../../mark/rect';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { PathMark } from '../../mark/path';
-import { RectMark } from '../../mark/rect';
+import { PathMark, registerPathMark } from '../../mark/path';
+import { RectMark, registerRectMark } from '../../mark/rect';
 import { gaugePointerSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 
@@ -212,8 +212,8 @@ export class GaugePointerSeries<
 }
 
 export const registerGaugePointerSeries = () => {
-  Factory.registerMark(PathMark.type, PathMark);
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerSeries(GaugePointerSeries.type, GaugePointerSeries);
+  registerPathMark();
+  registerRectMark();
   registerCircularProgressAnimation();
+  Factory.registerSeries(GaugePointerSeries.type, GaugePointerSeries);
 };

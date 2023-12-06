@@ -1,4 +1,4 @@
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { IChart } from '../chart/interface';
 import type { IModel } from '../model/interface';

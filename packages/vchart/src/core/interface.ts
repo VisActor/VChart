@@ -23,7 +23,7 @@ import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
 import type { IChart } from '../chart/interface';
-import type { IGradientColor, Stage } from '@visactor/vrender-core';
+import type { IGradientColor, Stage } from '@visactor/vrender';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 
 export type DataLinkSeries = {

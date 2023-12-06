@@ -27,13 +27,13 @@ import type { IModelEvaluateOption } from '../../model/interface';
 import type { Datum, Maybe } from '../../typings';
 import { Direction } from '../../typings/space';
 import type { IBarAnimationParams } from '../bar/animation';
-import { RuleMark } from '../../mark/rule';
+import { registerRuleMark } from '../../mark/rule';
 import { waterfallSeriesMark } from './constant';
 import { Group } from '../base/group';
 import type { ILabelMark } from '../../mark/label';
 import { LabelRule } from '../../component/label/util';
 import { Factory } from '../../core/factory';
-import { RectMark } from '../../mark';
+import { registerRectMark } from '../../mark/rect';
 import { getGroupAnimationParams } from '../util/utils';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
@@ -308,9 +308,9 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 }
 
 export const registerWaterfallSeries = () => {
-  Factory.registerMark(RuleMark.type, RuleMark);
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerSeries(WaterfallSeries.type, WaterfallSeries);
+  registerRuleMark();
+  registerRectMark();
   registerWaterfallAnimation();
   registerFadeInOutAnimation();
+  Factory.registerSeries(WaterfallSeries.type, WaterfallSeries);
 };

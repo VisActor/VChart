@@ -34,7 +34,7 @@ import { hasParentElement, isString, cloneDeep, isArray, isValid, isNil } from '
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender';
 import { cloneDeepSpec } from '../../util/spec/clone-deep';
 
 export type TooltipActualTitleContent = {

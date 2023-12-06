@@ -3,12 +3,12 @@ import type { MaybeArray, TooltipContentProperty, TooltipData, TooltipPatternPro
 import { isFunction, isObject, isString, isNil, isArray, isValid } from '@visactor/vutils';
 import type { TooltipHandlerParams } from '../../interface';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension';
-import type { IRichTextParagraphCharacter } from '@visactor/vrender-core';
+import type { IRichTextParagraphCharacter } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
-import { getRichTextBounds } from '@visactor/vrender-core';
+import { getRichTextBounds } from '@visactor/vrender/es/core';
 import type { ITooltipTextStyle } from '../interface/style';
 import type { TooltipRichTextAttrs } from '@visactor/vrender-components';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
+import type { IRichTextCharacter } from '@visactor/vrender';
 
 interface IGradientColor {
   [key: string]: any;

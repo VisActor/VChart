@@ -1,5 +1,5 @@
 import type { IAnimationConfig } from '@visactor/vgrammar-core';
-import type { EasingType } from '@visactor/vrender-core';
+import type { EasingType } from '@visactor/vrender';
 export type { IRunningConfig as IMorphConfig, IMorphAnimationConfig } from '@visactor/vgrammar-core';
 
 export type IStateAnimateSpec<Preset extends string> = {

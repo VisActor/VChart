@@ -1,3 +1,4 @@
+import { Factory } from './../core/factory';
 import { BaseMark } from './base/base-mark';
 import type { ILinkPathMarkSpec } from '../typings/visual';
 import type { IMarkRaw, IMarkStyle } from './interface';
@@ -29,8 +30,6 @@ export class LinkPathMark extends BaseMark<ILinkPathMarkSpec> implements ILinkPa
   }
 
   protected _initProduct(group?: string | IGroupMark) {
-    registerLinkPathGlyph();
-
     const view = this.getVGrammarView();
 
     // 声明语法元素
@@ -44,3 +43,8 @@ export class LinkPathMark extends BaseMark<ILinkPathMarkSpec> implements ILinkPa
     this._compiledProductId = id;
   }
 }
+
+export const registerLinkPathMark = () => {
+  registerLinkPathGlyph();
+  Factory.registerMark(LinkPathMark.type, LinkPathMark as any);
+};

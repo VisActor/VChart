@@ -1,4 +1,4 @@
-import type { IImageGraphicAttribute, IRichTextGraphicAttribute } from '@visactor/vrender-core';
+import type { IImageGraphicAttribute, IRichTextGraphicAttribute } from '@visactor/vrender';
 import type { IMarkPointItemPosition } from '@visactor/vrender-components';
 import type { ILineMarkSpec, ISymbolMarkSpec } from '../../../../typings';
 import type { IMarkerLabelSpec, IMarkerRef, IMarkerSymbol } from '../../interface';

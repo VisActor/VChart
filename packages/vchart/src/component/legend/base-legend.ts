@@ -12,7 +12,7 @@ import { mergeSpec } from '../../util/spec/merge-spec';
 import { CompilableData } from '../../compile/data/compilable-data';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILegend, ILegendCommonSpec } from './interface';
-import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import type { IGraphic, IGroup } from '@visactor/vrender';
 
 export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseComponent<T> implements ILegend {
   layoutType: ILayoutType = 'normal';

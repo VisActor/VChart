@@ -1,4 +1,4 @@
-import { LabelMark, type ILabelMark } from './../../mark/label';
+import { LabelMark, type ILabelMark, registerLabelMark } from './../../mark/label';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
@@ -16,6 +16,7 @@ import type { ITotalLabelSpec, ITotalLabelTheme } from './interface';
 import type { IModelInitOption } from '../../model/interface';
 import type { Datum } from '../../typings';
 import { Factory } from '../../core/factory';
+import { registerComponentMark } from '../../mark/component';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
@@ -174,6 +175,7 @@ export function totalLabelPosition(series: ISeries, type: MarkType) {
 
 export const registerTotalLabel = () => {
   registerVGrammarLabel();
-  Factory.registerMark(LabelMark.constructorType, LabelMark);
+  registerLabelMark();
+  registerComponentMark();
   Factory.registerComponent(TotalLabel.type, TotalLabel, true);
 };

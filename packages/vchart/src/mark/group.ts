@@ -1,3 +1,4 @@
+import { Factory } from './../core/factory';
 import type { Maybe } from '../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { warn } from '../util/debug';
@@ -6,7 +7,7 @@ import { BaseMark } from './base/base-mark';
 import type { IMark, IMarkRaw, IMarkStyle, MarkType } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import type { IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
+import { registerGroupGraphic, type IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
 import type { IMarkCompileOption } from '../compile/mark';
 
 export interface IGroupMark extends IMarkRaw<IGroupMarkSpec> {
@@ -100,3 +101,8 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     }
   }
 }
+
+export const registerGroupMark = () => {
+  registerGroupGraphic();
+  Factory.registerMark(GroupMark.type, GroupMark);
+};

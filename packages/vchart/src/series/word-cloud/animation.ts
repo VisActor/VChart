@@ -1,5 +1,5 @@
 import type { IAnimationTypeConfig, IElement } from '@visactor/vgrammar-core';
-import { RotateBySphereAnimate } from '@visactor/vrender-core';
+import { RotateBySphereAnimate } from '@visactor/vrender/es/core';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { Factory } from '../../core/factory';
 

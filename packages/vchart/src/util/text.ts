@@ -3,7 +3,7 @@ import type { ITextMeasureOption, ITextSize } from '@visactor/vutils';
 import type { TextMeasure } from '@visactor/vutils';
 import { THEME_CONSTANTS } from '../theme/builtin/common/constants';
 import { initTextMeasure as initTextMeasureFunc } from '@visactor/vutils-extension';
-import type { ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { ITextGraphicAttribute } from '@visactor/vrender';
 
 export const initTextMeasure = (
   textSpec?: Partial<ITextGraphicAttribute>,

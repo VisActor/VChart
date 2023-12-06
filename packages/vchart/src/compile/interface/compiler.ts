@@ -1,4 +1,4 @@
-import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender-core';
+import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender';
 import type { EventSourceType, EventType } from '../../event/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';

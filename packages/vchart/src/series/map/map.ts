@@ -21,7 +21,7 @@ import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
-import { PathMark } from '../../mark/path';
+import { PathMark, registerPathMark } from '../../mark/path';
 import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
@@ -333,7 +333,7 @@ export const registerMapSeries = () => {
   // 注册语法元素
   registerProjection();
   registerGeoCoordinate();
-  Factory.registerMark(PathMark.type, PathMark);
+  registerPathMark();
   Factory.registerSeries(MapSeries.type, MapSeries);
   Factory.registerImplement('registerMap', registerMapSource);
   Factory.registerImplement('unregisterMap', unregisterMapSource);

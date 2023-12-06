@@ -1,4 +1,4 @@
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender';
 import type { IPadding, IOrientType, StringOrNumber } from '../../typings';
 import type { IPathMarkSpec, IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IModelSpec } from '../../model/interface';

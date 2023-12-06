@@ -23,7 +23,7 @@ import {
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerScatterAnimation, type ScatterAppearPreset } from './animation';
-import { SymbolMark } from '../../mark/symbol';
+import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
@@ -406,7 +406,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
 }
 
 export const registerScatterSeries = () => {
-  Factory.registerMark(SymbolMark.type, SymbolMark);
-  Factory.registerSeries(ScatterSeries.type, ScatterSeries);
+  registerSymbolMark();
   registerScatterAnimation();
+  Factory.registerSeries(ScatterSeries.type, ScatterSeries);
 };

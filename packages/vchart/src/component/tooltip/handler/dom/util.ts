@@ -7,7 +7,7 @@ import type { ITooltipTheme } from '../../interface';
 import type { ITooltipTextStyle } from '../interface';
 import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from './interface';
 import type { TooltipAttributes } from '@visactor/vrender-components';
-import { calculateLineHeight } from '@visactor/vrender-core';
+import { calculateLineHeight } from '@visactor/vrender/es/core';
 
 const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;

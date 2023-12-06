@@ -19,10 +19,10 @@ import { CompilableData } from '../../compile/data/compilable-data';
 import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IndicatorAttributes } from '@visactor/vrender-components';
-import type { IGraphic, INode, IGroup } from '@visactor/vrender-core';
+import type { IGraphic, INode, IGroup } from '@visactor/vrender';
 import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
 import { Factory } from '../../core/factory';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
+import type { IRichTextCharacter } from '@visactor/vrender';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static type = ComponentTypeEnum.indicator;

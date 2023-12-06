@@ -11,7 +11,7 @@ import type {
 } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, ITickCallbackOption, StyleCallback } from './common';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
+import type { IRichTextCharacter } from '@visactor/vrender';
 
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**

@@ -10,8 +10,8 @@ import type { IGroupMark } from '../../mark/group';
 import type { MarkTypeEnum } from '../../mark/interface';
 import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
-import { ImageMark } from '../../mark/image';
-import type { IGraphic } from '@visactor/vrender-core';
+import { ImageMark, registerImageMark } from '../../mark/image';
+import type { IGraphic } from '@visactor/vrender';
 
 export class CustomMark extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;
@@ -129,6 +129,6 @@ export class CustomMark extends BaseComponent<any> {
 }
 
 export const registerCustomMark = () => {
-  Factory.registerMark(ImageMark.type, ImageMark); // image mark is only needed In extension-mark component
+  registerImageMark();
   Factory.registerComponent(CustomMark.type, CustomMark);
 };

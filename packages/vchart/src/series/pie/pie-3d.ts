@@ -17,7 +17,7 @@ import type { IArcSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPie3dSeriesSpec } from './interface';
-import { Arc3dMark } from '../../mark/arc-3d';
+import { Arc3dMark, registerArc3dMark } from '../../mark/arc-3d';
 import { BasePieSeries } from './pie';
 import { pie3dSeriesMark } from './constant';
 import { radianToDegree } from '@visactor/vutils';
@@ -139,7 +139,7 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
 }
 
 export const registerPie3dSeries = () => {
-  Factory.registerMark(Arc3dMark.type, Arc3dMark);
-  Factory.registerSeries(Pie3dSeries.type, Pie3dSeries);
   registerPie3dAnimation();
+  registerArc3dMark();
+  Factory.registerSeries(Pie3dSeries.type, Pie3dSeries);
 };

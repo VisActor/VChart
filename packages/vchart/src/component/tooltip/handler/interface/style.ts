@@ -1,4 +1,4 @@
-import type { ITextAttribute, IFillStyle, RichTextWordBreak } from '@visactor/vrender-core';
+import type { ITextAttribute, IFillStyle, RichTextWordBreak } from '@visactor/vrender';
 
 export interface ITooltipTextStyle extends Partial<ITextAttribute & IFillStyle> {
   /** 和相邻元素的水平间距 */

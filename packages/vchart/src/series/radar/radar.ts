@@ -14,9 +14,9 @@ import { registerRadarAnimation, type IRadarAnimationParams, type RadarAppearPre
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAreaMark } from '../../mark/area';
-import { AreaMark } from '../../mark/area';
-import { LineMark } from '../../mark/line';
-import { SymbolMark } from '../../mark/symbol';
+import { AreaMark, registerAreaMark } from '../../mark/area';
+import { LineMark, registerLineMark } from '../../mark/line';
+import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { radarSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerMarkOverlapTransform } from '@visactor/vgrammar-core';
@@ -220,10 +220,9 @@ mixin(RadarSeries, LineLikeSeriesMixin);
 
 export const registerRadarSeries = () => {
   registerMarkOverlapTransform();
-  Factory.registerMark(AreaMark.type, AreaMark);
-  Factory.registerMark(LineMark.type, LineMark);
-  Factory.registerMark(SymbolMark.type, SymbolMark);
-
-  Factory.registerSeries(RadarSeries.type, RadarSeries);
+  registerAreaMark();
+  registerLineMark();
+  registerSymbolMark();
   registerRadarAnimation();
+  Factory.registerSeries(RadarSeries.type, RadarSeries);
 };

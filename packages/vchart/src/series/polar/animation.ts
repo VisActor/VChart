@@ -1,7 +1,7 @@
 /* eslint-disable no-duplicate-imports */
-import type { EasingType } from '@visactor/vrender-core';
+import type { EasingType } from '@visactor/vrender';
 import type { IPointLike } from '@visactor/vutils';
-import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender-core';
+import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender/es/core';
 import { Point, isFunction, isValidNumber } from '@visactor/vutils';
 import type { IPolarAxisHelper } from '../../component/axis';
 

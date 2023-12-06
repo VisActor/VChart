@@ -1,9 +1,11 @@
+import { Factory } from './../core/factory';
 import { ShapeTypeEnum } from '../typings';
 import type { ISymbolMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
+import { registerSymbolGraphic } from '@visactor/vgrammar-core';
 
 export type ISymbolMark = IMarkRaw<ISymbolMarkSpec>;
 
@@ -24,3 +26,8 @@ export class SymbolMark extends BaseSymbolMark<ISymbolMarkSpec> implements ISymb
   static readonly type = MarkTypeEnum.symbol;
   readonly type = SymbolMark.type;
 }
+
+export const registerSymbolMark = () => {
+  Factory.registerMark(SymbolMark.type, SymbolMark);
+  registerSymbolGraphic();
+};

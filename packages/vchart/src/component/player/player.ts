@@ -1,5 +1,5 @@
 import { Factory } from './../../core/factory';
-import type { INode, IGroup, IGraphic } from '@visactor/vrender-core';
+import type { INode, IGroup, IGraphic } from '@visactor/vrender';
 import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visactor/vrender-components';
 
 // eslint-disable-next-line no-duplicate-imports

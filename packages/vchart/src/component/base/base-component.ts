@@ -1,4 +1,4 @@
-import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender';
 import type { IRegion } from '../../region/interface';
 import type { ComponentTypeEnum, IComponent, IComponentOption } from '../interface';
 import type { BaseEventParams } from '../../event/interface';

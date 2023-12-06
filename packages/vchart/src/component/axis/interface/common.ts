@@ -2,7 +2,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { Datum, IPolarOrientType, StringOrNumber } from '../../../typings';
 import type { IComponent } from '../../interface/common';
 import type { ICartesianAxisSpec } from '../cartesian/interface';
-import type { ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { ITextGraphicAttribute } from '@visactor/vrender';
 
 export interface StatisticsDomain {
   domain: any[];

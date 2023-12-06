@@ -10,7 +10,7 @@ import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
-import { ArcMark } from '../../mark/arc';
+import { ArcMark, registerArcMark } from '../../mark/arc';
 import { roseSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
@@ -140,7 +140,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
 }
 
 export const registerRoseSeries = () => {
-  Factory.registerMark(ArcMark.type, ArcMark);
   Factory.registerSeries(RoseSeries.type, RoseSeries);
+  registerArcMark();
   registerRoseAnimation();
 };

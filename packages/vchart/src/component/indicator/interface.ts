@@ -2,7 +2,7 @@ import type { IPercent } from '../../typings/layout';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
+import type { IRichTextCharacter } from '@visactor/vrender';
 
 export interface IIndicatorItemSpec {
   /**
