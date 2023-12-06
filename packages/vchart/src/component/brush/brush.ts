@@ -3,8 +3,8 @@ import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import { Brush as BrushComponent, BrushEvent } from '@visactor/vrender-components';
-import type { IBounds, IPointLike } from '@visactor/vutils';
+import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
+import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption } from '../../model/interface';
