@@ -961,6 +961,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
     marks.forEach(mark => {
       this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
+      if (mark.getLabelSpec()) {
+        mark.setLabelSpec(this._preprocessLabelSpec((this._spec as any).label));
+      }
     });
     this.initMarkStyle();
     marks.forEach(mark => {
