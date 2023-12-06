@@ -36,7 +36,6 @@ export interface IRegion extends ILayoutModel {
 
   getMarks: () => IMark[];
   getGroupMark: () => IGroupMark;
-  getInteractionMark: () => IGroupMark;
 }
 
 export type ISeriesFilter = {
