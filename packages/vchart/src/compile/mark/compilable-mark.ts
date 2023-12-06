@@ -39,7 +39,7 @@ import { Event } from '../../event/event';
 // eslint-disable-next-line no-duplicate-imports
 import { AnimationStateEnum } from '../../animation/interface';
 import type { TransformedLabelSpec } from '../../component/label';
-import type { ICustomPath2D } from '@visactor/vrender/es/core';
+import type { ICustomPath2D } from '@visactor/vrender/';
 
 /** 可编译的 mark 对象，这个基类只存放编译相关的逻辑 */
 export abstract class CompilableMark extends GrammarItem implements ICompilableMark {
