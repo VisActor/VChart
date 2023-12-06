@@ -127,8 +127,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   ) {
     const [startMode = 'percent', endMode = 'percent'] = rangeMode;
 
-    const startPercent = startMode === 'percent' ? start : this._dataToStatePoint(start);
-    const endPercent = endMode === 'percent' ? end : this._dataToStatePoint(end);
+    const startPercent = (startMode === 'percent' ? start : this._dataToStatePoint(start)) as number;
+    const endPercent = (endMode === 'percent' ? end : this._dataToStatePoint(end)) as number;
 
     this._handleChange(startPercent, endPercent, true);
   }
