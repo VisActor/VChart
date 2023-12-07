@@ -44,9 +44,9 @@ export function EditorHeader(props: IEditorHeaderProps) {
             onClick={() => props?.onCollapse?.(!props.collapsed)}
           >
             {collapsed ? (
-              <IconTriangleUp style={{ fontSize: '10px', color: '#141414', opacity: 0.65 }} />
+              <IconTriangleDown className="title-collapsed-triangle" style={{ rotate: '0deg' }} />
             ) : (
-              <IconTriangleDown style={{ fontSize: '10px', color: '#141414', opacity: 0.65 }} />
+              <IconTriangleDown className="title-collapsed-triangle" style={{ rotate: '90deg' }} />
             )}
           </span>
         </span>
@@ -57,12 +57,12 @@ export function EditorHeader(props: IEditorHeaderProps) {
             checked={props.enabled}
             onChange={value => {
               props.onEnabled?.(value);
-              // if (value && !collapsed) {
-              //   props.onCollapse?.(true);
-              // }
-              // if (!value && collapsed) {
-              //   props.onCollapse?.(false);
-              // }
+              if (value && !collapsed) {
+                props.onCollapse?.(true);
+              }
+              if (!value && collapsed) {
+                props.onCollapse?.(false);
+              }
             }}
           ></Switch>
         ) : null}
