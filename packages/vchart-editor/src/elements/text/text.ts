@@ -163,13 +163,15 @@ export class EditorText extends BaseElement {
         if (attr.spec) {
           this._textGraphic.setAttributes(this._transformTextAttribute(attr.spec));
           el.originSpec = this._textGraphic.attribute;
-          this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);
-          this._updateLayout({
-            x: this._textGraphic.AABBBounds.x1,
-            y: this._textGraphic.AABBBounds.y1,
-            width: 9999,
-            height: 9999
-          } as any);
+          if (!this._textGraphic.AABBBounds.empty()) {
+            this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);
+            this._updateLayout({
+              x: this._textGraphic.AABBBounds.x1,
+              y: this._textGraphic.AABBBounds.y1,
+              width: 9999,
+              height: 9999
+            } as any);
+          }
         }
         if (attr.layout) {
           this._updateLayout(attr.layout as ILayoutAttribute);

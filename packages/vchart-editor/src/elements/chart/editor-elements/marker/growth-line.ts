@@ -314,11 +314,9 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   // 交互描述：拖拽过程中，根据当前的鼠标垫查找最近的数据点，然后更新图形位置
   private _onHandlerDragStart = (e: any) => {
     e.stopPropagation();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
 
-    this._lastDownPoint = {
-      x: e.clientX,
-      y: e.clientY
-    };
+    this._lastDownPoint = layerPos;
 
     this._chart.option.editorEvent.setCursor('move');
 
@@ -368,7 +366,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     });
 
     // 转换为画布坐标
-    const currentPoint = vglobal.mapToCanvasPoint(e);
+    const currentPoint = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     const closestPoint = findClosestPoint(currentPoint, enableDataPoints) as Point;
     // @ts-ignore
     this._currentHandler.data = closestPoint.data;
@@ -448,6 +446,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
   private _onHandlerDragEnd = (e: any) => {
     e.preventDefault();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
 
     vglobal.removeEventListener('pointermove', this._onHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onHandlerDragEnd);
@@ -456,7 +455,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     // Important: 拖拽结束，恢复所有 marker 交互
     this._activeAllMarkers();
 
-    if (PointService.distancePP(this._lastDownPoint, { x: e.clientX, y: e.clientY }) <= 1) {
+    if (PointService.distancePP(this._lastDownPoint, layerPos) <= 1) {
       this._controller.editorEnd();
       return;
     }
@@ -544,12 +543,10 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   // 连线拖拽交互
   private _onLineHandlerDragStart = (e: any) => {
     e.stopPropagation();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     this._controller.editorRun('layout');
 
-    this._lastDownPoint = this._prePoint = {
-      x: e.clientX,
-      y: e.clientY
-    };
+    this._lastDownPoint = this._prePoint = layerPos;
 
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
     const series = model.getRelativeSeries();
@@ -563,6 +560,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
   private _onLineHandlerDrag = (e: any) => {
     e.stopPropagation();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     const series = this._model.getRelativeSeries();
     const isHorizontal = series.direction === 'horizontal';
     this._chart.option.editorEvent.setCursor(isHorizontal ? 'ew-resize' : 'ns-resize');
@@ -574,17 +572,14 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     let xDelta: number;
     let yDelta: number;
     if (isHorizontal) {
-      xDelta = e.clientX - this._prePoint.x;
+      xDelta = layerPos.x - this._prePoint.x;
       yDelta = 0;
     } else {
       xDelta = 0;
-      yDelta = e.clientY - this._prePoint.y;
+      yDelta = layerPos.y - this._prePoint.y;
     }
 
-    this._prePoint = {
-      x: e.clientX,
-      y: e.clientY
-    };
+    this._prePoint = layerPos;
 
     if (this._element.name === MarkerTypeEnum.growthLine) {
       this._overlayLine.setAttribute(
@@ -642,6 +637,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
   private _onLineHandlerDragEnd = (e: any) => {
     e.preventDefault();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
 
     vglobal.removeEventListener('pointermove', this._onLineHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onLineHandlerDragEnd);
@@ -650,7 +646,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     // Important: 拖拽结束，恢复所有 marker 交互
     this._activeAllMarkers();
 
-    if (PointService.distancePP(this._lastDownPoint, { x: e.clientX, y: e.clientY }) <= 1) {
+    if (PointService.distancePP(this._lastDownPoint, layerPos) <= 1) {
       this._controller.editorEnd();
       return;
     }

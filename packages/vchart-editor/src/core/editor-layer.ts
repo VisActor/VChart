@@ -345,7 +345,7 @@ export class EditorLayer implements IEditorLayer {
   }
 
   tryEvent(e: MouseEvent | WheelEvent) {
-    if (this._zoomMove?.state === 'drag') {
+    if (this._zoomMove?.wheelState !== 'none' || this._zoomMove?.dragState !== 'none') {
       return;
     }
     if (IgnoreEvent[e.type]) {

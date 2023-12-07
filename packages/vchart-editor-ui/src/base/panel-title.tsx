@@ -1,4 +1,4 @@
-import { Switch } from '@douyinfe/semi-ui';
+import { Divider, Switch } from '@douyinfe/semi-ui';
 import type { IPanelTitleProps } from '../typings/base';
 import { tooltipWrapper } from '../utils/node';
 import { IconTriangleDown, IconTriangleUp } from '@douyinfe/semi-icons';
@@ -27,9 +27,9 @@ export function PanelTitle(props: IPanelTitleProps) {
           onClick={() => props?.onCollapse?.(!props.collapsed)}
         >
           {collapsed ? (
-            <IconTriangleDown className="title-collapsed-triangle" style={{ rotate: '0deg' }} />
+            <IconTriangleUp style={{ fontSize: '10px', color: '#141414', opacity: 0.65 }} />
           ) : (
-            <IconTriangleDown className="title-collapsed-triangle" style={{ rotate: '90deg' }} />
+            <IconTriangleDown style={{ fontSize: '10px', color: '#141414', opacity: 0.65 }} />
           )}
         </span>
       </div>
@@ -40,12 +40,12 @@ export function PanelTitle(props: IPanelTitleProps) {
           checked={props.enabled}
           onChange={value => {
             props.onEnabled?.(value);
-            if (value && !collapsed) {
-              props.onCollapse?.(true);
-            }
-            if (!value && collapsed) {
-              props.onCollapse?.(false);
-            }
+            // if (value && !collapsed) {
+            //   props.onCollapse?.(true);
+            // }
+            // if (!value && collapsed) {
+            //   props.onCollapse?.(false);
+            // }
           }}
         ></Switch>
       ) : null}

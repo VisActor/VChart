@@ -320,7 +320,7 @@ export function generateSection(
   componentMap?: Record<string, string>,
   divider: boolean = true
 ) {
-  const collapsed = panelCollapsed[sectionKey] ?? section.enabled !== false;
+  const collapsed = panelCollapsed[sectionKey];
   return section ? (
     <>
       {!isNil(section.label) ? (
@@ -359,7 +359,7 @@ export function generateSection(
 function getSectionCollapsedMap(sections: Record<string, IPanelSection>) {
   const collapsedMap = {};
   Object.keys(sections).forEach(key => {
-    collapsedMap[key] = undefined;
+    collapsedMap[key] = true;
   });
   return collapsedMap;
 }

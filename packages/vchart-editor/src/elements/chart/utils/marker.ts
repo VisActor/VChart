@@ -22,13 +22,6 @@ const defaultLineStyle = {
   boundsPadding: [2, 2, 2, 2],
   pickMode: 'imprecise'
 };
-
-const defaultSymbolStyle = {
-  fill: '#000',
-  lineWidth: 0,
-  stroke: null as any
-};
-
 /**
  * CAGR（复合年增长率）是一种用于描述投资、业务或其他金融项目在一段时间内的平均增长率的度量
  * @param EV 是结束值
@@ -66,8 +59,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           size: 12,
           refX: 6,
           symbolType: 'triangleLeft',
-          autoRotate: false,
-          style: Object.assign({}, defaultSymbolStyle)
+          autoRotate: false
         },
         label: {
           visible: true,
@@ -104,8 +96,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         size: 12,
         refX: 6,
         symbolType: 'triangleLeft',
-        autoRotate: false,
-        style: Object.assign({}, defaultSymbolStyle)
+        autoRotate: false
       },
       label: {
         visible: true,
@@ -142,8 +133,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           size: 12,
           refX: 6,
           symbolType: 'triangleDown',
-          autoRotate: false,
-          style: Object.assign({}, defaultSymbolStyle)
+          autoRotate: false
         },
         label: {
           visible: true,
@@ -182,8 +172,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         size: 12,
         refX: 6,
         symbolType: 'triangleDown',
-        autoRotate: false,
-        style: Object.assign({}, defaultSymbolStyle)
+        autoRotate: false
       },
       label: {
         visible: true,
@@ -444,8 +433,7 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
     },
     endSymbol: {
       size: 12,
-      refX: -4,
-      style: Object.assign({}, defaultSymbolStyle)
+      refX: -4
     },
     coordinatesOffset: [
       {
@@ -585,13 +573,11 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     },
     endSymbol: {
       size: 12,
-      refX: -4,
-      style: Object.assign({}, defaultSymbolStyle)
+      refX: -4
     },
     startSymbol: {
       size: 12,
-      refX: -4,
-      style: Object.assign({}, defaultSymbolStyle)
+      refX: -4
     },
     _originValue_: [startValue, endValue]
   };
@@ -691,8 +677,7 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
     },
     endSymbol: {
       size: 12,
-      refX: -4,
-      style: Object.assign({}, defaultSymbolStyle)
+      refX: -4
     },
     _originValue_: [startData[valueFieldInData], endData[valueFieldInData]],
     coordinatesOffset: [

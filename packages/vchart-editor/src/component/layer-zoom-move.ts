@@ -1,4 +1,4 @@
-import type { EventEmitter } from '@visactor/vutils';
+import { debounce, type EventEmitter } from '@visactor/vutils';
 import type { ILayer } from '@visactor/vrender-core';
 import { DragComponent } from './transform-drag';
 import type { IPoint } from '../typings/space';
@@ -7,11 +7,18 @@ export class LayerZoomMove {
   private _dragger: DragComponent;
   private _container: HTMLElement;
 
-  private _state: 'none' | 'drag' | 'zoom' = 'none';
-  get state() {
-    return this._state;
+  private _wheelState: 'none' | 'pre' | 'wheel' = 'none';
+  get wheelState() {
+    return this._wheelState;
   }
+
+  private _dragState: 'none' | 'pre' | 'drag' = 'none';
+  get dragState() {
+    return this._dragState;
+  }
+
   private _isAltDown: boolean = false;
+  private _isCtrlDown: boolean = false;
 
   private emitter: EventEmitter;
 
@@ -60,38 +67,47 @@ export class LayerZoomMove {
       this._layer.translate(-e.deltaX, -e.deltaY);
       this.emitter.emit('onLayerDrag');
     }
+    this._checkWheelOver();
   };
+
+  private _checkWheelOver = debounce(() => {
+    this._callDragOver();
+    this._callWheelOver();
+  }, 200);
 
   private _onTouchDown = (event: PointerEvent) => {
     if (this._isAltDown) {
-      this._state = 'drag';
+      this._dragState = 'drag';
       this._dragger.startDrag(event);
       this.emitter.emit('onLayerDragStart');
     }
   };
 
   private _onTouchUp = (event: PointerEvent) => {
-    if (!this._isAltDown) {
-      this._dragOver();
-      this.emitter.emit('onLayerDragOver');
-    }
+    this._callDragOver();
   };
 
   private _checkDrag = (event: KeyboardEvent) => {
-    this._isAltDown = event.altKey;
-    if (!this._isAltDown && (this._dragger.state === 'none' || this._dragger.state === 'stopDrag')) {
-      this._dragOver();
+    if (this._isAltDown !== event.altKey) {
+      this._isAltDown = event.altKey;
+      if (this._isAltDown) {
+        this.emitter.emit('perLayerDrag');
+      } else {
+        this._callDragOver();
+      }
     }
-    if (this._isAltDown) {
-      this._state = 'drag';
+    if (this._isCtrlDown !== event.ctrlKey) {
+      this._isCtrlDown = event.ctrlKey;
+      if (this._isCtrlDown) {
+        this.emitter.emit('perLayerWheel');
+      } else {
+        this._callWheelOver();
+      }
     }
   };
 
-  private _dragOver() {
-    this._state = 'none';
-  }
-
   protected _dragElement = (moveX: number, moveY: number) => {
+    this.emitter.emit('onLayerDrag');
     this._layer.translate(moveX, moveY);
   };
   private _dragEnd = () => {
@@ -100,6 +116,24 @@ export class LayerZoomMove {
   private _unDragEnd = () => {
     //do nothing
   };
+
+  private _callDragOver() {
+    if (this._isAltDown) {
+      this._dragState = 'pre';
+    } else if (this._dragState !== 'none') {
+      this._dragState = 'none';
+      this.emitter.emit('onLayerDragOver');
+    }
+  }
+
+  private _callWheelOver() {
+    if (this._isCtrlDown) {
+      this._wheelState = 'pre';
+    } else if (this._wheelState !== 'none') {
+      this._wheelState = 'none';
+      this.emitter.emit('onLayerWheelOver');
+    }
+  }
 
   release() {
     this._releaseEvent();

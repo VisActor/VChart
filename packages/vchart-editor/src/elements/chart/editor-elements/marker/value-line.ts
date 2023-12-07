@@ -74,12 +74,13 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
     let currentPos;
     let delta = 0;
     let updateField;
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     if (this._orient === 'horizontal') {
-      currentPos = e.clientY;
+      currentPos = layerPos.y;
       delta = currentPos - this._prePos;
       updateField = 'dy';
     } else {
-      currentPos = e.clientX;
+      currentPos = layerPos.x;
       delta = currentPos - this._prePos;
       updateField = 'dx';
     }
@@ -91,6 +92,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
 
   private _onDragEnd = (e: any) => {
     e.preventDefault();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
 
     vglobal.removeEventListener('pointermove', this._onDrag);
     vglobal.removeEventListener('pointerup', this._onDragEnd);
@@ -100,7 +102,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
     this._editComponent?.hideAll();
 
-    if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 1) {
+    if (PointService.distancePP(this._prePoint, layerPos) <= 1) {
       this._controller.editorEnd();
       return;
     }

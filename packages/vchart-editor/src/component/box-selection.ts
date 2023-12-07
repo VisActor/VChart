@@ -21,9 +21,16 @@ export class BoxSelection {
   protected _layoutComponent: LayoutEditorComponent;
 
   protected _currentMatchElements: { e: IElement; el: IEditorElement }[] = null;
+  private _cancelSelect = false;
 
   constructor(public layer: IEditorLayer, public context: EditorEvent) {
     this.setLayer(layer);
+    this.context.editor.emitter.on('onLayerWheel', () => {
+      this._cancelSelect = true;
+    });
+    this.context.editor.emitter.on('onLayerDrag', () => {
+      this._cancelSelect = true;
+    });
     this.context.editor.editorController.addStartHandler(() => {
       if (this._state === 'editor') {
         this._outBoxSelection();
@@ -93,6 +100,9 @@ export class BoxSelection {
   }
 
   protected _pointerDown = (e: VRenderPointerEvent) => {
+    if (this._cancelSelect) {
+      this._cancelSelect = false;
+    }
     this._transformEventPoint(e);
     this._overGroup.removeAllChild();
     const lastLayoutEditorBox = this._layoutComponent?.editorBox;
@@ -125,6 +135,10 @@ export class BoxSelection {
   };
 
   protected _pointerMove = (e: VRenderPointerEvent) => {
+    if (this._cancelSelect) {
+      this._state = 'none';
+      return;
+    }
     this._transformEventPoint(e);
     if (this._state === 'start') {
       this._state = 'drag';
@@ -159,6 +173,15 @@ export class BoxSelection {
 
   protected _pointerUp = (e: VRenderPointerEvent) => {
     this._transformEventPoint(e);
+    if (this._cancelSelect) {
+      this._cancelSelect = false;
+      // clear
+      this._overGroup.removeAllChild();
+      this._boxGraphic.setAttributes({
+        visible: false
+      });
+      return;
+    }
     // up
     this.context.setElementPickable(true);
     this.context.setElementsOverAble(true);

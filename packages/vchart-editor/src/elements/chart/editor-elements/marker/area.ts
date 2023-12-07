@@ -274,10 +274,8 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     e.stopPropagation();
     this._controller.editorRun('layout');
 
-    this._prePoint = {
-      x: e.clientX,
-      y: e.clientY
-    };
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
+    this._prePoint = layerPos;
 
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkArea;
     this._element = model.getVRenderComponents()[0] as unknown as MarkAreaComponent;
@@ -286,14 +284,14 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     const handler = e.target;
     this._currentHandler = handler as unknown as IRect;
 
-    this._prePos = this._orient === 'vertical' ? e.clientX : e.clientY;
+    this._prePos = this._orient === 'vertical' ? layerPos.x : layerPos.y;
     vglobal.addEventListener('pointermove', this._onHandlerDrag);
     vglobal.addEventListener('pointerup', this._onHandlerDragEnd);
   };
 
   private _onHandlerDrag = (e: any) => {
     e.stopPropagation();
-
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     this._chart.option.editorEvent.setCursor(this._orient === 'horizontal' ? 'ns-resize' : 'ew-resize');
 
     this._silentAllMarkers();
@@ -307,11 +305,11 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     let delta = 0;
     let updateField;
     if (this._orient === 'horizontal') {
-      currentPos = e.clientY;
+      currentPos = layerPos.y;
       delta = currentPos - this._prePos;
       updateField = 'y';
     } else {
-      currentPos = e.clientX;
+      currentPos = layerPos.x;
       delta = currentPos - this._prePos;
       updateField = 'x';
     }
@@ -381,8 +379,8 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       pickable: true,
       childrenPickable: true
     });
-
-    if (PointService.distancePP(this._prePoint, { x: e.clientX, y: e.clientY }) <= 1) {
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
+    if (PointService.distancePP(this._prePoint, layerPos) <= 1) {
       this._controller.editorEnd();
       return;
     }
@@ -402,16 +400,14 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     e.stopPropagation();
     this._controller.editorRun('layout');
 
-    this._prePoint = {
-      x: e.clientX,
-      y: e.clientY
-    };
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
+    this._prePoint = layerPos;
 
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkArea;
     this._element = model.getVRenderComponents()[0] as unknown as MarkAreaComponent;
     this._model = model;
 
-    this._prePos = this._orient === 'vertical' ? e.clientX : e.clientY;
+    this._prePos = this._orient === 'vertical' ? layerPos.x : layerPos.y;
 
     vglobal.addEventListener('pointermove', this._onAreaDrag);
     vglobal.addEventListener('pointerup', this._onAreaDragEnd);
@@ -419,6 +415,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
   private _onAreaDrag = (e: any) => {
     e.stopPropagation();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     this._chart.option.editorEvent.setCursor('move');
 
     this._controller.removeOverGraphic();
@@ -433,11 +430,11 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     let delta = 0;
     let updateField: string;
     if (this._orient === 'horizontal') {
-      currentPos = e.clientY;
+      currentPos = layerPos.y;
       delta = currentPos - this._prePos;
       updateField = 'y';
     } else {
-      currentPos = e.clientX;
+      currentPos = layerPos.x;
       delta = currentPos - this._prePos;
       updateField = 'x';
     }

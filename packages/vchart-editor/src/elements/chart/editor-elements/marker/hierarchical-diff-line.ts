@@ -194,11 +194,9 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _onAnchorHandlerDragStart = (e: PointerEvent) => {
     e.stopPropagation();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     this._controller.editorRun('layout');
-    this._prePos = {
-      x: e.clientX,
-      y: e.clientY
-    };
+    this._prePos = layerPos;
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
     this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;
     this._model = model;
@@ -239,7 +237,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
     // 寻找最近的数据锚点，更新编辑图形
     // 转换为画布坐标
-    const currentPoint = vglobal.mapToCanvasPoint(e);
+    const currentPoint = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     const closestPoint = findClosestPoint(currentPoint, enableDataPoints) as DataPoint;
 
     // 1. 更新 _currentAnchorHandler
@@ -293,6 +291,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _onAnchorHandlerDragEnd = (e: any) => {
     e.preventDefault();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
 
     vglobal.removeEventListener('pointermove', this._onAnchorHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onAnchorHandlerDragEnd);
@@ -302,7 +301,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     // 隐藏可吸附数据锚点
     this._getDataAnchors()?.hideAll();
 
-    if (PointService.distancePP(this._prePos, { x: e.clientX, y: e.clientY }) <= 1) {
+    if (PointService.distancePP(this._prePos, layerPos) <= 1) {
       this._controller.editorEnd();
       return;
     }
@@ -536,12 +535,10 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _onMiddleHandlerDragStart = (e: PointerEvent) => {
     e.stopPropagation();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     this._controller.editorRun('layout');
 
-    this._prePos = {
-      x: e.clientX,
-      y: e.clientY
-    };
+    this._prePos = layerPos;
 
     const model = this._chart.vchart.getChart().getComponentByUserId(this._modelId) as unknown as MarkLine;
     this._element = model.getVRenderComponents()[0] as unknown as MarkLineComponent;
@@ -563,7 +560,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
     // 寻找最近的数据锚点，更新编辑图形
     // 转换为画布坐标
-    const currentPoint = vglobal.mapToCanvasPoint(e);
+    const currentPoint = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     const closestPoint = findClosestPoint(currentPoint, this._splitPoints) as DataPoint;
 
     // 1. 更新 _overlayMiddleHandler
@@ -603,11 +600,12 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
   private _onMiddleHandlerDragEnd = (e: any) => {
     e.preventDefault();
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
 
     vglobal.removeEventListener('pointermove', this._onMiddleHandlerDrag);
     vglobal.removeEventListener('pointerup', this._onMiddleHandlerDragEnd);
 
-    if (PointService.distancePP(this._prePos, { x: e.clientX, y: e.clientY }) <= 1) {
+    if (PointService.distancePP(this._prePos, layerPos) <= 1) {
       this._controller.editorEnd();
       return;
     }
