@@ -12,7 +12,7 @@ export class LayerZoomMove {
     return this._wheelState;
   }
 
-  private _dragState: 'none' | 'pre' | 'drag' = 'none';
+  private _dragState: 'none' | 'pre' | 'drag' | 'mouseDrag' = 'none';
   get dragState() {
     return this._dragState;
   }
@@ -61,10 +61,12 @@ export class LayerZoomMove {
       const zoom = Math.pow(1.0005, -e.deltaY * Math.pow(16, e.deltaMode));
       const center = { x: e.offsetX, y: e.offsetY };
       this._layer.scale(zoom, zoom, center);
+      this._wheelState = 'wheel';
       this.emitter.emit('onLayerWheel', { zoom, center, globalZoom: this._layer.globalTransMatrix.a });
     } else {
       // drag
       this._layer.translate(-e.deltaX, -e.deltaY);
+      this._dragState = 'drag';
       this.emitter.emit('onLayerDrag');
     }
     this._checkWheelOver();
@@ -73,11 +75,11 @@ export class LayerZoomMove {
   private _checkWheelOver = debounce(() => {
     this._callDragOver();
     this._callWheelOver();
-  }, 200);
+  }, 400);
 
   private _onTouchDown = (event: PointerEvent) => {
     if (this._isAltDown) {
-      this._dragState = 'drag';
+      this._dragState = 'mouseDrag';
       this._dragger.startDrag(event);
       this.emitter.emit('onLayerDragStart');
     }
@@ -91,14 +93,18 @@ export class LayerZoomMove {
     if (this._isAltDown !== event.altKey) {
       this._isAltDown = event.altKey;
       if (this._isAltDown) {
+        this._dragState = 'pre';
         this.emitter.emit('perLayerDrag');
       } else {
-        this._callDragOver();
+        if (this._dragState !== 'mouseDrag') {
+          this._callDragOver();
+        }
       }
     }
     if (this._isCtrlDown !== event.ctrlKey) {
       this._isCtrlDown = event.ctrlKey;
       if (this._isCtrlDown) {
+        this._wheelState = 'pre';
         this.emitter.emit('perLayerWheel');
       } else {
         this._callWheelOver();
