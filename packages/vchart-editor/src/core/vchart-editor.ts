@@ -152,13 +152,18 @@ export class VChartEditor {
     this._event = new EditorEvent(this);
     this._event.initEvent();
 
-    // ['perLayerDrag', 'perLayerWheel', 'onLayerWheel', 'onLayerDrag', 'onLayerDragOver', 'onLayerWheelOver'].forEach(
-    //   e => {
-    //     this.emitter.on(e, () => {
-    //       console.log(e);
-    //     });
-    //   }
-    // );
+    // [
+    //   'perLayerDrag',
+    //   'perLayerWheel',
+    //   'onLayerWheelStart',
+    //   'onLayerDragStart',
+    //   'onLayerDragOver',
+    //   'onLayerWheelOver'
+    // ].forEach(e => {
+    //   this.emitter.on(e, () => {
+    //     console.log(e);
+    //   });
+    // });
   }
 
   resetLayoutZIndex() {

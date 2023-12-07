@@ -61,13 +61,21 @@ export class LayerZoomMove {
       const zoom = Math.pow(1.0005, -e.deltaY * Math.pow(16, e.deltaMode));
       const center = { x: e.offsetX, y: e.offsetY };
       this._layer.scale(zoom, zoom, center);
+      if (this._wheelState === 'none' || this._wheelState === 'pre') {
+        this.emitter.emit('onLayerWheelStart', { zoom, center, globalZoom: this._layer.globalTransMatrix.a });
+      } else {
+        this.emitter.emit('onLayerWheel', { zoom, center, globalZoom: this._layer.globalTransMatrix.a });
+      }
       this._wheelState = 'wheel';
-      this.emitter.emit('onLayerWheel', { zoom, center, globalZoom: this._layer.globalTransMatrix.a });
     } else {
       // drag
       this._layer.translate(-e.deltaX, -e.deltaY);
+      if (this._dragState === 'none' || this._dragState === 'pre') {
+        this.emitter.emit('onLayerDragStart');
+      } else {
+        this.emitter.emit('onLayerDrag');
+      }
       this._dragState = 'drag';
-      this.emitter.emit('onLayerDrag');
     }
     this._checkWheelOver();
   };
