@@ -11,7 +11,6 @@ import type { BaseElement } from '../elements/base-element';
 import type { IPoint } from '../typings/space';
 import { transformPointWithMatrix } from '../utils/space';
 import { LayerZoomMove } from '../component/layer-zoom-move';
-import { off } from 'process';
 // 加载浏览器环境
 loadBrowserEnv(container);
 
