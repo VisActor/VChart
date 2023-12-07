@@ -486,7 +486,7 @@ export class VChart implements IVChart {
     if (dataSet instanceof DataSet) {
       this._dataSet = dataSet;
     } else {
-      this._dataSet = new DataSet();
+      this._dataSet = new DataSet({ logger: VChart.getLogger() as Logger });
     }
     registerDataSetInstanceParser(this._dataSet, 'dataview', dataViewParser);
     registerDataSetInstanceParser(this._dataSet, 'array', arrayParser);
