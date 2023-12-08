@@ -7,21 +7,7 @@ import { isNil, maxInArray, minInArray } from '@visactor/vutils';
 import { distance, vectorAngle } from '../../../../util/math';
 import type { ILayoutPoint } from '../../../../typings/layout';
 import type { PolarAxis } from '../../../../component';
-
-const getFirstSeries = (chart: IChart) => {
-  const regions = chart.getRegionsInIndex();
-  for (let i = 0; i < regions.length; i++) {
-    const r = regions[i];
-    const series = r.getSeries();
-    for (let j = 0; j < series.length; j++) {
-      const s = series[j];
-      if (s.coordinate === 'polar') {
-        return s as IPolarSeries;
-      }
-    }
-  }
-  return null;
-};
+import { getFirstSeries } from '../../../../util/model';
 
 /** 将角度标准化为 range 范围内的角度 */
 const angleStandardize = (angle: number, range: [number, number]) => {
@@ -40,7 +26,7 @@ export const getPolarDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoi
   if (!chart) {
     return null;
   }
-  const series = getFirstSeries(chart);
+  const series = getFirstSeries(chart.getRegionsInIndex(), 'polar');
   if (!series) {
     return null;
   }

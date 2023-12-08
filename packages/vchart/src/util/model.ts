@@ -1,3 +1,4 @@
+import type { IChart } from '../chart/interface';
 import type { IRegion, ISeriesFilter } from '../region/interface';
 import type { ISeries } from '../series/interface';
 import { isFunction } from './type';
@@ -26,3 +27,20 @@ export function getSeries(regions: IRegion[], filter?: ISeriesFilter) {
   }
   return result;
 }
+
+export const getFirstSeries = (regions: IRegion[], coordinateType?: 'cartesian' | 'polar') => {
+  for (let i = 0; i < regions.length; i++) {
+    const r = regions[i];
+    const series = r.getSeries();
+    for (let j = 0; j < series.length; j++) {
+      const s = series[j];
+      if (coordinateType && s && s.coordinate === coordinateType) {
+        return s;
+      }
+      if (!coordinateType && s) {
+        return s;
+      }
+    }
+  }
+  return null;
+};
