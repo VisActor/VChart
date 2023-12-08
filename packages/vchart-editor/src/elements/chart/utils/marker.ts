@@ -928,13 +928,16 @@ export function adjustTotalDiffCoordinatesOffset(
       allLabelTexts = allLabelTexts.concat(label.getElementsByType('text') as IText[]);
     });
     const isHorizontal = series.direction === 'horizontal';
+    const isStack = series.getStack();
     const datumPosition = {
       x: series.getXAxisHelper().dataToPosition(array(series.getSpec().xField).map(field => datum[field])),
       y: series.getYAxisHelper().dataToPosition(array(series.getSpec().yField).map(field => datum[field]))
     };
     let matchLabels;
     if (isHorizontal) {
-      const fields = [].concat(series.getSpec().yField);
+      const fields = isStack
+        ? array(series.getSpec().yField)
+        : [...array(series.getSpec().yField), ...array(series.getSpec().xField)];
 
       matchLabels = allLabelTexts.filter(
         text =>
@@ -944,7 +947,9 @@ export function adjustTotalDiffCoordinatesOffset(
           text.AABBBounds.x2 > datumPosition.x
       );
     } else {
-      const fields = [].concat(series.getSpec().xField);
+      const fields = isStack
+        ? array(series.getSpec().xField)
+        : [...array(series.getSpec().yField), ...array(series.getSpec().xField)];
       matchLabels = allLabelTexts.filter(
         text =>
           isDataSameInFields(datum, (text.attribute as any).data, fields) &&
