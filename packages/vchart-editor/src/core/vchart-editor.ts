@@ -6,7 +6,7 @@ import { ChartLayer } from '../elements/chart/chart-layer';
 import { EditorLayer } from './editor-layer';
 import type { Include } from '../typings/common';
 import { ElementsMap } from './../elements/index';
-import type { IElementOption, VRenderPointerEvent } from './../elements/interface';
+import type { IElementOption } from './../elements/interface';
 import { isString, Bounds, isValidNumber, EventEmitter } from '@visactor/vutils';
 import type { IDataParserConstructor } from '../elements/chart/data/interface';
 import type { IChartTempConstructor } from '../elements/chart/template/interface';

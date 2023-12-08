@@ -18,10 +18,17 @@ import type { IText } from '@visactor/vrender-core';
 
 const defaultLineStyle = {
   stroke: '#000',
-  lineWidth: 2,
+  lineWidth: 1,
   boundsPadding: [2, 2, 2, 2],
   pickMode: 'imprecise'
 };
+
+const defaultSymbolStyle = {
+  fill: '#000',
+  lineWidth: 0,
+  stroke: null as any
+};
+
 /**
  * CAGR（复合年增长率）是一种用于描述投资、业务或其他金融项目在一段时间内的平均增长率的度量
  * @param EV 是结束值
@@ -56,10 +63,11 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         y: isPercent ? 0.5 : 'average',
         endSymbol: {
           visible: true,
-          size: 12,
+          size: 10,
           refX: 6,
           symbolType: 'triangleLeft',
-          autoRotate: false
+          autoRotate: false,
+          style: Object.assign({}, defaultSymbolStyle)
         },
         label: {
           visible: true,
@@ -93,10 +101,11 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
       y: seriesData[0][series.fieldY[0]],
       endSymbol: {
         visible: true,
-        size: 12,
+        size: 10,
         refX: 6,
         symbolType: 'triangleLeft',
-        autoRotate: false
+        autoRotate: false,
+        style: Object.assign({}, defaultSymbolStyle)
       },
       label: {
         visible: true,
@@ -130,10 +139,11 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         x: isPercent ? 0.5 : 'average',
         endSymbol: {
           visible: true,
-          size: 12,
+          size: 10,
           refX: 6,
           symbolType: 'triangleDown',
-          autoRotate: false
+          autoRotate: false,
+          style: Object.assign({}, defaultSymbolStyle)
         },
         label: {
           visible: true,
@@ -169,10 +179,11 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
       x: seriesData[0][series.fieldX[0]],
       endSymbol: {
         visible: true,
-        size: 12,
+        size: 10,
         refX: 6,
         symbolType: 'triangleDown',
-        autoRotate: false
+        autoRotate: false,
+        style: Object.assign({}, defaultSymbolStyle)
       },
       label: {
         visible: true,
@@ -432,8 +443,9 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
       }
     },
     endSymbol: {
-      size: 12,
-      refX: -4
+      size: 10,
+      refX: -4,
+      style: Object.assign({}, defaultSymbolStyle)
     },
     coordinatesOffset: [
       {
@@ -572,12 +584,14 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
       ]
     },
     endSymbol: {
-      size: 12,
-      refX: -4
+      size: 10,
+      refX: -4,
+      style: Object.assign({}, defaultSymbolStyle)
     },
     startSymbol: {
-      size: 12,
-      refX: -4
+      size: 10,
+      refX: -4,
+      style: Object.assign({}, defaultSymbolStyle)
     },
     _originValue_: [startValue, endValue]
   };
@@ -676,8 +690,9 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
       }
     },
     endSymbol: {
-      size: 12,
-      refX: -4
+      size: 10,
+      refX: -4,
+      style: Object.assign({}, defaultSymbolStyle)
     },
     _originValue_: [startData[valueFieldInData], endData[valueFieldInData]],
     coordinatesOffset: [

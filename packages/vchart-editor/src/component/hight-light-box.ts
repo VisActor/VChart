@@ -7,6 +7,10 @@ export class HightLightBox {
   private _layer: IEditorLayer;
 
   setLayer(layer: IEditorLayer) {
+    Object.values(this._boxMap).forEach(box => {
+      this._layer?.editorGroup?.removeChild?.(box);
+    });
+    this._boxMap = {};
     this._layer = layer;
   }
 

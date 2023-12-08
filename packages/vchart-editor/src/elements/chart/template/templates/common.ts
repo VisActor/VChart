@@ -3,6 +3,18 @@ import type { DataInfo, StandardData } from '../../data/interface';
 export function getCommonSpec() {
   return {
     type: 'common',
+    color: [
+      '#61BA95',
+      '#335B4A',
+      '#7A94BF',
+      '#2E5599',
+      '#B9A582',
+      '#735A40',
+      '#BC9B44',
+      '#99533D',
+      '#809E9D',
+      '#2E8582'
+    ],
     series: [] as any[],
     legends: {
       id: 'legend-discrete',

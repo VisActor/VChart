@@ -58,7 +58,8 @@ export class LayerZoomMove {
     e.preventDefault();
     if (e.ctrlKey) {
       // zoom
-      const zoom = Math.pow(1.0005, -e.deltaY * Math.pow(16, e.deltaMode));
+      const zoom = Math.pow(1.005, -e.deltaY * Math.pow(16, e.deltaMode));
+      // const zoom = Math.pow(1.0005, -e.deltaY * Math.pow(16, e.deltaMode));
       const center = { x: e.offsetX, y: e.offsetY };
       this._layer.scale(zoom, zoom, center);
       if (this._wheelState === 'none' || this._wheelState === 'pre') {
