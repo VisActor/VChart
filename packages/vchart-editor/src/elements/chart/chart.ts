@@ -11,7 +11,7 @@ import type {
 /* eslint-disable no-console */
 import { LayoutEditorElement } from './editor-elements/layout-editor';
 import { ChartLayout } from './layout/chart-layout';
-import { array, get, type IBoundsLike } from '@visactor/vutils';
+import { array, get, isArray, type IBoundsLike } from '@visactor/vutils';
 import { VChart } from '@visactor/vchart';
 import type { ISpec, IVChart, IMarkAreaSpec, IMarkLineSpec } from '@visactor/vchart';
 import type { IRect, IPoint } from '../../typings/space';
@@ -139,6 +139,24 @@ export class EditorChart extends BaseElement {
     // editor init with vchart
     if (this._mode === 'editor') {
       this.bindEditors();
+    }
+  }
+
+  // 用于处理默认模板 spec 有变化，已保存的图表的 spec 更改
+  protected _compactSpec(spec: ISpec) {
+    // 图例默认关闭交互
+    if (isArray(spec.legends)) {
+      spec.legends = spec.legends.map(legend => {
+        return {
+          ...legend,
+          interactive: false
+        };
+      });
+    } else {
+      spec.legends = {
+        ...spec.legends,
+        interactive: false
+      };
     }
   }
 

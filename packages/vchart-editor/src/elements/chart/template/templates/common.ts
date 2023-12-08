@@ -20,7 +20,8 @@ export function getCommonSpec() {
       id: 'legend-discrete',
       visible: true,
       autoPage: false,
-      position: 'start'
+      position: 'start',
+      interactive: false
     },
     region: [
       {
