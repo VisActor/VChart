@@ -8,21 +8,7 @@ import { isNil } from '@visactor/vutils';
 import { isXAxis, isYAxis } from '../../../../component/axis/cartesian/util/common';
 import { Direction } from '../../../../typings/space';
 import type { ILayoutPoint } from '../../../../typings/layout';
-
-const getFirstSeries = (chart: IChart) => {
-  const regions = chart.getRegionsInIndex();
-  for (let i = 0; i < regions.length; i++) {
-    const r = regions[i];
-    const series = r.getSeries();
-    for (let j = 0; j < series.length; j++) {
-      const s = series[j];
-      if (s.coordinate === 'cartesian') {
-        return s as ICartesianSeries;
-      }
-    }
-  }
-  return null;
-};
+import { getFirstSeries } from '../../../../util/model';
 
 const discreteXAxisGetDimensionField = (series: ICartesianSeries) => series.fieldX[0];
 const discreteYAxisGetDimensionField = (series: ICartesianSeries) => series.fieldY[0];
@@ -33,7 +19,7 @@ export const getCartesianDimensionInfo = (chart: IChart | undefined, pos: ILayou
   if (!chart) {
     return null;
   }
-  const series = getFirstSeries(chart);
+  const series = getFirstSeries(chart.getRegionsInIndex(), 'cartesian');
   if (!series) {
     return null;
   }
