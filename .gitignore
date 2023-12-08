@@ -38,12 +38,12 @@ cjs
 build
 build-es5
 *.zip
+report
 
 
 *.zip
 stats.html
 report.html
-
 coverage/
 
 *.local.ts

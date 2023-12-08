@@ -33,7 +33,8 @@
     "test-watch": "DEBUG_MODE=1 jest --watch",
     "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts",
     "build:es": "bundle --clean -f es --ignorePostTasks",
-    "size": "size-limit"
+    "size": "size-limit",
+    "dupcheck": "jscpd"
   },
   "files": [
     "esm",
@@ -107,7 +108,8 @@
     "form-data": "~4.0.0",
     "canvas": "2.11.2",
     "size-limit": "9.0.0",
-    "@size-limit/file": "9.0.0"
+    "@size-limit/file": "9.0.0",
+    "jscpd": "~3.5.10"
   },
   "dependencies": {
     "@visactor/vutils": "~0.17.1",
@@ -128,5 +130,28 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "jscpd": {
+    "threshold": 0.15,
+    "reporters": [
+      "html",
+      "console",
+      "badge"
+    ],
+    "format": "typescript",
+    "ignore": [
+      "**/__tests__/**",
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/coverage/**",
+      "**/esm/**",
+      "**/cjs/**",
+      "**/.rollup.cache/**",
+      "**/report/**",
+      "vchart-*.ts"
+    ],
+    "absolute": true,
+    "gitignore": true
   }
 }
