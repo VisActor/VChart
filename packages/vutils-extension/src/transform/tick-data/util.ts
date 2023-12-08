@@ -94,8 +94,10 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 
     // 估算文本位置
     const pos = scale.scale(v);
-    let textX = scaleX * pos;
-    let textY = scaleY * pos;
+    const baseTextX = scaleX * pos;
+    const baseTextY = scaleY * pos;
+    let textX = baseTextX;
+    let textY = baseTextY;
 
     let align: TextAlignType;
     if (labelFlush && isHorizontal && i === 0) {
@@ -129,7 +131,7 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
     const bounds = new AABBBounds().set(textX, textY, textX + textWidth, textY + textHeight);
 
     if (labelAngle) {
-      bounds.rotate(labelAngle, scaleX, scaleY);
+      bounds.rotate(labelAngle, baseTextX, baseTextY);
     }
 
     return bounds;
