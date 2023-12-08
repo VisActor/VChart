@@ -108,9 +108,9 @@ export type MediaQueryActionFilterType =
   | 'region'
   | 'series'
   | 'chart'
-  | SeriesTypeEnum
-  | ComponentTypeEnum
-  | SimplifiedComponentTypeEnum;
+  | `${SeriesTypeEnum}`
+  | `${ComponentTypeEnum}`
+  | `${SimplifiedComponentTypeEnum}`;
 
 /**
  * 元素过滤器

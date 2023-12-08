@@ -117,7 +117,7 @@ const getSpec = (): IAreaChartSpec => ({
         maxWidth: 300
       },
       action: {
-        filterType: 'legend' as any,
+        filterType: 'legend',
         filter: {
           visible: true,
           orient: 'bottom'
