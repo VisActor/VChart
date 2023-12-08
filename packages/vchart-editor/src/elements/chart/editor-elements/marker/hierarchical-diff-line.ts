@@ -392,6 +392,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     return this._dataAnchors;
   }
 
+  // TODO: 代码优化
   // 获取所有的数据锚点
   private _getAllDataPoints() {
     const series = this._getSeries();
@@ -400,7 +401,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     const isHorizontal = series.direction === 'horizontal';
 
     if (series.type === 'bar') {
-      const rectMark = series.getMarks().find((mark: any) => mark.type === 'rect');
+      const rectMark = series.getMarkInName('bar');
       const vgrammarElements = rectMark.getProduct().elements;
       const dataPoints: DataPoint[] = [];
       if (isHorizontal) {
@@ -684,6 +685,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     return this._splitAnchors;
   }
 
+  // TODO: 代码优化
   // 获取维度轴上的锚点
   private _getAllSplitPoints() {
     const series = this._getSeries();
@@ -691,7 +693,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
 
     if (series.type === 'bar') {
-      const rectMark = series.getMarks().find((mark: any) => mark.type === 'rect');
+      const rectMark = series.getMarkInName('bar');
       const vgrammarElements = rectMark.getProduct().elements;
       // TODO: 完善类型定义
       const splitPoints: any[] = [];
@@ -1178,12 +1180,12 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     const isPercent = series.getPercent();
     if (series.getStack()) {
       if (isPercent) {
-        return data.top ? data.data[STACK_FIELD_END_PERCENT] : data.data[STACK_FIELD_START_PERCENT] ?? 0;
+        return data?.top ? data.data?.[STACK_FIELD_END_PERCENT] : data?.data?.[STACK_FIELD_START_PERCENT] ?? 0;
       }
-      return data.top ? data.data[valueField] : data.data[STACK_FIELD_START] ?? 0;
+      return data?.top ? data?.data?.[valueField] : data?.data?.[STACK_FIELD_START] ?? 0;
     }
 
-    return data.top ? data.data[valueField] : 0;
+    return data?.top ? data?.data?.[valueField] : 0;
   }
 
   private _onHandlerHover(cursor: string) {

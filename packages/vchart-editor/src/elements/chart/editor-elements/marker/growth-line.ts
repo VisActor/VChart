@@ -710,13 +710,14 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     this._updateAndSave(newMarkLineSpec, 'markLine');
   };
 
+  // TODO: 代码优化
   private _getAnchorPoints() {
     const series = this._getSeries();
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
 
     if (series.type === 'bar') {
-      const rectMark = series.getMarks().find((mark: any) => mark.type === 'rect');
+      const rectMark = series.getMarkInName('bar');
       const vgrammarElements = rectMark.getProduct().elements;
 
       let source;
