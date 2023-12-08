@@ -91,3 +91,27 @@ export function _diffSpec(source: {}, target: {}, from: {}, to: {}) {
     to[targetKeys[t]] = target[targetKeys[t]];
   }
 }
+
+export function mergeDiffSpec(source: any, target: {}, from: {}): any {
+  return _mergeDiffSpec(source, target ?? {}, from ?? {});
+}
+
+export function _mergeDiffSpec(source: {}, target: {}, from: {}) {
+  const keys = Array.from(new Set([...Object.keys(target), ...Object.keys(from)]));
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const type = Object.prototype.toString.call(source[key]);
+    // type not equal
+    if (type !== Object.prototype.toString.call(target[key])) {
+      source[key] = target[key];
+    } else {
+      if (type === '[object Object]') {
+        _mergeDiffSpec(source[key], target[key] ?? {}, from[key] ?? {});
+      } else if (!isEqual(source[key], target[key])) {
+        // 其他类型 直接判定是否相等
+        source[key] = target[key];
+      }
+    }
+  }
+  return source;
+}

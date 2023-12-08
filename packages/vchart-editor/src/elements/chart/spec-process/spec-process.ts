@@ -6,7 +6,7 @@ import type { ILayoutData } from '../layout/interface';
 import type { IEditorSpec, IModelSpec, ISpecProcess } from './interface';
 // @ts-ignore
 import type { ISeries, ISpec, ITheme } from '@visactor/vchart';
-import { diffSpec, isModelInfoMatchSpec, isSameModelInfo } from '../../../utils/spec';
+import { diffSpec, isModelInfoMatchSpec, isSameModelInfo, mergeDiffSpec } from '../../../utils/spec';
 import type { EditorChart } from '../chart';
 import { mergeSpec } from '../utils/spec';
 import type { FormatConfig } from '../../../typings/common';
@@ -523,17 +523,19 @@ export class SpecProcess implements ISpecProcess {
     });
   }
 
-  updateAttributeFromHistory(att: any) {
+  updateAttributeFromHistory(att: any, from: any) {
     this._chart.layout.setViewBox(att.rect);
     if (att.attribute) {
-      if (att.attribute.data) {
-        this._dataTempTransform.updateChartDataTemp(att.attribute.data, att.attribute.temp);
-      }
       if (att.attribute.layout) {
         this._chart.layout.setLayoutData(att.attribute.layout);
       }
       if (att.attribute) {
-        this.updateEditorSpec(mergeSpec(this._editorSpec, att.attribute));
+        this.updateEditorSpec(mergeDiffSpec(this._editorSpec, att.attribute, from?.attribute));
+      }
+      if (att.attribute.data) {
+        this._dataTempTransform.updateChartDataTemp(att.attribute.data, att.attribute.temp);
+      } else {
+        this.transformSpec();
       }
       this._chart.reRenderWithUpdateSpec();
     }

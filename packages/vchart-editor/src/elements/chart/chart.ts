@@ -356,8 +356,8 @@ export class EditorChart extends BaseElement {
     this._event.tryPick(e);
   }
 
-  updateAttributeFromHistory(att: any) {
-    this._specProcess.updateAttributeFromHistory(att);
+  updateAttributeFromHistory(att: any, fromAttribute: any) {
+    this._specProcess.updateAttributeFromHistory(att, fromAttribute);
   }
   saveSnapshot() {
     this._specProcess.saveSnapshot();

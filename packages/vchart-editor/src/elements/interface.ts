@@ -55,7 +55,7 @@ export interface IElement {
 
   setModel: (mode: EditorMode) => void;
   moveBy: (offsetX: number, offsetY: number) => void;
-  updateAttributeFromHistory: (att: any) => void;
+  updateAttributeFromHistory: (att: any, fromAttribute: any) => void;
   getData: () => IElementData;
   getEditorElementsConnectBox: (rect: IRect) => IEditorElement[];
   startEditorElement: (el: IEditorElement, e: PointerEvent) => void;
