@@ -19,8 +19,7 @@ import type { IText } from '@visactor/vrender-core';
 const defaultLineStyle = {
   stroke: '#000',
   lineWidth: 1,
-  boundsPadding: [2, 2, 2, 2],
-  pickMode: 'imprecise'
+  pickStrokeBuffer: 16
 };
 
 const defaultSymbolStyle = {
@@ -417,8 +416,7 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
     coordinates: [startData, endData],
     line: {
       style: {
-        stroke: '#000',
-        lineWidth: 2,
+        ...defaultLineStyle,
         lineDash: [0]
       }
     },
@@ -571,14 +569,12 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
       mainSegmentIndex: 1,
       style: [
         {
-          stroke: '#000',
-          lineWidth: 2,
+          ...defaultLineStyle,
           lineDash: [2, 2]
         },
         Object.assign({}, defaultLineStyle),
         {
-          stroke: '#000',
-          lineWidth: 2,
+          ...defaultLineStyle,
           lineDash: [2, 2]
         }
       ]
@@ -660,8 +656,7 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
       : `${(DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE / height) * 100}%`,
     line: {
       style: {
-        stroke: '#000',
-        lineWidth: 2,
+        ...defaultLineStyle,
         lineDash: [0],
         cornerRadius: 4
       }

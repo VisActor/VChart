@@ -1,6 +1,6 @@
 import { DataTempTransform } from './data-temp-transform';
 import type { IChartModel } from './../interface';
-import { isArray, isObject, isEmpty, cloneDeep, isValid, array, EventEmitter, isString } from '@visactor/vutils';
+import { isArray, isObject, isEmpty, cloneDeep, isValid, array, EventEmitter, isString, last } from '@visactor/vutils';
 import type { IModelInfo, IUpdateAttributeParam } from './../../../core/interface';
 import type { ILayoutData } from '../layout/interface';
 import type { IEditorSpec, IModelSpec, ISpecProcess } from './interface';
@@ -486,7 +486,12 @@ export class SpecProcess implements ISpecProcess {
         if (markerIndex === -1) {
           this._editorSpec.marker[key].push(spec);
         } else {
-          mergeSpec(this._editorSpec.marker[key][markerIndex], spec);
+          // 更新 spec 同时调整层级，最近编辑的元素层级最高
+          const updatedSpec = mergeSpec({}, this._editorSpec.marker[key][markerIndex], spec);
+          const lastIndex = this._editorSpec.marker[key].length - 1;
+          const lastSpec = last(this._editorSpec.marker[key]);
+          this._editorSpec.marker[key][markerIndex] = lastSpec;
+          this._editorSpec.marker[key][lastIndex] = updatedSpec;
         }
       }
     } else {

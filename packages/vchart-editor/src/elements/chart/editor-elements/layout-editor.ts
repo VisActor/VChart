@@ -373,7 +373,7 @@ export class LayoutEditorElement extends BaseEditorElement {
       }
       this._chart.vchart.getChart().setLayoutTag(true);
       this._chart.vchart.renderSync();
-    } else if (isRegionModel(this._currentEl.model.type)) {
+    } else if (isRegionModel(this._currentEl.model.type) && model.layout) {
       const rect = {
         ...model.layout.getLayoutStartPoint(),
         ...model.layout.getLayoutRect()

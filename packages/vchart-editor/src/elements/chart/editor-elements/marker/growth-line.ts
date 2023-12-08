@@ -141,6 +141,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       points: lineShape.attribute.points as IPointLike[],
       lineDash: [0],
       lineWidth: 3,
+      pickStrokeBuffer: 16,
       stroke: '#3073F2'
     });
     overlayLine.name = 'overlay-growth-mark-line-line';

@@ -8,15 +8,13 @@ import type { IEditorElement } from '../../../../core/interface';
 import { PointService, array, isValid, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
-import type { EventParams, MarkLine, IComponent, ICartesianSeries } from '@visactor/vchart';
-import { STACK_FIELD_START } from '@visactor/vchart';
+import type { EventParams, MarkLine, IComponent } from '@visactor/vchart';
 import { findClosestPoint } from '../../utils/math';
 import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
 import { SamePointApproximate, SameValueApproximate } from '../../../../utils/space';
-import { STACK_FIELD_START_PERCENT } from '@visactor/vchart';
-import { STACK_FIELD_END_PERCENT } from '@visactor/vchart';
+import { STACK_FIELD_START_PERCENT, STACK_FIELD_END_PERCENT, STACK_FIELD_START } from '@visactor/vchart';
 
 const START_LINK_HANDLER = 'overlay-hier-diff-mark-line-start-handler';
 const MIDDLE_LINK_HANDLER = 'overlay-hier-diff-mark-line-middle-handler';
@@ -149,7 +147,8 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       zIndex: 2,
       lineDash: [0],
       lineWidth: 2,
-      stroke: '#3073F2'
+      stroke: '#3073F2',
+      pickStrokeBuffer: 16
     });
     middleHandler.name = MIDDLE_LINK_HANDLER;
     this._overlayMiddleHandler = middleHandler;
