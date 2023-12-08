@@ -1,28 +1,12 @@
 import type { IChart } from '../../../../chart/interface';
 import type { IDimensionInfo } from '../interface';
 import { isDiscrete } from '@visactor/vscale';
-import { getDimensionData, isInRegionBound } from './common';
+import { getAxis, getDimensionData } from './common';
 import type { IPolarSeries } from '../../../../series/interface';
 import { isNil, maxInArray, minInArray } from '@visactor/vutils';
-import type { PolarAxis } from '../../../../component/axis/polar';
 import { distance, vectorAngle } from '../../../../util/math';
-import type { AxisComponent } from '../../../../component/axis/base-axis';
 import type { ILayoutPoint } from '../../../../typings/layout';
-
-const getAxis = (chart: IChart, type: 'radius' | 'angle', pos: ILayoutPoint): PolarAxis[] | null => {
-  const axesComponents = chart
-    .getAllComponents()
-    .filter(
-      c =>
-        c.specKey === 'axes' &&
-        (c as AxisComponent).getOrient() === type &&
-        isInRegionBound(chart, c as AxisComponent, pos)
-    ) as PolarAxis[];
-  if (!axesComponents.length) {
-    return null;
-  }
-  return axesComponents;
-};
+import type { PolarAxis } from '../../../../component';
 
 const getFirstSeries = (chart: IChart) => {
   const regions = chart.getRegionsInIndex();
@@ -62,8 +46,8 @@ export const getPolarDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoi
   }
 
   const { x, y } = pos;
-  const angleAxisList = getAxis(chart, 'angle', pos);
-  const radiusAxisList = getAxis(chart, 'radius', pos);
+  const angleAxisList = getAxis(chart, (cmp: PolarAxis) => cmp.getOrient() === 'angle', pos);
+  const radiusAxisList = getAxis(chart, (cmp: PolarAxis) => cmp.getOrient() === 'radius', pos);
   const targetAxisInfo: IDimensionInfo[] = [];
 
   const getDimensionField = (series: IPolarSeries) => series.getDimensionField()[0];

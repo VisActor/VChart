@@ -129,3 +129,17 @@ export const getDimensionData = (
   }
   return data;
 };
+
+export const getAxis = <T extends AxisComponent>(
+  chart: IChart,
+  filter: (cmp: T) => boolean,
+  pos: ILayoutPoint
+): T[] | null => {
+  const axesComponents = chart
+    .getAllComponents()
+    .filter(c => c.specKey === 'axes' && filter(c as T) && isInRegionBound(chart, c as T, pos)) as T[];
+  if (!axesComponents.length) {
+    return null;
+  }
+  return axesComponents;
+};
