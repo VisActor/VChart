@@ -272,12 +272,19 @@ export class VChartEditor {
     if (!isValidNumber(width) || !isValidNumber(height)) {
       return;
     }
-    if (this._mode !== 'view') {
-      return;
-    }
     // padding
     this._width = width;
     this._height = height;
+    if (this._mode === 'view') {
+      this._resizeToCenter();
+    } else if (this._mode === 'editor') {
+      this._resizeCanvas();
+    }
+  }
+
+  private _resizeToCenter() {
+    const width = this._width;
+    const height = this._height;
     const b = new Bounds();
     if (this._layers.length === 0) {
       return;
@@ -301,6 +308,10 @@ export class VChartEditor {
     this._layers.forEach(l => {
       l.resizeLayer(width, height, posX, posY, scale);
     });
+  }
+
+  private _resizeCanvas() {
+    this._layers.forEach(l => l.resizeLayer(this._width, this._height));
   }
 
   reLayoutToCenter() {
