@@ -39,6 +39,20 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
     this.initRoseMarkStyle();
   }
 
+  protected _buildMarkAttributeContext() {
+    super._buildMarkAttributeContext();
+    // center
+    this._markAttributeContext.getCenter = () => {
+      return {
+        x: () => this.angleAxisHelper.center().x,
+        y: () => this.angleAxisHelper.center().y
+      };
+    };
+    // angle scale
+    this._markAttributeContext.startAngleScale = datum => this.startAngleScale(datum);
+    this._markAttributeContext.endAngleScale = datum => this.endAngleScale(datum);
+  }
+
   private initRoseMark() {
     this._roseMark = this._createMark(RoseSeries.mark.rose, {
       morph: shouldMarkDoMorph(this._spec, RoseSeries.mark.rose.name),
@@ -56,19 +70,29 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
     return angleBandWidth;
   }
 
+  private startAngleScale(datum) {
+    return (
+      this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) -
+      this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5
+    );
+  }
+
+  private endAngleScale(datum) {
+    return (
+      this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) +
+      this.getRoseAngle() -
+      this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5
+    );
+  }
+
   private initRoseMarkStyle() {
     const roseMark = this._roseMark;
     if (roseMark) {
       this.setMarkStyle(roseMark, {
         x: () => this.angleAxisHelper.center().x,
         y: () => this.angleAxisHelper.center().y,
-        startAngle: (datum: Datum) =>
-          this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) -
-          this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5,
-        endAngle: (datum: Datum) =>
-          this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) +
-          this.getRoseAngle() -
-          this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5,
+        startAngle: (datum: Datum) => this.startAngleScale(datum),
+        endAngle: (datum: Datum) => this.endAngleScale(datum),
         fill: this.getColorAttribute(),
         outerRadius: (datum: Datum) =>
           valueInScaleRange(
