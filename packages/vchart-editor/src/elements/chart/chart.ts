@@ -374,8 +374,8 @@ export class EditorChart extends BaseElement {
     this._event.tryPick(e);
   }
 
-  updateAttributeFromHistory(att: any) {
-    this._specProcess.updateAttributeFromHistory(att);
+  updateAttributeFromHistory(att: any, fromAttribute: any) {
+    this._specProcess.updateAttributeFromHistory(att, fromAttribute);
   }
   saveSnapshot() {
     this._specProcess.saveSnapshot();
@@ -541,7 +541,29 @@ export class EditorChart extends BaseElement {
 
       const end = path.child;
       return getPosInClient(end as IElementPathEnd, el);
+    } else if (path.opt.type === 'region') {
+      const region = this._vchart.getChart().getAllRegions()[0];
+      const node = region.getGroupMark().getProduct().elements[0].graphicItem;
+      const end = path.child;
+      return getPosInClient(end as IElementPathEnd, node);
     }
     return null;
+  }
+
+  getTargetWithPosBackup(pos: IPoint): IElementPathRoot {
+    const region = this._vchart.getChart().getAllRegions()[0];
+    const node = region.getGroupMark().getProduct().elements[0].graphicItem;
+    const endPath = getEndPathWithNode(pos, node);
+    return {
+      elementId: this.id,
+      opt: {
+        type: 'region',
+        index: 0
+      },
+      index: 0,
+      isBackup: true,
+      child: endPath,
+      rect: addRectToPathElement(node)
+    };
   }
 }

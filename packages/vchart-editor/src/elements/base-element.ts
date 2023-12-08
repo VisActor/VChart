@@ -111,7 +111,7 @@ export abstract class BaseElement implements IElement {
     this._afterRenderCallBack?.();
   }
 
-  updateAttributeFromHistory(att: any) {
+  updateAttributeFromHistory(att: any, fromAttribute: any) {
     //do nothing
   }
 

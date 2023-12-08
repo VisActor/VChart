@@ -1,6 +1,6 @@
 import type { VChartEditor } from './vchart-editor';
 import type { IElement, VRenderPointerEvent } from './../elements/interface';
-import { Bounds, Matrix } from '@visactor/vutils';
+import { Bounds, Matrix, isValid } from '@visactor/vutils';
 import type { EditorMode, IEditorElement, IEditorLayer, IElementPathRoot, ILayoutLine } from './interface';
 import type { IStage, IGroup, IGraphic } from '@visactor/vrender-core';
 import { createGroup, createStage, container } from '@visactor/vrender-core';
@@ -112,10 +112,12 @@ export class EditorLayer implements IEditorLayer {
     }
   }
 
-  resizeLayer(width: number, height: number, x: number, y: number, scale: number) {
-    this._stage.defaultLayer.setAttributes({
-      postMatrix: new Matrix(scale, 0, 0, scale, x, y)
-    });
+  resizeLayer(width: number, height: number, x?: number, y?: number, scale?: number) {
+    if (isValid(x) && isValid(y) && isValid(scale)) {
+      this._stage.defaultLayer.setAttributes({
+        postMatrix: new Matrix(scale, 0, 0, scale, x, y)
+      });
+    }
     this._canvas.style.width = width + 'px';
     this._canvas.style.height = height + 'px';
     this._canvas.width = width * this._stage.dpr;
@@ -254,6 +256,11 @@ export class EditorLayer implements IEditorLayer {
       if (path) {
         return path;
       }
+    }
+    // 如果没有匹配到就使用 第一个 chart 的 第一个 region 做兜底 path
+    const chartEl = this._elements.find(e => e.type === 'chart');
+    if (chartEl) {
+      return chartEl.getTargetWithPosBackup(pos);
     }
     return null;
   }

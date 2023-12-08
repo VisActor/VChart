@@ -406,7 +406,7 @@ export class EditorText extends BaseElement {
     });
   }
 
-  updateAttributeFromHistory(att: any) {
+  updateAttributeFromHistory(att: any, _fromAttribute: any) {
     this._textGraphic.setAttributes(
       this._transformTextAttribute({
         ...att.attribute

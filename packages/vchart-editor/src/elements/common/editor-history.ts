@@ -1,7 +1,10 @@
 import type { VChartEditor } from '../../core/vchart-editor';
 import type { HistorySnapshot, ElementInfo, IHistory } from './../../core/interface';
 
-export function getCommonHistoryUse(ctx: VChartEditor, updateCall?: (to: HistorySnapshot) => void) {
+export function getCommonHistoryUse(
+  ctx: VChartEditor,
+  updateCall?: (to: HistorySnapshot, from: HistorySnapshot) => void
+) {
   const commonHistoryUse: IHistory['use'] = (element: ElementInfo, from: HistorySnapshot, to: HistorySnapshot) => {
     const layer = ctx.getLayers().find(l => l.id === element.layerId);
     if (!layer) {
@@ -27,7 +30,7 @@ export function getCommonHistoryUse(ctx: VChartEditor, updateCall?: (to: History
       }
       // 修改
       if (to) {
-        updateCall ? updateCall(to) : el.updateAttributeFromHistory(to);
+        updateCall ? updateCall(to, from) : el.updateAttributeFromHistory(to, from);
       }
     }
   };

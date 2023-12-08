@@ -34,6 +34,7 @@ export interface IElementData {
 
 export interface IElement {
   readonly isRendered: boolean;
+  readonly type: string;
   readonly id: string | number;
 
   pickable: boolean;
@@ -55,7 +56,7 @@ export interface IElement {
 
   setModel: (mode: EditorMode) => void;
   moveBy: (offsetX: number, offsetY: number) => void;
-  updateAttributeFromHistory: (att: any) => void;
+  updateAttributeFromHistory: (att: any, fromAttribute: any) => void;
   getData: () => IElementData;
   getEditorElementsConnectBox: (rect: IRect) => IEditorElement[];
   startEditorElement: (el: IEditorElement, e: PointerEvent) => void;
@@ -63,6 +64,7 @@ export interface IElement {
 
   // event
   getTargetWithPos?: (pos: IPoint) => IElementPathRoot;
+  getTargetWithPosBackup?: (pos: IPoint) => IElementPathRoot;
   getPosWithPath?: (path: IElementPathRoot) => IPoint;
 }
 
