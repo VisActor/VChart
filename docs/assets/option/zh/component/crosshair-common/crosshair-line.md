@@ -8,17 +8,34 @@
 
 crosshair 辅助线的类型，可选值为 `'line'` 和 `'rect'`。
 
+{{ if: ${isPolar} }}
+
+#${prefix} width(number|string)
+
+仅对 `type: 'line'` 生效，`width` 表示辅助线的线宽，只支持数值类型，单位为 px
+
+#${prefix} smooth(boolean)
+
+仅对 `type: 'line'` 生效，极坐标系下是否平滑绘制。
+
+{{ else }}
 #${prefix} width(number|string)
 
 crosshair 辅助线的尺寸配置，针对不同的类型，有不同的配置方式：
 
 - `type: 'line'` 时，`width` 表示辅助线的线宽，只支持数值类型，单位为 px
-- `type: 'rect'` 时，`width` 表示辅助框的宽度，支持数值类型和百分比字符串，百分比字符串（如 `'120%'`）表示相对于内容区间的百分比
+- `type: 'rect'` 时，`width` 表示辅助框的宽度，支持数值类型和百分比字符串，百分比字符串（如 `'120%'`）表示相对于内容区间的百分比，**自 1.7.2 版本开始，width 也支持回调，对应的回调参数如下：**
 
-{{ if: ${isPolar} }}
-#${prefix} smooth(boolean)
-
-仅对 `type: 'line'` 生效，极坐标系下是否平滑绘制。
+```ts
+line: {
+  type: 'rect';
+  /**
+   * rect: 为 crosshair 绑定坐标轴的宽高
+   * axis: 为 crosshair 绑定的坐标轴实例
+   */
+  width: (rect: { width: number; height: number }, axis: IAxis) => number;
+}
+```
 
 {{ /if }}
 

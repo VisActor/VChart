@@ -4,10 +4,10 @@ import type {
   IMarkerPositionsSpec,
   IDataPointSpec,
   IMarkerSpec,
-  IMarkerAxisSpec,
   IDataPos,
   IDataPosCallback,
   IMarkerLabelSpec,
+  IMarkerCrossSeriesSpec,
   OffsetPoint
 } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
@@ -21,42 +21,94 @@ export type IMarkLineSpec =
       (
         | IMarkLineXSpec // 标注目标：笛卡尔坐标系坐标空间
         | IMarkLineYSpec // 标注目标：笛卡尔坐标系坐标空间
-        // | IMarkLineAngleSpec // TODO: 标注目标：极坐标系坐标空间
-        // | IMarkLineRadiusSpec // TODO: 标注目标：极坐标系坐标空间
+        | IMarkLineXYSpec
+        | IMarkLineXYY1Spec
+        | IMarkLineYXX1Spec
         | IMarkLineCoordinateSpec // 标注目标：数据元素
-        | IMarkLinePositionsSpec
+        | IMarkerPositionsSpec
       ) &
       IMarkLineTheme)
   | IStepMarkLineSpec; // 标注目标：任意位置
 
-export interface IMarkLineXSpec extends IMarkerAxisSpec {
+export interface IMarkLineXSpec extends IMarkerCrossSeriesSpec {
   /**
-   * x轴上的参考线。可以配置参考线在x轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * 可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处
+   * 单独声明 x 属性，可以绘制一条贯穿 y 轴的标注线
+   * x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 横轴（从左往右）的百分之 15 位置处。
    */
   x: IDataPos | IDataPosCallback;
 }
 
-export interface IMarkLineYSpec extends IMarkerAxisSpec {
+export interface IMarkLineXYY1Spec extends IMarkerCrossSeriesSpec {
   /**
+   * 参考线在 x 轴上位置，可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
+   */
+  x: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线在 y 轴的起点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。
+   */
+  y: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线在 y 轴的终点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。
+   * @since 1.7.3
+   */
+  y1: IDataPos | IDataPosCallback;
+}
+
+export interface IMarkLineYSpec extends IMarkerCrossSeriesSpec {
+  /**
+   * 单独声明 y 属性，可以绘制一条贯穿 x 轴的标注线
    * y轴上的参考线。可以配置参考线在y轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
    * 可以将 y 配置为 '15%' 百分比的形式，用于表示将 x 绘制在 marker 所在 region 纵轴（从上到下）的百分之 15 位置处
    */
   y: IDataPos | IDataPosCallback;
 }
 
-export interface IMarkLineAngleSpec extends IMarkerAxisSpec {
+export interface IMarkLineYXX1Spec extends IMarkerCrossSeriesSpec {
   /**
-   * todo: angle轴上的参考线。可以配置参考线在angle轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
+   * 参考线在 y 轴上位置，可以配置参考线在 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于  region 纵轴（从上到下）的百分之 15 位置处。
    */
-  angle: IDataPos | IDataPosCallback;
+  y: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线在 x 轴的起点位置，可以配置 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
+   */
+  x: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线在 x 轴的终点位置，可以配置 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
+   * @since 1.7.3
+   */
+  x1: IDataPos | IDataPosCallback;
 }
 
-export interface IMarkLineRadiusSpec extends IMarkerAxisSpec {
+export interface IMarkLineXYSpec extends IMarkerCrossSeriesSpec {
   /**
-   * todo: radius轴上的参考线。可以配置参考线在radius轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算
+   * 参考线起始点在 x 轴上位置，可以配置参考线在 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
    */
-  radius: IDataPos | IDataPosCallback;
+  x: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线起始点在 y 轴的起点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。
+   */
+  y: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线终点在 x 轴的终点位置，可以配置 x 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 x 配置为 '15%' 百分比的形式，表示该位置位于 region 横轴（从左往右）的百分之 15 位置处。
+   * @since 1.7.3
+   */
+  x1: IDataPos | IDataPosCallback;
+  /**
+   * 该参考线终点在 y 轴的终点位置，可以配置 y 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
+   * 可以将 y 配置为 '15%' 百分比的形式，表示该位置位于 region 纵轴（从上到下）的百分之 15 位置处。
+   * @since 1.7.3
+   */
+  y1: IDataPos | IDataPosCallback;
 }
 
 export type IMarkLineCoordinateSpec = {
@@ -67,6 +119,7 @@ export type IMarkLineCoordinateSpec = {
   /**
    * 对每个数据点转化后的画布坐标点进行偏移，该偏移值可以是像素值，也可以是 string 类型，如 '20%' 代表百分比
    * 每个元素对应一个坐标点的偏移量
+   * @since 1.7.3
    */
   coordinatesOffset?: OffsetPoint[];
   /**
@@ -83,10 +136,6 @@ export type IMarkLineCoordinateSpec = {
         xy: IRegressType; // FIXME: xy属性名称不太合理，可能需调整
       };
 };
-/**
- * 指定坐标点的参考线。基于指定坐标进行参考线的绘制
- */
-export type IMarkLinePositionsSpec = IMarkerPositionsSpec;
 
 export type IStepMarkLineSpec = IMarkerSpec & {
   /**
@@ -143,6 +192,15 @@ export type IStepMarkLineSpec = IMarkerSpec & {
             };
       }
     | {
+        /**
+         * 画布坐标
+         */
         positions: [IPoint, IPoint];
+        /**
+         * 是否为相对 region 的坐标，默认为 false，即相对画布的坐标
+         * @default false
+         * @since 1.7.0
+         */
+        regionRelative?: boolean;
       }
   );

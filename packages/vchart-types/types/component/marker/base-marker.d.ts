@@ -2,11 +2,11 @@ import type { DataView } from '@visactor/vdataset';
 import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ICartesianSeries } from '../../series/interface';
-import type { ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
+import type { ILayoutRect, ILayoutType, IRect } from '../../typings';
 import { BaseComponent } from '../base/base-component';
-import type { IAggrType, IDataPos, IDataPosCallback, IMarkerAxisSpec, IMarkerSpec } from './interface';
-import type { IGraphic } from '@visactor/vrender-core';
-export declare abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec> extends BaseComponent<T> {
+import type { IAggrType, IDataPos, IDataPosCallback, IMarkerSpec } from './interface';
+import type { IGraphic, IGroup } from '@visactor/vrender-core';
+export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
     layoutType: ILayoutType | 'none';
     protected _startRelativeSeries: ICartesianSeries;
     protected _endRelativeSeries: ICartesianSeries;
@@ -16,55 +16,53 @@ export declare abstract class BaseMarker<T extends IMarkerSpec & IMarkerAxisSpec
     protected _markerComponent: any;
     protected _layoutOffsetX: number;
     protected _layoutOffsetY: number;
+    private _firstSeries;
     created(): void;
-    private _isSpecAggr;
     private _getAllRelativeSeries;
+    private _getFieldInfoFromSpec;
     protected _processSpecX(specX: IDataPos | IDataPosCallback): {
         getRelativeSeries: () => ICartesianSeries;
         getStartRelativeSeries: () => ICartesianSeries;
         getEndRelativeSeries: () => ICartesianSeries;
-        x: {
+        x: string | number | IDataPosCallback | {
             field: any;
             aggrType: IAggrType;
         };
-    } | {
-        getRelativeSeries: () => ICartesianSeries;
-        getStartRelativeSeries: () => ICartesianSeries;
-        getEndRelativeSeries: () => ICartesianSeries;
-        x: IDataPos | IDataPosCallback;
     };
     protected _processSpecY(specY: IDataPos | IDataPosCallback): {
         getRelativeSeries: () => ICartesianSeries;
         getStartRelativeSeries: () => ICartesianSeries;
         getEndRelativeSeries: () => ICartesianSeries;
-        y: {
+        y: string | number | IDataPosCallback | {
             field: any;
             aggrType: IAggrType;
         };
-    } | {
+    };
+    protected _processSpecXY(specX: IDataPos | IDataPosCallback, specY: IDataPos | IDataPosCallback): {
         getRelativeSeries: () => ICartesianSeries;
         getStartRelativeSeries: () => ICartesianSeries;
         getEndRelativeSeries: () => ICartesianSeries;
-        y: IDataPos | IDataPosCallback;
+        x: string | number | IDataPosCallback | {
+            field: any;
+            aggrType: IAggrType;
+        };
+        y: string | number | IDataPosCallback | {
+            field: any;
+            aggrType: IAggrType;
+        };
     };
-    protected _processSpecXY(specX: IDataPos | IDataPosCallback, specY: IDataPos | IDataPosCallback): any;
     protected _processSpecCoo(spec: any): any;
     updateLayoutAttribute(): void;
-    protected _getSeriesByIdOrIndex(seriesUserId: StringOrNumber, seriesIndex: number): ICartesianSeries;
+    private _getSeriesByIdOrIndex;
     protected _bindSeries(): void;
-    protected _computeClipRange(regions: IRegion[]): {
-        minX: number;
-        maxX: number;
-        minY: number;
-        maxY: number;
-    };
     protected abstract _initDataView(): void;
-    protected abstract _createMarkerComponent(): void;
+    protected abstract _createMarkerComponent(): IGroup;
     protected abstract _markerLayout(): void;
     protected initEvent(): void;
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
-    protected getFirstSeries(): ICartesianSeries;
+    clear(): void;
+    private _getFirstSeries;
     protected _getNeedClearVRenderComponents(): IGraphic[];
     onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect, ctx: any): void;
 }

@@ -1,24 +1,35 @@
 import type { IComponent } from '../../../interface';
-import type { IAggrType, IMarkerPositionsSpec, IDataPointSpec, IMarkerSpec, IMarkerAxisSpec, IDataPos, IDataPosCallback, IMarkerLabelSpec } from '../../interface';
+import type { IAggrType, IMarkerPositionsSpec, IDataPointSpec, IMarkerSpec, IDataPos, IDataPosCallback, IMarkerLabelSpec, IMarkerCrossSeriesSpec, OffsetPoint } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
 import type { ILineMarkSpec, IPoint } from '../../../../typings';
 export type IMarkLine = IComponent;
-export type IMarkLineSpec = (IMarkerSpec & (IMarkLineXSpec | IMarkLineYSpec | IMarkLineCoordinateSpec | IMarkLinePositionsSpec) & IMarkLineTheme) | IStepMarkLineSpec;
-export interface IMarkLineXSpec extends IMarkerAxisSpec {
+export type IMarkLineSpec = (IMarkerSpec & (IMarkLineXSpec | IMarkLineYSpec | IMarkLineXYSpec | IMarkLineXYY1Spec | IMarkLineYXX1Spec | IMarkLineCoordinateSpec | IMarkerPositionsSpec) & IMarkLineTheme) | IStepMarkLineSpec;
+export interface IMarkLineXSpec extends IMarkerCrossSeriesSpec {
     x: IDataPos | IDataPosCallback;
 }
-export interface IMarkLineYSpec extends IMarkerAxisSpec {
+export interface IMarkLineXYY1Spec extends IMarkerCrossSeriesSpec {
+    x: IDataPos | IDataPosCallback;
+    y: IDataPos | IDataPosCallback;
+    y1: IDataPos | IDataPosCallback;
+}
+export interface IMarkLineYSpec extends IMarkerCrossSeriesSpec {
     y: IDataPos | IDataPosCallback;
 }
-export interface IMarkLineAngleSpec extends IMarkerAxisSpec {
-    angle: IDataPos | IDataPosCallback;
+export interface IMarkLineYXX1Spec extends IMarkerCrossSeriesSpec {
+    y: IDataPos | IDataPosCallback;
+    x: IDataPos | IDataPosCallback;
+    x1: IDataPos | IDataPosCallback;
 }
-export interface IMarkLineRadiusSpec extends IMarkerAxisSpec {
-    radius: IDataPos | IDataPosCallback;
+export interface IMarkLineXYSpec extends IMarkerCrossSeriesSpec {
+    x: IDataPos | IDataPosCallback;
+    y: IDataPos | IDataPosCallback;
+    x1: IDataPos | IDataPosCallback;
+    y1: IDataPos | IDataPosCallback;
 }
 export type IMarkLineCoordinateSpec = {
     coordinates: IDataPointSpec[];
+    coordinatesOffset?: OffsetPoint[];
     process?: {
         x: IAggrType;
     } | {
@@ -27,7 +38,6 @@ export type IMarkLineCoordinateSpec = {
         xy: IRegressType;
     };
 };
-export type IMarkLinePositionsSpec = IMarkerPositionsSpec;
 export type IStepMarkLineSpec = IMarkerSpec & {
     type: 'type-step';
     connectDirection: 'top' | 'bottom' | 'left' | 'right';
@@ -49,4 +59,5 @@ export type IStepMarkLineSpec = IMarkerSpec & {
     };
 } | {
     positions: [IPoint, IPoint];
+    regionRelative?: boolean;
 });

@@ -27,6 +27,7 @@ export function animationConfig<Preset extends string>(
   >,
   params?: {
     dataIndex: (datum: any) => number;
+    dataCount: () => number;
   }
 ) {
   const config = {} as MarkAnimationSpec;
@@ -79,7 +80,11 @@ export function animationConfig<Preset extends string>(
         }
 
         if (singleConfig.oneByOne) {
-          singleConfig = produceOneByOne(singleConfig as IAnimationTypeConfig, params?.dataIndex ?? defaultDataIndex);
+          singleConfig = produceOneByOne(
+            singleConfig as IAnimationTypeConfig,
+            params?.dataIndex ?? defaultDataIndex,
+            params?.dataCount
+          );
         }
         return singleConfig;
       });
@@ -112,21 +117,46 @@ export function userAnimationConfig<M extends string, Preset extends string>(
 /**
  * oneByOne
  */
-function produceOneByOne(stateConfig: IAnimationTypeConfig, dataIndex: (datum: any) => number) {
-  const { oneByOne, duration } = stateConfig;
+function produceOneByOne(
+  stateConfig: IAnimationTypeConfig,
+  dataIndex: (datum: any) => number,
+  dataCount?: () => number
+) {
+  const { oneByOne, duration, delay, delayAfter } = stateConfig;
   stateConfig.delay = (datum: any, element: IElement, params: any) => {
-    const _index = dataIndex(datum);
-    const _durationTime = isFunction(duration)
+    const index = dataIndex(datum);
+    const durationTime = isFunction(duration)
       ? duration(datum, element, params)
       : isValidNumber(duration)
       ? duration
       : 0;
-    let _oneByOneTime = isFunction(oneByOne) ? oneByOne(datum, element, params) : oneByOne;
-    if (_oneByOneTime === false) {
-      return 0;
+    const userDelay = isFunction(delay) ? delay(datum, element, params) : isValidNumber(delay) ? delay : 0;
+    let oneByOneTime = isFunction(oneByOne) ? oneByOne(datum, element, params) : oneByOne;
+    if (oneByOneTime === false) {
+      return userDelay;
     }
-    _oneByOneTime = _oneByOneTime === true ? 0 : _oneByOneTime;
-    return _index * (_durationTime + _oneByOneTime);
+    oneByOneTime = oneByOneTime === true ? 0 : oneByOneTime;
+    return userDelay + index * (durationTime + oneByOneTime);
+  };
+  stateConfig.delayAfter = (datum: any, element: IElement, params: any) => {
+    const index = dataIndex(datum);
+    const durationTime = isFunction(duration)
+      ? duration(datum, element, params)
+      : isValidNumber(duration)
+      ? duration
+      : 0;
+    const userDelayAfter = isFunction(delayAfter)
+      ? delayAfter(datum, element, params)
+      : isValidNumber(delayAfter)
+      ? delayAfter
+      : 0;
+    let oneByOneTime = isFunction(oneByOne) ? oneByOne(datum, element, params) : oneByOne;
+    if (oneByOneTime === false) {
+      return userDelayAfter;
+    }
+    const indexCount = dataCount ? dataCount() : element.mark.elements.length;
+    oneByOneTime = oneByOneTime === true ? 0 : oneByOneTime;
+    return userDelayAfter + (indexCount - index) * (durationTime + oneByOneTime);
   };
   delete stateConfig.oneByOne;
   return stateConfig;

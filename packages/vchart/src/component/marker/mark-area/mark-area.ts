@@ -1,26 +1,22 @@
 import { DataView } from '@visactor/vdataset';
 import type { IMarkArea, IMarkAreaSpec, IMarkAreaTheme } from './interface';
 import type { IComponentOption } from '../../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { coordinateLayout, xyLayout } from '../utils';
+import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
-// eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
-import type { INode } from '@visactor/vrender-core';
-// eslint-disable-next-line no-duplicate-imports
-import { markerRegression } from '../../../data/transforms/regression';
+import type { IGroup } from '@visactor/vrender-core';
 import { Factory } from '../../../core/factory';
 import type { IPoint } from '../../../typings';
 
-export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> implements IMarkArea {
+export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
@@ -75,10 +71,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       },
       clipInRange: this._spec.clip ?? false
     });
-    this._markerComponent = markArea;
-    this._markerComponent.name = this._spec.name ?? this.type;
-    this._markerComponent.id = this._spec.id ?? `${this.type}-${this.id}`;
-    this.getContainer().add(this._markerComponent as unknown as INode);
+    return markArea as unknown as IGroup;
   }
 
   protected _markerLayout() {
@@ -113,27 +106,13 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
         },
         lines[1][0]
       ];
-    } else if (isXLayout) {
-      lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
-      points = [...lines[0], lines[1][1], lines[1][0]];
-    } else if (isYLayout) {
+    } else if (isXLayout || isYLayout) {
       lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
       points = [...lines[0], lines[1][1], lines[1][0]];
     } else if (isCoordinateLayout) {
       points = coordinateLayout(data, relativeSeries, autoRange, spec.coordinatesOffset);
     } else if (isPositionLayout) {
-      if (spec.regionRelative) {
-        const region = relativeSeries.getRegion();
-        const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
-        points = spec.positions.map((point: IPoint) => {
-          return {
-            x: point.x + regionStartX,
-            y: point.y + regionStartY
-          };
-        });
-      } else {
-        points = spec.positions;
-      }
+      points = positionLayout(spec.positions, relativeSeries, spec.regionRelative);
     }
 
     const seriesData = this._relativeSeries.getViewData().latestData;
@@ -145,7 +124,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
 
     let limitRect;
     if (spec.clip || spec.label?.confine) {
-      const { minX, maxX, minY, maxY } = this._computeClipRange([
+      const { minX, maxX, minY, maxY } = computeClipRange([
         startRelativeSeries.getRegion(),
         endRelativeSeries.getRegion(),
         relativeSeries.getRegion()
@@ -182,12 +161,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
     if (!isXProcess && !isYProcess && !isCoordinateProcess) {
       return null;
     }
-
     let options: IOptionAggr[];
-
-    registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
-    registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);
-
     if (isXYProcess) {
       options = [this._processSpecXY(spec.x, spec.y), this._processSpecXY(spec.x1, spec.y1)];
     } else if (isXProcess) {
@@ -198,8 +172,10 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec & IMarkAreaTheme> impleme
       options = this._processSpecCoo(spec);
     }
 
+    const seriesData = relativeSeries.getViewData();
+    registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
     const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
-    data.parse([relativeSeries.getViewData()], {
+    data.parse([seriesData], {
       type: 'dataview'
     });
     data.transform({

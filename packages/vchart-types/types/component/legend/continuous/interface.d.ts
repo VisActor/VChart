@@ -41,6 +41,7 @@ export type IColorLegendSpec = IContinuousLegendSpec & {
 export type ISizeLegendSpec = IContinuousLegendSpec & {
     type: 'size';
     sizeBackground?: Omit<NoVisibleMarkStyle<IRectMarkSpec>, 'visible' | 'width' | 'height'>;
+    align?: 'top' | 'bottom' | 'left' | 'right';
 };
 export type IContinuousLegendTheme = Omit<IContinuousLegendSpec, 'type' | 'field' | 'scale' | 'regionIndex' | 'regionId' | 'seriesIndex' | 'seriesId' | 'id' | 'defaultSelected'>;
 export interface IColorLegendTheme {

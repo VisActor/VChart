@@ -1,7 +1,6 @@
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { ICartesianCrosshairSpec } from './interface';
-import type { IHair } from './base';
 import { BaseCrossHair } from './base';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IAxis } from '../axis/interface';
@@ -12,16 +11,8 @@ export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICar
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    currValueX: Map<number, {
-        v: StringOrNumber;
-        axis: IAxis;
-    }>;
-    currValueY: Map<number, {
-        v: StringOrNumber;
-        axis: IAxis;
-    }>;
-    xHair: IHair | undefined;
-    yHair: IHair | undefined;
+    private _xHair;
+    private _yHair;
     private _cacheXCrossHairInfo;
     private _cacheYCrossHairInfo;
     private _xCrosshair;
@@ -30,37 +21,23 @@ export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICar
     private _yCrosshair;
     private _yLeftLabel;
     private _yRightLabel;
+    private _currValueX;
+    private _currValueY;
     static createComponent(spec: any, options: IComponentOption): CartesianCrossHair<any> | CartesianCrossHair<ICartesianCrosshairSpec>[];
     constructor(spec: T, options: IComponentOption);
-    protected _showDefaultCrosshair(): void;
-    private defaultCrosshair;
-    findAllAxisContains(relativeX: number, relativeY: number): {
-        xAxisMap: Map<number, {
-            x1: number;
-            y1: number;
-            x2: number;
-            y2: number;
-        } & {
-            axis: IAxis;
-        }>;
-        yAxisMap: Map<number, {
-            x1: number;
-            y1: number;
-            x2: number;
-            y2: number;
-        } & {
-            axis: IAxis;
-        }>;
-    };
-    private getValueAt;
+    protected _showDefaultCrosshairBySpec(): void;
+    private _defaultCrosshair;
+    private _findAllAxisContains;
+    private _getValueAt;
     clearAxisValue(): void;
     setAxisValue(v: StringOrNumber, axis: IAxis): void;
-    private getAllAxisValues;
+    private _getAllAxisValues;
     protected _layoutCrosshair(relativeX: number, relativeY: number): void;
     hide(): void;
-    private layoutByValue;
+    layoutByValue(tag?: number): void;
     private _layoutVertical;
     private _layoutHorizontal;
+    private _getRectSize;
     protected _parseFieldInfo(): void;
     private _updateCrosshair;
     private _updateCrosshairLabel;

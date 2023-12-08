@@ -97,3 +97,7 @@ Scale ratio in the y direction.
 Scale Center. Supported since version `1.4.0`.
 
 Can be configured with fixed coordinates, such as [100, 100], or percentage coordinates, such as ['50%', '50%'], which represents scaling around the center of the graphic element.
+
+#${prefix} pickStrokeBuffer(number) = 0
+
+Supported since version `1.7.3`, it is used to expand the picking range of strokes. 0 is the default line width, positive numbers widen the width, and negative numbers widen the width.
