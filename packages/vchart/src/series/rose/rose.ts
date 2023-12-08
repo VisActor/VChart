@@ -70,14 +70,14 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
     return angleBandWidth;
   }
 
-  private startAngleScale(datum) {
+  private startAngleScale(datum: Datum) {
     return (
       this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) -
       this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5
     );
   }
 
-  private endAngleScale(datum) {
+  private endAngleScale(datum: Datum) {
     return (
       this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) +
       this.getRoseAngle() -
