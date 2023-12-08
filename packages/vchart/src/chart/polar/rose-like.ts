@@ -1,7 +1,8 @@
 import type { IPolarAxisSpec } from '../../component/axis/polar/interface';
+import type { IPolarChartSpec } from './interface';
 import { PolarChart } from './polar';
 
-export class RoseLikeChart extends PolarChart {
+export class RoseLikeChart<T extends IPolarChartSpec> extends PolarChart<T> {
   protected _canStack: boolean = true;
   protected needAxes(): boolean {
     return true;
@@ -18,7 +19,7 @@ export class RoseLikeChart extends PolarChart {
     return series;
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     // set default config for axis

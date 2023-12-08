@@ -1,11 +1,12 @@
-import { array, isValid, isNil } from '@visactor/vutils';
+import { array, isValid, isNil, isArray } from '@visactor/vutils';
 import type { IIndicatorSpec } from '../../component/indicator/interface';
-import type { ISeries } from '../../series/interface';
 import { BaseChart } from '../base-chart';
 import type { IDataZoomSpec } from '../../component/data-zoom';
 import { IFilterMode } from '../../component/data-zoom/constant';
+import type { IPolarChartSpec } from './interface';
+import type { ISeriesSpec } from '../..';
 
-export class PolarChart extends BaseChart {
+export class PolarChart<T extends IPolarChartSpec> extends BaseChart<T> {
   readonly seriesType: string;
 
   protected isValidSeries(type: string): boolean {
@@ -50,10 +51,10 @@ export class PolarChart extends BaseChart {
     return indicatorSpec;
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     /** 处理极坐标系下的 datazoom */
-    if (spec.dataZoom && spec.dataZoom.length > 0) {
+    if (isArray(spec.dataZoom) && spec.dataZoom.length > 0) {
       spec.dataZoom.forEach((zoom: IDataZoomSpec) => {
         // 极坐标系下 datazoom 目前只支持数据过滤
         // 理想效果：角度轴不支持 axis， 径向轴均支持（通过 group.clip 自定义 clipPath 支持）
@@ -67,7 +68,7 @@ export class PolarChart extends BaseChart {
     if (!spec.series || spec.series.length === 0) {
       spec.series = [defaultSeriesSpec];
     } else {
-      spec.series.forEach((s: ISeries) => {
+      spec.series.forEach((s: ISeriesSpec) => {
         if (!this.isValidSeries(s.type)) {
           return;
         }
@@ -80,8 +81,8 @@ export class PolarChart extends BaseChart {
     }
 
     /* 处理 indicator 配置 */
-    if (isValid(spec.indicator)) {
-      spec.indicator = this.getIndicatorSpec(spec);
+    if (isValid((spec as any).indicator)) {
+      (spec as any).indicator = this.getIndicatorSpec(spec);
     }
   }
 }

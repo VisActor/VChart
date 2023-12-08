@@ -2,6 +2,7 @@ import { ChartEvent } from '../constant/index';
 import type { IRegion } from '../region/interface';
 import type { IChart } from './interface';
 import type { IStackCacheNode } from '../util';
+// eslint-disable-next-line no-duplicate-imports
 import { getRegionStackGroup, stack, stackOffsetSilhouette, stackTotal } from '../util';
 import type { EventCallback } from '../event/interface';
 

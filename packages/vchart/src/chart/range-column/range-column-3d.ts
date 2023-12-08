@@ -6,7 +6,7 @@ import type { IRangeColumn3dChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { registerRangeColumn3dSeries } from '../../series/range-column/range-column-3d';
 
-export class RangeColumn3dChart extends CartesianChart {
+export class RangeColumn3dChart<T extends IRangeColumn3dChartSpec = IRangeColumn3dChartSpec> extends CartesianChart<T> {
   static readonly type: string = ChartTypeEnum.rangeColumn3d;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.rangeColumn3d;

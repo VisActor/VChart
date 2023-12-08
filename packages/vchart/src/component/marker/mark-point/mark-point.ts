@@ -19,6 +19,9 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
   type = ComponentTypeEnum.markPoint;
   name: string = ComponentTypeEnum.markPoint;
 
+  static specKey = 'markPoint';
+  specKey = 'markPoint';
+
   layoutZIndex: number = LayoutZIndex.MarkPoint;
 
   protected declare _theme: IMarkPointTheme;
@@ -27,17 +30,26 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
   protected declare _markerComponent: MarkPointComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markPointSpec = spec.markPoint;
+    const markPointSpec = spec[this.specKey];
     if (isEmpty(markPointSpec)) {
       return undefined;
     }
     if (!isArray(markPointSpec) && markPointSpec.visible !== false) {
-      return new MarkPoint(markPointSpec, options);
+      return new MarkPoint(markPointSpec, {
+        ...options,
+        specPath: [this.specKey]
+      });
     }
     const markPoints: MarkPoint[] = [];
     markPointSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markPoints.push(new MarkPoint(m, { ...options, specIndex: i }));
+        markPoints.push(
+          new MarkPoint(m, {
+            ...options,
+            specIndex: i,
+            specPath: [this.specKey, i]
+          })
+        );
       }
     });
     return markPoints;

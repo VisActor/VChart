@@ -2,19 +2,17 @@ import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ISankeyChartSpec } from './interface';
-// eslint-disable-next-line no-duplicate-imports
-import type { ISeries } from '../../series/interface';
-import { VChart } from '../../core/vchart';
-import { SankeySeries, registerSankeySeries } from '../../series/sankey/sankey';
+import { registerSankeySeries } from '../../series/sankey/sankey';
 import { Factory } from '../../core/factory';
+import type { ISeriesSpec } from '../..';
 
-export class SankeyChart extends BaseChart {
+export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sankey;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.sankey;
   readonly seriesType: string = SeriesTypeEnum.sankey;
 
-  protected getDefaultSeriesSpec(spec: ISankeyChartSpec): any {
+  protected getDefaultSeriesSpec(spec: T): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
       categoryField: spec.categoryField,
@@ -51,7 +49,7 @@ export class SankeyChart extends BaseChart {
     return series;
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     /* 处理 series 配置 */
@@ -59,7 +57,7 @@ export class SankeyChart extends BaseChart {
     if (!spec.series || spec.series.length === 0) {
       spec.series = [defaultSeriesSpec];
     } else {
-      spec.series.forEach((s: ISeries) => {
+      spec.series.forEach((s: ISeriesSpec) => {
         if (!this.isValidSeries(s.type)) {
           return;
         }

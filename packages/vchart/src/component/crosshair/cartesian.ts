@@ -50,7 +50,6 @@ interface ICrosshairInfoY {
 
 export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCrosshairSpec> extends BaseCrossHair<T> {
   static specKey = 'crosshair';
-  specKey: string = 'crosshair';
 
   static type = ComponentTypeEnum.cartesianCrosshair;
   type = ComponentTypeEnum.cartesianCrosshair;
@@ -74,20 +73,29 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   private _currValueY: Map<number, { v: StringOrNumber; axis: IAxis }>;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const crosshairSpec = spec.crosshair;
+    const crosshairSpec = spec[this.specKey];
     if (isNil(crosshairSpec)) {
       return undefined;
     }
     if (!isArray(crosshairSpec)) {
       if (crosshairSpec.xField || crosshairSpec.yField) {
-        return new CartesianCrossHair(crosshairSpec, options);
+        return new CartesianCrossHair(crosshairSpec, {
+          ...options,
+          specPath: [this.specKey]
+        });
       }
       return undefined;
     }
     const components: CartesianCrossHair[] = [];
     crosshairSpec.forEach((s: ICartesianCrosshairSpec, i: number) => {
       if (s.xField || s.yField) {
-        components.push(new CartesianCrossHair(s, { ...options, specIndex: i }));
+        components.push(
+          new CartesianCrossHair(s, {
+            ...options,
+            specIndex: i,
+            specPath: [this.specKey, i]
+          })
+        );
       }
     });
     return components;

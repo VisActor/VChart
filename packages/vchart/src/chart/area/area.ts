@@ -6,7 +6,7 @@ import type { IAreaChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { Factory } from '../../core/factory';
 
-export class AreaChart extends CartesianChart {
+export class AreaChart<T extends IAreaChartSpec = IAreaChartSpec> extends CartesianChart<T> {
   static readonly type: string = ChartTypeEnum.area;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.area;
@@ -30,7 +30,7 @@ export class AreaChart extends CartesianChart {
     };
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     setDefaultCrosshairForCartesianChart(spec);
   }

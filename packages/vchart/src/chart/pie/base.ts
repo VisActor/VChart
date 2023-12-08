@@ -1,6 +1,8 @@
+import type { AdaptiveSpec } from '../..';
 import { PolarChart } from '../polar/polar';
+import type { IPieChartSpec } from './interface';
 
-export class BasePieChart extends PolarChart {
+export class BasePieChart<T extends IPieChartSpec> extends PolarChart<AdaptiveSpec<T, 'axes'>> {
   protected needAxes(): boolean {
     return false;
   }

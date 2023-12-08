@@ -5,7 +5,7 @@ import { ChartTypeEnum } from '../interface/type';
 import type { IScatterChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 
-export class ScatterChart extends CartesianChart {
+export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> extends CartesianChart<T> {
   static readonly type: string = ChartTypeEnum.scatter;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.scatter;

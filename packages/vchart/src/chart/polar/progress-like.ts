@@ -3,8 +3,9 @@ import type { IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from '.
 import { getLinearAxisSpecDomain } from '../../component/axis/util';
 import { PolarChart } from './polar';
 import { mergeSpec } from '../../util';
+import type { IPolarChartSpec } from './interface';
 
-export class ProgressLikeChart extends PolarChart {
+export class ProgressLikeChart<T extends IPolarChartSpec> extends PolarChart<T> {
   protected needAxes(): boolean {
     return false;
   }
@@ -30,7 +31,7 @@ export class ProgressLikeChart extends PolarChart {
   }
 
   protected _transformProgressAxisSpec(
-    spec: any,
+    spec: T,
     angleAxisDefaultSpec: IPolarAxisSpec,
     radiusAxisDefaultSpec: IPolarAxisSpec,
     angleAxisAppendSpec?: Partial<IPolarAxisSpec>,

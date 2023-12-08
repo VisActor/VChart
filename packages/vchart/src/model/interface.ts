@@ -110,6 +110,7 @@ export interface IModel extends ICompilable {
   updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
   getSpec?: () => any;
   getSpecIndex: () => number;
+  getSpecPath: () => Array<string | number>;
 
   //布局周期
   onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
@@ -153,6 +154,7 @@ export interface IModelOption extends ICompilableInitOption {
   globalInstance: VChart;
   specIndex?: number;
   specKey?: string;
+  specPath?: Array<string | number>;
 
   getTheme?: () => ITheme;
   getChartLayoutRect: () => IRect;

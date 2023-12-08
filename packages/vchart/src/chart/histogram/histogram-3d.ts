@@ -3,8 +3,10 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import { BaseHistogramChart } from './base';
 import { Factory } from '../../core/factory';
+import type { IHistogram3dChartSpec } from './interface';
+import type { AdaptiveSpec } from '../..';
 
-export class Histogram3dChart extends BaseHistogramChart {
+export class Histogram3dChart<T extends IHistogram3dChartSpec> extends BaseHistogramChart<AdaptiveSpec<T, 'type'>> {
   static readonly type: string = ChartTypeEnum.histogram3d;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.histogram3d;

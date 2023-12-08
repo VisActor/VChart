@@ -6,7 +6,7 @@ import type { ICirclePackingChartSpec } from './interface';
 import { registerCirclePackingSeries } from '../../series/circle-packing/circle-packing';
 import { Factory } from '../../core/factory';
 
-export class CirclePackingChart extends BaseChart {
+export class CirclePackingChart<T extends ICirclePackingChartSpec = ICirclePackingChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.circlePacking;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.circlePacking;
@@ -33,7 +33,7 @@ export class CirclePackingChart extends BaseChart {
     return series;
   }
 
-  transformSpec(spec: ICirclePackingChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     /* 处理 series 配置 */

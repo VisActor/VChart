@@ -12,7 +12,9 @@ import { getLinearAxisSpecDomain } from '../../../component/axis/util';
 import { registerLinearProgressSeries } from '../../../series/progress/linear';
 import { Factory } from '../../../core/factory';
 
-export class LinearProgressChart extends CartesianChart {
+export class LinearProgressChart<
+  T extends ILinearProgressChartSpec = ILinearProgressChartSpec
+> extends CartesianChart<T> {
   static readonly type: string = ChartTypeEnum.linearProgress;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.linearProgress;
@@ -23,7 +25,7 @@ export class LinearProgressChart extends CartesianChart {
     return false;
   }
 
-  protected _getDefaultSeriesSpec(spec: ILinearProgressChartSpec): ILinearProgressChartSpec {
+  protected _getDefaultSeriesSpec(spec: T): ILinearProgressChartSpec {
     const series = super._getDefaultSeriesSpec(spec);
     return {
       ...series,
@@ -37,7 +39,7 @@ export class LinearProgressChart extends CartesianChart {
     };
   }
 
-  transformSpec(spec: ILinearProgressChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     if (!spec.axes) {

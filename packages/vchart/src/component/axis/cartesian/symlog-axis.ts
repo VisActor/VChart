@@ -17,6 +17,8 @@ export class CartesianSymlogAxis<
   static type = ComponentTypeEnum.cartesianSymlogAxis;
   type = ComponentTypeEnum.cartesianSymlogAxis;
 
+  static specKey = 'axes';
+
   protected _zero: boolean = false;
 
   protected _scale: SymlogScale = new SymlogScale();

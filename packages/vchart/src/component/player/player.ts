@@ -27,7 +27,9 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   layoutZIndex: number = LayoutZIndex.Player;
   layoutLevel: number = LayoutLevel.Player;
 
+  static specKey = 'player';
   specKey: string = 'player';
+
   static type = ComponentTypeEnum.player;
   type = ComponentTypeEnum.player;
   protected _orient: IOrientType = 'bottom';
@@ -53,11 +55,14 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   }
 
   static createComponent = (spec: IChartSpec, options: IComponentOption) => {
-    const playerSpec = spec.player as IPlayer;
+    const playerSpec = spec[this.specKey] as IPlayer;
     if (isNil(playerSpec) || playerSpec.visible === false) {
       return null;
     }
-    return new Player(playerSpec, options);
+    return new Player(playerSpec, {
+      ...options,
+      specPath: [this.specKey]
+    });
   };
 
   /**

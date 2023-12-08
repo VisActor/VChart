@@ -4,11 +4,13 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { AttributeLevel, LayoutZIndex, STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant';
 import type { MarkType } from '../../mark/interface';
+// eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { getSeries } from '../../util/model';
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar-core';
+// eslint-disable-next-line no-duplicate-imports
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { textAttribute } from './util';
 import { BaseLabelComponent } from './base-label';
@@ -21,6 +23,9 @@ export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
   type = ComponentTypeEnum.totalLabel;
   name: string = ComponentTypeEnum.totalLabel;
+
+  static specKey = 'totalLabel';
+  specKey = 'totalLabel';
 
   layoutZIndex: number = LayoutZIndex.Label;
 

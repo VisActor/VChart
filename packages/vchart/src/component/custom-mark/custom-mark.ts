@@ -17,6 +17,9 @@ export class CustomMark extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;
   type = ComponentTypeEnum.customMark;
 
+  static specKey = 'customMark';
+  specKey = 'customMark';
+
   layoutType: 'none' = 'none';
   layoutZIndex: number = LayoutZIndex.CustomMark;
   layoutLevel: number = LayoutLevel.CustomMark;
@@ -24,11 +27,17 @@ export class CustomMark extends BaseComponent<any> {
   protected declare _spec: (ICustomMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | ICustomMarkGroupSpec)[];
 
   static createComponent(spec: any, options: IComponentOption) {
-    const customMarkSpec = spec.customMark;
+    const customMarkSpec = spec[this.specKey];
     if (!customMarkSpec) {
       return null;
     }
-    return [new CustomMark(customMarkSpec, { ...options, specIndex: 0 })];
+    return [
+      new CustomMark(customMarkSpec, {
+        ...options,
+        specIndex: 0,
+        specPath: [this.specKey]
+      })
+    ];
   }
 
   created() {

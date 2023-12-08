@@ -110,7 +110,25 @@ const getSpec = (): IAreaChartSpec => ({
         el.appendChild(div);
       }
     }
-  }
+  },
+  media: [
+    {
+      query: {
+        maxWidth: 300
+      },
+      action: {
+        filterType: 'legend' as any,
+        filter: {
+          visible: true,
+          orient: 'bottom'
+        },
+        spec: {
+          visible: false,
+          test: true
+        }
+      }
+    }
+  ]
 });
 
 const run = () => {

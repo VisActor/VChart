@@ -21,6 +21,9 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   type = ComponentTypeEnum.scrollBar;
   name: string = ComponentTypeEnum.scrollBar;
 
+  static specKey = 'scrollBar';
+  specKey = 'scrollBar';
+
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
   layoutType: ILayoutType = 'region-relative';
@@ -29,16 +32,25 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   protected _component!: ScrollBarComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const compSpec = spec.scrollBar;
+    const compSpec = spec[this.specKey];
     if (isNil(compSpec)) {
       return undefined;
     }
     if (!isArray(compSpec)) {
-      return new ScrollBar(compSpec, options);
+      return new ScrollBar(compSpec, {
+        ...options,
+        specPath: [this.specKey]
+      });
     }
     const zooms: ScrollBar[] = [];
     compSpec.forEach((s, i: number) => {
-      zooms.push(new ScrollBar(s, { ...options, specIndex: i }));
+      zooms.push(
+        new ScrollBar(s, {
+          ...options,
+          specIndex: i,
+          specPath: [this.specKey, i]
+        })
+      );
     });
     return zooms;
   }

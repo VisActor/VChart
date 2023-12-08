@@ -26,6 +26,9 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   type = ComponentTypeEnum.dataZoom;
   name: string = ComponentTypeEnum.dataZoom;
 
+  static specKey = 'dataZoom';
+  specKey = 'dataZoom';
+
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
   layoutType: ILayoutType = 'region-relative';
@@ -41,16 +44,25 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _endHandlerSize!: number;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const compSpec = spec.dataZoom;
+    const compSpec = spec[this.specKey];
     if (isNil(compSpec)) {
       return undefined;
     }
     if (!isArray(compSpec)) {
-      return new DataZoom(compSpec, options);
+      return new DataZoom(compSpec, {
+        ...options,
+        specPath: [this.specKey]
+      });
     }
     const zooms: DataZoom[] = [];
     compSpec.forEach((s, i: number) => {
-      zooms.push(new DataZoom(s, { ...options, specIndex: i }));
+      zooms.push(
+        new DataZoom(s, {
+          ...options,
+          specIndex: i,
+          specPath: [this.specKey, i]
+        })
+      );
     });
     return zooms;
   }

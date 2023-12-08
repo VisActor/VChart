@@ -8,7 +8,7 @@ import type { IMapSeriesSpec } from '../../series/map/interface';
 import type { ISeriesSpec } from '../../typings/spec';
 import { Factory } from '../../core/factory';
 
-export class MapChart extends BaseChart {
+export class MapChart<T extends IMapChartSpec = IMapChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.map;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.map;
@@ -41,14 +41,14 @@ export class MapChart extends BaseChart {
     return type === SeriesTypeEnum.map;
   }
 
-  transformSpec(spec: IMapChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     spec.region.forEach((r: IRegionSpec) => {
       r.coordinate = 'geo';
     });
 
-    const defaultSeriesSpec = this._getDefaultSeriesSpec(spec as IMapChartSpec);
+    const defaultSeriesSpec = this._getDefaultSeriesSpec(spec);
     if (!spec.series || spec.series.length === 0) {
       spec.series = [defaultSeriesSpec];
     } else {

@@ -6,28 +6,28 @@ import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBarChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 
-export class BarChart extends CartesianChart {
+export class BarChart<T extends IBarChartSpec = IBarChartSpec> extends CartesianChart<T> {
   static readonly type: string = ChartTypeEnum.bar;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.bar;
   readonly seriesType: string = SeriesTypeEnum.bar;
   protected _canStack: boolean = true;
 
-  protected _getDefaultSeriesSpec(spec: any): any {
+  protected _getDefaultSeriesSpec(spec: T): any {
     return {
       ...super._getDefaultSeriesSpec(spec),
-      barWidth: (<IBarChartSpec>spec).barWidth,
-      barMaxWidth: (<IBarChartSpec>spec).barMaxWidth,
-      barMinWidth: (<IBarChartSpec>spec).barMinWidth,
-      barGapInGroup: (<IBarChartSpec>spec).barGapInGroup,
-      barMinHeight: (<IBarChartSpec>spec).barMinHeight,
+      barWidth: spec.barWidth,
+      barMaxWidth: spec.barMaxWidth,
+      barMinWidth: spec.barMinWidth,
+      barGapInGroup: spec.barGapInGroup,
+      barMinHeight: spec.barMinHeight,
       sampling: spec.sampling,
       samplingFactor: spec.samplingFactor,
-      barBackground: (<IBarChartSpec>spec).barBackground
+      barBackground: spec.barBackground
     };
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     setDefaultCrosshairForCartesianChart(spec);
   }

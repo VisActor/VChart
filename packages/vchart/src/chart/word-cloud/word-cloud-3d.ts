@@ -4,8 +4,11 @@ import type { IWordCloud3dChartSpec } from './interface';
 import { BaseWordCloudChart } from './base';
 import { registerWordCloud3dSeries, registerWordCloudShape3dSeries } from '../../series/word-cloud/word-cloud-3d';
 import { Factory } from '../../core/factory';
+import type { AdaptiveSpec } from '../..';
 
-export class WordCloud3dChart extends BaseWordCloudChart {
+export class WordCloud3dChart<T extends IWordCloud3dChartSpec = IWordCloud3dChartSpec> extends BaseWordCloudChart<
+  AdaptiveSpec<T, 'type' | 'series'>
+> {
   static readonly type: string = ChartTypeEnum.wordCloud3d;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.wordCloud3d;

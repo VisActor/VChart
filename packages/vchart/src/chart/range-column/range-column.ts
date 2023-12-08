@@ -7,13 +7,13 @@ import type { IRangeColumnChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { registerRangeColumnSeries } from '../../series/range-column/range-column';
 
-export class RangeColumnChart extends CartesianChart {
+export class RangeColumnChart<T extends IRangeColumnChartSpec = IRangeColumnChartSpec> extends CartesianChart<T> {
   static readonly type: string = ChartTypeEnum.rangeColumn;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.rangeColumn;
   readonly seriesType: string = SeriesTypeEnum.rangeColumn;
 
-  protected _getDefaultSeriesSpec(spec: any): any {
+  protected _getDefaultSeriesSpec(spec: T): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
       barGapInGroup: (spec as IRangeColumnChartSpec).barGapInGroup,
@@ -28,7 +28,7 @@ export class RangeColumnChart extends CartesianChart {
     return series;
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     setDefaultCrosshairForCartesianChart(spec);
   }

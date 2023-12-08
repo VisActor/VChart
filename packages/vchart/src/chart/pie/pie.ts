@@ -4,8 +4,9 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import { BasePieChart } from './base';
 import { Factory } from '../../core/factory';
+import type { IPieChartSpec } from './interface';
 
-export class PieChart extends BasePieChart {
+export class PieChart<T extends IPieChartSpec = IPieChartSpec> extends BasePieChart<T> {
   static readonly type: string = ChartTypeEnum.pie;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.pie;

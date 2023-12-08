@@ -38,6 +38,9 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
 
+  static specKey = 'markLine';
+  specKey = 'markLine';
+
   layoutZIndex: number = LayoutZIndex.MarkLine;
 
   protected declare _theme: IMarkLineTheme;
@@ -46,17 +49,26 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
   private _isXYLayout: boolean;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markLineSpec = spec.markLine;
+    const markLineSpec = spec[this.specKey];
     if (isEmpty(markLineSpec)) {
       return undefined;
     }
     if (!isArray(markLineSpec) && markLineSpec.visible !== false) {
-      return new MarkLine(markLineSpec, { ...options });
+      return new MarkLine(markLineSpec, {
+        ...options,
+        specPath: [this.specKey]
+      });
     }
     const markLines: MarkLine[] = [];
     markLineSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markLines.push(new MarkLine(m, { ...options, specIndex: i }));
+        markLines.push(
+          new MarkLine(m, {
+            ...options,
+            specIndex: i,
+            specPath: [this.specKey, i]
+          })
+        );
       }
     });
     return markLines;

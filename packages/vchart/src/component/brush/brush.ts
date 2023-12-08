@@ -35,6 +35,9 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   type = ComponentTypeEnum.brush;
   name: string = ComponentTypeEnum.brush;
 
+  static specKey = 'brush';
+  specKey = 'brush';
+
   layoutZIndex: number = LayoutZIndex.Brush;
 
   // brush组件
@@ -86,13 +89,18 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   }
 
   static createComponent(spec: any, options: IComponentOption) {
-    const brushSpec = spec.brush;
+    const brushSpec = spec[this.specKey];
     // brush不支持数组的形式配置
     if (isNil(brushSpec) || brushSpec.visible === false) {
       return undefined;
     }
 
-    return [new Brush(brushSpec, options)];
+    return [
+      new Brush(brushSpec, {
+        ...options,
+        specPath: [this.specKey]
+      })
+    ];
   }
 
   created() {

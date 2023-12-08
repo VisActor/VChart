@@ -3,8 +3,9 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import { BaseFunnelChart } from './base';
 import { Factory } from '../../core/factory';
+import type { IFunnelChartSpec } from './interface';
 
-export class FunnelChart extends BaseFunnelChart {
+export class FunnelChart<T extends IFunnelChartSpec = IFunnelChartSpec> extends BaseFunnelChart<T> {
   static readonly type: string = ChartTypeEnum.funnel;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.funnel;

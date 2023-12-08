@@ -51,6 +51,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   type = ComponentTypeEnum.cartesianAxis;
   name: string = ComponentTypeEnum.cartesianAxis;
 
+  static specKey = 'axes';
+
   protected readonly _defaultBandPosition = 0.5;
   protected readonly _defaultBandInnerPadding = 0.1;
   protected readonly _defaultBandOuterPadding = 0.3;
@@ -131,7 +133,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (regions.find(r => r.coordinate !== 'cartesian')) {
       return null;
     }
-    let axesSpec = spec[CartesianAxis.specKey];
+    const axesSpec = spec[this.specKey];
     if (!axesSpec) {
       return null;
     }
@@ -141,7 +143,14 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       if (!isValidCartesianAxis(axesSpec)) {
         return null;
       }
-      return CartesianAxis.createAxis(axesSpec, options, isHorizontal);
+      return CartesianAxis.createAxis(
+        axesSpec,
+        {
+          ...options,
+          specPath: [this.specKey]
+        },
+        isHorizontal
+      );
     }
     // 处理spec
     const zAxis = axesSpec.filter(s => s.orient === 'z')[0];
@@ -152,20 +161,23 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       // 必须有x和y，且x必须是bottom
       valid = axesSpec.length === 3 && xAxis && yAxis;
     }
+
+    let axesSpecList = axesSpec.map((spec, index) => ({ spec, index }));
     if (!valid) {
-      axesSpec = axesSpec.filter(s => s.orient !== 'z');
+      axesSpecList = axesSpecList.filter(({ spec }) => spec.orient !== 'z');
     }
     const axes: IAxis[] = [];
-    axesSpec.forEach((s: any, i: any) => {
-      if (!isValidCartesianAxis(s)) {
+    axesSpecList.forEach(({ spec, index }) => {
+      if (!isValidCartesianAxis(spec)) {
         return;
       }
       axes.push(
         CartesianAxis.createAxis(
-          s,
+          spec,
           {
             ...options,
-            specIndex: i
+            specIndex: index,
+            specPath: [this.specKey, index]
           },
           isHorizontal
         ) as IAxis

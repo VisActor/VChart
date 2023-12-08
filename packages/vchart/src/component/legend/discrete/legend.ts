@@ -27,14 +27,14 @@ import type { ILayoutRect } from '../../../typings/layout';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static specKey = 'legends';
-  specKey: string = 'legends';
+
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
   protected declare _theme: IDiscreteLegendTheme;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const legendSpec = spec.legends;
+    const legendSpec = spec[this.specKey];
     if (!legendSpec) {
       return undefined;
     }
@@ -42,7 +42,8 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       if (!legendSpec.type || legendSpec.type === 'discrete') {
         return new DiscreteLegend(legendSpec, {
           ...options,
-          specIndex: 0
+          specIndex: 0,
+          specPath: [this.specKey]
         });
       }
       return undefined;
@@ -50,7 +51,13 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     const legends: ILegend[] = [];
     legendSpec.forEach((s: IDiscreteLegendSpec, i: number) => {
       if (!s.type || s.type === 'discrete') {
-        legends.push(new DiscreteLegend(s, { ...options, specIndex: i }));
+        legends.push(
+          new DiscreteLegend(s, {
+            ...options,
+            specIndex: i,
+            specPath: [this.specKey, i]
+          })
+        );
       }
     });
     return legends;

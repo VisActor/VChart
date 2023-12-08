@@ -39,6 +39,9 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
 
+  static specKey = 'label';
+  specKey = 'label';
+
   layoutZIndex: number = LayoutZIndex.Label;
 
   protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;

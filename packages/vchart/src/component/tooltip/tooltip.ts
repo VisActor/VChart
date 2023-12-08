@@ -53,21 +53,33 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
 
+  static specKey = 'tooltip';
+  specKey = 'tooltip';
+
   layoutType: 'none' = 'none';
 
   protected declare _spec: ITooltipSpec;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const tooltipSpec = spec.tooltip;
+    const tooltipSpec = spec[this.specKey];
     if (!tooltipSpec) {
       return null;
     }
     if (!isArray(tooltipSpec)) {
-      return new Tooltip(tooltipSpec, options);
+      return new Tooltip(tooltipSpec, {
+        ...options,
+        specPath: [this.specKey]
+      });
     }
     const tooltips: Tooltip[] = [];
     tooltipSpec.forEach((s: any, i: number) => {
-      tooltips.push(new Tooltip(s, { ...options, specIndex: i }));
+      tooltips.push(
+        new Tooltip(s, {
+          ...options,
+          specIndex: i,
+          specPath: [this.specKey, i]
+        })
+      );
     });
     return tooltips;
   }

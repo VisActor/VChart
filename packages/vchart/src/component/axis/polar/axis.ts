@@ -39,6 +39,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   type = ComponentTypeEnum.polarAxis;
   name: string = ComponentTypeEnum.polarAxis;
 
+  static specKey = 'axes';
+
   protected readonly _defaultBandPosition = 0;
   protected readonly _defaultBandInnerPadding = 0;
   protected readonly _defaultBandOuterPadding = 0;
@@ -105,7 +107,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   static createComponent(spec: any, options: IComponentOption) {
-    const axesSpec = spec.axes;
+    const axesSpec = spec[this.specKey];
     if (!axesSpec) {
       return null;
     }
@@ -116,7 +118,10 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       axesSpec.center = spec.center;
       axesSpec.startAngle = spec.startAngle ?? POLAR_START_ANGLE;
       axesSpec.endAngle = spec.endAngle ?? (isValid(spec.startAngle) ? spec.startAngle + 360 : POLAR_END_ANGLE);
-      return PolarAxis.createAxis(axesSpec, options);
+      return PolarAxis.createAxis(axesSpec, {
+        ...options,
+        specPath: [this.specKey]
+      });
     }
     const axes: IPolarAxis[] = [];
     let angleAxes: IPolarAxis;
@@ -132,7 +137,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       s.outerRadius = s.radius ?? spec.outerRadius ?? spec.radius ?? POLAR_DEFAULT_RADIUS;
       const polarAxes = PolarAxis.createAxis(s, {
         ...options,
-        specIndex: i
+        specIndex: i,
+        specPath: [this.specKey, i]
       }) as IPolarAxis;
       axes.push(polarAxes);
       if (s.orient === 'radius') {

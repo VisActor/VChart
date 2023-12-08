@@ -6,7 +6,7 @@ import { BaseWordCloudChart } from './base';
 import { registerWordCloudSeries, registerWordCloudShapeSeries } from '../../series/word-cloud/word-cloud';
 import { Factory } from '../../core/factory';
 
-export class WordCloudChart extends BaseWordCloudChart {
+export class WordCloudChart<T extends IWordCloudChartSpec = IWordCloudChartSpec> extends BaseWordCloudChart<T> {
   static readonly type: string = ChartTypeEnum.wordCloud;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.wordCloud;

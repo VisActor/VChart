@@ -6,13 +6,13 @@ import type { ICorrelationChartSpec } from './interface';
 import type { ICorrelationSeriesSpec } from '../../series/correlation/interface';
 import { Factory } from '../../core/factory';
 
-export class CorrelationChart extends BaseChart {
+export class CorrelationChart<T extends ICorrelationChartSpec = ICorrelationChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.correlation;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.correlation;
   readonly seriesType: string = SeriesTypeEnum.correlation;
 
-  protected _getDefaultSeriesSpec(spec: ICorrelationChartSpec): any {
+  protected _getDefaultSeriesSpec(spec: T): any {
     const series: ICorrelationSeriesSpec = {
       ...super._getDefaultSeriesSpec(spec),
       categoryField: spec.categoryField,
@@ -41,7 +41,7 @@ export class CorrelationChart extends BaseChart {
     return series;
   }
 
-  transformSpec(spec: ICorrelationChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     /* 处理 series 配置 */

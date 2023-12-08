@@ -6,14 +6,15 @@ import { ChartTypeEnum } from '../interface/type';
 import { RoseLikeChart } from '../polar/rose-like';
 import { array, isNil, mergeSpec } from '../../util';
 import { Factory } from '../../core/factory';
+import type { IRoseChartSpec } from './interface';
 
-export class RoseChart extends RoseLikeChart {
+export class RoseChart<T extends IRoseChartSpec = IRoseChartSpec> extends RoseLikeChart<T> {
   static readonly type: string = ChartTypeEnum.rose;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.rose;
   readonly seriesType: string = SeriesTypeEnum.rose;
 
-  protected _getDefaultSeriesSpec(spec: any): any {
+  protected _getDefaultSeriesSpec(spec: T): any {
     return {
       ...super._getDefaultSeriesSpec(spec),
       radius: spec.radius ?? POLAR_DEFAULT_RADIUS,
@@ -26,7 +27,7 @@ export class RoseChart extends RoseLikeChart {
     };
   }
 
-  transformSpec(spec: any) {
+  transformSpec(spec: T) {
     super.transformSpec(spec);
     //默认不显示轴
     (spec.axes ?? []).forEach((axis: IPolarAxisSpec) => {

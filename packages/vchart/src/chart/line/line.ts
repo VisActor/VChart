@@ -6,7 +6,7 @@ import type { ILineChartSpec } from './interface';
 import { registerLineSeries } from '../../series/line/line';
 import { Factory } from '../../core/factory';
 
-export class LineChart extends CartesianChart {
+export class LineChart<T extends ILineChartSpec> extends CartesianChart<T> {
   static readonly type: string = ChartTypeEnum.line;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.line;
@@ -14,7 +14,7 @@ export class LineChart extends CartesianChart {
 
   protected _canStack: boolean = true;
 
-  protected _getDefaultSeriesSpec(spec: ILineChartSpec): any {
+  protected _getDefaultSeriesSpec(spec: T): any {
     return {
       ...super._getDefaultSeriesSpec(spec),
       point: spec.point,
@@ -29,7 +29,7 @@ export class LineChart extends CartesianChart {
       lineLabel: spec.lineLabel
     };
   }
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     setDefaultCrosshairForCartesianChart(spec);
   }

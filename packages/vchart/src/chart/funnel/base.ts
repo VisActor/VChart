@@ -3,14 +3,14 @@ import type { ISeriesSpec } from '../../typings/spec';
 import type { IFunnelChartSpec } from './interface';
 import { BaseChart } from '../base-chart';
 
-export class BaseFunnelChart extends BaseChart {
+export class BaseFunnelChart<T extends IFunnelChartSpec> extends BaseChart<T> {
   seriesType: string;
 
   protected needAxes(): boolean {
     return false;
   }
 
-  protected _getDefaultSeriesSpec(spec: IFunnelChartSpec): IFunnelSeriesSpec {
+  protected _getDefaultSeriesSpec(spec: T): IFunnelSeriesSpec {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
 
@@ -42,7 +42,7 @@ export class BaseFunnelChart extends BaseChart {
 
     return series;
   }
-  transformSpec(spec: IFunnelChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     const defaultSeriesSpec = this._getDefaultSeriesSpec(spec);

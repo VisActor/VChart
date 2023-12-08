@@ -4,17 +4,19 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { BaseChart } from '../base-chart';
 import { ChartTypeEnum } from '../interface/type';
 import type { ITreemapChartSpec } from './interface';
-import { VChart } from '../../core/vchart';
-import { TreemapSeries, registerTreemapSeries } from '../../series/treemap/treemap';
+import { registerTreemapSeries } from '../../series/treemap/treemap';
 import { Factory } from '../../core/factory';
+import type { AdaptiveSpec } from '../..';
 
-export class TreemapChart extends BaseChart {
+export class TreemapChart<T extends ITreemapChartSpec = ITreemapChartSpec> extends BaseChart<
+  AdaptiveSpec<T, 'data' | 'series'>
+> {
   static readonly type: string = ChartTypeEnum.treemap;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.treemap;
   readonly seriesType: string = SeriesTypeEnum.treemap;
 
-  protected getDefaultSeriesSpec(spec: ITreemapChartSpec): any {
+  protected getDefaultSeriesSpec(spec: T): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
       categoryField: spec.categoryField,

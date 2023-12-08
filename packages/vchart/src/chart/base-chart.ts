@@ -34,7 +34,7 @@ import type { ICartesianSeries, ISeries } from '../series/interface';
 import type { IRegion } from '../region/interface';
 import { ComponentTypeEnum } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
-import type { IComponent } from '../component/interface';
+import type { IComponent, IComponentConstructor } from '../component/interface';
 import { MarkTypeEnum, type IMark } from '../mark/interface';
 import type { IEvent } from '../event/interface';
 import type { DataView } from '@visactor/vdataset';
@@ -73,17 +73,17 @@ import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../data/initialize';
 
-export class BaseChart extends CompilableBase implements IChart {
+export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
 
   readonly id: number = createID();
 
   //FIXME: 转换后的 spec 需要声明 ITransformedChartSpec
-  protected _spec: any;
+  protected _spec: T;
   getSpec() {
     return this._spec;
   }
-  setSpec(s: any) {
+  setSpec(s: T) {
     // TODO 通过spec设置进行图表更新
     this.transformSpec(s);
     this._spec = s;
@@ -178,7 +178,7 @@ export class BaseChart extends CompilableBase implements IChart {
   // background
   protected _backgroundMark: IRectMark;
 
-  constructor(spec: any, option: IChartOption) {
+  constructor(spec: T, option: IChartOption) {
     super(option);
     this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme().padding);
 
@@ -217,7 +217,7 @@ export class BaseChart extends CompilableBase implements IChart {
     this._createComponents(this._spec);
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     if (!spec.region || spec.region.length === 0) {
       spec.region = [{}];
     }
@@ -295,7 +295,8 @@ export class BaseChart extends CompilableBase implements IChart {
     regionSpec.forEach((s, i) => {
       const region = Factory.createRegion('region', s, {
         ...this._modelOption,
-        specIndex: i
+        specIndex: i,
+        specPath: ['region', i]
       });
       if (region) {
         region.created();
@@ -329,6 +330,7 @@ export class BaseChart extends CompilableBase implements IChart {
         type: spec.type,
         region,
         specIndex: index,
+        specPath: ['series', index],
         globalScale: this._globalScale,
         sourceDataList: this._chartData.dataList
       });
@@ -348,7 +350,7 @@ export class BaseChart extends CompilableBase implements IChart {
     return this._series.find(x => x.id === id);
   }
 
-  private _createComponent(Component: any, spec: any) {
+  private _createComponent(Component: IComponentConstructor, spec: T) {
     const component = Component.createComponent(spec, {
       ...this._modelOption,
       type: Component.type,
@@ -383,7 +385,7 @@ export class BaseChart extends CompilableBase implements IChart {
     return true;
   }
 
-  private _createComponents(spec: any) {
+  private _createComponents(spec: T) {
     const components = Factory.getComponents();
     // 坐标轴组件只需要调用一次
     let cartesianAxis;
@@ -466,7 +468,7 @@ export class BaseChart extends CompilableBase implements IChart {
       // 判断是否使用3d的layout
       let use3dLayout = false;
       // 查找是否需要使用3d布局模块
-      if (this._spec.zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
+      if ((this._spec as any).zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
         use3dLayout = true;
       }
       const constructor = Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base'));
@@ -795,7 +797,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
   }
 
-  updateSpec(spec: any) {
+  updateSpec(spec: T, skipTransformSpec?: boolean) {
     const result = {
       change: false,
       reMake: false,
@@ -812,7 +814,9 @@ export class BaseChart extends CompilableBase implements IChart {
       return result;
     }
     // transform
-    this.transformSpec(spec);
+    if (!skipTransformSpec) {
+      this.transformSpec(spec);
+    }
     // spec set & transformSpec
     // diff meta length;
     const currentKeys = Object.keys(this._spec).sort();
@@ -1105,7 +1109,7 @@ export class BaseChart extends CompilableBase implements IChart {
       m.release();
     });
     this._components = this._regions = this._series = [];
-    this._spec = {};
+    this._spec = {} as any;
     // FIXME: type lint
     this._dataSet = this._globalScale = this._layoutFunc = null as unknown as any;
     this._layoutTag = false;

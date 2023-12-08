@@ -94,6 +94,9 @@ import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
 import { mergeTheme, preprocessTheme } from '../util/spec';
 import { darkTheme, registerTheme } from '../theme/builtin';
+import { MediaQuery } from '../media-query/media-query';
+import { IMediaQuerySpec } from '../media-query/interface';
+import { isSameMediaQuerySpec } from '../media-query/util';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -301,6 +304,9 @@ export class VChart implements IVChart {
 
   private _context: any = {}; // 存放用户在model初始化前通过实例方法传入的配置等
   private _isReleased: boolean;
+
+  private _mediaQuery: MediaQuery;
+  private _mediaQuerySpec: IMediaQuerySpec;
 
   constructor(spec: ISpec, options: IInitOption) {
     this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
@@ -572,32 +578,18 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   renderSync(morphConfig?: IMorphConfig) {
-    if (!this._chart) {
-      this._option.performanceHook?.beforeInitializeChart?.();
-      this._initChart(this._spec);
-      this._option.performanceHook?.afterInitializeChart?.();
-      if (!this._chart || !this._compiler) {
-        return this as unknown as IVChart;
-      }
-      // 先compile
-      this._option.performanceHook?.beforeCompileToVGrammar?.();
-      this._compiler.compile({ chart: this._chart, vChart: this }, { performanceHook: this._option.performanceHook });
-      this._option.performanceHook?.afterCompileToVGrammar?.();
+    const self = this as unknown as IVChart;
+
+    // 先compile
+    if (!this._createChartAndCompile()) {
+      return self;
     }
     // 最后填充数据绘图
     this._compiler?.renderSync(morphConfig);
 
-    if (this._option.animation) {
-      this._chart?.getAllRegions().forEach(region => {
-        region.animate?.updateAnimateState(AnimationStateEnum.update, true);
-      });
-      this._chart?.getAllComponents().forEach(component => {
-        component.animate?.updateAnimateState(AnimationStateEnum.update, true);
-      });
-    }
-
+    this._updateAnimateState();
     this._event.emit(ChartEvent.rendered, {});
-    return this as unknown as IVChart;
+    return self;
   }
 
   /**
@@ -606,28 +598,45 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   async renderAsync(morphConfig?: IMorphConfig) {
+    const self = this as unknown as IVChart;
     if (this._isReleased) {
-      return this as unknown as IVChart;
+      return self;
     }
-    if (!this._chart) {
-      this._option.performanceHook?.beforeInitializeChart?.();
-      this._initChart(this._spec);
-      this._option.performanceHook?.afterInitializeChart?.();
-      if (!this._chart || !this._compiler) {
-        return this as unknown as IVChart;
-      }
-      // 先compile
-      this._option.performanceHook?.beforeCompileToVGrammar?.();
-      this._compiler.compile({ chart: this._chart, vChart: this }, { performanceHook: this._option.performanceHook });
-      this._option.performanceHook?.afterCompileToVGrammar?.();
+
+    // 先compile
+    if (!this._createChartAndCompile()) {
+      return self;
     }
     // 最后填充数据绘图
     await this._compiler?.renderAsync(morphConfig);
 
     if (this._isReleased) {
-      return this as unknown as IVChart;
+      return self;
     }
 
+    this._updateAnimateState();
+    this._event.emit(ChartEvent.rendered, {});
+    return self;
+  }
+
+  private _createChartAndCompile(): boolean {
+    if (!this._chart) {
+      this._option.performanceHook?.beforeInitializeChart?.();
+      this._initChart(this._spec);
+      this._option.performanceHook?.afterInitializeChart?.();
+      if (!this._chart || !this._compiler) {
+        return false;
+      }
+      this._initMediaQuery();
+
+      this._option.performanceHook?.beforeCompileToVGrammar?.();
+      this._compiler.compile({ chart: this._chart, vChart: this }, { performanceHook: this._option.performanceHook });
+      this._option.performanceHook?.afterCompileToVGrammar?.();
+    }
+    return true;
+  }
+
+  private _updateAnimateState() {
     if (this._option.animation) {
       this._chart?.getAllRegions().forEach(region => {
         region.animate?.updateAnimateState(AnimationStateEnum.update, true);
@@ -636,9 +645,6 @@ export class VChart implements IVChart {
         component.animate?.updateAnimateState(AnimationStateEnum.update, true);
       });
     }
-
-    this._event.emit(ChartEvent.rendered, {});
-    return this as unknown as IVChart;
   }
 
   /**
@@ -1029,9 +1035,13 @@ export class VChart implements IVChart {
     if (chartCanvasRect && chartCanvasRect.width === width && chartCanvasRect.height === height) {
       return this as unknown as IVChart;
     }
+
+    this._mediaQuery?.resize(width, height);
+
     this._option.performanceHook?.beforeResizeWithUpdate?.();
     this._chart.onResize(width, height);
     this._option.performanceHook?.afterResizeWithUpdate?.();
+
     await this._compiler.resize?.(width, height);
 
     if (this._isReleased) {
@@ -1760,6 +1770,23 @@ export class VChart implements IVChart {
    */
   getFunctionList() {
     return ExpressionFunction.instance().getFunctionNameList();
+  }
+
+  private _initMediaQuery() {
+    if (isSameMediaQuerySpec(this._mediaQuerySpec, this._spec.media)) {
+      return;
+    }
+    this._mediaQuerySpec = this._spec.media;
+    if (this._mediaQuery) {
+      this._mediaQuery.release();
+    }
+    if (this._mediaQuerySpec) {
+      this._mediaQuery = new MediaQuery(this._mediaQuerySpec, {
+        globalInstance: this,
+        eventDispatcher: this._eventDispatcher!,
+        mode: this._option.mode || RenderModeEnum['desktop-browser']
+      });
+    }
   }
 }
 

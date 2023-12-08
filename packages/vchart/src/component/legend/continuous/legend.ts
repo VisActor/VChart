@@ -35,7 +35,7 @@ export class ContinuousLegend<
   T extends IColorLegendSpec | ISizeLegendSpec = IColorLegendSpec | ISizeLegendSpec
 > extends BaseLegend<T> {
   static specKey = 'legends';
-  specKey: string = 'legends';
+
   static type = ComponentTypeEnum.continuousLegend;
   type = ComponentTypeEnum.colorLegend;
   name: string = ComponentTypeEnum.colorLegend;
@@ -46,7 +46,7 @@ export class ContinuousLegend<
   private _legendType: string;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const legendSpec = spec.legends;
+    const legendSpec = spec[this.specKey];
     if (!legendSpec) {
       return undefined;
     }
@@ -55,7 +55,8 @@ export class ContinuousLegend<
         return new ContinuousLegend(legendSpec, {
           ...options,
           type: legendSpec.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend,
-          specIndex: 0
+          specIndex: 0,
+          specPath: [this.specKey]
         });
       }
 
@@ -68,6 +69,7 @@ export class ContinuousLegend<
           new ContinuousLegend(s, {
             ...options,
             specIndex: i,
+            specPath: [this.specKey, i],
             type: s.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend
           })
         );

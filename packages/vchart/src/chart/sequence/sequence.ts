@@ -1,5 +1,5 @@
-import { LinkSeries, registerLinkSeries } from '../../series/link/link';
-import { DotSeries, registerDotSeries } from '../../series/dot/dot';
+import { registerLinkSeries } from '../../series/link/link';
+import { registerDotSeries } from '../../series/dot/dot';
 import type { IGridLayoutSpec } from '../../layout/interface';
 import { BaseChart } from '../base-chart';
 import type { ISequenceChartSpec, ISequenceSeriesSpec } from './interface';
@@ -16,7 +16,7 @@ import { array } from '@visactor/vutils';
 import { normalizeLayoutPaddingSpec } from '../../util';
 import { IFilterMode } from '../../component/data-zoom/constant';
 
-export class SequenceChart extends BaseChart {
+export class SequenceChart<T extends ISequenceChartSpec = ISequenceChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sequence;
   static readonly view: string = 'singleDefault'; // csj-Q: view是什么含义
   readonly type: string = ChartTypeEnum.sequence;
@@ -25,7 +25,7 @@ export class SequenceChart extends BaseChart {
    * @override
    * @description 主要是处理布局逻辑 & 部分仅针对sequenceChart的特殊属性
    */
-  transformSpec(spec: ISequenceChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     // 初始化目标属性
@@ -316,6 +316,7 @@ export class SequenceChart extends BaseChart {
         type: spec.type,
         region,
         specIndex: index,
+        specPath: ['series', index],
         specKey: 'series',
         globalScale: this._globalScale
       } as ISeriesOption);
@@ -337,7 +338,7 @@ export class SequenceChart extends BaseChart {
     return componentSpec;
   }
 
-  private _getSeriesDataLength(spec: any, seriesSpec: any) {
+  private _getSeriesDataLength(spec: T, seriesSpec: any) {
     if (seriesSpec.data) {
       const _d = array(seriesSpec.data)[0];
       if (_d instanceof DataView) {

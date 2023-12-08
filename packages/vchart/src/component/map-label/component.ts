@@ -30,6 +30,9 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
   type = ComponentTypeEnum.mapLabel;
   name: string = ComponentTypeEnum.mapLabel;
 
+  static specKey = 'mapLabel';
+  specKey = 'mapLabel';
+
   layoutType: 'none' = 'none';
 
   layoutZIndex = LayoutZIndex.MarkPoint;
@@ -48,11 +51,14 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
 
   static createComponent(spec: any, options: IComponentOption) {
     // TODO: 限制mapSeries使用
-    const labelSpec = spec.mapLabel;
+    const labelSpec = spec[this.specKey];
     if (!labelSpec || !labelSpec.visible || isValid(labelSpec.series)) {
       return null;
     }
-    return new MapLabelComponent(labelSpec, options);
+    return new MapLabelComponent(labelSpec, {
+      ...options,
+      specPath: [this.specKey]
+    });
   }
 
   setAttrFromSpec(): void {

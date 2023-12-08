@@ -50,7 +50,6 @@ interface ICrosshairInfo {
 
 export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
   static specKey = 'crosshair';
-  specKey: string = 'crosshair';
 
   static type = ComponentTypeEnum.polarCrosshair;
   type = ComponentTypeEnum.polarCrosshair;
@@ -70,20 +69,29 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
   private _angleLabelCrosshair: Tag;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const crosshairSpec = spec.crosshair;
+    const crosshairSpec = spec[this.specKey];
     if (isNil(crosshairSpec)) {
       return undefined;
     }
     if (!isArray(crosshairSpec)) {
       if (crosshairSpec.categoryField || crosshairSpec.valueField) {
-        return new PolarCrossHair(crosshairSpec, options);
+        return new PolarCrossHair(crosshairSpec, {
+          ...options,
+          specPath: [this.specKey]
+        });
       }
       return undefined;
     }
     const components: PolarCrossHair[] = [];
     crosshairSpec.forEach((s: IPolarCrosshairSpec, i: number) => {
       if (s.categoryField || s.valueField) {
-        components.push(new PolarCrossHair(s, { ...options, specIndex: i }));
+        components.push(
+          new PolarCrossHair(s, {
+            ...options,
+            specIndex: i,
+            specPath: [this.specKey, i]
+          })
+        );
       }
     });
     return components;

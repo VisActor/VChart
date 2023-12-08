@@ -18,6 +18,9 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
   static type = ComponentTypeEnum.title;
   type = ComponentTypeEnum.title;
 
+  static specKey = 'title';
+  specKey = 'title';
+
   layoutType: ILayoutType = 'normal';
   layoutZIndex: number = LayoutZIndex.Title;
   layoutLevel: number = LayoutLevel.Title;
@@ -44,17 +47,26 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
   }
 
   static createComponent(spec: any, options: IComponentOption) {
-    const titleSpec = spec.title;
+    const titleSpec = spec[this.specKey];
     if (!titleSpec || titleSpec.visible === false) {
       return null;
     }
     if (!isArray(titleSpec)) {
-      return new Title(titleSpec, options);
+      return new Title(titleSpec, {
+        ...options,
+        specPath: [this.specKey]
+      });
     }
     const titles: Title[] = [];
     titleSpec.forEach((s: any, i: number) => {
       if (s.visible !== false) {
-        titles.push(new Title(s, { ...options, specIndex: i }));
+        titles.push(
+          new Title(s, {
+            ...options,
+            specIndex: i,
+            specPath: [this.specKey, i]
+          })
+        );
       }
     });
     return titles;

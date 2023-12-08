@@ -1,0 +1,131 @@
+import type { IChart } from '../../chart/interface';
+import type { ComponentTypeEnum, SimplifiedComponentTypeEnum } from '../../component/interface';
+import type { IModel } from '../../model/interface';
+import type { RenderMode } from '../../typings/spec/common';
+import type { IVChart } from '../../core';
+import type { IContainerSize } from '@visactor/vrender-components';
+import type { SeriesTypeEnum } from '../../series';
+
+/**
+ * 媒体查询配置（包含多项查询）
+ * @since 1.8.0
+ */
+export type IMediaQuerySpec = IMediaQueryItem[];
+
+/** 媒体查询配置（表示一项查询）*/
+export interface IMediaQueryItem {
+  /** 媒体查询条件 */
+  query: IMediaQueryCondition;
+  /** 命中媒体查询条件之后的动作 */
+  action: MediaQueryAction | MediaQueryAction[];
+}
+
+/** 媒体查询条件，多个属性之间为“且”关系 */
+export interface IMediaQueryCondition {
+  /** 最小图表宽度 */
+  minWidth?: number;
+  /** 最大图表宽度 */
+  maxWidth?: number;
+  /** 最小图表高度 */
+  minHeight?: number;
+  /** 最大图表高度 */
+  maxHeight?: number;
+  /** 渲染环境，默认为全部 */
+  mode?: RenderMode | RenderMode[];
+  /** 主题亮暗模式 */
+  themeMode?: 'light' | 'dark';
+  /** 当图表宽度或高度发生变化时触发的回调，由回调指定是否命中查询条件 */
+  onResize?: (size: IContainerSize, vchart: IVChart) => boolean;
+  /** 当图表更新时触发的回调，由回调指定是否命中查询条件 */
+  onUpdate?: (spec: any, vchart: IVChart) => boolean;
+}
+
+export type MediaQueryAction = IMediaQueryAction | MediaQueryActionCallback;
+
+/** 命中媒体查询条件之后的动作 */
+export interface IMediaQueryAction<T extends Record<string, unknown> = any> {
+  /**
+   * 需要应用的新 spec
+   * - 如果元素过滤器匹配到了某些图表元素，新 spec 将依次合并到这些元素
+   * - 如果元素过滤器没有匹配到任何图表元素，新 spec 可能会作为新的图表元素添加到图表（forceAppend 为 true 的情况）。
+   *
+   * 有两种配置类型：
+   * - 直接指定新 spec
+   * - 使用回调的方式返回新 spec
+   */
+  spec:
+    | Partial<T>
+    | ((
+        /** filter 匹配到的图表元素实例 */
+        filteredElements: (IModel | IChart)[],
+        /** 当前 action 对象 */
+        action: IMediaQueryAction<T>,
+        /** 当前媒体查询条件 */
+        query: IMediaQueryCondition
+      ) => Partial<T>);
+  /**
+   * 元素过滤器类型
+   * （规定 filter 需要过滤的元素类型，以及新 spec 对应的元素类型）
+   * @default 'chart'
+   */
+  filterType?: MediaQueryActionFilterType;
+  /**
+   * 元素过滤器
+   * （如果不配置，则匹配 filterType 对应的所有元素）
+   *
+   * 有两种配置类型：
+   * - 配置为元素 spec 的一部分，在过滤图表元素时基于此 spec 进行模糊匹配
+   * - 配置为函数回调，依次决定当前 filterType 类型下的每个元素实例是否被匹配
+   */
+  filter?: MediaQueryActionFilter<T>;
+  /**
+   * 元素过滤器匹配不到图表元素时，是否将新 spec 作为新的图表元素添加到图表
+   * （filterType 为 'chart' 时该配置失效）
+   * @default false
+   */
+  forceAppend?: boolean;
+}
+
+/**
+ * 自定义 action 回调
+ * @param type 当前查询是从失效转换为生效（'active'），还是生效转换为失效（'inactive'）
+ * @param query 当前媒体查询条件
+ * @param specDraft 当前图表 spec（可能已经经过别的 action 处理）
+ * @param vchart VChart 实例
+ * @returns 经过修改的图表 spec，如果返回空值，则不会更新 spec
+ */
+export type MediaQueryActionCallback = (
+  type: 'active' | 'inactive',
+  query: IMediaQueryCondition,
+  specDraft: any,
+  vchart: IVChart
+) => any;
+
+/**
+ * 元素过滤器类型
+ */
+export type MediaQueryActionFilterType =
+  | 'region'
+  | 'series'
+  | 'chart'
+  | SeriesTypeEnum
+  | ComponentTypeEnum
+  | SimplifiedComponentTypeEnum;
+
+/**
+ * 元素过滤器
+ *
+ * 有两种配置类型：
+ * - 配置为元素 spec 的一部分，在过滤图表元素时基于此 spec 进行模糊匹配
+ * - 配置为函数回调，依次决定当前 filterType 类型下的每个元素实例是否被匹配
+ */
+export type MediaQueryActionFilter<T extends Record<string, unknown> = any> =
+  | Partial<T>
+  | ((
+      /** 当前图表元素实例 */
+      element: IModel | IChart,
+      /** 当前 action 对象 */
+      action: IMediaQueryAction<T>,
+      /** 当前媒体查询条件 */
+      query: IMediaQueryCondition
+    ) => boolean);

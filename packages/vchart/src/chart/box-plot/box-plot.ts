@@ -4,11 +4,10 @@ import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBoxPlotChartSpec } from './interface';
-import { VChart } from '../../core/vchart';
-import { BoxPlotSeries, registerBoxplotSeries } from '../../series/box-plot/box-plot';
+import { registerBoxplotSeries } from '../../series/box-plot/box-plot';
 import { Factory } from '../../core/factory';
 
-export class BoxPlotChart extends CartesianChart {
+export class BoxPlotChart<T extends IBoxPlotChartSpec = IBoxPlotChartSpec> extends CartesianChart<T> {
   static readonly type: string = ChartTypeEnum.boxPlot;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.boxPlot;
@@ -33,7 +32,7 @@ export class BoxPlotChart extends CartesianChart {
     return seriesSpec;
   }
 
-  transformSpec(spec: IBoxPlotChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     if (!spec.axes) {
       spec.axes = [

@@ -21,6 +21,9 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
 
+  static specKey = 'markArea';
+  specKey = 'markArea';
+
   layoutZIndex: number = LayoutZIndex.MarkArea;
 
   protected declare _theme: IMarkAreaTheme;
@@ -29,17 +32,26 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   protected declare _markerComponent: MarkAreaComponent;
 
   static createComponent(spec: any, options: IComponentOption) {
-    const markAreaSpec = spec.markArea;
+    const markAreaSpec = spec[this.specKey];
     if (isEmpty(markAreaSpec)) {
       return undefined;
     }
     if (!isArray(markAreaSpec) && markAreaSpec.visible !== false) {
-      return new MarkArea(markAreaSpec, options);
+      return new MarkArea(markAreaSpec, {
+        ...options,
+        specPath: [this.specKey]
+      });
     }
     const markAreas: MarkArea[] = [];
     markAreaSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markAreas.push(new MarkArea(m, { ...options, specIndex: i }));
+        markAreas.push(
+          new MarkArea(m, {
+            ...options,
+            specIndex: i,
+            specPath: [this.specKey, i]
+          })
+        );
       }
     });
     return markAreas;

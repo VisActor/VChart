@@ -8,13 +8,13 @@ import type { ISunburstChartSpec } from './interface';
 import { POLAR_START_ANGLE } from '../../constant';
 import { Factory } from '../../core/factory';
 
-export class SunburstChart extends BaseChart {
+export class SunburstChart<T extends ISunburstChartSpec = ISunburstChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sunburst;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.sunburst;
   readonly seriesType: string = SeriesTypeEnum.sunburst;
 
-  protected getDefaultSeriesSpec(spec: ISunburstChartSpec) {
+  protected getDefaultSeriesSpec(spec: T) {
     // 开始角度默认使用用户配置
     const startAngle = isValid(spec.startAngle) ? spec.startAngle : POLAR_START_ANGLE;
     // 结束角度默认使用用户的配置, 若用户没配置, 默认补成整圆.
@@ -52,7 +52,7 @@ export class SunburstChart extends BaseChart {
     return series;
   }
 
-  transformSpec(spec: ISunburstChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     /* 处理 series 配置 */

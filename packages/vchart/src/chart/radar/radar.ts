@@ -4,8 +4,9 @@ import { array, mergeSpec } from '../../util';
 import { ChartTypeEnum } from '../interface/type';
 import { RoseLikeChart } from '../polar/rose-like';
 import { Factory } from '../../core/factory';
+import type { IRoseChartSpec } from '../rose';
 
-export class RadarChart extends RoseLikeChart {
+export class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> extends RoseLikeChart<T> {
   static readonly type: string = ChartTypeEnum.radar;
   static readonly view: string = 'singleDefault';
   readonly type: string = ChartTypeEnum.radar;
@@ -33,7 +34,7 @@ export class RadarChart extends RoseLikeChart {
     };
   }
 
-  transformSpec(spec: any) {
+  transformSpec(spec: T) {
     super.transformSpec(spec);
     //默认不显示轴的domainLine和Tick
     (spec.axes ?? []).forEach((axis: any) => {
