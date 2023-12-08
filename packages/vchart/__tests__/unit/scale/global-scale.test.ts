@@ -288,7 +288,7 @@ describe('global-scale test', () => {
       })
     });
     chart = new CommonChart(
-      spec as unknown as IChartSpec,
+      spec as any,
       {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -443,7 +443,7 @@ describe('global-scale test', () => {
       })
     });
     chart = new CommonChart(
-      spec as unknown as IChartSpec,
+      spec as any,
       {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

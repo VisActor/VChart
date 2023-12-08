@@ -51,24 +51,27 @@ describe('treemap chart test', () => {
   });
 
   test('wordCloud chart init', () => {
-    const chart = new TreemapChart(spec, {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
-      globalInstance: {
-        getContainer: () => ({}),
-        getTooltipHandlerByUser: (() => undefined) as () => undefined
-      },
-      render: {} as any,
-      dataSet,
-      map: new Map(),
-      container: null,
-      mode: 'desktop-browser',
-      getCompiler: getTestCompiler,
-      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(),
-      onError: () => {}
-    } as any);
+    const chart = new TreemapChart(
+      spec as any,
+      {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
+        globalInstance: {
+          getContainer: () => ({}),
+          getTooltipHandlerByUser: (() => undefined) as () => undefined
+        },
+        render: {} as any,
+        dataSet,
+        map: new Map(),
+        container: null,
+        mode: 'desktop-browser',
+        getCompiler: getTestCompiler,
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        onError: () => {}
+      } as any
+    );
     chart.created();
     chart.init();
 
