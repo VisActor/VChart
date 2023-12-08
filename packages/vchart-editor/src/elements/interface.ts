@@ -34,6 +34,7 @@ export interface IElementData {
 
 export interface IElement {
   readonly isRendered: boolean;
+  readonly type: string;
   readonly id: string | number;
 
   pickable: boolean;
@@ -63,6 +64,7 @@ export interface IElement {
 
   // event
   getTargetWithPos?: (pos: IPoint) => IElementPathRoot;
+  getTargetWithPosBackup?: (pos: IPoint) => IElementPathRoot;
   getPosWithPath?: (path: IElementPathRoot) => IPoint;
 }
 

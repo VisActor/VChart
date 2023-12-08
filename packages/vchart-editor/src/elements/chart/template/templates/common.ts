@@ -30,11 +30,6 @@ export function getCommonSpec() {
     ],
     tooltip: {
       visible: true
-    },
-    title: {
-      id: 'title',
-      visible: true,
-      text: '标题'
     }
   };
 }

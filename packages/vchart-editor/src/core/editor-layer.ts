@@ -255,6 +255,11 @@ export class EditorLayer implements IEditorLayer {
         return path;
       }
     }
+    // 如果没有匹配到就使用 第一个 chart 的 第一个 region 做兜底 path
+    const chartEl = this._elements.find(e => e.type === 'chart');
+    if (chartEl) {
+      return chartEl.getTargetWithPosBackup(pos);
+    }
     return null;
   }
 

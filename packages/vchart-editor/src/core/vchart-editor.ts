@@ -349,7 +349,7 @@ export class VChartEditor {
 
   hightLightWithPos(pos: IPoint, boxKey: string, style?: any) {
     const path = this._layers[0]?.getPathWithPos?.(pos);
-    if (path) {
+    if (path && !path.isBackup) {
       this._hightLightBox.showBox(boxKey, style ? { ...path.rect, ...style } : path.rect);
     } else {
       this._hightLightBox.hiddenBox(boxKey);

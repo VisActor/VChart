@@ -236,6 +236,7 @@ export interface IElementPathRoot extends IElementPath {
   elementId: string | number;
   opt?: any;
   rect: IRect;
+  isBackup?: boolean;
 }
 
 export interface IElementPath {
