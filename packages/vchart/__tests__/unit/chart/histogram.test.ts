@@ -50,20 +50,23 @@ describe('histogram chart test', () => {
   });
 
   test('histogram chart init', () => {
-    const chart = new HistogramChart(spec, {
-      eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
-      globalInstance: {
-        getContainer: () => ({}),
-        getTooltipHandlerByUser: (() => undefined) as () => undefined
-      },
-      dataSet,
-      map: new Map(),
-      container: null,
-      mode: 'desktop-browser',
-      getCompiler: getTestCompiler,
-      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme()
-    } as any);
+    const chart = new HistogramChart(
+      spec as any,
+      {
+        eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
+        globalInstance: {
+          getContainer: () => ({}),
+          getTooltipHandlerByUser: (() => undefined) as () => undefined
+        },
+        dataSet,
+        map: new Map(),
+        container: null,
+        mode: 'desktop-browser',
+        getCompiler: getTestCompiler,
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        getTheme: () => ThemeManager.getCurrentTheme()
+      } as any
+    );
     chart.created();
     chart.init();
 
