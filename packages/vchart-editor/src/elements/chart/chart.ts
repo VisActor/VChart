@@ -11,7 +11,7 @@ import type {
 /* eslint-disable no-console */
 import { LayoutEditorElement } from './editor-elements/layout-editor';
 import { ChartLayout } from './layout/chart-layout';
-import { array, get, isArray, type IBoundsLike } from '@visactor/vutils';
+import { array, get, isArray, type IBoundsLike, isString } from '@visactor/vutils';
 import { VChart } from '@visactor/vchart';
 import type { ISpec, IVChart, IMarkAreaSpec, IMarkLineSpec } from '@visactor/vchart';
 import type { IRect, IPoint } from '../../typings/space';
@@ -63,6 +63,8 @@ export class EditorChart extends BaseElement {
   get event() {
     return this._event;
   }
+
+  private _isAxisInverseChange = false;
 
   constructor(opt: IChartElementOption) {
     super(opt);
@@ -180,6 +182,7 @@ export class EditorChart extends BaseElement {
     if (!this._vchart) {
       const chartSpec = this._specProcess.getVChartSpec();
       console.log('onSpecReady init chart', chartSpec);
+
       this._initVChart(chartSpec);
       // eslint-disable-next-line promise/catch-or-return
       this._vchart.renderSync();
@@ -187,6 +190,20 @@ export class EditorChart extends BaseElement {
     } else {
       const chartUpdateSpec = this._transformVchartSpec(this._specProcess.getVChartSpec());
       console.log('_updateVChartSpec', chartUpdateSpec);
+
+      if (this._vchart._spec.axes && chartUpdateSpec.axes) {
+        const isAxisInverse =
+          this._vchart._spec.direction === 'horizontal'
+            ? this._vchart._spec.axes.find(axis => axis.id === 'axis-bottom')?.inverse
+            : this._vchart._spec.axes.find(axis => axis.id === 'axis-left')?.inverse;
+        const updateAxisInverse =
+          chartUpdateSpec.direction === 'horizontal'
+            ? chartUpdateSpec.axes.find(axis => axis.id === 'axis-bottom')?.inverse
+            : chartUpdateSpec.axes.find(axis => axis.id === 'axis-left')?.inverse;
+
+        this._isAxisInverseChange = isAxisInverse !== updateAxisInverse;
+      }
+
       this._isRendered = false;
       // HACK: 屏蔽报错临时修改
       // eslint-disable-next-line promise/catch-or-return
@@ -195,21 +212,79 @@ export class EditorChart extends BaseElement {
       this._layout.resetAxisLayoutAfterTempChange();
       this._afterRender();
     }
+
+    console.log(this._vchart.getDataSet());
   }
 
   protected _afterRender() {
     this._layoutEditor?.checkCurrentEditorElementBounds();
 
     const spec = this._specProcess.getVChartSpec();
+
+    let reRender = false;
+    // 增长标注和层级差异标注，需要进行如下场景的调整：
+    // 轴是否反转，如果反转则需要调整标注的方向
+    if (this._isAxisInverseChange) {
+      // 说明设置过
+      const growthLines = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.growthLine);
+      const totalDiffLines = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.totalDiffLine);
+      if (spec.direction === 'horizontal') {
+        const xInverse = get(spec, 'axes', []).find(axis => axis.id === 'axis-bottom')?.inverse;
+        // 复合增长调整偏移
+        growthLines.forEach(line => {
+          reRender = true;
+          line.coordinatesOffset = line.coordinatesOffset.map(o => {
+            return {
+              x: isString(o.x) ? Number(o.x.substring(0, o.x.length - 1)) * -1 + '%' : o.x * -1,
+              y: o.y
+            };
+          });
+
+          return line;
+        });
+
+        // 总计差异调整链接方向
+        totalDiffLines.forEach(line => {
+          reRender = true;
+
+          line.connectDirection = xInverse === true ? 'left' : 'right';
+        });
+      } else {
+        const yInverse = get(spec, 'axes', []).find(axis => axis.id === 'axis-left')?.inverse;
+        // 复合增长调整偏移
+        growthLines.forEach(line => {
+          reRender = true;
+
+          line.coordinatesOffset = line.coordinatesOffset.map(o => {
+            return {
+              x: o.x,
+              y: isString(o.y) ? Number(o.y.substring(0, o.y.length - 1)) * -1 + '%' : o.y * -1
+            };
+          });
+
+          return line;
+        });
+
+        // 总计差异调整链接方向
+        totalDiffLines.forEach(line => {
+          reRender = true;
+
+          line.connectDirection = yInverse === true ? 'bottom' : 'top';
+        });
+      }
+    }
+
     // 如果是总计差异标注，则需要进行如下场景的调整：
     // 1. 是否与 label 冲撞
     // 2. 是否相同数据点存在不同方向的总计差异标注，存在则调整
     const totalDiffs = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.totalDiffLine);
     if (totalDiffs && totalDiffs.length) {
       this._growthMarkLineEditor?.autoAdjustTotalDiffLines();
-      // @ts-ignore
-      this._vchart.updateSpecSync(spec, false, false);
+      reRender = true;
     }
+
+    // @ts-ignore
+    reRender && this._vchart.updateSpecSync(spec, false, false);
     super._afterRender();
   }
 

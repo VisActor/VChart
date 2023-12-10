@@ -12,7 +12,7 @@ import {
 } from '@visactor/vchart';
 import { isValidNumber, type IPointLike, maxInArray, minInArray, median as visMedian, array } from '@visactor/vutils';
 import { MarkerTypeEnum } from '../interface';
-import type { IText } from '@visactor/vrender-core';
+import { type IText } from '@visactor/vrender-core';
 
 // TODO: 不同的标注需要给不同的 zIndex
 
@@ -407,8 +407,14 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
     endData[valueFieldInData] = 1;
   }
 
-  const offset = `${(isHorizontal ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE}%`;
+  const isXInverse = series.getXAxisHelper().isInverse();
+  const isYInverse = series.getYAxisHelper().isInverse();
 
+  const offset = `${
+    (isHorizontal ? (isXInverse ? -1 : 1) : isYInverse ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
+  }%`;
+
+  // const offset = `${(isHorizontal ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE}%`;
   return {
     id: uuidv4(),
     interactive: true,
@@ -539,6 +545,10 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
     expandDistance = region.getLayoutRect().width - Math.max(startX, endX);
     expandDistance = `${((expandDistance + 30) / region.getLayoutRect().width) * 100}%`;
   }
+
+  const isXInverse = series.getXAxisHelper().isInverse();
+  const isYInverse = series.getYAxisHelper().isInverse();
+
   return {
     id: uuidv4(),
     interactive: true,
@@ -644,13 +654,17 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
   }
 
   const { width, height } = series.getRegion().getLayoutRect();
+
+  const isXInverse = series.getXAxisHelper().isInverse();
+  const isYInverse = series.getYAxisHelper().isInverse();
+
   return {
     id: uuidv4(),
     interactive: true,
     name: MarkerTypeEnum.totalDiffLine,
     type: 'type-step',
     coordinates: [startData, endData],
-    connectDirection: isHorizontal ? 'right' : 'top',
+    connectDirection: isHorizontal ? (isXInverse ? 'left' : 'right') : isYInverse ? 'bottom' : 'top',
     expandDistance: isHorizontal
       ? `${(DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE / width) * 100}%`
       : `${(DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE / height) * 100}%`,
@@ -689,11 +703,11 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
       refX: -4,
       style: Object.assign({}, defaultSymbolStyle)
     },
-    _originValue_: [startData[valueFieldInData], endData[valueFieldInData]],
-    coordinatesOffset: [
-      adjustTotalDiffCoordinatesOffset(startData, series, chart),
-      adjustTotalDiffCoordinatesOffset(endData, series, chart)
-    ]
+    _originValue_: [startData[valueFieldInData], endData[valueFieldInData]]
+    // coordinatesOffset: [
+    //   adjustTotalDiffCoordinatesOffset(startData, series, chart),
+    //   adjustTotalDiffCoordinatesOffset(endData, series, chart)
+    // ]
   };
 }
 
@@ -928,6 +942,8 @@ export function adjustTotalDiffCoordinatesOffset(
       allLabelTexts = allLabelTexts.concat(label.getElementsByType('text') as IText[]);
     });
     const isHorizontal = series.direction === 'horizontal';
+    const isXInverse = series.getXAxisHelper().isInverse();
+    const isYInverse = series.getYAxisHelper().isInverse();
     const isStack = series.getStack();
     const datumPosition = {
       x: series.getXAxisHelper().dataToPosition(array(series.getSpec().xField).map(field => datum[field])),
@@ -944,7 +960,7 @@ export function adjustTotalDiffCoordinatesOffset(
           isDataSameInFields(datum, (text.attribute as any).data, fields) &&
           text.AABBBounds.y1 <= datumPosition.y &&
           text.AABBBounds.y2 >= datumPosition.y &&
-          text.AABBBounds.x2 > datumPosition.x
+          (isXInverse ? text.AABBBounds.x1 < datumPosition.x : text.AABBBounds.x2 > datumPosition.x)
       );
     } else {
       const fields = isStack
@@ -955,15 +971,19 @@ export function adjustTotalDiffCoordinatesOffset(
           isDataSameInFields(datum, (text.attribute as any).data, fields) &&
           text.AABBBounds.x1 <= datumPosition.x &&
           text.AABBBounds.x2 >= datumPosition.x &&
-          text.AABBBounds.y1 < datumPosition.y
+          (isYInverse ? text.AABBBounds.y2 > datumPosition.y : text.AABBBounds.y1 < datumPosition.y)
       );
     }
 
     if (matchLabels && matchLabels.length) {
       if (isHorizontal) {
-        offset.x = Math.max(...matchLabels.map(text => text.AABBBounds.x2)) - datumPosition.x;
+        offset.x = isXInverse
+          ? Math.min(...matchLabels.map(text => text.AABBBounds.x1)) - datumPosition.x
+          : Math.max(...matchLabels.map(text => text.AABBBounds.x2)) - datumPosition.x;
       } else {
-        offset.y = Math.min(...matchLabels.map(text => text.AABBBounds.y1)) - datumPosition.y;
+        offset.y = isYInverse
+          ? Math.max(...matchLabels.map(text => text.AABBBounds.y2)) - datumPosition.y
+          : Math.min(...matchLabels.map(text => text.AABBBounds.y1)) - datumPosition.y;
       }
     }
   }

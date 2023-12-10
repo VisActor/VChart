@@ -129,7 +129,6 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     }
 
     const series = this._getSeries();
-
     const dataPoints = this._getAnchorPoints();
     const lineShape = this._element.getLine();
     const editComponent = createGroup({
@@ -149,19 +148,17 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     editComponent.add(overlayLine);
 
     const relativeDataPoints: Point[] = [];
-    [(lineShape.attribute.points as Point[])[0], last(lineShape.attribute.points as Point[])].forEach(
-      (point, index) => {
-        const result = dataPoints.find((dataPoint: DataPoint) =>
-          SamePointApproximate(dataPoint, {
-            x: point.x + get(this._coordinateOffset[index], 'x', 0) * -1,
-            y: point.y + get(this._coordinateOffset[index], 'y', 0) * -1
-          })
-        );
-        if (result) {
-          relativeDataPoints.push(result);
-        }
+
+    // 根据 __VCHART_DEFAULT_DATA_KEY 来进行查找
+    const markerCoordinates = this._spec.coordinates;
+    markerCoordinates.forEach((coord: any) => {
+      const result = dataPoints.find(
+        (dataPoint: DataPoint) => dataPoint.data.__VCHART_DEFAULT_DATA_KEY === coord.__VCHART_DEFAULT_DATA_KEY
+      );
+      if (result) {
+        relativeDataPoints.push(result);
       }
-    );
+    });
 
     if (relativeDataPoints.length && relativeDataPoints.length === 2) {
       let startLinkLine;
@@ -683,24 +680,36 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       this._coordinateOffset = this._getCoordinateOffset();
     } else {
       const points = this._overlayLine.attribute.points;
+      const isXInverse = series.getXAxisHelper().isInverse();
+      const isYInverse = series.getYAxisHelper().isInverse();
       let offset;
       if (isHorizontal) {
         offset = `${
-          ((points[1].x -
-            Math.max(
-              this._overlayStartHandler.attribute.x + this._spec.coordinatesOffset[0].x,
-              this._overlayEndHandler.attribute.x + this._spec.coordinatesOffset[1].x
-            )) /
+          ((isXInverse
+            ? Math.min(
+                this._overlayStartHandler.attribute.x + this._spec.coordinatesOffset[0].x,
+                this._overlayEndHandler.attribute.x + this._spec.coordinatesOffset[1].x
+              ) - points[1].x
+            : points[1].x -
+              Math.max(
+                this._overlayStartHandler.attribute.x + this._spec.coordinatesOffset[0].x,
+                this._overlayEndHandler.attribute.x + this._spec.coordinatesOffset[1].x
+              )) /
             regionWidth) *
           100
         }%`;
       } else {
-        const relativeY = Math.min(
-          this._overlayStartHandler.attribute.y + this._spec.coordinatesOffset[0].y,
-          this._overlayEndHandler.attribute.y + this._spec.coordinatesOffset[1].y
-        );
+        const relativeY = isYInverse
+          ? Math.max(
+              this._overlayStartHandler.attribute.y + this._spec.coordinatesOffset[0].y,
+              this._overlayEndHandler.attribute.y + this._spec.coordinatesOffset[1].y
+            )
+          : Math.min(
+              this._overlayStartHandler.attribute.y + this._spec.coordinatesOffset[0].y,
+              this._overlayEndHandler.attribute.y + this._spec.coordinatesOffset[1].y
+            );
 
-        offset = `${((relativeY - points[1].y) / regionHeight) * 100}%`;
+        offset = `${((relativeY - points[1].y) / regionHeight) * (isYInverse ? -1 : 1) * 100}%`;
       }
       newMarkLineSpec = merge({}, this._spec, {
         expandDistance: offset
@@ -732,17 +741,24 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         source = vgrammarElements;
       }
 
+      const isXInverse = series.getXAxisHelper().isInverse();
+      const isYInverse = series.getYAxisHelper().isInverse();
+
       const dataPoints = source.map((element: any) => {
         const graphItem = element.getGraphicItem();
+        const graphData = array(element.data)[0];
+
+        if (series.direction === 'horizontal') {
+          return {
+            x: (isXInverse ? graphItem.attribute.x : graphItem.attribute.x + graphItem.attribute.width) + regionStartX,
+            y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+            data: graphData
+          };
+        }
+
         return {
-          x:
-            (series.direction === 'horizontal'
-              ? graphItem.attribute.x + graphItem.attribute.width
-              : graphItem.attribute.x + graphItem.attribute.width / 2) + regionStartX,
-          y:
-            (series.direction === 'horizontal'
-              ? graphItem.attribute.y + graphItem.attribute.height / 2
-              : graphItem.attribute.y) + regionStartY,
+          x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
+          y: (isYInverse ? graphItem.attribute.y + graphItem.attribute.height : graphItem.attribute.y) + regionStartY,
           data: array(element.data)[0]
         };
       });
