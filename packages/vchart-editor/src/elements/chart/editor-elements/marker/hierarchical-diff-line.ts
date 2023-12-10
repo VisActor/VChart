@@ -14,7 +14,12 @@ import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
 import { SamePointApproximate, SameValueApproximate } from '../../../../utils/space';
-import { STACK_FIELD_START_PERCENT, STACK_FIELD_END_PERCENT, STACK_FIELD_START } from '@visactor/vchart';
+import {
+  STACK_FIELD_START_PERCENT,
+  STACK_FIELD_END_PERCENT,
+  STACK_FIELD_START,
+  STACK_FIELD_END
+} from '@visactor/vchart';
 
 const START_LINK_HANDLER = 'overlay-hier-diff-mark-line-start-handler';
 const MIDDLE_LINK_HANDLER = 'overlay-hier-diff-mark-line-middle-handler';
@@ -404,34 +409,34 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       const rectMark = series.getMarkInName('bar');
       const vgrammarElements = rectMark.getProduct().elements;
       const dataPoints: DataPoint[] = [];
+
+      const isXInverse = series.getXAxisHelper().isInverse();
+      const isYInverse = series.getYAxisHelper().isInverse();
+
       if (isHorizontal) {
         vgrammarElements.forEach((element: any) => {
           const graphItem = element.getGraphicItem();
           const elementData = array(element.data)[0];
-
+          dataPoints.push({
+            x: (isXInverse ? graphItem.attribute.x : graphItem.attribute.x + graphItem.attribute.width) + regionStartX,
+            y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
+            data: elementData,
+            top: true
+          });
           if (isValid(elementData[STACK_FIELD_START])) {
-            dataPoints.push({
-              x: graphItem.attribute.x + graphItem.attribute.width + regionStartX,
-              y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
-              data: elementData,
-              top: true
-            });
             if (elementData[STACK_FIELD_START] === 0) {
               dataPoints.push({
-                x: graphItem.attribute.x + regionStartX,
+                x:
+                  (isXInverse ? graphItem.attribute.x + graphItem.attribute.width : graphItem.attribute.x) +
+                  regionStartX,
                 y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
                 data: elementData
               });
             }
           } else {
             dataPoints.push({
-              x: graphItem.attribute.x + graphItem.attribute.width + regionStartX,
-              y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
-              data: elementData,
-              top: true
-            });
-            dataPoints.push({
-              x: graphItem.attribute.x + regionStartX,
+              x:
+                (isXInverse ? graphItem.attribute.x + graphItem.attribute.width : graphItem.attribute.x) + regionStartX,
               y: graphItem.attribute.y + graphItem.attribute.height / 2 + regionStartY,
               data: elementData
             });
@@ -444,27 +449,35 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
           if (isValid(elementData[STACK_FIELD_START])) {
             dataPoints.push({
               x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-              y: graphItem.attribute.y + regionStartY,
+              y:
+                (isYInverse ? graphItem.attribute.y + graphItem.attribute.height : graphItem.attribute.y) +
+                regionStartY,
               data: elementData,
               top: true
             });
             if (elementData[STACK_FIELD_START] === 0) {
               dataPoints.push({
                 x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-                y: graphItem.attribute.y + graphItem.attribute.height + regionStartY,
+                y:
+                  (isYInverse ? graphItem.attribute.y : graphItem.attribute.y + graphItem.attribute.height) +
+                  regionStartY,
                 data: elementData
               });
             }
           } else {
             dataPoints.push({
               x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-              y: graphItem.attribute.y + regionStartY,
+              y:
+                (isYInverse ? graphItem.attribute.y + graphItem.attribute.height : graphItem.attribute.y) +
+                regionStartY,
               data: elementData,
               top: true
             });
             dataPoints.push({
               x: graphItem.attribute.x + graphItem.attribute.width / 2 + regionStartX,
-              y: graphItem.attribute.y + graphItem.attribute.height + regionStartY,
+              y:
+                (isYInverse ? graphItem.attribute.y : graphItem.attribute.y + graphItem.attribute.height) +
+                regionStartY,
               data: elementData
             });
           }
@@ -1182,7 +1195,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
       if (isPercent) {
         return data?.top ? data.data?.[STACK_FIELD_END_PERCENT] : data?.data?.[STACK_FIELD_START_PERCENT] ?? 0;
       }
-      return data?.top ? data?.data?.[valueField] : data?.data?.[STACK_FIELD_START] ?? 0;
+      return data?.top ? data?.data?.[STACK_FIELD_END] : data?.data?.[STACK_FIELD_START] ?? 0;
     }
 
     return data?.top ? data?.data?.[valueField] : 0;
