@@ -71,9 +71,6 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         label: {
           visible: true,
           autoRotate: false,
-          // formatMethod: (markData: any) => {
-          //   return isPercent ? `${(markData[0].y * 100).toFixed(0)}%` : parseInt(markData[0].y, 10);
-          // },
           text: isPercent ? '50%' : parseInt(`${average(seriesData, series.getSpec().yField)}`, 10),
           position: 'end',
           labelBackground: {
@@ -92,7 +89,6 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         _originValue_: isPercent ? 0.5 : average(seriesData, series.getSpec().yField)
       };
     }
-
     return {
       id: uuidv4(), // id 用于查找更新
       name: MarkerTypeEnum.horizontalLine,
@@ -147,9 +143,6 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         label: {
           visible: true,
           autoRotate: false,
-          // formatMethod: (markData: any) => {
-          //   return isPercent ? `${(markData[0].x * 100).toFixed(0)}%` : parseInt(markData[0].x, 10);
-          // },
           text: isPercent ? '50%' : parseInt(`${average(seriesData, series.getSpec().yField)}`, 10),
           position: 'end',
           labelBackground: {
@@ -407,12 +400,12 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
     endData[valueFieldInData] = 1;
   }
 
-  const isXInverse = series.getXAxisHelper().isInverse();
-  const isYInverse = series.getYAxisHelper().isInverse();
+  // const isXInverse = series.getXAxisHelper().isInverse();
+  // const isYInverse = series.getYAxisHelper().isInverse();
 
-  const offset = `${
-    (isHorizontal ? (isXInverse ? -1 : 1) : isYInverse ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
-  }%`;
+  // const offset = `${
+  //   (isHorizontal ? (isXInverse ? -1 : 1) : isYInverse ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
+  // }%`;
 
   // const offset = `${(isHorizontal ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE}%`;
   return {
@@ -451,16 +444,7 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
       refX: -4,
       style: Object.assign({}, defaultSymbolStyle)
     },
-    coordinatesOffset: [
-      {
-        x: isHorizontal ? offset : 0,
-        y: isHorizontal ? 0 : offset
-      },
-      {
-        x: isHorizontal ? offset : 0,
-        y: isHorizontal ? 0 : offset
-      }
-    ],
+    coordinatesOffset: getDefaultGrowthLineOffset(series),
     _originValue_: [startData[valueFieldInData], endData[valueFieldInData]]
   };
 }
@@ -989,4 +973,26 @@ export function adjustTotalDiffCoordinatesOffset(
   }
 
   return offset;
+}
+
+export function getDefaultGrowthLineOffset(series: ICartesianSeries) {
+  const isHorizontal = series.direction === 'horizontal';
+
+  const isXInverse = series.getXAxisHelper().isInverse();
+  const isYInverse = series.getYAxisHelper().isInverse();
+
+  const offset = `${
+    (isHorizontal ? (isXInverse ? -1 : 1) : isYInverse ? 1 : -1) * DEFAULT_OFFSET_FOR_GROWTH_MARKLINE
+  }%`;
+
+  return [
+    {
+      x: isHorizontal ? offset : 0,
+      y: isHorizontal ? 0 : offset
+    },
+    {
+      x: isHorizontal ? offset : 0,
+      y: isHorizontal ? 0 : offset
+    }
+  ];
 }

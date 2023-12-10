@@ -11,9 +11,10 @@ import type {
 /* eslint-disable no-console */
 import { LayoutEditorElement } from './editor-elements/layout-editor';
 import { ChartLayout } from './layout/chart-layout';
-import { array, get, isArray, type IBoundsLike, isString } from '@visactor/vutils';
-import { VChart } from '@visactor/vchart';
-import type { ISpec, IVChart, IMarkAreaSpec, IMarkLineSpec } from '@visactor/vchart';
+import type { IBoundsLike } from '@visactor/vutils';
+import { array, get, isArray, typeIBoundsLike, isString, AABBBounds, isValidNumber } from '@visactor/vutils';
+import { DEFAULT_DATA_KEY, STACK_FIELD_END, VChart } from '@visactor/vchart';
+import type { ISpec, IVChart, IMarkAreaSpec, IMarkLineSpec, ICartesianSeries } from '@visactor/vchart';
 import type { IRect, IPoint } from '../../typings/space';
 import { BaseElement } from '../base-element';
 import type { IChartLayout } from './layout/interface';
@@ -32,6 +33,7 @@ import { getDefaultMarkerConfigByType } from './utils/marker';
 import { IgnoreModelTypeInLayout, getChartModelWithModelInfo, transformModelRect } from './utils/layout';
 import { LayoutRectToRect, getLayoutLine, transformPointWithMatrix } from '../../utils/space';
 import { addRectToPathElement, getEndPathWithNode, getPosInClient } from '../../utils/element';
+import { getBarGraphicByDataKey } from './utils/common';
 
 export class EditorChart extends BaseElement {
   type = 'chart';
@@ -191,15 +193,16 @@ export class EditorChart extends BaseElement {
       const chartUpdateSpec = this._transformVchartSpec(this._specProcess.getVChartSpec());
       console.log('_updateVChartSpec', chartUpdateSpec);
 
+      // @ts-ignore
       if (this._vchart._spec.axes && chartUpdateSpec.axes) {
         const isAxisInverse =
-          this._vchart._spec.direction === 'horizontal'
-            ? this._vchart._spec.axes.find(axis => axis.id === 'axis-bottom')?.inverse
-            : this._vchart._spec.axes.find(axis => axis.id === 'axis-left')?.inverse;
+          (this._vchart as unknown as any)._spec.direction === 'horizontal'
+            ? (this._vchart as unknown as any)._spec.axes.find((axis: any) => axis.id === 'axis-bottom')?.inverse
+            : (this._vchart as unknown as any)._spec.axes.find((axis: any) => axis.id === 'axis-left')?.inverse;
         const updateAxisInverse =
-          chartUpdateSpec.direction === 'horizontal'
-            ? chartUpdateSpec.axes.find(axis => axis.id === 'axis-bottom')?.inverse
-            : chartUpdateSpec.axes.find(axis => axis.id === 'axis-left')?.inverse;
+          (chartUpdateSpec as any).direction === 'horizontal'
+            ? (chartUpdateSpec as any).axes.find((axis: any) => axis.id === 'axis-bottom')?.inverse
+            : (chartUpdateSpec as any).axes.find((axis: any) => axis.id === 'axis-left')?.inverse;
 
         this._isAxisInverseChange = isAxisInverse !== updateAxisInverse;
       }
@@ -220,20 +223,113 @@ export class EditorChart extends BaseElement {
     this._layoutEditor?.checkCurrentEditorElementBounds();
 
     const spec = this._specProcess.getVChartSpec();
+    const isHorizontal = (spec as any).direction === 'horizontal';
+    const growthLines = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.growthLine);
+    const totalDiffLines = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.totalDiffLine);
 
     let reRender = false;
+
+    // 处理柱图的最小高度调整引起的标注位置变化
+    const bars = array(get(spec, 'series', [])).filter(s => s.type === 'bar' && isValidNumber(s.barMinHeight));
+    if (bars && bars.length) {
+      // 需要调整复合增长标注、总计差异标注和层级差异标注
+      // TODO: 这里后续需要考虑多系列组合图的情况
+      const barSeries = this._vchart
+        .getChart()
+        .getAllSeries()
+        .find(series => series.type === 'bar') as ICartesianSeries;
+      const isXInverse = get(spec, 'axes', []).find((axis: any) => axis.id === 'axis-bottom')?.inverse;
+      const isYInverse = get(spec, 'axes', []).find((axis: any) => axis.id === 'axis-left')?.inverse;
+      const valueFieldInData = isHorizontal ? barSeries.getSpec().xField : barSeries.getSpec().yField;
+      const markLines = array(get(spec, 'markLine', [])).filter(
+        s =>
+          s.name === MarkerTypeEnum.growthLine ||
+          s.name === MarkerTypeEnum.hierarchyDiffLine ||
+          s.name === MarkerTypeEnum.totalDiffLine
+      );
+      if (isHorizontal) {
+        // 如果是水平柱图，需要调整 x 坐标偏移
+        markLines.forEach(line => {
+          const { coordinates } = line;
+
+          if (barSeries.getSpec().barMinHeight === 0) {
+            coordinates[0][valueFieldInData] = coordinates[0][STACK_FIELD_END];
+            coordinates[1][valueFieldInData] = coordinates[1][STACK_FIELD_END];
+            reRender = true;
+          } else {
+            const startDatumX = barSeries.dataToPositionX(coordinates[0]); // 实际的 y 坐标
+            const endDatumX = barSeries.dataToPositionX(coordinates[1]);
+
+            // 根据唯一键值查找对应的柱图图元
+            const startDatumKey = coordinates[0][DEFAULT_DATA_KEY];
+            const endDatumKey = coordinates[1][DEFAULT_DATA_KEY];
+
+            const startBarMark = getBarGraphicByDataKey(barSeries, startDatumKey);
+            const endBarMark = getBarGraphicByDataKey(barSeries, endDatumKey);
+
+            // 计算出柱图的高度
+            const startOffsetX = isXInverse ? startBarMark.AABBBounds.x1 : startBarMark.AABBBounds.x2;
+            const endOffsetX = isXInverse ? endBarMark.AABBBounds.x1 : endBarMark.AABBBounds.x2;
+
+            if (startOffsetX - startDatumX) {
+              coordinates[0][valueFieldInData] = barSeries.getXAxisHelper().getScale(0).invert(startOffsetX);
+              reRender = true;
+            }
+
+            if (endOffsetX - endDatumX) {
+              coordinates[1][valueFieldInData] = barSeries.getXAxisHelper().getScale(0).invert(endOffsetX);
+              reRender = true;
+            }
+          }
+        });
+      } else {
+        // 如果是 vertical 柱图，需要调整 y 坐标偏移
+        markLines.forEach(line => {
+          const { coordinates } = line;
+          if (barSeries.getSpec().barMinHeight === 0) {
+            coordinates[0][valueFieldInData] = coordinates[0][STACK_FIELD_END];
+            coordinates[1][valueFieldInData] = coordinates[1][STACK_FIELD_END];
+            reRender = true;
+          } else {
+            const startDatumY = barSeries.dataToPositionY(coordinates[0]); // 实际的 y 坐标
+            const endDatumY = barSeries.dataToPositionY(coordinates[1]);
+
+            // 根据唯一键值查找对应的柱图图元
+            const startDatumKey = coordinates[0][DEFAULT_DATA_KEY];
+            const endDatumKey = coordinates[1][DEFAULT_DATA_KEY];
+
+            const startBarMark = getBarGraphicByDataKey(barSeries, startDatumKey);
+            const endBarMark = getBarGraphicByDataKey(barSeries, endDatumKey);
+
+            // 计算出柱图的高度
+            const startOffsetY = isYInverse ? startBarMark.AABBBounds.y2 : startBarMark.AABBBounds.y1;
+            const endOffsetY = isYInverse ? endBarMark.AABBBounds.y2 : endBarMark.AABBBounds.y1;
+
+            if (startOffsetY - startDatumY) {
+              coordinates[0][valueFieldInData] = barSeries.getYAxisHelper().getScale(0).invert(startOffsetY);
+              reRender = true;
+            }
+
+            if (endOffsetY - endDatumY) {
+              coordinates[1][valueFieldInData] = barSeries.getYAxisHelper().getScale(0).invert(endOffsetY);
+              reRender = true;
+            }
+          }
+        });
+      }
+    }
+
     // 增长标注和层级差异标注，需要进行如下场景的调整：
     // 轴是否反转，如果反转则需要调整标注的方向
     if (this._isAxisInverseChange) {
       // 说明设置过
-      const growthLines = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.growthLine);
-      const totalDiffLines = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.totalDiffLine);
-      if (spec.direction === 'horizontal') {
-        const xInverse = get(spec, 'axes', []).find(axis => axis.id === 'axis-bottom')?.inverse;
+
+      if (isHorizontal) {
+        const xInverse = get(spec, 'axes', []).find((axis: any) => axis.id === 'axis-bottom')?.inverse;
         // 复合增长调整偏移
         growthLines.forEach(line => {
           reRender = true;
-          line.coordinatesOffset = line.coordinatesOffset.map(o => {
+          line.coordinatesOffset = line.coordinatesOffset.map((o: any) => {
             return {
               x: isString(o.x) ? Number(o.x.substring(0, o.x.length - 1)) * -1 + '%' : o.x * -1,
               y: o.y
@@ -250,12 +346,12 @@ export class EditorChart extends BaseElement {
           line.connectDirection = xInverse === true ? 'left' : 'right';
         });
       } else {
-        const yInverse = get(spec, 'axes', []).find(axis => axis.id === 'axis-left')?.inverse;
+        const yInverse = get(spec, 'axes', []).find((axis: any) => axis.id === 'axis-left')?.inverse;
         // 复合增长调整偏移
         growthLines.forEach(line => {
           reRender = true;
 
-          line.coordinatesOffset = line.coordinatesOffset.map(o => {
+          line.coordinatesOffset = line.coordinatesOffset.map((o: any) => {
             return {
               x: o.x,
               y: isString(o.y) ? Number(o.y.substring(0, o.y.length - 1)) * -1 + '%' : o.y * -1
@@ -277,8 +373,7 @@ export class EditorChart extends BaseElement {
     // 如果是总计差异标注，则需要进行如下场景的调整：
     // 1. 是否与 label 冲撞
     // 2. 是否相同数据点存在不同方向的总计差异标注，存在则调整
-    const totalDiffs = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.totalDiffLine);
-    if (totalDiffs && totalDiffs.length) {
+    if (totalDiffLines && totalDiffLines.length) {
       this._growthMarkLineEditor?.autoAdjustTotalDiffLines();
       reRender = true;
     }
