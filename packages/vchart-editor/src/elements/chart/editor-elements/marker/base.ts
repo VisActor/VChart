@@ -4,7 +4,6 @@ import type { IEditorElement } from '../../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from '../base-editor-element';
 import type { EventParams, ICartesianSeries, IComponent } from '@visactor/vchart';
 import { MarkerTypeEnum } from '../../interface';
-import { array, get } from '@visactor/vutils';
 
 export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEditorElement {
   readonly type: string = 'marker';
