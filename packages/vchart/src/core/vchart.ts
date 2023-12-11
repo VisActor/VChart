@@ -652,7 +652,6 @@ export class VChart implements IVChart {
     if (!this._chart) {
       // 初始化图表 spec
       this._initChartSpec(this._spec);
-
       // 初始化媒体查询
       this._initMediaQuery();
       // 触发首次媒体查询

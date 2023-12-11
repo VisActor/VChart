@@ -99,7 +99,7 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
 };
 
 export const getDataFilterTheme = (orient: IOrientType, type: ComponentTypeEnum, option: Partial<IModelOption>) => {
-  const theme = getComponentThemeFromOption(type, option);
+  const theme = getComponentThemeFromOption(type, option.getTheme());
   const directionTheme = theme[getDirectionByOrient(orient)];
   const finalTheme = mergeSpec({}, theme, directionTheme);
 
