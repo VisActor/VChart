@@ -5,7 +5,7 @@ import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
 import { isBoolean, isFunction, isString, substitute } from '@visactor/vutils';
-import { createText } from '@visactor/vrender/es/register';
+import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
 import { ARC_RATIO } from '../../constant';

@@ -1,4 +1,4 @@
-import type { RichTextWordBreak } from '@visactor/vrender';
+import type { RichTextWordBreak } from '@visactor/vrender-core';
 import type { StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components/es/core/type';
 

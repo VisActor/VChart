@@ -20,7 +20,7 @@ import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin, isNil } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 import { Factory } from '../../core/factory';
-import type { IGraphic } from '@visactor/vrender';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;

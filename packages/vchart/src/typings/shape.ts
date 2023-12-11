@@ -1,4 +1,4 @@
-import type { SymbolType } from '@visactor/vrender';
+import type { SymbolType } from '@visactor/vrender-core';
 
 export enum ShapeTypeEnum {
   circle = 'circle',

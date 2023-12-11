@@ -1,4 +1,4 @@
-import { ITextGraphicAttribute } from '@visactor/vrender/es/core';
+import { ITextGraphicAttribute } from '@visactor/vrender-core';
 
 export type CoordinateType = 'cartesian' | 'polar' | 'geo' | 'none';
 export type IOrientType = 'left' | 'top' | 'right' | 'bottom' | 'z';

@@ -28,7 +28,7 @@ import type { ISeries } from '../../../series/interface';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipResult } from '../interface/common';
-import type { IGroup } from '@visactor/vrender';
+import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isNumber, isObject, isValidNumber, isValid, throttle, isNil } from '@visactor/vutils';

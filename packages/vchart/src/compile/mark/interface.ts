@@ -19,7 +19,7 @@ import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { IRegion } from '../../region/interface';
-import type { ICustomPath2D } from '@visactor/vrender';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 export interface ICompilableMarkOption extends GrammarItemInitOption {
   key?: string | ((datum: Datum) => string);

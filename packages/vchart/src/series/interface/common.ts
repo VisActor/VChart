@@ -9,7 +9,7 @@ import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from './type';
-import type { ICustomPath2D } from '@visactor/vrender';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 // export type SeriesStyle = 'color' | 'size' | 'shape';
 

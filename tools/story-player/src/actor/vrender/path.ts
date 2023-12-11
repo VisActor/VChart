@@ -1,6 +1,6 @@
 import type { IPath, IPathGraphicAttribute } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
-import { createPath } from '@visactor/vrender/es/core';
+import { createPath } from '@visactor/vrender-core';
 import { VRenderActor } from './base';
 import { ActorType } from '../interface';
 

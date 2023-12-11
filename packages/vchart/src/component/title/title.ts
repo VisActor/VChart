@@ -11,7 +11,7 @@ import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
 import { Title as TitleComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { TitleAttrs } from '@visactor/vrender-components';
-import type { IGraphic, IGroup, INode } from '@visactor/vrender';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { isEqual, isArray, isValidNumber, pickWithout } from '@visactor/vutils';
 
 export class Title extends BaseComponent<ITitleSpec> implements ITitle {

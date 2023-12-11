@@ -54,7 +54,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { ICustomPath2D } from '@visactor/vrender';
+import type { ICustomPath2D } from '@visactor/vrender-core';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 

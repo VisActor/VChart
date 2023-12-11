@@ -9,7 +9,7 @@ import type { DataZoomAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
-import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender';
+import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
 import type { Datum, ILayoutType } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -337,10 +337,9 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
           isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
         }
         this._component.setStatePointToData((state: number) => this._statePointToData(state));
-        this._component.setUpdateStateCallback((start: number, end: number, tag?: string) => {
+        this._component.addEventListener('change', (start: number, end: number, tag?: string) => {
           this._handleChange(start, end, undefined, tag);
         });
-
         container.add(this._component as unknown as INode);
 
         this._updateScaleRange();

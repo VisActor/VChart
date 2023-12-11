@@ -1,8 +1,8 @@
 import type { ITextMeasureOption } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { TextMeasure } from '@visactor/vutils';
-import { ITextGraphicAttribute } from '@visactor/vrender/es/core';
-import { getTextBounds } from '@visactor/vrender/es/core';
+import { ITextGraphicAttribute } from '@visactor/vrender-core';
+import { getTextBounds } from '@visactor/vrender-core';
 
 export const initTextMeasure = (
   textSpec?: Partial<ITextGraphicAttribute>,

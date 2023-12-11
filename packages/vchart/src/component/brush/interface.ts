@@ -1,4 +1,4 @@
-import type { SymbolType } from '@visactor/vrender';
+import type { SymbolType } from '@visactor/vrender-core';
 import type { IPolygonMarkSpec } from '../../typings';
 import type { IComponent } from '../interface';
 import type { IDelayType } from '../../typings/event';

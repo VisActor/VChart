@@ -11,7 +11,7 @@ import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
 import { Factory } from '../../../core/factory';
-import type { IGroup } from '@visactor/vrender';
+import type { IGroup } from '@visactor/vrender-core';
 import type { IPoint } from '../../../typings';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {

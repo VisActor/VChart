@@ -15,7 +15,7 @@ import { ComponentMark, registerComponentMark, type IComponentMark } from '../..
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction } from '@visactor/vutils';
 import { isArray, isFunction, pickWithout } from '@visactor/vutils';
-import type { IGraphic, IGraphicAttribute, IGroup, IText } from '@visactor/vrender';
+import type { IGraphic, IGraphicAttribute, IGroup, IText } from '@visactor/vrender-core';
 import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';

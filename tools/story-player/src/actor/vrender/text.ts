@@ -1,5 +1,5 @@
 import type { IText, ITextGraphicAttribute } from '@visactor/vrender';
-import { createText } from '@visactor/vrender/es/register';
+import { createText } from '@visactor/vrender-core';
 import { VRenderActor } from './base';
 import { ActorType } from '../interface';
 

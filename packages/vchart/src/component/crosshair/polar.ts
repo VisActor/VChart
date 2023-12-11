@@ -23,7 +23,7 @@ import {
   isNil,
   clamp
 } from '@visactor/vutils';
-import type { IGraphic, IGroup, INode } from '@visactor/vrender';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { angleLabelOrientAttribute, radiusLabelOrientAttribute } from '../../util/math';
 import { limitTagInBounds } from './util';
 import { getAxisLabelOffset } from '../axis/util';

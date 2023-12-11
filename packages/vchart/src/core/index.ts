@@ -28,4 +28,4 @@ export * from '../typings/spec/index';
 export * from '../theme/index';
 
 // vrender
-export { vglobal } from '@visactor/vrender/es/core';
+export { vglobal } from '@visactor/vrender-core';

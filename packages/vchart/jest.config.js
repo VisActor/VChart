@@ -38,7 +38,6 @@ module.exports = {
     'd3-hexbin': path.resolve(__dirname, './node_modules/d3-hexbin/build/d3-hexbin.min.js'),
     'd3-hierarchy': path.resolve(__dirname, './node_modules/d3-hierarchy/dist/d3-hierarchy.min.js'),
     '@visactor/vutils-extension': path.resolve(__dirname, '../vutils-extension/src/index.ts'),
-    '@visactor/vrender/es/*': path.resolve(__dirname, './node_modules/@visactor/vrender')
   },
   setupFiles: ['./setup-mock.js']
 };

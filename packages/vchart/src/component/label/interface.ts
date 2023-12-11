@@ -2,7 +2,7 @@ import type { BaseLabelAttrs } from '@visactor/vrender-components';
 import type { ConvertToMarkStyleSpec, Datum, ITextMarkSpec } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { ISeries } from '../..';
-import type { IRichTextCharacter } from '@visactor/vrender';
+import type { IRichTextCharacter } from '@visactor/vrender-core';
 import type { ILabelMark } from '../../mark/label';
 
 export interface ILabelFormatMethodContext {

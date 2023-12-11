@@ -1,5 +1,5 @@
 import type { IPadding } from '@visactor/vutils';
-import type { SymbolType, IRichTextCharacter } from '@visactor/vrender';
+import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';

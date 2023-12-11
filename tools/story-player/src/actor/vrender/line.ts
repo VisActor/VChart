@@ -1,6 +1,6 @@
 import type { ILine, ILineGraphicAttribute } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
-import { createLine } from '@visactor/vrender/es/core';
+import { createLine } from '@visactor/vrender-core';
 import { VRenderActor } from './base';
 import { ActorType } from '../interface';
 

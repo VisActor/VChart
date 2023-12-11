@@ -12,7 +12,7 @@ import type {
 } from '../typings';
 import type { MarkTypeEnum } from '../mark/interface';
 import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';
-import type { IGradientColor } from '@visactor/vrender';
+import type { IGradientColor } from '@visactor/vrender-core';
 import type { IComponentTheme } from '../component/interface';
 
 export interface ITheme {

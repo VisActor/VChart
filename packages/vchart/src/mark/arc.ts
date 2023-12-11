@@ -7,7 +7,6 @@ import { BaseMark } from './base/base-mark';
 import type { IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerArc } from '@visactor/vrender';
 import { registerArcGraphic } from '@visactor/vgrammar-core';
 import { registerVGrammarArcAnimation } from '../animation/config';
 

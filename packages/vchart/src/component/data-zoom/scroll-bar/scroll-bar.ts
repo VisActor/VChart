@@ -7,7 +7,7 @@ import type { ScrollBarAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { ScrollBar as ScrollBarComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
-import type { IRectGraphicAttribute, INode, IGroup, IGraphic } from '@visactor/vrender';
+import type { IRectGraphicAttribute, INode, IGroup, IGraphic } from '@visactor/vrender-core';
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';

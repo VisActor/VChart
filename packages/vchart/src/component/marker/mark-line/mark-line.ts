@@ -22,7 +22,7 @@ import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
-import type { IGroup } from '@visactor/vrender';
+import type { IGroup } from '@visactor/vrender-core';
 import type { IDataPos } from '../interface';
 import type { IOptionRegr } from '../../../data/transforms/regression';
 // eslint-disable-next-line no-duplicate-imports

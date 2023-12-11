@@ -1,6 +1,6 @@
 import type { ICircle, ICircleGraphicAttribute } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
-import { createCircle } from '@visactor/vrender/es/core';
+import { createCircle } from '@visactor/vrender-core';
 import { VRenderActor } from './base';
 import { ActorType } from '../interface';
 

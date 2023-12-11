@@ -22,7 +22,7 @@ import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
-import type { Stage } from '@visactor/vrender';
+import type { Stage } from '@visactor/vrender-core';
 import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';

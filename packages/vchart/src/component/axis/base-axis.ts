@@ -1,7 +1,6 @@
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import { isContinuous } from '@visactor/vscale';
-import type { IGroup, IGraphic, IGraphicAttribute } from '@visactor/vrender';
+import type { IGroup, IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
 import type { IOrientType, IPolarOrientType, Datum, StringOrNumber, IGroup as ISeriesGroup } from '../../typings';
@@ -9,7 +8,7 @@ import { BaseComponent } from '../base/base-component';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
-import type { IAxis, ICommonAxisSpec, ITick, StatisticsDomain } from './interface';
+import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
 import { array, get, isArray, isBoolean, isFunction, isNil, isValid, maxInArray } from '@visactor/vutils';
 import { eachSeries, getSeries } from '../../util/model';
@@ -29,7 +28,7 @@ import {
 import { ComponentMark, registerComponentMark, type IComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
-import { GroupFadeOut } from '@visactor/vrender/es/core';
+import { GroupFadeOut } from '@visactor/vrender-core';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>

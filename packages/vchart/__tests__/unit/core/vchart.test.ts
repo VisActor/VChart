@@ -1,4 +1,4 @@
-import type { Group, Text } from '@visactor/vrender';
+import type { Group, Text } from '@visactor/vrender-core';
 import type { IBarChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
 import { createDiv, createCanvas, removeDom } from '../../util/dom';

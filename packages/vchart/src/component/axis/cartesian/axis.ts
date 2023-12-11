@@ -37,9 +37,9 @@ import type { DataSet } from '@visactor/vdataset';
 import { DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
-import type { IGraphic, IText } from '@visactor/vrender';
+import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import { createText } from '@visactor/vrender/es/register';
+import { createText } from '@visactor/vrender-core';
 
 const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
 

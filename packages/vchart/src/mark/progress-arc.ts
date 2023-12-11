@@ -8,8 +8,8 @@ import type { IMarkRaw, IMarkStateStyle, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import { BaseArcMark } from './arc';
 import type { IAttributeOpt } from '../compile/mark/interface';
-import { registerArc } from '@visactor/vrender';
 import { registerVGrammarArcAnimation } from '../animation/config';
+import { registerArcGraphic } from '@visactor/vgrammar-core';
 
 export type IProgressArcMark = IMarkRaw<IProgressArcMarkSpec>;
 
@@ -128,7 +128,7 @@ export class ProgressArcMark extends BaseArcMark<IProgressArcMarkSpec> implement
 }
 
 export const registerProgressArcMark = () => {
-  registerArc();
+  registerArcGraphic();
   registerVGrammarArcAnimation();
   Factory.registerMark(ProgressArcMark.constructorType, ProgressArcMark);
 };

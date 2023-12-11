@@ -11,7 +11,7 @@ import type { MarkTypeEnum } from '../../mark/interface';
 import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { ImageMark, registerImageMark } from '../../mark/image';
-import type { IGraphic } from '@visactor/vrender';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export class CustomMark extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;

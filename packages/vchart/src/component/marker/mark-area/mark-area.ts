@@ -12,7 +12,7 @@ import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
-import type { IGroup } from '@visactor/vrender';
+import type { IGroup } from '@visactor/vrender-core';
 import { Factory } from '../../../core/factory';
 import type { IPoint } from '../../../typings';
 

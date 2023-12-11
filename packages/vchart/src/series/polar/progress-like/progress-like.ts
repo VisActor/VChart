@@ -15,7 +15,7 @@ import { PolarSeries } from '../polar';
 import type { IContinuousTickData, IProgressLikeSeriesSpec } from './interface';
 import type { IPolarAxis, IPolarAxisSpec } from '../../../component/axis';
 import type { IGroupMark } from '../../../mark/group';
-import { createArc, createRect } from '@visactor/vrender/es/register';
+import { createArc, createRect } from '@visactor/vrender-core';
 import type { SeriesMarkMap } from '../../interface';
 import { progressLikeSeriesMark } from './constant';
 import { binaryFuzzySearch } from '@visactor/vutils-extension';
