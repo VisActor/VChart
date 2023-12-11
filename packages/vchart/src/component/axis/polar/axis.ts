@@ -586,6 +586,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     if (isValid(index)) {
       return this._option.getComponentByIndex(this.specKey, index) as IPolarAxis;
     }
+    return undefined;
   }
 
   private computeLayoutOuterRadius() {
