@@ -609,7 +609,7 @@ export class BaseChart extends CompilableBase implements IChart {
   };
 
   getComponentByIndex = (key: string, index: number) => {
-    const components = this._components.filter(c => (c.specKey ?? c.type) === key);
+    const components = this._components.filter(c => (c.specKey || c.type) === key);
     if (!components || components.length === 0) {
       return undefined;
     }
@@ -617,7 +617,7 @@ export class BaseChart extends CompilableBase implements IChart {
   };
 
   getComponentsByKey = (key: string) => {
-    return this._components.filter(c => (c.specKey ?? c.type) === key);
+    return this._components.filter(c => (c.specKey || c.type) === key);
   };
 
   getComponentByUserId = (userId: StringOrNumber) => {
@@ -898,7 +898,7 @@ export class BaseChart extends CompilableBase implements IChart {
       };
     } = {};
     this._components.forEach(c => {
-      const compSpecKey = c.specKey ?? c.type;
+      const compSpecKey = c.specKey || c.type;
       // 每一个组件获取对应的speck
       const cmpSpec = this._spec[compSpecKey] ?? {};
       if (isArray(cmpSpec)) {

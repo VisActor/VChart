@@ -82,9 +82,7 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
     return getComponentThemeFromGlobalTheme(this._option.type as ComponentTypeEnum, this._option, this._originalSpec);
   }
 
-  protected _mergeThemeToSpec() {
-    super._mergeThemeToSpec();
-
+  protected _adjustPadding() {
     // 默认忽略外侧 padding
     const { padding, noOuterPadding = true, orient } = this.getSpec();
     if (noOuterPadding && padding && orient) {
@@ -93,6 +91,11 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
         [orient]: 0
       };
     }
+  }
+
+  protected _mergeThemeToSpec() {
+    super._mergeThemeToSpec();
+    this._adjustPadding();
   }
 
   protected getContainer() {

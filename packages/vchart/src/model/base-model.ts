@@ -226,16 +226,8 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   /** 将 theme merge 到 spec 中 */
   protected _mergeThemeToSpec() {
     if (this._shouldMergeThemeToSpec()) {
-      const specFromChart = this._getDefaultSpecFromChart(this.getChart().getSpec());
-
-      // this._originalSpec + specFromChart + this._theme = this._spec
-      const merge = (originalSpec: any) =>
-        mergeSpec(
-          {},
-          this._theme,
-          this._prepareSpecBeforeMergingTheme(specFromChart),
-          this._prepareSpecBeforeMergingTheme(originalSpec)
-        );
+      // this._originalSpec + this._theme = this._spec
+      const merge = (originalSpec: any) => mergeSpec({}, this._theme, originalSpec);
 
       const baseSpec = this._originalSpec;
       if (isArray(baseSpec)) {
@@ -246,20 +238,9 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     }
   }
 
-  /** 从 chart spec 提取配置作为 model 的默认 spec 配置 */
-  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> {
-    return {};
-  }
-
   /** 是否在初始化时将 theme 自动 merge 到 spec */
   protected _shouldMergeThemeToSpec(): boolean {
     return true;
-  }
-
-  /** 在 merge 主题前对 spec 进行预处理 */
-  protected _prepareSpecBeforeMergingTheme(obj?: any): any {
-    // do nothing
-    return obj;
   }
 
   setCurrentTheme() {

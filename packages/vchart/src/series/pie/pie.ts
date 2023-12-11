@@ -513,25 +513,15 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       const specFromChart = this._getDefaultSpecFromChart(this.getChart().getSpec());
 
       // this._originalSpec + specFromChart + this._theme = this._spec
-      const merge = (originalSpec: any) => {
-        const chartSpec = this._prepareSpecBeforeMergingTheme(specFromChart);
-        const userSpec = this._prepareSpecBeforeMergingTheme(originalSpec);
+      // 动态处理 label 样式，对于展示在内部的 label 默认使用 innerLabel 样式
+      const result = mergeSpec({}, this._theme, specFromChart, this._originalSpec) as any;
+      if (result.label.position === 'inside') {
+        result.label = mergeSpec({}, this._theme.innerLabel, result.label);
+      } else {
+        result.label = mergeSpec({}, this._theme.outerLabel, result.label);
+      }
 
-        const labelSpec = mergeSpec({}, this._theme.label, chartSpec.label, userSpec.label) as IArcLabelSpec;
-        const labelTheme = mergeSpec(
-          {},
-          this._theme.label,
-          labelSpec.position === 'inside' ? this._theme.innerLabel : this._theme.outerLabel
-        );
-        const newTheme = {
-          ...this._theme,
-          label: labelTheme
-        } as IPieSeriesTheme;
-        return mergeSpec({}, newTheme, chartSpec, userSpec);
-      };
-
-      const baseSpec = this._originalSpec;
-      this._spec = merge(baseSpec);
+      this._spec = result;
     }
   }
 }

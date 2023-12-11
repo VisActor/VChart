@@ -154,7 +154,10 @@ describe('VChart', () => {
               visible: false
             }
           }
-        ]
+        ],
+        dataZoom: {
+          visible: true
+        }
       };
       vchart = new VChart(spec, {
         renderCanvas: canvasDom,
@@ -171,6 +174,7 @@ describe('VChart', () => {
 
       expect(vchart.getStage()).toBeDefined();
       expect(vchart.getStage().background).toBe('red');
+      expect(vchart.getChart()?.getComponentsByKey('dataZoom').length).toBe(1);
     });
 
     it('updateData', () => {
