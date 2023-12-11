@@ -376,7 +376,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
       };
     });
 
-    const globalAABBBoundsOffset = brushMask.globalAABBBounds
+    brushMask.globalAABBBounds
       .clone()
       .set(
         brushMask.globalAABBBounds.x1 + dx,
@@ -414,7 +414,9 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
       ];
       return polygonIntersectPolygon(pointsCoord, itemBounds);
     } else if (item.type === 'rect') {
-      const { width = 0, height = 0 } = item?.attribute as IRectGraphicAttribute;
+      const { x1, x2, y1, y2 } = item?.AABBBounds;
+      const width = Math.abs(x1 - x2);
+      const height = Math.abs(y1 - y2);
       itemBounds = [
         {
           x: x,
