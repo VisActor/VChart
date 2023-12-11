@@ -17,10 +17,11 @@ import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam }
 import type { IChartSpec, StringOrNumber } from '../../typings';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
-import { isValid, mixin, isNil } from '@visactor/vutils';
+import { isValid, mixin, isNil, Matrix } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { MapSeries } from '../../series';
 
 export function projectionName(key: string, id: number) {
   return `${PREFIX}_${id}_${key}`;
@@ -66,10 +67,6 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   getZoom() {
     return this._actualScale;
   }
-
-  private _evaluated = false;
-  private _lastHeight = 0;
-  private _lastWidth = 0;
 
   static createComponent(spec: IChartSpec, options: IComponentOption) {
     if (isNil(spec)) {
@@ -270,26 +267,24 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     this.setLayoutRect(this._regions[0].getLayoutRect());
     this.setLayoutStartPosition(this._regions[0].getLayoutStartPoint());
     const { width, height } = this.getLayoutRect();
-    if (!this._evaluated) {
-      const { translate, scale, center } = this.evaluateProjection([0, 0], [width, height]);
-      translate && this._projection.translate(translate);
-      scale && this._projection.scale(scale);
-      center && this._projection.center(center);
-      this._evaluated = true;
-    } else {
-      const dx = (width - this._lastWidth) / 2;
-      const dy = (height - this._lastHeight) / 2;
-      this.pan([dx, dy]);
-      eachSeries(this._regions, s => {
-        // 其他系列会根据 projection 进行 encode.x/y 上的位置更新
-        // 只有地图系列，位置不依赖 encode，而是通过 translate 进行更新
-        if (s.type === SeriesTypeEnum.map) {
-          s.handlePan({ delta: [dx, dy] });
+    const { translate, scale, center } = this.evaluateProjection([0, 0], [width, height]);
+    translate && this._projection.translate(translate);
+    scale && this._projection.scale(scale);
+    center && this._projection.center(center);
+    eachSeries(this._regions, s => {
+      if (s.type === SeriesTypeEnum.map) {
+        (s as MapSeries).areaPath.clear();
+        const pathGroup = s.getRootMark().getProduct()?.getGroupGraphicItem();
+        if (pathGroup) {
+          if (pathGroup.attribute.postMatrix) {
+            pathGroup.setAttributes({
+              postMatrix: new Matrix()
+            });
+          }
         }
-      });
-    }
-    this._lastWidth = width;
-    this._lastHeight = height;
+      }
+    });
+    this._actualScale = 1;
 
     super.onLayoutEnd(ctx);
   }

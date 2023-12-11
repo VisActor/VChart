@@ -7,7 +7,6 @@ import type { IPathMark } from '../../mark/path';
 import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { mergeSpec } from '../../util/spec/merge-spec';
 import { GeoSeries } from '../geo/geo';
 import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
@@ -45,6 +44,9 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
   protected declare _theme: Maybe<IMapSeriesTheme>;
 
   private _areaCache: Map<string, { shape: string }> = new Map();
+  get areaPath() {
+    return this._areaCache;
+  }
 
   private _pathMark: IPathMark;
   private _labelMark: ILabelMark;
