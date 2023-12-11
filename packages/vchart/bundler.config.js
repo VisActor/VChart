@@ -1,3 +1,4 @@
+// TODO: size
 const fs = require('fs');
 const path = require('path');
 const { visualizer } = require('rollup-plugin-visualizer');
@@ -92,7 +93,7 @@ module.exports = {
   external: [
     // '@visactor/vrender'
   ],
-  umdEntries,
+  // umdEntries,
   postTasks: {
     // generateEntries: (config, projectRoot, rawPackageJson) => {
     //   ['core', 'chart', 'series', 'mark', 'component', 'layout'].forEach(entryName => {
@@ -103,16 +104,16 @@ module.exports = {
     //     fs.writeFileSync(path.join(__dirname, `./${entryName}.d.ts`), dtsCode, 'utf-8');
     //   });
     // },
-    copyCrossEnv: config => {
-      Object.keys(crossEnvs).forEach(env => {
-        const source = `${crossEnvs[env].input}.min.js`;
-        const dest = crossEnvs[env].output;
-        const envSource = path.join(__dirname, config.outputDir.umd, source);
-        copyFile(envSource, path.join(__dirname, dest));
-      });
-      umdEntries.forEach(entry => {
-        fs.unlinkSync(path.join(__dirname, config.outputDir.umd, `${entry}.min.js`));
-      });
-    }
+    // copyCrossEnv: config => {
+    //   Object.keys(crossEnvs).forEach(env => {
+    //     const source = `${crossEnvs[env].input}.min.js`;
+    //     const dest = crossEnvs[env].output;
+    //     const envSource = path.join(__dirname, config.outputDir.umd, source);
+    //     copyFile(envSource, path.join(__dirname, dest));
+    //   });
+    //   umdEntries.forEach(entry => {
+    //     fs.unlinkSync(path.join(__dirname, config.outputDir.umd, `${entry}.min.js`));
+    //   });
+    // }
   }
 };
