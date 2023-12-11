@@ -591,7 +591,7 @@ export class VChart implements IVChart {
       }
       if (updateResult.reSize) {
         const { width, height } = this._getCurrentSize();
-        this._chart.onResize(width, height);
+        this._chart.onResize(width, height, false);
         this._compiler.resize?.(width, height, false);
       }
     }
@@ -1070,7 +1070,7 @@ export class VChart implements IVChart {
     this._mediaQuery?.changeSize(width, height, true, false);
 
     this._option.performanceHook?.beforeResizeWithUpdate?.();
-    this._chart.onResize(width, height);
+    this._chart.onResize(width, height, false);
     this._option.performanceHook?.afterResizeWithUpdate?.();
 
     await this._compiler.resize?.(width, height);

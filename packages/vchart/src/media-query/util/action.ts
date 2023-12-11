@@ -12,11 +12,15 @@ export const executeMediaQueryAction = <T extends Record<string, unknown>>(
   globalInstance: IVChart
 ): IMediaQueryActionResult => {
   const { spec, filter, filterType, forceAppend } = action;
-  const {
-    filteredModelInfo,
-    filterInfoForAppend: { isChart, modelType, specKey, type }
-  } = executeMediaQueryActionFilter<T>(filterType, filter, action, query, chartSpec, globalInstance);
-  if (filteredModelInfo.length === 0 && !forceAppend) {
+  const { isChart, modelType, specKey, type, modelInfo } = executeMediaQueryActionFilter<T>(
+    filterType,
+    filter,
+    action,
+    query,
+    chartSpec,
+    globalInstance
+  );
+  if (modelInfo.length === 0 && !forceAppend) {
     return {
       chartSpec,
       hasChanged: false
@@ -24,8 +28,8 @@ export const executeMediaQueryAction = <T extends Record<string, unknown>>(
   }
   // 修改现有图表元素的 spec
   const targetSpec = mergeSpec({}, chartSpec);
-  const newSpec = isFunction(spec) ? spec(filteredModelInfo, action, query) : spec;
-  for (const { spec, specPath } of filteredModelInfo) {
+  const newSpec = isFunction(spec) ? spec(modelInfo, action, query) : spec;
+  for (const { spec, specPath } of modelInfo) {
     if (isChart) {
       return mergeSpec(targetSpec, newSpec);
     }
@@ -33,7 +37,7 @@ export const executeMediaQueryAction = <T extends Record<string, unknown>>(
     setProperty(targetSpec, specPath, modelSpec);
   }
   // 如果没有匹配到图表元素，且 forceAppend 为 true，则添加新元素
-  if (filteredModelInfo.length === 0 && forceAppend) {
+  if (modelInfo.length === 0 && forceAppend) {
     const newSpecToAppend = {
       type,
       ...newSpec

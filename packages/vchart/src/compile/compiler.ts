@@ -178,7 +178,6 @@ export class Compiler {
       return Promise.reject('srView init fail');
     }
     await this._view?.runNextTick(morphConfig);
-    // console.log('渲染 1 次');
     return this;
   }
 

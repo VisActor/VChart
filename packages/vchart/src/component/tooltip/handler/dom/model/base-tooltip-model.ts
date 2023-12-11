@@ -89,7 +89,9 @@ export class BaseTooltipModel {
     Object.values(this.children).forEach(c => c.release());
     this.children = {};
     if (this.product) {
-      this.getParentEl()?.removeChild(this.product);
+      try {
+        this.getParentEl()?.removeChild(this.product);
+      } catch {}
       this.product = null;
     }
   }

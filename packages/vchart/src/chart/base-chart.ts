@@ -268,14 +268,14 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this.updateGlobalScaleDomain();
   }
 
-  onResize(width: number, height: number): void {
+  onResize(width: number, height: number, reRender: boolean = true): void {
     const canvasRect = {
       width,
       height
     };
     this._canvasRect = canvasRect;
     this._updateLayoutRect(this._option.viewBox);
-    this.setLayoutTag(true);
+    this.setLayoutTag(true, null, reRender);
   }
 
   updateViewBox(viewBox: IBoundsLike, reLayout: boolean) {

@@ -123,10 +123,8 @@ export type MediaQueryActionFilterType =
 export type MediaQueryActionFilter<T extends Record<string, unknown> = any> =
   | Partial<T>
   | ((
-      /** 当前图表元素 spec */
-      spec: T,
-      /** 当前图表元素实例 */
-      element: IModel | IChart,
+      /** 当前图表元素信息 */
+      modelInfo: IFilteredModelInfo<T>,
       /** 当前 action 对象 */
       action: IMediaQueryAction<T>,
       /** 当前媒体查询条件 */

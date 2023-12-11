@@ -1,7 +1,7 @@
-import type { IChart, IChartOption } from '../../chart/interface';
+import type { IChart } from '../../chart/interface';
 import type { ComponentTypeEnum } from '../../component/interface';
 import type { IEventDispatcher, VChart } from '../../core';
-import type { IModel } from '../../model/interface';
+import type { IModel, IModelSpecInfo } from '../../model/interface';
 import type { SeriesTypeEnum } from '../../series';
 import type { IChartSpec, RenderMode } from '../../typings';
 import type { MediaQuery } from '../media-query';
@@ -18,13 +18,11 @@ export interface IMediaInfo {
   themeMode: 'light' | 'dark';
 }
 
-export interface IFilteredModelInfo<T extends Record<string, unknown> = any> {
+export interface IFilteredModelInfo<T extends Record<string, unknown> = any> extends IModelSpecInfo<T> {
   model?: IModel | IChart;
-  spec: T;
-  specPath?: Array<string | number>;
 }
 
-export interface IFilterInfoForAppend {
+export interface IMediaQueryActionFilterResult<T extends Record<string, unknown> = any> {
   /** 是否是图表层级 */
   isChart?: boolean;
   /** 如果不是图表层级，是哪个 model 类型 */
@@ -33,6 +31,8 @@ export interface IFilterInfoForAppend {
   type?: SeriesTypeEnum | ComponentTypeEnum;
   /** model 在图表 spec 中对应的 key */
   specKey?: keyof IChartSpec;
+  /** 匹配到的 model 的 spec 信息 */
+  modelInfo: IFilteredModelInfo<T>[];
 }
 
 export interface IMediaQueryOption {

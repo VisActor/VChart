@@ -172,9 +172,9 @@ export interface IModelOption extends ICompilableInitOption {
   onError: (...args: any[]) => void;
 }
 
-export interface IModelSpecInfo {
+export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
   type: string;
-  spec: any;
+  spec: T;
   specPath?: Array<string | number>;
   specIndex?: number;
 }
