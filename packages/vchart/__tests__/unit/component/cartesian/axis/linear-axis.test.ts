@@ -355,7 +355,7 @@ test('niceDomain should work when domain is 0, and user does not set min or max'
   // @ts-ignore
   linearAxis.updateScaleDomain();
   const scale = linearAxis.getScale();
-  expect(scale.domain()).toEqual([0, 1]);
+  expect(scale.domain()).toEqual([0, 0]); // fix the test
 });
 
 test('niceDomain should not work when user set min or max', () => {

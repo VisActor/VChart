@@ -38,6 +38,12 @@ const spec = {
 
 describe('linearProgress chart test', () => {
   test('linearProgress init', () => {
+    const transformer = new LinearProgressChart.transformerConstructor({
+      type: 'linearProgress',
+      seriesType: 'linearProgress',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec as any);
     const chart = new LinearProgressChart(
       spec as any,
       {

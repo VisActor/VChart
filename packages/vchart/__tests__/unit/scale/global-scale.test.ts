@@ -287,6 +287,11 @@ describe('global-scale test', () => {
         return new DataView(dataSet, { name: d.id }).parse(d.values);
       })
     });
+    const transformer = new CommonChart.transformerConstructor({
+      type: 'common',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec);
     chart = new CommonChart(
       spec as any,
       {
@@ -442,6 +447,11 @@ describe('global-scale test', () => {
         return new DataView(dataSet, { name: d.id }).parse(d.values);
       })
     });
+    const transformer = new CommonChart.transformerConstructor({
+      type: 'common',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec);
     chart = new CommonChart(
       spec as any,
       {

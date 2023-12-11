@@ -59,6 +59,12 @@ describe('wordCloud chart test', () => {
   });
 
   test('wordCloud chart init', () => {
+    const transformer = new WordCloudChart.transformerConstructor({
+      type: 'wordCloud',
+      seriesType: 'wordCloud',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec);
     const chart = new WordCloudChart(spec, {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

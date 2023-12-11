@@ -48,6 +48,12 @@ const spec = {
 
 describe('rangeColumn chart test', () => {
   test('rangeColumn chart init', () => {
+    const transformer = new RangeColumnChart.transformerConstructor({
+      type: 'rangeColumn',
+      seriesType: 'rangeColumn',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec as any);
     const chart = new RangeColumnChart(
       spec as any,
       {

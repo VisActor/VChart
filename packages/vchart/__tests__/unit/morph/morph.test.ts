@@ -111,6 +111,11 @@ describe('Bar chart test', () => {
   });
 
   test('default morph', () => {
+    const transformer = new CommonChart.transformerConstructor({
+      type: 'common',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(scatterSpec as any);
     const scatterChart = new CommonChart(
       scatterSpec as any,
       {
@@ -135,6 +140,12 @@ describe('Bar chart test', () => {
     scatterChart.created();
     scatterChart.init();
 
+    const barTransformer = new BarChart.transformerConstructor({
+      type: 'bar',
+      seriesType: 'bar',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    barTransformer.initChartSpec(barSpec as any);
     const barChart = new BarChart(
       barSpec as any,
       {
@@ -173,6 +184,11 @@ describe('Bar chart test', () => {
   });
 
   test('custom morph config', () => {
+    const transformer = new CommonChart.transformerConstructor({
+      type: 'common',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(multiScatterSeriesSpec as any);
     const scatterChart = new CommonChart(
       multiScatterSeriesSpec as any,
       {

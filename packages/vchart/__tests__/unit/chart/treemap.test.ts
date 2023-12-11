@@ -51,6 +51,12 @@ describe('treemap chart test', () => {
   });
 
   test('wordCloud chart init', () => {
+    const transformer = new TreemapChart.transformerConstructor({
+      type: 'treemap',
+      seriesType: 'treemap',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec as any);
     const chart = new TreemapChart(
       spec as any,
       {

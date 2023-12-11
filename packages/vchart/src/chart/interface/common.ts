@@ -36,7 +36,7 @@ export interface IChartOption
 export interface IChartSpecTransformerOption {
   type: string;
   seriesType?: string;
-  getTheme?: () => ITheme;
+  getTheme: () => ITheme;
   getLayoutRect?: () => ILayoutRect;
 }
 

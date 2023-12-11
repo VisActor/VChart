@@ -50,6 +50,12 @@ describe('histogram chart test', () => {
   });
 
   test('histogram chart init', () => {
+    const transformer = new HistogramChart.transformerConstructor({
+      type: 'histogram',
+      seriesType: 'bar',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec as any);
     const chart = new HistogramChart(
       spec as any,
       {

@@ -162,7 +162,7 @@ describe('VChart', () => {
         autoFit: true
       });
 
-      expect((vchart as any)._curSize).toEqual({
+      expect((vchart as any)._currentSize).toEqual({
         width: 200,
         height: 150
       });

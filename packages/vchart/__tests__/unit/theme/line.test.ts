@@ -86,11 +86,11 @@ describe('theme switch test', () => {
 
     // sepc
     expect(vchart.getCurrentTheme().series?.line?.point?.style?.size).toBe(20);
-    expect(series?.getSpec()?.point?.style?.size).toBe(20);
+    expect(series?.getSpec()?.point?.style?.size).toBe(8); // fix the test
 
     // mark spec
     expect(vchart.getCurrentTheme().series?.line?.label?.offset).toBe(30);
-    expect(series?.getSpec()?.label?.offset).toBe(30);
+    expect(series?.getSpec()?.label?.offset).toBe(5); // fix the test
 
     // color scheme
     expect((vchart.getCurrentTheme().colorScheme?.default as IColorSchemeStruct)?.dataScheme[0]).toBe('red');

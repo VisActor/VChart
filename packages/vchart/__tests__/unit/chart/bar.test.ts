@@ -88,6 +88,12 @@ describe('Bar chart test', () => {
   });
 
   test('Bar chart init', () => {
+    const transformer = new BarChart.transformerConstructor({
+      type: 'bar',
+      seriesType: 'bar',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec as any);
     chart = new BarChart(
       spec as any,
       {

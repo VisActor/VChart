@@ -397,7 +397,9 @@ export class VChart implements IVChart {
     // 如果用户注册了函数，在配置中替换相应函数名为函数内容
     if (VChart.getFunctionList() && VChart.getFunctionList().length) {
       spec = functionTransform(spec, VChart);
+      this._spec = spec;
     }
+
     const specTransformer = Factory.createChartSpecTransformer(spec.type, {
       type: spec.type,
       getTheme: () => this._currentTheme ?? {}
