@@ -129,6 +129,12 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return null;
   }
 
+  static getAxisInfo(spec: ICartesianAxisCommonSpec, isHorizontal?: boolean) {
+    const axisType = spec.type ?? autoAxisType(spec.orient, isHorizontal);
+    const componentName = `${CartesianAxis.type}-${axisType}`;
+    return { axisType, componentName };
+  }
+
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     // const regions = (chartSpec.region as IRegionSpec[]) ?? [];
     // if (regions.find(r => r.coordinate !== 'cartesian')) {
@@ -140,18 +146,13 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     }
 
     const isHorizontal = chartSpec.direction === Direction.horizontal;
-    const getAxisInfo = (spec: ICartesianAxisCommonSpec) => {
-      const axisType = spec.type ?? autoAxisType(spec.orient, isHorizontal);
-      const componentName = `${CartesianAxis.type}-${axisType}`;
-      return { axisType, componentName };
-    };
 
     if (!isArray(axesSpec)) {
       // 如果非法，或者只有一个z轴就不创建
       if (!isValidCartesianAxis(axesSpec)) {
         return null;
       }
-      const { axisType, componentName } = getAxisInfo(axesSpec);
+      const { axisType, componentName } = this.getAxisInfo(axesSpec, isHorizontal);
       axesSpec.type = axisType;
       return [
         {
@@ -180,7 +181,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       if (!isValidCartesianAxis(spec)) {
         return;
       }
-      const { axisType, componentName } = getAxisInfo(spec);
+      const { axisType, componentName } = this.getAxisInfo(spec, isHorizontal);
       spec.type = axisType;
       specInfos.push({
         spec,

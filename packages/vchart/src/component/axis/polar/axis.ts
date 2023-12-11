@@ -88,24 +88,24 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return null;
   }
 
+  static getAxisInfo = (spec: IPolarAxisCommonSpec) => {
+    // TODO: 基于数据处理 axis 类型
+    const axisType = spec.type ?? (spec.orient === 'angle' ? 'band' : 'linear');
+    const componentName = `${PolarAxis.type}-${axisType}`;
+    return { axisType, componentName };
+  };
+
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const axesSpec = chartSpec[this.specKey];
     if (!axesSpec) {
       return null;
     }
 
-    const getAxisInfo = (spec: IPolarAxisCommonSpec) => {
-      // TODO: 基于数据处理 axis 类型
-      const axisType = spec.type ?? (spec.orient === 'angle' ? 'band' : 'linear');
-      const componentName = `${PolarAxis.type}-${axisType}`;
-      return { axisType, componentName };
-    };
-
     if (!isArray(axesSpec)) {
       if (!isValidPolarAxis(axesSpec)) {
         return null;
       }
-      const { axisType, componentName } = getAxisInfo(axesSpec);
+      const { axisType, componentName } = this.getAxisInfo(axesSpec);
       axesSpec.center = chartSpec.center;
       axesSpec.startAngle = chartSpec.startAngle ?? POLAR_START_ANGLE;
       axesSpec.endAngle =
@@ -126,7 +126,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       if (!isValidPolarAxis(s)) {
         return;
       }
-      const { axisType, componentName } = getAxisInfo(s);
+      const { axisType, componentName } = this.getAxisInfo(s);
       s.center = chartSpec.center;
       s.startAngle = chartSpec.startAngle ?? POLAR_START_ANGLE;
       s.endAngle = chartSpec.endAngle ?? (isValid(chartSpec.startAngle) ? chartSpec.startAngle + 360 : POLAR_END_ANGLE);
