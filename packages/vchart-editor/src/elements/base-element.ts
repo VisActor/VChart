@@ -1,3 +1,4 @@
+import type { IGraphic } from '@visactor/vrender-core';
 import type { IEditorElement } from './../core/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IRect, IPoint } from '../typings/space';
@@ -136,4 +137,7 @@ export abstract class BaseElement implements IElement {
   getElementInfo() {
     return { layerId: this._opt.layer.id, id: this._id, type: this.type };
   }
+
+  abstract geElementRootMark(): IGraphic;
+  abstract updateLayoutZIndex(zIndex: number, pushHistory: boolean): void;
 }

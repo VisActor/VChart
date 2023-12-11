@@ -11,6 +11,7 @@ import type { BaseElement } from '../elements/base-element';
 import type { IPoint } from '../typings/space';
 import { transformPointWithMatrix } from '../utils/space';
 import { LayerZoomMove } from '../component/layer-zoom-move';
+import { getZIndexInParent } from '../elements/chart/utils/layout';
 // 加载浏览器环境
 loadBrowserEnv(container);
 
@@ -269,47 +270,11 @@ export class EditorLayer implements IEditorLayer {
     if (!path) {
       return null;
     }
-    // const el = this._elements.find(e => e.id === path.elementId);
-    const el = this._elements[0];
+    const el = this._elements.find(e => e.id === path.elementId);
     if (!el) {
       return null;
     }
     return el.getPosWithPath(path);
-    // let node = this._stage.defaultLayer as IGraphic;
-    // if (path.length === 1) {
-    //   return {
-    //     x: this._container.clientWidth * path[0].percentX,
-    //     y: this._container.clientHeight * path[0].percentY
-    //   };
-    // }
-    // const nodePos = { x: 0, y: 0 };
-    // for (let i = 0; i < path.length; i++) {
-    //   const p = path[i];
-    //   let lastNode = node;
-    //   if (isValid(p.index)) {
-    //     // eslint-disable-next-line no-loop-func
-    //     node.forEachChildren((n, i) => {
-    //       if (i === p.index) {
-    //         node = n as IGraphic;
-    //         return true;
-    //       }
-    //       return false;
-    //     });
-    //   }
-    //   if (node === lastNode) {
-    //     // not found
-    //     return { x: -1, y: -1 };
-    //   }
-    //   lastNode = node;
-    //   if (isValid(p.percentX)) {
-    //     nodePos.x = node.AABBBounds.width() * p.percentX;
-    //     nodePos.y = node.AABBBounds.height() * p.percentY;
-    //   }
-    // }
-    // const matrix = node.globalTransMatrix;
-    // nodePos.x = matrix.a * nodePos.x + matrix.c * nodePos.y + matrix.e;
-    // nodePos.y = matrix.b * nodePos.x + matrix.d * nodePos.y + matrix.f;
-    // return nodePos;
   }
 
   on(eventType: string, cb: (e: Event) => void) {
@@ -442,5 +407,22 @@ export class EditorLayer implements IEditorLayer {
       this.elements.splice(index, 1);
       this._stage.renderNextFrame();
     }
+  }
+
+  changeElementLayoutZIndex(
+    elementId: string,
+    opt: { zIndex?: number; action: 'toTop' | 'toBottom' | 'levelUp' | 'levelDown' }
+  ) {
+    const el = this._elements.find(e => e.id === elementId);
+    if (!el) {
+      return;
+    }
+    const mark = el.geElementRootMark();
+    if (!mark) {
+      return;
+    }
+    const parent = mark.parent;
+    const zIndex = getZIndexInParent(parent, mark, opt);
+    el.updateLayoutZIndex(zIndex, true);
   }
 }

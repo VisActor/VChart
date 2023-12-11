@@ -1,6 +1,7 @@
 import type { IGraphic } from '@visactor/vrender-core';
 /* eslint-disable promise/no-nesting */
 import type { VRenderPointerEvent } from './../interface';
+import type { IModelInfo } from './../../core/interface';
 import type {
   IEditorElement,
   IElementPathEnd,
@@ -29,8 +30,14 @@ import {
 } from './editor-elements/marker';
 import { ChartEvent } from './event';
 import { CommonModelElement } from './editor-elements/common-model-editor';
-import { getDefaultMarkerConfigByType, updateMarkersAfterUpdateData } from './utils/marker';
-import { IgnoreModelTypeInLayout, getChartModelWithModelInfo, transformModelRect } from './utils/layout';
+import { getDefaultMarkerConfigByType } from './utils/marker';
+import {
+  IgnoreModelTypeInLayout,
+  getChartModelWithModelInfo,
+  getModelRootMark,
+  getZIndexInParent,
+  transformModelRect
+} from './utils/layout';
 import { LayoutRectToRect, getLayoutLine } from '../../utils/space';
 import { addRectToPathElement, getEndPathWithNode, getPosInClient } from '../../utils/element';
 import { getBarGraphicByDataKey } from './utils/common';
@@ -150,7 +157,7 @@ export class EditorChart extends BaseElement {
   protected _compactSpec(spec: ISpec) {
     // 图例默认关闭交互
     if (isArray(spec.legends)) {
-      spec.legends = spec.legends.map(legend => {
+      spec.legends = spec.legends.map((legend: any) => {
         return {
           ...legend,
           interactive: false
@@ -225,17 +232,6 @@ export class EditorChart extends BaseElement {
     super._afterRender();
   }
 
-  protected _currentVChartFlow: any = null;
-  // async _updateNextTick() {
-  //   if (!this._currentVChartFlow) {
-  //     this._currentVChartFlow = Promise.resolve().then(() => {
-  //       this._updateVChartSpec();
-  //       this._currentVChartFlow = null;
-  //     });
-  //   }
-  //   await this._currentVChartFlow;
-  //   return this;
-  // }
   _updateNextTick() {
     this._updateVChartSpec();
     return this;
@@ -608,7 +604,7 @@ export class EditorChart extends BaseElement {
       const barSeries = this._vchart
         .getChart()
         .getAllSeries()
-        .find(series => series.type === 'bar') as ICartesianSeries;
+        .find((series: any) => series.type === 'bar') as ICartesianSeries;
       const isXInverse = get(spec, 'axes', []).find((axis: any) => axis.id === 'axis-bottom')?.inverse;
       const isYInverse = get(spec, 'axes', []).find((axis: any) => axis.id === 'axis-left')?.inverse;
       const valueFieldInData = isHorizontal ? barSeries.getSpec().xField : barSeries.getSpec().yField;
@@ -750,5 +746,50 @@ export class EditorChart extends BaseElement {
 
     // @ts-ignore
     reRender && this._vchart.updateSpecSync(spec, false, false);
+  }
+
+  changeModelLayoutZIndex(
+    modelInfo: IModelInfo,
+    opt: { zIndex?: number; action: 'toTop' | 'toBottom' | 'levelUp' | 'levelDown' }
+  ) {
+    if (!this._vchart) {
+      return;
+    }
+    const model = getChartModelWithModelInfo(this._vchart, modelInfo);
+    if (!model) {
+      return;
+    }
+    const mark = getModelRootMark(model, modelInfo) as IGraphic;
+    if (!mark) {
+      return;
+    }
+    const parent = mark.parent;
+    const zIndex = getZIndexInParent(parent, mark, opt);
+    if (model.type === 'markLine' || model.type === 'markArea') {
+      this._specProcess.updateElementAttribute(model, {
+        [model.type]: {
+          spec: {
+            zIndex
+          }
+        }
+      });
+    } else {
+      this._specProcess.updateElementAttribute(model, {
+        spec: {
+          zIndex
+        }
+      });
+    }
+  }
+
+  geElementRootMark() {
+    if (!this._vchart) {
+      return null;
+    }
+    return this._opt.layer.getStage().defaultLayer.findChildrenByName('root')[0] as IGraphic;
+  }
+
+  updateLayoutZIndex(zIndex: number, pushHistory: boolean) {
+    this._specProcess.updateZIndex(zIndex, pushHistory);
   }
 }

@@ -220,7 +220,7 @@ export class CommonChartEditorElement implements IEditorElement {
       const chartSpec = this._context.chart.vchart.getChart().getSpec();
       const components = this._context.chart.vchart.getChart().getAllComponents();
       ChartComponentKeys.forEach(k => {
-        const component = components.find(component => component.specKey === k);
+        const component = components.find((component: any) => component.specKey === k);
         const modelSpec = component?.getSpec() ?? chartSpec[k];
         if (!modelSpec) {
           return;

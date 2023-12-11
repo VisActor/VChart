@@ -1,3 +1,4 @@
+import { UpdateAttributeCall } from './../chart/editor-elements/base-editor-element';
 import type { VRenderPointerEvent } from './../interface';
 import type { IGraphic, IText, INode, IGroup } from '@visactor/vrender-core';
 import { createRect, createWrapText } from '@visactor/vrender-core';
@@ -452,5 +453,15 @@ export class EditorText extends BaseElement {
       end = (<IElementPath>end).child;
     }
     return getPosInClient(end as IElementPathEnd, this._textGraphic);
+  }
+
+  geElementRootMark() {
+    return this._textGraphic;
+  }
+
+  updateLayoutZIndex(zIndex: number, pushHistory: boolean) {
+    pushHistory && this.saveSnapshot();
+    this._textGraphic.setAttributes({ zIndex });
+    pushHistory && this.pushHistory();
   }
 }

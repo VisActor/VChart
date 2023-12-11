@@ -14,10 +14,9 @@ import {
 import type { ILayoutAttribute, IRect } from '../../../typings/space';
 import { ComponentBoundsNormal, MinSize, OverGraphicAttribute } from '../../../core/const';
 import { LayoutEditorComponent } from '../../../component/layout-component';
-import type { EventParams } from '@visactor/vchart';
+import type { EventParams, VChart } from '@visactor/vchart';
 import { isSameModelInfo } from '../../../utils/spec';
 import type { VRenderPointerEvent } from '../../interface';
-import type { VChart } from '@visactor/vchart';
 import { isRegionModel, isRegionRelativeModel, refreshModelInVChart } from '../utils/common';
 import { LayoutRectToRect } from '../../../utils/space';
 

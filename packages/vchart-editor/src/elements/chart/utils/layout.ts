@@ -1,4 +1,5 @@
-import type { IBoundsLike } from '@visactor/vutils';
+import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import { isValid, type IBoundsLike } from '@visactor/vutils';
 import type { IModelInfo } from './../../../core/interface';
 import type { ILayoutRect } from './../layout/interface';
 import type { IChartModel, ILayoutItem } from './../interface';
@@ -168,4 +169,62 @@ export function getModelGraphicsBounds(model: IChartModel): IBoundsLike {
   } catch (error) {
     return { x1: 0, x2: 0, y1: 0, y2: 0 };
   }
+}
+
+export function getModelRootMark(model: IChartModel, info: IModelInfo) {
+  if (model.type === 'region') {
+  }
+  if (model.type.includes('Axis')) {
+    const mark = (<any>model).getMarks()[0].getProduct().graphicItem;
+    return mark;
+  }
+  // 通用
+  const vRenderCmt = model.getVRenderComponents();
+  if (!vRenderCmt?.length) {
+    return null;
+  }
+  return vRenderCmt[0];
+}
+
+export function getZIndexInParent(
+  parent: IGroup,
+  mark: IGraphic,
+  opt: { zIndex?: number; action: 'toTop' | 'toBottom' | 'levelUp' | 'levelDown' }
+) {
+  if (isValid(opt.zIndex)) {
+    return opt.zIndex;
+  }
+  let index = mark.attribute.zIndex ?? 0;
+  if (opt.action === 'toTop') {
+    index = (mark.attribute.zIndex ?? 0) + 1;
+    parent.forEachChildren(c => {
+      index = Math.max(index, (c as IGraphic).attribute.zIndex + 1);
+    });
+  } else if (opt.action === 'toBottom') {
+    index = (mark.attribute.zIndex ?? 0) - 1;
+    parent.forEachChildren(c => {
+      index = Math.min(index, (c as IGraphic).attribute.zIndex - 1);
+    });
+  } else if (opt.action === 'levelUp') {
+    index = Number.MAX_SAFE_INTEGER;
+    parent.forEachChildren(c => {
+      if ((c as IGraphic).attribute.zIndex > mark.attribute.zIndex) {
+        index = Math.min(index, (c as IGraphic).attribute.zIndex + 1);
+      }
+    });
+    if (index === Number.MAX_SAFE_INTEGER) {
+      return mark.attribute.zIndex;
+    }
+  } else if (opt.action === 'levelDown') {
+    index = Number.MIN_SAFE_INTEGER;
+    parent.forEachChildren(c => {
+      if ((c as IGraphic).attribute.zIndex < mark.attribute.zIndex) {
+        index = Math.max(index, (c as IGraphic).attribute.zIndex - 1);
+      }
+    });
+    if (index === Number.MIN_SAFE_INTEGER) {
+      return mark.attribute.zIndex;
+    }
+  }
+  return index;
 }

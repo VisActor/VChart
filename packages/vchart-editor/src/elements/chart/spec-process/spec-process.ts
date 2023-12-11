@@ -24,7 +24,8 @@ const DefaultEditorSpec: IEditorSpec = {
   marker: {
     markLine: [],
     markArea: []
-  }
+  },
+  zIndex: 0
 };
 
 export class SpecProcess implements ISpecProcess {
@@ -83,6 +84,11 @@ export class SpecProcess implements ISpecProcess {
   }
   updateLayout(layout: ILayoutData) {
     this._editorSpec.layout = layout;
+  }
+  updateZIndex(zIndex: number, willPushHistory: boolean = true) {
+    willPushHistory && this.saveSnapshot();
+    this._editorSpec.zIndex = zIndex;
+    willPushHistory && this.pushHistory();
   }
 
   updateTemp(key: string) {
@@ -531,6 +537,9 @@ export class SpecProcess implements ISpecProcess {
   updateAttributeFromHistory(att: any, from: any) {
     this._chart.layout.setViewBox(att.rect);
     if (att.attribute) {
+      if (att.attribute.zIndex) {
+        this._editorSpec.zIndex = att.attribute.zIndex;
+      }
       if (att.attribute.layout) {
         this._chart.layout.setLayoutData(att.attribute.layout);
       }

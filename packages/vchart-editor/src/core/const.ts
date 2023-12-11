@@ -44,7 +44,7 @@ export const IsWheelEvent: { [key in keyof HTMLElementEventMap]?: true } = {
   wheel: true
 };
 
-export const MinSize = 5;
+export const MinSize = 20;
 
 export const DeleteElementKeyCode = {
   Delete: true

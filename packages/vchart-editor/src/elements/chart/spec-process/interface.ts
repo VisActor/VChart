@@ -25,6 +25,7 @@ export interface IEditorSpec {
     markLine?: IMarkLineSpec[];
     markArea?: IMarkAreaSpec[];
   };
+  zIndex: number;
 }
 
 export interface IDataTempTransform {
@@ -56,4 +57,6 @@ export interface ISpecProcess {
   pushHistory: () => void;
   clearSnapshot: () => void;
   updateAttributeFromHistory: (att: any, fromAttribute: any) => void;
+
+  updateZIndex: (zIndex: number, willPushHistory: boolean) => void;
 }

@@ -32,7 +32,7 @@ export function getBarGraphicByDataKey(series: ICartesianSeries, dataKey: string
   const barMark = series.getMarkInName('bar');
   const elements = barMark.getProduct().getAllElements();
 
-  const element = elements.find(element => {
+  const element = elements.find((element: any) => {
     return element.data[0][DEFAULT_DATA_KEY] === dataKey;
   });
 

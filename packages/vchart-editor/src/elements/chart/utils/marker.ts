@@ -916,7 +916,7 @@ export function adjustTotalDiffCoordinatesOffset(
   const labels = vchart.getStage().getElementsByName('data-label');
   if (labels && labels.length) {
     let allLabelTexts: IText[] = [];
-    labels.forEach(label => {
+    labels.forEach((label: any) => {
       allLabelTexts = allLabelTexts.concat(label.getElementsByType('text') as IText[]);
     });
     const isHorizontal = series.direction === 'horizontal';
