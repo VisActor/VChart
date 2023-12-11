@@ -20,9 +20,19 @@ import type { ILayoutType, StringOrNumber } from '../typings';
 import { IFilterMode } from '../component/data-zoom/constant';
 import { LayoutModel } from '../model/layout-model';
 import { cloneDeepSpec } from '../util/spec/clone-deep';
+import { BaseModelSpecTransformer } from '../model/base-model';
+
+export class RegionSpecTransformer<T extends IRegionSpec = IRegionSpec> extends BaseModelSpecTransformer<T> {
+  protected _initTheme(spec: T, chartSpec: any): T {
+    // do nothing, region don't need to parse theme
+    return cloneDeepSpec(spec);
+  }
+}
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
+  static readonly transformerConstructor = RegionSpecTransformer;
+  readonly transformerConstructor = RegionSpecTransformer as any;
   readonly modelType: string = 'region';
 
   type = Region.type;
@@ -86,14 +96,10 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     return hasDataZoom || hasScrollBar ? true : this._layout.layoutClip;
   }
 
-  _initTheme() {
-    // do nothing, region don't need to parse theme
-    this._spec = cloneDeepSpec(this._originalSpec);
-  }
-
   created(): void {
+    this._initTransformer();
     this.initLayout();
-    super.created();
+    this.setAttrFromSpec();
     this._groupMark = this._createMark({ type: MarkTypeEnum.group, name: 'regionGroup' }) as IGroupMark;
     this._groupMark.setUserId(this.userId);
     this._groupMark.setZIndex(this.layoutZIndex);
@@ -204,8 +210,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     return result;
   }
 
-  reInit(theme?: any) {
-    super.reInit(theme);
+  reInit() {
+    super.reInit();
     this._initBackgroundMarkStyle();
     this._initForegroundMarkStyle();
   }

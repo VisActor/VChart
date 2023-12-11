@@ -2,16 +2,13 @@ import { registerRadarSeries } from '../../series/radar/radar';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { array, mergeSpec } from '../../util';
 import { ChartTypeEnum } from '../interface/type';
-import { RoseLikeChart } from '../polar/rose-like';
+import { RoseLikeChart, RoseLikeChartSpecTransformer } from '../polar/rose-like';
 import { Factory } from '../../core/factory';
 import type { IRoseChartSpec } from '../rose';
 
-export class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> extends RoseLikeChart<T> {
-  static readonly type: string = ChartTypeEnum.radar;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.radar;
-  readonly seriesType: string = SeriesTypeEnum.radar;
-
+export class RadarChartSpecTransformer<
+  T extends IRoseChartSpec = IRoseChartSpec
+> extends RoseLikeChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: any): any {
     return {
       ...super._getDefaultSeriesSpec(spec),
@@ -66,6 +63,17 @@ export class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> extends RoseL
       );
     });
   }
+}
+
+export class RadarChart<T extends IRoseChartSpec = IRoseChartSpec> extends RoseLikeChart<T> {
+  static readonly type: string = ChartTypeEnum.radar;
+  static readonly seriesType: string = SeriesTypeEnum.radar;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = RadarChartSpecTransformer;
+  // @ts-ignore
+  readonly transformerConstructor = RadarChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.radar;
+  readonly seriesType: string = SeriesTypeEnum.radar;
 }
 
 export const registerRadarChart = () => {

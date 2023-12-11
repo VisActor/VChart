@@ -17,13 +17,39 @@ import type { Datum, ILayoutRect } from '../../typings';
 import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
+import { BaseModelSpecTransformer } from '../../model/base-model';
+
+export class BaseComponentSpecTransformer<
+  T extends IComponentSpec = IComponentSpec
+> extends BaseModelSpecTransformer<T> {
+  getTheme(spec: T, chartSpec: any): any {
+    return getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option.getTheme(), spec, chartSpec);
+  }
+
+  protected _mergeThemeToSpec(spec: T, chartSpec: any): T {
+    const newSpec = super._mergeThemeToSpec(spec, chartSpec);
+
+    // 默认忽略外侧 padding
+    const { padding, noOuterPadding = true, orient } = newSpec;
+    if (noOuterPadding && padding && orient) {
+      newSpec.padding = {
+        ...normalizeLayoutPaddingSpec(padding),
+        [orient]: 0
+      };
+    }
+
+    return newSpec;
+  }
+}
 
 export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   extends LayoutModel<T>
   implements IComponent
 {
+  static transformerConstructor = BaseComponentSpecTransformer;
   name: string = 'component';
   readonly modelType: string = 'component';
+  readonly transformerConstructor = BaseComponentSpecTransformer as any;
   pluginService?: IComponentPluginService;
   protected declare _option: IComponentOption;
 
@@ -35,8 +61,9 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   protected _container: IGroup;
 
   created() {
+    this._initTransformer();
     this.initLayout();
-    super.created();
+    this.setAttrFromSpec();
     this.pluginService = new ComponentPluginService(this);
   }
 
@@ -76,23 +103,6 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
       x: (markEventParams.event as any).viewX - this.getLayoutStartPoint().x,
       y: (markEventParams.event as any).viewY - this.getLayoutStartPoint().y
     };
-  }
-
-  protected _getTheme() {
-    return getComponentThemeFromGlobalTheme(this._option.type as ComponentTypeEnum, this._option, this._originalSpec);
-  }
-
-  protected _mergeThemeToSpec() {
-    super._mergeThemeToSpec();
-
-    // 默认忽略外侧 padding
-    const { padding, noOuterPadding = true, orient } = this.getSpec();
-    if (noOuterPadding && padding && orient) {
-      this._spec.padding = {
-        ...normalizeLayoutPaddingSpec(padding),
-        [orient]: 0
-      };
-    }
   }
 
   protected getContainer() {

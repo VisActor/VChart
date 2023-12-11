@@ -8,7 +8,6 @@ import type {
 import { Event } from '../event/event';
 import { MediaQueryItem } from './media-query-item';
 import { cloneDeepSpec } from '../util';
-import { IUpdateSpecResult } from '../model/interface';
 
 export class MediaQuery {
   protected _spec: IMediaQuerySpec;
@@ -32,11 +31,11 @@ export class MediaQuery {
     this._option = option;
     this._event = new Event(option.eventDispatcher, option.mode);
     this._spec = spec;
-    this.init(spec);
+    this._init(spec);
   }
 
   /** 初始化 */
-  init(spec: IMediaQuerySpec) {
+  protected _init(spec: IMediaQuerySpec) {
     this._spec = spec;
 
     this._queryMap = {};
@@ -55,24 +54,58 @@ export class MediaQuery {
       });
     });
 
-    this._baseChartSpec = cloneDeepSpec(this._getChart().getSpec());
+    this._baseChartSpec = cloneDeepSpec(this._option.globalInstance.getSpec());
   }
 
-  resize(width: number, height: number): boolean {
+  init(mediaInfo: Partial<IMediaInfo>, compile?: boolean, render?: boolean): boolean {
+    const { width, height, themeMode } = mediaInfo;
+    let result = this.changeSize(width, height, compile, render);
+    result ||= this.changeMode(compile, render);
+    result ||= this.changeThemeMode(themeMode, compile, render);
+    result ||= this.changeSpec(compile, render);
+    return result;
+  }
+
+  changeSize(width: number, height: number, compile?: boolean, render?: boolean): boolean {
     if (this._currentMediaInfo.width === width && this._currentMediaInfo.height === height) {
       return false;
     }
     this._currentMediaInfo.width = width;
     this._currentMediaInfo.height = height;
     // 执行依赖宽高信息的媒体查询
-    return this._applyQueries(['minWidth', 'maxWidth', 'minHeight', 'maxHeight', 'onResize']);
+    return this._applyQueries(['minWidth', 'maxWidth', 'minHeight', 'maxHeight', 'onResize'], compile, render);
+  }
+
+  changeMode(compile?: boolean, render?: boolean): boolean {
+    const { mode } = this._option;
+    if (this._currentMediaInfo.mode === mode) {
+      return false;
+    }
+    this._currentMediaInfo.mode = mode;
+    // 执行依赖渲染模式的媒体查询
+    return this._applyQueries(['mode'], compile, render);
+  }
+
+  changeThemeMode(themeMode: 'light' | 'dark', compile?: boolean, render?: boolean): boolean {
+    if (this._currentMediaInfo.themeMode === themeMode) {
+      return false;
+    }
+    this._currentMediaInfo.themeMode = themeMode;
+    // 执行依赖主题模式的媒体查询
+    return this._applyQueries(['themeMode'], compile, render);
+  }
+
+  changeSpec(compile?: boolean, render?: boolean): boolean {
+    // 执行依赖图表 spec 的媒体查询
+    return this._applyQueries(['onUpdateSpec'], compile, render);
   }
 
   /** 给定查询条件来执行相关的所有媒体查询，返回是否命中相关查询 */
-  protected _applyQueries(conditionKeys: Array<keyof IMediaQueryCondition>): boolean {
-    const { globalInstance } = this._option;
-    const chart = globalInstance.getChart();
-
+  protected _applyQueries(
+    conditionKeys: Array<keyof IMediaQueryCondition>,
+    compile?: boolean,
+    render?: boolean
+  ): boolean {
     // 收集相关的所有查询并检查查询条件
     const relatedItemSet = new Set<MediaQueryItem>();
     const checkResults: IMediaQueryCheckResult[] = [];
@@ -115,7 +148,7 @@ export class MediaQuery {
         }
       });
     } else {
-      chartSpec = cloneDeepSpec(chart.getSpec());
+      chartSpec = cloneDeepSpec(this._option.globalInstance.getSpec());
     }
 
     // 处理将会生效的查询
@@ -127,16 +160,12 @@ export class MediaQuery {
     });
 
     if (hasChanged) {
-      globalInstance.updateSpecSync(chartSpec);
+      this._option.updateSpec(chartSpec, compile, render);
     }
     return true;
   }
 
   release() {
     // empty
-  }
-
-  protected _getChart() {
-    return this._option.globalInstance.getChart();
   }
 }

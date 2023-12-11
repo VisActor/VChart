@@ -1,10 +1,8 @@
 import type { ICartesianAxisCommonSpec } from '../../component/axis/cartesian/interface';
-import { CartesianChart } from '../cartesian/cartesian';
+import { CartesianChart, CartesianChartSpecTransformer } from '../cartesian/cartesian';
 import type { IHistogramChartSpec } from './interface';
 
-export class BaseHistogramChart<T extends IHistogramChartSpec> extends CartesianChart<T> {
-  protected _canStack: boolean = true;
-
+export class BaseHistogramChartSpecTransformer<T extends IHistogramChartSpec> extends CartesianChartSpecTransformer<T> {
   transformSpec(spec: T): void {
     super.transformSpec(spec);
     spec.axes.forEach((axis: ICartesianAxisCommonSpec) => (axis.type = 'linear'));
@@ -18,4 +16,10 @@ export class BaseHistogramChart<T extends IHistogramChartSpec> extends Cartesian
       barMinHeight: spec?.barMinHeight
     };
   }
+}
+
+export class BaseHistogramChart<T extends IHistogramChartSpec> extends CartesianChart<T> {
+  static readonly transformerConstructor = BaseHistogramChartSpecTransformer;
+  readonly transformerConstructor = BaseHistogramChartSpecTransformer;
+  protected _canStack: boolean = true;
 }

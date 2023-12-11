@@ -1,4 +1,4 @@
-import { CartesianChart } from '../cartesian/cartesian';
+import { CartesianChart, CartesianChartSpecTransformer } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { Direction } from '../../typings';
@@ -6,12 +6,9 @@ import type { IRangeColumn3dChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { registerRangeColumn3dSeries } from '../../series/range-column/range-column-3d';
 
-export class RangeColumn3dChart<T extends IRangeColumn3dChartSpec = IRangeColumn3dChartSpec> extends CartesianChart<T> {
-  static readonly type: string = ChartTypeEnum.rangeColumn3d;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.rangeColumn3d;
-  readonly seriesType: string = SeriesTypeEnum.rangeColumn3d;
-
+export class RangeColumn3dChartSpecTransformer<
+  T extends IRangeColumn3dChartSpec = IRangeColumn3dChartSpec
+> extends CartesianChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: any): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
@@ -25,6 +22,17 @@ export class RangeColumn3dChart<T extends IRangeColumn3dChartSpec = IRangeColumn
     }
     return series;
   }
+}
+
+export class RangeColumn3dChart<T extends IRangeColumn3dChartSpec = IRangeColumn3dChartSpec> extends CartesianChart<T> {
+  static readonly type: string = ChartTypeEnum.rangeColumn3d;
+  static readonly seriesType: string = SeriesTypeEnum.rangeColumn3d;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = RangeColumn3dChartSpecTransformer;
+  // @ts-ignore
+  readonly transformerConstructor = RangeColumn3dChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.rangeColumn3d;
+  readonly seriesType: string = SeriesTypeEnum.rangeColumn3d;
 }
 
 export const registerRangeColumn3dChart = () => {

@@ -1,9 +1,9 @@
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
+import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import { BaseComponent } from '../base/base-component';
+import { BaseComponent, BaseComponentSpecTransformer } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
 import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
 import { DomTooltipHandler } from './handler/dom';
@@ -30,6 +30,8 @@ import type { DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './proce
 import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
 import { MarkTooltipProcessor } from './processor/mark-tooltip';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { hasParentElement, isString, cloneDeep, isArray, isValid, isNil } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
@@ -47,11 +49,26 @@ type EventHandlerList = {
   handler: any;
 }[];
 
+export class TooltipSpecTransformer extends BaseComponentSpecTransformer<any> {
+  protected _shouldMergeThemeToSpec() {
+    return false;
+  }
+
+  protected _initTheme(spec: any, chartSpec: any): any {
+    super._initTheme(spec, chartSpec);
+    const newSpec = cloneDeepSpec(spec);
+    newSpec.style = mergeSpec({}, this._theme, spec.style);
+    return newSpec;
+  }
+}
+
 export class Tooltip extends BaseComponent<any> implements ITooltip {
   protected layoutZIndex: number = 1;
   static type = ComponentTypeEnum.tooltip;
+  static readonly transformerConstructor = TooltipSpecTransformer;
   type = ComponentTypeEnum.tooltip;
   name: string = ComponentTypeEnum.tooltip;
+  readonly transformerConstructor = TooltipSpecTransformer;
 
   static specKey = 'tooltip';
   specKey = 'tooltip';
@@ -60,28 +77,38 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   protected declare _spec: ITooltipSpec;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const tooltipSpec = spec[this.specKey];
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const tooltipSpec = chartSpec[this.specKey];
     if (!tooltipSpec) {
       return null;
     }
     if (!isArray(tooltipSpec)) {
-      return new Tooltip(tooltipSpec, {
-        ...options,
-        specPath: [this.specKey]
-      });
+      return [
+        {
+          spec: tooltipSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.tooltip
+        }
+      ];
     }
-    const tooltips: Tooltip[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     tooltipSpec.forEach((s: any, i: number) => {
-      tooltips.push(
-        new Tooltip(s, {
-          ...options,
-          specIndex: i,
-          specPath: [this.specKey, i]
-        })
-      );
+      specInfos.push({
+        spec: s,
+        specIndex: i,
+        specPath: [this.specKey, i],
+        type: ComponentTypeEnum.tooltip
+      });
     });
-    return tooltips;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new Tooltip(spec, {
+      ...options,
+      ...others
+    });
   }
 
   tooltipHandler?: ITooltipHandler;
@@ -373,19 +400,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     return TooltipResult.failed;
   };
 
-  protected _initTheme(theme?: any) {
-    super._initTheme(theme);
-
-    this._spec = cloneDeepSpec(this._originalSpec);
-    this._spec.style = mergeSpec({}, this._theme, this._originalSpec.style);
-  }
-
-  protected _shouldMergeThemeToSpec() {
-    return false;
-  }
-
-  reInit(theme?: any) {
-    super.reInit(theme);
+  reInit() {
+    super.reInit();
 
     if (this.tooltipHandler) {
       this.tooltipHandler.reInit?.();

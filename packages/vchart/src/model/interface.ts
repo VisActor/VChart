@@ -64,6 +64,7 @@ export interface IModel extends ICompilable {
   readonly modelType: string;
   readonly type: string;
   readonly specKey: string;
+  readonly transformerConstructor: new (option: IBaseModelSpecTransformerOption) => IBaseModelSpecTransformer;
 
   readonly id: number;
 
@@ -100,7 +101,7 @@ export interface IModel extends ICompilable {
   // 用来处理与其他图表模块的联系
   init: (option: IModelInitOption) => void;
   // updateSpec 或者切换主题后，根据新 spec 执行的初始化过程
-  reInit: (theme?: any, lastSpec?: any) => void;
+  reInit: (lastSpec?: any) => void;
   beforeRelease: () => void;
 
   onEvaluateEnd: (ctx: IModelEvaluateOption) => void;
@@ -171,8 +172,15 @@ export interface IModelOption extends ICompilableInitOption {
   onError: (...args: any[]) => void;
 }
 
+export interface IModelSpecInfo {
+  type: string;
+  spec: any;
+  specPath?: Array<string | number>;
+  specIndex?: number;
+}
+
 export interface IModelConstructor {
-  new (ctx: IModelOption): IModel;
+  readonly transformerConstructor: new (option: IBaseModelSpecTransformerOption) => IBaseModelSpecTransformer;
 }
 
 export type ILayoutModelState = {
@@ -188,4 +196,14 @@ export interface IModelMarkInfo {
   type: MarkTypeEnum | string | (MarkTypeEnum | string)[];
   /** mark 名称 */
   name: string;
+}
+
+export interface IBaseModelSpecTransformerOption {
+  type: string;
+  getTheme: () => ITheme;
+}
+
+export interface IBaseModelSpecTransformer {
+  getTheme: (spec: any, chartSpec: any) => any;
+  transformSpec: (spec: any, chartSpec: any) => any;
 }

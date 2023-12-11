@@ -1,4 +1,4 @@
-import { BaseChart } from '../base-chart';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
 import type { ICartesianAxisSpec } from '../../component';
 import { getTrimPaddingConfig } from '../util';
 import { get } from '@visactor/vutils';
@@ -6,15 +6,13 @@ import { mergeSpec } from '../../util/spec';
 import type { ICartesianChartSpec } from './interface';
 import type { ISeriesSpec } from '../..';
 
-export class CartesianChart<T extends ICartesianChartSpec> extends BaseChart<T> {
-  readonly seriesType: string;
-
-  protected isValidSeries(type: string): boolean {
-    return this.seriesType ? type === this.seriesType : true;
-  }
-
+export class CartesianChartSpecTransformer<T extends ICartesianChartSpec> extends BaseChartSpecTransformer<T> {
   protected needAxes(): boolean {
     return true;
+  }
+
+  protected _isValidSeries(type: string): boolean {
+    return this.seriesType ? type === this.seriesType : true;
   }
 
   protected _getDefaultSeriesSpec(spec: any): any {
@@ -87,7 +85,7 @@ export class CartesianChart<T extends ICartesianChartSpec> extends BaseChart<T> 
       spec.series = [defaultSeriesSpec];
     } else {
       spec.series.forEach((s: ISeriesSpec) => {
-        if (!this.isValidSeries(s.type)) {
+        if (!this._isValidSeries(s.type)) {
           return;
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
@@ -98,4 +96,9 @@ export class CartesianChart<T extends ICartesianChartSpec> extends BaseChart<T> 
       });
     }
   }
+}
+
+export class CartesianChart<T extends ICartesianChartSpec> extends BaseChart<T> {
+  static readonly transformerConstructor = CartesianChartSpecTransformer;
+  readonly transformerConstructor = CartesianChartSpecTransformer;
 }

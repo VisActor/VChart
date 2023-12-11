@@ -15,9 +15,10 @@ import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core'
 import { textAttribute } from './util';
 import { BaseLabelComponent } from './base-label';
 import type { ITotalLabelSpec, ITotalLabelTheme } from './interface';
-import type { IModelInitOption } from '../../model/interface';
-import type { Datum } from '../../typings';
+import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
+import type { Datum, Maybe } from '../../typings';
 import { Factory } from '../../core/factory';
+import { isNil } from '@visactor/vutils';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
@@ -36,14 +37,35 @@ export class TotalLabel extends BaseLabelComponent {
 
   protected declare _theme: ITotalLabelTheme;
 
-  static createComponent(spec: ITotalLabelSpec, options: IComponentOption) {
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const compSpec = chartSpec[this.specKey];
+    if (isNil(compSpec)) {
+      return undefined;
+    }
+    return [
+      {
+        spec: compSpec,
+        specPath: [this.specKey],
+        type: ComponentTypeEnum.totalLabel
+      }
+    ];
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    // FIXME: 目前只有 label 类组件一个 specInfo 对应了多个组件实例，后续再优化
+    const { spec, ...others } = specInfo;
+
     const regions = options.getAllRegions();
     const labelComponents: TotalLabel[] = [];
     for (let i = 0; i < regions.length; i++) {
       const series = getSeries(regions);
       series.forEach(s => {
         if (s.getSpec()?.totalLabel?.visible) {
-          const cmp = new TotalLabel(s.getSpec().totalLabel, { ...options, specIndex: i });
+          const cmp = new TotalLabel(s.getSpec().totalLabel, {
+            ...options,
+            ...others,
+            specIndex: i
+          });
           cmp.series = s;
           labelComponents.push(cmp);
         }

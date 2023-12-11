@@ -1,9 +1,8 @@
 import type { IPolarAxisSpec } from '../../component/axis/polar/interface';
 import type { IPolarChartSpec } from './interface';
-import { PolarChart } from './polar';
+import { PolarChart, PolarChartSpecTransformer } from './polar';
 
-export class RoseLikeChart<T extends IPolarChartSpec> extends PolarChart<T> {
-  protected _canStack: boolean = true;
+export class RoseLikeChartSpecTransformer<T extends IPolarChartSpec> extends PolarChartSpecTransformer<T> {
   protected needAxes(): boolean {
     return true;
   }
@@ -49,4 +48,10 @@ export class RoseLikeChart<T extends IPolarChartSpec> extends PolarChart<T> {
       }
     }
   }
+}
+
+export class RoseLikeChart<T extends IPolarChartSpec> extends PolarChart<T> {
+  static readonly transformerConstructor = RoseLikeChartSpecTransformer;
+  readonly transformerConstructor = RoseLikeChartSpecTransformer;
+  protected _canStack: boolean = true;
 }

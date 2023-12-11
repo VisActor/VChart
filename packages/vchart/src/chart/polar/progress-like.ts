@@ -1,11 +1,11 @@
 import { isNil } from '@visactor/vutils';
 import type { IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from '../../component/axis/polar/interface';
 import { getLinearAxisSpecDomain } from '../../component/axis/util';
-import { PolarChart } from './polar';
+import { PolarChart, PolarChartSpecTransformer } from './polar';
 import { mergeSpec } from '../../util';
 import type { IPolarChartSpec } from './interface';
 
-export class ProgressLikeChart<T extends IPolarChartSpec> extends PolarChart<T> {
+export class ProgressLikeChartSpecTransformer<T extends IPolarChartSpec> extends PolarChartSpecTransformer<T> {
   protected needAxes(): boolean {
     return false;
   }
@@ -78,4 +78,9 @@ export class ProgressLikeChart<T extends IPolarChartSpec> extends PolarChart<T> 
       Object.assign(radiusAxis, mergeSpec({}, radiusAxisAppendSpec, radiusAxis));
     }
   }
+}
+
+export class ProgressLikeChart<T extends IPolarChartSpec> extends PolarChart<T> {
+  static readonly transformerConstructor = ProgressLikeChartSpecTransformer;
+  readonly transformerConstructor = ProgressLikeChartSpecTransformer;
 }

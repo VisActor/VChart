@@ -1,16 +1,27 @@
 import { array, isValid, isNil, isArray } from '@visactor/vutils';
 import type { IIndicatorSpec } from '../../component/indicator/interface';
-import { BaseChart } from '../base-chart';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
 import type { IDataZoomSpec } from '../../component/data-zoom';
 import { IFilterMode } from '../../component/data-zoom/constant';
 import type { IPolarChartSpec } from './interface';
 import type { ISeriesSpec } from '../..';
 
-export class PolarChart<T extends IPolarChartSpec> extends BaseChart<T> {
-  readonly seriesType: string;
-
-  protected isValidSeries(type: string): boolean {
+export class PolarChartSpecTransformer<T extends IPolarChartSpec> extends BaseChartSpecTransformer<T> {
+  protected _isValidSeries(type: string): boolean {
     return this.seriesType ? type === this.seriesType : true;
+  }
+
+  protected getIndicatorSpec(spec: any): IIndicatorSpec[] {
+    const indicatorSpec = array(spec.indicator) as IIndicatorSpec[];
+    const limitRatio = spec.innerRadius ?? spec.series?.[0]?.innerRadius;
+    if (isValid(limitRatio)) {
+      indicatorSpec.forEach(indicator => {
+        if (isNil(indicator.limitRatio)) {
+          indicator.limitRatio = limitRatio;
+        }
+      });
+    }
+    return indicatorSpec;
   }
 
   protected _getDefaultSeriesSpec(spec: any): any {
@@ -38,19 +49,6 @@ export class PolarChart<T extends IPolarChartSpec> extends BaseChart<T> {
     return series;
   }
 
-  protected getIndicatorSpec(spec: any): IIndicatorSpec[] {
-    const indicatorSpec = array(spec.indicator) as IIndicatorSpec[];
-    const limitRatio = spec.innerRadius ?? spec.series?.[0]?.innerRadius;
-    if (isValid(limitRatio)) {
-      indicatorSpec.forEach(indicator => {
-        if (isNil(indicator.limitRatio)) {
-          indicator.limitRatio = limitRatio;
-        }
-      });
-    }
-    return indicatorSpec;
-  }
-
   transformSpec(spec: T): void {
     super.transformSpec(spec);
     /** 处理极坐标系下的 datazoom */
@@ -69,7 +67,7 @@ export class PolarChart<T extends IPolarChartSpec> extends BaseChart<T> {
       spec.series = [defaultSeriesSpec];
     } else {
       spec.series.forEach((s: ISeriesSpec) => {
-        if (!this.isValidSeries(s.type)) {
+        if (!this._isValidSeries(s.type)) {
           return;
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
@@ -85,4 +83,9 @@ export class PolarChart<T extends IPolarChartSpec> extends BaseChart<T> {
       (spec as any).indicator = this.getIndicatorSpec(spec);
     }
   }
+}
+
+export class PolarChart<T extends IPolarChartSpec> extends BaseChart<T> {
+  static readonly transformerConstructor = PolarChartSpecTransformer;
+  readonly transformerConstructor = PolarChartSpecTransformer;
 }

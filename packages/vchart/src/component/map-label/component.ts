@@ -19,9 +19,10 @@ import type { IGraphic, IGroup, INode, IRect as IRectGraphic } from '@visactor/v
 // eslint-disable-next-line no-duplicate-imports
 import { createGroup, createRect, createSymbol, createText } from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
+import type { Maybe } from '@visactor/vutils';
 import { isValid } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { IModel } from '../../model/interface';
+import type { IModel, IModelSpecInfo } from '../../model/interface';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
 
@@ -49,15 +50,26 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
 
   private _activeDatum: Datum[] = [];
 
-  static createComponent(spec: any, options: IComponentOption) {
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     // TODO: 限制mapSeries使用
-    const labelSpec = spec[this.specKey];
+    const labelSpec = chartSpec[this.specKey];
     if (!labelSpec || !labelSpec.visible || isValid(labelSpec.series)) {
       return null;
     }
-    return new MapLabelComponent(labelSpec, {
+    return [
+      {
+        spec: labelSpec,
+        specPath: [this.specKey],
+        type: ComponentTypeEnum.mapLabel
+      }
+    ];
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new MapLabelComponent(spec, {
       ...options,
-      specPath: [this.specKey]
+      ...others
     });
   }
 

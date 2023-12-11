@@ -1,17 +1,13 @@
 import { registerScatterSeries } from '../../series/scatter/scatter';
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { CartesianChart } from '../cartesian/cartesian';
+import { CartesianChart, CartesianChartSpecTransformer } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
 import type { IScatterChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 
-export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> extends CartesianChart<T> {
-  static readonly type: string = ChartTypeEnum.scatter;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.scatter;
-  readonly seriesType: string = SeriesTypeEnum.scatter;
-  protected _canStack: boolean = true;
-
+export class ScatterChartSpecTransformer<
+  T extends IScatterChartSpec = IScatterChartSpec
+> extends CartesianChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: IScatterChartSpec): any {
     return {
       ...super._getDefaultSeriesSpec(spec),
@@ -22,6 +18,18 @@ export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> exten
       shapeField: spec.shapeField
     };
   }
+}
+
+export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> extends CartesianChart<T> {
+  static readonly type: string = ChartTypeEnum.scatter;
+  static readonly seriesType: string = SeriesTypeEnum.scatter;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = ScatterChartSpecTransformer;
+  // @ts-ignore
+  readonly transformerConstructor = ScatterChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.scatter;
+  readonly seriesType: string = SeriesTypeEnum.scatter;
+  protected _canStack: boolean = true;
 }
 
 export const registerScatterChart = () => {

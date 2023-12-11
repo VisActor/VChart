@@ -1,18 +1,12 @@
 import { registerBarSeries } from '../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { CartesianChart } from '../cartesian/cartesian';
+import { CartesianChart, CartesianChartSpecTransformer } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBarChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 
-export class BarChart<T extends IBarChartSpec = IBarChartSpec> extends CartesianChart<T> {
-  static readonly type: string = ChartTypeEnum.bar;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.bar;
-  readonly seriesType: string = SeriesTypeEnum.bar;
-  protected _canStack: boolean = true;
-
+export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> extends CartesianChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: T): any {
     return {
       ...super._getDefaultSeriesSpec(spec),
@@ -31,6 +25,16 @@ export class BarChart<T extends IBarChartSpec = IBarChartSpec> extends Cartesian
     super.transformSpec(spec);
     setDefaultCrosshairForCartesianChart(spec);
   }
+}
+export class BarChart<T extends IBarChartSpec = IBarChartSpec> extends CartesianChart<T> {
+  static readonly type: string = ChartTypeEnum.bar;
+  static readonly seriesType: string = SeriesTypeEnum.bar;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = BarChartSpecTransformer;
+  readonly transformerConstructor = BarChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.bar;
+  readonly seriesType: string = SeriesTypeEnum.bar;
+  protected _canStack: boolean = true;
 }
 
 export const registerBarChart = () => {

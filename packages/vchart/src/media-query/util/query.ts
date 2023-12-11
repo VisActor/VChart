@@ -46,8 +46,8 @@ export const checkMediaQuery = (query: IMediaQueryCondition, mediaInfo: IMediaIn
           return false;
         }
         break;
-      case 'onUpdate':
-        if (isValid(query.onUpdate) && !query.onUpdate(globalInstance.getChart().getSpec(), globalInstance)) {
+      case 'onUpdateSpec':
+        if (isValid(query.onUpdateSpec) && !query.onUpdateSpec(globalInstance.getChart().getSpec(), globalInstance)) {
           return false;
         }
         break;

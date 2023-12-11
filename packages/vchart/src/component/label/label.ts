@@ -2,20 +2,22 @@ import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
-import type { IModelInitOption } from '../../model/interface';
+import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
 import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { eachSeries } from '../../util/model';
 import type { ISeries } from '../../series/interface';
 import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
+// eslint-disable-next-line no-duplicate-imports
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { labelRuleMap, textAttribute } from './util';
 import { ComponentMark, type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
-import type { LooseFunction } from '@visactor/vutils';
-import { isArray, isFunction, pickWithout } from '@visactor/vutils';
-import type { IGraphic, IGraphicAttribute, IGroup, IText } from '@visactor/vrender-core';
+import type { LooseFunction, Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
+import { isArray, isFunction, isNil, pickWithout } from '@visactor/vutils';
+import type { IGroup, IText } from '@visactor/vrender-core';
 import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
@@ -55,9 +57,26 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this._layoutRule = spec.labelLayout || 'series';
   }
 
-  static createComponent(spec: any, options: IComponentOption) {
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const compSpec = chartSpec[this.specKey];
+    if (isNil(compSpec)) {
+      return undefined;
+    }
+    return [
+      {
+        spec: compSpec,
+        specPath: [this.specKey],
+        type: ComponentTypeEnum.label
+      }
+    ];
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    // FIXME: 目前只有 label 类组件一个 specInfo 对应了多个组件实例，后续再优化
+    const { spec, ...others } = specInfo;
+
     const regions = options.getAllRegions();
-    const labelComponents = [];
+    const labelComponents: Label[] = [];
     for (let i = 0; i < regions.length; i++) {
       const marks = regions[i]
         .getSeries()
@@ -67,7 +86,13 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         return mark.getLabelSpec()?.some(labelSpec => labelSpec.visible);
       });
       if (labelVisible) {
-        labelComponents.push(new Label(spec, { ...options, specIndex: i }));
+        labelComponents.push(
+          new Label(spec, {
+            ...options,
+            ...others,
+            specIndex: i
+          })
+        );
         continue;
       }
     }
@@ -82,7 +107,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this._initTextMarkStyle();
   }
 
-  reInit(theme?: any) {
+  reInit() {
     this._labelInfoMap && this._labelInfoMap.clear();
     this._initTextMark();
     this._initTextMarkStyle();

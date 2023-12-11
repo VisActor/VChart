@@ -13,7 +13,7 @@ import { transformToGraphic } from '../../util/style';
 import { getActualNumValue } from '../../util/space';
 import { isEqual, isValid, isFunction, array, isArray } from '@visactor/vutils';
 import { indicatorMapper } from './util';
-import type { IModel } from '../../model/interface';
+import type { IModel, IModelSpecInfo } from '../../model/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
@@ -50,36 +50,44 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
 
   protected declare _theme: Maybe<IIndicatorTheme>;
 
-  static createComponent(spec: any, options: IComponentOption) {
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     if (this.type !== Indicator.type) {
       return null;
     }
-    const indicatorSpec = spec[this.specKey];
+    const indicatorSpec = chartSpec[this.specKey];
     if (!isArray(indicatorSpec)) {
       if (indicatorSpec.visible === false) {
         return [];
       }
       return [
-        new Indicator(indicatorSpec, {
-          ...options,
-          specPath: [this.specKey]
-        })
+        {
+          spec: indicatorSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.indicator
+        }
       ];
     }
 
-    const indicators: IIndicator[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     indicatorSpec.forEach((s, i) => {
       if (s && s.visible !== false) {
-        indicators.push(
-          new Indicator(s, {
-            ...options,
-            specIndex: i,
-            specPath: [this.specKey, i]
-          })
-        );
+        specInfos.push({
+          spec: s,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: ComponentTypeEnum.indicator
+        });
       }
     });
-    return indicators;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new Indicator(spec, {
+      ...options,
+      ...others
+    });
   }
 
   created() {

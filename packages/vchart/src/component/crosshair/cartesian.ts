@@ -1,3 +1,4 @@
+import type { Maybe } from '@visactor/vutils';
 import { isArray, isValid, isValidNumber, isNil } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -19,6 +20,7 @@ import type { IOrientType, StringOrNumber } from '../../typings';
 import { isXAxis } from '../axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 import { LayoutType } from './config';
+import type { IModelSpecInfo } from '../../model/interface';
 
 interface ICrosshairInfoX {
   height: number;
@@ -72,33 +74,43 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   private _currValueX: Map<number, { v: StringOrNumber; axis: IAxis }>;
   private _currValueY: Map<number, { v: StringOrNumber; axis: IAxis }>;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const crosshairSpec = spec[this.specKey];
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const crosshairSpec = chartSpec[this.specKey];
     if (isNil(crosshairSpec)) {
       return undefined;
     }
     if (!isArray(crosshairSpec)) {
       if (crosshairSpec.xField || crosshairSpec.yField) {
-        return new CartesianCrossHair(crosshairSpec, {
-          ...options,
-          specPath: [this.specKey]
-        });
+        return [
+          {
+            spec: crosshairSpec,
+            specPath: [this.specKey],
+            type: ComponentTypeEnum.cartesianCrosshair
+          }
+        ];
       }
       return undefined;
     }
-    const components: CartesianCrossHair[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     crosshairSpec.forEach((s: ICartesianCrosshairSpec, i: number) => {
       if (s.xField || s.yField) {
-        components.push(
-          new CartesianCrossHair(s, {
-            ...options,
-            specIndex: i,
-            specPath: [this.specKey, i]
-          })
-        );
+        specInfos.push({
+          spec: s,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: ComponentTypeEnum.cartesianCrosshair
+        });
       }
     });
-    return components;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new CartesianCrossHair(spec, {
+      ...options,
+      ...others
+    });
   }
 
   constructor(spec: T, options: IComponentOption) {

@@ -3,17 +3,14 @@ import type { IPolarAxisSpec, IPolarBandAxisSpec } from '../../component/axis/po
 import { POLAR_DEFAULT_RADIUS } from '../../constant';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
-import { RoseLikeChart } from '../polar/rose-like';
+import { RoseLikeChart, RoseLikeChartSpecTransformer } from '../polar/rose-like';
 import { array, isNil, mergeSpec } from '../../util';
 import { Factory } from '../../core/factory';
 import type { IRoseChartSpec } from './interface';
 
-export class RoseChart<T extends IRoseChartSpec = IRoseChartSpec> extends RoseLikeChart<T> {
-  static readonly type: string = ChartTypeEnum.rose;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.rose;
-  readonly seriesType: string = SeriesTypeEnum.rose;
-
+export class RoseChartSpecTransformer<
+  T extends IRoseChartSpec = IRoseChartSpec
+> extends RoseLikeChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: T): any {
     return {
       ...super._getDefaultSeriesSpec(spec),
@@ -58,6 +55,16 @@ export class RoseChart<T extends IRoseChartSpec = IRoseChartSpec> extends RoseLi
       );
     });
   }
+}
+
+export class RoseChart<T extends IRoseChartSpec = IRoseChartSpec> extends RoseLikeChart<T> {
+  static readonly type: string = ChartTypeEnum.rose;
+  static readonly seriesType: string = SeriesTypeEnum.rose;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = RoseChartSpecTransformer;
+  readonly transformerConstructor = RoseChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.rose;
+  readonly seriesType: string = SeriesTypeEnum.rose;
 }
 
 export const registerRoseChart = () => {

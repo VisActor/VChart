@@ -1,8 +1,8 @@
-import type { IBounds, IBoundsLike } from '@visactor/vutils';
+import type { IBounds, IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import type { IEffect, IModelInitOption } from '../../../model/interface';
+import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
-import type { IRegion } from '../../../region/interface';
+import type { IRegion, IRegionSpec } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
 import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined } from '../../../util';
 import type { IOrientType } from '../../../typings/space';
@@ -40,16 +40,28 @@ import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
+import { BaseComponentSpecTransformer } from '../../base';
 
 const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
+
+export class CartesianAxisSpecTransformer<
+  T extends ICartesianAxisCommonSpec = ICartesianAxisCommonSpec
+> extends BaseComponentSpecTransformer<T> {
+  protected _transformSpec(spec: T, chartSpec: any) {
+    // change spec by default logic
+    spec.inverse = transformInverse(spec, chartSpec.direction === Direction.horizontal);
+  }
+}
 
 export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartesianAxisCommonSpec>
   extends AxisComponent<T>
   implements IAxis
 {
   static type = ComponentTypeEnum.cartesianAxis;
+  static transformerConstructor = CartesianAxisSpecTransformer as any;
   type = ComponentTypeEnum.cartesianAxis;
   name: string = ComponentTypeEnum.cartesianAxis;
+  readonly transformerConstructor = CartesianAxisSpecTransformer;
 
   static specKey = 'axes';
 
@@ -108,49 +120,46 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._dataSet = options.dataSet;
   }
 
-  static createAxis(spec: any, options: IComponentOption, isHorizontal: boolean = false): IAxis {
-    const axisType = spec.type ?? autoAxisType(spec.orient, isHorizontal);
-    const componentName = `${CartesianAxis.type}-${axisType}`;
-    const C = Factory.getComponentInKey(componentName);
+  static createAxis(type: string, spec: any, options: IComponentOption): IAxis {
+    const C = Factory.getComponentInKey(type);
     if (C) {
-      return new C(
-        {
-          ...spec,
-          type: axisType
-        },
-        {
-          ...options,
-          type: componentName
-        }
-      ) as IAxis;
+      return new C(spec, options) as IAxis;
     }
-    options.onError(`Component ${componentName} not found`);
+    options.onError(`Component ${type} not found`);
     return null;
   }
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const regions = options.getRegionsInIndex();
-    if (regions.find(r => r.coordinate !== 'cartesian')) {
-      return null;
-    }
-    const axesSpec = spec[this.specKey];
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    // const regions = (chartSpec.region as IRegionSpec[]) ?? [];
+    // if (regions.find(r => r.coordinate !== 'cartesian')) {
+    //   return null;
+    // }
+    const axesSpec = chartSpec[this.specKey];
     if (!axesSpec) {
       return null;
     }
-    const isHorizontal = spec.direction === Direction.horizontal;
+
+    const isHorizontal = chartSpec.direction === Direction.horizontal;
+    const getAxisInfo = (spec: ICartesianAxisCommonSpec) => {
+      const axisType = spec.type ?? autoAxisType(spec.orient, isHorizontal);
+      const componentName = `${CartesianAxis.type}-${axisType}`;
+      return { axisType, componentName };
+    };
+
     if (!isArray(axesSpec)) {
       // 如果非法，或者只有一个z轴就不创建
       if (!isValidCartesianAxis(axesSpec)) {
         return null;
       }
-      return CartesianAxis.createAxis(
-        axesSpec,
+      const { axisType, componentName } = getAxisInfo(axesSpec);
+      axesSpec.type = axisType;
+      return [
         {
-          ...options,
-          specPath: [this.specKey]
-        },
-        isHorizontal
-      );
+          spec: axesSpec,
+          specPath: [this.specKey],
+          type: componentName
+        }
+      ];
     }
     // 处理spec
     const zAxis = axesSpec.filter(s => s.orient === 'z')[0];
@@ -166,24 +175,29 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (!valid) {
       axesSpecList = axesSpecList.filter(({ spec }) => spec.orient !== 'z');
     }
-    const axes: IAxis[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     axesSpecList.forEach(({ spec, index }) => {
       if (!isValidCartesianAxis(spec)) {
         return;
       }
-      axes.push(
-        CartesianAxis.createAxis(
-          spec,
-          {
-            ...options,
-            specIndex: index,
-            specPath: [this.specKey, index]
-          },
-          isHorizontal
-        ) as IAxis
-      );
+      const { axisType, componentName } = getAxisInfo(spec);
+      spec.type = axisType;
+      specInfos.push({
+        spec,
+        specIndex: index,
+        specPath: [this.specKey, index],
+        type: componentName
+      });
     });
-    return axes;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return CartesianAxis.createAxis(others.type, spec, {
+      ...options,
+      ...others
+    }) as IAxis;
   }
 
   initLayout(): void {
@@ -869,12 +883,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   onDataUpdate(): void {
     // clear layout cache
     this._clearLayoutCache();
-  }
-
-  protected _transformSpec() {
-    // change spec by default logic
-    const chartSpec = this._option.getChart().getSpec();
-    this._spec.inverse = transformInverse(this._spec, chartSpec.direction === Direction.horizontal);
   }
 
   private _appendAxisUnit(bounds: IBounds, isX: boolean) {

@@ -1,5 +1,5 @@
 import { array, isArray, isFunction, isNil, isObject } from '@visactor/vutils';
-import { IMediaQueryItem, IMediaQuerySpec } from '../interface';
+import type { IMediaQueryItem, IMediaQuerySpec } from '../interface';
 
 /**
  * 判断一个 spec 是否包含另一个 spec 片段
@@ -32,10 +32,10 @@ export const setProperty = (target: any, path: Array<string | number>, value: an
     return;
   }
   if (isNil(target[key])) {
-    if (typeof key === 'string') {
-      target[key] = {};
-    } else if (typeof key === 'number') {
+    if (typeof path[1] === 'number') {
       target[key] = [];
+    } else {
+      target[key] = {};
     }
   }
   setProperty(target[key], path.slice(1), value);

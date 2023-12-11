@@ -1,11 +1,9 @@
 import type { IFunnelSeriesSpec } from '../../series/funnel/interface';
 import type { ISeriesSpec } from '../../typings/spec';
 import type { IFunnelChartSpec } from './interface';
-import { BaseChart } from '../base-chart';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
 
-export class BaseFunnelChart<T extends IFunnelChartSpec> extends BaseChart<T> {
-  seriesType: string;
-
+export class BaseFunnelChartSpecTransformer<T extends IFunnelChartSpec> extends BaseChartSpecTransformer<T> {
   protected needAxes(): boolean {
     return false;
   }
@@ -50,7 +48,7 @@ export class BaseFunnelChart<T extends IFunnelChartSpec> extends BaseChart<T> {
       spec.series = [defaultSeriesSpec];
     } else {
       spec.series.forEach((s: ISeriesSpec) => {
-        if (!this.isValidSeries(s.type)) {
+        if (!this._isValidSeries(s.type)) {
           return;
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
@@ -61,4 +59,9 @@ export class BaseFunnelChart<T extends IFunnelChartSpec> extends BaseChart<T> {
       });
     }
   }
+}
+
+export class BaseFunnelChart<T extends IFunnelChartSpec> extends BaseChart<T> {
+  static readonly transformerConstructor = BaseFunnelChartSpecTransformer;
+  readonly transformerConstructor = BaseFunnelChartSpecTransformer;
 }

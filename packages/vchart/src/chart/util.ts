@@ -76,13 +76,16 @@ export function calculateChartSize(
   };
 }
 
-export function mergeUpdateResult(resultA: IUpdateSpecResult, resultB: IUpdateSpecResult) {
-  resultA.change = resultA.change || resultB.change;
-  resultA.reCompile = resultA.reCompile || resultB.reCompile;
-  resultA.reMake = resultA.reMake || resultB.reMake;
-  resultA.reRender = resultA.reRender || resultB.reRender;
-  resultA.reSize = resultA.reSize || resultB.reSize;
-  return resultA;
+export function mergeUpdateResult(target: IUpdateSpecResult, ...sources: IUpdateSpecResult[]) {
+  const merge = (key: keyof IUpdateSpecResult) => sources.reduce((value, cur) => value || cur?.[key], target[key]);
+  Object.assign(target, {
+    change: merge('change'),
+    reCompile: merge('reCompile'),
+    reMake: merge('reMake'),
+    reRender: merge('reRender'),
+    reSize: merge('reSize')
+  } as Required<IUpdateSpecResult>);
+  return target;
 }
 
 export function getTrimPaddingConfig(chartType: string, spec: IChartSpec) {

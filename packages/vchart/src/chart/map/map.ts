@@ -1,5 +1,5 @@
 import { registerMapSeries } from '../../series/map/map';
-import { BaseChart } from '../base-chart';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
 import type { IRegionSpec } from '../../region/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
@@ -8,11 +8,10 @@ import type { IMapSeriesSpec } from '../../series/map/interface';
 import type { ISeriesSpec } from '../../typings/spec';
 import { Factory } from '../../core/factory';
 
-export class MapChart<T extends IMapChartSpec = IMapChartSpec> extends BaseChart<T> {
-  static readonly type: string = ChartTypeEnum.map;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.map;
-  readonly seriesType: string = SeriesTypeEnum.map;
+export class MapChartSpecTransformer<T extends IMapChartSpec = IMapChartSpec> extends BaseChartSpecTransformer<T> {
+  protected _isValidSeries(type: string) {
+    return type === SeriesTypeEnum.map;
+  }
 
   protected _getDefaultSeriesSpec(spec: IMapChartSpec): IMapSeriesSpec {
     const series: any = {
@@ -37,10 +36,6 @@ export class MapChart<T extends IMapChartSpec = IMapChartSpec> extends BaseChart
     return series;
   }
 
-  protected isValidSeries(type: string) {
-    return type === SeriesTypeEnum.map;
-  }
-
   transformSpec(spec: T): void {
     super.transformSpec(spec);
 
@@ -53,7 +48,7 @@ export class MapChart<T extends IMapChartSpec = IMapChartSpec> extends BaseChart
       spec.series = [defaultSeriesSpec];
     } else {
       spec.series.forEach((s: ISeriesSpec) => {
-        if (!this.isValidSeries(s.type)) {
+        if (!this._isValidSeries(s.type)) {
           return;
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
@@ -64,6 +59,16 @@ export class MapChart<T extends IMapChartSpec = IMapChartSpec> extends BaseChart
       });
     }
   }
+}
+
+export class MapChart<T extends IMapChartSpec = IMapChartSpec> extends BaseChart<T> {
+  static readonly type: string = ChartTypeEnum.map;
+  static readonly seriesType: string = SeriesTypeEnum.map;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = MapChartSpecTransformer;
+  readonly transformerConstructor = MapChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.map;
+  readonly seriesType: string = SeriesTypeEnum.map;
 }
 
 export const registerMapChart = () => {

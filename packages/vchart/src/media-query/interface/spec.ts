@@ -5,6 +5,7 @@ import type { RenderMode } from '../../typings/spec/common';
 import type { IVChart } from '../../core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { SeriesTypeEnum } from '../../series';
+import type { IFilteredModelInfo } from './common';
 
 /**
  * 媒体查询配置（包含多项查询）
@@ -37,7 +38,7 @@ export interface IMediaQueryCondition {
   /** 当图表宽度或高度发生变化时触发的回调，由回调指定是否命中查询条件 */
   onResize?: (size: IContainerSize, vchart: IVChart) => boolean;
   /** 当图表更新时触发的回调，由回调指定是否命中查询条件 */
-  onUpdate?: (spec: any, vchart: IVChart) => boolean;
+  onUpdateSpec?: (spec: any, vchart: IVChart) => boolean;
 }
 
 export type MediaQueryAction = IMediaQueryAction | MediaQueryActionCallback;
@@ -56,8 +57,8 @@ export interface IMediaQueryAction<T extends Record<string, unknown> = any> {
   spec:
     | Partial<T>
     | ((
-        /** filter 匹配到的图表元素实例 */
-        filteredElements: (IModel | IChart)[],
+        /** filter 匹配到的图表元素信息 */
+        filteredModelInfo: IFilteredModelInfo<T>[],
         /** 当前 action 对象 */
         action: IMediaQueryAction<T>,
         /** 当前媒体查询条件 */
@@ -122,6 +123,8 @@ export type MediaQueryActionFilterType =
 export type MediaQueryActionFilter<T extends Record<string, unknown> = any> =
   | Partial<T>
   | ((
+      /** 当前图表元素 spec */
+      spec: T,
       /** 当前图表元素实例 */
       element: IModel | IChart,
       /** 当前 action 对象 */

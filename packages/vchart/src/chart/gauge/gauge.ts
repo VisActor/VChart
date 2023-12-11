@@ -1,24 +1,18 @@
 import { isNil } from '@visactor/vutils';
 import type { IPolarAxisSpec, IPolarLinearAxisSpec } from '../../component/axis/polar/interface';
 import { type IGaugeSeriesSpec, registerGaugePointerSeries, registerGaugeSeries } from '../../series/gauge';
-import type { ISeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ICircularProgressSeriesSpec } from '../../series/progress/circular/interface';
 import { ChartTypeEnum } from '../interface/type';
-import { ProgressLikeChart } from '../polar/progress-like';
+import { ProgressLikeChart, ProgressLikeChartSpecTransformer } from '../polar/progress-like';
 import { Factory } from '../../core/factory';
 import { LayoutZIndex } from '../../constant';
 import type { IGaugeChartSpec } from './interface';
 import type { AdaptiveSpec, ISeriesSpec } from '../..';
 
-export class GaugeChart<T extends IGaugeChartSpec = IGaugeChartSpec> extends ProgressLikeChart<
-  AdaptiveSpec<T, 'axes'>
-> {
-  static readonly type: string = ChartTypeEnum.gauge;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.gauge;
-  readonly seriesType: string = SeriesTypeEnum.gaugePointer;
-
+export class GaugeChartSpecTransformer<
+  T extends IGaugeChartSpec = IGaugeChartSpec
+> extends ProgressLikeChartSpecTransformer<AdaptiveSpec<T, 'axes'>> {
   protected _getDefaultSeriesSpec(spec: T): any {
     const series = super._getDefaultSeriesSpec(spec);
     return {
@@ -144,6 +138,18 @@ export class GaugeChart<T extends IGaugeChartSpec = IGaugeChartSpec> extends Pro
       axesPtr.angle.zIndex = LayoutZIndex.Region + 50; // 仪表图特例：轴在 region 上层
     }
   }
+}
+
+export class GaugeChart<T extends IGaugeChartSpec = IGaugeChartSpec> extends ProgressLikeChart<
+  AdaptiveSpec<T, 'axes'>
+> {
+  static readonly type: string = ChartTypeEnum.gauge;
+  static readonly seriesType: string = SeriesTypeEnum.gaugePointer;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = GaugeChartSpecTransformer;
+  readonly transformerConstructor = GaugeChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.gauge;
+  readonly seriesType: string = SeriesTypeEnum.gaugePointer;
 }
 
 export const registerGaugeChart = () => {

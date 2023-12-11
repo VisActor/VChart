@@ -1,5 +1,4 @@
 import type { IVChart } from '../../core';
-import type { IModel } from '../../model/interface';
 import { isArray, isFunction, isNil, mergeSpec } from '../../util';
 import type { IMediaQueryAction, IMediaQueryCondition, IMediaQueryActionResult } from '../interface';
 import { setProperty } from './common';
@@ -14,10 +13,10 @@ export const executeMediaQueryAction = <T extends Record<string, unknown>>(
 ): IMediaQueryActionResult => {
   const { spec, filter, filterType, forceAppend } = action;
   const {
-    filteredModels,
+    filteredModelInfo,
     filterInfoForAppend: { isChart, modelType, specKey, type }
-  } = executeMediaQueryActionFilter<T>(filterType, filter, action, query, globalInstance);
-  if (filteredModels.length === 0 && !forceAppend) {
+  } = executeMediaQueryActionFilter<T>(filterType, filter, action, query, chartSpec, globalInstance);
+  if (filteredModelInfo.length === 0 && !forceAppend) {
     return {
       chartSpec,
       hasChanged: false
@@ -25,16 +24,16 @@ export const executeMediaQueryAction = <T extends Record<string, unknown>>(
   }
   // 修改现有图表元素的 spec
   const targetSpec = mergeSpec({}, chartSpec);
-  const newSpec = isFunction(spec) ? spec(filteredModels, action, query) : spec;
-  for (const model of filteredModels) {
+  const newSpec = isFunction(spec) ? spec(filteredModelInfo, action, query) : spec;
+  for (const { spec, specPath } of filteredModelInfo) {
     if (isChart) {
       return mergeSpec(targetSpec, newSpec);
     }
-    const modelSpec = mergeSpec({}, model.getSpec(), newSpec);
-    setProperty(targetSpec, (model as IModel).getSpecPath(), modelSpec);
+    const modelSpec = mergeSpec({}, spec, newSpec);
+    setProperty(targetSpec, specPath, modelSpec);
   }
   // 如果没有匹配到图表元素，且 forceAppend 为 true，则添加新元素
-  if (filteredModels.length === 0 && forceAppend) {
+  if (filteredModelInfo.length === 0 && forceAppend) {
     const newSpecToAppend = {
       type,
       ...newSpec

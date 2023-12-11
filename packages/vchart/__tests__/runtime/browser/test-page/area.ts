@@ -114,7 +114,7 @@ const getSpec = (): IAreaChartSpec => ({
   media: [
     {
       query: {
-        maxWidth: 300
+        maxWidth: 600
       },
       action: {
         filterType: 'legend',

@@ -2,16 +2,18 @@ import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
-import type { IComponent } from '../../component/interface';
+import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { IModel, IUpdateSpecResult } from '../../model/interface';
-import type { IRegion } from '../../region/interface';
-import type { ISeries } from '../../series/interface';
+import type { IModel, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
+import type { IRegion, IRegionConstructor, IRegionSpec } from '../../region/interface';
+import type { ISeries, ISeriesConstructor } from '../../series/interface';
 import type {
   IChartEvaluateOption,
   IChartLayoutOption,
   IChartOption,
   IChartRenderOption,
+  IChartSpecInfo,
+  IChartSpecTransformerOption,
   ILayoutParams
 } from './common';
 import type { IBoundsLike, IPadding } from '@visactor/vutils';
@@ -25,9 +27,11 @@ import type {
   IShowTooltipOption,
   IDataValues,
   ILayoutRect,
-  IData
+  IData,
+  ISeriesSpec
 } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
+import { spec } from 'node:test/reporters';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
@@ -47,6 +51,7 @@ export interface IChart extends ICompilable {
 
   readonly type: string;
   readonly chartData: IChartData;
+  readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
 
   getSpec: () => any;
   setSpec: (s: any) => void;
@@ -170,9 +175,32 @@ export interface IChart extends ICompilable {
   setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
 }
 
+export interface IChartSpecTransformer {
+  readonly type: string;
+  readonly seriesType: string;
+
+  initChartSpec: (spec: any) => IChartSpecInfo;
+  transformSpec: (spec: any) => void;
+  transformModelSpec: (spec: any) => IChartSpecInfo;
+  forEachRegionInSpec: <K>(
+    spec: any,
+    callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo) => K
+  ) => K[];
+  forEachSeriesInSpec: <K>(
+    spec: any,
+    callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo) => K
+  ) => K[];
+  forEachComponentInSpec: <K>(
+    spec: any,
+    callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo) => K
+  ) => K[];
+}
+
 export interface IChartConstructor {
   readonly type: string;
+  readonly seriesType?: string;
   readonly series?: string | string[];
   readonly view: string;
+  readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
   new (spec: any, options: IChartOption): IChart;
 }

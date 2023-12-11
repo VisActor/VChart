@@ -1,20 +1,14 @@
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import { ChartTypeEnum } from '../../interface';
-import { ProgressLikeChart } from '../../polar/progress-like';
+import { ProgressLikeChart, ProgressLikeChartSpecTransformer } from '../../polar/progress-like';
 import { registerCircularProgressSeries } from '../../../series/progress/circular';
 import { Factory } from '../../../core/factory';
 import type { ICircularProgressChartSpec } from './interface';
 import type { AdaptiveSpec } from '../../..';
 
-export class CircularProgressChart<
+export class CircularProgressChartSpecTransformer<
   T extends ICircularProgressChartSpec = ICircularProgressChartSpec
-> extends ProgressLikeChart<AdaptiveSpec<T, 'axes'>> {
-  static readonly type: string = ChartTypeEnum.circularProgress;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.circularProgress;
-  readonly seriesType: string = SeriesTypeEnum.circularProgress;
-  protected _canStack: boolean = true;
-
+> extends ProgressLikeChartSpecTransformer<AdaptiveSpec<T, 'axes'>> {
   protected _getDefaultSeriesSpec(spec: T): any {
     const series = super._getDefaultSeriesSpec(spec);
     return {
@@ -44,6 +38,19 @@ export class CircularProgressChart<
       }
     );
   }
+}
+
+export class CircularProgressChart<
+  T extends ICircularProgressChartSpec = ICircularProgressChartSpec
+> extends ProgressLikeChart<AdaptiveSpec<T, 'axes'>> {
+  static readonly type: string = ChartTypeEnum.circularProgress;
+  static readonly seriesType: string = SeriesTypeEnum.circularProgress;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = CircularProgressChartSpecTransformer;
+  readonly transformerConstructor = CircularProgressChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.circularProgress;
+  readonly seriesType: string = SeriesTypeEnum.circularProgress;
+  protected _canStack: boolean = true;
 }
 
 export const registerCircularProgressChart = () => {

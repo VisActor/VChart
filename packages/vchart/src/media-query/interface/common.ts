@@ -1,11 +1,11 @@
 import type { IChart, IChartOption } from '../../chart/interface';
 import type { ComponentTypeEnum } from '../../component/interface';
-import { IEventDispatcher, VChart } from '../../core';
+import type { IEventDispatcher, VChart } from '../../core';
 import type { IModel } from '../../model/interface';
 import type { SeriesTypeEnum } from '../../series';
 import type { IChartSpec, RenderMode } from '../../typings';
-import { MediaQuery } from '../media-query';
-import { MediaQueryItem } from '../media-query-item';
+import type { MediaQuery } from '../media-query';
+import type { MediaQueryItem } from '../media-query-item';
 
 export interface IMediaInfo {
   /** 图表宽度 */
@@ -21,6 +21,7 @@ export interface IMediaInfo {
 export interface IFilteredModelInfo<T extends Record<string, unknown> = any> {
   model?: IModel | IChart;
   spec: T;
+  specPath?: Array<string | number>;
 }
 
 export interface IFilterInfoForAppend {
@@ -38,6 +39,7 @@ export interface IMediaQueryOption {
   eventDispatcher: IEventDispatcher;
   globalInstance: VChart;
   mode: RenderMode;
+  updateSpec: (spec: any, compile?: boolean, render?: boolean) => void;
 }
 
 export interface IMediaQueryItemOption extends IMediaQueryOption {

@@ -1,18 +1,15 @@
 import type { ICirclePackingSeriesSpec } from '../../series/circle-packing/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { BaseChart } from '../base-chart';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
 import { ChartTypeEnum } from '../interface/type';
 import type { ICirclePackingChartSpec } from './interface';
 import { registerCirclePackingSeries } from '../../series/circle-packing/circle-packing';
 import { Factory } from '../../core/factory';
 
-export class CirclePackingChart<T extends ICirclePackingChartSpec = ICirclePackingChartSpec> extends BaseChart<T> {
-  static readonly type: string = ChartTypeEnum.circlePacking;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.circlePacking;
-  readonly seriesType: string = SeriesTypeEnum.circlePacking;
-
-  protected getDefaultSeriesSpec(spec: ICirclePackingChartSpec) {
+export class CirclePackingChartSpecTransformer<
+  T extends ICirclePackingChartSpec = ICirclePackingChartSpec
+> extends BaseChartSpecTransformer<T> {
+  protected _getDefaultSeriesSpec(spec: ICirclePackingChartSpec) {
     const series: ICirclePackingSeriesSpec = {
       ...super._getDefaultSeriesSpec(spec),
       categoryField: spec.categoryField,
@@ -37,12 +34,12 @@ export class CirclePackingChart<T extends ICirclePackingChartSpec = ICirclePacki
     super.transformSpec(spec);
 
     /* 处理 series 配置 */
-    const defaultSeriesSpec = this.getDefaultSeriesSpec(spec);
+    const defaultSeriesSpec = this._getDefaultSeriesSpec(spec);
     if (!spec.series || spec.series.length === 0) {
       spec.series = [defaultSeriesSpec];
     } else {
       spec.series.forEach(s => {
-        if (!this.isValidSeries(s.type)) {
+        if (!this._isValidSeries(s.type)) {
           return;
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
@@ -53,6 +50,16 @@ export class CirclePackingChart<T extends ICirclePackingChartSpec = ICirclePacki
       });
     }
   }
+}
+
+export class CirclePackingChart<T extends ICirclePackingChartSpec = ICirclePackingChartSpec> extends BaseChart<T> {
+  static readonly type: string = ChartTypeEnum.circlePacking;
+  static readonly seriesType: string = SeriesTypeEnum.circlePacking;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = CirclePackingChartSpecTransformer;
+  readonly transformerConstructor = CirclePackingChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.circlePacking;
+  readonly seriesType: string = SeriesTypeEnum.circlePacking;
 }
 
 export const registerCirclePackingChart = () => {

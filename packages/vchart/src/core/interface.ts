@@ -22,7 +22,7 @@ import type { ITheme } from '../theme';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
-import type { IChart } from '../chart/interface';
+import type { IChart, IChartSpecInfo } from '../chart/interface';
 import type { IGradientColor, Stage } from '@visactor/vrender-core';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 
@@ -421,6 +421,9 @@ export interface IVChart {
 
   /** 获取实例函数列表 */
   getFunctionList: () => string[] | null;
+
+  /** 获取图表 spec 详细信息 */
+  getSpecInfo: () => IChartSpecInfo;
 }
 
 export interface IGlobalConfig {

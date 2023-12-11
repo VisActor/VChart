@@ -1,22 +1,17 @@
 import type { ISeries } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { BaseChart } from '../base-chart';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
 import { ChartTypeEnum } from '../interface/type';
 import type { ITreemapChartSpec } from './interface';
 import { registerTreemapSeries } from '../../series/treemap/treemap';
 import { Factory } from '../../core/factory';
 import type { AdaptiveSpec } from '../..';
 
-export class TreemapChart<T extends ITreemapChartSpec = ITreemapChartSpec> extends BaseChart<
-  AdaptiveSpec<T, 'data' | 'series'>
-> {
-  static readonly type: string = ChartTypeEnum.treemap;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.treemap;
-  readonly seriesType: string = SeriesTypeEnum.treemap;
-
-  protected getDefaultSeriesSpec(spec: T): any {
+export class TreemapChartSpecTransformer<
+  T extends ITreemapChartSpec = ITreemapChartSpec
+> extends BaseChartSpecTransformer<AdaptiveSpec<T, 'data' | 'series'>> {
+  protected _getDefaultSeriesSpec(spec: T): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
       categoryField: spec.categoryField,
@@ -54,12 +49,12 @@ export class TreemapChart<T extends ITreemapChartSpec = ITreemapChartSpec> exten
     super.transformSpec(spec);
 
     /* 处理 series 配置 */
-    const defaultSeriesSpec = this.getDefaultSeriesSpec(spec);
+    const defaultSeriesSpec = this._getDefaultSeriesSpec(spec);
     if (!spec.series || spec.series.length === 0) {
       spec.series = [defaultSeriesSpec];
     } else {
       spec.series.forEach((s: ISeries) => {
-        if (!this.isValidSeries(s.type)) {
+        if (!this._isValidSeries(s.type)) {
           return;
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
@@ -70,6 +65,18 @@ export class TreemapChart<T extends ITreemapChartSpec = ITreemapChartSpec> exten
       });
     }
   }
+}
+
+export class TreemapChart<T extends ITreemapChartSpec = ITreemapChartSpec> extends BaseChart<
+  AdaptiveSpec<T, 'data' | 'series'>
+> {
+  static readonly type: string = ChartTypeEnum.treemap;
+  static readonly seriesType: string = SeriesTypeEnum.treemap;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = TreemapChartSpecTransformer;
+  readonly transformerConstructor = TreemapChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.treemap;
+  readonly seriesType: string = SeriesTypeEnum.treemap;
 }
 
 export const registerTreemapChart = () => {
