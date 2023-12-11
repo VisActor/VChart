@@ -43,11 +43,7 @@ export function getCartesianCommonSpec(
   return {
     direction,
     ...getCommonSpec(),
-    axes: getCartesianAxesSpec(direction, percent, trimPadding).map(obj => {
-      return {
-        ...obj
-      };
-    })
+    axes: getCartesianAxesSpec(direction, percent, trimPadding)
   };
 }
 
