@@ -622,14 +622,7 @@ export class VChart implements IVChart {
       // 初始化媒体查询
       this._initMediaQuery();
       // 触发首次媒体查询
-      this._mediaQuery?.init(
-        {
-          ...this._getCurrentSize(),
-          themeMode: this._currentTheme.type ?? 'light'
-        },
-        false,
-        false
-      );
+      this._mediaQuery?.init(this._getCurrentSize(), false, false);
     }
     // compile
     return this._createChartAndCompile();
@@ -1823,7 +1816,6 @@ export class VChart implements IVChart {
     if (this._mediaQuerySpec) {
       this._mediaQuery = new MediaQuery(this._mediaQuerySpec, {
         globalInstance: this,
-        mode: this._option.mode || RenderModeEnum['desktop-browser'],
         updateSpec: (spec: any, compile?: boolean, render?: boolean) => {
           if (render) {
             this.updateSpecSync(spec);
