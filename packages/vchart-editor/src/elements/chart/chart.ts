@@ -13,7 +13,7 @@ import type {
 import { LayoutEditorElement } from './editor-elements/layout-editor';
 import { ChartLayout } from './layout/chart-layout';
 import type { IBoundsLike } from '@visactor/vutils';
-import { array, get, isArray, isString, isValidNumber } from '@visactor/vutils';
+import { array, get, isArray, isEmpty, isString, isValidNumber } from '@visactor/vutils';
 import { DEFAULT_DATA_KEY, STACK_FIELD_END, VChart } from '@visactor/vchart';
 import type { ISpec, IVChart, IMarkAreaSpec, IMarkLineSpec, ICartesianSeries } from '@visactor/vchart';
 import type { IRect, IPoint } from '../../typings/space';
@@ -30,7 +30,7 @@ import {
 } from './editor-elements/marker';
 import { ChartEvent } from './event';
 import { CommonModelElement } from './editor-elements/common-model-editor';
-import { getDefaultMarkerConfigByType } from './utils/marker';
+import { getDefaultMarkerConfigByType, updateMarkersAfterUpdateData } from './utils/marker';
 import {
   IgnoreModelTypeInLayout,
   getChartModelWithModelInfo,
@@ -74,6 +74,7 @@ export class EditorChart extends BaseElement {
   }
 
   private _isAxisInverseChange = false;
+  private _dataActionType: string;
 
   constructor(opt: IChartElementOption) {
     super(opt);
@@ -85,7 +86,18 @@ export class EditorChart extends BaseElement {
     this._layout = new ChartLayout(this, this._specProcess);
     if (this._mode === 'editor') {
       this.initEditors();
+      this._initEvents();
     }
+  }
+  private _initEvents() {
+    this._opt.layer.getEditor().emitter.on('dataUpdate', actionType => {
+      this._dataActionType = actionType;
+
+      if (actionType === 'data-replace') {
+        // 数据替换后，清空 marker
+        this._specProcess.clearMarker();
+      }
+    });
   }
 
   /**
@@ -584,7 +596,10 @@ export class EditorChart extends BaseElement {
   // 2. 轴的反向显示配置更新
   // 3. 总计差异标注的重叠调整
   private _adjustMarkers() {
-    const spec = this._specProcess.getVChartSpec();
+    const spec = this._specProcess.getVChartSpec() as any;
+    if (isEmpty(spec.markLine) && isEmpty(spec.markArea)) {
+      return;
+    }
     const isHorizontal = (spec as any).direction === 'horizontal';
     const growthLines = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.growthLine);
     const totalDiffLines = array(get(spec, 'markLine', [])).filter(s => s.name === MarkerTypeEnum.totalDiffLine);
@@ -592,13 +607,13 @@ export class EditorChart extends BaseElement {
     let reRender = false;
 
     // 数据更新
-    // if (this._dataUpdate) {
-    //   console.log('_dataUpdate');
-    //   const series = this._vchart.getChart().getAllSeries()[0];
-    //   updateMarkersAfterUpdateData(spec, series as ICartesianSeries);
+    if (this._dataActionType === 'data-change') {
+      const series = this._vchart.getChart().getAllSeries()[0];
+      updateMarkersAfterUpdateData(spec, series as ICartesianSeries);
 
-    //   reRender = true;
-    // }
+      reRender = true;
+      this._dataActionType = null;
+    }
 
     // TODO: 这里后续需要考虑: 1. 多系列组合图的情况
     // 处理柱图的最小高度调整引起的标注位置变化
