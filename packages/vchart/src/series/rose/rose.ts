@@ -49,8 +49,8 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       };
     };
     // angle scale
-    this._markAttributeContext.startAngleScale = datum => this.startAngleScale(datum);
-    this._markAttributeContext.endAngleScale = datum => this.endAngleScale(datum);
+    this._markAttributeContext.startAngleScale = (datum: Datum) => this.startAngleScale(datum);
+    this._markAttributeContext.endAngleScale = (datum: Datum) => this.endAngleScale(datum);
   }
 
   private initRoseMark() {
