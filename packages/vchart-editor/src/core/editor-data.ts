@@ -21,6 +21,7 @@ export class EditorData {
     this._history = [];
     this._currentIndex = -1;
     this._currentPushTemp = [];
+    this._editor.emitter.emit('historyChange');
   }
 
   protected _currentPushFlow: any = null;
@@ -49,6 +50,7 @@ export class EditorData {
       this._currentIndex--;
     }
     this.saveData();
+    this._editor.emitter.emit('historyChange');
   }
 
   forwardEnable() {

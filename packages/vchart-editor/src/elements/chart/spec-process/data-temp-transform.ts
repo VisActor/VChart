@@ -4,6 +4,7 @@ import type { IDataParser, StandardData } from '../data/interface';
 import type { IChartTemp } from '../template/interface';
 import type { EditorChart } from '../chart';
 import { EventEmitter } from '@visactor/vutils';
+import type { IUpdateAttributeOption } from '../../../core/interface';
 
 export class DataTempTransform {
   protected _specTemp: IChartTemp = null;
@@ -160,16 +161,22 @@ export class DataTempTransform {
     return true;
   }
 
-  updateChartDataTemp(data?: { type: string; value: unknown }, temp?: string) {
+  updateChartDataTemp(
+    data?: { type: string; value: unknown },
+    temp?: string,
+    actionType?: IUpdateAttributeOption['actionType']
+  ) {
     if (!data && !temp) {
-      return;
-    }
-    if (data && !temp) {
-      this._updateChartData(data.type, data.value);
       return;
     }
     if (!data && temp) {
       this._updateChartTemp(temp);
+      return;
+    }
+    // update data & emit event
+    this._chart.option.editorEvent.editor.emitter.emit('dataUpdate', actionType);
+    if (data && !temp) {
+      this._updateChartData(data.type, data.value);
       return;
     }
     if (!this._createNextDataParser(data.type, data.value) || !this._createNextTemp(temp)) {

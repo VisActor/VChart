@@ -1,7 +1,7 @@
-import type { IEditorLayer } from './../core/interface';
+import type { IEditorLayer } from '../core/interface';
 import type { IRect } from '@visactor/vrender-core';
 import { createRect } from '@visactor/vrender-core';
-export class HightLightBox {
+export class HighlightBox {
   protected _boxMap: { [key: string]: IRect } = {};
 
   private _layer: IEditorLayer;

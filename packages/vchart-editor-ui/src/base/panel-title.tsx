@@ -27,9 +27,9 @@ export function PanelTitle(props: IPanelTitleProps) {
           onClick={() => props?.onCollapse?.(!props.collapsed)}
         >
           {collapsed ? (
-            <IconTriangleDown className="vchart-editor-ui-title-collapsed-triangle" style={{ rotate: '0deg' }} />
+            <IconTriangleDown className="vchart-editor-ui-title-collapsed-triangle" style={{ rotate: '180deg' }} />
           ) : (
-            <IconTriangleDown className="vchart-editor-ui-title-collapsed-triangle" style={{ rotate: '90deg' }} />
+            <IconTriangleDown className="vchart-editor-ui-title-collapsed-triangle" style={{ rotate: '0deg' }} />
           )}
         </span>
       </div>

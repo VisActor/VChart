@@ -1,4 +1,4 @@
-import { HightLightBox } from './../component/hight-light-box';
+import { HighlightBox } from '../component/highlight-box';
 import { EditorController } from './editor-controller';
 import type { EditorMode, IEditorData, IElementPathRoot, IHistory, IVChartEditorInitOption } from './interface';
 import { EditorEvent } from './editor-event';
@@ -38,9 +38,9 @@ export class VChartEditor {
     return this._layers;
   }
 
-  protected _hightLightBox: HightLightBox;
+  protected _highlightBox: HighlightBox;
   get hightLightBox() {
-    return this._hightLightBox;
+    return this._highlightBox;
   }
 
   protected _event: EditorEvent;
@@ -71,7 +71,7 @@ export class VChartEditor {
     const { dom, mode } = this._option;
     this._mode = mode;
     this._editorData = new EditorData(this, this._option.data);
-    this._hightLightBox = new HightLightBox();
+    this._highlightBox = new HighlightBox();
 
     this._commonHistoryUse = getCommonHistoryUse(this);
 
@@ -178,7 +178,7 @@ export class VChartEditor {
     this._layers.push(l);
     if (this._layers.length === 1) {
       this._event.changeTriggerLayer(l, null);
-      this._hightLightBox.setLayer(l);
+      this._highlightBox.setLayer(l);
     }
   }
 
@@ -358,17 +358,25 @@ export class VChartEditor {
     return this._layers[0]?.getPosWithPath?.(path);
   }
 
-  hightLightWithPos(pos: IPoint, boxKey: string, style?: any) {
+  highlightWithPos(pos: IPoint, boxKey: string, style?: any) {
     const path = this._layers[0]?.getPathWithPos?.(pos);
     if (path && !path.isBackup) {
-      this._hightLightBox.showBox(boxKey, style ? { ...path.rect, ...style } : path.rect);
+      this._highlightBox.showBox(boxKey, style ? { ...path.rect, ...style } : path.rect);
     } else {
-      this._hightLightBox.hiddenBox(boxKey);
+      this._highlightBox.hiddenBox(boxKey);
     }
   }
 
-  clearHightLightPos(boxKey: string) {
-    this._hightLightBox.hiddenBox(boxKey);
+  highlightWithPath(path: IElementPathRoot, boxKey: string, style?: any) {
+    if (path && !path.isBackup) {
+      this._highlightBox.showBox(boxKey, style ? { ...path.rect, ...style } : path.rect);
+    } else {
+      this._highlightBox.hiddenBox(boxKey);
+    }
+  }
+
+  clearHighlightPos(boxKey: string) {
+    this._highlightBox.hiddenBox(boxKey);
   }
 
   getChartElements() {

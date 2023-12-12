@@ -1,7 +1,7 @@
 import type { IGraphic } from '@visactor/vrender-core';
 /* eslint-disable promise/no-nesting */
 import type { VRenderPointerEvent } from './../interface';
-import type { IModelInfo } from './../../core/interface';
+import type { IModelInfo, IUpdateAttributeOption } from './../../core/interface';
 import type {
   IEditorElement,
   IElementPathEnd,
@@ -283,8 +283,12 @@ export class EditorChart extends BaseElement {
     this.onSpecReady();
   }
 
-  private _onChartTempDataChange = (el: IEditorElement, attr: IUpdateAttributeParam) => {
-    this._specProcess.dataTempTransform.updateChartDataTemp(attr.data, attr.chartType);
+  private _onChartTempDataChange = (
+    el: IEditorElement,
+    attr: IUpdateAttributeParam,
+    actionType: IUpdateAttributeOption['actionType']
+  ) => {
+    this._specProcess.dataTempTransform.updateChartDataTemp(attr.data, attr.chartType, actionType);
   };
 
   clearDataForChartTypeChange = (attr?: IUpdateAttributeParam) => {

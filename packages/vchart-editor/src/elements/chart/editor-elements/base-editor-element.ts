@@ -220,41 +220,22 @@ export class CommonChartEditorElement implements IEditorElement {
       const chartSpec = this._context.chart.vchart.getChart().getSpec();
       const components = this._context.chart.vchart.getChart().getAllComponents();
       ChartComponentKeys.forEach(k => {
-        const component = components.find((component: any) => component.specKey === k);
-        const modelSpec = component?.getSpec() ?? chartSpec[k];
-        if (!modelSpec) {
-          return;
-        }
-        array(modelSpec).forEach((_s, i) => {
-          const { data, ...spec } = _s;
+        array(chartSpec[k]).forEach((userSpec, index) => {
+          const component = components.find((component: any) => {
+            if (userSpec.id) {
+              return component.userId === userSpec.id && component.specKey === k;
+            }
+            return component.specKey === k;
+          });
+          const { data, ...spec } = component?.getSpec() ?? userSpec;
           this.allModelSpec.push({
             id: spec.id,
             specKey: k,
-            specIndex: i,
+            specIndex: index,
             spec
           });
         });
       });
-      // this._context.chart.vchart
-      //   .getChart()
-      //   .getAllComponents()
-      //   .forEach((component: any) => {
-      //     if (ChartComponentKeys.includes(component.specKey)) {
-      //       const modelSpec = component.getSpec();
-      //       if (!modelSpec) {
-      //         return;
-      //       }
-      //       array(modelSpec).forEach((_s, i) => {
-      //         const { data, ...spec } = _s;
-      //         this.allModelSpec.push({
-      //           id: spec.id,
-      //           specKey: component.specKey,
-      //           specIndex: i,
-      //           spec
-      //         });
-      //       });
-      //     }
-      //   });
     }
   }
 

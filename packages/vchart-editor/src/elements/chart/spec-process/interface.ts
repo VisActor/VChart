@@ -1,6 +1,6 @@
 import type { IDataParser } from './../data/interface';
 import type { IChartTemp } from './../template/interface';
-import type { IModelInfo } from './../../../core/interface';
+import type { IModelInfo, IUpdateAttributeOption } from './../../../core/interface';
 import type { ILayoutData } from '../layout/interface';
 import type { IMarkAreaSpec, IMarkLineSpec, ISpec, ITheme } from '@visactor/vchart';
 import type { IUpdateAttributeParam } from '../../../core/interface';
@@ -31,7 +31,11 @@ export interface IEditorSpec {
 export interface IDataTempTransform {
   readonly specTemp: IChartTemp;
   readonly dataParser: IDataParser;
-  updateChartDataTemp: (data: { type: string; value: unknown }, temp: string) => void;
+  updateChartDataTemp: (
+    data?: { type: string; value: unknown },
+    temp?: string,
+    actionType?: IUpdateAttributeOption['actionType']
+  ) => void;
 }
 
 export interface ISpecProcess {
