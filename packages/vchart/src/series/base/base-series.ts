@@ -789,7 +789,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       res.push({
         type: 'element-select',
         trigger: finalSelectSpec.trigger as EventType,
-        resetTrigger: (finalSelectSpec.triggerOff as EventType) ?? 'empty',
+        resetTrigger: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
         reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
         state: STATE_VALUE_ENUM.STATE_SELECTED,
         isMultiple: finalSelectSpec.mode === 'multiple'
