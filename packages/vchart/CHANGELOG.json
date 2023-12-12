@@ -2,6 +2,21 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.7.4",
+      "tag": "@visactor/vchart_v1.7.4",
+      "date": "Tue, 12 Dec 2023 07:55:54 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support interaction group in region\n\n"
+          },
+          {
+            "comment": "fix: label style not update when change current theme in #1698"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.7.3",
       "tag": "@visactor/vchart_v1.7.3",
       "date": "Wed, 06 Dec 2023 07:34:11 GMT",

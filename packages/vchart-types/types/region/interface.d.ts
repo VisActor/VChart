@@ -28,6 +28,7 @@ export interface IRegion extends ILayoutModel {
     getSeriesInDataName: (dataName: string) => ISeries[];
     getMarks: () => IMark[];
     getGroupMark: () => IGroupMark;
+    getInteractionMark: () => IGroupMark;
 }
 export type ISeriesFilter = {
     name?: string;
