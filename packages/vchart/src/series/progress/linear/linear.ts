@@ -122,7 +122,6 @@ export class LinearProgressSeries<
           AttributeLevel.Series
         );
       }
-      this._trigger.registerMark(progressMark);
     }
   }
 
@@ -175,7 +174,6 @@ export class LinearProgressSeries<
           AttributeLevel.Series
         );
       }
-      this._trigger.registerMark(trackMark);
     }
   }
 
@@ -242,6 +240,19 @@ export class LinearProgressSeries<
       AttributeLevel.Series
     );
     this._progressGroupMark.setInteractive(false);
+  }
+
+  initInteraction(): void {
+    const marks: IMark[] = [];
+
+    if (this._trackMark) {
+      marks.push(this._trackMark);
+    }
+
+    if (this._progressMark) {
+      marks.push(this._progressMark);
+    }
+    this._parseInteractionConfig(marks);
   }
 
   initAnimation() {

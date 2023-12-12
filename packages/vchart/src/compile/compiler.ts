@@ -1,5 +1,5 @@
 import { ChartEvent } from './../constant/event';
-import type { IElement, IView } from '@visactor/vgrammar-core';
+import type { IElement, InteractionSpec, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { View } from '@visactor/vgrammar-core';
 import type {
@@ -60,6 +60,8 @@ export class Compiler {
     [GrammarType.data]: {},
     [GrammarType.mark]: {}
   };
+
+  protected _interactions: (InteractionSpec & { seriesId: number })[];
   getModel() {
     return this._model;
   }
@@ -161,6 +163,13 @@ export class Compiler {
     chart.compile();
     chart.afterCompile();
     this.updateDepend();
+
+    this._view.removeAllInteractions();
+    if (this._interactions?.length) {
+      this._interactions.forEach(interaction => {
+        this._view.interaction(interaction.type, interaction);
+      });
+    }
   }
 
   clear(ctx: { chart: IChart; vChart: VChart }, removeGraphicItems: boolean = false) {
@@ -413,6 +422,22 @@ export class Compiler {
     if (!reserveVGrammarModel) {
       this._view?.removeGrammar(product);
     }
+  }
+
+  addInteraction(interaction: InteractionSpec & { seriesId: number }) {
+    if (!this._interactions) {
+      this._interactions = [];
+    }
+
+    this._interactions.push(interaction);
+  }
+
+  removeInteraction(seriesId: number) {
+    if (!this._interactions) {
+      return;
+    }
+
+    this._interactions = this._interactions.filter(entry => entry.seriesId !== seriesId);
   }
 
   /** 更新语法元素间的依赖关系，返回是否全部成功更新 */

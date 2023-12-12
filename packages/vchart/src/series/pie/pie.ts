@@ -210,9 +210,11 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         'normal',
         AttributeLevel.Series
       );
-
-      this._trigger.registerMark(pieMark);
     }
+  }
+
+  initInteraction(): void {
+    this._parseInteractionConfig(this._pieMark ? [this._pieMark] : []);
   }
 
   protected initTooltip() {
@@ -252,7 +254,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   afterInitMark(): void {
     super.afterInitMark();
-    this._trigger.setStateKeys([this._seriesField as string, ...this._radiusField]);
   }
 
   initEvent(): void {

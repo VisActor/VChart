@@ -104,8 +104,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-
-      this._trigger.registerMark(this._barMark);
     }
   }
 

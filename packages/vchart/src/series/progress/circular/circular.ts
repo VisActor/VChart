@@ -85,8 +85,20 @@ export class CircularProgressSeries<
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(progressMark);
     }
+  }
+
+  initInteraction(): void {
+    const marks: IMark[] = [];
+
+    if (this._trackMark) {
+      marks.push(this._trackMark);
+    }
+
+    if (this._progressMark) {
+      marks.push(this._progressMark);
+    }
+    this._parseInteractionConfig(marks);
   }
 
   protected initTooltip() {
@@ -141,7 +153,6 @@ export class CircularProgressSeries<
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(trackMark);
     }
   }
 

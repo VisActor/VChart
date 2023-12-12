@@ -112,7 +112,6 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
         'normal',
         AttributeLevel.Built_In
       );
-      this._trigger.registerMark(areaMark);
     }
   }
 

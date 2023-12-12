@@ -255,7 +255,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(funnelMark);
     }
 
     const funnelTransformMark = this._funnelTransformMark;
@@ -266,7 +265,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(funnelTransformMark);
     }
 
     const outerLabelMark = this._funnelOuterLabelMark.label;

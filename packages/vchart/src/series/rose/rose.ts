@@ -113,7 +113,6 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
             : stackStart;
         }
       });
-      this._trigger.registerMark(roseMark);
     }
   }
 

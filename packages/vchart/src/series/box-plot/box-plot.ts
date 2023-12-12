@@ -172,8 +172,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
             };
 
       this.setMarkStyle(boxPlotMark, boxPlotMarkStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
-
-      this._trigger.registerMark(boxPlotMark);
     }
 
     const outlierMark = this._outlierMark;
@@ -188,7 +186,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         STATE_VALUE_ENUM.STATE_NORMAL,
         AttributeLevel.Series
       );
-      this._trigger.registerMark(outlierMark);
     }
   }
 

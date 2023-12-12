@@ -60,6 +60,16 @@ import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
 import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin/components/tooltip-handler';
+import {
+  registerElementActive,
+  registerElementHighlight,
+  registerElementSelect,
+  registerElementActiveByLegend,
+  registerElementHighlightByLegend,
+  registerElementHighlightByName,
+  registerElementHighlightByGroup,
+  registerElementHighlightByKey
+} from '@visactor/vgrammar-core';
 
 VChart.useRegisters([
   // charts
@@ -139,7 +149,19 @@ VChart.useRegisters([
 
   // plugin
   registerDomTooltipHandler,
-  registerCanvasTooltipHandler
+  registerCanvasTooltipHandler,
+  // vgrammar interactions,
+
+  registerElementActive,
+  registerElementHighlight,
+  registerElementSelect,
+
+  registerElementActiveByLegend,
+  registerElementHighlightByLegend,
+
+  registerElementHighlightByName,
+  registerElementHighlightByGroup,
+  registerElementHighlightByKey
 ]);
 
 export { VChart };

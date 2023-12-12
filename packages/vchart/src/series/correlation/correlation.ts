@@ -225,8 +225,6 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
-
-    this._trigger.registerMark(nodePointMark);
   }
 
   protected _initRipplePointMarkStyle() {
@@ -280,8 +278,6 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
-
-    this._trigger.registerMark(centerPointMark);
   }
 
   protected initTooltip() {

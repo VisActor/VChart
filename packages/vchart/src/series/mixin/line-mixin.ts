@@ -62,7 +62,6 @@ export interface LineLikeSeriesMixin extends ISeries {
   _option: ISeriesOption;
   _seriesField: string;
   _theme: Maybe<ILineLikeSeriesTheme>;
-  _trigger: ITrigger;
   _tooltipHelper: ISeriesTooltipHelper;
   _invalidType: IInvalidType;
   _region: IRegion;
@@ -202,7 +201,6 @@ export class LineLikeSeriesMixin {
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(lineMark);
     }
     return lineMark;
   }

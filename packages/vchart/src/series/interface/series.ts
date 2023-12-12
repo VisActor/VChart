@@ -1,4 +1,3 @@
-import type { ITrigger } from '../../interaction/interface';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel } from '../../model/interface';
 import type { DataSet, DataView, ITransformOptions } from '@visactor/vdataset';
@@ -175,7 +174,6 @@ export interface ISeries extends IModel {
   getInvalidType: () => IInvalidType;
 
   // 交互
-  getTrigger: () => ITrigger;
 
   /**
    * 获取系列默认的缩略图形
