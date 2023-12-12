@@ -1,4 +1,3 @@
-import type { CoordinateType } from './../../../../../vutils-extension/src/transform/tick-data/interface';
 import { POLAR_DEFAULT_RADIUS, POLAR_END_ANGLE, POLAR_END_RADIAN } from '../../../constant/polar';
 import type { IBaseScale, BandScale, LinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
@@ -12,7 +11,7 @@ import { Factory } from '../../../core/factory';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import { eachSeries } from '../../../util/model';
 import { polarToCartesian } from '../../../util/math';
-import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
+import type { IPolarTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber, ILayoutType } from '../../../typings';

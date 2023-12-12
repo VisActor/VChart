@@ -1,4 +1,3 @@
-import type { CoordinateType } from './../../../../../vutils-extension/src/transform/tick-data/interface';
 import type { IBounds, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption } from '../../../model/interface';
@@ -28,7 +27,7 @@ import type { LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { isValidCartesianAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
-import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
+import type { ICartesianTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
