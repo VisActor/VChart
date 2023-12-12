@@ -26,6 +26,8 @@ export class CartesianTimeAxis<
   static type = ComponentTypeEnum.cartesianTimeAxis;
   type = ComponentTypeEnum.cartesianTimeAxis;
 
+  static specKey = 'axes';
+
   protected _layerTickData!: CompilableData;
 
   protected _zero: boolean = false;

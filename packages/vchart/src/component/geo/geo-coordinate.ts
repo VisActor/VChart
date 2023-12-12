@@ -2,7 +2,7 @@ import { LayoutZIndex } from './../../constant/index';
 /* eslint-disable no-duplicate-imports */
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
-import type { IEffect, IModelLayoutOption, IModelRenderOption } from '../../model/interface';
+import type { IEffect, IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
@@ -18,6 +18,7 @@ import type { IChartSpec, StringOrNumber } from '../../typings';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin, isNil, Matrix } from '@visactor/vutils';
+import type { Maybe } from '@visactor/vutils';
 import { DEFAULT_MAP_LOOK_UP_KEY } from '../../data/transforms/map';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
@@ -68,22 +69,31 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     return this._actualScale;
   }
 
-  static createComponent(spec: IChartSpec, options: IComponentOption) {
-    if (isNil(spec)) {
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    if (isNil(chartSpec)) {
       return null;
     }
-    const result: IGeoCoordinate[] = [];
-    spec.region.forEach((r: IRegionSpec, i: number) => {
+    const specInfos: IModelSpecInfo[] = [];
+    chartSpec.region.forEach((r: IRegionSpec, i: number) => {
       if (r.coordinate === 'geo') {
         // 去除 padding 配置，避免重复计算
-        const spec = { ...r, padding: 0 } as any;
-        const c = new GeoCoordinate(spec, options);
-        // FIXME: hack，regions的关联关系不应该在具体的component中处理
-        c._regions = options.getRegionsInIndex([i]);
-        result.push(c);
+        const spec = { ...r, padding: 0 };
+        specInfos.push({
+          spec,
+          regionIndex: i,
+          type: ComponentTypeEnum.geoCoordinate
+        } as any);
       }
     });
-    return result;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new GeoCoordinate(spec, {
+      ...options,
+      ...others
+    });
   }
 
   effect: IEffect = {
@@ -115,6 +125,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   // life cycle
   created() {
     super.created();
+    this._regions = this._option.getRegionsInIndex([(this._option as any).regionIndex]);
     this.initProjection();
     this.coordinateHelper();
     this.initEvent();

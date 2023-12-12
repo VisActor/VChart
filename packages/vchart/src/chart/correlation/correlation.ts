@@ -1,18 +1,15 @@
 import { registerCorrelationSeries } from '../../series/correlation/correlation';
-import { BaseChart } from '../base-chart';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
 import { ChartTypeEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ICorrelationChartSpec } from './interface';
 import type { ICorrelationSeriesSpec } from '../../series/correlation/interface';
 import { Factory } from '../../core/factory';
 
-export class CorrelationChart extends BaseChart {
-  static readonly type: string = ChartTypeEnum.correlation;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.correlation;
-  readonly seriesType: string = SeriesTypeEnum.correlation;
-
-  protected _getDefaultSeriesSpec(spec: ICorrelationChartSpec): any {
+export class CorrelationChartSpecTransformer<
+  T extends ICorrelationChartSpec = ICorrelationChartSpec
+> extends BaseChartSpecTransformer<T> {
+  protected _getDefaultSeriesSpec(spec: T): any {
     const series: ICorrelationSeriesSpec = {
       ...super._getDefaultSeriesSpec(spec),
       categoryField: spec.categoryField,
@@ -41,7 +38,7 @@ export class CorrelationChart extends BaseChart {
     return series;
   }
 
-  transformSpec(spec: ICorrelationChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     /* 处理 series 配置 */
@@ -50,7 +47,7 @@ export class CorrelationChart extends BaseChart {
       spec.series = [defaultSeriesSpec];
     } else {
       spec.series.forEach(s => {
-        if (!this.isValidSeries(s.type)) {
+        if (!this._isValidSeries(s.type)) {
           return;
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
@@ -61,6 +58,16 @@ export class CorrelationChart extends BaseChart {
       });
     }
   }
+}
+
+export class CorrelationChart<T extends ICorrelationChartSpec = ICorrelationChartSpec> extends BaseChart<T> {
+  static readonly type: string = ChartTypeEnum.correlation;
+  static readonly seriesType: string = SeriesTypeEnum.correlation;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = CorrelationChartSpecTransformer;
+  readonly transformerConstructor = CorrelationChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.correlation;
+  readonly seriesType: string = SeriesTypeEnum.correlation;
 }
 
 export const registerCorrelationChart = () => {

@@ -31,24 +31,33 @@ const spec = {
 
 describe('line chart test', () => {
   test('line chart init', () => {
-    const chart = new LineChart(spec, {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
-      globalInstance: {
-        getContainer: () => ({}),
-        getTooltipHandlerByUser: (() => undefined) as () => undefined
-      },
-      render: {} as any,
-      dataSet,
-      map: new Map(),
-      container: null,
-      mode: 'desktop-browser',
-      getCompiler: getTestCompiler,
-      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(),
-      onError: () => {}
-    } as any);
+    const transformer = new LineChart.transformerConstructor({
+      type: 'line',
+      seriesType: 'line',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec as any);
+    const chart = new LineChart(
+      spec as any,
+      {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
+        globalInstance: {
+          getContainer: () => ({}),
+          getTooltipHandlerByUser: (() => undefined) as () => undefined
+        },
+        render: {} as any,
+        dataSet,
+        map: new Map(),
+        container: null,
+        mode: 'desktop-browser',
+        getCompiler: getTestCompiler,
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        onError: () => {}
+      } as any
+    );
     chart.created();
     chart.init();
 
@@ -96,32 +105,36 @@ describe('line chart test', () => {
   });
 
   test('line chart init in mode which is `mobile-browser`', () => {
-    const chart = new LineChart(
-      {
-        type: 'line',
-        data: dataView,
-        xField: 'x',
-        yField: 'y',
-        select: false
-      } as ILineChartSpec,
-      {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
-        globalInstance: {
-          getContainer: () => ({}),
-          getTooltipHandlerByUser: (() => undefined) as () => undefined
-        },
-        render: {} as any,
-        dataSet,
-        map: new Map(),
-        container: null,
-        mode: 'mobile-browser',
-        getCompiler: getTestCompiler,
-        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme()
-      } as any
-    );
+    const spec = {
+      type: 'line',
+      data: dataView,
+      xField: 'x',
+      yField: 'y',
+      select: false
+    } as ILineChartSpec;
+    const transformer = new LineChart.transformerConstructor({
+      type: 'line',
+      seriesType: 'line',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec as any);
+    const chart = new LineChart(spec, {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
+      globalInstance: {
+        getContainer: () => ({}),
+        getTooltipHandlerByUser: (() => undefined) as () => undefined
+      },
+      render: {} as any,
+      dataSet,
+      map: new Map(),
+      container: null,
+      mode: 'mobile-browser',
+      getCompiler: getTestCompiler,
+      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+      getTheme: () => ThemeManager.getCurrentTheme()
+    } as any);
     chart.created();
     chart.init();
 

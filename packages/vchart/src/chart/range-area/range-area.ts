@@ -1,19 +1,16 @@
-import { CartesianChart } from '../cartesian/cartesian';
+import { CartesianChart, CartesianChartSpecTransformer } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { Direction } from '../../typings';
 import { setDefaultCrosshairForCartesianChart } from '../util';
-import { VChart } from '../../core/vchart';
-import { RangeAreaSeries, registerRangeAreaSeries } from '../../series/range-area/range-area';
+import { registerRangeAreaSeries } from '../../series/range-area/range-area';
 import { Factory } from '../../core/factory';
+import type { IRangeAreaChartSpec } from './interface';
 
-export class RangeAreaChart extends CartesianChart {
-  static readonly type: string = ChartTypeEnum.rangeArea;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.rangeArea;
-  readonly seriesType: string = SeriesTypeEnum.rangeArea;
-
-  protected _getDefaultSeriesSpec(spec: any): any {
+export class RangeAreaChartSpecTransformer<
+  T extends IRangeAreaChartSpec = IRangeAreaChartSpec
+> extends CartesianChartSpecTransformer<T> {
+  protected _getDefaultSeriesSpec(spec: T): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec)
     };
@@ -27,10 +24,20 @@ export class RangeAreaChart extends CartesianChart {
     return series;
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     setDefaultCrosshairForCartesianChart(spec);
   }
+}
+
+export class RangeAreaChart<T extends IRangeAreaChartSpec = IRangeAreaChartSpec> extends CartesianChart<T> {
+  static readonly type: string = ChartTypeEnum.rangeArea;
+  static readonly seriesType: string = SeriesTypeEnum.rangeArea;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = RangeAreaChartSpecTransformer;
+  readonly transformerConstructor = RangeAreaChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.rangeArea;
+  readonly seriesType: string = SeriesTypeEnum.rangeArea;
 }
 
 export const registerRangeAreaChart = () => {

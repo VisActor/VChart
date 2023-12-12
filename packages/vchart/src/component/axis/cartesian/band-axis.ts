@@ -19,6 +19,8 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
   static type = ComponentTypeEnum.cartesianBandAxis;
   type = ComponentTypeEnum.cartesianBandAxis;
 
+  static specKey = 'axes';
+
   protected _scale: BandScale = new BandScale();
 
   protected declare _scales: BandScale[];

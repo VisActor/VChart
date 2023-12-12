@@ -1,9 +1,10 @@
+import type { Maybe } from '@visactor/vutils';
 import { isFunction, isNil, isValidNumber, isArray, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import type { IDiscreteLegendSpec, IDiscreteLegendTheme } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../../series/interface';
-import type { IModelInitOption } from '../../../model/interface';
+import type { IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -27,33 +28,50 @@ import type { ILayoutRect } from '../../../typings/layout';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static specKey = 'legends';
-  specKey: string = 'legends';
+
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
   protected declare _theme: IDiscreteLegendTheme;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const legendSpec = spec.legends;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const legendSpec = chartSpec[this.specKey];
     if (!legendSpec) {
       return undefined;
     }
     if (!isArray(legendSpec)) {
       if (!legendSpec.type || legendSpec.type === 'discrete') {
-        return new DiscreteLegend(legendSpec, {
-          ...options,
-          specIndex: 0
-        });
+        return [
+          {
+            spec: legendSpec,
+            specIndex: 0,
+            specPath: [this.specKey],
+            type: ComponentTypeEnum.discreteLegend
+          }
+        ];
       }
       return undefined;
     }
-    const legends: ILegend[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     legendSpec.forEach((s: IDiscreteLegendSpec, i: number) => {
       if (!s.type || s.type === 'discrete') {
-        legends.push(new DiscreteLegend(s, { ...options, specIndex: i }));
+        specInfos.push({
+          spec: s,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: ComponentTypeEnum.discreteLegend
+        });
       }
     });
-    return legends;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new DiscreteLegend(spec, {
+      ...options,
+      ...others
+    });
   }
 
   init(option: IModelInitOption): void {

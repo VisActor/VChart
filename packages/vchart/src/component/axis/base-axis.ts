@@ -1,7 +1,7 @@
 import { ticks } from '@visactor/vutils-extension';
+// eslint-disable-next-line no-duplicate-imports
 import type { ITickDataOpt } from '@visactor/vutils-extension';
 import type { IBaseScale } from '@visactor/vscale';
-// eslint-disable-next-line no-duplicate-imports
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
@@ -25,6 +25,7 @@ import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ISeries } from '../../series/interface';
 import { ChartEvent, LayoutZIndex } from '../../constant';
 import { animationConfig } from '../../animation/utils';
+// eslint-disable-next-line no-duplicate-imports
 import { degreeToRadian, pickWithout, type LooseFunction, isEqual } from '@visactor/vutils';
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
@@ -36,7 +37,9 @@ import {
 } from '@visactor/vgrammar-core';
 import { ComponentMark, registerComponentMark, type IComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
+// eslint-disable-next-line no-duplicate-imports
 import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
+// eslint-disable-next-line no-duplicate-imports
 import { GroupFadeOut } from '@visactor/vrender-core';
 import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';

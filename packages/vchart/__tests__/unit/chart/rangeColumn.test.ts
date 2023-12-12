@@ -48,24 +48,33 @@ const spec = {
 
 describe('rangeColumn chart test', () => {
   test('rangeColumn chart init', () => {
-    const chart = new RangeColumnChart(spec, {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      eventDispatcher: new EventDispatcher({}, { addEventListener: () => {} }),
-      globalInstance: {
-        getContainer: () => ({}),
-        getTooltipHandlerByUser: (() => undefined) as () => undefined
-      },
-      // render: {},
-      dataSet,
-      map: new Map(),
-      container: null,
-      mode: 'desktop-browser',
-      getCompiler: getTestCompiler,
-      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(),
-      animation: false
-    } as any);
+    const transformer = new RangeColumnChart.transformerConstructor({
+      type: 'rangeColumn',
+      seriesType: 'rangeColumn',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(spec as any);
+    const chart = new RangeColumnChart(
+      spec as any,
+      {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        eventDispatcher: new EventDispatcher({}, { addEventListener: () => {} }),
+        globalInstance: {
+          getContainer: () => ({}),
+          getTooltipHandlerByUser: (() => undefined) as () => undefined
+        },
+        // render: {},
+        dataSet,
+        map: new Map(),
+        container: null,
+        mode: 'desktop-browser',
+        getCompiler: getTestCompiler,
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        animation: false
+      } as any
+    );
     chart.created();
     chart.init();
 

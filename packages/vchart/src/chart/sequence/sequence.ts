@@ -1,7 +1,7 @@
-import { LinkSeries, registerLinkSeries } from '../../series/link/link';
-import { DotSeries, registerDotSeries } from '../../series/dot/dot';
+import { registerLinkSeries } from '../../series/link/link';
+import { registerDotSeries } from '../../series/dot/dot';
 import type { IGridLayoutSpec } from '../../layout/interface';
-import { BaseChart } from '../base-chart';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
 import type { ISequenceChartSpec, ISequenceSeriesSpec } from './interface';
 import type { IRegion, IRegionSpec } from '../../region/interface';
 import { Factory } from '../../core/factory';
@@ -9,23 +9,57 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import type { Datum } from '../../typings';
 import { DataView } from '@visactor/vdataset';
-import type { ISeriesOption } from '../../series/interface';
+import type { ISeriesConstructor, ISeriesOption } from '../../series/interface';
 import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../constant/scroll-bar';
 import { array } from '@visactor/vutils';
 import { normalizeLayoutPaddingSpec } from '../../util';
 import { IFilterMode } from '../../component/data-zoom/constant';
+import type { IModelSpecInfo } from '../../model/interface';
 
-export class SequenceChart extends BaseChart {
-  static readonly type: string = ChartTypeEnum.sequence;
-  static readonly view: string = 'singleDefault'; // csj-Q: view是什么含义
-  readonly type: string = ChartTypeEnum.sequence;
+export class SequenceChartSpecTransformer<
+  T extends ISequenceChartSpec = ISequenceChartSpec
+> extends BaseChartSpecTransformer<T> {
+  private _getSeriesDataLength(spec: T, seriesSpec: any) {
+    if (seriesSpec.data) {
+      const _d = array(seriesSpec.data)[0];
+      if (_d instanceof DataView) {
+        return _d.latestData?.length;
+      }
+      return _d.values?.length;
+    }
+    const dataTemp = array(spec.data).find((_d, index) => {
+      if (seriesSpec.dataId) {
+        if (_d instanceof DataView) {
+          return _d.name === seriesSpec.dataId;
+        }
+        return _d.id === seriesSpec.dataId;
+      }
+      return seriesSpec.dataIndex === index;
+    });
+    if (!dataTemp) {
+      return 0;
+    }
+    if (dataTemp instanceof DataView) {
+      return dataTemp.latestData.length;
+    }
+    return dataTemp.values.length;
+  }
+
+  addAttrToComponentSpec(componentSpec: any, attr: string, value: any) {
+    if (Array.isArray(componentSpec)) {
+      componentSpec[0][attr] = value;
+    } else {
+      componentSpec[attr] = value;
+    }
+    return componentSpec;
+  }
 
   /**
    * @override
    * @description 主要是处理布局逻辑 & 部分仅针对sequenceChart的特殊属性
    */
-  transformSpec(spec: ISequenceChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     // 初始化目标属性
@@ -99,7 +133,7 @@ export class SequenceChart extends BaseChart {
       row: rowNum
     });
     spec.axes[0].id = `axesRow${rowNum}`;
-    spec.axes[0].regionIndex = Array.from(Array(this._spec.series.length - 1), (_, index) => index + 1);
+    spec.axes[0].regionIndex = Array.from(Array(spec.series.length - 1), (_, index) => index + 1);
     rowNum++;
     // }
 
@@ -290,77 +324,53 @@ export class SequenceChart extends BaseChart {
     spec.axes?.push(...axes);
     spec.scrollBar = scrollBar;
   }
+}
+
+export class SequenceChart<T extends ISequenceChartSpec = ISequenceChartSpec> extends BaseChart<T> {
+  static readonly type: string = ChartTypeEnum.sequence;
+  static readonly view: string = 'singleDefault'; // csj-Q: view是什么含义
+  static readonly transformerConstructor = SequenceChartSpecTransformer;
+  readonly transformerConstructor = SequenceChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.sequence;
 
   /**
    * @override
    * @description 主要是将link series关联的dot data放到link series中
    */
-  protected _createSeries(seriesSpec: ISequenceSeriesSpec[]) {
-    seriesSpec.forEach((spec, index) => {
-      if (spec.type === SeriesTypeEnum.link) {
-        spec.dotSeriesSpec = this._spec.series[spec.dotSeriesIndex];
-      }
-
-      let region: IRegion | undefined;
-      if (spec.regionId) {
-        region = this.getRegionsInUserId(spec.regionId);
-      }
-      if (!region) {
-        region = this.getRegionsInIndex(spec.regionIndex ? [spec.regionIndex] : undefined)[0];
-      }
-      if (!region) {
-        return;
-      }
-      const series = Factory.createSeries(spec.type, spec, {
-        ...this._modelOption,
-        type: spec.type,
-        region,
-        specIndex: index,
-        specKey: 'series',
-        globalScale: this._globalScale
-      } as ISeriesOption);
-
-      if (series) {
-        series.created();
-        this._series.push(series);
-        region.addSeries(series);
-      }
-    });
-  }
-
-  addAttrToComponentSpec(componentSpec: any, attr: string, value: any) {
-    if (Array.isArray(componentSpec)) {
-      componentSpec[0][attr] = value;
-    } else {
-      componentSpec[attr] = value;
+  protected _createSeries(constructor: ISeriesConstructor, specInfo: IModelSpecInfo) {
+    if (!constructor) {
+      return;
     }
-    return componentSpec;
-  }
 
-  private _getSeriesDataLength(spec: any, seriesSpec: any) {
-    if (seriesSpec.data) {
-      const _d = array(seriesSpec.data)[0];
-      if (_d instanceof DataView) {
-        return _d.latestData?.length;
-      }
-      return _d.values?.length;
+    const { spec, ...others } = specInfo;
+
+    if (spec.type === SeriesTypeEnum.link) {
+      spec.dotSeriesSpec = this._spec.series[spec.dotSeriesIndex];
     }
-    const dataTemp = array(spec.data).find((_d, index) => {
-      if (seriesSpec.dataId) {
-        if (_d instanceof DataView) {
-          return _d.name === seriesSpec.dataId;
-        }
-        return _d.id === seriesSpec.dataId;
-      }
-      return seriesSpec.dataIndex === index;
-    });
-    if (!dataTemp) {
-      return 0;
+
+    let region: IRegion | undefined;
+    if (spec.regionId) {
+      region = this.getRegionsInUserId(spec.regionId);
     }
-    if (dataTemp instanceof DataView) {
-      return dataTemp.latestData.length;
+    if (!region) {
+      region = this.getRegionsInIndex(spec.regionIndex ? [spec.regionIndex] : undefined)[0];
     }
-    return dataTemp.values.length;
+    if (!region) {
+      return;
+    }
+    const series = new constructor(spec, {
+      ...this._modelOption,
+      ...others,
+      region,
+      specKey: 'series',
+      globalScale: this._globalScale
+    } as ISeriesOption);
+
+    if (series) {
+      series.created();
+      this._series.push(series);
+      region.addSeries(series);
+    }
   }
 }
 

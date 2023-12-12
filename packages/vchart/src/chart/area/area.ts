@@ -1,19 +1,15 @@
 import { registerAreaSeries } from '../../series/area/area';
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { CartesianChart } from '../cartesian/cartesian';
+import { CartesianChart, CartesianChartSpecTransformer } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
 import type { IAreaChartSpec } from './interface';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import { Factory } from '../../core/factory';
 
-export class AreaChart extends CartesianChart {
-  static readonly type: string = ChartTypeEnum.area;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.area;
-  readonly seriesType: string = SeriesTypeEnum.area;
-  protected _canStack: boolean = true;
-
-  protected _getDefaultSeriesSpec(spec: IAreaChartSpec): any {
+export class AreaChartSpecTransformer<
+  T extends IAreaChartSpec = IAreaChartSpec
+> extends CartesianChartSpecTransformer<T> {
+  protected _getDefaultSeriesSpec(spec: T): any {
     return {
       ...super._getDefaultSeriesSpec(spec),
       point: spec.point,
@@ -30,10 +26,21 @@ export class AreaChart extends CartesianChart {
     };
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     setDefaultCrosshairForCartesianChart(spec);
   }
+}
+
+export class AreaChart<T extends IAreaChartSpec = IAreaChartSpec> extends CartesianChart<T> {
+  static readonly type: string = ChartTypeEnum.area;
+  static readonly seriesType: string = SeriesTypeEnum.area;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = AreaChartSpecTransformer;
+  readonly transformerConstructor = AreaChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.area;
+  readonly seriesType: string = SeriesTypeEnum.area;
+  protected _canStack: boolean = true;
 }
 
 export const registerAreaChart = () => {

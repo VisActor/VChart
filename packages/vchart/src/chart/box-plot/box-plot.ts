@@ -1,20 +1,16 @@
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { Direction } from '../../typings';
-import { CartesianChart } from '../cartesian/cartesian';
+import { CartesianChart, CartesianChartSpecTransformer } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBoxPlotChartSpec } from './interface';
-import { VChart } from '../../core/vchart';
-import { BoxPlotSeries, registerBoxplotSeries } from '../../series/box-plot/box-plot';
+import { registerBoxplotSeries } from '../../series/box-plot/box-plot';
 import { Factory } from '../../core/factory';
 
-export class BoxPlotChart extends CartesianChart {
-  static readonly type: string = ChartTypeEnum.boxPlot;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.boxPlot;
-  readonly seriesType: string = SeriesTypeEnum.boxPlot;
-
-  protected _getDefaultSeriesSpec(spec: IBoxPlotChartSpec): any {
+export class BoxPlotChartSpecTransformer<
+  T extends IBoxPlotChartSpec = IBoxPlotChartSpec
+> extends CartesianChartSpecTransformer<T> {
+  protected _getDefaultSeriesSpec(spec: T): any {
     const dataFields = [spec.maxField, spec.medianField, spec.q1Field, spec.q3Field, spec.minField, spec.outliersField];
     const seriesSpec = {
       ...super._getDefaultSeriesSpec(spec),
@@ -33,7 +29,7 @@ export class BoxPlotChart extends CartesianChart {
     return seriesSpec;
   }
 
-  transformSpec(spec: IBoxPlotChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     if (!spec.axes) {
       spec.axes = [
@@ -47,6 +43,15 @@ export class BoxPlotChart extends CartesianChart {
     }
     setDefaultCrosshairForCartesianChart(spec);
   }
+}
+export class BoxPlotChart<T extends IBoxPlotChartSpec = IBoxPlotChartSpec> extends CartesianChart<T> {
+  static readonly type: string = ChartTypeEnum.boxPlot;
+  static readonly seriesType: string = SeriesTypeEnum.boxPlot;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = BoxPlotChartSpecTransformer;
+  readonly transformerConstructor = BoxPlotChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.boxPlot;
+  readonly seriesType: string = SeriesTypeEnum.boxPlot;
 }
 
 export const registerBoxplotChart = () => {

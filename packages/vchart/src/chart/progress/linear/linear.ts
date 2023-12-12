@@ -1,4 +1,4 @@
-import { CartesianChart } from '../../cartesian/cartesian';
+import { CartesianChart, CartesianChartSpecTransformer } from '../../cartesian/cartesian';
 import { ChartTypeEnum } from '../../interface';
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import type {
@@ -12,18 +12,14 @@ import { getLinearAxisSpecDomain } from '../../../component/axis/util';
 import { registerLinearProgressSeries } from '../../../series/progress/linear';
 import { Factory } from '../../../core/factory';
 
-export class LinearProgressChart extends CartesianChart {
-  static readonly type: string = ChartTypeEnum.linearProgress;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.linearProgress;
-  readonly seriesType: string = SeriesTypeEnum.linearProgress;
-  protected _canStack: boolean = true;
-
+export class LinearProgressChartSpecTransformer<
+  T extends ILinearProgressChartSpec = ILinearProgressChartSpec
+> extends CartesianChartSpecTransformer<T> {
   protected needAxes(): boolean {
     return false;
   }
 
-  protected _getDefaultSeriesSpec(spec: ILinearProgressChartSpec): ILinearProgressChartSpec {
+  protected _getDefaultSeriesSpec(spec: T): ILinearProgressChartSpec {
     const series = super._getDefaultSeriesSpec(spec);
     return {
       ...series,
@@ -37,7 +33,7 @@ export class LinearProgressChart extends CartesianChart {
     };
   }
 
-  transformSpec(spec: ILinearProgressChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     if (!spec.axes) {
@@ -129,6 +125,19 @@ export class LinearProgressChart extends CartesianChart {
       }
     }
   }
+}
+
+export class LinearProgressChart<
+  T extends ILinearProgressChartSpec = ILinearProgressChartSpec
+> extends CartesianChart<T> {
+  static readonly type: string = ChartTypeEnum.linearProgress;
+  static readonly seriesType: string = SeriesTypeEnum.linearProgress;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = LinearProgressChartSpecTransformer;
+  readonly transformerConstructor = LinearProgressChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.linearProgress;
+  readonly seriesType: string = SeriesTypeEnum.linearProgress;
+  protected _canStack: boolean = true;
 }
 
 export const registerLinearProgressChart = () => {

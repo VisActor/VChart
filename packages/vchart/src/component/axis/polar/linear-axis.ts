@@ -18,6 +18,8 @@ export class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSp
   static type = ComponentTypeEnum.polarLinearAxis;
   type = ComponentTypeEnum.polarLinearAxis;
 
+  static specKey = 'axes';
+
   protected _zero: boolean = true;
   protected _nice: boolean = true;
 

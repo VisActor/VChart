@@ -19,6 +19,8 @@ import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '..
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
@@ -32,11 +34,15 @@ import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
 import { isPercent } from '../../../util';
 import type { IPoint } from '../../../typings';
+import type { IModelSpecInfo } from '../../../model/interface';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
   type = ComponentTypeEnum.markLine;
   name: string = ComponentTypeEnum.markLine;
+
+  static specKey = 'markLine';
+  specKey = 'markLine';
 
   layoutZIndex: number = LayoutZIndex.MarkLine;
 
@@ -45,21 +51,40 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
 
   private _isXYLayout: boolean;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const markLineSpec = spec.markLine;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const markLineSpec = chartSpec[this.specKey];
     if (isEmpty(markLineSpec)) {
       return undefined;
     }
     if (!isArray(markLineSpec) && markLineSpec.visible !== false) {
-      return new MarkLine(markLineSpec, { ...options });
+      return [
+        {
+          spec: markLineSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.markLine
+        }
+      ];
     }
-    const markLines: MarkLine[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     markLineSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markLines.push(new MarkLine(m, { ...options, specIndex: i }));
+        specInfos.push({
+          spec: m,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: ComponentTypeEnum.markLine
+        });
       }
     });
-    return markLines;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new MarkLine(spec, {
+      ...options,
+      ...others
+    });
   }
 
   protected _createMarkerComponent() {

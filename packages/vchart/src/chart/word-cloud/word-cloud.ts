@@ -2,16 +2,13 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IWordCloudChartSpec } from './interface';
-import { BaseWordCloudChart } from './base';
+import { BaseWordCloudChart, BaseWordCloudChartSpecTransformer } from './base';
 import { registerWordCloudSeries, registerWordCloudShapeSeries } from '../../series/word-cloud/word-cloud';
 import { Factory } from '../../core/factory';
 
-export class WordCloudChart extends BaseWordCloudChart {
-  static readonly type: string = ChartTypeEnum.wordCloud;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.wordCloud;
-  readonly seriesType: string = SeriesTypeEnum.wordCloud;
-
+export class WordCloudChartSpecTransformer<
+  T extends IWordCloudChartSpec = IWordCloudChartSpec
+> extends BaseWordCloudChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: IWordCloudChartSpec): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
@@ -43,6 +40,16 @@ export class WordCloudChart extends BaseWordCloudChart {
 
     return series;
   }
+}
+
+export class WordCloudChart<T extends IWordCloudChartSpec = IWordCloudChartSpec> extends BaseWordCloudChart<T> {
+  static readonly type: string = ChartTypeEnum.wordCloud;
+  static readonly seriesType: string = SeriesTypeEnum.wordCloud;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = WordCloudChartSpecTransformer;
+  readonly transformerConstructor = WordCloudChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.wordCloud;
+  readonly seriesType: string = SeriesTypeEnum.wordCloud;
 }
 
 export const registerWordCloudChart = () => {

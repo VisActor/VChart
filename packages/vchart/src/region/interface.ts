@@ -1,5 +1,11 @@
 import type { IMark } from '../mark/interface';
-import type { ILayoutModel, IModelOption } from '../model/interface';
+import type {
+  IBaseModelSpecTransformer,
+  IBaseModelSpecTransformerOption,
+  ILayoutModel,
+  IModelConstructor,
+  IModelOption
+} from '../model/interface';
 import type { ISeries, SeriesType } from '../series/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IInteraction } from '../interaction/interface';
@@ -49,7 +55,7 @@ export type ISeriesFilter = {
   dataName?: string;
 };
 
-export interface IRegionConstructor {
+export interface IRegionConstructor extends IModelConstructor {
   new (spec: IRegionSpec, ctx: IModelOption): IRegion;
 }
 
