@@ -92,7 +92,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
         width: markerBounds.width(),
         height: markerBounds.height()
       },
-      updateCall: attr => {
+      updateCall: (attr, _option) => {
         this._controller.removeOverGraphic();
 
         const reRender = this.chart.specProcess.updateElementAttribute(element.model, attr);

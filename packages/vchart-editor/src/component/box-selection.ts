@@ -341,7 +341,9 @@ export class BoxSelection {
                 dy
               }
             },
-            false
+            {
+              triggerHistory: false
+            }
           );
         });
         elementList.forEach(element => {

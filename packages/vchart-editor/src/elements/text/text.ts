@@ -8,6 +8,7 @@ import type {
   IElementPathEnd,
   IElementPathRoot,
   ILayoutLine,
+  IUpdateAttributeOption,
   IUpdateAttributeParam
 } from './../../core/interface';
 /* eslint-disable no-console */
@@ -159,8 +160,8 @@ export class EditorText extends BaseElement {
       },
       editProperties,
       originSpec: { ...this._textGraphic.attribute },
-      updateAttribute: (attr: IUpdateAttributeParam) => {
-        this.saveSnapshot();
+      updateAttribute: (attr: IUpdateAttributeParam, option: IUpdateAttributeOption = { triggerHistory: true }) => {
+        option.triggerHistory && this.saveSnapshot();
         if (attr.spec) {
           this._textGraphic.setAttributes(this._transformTextAttribute(attr.spec));
           el.originSpec = this._textGraphic.attribute;
@@ -177,7 +178,10 @@ export class EditorText extends BaseElement {
         if (attr.layout) {
           this._updateLayout(attr.layout as ILayoutAttribute);
         }
-        this.pushHistory();
+        if (attr.zIndex) {
+          this.option.layer.changeElementLayoutZIndex(this.id as string, { action: attr.zIndex });
+        }
+        option.triggerHistory && this.pushHistory();
         return false;
       },
       editorFinish: () => {

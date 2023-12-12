@@ -551,7 +551,7 @@ export class EditorChart extends BaseElement {
       return getPosInClient(end as IElementPathEnd, el);
     } else if (path.opt.type === 'region') {
       const region = this._vchart.getChart().getAllRegions()[0];
-      const node = region.getGroupMark().getProduct().elements[0].graphicItem;
+      const node = region.getGroupMark().getProduct().elements[0].getGraphicItem();
       const end = path.child;
       return getPosInClient(end as IElementPathEnd, node);
     }
@@ -560,7 +560,7 @@ export class EditorChart extends BaseElement {
 
   getTargetWithPosBackup(pos: IPoint): IElementPathRoot {
     const region = this._vchart.getChart().getAllRegions()[0];
-    const node = region.getGroupMark().getProduct().elements[0].graphicItem;
+    const node = region.getGroupMark().getProduct().elements[0].getGraphicItem();
     const endPath = getEndPathWithNode(pos, node);
     return {
       elementId: this.id,
@@ -759,14 +759,14 @@ export class EditorChart extends BaseElement {
     if (!model) {
       return;
     }
-    const mark = getModelRootMark(model, modelInfo) as IGraphic;
+    const mark = getModelRootMark(model as unknown as IChartModel, modelInfo) as IGraphic;
     if (!mark) {
       return;
     }
     const parent = mark.parent;
     const zIndex = getZIndexInParent(parent, mark, opt);
     if (model.type === 'markLine' || model.type === 'markArea') {
-      this._specProcess.updateElementAttribute(model, {
+      this._specProcess.updateElementAttribute(model as unknown as IChartModel, {
         [model.type]: {
           spec: {
             zIndex
@@ -774,7 +774,7 @@ export class EditorChart extends BaseElement {
         }
       });
     } else {
-      this._specProcess.updateElementAttribute(model, {
+      this._specProcess.updateElementAttribute(model as unknown as IChartModel, {
         spec: {
           zIndex
         }
