@@ -972,7 +972,9 @@ export class BaseChart extends CompilableBase implements IChart {
 
       invalidType: spec.invalidType,
 
-      seriesField: spec.seriesField
+      seriesField: spec.seriesField,
+
+      morph: spec.morph
     };
     return series;
   }
