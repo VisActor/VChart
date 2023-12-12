@@ -5,6 +5,7 @@ import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
 import type { IElement, IElementData } from './../elements/interface';
 import type { ILayoutAttribute, IPoint, IRect } from '../typings/space';
 import type { IModelSpec } from '../elements/chart/spec-process/interface';
+import type { VChartEditor } from './vchart-editor';
 export interface ILayerData {
   id: string | number;
   type: 'chart' | string;
@@ -39,6 +40,7 @@ export interface IEditorLayer {
   transformPosToLayer: (pos: IPoint) => IPoint;
   transformPosToClient: (pos: IPoint) => IPoint;
   getLayoutLineInLayer: () => ILayoutLine[];
+  getEditor: () => VChartEditor;
 
   changeElementLayoutZIndex: (
     elementId: string,

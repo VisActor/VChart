@@ -95,6 +95,9 @@ export class EditorLayer implements IEditorLayer {
   }
 
   private _editor: VChartEditor;
+  getEditor() {
+    return this._editor;
+  }
 
   constructor(
     container: HTMLElement,
