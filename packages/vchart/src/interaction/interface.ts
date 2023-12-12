@@ -77,7 +77,7 @@ export type IElementActiveSpec = IBaseInteractionSpec &
   Pick<ElementActiveSpec, 'type' | 'trigger' | 'resetTrigger' | 'state'>;
 
 export type IElementSelectSpec = IBaseInteractionSpec &
-  Pick<ElementSelectSpec, 'type' | 'trigger' | 'resetTrigger' | 'state' | 'isMultiple'>;
+  Pick<ElementSelectSpec, 'type' | 'trigger' | 'resetTrigger' | 'state' | 'isMultiple' | 'reverseState'>;
 export type IElementHighlightSpec = IBaseInteractionSpec &
   Pick<ElementHighlightSpec, 'type' | 'blurState' | 'highlightState' | 'resetTrigger' | 'trigger'>;
 
@@ -94,7 +94,7 @@ export type IElementHighlightByLegend = IBaseInteractionSpec &
   Pick<ElementHighlightByLegendSpec, 'type' | 'filterType' | 'blurState' | 'highlightState'>;
 
 export type IElementHighlightByName = IBaseInteractionSpec &
-  Pick<ElementHighlightByNameSpec, 'type' | 'blurState' | 'highlightState' | 'name' | 'parseData'>;
+  Pick<ElementHighlightByNameSpec, 'type' | 'blurState' | 'highlightState' | 'graphicName' | 'parseData'>;
 
 export interface ICustomInteraction extends IBaseInteractionSpec {
   type: string;
