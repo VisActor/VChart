@@ -35,10 +35,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
   }
 
   protected _handlePointerDown(e: EventParams): void {
-    this._prePoint = {
-      x: e.event.clientX,
-      y: e.event.clientY
-    };
+    this._prePoint = this._layer.transformPosToLayer({ x: e.event.offsetX, y: e.event.offsetY });
     this._orient = this._element.name === MarkerTypeEnum.verticalLine ? 'vertical' : 'horizontal';
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
@@ -53,12 +50,12 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
     if (isHorizontal) {
       const currentY = (this._element.attribute.points[0] as Point).y;
       this._limitRange = [regionStartY - currentY, regionStartY + regionHeight - currentY];
-      this._prePos = e.event.clientY;
+      this._prePos = this._prePoint.y;
       this._preOffset = this._editComponent.attribute.dy ?? 0;
     } else {
       const currentX = (this._element.attribute.points[0] as Point).x;
       this._limitRange = [regionStartX - currentX, regionStartX + regionWidth - currentX];
-      this._prePos = e.event.clientX;
+      this._prePos = this._prePoint.x;
       this._preOffset = this._editComponent.attribute.dx ?? 0;
     }
 
