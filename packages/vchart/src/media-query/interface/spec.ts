@@ -1,11 +1,7 @@
-import type { IChart } from '../../chart/interface';
 import type { ComponentTypeEnum, SimplifiedComponentTypeEnum } from '../../component/interface';
-import type { IModel } from '../../model/interface';
-import type { RenderMode } from '../../typings/spec/common';
 import type { IVChart } from '../../core';
-import type { IContainerSize } from '@visactor/vrender-components';
 import type { SeriesTypeEnum } from '../../series';
-import type { IFilteredModelInfo } from './common';
+import type { IFilteredModelInfo, IMediaInfo } from './common';
 
 /**
  * 媒体查询配置（包含多项查询）
@@ -18,7 +14,7 @@ export interface IMediaQueryItem {
   /** 媒体查询条件 */
   query: IMediaQueryCondition;
   /** 命中媒体查询条件之后的动作 */
-  action: MediaQueryAction | MediaQueryAction[];
+  action: IMediaQueryAction | IMediaQueryAction[];
 }
 
 /** 媒体查询条件，多个属性之间为“且”关系 */
@@ -31,17 +27,9 @@ export interface IMediaQueryCondition {
   minHeight?: number;
   /** 最大图表高度 */
   maxHeight?: number;
-  /** 渲染环境，默认为全部 */
-  mode?: RenderMode | RenderMode[];
-  /** 主题亮暗模式 */
-  themeMode?: 'light' | 'dark';
   /** 当图表宽度或高度发生变化时触发的回调，由回调指定是否命中查询条件 */
-  onResize?: (size: IContainerSize, vchart: IVChart) => boolean;
-  /** 当图表更新时触发的回调，由回调指定是否命中查询条件 */
-  onUpdateSpec?: (spec: any, vchart: IVChart) => boolean;
+  onResize?: (info: IMediaInfo, vchart: IVChart) => boolean;
 }
-
-export type MediaQueryAction = IMediaQueryAction | MediaQueryActionCallback;
 
 /** 命中媒体查询条件之后的动作 */
 export interface IMediaQueryAction<T extends Record<string, unknown> = any> {
@@ -86,21 +74,6 @@ export interface IMediaQueryAction<T extends Record<string, unknown> = any> {
    */
   forceAppend?: boolean;
 }
-
-/**
- * 自定义 action 回调
- * @param type 当前查询是从失效转换为生效（'active'），还是生效转换为失效（'inactive'）
- * @param query 当前媒体查询条件
- * @param specDraft 当前图表 spec（可能已经经过别的 action 处理）
- * @param vchart VChart 实例
- * @returns 经过修改的图表 spec，如果返回空值，则不会更新 spec
- */
-export type MediaQueryActionCallback = (
-  type: 'active' | 'inactive',
-  query: IMediaQueryCondition,
-  specDraft: any,
-  vchart: IVChart
-) => any;
 
 /**
  * 元素过滤器类型

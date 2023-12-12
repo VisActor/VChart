@@ -96,7 +96,6 @@ import { mergeTheme, preprocessTheme } from '../util/spec';
 import { darkTheme, registerTheme } from '../theme/builtin';
 import { MediaQuery } from '../media-query/media-query';
 import type { IMediaQuerySpec } from '../media-query/interface';
-import { isSameMediaQuerySpec } from '../media-query/util';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -529,34 +528,45 @@ export class VChart implements IVChart {
   }
 
   /** **异步方法** 执行自定义的回调修改图表配置，并重新渲染 */
-  async updateCustomConfigAndRerender(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
+  async updateCustomConfigAndRerender(
+    modifyConfig: () => IUpdateSpecResult | undefined,
+    morphConfig?: IMorphConfig,
+    resetMediaQuery?: boolean
+  ) {
     if (this._isReleased) {
       return this as unknown as IVChart;
     }
     const result = modifyConfig(); // 执行回调
     if (isValid(result)) {
       this._reCompile(result);
-      await this.renderAsync(morphConfig);
+      await this.renderAsync(morphConfig, resetMediaQuery);
     }
     return this as unknown as IVChart;
   }
 
   /** **同步方法** 执行自定义的回调修改图表配置，并重新渲染 */
-  updateCustomConfigAndRerenderSync(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
+  updateCustomConfigAndRerenderSync(
+    modifyConfig: () => IUpdateSpecResult | undefined,
+    morphConfig?: IMorphConfig,
+    resetMediaQuery?: boolean
+  ) {
     const result = modifyConfig(); // 执行回调
     if (isValid(result)) {
       this._reCompile(result);
-      this.renderSync(morphConfig);
+      this.renderSync(morphConfig, resetMediaQuery);
     }
     return this as unknown as IVChart;
   }
 
   /** 执行自定义的回调修改图表配置，并重新编译（不渲染） */
-  protected _updateCustomConfigAndRecompile(modifyConfig: () => IUpdateSpecResult | undefined) {
+  protected _updateCustomConfigAndRecompile(
+    modifyConfig: () => IUpdateSpecResult | undefined,
+    resetMediaQuery?: boolean
+  ) {
     const result = modifyConfig(); // 执行回调
     if (isValid(result)) {
       this._reCompile(result);
-      return this._beforeRender();
+      return this._beforeRender(resetMediaQuery);
     }
     return false;
   }
@@ -598,9 +608,28 @@ export class VChart implements IVChart {
   }
 
   /** 渲染之前的步骤，返回是否成功 */
-  protected _beforeRender(): boolean {
+  protected _beforeRender(resetMediaQuery?: boolean): boolean {
     if (this._isReleased) {
       return false;
+    }
+    // 初始化图表 spec
+    this._initChartSpec(this._spec);
+    if (resetMediaQuery) {
+      this._mediaQuery?.release();
+      this._mediaQuery = null;
+    }
+    if (!this._mediaQuery) {
+      // 初始化媒体查询
+      this._initMediaQuery();
+      // 触发首次媒体查询
+      this._mediaQuery?.init(
+        {
+          ...this._getCurrentSize(),
+          themeMode: this._currentTheme.type ?? 'light'
+        },
+        false,
+        false
+      );
     }
     // compile
     return this._createChartAndCompile();
@@ -621,9 +650,9 @@ export class VChart implements IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  renderSync(morphConfig?: IMorphConfig) {
+  renderSync(morphConfig?: IMorphConfig, resetMediaQuery?: boolean) {
     const self = this as unknown as IVChart;
-    if (!this._beforeRender()) {
+    if (!this._beforeRender(resetMediaQuery)) {
       return self;
     }
     // 填充数据绘图
@@ -637,9 +666,9 @@ export class VChart implements IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  async renderAsync(morphConfig?: IMorphConfig) {
+  async renderAsync(morphConfig?: IMorphConfig, resetMediaQuery?: boolean) {
     const self = this as unknown as IVChart;
-    if (!this._beforeRender()) {
+    if (!this._beforeRender(resetMediaQuery)) {
       return self;
     }
     // 填充数据绘图
@@ -650,20 +679,6 @@ export class VChart implements IVChart {
 
   private _createChartAndCompile(): boolean {
     if (!this._chart) {
-      // 初始化图表 spec
-      this._initChartSpec(this._spec);
-      // 初始化媒体查询
-      this._initMediaQuery();
-      // 触发首次媒体查询
-      this._mediaQuery?.init(
-        {
-          ...this._getCurrentSize(),
-          themeMode: this._currentTheme.type ?? 'light'
-        },
-        false,
-        false
-      );
-
       this._option.performanceHook?.beforeInitializeChart?.();
       this._initChart(this._spec);
       this._option.performanceHook?.afterInitializeChart?.();
@@ -884,10 +899,10 @@ export class VChart implements IVChart {
    * @param forceMerge
    * @returns
    */
-  async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
+  async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) {
     const modifyConfig = this._updateSpec(spec, forceMerge);
     if (modifyConfig) {
-      await this.updateCustomConfigAndRerender(modifyConfig, morphConfig);
+      await this.updateCustomConfigAndRerender(modifyConfig, morphConfig, resetMediaQuery);
     }
     return this as unknown as IVChart;
   }
@@ -898,19 +913,19 @@ export class VChart implements IVChart {
    * @param forceMerge
    * @returns
    */
-  updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
+  updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) {
     const modifyConfig = this._updateSpec(spec, forceMerge);
     if (modifyConfig) {
-      this.updateCustomConfigAndRerenderSync(modifyConfig, morphConfig);
+      this.updateCustomConfigAndRerenderSync(modifyConfig, morphConfig, resetMediaQuery);
     }
     return this as unknown as IVChart;
   }
 
   /** 更新 spec 并重新编译（不渲染） */
-  protected _updateSpecAndRecompile(spec: ISpec, forceMerge: boolean = false) {
+  protected _updateSpecAndRecompile(spec: ISpec, forceMerge: boolean = false, resetMediaQuery?: boolean) {
     const modifyConfig = this._updateSpec(spec, forceMerge);
     if (modifyConfig) {
-      return this._updateCustomConfigAndRecompile(modifyConfig);
+      return this._updateCustomConfigAndRecompile(modifyConfig, resetMediaQuery);
     }
     return false;
   }
@@ -1804,17 +1819,10 @@ export class VChart implements IVChart {
   }
 
   private _initMediaQuery() {
-    if (isSameMediaQuerySpec(this._mediaQuerySpec, this._spec.media)) {
-      return;
-    }
     this._mediaQuerySpec = this._spec.media;
-    if (this._mediaQuery) {
-      this._mediaQuery.release();
-    }
     if (this._mediaQuerySpec) {
       this._mediaQuery = new MediaQuery(this._mediaQuerySpec, {
         globalInstance: this,
-        eventDispatcher: this._eventDispatcher,
         mode: this._option.mode || RenderModeEnum['desktop-browser'],
         updateSpec: (spec: any, compile?: boolean, render?: boolean) => {
           if (render) {

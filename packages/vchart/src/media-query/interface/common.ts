@@ -1,21 +1,16 @@
 import type { IChart } from '../../chart/interface';
 import type { ComponentTypeEnum } from '../../component/interface';
-import type { IEventDispatcher, VChart } from '../../core';
+import type { VChart } from '../../core';
 import type { IModel, IModelSpecInfo } from '../../model/interface';
 import type { SeriesTypeEnum } from '../../series';
-import type { IChartSpec, RenderMode } from '../../typings';
+import type { IChartSpec } from '../../typings';
 import type { MediaQuery } from '../media-query';
-import type { MediaQueryItem } from '../media-query-item';
 
 export interface IMediaInfo {
   /** 图表宽度 */
   width: number;
   /** 图表高度 */
   height: number;
-  /** 渲染模式 */
-  mode: RenderMode;
-  /** 主题模式 */
-  themeMode: 'light' | 'dark';
 }
 
 export interface IFilteredModelInfo<T extends Record<string, unknown> = any> extends IModelSpecInfo<T> {
@@ -36,9 +31,7 @@ export interface IMediaQueryActionFilterResult<T extends Record<string, unknown>
 }
 
 export interface IMediaQueryOption {
-  eventDispatcher: IEventDispatcher;
   globalInstance: VChart;
-  mode: RenderMode;
   updateSpec: (spec: any, compile?: boolean, render?: boolean) => void;
 }
 
@@ -48,8 +41,6 @@ export interface IMediaQueryItemOption extends IMediaQueryOption {
 }
 
 export interface IMediaQueryCheckResult {
-  /** 当前实例 */
-  item: MediaQueryItem;
   /** 是否命中媒体查询条件 */
   isActive: boolean;
   /** 当前媒体查询的状态是否发生改变（生效->失效 或 失效->生效） */

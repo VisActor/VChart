@@ -60,7 +60,7 @@ export interface IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  renderSync: (morphConfig?: IMorphConfig) => IVChart;
+  renderSync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => IVChart;
 
   /**
    * **异步**渲染图表。
@@ -68,7 +68,7 @@ export interface IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
+  renderAsync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => Promise<IVChart>;
 
   /**
    * **异步**更新数据。
@@ -101,7 +101,12 @@ export interface IVChart {
    * @param forceMerge
    * @returns
    */
-  updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => Promise<IVChart>;
+  updateSpec: (
+    spec: ISpec,
+    forceMerge?: boolean,
+    morphConfig?: IMorphConfig,
+    resetMediaQuery?: boolean
+  ) => Promise<IVChart>;
 
   /**
    * **同步方法**spec 更新。
@@ -109,7 +114,7 @@ export interface IVChart {
    * @param forceMerge
    * @returns
    */
-  updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => void;
+  updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => void;
 
   /**
    * **同步方法** 模块 spec 更新

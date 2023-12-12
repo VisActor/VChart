@@ -1,5 +1,4 @@
-import { array, isArray, isFunction, isNil, isObject } from '@visactor/vutils';
-import type { IMediaQueryItem, IMediaQuerySpec } from '../interface';
+import { isArray, isFunction, isNil, isObject } from '@visactor/vutils';
 
 /**
  * 判断一个 spec 是否包含另一个 spec 片段
@@ -39,35 +38,4 @@ export const setProperty = (target: any, path: Array<string | number>, value: an
     }
   }
   setProperty(target[key], path.slice(1), value);
-};
-
-/** 比较媒体查询 spec，返回是否相同 */
-export const isSameMediaQuerySpec = (spec1?: IMediaQuerySpec, spec2?: IMediaQuerySpec): boolean => {
-  if (spec1 === spec2 || (!spec1 && !spec2)) {
-    return true;
-  }
-  if (!spec1 || !spec2) {
-    return false;
-  }
-  if (spec1.length !== spec2.length) {
-    return false;
-  }
-  return spec1.every((item1, i) => isSameMediaQueryItem(item1, spec2[i]));
-};
-
-/** 比较媒体查询 spec 具体项，返回是否相同 */
-export const isSameMediaQueryItem = (item1: IMediaQueryItem, item2: IMediaQueryItem): boolean => {
-  if (item1 === item2) {
-    return true;
-  }
-  if (array(item1.action).length !== array(item2.action).length) {
-    return false;
-  }
-  try {
-    const str1 = JSON.stringify(item1);
-    const str2 = JSON.stringify(item2);
-    return str1 === str2;
-  } catch {
-    return false;
-  }
 };
