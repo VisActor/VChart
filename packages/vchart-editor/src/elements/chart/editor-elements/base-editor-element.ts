@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import type { IModelInfo } from './../../../core/interface';
+import type { IModelInfo, IUpdateAttributeOption } from './../../../core/interface';
 /* eslint-disable no-console */
 import type { IChartModel } from './../interface';
 import type { IEditorController, IEditorElement, IEditorLayer, IUpdateAttributeParam } from './../../../core/interface';
@@ -81,7 +81,7 @@ export abstract class BaseEditorElement {
 
 export type UpdateAttributeCall = (
   attr: IUpdateAttributeParam,
-  triggerHistory: boolean
+  option: IUpdateAttributeOption
 ) => false | { [key: string]: unknown };
 
 export class CommonChartEditorElement implements IEditorElement {
@@ -144,9 +144,9 @@ export class CommonChartEditorElement implements IEditorElement {
 
   updateAttribute = (
     attr: IUpdateAttributeParam,
-    triggerHistory: boolean = true
+    option: IUpdateAttributeOption
   ): false | { [key: string]: unknown } => {
-    return this._updateCall?.(attr, triggerHistory) ?? false;
+    return this._updateCall?.(attr, option) ?? false;
   };
 
   editorFinish = () => {

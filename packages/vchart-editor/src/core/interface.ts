@@ -40,6 +40,11 @@ export interface IEditorLayer {
   transformPosToClient: (pos: IPoint) => IPoint;
   getLayoutLineInLayer: () => ILayoutLine[];
 
+  changeElementLayoutZIndex: (
+    elementId: string,
+    opt: { zIndex?: number; action: 'toTop' | 'toBottom' | 'levelUp' | 'levelDown' }
+  ) => void;
+
   removeElement: (id: string | number, triggerHistory: boolean) => void;
   release: () => void;
 }
@@ -117,6 +122,14 @@ export interface IUpdateAttributeParam {
 
   // 数据更新
   data?: IDataAttributeParam;
+
+  // 层级更新
+  zIndex?: 'toTop' | 'toBottom' | 'levelUp' | 'levelDown';
+}
+
+export interface IUpdateAttributeOption {
+  triggerHistory?: boolean;
+  actionType?: 'data-add' | 'data-change' | 'data-replace' | string;
 }
 
 export interface IEditorElement {
@@ -170,7 +183,7 @@ export interface IEditorElement {
     resize?: boolean | ([boolean, ...boolean[]] & { length: 8 });
     //
   } & { [key: string]: unknown };
-  updateAttribute: (attr: IUpdateAttributeParam, triggerHistory?: boolean) => false | { [key: string]: unknown };
+  updateAttribute: (attr: IUpdateAttributeParam, option?: IUpdateAttributeOption) => false | { [key: string]: unknown };
   editorFinish: () => void;
   updateElement: () => void;
   updateRect: (rect: IRect) => void;

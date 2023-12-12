@@ -55,9 +55,9 @@ export class CommonModelElement extends BaseEditorElement {
     }
     const element = new CommonChartEditorElement(this, {
       model,
-      updateCall: (attr, triggerHistory) => {
+      updateCall: (attr, option = { triggerHistory: true }) => {
         let reRender = false;
-        if (triggerHistory) {
+        if (option.triggerHistory !== false) {
           this.chart.specProcess.saveSnapshot();
         }
         if (attr.data || attr.chartType) {
@@ -70,6 +70,14 @@ export class CommonModelElement extends BaseEditorElement {
 
         if (attr.markArea) {
           this.emitter.emit('addMarkArea', this, attr);
+        }
+
+        if (attr.zIndex) {
+          if (model.type === 'region') {
+            this.chart.option.layer.changeElementLayoutZIndex(this.chart.id as string, { action: attr.zIndex });
+          } else {
+            this.chart.changeModelLayoutZIndex(info.layoutMeta, { action: attr.zIndex });
+          }
         }
 
         if (attr.layout) {
@@ -88,7 +96,7 @@ export class CommonModelElement extends BaseEditorElement {
         if (reRender) {
           this.chart.reRenderWithUpdateSpec();
         }
-        if (triggerHistory) {
+        if (option.triggerHistory !== false) {
           this.chart.specProcess.pushHistory();
         }
         this._controller.editorEnd();
