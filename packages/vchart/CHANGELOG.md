@@ -1,6 +1,16 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 06 Dec 2023 07:34:11 GMT and should not be manually modified.
+This log was last generated on Tue, 12 Dec 2023 07:55:54 GMT and should not be manually modified.
+
+## 1.7.4
+Tue, 12 Dec 2023 07:55:54 GMT
+
+### Updates
+
+- feat: support interaction group in region
+
+
+- fix: label style not update when change current theme in #1698
 
 ## 1.7.3
 Wed, 06 Dec 2023 07:34:11 GMT

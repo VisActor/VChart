@@ -26,11 +26,12 @@ export declare class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelC
     name: string;
     layoutZIndex: number;
     protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;
-    protected _labelComponentMap: Map<IComponentMark, ILabelInfo | ILabelInfo[]>;
+    protected _labelComponentMap: Map<IComponentMark, () => ILabelInfo | ILabelInfo[]>;
     protected _layoutRule: 'series' | 'region';
     constructor(spec: T, options: IComponentOption);
     static createComponent(spec: any, options: IComponentOption): Label<any>[];
     init(option: IModelInitOption): void;
+    reInit(theme?: any): void;
     initEvent(): void;
     protected _delegateLabelEvent(component: IGroup): void;
     protected _initTextMark(): void;

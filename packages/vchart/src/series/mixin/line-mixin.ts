@@ -273,6 +273,7 @@ export class LineLikeSeriesMixin {
           groupKey: this._seriesField,
           isSeriesMark: false,
           dataView: activeData,
+          parent: this._region.getInteractionMark(),
           customShape: this._spec.point?.customShape
         }
       ) as ISymbolMark;

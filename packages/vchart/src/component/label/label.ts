@@ -43,7 +43,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
 
   protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;
 
-  protected _labelComponentMap: Map<IComponentMark, ILabelInfo | ILabelInfo[]>;
+  protected _labelComponentMap: Map<IComponentMark, () => ILabelInfo | ILabelInfo[]>;
 
   protected _layoutRule: 'series' | 'region';
 
@@ -76,6 +76,12 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this.initEvent();
     this._initTextMark();
     this._initLabelComponent();
+    this._initTextMarkStyle();
+  }
+
+  reInit(theme?: any) {
+    this._labelInfoMap && this._labelInfoMap.clear();
+    this._initTextMark();
     this._initTextMarkStyle();
   }
 
@@ -151,7 +157,12 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
                 { noSeparateStyle: true }
               ) as ILabelMark;
               labelMark.setTarget(mark);
-              info.push({ labelMark, baseMark: mark, series: s, labelSpec });
+              info.push({
+                labelMark,
+                baseMark: mark,
+                series: s,
+                labelSpec
+              });
             }
           });
         }
@@ -173,10 +184,12 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         if (component) {
           component.setSkipBeforeLayouted(true);
           this._marks.addMark(component);
-          this._labelComponentMap.set(component, regionLabelInfo);
+          this._labelComponentMap.set(component, () => {
+            return this._labelInfoMap.get(region);
+          });
         }
       } else {
-        regionLabelInfo.forEach(labelInfo => {
+        regionLabelInfo.forEach((labelInfo, i) => {
           const component = this._createMark(
             { type: MarkTypeEnum.component, name: `${labelInfo.labelMark.name}-component` },
             {
@@ -188,7 +201,9 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           if (component) {
             component.setSkipBeforeLayouted(true);
             this._marks.addMark(component);
-            this._labelComponentMap.set(component, labelInfo);
+            this._labelComponentMap.set(component, () => {
+              return this._labelInfoMap.get(region)[i];
+            });
             labelInfo.labelMark.setComponent(component);
           }
         });
@@ -213,7 +228,8 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
 
   updateLayoutAttribute(): void {
     super.updateLayoutAttribute();
-    this._labelComponentMap.forEach((labelInfo, labelComponent) => {
+    this._labelComponentMap.forEach((labelInfoCb, labelComponent) => {
+      const labelInfo = labelInfoCb();
       if (isArray(labelInfo)) {
         this._updateMultiLabelAttribute(labelInfo, labelComponent);
       } else {
@@ -252,12 +268,11 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           const rule = labelMark.getRule();
           const configFunc = labelRuleMap[rule] ?? labelRuleMap.point;
           const interactive = this._interactiveConfig(labelSpec);
-          const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state']);
+          const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state', 'type']);
           /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
           const centerOffset = this._spec?.centerOffset ?? 0;
-          return mergeSpec(
+          const spec = mergeSpec(
             {
-              type: rule,
               textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
               overlap: {
                 avoidMarks: this._option
@@ -273,6 +288,11 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
               centerOffset
             }
           );
+          // TODO 可以优化。vgrammar 的 label 图元类型分发是完全依赖 baseMark 的类型。默认情况下，line/area 图元的标签会使用'line-data'标签，此时需要 vchart 将类型传给 vgrammar
+          if (rule === 'line' || rule === 'area') {
+            spec.type = rule;
+          }
+          return spec;
         }
       })
       .encode((datum, element, params: Record<string, any>) => {
@@ -289,7 +309,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
 
   compileMarks() {
     this.getMarks().forEach(m => {
-      const labelInfo = this._labelComponentMap.get(m);
+      const labelInfo = this._labelComponentMap.get(m)();
       let group;
       if (isArray(labelInfo)) {
         group = labelInfo[0].series.getRegion().getGroupMark().getProduct() as IGroupMark;

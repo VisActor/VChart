@@ -24,6 +24,8 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
     setMaxHeight(value: number): void;
     protected _groupMark: IGroupMark;
     getGroupMark(): IGroupMark;
+    protected _interactionMark: IGroupMark;
+    getInteractionMark(): IGroupMark;
     getStackInverse(): boolean;
     protected _backgroundMark?: IRectMark;
     protected _foregroundMark?: IRectMark;
@@ -32,6 +34,7 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
     protected _getClipDefaultValue(): boolean;
     _initTheme(): void;
     created(): void;
+    private _createGroupMark;
     init(option: any): void;
     initMark(): void;
     protected _initBackgroundMarkStyle(): void;
