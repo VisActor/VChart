@@ -7,3 +7,4 @@ export * from './mark';
 export * from './component';
 export * from './layout';
 export * from './env';
+export * from './event';

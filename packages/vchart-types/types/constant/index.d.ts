@@ -45,7 +45,8 @@ export declare enum LayoutZIndex {
     Title = 500,
     Label = 500,
     Brush = 500,
-    CustomMark = 500
+    CustomMark = 500,
+    Interaction = 700
 }
 export declare enum LayoutLevel {
     Indicator = 10,
