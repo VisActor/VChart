@@ -1,5 +1,5 @@
-import type { ITickDataOpt } from './../../../../vutils-extension/src/transform/tick-data/interface';
 import { ticks } from '@visactor/vutils-extension';
+import type { ITickDataOpt } from '@visactor/vutils-extension';
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
