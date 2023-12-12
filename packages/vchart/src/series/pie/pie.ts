@@ -27,7 +27,7 @@ import { normalizeStartEndAngle, polarToCartesian } from '../../util/math';
 import { isSpecValueWithScale } from '../../util/scale';
 import { field } from '../../util/object';
 import type { IModelLayoutOption } from '../../model/interface';
-import { PolarSeries } from '../polar/polar';
+import { PolarSeries, PolarSeriesSpecTransformer } from '../polar/polar';
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IArcMark } from '../../mark/arc';
@@ -55,7 +55,37 @@ import { isNil } from '@visactor/vutils';
 
 type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
 
+export class PieSeriesSpecTransformer<T extends IBasePieSeriesSpec> extends PolarSeriesSpecTransformer<T> {
+  /** 将 theme merge 到 spec 中 */
+  protected _mergeThemeToSpec(spec: T, chartSpec: any): T {
+    if (this._shouldMergeThemeToSpec()) {
+      const theme = this._theme;
+
+      // this._originalSpec + specFromChart + this._theme = this._spec
+      let specFromChart = this._getDefaultSpecFromChart(chartSpec);
+      specFromChart = this._prepareSpecBeforeMergingTheme(specFromChart);
+      const specFromUser = this._prepareSpecBeforeMergingTheme(spec);
+
+      const labelSpec = mergeSpec({}, theme.label, specFromChart.label, specFromUser.label) as IArcLabelSpec;
+      const labelTheme = mergeSpec(
+        {},
+        theme.label,
+        labelSpec.position === 'inside' ? theme.innerLabel : theme.outerLabel
+      );
+      const newTheme = {
+        ...theme,
+        label: labelTheme
+      } as IPieSeriesTheme;
+      return mergeSpec({}, newTheme, specFromChart, specFromUser);
+    }
+    return spec;
+  }
+}
+
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
+  static readonly transformerConstructor = PieSeriesSpecTransformer as any;
+  readonly transformerConstructor = PieSeriesSpecTransformer as any;
+
   protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie;
   protected _pieMarkType: MarkTypeEnum = MarkTypeEnum.arc;
 

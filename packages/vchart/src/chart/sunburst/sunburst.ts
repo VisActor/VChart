@@ -2,19 +2,16 @@ import { registerSunBurstSeries } from './../../series/sunburst/sunburst';
 import { isValid, radianToDegree } from '@visactor/vutils';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ISunburstSeriesSpec } from '../../series/sunburst/interface';
-import { BaseChart } from '../base-chart';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
 import { ChartTypeEnum } from '../interface/type';
 import type { ISunburstChartSpec } from './interface';
 import { POLAR_START_ANGLE } from '../../constant';
 import { Factory } from '../../core/factory';
 
-export class SunburstChart extends BaseChart {
-  static readonly type: string = ChartTypeEnum.sunburst;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.sunburst;
-  readonly seriesType: string = SeriesTypeEnum.sunburst;
-
-  protected getDefaultSeriesSpec(spec: ISunburstChartSpec) {
+export class SunburstChartSpecTransformer<
+  T extends ISunburstChartSpec = ISunburstChartSpec
+> extends BaseChartSpecTransformer<T> {
+  protected _getDefaultSeriesSpec(spec: T) {
     // 开始角度默认使用用户配置
     const startAngle = isValid(spec.startAngle) ? spec.startAngle : POLAR_START_ANGLE;
     // 结束角度默认使用用户的配置, 若用户没配置, 默认补成整圆.
@@ -52,16 +49,16 @@ export class SunburstChart extends BaseChart {
     return series;
   }
 
-  transformSpec(spec: ISunburstChartSpec): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     /* 处理 series 配置 */
-    const defaultSeriesSpec = this.getDefaultSeriesSpec(spec);
+    const defaultSeriesSpec = this._getDefaultSeriesSpec(spec);
     if (!spec.series || spec.series.length === 0) {
       spec.series = [defaultSeriesSpec];
     } else {
       spec.series.forEach(s => {
-        if (!this.isValidSeries(s.type)) {
+        if (!this._isValidSeries(s.type)) {
           return;
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
@@ -72,6 +69,16 @@ export class SunburstChart extends BaseChart {
       });
     }
   }
+}
+
+export class SunburstChart<T extends ISunburstChartSpec = ISunburstChartSpec> extends BaseChart<T> {
+  static readonly type: string = ChartTypeEnum.sunburst;
+  static readonly seriesType: string = SeriesTypeEnum.sunburst;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = SunburstChartSpecTransformer;
+  readonly transformerConstructor = SunburstChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.sunburst;
+  readonly seriesType: string = SeriesTypeEnum.sunburst;
 }
 
 export const registerSunburstChart = () => {

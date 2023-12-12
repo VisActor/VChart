@@ -1,4 +1,4 @@
-import type { IRegionSpec } from './../region/interface';
+import type { IRegionConstructor, IRegionSpec } from './../region/interface';
 import { ChartData } from './chart-meta/data';
 import type { ICrossHair } from '../component/crosshair/interface/spec';
 import type { IDimensionInfo } from '../event/events/dimension/interface';
@@ -20,7 +20,14 @@ import type {
 } from '../typings';
 import type { ILayoutItem, LayoutCallBack } from '../layout/interface';
 import { GlobalScale } from '../scale/global-scale';
-import type { ILayoutModelState, IModel, IModelOption, IUpdateSpecResult } from '../model/interface';
+import type {
+  ILayoutModelState,
+  IModel,
+  IModelConstructor,
+  IModelOption,
+  IModelSpecInfo,
+  IUpdateSpecResult
+} from '../model/interface';
 import type {
   IChart,
   IChartLayoutOption,
@@ -28,13 +35,16 @@ import type {
   IChartOption,
   IChartEvaluateOption,
   ILayoutParams,
-  DimensionIndexOption
+  DimensionIndexOption,
+  IChartSpecTransformerOption,
+  IChartSpecTransformer,
+  IChartSpecInfo
 } from './interface';
-import type { ICartesianSeries, ISeries } from '../series/interface';
+import type { ICartesianSeries, ISeries, ISeriesConstructor } from '../series/interface';
 import type { IRegion } from '../region/interface';
 import { ComponentTypeEnum } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
-import type { IComponent } from '../component/interface';
+import type { IComponent, IComponentConstructor } from '../component/interface';
 import { MarkTypeEnum, type IMark } from '../mark/interface';
 import type { IEvent } from '../event/interface';
 import type { DataView } from '@visactor/vdataset';
@@ -72,18 +82,23 @@ import type { IRectMark } from '../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from './util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../data/initialize';
+import { setProperty } from '../media-query/util';
 
-export class BaseChart extends CompilableBase implements IChart {
+export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
+  readonly seriesType: string;
+  readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
 
   readonly id: number = createID();
 
+  protected _transformer: IChartSpecTransformer;
+
   //FIXME: 转换后的 spec 需要声明 ITransformedChartSpec
-  protected _spec: any;
+  protected _spec: T;
   getSpec() {
     return this._spec;
   }
-  setSpec(s: any) {
+  setSpec(s: T) {
     // TODO 通过spec设置进行图表更新
     this.transformSpec(s);
     this._spec = s;
@@ -178,7 +193,7 @@ export class BaseChart extends CompilableBase implements IChart {
   // background
   protected _backgroundMark: IRectMark;
 
-  constructor(spec: any, option: IChartOption) {
+  constructor(spec: T, option: IChartOption) {
     super(option);
     this._paddingSpec = normalizeLayoutPaddingSpec(spec.padding ?? option.getTheme().padding);
 
@@ -201,7 +216,12 @@ export class BaseChart extends CompilableBase implements IChart {
   }
 
   created() {
-    this.transformSpec(this._spec);
+    this._transformer = new this.transformerConstructor({
+      type: this.type,
+      seriesType: this.seriesType,
+      getTheme: this._option.getTheme,
+      getLayoutRect: () => this._layoutRect
+    });
     // data
     this._chartData.parseData(this._spec.data);
     // scale
@@ -212,21 +232,15 @@ export class BaseChart extends CompilableBase implements IChart {
     this._createLayout();
     // 基于spec 创建元素。
     // region
-    this._spec.region && this._spec.region.length && this._createRegion();
-    this._createSeries(this._spec.series);
-    this._createComponents(this._spec);
+    this._transformer.forEachRegionInSpec(this._spec, this._createRegion.bind(this));
+    // series
+    this._transformer.forEachSeriesInSpec(this._spec, this._createSeries.bind(this));
+    // components
+    this._transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this));
   }
 
-  transformSpec(spec: any): void {
-    if (!spec.region || spec.region.length === 0) {
-      spec.region = [{}];
-    }
-    if (!has(spec, 'tooltip')) {
-      spec.tooltip = {};
-    }
-    if (isValid(spec.stackInverse)) {
-      spec.region.forEach((r: IRegionSpec) => !isValid(r.stackInverse) && (r.stackInverse = spec.stackInverse));
-    }
+  transformSpec(spec: T): void {
+    this._transformer.initChartSpec(spec);
   }
 
   init() {
@@ -254,14 +268,14 @@ export class BaseChart extends CompilableBase implements IChart {
     this.updateGlobalScaleDomain();
   }
 
-  onResize(width: number, height: number): void {
+  onResize(width: number, height: number, reRender: boolean = true): void {
     const canvasRect = {
       width,
       height
     };
     this._canvasRect = canvasRect;
     this._updateLayoutRect(this._option.viewBox);
-    this.setLayoutTag(true);
+    this.setLayoutTag(true, null, reRender);
   }
 
   updateViewBox(viewBox: IBoundsLike, reLayout: boolean) {
@@ -290,56 +304,61 @@ export class BaseChart extends CompilableBase implements IChart {
     }
   }
 
-  private _createRegion() {
-    const regionSpec = this._spec.region as IRegionSpec[];
-    regionSpec.forEach((s, i) => {
-      const region = Factory.createRegion('region', s, {
-        ...this._modelOption,
-        specIndex: i
-      });
-      if (region) {
-        region.created();
-        this._regions.push(region);
-      }
+  protected _createRegion(constructor: IRegionConstructor, specInfo: IModelSpecInfo) {
+    if (!constructor) {
+      return;
+    }
+
+    const { spec, ...others } = specInfo;
+    const region = new constructor(spec, {
+      ...this._modelOption,
+      ...others
     });
+    if (region) {
+      region.created();
+      this._regions.push(region);
+    }
   }
 
-  protected _createSeries(seriesSpec: ISeriesSpec[]) {
-    seriesSpec.forEach((spec, index) => {
-      // 如果用户在 vchart 构造函数参数中关闭了 animation, 则已该配置为准
-      if (this._option.animation === false) {
-        spec.animation = false;
-      }
+  protected _createSeries(constructor: ISeriesConstructor, specInfo: IModelSpecInfo) {
+    if (!constructor) {
+      return;
+    }
 
-      let region: IRegion | undefined;
-      if (isValid(spec.regionId)) {
-        region = this.getRegionsInUserId(spec.regionId);
-      } else if (isValid(spec.regionIndex)) {
-        region = this.getRegionsInIndex([spec.regionIndex])[0];
-      }
+    const { spec, ...others } = specInfo;
 
-      if (!region) {
-        region = this._regions[0];
-      }
-      if (!region) {
-        return;
-      }
-      const series = Factory.createSeries(spec.type, spec, {
-        ...this._modelOption,
-        type: spec.type,
-        region,
-        specIndex: index,
-        globalScale: this._globalScale,
-        sourceDataList: this._chartData.dataList
-      });
+    // 如果用户在 vchart 构造函数参数中关闭了 animation, 则已该配置为准
+    if (this._option.animation === false) {
+      spec.animation = false;
+    }
 
-      if (series) {
-        series.created();
-        this._series.push(series);
-        region.addSeries(series);
-      }
+    let region: IRegion | undefined;
+    if (isValid(spec.regionId)) {
+      region = this.getRegionsInUserId(spec.regionId);
+    } else if (isValid(spec.regionIndex)) {
+      region = this.getRegionsInIndex([spec.regionIndex])[0];
+    }
+
+    if (!region && !(region = this._regions[0])) {
+      return;
+    }
+
+    const series = new constructor(spec, {
+      ...this._modelOption,
+      ...others,
+      type: spec.type,
+      region,
+      globalScale: this._globalScale,
+      sourceDataList: this._chartData.dataList
     });
+
+    if (series) {
+      series.created();
+      this._series.push(series);
+      region.addSeries(series);
+    }
   }
+
   getAllSeries = (): ISeries[] => {
     return this._series ?? [];
   };
@@ -348,10 +367,10 @@ export class BaseChart extends CompilableBase implements IChart {
     return this._series.find(x => x.id === id);
   }
 
-  private _createComponent(Component: any, spec: any) {
-    const component = Component.createComponent(spec, {
+  protected _createComponent(constructor: IComponentConstructor, specInfo: IModelSpecInfo) {
+    const component = constructor.createComponent(specInfo, {
       ...this._modelOption,
-      type: Component.type,
+      type: constructor.type,
       getAllRegions: this.getAllRegions,
       getRegionsInIndex: this.getRegionsInIndex,
       getRegionsInIds: this.getRegionsInIds,
@@ -366,59 +385,15 @@ export class BaseChart extends CompilableBase implements IChart {
       getComponentsByKey: this.getComponentsByKey
     });
     if (!component) {
-      return false;
+      return;
     }
-
-    const components = isArray(component) ? component : [component];
-
+    const components = array(component);
     if (!components.length) {
-      return false;
+      return;
     }
-
     components.forEach(c => {
       c.created();
       this._components.push(c);
-    });
-
-    return true;
-  }
-
-  private _createComponents(spec: any) {
-    const components = Factory.getComponents();
-    // 坐标轴组件只需要调用一次
-    let cartesianAxis;
-    let polarAxis;
-    let geoCoordinate;
-    const noAxisComponents = [];
-    for (let index = 0; index < components.length; index++) {
-      const { cmp, alwaysCheck } = components[index];
-      if (cmp.type.startsWith(ComponentTypeEnum.cartesianAxis)) {
-        cartesianAxis = cmp;
-      } else if (cmp.type.startsWith(ComponentTypeEnum.polarAxis)) {
-        polarAxis = cmp;
-      } else if (cmp.type === ComponentTypeEnum.geoCoordinate) {
-        geoCoordinate = cmp;
-      } else if (alwaysCheck || spec[cmp.specKey ?? cmp.type]) {
-        noAxisComponents.push(cmp);
-      }
-    }
-
-    let hasInitAxis = false;
-    // NOTE: 坐标轴组件需要在其他组件之前创建
-    if (cartesianAxis) {
-      hasInitAxis = this._createComponent(cartesianAxis, spec);
-    }
-
-    if (polarAxis && !hasInitAxis) {
-      hasInitAxis = this._createComponent(polarAxis, spec);
-    }
-
-    if (geoCoordinate && !hasInitAxis) {
-      this._createComponent(geoCoordinate, spec);
-    }
-
-    noAxisComponents.forEach(C => {
-      this._createComponent(C, spec);
     });
   }
 
@@ -466,7 +441,7 @@ export class BaseChart extends CompilableBase implements IChart {
       // 判断是否使用3d的layout
       let use3dLayout = false;
       // 查找是否需要使用3d布局模块
-      if (this._spec.zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
+      if ((this._spec as any).zField || (this._spec.series && this._spec.series.some((s: any) => s.zField))) {
         use3dLayout = true;
       }
       const constructor = Factory.getLayoutInKey(this._spec.layout?.type ?? (use3dLayout ? 'layout3d' : 'base'));
@@ -795,7 +770,7 @@ export class BaseChart extends CompilableBase implements IChart {
     }
   }
 
-  updateSpec(spec: any) {
+  updateSpec(spec: T, skipTransformSpec?: boolean) {
     const result = {
       change: false,
       reMake: false,
@@ -812,7 +787,9 @@ export class BaseChart extends CompilableBase implements IChart {
       return result;
     }
     // transform
-    this.transformSpec(spec);
+    if (!skipTransformSpec) {
+      this.transformSpec(spec);
+    }
     // spec set & transformSpec
     // diff meta length;
     const currentKeys = Object.keys(this._spec).sort();
@@ -936,47 +913,6 @@ export class BaseChart extends CompilableBase implements IChart {
 
   getCanvas() {
     return this.getCompiler()?.getCanvas() ?? null;
-  }
-
-  protected isValidSeries(seriesType: string): boolean {
-    return true;
-  }
-
-  protected _getDefaultSeriesSpec(spec: any) {
-    const series: any = {
-      dataKey: spec.dataKey,
-
-      hover: spec.hover,
-      select: spec.select,
-
-      label: spec.label,
-
-      seriesStyle: spec.seriesStyle,
-
-      animation: spec.animation,
-      animationThreshold: spec.animationThreshold ?? this._option?.getTheme().animationThreshold,
-      animationAppear: spec.animationAppear,
-      animationDisappear: spec.animationDisappear,
-      animationEnter: spec.animationEnter,
-      animationUpdate: spec.animationUpdate,
-      animationExit: spec.animationExit,
-      animationNormal: spec.animationNormal,
-
-      extensionMark: spec.extensionMark,
-
-      large: spec.large,
-      largeThreshold: spec.largeThreshold,
-      progressiveStep: spec.progressiveStep,
-      progressiveThreshold: spec.progressiveThreshold,
-      background: spec.seriesBackground,
-
-      invalidType: spec.invalidType,
-
-      seriesField: spec.seriesField,
-
-      morph: spec.morph
-    };
-    return series;
   }
 
   private _updateLayoutRect(viewBox: IBoundsLike) {
@@ -1107,7 +1043,7 @@ export class BaseChart extends CompilableBase implements IChart {
       m.release();
     });
     this._components = this._regions = this._series = [];
-    this._spec = {};
+    this._spec = {} as any;
     // FIXME: type lint
     this._dataSet = this._globalScale = this._layoutFunc = null as unknown as any;
     this._layoutTag = false;
@@ -1349,5 +1285,194 @@ export class BaseChart extends CompilableBase implements IChart {
 
   getColorScheme() {
     return this._option.getTheme?.().colorScheme;
+  }
+}
+
+export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpecTransformer {
+  readonly type: string;
+  readonly seriesType: string;
+
+  protected _option: IChartSpecTransformerOption;
+
+  protected get _layoutRect() {
+    return this._option.getLayoutRect?.();
+  }
+
+  constructor(option: IChartSpecTransformerOption) {
+    this._option = option;
+    this.type = option.type;
+    this.seriesType = option.seriesType;
+  }
+
+  initChartSpec(chartSpec: T): IChartSpecInfo {
+    this.transformSpec(chartSpec);
+    return this.transformModelSpec(chartSpec);
+  }
+
+  transformSpec(chartSpec: T): void {
+    if (!chartSpec.region || chartSpec.region.length === 0) {
+      chartSpec.region = [{}];
+    }
+    if (!has(chartSpec, 'tooltip')) {
+      chartSpec.tooltip = {};
+    }
+    if (isValid(chartSpec.stackInverse)) {
+      chartSpec.region.forEach(
+        (r: IRegionSpec) => !isValid(r.stackInverse) && (r.stackInverse = chartSpec.stackInverse)
+      );
+    }
+  }
+
+  transformModelSpec(chartSpec: T): IChartSpecInfo {
+    const chartSpecInfo: IChartSpecInfo = {};
+    // 预处理 model spec
+    for (const forEachModelInSpec of [
+      this.forEachRegionInSpec.bind(this),
+      this.forEachSeriesInSpec.bind(this),
+      this.forEachComponentInSpec.bind(this)
+    ]) {
+      forEachModelInSpec(chartSpec, (constructor: IModelConstructor, specInfo: IModelSpecInfo) => {
+        const { spec, specPath, type } = specInfo;
+        const transformer = new constructor.transformerConstructor({
+          type,
+          getTheme: this._option.getTheme
+        });
+        const newSpec = transformer.transformSpec(spec, chartSpec);
+        setProperty(chartSpec, specPath, newSpec);
+        setProperty(chartSpecInfo, specPath, specInfo);
+      });
+    }
+    return chartSpecInfo;
+  }
+
+  protected _isValidSeries(seriesType: string): boolean {
+    return true;
+  }
+
+  protected _getDefaultSeriesSpec(chartSpec: any) {
+    const series: any = {
+      dataKey: chartSpec.dataKey,
+
+      hover: chartSpec.hover,
+      select: chartSpec.select,
+
+      label: chartSpec.label,
+
+      seriesStyle: chartSpec.seriesStyle,
+
+      animation: chartSpec.animation,
+      animationThreshold: chartSpec.animationThreshold ?? this._option.getTheme?.().animationThreshold,
+      animationAppear: chartSpec.animationAppear,
+      animationDisappear: chartSpec.animationDisappear,
+      animationEnter: chartSpec.animationEnter,
+      animationUpdate: chartSpec.animationUpdate,
+      animationExit: chartSpec.animationExit,
+      animationNormal: chartSpec.animationNormal,
+
+      extensionMark: chartSpec.extensionMark,
+
+      large: chartSpec.large,
+      largeThreshold: chartSpec.largeThreshold,
+      progressiveStep: chartSpec.progressiveStep,
+      progressiveThreshold: chartSpec.progressiveThreshold,
+      background: chartSpec.seriesBackground,
+
+      invalidType: chartSpec.invalidType,
+
+      seriesField: chartSpec.seriesField
+    };
+    return series;
+  }
+
+  forEachRegionInSpec<K>(
+    chartSpec: T,
+    callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo) => K
+  ): K[] {
+    const regionSpec = (chartSpec.region as IRegionSpec[]) ?? [];
+    return regionSpec.map((spec, index) =>
+      callbackfn(Factory.getRegionInType('region'), {
+        spec,
+        specIndex: index,
+        specPath: ['region', index],
+        type: 'region'
+      })
+    );
+  }
+
+  forEachSeriesInSpec<K>(
+    chartSpec: T,
+    callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo) => K
+  ): K[] {
+    const seriesSpec = (chartSpec.series as ISeriesSpec[]) ?? [];
+    return seriesSpec.map((spec, index) =>
+      callbackfn(Factory.getSeriesInType(spec.type), {
+        spec,
+        specIndex: index,
+        specPath: ['series', index],
+        type: spec.type
+      })
+    );
+  }
+
+  forEachComponentInSpec<K>(
+    chartSpec: T,
+    callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo) => K
+  ): K[] {
+    const results: K[] = [];
+    const components = Factory.getComponents();
+
+    // 坐标轴组件只需要调用一次
+    let cartesianAxis: IComponentConstructor;
+    let polarAxis: IComponentConstructor;
+    let geoCoordinate: IComponentConstructor;
+    const noAxisComponents = [];
+    for (let index = 0; index < components.length; index++) {
+      const { cmp, alwaysCheck } = components[index];
+      if (cmp.type.startsWith(ComponentTypeEnum.cartesianAxis)) {
+        cartesianAxis = cmp;
+      } else if (cmp.type.startsWith(ComponentTypeEnum.polarAxis)) {
+        polarAxis = cmp;
+      } else if (cmp.type === ComponentTypeEnum.geoCoordinate) {
+        geoCoordinate = cmp;
+      } else if (alwaysCheck || chartSpec[cmp.specKey ?? cmp.type]) {
+        noAxisComponents.push(cmp);
+      }
+    }
+
+    let hasInitAxis = false;
+    // NOTE: 坐标轴组件需要在其他组件之前创建
+    if (cartesianAxis) {
+      const infoList = cartesianAxis.getSpecInfo(chartSpec);
+      if (infoList?.length > 0) {
+        hasInitAxis = true;
+        infoList.forEach(info => {
+          results.push(callbackfn(cartesianAxis, info));
+        });
+      }
+    }
+
+    if (polarAxis && !hasInitAxis) {
+      const infoList = polarAxis.getSpecInfo(chartSpec);
+      if (infoList?.length > 0) {
+        hasInitAxis = true;
+        infoList.forEach(info => {
+          results.push(callbackfn(polarAxis, info));
+        });
+      }
+    }
+
+    if (geoCoordinate && !hasInitAxis) {
+      geoCoordinate.getSpecInfo(chartSpec)?.forEach(info => {
+        results.push(callbackfn(geoCoordinate, info));
+      });
+    }
+
+    noAxisComponents.forEach(C => {
+      C.getSpecInfo(chartSpec)?.forEach(info => {
+        results.push(callbackfn(C, info));
+      });
+    });
+
+    return results;
   }
 }

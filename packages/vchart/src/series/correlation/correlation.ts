@@ -7,19 +7,25 @@ import type { ISymbolMark } from '../../mark/symbol';
 import { registerDataSetInstanceTransform, registerDataSetInstanceParser } from '../../data/register';
 import { correlation } from '../../data/transforms/correlation';
 import { correlationCenter } from '../../data/transforms/correlation-center';
+// eslint-disable-next-line no-duplicate-imports
 import type { ICorrelationOpt } from '../../data/transforms/correlation';
 import type { IBounds } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { Bounds, isValid } from '@visactor/vutils';
 import { registerSymbolMark } from '../../mark/symbol';
 import { SeriesData } from '../base/series-data';
-import type { Maybe, Datum, ISymbolMarkSpec, IRippleMarkSpec } from '../../typings';
+import type { Maybe, Datum, ISymbolMarkSpec, IRippleMarkSpec, AdaptiveSpec } from '../../typings';
+// eslint-disable-next-line no-duplicate-imports
 import type { ICorrelationSeriesTheme } from './interface';
 import { AttributeLevel, DEFAULT_DATA_INDEX, LayoutZIndex } from '../../constant';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import type { IRippleMark } from '../../mark/ripple';
 import { registerRippleMark } from '../../mark/ripple';
+// eslint-disable-next-line no-duplicate-imports
+import { RippleMark } from '../../mark/ripple';
 import type { ILabelMark } from '../../mark/label';
+// eslint-disable-next-line no-duplicate-imports
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { Factory } from '../../core/factory';
@@ -27,7 +33,9 @@ import { registerCorrelationAnimation, type CorrelationAppearPreset } from './an
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IMark } from '../../mark/interface';
 
-export class CorrelationSeries extends PolarSeries<any> {
+export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSeriesSpec> extends PolarSeries<
+  AdaptiveSpec<T, 'outerRadius' | 'innerRadius'>
+> {
   static readonly type: string = SeriesTypeEnum.correlation;
   type = SeriesTypeEnum.correlation;
 
@@ -145,7 +153,7 @@ export class CorrelationSeries extends PolarSeries<any> {
           };
         },
         field: this._spec.valueField,
-        radiusRange: this._spec.sizeRange,
+        radiusRange: this._spec.sizeRange as [number, number],
         radiusField: this._spec.sizeField,
         center: [this._spec.centerX, this._spec.centerY],
         innerRadius: this._spec.innerRadius,

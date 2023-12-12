@@ -58,6 +58,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   extends BaseComponent<T>
   implements ICrossHair
 {
+  static specKey = 'crosshair';
+  specKey = 'crosshair';
+
   layoutType: 'none' = 'none';
   gridZIndex: number = LayoutZIndex.CrossHair_Grid;
   labelZIndex: number = LayoutZIndex.CrossHair;

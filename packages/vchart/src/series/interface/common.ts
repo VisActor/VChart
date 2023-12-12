@@ -1,7 +1,13 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IGrammarItem } from '../../compile/interface';
 import type { IGroupMark } from '../../mark/group';
-import type { IModelMarkInfo, IModelOption } from '../../model/interface';
+import type {
+  IBaseModelSpecTransformer,
+  IBaseModelSpecTransformerOption,
+  IModelConstructor,
+  IModelMarkInfo,
+  IModelOption
+} from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
@@ -29,8 +35,8 @@ export interface ISeriesOption extends IModelOption {
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
 }
 
-export interface ISeriesConstructor {
-  type: string;
+export interface ISeriesConstructor extends IModelConstructor {
+  readonly type: string;
   mark?: SeriesMarkMap;
   new (spec: any, options: ISeriesOption): ISeries;
 }

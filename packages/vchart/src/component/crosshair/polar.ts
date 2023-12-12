@@ -12,6 +12,7 @@ import type { IPolarAxis } from '../axis/polar/interface';
 import type { IPoint, StringOrNumber } from '../../typings';
 import type { IAxisInfo, IHair } from './base';
 import { BaseCrossHair } from './base';
+import type { Maybe } from '@visactor/vutils';
 import {
   polarToCartesian,
   getIntersectPoint,
@@ -29,6 +30,7 @@ import { limitTagInBounds } from './util';
 import { getAxisLabelOffset } from '../axis/util';
 import { Factory } from '../../core/factory';
 import { LayoutType } from './config';
+import type { IModelSpecInfo } from '../../model/interface';
 
 interface ICrosshairInfo {
   x: number;
@@ -50,7 +52,6 @@ interface ICrosshairInfo {
 
 export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
   static specKey = 'crosshair';
-  specKey: string = 'crosshair';
 
   static type = ComponentTypeEnum.polarCrosshair;
   type = ComponentTypeEnum.polarCrosshair;
@@ -69,24 +70,43 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
   private _angleCrosshair: IGroup;
   private _angleLabelCrosshair: Tag;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const crosshairSpec = spec.crosshair;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const crosshairSpec = chartSpec[this.specKey];
     if (isNil(crosshairSpec)) {
       return undefined;
     }
     if (!isArray(crosshairSpec)) {
       if (crosshairSpec.categoryField || crosshairSpec.valueField) {
-        return new PolarCrossHair(crosshairSpec, options);
+        return [
+          {
+            spec: crosshairSpec,
+            specPath: [this.specKey],
+            type: ComponentTypeEnum.polarCrosshair
+          }
+        ];
       }
       return undefined;
     }
-    const components: PolarCrossHair[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     crosshairSpec.forEach((s: IPolarCrosshairSpec, i: number) => {
       if (s.categoryField || s.valueField) {
-        components.push(new PolarCrossHair(s, { ...options, specIndex: i }));
+        specInfos.push({
+          spec: s,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: ComponentTypeEnum.polarCrosshair
+        });
       }
     });
-    return components;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new PolarCrossHair(spec, {
+      ...options,
+      ...others
+    });
   }
 
   constructor(spec: T, options: IComponentOption) {

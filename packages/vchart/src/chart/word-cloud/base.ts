@@ -1,14 +1,11 @@
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
-// eslint-disable-next-line no-duplicate-imports
-import type { ISeries } from '../../series/interface';
-import { BaseChart } from '../base-chart';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
+import type { IWordCloudChartSpec } from './interface';
+import type { ISeriesSpec } from '../..';
 
-export class BaseWordCloudChart extends BaseChart {
-  readonly type: string = ChartTypeEnum.wordCloud;
-  readonly seriesType: string = SeriesTypeEnum.wordCloud;
-
-  transformSpec(spec: any): void {
+export class BaseWordCloudChartSpecTransformer<T extends IWordCloudChartSpec> extends BaseChartSpecTransformer<T> {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
 
     /* 处理 series 配置 */
@@ -16,8 +13,8 @@ export class BaseWordCloudChart extends BaseChart {
     if (!spec.series || spec.series.length === 0) {
       spec.series = [defaultSeriesSpec];
     } else {
-      spec.series.forEach((s: ISeries) => {
-        if (!this.isValidSeries(s.type)) {
+      spec.series.forEach((s: ISeriesSpec) => {
+        if (!this._isValidSeries(s.type)) {
           return;
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
@@ -28,4 +25,11 @@ export class BaseWordCloudChart extends BaseChart {
       });
     }
   }
+}
+
+export class BaseWordCloudChart<T extends IWordCloudChartSpec> extends BaseChart<T> {
+  static readonly transformerConstructor = BaseWordCloudChartSpecTransformer;
+  readonly transformerConstructor = BaseWordCloudChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.wordCloud;
+  readonly seriesType: string = SeriesTypeEnum.wordCloud;
 }

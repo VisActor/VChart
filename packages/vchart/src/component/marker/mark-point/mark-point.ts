@@ -6,6 +6,8 @@ import { markerAggregation } from '../../../data/transforms/aggregation';
 import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
@@ -13,11 +15,15 @@ import { LayoutZIndex } from '../../../constant';
 import { Factory } from '../../../core/factory';
 import type { IGroup } from '@visactor/vrender-core';
 import type { IPoint } from '../../../typings';
+import type { IModelSpecInfo } from '../../../model/interface';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;
   type = ComponentTypeEnum.markPoint;
   name: string = ComponentTypeEnum.markPoint;
+
+  static specKey = 'markPoint';
+  specKey = 'markPoint';
 
   layoutZIndex: number = LayoutZIndex.MarkPoint;
 
@@ -26,21 +32,40 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
   // markPoint组件
   protected declare _markerComponent: MarkPointComponent;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const markPointSpec = spec.markPoint;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const markPointSpec = chartSpec[this.specKey];
     if (isEmpty(markPointSpec)) {
       return undefined;
     }
     if (!isArray(markPointSpec) && markPointSpec.visible !== false) {
-      return new MarkPoint(markPointSpec, options);
+      return [
+        {
+          spec: markPointSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.markPoint
+        }
+      ];
     }
-    const markPoints: MarkPoint[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     markPointSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markPoints.push(new MarkPoint(m, { ...options, specIndex: i }));
+        specInfos.push({
+          spec: m,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: ComponentTypeEnum.markPoint
+        });
       }
     });
-    return markPoints;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new MarkPoint(spec, {
+      ...options,
+      ...others
+    });
   }
 
   protected _createMarkerComponent() {

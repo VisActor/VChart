@@ -111,45 +111,62 @@ describe('Bar chart test', () => {
   });
 
   test('default morph', () => {
-    const scatterChart = new CommonChart(scatterSpec, {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
-      globalInstance: {
-        getContainer: () => ({}),
-        getTooltipHandlerByUser: (() => undefined) as () => undefined
-      },
-      dataSet,
-      map: new Map(),
-      container: null,
-      mode: 'desktop-browser',
-      getCompiler: getTestCompiler,
-      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      animation: true,
-      onError: () => {},
+    const transformer = new CommonChart.transformerConstructor({
+      type: 'common',
       getTheme: () => ThemeManager.getCurrentTheme()
-    } as any);
+    });
+    transformer.initChartSpec(scatterSpec as any);
+    const scatterChart = new CommonChart(
+      scatterSpec as any,
+      {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
+        globalInstance: {
+          getContainer: () => ({}),
+          getTooltipHandlerByUser: (() => undefined) as () => undefined
+        },
+        dataSet,
+        map: new Map(),
+        container: null,
+        mode: 'desktop-browser',
+        getCompiler: getTestCompiler,
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        animation: true,
+        onError: () => {},
+        getTheme: () => ThemeManager.getCurrentTheme()
+      } as any
+    );
     scatterChart.created();
     scatterChart.init();
 
-    const barChart = new BarChart(barSpec, {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
-      globalInstance: {
-        getContainer: () => ({}),
-        getTooltipHandlerByUser: (() => undefined) as () => undefined
-      },
-      dataSet,
-      map: new Map(),
-      container: null,
-      mode: 'desktop-browser',
-      getCompiler: getTestCompiler,
-      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      animation: true,
-      onError: () => {},
+    const barTransformer = new BarChart.transformerConstructor({
+      type: 'bar',
+      seriesType: 'bar',
       getTheme: () => ThemeManager.getCurrentTheme()
-    } as any);
+    });
+    barTransformer.initChartSpec(barSpec as any);
+    const barChart = new BarChart(
+      barSpec as any,
+      {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
+        globalInstance: {
+          getContainer: () => ({}),
+          getTooltipHandlerByUser: (() => undefined) as () => undefined
+        },
+        dataSet,
+        map: new Map(),
+        container: null,
+        mode: 'desktop-browser',
+        getCompiler: getTestCompiler,
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        animation: true,
+        onError: () => {},
+        getTheme: () => ThemeManager.getCurrentTheme()
+      } as any
+    );
     barChart.created();
     barChart.init();
 
@@ -167,6 +184,11 @@ describe('Bar chart test', () => {
   });
 
   test('custom morph config', () => {
+    const transformer = new CommonChart.transformerConstructor({
+      type: 'common',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    transformer.initChartSpec(multiScatterSeriesSpec as any);
     const scatterChart = new CommonChart(
       multiScatterSeriesSpec as any,
       {

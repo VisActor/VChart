@@ -1,21 +1,19 @@
 import { isNil } from '@visactor/vutils';
 import type { IPolarAxisSpec, IPolarLinearAxisSpec } from '../../component/axis/polar/interface';
 import { type IGaugeSeriesSpec, registerGaugePointerSeries, registerGaugeSeries } from '../../series/gauge';
-import type { ISeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ICircularProgressSeriesSpec } from '../../series/progress/circular/interface';
 import { ChartTypeEnum } from '../interface/type';
-import { ProgressLikeChart } from '../polar/progress-like';
+import { ProgressLikeChart, ProgressLikeChartSpecTransformer } from '../polar/progress-like';
 import { Factory } from '../../core/factory';
 import { LayoutZIndex } from '../../constant';
+import type { IGaugeChartSpec } from './interface';
+import type { AdaptiveSpec, ISeriesSpec } from '../..';
 
-export class GaugeChart extends ProgressLikeChart {
-  static readonly type: string = ChartTypeEnum.gauge;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.gauge;
-  readonly seriesType: string = SeriesTypeEnum.gaugePointer;
-
-  protected _getDefaultSeriesSpec(spec: any): any {
+export class GaugeChartSpecTransformer<
+  T extends IGaugeChartSpec = IGaugeChartSpec
+> extends ProgressLikeChartSpecTransformer<AdaptiveSpec<T, 'axes'>> {
+  protected _getDefaultSeriesSpec(spec: T): any {
     const series = super._getDefaultSeriesSpec(spec);
     return {
       ...series,
@@ -27,7 +25,7 @@ export class GaugeChart extends ProgressLikeChart {
     };
   }
 
-  protected _getDefaultCircularProgressSeriesSpec(spec: any): any {
+  protected _getDefaultCircularProgressSeriesSpec(spec: T): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
       type: SeriesTypeEnum.circularProgress
@@ -35,20 +33,20 @@ export class GaugeChart extends ProgressLikeChart {
     return series;
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: AdaptiveSpec<T, 'axes'>): void {
     super.transformSpec(spec);
 
     /** 充当仪表图非指针部分的系列 */
-    let backgroundSeries: ICircularProgressSeriesSpec | IGaugeSeriesSpec = spec.series?.find(
-      (series: ISeries) => series.type === SeriesTypeEnum.gauge || series.type === SeriesTypeEnum.circularProgress
-    );
+    let backgroundSeries = spec.series?.find(
+      (series: ISeriesSpec) => series.type === SeriesTypeEnum.gauge || series.type === SeriesTypeEnum.circularProgress
+    ) as ICircularProgressSeriesSpec | IGaugeSeriesSpec;
     if (isNil(backgroundSeries)) {
-      backgroundSeries = spec.gauge ?? this._getDefaultCircularProgressSeriesSpec(spec);
+      backgroundSeries = spec.gauge ?? this._getDefaultCircularProgressSeriesSpec(spec as any);
 
       // 补充可能缺失的属性
       if (backgroundSeries.type === 'circularProgress') {
         if (isNil(backgroundSeries.radiusField) && isNil(backgroundSeries.categoryField)) {
-          backgroundSeries.radiusField = spec.radiusField ?? spec.categoryField ?? spec.seriesField;
+          backgroundSeries.radiusField = spec.radiusField ?? (spec.categoryField as string) ?? spec.seriesField;
         }
         if (isNil(backgroundSeries.valueField) && isNil(backgroundSeries.angleField)) {
           backgroundSeries.valueField = spec.valueField ?? spec.angleField;
@@ -58,7 +56,7 @@ export class GaugeChart extends ProgressLikeChart {
       if (spec.series.length === 1) {
         spec.series.push(backgroundSeries);
       } else {
-        spec.series.forEach((s: ISeries) => {
+        spec.series.forEach((s: ISeriesSpec) => {
           if (s.type !== backgroundSeries.type) {
             return;
           }
@@ -97,7 +95,7 @@ export class GaugeChart extends ProgressLikeChart {
     }
   }
 
-  protected _transformGaugeAxisSpec(spec: any): void {
+  protected _transformGaugeAxisSpec(spec: AdaptiveSpec<T, 'axes'>): void {
     if (!spec.axes) {
       spec.axes = [];
     }
@@ -140,6 +138,18 @@ export class GaugeChart extends ProgressLikeChart {
       axesPtr.angle.zIndex = LayoutZIndex.Region + 50; // 仪表图特例：轴在 region 上层
     }
   }
+}
+
+export class GaugeChart<T extends IGaugeChartSpec = IGaugeChartSpec> extends ProgressLikeChart<
+  AdaptiveSpec<T, 'axes'>
+> {
+  static readonly type: string = ChartTypeEnum.gauge;
+  static readonly seriesType: string = SeriesTypeEnum.gaugePointer;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = GaugeChartSpecTransformer;
+  readonly transformerConstructor = GaugeChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.gauge;
+  readonly seriesType: string = SeriesTypeEnum.gaugePointer;
 }
 
 export const registerGaugeChart = () => {

@@ -1,11 +1,17 @@
-import type { IChartConstructor, IChartOption, IChart } from '../chart/interface';
+import type {
+  IChartConstructor,
+  IChartOption,
+  IChart,
+  IChartSpecTransformerOption,
+  IChartSpecTransformer
+} from '../chart/interface';
 import type { ISeriesConstructor, ISeriesOption } from '../series/interface';
 import type { IComponentConstructor } from '../component/interface';
 import type { IMarkConstructor, IMarkOption, MarkConstructor } from '../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../mark/interface/type';
 import type { IRegion, IRegionConstructor } from '../region/interface';
-import type { IModelOption } from '../model/interface';
+import type { IBaseModelSpecTransformer, IBaseModelSpecTransformerOption, IModelOption } from '../model/interface';
 import type { Transform, Parser } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { fields, filter, simplify, fold, csvParser, dsvParser, tsvParser } from '@visactor/vdataset';
@@ -72,6 +78,21 @@ export class Factory {
     return new ChartConstructor(spec, options);
   }
 
+  static createChartSpecTransformer(
+    chartType: string,
+    option: IChartSpecTransformerOption
+  ): IChartSpecTransformer | null {
+    if (!Factory._charts[chartType]) {
+      return null;
+    }
+    const ChartConstructor = Factory._charts[chartType];
+    const ChartSpecTransformerConstructor = ChartConstructor.transformerConstructor;
+    return new ChartSpecTransformerConstructor({
+      seriesType: ChartConstructor.seriesType,
+      ...option
+    });
+  }
+
   static createRegion(regionType: string, spec: any, options: IModelOption): IRegion | null {
     if (!Factory._regions[regionType]) {
       return null;
@@ -80,12 +101,36 @@ export class Factory {
     return new RegionConstructor(spec, options);
   }
 
+  static createRegionSpecTransformer(
+    regionType: string,
+    options: IBaseModelSpecTransformerOption
+  ): IBaseModelSpecTransformer | null {
+    if (!Factory._regions[regionType]) {
+      return null;
+    }
+    const RegionConstructor = Factory._regions[regionType];
+    const RegionSpecTransformerConstructor = RegionConstructor.transformerConstructor;
+    return new RegionSpecTransformerConstructor(options);
+  }
+
   static createSeries(seriesType: string, spec: any, options: ISeriesOption) {
     if (!Factory._series[seriesType]) {
       return null;
     }
     const SeriesConstructor = Factory._series[seriesType];
     return new SeriesConstructor(spec, options);
+  }
+
+  static createSeriesSpecTransformer(
+    seriesType: string,
+    options: IBaseModelSpecTransformerOption
+  ): IBaseModelSpecTransformer | null {
+    if (!Factory._series[seriesType]) {
+      return null;
+    }
+    const SeriesConstructor = Factory._series[seriesType];
+    const SeriesSpecTransformerConstructor = SeriesConstructor.transformerConstructor;
+    return new SeriesSpecTransformerConstructor(options);
   }
 
   static createMark(markType: string, name: string, options: IMarkOption) {
@@ -123,6 +168,10 @@ export class Factory {
 
   static getSeriesInType(type: string) {
     return Factory._series[type];
+  }
+
+  static getRegionInType(type: string) {
+    return Factory._regions[type];
   }
 
   static getAnimationInKey(key: string) {

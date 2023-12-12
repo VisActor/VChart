@@ -11,7 +11,9 @@ import type {
   IModelRenderOption,
   IModelEvaluateOption,
   IModelSpec,
-  IModelMarkInfo
+  IModelMarkInfo,
+  IBaseModelSpecTransformerOption,
+  IBaseModelSpecTransformer
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
@@ -34,9 +36,16 @@ import { CompilableBase } from '../compile/compilable-base';
 import { PREFIX } from '../constant/base';
 
 export abstract class BaseModel<T extends IModelSpec> extends CompilableBase implements IModel {
+  readonly transformerConstructor = BaseModelSpecTransformer;
+
   protected _spec: T;
   getSpec(): T {
     return this._spec || ({} as T);
+  }
+
+  /** 获取当前 model 对应在图表 spec 上的路径 */
+  getSpecPath() {
+    return this._option.specPath;
   }
 
   readonly type: string = 'null';
@@ -104,12 +113,12 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   /** for layout diff */
   protected _lastLayoutRect: ILayoutRect = null;
 
+  protected _transformer: BaseModelSpecTransformer<T>;
+
   constructor(spec: T, option: IModelOption) {
     super(option);
     this.id = createID();
     this._originalSpec = spec;
-    this._initTheme();
-    this._transformSpec();
     this.userId = spec.id;
     this._specIndex = option.specIndex ?? 0;
     this.effect = {};
@@ -123,7 +132,20 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   }
 
   created() {
+    this._initTransformer();
     this.setAttrFromSpec();
+  }
+
+  protected _initTransformer() {
+    this._transformer = new this.transformerConstructor({
+      type: this.type,
+      getTheme: this._option.getTheme
+    });
+    this._transformSpec();
+  }
+
+  protected _transformSpec() {
+    this._spec = this._transformer.transformSpec(this._originalSpec, this._option.getChart().getSpec());
   }
 
   init(option: IModelInitOption) {
@@ -181,11 +203,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     return result;
   }
 
-  protected _transformSpec() {
-    // do nothing
-    // change spec by default logic
-  }
-
   protected _compareSpec() {
     const result = {
       change: false,
@@ -197,11 +214,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     return result;
   }
 
-  reInit(theme?: any) {
+  reInit() {
     // before reInit reset this._spec to original
     this._spec = cloneDeepSpec(this._originalSpec);
     this._transformSpec();
-    this._initTheme(theme);
     this.setAttrFromSpec();
   }
 
@@ -245,7 +261,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   setCurrentTheme() {
     // 重新初始化
-    this.reInit(this._getTheme());
+    this.reInit();
   }
 
   updateLayoutAttribute() {
@@ -335,5 +351,74 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   getColorScheme() {
     return this._option.getTheme?.().colorScheme;
+  }
+}
+
+export class BaseModelSpecTransformer<T extends IModelSpec> implements IBaseModelSpecTransformer {
+  readonly type: string;
+  protected _option: IBaseModelSpecTransformerOption;
+
+  protected _theme?: any; // 非全局 theme，是对应于具体 model 的 theme 对象
+
+  constructor(option: IBaseModelSpecTransformerOption) {
+    this._option = option;
+    this.type = option.type;
+  }
+
+  protected _initTheme(spec: T, chartSpec: any): T {
+    this._theme = this.getTheme(spec, chartSpec);
+    return this._mergeThemeToSpec(spec, chartSpec);
+  }
+
+  getTheme(spec: T, chartSpec: any): any {
+    return undefined;
+  }
+
+  transformSpec(spec: T, chartSpec: any): T {
+    this._transformSpec(spec, chartSpec);
+    return this._initTheme(spec, chartSpec);
+  }
+
+  protected _transformSpec(spec: T, chartSpec: any) {
+    // do nothing
+    // change spec by default logic
+  }
+
+  /** 将 theme merge 到 spec 中 */
+  protected _mergeThemeToSpec(spec: T, chartSpec: any): T {
+    if (this._shouldMergeThemeToSpec()) {
+      const specFromChart = this._getDefaultSpecFromChart(chartSpec);
+
+      // this._originalSpec + specFromChart + this._theme = this._spec
+      const merge = (originalSpec: any) =>
+        mergeSpec(
+          {},
+          this._theme,
+          this._prepareSpecBeforeMergingTheme(specFromChart),
+          this._prepareSpecBeforeMergingTheme(originalSpec)
+        );
+
+      if (isArray(spec)) {
+        return spec.map(specItem => merge(specItem)) as unknown as T;
+      }
+      return merge(spec);
+    }
+    return spec;
+  }
+
+  /** 是否在初始化时将 theme 自动 merge 到 spec */
+  protected _shouldMergeThemeToSpec(): boolean {
+    return true;
+  }
+
+  /** 从 chart spec 提取配置作为 model 的默认 spec 配置 */
+  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> {
+    return {};
+  }
+
+  /** 在 merge 主题前对 spec 进行预处理 */
+  protected _prepareSpecBeforeMergingTheme(spec?: Partial<T>): Partial<T> {
+    // do nothing
+    return spec;
   }
 }

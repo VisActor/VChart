@@ -19,6 +19,9 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   layoutZIndex: number = LayoutZIndex.Legend;
   layoutLevel: number = LayoutLevel.Legend;
 
+  static specKey = 'legends';
+  specKey = 'legends';
+
   protected _orient: IOrientType = 'left';
   get orient() {
     return this._orient;

@@ -8,6 +8,8 @@ import { markerAggregation } from '../../../data/transforms/aggregation';
 import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
@@ -15,11 +17,15 @@ import { LayoutZIndex } from '../../../constant';
 import type { IGroup } from '@visactor/vrender-core';
 import { Factory } from '../../../core/factory';
 import type { IPoint } from '../../../typings';
+import type { IModelSpecInfo } from '../../../model/interface';
 
 export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
+
+  static specKey = 'markArea';
+  specKey = 'markArea';
 
   layoutZIndex: number = LayoutZIndex.MarkArea;
 
@@ -28,21 +34,40 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   // markArea组件
   protected declare _markerComponent: MarkAreaComponent;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const markAreaSpec = spec.markArea;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const markAreaSpec = chartSpec[this.specKey];
     if (isEmpty(markAreaSpec)) {
       return undefined;
     }
     if (!isArray(markAreaSpec) && markAreaSpec.visible !== false) {
-      return new MarkArea(markAreaSpec, options);
+      return [
+        {
+          spec: markAreaSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.markArea
+        }
+      ];
     }
-    const markAreas: MarkArea[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     markAreaSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markAreas.push(new MarkArea(m, { ...options, specIndex: i }));
+        specInfos.push({
+          spec: m,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: ComponentTypeEnum.markArea
+        });
       }
     });
-    return markAreas;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new MarkArea(spec, {
+      ...options,
+      ...others
+    });
   }
 
   protected _createMarkerComponent() {

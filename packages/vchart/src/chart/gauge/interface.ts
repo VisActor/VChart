@@ -1,10 +1,12 @@
-import type { IChartSpec } from '../../typings/spec/common';
 import type { IPolarAxisSpec } from '../../component/axis/polar/interface';
 import type { IGaugePointerSeriesSpec, IGaugeSeriesSpec } from '../../series/gauge';
 import type { ILinearAxisSpec } from '../../component/axis/interface';
 import type { ICircularProgressSeriesSpec } from '../../series/progress/circular/interface';
+import type { IPolarChartSpec } from '../polar';
 
-export interface IGaugeChartSpec extends IChartSpec, Omit<IGaugePointerSeriesSpec, 'data' | 'type' | 'morph'> {
+export interface IGaugeChartSpec
+  extends Omit<IPolarChartSpec, 'axes'>,
+    Omit<IGaugePointerSeriesSpec, 'data' | 'type' | 'morph'> {
   type: 'gauge';
 
   /** 表盘背景，可选择 gauge 系列或 circularProgress 系列的配置 */

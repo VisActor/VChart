@@ -1,19 +1,18 @@
-import { BaseChart } from '../base-chart';
-import type { ISeries } from '../../series/interface';
+import { BaseChart, BaseChartSpecTransformer } from '../base-chart';
 import type { ICartesianAxisSpec } from '../../component';
 import { getTrimPaddingConfig } from '../util';
 import { get } from '@visactor/vutils';
 import { mergeSpec } from '../../util/spec';
+import type { ICartesianChartSpec } from './interface';
+import type { ISeriesSpec } from '../..';
 
-export class CartesianChart extends BaseChart {
-  readonly seriesType: string;
-
-  protected isValidSeries(type: string): boolean {
-    return this.seriesType ? type === this.seriesType : true;
-  }
-
+export class CartesianChartSpecTransformer<T extends ICartesianChartSpec> extends BaseChartSpecTransformer<T> {
   protected needAxes(): boolean {
     return true;
+  }
+
+  protected _isValidSeries(type: string): boolean {
+    return this.seriesType ? type === this.seriesType : true;
   }
 
   protected _getDefaultSeriesSpec(spec: any): any {
@@ -40,7 +39,7 @@ export class CartesianChart extends BaseChart {
     return series;
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     if (this.needAxes()) {
       if (!spec.axes) {
@@ -73,7 +72,7 @@ export class CartesianChart extends BaseChart {
         });
       }
       // 如果有zField字段，但是没有配置z轴，那么添加一个z轴
-      if (spec.zField && !haxAxes.z) {
+      if ((spec as any).zField && !haxAxes.z) {
         spec.axes.push({
           orient: 'z'
         });
@@ -85,8 +84,8 @@ export class CartesianChart extends BaseChart {
     if (!spec.series || spec.series.length === 0) {
       spec.series = [defaultSeriesSpec];
     } else {
-      spec.series.forEach((s: ISeries) => {
-        if (!this.isValidSeries(s.type)) {
+      spec.series.forEach((s: ISeriesSpec) => {
+        if (!this._isValidSeries(s.type)) {
           return;
         }
         Object.keys(defaultSeriesSpec).forEach(k => {
@@ -97,4 +96,9 @@ export class CartesianChart extends BaseChart {
       });
     }
   }
+}
+
+export class CartesianChart<T extends ICartesianChartSpec> extends BaseChart<T> {
+  static readonly transformerConstructor = CartesianChartSpecTransformer;
+  readonly transformerConstructor = CartesianChartSpecTransformer;
 }

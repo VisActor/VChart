@@ -34,7 +34,7 @@ import type {
   ILayoutPoint,
   ILayoutRect
 } from '../../typings';
-import { BaseModel } from '../../model/base-model';
+import { BaseModel, BaseModelSpecTransformer } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
 import type {
   ISeriesOption,
@@ -87,12 +87,31 @@ import type { ILabelSpec } from '../../component';
 import type { ILabelMark } from '../../mark/label';
 import type { TransformedLabelSpec } from '../../component/label';
 
+export class BaseSeriesSpecTransformer<T extends ISeriesSpec> extends BaseModelSpecTransformer<T> {
+  getTheme(spec: T, chartSpec: any): any {
+    const direction = getDirectionFromSeriesSpec(spec);
+    const chartTheme = this._option?.getTheme();
+    const { markByName, mark } = chartTheme;
+    const type = this._option.type;
+    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName);
+    const themeWithDirection = transformSeriesThemeToMerge(
+      get(chartTheme, `series.${type}_${direction}`),
+      `${type}_${direction}`,
+      mark,
+      markByName
+    );
+    return mergeSpec({}, theme, themeWithDirection);
+  }
+}
+
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
+  static readonly transformerConstructor = BaseSeriesSpecTransformer;
   readonly specKey: string = 'series';
   readonly type: string = 'series';
   layoutType: ILayoutType = 'absolute';
   readonly modelType: string = 'series';
   readonly name: string | undefined = undefined;
+  readonly transformerConstructor = BaseSeriesSpecTransformer as any;
 
   static readonly mark: SeriesMarkMap = baseSeriesMark;
 
@@ -956,8 +975,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
-  reInit(theme?: any, lastSpec?: any) {
-    super.reInit(theme);
+  reInit(lastSpec?: any) {
+    super.reInit();
 
     const marks = !lastSpec
       ? this.getMarksWithoutRoot()
@@ -1112,21 +1131,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected onMarkTreePositionUpdate(marks: IMark[]): void {
     // do nothing
-  }
-
-  protected _getTheme() {
-    const direction = getDirectionFromSeriesSpec(this._originalSpec);
-    const chartTheme = this._option?.getTheme();
-    const { markByName, mark } = chartTheme;
-    const type = this._option.type;
-    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName);
-    const themeWithDirection = transformSeriesThemeToMerge(
-      get(chartTheme, `series.${type}_${direction}`),
-      `${type}_${direction}`,
-      mark,
-      markByName
-    );
-    return mergeSpec({}, theme, themeWithDirection);
   }
 
   protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {

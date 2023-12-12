@@ -1,8 +1,10 @@
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IRenderOption } from '../../compile/interface';
-import type { IModelOption } from '../../model/interface';
+import type { IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IView } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
+import type { ITheme } from '../../theme';
+import type { ILayoutRect } from '../../typings';
 
 export interface ILayoutParams {
   srView?: IView;
@@ -29,6 +31,23 @@ export interface IChartOption
    * 自定义布局方法
    */
   layout?: LayoutCallBack;
+}
+
+export interface IChartSpecTransformerOption {
+  type: string;
+  seriesType?: string;
+  getTheme: () => ITheme;
+  getLayoutRect?: () => ILayoutRect;
+}
+
+export interface IChartSpecInfo {
+  region?: IModelSpecInfo[];
+  series?: IModelSpecInfo[];
+  axes?: IModelSpecInfo | IModelSpecInfo[];
+  legends?: IModelSpecInfo | IModelSpecInfo[];
+  crosshair?: IModelSpecInfo | IModelSpecInfo[];
+  // 其他组件
+  [key: string]: IModelSpecInfo | IModelSpecInfo[];
 }
 
 // TODO: interface definition

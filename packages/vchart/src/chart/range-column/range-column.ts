@@ -1,4 +1,4 @@
-import { CartesianChart } from '../cartesian/cartesian';
+import { CartesianChart, CartesianChartSpecTransformer } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { Direction } from '../../typings';
@@ -7,13 +7,10 @@ import type { IRangeColumnChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { registerRangeColumnSeries } from '../../series/range-column/range-column';
 
-export class RangeColumnChart extends CartesianChart {
-  static readonly type: string = ChartTypeEnum.rangeColumn;
-  static readonly view: string = 'singleDefault';
-  readonly type: string = ChartTypeEnum.rangeColumn;
-  readonly seriesType: string = SeriesTypeEnum.rangeColumn;
-
-  protected _getDefaultSeriesSpec(spec: any): any {
+export class RangeColumnChartSpecTransformer<
+  T extends IRangeColumnChartSpec = IRangeColumnChartSpec
+> extends CartesianChartSpecTransformer<T> {
+  protected _getDefaultSeriesSpec(spec: T): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
       barGapInGroup: (spec as IRangeColumnChartSpec).barGapInGroup,
@@ -28,10 +25,20 @@ export class RangeColumnChart extends CartesianChart {
     return series;
   }
 
-  transformSpec(spec: any): void {
+  transformSpec(spec: T): void {
     super.transformSpec(spec);
     setDefaultCrosshairForCartesianChart(spec);
   }
+}
+
+export class RangeColumnChart<T extends IRangeColumnChartSpec = IRangeColumnChartSpec> extends CartesianChart<T> {
+  static readonly type: string = ChartTypeEnum.rangeColumn;
+  static readonly seriesType: string = SeriesTypeEnum.rangeColumn;
+  static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = RangeColumnChartSpecTransformer;
+  readonly transformerConstructor = RangeColumnChartSpecTransformer;
+  readonly type: string = ChartTypeEnum.rangeColumn;
+  readonly seriesType: string = SeriesTypeEnum.rangeColumn;
 }
 
 export const registerRangeColumnChart = () => {

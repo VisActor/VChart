@@ -1,6 +1,10 @@
-import { PolarChart } from '../polar/polar';
+import type { AdaptiveSpec } from '../..';
+import { PolarChart, PolarChartSpecTransformer } from '../polar/polar';
+import type { IPieChartSpec } from './interface';
 
-export class BasePieChart extends PolarChart {
+export class BasePieChartSpecTransformer<T extends IPieChartSpec> extends PolarChartSpecTransformer<
+  AdaptiveSpec<T, 'axes'>
+> {
   protected needAxes(): boolean {
     return false;
   }
@@ -22,4 +26,10 @@ export class BasePieChart extends PolarChart {
       minAngle: spec.minAngle
     };
   }
+}
+
+export class BasePieChart<T extends IPieChartSpec> extends PolarChart<AdaptiveSpec<T, 'axes'>> {
+  static readonly transformerConstructor = BasePieChartSpecTransformer;
+  // @ts-ignore
+  readonly transformerConstructor = BasePieChartSpecTransformer;
 }

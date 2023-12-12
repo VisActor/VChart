@@ -1,3 +1,5 @@
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isArray, isBoolean, isNil, isNumber, isValid, maxInArray, minInArray, uniqArray } from '@visactor/vutils';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import type { IComponentOption } from '../../interface';
@@ -10,7 +12,7 @@ import type { DataZoomAttributes } from '@visactor/vrender-components';
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
-import type { Datum, ILayoutType } from '../../../typings';
+import type { AdaptiveSpec, Datum, ILayoutType } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
@@ -20,11 +22,59 @@ import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { CartesianAxis } from '../../axis/cartesian';
+import { BaseComponentSpecTransformer } from '../../base/base-component';
+import type { IModelSpecInfo } from '../../../model/interface';
+
+export class DataZoomSpecTransformer<T extends IDataZoomSpec = IDataZoomSpec> extends BaseComponentSpecTransformer<
+  AdaptiveSpec<T, 'width' | 'height'>
+> {
+  protected _prepareSpecBeforeMergingTheme(
+    originalSpec: Partial<AdaptiveSpec<T, 'width' | 'height'>>
+  ): Partial<AdaptiveSpec<T, 'width' | 'height'>> {
+    const newSpec: Partial<AdaptiveSpec<T, 'width' | 'height'>> = {
+      ...originalSpec
+    };
+    // 为了减少主题更改造成的影响，如果用户在 spec 配置了主题默认关闭的 mark，则自动加上 visible: true
+    const { selectedBackgroundChart = {} } = newSpec;
+    const { line, area } = selectedBackgroundChart as T['selectedBackgroundChart'];
+    if (line || area) {
+      newSpec.selectedBackgroundChart = {
+        ...selectedBackgroundChart,
+        line:
+          line && line.visible !== false
+            ? {
+                ...line,
+                style: {
+                  ...line.style,
+                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
+                }
+              }
+            : line,
+        area:
+          area && area.visible !== false
+            ? {
+                ...area,
+                style: {
+                  ...area.style,
+                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
+                }
+              }
+            : area
+      };
+    }
+    return newSpec;
+  }
+}
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
+  static readonly transformerConstructor = DataZoomSpecTransformer as any;
   type = ComponentTypeEnum.dataZoom;
   name: string = ComponentTypeEnum.dataZoom;
+  readonly transformerConstructor = DataZoomSpecTransformer;
+
+  static specKey = 'dataZoom';
+  specKey = 'dataZoom';
 
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
@@ -40,19 +90,38 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _startHandlerSize!: number;
   protected _endHandlerSize!: number;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const compSpec = spec.dataZoom;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const compSpec = chartSpec[this.specKey];
     if (isNil(compSpec)) {
       return undefined;
     }
     if (!isArray(compSpec)) {
-      return new DataZoom(compSpec, options);
+      return [
+        {
+          spec: compSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.dataZoom
+        }
+      ];
     }
-    const zooms: DataZoom[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     compSpec.forEach((s, i: number) => {
-      zooms.push(new DataZoom(s, { ...options, specIndex: i }));
+      specInfos.push({
+        spec: s,
+        specIndex: i,
+        specPath: [this.specKey, i],
+        type: ComponentTypeEnum.dataZoom
+      });
     });
-    return zooms;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new DataZoom(spec, {
+      ...options,
+      ...others
+    });
   }
 
   constructor(spec: T, options: IComponentOption) {
