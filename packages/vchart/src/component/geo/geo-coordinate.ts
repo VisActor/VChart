@@ -81,7 +81,9 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
         specInfos.push({
           spec,
           regionIndex: i,
-          type: ComponentTypeEnum.geoCoordinate
+          type: ComponentTypeEnum.geoCoordinate,
+          // 这里的 specPath 不是对应于真实 spec 的 path，而是 IChartSpecInfo 上的 path
+          specPath: ['region', i, 'geoCoordinate']
         } as any);
       }
     });
@@ -291,6 +293,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
 
     super.onLayoutEnd(ctx);
   }
+
   onRender(ctx: IModelRenderOption) {
     // do nothing
   }

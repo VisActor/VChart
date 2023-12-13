@@ -102,6 +102,8 @@ export interface IRegionSpecInfo<T extends IRegionSpec = IRegionSpec> extends IM
   spec: T;
   /** 该 region 包含的系列索引 */
   seriesIndexes?: number[];
-  /** 该 region 挂载的标签 */
+  /** 该 region 挂载的标签组件 */
   markLabel?: IModelSpecInfo;
+  /** 该 region 挂载的 geoCoordinate 组件 */
+  geoCoordinate?: IModelSpecInfo;
 }

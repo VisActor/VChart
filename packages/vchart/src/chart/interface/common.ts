@@ -50,8 +50,6 @@ export interface IChartSpecInfo {
   axes?: IModelSpecInfo | IModelSpecInfo[];
   legends?: IModelSpecInfo | IModelSpecInfo[];
   crosshair?: IModelSpecInfo | IModelSpecInfo[];
-  // 在图表 spec 中没有对应位置的组件，使用组件 type 进行索引
-  [ComponentTypeEnum.geoCoordinate]?: IModelSpecInfo;
   // 其他组件
   [key: string]: IModelSpecInfo | IModelSpecInfo[];
 }
