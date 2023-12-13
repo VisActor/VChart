@@ -695,8 +695,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return result;
   }
 
-  reInit() {
-    super.reInit();
+  reInit(spec?: AdaptiveSpec<T, 'width' | 'height'>) {
+    super.reInit(spec);
 
     this._marks.forEach(g => {
       (<IGroupMark>g).getMarks().forEach(m => {

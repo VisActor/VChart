@@ -1,4 +1,4 @@
-import { isArray, isFunction, isNil, isObject } from '@visactor/vutils';
+import { get, isArray, isFunction, isNil, isObject } from '@visactor/vutils';
 
 /**
  * 判断一个 spec 是否包含另一个 spec 片段
@@ -21,14 +21,14 @@ export const includeSpec = <T = any>(spec: Partial<T>, searchSpec: Partial<T>): 
   return false;
 };
 
-export const setProperty = (target: any, path: Array<string | number>, value: any) => {
+export const setProperty = <T>(target: T, path: Array<string | number>, value: any): T => {
   const key = path[0];
   if (isNil(key)) {
-    return;
+    return target;
   }
   if (path.length === 1) {
     target[key] = value;
-    return;
+    return target;
   }
   if (isNil(target[key])) {
     if (typeof path[1] === 'number') {
@@ -37,5 +37,9 @@ export const setProperty = (target: any, path: Array<string | number>, value: an
       target[key] = {};
     }
   }
-  setProperty(target[key], path.slice(1), value);
+  return setProperty(target[key], path.slice(1), value);
+};
+
+export const getProperty = <T>(target: any, path: Array<string | number>, defaultValue?: T): T => {
+  return get(target, path as string[], defaultValue) as T;
 };

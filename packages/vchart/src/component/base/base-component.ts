@@ -36,9 +36,8 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   protected _container: IGroup;
 
   created() {
-    this._initTransformer();
     this.initLayout();
-    this.setAttrFromSpec();
+    super.created();
     this.pluginService = new ComponentPluginService(this);
   }
 

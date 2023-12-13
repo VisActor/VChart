@@ -95,7 +95,6 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   }
 
   created(): void {
-    this._initTransformer();
     this.initLayout();
     super.created();
     const clip = this._spec.clip ?? this._getClipDefaultValue();
@@ -221,8 +220,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     return result;
   }
 
-  reInit() {
-    super.reInit();
+  reInit(spec?: T) {
+    super.reInit(spec);
     this._initBackgroundMarkStyle();
     this._initForegroundMarkStyle();
   }

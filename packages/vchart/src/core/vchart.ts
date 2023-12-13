@@ -407,14 +407,9 @@ export class VChart implements IVChart {
     return true;
   }
 
-  private _initChartSpec(
-    spec: any,
-    transformFunction: boolean = true,
-    transformChartSpec: boolean = true,
-    transformModelSpec: boolean = true
-  ) {
+  private _initChartSpec(spec: any) {
     // 如果用户注册了函数，在配置中替换相应函数名为函数内容
-    if (transformFunction && VChart.getFunctionList() && VChart.getFunctionList().length) {
+    if (VChart.getFunctionList() && VChart.getFunctionList().length) {
       spec = functionTransform(spec, VChart);
     }
     this._spec = spec;
@@ -425,12 +420,8 @@ export class VChart implements IVChart {
         getTheme: () => this._currentTheme ?? {}
       });
     }
-    if (transformChartSpec) {
-      this._chartSpecTransformer.transformSpec(spec);
-    }
-    if (transformModelSpec) {
-      this._specInfo = this._chartSpecTransformer.transformModelSpec(spec);
-    }
+    this._chartSpecTransformer.transformSpec(spec);
+    this._specInfo = this._chartSpecTransformer.transformModelSpec(spec);
   }
 
   private _initChart(spec: any) {
@@ -458,6 +449,7 @@ export class VChart implements IVChart {
       viewBox: this._viewBox,
       animation: this._option.animation,
       getTheme: () => this._currentTheme ?? {},
+      getSpecInfo: () => this._specInfo ?? {},
 
       layout: this._option.layout,
       onError: this._onError
@@ -554,27 +546,27 @@ export class VChart implements IVChart {
     }
   }
 
-  /** **异步方法** 执行自定义的回调修改图表配置，并重新渲染 */
-  async updateCustomConfigAndRerender(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
+  /** 执行自定义的回调修改图表配置，并重新渲染 */
+  updateCustomConfigAndRerender(
+    modifyConfig: () => IUpdateSpecResult | undefined,
+    sync?: boolean,
+    morphConfig?: IMorphConfig,
+    transformSpec?: boolean
+  ) {
     if (this._isReleased) {
-      return this as unknown as IVChart;
+      return undefined;
     }
-    const result = modifyConfig(); // 执行回调
-    if (isValid(result)) {
-      this._reCompile(result);
-      await this.renderAsync(morphConfig);
+    if (modifyConfig) {
+      const result = modifyConfig(); // 执行回调
+      if (isValid(result)) {
+        this._reCompile(result);
+        if (sync) {
+          return this._renderSync(morphConfig, transformSpec);
+        }
+        return this._renderAsync(morphConfig, transformSpec);
+      }
     }
-    return this as unknown as IVChart;
-  }
-
-  /** **同步方法** 执行自定义的回调修改图表配置，并重新渲染 */
-  updateCustomConfigAndRerenderSync(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
-    const result = modifyConfig(); // 执行回调
-    if (isValid(result)) {
-      this._reCompile(result);
-      this.renderSync(morphConfig);
-    }
-    return this as unknown as IVChart;
+    return undefined;
   }
 
   /** 执行自定义的回调修改图表配置，并重新编译（不渲染） */
@@ -625,12 +617,14 @@ export class VChart implements IVChart {
   }
 
   /** 渲染之前的步骤，返回是否成功 */
-  protected _beforeRender(): boolean {
+  protected _beforeRender(transformSpec?: boolean): boolean {
     if (this._isReleased) {
       return false;
     }
-    // 初始化图表 spec
-    this._initChartSpec(this._spec);
+    if (transformSpec) {
+      // 初始化图表 spec
+      this._initChartSpec(this._spec);
+    }
     // compile
     return this._createChartAndCompile();
   }
@@ -651,14 +645,7 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   renderSync(morphConfig?: IMorphConfig) {
-    const self = this as unknown as IVChart;
-    if (!this._beforeRender()) {
-      return self;
-    }
-    // 填充数据绘图
-    this._compiler?.renderSync(morphConfig);
-    this._afterRender();
-    return self;
+    return this._renderSync(morphConfig, true);
   }
 
   /**
@@ -667,8 +654,23 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   async renderAsync(morphConfig?: IMorphConfig) {
+    return this._renderAsync(morphConfig, true);
+  }
+
+  protected _renderSync(morphConfig?: IMorphConfig, transformSpec?: boolean) {
     const self = this as unknown as IVChart;
-    if (!this._beforeRender()) {
+    if (!this._beforeRender(transformSpec)) {
+      return self;
+    }
+    // 填充数据绘图
+    this._compiler?.renderSync(morphConfig);
+    this._afterRender();
+    return self;
+  }
+
+  protected async _renderAsync(morphConfig?: IMorphConfig, transformSpec?: boolean) {
+    const self = this as unknown as IVChart;
+    if (!this._beforeRender(transformSpec)) {
       return self;
     }
     // 填充数据绘图
@@ -903,9 +905,7 @@ export class VChart implements IVChart {
    */
   async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
     const modifyConfig = this._updateSpec(spec, forceMerge);
-    if (modifyConfig) {
-      await this.updateCustomConfigAndRerender(modifyConfig, morphConfig);
-    }
+    await this.updateCustomConfigAndRerender(modifyConfig, false, morphConfig, true);
     return this as unknown as IVChart;
   }
 
@@ -917,9 +917,7 @@ export class VChart implements IVChart {
    */
   updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
     const modifyConfig = this._updateSpec(spec, forceMerge);
-    if (modifyConfig) {
-      this.updateCustomConfigAndRerenderSync(modifyConfig, morphConfig);
-    }
+    this.updateCustomConfigAndRerender(modifyConfig, true, morphConfig, true);
     return this as unknown as IVChart;
   }
 
@@ -1044,16 +1042,13 @@ export class VChart implements IVChart {
     }
     const modifyConfig = () => {
       const result = model.updateSpec(spec);
-      model.reInit();
+      model.reInit(spec);
       if (result.change || result.reCompile || result.reMake || result.reSize || result.reRender) {
         this._chart.reDataFlow();
       }
       return result;
     };
-    if (sync) {
-      return this.updateCustomConfigAndRerenderSync(modifyConfig, morphConfig);
-    }
-    return this.updateCustomConfigAndRerender(modifyConfig, morphConfig);
+    return this.updateCustomConfigAndRerender(modifyConfig, sync, morphConfig, false);
   }
 
   /**
@@ -1296,14 +1291,8 @@ export class VChart implements IVChart {
     if (!ThemeManager.themeExist(name)) {
       return this as unknown as IVChart;
     }
-
-    await this.updateCustomConfigAndRerender(() => {
-      this._updateCurrentTheme(name);
-      this._initChartSpec(cloneDeepSpec(this._originalSpec), false);
-      this._chart?.setCurrentTheme();
-      return { change: true, reMake: false };
-    });
-
+    const modifyConfig = this._setCurrentTheme(name);
+    await this.updateCustomConfigAndRerender(modifyConfig, false, undefined, false);
     return this as unknown as IVChart;
   }
 
@@ -1317,14 +1306,16 @@ export class VChart implements IVChart {
     if (!ThemeManager.themeExist(name)) {
       return this as unknown as IVChart;
     }
-
-    this.updateCustomConfigAndRerenderSync(() => {
-      this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme();
-      return { change: true, reMake: false };
-    });
-
+    const modifyConfig = this._setCurrentTheme(name);
+    this.updateCustomConfigAndRerender(modifyConfig, true, undefined, false);
     return this as unknown as IVChart;
+  }
+
+  protected _setCurrentTheme(name: string) {
+    this._updateCurrentTheme(name);
+    this._initChartSpec(cloneDeepSpec(this._originalSpec));
+    this._chart?.setCurrentTheme();
+    return () => ({ change: true, reMake: false });
   }
 
   // Tooltip 相关方法

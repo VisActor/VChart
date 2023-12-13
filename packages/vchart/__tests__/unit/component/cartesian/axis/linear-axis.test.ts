@@ -12,6 +12,7 @@ import { EventDispatcher } from '../../../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../../../util/factory/compiler';
 import { initChartDataSet } from '../../../../util/context';
 import type { StringOrNumber } from '../../../../../src/typings/common';
+import type { CartesianAxisSpecTransformer } from '../../../../../src/component/axis/cartesian';
 
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
@@ -121,9 +122,14 @@ beforeAll(() => {
  *
  */
 test('config linearAxis.nice default [true] ', () => {
-  const spec = getAxisSpec({
+  let spec = getAxisSpec({
     orient: 'left'
   });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme()
+  }) as CartesianAxisSpecTransformer;
+  spec = transformer.transformSpec(spec, {});
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -135,10 +141,15 @@ test('config linearAxis.nice default [true] ', () => {
 });
 
 test('config linearAxis.nice default [true] ', () => {
-  const spec = getAxisSpec({
+  let spec = getAxisSpec({
     orient: 'left',
     tick: { tickMode: 'd3' }
   });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme()
+  }) as CartesianAxisSpecTransformer;
+  spec = transformer.transformSpec(spec, {});
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -150,10 +161,15 @@ test('config linearAxis.nice default [true] ', () => {
 });
 
 test('nice === false  ', () => {
-  const spec = getAxisSpec({
+  let spec = getAxisSpec({
     orient: 'left',
     nice: false
   });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme()
+  }) as CartesianAxisSpecTransformer;
+  spec = transformer.transformSpec(spec, {});
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -165,11 +181,16 @@ test('nice === false  ', () => {
 });
 
 test('zero === false && nice === false  ', () => {
-  const spec = getAxisSpec({
+  let spec = getAxisSpec({
     orient: 'left',
     nice: false,
     zero: false
   });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme()
+  }) as CartesianAxisSpecTransformer;
+  spec = transformer.transformSpec(spec, {});
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -181,13 +202,18 @@ test('zero === false && nice === false  ', () => {
 });
 
 test('zero === true && range is specific  ', () => {
-  const config = getAxisSpec({
+  let config = getAxisSpec({
     orient: 'left',
     range: {
       min: 10,
       max: 800
     }
   });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme()
+  }) as CartesianAxisSpecTransformer;
+  config = transformer.transformSpec(config, {});
 
   /**
    * range is the highest priority, which will be the direct result for scale.domain.
@@ -248,10 +274,16 @@ test('zero === true && range is specific  ', () => {
 });
 
 test('expand', () => {
-  const config = getAxisSpec({
+  let config = getAxisSpec({
     orient: 'left',
     expand: { max: 0.1, min: 0.1 }
   });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme()
+  }) as CartesianAxisSpecTransformer;
+  config = transformer.transformSpec(config, {});
+
   {
     const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(config).componentName, config, ctx);
     linearAxis.created();
@@ -301,9 +333,15 @@ test('expand', () => {
 });
 
 test('extend', () => {
-  const config = getAxisSpec({
+  let config = getAxisSpec({
     orient: 'left'
   });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme()
+  }) as CartesianAxisSpecTransformer;
+  config = transformer.transformSpec(config, {});
+
   {
     const linearAxis = CartesianAxis.createAxis(
       CartesianAxis.getAxisInfo(config).componentName,
@@ -343,11 +381,16 @@ test('niceDomain should work when domain is 0, and user does not set min or max'
   jest.spyOn(CartesianAxis.prototype, 'collectData').mockImplementation(() => {
     return [{ min: 0, max: 0 }];
   });
-  const spec = getAxisSpec({
+  let spec = getAxisSpec({
     orient: 'left',
     nice: false,
     zero: false
   });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme()
+  }) as CartesianAxisSpecTransformer;
+  spec = transformer.transformSpec(spec, {});
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -363,11 +406,16 @@ test('niceDomain should not work when user set min or max', () => {
   jest.spyOn(CartesianAxis.prototype, 'collectData').mockImplementation(() => {
     return [{ min: 0, max: 5000 }];
   });
-  const spec = getAxisSpec({
+  let spec = getAxisSpec({
     orient: 'left',
     min: 300,
     max: 300
   });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme()
+  }) as CartesianAxisSpecTransformer;
+  spec = transformer.transformSpec(spec, {});
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -379,7 +427,7 @@ test('niceDomain should not work when user set min or max', () => {
 });
 
 test('dynamic tickCount', () => {
-  const spec = getAxisSpec({
+  let spec = getAxisSpec({
     orient: 'left',
     tick: {
       tickCount: (params: any) => {
@@ -391,6 +439,11 @@ test('dynamic tickCount', () => {
       }
     }
   });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: () => ThemeManager.getCurrentTheme()
+  }) as CartesianAxisSpecTransformer;
+  spec = transformer.transformSpec(spec, {});
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();

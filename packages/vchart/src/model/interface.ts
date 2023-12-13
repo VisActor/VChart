@@ -14,10 +14,12 @@ import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
-import type { IChart } from '../chart/interface';
+import type { IChart, IChartSpecInfo } from '../chart/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
 import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
+import type { ComponentTypeEnum } from '../component/interface';
+import type { SeriesTypeEnum } from '../series';
 
 // TODO:
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -100,8 +102,8 @@ export interface IModel extends ICompilable {
   created: () => void;
   // 用来处理与其他图表模块的联系
   init: (option: IModelInitOption) => void;
-  // updateSpec 或者切换主题后，根据新 spec 执行的初始化过程
-  reInit: (lastSpec?: any) => void;
+  /** updateSpec 或者切换主题后，根据新 spec 执行的初始化过程 */
+  reInit: (spec?: any) => void;
   beforeRelease: () => void;
 
   onEvaluateEnd: (ctx: IModelEvaluateOption) => void;
@@ -117,8 +119,6 @@ export interface IModel extends ICompilable {
   onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
   onLayoutEnd: (ctx: IModelLayoutOption) => void;
 
-  // theme
-  setCurrentTheme: () => void;
   getColorScheme: () => IThemeColorScheme | undefined;
 
   setMarkStyle: <T extends ICommonSpec>(
@@ -129,6 +129,8 @@ export interface IModel extends ICompilable {
   ) => void;
 
   initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;
+
+  getSpecInfo: () => IModelSpecInfo;
 }
 
 export interface ILayoutModel extends IModel {
@@ -158,6 +160,7 @@ export interface IModelOption extends ICompilableInitOption {
   specPath?: Array<string | number>;
 
   getTheme?: () => ITheme;
+  getSpecInfo?: () => IChartSpecInfo;
   getChartLayoutRect: () => IRect;
   getChartViewRect: () => ILayoutRect;
 
@@ -173,9 +176,13 @@ export interface IModelOption extends ICompilableInitOption {
 }
 
 export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
-  type: string;
+  /** model 具体类型 */
+  type: string | ComponentTypeEnum | SeriesTypeEnum;
+  /** model spec */
   spec: T;
+  /** 该 spec 在图表 spec 上的路径 */
   specPath?: Array<string | number>;
+  /** 该 spec 在父级的索引 */
   specIndex?: number;
 }
 
