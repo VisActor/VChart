@@ -12,6 +12,7 @@ import { IconAddText } from '../svg/add-text';
 import { IconComment } from '../svg/comment';
 import { IconBold, IconDelete, IconMore } from '@douyinfe/semi-icons';
 import { IconEditData } from '../svg/edit-data';
+import { IconZIndexBottom, IconZIndexTop } from '../svg/zindex';
 
 export function ColorItem(props: IColorItemProps) {
   const color = props.color;
@@ -206,6 +207,9 @@ export const editorBarToolMap = {
   addText: { icon: <IconAddText />, type: 'trigger' },
 
   delete: { icon: <IconDelete />, type: 'trigger' },
+
+  layoutTop: { icon: <IconZIndexTop />, type: 'trigger' },
+  layoutBottom: { icon: <IconZIndexBottom />, type: 'trigger' },
 
   editData: { icon: <IconEditData />, type: 'switch' },
   comment: { icon: <IconComment />, type: 'trigger' },
