@@ -112,9 +112,6 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
   }
 
   protected _markerLayout() {
-    if (!this._markerComponent) {
-      return;
-    }
     const spec = this._spec as any;
     const data = this._markerData;
     const startRelativeSeries = this._startRelativeSeries;
@@ -157,12 +154,12 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
         height: maxY - minY
       };
     }
-
+    const markerComponentAttr = this._markerComponent?.attribute ?? {};
     const labelAttrs = {
-      ...this._markerComponent.attribute?.label,
+      ...markerComponentAttr.label,
       text: this._spec.label.formatMethod
         ? this._spec.label.formatMethod(dataPoints, seriesData)
-        : this._markerComponent.attribute?.label?.text
+        : markerComponentAttr.label?.text
     };
 
     if ((this._spec as IStepMarkLineSpec).type === 'type-step') {
@@ -220,7 +217,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
         };
       }
 
-      this._markerComponent.setAttributes({
+      this._markerComponent?.setAttributes({
         points: multiSegment
           ? [
               [joinPoints[0], joinPoints[1]],
@@ -232,7 +229,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
           ...labelAttrs,
           ...labelPositionAttrs,
           textStyle: {
-            ...this._markerComponent.attribute?.label.textStyle,
+            ...markerComponentAttr.label.textStyle,
             textAlign: 'center',
             textBaseline: 'middle'
           }
@@ -244,7 +241,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
         dy: this._layoutOffsetY
       });
     } else {
-      this._markerComponent.setAttributes({
+      this._markerComponent?.setAttributes({
         points: points,
         label: labelAttrs,
         limitRect,
