@@ -78,9 +78,6 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   }
 
   protected _markerLayout() {
-    if (!this._markerComponent) {
-      return;
-    }
     const spec = this._spec as any;
     const data = this._markerData;
     const startRelativeSeries = this._startRelativeSeries;
@@ -143,18 +140,20 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
       };
     }
 
-    this._markerComponent.setAttributes({
-      points: points,
-      label: {
-        ...this._markerComponent.attribute?.label,
-        text: this._spec.label.formatMethod
-          ? this._spec.label.formatMethod(dataPoints, seriesData)
-          : this._markerComponent.attribute?.label?.text
-      },
-      limitRect,
-      dx: this._layoutOffsetX,
-      dy: this._layoutOffsetY
-    });
+    if (this._markerComponent) {
+      this._markerComponent.setAttributes({
+        points: points,
+        label: {
+          ...this._markerComponent.attribute?.label,
+          text: this._spec.label.formatMethod
+            ? this._spec.label.formatMethod(dataPoints, seriesData)
+            : this._markerComponent.attribute?.label?.text
+        },
+        limitRect,
+        dx: this._layoutOffsetX,
+        dy: this._layoutOffsetY
+      });
+    }
   }
 
   protected _initDataView(): void {
