@@ -106,7 +106,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
       invalidType: chartSpec.invalidType,
 
-      seriesField: chartSpec.seriesField
+      seriesField: chartSpec.seriesField,
+
+      morph: chartSpec.morph
     };
     return series;
   }
