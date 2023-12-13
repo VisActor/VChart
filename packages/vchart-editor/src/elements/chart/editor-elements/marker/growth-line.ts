@@ -860,7 +860,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
             this._chart.vchart,
             {
               x: isHorizontal ? 0 : 4,
-              y: isHorizontal ? -4 : 0
+              y: isHorizontal ? 4 : 0
             }
           );
         });
@@ -871,7 +871,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
             this._chart.vchart,
             {
               x: isHorizontal ? 0 : -4,
-              y: isHorizontal ? 4 : 0
+              y: isHorizontal ? -4 : 0
             }
           );
         });

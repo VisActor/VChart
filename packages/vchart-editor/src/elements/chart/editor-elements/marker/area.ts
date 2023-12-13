@@ -74,19 +74,15 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       this._limitRange = [regionStartX, regionStartX + regionWidth];
     }
 
-    this._prePoint = {
-      x: e.event.clientX,
-      y: e.event.clientY
-    };
-
-    this._prePos = this._orient === 'vertical' ? e.event.clientX : e.event.clientY;
+    this._prePoint = this._layer.transformPosToLayer({ x: e.event.offsetX, y: e.event.offsetY });
+    this._prePos = this._orient === 'vertical' ? this._prePoint.x : this._prePoint.y;
     const overlayArea = this._overlayArea;
     this._areaLength =
       this._orient === 'vertical'
-        ? Math.max(...overlayArea.attribute.points.map(point => point.x)) -
-          Math.min(...overlayArea.attribute.points.map(point => point.x))
-        : Math.max(...overlayArea.attribute.points.map(point => point.y)) -
-          Math.min(...overlayArea.attribute.points.map(point => point.y));
+        ? Math.max(...overlayArea.attribute.points.map((point: any) => point.x)) -
+          Math.min(...overlayArea.attribute.points.map((point: any) => point.x))
+        : Math.max(...overlayArea.attribute.points.map((point: any) => point.y)) -
+          Math.min(...overlayArea.attribute.points.map((point: any) => point.y));
     vglobal.addEventListener('pointermove', this._onAreaDrag);
     vglobal.addEventListener('pointerup', this._onAreaDragEnd);
     this._overlayAreaGroup.addEventListener('pointerdown', this._onAreaDragStart as EventListenerOrEventListenerObject);
@@ -319,24 +315,24 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     const overlayArea = this._overlayArea;
     const points = overlayArea.attribute.points;
     if (this._currentHandler.name === 'overlay-right-handler') {
-      const changePoints = points.filter(point => (point as unknown as any).right);
-      changePoints.forEach(point => {
+      const changePoints = points.filter((point: any) => (point as unknown as any).right);
+      changePoints.forEach((point: any) => {
         point.x = clamp(point.x + delta, this._limitRange[0], this._limitRange[1]);
       });
     } else if (this._currentHandler.name === 'overlay-left-handler') {
-      const changePoints = points.filter(point => (point as unknown as any).left);
-      changePoints.forEach(point => {
+      const changePoints = points.filter((point: any) => (point as unknown as any).left);
+      changePoints.forEach((point: any) => {
         point.x = clamp(point.x + delta, this._limitRange[0], this._limitRange[1]);
       });
     } else if (this._currentHandler.name === 'overlay-top-handler') {
-      const changePoints = points.filter(point => (point as unknown as any).top);
+      const changePoints = points.filter((point: any) => (point as unknown as any).top);
 
-      changePoints.forEach(point => {
+      changePoints.forEach((point: any) => {
         point.y = clamp(point.y + delta, this._limitRange[0], this._limitRange[1]);
       });
     } else if (this._currentHandler.name === 'overlay-bottom-handler') {
-      const changePoints = points.filter(point => (point as unknown as any).bottom);
-      changePoints.forEach(point => {
+      const changePoints = points.filter((point: any) => (point as unknown as any).bottom);
+      changePoints.forEach((point: any) => {
         point.y = clamp(point.y + delta, this._limitRange[0], this._limitRange[1]);
       });
     }
@@ -390,10 +386,10 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
 
     this._areaLength =
       this._orient === 'vertical'
-        ? Math.max(...overlayArea.attribute.points.map(point => point.x)) -
-          Math.min(...overlayArea.attribute.points.map(point => point.x))
-        : Math.max(...overlayArea.attribute.points.map(point => point.y)) -
-          Math.min(...overlayArea.attribute.points.map(point => point.y));
+        ? Math.max(...overlayArea.attribute.points.map((point: any) => point.x)) -
+          Math.min(...overlayArea.attribute.points.map((point: any) => point.x))
+        : Math.max(...overlayArea.attribute.points.map((point: any) => point.y)) -
+          Math.min(...overlayArea.attribute.points.map((point: any) => point.y));
   };
 
   private _onAreaDragStart = (e: any) => {
