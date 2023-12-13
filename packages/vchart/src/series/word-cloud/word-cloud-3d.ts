@@ -74,13 +74,14 @@ export class WordCloud3dSeries<
   }
 
   initAnimation() {
+    const padding = this._padding ?? {};
     if (this._wordMark) {
       this._wordMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('wordCloud3d')?.(() => {
             const srView = this.getCompiler().getVGrammarView();
-            const width = srView.width() - this._padding?.left || 0 - this._padding?.right || 0;
-            const height = srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0;
+            const width = srView.width() - padding.left || 0 - padding.right || 0;
+            const height = srView.height() - padding.top || 0 - padding.bottom || 0;
             const r = Math.max(width, height) / 2;
             return {
               center: { x: r, y: r, z: this._spec.depth_3d ?? r },
@@ -96,8 +97,8 @@ export class WordCloud3dSeries<
         animationConfig(
           Factory.getAnimationInKey('wordCloud3d')?.(() => {
             const srView = this.getCompiler().getVGrammarView();
-            const width = srView.width() - this._padding?.left || 0 - this._padding?.right || 0;
-            const height = srView.height() - this._padding?.top || 0 - this._padding?.bottom || 0;
+            const width = srView.width() - padding.left || 0 - padding.right || 0;
+            const height = srView.height() - padding.top || 0 - padding.bottom || 0;
             const r = Math.max(width, height) / 2;
             return {
               center: { x: r, y: r, z: this._spec.depth_3d ?? r },

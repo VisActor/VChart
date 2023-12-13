@@ -16,7 +16,6 @@ import type { Maybe, Datum, ISymbolMarkSpec, IRippleMarkSpec } from '../../typin
 import type { ICorrelationSeriesTheme } from './interface';
 import { AttributeLevel, DEFAULT_DATA_INDEX, LayoutZIndex } from '../../constant';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
-import { mergeSpec } from '../../util/spec/merge-spec';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import type { IRippleMark } from '../../mark/ripple';
 import { RippleMark } from '../../mark/ripple';
@@ -124,7 +123,7 @@ export class CorrelationSeries extends PolarSeries<any> {
     centerDataView.transform({
       type: 'correlationCenter',
       options: {
-        keyword: this._spec?.centerLabel?.style?.text ?? '',
+        keyword: this._spec.centerLabel?.style?.text ?? '',
         categoryField: this._spec.categoryField
       }
     });
@@ -203,15 +202,15 @@ export class CorrelationSeries extends PolarSeries<any> {
     if (!nodePointMark) {
       return;
     }
-
+    const nodePointStyle = this._spec.nodePoint?.style ?? {};
     this.setMarkStyle<ISymbolMarkSpec>(
       nodePointMark,
       {
         x: (datum: Datum) => datum[CORRELATION_X],
         y: (datum: Datum) => datum[CORRELATION_Y],
         size: (datum: Datum) => datum[CORRELATION_SIZE],
-        fill: this._spec?.nodePoint?.style?.fill ?? this.getColorAttribute(),
-        fillOpacity: this._spec?.nodePoint?.style?.fillOpacity ?? 1,
+        fill: nodePointStyle.fill ?? this.getColorAttribute(),
+        fillOpacity: nodePointStyle.fillOpacity ?? 1,
         lineWidth: 0
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
@@ -226,22 +225,23 @@ export class CorrelationSeries extends PolarSeries<any> {
     if (!ripplePointMark) {
       return;
     }
+    const ripplePointStyle = this._spec.ripplePoint?.style ?? {};
 
     this.setMarkStyle<IRippleMarkSpec>(
       ripplePointMark,
       {
         x: () => {
-          return this._spec?.centerX ?? (this._viewBox.x1 + this._viewBox.x2) / 2;
+          return this._spec.centerX ?? (this._viewBox.x1 + this._viewBox.x2) / 2;
         },
         y: () => {
-          return this._spec?.centerY ?? (this._viewBox.y1 + this._viewBox.y2) / 2;
+          return this._spec.centerY ?? (this._viewBox.y1 + this._viewBox.y2) / 2;
         },
         size: () => {
           return Math.max(this._viewBox.x2 - this._viewBox.x1, this._viewBox.y2 - this._viewBox.y1) / 2;
         },
-        fill: this._spec?.ripplePoint?.style?.fill ?? this.getColorAttribute(),
-        opacity: this._spec?.ripplePoint?.style?.fillOpacity ?? 0.2,
-        ripple: this._spec?.ripplePoint?.style?.ripple ?? 0
+        fill: ripplePointStyle.fill ?? this.getColorAttribute(),
+        opacity: ripplePointStyle.fillOpacity ?? 0.2,
+        ripple: ripplePointStyle.ripple ?? 0
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
@@ -253,21 +253,20 @@ export class CorrelationSeries extends PolarSeries<any> {
     if (!centerPointMark) {
       return;
     }
-
     this.setMarkStyle<ISymbolMarkSpec>(
       centerPointMark,
       {
         x: () => {
-          return this._spec?.centerX ?? (this._viewBox.x1 + this._viewBox.x2) / 2;
+          return this._spec.centerX ?? (this._viewBox.x1 + this._viewBox.x2) / 2;
         },
         y: () => {
-          return this._spec?.centerY ?? (this._viewBox.y1 + this._viewBox.y2) / 2;
+          return this._spec.centerY ?? (this._viewBox.y1 + this._viewBox.y2) / 2;
         },
         size: () => {
           return (0.2 * Math.max(this._viewBox.x2 - this._viewBox.x1, this._viewBox.y2 - this._viewBox.y1)) / 2;
         },
-        fill: this._spec?.centerPoint?.style?.fill ?? this.getColorAttribute(),
-        fillOpacity: this._spec?.centerPoint?.style?.fillOpacity ?? 1
+        fill: this._spec.centerPoint?.style?.fill ?? this.getColorAttribute(),
+        fillOpacity: this._spec.centerPoint?.style?.fillOpacity ?? 1
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
@@ -301,7 +300,7 @@ export class CorrelationSeries extends PolarSeries<any> {
   }
 
   initAnimation() {
-    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<CorrelationAppearPreset>)?.preset;
+    const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<CorrelationAppearPreset>)?.preset;
 
     this._nodePointMark.setAnimationConfig(
       animationConfig(

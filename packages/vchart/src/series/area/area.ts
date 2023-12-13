@@ -124,7 +124,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       isSeriesMark: isAreaVisible && seriesMark !== 'point',
       customShape: this._spec.area?.customShape
     }) as IAreaMark;
-    if (this._areaMark && this._spec?.areaLabel?.visible) {
+    if (this._areaMark && this._spec.areaLabel?.visible) {
       this._areaMark.addLabelSpec(
         this._preprocessLabelSpec(this._spec.areaLabel as ILabelSpec, this.initLineLabelMarkStyle),
         true
@@ -231,7 +231,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   initAnimation() {
     const animationParams = { direction: this.direction };
-    const appearPreset = (this._spec?.animationAppear as IMarkAnimateSpec<string>)?.preset;
+    const appearPreset = (this._spec.animationAppear as IMarkAnimateSpec<string>)?.preset;
     if (this._lineMark) {
       this._lineMark.setAnimationConfig(
         animationConfig(

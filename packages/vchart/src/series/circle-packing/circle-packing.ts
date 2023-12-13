@@ -278,7 +278,7 @@ export class CirclePackingSeries<
   }
 
   initAnimation(): void {
-    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<CirclePackingAppearPreset>)?.preset;
+    const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<CirclePackingAppearPreset>)?.preset;
 
     this.getMarksInType(MarkTypeEnum.arc).forEach(mark => {
       mark.setAnimationConfig(

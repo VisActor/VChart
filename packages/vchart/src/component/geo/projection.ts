@@ -37,20 +37,24 @@ export class Projection {
   scale(): number;
   scale(scale: number): void;
   scale(scale?: number): number | void {
-    if (scale !== undefined) {
-      this.projection?.scale?.(scale);
-    } else {
-      return this.projection?.scale?.() as number;
+    if (this.projection?.scale) {
+      if (scale !== undefined) {
+        this.projection.scale(scale);
+      } else {
+        return this.projection.scale() as number;
+      }
     }
   }
 
   translate(): [number, number];
   translate(point: [number, number]): void;
   translate(point?: [number, number] | void) {
-    if (point !== undefined) {
-      this.projection?.translate?.(point);
-    } else {
-      return this.projection?.translate?.();
+    if (this.projection?.scale) {
+      if (point !== undefined) {
+        this.projection.translate(point);
+      } else {
+        return this.projection.translate();
+      }
     }
   }
 
