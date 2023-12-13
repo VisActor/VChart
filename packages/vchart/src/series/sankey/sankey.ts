@@ -285,7 +285,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }
 
           const sourceName =
-            this._spec?.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
+            this._spec.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
               ? datum.source
               : this.getNodeList()[datum.source];
           return this._colorScale?.scale(sourceName);
@@ -541,24 +541,24 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     this._nodesSeriesData.getDataView()?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
     this._linksSeriesData.getDataView()?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
-
-    if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'adjacency') {
-      if (this._spec.emphasis?.trigger === 'hover') {
+    const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
+    if (emphasisSpec.enable && emphasisSpec.effect === 'adjacency') {
+      if (emphasisSpec.trigger === 'hover') {
         // 浮动事件
         this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
       } else {
-        // this._spec.emphasis?.trigger === 'click'
+        // emphasisSpec.trigger === 'click'
         // 点击事件
         this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
       }
     }
 
-    if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'related') {
-      if (this._spec.emphasis?.trigger === 'hover') {
+    if (emphasisSpec.enable && emphasisSpec.effect === 'related') {
+      if (emphasisSpec.trigger === 'hover') {
         // 浮动事件
         this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
       } else {
-        // this._spec.emphasis?.trigger === 'click'
+        // emphasisSpec.trigger === 'click'
         // 点击事件
         this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
       }

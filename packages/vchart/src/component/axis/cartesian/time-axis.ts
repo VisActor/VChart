@@ -69,9 +69,9 @@ export class CartesianTimeAxis<
             type: 'ticks',
             options: {
               ...this._tickTransformOption('cartesian'),
-              tickCount: this._spec.layers?.[1]?.tickCount,
-              forceTickCount: this._spec.layers?.[1]?.forceTickCount,
-              tickStep: this._spec.layers?.[1]?.tickStep
+              tickCount: this._spec.layers[1].tickCount,
+              forceTickCount: this._spec.layers[1].forceTickCount,
+              tickStep: this._spec.layers[1].tickStep
             } as ICartesianTickDataOpt
           },
           false
@@ -93,12 +93,12 @@ export class CartesianTimeAxis<
 
   protected getLabelFormatMethod(): any {
     const timeUtil = TimeUtil.getInstance();
-    const timeFormat1 = this._spec?.layers?.[1]?.timeFormat || '%Y%m%d';
-    const timeFormatMode1 = this._spec?.layers?.[1]?.timeFormatMode || 'local';
+    const timeFormat1 = this._spec.layers?.[1]?.timeFormat || '%Y%m%d';
+    const timeFormatMode1 = this._spec.layers?.[1]?.timeFormatMode || 'local';
     const timeFormatter1 = timeFormatMode1 === 'local' ? timeUtil.timeFormat : timeUtil.timeUTCFormat;
 
-    const timeFormat0 = this._spec?.layers?.[0]?.timeFormat || '%Y%m%d';
-    const timeFormatMode0 = this._spec?.layers?.[0]?.timeFormatMode || 'local';
+    const timeFormat0 = this._spec.layers?.[0]?.timeFormat || '%Y%m%d';
+    const timeFormatMode0 = this._spec.layers?.[0]?.timeFormatMode || 'local';
     const timeFormatter0 = timeFormatMode0 === 'local' ? timeUtil.timeFormat : timeUtil.timeUTCFormat;
 
     return (value: any, datum: any, index: number, data: any[], layer: number) => {

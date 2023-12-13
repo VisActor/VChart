@@ -291,6 +291,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   };
 
   private _getAttrs(isNeedPreview: boolean) {
+    const spec = this._spec ?? ({} as T);
     return {
       zIndex: this.layoutZIndex,
       start: this._start,
@@ -304,14 +305,14 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         width: this.getLayoutRect().width,
         height: this.getLayoutRect().height
       },
-      showDetail: this._spec?.showDetail,
-      brushSelect: this._spec?.brushSelect ?? false,
-      zoomLock: this._spec?.zoomLock ?? false,
+      showDetail: spec.showDetail,
+      brushSelect: spec.brushSelect ?? false,
+      zoomLock: spec.zoomLock ?? false,
       minSpan: this._minSpan,
       maxSpan: this._maxSpan,
-      delayType: this._spec?.delayType,
-      delayTime: isValid(this._spec?.delayType) ? this._spec?.delayTime ?? 30 : 0,
-      realTime: this._spec?.realTime ?? true,
+      delayType: spec.delayType,
+      delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
+      realTime: spec.realTime ?? true,
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,
       previewPointsY: isNeedPreview && this._dataToPositionY,
@@ -387,46 +388,53 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   }
 
   protected _getComponentAttrs() {
+    const {
+      middleHandler = {},
+      startText = {},
+      endText = {},
+      backgroundChart = {},
+      selectedBackgroundChart = {}
+    } = this._spec as T;
     return {
       backgroundStyle: transformToGraphic(this._spec.background?.style) as unknown as IRectGraphicAttribute,
       startHandlerStyle: transformToGraphic(this._spec.startHandler?.style) as unknown as ISymbolGraphicAttribute,
       middleHandlerStyle: {
-        visible: this._spec.middleHandler?.visible ?? false,
-        icon: transformToGraphic(this._spec.middleHandler?.icon?.style) as unknown as ISymbolGraphicAttribute,
+        visible: middleHandler.visible ?? false,
+        icon: transformToGraphic(middleHandler.icon?.style) as unknown as ISymbolGraphicAttribute,
         background: {
-          size: this._spec.middleHandler?.background?.size,
-          style: transformToGraphic(this._spec.middleHandler.background?.style)
+          size: middleHandler.background?.size,
+          style: transformToGraphic(middleHandler.background?.style)
         } as any
       },
       endHandlerStyle: transformToGraphic(this._spec.endHandler?.style) as unknown as ISymbolGraphicAttribute,
       startTextStyle: {
-        padding: this._spec.startText?.padding,
-        formatMethod: this._spec.startText?.formatMethod,
-        textStyle: transformToGraphic(this._spec.startText?.style)
+        padding: startText.padding,
+        formatMethod: startText.formatMethod,
+        textStyle: transformToGraphic(startText.style)
       } as unknown,
       endTextStyle: {
-        padding: this._spec.endText?.padding,
-        formatMethod: this._spec.endText?.formatMethod,
-        textStyle: transformToGraphic(this._spec.endText?.style)
+        padding: endText.padding,
+        formatMethod: endText.formatMethod,
+        textStyle: transformToGraphic(endText.style)
       } as unknown,
       selectedBackgroundStyle: transformToGraphic(
         this._spec.selectedBackground.style
       ) as unknown as IRectGraphicAttribute,
       dragMaskStyle: transformToGraphic(this._spec.dragMask?.style) as unknown as IRectGraphicAttribute,
       backgroundChartStyle: {
-        line: mergeSpec(transformToGraphic(this._spec.backgroundChart?.line?.style), { fill: false }),
+        line: mergeSpec(transformToGraphic(backgroundChart.line?.style), { fill: false }),
         area: {
           curveType: 'basis',
           visible: true,
-          ...transformToGraphic(this._spec.backgroundChart?.area?.style)
+          ...transformToGraphic(backgroundChart.area?.style)
         }
       },
       selectedBackgroundChartStyle: {
-        line: mergeSpec(transformToGraphic(this._spec.selectedBackgroundChart?.line?.style), { fill: false }),
+        line: mergeSpec(transformToGraphic(selectedBackgroundChart.line?.style), { fill: false }),
         area: {
           curveType: 'basis',
           visible: true,
-          ...transformToGraphic(this._spec.selectedBackgroundChart?.area?.style)
+          ...transformToGraphic(selectedBackgroundChart.area?.style)
         }
       }
     };

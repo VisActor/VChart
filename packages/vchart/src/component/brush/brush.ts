@@ -58,8 +58,8 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   private _needEnablePickable: boolean = false;
 
   init() {
-    const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec?.inBrush);
-    const outOfBrushMarkAttr = this._transformBrushedMarkAttr(this._spec?.outOfBrush);
+    const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec.inBrush);
+    const outOfBrushMarkAttr = this._transformBrushedMarkAttr(this._spec.outOfBrush);
     // 写入mark state, 便于后续state管理
     this._option.getAllSeries().forEach((s: ISeries) => {
       s.getActiveMarks().forEach((m: IMark) => {
