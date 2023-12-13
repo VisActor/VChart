@@ -1,3 +1,4 @@
 export * from './range-column';
-export * from './range-column-3d';
+export * from './3d';
 export * from './interface';
+export * from './spec-transformer';

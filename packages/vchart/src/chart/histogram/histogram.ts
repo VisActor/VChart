@@ -1,19 +1,10 @@
 import { registerBarSeries } from '../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
-import { BaseHistogramChart, BaseHistogramChartSpecTransformer } from './base';
-import { setDefaultCrosshairForCartesianChart } from '../util';
+import { BaseHistogramChart } from './base/base';
 import { Factory } from '../../core/factory';
 import type { IHistogramChartSpec } from './interface';
-
-export class HistogramChartSpecTransformer<
-  T extends IHistogramChartSpec = IHistogramChartSpec
-> extends BaseHistogramChartSpecTransformer<T> {
-  transformSpec(spec: T): void {
-    super.transformSpec(spec);
-    setDefaultCrosshairForCartesianChart(spec);
-  }
-}
+import { HistogramChartSpecTransformer } from './spec-transformer';
 
 export class HistogramChart<T extends IHistogramChartSpec = IHistogramChartSpec> extends BaseHistogramChart<T> {
   static readonly type: string = ChartTypeEnum.histogram;

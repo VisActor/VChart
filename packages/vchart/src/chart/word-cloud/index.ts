@@ -1,3 +1,4 @@
 export * from './word-cloud';
-export * from './word-cloud-3d';
+export * from './3d';
 export * from './interface';
+export * from './spec-transformer';

@@ -7,20 +7,11 @@ import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { POLAR_DEFAULT_RADIUS } from '../../constant/polar';
-import { BaseSeries, BaseSeriesSpecTransformer } from '../base/base-series';
+import { BaseSeries } from '../base/base-series';
 import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
 import { sortDataInAxisHelper } from '../util/utils';
-import { mergeSpec } from '../../util/spec/merge-spec';
-
-export class PolarSeriesSpecTransformer<
-  T extends IPolarSeriesSpec = IPolarSeriesSpec
-> extends BaseSeriesSpecTransformer<T> {
-  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> {
-    const { outerRadius, innerRadius } = chartSpec;
-    return { outerRadius, innerRadius } as Partial<T>;
-  }
-}
+import { PolarSeriesSpecTransformer } from './spec-transformer';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>

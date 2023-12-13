@@ -1,46 +1,21 @@
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import type { IRegion } from '../../region/interface';
-import type { ComponentTypeEnum, IComponent, IComponentOption } from '../interface';
+import type { IComponent, IComponentOption } from '../interface';
 import type { BaseEventParams } from '../../event/interface';
 import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
-import { getComponentThemeFromGlobalTheme } from './util';
 import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
 // import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import type { Datum, ILayoutRect } from '../../typings';
-import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
-import { BaseModelSpecTransformer } from '../../model/base-model';
-
-export class BaseComponentSpecTransformer<
-  T extends IComponentSpec = IComponentSpec
-> extends BaseModelSpecTransformer<T> {
-  getTheme(spec: T, chartSpec: any): any {
-    return getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option.getTheme(), spec, chartSpec);
-  }
-
-  protected _mergeThemeToSpec(spec: T, chartSpec: any): T {
-    const newSpec = super._mergeThemeToSpec(spec, chartSpec);
-
-    // 默认忽略外侧 padding
-    const { padding, noOuterPadding = true, orient } = newSpec;
-    if (noOuterPadding && padding && orient) {
-      newSpec.padding = {
-        ...normalizeLayoutPaddingSpec(padding),
-        [orient]: 0
-      };
-    }
-
-    return newSpec;
-  }
-}
+import { BaseComponentSpecTransformer } from './spec-transformer';
 
 export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   extends LayoutModel<T>
@@ -116,14 +91,14 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   /**
    * updateSpec
    */
-  _compareSpec() {
-    const result = super._compareSpec();
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
     if (!result.reMake) {
       result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        return isEqual(this._originalSpec?.[k], this.getSpec()[k]);
+        return isEqual(prevSpec?.[k], spec[k]);
       });
     }
-    if (this._originalSpec?.visible !== (<any>this.getSpec()).visible) {
+    if ((prevSpec as any)?.visible !== (spec as any).visible) {
       result.reCompile = true;
     }
     return result;

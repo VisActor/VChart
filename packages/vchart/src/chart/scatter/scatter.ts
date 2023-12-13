@@ -1,26 +1,12 @@
 import { registerScatterSeries } from '../../series/scatter/scatter';
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { CartesianChart, CartesianChartSpecTransformer } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
 import type { IScatterChartSpec } from './interface';
 import { Factory } from '../../core/factory';
+import { ScatterChartSpecTransformer } from './spec-transformer';
+import { BaseChart } from '../base';
 
-export class ScatterChartSpecTransformer<
-  T extends IScatterChartSpec = IScatterChartSpec
-> extends CartesianChartSpecTransformer<T> {
-  protected _getDefaultSeriesSpec(spec: IScatterChartSpec): any {
-    return {
-      ...super._getDefaultSeriesSpec(spec),
-      point: spec.point,
-      size: spec.size,
-      sizeField: spec.sizeField,
-      shape: spec.shape,
-      shapeField: spec.shapeField
-    };
-  }
-}
-
-export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> extends CartesianChart<T> {
+export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.scatter;
   static readonly seriesType: string = SeriesTypeEnum.scatter;
   static readonly view: string = 'singleDefault';

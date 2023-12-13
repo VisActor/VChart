@@ -126,9 +126,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   /**
    * updateSpec
    */
-  _compareSpec() {
-    const result = super._compareSpec();
-    if (!result.reMake && !isEqual(this._originalSpec, this._spec)) {
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!result.reMake && !isEqual(prevSpec, spec)) {
       result.reRender = true;
       result.reMake = true;
     }
@@ -338,8 +338,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       hair.style.lineWidth = get(line, 'width', lineWidth || 2);
     } else {
       hair.style.fill = fill || stroke;
-      if (this._originalSpec[fieldName]?.line?.style?.stroke) {
-        hair.style.stroke = this._originalSpec[fieldName].line.style.stroke;
+      if (this._spec[fieldName]?.line?.style?.stroke) {
+        hair.style.stroke = this._spec[fieldName].line.style.stroke;
       }
       const rectSize = get(line, 'width');
       if (typeof rectSize === 'string') {

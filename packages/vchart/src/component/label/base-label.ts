@@ -41,10 +41,10 @@ export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> exte
   }
 
   /** Update API **/
-  _compareSpec() {
-    const result = super._compareSpec();
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
     result.reRender = true;
-    if (!isEqual(this._originalSpec, this._spec)) {
+    if (!isEqual(prevSpec, spec)) {
       result.reMake = true;
     }
 

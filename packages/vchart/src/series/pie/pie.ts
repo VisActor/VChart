@@ -27,7 +27,7 @@ import { normalizeStartEndAngle, polarToCartesian } from '../../util/math';
 import { isSpecValueWithScale } from '../../util/scale';
 import { field } from '../../util/object';
 import type { IModelLayoutOption } from '../../model/interface';
-import { PolarSeries, PolarSeriesSpecTransformer } from '../polar/polar';
+import { PolarSeries } from '../polar/polar';
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IArcMark } from '../../mark/arc';
@@ -52,6 +52,7 @@ import { mergeSpec } from '../../util/spec/merge-spec';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { isNil } from '@visactor/vutils';
+import { PolarSeriesSpecTransformer } from '../polar';
 
 type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
 
@@ -411,7 +412,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return this.computeLayoutRadius() * this.getRadius(state) + this._centerOffset;
   }
 
-  _compareSpec(ignoreCheckKeys?: { [key: string]: true }) {
+  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
     ignoreCheckKeys = ignoreCheckKeys ?? { data: true };
     ignoreCheckKeys.centerX = true;
     ignoreCheckKeys.centerX = true;
@@ -424,9 +425,9 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     ignoreCheckKeys.endAngle = true;
     ignoreCheckKeys.padAngle = true;
     const { centerX, centerY, centerOffset, radius, innerRadius, cornerRadius, startAngle, endAngle, padAngle } =
-      this._originalSpec;
-    const result = super._compareSpec(ignoreCheckKeys);
-    const spec = this._spec ?? ({} as T);
+      prevSpec;
+    const result = super._compareSpec(spec, prevSpec, ignoreCheckKeys);
+    spec = spec ?? ({} as T);
     if (
       spec.centerY !== centerY ||
       spec.centerX !== centerX ||

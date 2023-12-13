@@ -29,7 +29,7 @@ import { Factory } from '../../core/factory';
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
 
-export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
+export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> implements IBrush {
   layoutType: 'none' = 'none';
   static type = ComponentTypeEnum.brush;
   type = ComponentTypeEnum.brush;
@@ -547,14 +547,15 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
   /**
    * updateSpec
    */
-  _compareSpec() {
+  _compareSpec(spec: T, prevSpec: T) {
     if (this._brushComponents) {
+      // FIXME: 这个逻辑放在这个方法里不太妥当？
       this._relativeRegions.forEach((region: IRegion, index: number) => {
         this._updateBrushComponent(region, index);
       });
     }
-    const result = super._compareSpec();
-    if (!isEqual(this._originalSpec, this._spec)) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!isEqual(prevSpec, spec)) {
       result.reRender = true;
       result.reMake = true;
     }

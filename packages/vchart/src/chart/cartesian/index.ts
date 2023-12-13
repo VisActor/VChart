@@ -1,2 +1,2 @@
-export * from './cartesian';
 export * from './interface';
+export * from './spec-transformer';

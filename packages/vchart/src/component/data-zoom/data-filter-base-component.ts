@@ -685,9 +685,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   /**
    * updateSpec
    */
-  _compareSpec() {
-    const result = super._compareSpec();
-    if (!result.reMake && !isEqual(this._originalSpec, this._spec)) {
+  _compareSpec(spec: AdaptiveSpec<T, 'width' | 'height'>, prevSpec: AdaptiveSpec<T, 'width' | 'height'>) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!result.reMake && !isEqual(prevSpec, spec)) {
       result.reRender = true;
       result.reMake = true;
     }

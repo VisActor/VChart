@@ -3,14 +3,13 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import { BaseComponent, BaseComponentSpecTransformer } from '../base/base-component';
+import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
 import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
 import { DomTooltipHandler } from './handler/dom';
 import { CanvasTooltipHandler } from './handler/canvas';
 import type { Datum, IPoint, IShowTooltipOption } from '../../typings';
 import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode, domDocument } from '../../util/env';
-import { mergeSpec } from '../../util/spec/merge-spec';
 import type {
   ITooltip,
   ITooltipActiveTypeAsKeys,
@@ -37,7 +36,7 @@ import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
-import { cloneDeepSpec } from '../../util/spec/clone-deep';
+import { TooltipSpecTransformer } from './spec-transformer';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
@@ -48,19 +47,6 @@ type EventHandlerList = {
   eventType: EventType;
   handler: any;
 }[];
-
-export class TooltipSpecTransformer extends BaseComponentSpecTransformer<any> {
-  protected _shouldMergeThemeToSpec() {
-    return false;
-  }
-
-  protected _initTheme(spec: any, chartSpec: any): any {
-    super._initTheme(spec, chartSpec);
-    const newSpec = cloneDeepSpec(spec);
-    newSpec.style = mergeSpec({}, this._theme, spec.style);
-    return newSpec;
-  }
-}
 
 export class Tooltip extends BaseComponent<any> implements ITooltip {
   protected layoutZIndex: number = 1;

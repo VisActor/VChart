@@ -298,10 +298,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   /** Update API **/
-  _compareSpec() {
-    const result = super._compareSpec();
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
     result.reRender = true;
-    if (this._originalSpec?.type !== this._spec?.type) {
+    if (prevSpec?.type !== spec?.type) {
       result.reMake = true;
       return result;
     }

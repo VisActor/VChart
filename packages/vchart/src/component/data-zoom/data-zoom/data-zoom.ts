@@ -12,7 +12,7 @@ import type { DataZoomAttributes } from '@visactor/vrender-components';
 import { DataZoom as DataZoomComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import type { IRectGraphicAttribute, INode, ISymbolGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
-import type { AdaptiveSpec, Datum, ILayoutType } from '../../../typings';
+import type { Datum, ILayoutType } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { LinearScale, isContinuous, isDiscrete } from '@visactor/vscale';
@@ -22,49 +22,8 @@ import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { CartesianAxis } from '../../axis/cartesian';
-import { BaseComponentSpecTransformer } from '../../base/base-component';
 import type { IModelSpecInfo } from '../../../model/interface';
-
-export class DataZoomSpecTransformer<T extends IDataZoomSpec = IDataZoomSpec> extends BaseComponentSpecTransformer<
-  AdaptiveSpec<T, 'width' | 'height'>
-> {
-  protected _prepareSpecBeforeMergingTheme(
-    originalSpec: Partial<AdaptiveSpec<T, 'width' | 'height'>>
-  ): Partial<AdaptiveSpec<T, 'width' | 'height'>> {
-    const newSpec: Partial<AdaptiveSpec<T, 'width' | 'height'>> = {
-      ...originalSpec
-    };
-    // 为了减少主题更改造成的影响，如果用户在 spec 配置了主题默认关闭的 mark，则自动加上 visible: true
-    const { selectedBackgroundChart = {} } = newSpec;
-    const { line, area } = selectedBackgroundChart as T['selectedBackgroundChart'];
-    if (line || area) {
-      newSpec.selectedBackgroundChart = {
-        ...selectedBackgroundChart,
-        line:
-          line && line.visible !== false
-            ? {
-                ...line,
-                style: {
-                  ...line.style,
-                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
-                }
-              }
-            : line,
-        area:
-          area && area.visible !== false
-            ? {
-                ...area,
-                style: {
-                  ...area.style,
-                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
-                }
-              }
-            : area
-      };
-    }
-    return newSpec;
-  }
-}
+import { DataZoomSpecTransformer } from './spec-transformer';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -155,12 +114,12 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     this._width = this._computeWidth();
     this._height = this._computeHeight();
     // startHandler和endHandler size如果没有配置，则默认跟随background宽 or 高
-    if (isNil(this._originalSpec?.startHandler?.style?.size)) {
+    if (isNil(this._spec?.startHandler?.style?.size)) {
       this._spec.startHandler.style.size = this._isHorizontal
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
     }
-    if (isNil(this._originalSpec?.endHandler?.style?.size)) {
+    if (isNil(this._spec?.endHandler?.style?.size)) {
       this._spec.endHandler.style.size = this._isHorizontal
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
