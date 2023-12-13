@@ -204,6 +204,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
           this._needEnablePickable = true;
         }
         if (operateType === IOperateType.drawEnd) {
+          this._updateBrushComponent(region, componentIndex);
           this._needInitOutState = true;
           this._needEnablePickable = false;
         }
