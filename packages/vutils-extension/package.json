@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vutils-extension",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "The extension module for VUtil from VisActor",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -24,8 +24,8 @@
   "dependencies": {
     "@visactor/vutils": "~0.17.1",
     "@visactor/vscale": "~0.17.1",
-    "@visactor/vrender-core": "~0.16.19",
-    "@visactor/vrender-kits": "~0.16.19"
+    "@visactor/vrender-core": "~0.16.21",
+    "@visactor/vrender-kits": "~0.16.21"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

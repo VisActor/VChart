@@ -1,5 +1,4 @@
 import { POLAR_DEFAULT_RADIUS, POLAR_END_ANGLE, POLAR_END_RADIAN } from '../../../constant/polar';
-import { DataView } from '@visactor/vdataset';
 import type { IBaseScale, BandScale, LinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
@@ -12,13 +11,10 @@ import { Factory } from '../../../core/factory';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import { eachSeries } from '../../../util/model';
 import { polarToCartesian } from '../../../util/math';
-import { scaleParser } from '../../../data/parser/scale';
-import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
+import type { IPolarTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
-import { ticks } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber, ILayoutType } from '../../../typings';
-import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
 import { isPolarAxisSeries } from '../../../series/util/utils';
 import { getAxisLabelOffset, isValidPolarAxis } from '../util';
 
@@ -209,44 +205,19 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   // data
   protected _initData() {
-    registerDataSetInstanceParser(this._option.dataSet, 'scale', scaleParser);
-    registerDataSetInstanceTransform(this._option.dataSet, 'ticks', ticks);
-
-    const label = this._spec.label || {};
-    const tick = this._spec.tick || {};
-    const tickData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_ticks` })
-      .parse(this._scale, {
-        type: 'scale'
-      })
-      .transform(
-        {
-          type: 'ticks',
-          options: {
-            sampling: this._spec.sampling !== false, // default do sampling
-            tickCount: tick.tickCount,
-            forceTickCount: tick.forceTickCount,
-            tickStep: tick.tickStep,
-            tickMode: tick.tickMode,
-            noDecimals: tick.noDecimals,
-
-            coordinateType: 'polar',
-            axisOrientType: this._orient,
-            startAngle: this.startAngle,
-
-            labelStyle: label.style,
-            labelFormatter: label.formatMethod,
-            labelGap: label.minGap,
-
-            labelOffset: getAxisLabelOffset(this._spec),
-            getRadius: () => this.getOuterRadius()
-          } as IPolarTickDataOpt
-        },
-        false
-      );
-
+    const tickData = this._initTickDataSet(this._tickTransformOption('polar'));
     tickData.target.addListener('change', this._forceLayout.bind(this));
-
     this._tickData = new CompilableData(this._option, tickData);
+  }
+
+  protected _tickTransformOption(coordinateType: CoordinateType) {
+    return {
+      ...super._tickTransformOption(coordinateType),
+      noDecimal: this._tick.noDecimals,
+      startAngle: this.startAngle,
+      labelOffset: getAxisLabelOffset(this._spec),
+      getRadius: () => this.getOuterRadius()
+    } as IPolarTickDataOpt;
   }
 
   afterCompile() {

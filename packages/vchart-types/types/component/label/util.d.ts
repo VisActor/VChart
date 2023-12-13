@@ -11,15 +11,8 @@ export declare const labelRuleMap: {
     stackLabel: typeof stackLabel;
     line: typeof LineLabel;
     area: typeof LineLabel;
+    rect3d: typeof barLabel;
 };
-export declare enum LabelRule {
-    rect = "rect",
-    symbol = "symbol",
-    arc = "arc",
-    point = "point",
-    stackLabel = "stackLabel",
-    line = "line"
-}
 export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod'], formatter?: ILabelSpec['formatter']): any;
 export declare function symbolLabel(labelInfo: ILabelInfo): {
     position: string | ((datum: Datum) => any);

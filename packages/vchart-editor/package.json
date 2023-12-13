@@ -30,11 +30,11 @@
     "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.7.3",
+    "@visactor/vchart": "workspace:1.7.4",
     "@visactor/vutils": "~0.17.1",
     "@visactor/vdataset": "~0.17.1",
-    "@visactor/vrender-core": "~0.16.19",
-    "@visactor/vrender-kits": "~0.16.19"
+    "@visactor/vrender-core": "~0.16.21",
+    "@visactor/vrender-kits": "~0.16.21"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

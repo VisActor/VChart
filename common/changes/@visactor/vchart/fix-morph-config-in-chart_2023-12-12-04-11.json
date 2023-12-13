@@ -1,11 +1,11 @@
 {
   "changes": [
     {
-      "comment": "feat: support interaction group in region\n\n",
+      "comment": "fix: series should pick `morph` config in chart\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
   ],
   "packageName": "@visactor/vchart",
-  "email": "lixuef1313@163.com"
+  "email": "dingling112@gmail.com"
 }

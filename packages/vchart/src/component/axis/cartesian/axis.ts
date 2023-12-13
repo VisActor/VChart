@@ -27,14 +27,10 @@ import type { LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { isValidCartesianAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
-import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../../data/register';
-import { scaleParser } from '../../../data/parser/scale';
-import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
+import type { ICartesianTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
-import { ticks } from '@visactor/vutils-extension';
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { DataView } from '@visactor/vdataset';
 import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
@@ -284,47 +280,19 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return [f[0]];
   }
 
-  protected _initTickData(sampling: boolean) {
-    registerDataSetInstanceParser(this._option.dataSet, 'scale', scaleParser);
-    registerDataSetInstanceTransform(this._option.dataSet, 'ticks', ticks);
-
-    const label = this._spec.label || {};
-    const tick = this._tick || {};
-    const tickData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_ticks` })
-      .parse(this._scale, {
-        type: 'scale'
-      })
-      .transform(
-        {
-          type: 'ticks',
-          options: {
-            sampling,
-            tickCount: tick.tickCount,
-            forceTickCount: tick.forceTickCount,
-            tickStep: tick.tickStep,
-            tickMode: tick.tickMode,
-            noDecimals: tick.noDecimals,
-
-            axisOrientType: this._orient,
-            coordinateType: 'cartesian',
-
-            labelStyle: label.style,
-            labelFormatter: label.formatMethod,
-            labelGap: label.minGap,
-
-            labelLastVisible: label.lastVisible,
-            labelFlush: label.flush
-          } as ICartesianTickDataOpt
-        },
-        false
-      );
-    tickData.target.addListener('change', this._forceLayout.bind(this));
-
-    this._tickData = new CompilableData(this._option, tickData);
+  protected _tickTransformOption(coordinateType: CoordinateType) {
+    return {
+      ...super._tickTransformOption(coordinateType),
+      noDecimals: this._tick.noDecimals,
+      labelLastVisible: this._spec.label?.lastVisible,
+      labelFlush: this._spec.label?.flush
+    } as ICartesianTickDataOpt;
   }
 
   protected _initData() {
-    this._initTickData(this._spec.sampling !== false); // default do sampling
+    const tickData = this._initTickDataSet(this._tickTransformOption('cartesian'));
+    tickData.target.addListener('change', this._forceLayout.bind(this));
+    this._tickData = new CompilableData(this._option, tickData);
   }
 
   protected axisHelper(): IAxisHelper {
