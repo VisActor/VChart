@@ -8,6 +8,7 @@ import { BarChart, ThemeManager } from '../../../src';
 import { DataSet } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import { initChartDataSet } from '../../util/context';
+import { getTestCompiler } from '../../util/factory/compiler';
 
 // 保证引入执行 Build-in
 const dataSet = new DataSet();
@@ -109,18 +110,7 @@ describe('Bar chart test', () => {
         map: new Map(),
         container: null,
         mode: 'desktop-browser',
-        getCompiler: () => {
-          return {
-            updateData: () => {},
-            updateState: () => {},
-            renderAsync: () => {},
-            getVGrammarView: () => {
-              return {
-                updateLayoutTag: () => {}
-              };
-            }
-          } as any;
-        },
+        getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         getTheme: () => ThemeManager.getCurrentTheme(),
         getSpecInfo: () => info

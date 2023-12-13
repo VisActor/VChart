@@ -1,5 +1,15 @@
 export const getTestCompiler = () =>
   ({
-    getVGrammarView: () => null as any,
-    addGrammarItem: () => {}
+    updateData: () => {},
+    updateState: () => {},
+    renderAsync: () => {},
+    getVGrammarView: () => {
+      return {
+        updateLayoutTag: () => {},
+        getDataById: () => {},
+        getMarkById: () => {}
+      };
+    },
+    addInteraction: () => {},
+    removeInteraction: () => {}
   } as any);

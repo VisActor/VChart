@@ -800,6 +800,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _parseInteractionConfig(mainMarks?: IMark[]) {
+    const compiler = this.getCompiler();
+    if (!compiler) {
+      return;
+    }
+
     const { interactions } = this._spec;
     const res = this._parseDefaultInteractionConfig();
 
@@ -808,7 +813,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         return `#${mark.getProductId()}`;
       });
       res.forEach(interaction => {
-        this.getCompiler().addInteraction({
+        compiler.addInteraction({
           ...interaction,
           selector,
           seriesId: this.id
@@ -838,7 +843,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         }
 
         if (selectors.length) {
-          this.getCompiler().addInteraction({
+          compiler.addInteraction({
             ...interaction,
             selector: selectors,
             seriesId: this.id

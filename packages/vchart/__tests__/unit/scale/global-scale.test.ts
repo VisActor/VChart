@@ -10,6 +10,7 @@ import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import { createCanvas, removeDom } from '../../util/dom';
 import type { IAttrs, VisualScaleType } from '../../../src/mark/interface';
 import { dimensionStatistics } from '../../../src/data/transforms/dimension-statistics';
+import { getTestCompiler } from '../../util/factory/compiler';
 
 const VChartClass = VChart; // 确保引用 vchart 以确保注册所需的图表
 // 保证引入执行 Build-in
@@ -307,21 +308,9 @@ describe('global-scale test', () => {
         map: new Map(),
         container: null,
         mode: 'desktop-browser',
-        getCompiler: () => {
-          return {
-            updateData: () => {},
-            updateState: () => {},
-            renderAsync: () => {},
-            getVGrammarView: () => {
-              return {
-                updateLayoutTag: () => {},
-                getDataById: () => {}
-              };
-            }
-          } as any;
-        },
-        getTheme: () => ThemeManager.getCurrentTheme(),
-        getSpecInfo: () => info
+        getSpecInfo: () => info,
+        getCompiler: getTestCompiler,
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();
@@ -468,21 +457,9 @@ describe('global-scale test', () => {
         map: new Map(),
         container: null,
         mode: 'desktop-browser',
-        getCompiler: () => {
-          return {
-            updateData: () => {},
-            updateState: () => {},
-            renderAsync: () => {},
-            getVGrammarView: () => {
-              return {
-                updateLayoutTag: () => {},
-                getDataById: () => {}
-              };
-            }
-          } as any;
-        },
-        getTheme: () => ThemeManager.getCurrentTheme(),
-        getSpecInfo: () => info
+        getSpecInfo: () => info,
+        getCompiler: getTestCompiler,
+        getTheme: () => ThemeManager.getCurrentTheme()
       } as any
     );
     chart.created();
