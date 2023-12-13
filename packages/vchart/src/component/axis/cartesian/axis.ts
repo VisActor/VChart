@@ -2,7 +2,7 @@ import type { IBounds, IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
-import type { IRegion, IRegionSpec } from '../../../region/interface';
+import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
 import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined } from '../../../util';
 import type { IOrientType } from '../../../typings/space';
@@ -12,7 +12,7 @@ import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { Factory } from '../../../core/factory';
-import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, transformInverse } from './util/common';
+import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis } from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
@@ -36,18 +36,9 @@ import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
-import { BaseComponentSpecTransformer } from '../../base';
+import { CartesianAxisSpecTransformer } from './spec-transformer';
 
 const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
-
-export class CartesianAxisSpecTransformer<
-  T extends ICartesianAxisCommonSpec = ICartesianAxisCommonSpec
-> extends BaseComponentSpecTransformer<T> {
-  protected _transformSpec(spec: T, chartSpec: any) {
-    // change spec by default logic
-    spec.inverse = transformInverse(spec, chartSpec.direction === Direction.horizontal);
-  }
-}
 
 export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartesianAxisCommonSpec>
   extends AxisComponent<T>

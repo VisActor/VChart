@@ -1,11 +1,5 @@
 import type { IMark } from '../mark/interface';
-import type {
-  IBaseModelSpecTransformer,
-  IBaseModelSpecTransformerOption,
-  ILayoutModel,
-  IModelConstructor,
-  IModelOption
-} from '../model/interface';
+import type { ILayoutModel, IModelConstructor, IModelOption } from '../model/interface';
 import type { ISeries, SeriesType } from '../series/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IInteraction } from '../interaction/interface';

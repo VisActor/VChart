@@ -118,14 +118,14 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   }
 
   /** Update API **/
-  _compareSpec() {
-    const result = super._compareSpec();
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
     result.reRender = true;
-    if (this._spec?.orient !== this._originalSpec?.orient) {
+    if (spec?.orient !== prevSpec?.orient) {
       result.reMake = true;
       return result;
     }
-    if (!isEqual(this._originalSpec, this._spec)) {
+    if (!isEqual(prevSpec, spec)) {
       result.reCompile = true;
     }
     return result;

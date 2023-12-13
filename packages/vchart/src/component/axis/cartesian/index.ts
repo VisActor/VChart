@@ -5,3 +5,4 @@ export * from './time-axis';
 export * from './log-axis';
 export * from './symlog-axis';
 export * from './interface';
+export * from './spec-transformer';

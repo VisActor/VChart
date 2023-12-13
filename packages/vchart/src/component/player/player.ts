@@ -5,6 +5,7 @@ import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visa
 // eslint-disable-next-line no-duplicate-imports
 import { DiscretePlayer, ContinuousPlayer, PlayerEventEnum } from '@visactor/vrender-components';
 import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isNumber, array, isEqual, isNil, isValidNumber } from '@visactor/vutils';
 
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
@@ -14,8 +15,7 @@ import type { IComponentOption } from '../interface';
 import type { DirectionType, IPlayer } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent } from '../interface';
-import type { IPoint, IOrientType, ILayoutRect } from '../../typings';
-import { type IChartSpec, type IDataValues } from '../..';
+import type { IPoint, IOrientType, ILayoutRect, IChartSpec, IDataValues } from '../../typings';
 
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';

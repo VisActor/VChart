@@ -34,7 +34,7 @@ import type {
   ILayoutPoint,
   ILayoutRect
 } from '../../typings';
-import { BaseModel, BaseModelSpecTransformer } from '../../model/base-model';
+import { BaseModel } from '../../model/base-model';
 // eslint-disable-next-line no-duplicate-imports
 import type {
   ISeriesOption,
@@ -75,34 +75,15 @@ import {
   isString,
   isFunction,
   isArray,
-  isValidNumber,
-  get
+  isValidNumber
 } from '@visactor/vutils';
-import { getDirectionFromSeriesSpec } from '../util/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
-import { transformSeriesThemeToMerge } from '../../util/spec/merge-theme';
 import type { ILabelSpec } from '../../component';
 import type { ILabelMark } from '../../mark/label';
 import type { TransformedLabelSpec } from '../../component/label';
-
-export class BaseSeriesSpecTransformer<T extends ISeriesSpec> extends BaseModelSpecTransformer<T> {
-  getTheme(spec: T, chartSpec: any): any {
-    const direction = getDirectionFromSeriesSpec(spec);
-    const chartTheme = this._option?.getTheme();
-    const { markByName, mark } = chartTheme;
-    const type = this._option.type;
-    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName);
-    const themeWithDirection = transformSeriesThemeToMerge(
-      get(chartTheme, `series.${type}_${direction}`),
-      `${type}_${direction}`,
-      mark,
-      markByName
-    );
-    return mergeSpec({}, theme, themeWithDirection);
-  }
-}
+import { BaseSeriesSpecTransformer } from './spec-transformer';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   static readonly transformerConstructor = BaseSeriesSpecTransformer;
@@ -901,11 +882,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   /** updateSpec */
-  _compareSpec(ignoreCheckKeys?: { [key: string]: true }) {
-    const result = super._compareSpec();
+  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
+    const result = super._compareSpec(spec, prevSpec);
 
-    const currentKeys = Object.keys(this._originalSpec || {}).sort();
-    const nextKeys = Object.keys(this._spec || {}).sort();
+    const currentKeys = Object.keys(prevSpec || {}).sort();
+    const nextKeys = Object.keys(spec || {}).sort();
     if (!isEqual(currentKeys, nextKeys)) {
       result.reMake = true;
       return result;
@@ -914,16 +895,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     ignoreCheckKeys = ignoreCheckKeys ?? { data: true };
 
     ignoreCheckKeys.invalidType = true;
-    if (this._spec.invalidType !== this._originalSpec.invalidType) {
+    if (spec.invalidType !== prevSpec.invalidType) {
       result.reCompile = true;
     }
 
     ignoreCheckKeys.extensionMark = true;
     if (
-      array(this._spec.extensionMark).length !== array(this._originalSpec.extensionMark).length ||
-      (<Array<any>>this._originalSpec.extensionMark)?.some(
-        (mark, index) =>
-          mark.type !== this._spec.extensionMark[index].type || mark.id !== this._spec.extensionMark[index].id
+      array(spec.extensionMark).length !== array(prevSpec.extensionMark).length ||
+      (<Array<any>>prevSpec.extensionMark)?.some(
+        (mark, index) => mark.type !== spec.extensionMark[index].type || mark.id !== spec.extensionMark[index].id
       )
     ) {
       result.reMake = true;
@@ -935,9 +915,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     // mark visible logic in compile
     if (
-      (<Array<any>>this._originalSpec.extensionMark)?.some(
-        (mark, index) => mark.visible !== this._spec.extensionMark[index].visible
-      )
+      (<Array<any>>prevSpec.extensionMark)?.some((mark, index) => mark.visible !== spec.extensionMark[index].visible)
     ) {
       result.reCompile = true;
     }
@@ -946,7 +924,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (
       this._marks.getMarks().some(m => {
         ignoreCheckKeys[m.name] = true;
-        return this._originalSpec[m.name]?.visible !== this._spec[m.name]?.visible;
+        return prevSpec[m.name]?.visible !== spec[m.name]?.visible;
       })
     ) {
       result.reCompile = true;
@@ -956,7 +934,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       currentKeys.some(k => {
         if (ignoreCheckKeys[k]) {
           return false;
-        } else if (!isEqual(this._spec[k], this._originalSpec[k])) {
+        } else if (!isEqual(spec[k], prevSpec[k])) {
           return true;
         }
         return false;

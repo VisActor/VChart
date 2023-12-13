@@ -9,12 +9,14 @@ import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../.
 import type { IGroupMark } from '../../mark/group';
 import type { MarkTypeEnum } from '../../mark/interface';
 import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { ImageMark, registerImageMark } from '../../mark/image';
 import type { IGraphic } from '@visactor/vrender-core';
 
-export class CustomMark extends BaseComponent<any> {
+// TODO: 规范范型
+export class CustomMark<T = any> extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;
   type = ComponentTypeEnum.customMark;
 
@@ -117,9 +119,9 @@ export class CustomMark extends BaseComponent<any> {
   /**
    * updateSpec
    */
-  _compareSpec() {
-    const result = super._compareSpec();
-    if (!isEqual(this._originalSpec, this._spec)) {
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!isEqual(prevSpec, spec)) {
       result.reMake = true;
     }
 

@@ -14,9 +14,10 @@ import { Title as TitleComponents } from '@visactor/vrender-components';
 import type { TitleAttrs } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEqual, isArray, isValidNumber, pickWithout } from '@visactor/vutils';
 
-export class Title extends BaseComponent<ITitleSpec> implements ITitle {
+export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> implements ITitle {
   static type = ComponentTypeEnum.title;
   type = ComponentTypeEnum.title;
 
@@ -38,7 +39,7 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
     return this._orient;
   }
 
-  constructor(spec: ITitleSpec, options: IComponentOption) {
+  constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._orient = isValidOrient(spec.orient) ? spec.orient : 'top';
   }
@@ -91,9 +92,9 @@ export class Title extends BaseComponent<ITitleSpec> implements ITitle {
   /**
    * updateSpec
    */
-  _compareSpec() {
-    const result = super._compareSpec();
-    if (this._originalSpec?.orient !== this._spec?.orient) {
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (prevSpec?.orient !== spec?.orient) {
       result.reMake = true;
     }
 

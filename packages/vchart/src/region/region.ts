@@ -19,15 +19,7 @@ import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { IFilterMode } from '../component/data-zoom/constant';
 import { LayoutModel } from '../model/layout-model';
-import { cloneDeepSpec } from '../util/spec/clone-deep';
-import { BaseModelSpecTransformer } from '../model/base-model';
-
-export class RegionSpecTransformer<T extends IRegionSpec = IRegionSpec> extends BaseModelSpecTransformer<T> {
-  protected _initTheme(spec: T, chartSpec: any): T {
-    // do nothing, region don't need to parse theme
-    return cloneDeepSpec(spec);
-  }
-}
+import { RegionSpecTransformer } from './spec-transformer';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
@@ -221,9 +213,9 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     }
   }
 
-  _compareSpec() {
-    const result = super._compareSpec();
-    if (!isEqual(this._originalSpec?.style, this._spec?.style)) {
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!isEqual(prevSpec?.style, spec?.style)) {
       result.reMake = true;
     }
     return result;

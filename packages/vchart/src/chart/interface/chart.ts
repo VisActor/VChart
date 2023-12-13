@@ -179,17 +179,23 @@ export interface IChartSpecTransformer {
   readonly type: string;
   readonly seriesType: string;
 
+  /** 此方法不建议重写 */
   initChartSpec: (spec: any) => IChartSpecInfo;
+  /** 将图表 spec 统一转换为 common chart spec */
   transformSpec: (spec: any) => void;
+  /** 转换 model spec，应用主题 */
   transformModelSpec: (spec: any) => IChartSpecInfo;
+  /** 枚举 spec 中每个有效的 region */
   forEachRegionInSpec: <K>(
     spec: any,
     callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo) => K
   ) => K[];
+  /** 枚举 spec 中每个有效的 series */
   forEachSeriesInSpec: <K>(
     spec: any,
     callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo) => K
   ) => K[];
+  /** 枚举 spec 中每个有效的 component */
   forEachComponentInSpec: <K>(
     spec: any,
     callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo) => K

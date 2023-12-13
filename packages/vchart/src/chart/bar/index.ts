@@ -1,3 +1,4 @@
 export * from './bar';
-export * from './bar-3d';
+export * from './3d';
 export * from './interface';
+export * from './spec-transformer';
