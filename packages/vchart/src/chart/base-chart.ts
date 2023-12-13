@@ -972,7 +972,9 @@ export class BaseChart extends CompilableBase implements IChart {
 
       invalidType: spec.invalidType,
 
-      seriesField: spec.seriesField
+      seriesField: spec.seriesField,
+
+      morph: spec.morph
     };
     return series;
   }
@@ -1015,8 +1017,8 @@ export class BaseChart extends CompilableBase implements IChart {
     this.updateGlobalScaleTheme();
 
     this._regions.forEach(r => r.setCurrentTheme());
-    this._components.forEach(c => c.setCurrentTheme());
     this._series.forEach(s => s.setCurrentTheme());
+    this._components.forEach(c => c.setCurrentTheme());
   }
 
   clear() {

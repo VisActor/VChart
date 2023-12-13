@@ -1,9 +1,18 @@
+import { ticks } from '@visactor/vutils-extension';
+import type { ITickDataOpt } from '@visactor/vutils-extension';
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { AxisItem } from '@visactor/vrender-components';
-import type { IOrientType, IPolarOrientType, Datum, StringOrNumber, IGroup as ISeriesGroup } from '../../typings';
+import type {
+  IOrientType,
+  IPolarOrientType,
+  Datum,
+  StringOrNumber,
+  IGroup as ISeriesGroup,
+  CoordinateType
+} from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
@@ -19,7 +28,7 @@ import { animationConfig } from '../../animation/utils';
 import { degreeToRadian, pickWithout, type LooseFunction, isEqual } from '@visactor/vutils';
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
-import type { ITransformOptions } from '@visactor/vdataset';
+import { DataView, type ITransformOptions } from '@visactor/vdataset';
 import {
   GridEnum,
   registerAxis as registerVGrammarAxis,
@@ -29,6 +38,8 @@ import { ComponentMark, registerComponentMark, type IComponentMark } from '../..
 import { Factory } from '../../core/factory';
 import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
 import { GroupFadeOut } from '@visactor/vrender-core';
+import { scaleParser } from '../../data/parser/scale';
+import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -458,6 +469,44 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
               alternateColor: spec.subGrid.alternateColor,
               style: transformToGraphic(spec.subGrid.style)
             }
+    };
+  }
+
+  protected _initTickDataSet<T extends ITickDataOpt>(options: T) {
+    registerDataSetInstanceParser(this._option.dataSet, 'scale', scaleParser);
+    registerDataSetInstanceTransform(this._option.dataSet, 'ticks', ticks);
+    const tickData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_ticks` })
+      .parse(this._scale, {
+        type: 'scale'
+      })
+      .transform(
+        {
+          type: 'ticks',
+          options
+        },
+        false
+      );
+    return tickData;
+  }
+
+  protected _tickTransformOption(coordinateType: CoordinateType): ITickDataOpt {
+    const tick = this._tick || {};
+    const label = this._spec.label || {};
+    const { tickCount, forceTickCount, tickStep, tickMode } = tick;
+    const { style: labelStyle, formatMethod: labelFormatter, minGap: labelGap } = label;
+    return {
+      sampling: this._spec.sampling !== false,
+      tickCount,
+      forceTickCount,
+      tickStep,
+      tickMode,
+
+      axisOrientType: this._orient,
+      coordinateType: coordinateType,
+
+      labelStyle,
+      labelFormatter,
+      labelGap
     };
   }
 

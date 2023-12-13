@@ -52,6 +52,12 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   getGroupMark() {
     return this._groupMark;
   }
+
+  protected _interactionMark!: IGroupMark;
+  getInteractionMark() {
+    return this._interactionMark;
+  }
+
   getStackInverse() {
     return this._spec.stackInverse === true;
   }
@@ -94,31 +100,15 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   created(): void {
     this.initLayout();
     super.created();
-    this._groupMark = this._createMark({ type: MarkTypeEnum.group, name: 'regionGroup' }) as IGroupMark;
-    this._groupMark.setUserId(this.userId);
-    this._groupMark.setZIndex(this.layoutZIndex);
     const clip = this._spec.clip ?? this._getClipDefaultValue();
-    this.setMarkStyle(
-      this._groupMark,
-      {
-        x: () => this.getLayoutStartPoint().x,
-        y: () => this.getLayoutStartPoint().y,
-        width: () => this.getLayoutRect().width,
-        height: () => this.getLayoutRect().height,
-        clip
-      },
-      'normal',
-      AttributeLevel.Built_In
+    this._groupMark = this._createGroupMark('regionGroup', this.userId, this.layoutZIndex);
+    // 交互层
+    this._interactionMark = this._createGroupMark(
+      'regionInteractionGroup',
+      this.userId + '_interaction',
+      LayoutZIndex.Interaction
     );
-    this.setMarkStyle(
-      this._groupMark,
-      {
-        cornerRadius: this._spec.style?.cornerRadius
-      },
-      'normal',
-      AttributeLevel.User_Mark
-    );
-    this._marks.addMark(this._groupMark);
+
     // hack: region 的样式不能设置在groupMark上，因为groupMark目前没有计算dirtyBound，会导致拖影问题
     if (this._spec.style) {
       this._backgroundMark = this._createMark({ type: MarkTypeEnum.rect, name: 'regionBackground' }) as IRectMark;
@@ -144,6 +134,35 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
       this._foregroundMark && this._foregroundMark.setZIndex(LayoutZIndex.Mark + 1);
     }
     this.createTrigger();
+  }
+
+  private _createGroupMark(name: string, userId: StringOrNumber, zIndex: number) {
+    const groupMark = this._createMark({ type: MarkTypeEnum.group, name }) as IGroupMark;
+    groupMark.setUserId(userId);
+    groupMark.setZIndex(zIndex);
+    const clip = this._spec.clip ?? this._getClipDefaultValue();
+    this.setMarkStyle(
+      groupMark,
+      {
+        x: () => this.getLayoutStartPoint().x,
+        y: () => this.getLayoutStartPoint().y,
+        width: () => this.getLayoutRect().width,
+        height: () => this.getLayoutRect().height,
+        clip
+      },
+      'normal',
+      AttributeLevel.Built_In
+    );
+    this.setMarkStyle(
+      groupMark,
+      {
+        cornerRadius: this._spec.style?.cornerRadius
+      },
+      'normal',
+      AttributeLevel.User_Mark
+    );
+    this._marks.addMark(groupMark);
+    return groupMark;
   }
 
   init(option: any) {

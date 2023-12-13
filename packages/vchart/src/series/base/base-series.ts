@@ -541,9 +541,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         const seriesDataKey = this._getSeriesDataKey(datum);
         if (keyMap.get(seriesDataKey) === undefined) {
           keyMap.set(seriesDataKey, 0);
-        } else {
-          keyMap.set(seriesDataKey, keyMap.get(seriesDataKey) + 1);
+
+          return seriesDataKey;
         }
+
+        keyMap.set(seriesDataKey, keyMap.get(seriesDataKey) + 1);
         return `${seriesDataKey}_${keyMap.get(seriesDataKey)}`;
       };
     }
@@ -961,6 +963,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
     marks.forEach(mark => {
       this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
+      if (mark.getLabelSpec()) {
+        mark.setLabelSpec(this._preprocessLabelSpec((this._spec as any).label));
+      }
     });
     this.initMarkStyle();
     marks.forEach(mark => {
@@ -1220,8 +1225,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const dimensionFields = this.getDimensionField();
     key = dimensionFields.map(field => datum[field]).join('_');
 
-    if (this.getSeriesField()) {
-      key += `_${datum[this.getSeriesField()]}`;
+    const seriesField = this.getSeriesField();
+
+    if (seriesField && !dimensionFields.includes(seriesField)) {
+      key += `_${datum[seriesField]}`;
     }
 
     return key;

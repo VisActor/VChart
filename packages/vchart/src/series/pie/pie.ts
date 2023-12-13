@@ -94,6 +94,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         y: () => this._center?.y ?? this._region.getLayoutRect().height / 2
       };
     };
+
+    // angle scale
+    this._markAttributeContext.startAngleScale = (datum: Datum) => this.startAngleScale(datum);
+    this._markAttributeContext.endAngleScale = (datum: Datum) => this.endAngleScale(datum);
   }
 
   setAttrFromSpec(): void {
@@ -175,6 +179,14 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     ) as IArcMark;
   }
 
+  private startAngleScale(datum: Datum) {
+    return field(ARC_START_ANGLE)(datum);
+  }
+
+  private endAngleScale(datum: Datum) {
+    return field(ARC_END_ANGLE)(datum);
+  }
+
   initMarkStyle(): void {
     const pieMark = this._pieMark;
     if (pieMark) {
@@ -191,8 +203,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
             ? this._innerRadius
             : () => this.computeLayoutRadius() * this._innerRadius,
           cornerRadius: () => this.computeLayoutRadius() * this._cornerRadius,
-          startAngle: field(ARC_START_ANGLE).bind(this),
-          endAngle: field(ARC_END_ANGLE).bind(this),
+          startAngle: datum => this.startAngleScale(datum),
+          endAngle: datum => this.endAngleScale(datum),
           padAngle: this._padAngle,
           centerOffset: this._centerOffset
         },

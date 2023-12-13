@@ -1,43 +1,13 @@
 import type { IChart } from '../../../../chart/interface';
 import type { IDimensionInfo } from '../interface';
 import { isDiscrete } from '@visactor/vscale';
-import { getDimensionData, isInRegionBound } from './common';
+import { getAxis, getDimensionData } from './common';
 import type { IPolarSeries } from '../../../../series/interface';
 import { isNil, maxInArray, minInArray } from '@visactor/vutils';
-import type { PolarAxis } from '../../../../component/axis/polar';
 import { distance, vectorAngle } from '../../../../util/math';
-import type { AxisComponent } from '../../../../component/axis/base-axis';
 import type { ILayoutPoint } from '../../../../typings/layout';
-
-const getAxis = (chart: IChart, type: 'radius' | 'angle', pos: ILayoutPoint): PolarAxis[] | null => {
-  const axesComponents = chart
-    .getAllComponents()
-    .filter(
-      c =>
-        c.specKey === 'axes' &&
-        (c as AxisComponent).getOrient() === type &&
-        isInRegionBound(chart, c as AxisComponent, pos)
-    ) as PolarAxis[];
-  if (!axesComponents.length) {
-    return null;
-  }
-  return axesComponents;
-};
-
-const getFirstSeries = (chart: IChart) => {
-  const regions = chart.getRegionsInIndex();
-  for (let i = 0; i < regions.length; i++) {
-    const r = regions[i];
-    const series = r.getSeries();
-    for (let j = 0; j < series.length; j++) {
-      const s = series[j];
-      if (s.coordinate === 'polar') {
-        return s as IPolarSeries;
-      }
-    }
-  }
-  return null;
-};
+import type { PolarAxis } from '../../../../component';
+import { getFirstSeries } from '../../../../util/model';
 
 /** 将角度标准化为 range 范围内的角度 */
 const angleStandardize = (angle: number, range: [number, number]) => {
@@ -56,14 +26,14 @@ export const getPolarDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoi
   if (!chart) {
     return null;
   }
-  const series = getFirstSeries(chart);
+  const series = getFirstSeries(chart.getRegionsInIndex(), 'polar');
   if (!series) {
     return null;
   }
 
   const { x, y } = pos;
-  const angleAxisList = getAxis(chart, 'angle', pos);
-  const radiusAxisList = getAxis(chart, 'radius', pos);
+  const angleAxisList = getAxis(chart, (cmp: PolarAxis) => cmp.getOrient() === 'angle', pos);
+  const radiusAxisList = getAxis(chart, (cmp: PolarAxis) => cmp.getOrient() === 'radius', pos);
   const targetAxisInfo: IDimensionInfo[] = [];
 
   const getDimensionField = (series: IPolarSeries) => series.getDimensionField()[0];
