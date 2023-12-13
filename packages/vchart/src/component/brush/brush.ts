@@ -565,6 +565,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     if (this._brushComponents) {
       this.getContainer()?.removeChild(this._brushComponents as unknown as INode);
       this._brushComponents.forEach(brush => {
+        brush.removeAllChild();
         brush.releaseBrushEvents();
       });
       this._brushComponents = null;
