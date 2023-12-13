@@ -672,7 +672,7 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   renderSync(morphConfig?: IMorphConfig) {
-    return this._renderSync(morphConfig, true);
+    return this._renderSync(morphConfig, true, false);
   }
 
   /**
@@ -681,7 +681,7 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   async renderAsync(morphConfig?: IMorphConfig) {
-    return this._renderAsync(morphConfig, true);
+    return this._renderAsync(morphConfig, true, false);
   }
 
   protected _renderSync(morphConfig?: IMorphConfig, transformSpec?: boolean, resetMediaQuery?: boolean) {
@@ -949,9 +949,14 @@ export class VChart implements IVChart {
   }
 
   /** 更新 spec 并重新编译（不渲染） */
-  protected _updateSpecAndRecompile(spec: ISpec, forceMerge: boolean = false, resetMediaQuery?: boolean) {
+  protected _updateSpecAndRecompile(
+    spec: ISpec,
+    forceMerge: boolean = false,
+    transformSpec: boolean = true,
+    resetMediaQuery?: boolean
+  ) {
     const modifyConfig = this._updateSpec(spec, forceMerge);
-    return this._updateCustomConfigAndRecompile(modifyConfig, true, resetMediaQuery);
+    return this._updateCustomConfigAndRecompile(modifyConfig, transformSpec, resetMediaQuery);
   }
 
   private _updateSpec(spec: ISpec, forceMerge: boolean = false): (() => IUpdateSpecResult) | undefined {
@@ -1834,7 +1839,7 @@ export class VChart implements IVChart {
           if (render) {
             this.updateSpecSync(spec);
           } else if (compile) {
-            this._updateSpecAndRecompile(spec);
+            this._updateSpecAndRecompile(spec, false, true, false);
           } else {
             this._spec = spec;
           }
