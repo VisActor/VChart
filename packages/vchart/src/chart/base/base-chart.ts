@@ -91,7 +91,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
   setSpec(s: T) {
     // TODO 通过spec设置进行图表更新
-    this.transformSpec(s);
     this._spec = s;
   }
 
@@ -228,10 +227,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._transformer.forEachSeriesInSpec(this._spec, this._createSeries.bind(this));
     // components
     this._transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this));
-  }
-
-  transformSpec(spec: T): void {
-    this._transformer.initChartSpec(spec);
   }
 
   init() {
@@ -761,7 +756,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
   }
 
-  updateSpec(spec: T, skipTransformSpec?: boolean) {
+  updateSpec(spec: T) {
     const result = {
       change: false,
       reMake: false,
@@ -776,10 +771,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (spec.type !== this.type) {
       result.reMake = true;
       return result;
-    }
-    // transform
-    if (!skipTransformSpec) {
-      this.transformSpec(spec);
     }
     // spec set & transformSpec
     // diff meta length;
@@ -938,14 +929,12 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // 需要重新布局
     this.setLayoutTag(true, null, false);
 
-    // transform
-    this.transformSpec(this._spec);
     // 设置色板，只设置 colorScale 的 range
     this.updateGlobalScaleTheme();
 
-    this._regions.forEach(r => r.setCurrentTheme());
-    this._series.forEach(s => s.setCurrentTheme());
-    this._components.forEach(c => c.setCurrentTheme());
+    this._regions.forEach(r => r.reInit(r.getSpecInfo().spec));
+    this._series.forEach(s => s.reInit(s.getSpecInfo().spec));
+    this._components.forEach(c => c.reInit(c.getSpecInfo().spec));
   }
 
   clear() {

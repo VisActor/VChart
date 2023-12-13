@@ -107,7 +107,8 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this._initTextMarkStyle();
   }
 
-  reInit() {
+  reInit(spec?: T) {
+    super.reInit(spec);
     this._labelInfoMap && this._labelInfoMap.clear();
     this._initTextMark();
     this._initTextMarkStyle();

@@ -1,4 +1,3 @@
-import { cloneDeepSpec } from '../util/spec/clone-deep';
 import { createID } from '../util/id';
 import { Event } from '../event/event';
 import type { IEvent } from '../event/interface';
@@ -10,7 +9,8 @@ import type {
   IModelRenderOption,
   IModelEvaluateOption,
   IModelSpec,
-  IModelMarkInfo
+  IModelMarkInfo,
+  IModelSpecInfo
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
@@ -32,6 +32,7 @@ import type { ILayoutItem } from '../layout/interface';
 import { CompilableBase } from '../compile/compilable-base';
 import { PREFIX } from '../constant/base';
 import { BaseModelSpecTransformer } from './spec-transformer';
+import { getProperty } from '@visactor/vutils-extension';
 
 export abstract class BaseModel<T extends IModelSpec> extends CompilableBase implements IModel {
   readonly transformerConstructor = BaseModelSpecTransformer;
@@ -113,6 +114,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     super(option);
     this.id = createID();
     this.userId = spec.id;
+    this._spec = spec;
     this._specIndex = option.specIndex ?? 0;
     this.effect = {};
     this.event = new Event(option.eventDispatcher, option.mode);
@@ -172,7 +174,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     super.release();
   }
 
-  updateSpec(spec: any) {
+  updateSpec(spec: T) {
     const result = this._compareSpec(spec, this._spec);
     this._spec = spec;
     if (!result.reMake) {
@@ -192,7 +194,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     return result;
   }
 
-  reInit() {
+  reInit(spec?: T) {
+    if (spec) {
+      this._spec = spec;
+    }
     this.setAttrFromSpec();
   }
 
@@ -326,5 +331,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   getColorScheme() {
     return this._option.getTheme?.().colorScheme;
+  }
+
+  getSpecInfo() {
+    const specInfo = this._option.getSpecInfo?.() ?? {};
+    return getProperty<IModelSpecInfo>(specInfo, this.getSpecPath());
   }
 }

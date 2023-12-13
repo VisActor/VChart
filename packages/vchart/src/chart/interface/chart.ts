@@ -81,7 +81,6 @@ export interface IChart extends ICompilable {
   updateGlobalScaleDomain: () => void;
   //生命周期
   created: () => void;
-  transformSpec: (spec: any) => void;
   init: () => void;
   onLayoutStart: (ctx: IChartLayoutOption) => void;
   onLayoutEnd: (ctx: IChartLayoutOption) => void;
@@ -125,7 +124,7 @@ export interface IChart extends ICompilable {
   getAllMarks: () => IMark[];
 
   // spec
-  updateSpec: (spec: any, skipTransformSpec?: boolean) => IUpdateSpecResult;
+  updateSpec: (spec: any) => IUpdateSpecResult;
 
   // state
   /**

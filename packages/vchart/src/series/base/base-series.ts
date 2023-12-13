@@ -953,12 +953,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
-  reInit(lastSpec?: any) {
-    super.reInit();
+  reInit(spec?: T) {
+    super.reInit(spec);
 
-    const marks = !lastSpec
-      ? this.getMarksWithoutRoot()
-      : this.getMarksWithoutRoot().filter(mark => !isEqual(lastSpec[mark.name], this._spec[mark.name]));
+    const marks = this.getMarksWithoutRoot();
     // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
     marks.forEach(mark => {
       this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
@@ -971,7 +969,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       mark.updateStaticEncode();
       mark.updateLayoutState(true);
     });
-    this._updateExtensionMarkSpec(lastSpec);
+    this._updateExtensionMarkSpec(spec);
     this._updateSpecData();
 
     if (this._tooltipHelper) {

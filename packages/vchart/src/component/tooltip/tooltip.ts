@@ -386,8 +386,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     return TooltipResult.failed;
   };
 
-  reInit() {
-    super.reInit();
+  reInit(spec?: any) {
+    super.reInit(spec);
 
     if (this.tooltipHandler) {
       this.tooltipHandler.reInit?.();

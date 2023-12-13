@@ -40,6 +40,7 @@ export interface IChartSpecTransformerOption {
   getLayoutRect?: () => ILayoutRect;
 }
 
+/** 这个对象保持和 chart spec 相同的一级结构，只是把原有的所有 model spec 替换为 IModelSpecInfo 对象 */
 export interface IChartSpecInfo {
   region?: IModelSpecInfo[];
   series?: IModelSpecInfo[];

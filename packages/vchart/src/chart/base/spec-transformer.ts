@@ -63,7 +63,10 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         });
         const newSpec = transformer.transformSpec(spec, chartSpec);
         setProperty(chartSpec, specPath, newSpec);
-        setProperty(chartSpecInfo, specPath, specInfo);
+        setProperty(chartSpecInfo, specPath, {
+          ...specInfo,
+          spec: newSpec
+        });
       });
     }
     return chartSpecInfo;
