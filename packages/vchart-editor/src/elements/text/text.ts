@@ -451,6 +451,10 @@ export class EditorText extends BaseElement {
     return null;
   }
 
+  updatePath(path: IElementPathRoot) {
+    path.rect = addRectToPathElement(this._textGraphic);
+  }
+
   getPosWithPath(path: IElementPathRoot) {
     let end = path as IElementPathEnd | IElementPath;
     while (!isValid((<IElementPathEnd>end).percentX)) {

@@ -328,11 +328,16 @@ export class VChartEditor {
     if (contentWidth === 0 || contentWidth === Infinity || contentHeight === 0 || contentHeight === Infinity) {
       return;
     }
-
+    const scale = this._layers[0].scale;
+    const clientWidth = this._width / scale;
+    const clientHeight = this._height / scale;
+    // 清除当前的选中 编辑元素 与 over元素
     this.clearCurrentEditorElement();
+    this._editorController.removeOverGraphic();
     this.editorController.setEditorElements(null, null);
-    const offsetX = (this._width - contentWidth) * 0.5 - b.x1;
-    const offsetY = (this._height - contentHeight) * 0.5 - b.y1;
+    // 还是保留这种原始可以保持编辑效果与回退
+    const offsetX = (clientWidth - contentWidth) * 0.5 - b.x1;
+    const offsetY = (clientHeight - contentHeight) * 0.5 - b.y1;
     this._layers.forEach(l => {
       l.reLayoutWithOffset(offsetX, offsetY);
     });
@@ -359,6 +364,7 @@ export class VChartEditor {
   }
 
   highlightWithPos(pos: IPoint, boxKey: string, style?: any) {
+    // console.log('highlightWithPos');
     const path = this._layers[0]?.getPathWithPos?.(pos);
     if (path && !path.isBackup) {
       this._highlightBox.showBox(boxKey, style ? { ...path.rect, ...style } : path.rect);
@@ -369,6 +375,7 @@ export class VChartEditor {
 
   highlightWithPath(path: IElementPathRoot, boxKey: string, style?: any) {
     if (path && !path.isBackup) {
+      this._layers[0]?.updatePath?.(path);
       this._highlightBox.showBox(boxKey, style ? { ...path.rect, ...style } : path.rect);
     } else {
       this._highlightBox.hiddenBox(boxKey);

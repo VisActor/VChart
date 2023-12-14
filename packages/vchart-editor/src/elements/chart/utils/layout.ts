@@ -1,4 +1,4 @@
-import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { isValid, type IBoundsLike } from '@visactor/vutils';
 import type { IModelInfo } from './../../../core/interface';
 import type { ILayoutRect } from './../layout/interface';
@@ -171,7 +171,7 @@ export function getModelGraphicsBounds(model: IChartModel): IBoundsLike {
   }
 }
 
-export function getModelRootMark(model: IChartModel, info: IModelInfo) {
+export function getModelRootMark(model: IChartModel) {
   if (model.type === 'region') {
   }
   if (model.type.includes('Axis')) {
@@ -189,7 +189,7 @@ export function getModelRootMark(model: IChartModel, info: IModelInfo) {
 export function getZIndexInParent(
   parent: IGroup,
   mark: IGraphic,
-  opt: { zIndex?: number; action: 'toTop' | 'toBottom' | 'levelUp' | 'levelDown' }
+  opt: { zIndex?: number; action: 'toTop' | 'toBottom' | 'levelUp' | 'levelDown'; childFilter?: (c: INode) => boolean }
 ) {
   if (isValid(opt.zIndex)) {
     return opt.zIndex;
@@ -198,18 +198,24 @@ export function getZIndexInParent(
   if (opt.action === 'toTop') {
     index = (mark.attribute.zIndex ?? 0) + 1;
     parent.forEachChildren(c => {
-      index = Math.max(index, (c as IGraphic).attribute.zIndex + 1);
+      index = Math.max(index, (c as IGraphic).attribute.zIndex ?? 0 + 1);
     });
   } else if (opt.action === 'toBottom') {
     index = (mark.attribute.zIndex ?? 0) - 1;
     parent.forEachChildren(c => {
-      index = Math.min(index, (c as IGraphic).attribute.zIndex - 1);
+      if (opt.childFilter && !opt.childFilter(c)) {
+        return;
+      }
+      index = Math.min(index, (c as IGraphic).attribute.zIndex ?? 0 - 1);
     });
   } else if (opt.action === 'levelUp') {
     index = Number.MAX_SAFE_INTEGER;
     parent.forEachChildren(c => {
-      if ((c as IGraphic).attribute.zIndex > mark.attribute.zIndex) {
-        index = Math.min(index, (c as IGraphic).attribute.zIndex + 1);
+      if (opt.childFilter && !opt.childFilter(c)) {
+        return;
+      }
+      if (((c as IGraphic).attribute.zIndex ?? 0) > (mark.attribute.zIndex ?? 0)) {
+        index = Math.min(index, (c as IGraphic).attribute.zIndex ?? 0 + 1);
       }
     });
     if (index === Number.MAX_SAFE_INTEGER) {
@@ -218,8 +224,11 @@ export function getZIndexInParent(
   } else if (opt.action === 'levelDown') {
     index = Number.MIN_SAFE_INTEGER;
     parent.forEachChildren(c => {
-      if ((c as IGraphic).attribute.zIndex < mark.attribute.zIndex) {
-        index = Math.max(index, (c as IGraphic).attribute.zIndex - 1);
+      if (opt.childFilter && !opt.childFilter(c)) {
+        return;
+      }
+      if (((c as IGraphic).attribute.zIndex ?? 0) < (mark.attribute.zIndex ?? 0)) {
+        index = Math.max(index, (c as IGraphic).attribute.zIndex ?? 0 - 1);
       }
     });
     if (index === Number.MIN_SAFE_INTEGER) {

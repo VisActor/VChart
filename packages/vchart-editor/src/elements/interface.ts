@@ -66,6 +66,7 @@ export interface IElement {
   getTargetWithPos?: (pos: IPoint) => IElementPathRoot;
   getTargetWithPosBackup?: (pos: IPoint) => IElementPathRoot;
   getPosWithPath?: (path: IElementPathRoot) => IPoint;
+  updatePath?: (path: IElementPathRoot) => void;
 
   geElementRootMark: () => IGraphic;
   updateLayoutZIndex: (zIndex: number, pushHistory: boolean) => void;

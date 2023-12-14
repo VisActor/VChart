@@ -2,7 +2,7 @@ import type { VChartEditor } from './vchart-editor';
 import type { IElement, VRenderPointerEvent } from './../elements/interface';
 import { Bounds, Matrix, isValid } from '@visactor/vutils';
 import type { EditorMode, IEditorElement, IEditorLayer, IElementPathRoot, ILayoutLine } from './interface';
-import type { IStage, IGroup, IGraphic } from '@visactor/vrender-core';
+import type { IStage, IGroup, IGraphic, INode } from '@visactor/vrender-core';
 import { createGroup, createStage, container } from '@visactor/vrender-core';
 import { loadBrowserEnv } from '@visactor/vrender-kits';
 import { CreateID } from '../utils/common';
@@ -67,7 +67,7 @@ export class EditorLayer implements IEditorLayer {
 
   protected _elementGroup: IGroup;
   get elementGroup() {
-    return this._elementGroup;
+    return this._stage.defaultLayer;
   }
 
   protected _activeElement: IEditorElement | IEditorElement[];
@@ -269,6 +269,17 @@ export class EditorLayer implements IEditorLayer {
     return null;
   }
 
+  updatePath(path: IElementPathRoot) {
+    if (!path) {
+      return null;
+    }
+    const el = this._elements.find(e => e.id === path.elementId);
+    if (!el) {
+      return null;
+    }
+    return el.updatePath(path);
+  }
+
   getPosWithPath(path: IElementPathRoot) {
     if (!path) {
       return null;
@@ -425,7 +436,17 @@ export class EditorLayer implements IEditorLayer {
       return;
     }
     const parent = mark.parent;
-    const zIndex = getZIndexInParent(parent, mark, opt);
+    (<any>opt).childFilter = (c: INode) => {
+      if (c === this._editorGroup) {
+        return false;
+      }
+      return true;
+    };
+    let zIndex = getZIndexInParent(parent, mark, opt);
+    if (zIndex < 0) {
+      zIndex += 100;
+      this._elements.find(e => e.updateLayoutZIndex(zIndex + 1, false));
+    }
     el.updateLayoutZIndex(zIndex, true);
   }
 }
