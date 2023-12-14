@@ -1,3 +1,4 @@
+import { isString, Logger } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset';
 import type { DataErrorCall, DataUpdateCall, IDataParser } from './../interface';
@@ -50,6 +51,14 @@ export class StandardParser implements IDataParser {
   }
 
   updateValue(value: any[]) {
+    if (isString(value)) {
+      try {
+        value = JSON.parse(value);
+      } catch (error) {
+        Logger.getInstance().error('数据解析失败');
+        return;
+      }
+    }
     this._dataValue = value;
     this._data.parseNewData(value);
     this._data.reRunAllTransform();
