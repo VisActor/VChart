@@ -58,6 +58,8 @@ export class CustomMark extends BaseComponent<any> {
         name: `${PREFIX}_${index}`
       },
       {
+        // 避免二次dataflow
+        skipBeforeLayouted: true,
         attributeContext: this._getMarkAttributeContext()
       }
     ) as IGroupMark;

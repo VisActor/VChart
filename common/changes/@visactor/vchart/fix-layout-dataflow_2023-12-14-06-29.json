@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix issue with secondary dataflow, closed #1760",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
