@@ -45,8 +45,6 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
   protected _stack: boolean = false;
 
-  protected declare _theme: Maybe<IWaterfallSeriesTheme>;
-
   protected _totalData?: SeriesData;
   getTotalData() {
     return this._totalData?.getLatestData();

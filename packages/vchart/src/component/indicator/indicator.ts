@@ -48,8 +48,6 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
   private _indicatorComponent: IndicatorComponents;
   private _cacheAttrs: IndicatorAttributes;
 
-  protected declare _theme: Maybe<IIndicatorTheme>;
-
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     if (this.type !== Indicator.type) {
       return null;

@@ -32,7 +32,6 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
-  protected declare _theme: IDiscreteLegendTheme;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const legendSpec = chartSpec[this.specKey];

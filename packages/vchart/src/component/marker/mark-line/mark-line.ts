@@ -46,7 +46,6 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
 
   layoutZIndex: number = LayoutZIndex.MarkLine;
 
-  protected declare _theme: IMarkLineTheme;
   protected declare _markerComponent: MarkLineComponent;
 
   private _isXYLayout: boolean;

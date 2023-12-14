@@ -29,8 +29,6 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
 
   layoutZIndex: number = LayoutZIndex.MarkArea;
 
-  protected declare _theme: IMarkAreaTheme;
-
   // markArea组件
   protected declare _markerComponent: MarkAreaComponent;
 

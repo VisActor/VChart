@@ -27,8 +27,6 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
 
   static readonly mark: SeriesMarkMap = heatmapSeriesMark;
 
-  protected declare _theme: Maybe<IHeatmapSeriesTheme>;
-
   protected _cellMark: ICellMark;
   protected _backgroundMark: ICellMark;
 

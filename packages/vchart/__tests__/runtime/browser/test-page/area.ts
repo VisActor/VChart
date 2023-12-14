@@ -4,113 +4,65 @@ import type { IAreaChartSpec } from '../../../../src/index';
 import { default as VChart } from '../../../../src/index';
 
 const getSpec = (): IAreaChartSpec => ({
-  type: 'area',
+  type: 'waterfall',
   data: {
+    id: 'id0',
     values: [
-      { type: 'Nail polish', country: 'Africa', value: 4229 },
-      { type: 'Nail polish', country: 'EU', value: 4376 },
-      { type: 'Nail polish', country: 'China', value: 3054 },
-      { type: 'Nail polish', country: 'USA', value: 12814 },
-      { type: 'Eyebrow pencil', country: 'Africa', value: 3932 },
-      { type: 'Eyebrow pencil', country: 'EU', value: 3987 },
-      { type: 'Eyebrow pencil', country: 'China', value: 5067 },
-      { type: 'Eyebrow pencil', country: 'USA', value: 13012 },
-      { type: 'Rouge', country: 'Africa', value: 5221 },
-      { type: 'Rouge', country: 'EU', value: 3574 },
-      { type: 'Rouge', country: 'China', value: 7004 },
-      { type: 'Rouge', country: 'USA', value: 11624 },
-      { type: 'Lipstick', country: 'Africa', value: 9256 },
-      { type: 'Lipstick', country: 'EU', value: 4376 },
-      { type: 'Lipstick', country: 'China', value: 9054 },
-      { type: 'Lipstick', country: 'USA', value: 8814 },
-      { type: 'Eyeshadows', country: 'Africa', value: 3308 },
-      { type: 'Eyeshadows', country: 'EU', value: 4572 },
-      { type: 'Eyeshadows', country: 'China', value: 12043 },
-      { type: 'Eyeshadows', country: 'USA', value: 12998 },
-      { type: 'Eyeliner', country: 'Africa', value: 5432 },
-      { type: 'Eyeliner', country: 'EU', value: 3417 },
-      { type: 'Eyeliner', country: 'China', value: 15067 },
-      { type: 'Eyeliner', country: 'USA', value: 12321 },
-      { type: 'Foundation', country: 'Africa', value: 13701 },
-      { type: 'Foundation', country: 'EU', value: 5231 },
-      { type: 'Foundation', country: 'China', value: 10119 },
-      { type: 'Foundation', country: 'USA', value: 10342 },
-      { type: 'Lip gloss', country: 'Africa', value: 4008 },
-      { type: 'Lip gloss', country: 'EU', value: 4572 },
-      { type: 'Lip gloss', country: 'China', value: 12043 },
-      { type: 'Lip gloss', country: 'USA', value: 22998 },
-      { type: 'Mascara', country: 'Africa', value: 18712 },
-      { type: 'Mascara', country: 'EU', value: 6134 },
-      { type: 'Mascara', country: 'China', value: 10419 },
-      { type: 'Mascara', country: 'USA', value: 11261 }
+      { x: 'Feb.4', total: true, value: 45 },
+      { x: 'Feb.11', y: -5 },
+      { x: 'Feb.20', y: 2 },
+      { x: 'Feb.25', y: -2 },
+      { x: 'Mar.4', y: 2 },
+      { x: 'Mar.11', y: 2 },
+      { x: 'Mar.19', y: -2 },
+      { x: 'Mar.26', y: 1 },
+      { x: 'Apr.1', y: 1 },
+      { x: 'Apr.8', y: 1 },
+      { x: 'Apr.15', y: 2 },
+      { x: 'Apr.22', y: 1 },
+      { x: 'Apr.29', y: -2 },
+      { x: 'May.6', y: -1 },
+      { x: 'total', total: true }
     ]
   },
-  title: {
-    visible: true,
-    text: 'Stacked area chart of cosmetic products sales'
+  legends: { visible: true, orient: 'bottom' },
+  xField: 'x',
+  yField: 'y',
+  stackLabel: {
+    valueType: 'absolute',
+    formatMethod: text => {
+      return text + '%';
+    }
   },
-  // stack: true,
-  xField: 'type',
-  yField: 'value',
-  seriesField: 'country',
-  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
-  crosshair: {
-    xField: { visible: true, label: { visible: true } },
-    yField: { visible: true, label: { visible: true } }
+  seriesFieldName: {
+    total: '总计',
+    increase: '增加',
+    decrease: '减少'
+  },
+  total: {
+    type: 'field',
+    tagField: 'total',
+    valueField: 'value'
   },
   axes: [
     {
-      orient: 'bottom',
-      type: 'band',
-      minBandSize: 50,
-      maxBandSize: 100,
-      autoRegionSize: true,
-      inverse: true
-    },
-    { orient: 'left', type: 'linear' },
-    { orient: 'right', type: 'linear' }
-  ],
-  dataZoom: [
-    { orient: 'bottom', start: 0, filterMode: 'axis', axisIndex: 0, auto: true, ignoreBandSize: true }
-    // { orient: 'bottom', start: 0, end: 0.5, roam: true, filterMode: 'axis' }
-  ],
-  tooltip: {
-    // renderMode: 'canvas',
-    dimension: {
-      content: [
-        {
-          key: 'type11111',
-          value: 'type11111',
-          shapeFill: 'transparent',
-          shapeLineWidth: 0.2
-          /*
-          shapeType:
-            // eslint-disable-next-line max-len
-            'M-0.020059 -0.978425 C-0.018029 -0.9888053 -0.013378 -1 0 -1 C0.01342 -1 0.01812 -0.989146 0.0201 -0.978425 C0.02161 -0.9702819 0.0692 -0.459505 0.09486 -0.184807 C0.10298 -0.097849 0.1089 -0.034548 0.11047 -0.018339 C0.11698 0.04908 0.07373 0.11111 0.00002 0.11111 C-0.07369 0.11111 -0.117184 0.04991 -0.110423 -0.018339 C-0.103662 -0.086591 -0.022089 -0.9680447 -0.020059 -0.978425Z'
-          */
+      orient: 'left',
+      range: { min: 30, max: 50 },
+      title: { visible: true, text: 'favorability' },
+      label: {
+        formatMethod: v => {
+          return v + '%';
         }
-      ],
-      position: 'tl',
-      positionMode: 'pointer'
-    },
-    mark: {
-      position: 'top'
-    },
-    updateElement: el => {
-      el.style.width = 'auto';
-      el.style.height = 'auto';
-      el.style.minHeight = 'auto';
-      if (el.lastElementChild?.id !== 'test') {
-        el.innerHTML = '';
-        const div = document.createElement('div');
-        div.id = 'test';
-        div.style.width = '200px';
-        div.innerText = 'test';
-        div.style.color = 'red';
-        el.appendChild(div);
       }
+    },
+    {
+      orient: 'bottom',
+      label: { visible: true },
+      type: 'band',
+      paddingInner: 0.4,
+      title: { visible: true, text: 'date' }
     }
-  }
+  ]
 });
 
 const run = () => {

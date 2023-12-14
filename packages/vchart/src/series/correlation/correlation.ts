@@ -41,8 +41,6 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
 
   static readonly mark: SeriesMarkMap = correlationSeriesMark;
 
-  protected declare _theme: Maybe<ICorrelationSeriesTheme>;
-
   protected _centerSeriesData: SeriesData;
 
   private _nodePointMark: ISymbolMark;

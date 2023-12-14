@@ -31,8 +31,6 @@ export class LinearProgressSeries<
 
   static readonly mark: SeriesMarkMap = linearProgressSeriesMark;
 
-  protected declare _theme: Maybe<ILinearProgressSeriesTheme>;
-
   private _progressMark: IRectMark | null = null;
   private _trackMark: IRectMark | null = null;
   private _progressGroupMark: IGroupMark | null = null;

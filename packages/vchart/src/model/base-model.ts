@@ -105,7 +105,9 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     return this._option.getChart();
   }
 
-  protected _theme?: any; // 非全局 theme，是对应于具体 model 的 theme 对象
+  protected get _theme() {
+    return this.getSpecInfo().theme;
+  }
 
   /** for layout diff */
   protected _lastLayoutRect: ILayoutRect = null;

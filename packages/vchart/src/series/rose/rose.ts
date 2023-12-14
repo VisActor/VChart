@@ -24,8 +24,6 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
 
   static readonly mark: SeriesMarkMap = roseSeriesMark;
 
-  protected declare _theme: Maybe<IRoseSeriesTheme>;
-
   protected _supportStack: boolean = true;
 
   private _roseMark: IArcMark | null = null;

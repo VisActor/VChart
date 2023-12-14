@@ -29,8 +29,6 @@ export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec>
 
   static readonly mark: SeriesMarkMap = funnel3dSeriesMark;
 
-  protected declare _theme: Maybe<IFunnel3dSeriesTheme>;
-
   initMark() {
     this._funnelMark = this._createMark(
       {

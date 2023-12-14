@@ -58,10 +58,9 @@ type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
 
 export class PieSeriesSpecTransformer<T extends IBasePieSeriesSpec> extends PolarSeriesSpecTransformer<T> {
   /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec(spec: T, chartSpec: any): T {
+  protected _mergeThemeToSpec(spec: T, chartSpec: any): { spec: T; theme: any } {
+    const theme = this._theme;
     if (this._shouldMergeThemeToSpec()) {
-      const theme = this._theme;
-
       // this._originalSpec + specFromChart + this._theme = this._spec
       let specFromChart = this._getDefaultSpecFromChart(chartSpec);
       specFromChart = this._prepareSpecBeforeMergingTheme(specFromChart);
@@ -77,9 +76,12 @@ export class PieSeriesSpecTransformer<T extends IBasePieSeriesSpec> extends Pola
         ...theme,
         label: labelTheme
       } as IPieSeriesTheme;
-      return mergeSpec({}, newTheme, specFromChart, specFromUser);
+      return {
+        spec: mergeSpec({}, newTheme, specFromChart, specFromUser),
+        theme: newTheme
+      };
     }
-    return spec;
+    return { spec, theme };
   }
 }
 
@@ -113,8 +115,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _pieMark: IArcMark | null = null;
   protected _labelMark: ITextMark | null = null;
   protected _labelLineMark: IPathMark | null = null;
-
-  protected declare _theme: Maybe<IPieSeriesTheme>;
 
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();

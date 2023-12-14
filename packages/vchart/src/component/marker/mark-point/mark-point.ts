@@ -27,8 +27,6 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
 
   layoutZIndex: number = LayoutZIndex.MarkPoint;
 
-  protected declare _theme: IMarkPointTheme;
-
   // markPoint组件
   protected declare _markerComponent: MarkPointComponent;
 

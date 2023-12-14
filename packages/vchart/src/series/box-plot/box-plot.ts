@@ -44,7 +44,6 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   static readonly mark: SeriesMarkMap = boxPlotSeriesMark;
 
-  protected declare _theme: Maybe<IBoxPlotSeriesTheme>;
   protected _minField: string;
   getMinField() {
     return this._minField;

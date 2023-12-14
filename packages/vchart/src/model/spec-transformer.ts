@@ -12,7 +12,7 @@ export class BaseModelSpecTransformer<T extends IModelSpec> implements IBaseMode
     this.type = option.type;
   }
 
-  protected _initTheme(spec: T, chartSpec: any): T {
+  protected _initTheme(spec: T, chartSpec: any): { spec: T; theme: any } {
     this._theme = this.getTheme(spec, chartSpec);
     return this._mergeThemeToSpec(spec, chartSpec);
   }
@@ -21,7 +21,8 @@ export class BaseModelSpecTransformer<T extends IModelSpec> implements IBaseMode
     return undefined;
   }
 
-  transformSpec(spec: T, chartSpec: any): T {
+  /** 不建议重写该方法，最好重写 protected 版本 */
+  transformSpec(spec: T, chartSpec: any): { spec: T; theme: any } {
     this._transformSpec(spec, chartSpec);
     return this._initTheme(spec, chartSpec);
   }
@@ -32,7 +33,8 @@ export class BaseModelSpecTransformer<T extends IModelSpec> implements IBaseMode
   }
 
   /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec(spec: T, chartSpec: any): T {
+  protected _mergeThemeToSpec(spec: T, chartSpec: any): { spec: T; theme: any } {
+    const theme = this._theme;
     if (this._shouldMergeThemeToSpec()) {
       const specFromChart = this._getDefaultSpecFromChart(chartSpec);
 
@@ -40,17 +42,23 @@ export class BaseModelSpecTransformer<T extends IModelSpec> implements IBaseMode
       const merge = (originalSpec: any) =>
         mergeSpec(
           {},
-          this._theme,
+          theme,
           this._prepareSpecBeforeMergingTheme(specFromChart),
           this._prepareSpecBeforeMergingTheme(originalSpec)
         );
 
       if (isArray(spec)) {
-        return spec.map(specItem => merge(specItem)) as unknown as T;
+        return {
+          spec: spec.map(specItem => merge(specItem)) as unknown as T,
+          theme
+        };
       }
-      return merge(spec);
+      return {
+        spec: merge(spec),
+        theme
+      };
     }
-    return spec;
+    return { spec, theme };
   }
 
   /** 是否在初始化时将 theme 自动 merge 到 spec */

@@ -129,7 +129,7 @@ test('config linearAxis.nice default [true] ', () => {
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
-  spec = transformer.transformSpec(spec, {});
+  spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -149,7 +149,7 @@ test('config linearAxis.nice default [true] ', () => {
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
-  spec = transformer.transformSpec(spec, {});
+  spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -169,7 +169,7 @@ test('nice === false  ', () => {
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
-  spec = transformer.transformSpec(spec, {});
+  spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -190,7 +190,7 @@ test('zero === false && nice === false  ', () => {
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
-  spec = transformer.transformSpec(spec, {});
+  spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -213,7 +213,7 @@ test('zero === true && range is specific  ', () => {
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
-  config = transformer.transformSpec(config, {});
+  config = transformer.transformSpec(config, {}).spec;
 
   /**
    * range is the highest priority, which will be the direct result for scale.domain.
@@ -282,7 +282,7 @@ test('expand', () => {
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
-  config = transformer.transformSpec(config, {});
+  config = transformer.transformSpec(config, {}).spec;
 
   {
     const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(config).componentName, config, ctx);
@@ -340,7 +340,7 @@ test('extend', () => {
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
-  config = transformer.transformSpec(config, {});
+  config = transformer.transformSpec(config, {}).spec;
 
   {
     const linearAxis = CartesianAxis.createAxis(
@@ -390,7 +390,7 @@ test('niceDomain should work when domain is 0, and user does not set min or max'
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
-  spec = transformer.transformSpec(spec, {});
+  spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -415,7 +415,7 @@ test('niceDomain should not work when user set min or max', () => {
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
-  spec = transformer.transformSpec(spec, {});
+  spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();
@@ -443,7 +443,7 @@ test('dynamic tickCount', () => {
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
-  spec = transformer.transformSpec(spec, {});
+  spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
 
   linearAxis.created();

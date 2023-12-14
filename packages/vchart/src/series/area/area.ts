@@ -51,8 +51,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   static readonly mark: SeriesMarkMap = areaSeriesMark;
 
-  protected declare _theme: Maybe<IAreaSeriesTheme>;
-
   protected _areaMark!: IAreaMark;
   protected _supportStack: boolean = true;
   protected _sortDataByAxis: boolean = false;

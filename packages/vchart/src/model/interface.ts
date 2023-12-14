@@ -184,6 +184,8 @@ export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
   specPath?: Array<string | number>;
   /** 该 spec 在父级的索引 */
   specIndex?: number;
+  /** model 当前主题 */
+  theme?: any;
 }
 
 export interface IModelConstructor {
@@ -212,5 +214,5 @@ export interface IBaseModelSpecTransformerOption {
 
 export interface IBaseModelSpecTransformer {
   getTheme: (spec: any, chartSpec: any) => any;
-  transformSpec: (spec: any, chartSpec: any) => any;
+  transformSpec: (spec: any, chartSpec: any) => { spec: any; theme: any };
 }

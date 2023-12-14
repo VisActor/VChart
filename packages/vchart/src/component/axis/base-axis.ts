@@ -66,8 +66,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     return this._scales;
   }
 
-  protected declare _theme: ICartesianAxisCommonTheme | IPolarAxisCommonTheme;
-
   protected _tickData!: CompilableData;
   getTickData() {
     return this._tickData;
