@@ -100,8 +100,7 @@ import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
 import { mergeTheme, preprocessTheme } from '../util/spec';
 import { darkTheme, registerTheme } from '../theme/builtin';
-import { MediaQuery } from '../media-query/media-query';
-import type { IMediaQuerySpec } from '../media-query/interface';
+import type { IMediaQuery, IMediaQuerySpec } from '../media-query/interface';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -320,7 +319,7 @@ export class VChart implements IVChart {
   private _context: any = {}; // 存放用户在model初始化前通过实例方法传入的配置等
   private _isReleased: boolean;
 
-  private _mediaQuery: MediaQuery;
+  private _mediaQuery: IMediaQuery;
   private _mediaQuerySpec: IMediaQuerySpec;
 
   constructor(spec: ISpec, options: IInitOption) {
@@ -1833,7 +1832,7 @@ export class VChart implements IVChart {
   private _initMediaQuery() {
     this._mediaQuerySpec = this._spec.media;
     if (this._mediaQuerySpec) {
-      this._mediaQuery = new MediaQuery(this._mediaQuerySpec, {
+      this._mediaQuery = Factory.createMediaQuery(this._mediaQuerySpec, {
         globalInstance: this,
         updateSpec: (spec: any, compile?: boolean, render?: boolean) => {
           if (render) {

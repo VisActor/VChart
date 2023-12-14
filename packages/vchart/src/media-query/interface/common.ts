@@ -4,7 +4,7 @@ import type { VChart } from '../../core';
 import type { IModel, IModelSpecInfo } from '../../model/interface';
 import type { SeriesTypeEnum } from '../../series';
 import type { IChartSpec } from '../../typings';
-import type { MediaQuery } from '../media-query';
+import type { IMediaQuerySpec } from './spec';
 
 export interface IMediaInfo {
   /** 图表宽度 */
@@ -35,11 +35,6 @@ export interface IMediaQueryOption {
   updateSpec: (spec: any, compile?: boolean, render?: boolean) => void;
 }
 
-export interface IMediaQueryItemOption extends IMediaQueryOption {
-  mediaQuery: MediaQuery;
-  getCurrentMediaInfo: () => IMediaInfo;
-}
-
 export interface IMediaQueryCheckResult {
   /** 是否命中媒体查询条件 */
   isActive: boolean;
@@ -52,4 +47,14 @@ export interface IMediaQueryActionResult {
   chartSpec: any;
   /** spec 是否被更改 */
   hasChanged: boolean;
+}
+
+export interface IMediaQuery {
+  init: (mediaInfo: Partial<IMediaInfo>, compile?: boolean, render?: boolean) => boolean;
+  changeSize: (width: number, height: number, compile?: boolean, render?: boolean) => boolean;
+  release: () => void;
+}
+
+export interface IMediaQueryConstructor {
+  new (spec: IMediaQuerySpec, option: IMediaQueryOption): IMediaQuery;
 }

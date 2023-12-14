@@ -4,13 +4,15 @@ import type {
   IMediaQuerySpec,
   IMediaQueryOption,
   IMediaQueryItem,
-  IMediaQueryActionResult
+  IMediaQueryActionResult,
+  IMediaQuery
 } from './interface';
 import { array, cloneDeepSpec } from '../util';
 import { checkMediaQuery } from './util';
 import { executeMediaQueryAction } from './util/action';
+import { Factory } from '../core';
 
-export class MediaQuery {
+export class MediaQuery implements IMediaQuery {
   protected _spec: IMediaQuerySpec;
   protected _option: IMediaQueryOption;
 
@@ -131,3 +133,7 @@ export class MediaQuery {
     // empty
   }
 }
+
+export const registerMediaQuery = () => {
+  Factory.registerMediaQuery(MediaQuery);
+};
