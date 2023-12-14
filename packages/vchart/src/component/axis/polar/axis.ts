@@ -26,6 +26,7 @@ import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
+import { getPolarAxisInfo } from './util';
 
 export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec>
   extends AxisComponent<T>
@@ -73,13 +74,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   private _axisStyle: any;
   private _gridStyle: any;
 
-  static getAxisInfo = (spec: IPolarAxisCommonSpec) => {
-    // TODO: 基于数据处理 axis 类型
-    const axisType = spec.type ?? (spec.orient === 'angle' ? 'band' : 'linear');
-    const componentName = `${PolarAxis.type}-${axisType}`;
-    return { axisType, componentName };
-  };
-
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const axesSpec = chartSpec[this.specKey];
     if (!axesSpec) {
@@ -90,7 +84,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       if (!isValidPolarAxis(axesSpec)) {
         return null;
       }
-      const { axisType, componentName } = this.getAxisInfo(axesSpec);
+      const { axisType, componentName } = getPolarAxisInfo(axesSpec);
       axesSpec.center = chartSpec.center;
       axesSpec.startAngle = chartSpec.startAngle ?? POLAR_START_ANGLE;
       axesSpec.endAngle =
@@ -111,7 +105,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       if (!isValidPolarAxis(s)) {
         return;
       }
-      const { axisType, componentName } = this.getAxisInfo(s);
+      const { axisType, componentName } = getPolarAxisInfo(s);
       s.center = chartSpec.center;
       s.startAngle = chartSpec.startAngle ?? POLAR_START_ANGLE;
       s.endAngle = chartSpec.endAngle ?? (isValid(chartSpec.startAngle) ? chartSpec.startAngle + 360 : POLAR_END_ANGLE);

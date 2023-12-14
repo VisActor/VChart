@@ -12,7 +12,7 @@ import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { Factory } from '../../../core/factory';
-import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis } from './util/common';
+import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo } from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
@@ -105,12 +105,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._dataSet = options.dataSet;
   }
 
-  static getAxisInfo(spec: ICartesianAxisCommonSpec, isHorizontal?: boolean) {
-    const axisType = spec.type ?? autoAxisType(spec.orient, isHorizontal);
-    const componentName = `${CartesianAxis.type}-${axisType}`;
-    return { axisType, componentName };
-  }
-
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     // const regions = (chartSpec.region as IRegionSpec[]) ?? [];
     // if (regions.find(r => r.coordinate !== 'cartesian')) {
@@ -128,7 +122,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       if (!isValidCartesianAxis(axesSpec)) {
         return null;
       }
-      const { axisType, componentName } = this.getAxisInfo(axesSpec, isHorizontal);
+      const { axisType, componentName } = getCartesianAxisInfo(axesSpec, isHorizontal);
       axesSpec.type = axisType;
       return [
         {
@@ -157,7 +151,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       if (!isValidCartesianAxis(spec)) {
         return;
       }
-      const { axisType, componentName } = this.getAxisInfo(spec, isHorizontal);
+      const { axisType, componentName } = getCartesianAxisInfo(spec, isHorizontal);
       spec.type = axisType;
       specInfos.push({
         spec,
