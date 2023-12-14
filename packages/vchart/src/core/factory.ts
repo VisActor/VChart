@@ -17,6 +17,7 @@ import type { Transform, Parser } from '@visactor/vdataset';
 import { fields, filter, simplify, fold, csvParser, dsvParser, tsvParser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
 import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
+import type { IMediaQueryConstructor, IMediaQueryOption, IMediaQuerySpec } from '../media-query/interface';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
@@ -26,6 +27,7 @@ export class Factory {
   private static _regions: { [key: string]: IRegionConstructor } = {};
   private static _animations: { [key: string]: (params?: any, preset?: any) => MarkAnimationSpec } = {};
   private static _implements: { [key: string]: (...args: any) => void } = {};
+  private static _mediaQuery: IMediaQueryConstructor;
 
   static transforms: { [key: string]: Transform } = {
     // buildIn transforms
@@ -68,6 +70,9 @@ export class Factory {
   }
   static registerImplement(key: string, implement: (...args: any) => void) {
     Factory._implements[key] = implement;
+  }
+  static registerMediaQuery(mediaQuery: IMediaQueryConstructor) {
+    Factory._mediaQuery = mediaQuery;
   }
 
   static createChart(chartType: string, spec: any, options: IChartOption): IChart | null {
@@ -144,6 +149,14 @@ export class Factory {
       markInstance.setInteractive(false);
     }
     return markInstance;
+  }
+
+  static createMediaQuery(spec: IMediaQuerySpec, option: IMediaQueryOption) {
+    if (!Factory._mediaQuery) {
+      return null;
+    }
+    const instance = new Factory._mediaQuery(spec, option);
+    return instance;
   }
 
   static getComponents() {
