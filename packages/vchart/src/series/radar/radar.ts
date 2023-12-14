@@ -42,8 +42,6 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 
   static readonly mark: SeriesMarkMap = radarSeriesMark;
 
-  protected declare _theme: Maybe<IRadarSeriesTheme>;
-
   private _areaMark: ILineMark;
   protected _sortDataByAxis: boolean = false;
 

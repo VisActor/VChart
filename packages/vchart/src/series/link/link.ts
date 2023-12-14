@@ -27,8 +27,6 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 
   static readonly mark: SeriesMarkMap = linkSeriesMark;
 
-  protected declare _theme: Maybe<ILinkSeriesTheme>;
-
   protected _fromField?: string;
   getFromField() {
     return this._fromField;

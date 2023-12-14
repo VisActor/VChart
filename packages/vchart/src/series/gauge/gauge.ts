@@ -24,8 +24,6 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 
   static readonly mark: SeriesMarkMap = gaugeSeriesMark;
 
-  protected declare _theme: Maybe<IGaugeSeriesTheme>;
-
   private _segmentMark: IProgressArcMark | null = null;
   private _trackMark: IProgressArcMark | null = null;
 

@@ -6,9 +6,9 @@ export class TooltipSpecTransformer extends BaseComponentSpecTransformer<any> {
     return false;
   }
 
-  protected _initTheme(spec: any, chartSpec: any): any {
-    super._initTheme(spec, chartSpec);
-    spec.style = mergeSpec({}, this._theme, spec.style);
-    return spec;
+  protected _initTheme(spec: any, chartSpec: any): { spec: any; theme: any } {
+    const { spec: newSpec, theme } = super._initTheme(spec, chartSpec);
+    newSpec.style = mergeSpec({}, this._theme, newSpec.style);
+    return { spec: newSpec, theme };
   }
 }

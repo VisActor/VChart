@@ -48,8 +48,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   static readonly mark: SeriesMarkMap = barSeriesMark;
 
-  protected declare _theme: Maybe<IBarSeriesTheme>;
-
   protected _supportStack: boolean = true;
   protected _bandPosition = 0;
   protected _barMark!: IRectMark;

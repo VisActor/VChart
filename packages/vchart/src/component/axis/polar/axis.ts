@@ -60,8 +60,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return this._endAngle;
   }
 
-  protected declare _theme: IPolarAxisCommonTheme;
-
   protected _orient: IPolarOrientType = 'radius';
   getOrient() {
     return this._orient;

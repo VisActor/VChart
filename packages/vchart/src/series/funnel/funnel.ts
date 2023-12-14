@@ -84,8 +84,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
   protected _viewDataTransform!: SeriesData;
 
-  protected declare _theme: Maybe<IFunnelSeriesTheme>;
-
   protected _funnelAlign: 'left' | 'center' | 'right' | 'top' | 'bottom';
   protected _funnelOrient: IOrientType;
   protected _shape: 'rect' | 'trapezoid';

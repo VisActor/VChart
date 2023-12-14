@@ -40,8 +40,6 @@ export class ContinuousLegend<
   type = ComponentTypeEnum.colorLegend;
   name: string = ComponentTypeEnum.colorLegend;
 
-  protected declare _theme: IColorLegendTheme; // TODO: 看下是否需要区分
-
   private _field: string | undefined;
   private _legendType: string;
 

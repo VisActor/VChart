@@ -37,8 +37,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
 
   static readonly mark: SeriesMarkMap = dotSeriesMark;
 
-  protected declare _theme: Maybe<IDotSeriesTheme>;
-
   private _xDimensionStatisticsDomain: any[];
 
   // csj-Q: 是否需要把这些属性写成接口？

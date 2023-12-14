@@ -105,8 +105,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   private _eventList: EventHandlerList = [];
 
-  protected declare _theme: ITooltipTheme;
-
   protected _processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor>;
 
   protected _isTooltipShown: boolean = false;

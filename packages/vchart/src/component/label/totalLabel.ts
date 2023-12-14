@@ -36,8 +36,6 @@ export class TotalLabel extends BaseLabelComponent {
 
   series: ISeries;
 
-  protected declare _theme: ITotalLabelTheme;
-
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const compSpec = chartSpec[this.specKey];
     if (isNil(compSpec)) {

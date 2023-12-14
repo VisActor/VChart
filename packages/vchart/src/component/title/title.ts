@@ -28,8 +28,6 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
   layoutZIndex: number = LayoutZIndex.Title;
   layoutLevel: number = LayoutLevel.Title;
 
-  protected declare _theme: ITitleTheme;
-
   protected _orient: IOrientType = 'top';
 
   private _titleComponent: TitleComponents;

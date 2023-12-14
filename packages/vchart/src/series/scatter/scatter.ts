@@ -36,8 +36,6 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
 
   static readonly mark: SeriesMarkMap = scatterSeriesMark;
 
-  protected declare _theme: Maybe<IScatterSeriesTheme>;
-
   private _symbolMark: ISymbolMark;
   private _labelMark: ILabelMark;
 

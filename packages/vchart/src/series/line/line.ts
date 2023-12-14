@@ -39,8 +39,6 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
 
   static readonly mark: SeriesMarkMap = lineSeriesMark;
 
-  protected declare _theme: Maybe<ILineSeriesTheme>;
-
   protected _sortDataByAxis: boolean = false;
 
   compile(): void {

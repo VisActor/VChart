@@ -69,8 +69,6 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   showDefault: boolean;
   triggerOff: CrossHairTrigger | 'none' = 'hover'; // 为none则不消失
 
-  protected declare _theme: Maybe<ICrosshairTheme>;
-
   get enableRemain(): boolean {
     return this.triggerOff === 'none';
   }

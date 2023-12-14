@@ -41,8 +41,6 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     return this._nameMap;
   }
 
-  protected declare _theme: Maybe<IMapSeriesTheme>;
-
   private _areaCache: Map<string, { shape: string }> = new Map();
   get areaPath() {
     return this._areaCache;

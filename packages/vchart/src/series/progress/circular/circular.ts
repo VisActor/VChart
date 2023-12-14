@@ -27,8 +27,6 @@ export class CircularProgressSeries<
 
   static readonly mark: SeriesMarkMap = circularProgressSeriesMark;
 
-  protected declare _theme: Maybe<ICircularProgressSeriesTheme>;
-
   private _progressMark: IProgressArcMark | null = null;
   private _trackMark: IProgressArcMark | null = null;
 

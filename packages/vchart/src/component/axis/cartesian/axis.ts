@@ -83,8 +83,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return this._scales;
   }
 
-  protected declare _theme: ICartesianAxisCommonTheme;
-
   protected _tick: ITick | undefined = undefined;
 
   private _axisStyle: Partial<LineAxisAttributes>;

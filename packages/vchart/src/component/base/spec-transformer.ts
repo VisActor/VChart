@@ -11,8 +11,8 @@ export class BaseComponentSpecTransformer<
     return getComponentThemeFromGlobalTheme(this.type as ComponentTypeEnum, this._option.getTheme(), spec, chartSpec);
   }
 
-  protected _mergeThemeToSpec(spec: T, chartSpec: any): T {
-    const newSpec = super._mergeThemeToSpec(spec, chartSpec);
+  protected _mergeThemeToSpec(spec: T, chartSpec: any): { spec: T; theme: any } {
+    const { spec: newSpec, theme } = super._mergeThemeToSpec(spec, chartSpec);
 
     // 默认忽略外侧 padding
     const { padding, noOuterPadding = true, orient } = newSpec;
@@ -23,6 +23,6 @@ export class BaseComponentSpecTransformer<
       };
     }
 
-    return newSpec;
+    return { spec: newSpec, theme };
   }
 }
