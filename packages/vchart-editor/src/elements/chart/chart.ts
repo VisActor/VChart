@@ -1,4 +1,4 @@
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic, IGroup } from '@visactor/vrender-core';
 /* eslint-disable promise/no-nesting */
 import type { VRenderPointerEvent } from './../interface';
 import type { IModelInfo, IUpdateAttributeOption } from './../../core/interface';
@@ -237,6 +237,12 @@ export class EditorChart extends BaseElement {
   }
 
   protected _afterRender() {
+    // 设置zIndex
+    const root = this._opt.layer.getStage().defaultLayer.findChildrenByName('root')[0];
+    // @ts-ignore
+    root?.setAttributes({
+      zIndex: this._specProcess.getEditorSpec().zIndex ?? 0
+    });
     this._layoutEditor?.checkCurrentEditorElementBounds();
 
     this._adjustMarkers();
@@ -441,6 +447,46 @@ export class EditorChart extends BaseElement {
     }
 
     return this._pickElement(pos);
+  }
+
+  updatePath(path: IElementPathRoot) {
+    if (path.opt.type === 'layoutModel' || path.opt.type === 'marker') {
+      const model = getChartModelWithModelInfo(this._vchart, path.opt);
+      if (!model) {
+        return;
+      }
+      if (model.type !== 'region') {
+        const boundsComponent = (<any>model).getVRenderComponents()?.[0];
+        if (!boundsComponent) {
+          return;
+        }
+        path.rect = addRectToPathElement(boundsComponent);
+      }
+    } else if (path.opt.type === 'series') {
+      const series = this._vchart.getChart().getAllSeries();
+      let _s = series.find((s: any) => s.type === path.opt.seriesType && s.getSpecIndex() === path.opt.seriesIndex);
+      if (!_s) {
+        _s = series.find((s: any) => s.type === path.opt.seriesType);
+      }
+      if (!_s) {
+        return;
+      }
+      const marks = _s.getMarks();
+      let _m = marks.find((m: any, j: number) => m.type === path.opt.markType && j === path.opt.markIndex);
+      if (!_m) {
+        _m = marks.find((m: any) => m.type === path.opt.markType);
+      }
+      if (!_m) {
+        return;
+      }
+      const el = _m.getProduct()?.graphicItem?.getChildAt?.(path.index) as IGraphic;
+      if (!el) {
+        return;
+      }
+      path.rect = addRectToPathElement(el);
+    } else if (path.opt.type === 'region') {
+      // do nothing
+    }
   }
 
   private _pickElement(pos: IPoint): IElementPathRoot {
@@ -769,16 +815,19 @@ export class EditorChart extends BaseElement {
 
   changeModelLayoutZIndex(
     modelInfo: IModelInfo,
+    model: IChartModel,
     opt: { zIndex?: number; action: 'toTop' | 'toBottom' | 'levelUp' | 'levelDown' }
   ) {
     if (!this._vchart) {
       return;
     }
-    const model = getChartModelWithModelInfo(this._vchart, modelInfo);
     if (!model) {
-      return;
+      model = getChartModelWithModelInfo(this._vchart, modelInfo) as unknown as IChartModel;
+      if (!model) {
+        return;
+      }
     }
-    const mark = getModelRootMark(model as unknown as IChartModel, modelInfo) as IGraphic;
+    const mark = getModelRootMark(model as unknown as IChartModel) as IGraphic;
     if (!mark) {
       return;
     }
@@ -810,5 +859,6 @@ export class EditorChart extends BaseElement {
 
   updateLayoutZIndex(zIndex: number, pushHistory: boolean) {
     this._specProcess.updateZIndex(zIndex, pushHistory);
+    this._vchart && this.onSpecReady();
   }
 }

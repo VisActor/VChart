@@ -76,8 +76,9 @@ export class CommonModelElement extends BaseEditorElement {
           if (model.type === 'region') {
             this.chart.option.layer.changeElementLayoutZIndex(this.chart.id as string, { action: attr.zIndex });
           } else {
-            this.chart.changeModelLayoutZIndex(info.layoutMeta, { action: attr.zIndex });
+            this.chart.changeModelLayoutZIndex(info.layoutMeta, null, { action: attr.zIndex });
           }
+          reRender = true;
         }
 
         if (attr.layout) {

@@ -94,8 +94,21 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       },
       updateCall: (attr, _option) => {
         this._controller.removeOverGraphic();
-
-        const reRender = this.chart.specProcess.updateElementAttribute(element.model, attr);
+        // zIndex 修改需要从chart上得到应该变化的index值，所以需要的调用chart方法
+        let reRender = false;
+        if (attr.zIndex) {
+          this._chart.changeModelLayoutZIndex(
+            {
+              id: model.userId,
+              specKey: model.specKey,
+              specIndex: model.specIndex
+            },
+            element.model,
+            { action: attr.zIndex }
+          );
+          reRender = true;
+        }
+        reRender = this.chart.specProcess.updateElementAttribute(element.model, attr) || reRender;
         const releaseLast = reRender;
         if (releaseLast) {
           this.releaseLast();
