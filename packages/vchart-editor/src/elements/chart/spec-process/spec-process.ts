@@ -273,6 +273,10 @@ export class SpecProcess implements ISpecProcess {
         break;
       default:
         spec.formatMethod = (value: any, datum: any, context: any) => {
+          // apply percentage content for axis
+          if (isPercentageChart) {
+            defaultFormatConfig = { content: 'percentage', fixed: 0 };
+          }
           const formatConfig = Object.assign(defaultFormatConfig, spec.formatConfig) as FormatConfig;
           if (formatConfig.content === 'value(percentage)' || formatConfig.content === 'percentage(value)') {
             const numberValue = this.getNormalFormatContent('value', value, datum, context, modelSpec);
@@ -301,8 +305,9 @@ export class SpecProcess implements ISpecProcess {
     modelSpec: any
   ) {
     // axis not support format content
-    if (['axis-left', 'axis-right', 'axis-top', 'axis-bottom'].includes(modelSpec.id)) {
-      return validNumber(Number.parseFloat(value)) ?? value;
+    if (['axis-left', 'axis-right', 'axis-top', 'axis-bottom'].includes(modelSpec?.id)) {
+      const parsedValue = validNumber(Number.parseFloat(value)) ?? value;
+      return content === 'percentage' ? parsedValue * 100 : parsedValue;
     }
     const series: ISeries = context.series;
     const dimensionField = series.getDimensionField()[0];

@@ -62,7 +62,7 @@ export function getCartesianAxesSpec(
             autoLimit: false,
             formatMethod: percent
               ? (v: any) => {
-                  return v * 100 + '%';
+                  return `${(v * 100).toFixed(0)}%`;
                 }
               : null
           },
@@ -101,7 +101,7 @@ export function getCartesianAxesSpec(
             autoLimit: false,
             formatMethod: percent
               ? (v: any) => {
-                  return v * 100 + '%';
+                  return `${(v * 100).toFixed(0)}%`;
                 }
               : null
           },
