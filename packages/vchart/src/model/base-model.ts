@@ -106,7 +106,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   }
 
   protected get _theme() {
-    return this.getSpecInfo().theme;
+    return this.getSpecInfo()?.theme;
   }
 
   /** for layout diff */
