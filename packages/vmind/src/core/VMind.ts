@@ -1,16 +1,26 @@
 import { _chatToVideoWasm } from '../chart-to-video';
 import {
   chartAdvisorGPT,
-  dataProcessVChart,
   dataProcessGPT,
   estimateVideoTime,
   getSchemaFromFieldInfo
 } from '../gpt/chart-generation/NLToChartPipe';
-import { GPTDataProcessResult, IGPTOptions, TimeType } from '../typings';
+import {
+  GPTDataProcessResult,
+  IGPTOptions,
+  TimeType,
+  ChartGenerationProps,
+  Model,
+  FieldInfo,
+  SimpleFieldInfo,
+  DataItem
+} from '../typings';
 import { patchUserInput } from '../gpt/chart-generation/utils';
 import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from '../gpt/chart-generation/vizDataToSpec';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { chartAdvisorHandler } from '../gpt/chart-generation/chartAdvisorHandler';
+import { dataProcessVChart, parseCSVData } from '../common/dataProcess';
+import { parseCSVDataWithGPT } from '../gpt/dataProcess';
 
 class VMind {
   private _OPENAI_KEY: string | undefined = undefined;
@@ -26,55 +36,67 @@ class VMind {
     this._OPENAI_KEY = key;
   }
 
-  async generateChart(csvFile: string, userInput: string) {
-    const dataView = dataProcessVChart(csvFile);
-    const userInputFinal = patchUserInput(userInput);
+  parseCSVData(csvString: string): { fieldInfo: SimpleFieldInfo[]; dataset: DataItem[] } {
+    //Parse CSV Data without LLM
+    //return dataset and fieldInfo
+    return parseCSVData(csvString);
+  }
 
-    const dataProcessResJson: GPTDataProcessResult = await dataProcessGPT(
-      csvFile,
-      userInputFinal,
-      this._OPENAI_KEY,
-      this._options
-    );
-    const schema = getSchemaFromFieldInfo(dataProcessResJson);
+  parseDataWithGPT(csvString: string, userPrompt: string) {
+    return parseCSVDataWithGPT(csvString, userPrompt, this._OPENAI_KEY, this._options);
+  }
 
-    const colors = dataProcessResJson.COLOR_PALETTE;
-    const parsedTime = dataProcessResJson.VIDEO_DURATION;
-    let chartType;
-    let cell;
-    let dataset = dataView.latestData;
-    try {
-      // throw 'test chartAdvisorHandler';
-      const resJson: any = await chartAdvisorGPT(
-        schema,
-        dataProcessResJson,
-        userInput,
-        this._OPENAI_KEY,
-        this._options
-      );
+  async generateChart(
+    model: Model, //models to finish data generation task
+    userPrompt: string, //user's intent of visualization, usually aspect in data that they want to visualize
+    fieldInfo: SimpleFieldInfo[],
+    propsDataset: DataItem[],
+    colorPalette?: string[],
+    animationDuration?: number
+  ) {
+    if ([Model.GPT3_5, Model.GPT4].includes(model)) {
+      const userInputFinal = patchUserInput(userPrompt);
+      const schema = getSchemaFromFieldInfo(fieldInfo);
+      const colors = colorPalette;
+      let chartType;
+      let cell;
+      let dataset: DataItem[] = propsDataset;
+      try {
+        // throw 'test chartAdvisorHandler';
+        const resJson: any = await chartAdvisorGPT(schema, fieldInfo, userInputFinal, this._OPENAI_KEY, this._options);
 
-      const chartTypeRes = resJson['CHART_TYPE'].toUpperCase();
-      const cellRes = resJson['FIELD_MAP'];
-      const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset);
-      if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
-        chartType = patchResult.chartTypeNew;
-        cell = patchResult.cellNew;
+        const chartTypeRes = resJson['CHART_TYPE'].toUpperCase();
+        const cellRes = resJson['FIELD_MAP'];
+        const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset);
+        if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
+          chartType = patchResult.chartTypeNew;
+          cell = patchResult.cellNew;
+        }
+      } catch (err) {
+        console.warn(err);
+        console.warn('LLM generation error, use rule generation.');
+        const advisorResult = chartAdvisorHandler(schema, dataset);
+        chartType = advisorResult.chartType;
+        cell = advisorResult.cell;
+        dataset = advisorResult.dataset as DataItem[];
       }
-    } catch (err) {
-      console.warn(err);
-      console.warn('LLM generation error, use rule generation.');
-      const advisorResult = chartAdvisorHandler(schema, dataset);
-      chartType = advisorResult.chartType;
-      cell = advisorResult.cell;
-      dataset = advisorResult.dataset;
+      const spec = vizDataToSpec(
+        dataset,
+        chartType,
+        cell,
+        colors,
+        animationDuration ? animationDuration * 1000 : undefined
+      );
+      spec.background = '#00000033';
+      console.info(spec);
+      return {
+        spec,
+        time: estimateVideoTime(chartType, spec, animationDuration ? animationDuration * 1000 : undefined)
+      };
+    } else if (model == Model.SKYLARK) {
+      return {};
     }
-    const spec = vizDataToSpec(dataset, chartType, cell, colors, parsedTime ? parsedTime * 1000 : undefined);
-    spec.background = '#00000033';
-    console.info(spec);
-    return {
-      spec,
-      time: estimateVideoTime(chartType, spec, parsedTime ? parsedTime * 1000 : undefined)
-    };
+    return {};
   }
 
   async exportVideo(

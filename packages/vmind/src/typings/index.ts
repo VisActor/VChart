@@ -8,19 +8,18 @@ export interface IGPTOptions {
   temperature?: number;
 }
 
+export type SimpleFieldInfo = {
+  fieldName: string;
+  description?: string;
+  type: DataType;
+  role: ROLE;
+};
 export type GPTDataProcessResult = {
-  DOUBLE_CHECK: string;
-  FIELD_INFO: {
-    fieldName: string;
-    description: string;
-    type: string;
-    role: string;
-  }[];
-  VIDEO_DURATION?: number;
-  COLOR_PALETTE?: string[];
-  REASON: string;
-  THOUGHT: string;
-  USEFUL_FIELDS: string[];
+  fieldInfo: SimpleFieldInfo[];
+  videoDuration?: number;
+  colorPalette?: string[];
+  thought: string;
+  usefulFields: string[];
   error?: boolean; //解析JSON出错
 };
 
@@ -71,7 +70,50 @@ export type TimeType = {
   frameArr: any[];
 };
 
+export enum DataType {
+  INT = 'int',
+  STRING = 'string',
+  FLOAT = 'float',
+  DATE = 'date'
+}
+
+export enum ROLE {
+  DIMENSION = 'dimension',
+  MEASURE = 'measure'
+}
+
+export enum LOCATION {
+  DIMENSION = 'dimension',
+  MEASURE = 'measure'
+}
+
+export type FieldInfo = {
+  id: string;
+  alias: string;
+  description: string;
+  visible: boolean;
+  type: DataType;
+  role: ROLE;
+  location: LOCATION;
+};
+
 export type VizSchema = {
   chartType?: string;
-  fields: any[];
+  fields: FieldInfo[];
 };
+
+//models that VMind support
+//more models is under developing
+export enum Model {
+  GPT3_5 = 'gpt-3.5',
+  GPT4 = 'gpt-3.5',
+  SKYLARK = 'skylark'
+}
+
+export type ChartGenerationProps = {
+  model: Model; //models to finish data generation task
+  userPrompt: string; //user's intent of visualization, usually aspect in data that they want to visualize
+  dataFields: FieldInfo[];
+};
+
+export type DataItem = Record<string, number | string>;

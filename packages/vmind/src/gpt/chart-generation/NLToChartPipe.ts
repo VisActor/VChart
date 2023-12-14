@@ -8,10 +8,18 @@ import {
   CHARTTYP_VIDEO_ELENGTH,
   SUPPORTED_CHART_LIST
 } from './constants';
-import { GPTChartAdvisorResult, GPTDataProcessResult, IGPTOptions, NLToChartResult, VizSchema } from '../../typings';
-import { parseGPTJson, parseGPTResponse, patchUserInput, readTopNLine, requestGPT } from './utils';
+import {
+  GPTChartAdvisorResult,
+  GPTDataProcessResult,
+  IGPTOptions,
+  LOCATION,
+  NLToChartResult,
+  SimpleFieldInfo,
+  VizSchema
+} from '../../typings';
 import { DataSet, DataView, csvParser, fold } from '@visactor/vdataset';
 import { vizDataToSpec } from './vizDataToSpec';
+import { parseGPTResponse, requestGPT } from '../utils';
 // import {
 //   getMockData1,
 //   getMockData2,
@@ -57,90 +65,35 @@ export const estimateVideoTime = (chartType: string, spec: any, parsedTime?: num
   };
 };
 
-export const dataProcessVChart = (csvFile: string) => {
-  //ChartSpace处理用户上传的csv数据
-  const dataSet = new DataSet();
-  dataSet.registerParser('csv', csvParser);
-  dataSet.registerTransform('fold', fold);
-  const dataView = new DataView(dataSet, { name: 'data' });
-  dataView.parse(csvFile, {
-    type: 'csv'
-  });
-  return dataView;
-};
-
-/*
- ** GPT数据预处理，进行字段信息总结和字段筛选
- */
-export const dataProcessGPT = async (
-  csvFile: string,
-  userInput: string,
-  openAIKey: string | undefined,
-  options: IGPTOptions | undefined
-) => {
-  const DATA_TOP_N = 5; //取csv文件的前多少条数据
-  const topNCSVFile = readTopNLine(csvFile, DATA_TOP_N);
-  const dataProcessMessage = `CSV file content:\n${topNCSVFile}\nUser Input: ${userInput}`;
-  const dataProcessRes = await requestGPT(openAIKey as string, DataProcessPromptEnglish, dataProcessMessage, options);
-  // const dataProcessRes = getMockData1()
-  // const dataProcessRes = getMockDataWordCloud1()
-  // const dataProcessRes = getMockDataDynamicBar();
-
-  const dataProcessResJson = parseGPTResponse(dataProcessRes);
-  if (!dataProcessResJson.error) {
-    return dataProcessResJson;
-  } else {
-    //传统方法做兜底
-    return dataProcessResJson;
-  }
-};
-
 export const chartAdvisorGPT = async (
   schema: Partial<VizSchema>,
-  dataProcessResJson: GPTDataProcessResult,
+  fieldInfo: SimpleFieldInfo[],
   userInput: string,
   openAIKey: string | undefined,
   options: IGPTOptions | undefined
 ) => {
-  if (!dataProcessResJson.error) {
-    //GPT进行图表推荐、配色和字段映射
-    const fieldInfo = dataProcessResJson.FIELD_INFO;
-    // const usefulFields = dataProcessResJson.USEFUL_FIELDS;
-    // const colorPalette = dataProcessResJson.COLOR_PALETTE;
-    // const videoDuration = dataProcessResJson.VIDEO_DURATION;
-    const filteredFields = fieldInfo.filter(
-      field => true
-      //usefulFields.includes(field.fieldName)
-    );
-    const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
-    console.log(chartAdvisorMessage);
+  const filteredFields = fieldInfo.filter(
+    field => true
+    //usefulFields.includes(field.fieldName)
+  );
+  const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
+  console.log(chartAdvisorMessage);
 
-    const advisorRes = await requestGPT(openAIKey, ChartAdvisorPromptEnglish, chartAdvisorMessage, options);
-    // const advisorRes = getMockDataWordCloud2()
-    //const advisorRes = getMockDataDynamicBar2();
+  const advisorRes = await requestGPT(openAIKey, ChartAdvisorPromptEnglish, chartAdvisorMessage, options);
 
-    const advisorResJson: GPTChartAdvisorResult = parseGPTResponse(advisorRes) as unknown as GPTChartAdvisorResult;
-    if (advisorResJson.error) {
-      throw Error('Network Error!');
-    }
-    if (!SUPPORTED_CHART_LIST.includes(advisorResJson['CHART_TYPE'])) {
-      throw Error('Unsupported Chart Type. Please Change User Input');
-      //return {
-      //  spec: undefined,
-      //  time: {
-      //    totalTime: DEFAULT_VIDEO_LENGTH,
-      //    frameArr: [],
-      //  }
-      //}
-    }
-    return advisorResJson;
+  const advisorResJson: GPTChartAdvisorResult = parseGPTResponse(advisorRes) as unknown as GPTChartAdvisorResult;
+
+  console.log(advisorResJson);
+  if (advisorResJson.error) {
+    throw Error('Network Error!');
   }
-  return {};
+  if (!SUPPORTED_CHART_LIST.includes(advisorResJson['CHART_TYPE'])) {
+    throw Error('Unsupported Chart Type. Please Change User Input');
+  }
+  return advisorResJson;
 };
 
-export const getSchemaFromFieldInfo = (dataProcessResJson: GPTDataProcessResult): Partial<VizSchema> => {
-  const fieldInfo = dataProcessResJson.FIELD_INFO;
-  const usefulFields = dataProcessResJson.USEFUL_FIELDS;
+export const getSchemaFromFieldInfo = (fieldInfo: SimpleFieldInfo[]): Partial<VizSchema> => {
   const schema = {
     fields: fieldInfo
       //.filter(d => usefulFields.includes(d.fieldName))
@@ -151,7 +104,7 @@ export const getSchemaFromFieldInfo = (dataProcessResJson: GPTDataProcessResult)
         visible: true,
         type: d.type,
         role: d.role,
-        location: d.role
+        location: d.role as unknown as LOCATION
       }))
   };
   return schema;

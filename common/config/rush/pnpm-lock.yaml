@@ -506,6 +506,7 @@ importers:
       '@visactor/vutils-extension': workspace:1.7.3
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
+      dayjs: ~1.11.10
       eslint: ~8.18.0
       eslint-config-prettier: 8.5.0
       eslint-plugin-import: ^2.27.5
@@ -531,6 +532,7 @@ importers:
       '@visactor/vrender': 0.16.19
       '@visactor/vutils': 0.17.1
       axios: 1.6.2
+      dayjs: 1.11.10
       exceljs: 4.4.0
       json5: 2.2.3
       lodash: 4.17.21
@@ -4934,7 +4936,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.23.3_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 3.2.6_@types+node@20.10.3
+      vite: 3.2.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -13652,7 +13654,7 @@ packages:
       jest: ^24.0.0
     dependencies:
       electron: 11.5.0
-      jest: 26.6.3_ts-node@10.9.0
+      jest: 26.6.3_xxvpynkn5i4ehycnunrxxsezu4
       jest-haste-map: 24.9.0
       jest-message-util: 24.9.0
       jest-mock: 24.9.0
