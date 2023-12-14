@@ -689,6 +689,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const mark = this._createMark(
       { type: spec.type, name: `${namePrefix}_${index}` },
       {
+        // 避免二次dataflow
+        skipBeforeLayouted: true,
         markSpec: spec,
         parent: parentMark,
         dataView: false,
