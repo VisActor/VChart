@@ -41,5 +41,8 @@ export const setProperty = <T>(target: T, path: Array<string | number>, value: a
 };
 
 export const getProperty = <T>(target: any, path: Array<string | number>, defaultValue?: T): T => {
+  if (isNil(path)) {
+    return undefined;
+  }
   return get(target, path as string[], defaultValue) as T;
 };
