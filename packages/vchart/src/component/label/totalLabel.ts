@@ -7,19 +7,17 @@ import type { MarkType } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum, type IMark } from '../../mark/interface';
 import { mergeSpec } from '../../util/spec/merge-spec';
-import { getSeries } from '../../util/model';
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { textAttribute } from './util';
 import { BaseLabelComponent } from './base-label';
-import type { ITotalLabelSpec, ITotalLabelTheme } from './interface';
 import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
 import type { Datum, Maybe } from '../../typings';
 import { Factory } from '../../core/factory';
 import { registerComponentMark } from '../../mark/component';
-import { isNil } from '@visactor/vutils';
+import type { IChartSpecInfo } from '../../chart/interface';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
@@ -34,43 +32,31 @@ export class TotalLabel extends BaseLabelComponent {
   private _textMark?: ILabelMark;
   private _baseMark?: IMark;
 
-  series: ISeries;
-
-  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const compSpec = chartSpec[this.specKey];
-    if (isNil(compSpec)) {
-      return undefined;
-    }
-    return [
-      {
-        spec: compSpec,
-        specPath: [this.specKey],
-        type: ComponentTypeEnum.totalLabel
-      }
-    ];
+  static getSpecInfo(chartSpec: any, chartSpecInfo?: IChartSpecInfo): Maybe<IModelSpecInfo[]> {
+    const specInfo: IModelSpecInfo[] = [];
+    chartSpecInfo?.region?.forEach((regionInfo, i) => {
+      regionInfo.seriesIndexes?.forEach(seriesIndex => {
+        const { spec } = chartSpecInfo.series[seriesIndex];
+        if (spec[this.specKey]?.visible) {
+          specInfo.push({
+            spec: spec[this.specKey],
+            type: ComponentTypeEnum.totalLabel,
+            specPath: ['series', seriesIndex, this.specKey],
+            // 这里的 specIndex 是 region 的 index，用于 region 定位
+            specIndex: i
+          });
+        }
+      });
+    });
+    return specInfo;
   }
 
   static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    // FIXME: 目前只有 label 类组件一个 specInfo 对应了多个组件实例，后续再优化
     const { spec, ...others } = specInfo;
-
-    const regions = options.getAllRegions();
-    const labelComponents: TotalLabel[] = [];
-    for (let i = 0; i < regions.length; i++) {
-      const series = getSeries(regions);
-      series.forEach(s => {
-        if (s.getSpec()?.totalLabel?.visible) {
-          const cmp = new TotalLabel(s.getSpec().totalLabel, {
-            ...options,
-            ...others,
-            specIndex: i
-          });
-          cmp.series = s;
-          labelComponents.push(cmp);
-        }
-      });
-    }
-    return labelComponents;
+    return new TotalLabel(spec, {
+      ...options,
+      ...others
+    });
   }
 
   init(option: IModelInitOption): void {
@@ -80,8 +66,9 @@ export class TotalLabel extends BaseLabelComponent {
   }
 
   protected _initTextMark() {
-    if (this.series.getSpec().totalLabel?.visible) {
-      const mark = this.series.getMarksInType([MarkTypeEnum.rect, MarkTypeEnum.symbol])[0];
+    const series = this._getSeries();
+    if (series.getSpec().totalLabel?.visible) {
+      const mark = series.getMarksInType([MarkTypeEnum.rect, MarkTypeEnum.symbol])[0];
       const textMark = this._createMark({ type: MarkTypeEnum.label, name: `${mark.name}-total-label` }) as ILabelMark;
       this._baseMark = mark;
       this._textMark = textMark;
@@ -104,8 +91,9 @@ export class TotalLabel extends BaseLabelComponent {
   }
 
   protected _initLabelComponent() {
+    const series = this._getSeries();
     const component = this._createMark(
-      { type: MarkTypeEnum.component, name: `${this.series.name}-total-label-component` },
+      { type: MarkTypeEnum.component, name: `${series.name}-total-label-component` },
       {
         componentType: 'label',
         noSeparateStyle: true,
@@ -119,6 +107,7 @@ export class TotalLabel extends BaseLabelComponent {
 
   updateLayoutAttribute(): void {
     super.updateLayoutAttribute();
+    const series = this._getSeries();
     this._marks.forEach((componentMark, index) => {
       const component = componentMark.getProduct() as ReturnType<IView['label']>;
       component
@@ -131,7 +120,7 @@ export class TotalLabel extends BaseLabelComponent {
             return mergeSpec(
               {
                 textStyle: { pickable: this._spec.interactive === true },
-                position: totalLabelPosition(this.series, this._baseMark.type)
+                position: totalLabelPosition(series, this._baseMark.type)
               },
               {
                 offset,
@@ -150,8 +139,8 @@ export class TotalLabel extends BaseLabelComponent {
             {
               baseMark: this._baseMark,
               labelMark: this._textMark,
-              series: this.series,
-              labelSpec: this.series.getSpec().totalLabel
+              series,
+              labelSpec: series.getSpec().totalLabel
             },
             datum,
             this._spec.formatMethod
@@ -182,6 +171,10 @@ export class TotalLabel extends BaseLabelComponent {
       }
     });
     return labels;
+  }
+
+  protected _getSeries() {
+    return this._option.getSeriesInIndex([this.getSpecPath()[1] as number])[0];
   }
 }
 

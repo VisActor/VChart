@@ -372,14 +372,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (!component) {
       return;
     }
-    const components = array(component);
-    if (!components.length) {
-      return;
-    }
-    components.forEach(c => {
-      c.created();
-      this._components.push(c);
-    });
+    component.created();
+    this._components.push(component);
   }
 
   getAllComponents(): IComponent[] {

@@ -223,6 +223,11 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         results.push(callbackfn(label, info));
       });
     }
+    if (totalLabel && chartSpecInfo) {
+      totalLabel.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
+        results.push(callbackfn(totalLabel, info));
+      });
+    }
 
     noAxisComponents.forEach(C => {
       C.getSpecInfo(chartSpec)?.forEach(info => {
