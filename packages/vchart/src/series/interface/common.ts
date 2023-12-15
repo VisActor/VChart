@@ -128,8 +128,6 @@ export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec> extends IM
   type: string | SeriesTypeEnum;
   /** model spec */
   spec: T;
-  /** 当前的 mark 标签 spec */
-  markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
   /** 当前的 mark 标签 spec info */
-  markLabelSpecInfo?: Partial<Record<SeriesMarkNameEnum, IModelSpecInfo[]>>;
+  markLabel?: Partial<Record<SeriesMarkNameEnum, IModelSpecInfo[]>>;
 }

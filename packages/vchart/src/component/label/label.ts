@@ -62,21 +62,21 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     let specInfo: IModelSpecInfo[] = [];
     chartSpecInfo?.region?.forEach((regionInfo, i) => {
       regionInfo.seriesIndexes?.forEach(seriesIndex => {
-        const seriesInfo = chartSpecInfo.series[seriesIndex];
-        if (seriesInfo.markLabelSpec) {
-          Object.keys(seriesInfo.markLabelSpec).forEach(markName => {
-            specInfo = specInfo.concat(
-              array(seriesInfo.markLabelSpec[markName]).map((labelSpec: TransformedLabelSpec, j) => ({
-                spec: labelSpec,
-                type: ComponentTypeEnum.label,
-                // 这里的 specPath 不是对应于真实 spec 的 path，而是 chartSpecInfo 上的 path
-                specPath: ['series', seriesIndex, 'markLabelSpecInfo', markName, j],
-                // 这里的 specIndex 是 region 的 index，用于 region 定位
-                specIndex: i
-              }))
-            );
-          });
-        }
+        const seriesInfo = chartSpecInfo.series[seriesIndex] as any;
+        const { markLabelSpec = {} } = seriesInfo;
+        Object.keys(markLabelSpec).forEach(markName => {
+          specInfo = specInfo.concat(
+            markLabelSpec[markName].map((labelSpec: TransformedLabelSpec, j: number) => ({
+              spec: labelSpec,
+              type: ComponentTypeEnum.label,
+              // 这里的 specPath 不是对应于真实 spec 的 path，而是 chartSpecInfo 上的 path
+              specPath: ['series', seriesIndex, 'markLabel', markName, j],
+              // 这里的 specIndex 是 region 的 index，用于 region 定位
+              specIndex: i
+            }))
+          );
+        });
+        // delete seriesInfo.markLabelSpec;
       });
     });
     return specInfo;
@@ -157,8 +157,8 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       this._labelComponentMap = new Map();
     }
     eachSeries(this._regions, (series: ISeries) => {
-      const seriesInfo = series.getSpecInfo();
-      const markNames = Object.keys(seriesInfo.markLabelSpec ?? {});
+      const { markLabel = {} } = series.getSpecInfo();
+      const markNames = Object.keys(markLabel);
       const region = series.getRegion();
 
       if (!this._labelInfoMap.get(region)) {
@@ -167,8 +167,8 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       for (let i = 0; i < markNames.length; i++) {
         const markName = markNames[i];
         const mark = series.getMarkInName(markName);
-        array(seriesInfo.markLabelSpec[markName]).forEach((labelSpec, index: number) => {
-          if (labelSpec.visible) {
+        markLabel[markName].forEach(({ spec }: IModelSpecInfo, index: number) => {
+          if (spec.visible) {
             const info = this._labelInfoMap.get(region);
             const labelMark = this._createMark(
               {
@@ -182,7 +182,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
               labelMark,
               baseMark: mark,
               series,
-              labelSpec
+              labelSpec: spec
             });
           }
         });
