@@ -2,7 +2,7 @@
  * @description 均值线
  * 2. 双击出现编辑框
  */
-import type { INode } from '@visactor/vrender-core';
+import type { INode, IRect } from '@visactor/vrender-core';
 import { createRect, type IGraphic, createGroup, vglobal } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 import { PointService, clamp, merge } from '@visactor/vutils';
@@ -12,6 +12,8 @@ import type { EventParams, MarkLine, IComponent } from '@visactor/vchart';
 import type { Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
+import { couldBeValidNumber } from '../../utils/common';
+import { parseMarkerSpecWithExpression } from '../../utils/marker/marker-label';
 
 export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponent> {
   readonly type = 'markLine';
@@ -21,6 +23,46 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
   private _prePoint: Point;
   private _preOffset: number = 0;
   private _limitRange: [number, number];
+  private _overlayLabel: IRect;
+
+  protected _onTextChange(expression: string) {
+    const series = this._getSeries();
+    const isPercent = series.getPercent();
+
+    const spec = parseMarkerSpecWithExpression(expression, merge({}, this._spec), {
+      isPercent
+    });
+    if (this._orient === 'horizontal') {
+      const isContinuousYAxis = series.getYAxisHelper().isContinuous;
+
+      if (isContinuousYAxis) {
+        if (couldBeValidNumber(expression)) {
+          spec.y = +expression;
+          spec.expression = null;
+        }
+      } else {
+        if (series.getYAxisHelper().getScale(0).domain().includes(expression)) {
+          spec.y = expression;
+          spec.expression = null;
+        }
+      }
+    } else {
+      const isContinuousXAxis = series.getXAxisHelper().isContinuous;
+      if (isContinuousXAxis) {
+        if (couldBeValidNumber(expression)) {
+          spec.x = +expression;
+          spec.expression = null;
+        }
+      } else {
+        if (series.getXAxisHelper().getScale(0).domain().includes(expression)) {
+          spec.x = expression;
+          spec.expression = null;
+        }
+      }
+    }
+
+    this._updateAndSave(spec, 'markLine');
+  }
 
   protected _getEnableMarkerTypes(): string[] {
     return [MarkerTypeEnum.horizontalLine, MarkerTypeEnum.verticalLine];
@@ -65,6 +107,8 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
 
   private _onDrag = (e: any) => {
     e.stopPropagation();
+    this._controller.removeOverGraphic();
+
     this._setCursor(e);
     this._silentAllMarkers();
     this._editComponent.showAll();
@@ -97,9 +141,9 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
 
     // 恢复 cursor
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
-    this._editComponent?.hideAll();
+    this._overlayLabel.setAttribute('visible', false);
 
-    if (PointService.distancePP(this._prePoint, layerPos) <= 1) {
+    if (PointService.distancePP(this._prePoint, layerPos) <= 2) {
       this._controller.editorEnd();
       return;
     }
@@ -115,45 +159,37 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
     const series = this._getSeries();
     const isPercent = series.getPercent();
     // 计算新的 label 值
-    let newText;
+    // let newText;
     let fieldValue;
     let originValue;
     if (this._orient === 'horizontal') {
       const convertPosition = newPoints[0].y - series.getRegion().getLayoutStartPoint().y;
-      const isContinuousYAxis = series.getYAxisHelper().isContinuous;
       originValue = series.positionToDataY(convertPosition);
 
-      if (isContinuousYAxis) {
-        newText = isPercent ? `${(originValue * 100).toFixed(0)}%` : parseInt(originValue, 10);
-      } else {
-        newText = originValue;
-      }
       fieldValue = `${(convertPosition / series.getRegion().getLayoutRect().height) * 100}%`;
     } else {
       const convertPosition = newPoints[0].x - series.getRegion().getLayoutStartPoint().x;
-      const isContinuousXAxis = series.getXAxisHelper().isContinuous;
       originValue = series.positionToDataX(convertPosition);
-      if (isContinuousXAxis) {
-        newText = isPercent ? `${(originValue * 100).toFixed(0)}%` : parseInt(originValue, 10);
-      } else {
-        newText = originValue;
-      }
 
       fieldValue = `${(convertPosition / series.getRegion().getLayoutRect().width) * 100}%`;
     }
+
+    const preSpec = this._model.getSpec();
+
     // 更新 markLine
     // 生成新的 markLine spec，用于存储
-    const newSpec = merge({}, this._model.getSpec(), {
-      label: {
-        text: newText,
-        formatMethod: null
-      },
+    const newSpec = merge({}, preSpec, {
       [field]: fieldValue,
       _originValue_: originValue // 用于保存当前对应的原始数据
     });
 
     // 更新
-    this._updateAndSave(newSpec, 'markLine');
+    this._updateAndSave(
+      parseMarkerSpecWithExpression(newSpec.expression, newSpec, {
+        isPercent
+      }),
+      'markLine'
+    );
   };
 
   protected _getOverGraphic(el: IEditorElement): IGraphic {
@@ -231,6 +267,7 @@ export class ValueLineEditor extends BaseMarkerEditor<MarkLine, MarkLineComponen
     });
     overlayLabel.name = 'overlay-mark-line-label';
     overlayGraphic.add(overlayLabel);
+    this._overlayLabel = overlayLabel;
 
     this._layer.editorGroup.add(overlayGraphic as unknown as IGraphic);
     this._editComponent = overlayGraphic;

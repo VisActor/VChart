@@ -2,6 +2,7 @@ import { DEFAULT_DATA_KEY, type ICartesianSeries, type VChart } from '@visactor/
 import { type IChartModel } from '../interface';
 import { getChartModelWithModelInfo } from './layout';
 import type { IRect } from '@visactor/vrender-core';
+import { isNumber, isString } from '@visactor/vutils';
 
 export function refreshModelInVChart(model: IChartModel, vchart: VChart) {
   // @ts-ignore
@@ -37,4 +38,25 @@ export function getBarGraphicByDataKey(series: ICartesianSeries, dataKey: string
   });
 
   return element.getGraphicItem() as IRect;
+}
+
+export function couldBeValidNumber(v: any) {
+  if (v === null || v === undefined || v === '') {
+    return false;
+  }
+  if (isNumber(v)) {
+    return true;
+  }
+  // eslint-disable-next-line no-self-compare
+  return +v === +v;
+}
+
+export function isPercent(v: any) {
+  if (!isString(v)) {
+    return false;
+  }
+  if (!v.endsWith('%')) {
+    return false;
+  }
+  return couldBeValidNumber(v.substring(0, v.length - 1));
 }

@@ -8,25 +8,25 @@ import type { IGroup, ILine, ISymbol } from '@visactor/vrender-core';
 import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
 import type { IPointLike } from '@visactor/vutils';
-import { PointService, array, get, isString, last, merge } from '@visactor/vutils';
+import { PointService, array, get, isString, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 import { Segment } from '@visactor/vrender-components';
 import type { EventParams, MarkLine, IComponent, IStepMarkLineSpec } from '@visactor/vchart';
 import { STACK_FIELD_TOTAL_TOP } from '@visactor/vchart';
 import { findClosestPoint } from '../../utils/math';
-import {
-  DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE,
-  adjustTotalDiffCoordinatesOffset,
-  calculateCAGR,
-  getInsertPoints,
-  isDataSameInFields,
-  stackTotal
-} from '../../utils/marker';
 import type { DataPoint, Point } from '../types';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
 import type { IBandLikeScale } from '@visactor/vscale';
 import { SamePointApproximate } from '../../../../utils/space';
+import { parseMarkerSpecWithExpression } from '../../utils/marker/marker-label';
+import {
+  DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE,
+  adjustTotalDiffCoordinatesOffset,
+  getInsertPoints,
+  isDataSameInFields,
+  stackTotal
+} from '../../utils/marker/common';
 
 const START_LINK_HANDLER = 'overlay-growth-mark-line-start-handler';
 const END_LINK_HANDLER = 'overlay-growth-mark-line-end-handler';
@@ -43,12 +43,23 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
   private _lastDownPoint: Point;
   private _prePoint: Point;
-  private _spec: any;
   private _coordinateOffset: [Point, Point];
 
-  protected _handlePointerUp(e: EventParams): void {
-    super._handlePointerUp(e);
-    this._editComponent?.setAttribute('childrenPickable', true);
+  protected _onTextChange(expression: string) {
+    const series = this._getSeries();
+    const isHorizontal = series.direction === 'horizontal';
+    const dimensionField = isHorizontal ? array(series.getSpec().yField)[0] : array(series.getSpec().xField)[0];
+    const dimensionTicks = isHorizontal
+      ? (series.getYAxisHelper().getScale(0) as IBandLikeScale).ticks()
+      : (series.getXAxisHelper().getScale(0) as IBandLikeScale).ticks();
+    const [startDatum, endDatum] = this._spec.coordinates;
+    const n = Math.abs(
+      dimensionTicks.indexOf(endDatum[dimensionField]) - dimensionTicks.indexOf(startDatum[dimensionField])
+    );
+    const spec = parseMarkerSpecWithExpression(expression, merge({}, this._spec), {
+      length: n
+    });
+    this._updateAndSave(spec, 'markLine');
   }
 
   protected _getEnableMarkerTypes(): string[] {
@@ -56,7 +67,8 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
   }
 
   protected _setCursor(e: EventParams): void {
-    // do nothing
+    const series = this._getSeries();
+    this._onHandlerHover(series.direction === 'horizontal' ? 'ew-resize' : 'ns-resize');
   }
 
   protected _handlePointerDown(e: EventParams): void {
@@ -64,6 +76,8 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     this._coordinateOffset = this._getCoordinateOffset();
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
+
+    this._onLineHandlerDragStart(e.event);
   }
 
   private _getCoordinateOffset(): [Point, Point] {
@@ -114,8 +128,6 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
         },
         pickable: false,
         childrenPickable: false
-        // dx: markLine.attribute.dx ?? 0,
-        // dy: markLine.attribute.dy ?? 0
       })
     );
     overlayLine.name = 'overlay-growth-mark-line-line';
@@ -128,19 +140,17 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
       return this._editComponent;
     }
 
-    const series = this._getSeries();
     const dataPoints = this._getAnchorPoints();
     const lineShape = this._element.getLine();
     const editComponent = createGroup({
-      pickable: false,
-      childrenPickable: false
+      pickable: false
     });
     editComponent.name = 'overlay-growth-mark-line';
     const overlayLine = createLine({
       points: lineShape.attribute.points as IPointLike[],
       lineDash: [0],
       lineWidth: 3,
-      pickStrokeBuffer: 16,
+      pickable: false,
       stroke: '#3073F2'
     });
     overlayLine.name = 'overlay-growth-mark-line-line';
@@ -275,12 +285,6 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
     this._layer.editorGroup.add(editComponent as unknown as IGraphic);
     this._editComponent = editComponent;
-
-    overlayLine.addEventListener('pointerdown', this._onLineHandlerDragStart as EventListenerOrEventListenerObject);
-    overlayLine.addEventListener('pointerenter', () =>
-      this._onHandlerHover(series.direction === 'horizontal' ? 'ew-resize' : 'ns-resize')
-    );
-    overlayLine.addEventListener('pointerleave', this._onHandlerUnHover as EventListenerOrEventListenerObject);
 
     const dataAnchors = createGroup({
       pickable: false,
@@ -453,7 +457,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     // Important: 拖拽结束，恢复所有 marker 交互
     this._activeAllMarkers();
 
-    if (PointService.distancePP(this._lastDownPoint, layerPos) <= 1) {
+    if (PointService.distancePP(this._lastDownPoint, layerPos) <= 2) {
       this._controller.editorEnd();
       return;
     }
@@ -470,7 +474,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
     if (startDatum && endDatum) {
       // 1. 生成新的 markLine spec，用于存储
-      const newMarkLineSpec = merge({}, this._spec, {
+      let newMarkLineSpec = merge({}, this._spec, {
         coordinates: [
           {
             ...startDatum,
@@ -494,25 +498,12 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
           dimensionTicks.indexOf(endDatum[dimensionField]) - dimensionTicks.indexOf(startDatum[dimensionField])
         );
 
-        const labelText =
-          startDatum[valueField] === 0
-            ? '<超过 0 的百分比>'
-            : `${(calculateCAGR(endDatum[valueField], startDatum[valueField], n) * 100).toFixed(0)}%`;
-        newMarkLineSpec.label = {
-          ...newMarkLineSpec.label,
-          text: labelText
-        };
+        newMarkLineSpec = parseMarkerSpecWithExpression(newMarkLineSpec.expression, newMarkLineSpec, {
+          length: n
+        });
       } else {
-        const labelText =
-          startDatum[valueField] === 0
-            ? '<超过 0 的百分比>'
-            : `${(((endDatum[valueField] - startDatum[valueField]) / startDatum[valueField]) * 100).toFixed(0)}%`;
-
         newMarkLineSpec.expandDistance = DEFAULT_OFFSET_FOR_TOTAL_DIFF_MARKLINE;
-        newMarkLineSpec.label = {
-          ...newMarkLineSpec.label,
-          text: labelText
-        };
+        newMarkLineSpec = parseMarkerSpecWithExpression(newMarkLineSpec.expression, newMarkLineSpec, {});
 
         this.autoAdjustTotalDiffLines(newMarkLineSpec);
 
@@ -558,6 +549,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
 
   private _onLineHandlerDrag = (e: any) => {
     e.stopPropagation();
+    this._controller.removeOverGraphic();
     const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
     const series = this._model.getRelativeSeries();
     const isHorizontal = series.direction === 'horizontal';
@@ -644,7 +636,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     // Important: 拖拽结束，恢复所有 marker 交互
     this._activeAllMarkers();
 
-    if (PointService.distancePP(this._lastDownPoint, layerPos) <= 1) {
+    if (PointService.distancePP(this._lastDownPoint, layerPos) <= 2) {
       this._controller.editorEnd();
       return;
     }

@@ -1,7 +1,7 @@
 /**
  * @description 区域标注交互
  */
-import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent } from '@visactor/vrender-core';
+import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createRect, createGroup, vglobal, createPolygon } from '@visactor/vrender-core';
 import type { IEditorElement } from '../../../../core/interface';
@@ -12,6 +12,7 @@ import type { EventParams, MarkArea, IComponent } from '@visactor/vchart';
 import { MarkerTypeEnum } from '../../interface';
 import { BaseMarkerEditor } from './base';
 import type { Point } from '../types';
+import { parseMarkerSpecWithExpression } from '../../utils/marker/marker-label';
 
 const handlerWidth = 9;
 const handlerHeight = 40;
@@ -40,12 +41,13 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   private _prePos: number = 0;
   private _prePoint: Point;
 
-  protected _handlePointerUp(e: EventParams): void {
-    super._handlePointerUp(e);
-    this._editComponent?.setAttributes({
-      pickable: true,
-      childrenPickable: true
+  protected _onTextChange(expression: string) {
+    const series = this._getSeries();
+    const isPercent = series.getPercent();
+    const spec = parseMarkerSpecWithExpression(expression, merge({}, this._spec), {
+      isPercent
     });
+    this._updateAndSave(spec, 'markArea');
   }
 
   protected _getEnableMarkerTypes(): string[] {
@@ -60,8 +62,6 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     this._orient = this._element.name === MarkerTypeEnum.verticalArea ? 'vertical' : 'horizontal';
     const el = this._getEditorElement(e);
     this.startEditor(el, e.event as PointerEvent);
-
-    this._overlayAreaGroup?.showAll();
 
     const isHorizontal = this._orient === 'horizontal';
     const series = this._getSeries();
@@ -83,9 +83,8 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
           Math.min(...overlayArea.attribute.points.map((point: any) => point.x))
         : Math.max(...overlayArea.attribute.points.map((point: any) => point.y)) -
           Math.min(...overlayArea.attribute.points.map((point: any) => point.y));
-    vglobal.addEventListener('pointermove', this._onAreaDrag);
-    vglobal.addEventListener('pointerup', this._onAreaDragEnd);
-    this._overlayAreaGroup.addEventListener('pointerdown', this._onAreaDragStart as EventListenerOrEventListenerObject);
+
+    this._onAreaDragStart(e.event);
   }
 
   // 创建 hover 浮层
@@ -109,17 +108,8 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
   protected _createEditorGraphic(el: IEditorElement): IGraphic {
     const model = el.model;
     const overlayGraphic = createGroup({
-      pickable: false,
-      childrenPickable: false
+      pickable: false
     });
-    const overlayAreaGroup = createGroup({
-      x: 0,
-      y: 0
-    });
-    overlayAreaGroup.name = 'overlay-mark-area-group';
-    overlayGraphic.add(overlayAreaGroup);
-    this._overlayAreaGroup = overlayAreaGroup;
-
     const markArea = (model as unknown as IComponent).getVRenderComponents()[0];
     const areaShape = (markArea as unknown as MarkAreaComponent).getArea();
     const points = areaShape.attribute.points;
@@ -153,15 +143,13 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         lineWidth: 1,
         stroke: '#3073F2',
         fill: '#005DFF',
-        fillOpacity: 0.1
+        fillOpacity: 0.1,
+        pickable: false
       })
     );
     overlayArea.name = 'overlay-mark-area-area';
     this._overlayArea = overlayArea;
-    overlayAreaGroup.add(overlayArea);
-
-    overlayArea.addEventListener('pointerenter', e => this._onHandlerHover('move'));
-    overlayArea.addEventListener('pointerleave', this._onHandlerUnHover);
+    overlayGraphic.add(overlayArea);
 
     const labelShape = (markArea as unknown as MarkAreaComponent).getLabel() as unknown as IGroup;
     const overlayLabel = createRect({
@@ -171,7 +159,8 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       height: labelShape.AABBBounds.height(),
       fill: '#3073F2',
       fillOpacity: 0.3,
-      visible: false
+      visible: false,
+      pickable: false
     });
     overlayLabel.name = 'overlay-mark-area-label';
     this._overlayLabel = overlayLabel;
@@ -191,7 +180,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         zIndex: 1
       });
       rightHandler.name = 'overlay-right-handler';
-      overlayAreaGroup.add(rightHandler);
+      overlayGraphic.add(rightHandler);
       this._rightHandler = rightHandler;
 
       const leftHandler = createRect({
@@ -205,7 +194,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         zIndex: 1
       });
       leftHandler.name = 'overlay-left-handler';
-      overlayAreaGroup.add(leftHandler);
+      overlayGraphic.add(leftHandler);
       this._leftHandler = leftHandler;
 
       // resize 手柄的事件监听
@@ -231,7 +220,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         zIndex: 1
       });
       topHandler.name = 'overlay-top-handler';
-      overlayAreaGroup.add(topHandler);
+      overlayGraphic.add(topHandler);
       this._topHandler = topHandler;
 
       const bottomHandler = createRect({
@@ -245,7 +234,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
         zIndex: 1
       });
       bottomHandler.name = 'overlay-bottom-handler';
-      overlayAreaGroup.add(bottomHandler);
+      overlayGraphic.add(bottomHandler);
       this._bottomHandler = bottomHandler;
 
       // resize 手柄的事件监听
@@ -291,10 +280,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     this._chart.option.editorEvent.setCursor(this._orient === 'horizontal' ? 'ns-resize' : 'ew-resize');
 
     this._silentAllMarkers();
-    this._overlayAreaGroup.setAttributes({
-      pickable: false,
-      childrenPickable: false
-    });
+
     this._editComponent.showAll();
 
     let currentPos;
@@ -371,12 +357,9 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       pickable: false
     });
     this._activeAllMarkers();
-    this._overlayAreaGroup.setAttributes({
-      pickable: true,
-      childrenPickable: true
-    });
+
     const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
-    if (PointService.distancePP(this._prePoint, layerPos) <= 1) {
+    if (PointService.distancePP(this._prePoint, layerPos) <= 2) {
       this._controller.editorEnd();
       return;
     }
@@ -417,10 +400,7 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     this._controller.removeOverGraphic();
     this._silentAllMarkers();
     this._editComponent.showAll();
-    this._editComponent.setAttributes({
-      pickable: true,
-      childrenPickable: true
-    });
+
     const overlayArea = this._overlayArea;
     let currentPos;
     let delta = 0;
@@ -517,6 +497,12 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     });
     this._activeAllMarkers();
 
+    const layerPos = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
+    if (PointService.distancePP(this._prePoint, layerPos) <= 2) {
+      this._controller.editorEnd();
+      return;
+    }
+
     // 更新当前图形以及保存 spec
     this._save(points);
   };
@@ -529,27 +515,15 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
     const { width: regionWidth, height: regionHeight } = series.getRegion().getLayoutRect();
 
     let positionSpec;
-    let labelText;
     if (this._orient === 'horizontal') {
       const bottomY = newPoints.find(point => point.bottom).y;
       const topY = newPoints.find(point => point.top).y;
 
       const start = series.positionToDataY(Math.max(bottomY, topY) - regionStartY);
       const end = series.positionToDataY(Math.min(bottomY, topY) - regionStartY);
-      if (series.getYAxisHelper().isContinuous) {
-        labelText = isPercent
-          ? `${(start * 100).toFixed(0)}% - ${(end * 100).toFixed(0)}%`
-          : `${start.toFixed(0)} - ${end.toFixed(0)}`;
-      } else {
-        labelText = start === end ? start : `${start} - ${end}`;
-      }
-
       positionSpec = {
         y: `${((bottomY - regionStartY) / regionHeight) * 100}%`,
         y1: `${((topY - regionStartY) / regionHeight) * 100}%`,
-        label: {
-          text: labelText
-        },
         _originValue_: [start, end]
       };
     } else {
@@ -558,26 +532,21 @@ export class MarkAreaEditor extends BaseMarkerEditor<MarkArea, MarkAreaComponent
       const start = series.positionToDataX(Math.min(leftX, rightX) - regionStartX);
       const end = series.positionToDataX(Math.max(leftX, rightX) - regionStartX);
 
-      if (series.getXAxisHelper().isContinuous) {
-        labelText = isPercent
-          ? `${(start * 100).toFixed(0)}% - ${(end * 100).toFixed(0)}%`
-          : `${start.toFixed(0)} - ${end.toFixed(0)}`;
-      } else {
-        labelText = start === end ? start : `${start} - ${end}`;
-      }
       positionSpec = {
         x: `${((leftX - regionStartX) / regionWidth) * 100}%`,
         x1: `${((rightX - regionStartX) / regionWidth) * 100}%`,
-        label: {
-          text: labelText
-        },
         _originValue_: [start, end]
       };
     }
 
     const newMarkAreaSpec = merge({}, this._model.getSpec(), positionSpec);
 
-    this._updateAndSave(newMarkAreaSpec, 'markArea');
+    this._updateAndSave(
+      parseMarkerSpecWithExpression(newMarkAreaSpec.expression, newMarkAreaSpec, {
+        isPercent
+      }),
+      'markArea'
+    );
   }
 
   private _onHandlerHover(cursor: string) {
