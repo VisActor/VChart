@@ -1,4 +1,4 @@
-import { LabelMark, type ILabelMark, registerLabelMark } from './../../mark/label';
+import { LabelMark, type ILabelMark, registerLabelMark } from '../../mark/label';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
@@ -40,7 +40,7 @@ export class TotalLabel extends BaseLabelComponent {
         const labelSpec = spec[this.specKey];
         if (labelSpec?.visible) {
           specInfo.push({
-            spec: chartSpec,
+            spec: labelSpec,
             type: ComponentTypeEnum.totalLabel,
             specPath: ['series', seriesIndex, this.specKey],
             // 这里的 specIndex 是 region 的 index，用于 region 定位

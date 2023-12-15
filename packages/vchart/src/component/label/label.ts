@@ -25,6 +25,7 @@ import { LabelMark, type ILabelMark, registerLabelMark } from '../../mark/label'
 import type { ICompilableMark } from '../../compile/mark';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { IChartSpec } from '../../typings';
+import { LabelSpecTransformer } from './spec-transformer';
 
 export interface ILabelInfo {
   baseMark: ICompilableMark;
@@ -45,6 +46,9 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
 
   static specKey = 'label';
   specKey = 'label';
+
+  static readonly transformerConstructor = LabelSpecTransformer as any;
+  readonly transformerConstructor = LabelSpecTransformer;
 
   layoutZIndex: number = LayoutZIndex.Label;
 

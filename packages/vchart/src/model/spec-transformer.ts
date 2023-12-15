@@ -1,3 +1,4 @@
+import type { IChartSpecInfo } from '../chart/interface';
 import { isArray, mergeSpec } from '../util';
 import type { IBaseModelSpecTransformer, IBaseModelSpecTransformerOption, IModelSpec } from './interface';
 
@@ -22,12 +23,12 @@ export class BaseModelSpecTransformer<T extends IModelSpec, K> implements IBaseM
   }
 
   /** 不建议重写该方法，最好重写对应子步骤 */
-  transformSpec(spec: T, chartSpec: any): { spec: T; theme: K } {
-    this._transformSpec(spec, chartSpec);
+  transformSpec(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo): { spec: T; theme: K } {
+    this._transformSpec(spec, chartSpec, chartSpecInfo);
     return this._initTheme(spec, chartSpec);
   }
 
-  protected _transformSpec(spec: T, chartSpec: any) {
+  protected _transformSpec(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo) {
     // do nothing
     // change spec by default logic
   }

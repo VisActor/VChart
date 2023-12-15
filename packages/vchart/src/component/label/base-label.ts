@@ -9,9 +9,8 @@ import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { isEqual } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
-import type { IChartSpec } from '../../typings';
 
-export abstract class BaseLabelComponent<T extends IChartSpec = any> extends BaseComponent<T> {
+export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
