@@ -53,7 +53,7 @@ describe('rangeColumn chart test', () => {
       seriesType: 'rangeColumn',
       getTheme: () => ThemeManager.getCurrentTheme()
     });
-    transformer.initChartSpec(spec as any);
+    const info = transformer.initChartSpec(spec as any);
     const chart = new RangeColumnChart(
       spec as any,
       {
@@ -72,7 +72,8 @@ describe('rangeColumn chart test', () => {
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         getTheme: () => ThemeManager.getCurrentTheme(),
-        animation: false
+        animation: false,
+        getSpecInfo: () => info
       } as any
     );
     chart.created();
