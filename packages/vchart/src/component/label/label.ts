@@ -167,6 +167,9 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       for (let i = 0; i < markNames.length; i++) {
         const markName = markNames[i];
         const mark = series.getMarkInName(markName);
+        if (!mark) {
+          continue;
+        }
         markLabel[markName].forEach(({ spec }: IModelSpecInfo, index: number) => {
           if (spec.visible) {
             const info = this._labelInfoMap.get(region);
