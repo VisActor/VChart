@@ -26,6 +26,7 @@ import { registerAreaAnimation } from './animation';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { LineLikeSeriesSpecTransformer } from '../mixin/spec-transformer';
+import { AreaSeriesSpecTransformer } from './spec-transformer';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -50,8 +51,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   type = SeriesTypeEnum.area;
 
   static readonly mark: SeriesMarkMap = areaSeriesMark;
-  static readonly transformerConstructor = LineLikeSeriesSpecTransformer;
-  readonly transformerConstructor = LineLikeSeriesSpecTransformer;
+  static readonly transformerConstructor = AreaSeriesSpecTransformer as any;
+  readonly transformerConstructor = AreaSeriesSpecTransformer;
 
   protected _areaMark!: IAreaMark;
   protected _supportStack: boolean = true;
