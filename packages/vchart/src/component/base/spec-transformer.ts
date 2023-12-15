@@ -14,16 +14,18 @@ export class BaseComponentSpecTransformer<
 
   protected _mergeThemeToSpec(spec: T, chartSpec: any): { spec: T; theme: K } {
     const { spec: newSpec, theme } = super._mergeThemeToSpec(spec, chartSpec);
+    this._adjustPadding(newSpec);
+    return { spec: newSpec, theme };
+  }
 
+  protected _adjustPadding(spec: T) {
     // 默认忽略外侧 padding
-    const { padding, noOuterPadding = true, orient } = newSpec;
+    const { padding, noOuterPadding = true, orient } = spec;
     if (noOuterPadding && padding && orient) {
-      newSpec.padding = {
+      spec.padding = {
         ...normalizeLayoutPaddingSpec(padding),
         [orient]: 0
       };
     }
-
-    return { spec: newSpec, theme };
   }
 }

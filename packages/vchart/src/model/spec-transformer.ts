@@ -37,15 +37,8 @@ export class BaseModelSpecTransformer<T extends IModelSpec, K> implements IBaseM
     const theme = this._theme;
     if (this._shouldMergeThemeToSpec()) {
       const specFromChart = this._getDefaultSpecFromChart(chartSpec);
-
       // this._originalSpec + specFromChart + this._theme = this._spec
-      const merge = (originalSpec: any) =>
-        mergeSpec(
-          {},
-          theme,
-          this._prepareSpecBeforeMergingTheme(specFromChart),
-          this._prepareSpecBeforeMergingTheme(originalSpec)
-        );
+      const merge = (originalSpec: any) => mergeSpec({}, theme, specFromChart, originalSpec);
 
       if (isArray(spec)) {
         return {
@@ -67,13 +60,7 @@ export class BaseModelSpecTransformer<T extends IModelSpec, K> implements IBaseM
   }
 
   /** 从 chart spec 提取配置作为 model 的默认 spec 配置 */
-  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> {
-    return {};
-  }
-
-  /** 在 merge 主题前对 spec 进行预处理 */
-  protected _prepareSpecBeforeMergingTheme(spec?: Partial<T>): Partial<T> {
-    // do nothing
-    return spec;
+  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> | undefined {
+    return undefined;
   }
 }

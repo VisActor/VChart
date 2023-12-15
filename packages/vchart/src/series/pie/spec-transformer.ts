@@ -1,7 +1,7 @@
 import { mergeSpec } from '../../util';
 import { BaseSeriesSpecTransformer } from '../base';
 import { SeriesMarkNameEnum } from '../interface';
-import type { IArcLabelSpec, IBasePieSeriesSpec, IPieSeriesTheme } from './interface';
+import type { IBasePieSeriesSpec, IPieSeriesTheme } from './interface';
 
 export class PieSeriesSpecTransformer<
   T extends IBasePieSeriesSpec = IBasePieSeriesSpec,
@@ -14,27 +14,20 @@ export class PieSeriesSpecTransformer<
   /** 将 theme merge 到 spec 中 */
   protected _mergeThemeToSpec(spec: T, chartSpec: any): { spec: T; theme: K } {
     const theme = this._theme;
+    let newSpec = spec;
     if (this._shouldMergeThemeToSpec()) {
-      // this._originalSpec + specFromChart + this._theme = this._spec
-      let specFromChart = this._getDefaultSpecFromChart(chartSpec);
-      specFromChart = this._prepareSpecBeforeMergingTheme(specFromChart);
-      const specFromUser = this._prepareSpecBeforeMergingTheme(spec);
+      const specFromChart = this._getDefaultSpecFromChart(chartSpec);
 
-      const labelSpec = mergeSpec({}, theme.label, specFromChart.label, specFromUser.label) as IArcLabelSpec;
-      const labelTheme = mergeSpec(
-        {},
-        theme.label,
-        labelSpec.position === 'inside' ? theme.innerLabel : theme.outerLabel
-      );
-      const newTheme = {
-        ...theme,
-        label: labelTheme
-      } as K;
-      return {
-        spec: mergeSpec({}, newTheme, specFromChart, specFromUser),
-        theme: newTheme
-      };
+      // this._originalSpec + specFromChart + this._theme = this._spec
+      // 动态处理 label 样式，对于展示在内部的 label 默认使用 innerLabel 样式
+      newSpec = mergeSpec({}, this._theme, specFromChart, spec) as any;
+      if (newSpec.label.position === 'inside') {
+        newSpec.label = mergeSpec({}, this._theme.innerLabel, newSpec.label);
+      } else {
+        newSpec.label = mergeSpec({}, this._theme.outerLabel, newSpec.label);
+      }
     }
-    return { spec, theme };
+
+    return { spec: newSpec, theme };
   }
 }

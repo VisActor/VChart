@@ -203,49 +203,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     this.setAttrFromSpec();
   }
 
-  protected _initTheme(theme?: any) {
-    // if (this.getVisible() === false) {
-    //   // 不展示不需要处理主题
-    //   return;
-    // }
-    if (theme) {
-      this._theme = theme;
-    } else {
-      this._theme = this._getTheme();
-    }
-
-    this._mergeThemeToSpec();
-  }
-
-  protected _getTheme(): any {
-    return undefined;
-  }
-
-  /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec() {
-    if (this._shouldMergeThemeToSpec()) {
-      // this._originalSpec + this._theme = this._spec
-      const merge = (originalSpec: any) => mergeSpec({}, this._theme, originalSpec);
-
-      const baseSpec = this._originalSpec;
-      if (isArray(baseSpec)) {
-        this._spec = baseSpec.map(spec => merge(spec)) as unknown as T;
-      } else {
-        this._spec = merge(baseSpec);
-      }
-    }
-  }
-
-  /** 是否在初始化时将 theme 自动 merge 到 spec */
-  protected _shouldMergeThemeToSpec(): boolean {
-    return true;
-  }
-
-  setCurrentTheme() {
-    // 重新初始化
-    this.reInit();
-  }
-
   updateLayoutAttribute() {
     // do nothing
   }

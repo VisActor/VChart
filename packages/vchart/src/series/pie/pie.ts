@@ -521,24 +521,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   getActiveMarks(): IMark[] {
     return [this._pieMark];
   }
-
-  /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec() {
-    if (this._shouldMergeThemeToSpec()) {
-      const specFromChart = this._getDefaultSpecFromChart(this.getChart().getSpec());
-
-      // this._originalSpec + specFromChart + this._theme = this._spec
-      // 动态处理 label 样式，对于展示在内部的 label 默认使用 innerLabel 样式
-      const result = mergeSpec({}, this._theme, specFromChart, this._originalSpec) as any;
-      if (result.label.position === 'inside') {
-        result.label = mergeSpec({}, this._theme.innerLabel, result.label);
-      } else {
-        result.label = mergeSpec({}, this._theme.outerLabel, result.label);
-      }
-
-      this._spec = result;
-    }
-  }
 }
 
 export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
