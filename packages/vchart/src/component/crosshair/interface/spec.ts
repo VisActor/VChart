@@ -21,7 +21,7 @@ export interface ICommonCrosshairSpec extends IComponentSpec {
   /**
    * 隐藏crosshair的触发方式（目前仅支持和trigger一致的设置以及none）
    */
-  triggerOff?: CrossHairTrigger | 'none';
+  triggerOff?: CrossHairTrigger | 'none' | number;
   /**
    * crosshair 文本的显示层级
    */
