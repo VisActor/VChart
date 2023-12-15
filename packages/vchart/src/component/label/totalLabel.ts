@@ -37,9 +37,10 @@ export class TotalLabel extends BaseLabelComponent {
     chartSpecInfo?.region?.forEach((regionInfo, i) => {
       regionInfo.seriesIndexes?.forEach(seriesIndex => {
         const { spec } = chartSpecInfo.series[seriesIndex];
-        if (spec[this.specKey]?.visible) {
+        const labelSpec = spec[this.specKey];
+        if (labelSpec?.visible) {
           specInfo.push({
-            spec: spec[this.specKey],
+            spec: chartSpec,
             type: ComponentTypeEnum.totalLabel,
             specPath: ['series', seriesIndex, this.specKey],
             // 这里的 specIndex 是 region 的 index，用于 region 定位

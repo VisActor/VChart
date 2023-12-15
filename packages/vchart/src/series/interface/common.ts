@@ -14,7 +14,7 @@ import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { ISeriesSpec, StringOrNumber } from '../../typings';
-import type { TransformedLabelSpec } from '../../component/label';
+import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
 import type { ICustomPath2D } from '@visactor/vrender-core';
 
@@ -128,6 +128,8 @@ export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec> extends IM
   type: string | SeriesTypeEnum;
   /** model spec */
   spec: T;
-  /** 当前的 mark 标签 spec info */
-  markLabel?: Partial<Record<SeriesMarkNameEnum, IModelSpecInfo[]>>;
+  /** 当前的 mark 标签 spec */
+  markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
+  /** 当前的总计标签 spec */
+  totalLabel?: IModelSpecInfo;
 }

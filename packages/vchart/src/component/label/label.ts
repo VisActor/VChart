@@ -24,6 +24,7 @@ import { Factory } from '../../core/factory';
 import { LabelMark, type ILabelMark, registerLabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
 import type { IChartSpecInfo } from '../../chart/interface';
+import type { IChartSpec } from '../../typings';
 
 export interface ILabelInfo {
   baseMark: ICompilableMark;
@@ -37,7 +38,7 @@ export interface ILabelComponentContext {
   labelInfo: ILabelInfo[];
 }
 
-export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent<T> {
+export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
@@ -55,28 +56,29 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
-    this._layoutRule = spec.labelLayout || 'series';
+    this._layoutRule = (spec as any).labelLayout || 'series';
   }
 
   static getSpecInfo(chartSpec: any, chartSpecInfo: IChartSpecInfo): Maybe<IModelSpecInfo[]> {
-    let specInfo: IModelSpecInfo[] = [];
+    const specInfo: IModelSpecInfo[] = [];
     chartSpecInfo?.region?.forEach((regionInfo, i) => {
       regionInfo.seriesIndexes?.forEach(seriesIndex => {
         const seriesInfo = chartSpecInfo.series[seriesIndex] as any;
         const { markLabelSpec = {} } = seriesInfo;
-        Object.keys(markLabelSpec).forEach(markName => {
-          specInfo = specInfo.concat(
-            markLabelSpec[markName].map((labelSpec: TransformedLabelSpec, j: number) => ({
-              spec: labelSpec,
-              type: ComponentTypeEnum.label,
-              // 这里的 specPath 不是对应于真实 spec 的 path，而是 chartSpecInfo 上的 path
-              specPath: ['series', seriesIndex, 'markLabel', markName, j],
-              // 这里的 specIndex 是 region 的 index，用于 region 定位
-              specIndex: i
-            }))
-          );
-        });
-        // delete seriesInfo.markLabelSpec;
+        if (
+          Object.values(markLabelSpec).some(labelSpecList =>
+            (labelSpecList as ILabelSpec[]).some(labelSpec => labelSpec.visible)
+          )
+        ) {
+          specInfo.push({
+            spec: chartSpec,
+            type: ComponentTypeEnum.label,
+            // 这里的 specPath 不是对应于真实 spec 的 path，而是 chartSpecInfo 上的 path
+            specPath: ['region', i, 'markLabel'],
+            // 这里的 specIndex 是 region 的 index，用于 region 定位
+            specIndex: i
+          });
+        }
       });
     });
     return specInfo;
@@ -157,8 +159,8 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       this._labelComponentMap = new Map();
     }
     eachSeries(this._regions, (series: ISeries) => {
-      const { markLabel = {} } = series.getSpecInfo();
-      const markNames = Object.keys(markLabel);
+      const { markLabelSpec = {} } = series.getSpecInfo();
+      const markNames = Object.keys(markLabelSpec);
       const region = series.getRegion();
 
       if (!this._labelInfoMap.get(region)) {
@@ -170,7 +172,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
         if (!mark) {
           continue;
         }
-        markLabel[markName].forEach(({ spec }: IModelSpecInfo, index: number) => {
+        markLabelSpec[markName].forEach((spec: TransformedLabelSpec, index: number) => {
           if (spec.visible) {
             const info = this._labelInfoMap.get(region);
             const labelMark = this._createMark(
@@ -201,7 +203,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           {
             componentType: 'label',
             noSeparateStyle: true,
-            support3d: this._spec.support3d
+            support3d: (this._spec as any).support3d
           }
         );
         if (component) {
@@ -294,7 +296,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           const interactive = this._interactiveConfig(labelSpec);
           const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state', 'type']);
           /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
-          const centerOffset = this._spec?.centerOffset ?? 0;
+          const centerOffset = (this._spec as any)?.centerOffset ?? 0;
           const spec = mergeSpec(
             {
               textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
