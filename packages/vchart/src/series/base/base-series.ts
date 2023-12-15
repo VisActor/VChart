@@ -757,7 +757,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _parseDefaultInteractionConfig(mainMarks?: IMark[]) {
     if (!mainMarks?.length) {
-      return;
+      return [];
     }
 
     const defaultConfig = getDefaultInteractionConfigByMode(this._option.mode);
