@@ -130,52 +130,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     this._endHandlerSize = endHandlerVisble ? this._spec.endHandler.style.size : 0;
   }
 
-  /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec() {
-    if (this._shouldMergeThemeToSpec()) {
-      // this._originalSpec + this._theme = this._spec
-      const merge = (originalSpec: any) => {
-        const result = mergeSpec(
-          {
-            selectedBackgroundChart: {
-              line: {},
-              area: {}
-            }
-          },
-          this._theme,
-          originalSpec
-        );
-
-        // 兼容：为了减少主题更改造成的影响，如果用户在 spec 配置了主题默认关闭的 mark，则自动加上 visible: true
-        const { selectedBackgroundChart = {} } = originalSpec;
-        const { line, area } = selectedBackgroundChart;
-
-        if (line && line.visible !== false) {
-          result.selectedBackgroundChart.line.style = {
-            ...result.selectedBackgroundChart.line.style,
-            visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
-          };
-        }
-        if (area && area.visible !== false) {
-          result.selectedBackgroundChart.area.style = {
-            ...result.selectedBackgroundChart.area.style,
-            visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
-          };
-        }
-
-        return result;
-      };
-
-      const baseSpec = this._originalSpec;
-      if (isArray(baseSpec)) {
-        this._spec = baseSpec.map(spec => merge(spec)) as unknown as any;
-      } else {
-        this._spec = merge(baseSpec);
-      }
-    }
-
-    this._adjustPadding();
-  }
   /** LifeCycle API**/
   onLayoutEnd(ctx: any): void {
     this._updateScaleRange();
