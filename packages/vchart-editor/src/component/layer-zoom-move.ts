@@ -2,6 +2,10 @@ import { debounce, type EventEmitter } from '@visactor/vutils';
 import type { ILayer } from '@visactor/vrender-core';
 import { DragComponent } from './transform-drag';
 import type { IPoint } from '../typings/space';
+
+const MIN_ZOOM = 0.1;
+const MAX_ZOOM = 3;
+
 export class LayerZoomMove {
   private _layer: ILayer;
   private _dragger: DragComponent;
@@ -61,7 +65,8 @@ export class LayerZoomMove {
       const zoom = Math.pow(1.005, -e.deltaY * Math.pow(16, e.deltaMode));
       // const zoom = Math.pow(1.0005, -e.deltaY * Math.pow(16, e.deltaMode));
       const center = { x: e.offsetX, y: e.offsetY };
-      this._layer.scale(zoom, zoom, center);
+      // this._layer.scale(zoom, zoom, center);
+      this.zoom(zoom, center);
       if (this._wheelState === 'none' || this._wheelState === 'pre') {
         this.emitter.emit('onLayerWheelStart', { zoom, center, globalZoom: this._layer.globalTransMatrix.a });
       } else {
@@ -157,6 +162,27 @@ export class LayerZoomMove {
 
   zoomTo(_zoom: number, center?: IPoint) {
     const zoom = _zoom / this._layer.globalTransMatrix.a;
+    this._layer.scale(
+      zoom,
+      zoom,
+      center ?? { x: this._container.clientWidth * 0.5, y: this._container.clientHeight * 0.5 }
+    );
+  }
+
+  zoom(zoom: number, center?: IPoint) {
+    if (
+      (this._layer.globalTransMatrix.a <= MIN_ZOOM && zoom < 1) ||
+      (this._layer.globalTransMatrix.a >= MAX_ZOOM && zoom > 1)
+    ) {
+      return;
+    }
+    const finalZoom = zoom * this._layer.globalTransMatrix.a;
+    if (finalZoom <= MIN_ZOOM) {
+      zoom = MIN_ZOOM / this._layer.globalTransMatrix.a;
+    }
+    if (finalZoom >= MAX_ZOOM && zoom > 1) {
+      zoom = MAX_ZOOM / this._layer.globalTransMatrix.a;
+    }
     this._layer.scale(
       zoom,
       zoom,
