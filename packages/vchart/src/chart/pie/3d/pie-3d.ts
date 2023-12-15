@@ -1,4 +1,4 @@
-import { registerPie3dSeries } from '../../../series/pie/pie-3d';
+import { registerPie3dSeries } from '../../../series/pie/3d/pie-3d';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import { ChartTypeEnum } from '../../interface/type';

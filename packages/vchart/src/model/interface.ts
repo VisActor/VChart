@@ -19,7 +19,8 @@ import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
 import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
 import type { ComponentTypeEnum } from '../component/interface';
-import type { SeriesTypeEnum } from '../series';
+import type { SeriesMarkNameEnum, SeriesTypeEnum } from '../series';
+import type { TransformedLabelSpec } from '../component/label';
 
 // TODO:
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -212,7 +213,13 @@ export interface IBaseModelSpecTransformerOption {
   getTheme: () => ITheme;
 }
 
+export interface IBaseModelSpecTransformerResult<T, K> {
+  spec: T;
+  theme: K;
+  markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
+}
+
 export interface IBaseModelSpecTransformer {
   getTheme: (spec: any, chartSpec: any) => any;
-  transformSpec: (spec: any, chartSpec: any) => { spec: any; theme: any };
+  transformSpec: (spec: any, chartSpec: any) => IBaseModelSpecTransformerResult<any, any>;
 }

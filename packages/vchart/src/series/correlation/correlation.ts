@@ -32,6 +32,7 @@ import { Factory } from '../../core/factory';
 import { registerCorrelationAnimation, type CorrelationAppearPreset } from './animation';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IMark } from '../../mark/interface';
+import { CorrelationSeriesSpecTransformer } from './spec-transformer';
 
 export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSeriesSpec> extends PolarSeries<
   AdaptiveSpec<T, 'outerRadius' | 'innerRadius'>
@@ -40,6 +41,8 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
   type = SeriesTypeEnum.correlation;
 
   static readonly mark: SeriesMarkMap = correlationSeriesMark;
+  static readonly transformerConstructor = CorrelationSeriesSpecTransformer as any;
+  readonly transformerConstructor = CorrelationSeriesSpecTransformer;
 
   protected _centerSeriesData: SeriesData;
 
@@ -165,7 +168,6 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
   initMark(): void {
     const nodePointMark = this._createMark(CorrelationSeries.mark.nodePoint, {
       groupKey: this._seriesField,
-      label: this._preprocessLabelSpec(this._spec.label),
       isSeriesMark: true,
       key: DEFAULT_DATA_INDEX,
       customShape: this._spec.nodePoint?.customShape
@@ -185,7 +187,6 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
     }
 
     const centerPointMark = this._createMark(CorrelationSeries.mark.centerPoint, {
-      label: this._preprocessLabelSpec(this._spec.centerLabel),
       key: DEFAULT_DATA_INDEX,
       dataView: this._centerSeriesData.getDataView(),
       dataProductId: this._centerSeriesData.getProductId(),

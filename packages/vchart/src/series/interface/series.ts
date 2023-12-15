@@ -8,7 +8,7 @@ import type { IRegion } from '../../region/interface';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
-import type { ISeriesSeriesInfo, ISeriesStackData } from './common';
+import type { ISeriesSeriesInfo, ISeriesSpecInfo, ISeriesStackData } from './common';
 import type { ISeriesTooltipHelper } from './tooltip-helper';
 import type { IInvalidType, Datum, DirectionType, IGroup, StringOrNumber } from '../../typings';
 import type { StateValueType } from '../../compile/mark';
@@ -186,6 +186,8 @@ export interface ISeries extends IModel {
   initLabelMarkStyle?: (labelMark: ILabelMark) => void;
 
   getGroupFields: () => string[];
+
+  getSpecInfo: () => ISeriesSpecInfo;
 }
 
 export interface ICartesianSeries extends ISeries {

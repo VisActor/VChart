@@ -1,9 +1,11 @@
 import { BaseModelSpecTransformer } from '../model/spec-transformer';
-import { cloneDeepSpec } from '../util';
 import type { IRegionSpec } from './interface';
 
-export class RegionSpecTransformer<T extends IRegionSpec = IRegionSpec> extends BaseModelSpecTransformer<T> {
-  protected _initTheme(spec: T, chartSpec: any): { spec: T; theme: any } {
+export class RegionSpecTransformer<
+  T extends IRegionSpec = IRegionSpec,
+  K extends Partial<IRegionSpec> = Partial<IRegionSpec>
+> extends BaseModelSpecTransformer<T, K> {
+  protected _initTheme(spec: T, chartSpec: any): { spec: T; theme: K } {
     // do nothing, region don't need to parse theme
     return {
       spec,

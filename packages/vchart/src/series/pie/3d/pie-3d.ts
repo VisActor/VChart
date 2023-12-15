@@ -9,20 +9,21 @@ import {
   DEFAULT_LABEL_LIMIT,
   DEFAULT_LABEL_ALIGN,
   DEFAULT_LABEL_VISIBLE
-} from '../../constant';
-import type { Datum } from '../../typings';
-import { field } from '../../util/object';
-import { MarkTypeEnum } from '../../mark/interface/type';
-import type { IArcSeries, SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
+} from '../../../constant';
+import type { Datum } from '../../../typings';
+import { field } from '../../../util/object';
+import { MarkTypeEnum } from '../../../mark/interface/type';
+import type { IArcSeries, SeriesMarkMap } from '../../interface';
+import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
-import type { IPie3dSeriesSpec } from './interface';
-import { Arc3dMark, registerArc3dMark } from '../../mark/arc-3d';
-import { BasePieSeries } from './pie';
-import { pie3dSeriesMark } from './constant';
+import type { IPie3dSeriesSpec } from '../interface';
+import { Arc3dMark, registerArc3dMark } from '../../../mark/arc-3d';
+import { BasePieSeries } from '../pie';
+import { pie3dSeriesMark } from '../constant';
 import { radianToDegree } from '@visactor/vutils';
-import { Factory } from '../../core/factory';
-import { registerPie3dAnimation } from './animation/animation';
+import { Factory } from '../../../core/factory';
+import { registerPie3dAnimation } from '../animation/animation';
+import { Pie3dSeriesSpecTransformer } from './spec-transformer';
 
 export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
   static readonly type: string = SeriesTypeEnum.pie3d;
@@ -31,6 +32,8 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
   protected _pieMarkType: MarkTypeEnum = MarkTypeEnum.arc3d;
 
   static readonly mark: SeriesMarkMap = pie3dSeriesMark;
+  static readonly transformerConstructor = Pie3dSeriesSpecTransformer as any;
+  readonly transformerConstructor = Pie3dSeriesSpecTransformer as any;
 
   protected _angle3d: number;
 

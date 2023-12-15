@@ -33,6 +33,7 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { registerSampleTransform } from '@visactor/vgrammar-core';
 import type { ILabelSpec } from '../../component';
 import { getGroupAnimationParams } from '../util/utils';
+import { BarSeriesSpecTransformer } from './spec-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -47,6 +48,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
 
   static readonly mark: SeriesMarkMap = barSeriesMark;
+  static readonly transformerConstructor = BarSeriesSpecTransformer as any;
+  readonly transformerConstructor = BarSeriesSpecTransformer;
 
   protected _supportStack: boolean = true;
   protected _bandPosition = 0;
@@ -76,7 +79,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
         isSeriesMark: true,
-        label: this._preprocessLabelSpec(this._spec.label as ILabelSpec),
         progressive,
         customShape: this._spec.bar?.customShape
       }

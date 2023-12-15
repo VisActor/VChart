@@ -1,12 +1,12 @@
-import { MarkTypeEnum } from '../../mark/interface/type';
-import type { SeriesMarkMap } from '../interface';
-import { SeriesTypeEnum } from '../interface/type';
-import { RangeColumnSeries } from './range-column';
-import { Rect3dMark, registerRect3dMark } from '../../mark/rect-3d';
-import type { AdaptiveSpec } from '../../typings';
-import type { IRangeColumn3dSeriesSpec } from './interface';
-import { rangeColumn3dSeriesMark } from './constant';
-import { Factory } from '../../core/factory';
+import { MarkTypeEnum } from '../../../mark/interface/type';
+import type { SeriesMarkMap } from '../../interface';
+import { SeriesTypeEnum } from '../../interface/type';
+import { RangeColumnSeries } from '../range-column';
+import { registerRect3dMark } from '../../../mark/rect-3d';
+import type { AdaptiveSpec } from '../../../typings';
+import type { IRangeColumn3dSeriesSpec } from '../interface';
+import { rangeColumn3dSeriesMark } from '../constant';
+import { Factory } from '../../../core/factory';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 

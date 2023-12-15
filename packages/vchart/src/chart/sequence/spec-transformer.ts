@@ -63,11 +63,17 @@ export class SequenceChartSpecTransformer<
     const scrollBar: IScrollBarSpec[] = [];
     const rowHeight: any = [];
 
+    // FIXME: 重构之前这里取的是 chart 上的 this._layoutRect，这里有点问题。
+    // 重构之前 chart 上的 transformSpec() 本来就在布局之前执行，
+    // 原始代码中的 this._layoutRect 中取到的永远是常量 { width: 500, height: 500 }。
+    // 重构之后保留这个 mock 值，可以尽快修改下 @skie1997
+    const mocklayoutRect = { width: 500, height: 500 };
+
     // 计算默认series padding和series高度
     const defaultSeriesPadding = 20;
     const seriesRegionNum = spec.series.filter(d => d.type !== SeriesTypeEnum.link).length;
     const defaultSeriesRowHeight =
-      (this._layoutRect.height - defaultSeriesPadding * (seriesRegionNum - 1)) / seriesRegionNum;
+      (mocklayoutRect.height - defaultSeriesPadding * (seriesRegionNum - 1)) / seriesRegionNum;
     const leftAppendPadding = spec?.appendPadding?.left || 0;
     const rightAppendPadding = spec?.appendPadding?.right || 0;
 

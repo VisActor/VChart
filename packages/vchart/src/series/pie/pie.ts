@@ -42,7 +42,7 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import { registerPieAnimation, type IPieAnimationParams, type PieAppearPreset } from './animation/animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
-import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
+import type { IArcLabelSpec, IBasePieSeriesSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
@@ -52,42 +52,11 @@ import { mergeSpec } from '../../util/spec/merge-spec';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { isNil } from '@visactor/vutils';
-import { PolarSeriesSpecTransformer } from '../polar';
-
-type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
-
-export class PieSeriesSpecTransformer<T extends IBasePieSeriesSpec> extends PolarSeriesSpecTransformer<T> {
-  /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec(spec: T, chartSpec: any): { spec: T; theme: any } {
-    const theme = this._theme;
-    if (this._shouldMergeThemeToSpec()) {
-      // this._originalSpec + specFromChart + this._theme = this._spec
-      let specFromChart = this._getDefaultSpecFromChart(chartSpec);
-      specFromChart = this._prepareSpecBeforeMergingTheme(specFromChart);
-      const specFromUser = this._prepareSpecBeforeMergingTheme(spec);
-
-      const labelSpec = mergeSpec({}, theme.label, specFromChart.label, specFromUser.label) as IArcLabelSpec;
-      const labelTheme = mergeSpec(
-        {},
-        theme.label,
-        labelSpec.position === 'inside' ? theme.innerLabel : theme.outerLabel
-      );
-      const newTheme = {
-        ...theme,
-        label: labelTheme
-      } as IPieSeriesTheme;
-      return {
-        spec: mergeSpec({}, newTheme, specFromChart, specFromUser),
-        theme: newTheme
-      };
-    }
-    return { spec, theme };
-  }
-}
+import { PieSeriesSpecTransformer } from './spec-transformer';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
   static readonly transformerConstructor = PieSeriesSpecTransformer as any;
-  readonly transformerConstructor = PieSeriesSpecTransformer as any;
+  readonly transformerConstructor = PieSeriesSpecTransformer;
 
   protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie;
   protected _pieMarkType: MarkTypeEnum = MarkTypeEnum.arc;
@@ -204,7 +173,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true,
-        label: this._preprocessLabelSpec(this._spec.label),
         customShape: this._spec.pie?.customShape
       }
     ) as IArcMark;

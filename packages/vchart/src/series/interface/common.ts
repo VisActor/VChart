@@ -6,15 +6,16 @@ import type {
   IBaseModelSpecTransformerOption,
   IModelConstructor,
   IModelMarkInfo,
-  IModelOption
+  IModelOption,
+  IModelSpecInfo
 } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
-import type { StringOrNumber } from '../../typings';
+import type { ISeriesSpec, StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label';
-import type { SeriesMarkNameEnum } from './type';
+import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
 import type { ICustomPath2D } from '@visactor/vrender-core';
 
 // export type SeriesStyle = 'color' | 'size' | 'shape';
@@ -109,9 +110,6 @@ export interface ISeriesMarkInitOption {
   /** 渐进渲染相关配置 */
   progressive?: IMarkProgressiveConfig;
 
-  /** 标签spec */
-  label?: TransformedLabelSpec;
-
   /** 是否支持 3d */
   support3d?: boolean;
   /* customized shape of mark  */
@@ -124,3 +122,14 @@ export interface ISeriesMarkInfo extends IModelMarkInfo {
 }
 
 export type SeriesMarkMap = Partial<Record<SeriesMarkNameEnum, ISeriesMarkInfo>>;
+
+export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec> extends IModelSpecInfo {
+  /** model 具体类型 */
+  type: string | SeriesTypeEnum;
+  /** model spec */
+  spec: T;
+  /** 当前的 mark 标签 spec */
+  markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
+  /** 当前的 mark 标签 spec info */
+  markLabelSpecInfo?: Partial<Record<SeriesMarkNameEnum, IModelSpecInfo[]>>;
+}

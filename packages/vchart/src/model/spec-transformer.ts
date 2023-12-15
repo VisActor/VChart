@@ -1,28 +1,28 @@
 import { isArray, mergeSpec } from '../util';
 import type { IBaseModelSpecTransformer, IBaseModelSpecTransformerOption, IModelSpec } from './interface';
 
-export class BaseModelSpecTransformer<T extends IModelSpec> implements IBaseModelSpecTransformer {
+export class BaseModelSpecTransformer<T extends IModelSpec, K> implements IBaseModelSpecTransformer {
   readonly type: string;
   protected _option: IBaseModelSpecTransformerOption;
 
-  protected _theme?: any; // 非全局 theme，是对应于具体 model 的 theme 对象
+  protected _theme?: K; // 非全局 theme，是对应于具体 model 的 theme 对象
 
   constructor(option: IBaseModelSpecTransformerOption) {
     this._option = option;
     this.type = option.type;
   }
 
-  protected _initTheme(spec: T, chartSpec: any): { spec: T; theme: any } {
+  protected _initTheme(spec: T, chartSpec: any): { spec: T; theme: K } {
     this._theme = this.getTheme(spec, chartSpec);
     return this._mergeThemeToSpec(spec, chartSpec);
   }
 
-  getTheme(spec: T, chartSpec: any): any {
+  getTheme(spec: T, chartSpec: any): K {
     return undefined;
   }
 
-  /** 不建议重写该方法，最好重写 protected 版本 */
-  transformSpec(spec: T, chartSpec: any): { spec: T; theme: any } {
+  /** 不建议重写该方法，最好重写对应子步骤 */
+  transformSpec(spec: T, chartSpec: any): { spec: T; theme: K } {
     this._transformSpec(spec, chartSpec);
     return this._initTheme(spec, chartSpec);
   }
@@ -33,7 +33,7 @@ export class BaseModelSpecTransformer<T extends IModelSpec> implements IBaseMode
   }
 
   /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec(spec: T, chartSpec: any): { spec: T; theme: any } {
+  protected _mergeThemeToSpec(spec: T, chartSpec: any): { spec: T; theme: K } {
     const theme = this._theme;
     if (this._shouldMergeThemeToSpec()) {
       const specFromChart = this._getDefaultSpecFromChart(chartSpec);

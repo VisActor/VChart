@@ -43,7 +43,8 @@ import type {
   ISeriesStackData,
   ISeriesTooltipHelper,
   SeriesMarkMap,
-  ISeriesMarkInfo
+  ISeriesMarkInfo,
+  ISeriesSpecInfo
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
@@ -80,21 +81,20 @@ import {
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
-import type { ILabelSpec } from '../../component';
-import type { ILabelMark } from '../../mark/label';
-import type { TransformedLabelSpec } from '../../component/label';
 import { BaseSeriesSpecTransformer } from './spec-transformer';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
-  static readonly transformerConstructor = BaseSeriesSpecTransformer;
   readonly specKey: string = 'series';
   readonly type: string = 'series';
   layoutType: ILayoutType = 'absolute';
   readonly modelType: string = 'series';
   readonly name: string | undefined = undefined;
-  readonly transformerConstructor = BaseSeriesSpecTransformer as any;
 
   static readonly mark: SeriesMarkMap = baseSeriesMark;
+  static readonly transformerConstructor = BaseSeriesSpecTransformer;
+  readonly transformerConstructor = BaseSeriesSpecTransformer as any;
+
+  declare getSpecInfo: () => ISeriesSpecInfo;
 
   protected _trigger!: ITrigger;
   /**
@@ -958,12 +958,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     const marks = this.getMarksWithoutRoot();
     // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
-    marks.forEach(mark => {
-      this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
-      if (mark.getLabelSpec()) {
-        mark.setLabelSpec(this._preprocessLabelSpec((this._spec as any).label));
-      }
-    });
     this.initMarkStyle();
     marks.forEach(mark => {
       mark.updateStaticEncode();
@@ -1121,7 +1115,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       parent,
       isSeriesMark,
       depend,
-      label,
       progressive,
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false,
@@ -1159,10 +1152,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       if (isValid(depend)) {
         m.setDepend(...array(depend));
-      }
-
-      if (isValid(label)) {
-        m.addLabelSpec(label);
       }
 
       const spec = this.getSpec() || ({} as T);
@@ -1268,12 +1257,4 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
-
-  protected _preprocessLabelSpec(spec: ILabelSpec, styleHandler?: (mark: ILabelMark) => void, hasAnimation?: boolean) {
-    return {
-      animation: hasAnimation ?? this._spec.animation,
-      ...spec,
-      styleHandler: styleHandler ?? (this as ISeries).initLabelMarkStyle
-    } as TransformedLabelSpec;
-  }
 }

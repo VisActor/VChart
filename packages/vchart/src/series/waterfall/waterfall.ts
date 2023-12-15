@@ -34,6 +34,7 @@ import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import { registerRectMark } from '../../mark/rect';
 import { getGroupAnimationParams } from '../util/utils';
+import { WaterfallSeriesSpecTransformer } from './spec-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -42,6 +43,8 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   type = SeriesTypeEnum.waterfall;
 
   static readonly mark: SeriesMarkMap = waterfallSeriesMark;
+  static readonly transformerConstructor = WaterfallSeriesSpecTransformer as any;
+  readonly transformerConstructor = WaterfallSeriesSpecTransformer as any;
 
   protected _stack: boolean = false;
 
@@ -194,9 +197,6 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     if (leaderLine) {
       this._leaderLineMark = leaderLine;
       leaderLine.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
-    }
-    if (this._spec.stackLabel?.visible) {
-      this._barMark.addLabelSpec(this._preprocessLabelSpec(this._spec.stackLabel));
     }
   }
 

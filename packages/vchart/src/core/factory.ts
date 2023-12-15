@@ -5,7 +5,7 @@ import type {
   IChartSpecTransformerOption,
   IChartSpecTransformer
 } from '../chart/interface';
-import type { ISeriesConstructor, ISeriesOption } from '../series/interface';
+import type { ISeriesConstructor, ISeriesMarkInfo, ISeriesOption, SeriesMarkNameEnum } from '../series/interface';
 import type { IComponentConstructor } from '../component/interface';
 import type { IMarkConstructor, IMarkOption, MarkConstructor } from '../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -180,5 +180,12 @@ export class Factory {
 
   static getImplementInKey(key: string) {
     return Factory._implements[key];
+  }
+
+  static getSeriesMarkMap(seriesType: string): Partial<Record<SeriesMarkNameEnum, ISeriesMarkInfo>> {
+    if (!Factory._series[seriesType]) {
+      return {};
+    }
+    return Factory._series[seriesType].mark;
   }
 }

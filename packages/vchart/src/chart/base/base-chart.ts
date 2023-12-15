@@ -209,8 +209,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._transformer = new this.transformerConstructor({
       type: this.type,
       seriesType: this.seriesType,
-      getTheme: this._option.getTheme,
-      getLayoutRect: () => this._layoutRect
+      getTheme: this._option.getTheme
     });
     // data
     this._chartData.parseData(this._spec.data);
@@ -226,7 +225,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // series
     this._transformer.forEachSeriesInSpec(this._spec, this._createSeries.bind(this));
     // components
-    this._transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this));
+    this._transformer.forEachComponentInSpec(this._spec, this._createComponent.bind(this), this._option.getSpecInfo());
   }
 
   init() {

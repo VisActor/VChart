@@ -8,7 +8,7 @@ import { MarkTypeEnum } from '../mark/interface/type';
 import type { ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { IRegion, IRegionSpec } from './interface';
+import type { IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
 import type { IGroupMark } from '../mark/group';
 import type { IInteraction, ITrigger } from '../interaction/interface';
 import { Interaction } from '../interaction/interaction';
@@ -35,6 +35,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   animate?: IAnimate;
 
   interaction: IInteraction = new Interaction();
+
+  declare getSpecInfo: () => IRegionSpecInfo;
 
   getMaxWidth() {
     return this._layout.maxWidth;

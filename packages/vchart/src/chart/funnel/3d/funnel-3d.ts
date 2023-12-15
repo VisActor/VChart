@@ -1,6 +1,6 @@
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import { ChartTypeEnum } from '../../interface/type';
-import { registerFunnel3dSeries } from '../../../series/funnel/funnel-3d';
+import { registerFunnel3dSeries } from '../../../series/funnel/3d/funnel-3d';
 import { Factory } from '../../../core/factory';
 import type { IFunnel3dChartSpec } from '../interface';
 import type { AdaptiveSpec } from '../../../typings';

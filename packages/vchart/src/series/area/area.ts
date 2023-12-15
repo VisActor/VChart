@@ -6,7 +6,7 @@ import type { IAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
-import type { Maybe, Datum, ConvertToMarkStyleSpec, IAreaMarkSpec, InterpolateType } from '../../typings';
+import type { Datum, ConvertToMarkStyleSpec, IAreaMarkSpec, InterpolateType } from '../../typings';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { valueInScaleRange } from '../../util/scale';
 import type { SeriesMarkMap } from '../interface';
@@ -14,7 +14,7 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { mixin } from '@visactor/vutils';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
-import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
+import type { IAreaSeriesSpec } from './interface';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { LineMark, registerLineMark } from '../../mark/line';
 import { AreaMark, registerAreaMark } from '../../mark/area';
@@ -25,7 +25,7 @@ import { Factory } from '../../core/factory';
 import { registerAreaAnimation } from './animation';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
-import type { ILabelSpec } from '../../component';
+import { LineLikeSeriesSpecTransformer } from '../mixin/spec-transformer';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -50,6 +50,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   type = SeriesTypeEnum.area;
 
   static readonly mark: SeriesMarkMap = areaSeriesMark;
+  static readonly transformerConstructor = LineLikeSeriesSpecTransformer;
+  readonly transformerConstructor = LineLikeSeriesSpecTransformer;
 
   protected _areaMark!: IAreaMark;
   protected _supportStack: boolean = true;
@@ -110,7 +112,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     };
 
     const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
-    const isPointVisible = this._spec.point?.visible !== false && this._spec.point?.style?.visible !== false;
 
     const seriesMark = this._spec.seriesMark ?? 'area';
     // area
@@ -121,15 +122,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       isSeriesMark: isAreaVisible && seriesMark !== 'point',
       customShape: this._spec.area?.customShape
     }) as IAreaMark;
-    if (this._areaMark && this._spec.areaLabel?.visible) {
-      this._areaMark.addLabelSpec(
-        this._preprocessLabelSpec(this._spec.areaLabel as ILabelSpec, this.initLineLabelMarkStyle),
-        true
-      );
-    }
-    if (!isPointVisible && this._areaMark && this._spec.label?.visible) {
-      this._areaMark.addLabelSpec(this._preprocessLabelSpec(this._spec.label as ILabelSpec));
-    }
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
 

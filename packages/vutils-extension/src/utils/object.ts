@@ -22,6 +22,9 @@ export const includeSpec = <T = any>(spec: Partial<T>, searchSpec: Partial<T>): 
 };
 
 export const setProperty = <T>(target: T, path: Array<string | number>, value: any): T => {
+  if (isNil(path)) {
+    return target;
+  }
   const key = path[0];
   if (isNil(key)) {
     return target;
