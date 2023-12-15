@@ -54,7 +54,7 @@ import type { IModelEvaluateOption, IModelRenderOption } from '../../model/inter
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
 import { addVChartProperty } from '../../data/transforms/add-property';
-import type { IInteractionItemSpec, ISelectSpec } from '../../interaction/interface';
+import type { ISelectSpec } from '../../interaction/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
@@ -76,7 +76,9 @@ import {
   isFunction,
   isArray,
   isValidNumber,
-  isObject
+  get,
+  isObject,
+  isEmpty
 } from '@visactor/vutils';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
@@ -753,7 +755,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** mark */
 
-  protected _parseDefaultInteractionConfig() {
+  protected _parseDefaultInteractionConfig(mainMarks?: IMark[]) {
+    if (!mainMarks?.length) {
+      return;
+    }
+
     const defaultConfig = getDefaultInteractionConfigByMode(this._option.mode);
     let finalHoverSpec = { ...defaultConfig?.hover };
     let finalSelectSpec: ISelectSpec = { ...defaultConfig?.select };
@@ -773,27 +779,38 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       finalSelectSpec.enable = true;
       finalSelectSpec = mergeSpec(finalSelectSpec, selectSpec);
     }
-    const res: IInteractionItemSpec[] = [];
+    const res = [];
 
     if (finalHoverSpec.enable) {
-      res.push({
-        type: 'element-highlight',
-        trigger: finalHoverSpec.trigger as EventType,
-        resetTrigger: finalHoverSpec.triggerOff as EventType,
-        blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
-        highlightState: STATE_VALUE_ENUM.STATE_HOVER
-      });
+      const hoverMarks: IMark[] = mainMarks.filter(mark => !isEmpty(mark.stateStyle[STATE_VALUE_ENUM.STATE_HOVER]));
+
+      hoverMarks.length &&
+        res.push({
+          seriesId: this.id,
+          regionId: this._region.id,
+          selector: hoverMarks.map(mark => `#${mark.getProductId()}`),
+          type: 'element-highlight',
+          trigger: finalHoverSpec.trigger as EventType,
+          resetTrigger: finalHoverSpec.triggerOff as EventType,
+          blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
+          highlightState: STATE_VALUE_ENUM.STATE_HOVER
+        });
     }
 
     if (finalSelectSpec.enable) {
-      res.push({
-        type: 'element-select',
-        trigger: finalSelectSpec.trigger as EventType,
-        resetTrigger: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
-        reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
-        state: STATE_VALUE_ENUM.STATE_SELECTED,
-        isMultiple: finalSelectSpec.mode === 'multiple'
-      });
+      const selectMarks: IMark[] = mainMarks.filter(mark => !isEmpty(mark.stateStyle[STATE_VALUE_ENUM.STATE_SELECTED]));
+
+      selectMarks.length &&
+        res.push({
+          type: 'element-select',
+          regionId: this._region.id,
+          selector: selectMarks.map(mark => `#${mark.getProductId()}`),
+          trigger: finalSelectSpec.trigger as EventType,
+          resetTrigger: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
+          reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
+          state: STATE_VALUE_ENUM.STATE_SELECTED,
+          isMultiple: finalSelectSpec.mode === 'multiple'
+        });
     }
 
     return res;
@@ -806,18 +823,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
 
     const { interactions } = this._spec;
-    const res = this._parseDefaultInteractionConfig();
+    const res = this._parseDefaultInteractionConfig(mainMarks);
 
-    if (res && res.length && mainMarks?.length) {
-      const selector = mainMarks.map(mark => {
-        return `#${mark.getProductId()}`;
-      });
+    if (res && res.length) {
       res.forEach(interaction => {
-        compiler.addInteraction({
-          ...interaction,
-          selector,
-          seriesId: this.id
-        });
+        compiler.addInteraction(interaction);
       });
     }
 

@@ -130,19 +130,33 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
       return;
     }
 
+    const view = this.getCompiler()?.getVGrammarView();
+
+    if (!view) {
+      return;
+    }
+
     if (trigger === 'hover') {
-      this.event.on('hovered', { filter: params => this._isRelativeSeries(params.model) }, params => {
-        this._updateDatum(params.value);
+      view.addEventListener('element-highlight:start', (params: any) => {
+        if (this._isRelativeSeries(params.options.seriesId)) {
+          this._updateDatum(params.elements[0].getDatum());
+        }
       });
-      this.event.on('unhovered', () => {
-        this._updateDatum([]);
+      view.addEventListener('element-highlight:reset', (params: any) => {
+        if (this._isRelativeSeries(params.options.seriesId)) {
+          this._updateDatum(null);
+        }
       });
     } else if (trigger === 'click') {
-      this.event.on('selected', { filter: params => this._isRelativeSeries(params.model) }, params => {
-        this._updateDatum(params.value);
+      view.addEventListener('element-select:start', (params: any) => {
+        if (this._isRelativeSeries(params.options.seriesId)) {
+          this._updateDatum(params.elements[0].getDatum());
+        }
       });
-      this.event.on('unselected', () => {
-        this._updateDatum([]);
+      view.addEventListener('elementSelectReset', (params: any) => {
+        if (this._isRelativeSeries(params.options.seriesId)) {
+          this._updateDatum([]);
+        }
       });
     }
   }

@@ -61,7 +61,7 @@ export class Compiler {
     [GrammarType.mark]: {}
   };
 
-  protected _interactions: (InteractionSpec & { seriesId: number })[];
+  protected _interactions: (InteractionSpec & { seriesId?: number; regionId?: number })[];
   getModel() {
     return this._model;
   }
@@ -166,8 +166,27 @@ export class Compiler {
 
     this._view.removeAllInteractions();
     if (this._interactions?.length) {
+      const regionCombindInteractions = {};
+
       this._interactions.forEach(interaction => {
-        this._view.interaction(interaction.type, interaction);
+        if (interaction.regionId) {
+          const spec = regionCombindInteractions[`${interaction.regionId}-${interaction.type}`];
+          if (spec) {
+            regionCombindInteractions[`${interaction.regionId}-${interaction.type}`] = {
+              ...spec,
+              ...interaction,
+              selector: [...spec.selector, ...(interaction as any).selector]
+            };
+          } else {
+            regionCombindInteractions[`${interaction.regionId}-${interaction.type}`] = interaction;
+          }
+        } else {
+          this._view.interaction(interaction.type, interaction);
+        }
+      });
+
+      Object.keys(regionCombindInteractions).forEach(key => {
+        this._view.interaction(regionCombindInteractions[key].type, regionCombindInteractions[key]);
       });
     }
   }
@@ -424,7 +443,7 @@ export class Compiler {
     }
   }
 
-  addInteraction(interaction: InteractionSpec & { seriesId: number }) {
+  addInteraction(interaction: InteractionSpec & { seriesId?: number; regionId?: number }) {
     if (!this._interactions) {
       this._interactions = [];
     }
