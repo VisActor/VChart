@@ -9,9 +9,9 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface/type';
 import { FunnelSeries } from './funnel';
 import type { IFunnel3dSeriesSpec, IFunnel3dSeriesTheme } from './interface';
-import { Pyramid3dMark } from '../../mark/polygon/pyramid-3d';
-import { TextMark } from '../../mark/text';
-import { RuleMark } from '../../mark/rule';
+import { Pyramid3dMark, registerPyramid3dMark } from '../../mark/polygon/pyramid-3d';
+import { TextMark, registerTextMark } from '../../mark/text';
+import { RuleMark, registerRuleMark } from '../../mark/rule';
 import type { AdaptiveSpec } from '../../typings';
 import { funnel3dSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
@@ -137,8 +137,8 @@ export class Funnel3dSeries<T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec>
 }
 
 export const registerFunnel3dSeries = () => {
-  Factory.registerMark(Pyramid3dMark.type, Pyramid3dMark);
-  Factory.registerMark(TextMark.type, TextMark);
-  Factory.registerMark(RuleMark.type, RuleMark);
+  registerPyramid3dMark();
+  registerTextMark();
+  registerRuleMark();
   Factory.registerSeries(Funnel3dSeries.type, Funnel3dSeries);
 };

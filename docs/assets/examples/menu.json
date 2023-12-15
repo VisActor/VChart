@@ -1660,7 +1660,8 @@
         {
           "path": "line",
           "title": {
-            "zh": "十字辅助线"
+            "zh": "十字辅助线",
+            "en": "Auxiliary Line"
           }
         },
         {

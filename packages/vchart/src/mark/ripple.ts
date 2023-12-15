@@ -1,3 +1,4 @@
+import { Factory } from './../core/factory';
 import { BaseMark } from './base/base-mark';
 import type { IRippleMarkSpec } from '../typings/visual';
 import type { IMarkRaw, IMarkStyle } from './interface';
@@ -24,8 +25,6 @@ export class RippleMark extends BaseMark<IRippleMarkSpec> implements IRippleMark
   }
 
   protected _initProduct(group?: string | IGroupMark) {
-    registerRippleGlyph();
-
     const view = this.getVGrammarView();
 
     // 声明语法元素
@@ -35,3 +34,8 @@ export class RippleMark extends BaseMark<IRippleMarkSpec> implements IRippleMark
     this._compiledProductId = id;
   }
 }
+
+export const registerRippleMark = () => {
+  Factory.registerMark(RippleMark.type, RippleMark);
+  registerRippleGlyph();
+};

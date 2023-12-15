@@ -4,8 +4,8 @@ import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
-import { RectMark, type IRectMark } from '../../mark/rect';
-import { TextMark, type ITextMark } from '../../mark/text';
+import { RectMark, type IRectMark, registerRectMark } from '../../mark/rect';
+import { TextMark, type ITextMark, registerTextMark } from '../../mark/text';
 import { valueInScaleRange } from '../../util/scale';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { setRectLabelPos } from '../util/label-mark';
@@ -271,9 +271,9 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 }
 
 export const registerRangeColumnSeries = () => {
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerMark(TextMark.type, TextMark);
-  Factory.registerSeries(RangeColumnSeries.type, RangeColumnSeries);
+  registerRectMark();
+  registerTextMark();
   registerRangeColumnAnimation();
   registerFadeInOutAnimation();
+  Factory.registerSeries(RangeColumnSeries.type, RangeColumnSeries);
 };

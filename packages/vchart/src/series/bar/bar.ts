@@ -20,7 +20,7 @@ import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { RectMark } from '../../mark/rect';
+import { RectMark, registerRectMark } from '../../mark/rect';
 import { array, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
@@ -632,7 +632,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
 export const registerBarSeries = () => {
   registerSampleTransform();
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerSeries(BarSeries.type, BarSeries);
+  registerRectMark();
   registerBarAnimation();
+  Factory.registerSeries(BarSeries.type, BarSeries);
 };

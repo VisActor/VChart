@@ -1,3 +1,4 @@
+import { Factory } from './../core/factory';
 import type { IGroupMark } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { GrammarMarkType } from '@visactor/vgrammar-core';
@@ -34,3 +35,7 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
     this._compiledProductId = id;
   }
 }
+
+export const registerComponentMark = () => {
+  Factory.registerMark(ComponentMark.type, ComponentMark);
+};

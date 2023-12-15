@@ -1,9 +1,10 @@
+import { Factory } from './../core/factory';
 import type { ITextMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IMarkRaw, IMarkStyle, IMarkOption } from './interface';
+import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
-import { GrammarMarkType } from '@visactor/vgrammar-core';
+import { GrammarMarkType, registerTextGraphic } from '@visactor/vgrammar-core';
 import type { IGroupMark } from '@visactor/vgrammar-core';
 
 export type ITextMark = IMarkRaw<ITextMarkSpec>;
@@ -39,3 +40,8 @@ export class TextMark extends BaseMark<ITextMarkSpec> implements ITextMark {
     this._compiledProductId = id;
   }
 }
+
+export const registerTextMark = () => {
+  Factory.registerMark(TextMark.type, TextMark);
+  registerTextGraphic();
+};

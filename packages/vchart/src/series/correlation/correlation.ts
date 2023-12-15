@@ -10,16 +10,15 @@ import { correlationCenter } from '../../data/transforms/correlation-center';
 import type { ICorrelationOpt } from '../../data/transforms/correlation';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds, isValid } from '@visactor/vutils';
-import { SymbolMark } from '../../mark/symbol';
+import { registerSymbolMark } from '../../mark/symbol';
 import { SeriesData } from '../base/series-data';
 import type { Maybe, Datum, ISymbolMarkSpec, IRippleMarkSpec } from '../../typings';
 import type { ICorrelationSeriesTheme } from './interface';
 import { AttributeLevel, DEFAULT_DATA_INDEX, LayoutZIndex } from '../../constant';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
-import { mergeSpec } from '../../util/spec/merge-spec';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import type { IRippleMark } from '../../mark/ripple';
-import { RippleMark } from '../../mark/ripple';
+import { registerRippleMark } from '../../mark/ripple';
 import type { ILabelMark } from '../../mark/label';
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -342,8 +341,8 @@ export class CorrelationSeries extends PolarSeries<any> {
 }
 
 export const registerCorrelationSeries = () => {
-  Factory.registerMark(SymbolMark.type, SymbolMark);
-  Factory.registerMark(RippleMark.type, RippleMark);
+  registerSymbolMark();
+  registerRippleMark();
   Factory.registerSeries(CorrelationSeries.type, CorrelationSeries);
   registerCorrelationAnimation();
 };

@@ -11,7 +11,7 @@ import type { Maybe } from '../../typings';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 // eslint-disable-next-line no-duplicate-imports
-import { ProgressArcMark } from '../../mark/progress-arc';
+import { ProgressArcMark, registerProgressArcMark } from '../../mark/progress-arc';
 import { gaugeSeriesMark } from './constant';
 import { degreeToRadian, isValid } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
@@ -184,7 +184,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 }
 
 export const registerGaugeSeries = () => {
-  Factory.registerMark(ProgressArcMark.constructorType, ProgressArcMark);
-  Factory.registerSeries(GaugeSeries.type, GaugeSeries);
+  registerProgressArcMark();
   registerCircularProgressAnimation();
+  Factory.registerSeries(GaugeSeries.type, GaugeSeries);
 };

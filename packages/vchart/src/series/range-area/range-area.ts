@@ -3,7 +3,7 @@ import { AreaSeries } from '../area/area';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface/type';
-import { AreaMark, type IAreaMark } from '../../mark/area';
+import { AreaMark, registerAreaMark, type IAreaMark } from '../../mark/area';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';
 import type { Datum } from '../../typings';
@@ -127,6 +127,6 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
 }
 
 export const registerRangeAreaSeries = () => {
-  Factory.registerMark(AreaMark.type, AreaMark);
+  registerAreaMark();
   Factory.registerSeries(RangeAreaSeries.type, RangeAreaSeries);
 };

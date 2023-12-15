@@ -58,7 +58,6 @@ import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
-import { registerBrowserEnv, registerNodeEnv } from './env';
 
 VChart.useRegisters([
   // charts

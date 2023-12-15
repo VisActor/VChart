@@ -16,7 +16,7 @@ import {
 import type { ILinearProgressSeriesSpec, ILinearProgressSeriesTheme } from './interface';
 import { LinearProgressSeriesTooltipHelper } from './tooltip-helper';
 import type { IStateAnimateSpec } from '../../../animation/spec';
-import { RectMark } from '../../../mark/rect';
+import { RectMark, registerRectMark } from '../../../mark/rect';
 import { createRect } from '@visactor/vrender-core';
 import { linearProgressSeriesMark } from './constant';
 import { Factory } from '../../../core/factory';
@@ -278,8 +278,8 @@ export class LinearProgressSeries<
 }
 
 export const registerLinearProgressSeries = () => {
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerSeries(LinearProgressSeries.type, LinearProgressSeries);
+  registerRectMark();
   registerLinearProgressAnimation();
   registerFadeInOutAnimation();
+  Factory.registerSeries(LinearProgressSeries.type, LinearProgressSeries);
 };

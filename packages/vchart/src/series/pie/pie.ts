@@ -47,7 +47,7 @@ import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
-import { ArcMark } from '../../mark/arc';
+import { ArcMark, registerArcMark } from '../../mark/arc';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
@@ -525,25 +525,15 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       const specFromChart = this._getDefaultSpecFromChart(this.getChart().getSpec());
 
       // this._originalSpec + specFromChart + this._theme = this._spec
-      const merge = (originalSpec: any) => {
-        const chartSpec = this._prepareSpecBeforeMergingTheme(specFromChart);
-        const userSpec = this._prepareSpecBeforeMergingTheme(originalSpec);
+      // 动态处理 label 样式，对于展示在内部的 label 默认使用 innerLabel 样式
+      const result = mergeSpec({}, this._theme, specFromChart, this._originalSpec) as any;
+      if (result.label.position === 'inside') {
+        result.label = mergeSpec({}, this._theme.innerLabel, result.label);
+      } else {
+        result.label = mergeSpec({}, this._theme.outerLabel, result.label);
+      }
 
-        const labelSpec = mergeSpec({}, this._theme.label, chartSpec.label, userSpec.label) as IArcLabelSpec;
-        const labelTheme = mergeSpec(
-          {},
-          this._theme.label,
-          labelSpec.position === 'inside' ? this._theme.innerLabel : this._theme.outerLabel
-        );
-        const newTheme = {
-          ...this._theme,
-          label: labelTheme
-        } as IPieSeriesTheme;
-        return mergeSpec({}, newTheme, chartSpec, userSpec);
-      };
-
-      const baseSpec = this._originalSpec;
-      this._spec = merge(baseSpec);
+      this._spec = result;
     }
   }
 }
@@ -554,7 +544,7 @@ export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePi
 }
 
 export const registerPieSeries = () => {
-  Factory.registerMark(ArcMark.type, ArcMark);
-  Factory.registerSeries(PieSeries.type, PieSeries);
+  registerArcMark();
   registerPieAnimation();
+  Factory.registerSeries(PieSeries.type, PieSeries);
 };

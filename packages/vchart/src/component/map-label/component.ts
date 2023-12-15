@@ -16,7 +16,6 @@ import { CompilableData } from '../../compile/data/compilable-data';
 import { normalizeLayoutPaddingSpec } from '../../util/space';
 import { MarkPoint } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode, IRect as IRectGraphic } from '@visactor/vrender-core';
-// eslint-disable-next-line no-duplicate-imports
 import { createGroup, createRect, createSymbol, createText } from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
 import { isValid } from '@visactor/vutils';

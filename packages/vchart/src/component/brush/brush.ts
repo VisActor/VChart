@@ -3,8 +3,8 @@ import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import { Brush as BrushComponent, IOperateType } from '@visactor/vrender-components';
-import type { IBounds, IPointLike } from '@visactor/vutils';
+import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
+import type { IPointLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption } from '../../model/interface';
@@ -170,83 +170,82 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     const { brushMode = 'single' } = this._spec;
     this._brushComponents.push(brush);
     this._cacheInteractiveRangeAttrs.push(interactiveAttr);
-    brush.setUpdateDragMaskCallback(
-      (operateParams: {
-        operateType: string;
-        operateMask: IPolygon;
-        operatedMaskAABBBounds: { [name: string]: IBounds };
-      }) => {
-        const { operateType, operateMask } = operateParams;
-        let operateTypeCache = operateType;
 
-        // 需要重置out状态的情况：
-        // _needInitOutState：框选模式为'single' 且 开始后的第一次drawing时（这里不选择drawStart而选择第一次触发drawing的时机是因为点击空白处也会触发drawStart）, 需要重置图元状态
-        if (this._needInitOutState && brushMode === 'single' && operateType === IOperateType.drawing) {
-          this._initMarkBrushState(componentIndex, OUT_BRUSH_STATE);
-        }
+    brush.addEventListener(BrushEvent.drawStart, (e: any) => {
+      this._emitEvent(ChartEvent.brushStart, region);
+    });
 
-        // 需要重置初始状态的情况：点击空白处clear所有状态
-        // 是否点击到空白处由图表的事件监听判断
-        this._option
-          ?.getChart()
-          ?.getEvent()
-          ?.on('click', p => {
-            if (!p.mark && operateTypeCache === IOperateType.brushClear) {
-              this._initMarkBrushState(componentIndex, '');
-              this._needInitOutState = true;
-              operateTypeCache = null;
-            }
-          });
+    brush.addEventListener(BrushEvent.moveStart, (e: any) => {
+      this._emitEvent(ChartEvent.brushStart, region);
+    });
 
-        // 下面的步骤是为了标记出第一次drawing状态的
-        if (operateType === IOperateType.drawing) {
-          this._needInitOutState = false;
-          this._needEnablePickable = true;
-        }
-        if (operateType === IOperateType.drawEnd) {
-          this._needInitOutState = true;
-          this._needEnablePickable = false;
-        }
-
-        this._reconfigItem(operateMask, region);
-        this._reconfigLinkedItem(operateMask, region);
-
-        let eventType: string = ChartEvent.brushChange;
-        if (operateType === IOperateType.drawStart || operateType === IOperateType.moveStart) {
-          eventType = ChartEvent.brushStart;
-        } else if (operateType === IOperateType.drawEnd || operateType === IOperateType.moveEnd) {
-          eventType = ChartEvent.brushEnd;
-        } else {
-          eventType = ChartEvent.brushChange;
-        }
-
-        this.event.emit(eventType, {
-          model: this,
-          value: {
-            // 操作类型
-            operateType,
-            // 正在操作的region
-            operateRegion: region,
-            // 在选框内的 element data
-            inBrushData: this._extendDataInBrush(this._inBrushElementsMap),
-            // 在选框外的 element data
-            outOfBrushData: this._extendDatumOutOfBrush(this._outOfBrushElementsMap),
-            // 被链接的系列中：在选框内的 element data
-            linkInBrushData: this._extendDataInBrush(this._linkedInBrushElementsMap),
-            // 被链接的系列中：在选框外的 element data
-            linkOutOfBrushData: this._extendDatumOutOfBrush(this._linkedOutOfBrushElementsMap),
-            // 在选框内的 vgrammar elements
-            inBrushElementsMap: this._inBrushElementsMap,
-            // 在选框外的 vgrammar elements
-            outOfBrushElementsMap: this._outOfBrushElementsMap,
-            // 被链接的系列中：在选框内的 vgrammar elements
-            linkedInBrushElementsMap: this._linkedInBrushElementsMap,
-            // 被链接的系列中：在选框外的 vgrammar elements
-            linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap
-          }
-        });
+    brush.addEventListener(BrushEvent.drawing, (e: any) => {
+      // 需要重置out状态的情况：
+      // _needInitOutState：框选模式为'single' 且 开始后的第一次drawing时（这里不选择drawStart而选择第一次触发drawing的时机是因为点击空白处也会触发drawStart）, 需要重置图元状态
+      if (this._needInitOutState && brushMode === 'single') {
+        this._initMarkBrushState(componentIndex, OUT_BRUSH_STATE);
       }
-    );
+      this._needInitOutState = false;
+      this._needEnablePickable = true;
+
+      this._handleBrushChange(ChartEvent.brushChange, region, e);
+    });
+
+    brush.addEventListener(BrushEvent.moving, (e: any) => {
+      this._handleBrushChange(ChartEvent.brushChange, region, e);
+    });
+
+    brush.addEventListener(BrushEvent.brushClear, (e: any) => {
+      this._initMarkBrushState(componentIndex, '');
+      this._needInitOutState = true;
+      this._handleBrushChange(ChartEvent.brushChange, region, e);
+    });
+
+    brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
+      this._needInitOutState = true;
+      this._needEnablePickable = false;
+      this._handleBrushChange(ChartEvent.brushEnd, region, e);
+    });
+
+    brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
+      this._handleBrushChange(ChartEvent.brushEnd, region, e);
+    });
+  }
+
+  private _handleBrushChange(eventType: string, region: IRegion, e: any) {
+    const { operateMask } = e.detail as any;
+    this._reconfigItem(operateMask, region);
+    this._reconfigLinkedItem(operateMask, region);
+
+    this._emitEvent(eventType, region);
+  }
+
+  private _emitEvent(eventType: string, region: IRegion) {
+    this.event.emit(eventType, {
+      model: this,
+      value: {
+        // 操作类型
+        operateType: eventType,
+        // 正在操作的region
+        operateRegion: region,
+        // 在选框内的 element data
+        inBrushData: this._extendDataInBrush(this._inBrushElementsMap),
+        // 在选框外的 element data
+        outOfBrushData: this._extendDatumOutOfBrush(this._outOfBrushElementsMap),
+        // 被链接的系列中：在选框内的 element data
+        linkInBrushData: this._extendDataInBrush(this._linkedInBrushElementsMap),
+        // 被链接的系列中：在选框外的 element data
+        linkOutOfBrushData: this._extendDatumOutOfBrush(this._linkedOutOfBrushElementsMap),
+        // 在选框内的 vgrammar elements
+        inBrushElementsMap: this._inBrushElementsMap,
+        // 在选框外的 vgrammar elements
+        outOfBrushElementsMap: this._outOfBrushElementsMap,
+        // 被链接的系列中：在选框内的 vgrammar elements
+        linkedInBrushElementsMap: this._linkedInBrushElementsMap,
+        // 被链接的系列中：在选框外的 vgrammar elements
+        linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap
+      }
+    });
   }
 
   private _transformBrushedMarkAttr(brushedStyle: selectedItemStyle) {
@@ -377,7 +376,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
       };
     });
 
-    const globalAABBBoundsOffset = brushMask.globalAABBBounds
+    brushMask.globalAABBBounds
       .clone()
       .set(
         brushMask.globalAABBBounds.x1 + dx,
@@ -415,7 +414,9 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
       ];
       return polygonIntersectPolygon(pointsCoord, itemBounds);
     } else if (item.type === 'rect') {
-      const { width = 0, height = 0 } = item?.attribute as IRectGraphicAttribute;
+      const { x1, x2, y1, y2 } = item?.AABBBounds;
+      const width = Math.abs(x1 - x2);
+      const height = Math.abs(y1 - y2);
       itemBounds = [
         {
           x: x,

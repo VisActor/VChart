@@ -11,7 +11,7 @@ import type { ISeries } from '../../series/interface';
 import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { labelRuleMap, textAttribute } from './util';
-import { ComponentMark, type IComponentMark } from '../../mark/component';
+import { ComponentMark, registerComponentMark, type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction } from '@visactor/vutils';
 import { isArray, isFunction, pickWithout } from '@visactor/vutils';
@@ -19,7 +19,7 @@ import type { IGraphic, IGraphicAttribute, IGroup, IText } from '@visactor/vrend
 import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
-import { LabelMark, type ILabelMark } from '../../mark/label';
+import { LabelMark, type ILabelMark, registerLabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
 
 export interface ILabelInfo {
@@ -340,7 +340,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
 
 export const registerLabel = () => {
   registerVGrammarLabel();
-  Factory.registerMark(LabelMark.constructorType, LabelMark);
-  Factory.registerMark(ComponentMark.type, ComponentMark);
+  registerLabelMark();
+  registerComponentMark();
   Factory.registerComponent(Label.type, Label, true);
 };

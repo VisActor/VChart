@@ -2,7 +2,7 @@ import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { RangeColumnSeries } from './range-column';
-import { Rect3dMark } from '../../mark/rect-3d';
+import { Rect3dMark, registerRect3dMark } from '../../mark/rect-3d';
 import type { AdaptiveSpec } from '../../typings';
 import type { IRangeColumn3dSeriesSpec } from './interface';
 import { rangeColumn3dSeriesMark } from './constant';
@@ -21,6 +21,6 @@ export class RangeColumn3dSeries<
 }
 
 export const registerRangeColumn3dSeries = () => {
-  Factory.registerMark(Rect3dMark.type, Rect3dMark);
+  registerRect3dMark();
   Factory.registerSeries(RangeColumn3dSeries.type, RangeColumn3dSeries);
 };

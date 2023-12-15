@@ -34,7 +34,7 @@ import {
   registerAxis as registerVGrammarAxis,
   registerGrid as registerVGrammarGrid
 } from '@visactor/vgrammar-core';
-import { ComponentMark, type IComponentMark } from '../../mark/component';
+import { ComponentMark, registerComponentMark, type IComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
 import { GroupFadeOut } from '@visactor/vrender-core';
@@ -522,7 +522,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 export const registerAxis = () => {
   registerVGrammarAxis();
   registerVGrammarGrid();
-  Factory.registerMark(ComponentMark.type, ComponentMark);
+  registerComponentMark();
   Factory.registerAnimation('axis', () => ({
     appear: {
       custom: GroupFadeIn
