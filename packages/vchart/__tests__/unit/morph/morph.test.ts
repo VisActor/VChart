@@ -115,7 +115,7 @@ describe('Bar chart test', () => {
       type: 'common',
       getTheme: () => ThemeManager.getCurrentTheme()
     });
-    transformer.initChartSpec(scatterSpec as any);
+    const info = transformer.initChartSpec(scatterSpec as any);
     const scatterChart = new CommonChart(
       scatterSpec as any,
       {
@@ -134,7 +134,8 @@ describe('Bar chart test', () => {
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
         onError: () => {},
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        getSpecInfo: () => info
       } as any
     );
     scatterChart.created();
@@ -188,7 +189,7 @@ describe('Bar chart test', () => {
       type: 'common',
       getTheme: () => ThemeManager.getCurrentTheme()
     });
-    transformer.initChartSpec(multiScatterSeriesSpec as any);
+    const info = transformer.initChartSpec(multiScatterSeriesSpec as any);
     const scatterChart = new CommonChart(
       multiScatterSeriesSpec as any,
       {
@@ -207,7 +208,8 @@ describe('Bar chart test', () => {
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
         onError: () => {},
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        getSpecInfo: () => info
       } as any
     );
     scatterChart.created();

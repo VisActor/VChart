@@ -58,7 +58,7 @@ describe('data fields test', () => {
       seriesType: 'line',
       getTheme: () => ThemeManager.getCurrentTheme()
     });
-    transformer.initChartSpec(spec as any);
+    const info = transformer.initChartSpec(spec as any);
     const chart = new LineChart(spec, {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -74,7 +74,8 @@ describe('data fields test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(),
+      getSpecInfo: () => info
     } as any);
     chart.created();
     chart.init();
@@ -137,7 +138,7 @@ describe('data fields test', () => {
       seriesType: 'line',
       getTheme: () => ThemeManager.getCurrentTheme()
     });
-    transformer.initChartSpec(spec as any);
+    const info = transformer.initChartSpec(spec as any);
     const chart = new LineChart(spec, {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -153,7 +154,8 @@ describe('data fields test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(),
+      getSpecInfo: () => info
     } as any);
     chart.created();
     chart.init();

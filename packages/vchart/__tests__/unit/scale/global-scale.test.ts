@@ -291,7 +291,7 @@ describe('global-scale test', () => {
       type: 'common',
       getTheme: () => ThemeManager.getCurrentTheme()
     });
-    transformer.initChartSpec(spec);
+    const info = transformer.initChartSpec(spec);
     chart = new CommonChart(
       spec as any,
       {
@@ -320,7 +320,8 @@ describe('global-scale test', () => {
             }
           } as any;
         },
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        getSpecInfo: () => info
       } as any
     );
     chart.created();
@@ -451,7 +452,7 @@ describe('global-scale test', () => {
       type: 'common',
       getTheme: () => ThemeManager.getCurrentTheme()
     });
-    transformer.initChartSpec(spec);
+    const info = transformer.initChartSpec(spec);
     chart = new CommonChart(
       spec as any,
       {
@@ -480,7 +481,8 @@ describe('global-scale test', () => {
             }
           } as any;
         },
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        getSpecInfo: () => info
       } as any
     );
     chart.created();
