@@ -1,3 +1,4 @@
+import type { IChartSpecInfo } from '../../chart/interface';
 import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
 import type { ILabelMark } from '../../mark/label';
 import type { IBaseModelSpecTransformerResult } from '../../model/interface';
@@ -48,8 +49,8 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
   }
 
   /** 不建议重写该方法，最好重写对应子步骤 */
-  transformSpec(spec: T, chartSpec: any): IBaseModelSpecTransformerResult<T, K> {
-    this._transformSpec(spec, chartSpec);
+  transformSpec(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo): IBaseModelSpecTransformerResult<T, K> {
+    this._transformSpec(spec, chartSpec, chartSpecInfo);
     const result = this._initTheme(spec, chartSpec);
     this._transformLabelSpec(result.spec);
     return {

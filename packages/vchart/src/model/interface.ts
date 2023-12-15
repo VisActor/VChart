@@ -221,5 +221,9 @@ export interface IBaseModelSpecTransformerResult<T, K> {
 
 export interface IBaseModelSpecTransformer {
   getTheme: (spec: any, chartSpec: any) => any;
-  transformSpec: (spec: any, chartSpec: any) => IBaseModelSpecTransformerResult<any, any>;
+  transformSpec: (
+    spec: any,
+    chartSpec: any,
+    chartSpecInfo?: IChartSpecInfo
+  ) => IBaseModelSpecTransformerResult<any, any>;
 }

@@ -44,16 +44,16 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
   /** 转换 model spec，应用主题 */
   transformModelSpec(chartSpec: T): IChartSpecInfo {
-    const chartSpecInfo: IChartSpecInfo = {};
-    const transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo) => {
+    const currentChartSpecInfo: IChartSpecInfo = {};
+    const transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
       const { spec, specPath, type } = specInfo;
       const transformer = new constructor.transformerConstructor({
         type,
         getTheme: this._option.getTheme
       });
-      const transformResult = transformer.transformSpec(spec, chartSpec);
+      const transformResult = transformer.transformSpec(spec, chartSpec, chartSpecInfo);
       setProperty(chartSpec, specPath, transformResult.spec);
-      setProperty(chartSpecInfo, specPath ?? [type], {
+      setProperty(currentChartSpecInfo, specPath ?? [type], {
         ...specInfo,
         ...transformResult
       });
@@ -65,13 +65,13 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     this.forEachSeriesInSpec(chartSpec, transform);
     // 记录每个 region 包含哪些 series
     let region: IRegionSpecInfo;
-    chartSpecInfo.series?.forEach(({ spec: { regionId, regionIndex } }, i) => {
+    currentChartSpecInfo.series?.forEach(({ spec: { regionId, regionIndex } }, i) => {
       if (isValid(regionId)) {
-        region = chartSpecInfo.region?.find(({ spec }) => spec.id === regionId);
+        region = currentChartSpecInfo.region?.find(({ spec }) => spec.id === regionId);
       } else if (isValid(regionIndex)) {
-        region = chartSpecInfo.region?.[regionIndex];
+        region = currentChartSpecInfo.region?.[regionIndex];
       }
-      if (region || (region = chartSpecInfo.region?.[0])) {
+      if (region || (region = currentChartSpecInfo.region?.[0])) {
         if (!region.seriesIndexes) {
           region.seriesIndexes = [];
         }
@@ -79,8 +79,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       }
     });
     // 预处理 component
-    this.forEachComponentInSpec(chartSpec, transform, chartSpecInfo);
-    return chartSpecInfo;
+    this.forEachComponentInSpec(chartSpec, transform, currentChartSpecInfo);
+    return currentChartSpecInfo;
   }
 
   protected _isValidSeries(seriesType: string): boolean {
@@ -159,7 +159,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
   /** 枚举 spec 中每个有效的 component */
   forEachComponentInSpec<K>(
     chartSpec: T,
-    callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo) => K,
+    callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
     chartSpecInfo?: IChartSpecInfo
   ): K[] {
     const results: K[] = [];
@@ -197,7 +197,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       if (infoList?.length > 0) {
         hasInitAxis = true;
         infoList.forEach(info => {
-          results.push(callbackfn(cartesianAxis, info));
+          results.push(callbackfn(cartesianAxis, info, chartSpecInfo));
         });
       }
     }
@@ -207,31 +207,31 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       if (infoList?.length > 0) {
         hasInitAxis = true;
         infoList.forEach(info => {
-          results.push(callbackfn(polarAxis, info));
+          results.push(callbackfn(polarAxis, info, chartSpecInfo));
         });
       }
     }
 
     if (geoCoordinate && !hasInitAxis) {
       geoCoordinate.getSpecInfo(chartSpec)?.forEach(info => {
-        results.push(callbackfn(geoCoordinate, info));
+        results.push(callbackfn(geoCoordinate, info, chartSpecInfo));
       });
     }
 
     if (label && chartSpecInfo) {
       label.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
-        results.push(callbackfn(label, info));
+        results.push(callbackfn(label, info, chartSpecInfo));
       });
     }
     if (totalLabel && chartSpecInfo) {
       totalLabel.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
-        results.push(callbackfn(totalLabel, info));
+        results.push(callbackfn(totalLabel, info, chartSpecInfo));
       });
     }
 
     noAxisComponents.forEach(C => {
       C.getSpecInfo(chartSpec)?.forEach(info => {
-        results.push(callbackfn(C, info));
+        results.push(callbackfn(C, info, chartSpecInfo));
       });
     });
 

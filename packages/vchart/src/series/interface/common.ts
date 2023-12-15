@@ -130,6 +130,6 @@ export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec> extends IM
   spec: T;
   /** 当前的 mark 标签 spec */
   markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
-  /** 当前的总计标签 spec */
+  /** 当前的总计标签 specInfo */
   totalLabel?: IModelSpecInfo;
 }
