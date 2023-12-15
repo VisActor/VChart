@@ -9,8 +9,8 @@ import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../m
 import type { ILabelSpec } from '../../component';
 export interface IAreaSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<string, AreaAppearPreset>, IMarkProgressiveConfig, IDataSamping, IMarkOverlap {
     type: 'area';
-    xField: string | string[];
-    yField: string | string[];
+    xField?: string | string[];
+    yField?: string | string[];
     [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
     [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
     [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;

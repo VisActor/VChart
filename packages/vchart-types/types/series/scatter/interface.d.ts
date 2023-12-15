@@ -8,8 +8,8 @@ import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILineLikeLabelSpec } from '../mixin/line-mixin';
 export interface IScatterSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<ScatterMarks, ScatterAppearPreset>, IMarkProgressiveConfig {
     type: 'scatter';
-    xField: string | string[];
-    yField: string | string[];
+    xField?: string | string[];
+    yField?: string | string[];
     [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
     sizeField?: string;
     size?: number | number[] | FunctionType<number> | IVisualSpecBase<unknown, number>;

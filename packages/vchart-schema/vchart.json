@@ -2,6 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "anyOf": [
     {
+      "$ref": "#/definitions/IChartSpec"
+    },
+    {
       "$ref": "#/definitions/IBarChartSpec"
     },
     {
@@ -6809,9 +6812,6 @@
         "_callMap": {
           "$ref": "#/definitions/Map<Function,(...args:any[])=>void>"
         },
-        "_logger": {
-          "$ref": "#/definitions/ILogger"
-        },
         "dataViewMap": {
           "additionalProperties": false,
           "patternProperties": {
@@ -6840,7 +6840,6 @@
       },
       "required": [
         "_callMap",
-        "_logger",
         "dataViewMap",
         "isDataSet",
         "name",
@@ -6948,17 +6947,17 @@
       "type": "object"
     },
     "DirectionType": {
-      "enum": [
-        "horizontal",
-        "vertical"
-      ],
-      "type": "string"
-    },
-    "DirectionType_1": {
       "description": "播放方向\ndefault 默认的\nreverse 反方向",
       "enum": [
         "default",
         "reverse"
+      ],
+      "type": "string"
+    },
+    "DirectionType_1": {
+      "enum": [
+        "horizontal",
+        "vertical"
       ],
       "type": "string"
     },
@@ -18859,7 +18858,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -19443,9 +19442,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -19887,7 +19884,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -20121,9 +20118,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -20540,7 +20535,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -21095,9 +21090,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -21361,7 +21354,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -21916,9 +21909,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -22087,7 +22078,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -22292,9 +22283,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -22705,7 +22694,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -23594,7 +23583,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType"
+          "$ref": "#/definitions/DirectionType_1"
         },
         "extensionMark": {
           "description": "扩展mark",
@@ -24561,7 +24550,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -24769,6 +24758,222 @@
           "typeof": "function"
         }
       ]
+    },
+    "IChartSpec": {
+      "description": "chart spec",
+      "properties": {
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
+        "autoFit": {
+          "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
+          "type": "boolean"
+        },
+        "background": {
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+        },
+        "brush": {
+          "$ref": "#/definitions/IBrushSpec",
+          "description": "框选配置"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+            }
+          ],
+          "description": "图表色系配置"
+        },
+        "crosshair": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ICartesianCrosshairSpec"
+            },
+            {
+              "$ref": "#/definitions/IPolarCrosshairSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ICrosshairSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "十字辅助线配置"
+        },
+        "customMark": {
+          "description": "自定义mark",
+          "items": {
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+          },
+          "type": "array"
+        },
+        "data": {
+          "$ref": "#/definitions/IData",
+          "description": "数据"
+        },
+        "dataZoom": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
+        },
+        "height": {
+          "description": "画布高度",
+          "type": "number"
+        },
+        "hover": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "hover 交互"
+        },
+        "layout": {
+          "$ref": "#/definitions/ILayoutSpec",
+          "description": "布局配置"
+        },
+        "legends": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ILegendSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "图例配置"
+        },
+        "padding": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "图表整体 padding 设置"
+        },
+        "player": {
+          "$ref": "#/definitions/IPlayer",
+          "description": "播放器配置"
+        },
+        "region": {
+          "description": "region配置",
+          "items": {
+            "$ref": "#/definitions/IRegionSpec"
+          },
+          "type": "array"
+        },
+        "scales": {
+          "description": "全局 scale 配置",
+          "items": {
+            "$ref": "#/definitions/IVisualSpecScale<unknown,unknown>"
+          },
+          "type": "array"
+        },
+        "scrollBar": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
+        },
+        "select": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "select 交互"
+        },
+        "series": {
+          "description": "仅在组合图中使用, 文档中除组合图外均未透出该配置",
+          "items": {
+            "$ref": "#/definitions/ISeriesSpec"
+          },
+          "type": "array"
+        },
+        "seriesStyle": {
+          "description": "仅在图表配置了seriesField时生效",
+          "items": {
+            "$ref": "#/definitions/ISeriesStyleItem"
+          },
+          "type": "array"
+        },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
+        "theme": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<ITheme,\"name\">"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册"
+        },
+        "title": {
+          "$ref": "#/definitions/ITitleSpec",
+          "description": "图表标题配置"
+        },
+        "tooltip": {
+          "$ref": "#/definitions/ITooltipSpec",
+          "description": "tooltip配置"
+        },
+        "type": {
+          "description": "图表类型",
+          "type": "string"
+        },
+        "width": {
+          "description": "画布宽度",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
     },
     "ICirclePackingChartSpec": {
       "properties": {
@@ -29673,9 +29878,6 @@
     },
     "IDataSetOptions": {
       "properties": {
-        "logger": {
-          "$ref": "#/definitions/Logger"
-        },
         "name": {
           "type": "string"
         }
@@ -31243,7 +31445,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "dot": {
@@ -36831,7 +37033,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -37494,7 +37696,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -38007,7 +38209,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -38562,9 +38764,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -38801,7 +39001,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -39356,9 +39556,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -41349,7 +41547,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -41944,9 +42142,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -42337,7 +42533,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -42582,9 +42778,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -42862,7 +43056,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "default": "Direction.horizontal",
           "description": "方向"
         },
@@ -43228,7 +43422,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "default": "Direction.horizontal",
           "description": "方向"
         },
@@ -43443,7 +43637,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "dotSeriesIndex": {
@@ -43657,57 +43851,6 @@
           "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
         }
       },
-      "type": "object"
-    },
-    "ILogger": {
-      "properties": {
-        "addErrorHandler": {
-          "typeof": "function"
-        },
-        "canLogDebug": {
-          "typeof": "function"
-        },
-        "canLogError": {
-          "typeof": "function"
-        },
-        "canLogInfo": {
-          "typeof": "function"
-        },
-        "canLogWarn": {
-          "typeof": "function"
-        },
-        "debug": {
-          "typeof": "function"
-        },
-        "error": {
-          "typeof": "function"
-        },
-        "info": {
-          "typeof": "function"
-        },
-        "level": {
-          "typeof": "function"
-        },
-        "removeErrorHandler": {
-          "typeof": "function"
-        },
-        "warn": {
-          "typeof": "function"
-        }
-      },
-      "required": [
-        "addErrorHandler",
-        "canLogDebug",
-        "canLogError",
-        "canLogInfo",
-        "canLogWarn",
-        "debug",
-        "error",
-        "info",
-        "level",
-        "removeErrorHandler",
-        "warn"
-      ],
       "type": "object"
     },
     "IMapChartSpec": {
@@ -47851,7 +47994,7 @@
           "description": "控制器"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType_1",
+          "$ref": "#/definitions/DirectionType",
           "default": "'default'",
           "description": "离散轴支持三种播放方向, 连续型仅支持'default'."
         },
@@ -51100,7 +51243,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -51691,9 +51834,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -51822,7 +51963,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -52063,9 +52204,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -52302,7 +52441,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -52866,9 +53005,7 @@
       "required": [
         "maxField",
         "minField",
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -53037,7 +53174,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -53250,9 +53387,7 @@
       "required": [
         "maxField",
         "minField",
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -53489,7 +53624,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -54053,9 +54188,7 @@
       "required": [
         "maxField",
         "minField",
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -54224,7 +54357,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -54438,9 +54571,7 @@
       "required": [
         "maxField",
         "minField",
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -56536,7 +56667,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表布局方向"
         },
         "emphasis": {
@@ -56958,7 +57089,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表布局方向"
         },
         "emphasis": {
@@ -57373,7 +57504,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -57960,9 +58091,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -58069,7 +58198,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -58306,9 +58435,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -66099,7 +66226,7 @@
           "description": "缩略轴配置"
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
         },
         "extensionMark": {
@@ -66683,9 +66810,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -66854,7 +66979,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -67088,9 +67213,7 @@
         }
       },
       "required": [
-        "type",
-        "xField",
-        "yField"
+        "type"
       ],
       "type": "object"
     },
@@ -69283,22 +69406,9 @@
     "LockManager": {
       "type": "object"
     },
-    "Logger": {
-      "properties": {
-        "_level": {},
-        "_method": {},
-        "_onErrorHandler": {}
-      },
-      "required": [
-        "_level",
-        "_method",
-        "_onErrorHandler"
-      ],
-      "type": "object"
-    },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         },
         "size": {
@@ -69306,14 +69416,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14006",
+        "__@toStringTag@12048",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         },
         "size": {
@@ -69321,14 +69431,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14006",
+        "__@toStringTag@12048",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         },
         "size": {
@@ -69336,14 +69446,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14006",
+        "__@toStringTag@12048",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         },
         "size": {
@@ -69351,14 +69461,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14006",
+        "__@toStringTag@12048",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         },
         "size": {
@@ -69366,14 +69476,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14006",
+        "__@toStringTag@12048",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         },
         "size": {
@@ -69381,14 +69491,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14006",
+        "__@toStringTag@12048",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         },
         "size": {
@@ -69396,14 +69506,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14006",
+        "__@toStringTag@12048",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         },
         "size": {
@@ -69411,14 +69521,14 @@
         }
       },
       "required": [
-        "__@toStringTag@14006",
+        "__@toStringTag@12048",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         },
         "size": {
@@ -69426,7 +69536,7 @@
         }
       },
       "required": [
-        "__@toStringTag@14006",
+        "__@toStringTag@12048",
         "size"
       ],
       "type": "object"
@@ -70398,7 +70508,7 @@
           "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
         },
         "direction": {
-          "$ref": "#/definitions/DirectionType",
+          "$ref": "#/definitions/DirectionType_1",
           "description": "direction\nrow means layout by rows，col means layout by columns"
         },
         "extensionMark": {
@@ -70597,10 +70707,6 @@
           "description": "z轴字段\n用于3d散点图等"
         }
       },
-      "required": [
-        "xField",
-        "yField"
-      ],
       "type": "object"
     },
     "Omit<ICartesianAxisCommonSpec,\"inverse\">": {
@@ -85490,34 +85596,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14006"
+        "__@toStringTag@12048"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14006"
+        "__@toStringTag@12048"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@14006": {
+        "__@toStringTag@12048": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@14006"
+        "__@toStringTag@12048"
       ],
       "type": "object"
     },
