@@ -86,6 +86,9 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
 
   protected _getDefaultSpecFromChart(chartSpec: any): any {
     const spec = super._getDefaultSpecFromChart(chartSpec) as any;
+    if (!spec) {
+      return spec;
+    }
     const { outerRadius, innerRadius } = chartSpec;
     if (isValid(outerRadius)) {
       spec.outerRadius = outerRadius;
