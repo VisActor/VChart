@@ -8,6 +8,7 @@ export class AreaSeriesSpecTransformer<
   K extends IAreaSeriesTheme = IAreaSeriesTheme
 > extends LineLikeSeriesSpecTransformer<T, K> {
   protected _transformLabelSpec(spec: T): void {
+    super._transformLabelSpec(spec);
     this._addMarkLabelSpec<AreaSeries>(
       spec,
       SeriesMarkNameEnum.area,
@@ -16,6 +17,9 @@ export class AreaSeriesSpecTransformer<
       undefined,
       true
     );
-    this._addMarkLabelSpec(spec, SeriesMarkNameEnum.area);
+    const isPointVisible = spec.point?.visible !== false && spec.point?.style?.visible !== false;
+    if (!isPointVisible) {
+      this._addMarkLabelSpec(spec, SeriesMarkNameEnum.area);
+    }
   }
 }
