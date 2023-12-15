@@ -9,9 +9,4 @@ export class GaugeSeriesSpecTransformer<
   protected _transformLabelSpec(spec: T): void {
     this._addMarkLabelSpec(spec, SeriesMarkNameEnum.segment);
   }
-
-  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> {
-    const { outerRadius, innerRadius } = chartSpec;
-    return { outerRadius, innerRadius } as Partial<T>;
-  }
 }

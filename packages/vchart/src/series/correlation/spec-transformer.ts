@@ -10,9 +10,4 @@ export class CorrelationSeriesSpecTransformer<
     this._addMarkLabelSpec(spec, SeriesMarkNameEnum.nodePoint);
     this._addMarkLabelSpec(spec, SeriesMarkNameEnum.centerPoint, 'centerLabel' as any);
   }
-
-  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> {
-    const { outerRadius, innerRadius } = chartSpec;
-    return { outerRadius, innerRadius } as Partial<T>;
-  }
 }
