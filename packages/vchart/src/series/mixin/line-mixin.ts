@@ -81,11 +81,6 @@ export interface LineLikeSeriesMixin extends ISeries {
   _getInvalidConnectType: () => IInvalidType;
 
   getLayoutRect: () => ILayoutRect;
-  _preprocessLabelSpec: (
-    label: ILabelSpec,
-    styleHandler?: (mark: ILabelMark) => void,
-    hasAnimation?: boolean
-  ) => TransformedLabelSpec;
 }
 
 export class LineLikeSeriesMixin {
@@ -136,13 +131,6 @@ export class LineLikeSeriesMixin {
       progressive,
       customShape: this._spec.line?.customShape
     }) as ILineMark;
-    const isPointVisible = this._spec.point?.visible !== false && this._spec.point?.style?.visible !== false;
-    if (!isPointVisible && this._lineMark) {
-      this._lineMark.setLabelSpec(this._preprocessLabelSpec(this._spec.label, this.initLabelMarkStyle));
-    }
-    if (this._lineMark && this._spec.lineLabel?.visible) {
-      this._lineMark.addLabelSpec(this._preprocessLabelSpec(this._spec.lineLabel, this.initLineLabelMarkStyle), true);
-    }
     return this._lineMark;
   }
 
@@ -256,7 +244,6 @@ export class LineLikeSeriesMixin {
         morph: shouldMarkDoMorph(this._spec, lineLikeSeriesMark.point.name),
         defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
-        label: this._preprocessLabelSpec(this._spec.label),
         progressive,
         isSeriesMark: !!isSeriesMark,
         customShape: this._spec.point?.customShape

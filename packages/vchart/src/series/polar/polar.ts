@@ -11,15 +11,12 @@ import { BaseSeries } from '../base/base-series';
 import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
 import { sortDataInAxisHelper } from '../util/utils';
-import { PolarSeriesSpecTransformer } from './spec-transformer';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>
   implements IPolarSeries
 {
-  static readonly transformerConstructor = PolarSeriesSpecTransformer;
   readonly coordinate: 'polar' = 'polar';
-  readonly transformerConstructor = PolarSeriesSpecTransformer;
 
   protected _outerRadius: number = POLAR_DEFAULT_RADIUS;
   public get outerRadius() {

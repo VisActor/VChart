@@ -6,6 +6,7 @@ import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
 import type { Maybe, StringOrNumber } from '../../typings';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { IChartSpecInfo } from '../../chart/interface';
 /**
  * 组件作为图表辅助阅读等功能的模块，除了model提供的能力之外，还有以下功能特点
  * 支持对多region的绑定。
@@ -48,7 +49,7 @@ export interface IComponent extends ILayoutModel {
 export interface IComponentConstructor extends IModelConstructor {
   type: string;
   specKey?: string;
-  getSpecInfo: (chartSpec: any) => Maybe<IModelSpecInfo[]>;
-  createComponent: (specInfo: IModelSpecInfo, options: IComponentOption) => IComponent | IComponent[];
+  getSpecInfo: (chartSpec: any, chartSpecInfo?: IChartSpecInfo) => Maybe<IModelSpecInfo[]>;
+  createComponent: (specInfo: IModelSpecInfo, options: IComponentOption) => IComponent;
   new (spec: any, options: IComponentOption): IComponent;
 }

@@ -18,6 +18,7 @@ import { heatmapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { getGroupAnimationParams } from '../util/utils';
+import { HeatmapSeriesSpecTransformer } from './spec-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -26,6 +27,8 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
   type = SeriesTypeEnum.heatmap;
 
   static readonly mark: SeriesMarkMap = heatmapSeriesMark;
+  static readonly transformerConstructor = HeatmapSeriesSpecTransformer as any;
+  readonly transformerConstructor = HeatmapSeriesSpecTransformer;
 
   protected _cellMark: ICellMark;
   protected _backgroundMark: ICellMark;
@@ -55,7 +58,6 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       morph: shouldMarkDoMorph(this._spec, HeatmapSeries.mark.cell.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
-      label: this._preprocessLabelSpec(this._spec.label),
       progressive,
       customShape: this._spec.cell?.customShape
     }) as ICellMark;

@@ -1,10 +1,38 @@
+import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
+import type { ILabelMark } from '../../mark/label';
+import type { IBaseModelSpecTransformerResult } from '../../model/interface';
 import { BaseModelSpecTransformer } from '../../model/spec-transformer';
 import type { ISeriesSpec } from '../../typings';
-import { get, mergeSpec, transformSeriesThemeToMerge } from '../../util';
+import { array, get, mergeSpec, transformSeriesThemeToMerge } from '../../util';
+import type { SeriesMarkNameEnum } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
+import type { ISeries } from '../interface';
 import { getDirectionFromSeriesSpec } from '../util/spec';
 
-export class BaseSeriesSpecTransformer<T extends ISeriesSpec> extends BaseModelSpecTransformer<T> {
-  getTheme(spec: T, chartSpec: any): any {
+export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseModelSpecTransformer<T, K> {
+  markLabelSpec: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>> = {};
+
+  getLabelSpec(markName: string) {
+    return this.markLabelSpec[markName];
+  }
+
+  setLabelSpec(markName: string, label: TransformedLabelSpec | TransformedLabelSpec[]) {
+    this.markLabelSpec[markName] = array(label);
+  }
+
+  addLabelSpec(markName: string, label: TransformedLabelSpec, head = false) {
+    if (!this.markLabelSpec[markName]) {
+      this.markLabelSpec[markName] = [];
+    }
+    if (head) {
+      // 排序靠前的 label 优先布局，尽可能避免碰撞隐藏
+      this.markLabelSpec[markName].unshift(label);
+    } else {
+      this.markLabelSpec[markName].push(label);
+    }
+  }
+
+  getTheme(spec: T, chartSpec: any): K {
     const direction = getDirectionFromSeriesSpec(spec);
     const chartTheme = this._option?.getTheme();
     const { markByName, mark } = chartTheme;
@@ -17,5 +45,42 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec> extends BaseModelS
       markByName
     );
     return mergeSpec({}, theme, themeWithDirection);
+  }
+
+  /** 不建议重写该方法，最好重写对应子步骤 */
+  transformSpec(spec: T, chartSpec: any): IBaseModelSpecTransformerResult<T, K> {
+    this._transformSpec(spec, chartSpec);
+    const result = this._initTheme(spec, chartSpec);
+    this._transformLabelSpec(spec);
+    return {
+      ...result,
+      markLabelSpec: this.markLabelSpec
+    };
+  }
+
+  protected _transformLabelSpec(spec: T) {
+    // empty
+  }
+
+  protected _addMarkLabelSpec<V extends ISeries = ISeries>(
+    spec: T,
+    markName: SeriesMarkNameEnum,
+    labelSpecKey: keyof T = 'label' as any,
+    styleHandlerName: keyof V = 'initLabelMarkStyle',
+    hasAnimation?: boolean,
+    head?: boolean
+  ): void {
+    const labelSpec = spec?.[labelSpecKey] as ILabelSpec;
+    if (labelSpec?.visible) {
+      this.addLabelSpec(
+        markName,
+        {
+          animation: hasAnimation ?? spec.animation,
+          ...labelSpec,
+          getStyleHandler: (series: V) => (series[styleHandlerName] as any)?.bind(series)
+        } as TransformedLabelSpec,
+        head
+      );
+    }
   }
 }

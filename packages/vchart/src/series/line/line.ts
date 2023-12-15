@@ -16,6 +16,7 @@ import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
+import { LineLikeSeriesSpecTransformer } from '../mixin/spec-transformer';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -38,6 +39,8 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   type = SeriesTypeEnum.line;
 
   static readonly mark: SeriesMarkMap = lineSeriesMark;
+  static readonly transformerConstructor = LineLikeSeriesSpecTransformer;
+  readonly transformerConstructor = LineLikeSeriesSpecTransformer;
 
   protected _sortDataByAxis: boolean = false;
 

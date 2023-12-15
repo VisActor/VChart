@@ -22,6 +22,7 @@ import { registerRangeColumnAnimation, type RangeColumnAppearPreset } from './an
 import { rangeColumnSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { getGroupAnimationParams } from '../util/utils';
+import { RangeColumnSeriesSpecTransformer } from './spec-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -34,6 +35,8 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   protected declare _spec: T;
 
   static readonly mark: SeriesMarkMap = rangeColumnSeriesMark;
+  static readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
+  readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
 
   protected _stack: boolean = false;
   private _minLabelMark?: ITextMark;
@@ -48,7 +51,6 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       morph: shouldMarkDoMorph(this._spec, RangeColumnSeries.mark.bar.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      label: labelPosition === PositionEnum.bothEnd ? undefined : this._preprocessLabelSpec(this._spec.label),
       isSeriesMark: true,
       customShape: this._spec.bar?.customShape
     }) as IRectMark;

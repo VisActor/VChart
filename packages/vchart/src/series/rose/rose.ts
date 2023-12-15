@@ -15,6 +15,7 @@ import { roseSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import type { ILabelMark } from '../../mark/label';
+import { RoseSeriesSpecTransformer } from './spec-transformer';
 
 export const DefaultBandWidth = 0.5;
 
@@ -23,6 +24,8 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
   type = SeriesTypeEnum.rose;
 
   static readonly mark: SeriesMarkMap = roseSeriesMark;
+  static readonly transformerConstructor = RoseSeriesSpecTransformer as any;
+  readonly transformerConstructor = RoseSeriesSpecTransformer;
 
   protected _supportStack: boolean = true;
 
@@ -57,7 +60,6 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
-      label: this._preprocessLabelSpec(this._spec.label),
       customShape: this._spec.rose?.customShape
     }) as IArcMark;
   }

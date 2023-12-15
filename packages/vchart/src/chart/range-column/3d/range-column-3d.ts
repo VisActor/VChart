@@ -2,7 +2,7 @@ import { ChartTypeEnum } from '../../interface/type';
 import { SeriesTypeEnum } from '../../../series/interface/type';
 import type { IRangeColumn3dChartSpec } from '../interface';
 import { Factory } from '../../../core/factory';
-import { registerRangeColumn3dSeries } from '../../../series/range-column/range-column-3d';
+import { registerRangeColumn3dSeries } from '../../../series/range-column/3d/range-column-3d';
 import { RangeColumn3dChartSpecTransformer } from './spec-transformer';
 import { BaseChart } from '../../base';
 

@@ -197,7 +197,8 @@ export interface IChartSpecTransformer {
   /** 枚举 spec 中每个有效的 component */
   forEachComponentInSpec: <K>(
     spec: any,
-    callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo) => K
+    callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo) => K,
+    specInfo?: IChartSpecInfo
   ) => K[];
 }
 

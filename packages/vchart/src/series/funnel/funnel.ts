@@ -50,6 +50,7 @@ import { funnelSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import type { LabelItem } from '@visactor/vrender-components';
 import { Factory } from '../../core/factory';
+import { FunnelSeriesSpecTransformer } from './spec-transformer';
 
 export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   extends BaseSeries<T>
@@ -63,6 +64,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.polygon;
 
   static readonly mark: SeriesMarkMap = funnelSeriesMark;
+  static readonly transformerConstructor = FunnelSeriesSpecTransformer as any;
+  readonly transformerConstructor = FunnelSeriesSpecTransformer;
 
   protected _categoryField!: string;
   getCategoryField() {
@@ -182,7 +185,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         key: this._seriesField,
         groupKey: this._seriesField,
         isSeriesMark: true,
-        label: this._preprocessLabelSpec(this._spec.label),
         customShape: this._spec.funnel?.customShape
       }
     ) as IPolygonMark;
@@ -200,7 +202,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
           skipBeforeLayouted: false,
           dataView: this._viewDataTransform.getDataView(),
           dataProductId: this._viewDataTransform.getProductId(),
-          label: this._preprocessLabelSpec(this._spec.transformLabel),
           customShape: this._spec.transform?.customShape
         }
       );

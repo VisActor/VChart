@@ -20,6 +20,7 @@ import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { radarSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerMarkOverlapTransform } from '@visactor/vgrammar-core';
+import { LineLikeSeriesSpecTransformer } from '../mixin/spec-transformer';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<
@@ -41,6 +42,8 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
   type = SeriesTypeEnum.radar;
 
   static readonly mark: SeriesMarkMap = radarSeriesMark;
+  static readonly transformerConstructor = LineLikeSeriesSpecTransformer as any;
+  readonly transformerConstructor = LineLikeSeriesSpecTransformer;
 
   private _areaMark: ILineMark;
   protected _sortDataByAxis: boolean = false;

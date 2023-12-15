@@ -2,7 +2,7 @@ import { has, isValid } from '@visactor/vutils';
 import type { IChartSpec, IRegionSpec, ISeriesSpec } from '../../typings';
 import type { IChartSpecInfo, IChartSpecTransformer, IChartSpecTransformerOption } from '../interface';
 import type { IModelConstructor, IModelSpecInfo } from '../../model/interface';
-import type { IRegionConstructor } from '../../region/interface';
+import type { IRegionConstructor, IRegionSpecInfo } from '../../region/interface';
 import { Factory } from '../../core';
 import type { ISeriesConstructor } from '../../series';
 import type { IComponentConstructor } from '../../component/interface/common';
@@ -14,10 +14,6 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
   readonly seriesType: string;
 
   protected _option: IChartSpecTransformerOption;
-
-  protected get _layoutRect() {
-    return this._option.getLayoutRect?.();
-  }
 
   constructor(option: IChartSpecTransformerOption) {
     this._option = option;
@@ -49,27 +45,41 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
   /** 转换 model spec，应用主题 */
   transformModelSpec(chartSpec: T): IChartSpecInfo {
     const chartSpecInfo: IChartSpecInfo = {};
-    // 预处理 model spec
-    for (const forEachModelInSpec of [
-      this.forEachRegionInSpec.bind(this),
-      this.forEachSeriesInSpec.bind(this),
-      this.forEachComponentInSpec.bind(this)
-    ]) {
-      forEachModelInSpec(chartSpec, (constructor: IModelConstructor, specInfo: IModelSpecInfo) => {
-        const { spec, specPath, type } = specInfo;
-        const transformer = new constructor.transformerConstructor({
-          type,
-          getTheme: this._option.getTheme
-        });
-        const { spec: newSpec, theme } = transformer.transformSpec(spec, chartSpec);
-        setProperty(chartSpec, specPath, newSpec);
-        setProperty(chartSpecInfo, specPath, {
-          ...specInfo,
-          spec: newSpec,
-          theme
-        });
+    const transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo) => {
+      const { spec, specPath, type } = specInfo;
+      const transformer = new constructor.transformerConstructor({
+        type,
+        getTheme: this._option.getTheme
       });
-    }
+      const transformResult = transformer.transformSpec(spec, chartSpec);
+      setProperty(chartSpec, specPath, transformResult.spec);
+      setProperty(chartSpecInfo, specPath ?? [type], {
+        ...specInfo,
+        ...transformResult
+      });
+    };
+
+    // 预处理 region
+    this.forEachRegionInSpec(chartSpec, transform);
+    // 预处理 series
+    this.forEachSeriesInSpec(chartSpec, transform);
+    // 记录每个 region 包含哪些 series
+    let region: IRegionSpecInfo;
+    chartSpecInfo.series?.forEach(({ spec: { regionId, regionIndex } }, i) => {
+      if (isValid(regionId)) {
+        region = chartSpecInfo.region?.find(({ spec }) => spec.id === regionId);
+      } else if (isValid(regionIndex)) {
+        region = chartSpecInfo.region?.[regionIndex];
+      }
+      if (region || (region = chartSpecInfo.region?.[0])) {
+        if (!region.seriesIndexes) {
+          region.seriesIndexes = [];
+        }
+        region.seriesIndexes.push(i);
+      }
+    });
+    // 预处理 component
+    this.forEachComponentInSpec(chartSpec, transform, chartSpecInfo);
     return chartSpecInfo;
   }
 
@@ -149,7 +159,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
   /** 枚举 spec 中每个有效的 component */
   forEachComponentInSpec<K>(
     chartSpec: T,
-    callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo) => K
+    callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo) => K,
+    chartSpecInfo?: IChartSpecInfo
   ): K[] {
     const results: K[] = [];
     const components = Factory.getComponents();
@@ -158,6 +169,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     let cartesianAxis: IComponentConstructor;
     let polarAxis: IComponentConstructor;
     let geoCoordinate: IComponentConstructor;
+    let label: IComponentConstructor;
+    let totalLabel: IComponentConstructor;
     const noAxisComponents = [];
     for (let index = 0; index < components.length; index++) {
       const { cmp, alwaysCheck } = components[index];
@@ -168,6 +181,11 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       } else if (cmp.type === ComponentTypeEnum.geoCoordinate) {
         geoCoordinate = cmp;
       } else if (alwaysCheck || chartSpec[cmp.specKey ?? cmp.type]) {
+        if (cmp.type === ComponentTypeEnum.label) {
+          label = cmp;
+        } else if (cmp.type === ComponentTypeEnum.totalLabel) {
+          totalLabel = cmp;
+        }
         noAxisComponents.push(cmp);
       }
     }
@@ -197,6 +215,12 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     if (geoCoordinate && !hasInitAxis) {
       geoCoordinate.getSpecInfo(chartSpec)?.forEach(info => {
         results.push(callbackfn(geoCoordinate, info));
+      });
+    }
+
+    if (label && chartSpecInfo) {
+      label.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
+        results.push(callbackfn(label, info));
       });
     }
 

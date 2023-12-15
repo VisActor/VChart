@@ -16,13 +16,14 @@ import { ComponentMark, registerComponentMark, type IComponentMark } from '../..
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isArray, isFunction, isNil, pickWithout } from '@visactor/vutils';
+import { array, isArray, isFunction, isNil, pickWithout } from '@visactor/vutils';
 import type { IGroup, IText } from '@visactor/vrender-core';
 import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { LabelMark, type ILabelMark, registerLabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
+import type { IChartSpecInfo } from '../../chart/interface';
 
 export interface ILabelInfo {
   baseMark: ICompilableMark;
@@ -57,46 +58,36 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this._layoutRule = spec.labelLayout || 'series';
   }
 
-  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    const compSpec = chartSpec[this.specKey];
-    if (isNil(compSpec)) {
-      return undefined;
-    }
-    return [
-      {
-        spec: compSpec,
-        specPath: [this.specKey],
-        type: ComponentTypeEnum.label
-      }
-    ];
+  static getSpecInfo(chartSpec: any, chartSpecInfo: IChartSpecInfo): Maybe<IModelSpecInfo[]> {
+    let specInfo: IModelSpecInfo[] = [];
+    chartSpecInfo?.region?.forEach((regionInfo, i) => {
+      regionInfo.seriesIndexes?.forEach(seriesIndex => {
+        const seriesInfo = chartSpecInfo.series[seriesIndex];
+        if (seriesInfo.markLabelSpec) {
+          Object.keys(seriesInfo.markLabelSpec).forEach(markName => {
+            specInfo = specInfo.concat(
+              array(seriesInfo.markLabelSpec[markName]).map((labelSpec: TransformedLabelSpec, j) => ({
+                spec: labelSpec,
+                type: ComponentTypeEnum.label,
+                // 这里的 specPath 不是对应于真实 spec 的 path，而是 chartSpecInfo 上的 path
+                specPath: ['series', seriesIndex, 'markLabelSpecInfo', markName, j],
+                // 这里的 specIndex 是 region 的 index，用于 region 定位
+                specIndex: i
+              }))
+            );
+          });
+        }
+      });
+    });
+    return specInfo;
   }
 
   static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    // FIXME: 目前只有 label 类组件一个 specInfo 对应了多个组件实例，后续再优化
     const { spec, ...others } = specInfo;
-
-    const regions = options.getAllRegions();
-    const labelComponents: Label[] = [];
-    for (let i = 0; i < regions.length; i++) {
-      const marks = regions[i]
-        .getSeries()
-        .map(s => s.getMarksWithoutRoot())
-        .flat();
-      const labelVisible = marks.some(mark => {
-        return mark.getLabelSpec()?.some(labelSpec => labelSpec.visible);
-      });
-      if (labelVisible) {
-        labelComponents.push(
-          new Label(spec, {
-            ...options,
-            ...others,
-            specIndex: i
-          })
-        );
-        continue;
-      }
-    }
-    return labelComponents;
+    return new Label(spec, {
+      ...options,
+      ...others
+    });
   }
 
   init(option: IModelInitOption): void {
@@ -165,36 +156,36 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     if (!this._labelComponentMap) {
       this._labelComponentMap = new Map();
     }
-    eachSeries(this._regions, (s: ISeries) => {
-      const marks = s.getMarks();
-      const region = s.getRegion();
+    eachSeries(this._regions, (series: ISeries) => {
+      const seriesInfo = series.getSpecInfo();
+      const markNames = Object.keys(seriesInfo.markLabelSpec ?? {});
+      const region = series.getRegion();
 
       if (!this._labelInfoMap.get(region)) {
         this._labelInfoMap.set(region, []);
       }
-      for (let i = 0; i < marks.length; i++) {
-        const mark = marks[i];
-        if (mark.getLabelSpec()?.length > 0) {
-          mark.getLabelSpec().forEach((labelSpec, index) => {
-            if (labelSpec.visible) {
-              const info = this._labelInfoMap.get(region);
-              const labelMark = this._createMark(
-                {
-                  type: MarkTypeEnum.label,
-                  name: `${mark.name}-label-${index}`
-                },
-                { noSeparateStyle: true }
-              ) as ILabelMark;
-              labelMark.setTarget(mark);
-              info.push({
-                labelMark,
-                baseMark: mark,
-                series: s,
-                labelSpec
-              });
-            }
-          });
-        }
+      for (let i = 0; i < markNames.length; i++) {
+        const markName = markNames[i];
+        const mark = series.getMarkInName(markName);
+        array(seriesInfo.markLabelSpec[markName]).forEach((labelSpec, index: number) => {
+          if (labelSpec.visible) {
+            const info = this._labelInfoMap.get(region);
+            const labelMark = this._createMark(
+              {
+                type: MarkTypeEnum.label,
+                name: `${markName}-label-${index}`
+              },
+              { noSeparateStyle: true }
+            ) as ILabelMark;
+            labelMark.setTarget(mark);
+            info.push({
+              labelMark,
+              baseMark: mark,
+              series,
+              labelSpec
+            });
+          }
+        });
       }
     });
   }
@@ -245,8 +236,9 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       labelInfos.forEach(info => {
         const { labelMark, labelSpec, series } = info;
         this.initMarkStyleWithSpec(labelMark, labelSpec, undefined);
-        if (isFunction(labelSpec?.styleHandler)) {
-          labelSpec.styleHandler.call(series, labelMark);
+        if (isFunction(labelSpec?.getStyleHandler)) {
+          const styleHandler = labelSpec.getStyleHandler(series);
+          styleHandler?.call(series, labelMark);
         }
         if (labelMark.stateStyle?.normal?.lineWidth) {
           labelMark.setAttribute('stroke', series.getColorAttribute(), 'normal', AttributeLevel.Base_Series);

@@ -60,11 +60,6 @@ export interface ICompilableMark extends IGrammarItem {
   getFacet: () => string | undefined;
   setFacet: (facet: string) => void;
 
-  // 标签
-  getLabelSpec: () => TransformedLabelSpec[];
-  setLabelSpec: (label: TransformedLabelSpec | TransformedLabelSpec[]) => void;
-  addLabelSpec: (label: TransformedLabelSpec, head?: boolean) => void;
-
   // 状态
   state: MarkStateManager;
   readonly stateStyle: IMarkStateStyle<any>;

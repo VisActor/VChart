@@ -17,12 +17,15 @@ import { degreeToRadian, isValid } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { registerCircularProgressAnimation } from '../polar/progress-like';
 import type { IMark } from '../../mark/interface';
+import { GaugeSeriesSpecTransformer } from './spec-transformer';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
   type = SeriesTypeEnum.gauge;
 
   static readonly mark: SeriesMarkMap = gaugeSeriesMark;
+  static readonly transformerConstructor = GaugeSeriesSpecTransformer as any;
+  readonly transformerConstructor = GaugeSeriesSpecTransformer;
 
   private _segmentMark: IProgressArcMark | null = null;
   private _trackMark: IProgressArcMark | null = null;
@@ -73,8 +76,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     }) as IProgressArcMark;
     this._segmentMark = this._createMark(GaugeSeries.mark.segment, {
       parent: this._arcGroupMark,
-      isSeriesMark: true,
-      label: this._preprocessLabelSpec(this._spec.label)
+      isSeriesMark: true
     }) as IProgressArcMark;
   }
 
@@ -104,7 +106,6 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         // forceShowCap 是内部属性，不在接口中暴露
         forceShowCap: true
       });
-      segmentMark.setLabelSpec(this._preprocessLabelSpec(this._spec.label));
       this._trigger.registerMark(segmentMark);
     }
   }

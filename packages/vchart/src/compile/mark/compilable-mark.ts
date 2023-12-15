@@ -38,7 +38,6 @@ import type { IEvent } from '../../event/interface';
 import { Event } from '../../event/event';
 // eslint-disable-next-line no-duplicate-imports
 import { AnimationStateEnum } from '../../animation/interface';
-import type { TransformedLabelSpec } from '../../component/label';
 import type { ICustomPath2D } from '@visactor/vrender-core';
 
 /** 可编译的 mark 对象，这个基类只存放编译相关的逻辑 */
@@ -210,25 +209,6 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   }
   setGroupKey(groupKey: string) {
     this._groupKey = groupKey;
-  }
-
-  protected _label?: TransformedLabelSpec[];
-  getLabelSpec() {
-    return this._label;
-  }
-  setLabelSpec(label: TransformedLabelSpec | TransformedLabelSpec[]) {
-    this._label = array(label);
-  }
-  addLabelSpec(label: TransformedLabelSpec, head = false) {
-    if (!this._label) {
-      this._label = [];
-    }
-    if (head) {
-      // 排序靠前的 label 优先布局，尽可能避免碰撞隐藏
-      this._label.unshift(label);
-    } else {
-      this._label.push(label);
-    }
   }
 
   protected _progressiveConfig: IMarkProgressiveConfig;
