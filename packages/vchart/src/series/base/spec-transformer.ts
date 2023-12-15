@@ -3,7 +3,7 @@ import type { ILabelMark } from '../../mark/label';
 import type { IBaseModelSpecTransformerResult } from '../../model/interface';
 import { BaseModelSpecTransformer } from '../../model/spec-transformer';
 import type { ISeriesSpec } from '../../typings';
-import { array, get, mergeSpec, transformSeriesThemeToMerge } from '../../util';
+import { array, get, isValid, mergeSpec, transformSeriesThemeToMerge } from '../../util';
 import type { SeriesMarkNameEnum } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../interface';
@@ -82,5 +82,17 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
         head
       );
     }
+  }
+
+  protected _getDefaultSpecFromChart(chartSpec: any): any {
+    const spec = super._getDefaultSpecFromChart(chartSpec) as any;
+    const { outerRadius, innerRadius } = chartSpec;
+    if (isValid(outerRadius)) {
+      spec.outerRadius = outerRadius;
+    }
+    if (isValid(innerRadius)) {
+      spec.innerRadius = innerRadius;
+    }
+    return spec;
   }
 }
