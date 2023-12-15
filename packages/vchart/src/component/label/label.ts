@@ -282,7 +282,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
     target: IVGrammarMark | IVGrammarMark[],
     labelInfos: ILabelInfo[]
   ) {
-    const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
+    const dependCmp = this._option.getComponentsByType('totalLabel');
     component
       .target(target)
       .configure({ interactive: false })
@@ -301,10 +301,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             {
               textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
               overlap: {
-                avoidMarks: this._option
-                  .getAllComponents()
-                  .filter(cmp => cmp.type === 'totalLabel')
-                  .map(cmp => cmp.getMarks()[0].getProductId())
+                avoidMarks: dependCmp.map(cmp => cmp.getMarks()[0].getProductId())
               }
             },
             configFunc(labelInfo),

@@ -364,7 +364,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       getAllComponents: this.getComponents,
       getComponentByIndex: this.getComponentByIndex,
       getComponentByUserId: this.getComponentByUserId,
-      getComponentsByKey: this.getComponentsByKey
+      getComponentsByKey: this.getComponentsByKey,
+      getComponentsByType: this.getComponentsByType
     });
     if (!component) {
       return;
@@ -579,6 +580,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     return undefined;
   };
 
+  getComponentsByType = (type: string) => {
+    return this._components.filter(c => c.type === type);
+  };
+
   getModelById(id: number): IModel | undefined {
     const model = this._idMap.get(id);
     if (model && model instanceof BaseModel) {
@@ -589,15 +594,15 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   getModelByUserId(userId: StringOrNumber): IModel | undefined {
     // TODO: 考虑通过 map 结构优化获取方式 & 补充所有 model 的寻找方法
-    const series = this._series.find(s => s.userId === userId);
+    const series = this.getSeriesInUserId(userId);
     if (series) {
       return series;
     }
-    const region = this._regions.find(s => s.userId === userId);
+    const region = this.getRegionsInUserId(userId);
     if (region) {
       return region;
     }
-    const component = this._components.find(s => s.userId === userId);
+    const component = this.getComponentByUserId(userId);
     if (component) {
       return component;
     }
@@ -1212,7 +1217,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       isNil(value) || !dimensionInfo || dimensionInfo.every(d => isDiscrete(d.axis.getScale().type) && isNil(d.index));
     // tooltip
     if (opt.tooltip !== false) {
-      const tooltip = this._components.find(c => c.type === ComponentTypeEnum.tooltip) as unknown as ITooltip;
+      const tooltip = this.getComponentsByType(ComponentTypeEnum.tooltip)[0] as unknown as ITooltip;
+
       if (tooltip?.getVisible()) {
         if (isUnableValue) {
           (<any>tooltip).hideTooltip?.();
@@ -1234,9 +1240,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       }
     }
     if (opt.crosshair !== false) {
-      const crosshair = this._components.find(
-        c => c.type === ComponentTypeEnum.cartesianCrosshair
-      ) as unknown as ICrossHair;
+      const crosshair = this.getComponentsByType(ComponentTypeEnum.cartesianCrosshair)[0] as unknown as ICrossHair;
+
       if (crosshair && crosshair.clearAxisValue && crosshair.setAxisValue) {
         if (isUnableValue) {
           crosshair.clearAxisValue?.();
