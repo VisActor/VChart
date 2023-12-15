@@ -51,7 +51,7 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
   transformSpec(spec: T, chartSpec: any): IBaseModelSpecTransformerResult<T, K> {
     this._transformSpec(spec, chartSpec);
     const result = this._initTheme(spec, chartSpec);
-    this._transformLabelSpec(spec);
+    this._transformLabelSpec(result.spec);
     return {
       ...result,
       markLabelSpec: this.markLabelSpec
