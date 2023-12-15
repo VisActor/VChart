@@ -146,7 +146,7 @@ describe('Bar chart test', () => {
       seriesType: 'bar',
       getTheme: () => ThemeManager.getCurrentTheme()
     });
-    barTransformer.initChartSpec(barSpec as any);
+    const barInfo = barTransformer.initChartSpec(barSpec as any);
     const barChart = new BarChart(
       barSpec as any,
       {
@@ -165,7 +165,8 @@ describe('Bar chart test', () => {
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
         onError: () => {},
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        getSpecInfo: () => barInfo
       } as any
     );
     barChart.created();
