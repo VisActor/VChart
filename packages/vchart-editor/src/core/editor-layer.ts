@@ -203,7 +203,10 @@ export class EditorLayer implements IEditorLayer {
       canvasControled: true,
       autoRender: true,
       disableDirtyBounds: true,
-      dpr: window.devicePixelRatio
+      dpr: window.devicePixelRatio,
+      event: {
+        clickInterval: 300
+      }
     });
     // @ts-ignore
     this._stage = stage;

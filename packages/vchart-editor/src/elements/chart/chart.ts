@@ -30,7 +30,6 @@ import {
 } from './editor-elements/marker';
 import { ChartEvent } from './event';
 import { CommonModelElement } from './editor-elements/common-model-editor';
-import { getDefaultMarkerConfigByType, updateMarkersAfterUpdateData } from './utils/marker';
 import {
   IgnoreModelTypeInLayout,
   getChartModelWithModelInfo,
@@ -41,6 +40,8 @@ import {
 import { LayoutRectToRect, getLayoutLine } from '../../utils/space';
 import { addRectToPathElement, getEndPathWithNode, getPosInClient } from '../../utils/element';
 import { getBarGraphicByDataKey } from './utils/common';
+import { getDefaultMarkerConfigByType } from './utils/marker/config';
+import { updateMarkersAfterUpdateData } from './utils/marker/update-data';
 
 export class EditorChart extends BaseElement {
   type = 'chart';
@@ -224,7 +225,6 @@ export class EditorChart extends BaseElement {
 
         this._isAxisInverseChange = isAxisInverse !== updateAxisInverse;
       }
-
       this._isRendered = false;
       // HACK: 屏蔽报错临时修改
       // eslint-disable-next-line promise/catch-or-return

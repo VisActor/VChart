@@ -1,4 +1,3 @@
-import { UpdateAttributeCall } from './../chart/editor-elements/base-editor-element';
 import type { VRenderPointerEvent } from './../interface';
 import type { IGraphic, IText, INode, IGroup } from '@visactor/vrender-core';
 import { createRect, createWrapText } from '@visactor/vrender-core';
