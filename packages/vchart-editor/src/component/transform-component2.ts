@@ -13,6 +13,7 @@ import {
 import type { IAABBBounds, IAABBBoundsLike } from '@visactor/vutils';
 import { AABBBounds, merge, normalizePadding, pi } from '@visactor/vutils';
 import { AbstractComponent } from '@visactor/vrender-components';
+import { transformPointWithMatrix } from '../utils/space';
 
 type ResizeType = [boolean, ...boolean[]] & { length: 8 };
 
@@ -169,8 +170,9 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
   protected handleDragMouseDown = (e: any) => {
     this.isEditor = true;
     this.editStartCbs.forEach(cb => cb());
-    this.dragOffsetX = e.offset.x;
-    this.dragOffsetY = e.offset.y;
+    const layerPos = transformPointWithMatrix(this.layer.globalTransMatrix.getInverse(), e.offset);
+    this.dragOffsetX = layerPos.x;
+    this.dragOffsetY = layerPos.y;
 
     // 开启move
     if (e.pickParams && this.stage) {
@@ -186,9 +188,10 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     if (!this.isDragging) {
       return;
     }
+    const layerPos = transformPointWithMatrix(this.layer.globalTransMatrix.getInverse(), e.offset);
 
-    const dx = e.offset.x - this.dragOffsetX;
-    const dy = e.offset.y - this.dragOffsetY;
+    const dx = layerPos.x - this.dragOffsetX;
+    const dy = layerPos.y - this.dragOffsetY;
 
     if (dx === 0 && dy === 0) {
       return;
@@ -202,8 +205,8 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
       this.dispatchUpdate();
     }
 
-    this.dragOffsetX = e.offset.x;
-    this.dragOffsetY = e.offset.y;
+    this.dragOffsetX = layerPos.x;
+    this.dragOffsetY = layerPos.y;
   };
 
   protected handleDragMouseUp = (e: any) => {
