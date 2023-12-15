@@ -16,9 +16,6 @@ export class AreaSeriesSpecTransformer<
       undefined,
       true
     );
-    const isPointVisible = spec.point?.visible !== false && spec.point?.style?.visible !== false;
-    if (!isPointVisible) {
-      this._addMarkLabelSpec(spec, SeriesMarkNameEnum.area);
-    }
+    this._addMarkLabelSpec(spec, SeriesMarkNameEnum.area);
   }
 }
