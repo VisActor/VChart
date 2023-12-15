@@ -52,6 +52,8 @@ export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     protected _getBrushInteractiveAttr(region: IRegion): BrushInteractiveRangeAttr;
     protected _updateBrushComponent(region: IRegion, componentIndex: number): void;
     protected _createBrushComponent(region: IRegion, componentIndex: number): void;
+    private _handleBrushChange;
+    private _emitEvent;
     private _transformBrushedMarkAttr;
     private _reconfigItem;
     private _reconfigLinkedItem;

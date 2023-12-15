@@ -7,3 +7,4 @@ export declare class Arc3dMark extends BaseArcMark<IArc3dMarkSpec> implements IA
     static readonly type = MarkTypeEnum.arc3d;
     readonly type: MarkTypeEnum;
 }
+export declare const registerArc3dMark: () => void;

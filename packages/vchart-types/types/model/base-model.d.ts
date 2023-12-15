@@ -68,9 +68,7 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     protected _initTheme(theme?: any): void;
     protected _getTheme(): any;
     protected _mergeThemeToSpec(): void;
-    protected _getDefaultSpecFromChart(chartSpec: any): Partial<T>;
     protected _shouldMergeThemeToSpec(): boolean;
-    protected _prepareSpecBeforeMergingTheme(obj?: any): any;
     setCurrentTheme(): void;
     updateLayoutAttribute(): void;
     setAttrFromSpec(): void;

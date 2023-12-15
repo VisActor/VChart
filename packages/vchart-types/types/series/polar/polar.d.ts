@@ -48,6 +48,7 @@ export declare abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSer
         operations: Array<'max' | 'min' | 'values'>;
     }[];
     protected _getDefaultSpecFromChart(chartSpec: any): Partial<T>;
+    protected _mergeThemeToSpec(): void;
     setAttrFromSpec(): void;
     onRadiusAxisHelperUpdate(): void;
     onAngleAxisHelperUpdate(): void;

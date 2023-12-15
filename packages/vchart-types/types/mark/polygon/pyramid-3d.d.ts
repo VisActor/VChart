@@ -7,3 +7,4 @@ export declare class Pyramid3dMark extends BasePolygonMark<IPyramid3dMarkSpec> i
     static readonly type = MarkTypeEnum.pyramid3d;
     readonly type = MarkTypeEnum.pyramid3d;
 }
+export declare const registerPyramid3dMark: () => void;

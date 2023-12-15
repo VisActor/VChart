@@ -29,9 +29,6 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
     }>;
     private _actualScale;
     getZoom(): number;
-    private _evaluated;
-    private _lastHeight;
-    private _lastWidth;
     static createComponent(spec: IChartSpec, options: IComponentOption): IGeoCoordinate[];
     effect: IEffect;
     setAttrFromSpec(): void;

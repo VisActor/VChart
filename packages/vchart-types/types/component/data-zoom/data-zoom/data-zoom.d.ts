@@ -23,7 +23,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     constructor(spec: T, options: IComponentOption);
     created(): void;
     setAttrFromSpec(): void;
-    protected _prepareSpecBeforeMergingTheme(originalSpec: T): T;
+    protected _mergeThemeToSpec(): void;
     onLayoutEnd(ctx: any): void;
     protected _initValueScale(): void;
     protected _updateScaleRange(): void;
@@ -47,6 +47,10 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
             visible: boolean;
             icon: ISymbolGraphicAttribute;
             background: any;
+        } | {
+            visible: boolean;
+            icon?: undefined;
+            background?: undefined;
         };
         endHandlerStyle: ISymbolGraphicAttribute;
         startTextStyle: unknown;

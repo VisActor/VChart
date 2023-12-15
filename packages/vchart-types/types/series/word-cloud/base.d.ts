@@ -21,6 +21,7 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     protected _colorList: string[];
     protected _rotateAngles?: number[];
     protected _fontWeightRange?: [number, number];
+    protected _textField?: string;
     protected _fontSizeRange?: [number, number];
     setFontSizeRange(fontSizeRange: [number, number]): void;
     protected _maskShape?: string | WordCloudShapeType;
@@ -46,6 +47,8 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
         field: string;
     };
     compile(): void;
+    protected _wordCloudTransformOption(): Object;
+    protected _wordCloudShapeTransformOption(): Object;
     getStatisticFields(): {
         key: string;
         operations: Array<'max' | 'min' | 'values'>;

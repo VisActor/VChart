@@ -44,7 +44,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _zoomAttr: IRoamZoomSpec;
     protected _dragAttr: IRoamDragSpec;
     protected _scrollAttr: IRoamScrollSpec;
-    setStartAndEnd(start: number, end: number): void;
+    setStartAndEnd(start: number | string, end: number | string, rangeMode?: ['percent' | 'value', 'percent' | 'value']): void;
     enableInteraction(): void;
     disableInteraction(): void;
     zoomIn(location?: {

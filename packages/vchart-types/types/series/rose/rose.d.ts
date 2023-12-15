@@ -17,8 +17,11 @@ export declare class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> ext
     protected _labelMark: ITextMark | null;
     initMark(): void;
     initMarkStyle(): void;
+    protected _buildMarkAttributeContext(): void;
     private initRoseMark;
     private getRoseAngle;
+    private startAngleScale;
+    private endAngleScale;
     private initRoseMarkStyle;
     protected initTooltip(): void;
     initLabelMarkStyle(textMark: ILabelMark): void;

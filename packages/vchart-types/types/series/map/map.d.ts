@@ -21,6 +21,9 @@ export declare class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extend
     };
     protected _theme: Maybe<IMapSeriesTheme>;
     private _areaCache;
+    get areaPath(): Map<string, {
+        shape: string;
+    }>;
     private _pathMark;
     private _labelMark;
     setAttrFromSpec(): void;

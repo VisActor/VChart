@@ -23,4 +23,4 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
     space?: number;
     align?: "center" | "start" | "end";
 };
-export declare function getLayout(spec: ILegendCommonSpec): "horizontal" | "vertical";
+export declare function getLayout(spec: ILegendCommonSpec): "vertical" | "horizontal";

@@ -30,6 +30,7 @@ export declare abstract class BaseComponent<T extends IComponentSpec = IComponen
         y: number;
     };
     protected _getTheme(): any;
+    protected _adjustPadding(): void;
     protected _mergeThemeToSpec(): void;
     protected getContainer(): IGroup;
     _compareSpec(): {

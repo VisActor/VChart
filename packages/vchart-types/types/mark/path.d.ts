@@ -8,3 +8,4 @@ export declare class PathMark extends BaseMark<IPathMarkSpec> implements IPathMa
     readonly type = MarkTypeEnum.path;
     protected _getDefaultStyle(): IMarkStyle<IPathMarkSpec>;
 }
+export declare const registerPathMark: () => void;
