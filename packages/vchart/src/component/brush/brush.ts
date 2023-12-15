@@ -199,6 +199,7 @@ export class Brush extends BaseComponent<IBrushSpec> implements IBrush {
       this._initMarkBrushState(componentIndex, '');
       this._needInitOutState = true;
       this._handleBrushChange(ChartEvent.brushChange, region, e);
+      this._handleBrushChange(ChartEvent.brushClear, region, e);
     });
 
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
