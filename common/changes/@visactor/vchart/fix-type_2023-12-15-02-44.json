@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix type defination of vchart spec in #1486",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
