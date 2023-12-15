@@ -273,6 +273,10 @@ Brush The event triggered after the box is selected.
 
 Brush The event triggered the box selected has been finished.
 
+- `'brushClear'`
+
+Brush The event triggered the box selected has been finished.
+
 The event parameters are as follows:
 
 ```ts
