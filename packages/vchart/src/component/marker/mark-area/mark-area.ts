@@ -46,6 +46,9 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   }
 
   protected _createMarkerComponent() {
+    const label = this._spec.label ?? {};
+    const { labelBackground = {} } = label;
+
     const markArea = new MarkAreaComponent({
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? false,
@@ -57,17 +60,17 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
       ],
       areaStyle: transformToGraphic(this._spec.area?.style),
       label: {
-        ...this._spec.label,
-        padding: this._spec.label?.labelBackground?.padding,
+        ...label,
+        padding: labelBackground.padding,
         shape: {
-          ...transformToGraphic(this._spec.label?.shape),
-          visible: this._spec.label?.shape?.visible ?? false
+          ...transformToGraphic(label.shape),
+          visible: label.shape?.visible ?? false
         },
         panel: {
-          ...transformToGraphic(this._spec.label?.labelBackground?.style),
-          visible: this._spec.label?.labelBackground?.visible ?? true
+          ...transformToGraphic(labelBackground.style),
+          visible: labelBackground.visible ?? true
         },
-        textStyle: transformToGraphic(this._spec.label?.style)
+        textStyle: transformToGraphic(label.style)
       },
       clipInRange: this._spec.clip ?? false
     });
@@ -137,18 +140,20 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
       };
     }
 
-    this._markerComponent?.setAttributes({
-      points: points,
-      label: {
-        ...this._markerComponent?.attribute?.label,
-        text: this._spec.label.formatMethod
-          ? this._spec.label.formatMethod(dataPoints, seriesData)
-          : this._markerComponent?.attribute?.label?.text
-      },
-      limitRect,
-      dx: this._layoutOffsetX,
-      dy: this._layoutOffsetY
-    });
+    if (this._markerComponent) {
+      this._markerComponent.setAttributes({
+        points: points,
+        label: {
+          ...this._markerComponent.attribute?.label,
+          text: this._spec.label.formatMethod
+            ? this._spec.label.formatMethod(dataPoints, seriesData)
+            : this._markerComponent.attribute?.label?.text
+        },
+        limitRect,
+        dx: this._layoutOffsetX,
+        dy: this._layoutOffsetY
+      });
+    }
   }
 
   protected _initDataView(): void {

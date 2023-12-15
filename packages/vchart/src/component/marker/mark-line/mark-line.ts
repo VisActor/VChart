@@ -23,7 +23,7 @@ import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import type { IGroup } from '@visactor/vrender-core';
-import type { IDataPos } from '../interface';
+import type { IDataPos, IMarkerSymbol } from '../interface';
 import type { IOptionRegr } from '../../../data/transforms/regression';
 // eslint-disable-next-line no-duplicate-imports
 import { markerRegression } from '../../../data/transforms/regression';
@@ -63,6 +63,12 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
   }
 
   protected _createMarkerComponent() {
+    const {
+      label = {},
+      startSymbol = {} as IMarkerSymbol,
+      endSymbol = {} as IMarkerSymbol
+    } = this._spec as IMarkLineSpec;
+    const { labelBackground = {} } = label;
     const markLine = new MarkLineComponent({
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? false,
@@ -78,27 +84,27 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       ],
       lineStyle: this._spec.line?.style as unknown as any,
       startSymbol: {
-        ...this._spec.startSymbol,
-        visible: this._spec.startSymbol?.visible,
-        style: transformToGraphic(this._spec.startSymbol?.style)
+        ...startSymbol,
+        visible: startSymbol.visible,
+        style: transformToGraphic(startSymbol.style)
       },
       endSymbol: {
-        ...this._spec.endSymbol,
-        visible: this._spec.endSymbol?.visible,
-        style: transformToGraphic(this._spec.endSymbol?.style)
+        ...endSymbol,
+        visible: endSymbol.visible,
+        style: transformToGraphic(endSymbol.style)
       },
       label: {
-        ...this._spec.label,
-        padding: this._spec.label?.labelBackground?.padding,
+        ...label,
+        padding: labelBackground.padding,
         shape: {
-          ...transformToGraphic(this._spec.label?.shape),
-          visible: this._spec.label?.shape?.visible ?? false
+          ...transformToGraphic(label.shape),
+          visible: label.shape?.visible ?? false
         },
         panel: {
-          ...transformToGraphic(this._spec.label?.labelBackground.style),
-          visible: this._spec.label?.labelBackground?.visible ?? true
+          ...transformToGraphic(labelBackground.style),
+          visible: labelBackground.visible ?? true
         },
-        textStyle: transformToGraphic(this._spec.label?.style)
+        textStyle: transformToGraphic(label.style)
       },
       clipInRange: this._spec.clip ?? false
     });
@@ -148,12 +154,12 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
         height: maxY - minY
       };
     }
-
+    const markerComponentAttr = this._markerComponent?.attribute ?? {};
     const labelAttrs = {
-      ...this._markerComponent?.attribute?.label,
+      ...markerComponentAttr.label,
       text: this._spec.label.formatMethod
         ? this._spec.label.formatMethod(dataPoints, seriesData)
-        : this._markerComponent?.attribute?.label?.text
+        : markerComponentAttr.label?.text
     };
 
     if ((this._spec as IStepMarkLineSpec).type === 'type-step') {
@@ -223,7 +229,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
           ...labelAttrs,
           ...labelPositionAttrs,
           textStyle: {
-            ...this._markerComponent?.attribute?.label.textStyle,
+            ...markerComponentAttr.label.textStyle,
             textAlign: 'center',
             textBaseline: 'middle'
           }

@@ -151,7 +151,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     this.setSubTitleField(this._spec.subTitleField);
     this.setDotTypeField(this._spec.dotTypeField);
     this.setHighLightSeriesGroup(this._spec.highLightSeriesGroup);
-    this.setGridBackground(mergeSpec(DEFAULT_GRID_BACKGROUND, this._spec?.grid?.background || {}));
+    this.setGridBackground(mergeSpec(DEFAULT_GRID_BACKGROUND, this._spec.grid?.background || {}));
   }
 
   private _clipMark: IGroupMark;

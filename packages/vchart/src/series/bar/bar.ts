@@ -490,7 +490,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           ? this._xAxisHelper?.getScale(0).scale(0)
           : this._yAxisHelper?.getScale(0).scale(0)
     };
-    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<BarAppearPreset>)?.preset;
+    const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<BarAppearPreset>)?.preset;
     const animationParams = getGroupAnimationParams(this);
 
     this._barMark.setAnimationConfig(

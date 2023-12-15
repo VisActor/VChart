@@ -102,16 +102,16 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
-    this._centerOffset = this._spec?.centerOffset ?? 0;
-    this._cornerRadius = this._spec?.cornerRadius ?? 0;
+    this._centerOffset = this._spec.centerOffset ?? 0;
+    this._cornerRadius = this._spec.cornerRadius ?? 0;
 
     const normalized = normalizeStartEndAngle(
-      isValid(this._spec?.startAngle) ? degreeToRadian(this._spec.startAngle) : this._startAngle,
-      isValid(this._spec?.endAngle) ? degreeToRadian(this._spec.endAngle) : this._endAngle
+      isValid(this._spec.startAngle) ? degreeToRadian(this._spec.startAngle) : this._startAngle,
+      isValid(this._spec.endAngle) ? degreeToRadian(this._spec.endAngle) : this._endAngle
     );
     this._startAngle = normalized.startAngle;
     this._endAngle = normalized.endAngle;
-    this._padAngle = isValid(this._spec?.padAngle) ? degreeToRadian(this._spec.padAngle) : 0;
+    this._padAngle = isValid(this._spec.padAngle) ? degreeToRadian(this._spec.padAngle) : 0;
 
     // 值信息给角度，angleField 是为了兼容小组件用法，因为 spec 改造前已经开放了
     this.setAngleField(this._spec.valueField || this._spec.angleField);
@@ -138,7 +138,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           angleField: this._angleField[0],
           startAngle: this._startAngle,
           endAngle: this._endAngle,
-          minAngle: isValid(this._spec?.minAngle) ? degreeToRadian(this._spec.minAngle) : 0,
+          minAngle: isValid(this._spec.minAngle) ? degreeToRadian(this._spec.minAngle) : 0,
           asStartAngle: ARC_START_ANGLE,
           asEndAngle: ARC_END_ANGLE,
           asRatio: ARC_RATIO,
@@ -289,10 +289,13 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 
   protected generateRadiusStyle(spec: any) {
+    if (!spec) {
+      return;
+    }
     const style: any = {};
-    spec?.outerRadius && (style.outerRadius = () => this.computeLayoutRadius() * spec?.outerRadius);
-    spec?.innerRadius && (style.innerRadius = () => this.computeLayoutRadius() * spec?.innerRadius);
-    spec?.cornerRadius && (style.cornerRadius = () => this.computeLayoutRadius() * spec?.cornerRadius);
+    spec.outerRadius && (style.outerRadius = () => this.computeLayoutRadius() * spec.outerRadius);
+    spec.innerRadius && (style.innerRadius = () => this.computeLayoutRadius() * spec.innerRadius);
+    spec.cornerRadius && (style.cornerRadius = () => this.computeLayoutRadius() * spec.cornerRadius);
     return style;
   }
 
@@ -393,16 +396,17 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     const { centerX, centerY, centerOffset, radius, innerRadius, cornerRadius, startAngle, endAngle, padAngle } =
       this._originalSpec;
     const result = super._compareSpec(ignoreCheckKeys);
+    const spec = this._spec ?? ({} as T);
     if (
-      this._spec?.centerY !== centerY ||
-      this._spec?.centerX !== centerX ||
-      this._spec?.centerOffset !== centerOffset ||
-      this._spec?.radius !== radius ||
-      this._spec?.innerRadius !== innerRadius ||
-      this._spec?.cornerRadius !== cornerRadius ||
-      this._spec?.startAngle !== startAngle ||
-      this._spec?.endAngle !== endAngle ||
-      this._spec?.padAngle !== padAngle
+      spec.centerY !== centerY ||
+      spec.centerX !== centerX ||
+      spec.centerOffset !== centerOffset ||
+      spec.radius !== radius ||
+      spec.innerRadius !== innerRadius ||
+      spec.cornerRadius !== cornerRadius ||
+      spec.startAngle !== startAngle ||
+      spec.endAngle !== endAngle ||
+      spec.padAngle !== padAngle
     ) {
       result.reRender = true;
       result.change = true;
@@ -472,7 +476,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         return prevMarkElement?.getGraphicAttribute('endAngle', true);
       }
     };
-    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<PieAppearPreset>)?.preset;
+    const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<PieAppearPreset>)?.preset;
 
     if (this._pieMark) {
       const pieAnimationConfig = animationConfig(

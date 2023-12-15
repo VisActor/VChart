@@ -777,24 +777,24 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       .find(({ attribute, type }: { attribute: LabelItem; type: string }) => {
         return type === 'text' && attribute.data?.[categoryField] === datum[categoryField];
       }, true)?.AABBBounds;
-
+    const outerLabelSpec = this._spec.outerLabel ?? {};
     let x1;
     let x2;
     let y1;
     let y2;
     if (this._isHorizontal()) {
-      const spaceWidth = this._spec.outerLabel?.spaceWidth ?? FUNNEL_LABEL_SPACE_WIDTH;
+      const spaceWidth = outerLabelSpec.spaceWidth ?? FUNNEL_LABEL_SPACE_WIDTH;
       const points = this.getPoints(datum);
       const shapeMiddleHeight = (Math.abs(points[0].y - points[1].y) + Math.abs(points[2].y - points[3].y)) / 2;
       if (this._spec.outerLabel.position === 'top' || this._funnelAlign === 'bottom') {
         y1 = this._getPolygonCenter(points).y - shapeMiddleHeight / 2 - spaceWidth;
-        y2 = this._spec.outerLabel?.alignLabel !== false ? outerLabelMarkBounds?.y2 + spaceWidth : y1 - spaceWidth;
+        y2 = outerLabelSpec.alignLabel !== false ? outerLabelMarkBounds?.y2 + spaceWidth : y1 - spaceWidth;
         x1 = this._getPolygonCenter(points).x;
         y1 - y2 < FUNNEL_LABEL_LINE_LENGTH && (y2 = y1 - FUNNEL_LABEL_LINE_LENGTH);
         x2 = x1;
       } else {
         y1 = this._getPolygonCenter(points).y + shapeMiddleHeight / 2 + spaceWidth;
-        y2 = this._spec.outerLabel?.alignLabel !== false ? outerLabelMarkBounds?.y1 - spaceWidth : y1 + spaceWidth;
+        y2 = outerLabelSpec.alignLabel !== false ? outerLabelMarkBounds?.y1 - spaceWidth : y1 + spaceWidth;
         x1 = this._getPolygonCenter(points).x;
         y2 - y1 < FUNNEL_LABEL_LINE_LENGTH && (y2 = y1 + FUNNEL_LABEL_LINE_LENGTH);
         x2 = x1;
@@ -805,16 +805,16 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     const shapeMiddleWidth = (Math.abs(points[0].x - points[1].x) + Math.abs(points[2].x - points[3].x)) / 2;
     const labelWidth = labelMarkBounds?.x2 - labelMarkBounds?.x1 || 0;
 
-    const spaceWidth = this._spec.outerLabel?.spaceWidth ?? FUNNEL_LABEL_SPACE_WIDTH;
+    const spaceWidth = outerLabelSpec.spaceWidth ?? FUNNEL_LABEL_SPACE_WIDTH;
     if (this._spec.outerLabel.position === 'right' || this._funnelAlign === 'left') {
       x1 = this._getPolygonCenter(points).x + Math.max(labelWidth / 2, shapeMiddleWidth / 2) + spaceWidth;
-      x2 = this._spec.outerLabel?.alignLabel !== false ? outerLabelMarkBounds?.x1 - spaceWidth : x1 + spaceWidth;
+      x2 = outerLabelSpec.alignLabel !== false ? outerLabelMarkBounds?.x1 - spaceWidth : x1 + spaceWidth;
       y1 = this._getPolygonCenter(points).y;
       x2 - x1 < FUNNEL_LABEL_LINE_LENGTH && (x2 = x1 + FUNNEL_LABEL_LINE_LENGTH);
       y2 = y1;
     } else {
       x1 = this._getPolygonCenter(points).x - Math.max(labelWidth / 2, shapeMiddleWidth / 2) - spaceWidth;
-      x2 = this._spec.outerLabel?.alignLabel !== false ? outerLabelMarkBounds?.x2 + spaceWidth : x1 - spaceWidth;
+      x2 = outerLabelSpec.alignLabel !== false ? outerLabelMarkBounds?.x2 + spaceWidth : x1 - spaceWidth;
       y1 = this._getPolygonCenter(points).y;
       x1 - x2 < FUNNEL_LABEL_LINE_LENGTH && (x2 = x1 - FUNNEL_LABEL_LINE_LENGTH);
       y2 = y1;

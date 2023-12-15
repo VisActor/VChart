@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(brush): brush release error after update spec. fix#1720",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

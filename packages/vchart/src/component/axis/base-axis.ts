@@ -347,7 +347,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     }
 
     const labelSpec = pickWithout(spec.label, ['style', 'formatMethod', 'state']);
-
+    const backgroundSpec = spec.background ?? {};
+    const titleBackgroundSpec = spec.title.background ?? {};
     return {
       orient: this.getOrient(),
       select: spec.select,
@@ -421,11 +422,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
                       style: transformToGraphic(spec.title.shape?.style)
                     },
               background:
-                spec.title.background?.visible === false
+                titleBackgroundSpec.visible === false
                   ? { visible: false }
                   : {
-                      visible: spec.title.background?.visible,
-                      style: transformToGraphic(spec.title.background?.style)
+                      visible: titleBackgroundSpec.visible,
+                      style: transformToGraphic(titleBackgroundSpec.style)
                     },
               state: {
                 text: transformStateStyle(spec.title.state),
@@ -437,12 +438,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
               ...spec.title
             },
       panel:
-        spec.background?.visible === false
+        backgroundSpec.visible === false
           ? { visible: false }
           : {
-              visible: spec.background?.visible,
-              style: transformToGraphic(spec.background?.style),
-              state: transformStateStyle(spec.background?.state)
+              visible: backgroundSpec.visible,
+              style: transformToGraphic(backgroundSpec.style),
+              state: transformStateStyle(backgroundSpec.state)
             }
     };
   }
