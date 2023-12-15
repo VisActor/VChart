@@ -24,6 +24,7 @@ import type { ITreemapChartSpec } from '../../chart/treemap';
 import type { IWaterfallChartSpec } from '../../chart/waterfall';
 import type { ICorrelationChartSpec } from '../../chart/correlation';
 import type { IWordCloudChartSpec, IWordCloud3dChartSpec } from '../../chart/word-cloud';
+import type { IChartSpec } from './common';
 
 export interface ChartSpecMap {
   readonly common: ICommonChartSpec;
@@ -60,4 +61,4 @@ export interface ChartSpecMap {
   readonly correlation: ICorrelationChartSpec;
 }
 
-export type ISpec = ChartSpecMap[keyof ChartSpecMap];
+export type ISpec = ChartSpecMap[keyof ChartSpecMap] | IChartSpec;
