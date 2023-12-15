@@ -66,7 +66,11 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   trigger: CrossHairTrigger = 'hover';
   enable: boolean;
   showDefault: boolean;
-  triggerOff: CrossHairTrigger | 'none' = 'hover'; // 为none则不消失
+  triggerOff: 'none' | number; // 为none则不消失
+
+  private _timer?: number;
+  private _clickLock?: boolean;
+  private _hasActive?: boolean;
 
   get enableRemain(): boolean {
     return this.triggerOff === 'none';
@@ -137,26 +141,37 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       return;
     }
     const triggerConfig = this._getTriggerEvent();
+
     if (triggerConfig) {
-      const { in: triggerEvent, out: outTriggerEvent } = triggerConfig;
-      array(triggerEvent).forEach((eventName, index) =>
-        this._registerEvent(eventName, isArray(outTriggerEvent) ? outTriggerEvent[index] : outTriggerEvent)
-      );
+      triggerConfig.forEach(cfg => {
+        this._registerEvent(cfg.in, false, cfg.click);
+        cfg.out && this._registerEvent(cfg.out, true);
+      });
     }
   }
 
-  private _registerEvent(inEventName: EventType, outEventName: EventType) {
-    this.event.on(inEventName, { source: Event_Source_Type.chart }, this._handleEvent);
-    this.event.on(outEventName, { level: Event_Bubble_Level.chart }, (...arg: any) => {
-      if (this.enableRemain) {
-        return;
-      }
-      this.hide();
-    });
+  private _registerEvent(eventName: EventType | EventType[], isOut?: boolean, click?: boolean) {
+    const handler = isOut ? this._handleOutEvent : click ? this._handleClickInEvent : this._handleHoverInEvent;
+    const cfg = isOut ? { level: Event_Bubble_Level.chart } : { source: Event_Source_Type.chart };
+
+    if (isArray(eventName)) {
+      eventName.forEach(evt => {
+        this.event.on(evt, cfg, handler);
+      });
+    } else {
+      this.event.on(eventName, cfg, handler);
+    }
   }
 
-  private _eventOff(eventName: EventType) {
-    this.event.off(eventName, this._handleEvent);
+  private _eventOff(eventName: EventType | EventType[], isOut?: boolean, click?: boolean) {
+    const handler = isOut ? this._handleOutEvent : click ? this._handleClickInEvent : this._handleHoverInEvent;
+    if (isArray(eventName)) {
+      eventName.forEach(evt => {
+        this.event.off(evt, handler);
+      });
+    } else {
+      this.event.off(eventName, handler);
+    }
   }
 
   updateLayoutAttribute() {
@@ -164,45 +179,89 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     this._showDefaultCrosshair();
   }
 
-  private _handleEvent = throttle((params: any) => {
+  private _handleIn = (params: any) => {
     const { event } = params as BaseEventParams;
     const x = (event as any).viewX - this.getLayoutStartPoint().x;
     const y = (event as any).viewY - this.getLayoutStartPoint().y;
     // 索引到datum
     this.showDefault = false;
     this._layoutCrosshair(x, y);
+
+    const components = this._getNeedClearVRenderComponents();
+    this._hasActive = components.some(comp => comp && comp.attribute.visible);
+  };
+
+  private _handleClickInEvent = (params: any) => {
+    this._handleIn(params);
+
+    this._clickLock = this._hasActive;
+
+    if (this._clickLock && isNumber(this.triggerOff)) {
+      if (this._timer) {
+        clearTimeout(this._timer);
+      }
+
+      this._timer = setTimeout(() => {
+        this._clickLock = false;
+        this._handleOutEvent();
+      }, this.triggerOff as number) as unknown as number;
+    }
+  };
+
+  private _handleHoverInEvent = throttle((params: any) => {
+    if (this._clickLock) {
+      return;
+    }
+
+    this._handleIn(params);
   }, 10);
+
+  private _handleOutEvent = () => {
+    if (this.enableRemain || this._clickLock || !this._hasActive) {
+      return;
+    }
+    this.clearEvent();
+
+    this.hide();
+  };
 
   private _getTriggerEvent() {
     const { mode = RenderModeEnum['desktop-browser'] } = this._option;
     const triggerConfig = getDefaultCrosshairTriggerEventByMode(mode);
     if (triggerConfig) {
       const trigger = this.trigger || 'hover';
-      const outTrigger = (trigger: CrossHairTrigger) => (trigger === 'click' ? 'clickOut' : 'hoverOut');
+      const outTrigger = (inTrigger: CrossHairTrigger) => {
+        if (inTrigger === 'click') {
+          return this.triggerOff === 'none' ? null : triggerConfig.clickOut;
+        }
+        return 'hoverOut';
+      };
       if (isArray(trigger)) {
         // 同时配置了多个触发事件
-        let inResult: string[] = [];
-        let outResult: string[] = [];
+        const res: { in: EventType | EventType[]; out: EventType | EventType[]; click: boolean }[] = [];
         trigger.forEach(item => {
-          inResult = inResult.concat(triggerConfig[item]);
-          outResult = outResult.concat(triggerConfig[outTrigger(item)]);
+          res.push({
+            click: item === 'click',
+            in: triggerConfig[item],
+            out: outTrigger(item)
+          });
         });
-        return {
-          in: inResult,
-          out: outResult
-        };
+        return res;
       }
-      return {
-        in: triggerConfig[trigger],
-        out: triggerConfig[outTrigger(trigger)]
-      };
+      return [
+        {
+          click: trigger === 'click',
+          in: triggerConfig[trigger],
+          out: outTrigger(trigger)
+        }
+      ];
     }
     return null;
   }
 
   protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value') {
     // 加判空防止某些特殊时刻（如 updateSpec 时）鼠标滑过图表导致报错
-    const axesComponents = this._option?.getComponentsByKey?.('axes') as IAxis[];
+    const axesComponents = this._option.getComponentsByKey?.('axes') as IAxis[];
     if (!axesComponents?.length) {
       return null;
     }
@@ -264,17 +323,10 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   protected _releaseEvent(): void {
     const triggerConfig = this._getTriggerEvent();
     if (triggerConfig) {
-      const { in: triggerEvent, out: outTriggerEvent } = triggerConfig;
-      if (isArray(triggerEvent)) {
-        triggerEvent.forEach(eachTriggerEvent => this._eventOff(eachTriggerEvent));
-      } else {
-        this._eventOff(triggerEvent);
-      }
-      if (isArray(outTriggerEvent)) {
-        outTriggerEvent.forEach(eachTriggerEvent => this._eventOff(eachTriggerEvent));
-      } else {
-        this._eventOff(outTriggerEvent);
-      }
+      triggerConfig.forEach(cfg => {
+        this._eventOff(cfg.in, false, cfg.click);
+        cfg.out && this._eventOff(cfg.out, true);
+      });
     }
   }
 
@@ -299,10 +351,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     if (trigger) {
       this.trigger = trigger;
     }
-    if (triggerOff) {
+    if (triggerOff === 'none' || (isNumber(triggerOff) && triggerOff > 0)) {
       this.triggerOff = triggerOff;
-    } else {
-      this.triggerOff = this.trigger;
     }
     if (labelZIndex !== undefined) {
       this.labelZIndex = labelZIndex;
@@ -315,83 +365,90 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   protected _parseField(field: ICrosshairCategoryFieldSpec, fieldName: string) {
     const hair = {} as any;
     const { line = {}, label = {}, visible } = field;
+
     hair.visible = visible;
     hair.type = line.type || 'line';
-    const style = line.style || {};
-    const { strokeOpacity, fillOpacity, opacity, stroke, fill, lineWidth, ...restStyle } = style as any;
-    const isLineType = hair.type === 'line';
-    let finalOpacity = isLineType ? strokeOpacity : fillOpacity;
-    if (isNumber(opacity)) {
-      finalOpacity = (finalOpacity ?? 1) * opacity;
-    }
-    hair.style =
-      line?.visible === false
-        ? { visible: false }
-        : {
-            opacity: finalOpacity,
-            pickable: false,
-            visible: true,
-            ...restStyle
-          };
-    if (isLineType) {
-      hair.style.stroke = stroke || fill;
-      hair.style.lineWidth = get(line, 'width', lineWidth || 2);
+
+    if (line.visible === false) {
+      hair.style = { visible: false };
     } else {
-      hair.style.fill = fill || stroke;
-      if (this._spec[fieldName]?.line?.style?.stroke) {
-        hair.style.stroke = this._spec[fieldName].line.style.stroke;
+      const style = line.style || {};
+      const { strokeOpacity, fillOpacity, opacity, stroke, fill, lineWidth, ...restStyle } = style as any;
+      const isLineType = hair.type === 'line';
+      let finalOpacity = isLineType ? strokeOpacity : fillOpacity;
+      if (isNumber(opacity)) {
+        finalOpacity = (finalOpacity ?? 1) * opacity;
       }
-      const rectSize = get(line, 'width');
-      if (typeof rectSize === 'string') {
-        const percent = parseInt(rectSize.substring(0, rectSize.length - 1), 10) / 100;
-        hair.style.sizePercent = percent;
-      } else if (typeof rectSize === 'number' || typeof rectSize === 'function') {
-        hair.style.size = rectSize;
+      hair.style = {
+        opacity: finalOpacity,
+        pickable: false,
+        visible: true,
+        ...restStyle
+      };
+
+      if (isLineType) {
+        hair.style.stroke = stroke || fill;
+        hair.style.lineWidth = get(line, 'width', lineWidth || 2);
+      } else {
+        hair.style.fill = fill || stroke;
+        if (this._spec[fieldName]?.line?.style?.stroke) {
+          hair.style.stroke = this._spec[fieldName].line.style.stroke;
+        }
+        const rectSize = get(line, 'width');
+        if (typeof rectSize === 'string') {
+          const percent = parseInt(rectSize.substring(0, rectSize.length - 1), 10) / 100;
+          hair.style.sizePercent = percent;
+        } else if (typeof rectSize === 'number' || typeof rectSize === 'function') {
+          hair.style.size = rectSize;
+        }
       }
     }
-    const labelBackground = label.labelBackground || {};
-    const labelStyle = label.style || {};
-    const {
-      fill: rectFill = 'rgba(47, 59, 82, 0.9)',
-      stroke: rectStroke,
-      outerBorder,
-      ...rectStyle
-    } = labelBackground.style || {};
-    hair.label = !!label?.visible
-      ? {
-          visible: true,
-          formatMethod: label.formatMethod,
-          minWidth: labelBackground.minWidth,
-          maxWidth: labelBackground.maxWidth,
-          padding: labelBackground.padding,
-          textStyle: {
-            fontSize: 14,
-            pickable: false,
-            ...labelStyle,
-            fill: labelStyle.fill ?? '#fff',
-            stroke: get(labelStyle, 'stroke')
-          },
-          panel: (isBoolean(labelBackground?.visible) ? labelBackground?.visible : !!labelBackground)
-            ? {
-                visible: true,
-                pickable: false,
-                fill: rectFill,
-                stroke: rectStroke,
-                // Note: 通过这个配置可以保证 label 和 轴 label 对齐
-                outerBorder: {
-                  stroke: rectFill,
-                  distance: 0,
-                  lineWidth: 3,
-                  ...outerBorder
-                },
-                ...rectStyle
-              }
-            : { visible: false },
-          zIndex: this.labelZIndex,
-          childrenPickable: false,
-          pickable: false
-        }
-      : { visible: false };
+
+    if (!!label.visible) {
+      const labelBackground = label.labelBackground || {};
+      const labelStyle = label.style || {};
+      const {
+        fill: rectFill = 'rgba(47, 59, 82, 0.9)',
+        stroke: rectStroke,
+        outerBorder,
+        ...rectStyle
+      } = labelBackground.style || {};
+      hair.label = {
+        visible: true,
+        formatMethod: label.formatMethod,
+        minWidth: labelBackground.minWidth,
+        maxWidth: labelBackground.maxWidth,
+        padding: labelBackground.padding,
+        textStyle: {
+          fontSize: 14,
+          pickable: false,
+          ...labelStyle,
+          fill: labelStyle.fill || '#fff',
+          stroke: get(labelStyle, 'stroke')
+        },
+        panel: (isBoolean(labelBackground.visible) ? labelBackground.visible : !!labelBackground)
+          ? {
+              visible: true,
+              pickable: false,
+              fill: rectFill,
+              stroke: rectStroke,
+              // Note: 通过这个配置可以保证 label 和 轴 label 对齐
+              outerBorder: {
+                stroke: rectFill,
+                distance: 0,
+                lineWidth: 3,
+                ...outerBorder
+              },
+              ...rectStyle
+            }
+          : { visible: false },
+        zIndex: this.labelZIndex,
+        childrenPickable: false,
+        pickable: false
+      };
+    } else {
+      hair.label = { visible: false };
+    }
 
     return hair;
   }
@@ -415,5 +472,24 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         }
       });
     return axisMap;
+  }
+
+  protected clearEvent() {
+    if (this._timer) {
+      clearTimeout(this._timer);
+      this._timer = null;
+    }
+    if (this._clickLock) {
+      this._clickLock = null;
+    }
+
+    if (this._hasActive) {
+      this._hasActive = null;
+    }
+  }
+
+  clear() {
+    super.clear();
+    this.clearEvent();
   }
 }
