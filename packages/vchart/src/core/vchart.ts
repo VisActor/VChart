@@ -1383,7 +1383,7 @@ export class VChart implements IVChart {
 
   // Tooltip 相关方法
   private _getTooltipComponent(): Tooltip | undefined {
-    const tooltip = this._chart?.getAllComponents().find(c => c.type === ComponentTypeEnum.tooltip) as Tooltip;
+    const tooltip = this._chart?.getComponentsByType(ComponentTypeEnum.tooltip)[0] as unknown as Tooltip;
     return tooltip;
   }
 
@@ -1460,11 +1460,9 @@ export class VChart implements IVChart {
    * @returns
    */
   getLegendDataByIndex(index: number = 0) {
-    const legends = this._chart
-      ?.getAllComponents()
-      .filter(c => c.type === ComponentTypeEnum.discreteLegend) as ILegend[];
+    const legends = this._chart?.getComponentsByType(ComponentTypeEnum.discreteLegend) as unknown as ILegend[];
 
-    if (legends[index]) {
+    if (legends && legends[index]) {
       return legends[index].getLegendData();
     }
 
@@ -1490,11 +1488,9 @@ export class VChart implements IVChart {
    * @returns
    */
   getLegendSelectedDataByIndex(index: number = 0) {
-    const legends = this._chart
-      ?.getAllComponents()
-      .filter(c => c.type === ComponentTypeEnum.discreteLegend) as ILegend[];
+    const legends = this._chart?.getComponentsByType(ComponentTypeEnum.discreteLegend) as unknown as ILegend[];
 
-    if (legends[index]) {
+    if (legends && legends[index]) {
       return legends[index].getSelectedData();
     }
 
@@ -1519,11 +1515,9 @@ export class VChart implements IVChart {
    * @returns
    */
   setLegendSelectedDataByIndex(index: number = 0, selectedData: StringOrNumber[]) {
-    const legends = this._chart
-      ?.getAllComponents()
-      .filter(c => c.type === ComponentTypeEnum.discreteLegend) as ILegend[];
+    const legends = this._chart?.getComponentsByType(ComponentTypeEnum.discreteLegend) as unknown as ILegend[];
 
-    if (legends[index]) {
+    if (legends && legends[index]) {
       legends[index].setSelectedData(selectedData);
     }
   }
