@@ -1,7 +1,8 @@
+import type { ITickDataOpt } from '@visactor/vutils-extension';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
 import type { AxisItem } from '@visactor/vrender-components';
-import type { IOrientType, IPolarOrientType, StringOrNumber } from '../../typings';
+import type { IOrientType, IPolarOrientType, StringOrNumber, CoordinateType } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IPolarAxisCommonTheme } from './polar/interface';
 import type { ICartesianAxisCommonTheme } from './cartesian/interface';
@@ -9,7 +10,7 @@ import type { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
 import type { ISeries } from '../../series/interface';
-import type { ITransformOptions } from '@visactor/vdataset';
+import { DataView, type ITransformOptions } from '@visactor/vdataset';
 import { type IComponentMark } from '../../mark/component';
 export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> extends BaseComponent<T> implements IAxis {
     static specKey: string;
@@ -118,6 +119,8 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
             style: any;
         };
     };
+    protected _initTickDataSet<T extends ITickDataOpt>(options: T): DataView;
+    protected _tickTransformOption(coordinateType: CoordinateType): ITickDataOpt;
     addTransformToTickData(options: ITransformOptions, execute?: boolean): void;
     dataToPosition(values: any[]): number;
 }

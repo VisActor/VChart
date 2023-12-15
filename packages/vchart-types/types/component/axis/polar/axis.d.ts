@@ -2,6 +2,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
+import type { IPolarTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, StringOrNumber, ILayoutType } from '../../../typings';
 import type { IEffect } from '../../../model/interface';
@@ -41,6 +42,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     onRender(ctx: any): void;
     changeRegions(): void;
     protected _initData(): void;
+    protected _tickTransformOption(coordinateType: CoordinateType): IPolarTickDataOpt;
     afterCompile(): void;
     protected updateScaleRange(): boolean;
     protected collectData(depth: number): {

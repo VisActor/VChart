@@ -33,6 +33,8 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     setAttrFromSpec(): void;
     initData(): void;
     initMark(): void;
+    private startAngleScale;
+    private endAngleScale;
     initMarkStyle(): void;
     protected initTooltip(): void;
     initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void;
