@@ -13,6 +13,7 @@ import { getTestCompiler } from '../../../../util/factory/compiler';
 import { initChartDataSet } from '../../../../util/context';
 import type { StringOrNumber } from '../../../../../src/typings/common';
 import type { CartesianAxisSpecTransformer } from '../../../../../src/component/axis/cartesian';
+import { getCartesianAxisInfo } from '../../../../../src/component/axis/cartesian/util';
 
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
@@ -132,7 +133,7 @@ test('config linearAxis.nice default [true] ', () => {
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
-      type: CartesianAxis.getAxisInfo(spec).componentName,
+      type: getCartesianAxisInfo(spec).componentName,
       spec
     },
     ctx
@@ -158,7 +159,7 @@ test('config linearAxis.nice default [true] ', () => {
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
-      type: CartesianAxis.getAxisInfo(spec).componentName,
+      type: getCartesianAxisInfo(spec).componentName,
       spec
     },
     ctx
@@ -184,7 +185,7 @@ test('nice === false  ', () => {
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
-      type: CartesianAxis.getAxisInfo(spec).componentName,
+      type: getCartesianAxisInfo(spec).componentName,
       spec
     },
     ctx
@@ -211,7 +212,7 @@ test('zero === false && nice === false  ', () => {
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
-      type: CartesianAxis.getAxisInfo(spec).componentName,
+      type: getCartesianAxisInfo(spec).componentName,
       spec
     },
     ctx
@@ -246,7 +247,7 @@ test('zero === true && range is specific  ', () => {
   {
     const linearAxis = CartesianAxis.createComponent(
       {
-        type: CartesianAxis.getAxisInfo(config).componentName,
+        type: getCartesianAxisInfo(config).componentName,
         spec: config
       },
       ctx
@@ -262,7 +263,7 @@ test('zero === true && range is specific  ', () => {
     const spec = { ...config, range: { min: -10, max: 2000 } };
     const linearAxis = CartesianAxis.createComponent(
       {
-        type: CartesianAxis.getAxisInfo(spec).componentName,
+        type: getCartesianAxisInfo(spec).componentName,
         spec
       },
       ctx
@@ -279,7 +280,7 @@ test('zero === true && range is specific  ', () => {
     const spec = { ...config, zero: false, range: { max: 599 } };
     const linearAxis = CartesianAxis.createComponent(
       {
-        type: CartesianAxis.getAxisInfo(spec).componentName,
+        type: getCartesianAxisInfo(spec).componentName,
         spec
       },
       ctx
@@ -296,7 +297,7 @@ test('zero === true && range is specific  ', () => {
     const spec = { ...config, zero: false, range: { max: 599 }, tick: { tickMode: 'd3' } };
     const linearAxis = CartesianAxis.createComponent(
       {
-        type: CartesianAxis.getAxisInfo(spec).componentName,
+        type: getCartesianAxisInfo(spec).componentName,
         spec
       },
       ctx
@@ -313,7 +314,7 @@ test('zero === true && range is specific  ', () => {
     const spec = { ...config, zero: false, range: { min: 199 } };
     const linearAxis = CartesianAxis.createComponent(
       {
-        type: CartesianAxis.getAxisInfo(spec).componentName,
+        type: getCartesianAxisInfo(spec).componentName,
         spec
       },
       ctx
@@ -341,7 +342,7 @@ test('expand', () => {
   {
     const linearAxis = CartesianAxis.createComponent(
       {
-        type: CartesianAxis.getAxisInfo(config).componentName,
+        type: getCartesianAxisInfo(config).componentName,
         spec: config
       },
       ctx
@@ -366,7 +367,7 @@ test('expand', () => {
     const spec = { ...config, range: { min: 500 } };
     const linearAxis = CartesianAxis.createComponent(
       {
-        type: CartesianAxis.getAxisInfo(spec).componentName,
+        type: getCartesianAxisInfo(spec).componentName,
         spec
       },
       ctx
@@ -390,7 +391,7 @@ test('expand', () => {
     const spec = { ...config, expand: { max: 0.2 } };
     const linearAxis = CartesianAxis.createComponent(
       {
-        type: CartesianAxis.getAxisInfo(spec).componentName,
+        type: getCartesianAxisInfo(spec).componentName,
         spec
       },
       ctx
@@ -417,7 +418,7 @@ test('extend', () => {
   {
     const linearAxis = CartesianAxis.createComponent(
       {
-        type: CartesianAxis.getAxisInfo(config).componentName,
+        type: getCartesianAxisInfo(config).componentName,
         spec: config
       },
       ctx
@@ -439,7 +440,7 @@ test('extend', () => {
     const spec = { ...config, range: { min: 500, max: 800 } };
     const linearAxis = CartesianAxis.createComponent(
       {
-        type: CartesianAxis.getAxisInfo(spec).componentName,
+        type: getCartesianAxisInfo(spec).componentName,
         spec
       },
       ctx
@@ -469,7 +470,7 @@ test('niceDomain should work when domain is 0, and user does not set min or max'
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
-      type: CartesianAxis.getAxisInfo(spec).componentName,
+      type: getCartesianAxisInfo(spec).componentName,
       spec
     },
     ctx
@@ -500,7 +501,7 @@ test('niceDomain should not work when user set min or max', () => {
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
-      type: CartesianAxis.getAxisInfo(spec).componentName,
+      type: getCartesianAxisInfo(spec).componentName,
       spec
     },
     ctx
@@ -534,7 +535,7 @@ test('dynamic tickCount', () => {
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
-      type: CartesianAxis.getAxisInfo(spec).componentName,
+      type: getCartesianAxisInfo(spec).componentName,
       spec
     },
     ctx
