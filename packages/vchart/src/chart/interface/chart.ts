@@ -4,7 +4,7 @@ import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-c
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { IModel, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
+import type { IModel, IModelConstructor, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
 import type { IRegion, IRegionConstructor, IRegionSpec } from '../../region/interface';
 import type { ISeries, ISeriesConstructor } from '../../series/interface';
 import type {
@@ -184,15 +184,22 @@ export interface IChartSpecTransformer {
   transformSpec: (spec: any) => void;
   /** 转换 model spec，应用主题 */
   transformModelSpec: (spec: any) => IChartSpecInfo;
+  /** 根据图表 spec 生成 spec info */
+  createSpecInfo: (
+    chartSpec: any,
+    transform?: (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => void
+  ) => IChartSpecInfo;
   /** 枚举 spec 中每个有效的 region */
   forEachRegionInSpec: <K>(
     spec: any,
-    callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo) => K
+    callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
+    chartSpecInfo?: IChartSpecInfo
   ) => K[];
   /** 枚举 spec 中每个有效的 series */
   forEachSeriesInSpec: <K>(
     spec: any,
-    callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo) => K
+    callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
+    chartSpecInfo?: IChartSpecInfo
   ) => K[];
   /** 枚举 spec 中每个有效的 component */
   forEachComponentInSpec: <K>(

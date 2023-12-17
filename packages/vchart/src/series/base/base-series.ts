@@ -958,6 +958,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     const marks = this.getMarksWithoutRoot();
     // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
+    marks.forEach(mark => {
+      this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
+    });
     this.initMarkStyle();
     marks.forEach(mark => {
       mark.updateStaticEncode();

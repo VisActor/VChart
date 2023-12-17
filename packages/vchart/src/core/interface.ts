@@ -23,8 +23,7 @@ import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
 import type { IChart, IChartSpecInfo } from '../chart/interface';
-import type { IGradientColor, Stage } from '@visactor/vrender-core';
-import type { IThemeColorScheme } from '../theme/color-scheme/interface';
+import type { Stage } from '@visactor/vrender-core';
 
 export type DataLinkSeries = {
   /**
@@ -439,12 +438,13 @@ export interface IGlobalConfig {
   // autoRelease?: boolean;
 }
 
-/** 图表层级的主题 */
-export interface IChartLevelTheme {
-  /** 图表背景色 */
-  background?: string | IGradientColor;
-  /** 图表字体配置 */
-  fontFamily?: string;
-  /** 全局色板 */
-  colorScheme?: IThemeColorScheme;
+export interface IVChartRenderOption {
+  /** morphing 动画 spec */
+  morphConfig?: IMorphConfig;
+  /** 是否重新转换图表 spec */
+  transformSpec?: boolean;
+  /** 是否重新初始化媒体查询 */
+  resetMediaQuery?: boolean;
+  /** 是否重新检查已有的媒体查询 */
+  checkMediaQuery?: boolean;
 }

@@ -44,7 +44,6 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
   /** 转换 model spec，应用主题 */
   transformModelSpec(chartSpec: T): IChartSpecInfo {
-    const currentChartSpecInfo: IChartSpecInfo = {};
     const transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
       const { spec, specPath, type } = specInfo;
       const transformer = new constructor.transformerConstructor({
@@ -53,16 +52,30 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       });
       const transformResult = transformer.transformSpec(spec, chartSpec, chartSpecInfo);
       setProperty(chartSpec, specPath, transformResult.spec);
-      setProperty(currentChartSpecInfo, specPath ?? [type], {
+      setProperty(chartSpecInfo, specPath ?? [type], {
         ...specInfo,
         ...transformResult
       });
     };
+    return this.createSpecInfo(chartSpec, transform);
+  }
+
+  /** 根据图表 spec 生成 spec info */
+  createSpecInfo(
+    chartSpec: T,
+    transform?: (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => void
+  ): IChartSpecInfo {
+    if (!transform) {
+      transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) =>
+        setProperty(chartSpecInfo, specInfo.specPath, specInfo);
+    }
+
+    const currentChartSpecInfo: IChartSpecInfo = {};
 
     // 预处理 region
-    this.forEachRegionInSpec(chartSpec, transform);
+    this.forEachRegionInSpec(chartSpec, transform, currentChartSpecInfo);
     // 预处理 series
-    this.forEachSeriesInSpec(chartSpec, transform);
+    this.forEachSeriesInSpec(chartSpec, transform, currentChartSpecInfo);
     // 记录每个 region 包含哪些 series
     let region: IRegionSpecInfo;
     currentChartSpecInfo.series?.forEach(({ spec: { regionId, regionIndex } }, i) => {
@@ -127,32 +140,42 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
   /** 枚举 spec 中每个有效的 region */
   forEachRegionInSpec<K>(
     chartSpec: T,
-    callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo) => K
+    callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
+    chartSpecInfo?: IChartSpecInfo
   ): K[] {
     const regionSpec = (chartSpec.region as IRegionSpec[]) ?? [];
     return regionSpec.map((spec, index) =>
-      callbackfn(Factory.getRegionInType('region'), {
-        spec,
-        specIndex: index,
-        specPath: ['region', index],
-        type: 'region'
-      })
+      callbackfn(
+        Factory.getRegionInType('region'),
+        {
+          spec,
+          specIndex: index,
+          specPath: ['region', index],
+          type: 'region'
+        },
+        chartSpecInfo
+      )
     );
   }
 
   /** 枚举 spec 中每个有效的 series */
   forEachSeriesInSpec<K>(
     chartSpec: T,
-    callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo) => K
+    callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
+    chartSpecInfo?: IChartSpecInfo
   ): K[] {
     const seriesSpec = (chartSpec.series as ISeriesSpec[]) ?? [];
     return seriesSpec.map((spec, index) =>
-      callbackfn(Factory.getSeriesInType(spec.type), {
-        spec,
-        specIndex: index,
-        specPath: ['series', index],
-        type: spec.type
-      })
+      callbackfn(
+        Factory.getSeriesInType(spec.type),
+        {
+          spec,
+          specIndex: index,
+          specPath: ['series', index],
+          type: spec.type
+        },
+        chartSpecInfo
+      )
     );
   }
 
