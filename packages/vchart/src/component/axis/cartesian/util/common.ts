@@ -4,7 +4,7 @@ import { Direction } from '../../../../typings/space';
 import { isValid } from '@visactor/vutils';
 import { isValidOrient } from '../../../../util/space';
 import type { ICartesianAxisCommonSpec } from '../interface';
-import { CartesianAxis } from '../axis';
+import { ComponentTypeEnum } from '../../../interface';
 
 export function isXAxis(orient: IOrientType) {
   return orient === 'bottom' || orient === 'top';
@@ -52,6 +52,6 @@ export function transformInverse(spec: ICartesianAxisCommonSpec, isHorizontal: b
 
 export function getCartesianAxisInfo(spec: ICartesianAxisCommonSpec, isHorizontal?: boolean) {
   const axisType = spec.type ?? autoAxisType(spec.orient, isHorizontal);
-  const componentName = `${CartesianAxis.type}-${axisType}`;
+  const componentName = `${ComponentTypeEnum.cartesianAxis}-${axisType}`;
   return { axisType, componentName };
 }
