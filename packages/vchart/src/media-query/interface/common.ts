@@ -4,17 +4,13 @@ import type { VChart } from '../../core';
 import type { IModel, IModelSpecInfo } from '../../model/interface';
 import type { SeriesTypeEnum } from '../../series';
 import type { IChartSpec } from '../../typings';
-import type { IMediaQuerySpec } from './spec';
+import type { IMediaQueryItem, IMediaQuerySpec } from './spec';
 
 export interface IMediaInfo {
   /** 图表宽度 */
   width: number;
   /** 图表高度 */
   height: number;
-}
-
-export interface IFilteredModelInfo<T extends Record<string, unknown> = any> extends IModelSpecInfo<T> {
-  model?: IModel | IChart;
 }
 
 export interface IMediaQueryActionFilterResult<T extends Record<string, unknown> = any> {
@@ -27,7 +23,7 @@ export interface IMediaQueryActionFilterResult<T extends Record<string, unknown>
   /** model 在图表 spec 中对应的 key */
   specKey?: keyof IChartSpec;
   /** 匹配到的 model 的 spec 信息 */
-  modelInfo: IFilteredModelInfo<T>[];
+  modelInfo: IModelSpecInfo<T>[];
 }
 
 export interface IMediaQueryOption {
@@ -50,8 +46,12 @@ export interface IMediaQueryActionResult {
 }
 
 export interface IMediaQuery {
-  init: (mediaInfo: Partial<IMediaInfo>, compile?: boolean, render?: boolean) => boolean;
+  /** 当前正在生效的媒体查询 */
+  readonly currentActiveItems: Set<IMediaQueryItem>;
+  /** 更新图表宽高信息，执行所有相关媒体查询，返回是否命中某个查询 */
   changeSize: (width: number, height: number, compile?: boolean, render?: boolean) => boolean;
+  /** 重新初始化，并重新执行一遍当前生效的媒体查询 */
+  reInit: (compile?: boolean, render?: boolean) => void;
   release: () => void;
 }
 

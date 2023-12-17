@@ -53,91 +53,53 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
   const result: IMediaQueryActionFilterResult<T> = {
     modelInfo: []
   };
-
-  const chart = globalInstance.getChart();
   const chartSpecInfo = globalInstance.getSpecInfo();
 
   if (filterType === 'chart') {
     result.isChart = true;
     result.modelInfo.push({
-      model: chart,
       spec: chartSpec,
       type: 'chart'
     });
   } else if (filterType === 'region') {
     result.modelType = 'region';
     result.specKey = 'region';
-    if (chart) {
-      chart.getAllRegions().forEach(region => {
-        result.modelInfo.push({
-          model: region,
-          spec: region.getSpec(),
-          specPath: region.getSpecPath(),
-          specIndex: region.getSpecIndex(),
-          type: 'region'
-        });
+
+    chartSpec.region?.forEach((regionSpec: T, i: number) => {
+      result.modelInfo.push({
+        spec: regionSpec,
+        specPath: ['region', i],
+        specIndex: i,
+        type: 'region'
       });
-    } else {
-      chartSpec.region?.forEach((regionSpec: T, i: number) => {
-        result.modelInfo.push({
-          spec: regionSpec,
-          specPath: ['region', i],
-          specIndex: i,
-          type: 'region'
-        });
-      });
-    }
+    });
   } else if (filterType === 'series') {
     result.modelType = 'series';
     result.specKey = 'series';
-    if (chart) {
-      chart.getAllSeries().forEach(series => {
-        result.modelInfo.push({
-          model: series,
-          spec: series.getSpec(),
-          specPath: series.getSpecPath(),
-          specIndex: series.getSpecIndex(),
-          type: series.type
-        });
+
+    chartSpec.series?.forEach((seriesSpec: T, i: number) => {
+      result.modelInfo.push({
+        spec: seriesSpec,
+        specPath: ['series', i],
+        specIndex: i,
+        type: seriesSpec.type as string
       });
-    } else {
-      chartSpec.series?.forEach((seriesSpec: T, i: number) => {
-        result.modelInfo.push({
-          spec: seriesSpec,
-          specPath: ['series', i],
-          specIndex: i,
-          type: seriesSpec.type as string
-        });
-      });
-    }
+    });
   } else if (Object.values(SeriesTypeEnum).includes(filterType as SeriesTypeEnum)) {
     result.modelType = 'series';
     result.specKey = 'series';
     result.type = filterType as SeriesTypeEnum;
-    if (chart) {
-      chart.getAllSeries().forEach(series => {
-        if (series.type === filterType) {
-          result.modelInfo.push({
-            model: series,
-            spec: series.getSpec(),
-            specPath: series.getSpecPath(),
-            specIndex: series.getSpecIndex(),
-            type: filterType
-          });
-        }
-      });
-    } else {
-      chartSpec.series?.forEach((seriesSpec: T, i: number) => {
-        if (seriesSpec.type === filterType) {
-          result.modelInfo.push({
-            spec: seriesSpec,
-            specPath: ['series', i],
-            specIndex: i,
-            type: filterType
-          });
-        }
-      });
-    }
+
+    chartSpec.series?.forEach((seriesSpec: T, i: number) => {
+      if (seriesSpec.type === filterType) {
+        result.modelInfo.push({
+          spec: seriesSpec,
+          specPath: ['series', i],
+          specIndex: i,
+          type: filterType
+        });
+      }
+    });
   } else if (Object.values(SimplifiedComponentTypeEnum).includes(filterType as SimplifiedComponentTypeEnum)) {
     result.modelType = 'component';
     let componentTypes: ComponentTypeEnum[] | undefined;
@@ -154,61 +116,34 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
         componentTypes = crosshairComponentTypes;
         result.specKey = 'crosshair';
     }
-    if (chart) {
-      chart.getAllComponents().forEach(component => {
-        if (componentTypes?.includes(component.type as ComponentTypeEnum)) {
-          result.modelInfo.push({
-            model: component,
-            spec: component.getSpec(),
-            specPath: component.getSpecPath(),
-            specIndex: component.getSpecIndex(),
-            type: component.type
-          });
-        }
-      });
-    } else {
-      const { specKey } = result;
-      const infoList = array(chartSpecInfo[specKey] ?? []);
-      array(chartSpec[specKey] ?? []).forEach((componentSpec, i) => {
-        const specInfo = infoList[i];
-        if (componentTypes?.includes(specInfo.type as ComponentTypeEnum)) {
-          result.modelInfo.push({
-            ...specInfo,
-            spec: componentSpec
-          });
-        }
-      });
-    }
+
+    const { specKey } = result;
+    const infoList = array(chartSpecInfo[specKey] ?? []);
+    array(chartSpec[specKey] ?? []).forEach((componentSpec, i) => {
+      const specInfo = infoList[i];
+      if (componentTypes?.includes(specInfo.type as ComponentTypeEnum)) {
+        result.modelInfo.push({
+          ...specInfo,
+          spec: componentSpec
+        });
+      }
+    });
   } else if (Object.values(ComponentTypeEnum).includes(filterType as ComponentTypeEnum)) {
     result.modelType = 'component';
     result.type = filterType as ComponentTypeEnum;
     result.specKey = Factory.getComponentInKey(filterType)?.specKey as keyof IChartSpec;
 
-    if (chart) {
-      chart.getAllComponents().forEach(component => {
-        if (component.type === filterType) {
-          result.modelInfo.push({
-            model: component,
-            spec: component.getSpec(),
-            specPath: component.getSpecPath(),
-            specIndex: component.getSpecIndex(),
-            type: filterType
-          });
-        }
-      });
-    } else {
-      const { specKey } = result;
-      const infoList = array(chartSpecInfo[specKey] ?? []);
-      array(chartSpec[specKey] ?? [])?.forEach((componentSpec, i) => {
-        const specInfo = infoList[i];
-        if (specInfo.type === filterType) {
-          result.modelInfo.push({
-            ...specInfo,
-            spec: componentSpec
-          });
-        }
-      });
-    }
+    const { specKey } = result;
+    const infoList = array(chartSpecInfo[specKey] ?? []);
+    array(chartSpec[specKey] ?? [])?.forEach((componentSpec, i) => {
+      const specInfo = infoList[i];
+      if (specInfo.type === filterType) {
+        result.modelInfo.push({
+          ...specInfo,
+          spec: componentSpec
+        });
+      }
+    });
   }
 
   return result;

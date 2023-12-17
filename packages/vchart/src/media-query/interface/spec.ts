@@ -1,7 +1,8 @@
 import type { ComponentTypeEnum, SimplifiedComponentTypeEnum } from '../../component/interface';
 import type { IVChart } from '../../core';
+import type { IModelSpecInfo } from '../../model/interface';
 import type { SeriesTypeEnum } from '../../series';
-import type { IFilteredModelInfo, IMediaInfo } from './common';
+import type { IMediaInfo } from './common';
 
 /**
  * 媒体查询配置（包含多项查询）
@@ -46,7 +47,7 @@ export interface IMediaQueryAction<T extends Record<string, unknown> = any> {
     | Partial<T>
     | ((
         /** filter 匹配到的图表元素信息 */
-        filteredModelInfo: IFilteredModelInfo<T>[],
+        filteredModelInfo: IModelSpecInfo<T>[],
         /** 当前 action 对象 */
         action: IMediaQueryAction<T>,
         /** 当前媒体查询条件 */
@@ -97,7 +98,7 @@ export type MediaQueryActionFilter<T extends Record<string, unknown> = any> =
   | Partial<T>
   | ((
       /** 当前图表元素信息 */
-      modelInfo: IFilteredModelInfo<T>,
+      modelInfo: IModelSpecInfo<T>,
       /** 当前 action 对象 */
       action: IMediaQueryAction<T>,
       /** 当前媒体查询条件 */
