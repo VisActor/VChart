@@ -91,12 +91,19 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     this._chart.option.editorEvent.setCursorSyncToTriggerLayer();
   };
 
-  protected _onDblclick = (e: EventParams) => {
+  protected _checkDblEventEnable(e: EventParams) {
     if (!this._checkEventEnable(e)) {
-      return;
+      return false;
+    }
+    if (this._modelId && e.model.userId !== this._modelId) {
+      return false;
     }
 
-    if (this._modelId && e.model.userId !== this._modelId) {
+    return true;
+  }
+
+  protected _onDblclick = (e: EventParams) => {
+    if (!this._checkDblEventEnable(e)) {
       return;
     }
 
@@ -116,7 +123,11 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       expression: this._spec.expression,
       needExpression: true,
       change: (expression: string) => {
-        if (expression === this._spec.expression || (this._spec.expression === undefined && expression === '##')) {
+        if (
+          !this._checkDblEventEnable(e) ||
+          expression === this._spec.expression ||
+          (this._spec.expression === undefined && expression === '##')
+        ) {
           return;
         }
 

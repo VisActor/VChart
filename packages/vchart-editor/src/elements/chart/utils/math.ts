@@ -8,7 +8,7 @@ type Point = {
   [key: string]: any;
 };
 
-export function findClosestPoint(sourcePoint: Point, points: Point[]): Point {
+export function findClosestPoint(sourcePoint: Point, points: Point[] = []): Point {
   let closestPoint;
   let closestDistance = Infinity;
 

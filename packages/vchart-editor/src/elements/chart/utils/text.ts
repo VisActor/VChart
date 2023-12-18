@@ -123,10 +123,6 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
   editableDom.focus();
   editableDom.select();
 
-  editableDom.addEventListener('wheel', e => {
-    e.stopPropagation();
-  });
-
   let isWrapperRemoved = false;
 
   const stopEvent = (event: Event) => {
@@ -146,6 +142,7 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
     editableDom.removeEventListener('keyup', onKeyup);
 
     window.removeEventListener('wheel', stopEvent, true);
+    window.removeEventListener('beforeunload', onBlur);
 
     wrapper.remove();
   };
@@ -178,4 +175,5 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
     passive: false,
     capture: true
   });
+  window.addEventListener('beforeunload', onBlur);
 };
