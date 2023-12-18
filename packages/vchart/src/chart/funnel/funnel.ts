@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import { Factory } from '../../core/factory';
 import type { IFunnelChartSpec } from './interface';
-import { FunnelChartSpecTransformer } from './spec-transformer';
+import { FunnelChartSpecTransformer } from './funnel-transformer';
 import { BaseChart } from '../base';
 
 export class FunnelChart<T extends IFunnelChartSpec = IFunnelChartSpec> extends BaseChart<T> {

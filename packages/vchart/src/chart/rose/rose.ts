@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import { Factory } from '../../core/factory';
 import type { IRoseChartSpec } from './interface';
-import { RoseChartSpecTransformer } from './spec-transformer';
+import { RoseChartSpecTransformer } from './rose-transformer';
 import { BaseChart } from '../base';
 
 export class RoseChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseChart<T> {

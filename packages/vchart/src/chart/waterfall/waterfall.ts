@@ -5,7 +5,7 @@ import type { IWaterfallChartSpec } from './interface';
 import { registerWaterfallSeries } from '../../series/waterfall/waterfall';
 import { Factory } from '../../core/factory';
 import type { AdaptiveSpec } from '../../typings';
-import { WaterfallChartSpecTransformer } from './spec-transformer';
+import { WaterfallChartSpecTransformer } from './waterfall-transformer';
 
 export class WaterfallChart<T extends IWaterfallChartSpec = IWaterfallChartSpec> extends BarChart<
   AdaptiveSpec<T, 'type' | 'series' | 'label'>

@@ -17,7 +17,7 @@ import { degreeToRadian, isValid } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { registerCircularProgressAnimation } from '../polar/progress-like';
 import type { IMark } from '../../mark/interface';
-import { GaugeSeriesSpecTransformer } from './spec-transformer';
+import { GaugeSeriesSpecTransformer } from './gauge-transformer';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;

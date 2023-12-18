@@ -1,3 +1,3 @@
 export * from './scatter';
 export * from './interface';
-export * from './spec-transformer';
+export * from './scatter-transformer';

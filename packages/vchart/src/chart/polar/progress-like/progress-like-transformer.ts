@@ -1,7 +1,7 @@
 import { isNil } from '@visactor/vutils';
 import type { IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from '../../../component';
 import type { IPolarChartSpec } from '../interface';
-import { PolarChartSpecTransformer } from '../spec-transformer';
+import { PolarChartSpecTransformer } from '../polar-transformer';
 import { getLinearAxisSpecDomain } from '../../../component/axis/util';
 import { mergeSpec } from '../../../util';
 

@@ -1,3 +1,3 @@
 export * from './sequence';
 export * from './interface';
-export * from './spec-transformer';
+export * from './sequence-transformer';

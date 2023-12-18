@@ -4,7 +4,7 @@ import { BaseChart } from '../base/base-chart';
 import { ChartTypeEnum } from '../interface/type';
 import type { ISunburstChartSpec } from './interface';
 import { Factory } from '../../core/factory';
-import { SunburstChartSpecTransformer } from './spec-transformer';
+import { SunburstChartSpecTransformer } from './sunburst-transformer';
 
 export class SunburstChart<T extends ISunburstChartSpec = ISunburstChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sunburst;

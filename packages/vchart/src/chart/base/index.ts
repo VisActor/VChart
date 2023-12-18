@@ -1,2 +1,2 @@
 export * from './base-chart';
-export * from './spec-transformer';
+export * from './base-chart-transformer';

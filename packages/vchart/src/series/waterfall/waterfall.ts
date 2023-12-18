@@ -34,7 +34,7 @@ import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import { registerRectMark } from '../../mark/rect';
 import { getGroupAnimationParams } from '../util/utils';
-import { WaterfallSeriesSpecTransformer } from './spec-transformer';
+import { WaterfallSeriesSpecTransformer } from './waterfall-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 

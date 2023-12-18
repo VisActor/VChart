@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { registerRangeAreaSeries } from '../../series/range-area/range-area';
 import { Factory } from '../../core/factory';
 import type { IRangeAreaChartSpec } from './interface';
-import { RangeAreaChartSpecTransformer } from './spec-transformer';
+import { RangeAreaChartSpecTransformer } from './range-area-transformer';
 import { BaseChart } from '../base';
 
 export class RangeAreaChart<T extends IRangeAreaChartSpec = IRangeAreaChartSpec> extends BaseChart<T> {

@@ -1,3 +1,3 @@
 export * from './data-zoom';
 export * from './interface';
-export * from './spec-transformer';
+export * from './data-zoom-transformer';

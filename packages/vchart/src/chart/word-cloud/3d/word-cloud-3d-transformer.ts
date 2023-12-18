@@ -1,5 +1,5 @@
 import type { AdaptiveSpec } from '../../../typings';
-import { BaseWordCloudChartSpecTransformer } from '../base/spec-transformer';
+import { BaseWordCloudChartSpecTransformer } from '../base/word-cloud-base-transformer';
 import type { IWordCloud3dChartSpec } from '../interface';
 
 export class WordCloud3dChartSpecTransformer<

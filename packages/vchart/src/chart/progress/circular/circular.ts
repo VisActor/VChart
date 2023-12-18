@@ -3,7 +3,7 @@ import { ChartTypeEnum } from '../../interface';
 import { registerCircularProgressSeries } from '../../../series/progress/circular';
 import { Factory } from '../../../core/factory';
 import type { ICircularProgressChartSpec } from './interface';
-import { CircularProgressChartSpecTransformer } from './spec-transformer';
+import { CircularProgressChartSpecTransformer } from './circular-progress-transformer';
 import type { AdaptiveSpec } from '../../../typings';
 import { BaseChart } from '../../base';
 

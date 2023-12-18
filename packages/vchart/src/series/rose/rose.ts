@@ -15,7 +15,7 @@ import { roseSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import type { ILabelMark } from '../../mark/label';
-import { RoseSeriesSpecTransformer } from './spec-transformer';
+import { RoseSeriesSpecTransformer } from './rose-transformer';
 
 export const DefaultBandWidth = 0.5;
 

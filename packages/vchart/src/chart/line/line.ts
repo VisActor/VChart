@@ -3,7 +3,7 @@ import { ChartTypeEnum } from '../interface/type';
 import type { ILineChartSpec } from './interface';
 import { registerLineSeries } from '../../series/line/line';
 import { Factory } from '../../core/factory';
-import { LineChartSpecTransformer } from './spec-transformer';
+import { LineChartSpecTransformer } from './line-transformer';
 import { BaseChart } from '../base';
 
 export class LineChart<T extends ILineChartSpec> extends BaseChart<T> {

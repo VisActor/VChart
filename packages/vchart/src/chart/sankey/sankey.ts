@@ -4,7 +4,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ISankeyChartSpec } from './interface';
 import { registerSankeySeries } from '../../series/sankey/sankey';
 import { Factory } from '../../core/factory';
-import { SankeyChartSpecTransformer } from './spec-transformer';
+import { SankeyChartSpecTransformer } from './sankey-transformer';
 
 export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sankey;

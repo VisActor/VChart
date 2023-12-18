@@ -4,7 +4,7 @@ import { ChartTypeEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { ICorrelationChartSpec } from './interface';
 import { Factory } from '../../core/factory';
-import { CorrelationChartSpecTransformer } from './spec-transformer';
+import { CorrelationChartSpecTransformer } from './correlation-transformer';
 
 export class CorrelationChart<T extends ICorrelationChartSpec = ICorrelationChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.correlation;

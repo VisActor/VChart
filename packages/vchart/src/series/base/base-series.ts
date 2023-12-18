@@ -81,7 +81,7 @@ import {
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
-import { BaseSeriesSpecTransformer } from './spec-transformer';
+import { BaseSeriesSpecTransformer } from './base-series-transformer';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';

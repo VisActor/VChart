@@ -1,4 +1,4 @@
-import { BarSeriesSpecTransformer } from '../bar/spec-transformer';
+import { BarSeriesSpecTransformer } from '../bar/bar-transformer';
 import { SeriesMarkNameEnum } from '../interface';
 import { PositionEnum, type IRangeColumnSeriesSpec, type IRangeColumnSeriesTheme } from './interface';
 

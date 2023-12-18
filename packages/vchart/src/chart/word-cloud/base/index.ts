@@ -1,2 +1,2 @@
 export * from './base';
-export * from './spec-transformer';
+export * from './word-cloud-base-transformer';

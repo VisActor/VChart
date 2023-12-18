@@ -1,5 +1,5 @@
 import { SeriesMarkNameEnum } from '../interface';
-import { LineLikeSeriesSpecTransformer } from '../mixin/spec-transformer';
+import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import type { AreaSeries } from './area';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 

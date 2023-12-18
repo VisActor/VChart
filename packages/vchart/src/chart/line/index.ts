@@ -1,3 +1,3 @@
 export * from './line';
 export * from './interface';
-export * from './spec-transformer';
+export * from './line-transformer';

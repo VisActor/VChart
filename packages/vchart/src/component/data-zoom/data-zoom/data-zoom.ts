@@ -23,7 +23,7 @@ import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { CartesianAxis } from '../../axis/cartesian';
 import type { IModelSpecInfo } from '../../../model/interface';
-import { DataZoomSpecTransformer } from './spec-transformer';
+import { DataZoomSpecTransformer } from './data-zoom-transformer';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;

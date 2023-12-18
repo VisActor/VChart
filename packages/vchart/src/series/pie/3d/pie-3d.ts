@@ -11,7 +11,7 @@ import { pie3dSeriesMark } from '../constant';
 import { radianToDegree } from '@visactor/vutils';
 import { Factory } from '../../../core/factory';
 import { registerPie3dAnimation } from '../animation/animation';
-import { Pie3dSeriesSpecTransformer } from './spec-transformer';
+import { Pie3dSeriesSpecTransformer } from './pie-3d-transformer';
 import type { ITextMark } from '../../../mark/text';
 
 export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends BasePieSeries<T> implements IArcSeries {

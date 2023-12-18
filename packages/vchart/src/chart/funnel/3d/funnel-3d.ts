@@ -4,7 +4,7 @@ import { registerFunnel3dSeries } from '../../../series/funnel/3d/funnel-3d';
 import { Factory } from '../../../core/factory';
 import type { IFunnel3dChartSpec } from '../interface';
 import type { AdaptiveSpec } from '../../../typings';
-import { FunnelChartSpecTransformer } from '../spec-transformer';
+import { FunnelChartSpecTransformer } from '../funnel-transformer';
 import { BaseChart } from '../../base';
 
 export class Funnel3dChart<T extends IFunnel3dChartSpec = IFunnel3dChartSpec> extends BaseChart<

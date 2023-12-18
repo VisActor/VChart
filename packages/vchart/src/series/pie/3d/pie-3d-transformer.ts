@@ -1,6 +1,6 @@
 import type { IPie3dSeriesSpec, IPie3dSeriesTheme } from '../interface';
 import { SeriesMarkNameEnum } from '../../interface';
-import { PieSeriesSpecTransformer } from '../spec-transformer';
+import { PieSeriesSpecTransformer } from '../pie-transformer';
 
 export class Pie3dSeriesSpecTransformer<
   T extends IPie3dSeriesSpec = IPie3dSeriesSpec,

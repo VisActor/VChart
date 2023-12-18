@@ -16,7 +16,7 @@ import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
-import { LineLikeSeriesSpecTransformer } from '../mixin/spec-transformer';
+import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<

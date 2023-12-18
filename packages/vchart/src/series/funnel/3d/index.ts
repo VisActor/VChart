@@ -1,2 +1,2 @@
 export * from './funnel-3d';
-export * from './spec-transformer';
+export * from './funnel-3d-transformer';

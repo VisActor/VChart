@@ -48,7 +48,7 @@ import { mergeSpec } from '../../util/spec/merge-spec';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { isNil } from '@visactor/vutils';
-import { PieSeriesSpecTransformer } from './spec-transformer';
+import { PieSeriesSpecTransformer } from './pie-transformer';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
   static readonly transformerConstructor = PieSeriesSpecTransformer as any;

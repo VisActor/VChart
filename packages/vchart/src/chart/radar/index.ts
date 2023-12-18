@@ -1,3 +1,3 @@
 export * from './radar';
 export * from './interface';
-export * from './spec-transformer';
+export * from './radar-transformer';

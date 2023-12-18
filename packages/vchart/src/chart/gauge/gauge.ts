@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import { Factory } from '../../core/factory';
 import type { IGaugeChartSpec } from './interface';
-import { GaugeChartSpecTransformer } from './spec-transformer';
+import { GaugeChartSpecTransformer } from './gauge-transformer';
 import type { AdaptiveSpec } from '../../typings';
 import { BaseChart } from '../base';
 

@@ -1,3 +1,3 @@
 export * from './interface';
 export * from './common';
-export * from './spec-transformer';
+export * from './common-transformer';

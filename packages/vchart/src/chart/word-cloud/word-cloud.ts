@@ -5,7 +5,7 @@ import type { IWordCloudChartSpec } from './interface';
 import { BaseWordCloudChart } from './base/base';
 import { registerWordCloudSeries, registerWordCloudShapeSeries } from '../../series/word-cloud/word-cloud';
 import { Factory } from '../../core/factory';
-import { WordCloudChartSpecTransformer } from './spec-transformer';
+import { WordCloudChartSpecTransformer } from './word-cloud-transformer';
 
 export class WordCloudChart<T extends IWordCloudChartSpec = IWordCloudChartSpec> extends BaseWordCloudChart<T> {
   static readonly type: string = ChartTypeEnum.wordCloud;

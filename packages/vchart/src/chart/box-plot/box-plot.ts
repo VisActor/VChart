@@ -3,7 +3,7 @@ import { ChartTypeEnum } from '../interface/type';
 import type { IBoxPlotChartSpec } from './interface';
 import { registerBoxplotSeries } from '../../series/box-plot/box-plot';
 import { Factory } from '../../core/factory';
-import { BoxPlotChartSpecTransformer } from './spec-transformer';
+import { BoxPlotChartSpecTransformer } from './box-plot-transformer';
 import { BaseChart } from '../base';
 
 export class BoxPlotChart<T extends IBoxPlotChartSpec = IBoxPlotChartSpec> extends BaseChart<T> {

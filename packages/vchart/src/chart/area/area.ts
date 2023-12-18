@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import type { IAreaChartSpec } from './interface';
 import { Factory } from '../../core/factory';
-import { AreaChartSpecTransformer } from './spec-transformer';
+import { AreaChartSpecTransformer } from './area-transformer';
 import { BaseChart } from '../base';
 
 export class AreaChart<T extends IAreaChartSpec = IAreaChartSpec> extends BaseChart<T> {

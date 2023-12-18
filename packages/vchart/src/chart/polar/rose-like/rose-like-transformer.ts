@@ -1,6 +1,6 @@
 import type { IPolarAxisSpec } from '../../../component';
 import type { IPolarChartSpec } from '../interface';
-import { PolarChartSpecTransformer } from '../spec-transformer';
+import { PolarChartSpecTransformer } from '../polar-transformer';
 
 export class RoseLikeChartSpecTransformer<T extends IPolarChartSpec> extends PolarChartSpecTransformer<T> {
   protected needAxes(): boolean {
