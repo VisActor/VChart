@@ -3,7 +3,7 @@ export interface IGPTOptions {
   /** gpt request header, which has higher priority */
   headers?: HeadersInit;
   method?: string;
-  model?: string;
+  model?: Model;
   max_tokens?: number;
   temperature?: number;
 }

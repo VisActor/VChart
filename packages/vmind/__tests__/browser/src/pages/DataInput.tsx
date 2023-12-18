@@ -61,7 +61,7 @@ const demoDataList: { [key: string]: any } = {
   'Global GDP': mockUserInput6Eng,
   'Sales of different drinkings': mockUserInput3Eng
 };
-export function LeftInput(props: IPropsType) {
+export function DataInput(props: IPropsType) {
   const defaultDataKey = Object.keys(demoDataList)[0];
   const [describe, setDescribe] = useState<string>(demoDataList[defaultDataKey].input);
   const [csv, setCsv] = useState<string>(demoDataList[defaultDataKey].csv);

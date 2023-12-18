@@ -8,16 +8,11 @@ import { DataProcessPromptEnglish } from './prompts';
  ** call GPT to parse csv data
  **get the fieldInfo from csv file
  */
-export const parseCSVDataWithGPT = async (
-  csvFile: string,
-  userInput: string,
-  openAIKey: string | undefined,
-  options: IGPTOptions | undefined
-) => {
+export const parseCSVDataWithGPT = async (csvFile: string, userInput: string, options: IGPTOptions | undefined) => {
   const DATA_TOP_N = 5; //取csv文件的前多少条数据
   const topNCSVFile = readTopNLine(csvFile, DATA_TOP_N);
   const dataProcessMessage = `CSV file content:\n${topNCSVFile}\nUser Input: ${userInput}`;
-  const dataProcessRes = await requestGPT(openAIKey as string, DataProcessPromptEnglish, dataProcessMessage, options);
+  const dataProcessRes = await requestGPT(DataProcessPromptEnglish, dataProcessMessage, options);
 
   const dataProcessResJson = parseGPTResponse(dataProcessRes);
   const { dataset } = getDataset(csvFile);

@@ -1,8 +1,3 @@
-import axios from 'axios';
-import { GPTDataProcessResult, IGPTOptions } from '../../typings';
-import { isValid } from '@visactor/vutils';
-import JSON5 from 'json5';
-
 export const detectAxesType = (values: any[], field: string) => {
   const isNumber = values.every(d => !d[field] || !isNaN(Number(d[field])));
   if (isNumber) {
