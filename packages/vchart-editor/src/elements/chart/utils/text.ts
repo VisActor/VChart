@@ -82,8 +82,8 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
 
   wrapper.style.visibility = 'visible';
 
-  const input = document.createElement('textArea') as HTMLTextAreaElement;
-  modifyCSS(input, {
+  const editableDom = document.createElement('textArea') as HTMLTextAreaElement;
+  modifyCSS(editableDom, {
     margin: 0,
     padding: 0,
     outline: 'none',
@@ -97,12 +97,12 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
   });
 
   const textString = array(text.attribute.text).join('\n');
-  input.value = needExpression ? (isNil(expression) ? '##' : expression || textString) : textString;
+  editableDom.value = needExpression ? (isNil(expression) ? '##' : expression || textString) : textString;
 
-  wrapper.append(input);
+  wrapper.append(editableDom);
 
   const update_size = function () {
-    const currentValue = input.value.split('\n');
+    const currentValue = editableDom.value.split('\n');
     const wrapperWidth = Math.max(
       width,
       measureText(currentValue, text.attribute).width + panelPadding[1] + panelPadding[3]
@@ -120,37 +120,62 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
   };
   update_size();
 
-  input.focus();
-  input.select();
+  editableDom.focus();
+  editableDom.select();
 
-  input.addEventListener('wheel', e => {
+  editableDom.addEventListener('wheel', e => {
     e.stopPropagation();
   });
 
   let isWrapperRemoved = false;
 
-  const onBlur = function () {
-    !isWrapperRemoved && wrapper.remove();
+  const stopEvent = (event: Event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  const cleanUp = () => {
+    if (isWrapperRemoved) {
+      return;
+    }
     isWrapperRemoved = true;
+    // remove events to ensure they don't late-fire
+    editableDom.removeEventListener('blur', onBlur);
+    editableDom.removeEventListener('input', onInput);
+    editableDom.removeEventListener('keydown', onKeydown);
+    editableDom.removeEventListener('keyup', onKeyup);
+
+    window.removeEventListener('wheel', stopEvent, true);
+
+    wrapper.remove();
+  };
+
+  const onBlur = function () {
+    cleanUp();
     if (change) {
-      change(input.value);
+      change(editableDom.value);
     }
   };
   const onInput = function () {
-    input.style.backgroundColor = '#FFF';
+    editableDom.style.backgroundColor = '#FFF';
     update_size();
   };
-  input.addEventListener('blur', onBlur);
-  input.addEventListener('input', onInput);
-  input.addEventListener('keydown', function (e) {
+  const onKeydown = function (e: Event) {
     e.stopPropagation();
-  });
-  input.addEventListener('keyup', function (e) {
+  };
+  const onKeyup = function (e: any) {
     if (e.key === 'Escape') {
-      input.removeEventListener('input', onInput);
-      !isWrapperRemoved && wrapper.remove();
-      isWrapperRemoved = true;
+      cleanUp();
     }
     update_size();
+  };
+  editableDom.addEventListener('blur', onBlur);
+  editableDom.addEventListener('input', onInput);
+  editableDom.addEventListener('keydown', onKeydown);
+  editableDom.addEventListener('keyup', onKeyup);
+
+  window.addEventListener('wheel', stopEvent, {
+    passive: false,
+    capture: true
   });
 };
