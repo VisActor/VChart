@@ -4,11 +4,11 @@ import {
   SUPPORTED_CHART_LIST
 } from '../../common/vizDataToSpec/constants';
 import { DataItem, GPTChartAdvisorResult, IGPTOptions, LOCATION, SimpleFieldInfo, VizSchema } from '../../typings';
-import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from '../../common/vizDataToSpec/vizDataToSpec';
+import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from '../../common/vizDataToSpec';
 import { parseGPTResponse, requestGPT } from '../utils';
 import { patchUserInput } from './utils';
-import { chartAdvisorHandler } from '../../common/chartAdvisor/chartAdvisorHandler';
 import { ChartAdvisorPromptEnglish } from './prompts';
+import { chartAdvisorHandler } from '../../common/chartAdvisor';
 
 export const estimateVideoTime = (chartType: string, spec: any, parsedTime?: number) => {
   //估算视频长度
