@@ -1,7 +1,8 @@
 import { isMobile } from 'react-device-detect';
 import type { IAreaChartSpec } from '../../../../src/index';
 // eslint-disable-next-line no-duplicate-imports
-import { default as VChart } from '../../../../src/index';
+import { default as VChart, registerChartPlugin } from '../../../../src/index';
+import { MediaQuery } from '../../../../src/plugin/chart';
 
 const getSpec = (): IAreaChartSpec => ({
   type: 'area',
@@ -87,6 +88,7 @@ const getSpec = (): IAreaChartSpec => ({
 });
 
 const run = () => {
+  registerChartPlugin(MediaQuery);
   // VChart.ThemeManager.setCurrentTheme('dark');
   const cs = new VChart(getSpec(), {
     dom: document.getElementById('chart') as HTMLElement,

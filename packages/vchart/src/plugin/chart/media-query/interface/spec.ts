@@ -1,7 +1,7 @@
-import type { ComponentTypeEnum, SimplifiedComponentTypeEnum } from '../../component/interface';
-import type { IVChart } from '../../core';
-import type { IModelSpecInfo } from '../../model/interface';
-import type { SeriesTypeEnum } from '../../series';
+import type { ComponentTypeEnum, SimplifiedComponentTypeEnum } from '../../../../component/interface';
+import type { IVChart } from '../../../../core';
+import type { IModelSpecInfo } from '../../../../model/interface';
+import type { SeriesTypeEnum } from '../../../../series';
 import type { IMediaInfo } from './common';
 
 /**

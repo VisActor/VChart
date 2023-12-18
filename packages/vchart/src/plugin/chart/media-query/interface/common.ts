@@ -1,10 +1,8 @@
-import type { IChart } from '../../chart/interface';
-import type { ComponentTypeEnum } from '../../component/interface';
-import type { VChart } from '../../core';
-import type { IModel, IModelSpecInfo } from '../../model/interface';
-import type { SeriesTypeEnum } from '../../series';
-import type { IChartSpec } from '../../typings';
-import type { IMediaQueryItem, IMediaQuerySpec } from './spec';
+import type { ComponentTypeEnum } from '../../../../component/interface';
+import type { IVChart } from '../../../../core';
+import type { IModelSpecInfo } from '../../../../model/interface';
+import type { SeriesTypeEnum } from '../../../../series';
+import type { IChartSpec } from '../../../../typings';
 
 export interface IMediaInfo {
   /** 图表宽度 */
@@ -27,7 +25,7 @@ export interface IMediaQueryActionFilterResult<T extends Record<string, unknown>
 }
 
 export interface IMediaQueryOption {
-  globalInstance: VChart;
+  globalInstance: IVChart;
   updateSpec: (spec: any, compile?: boolean, render?: boolean) => void;
 }
 
@@ -43,18 +41,4 @@ export interface IMediaQueryActionResult {
   chartSpec: any;
   /** spec 是否被更改 */
   hasChanged: boolean;
-}
-
-export interface IMediaQuery {
-  /** 当前正在生效的媒体查询 */
-  readonly currentActiveItems: Set<IMediaQueryItem>;
-  /** 更新图表宽高信息，执行所有相关媒体查询，返回是否命中某个查询 */
-  changeSize: (width: number, height: number, compile?: boolean, render?: boolean) => boolean;
-  /** 重新初始化，并重新执行一遍当前生效的媒体查询 */
-  reInit: (compile?: boolean, render?: boolean) => void;
-  release: () => void;
-}
-
-export interface IMediaQueryConstructor {
-  new (spec: IMediaQuerySpec, option: IMediaQueryOption): IMediaQuery;
 }

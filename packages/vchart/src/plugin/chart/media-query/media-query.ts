@@ -4,15 +4,19 @@ import type {
   IMediaQuerySpec,
   IMediaQueryOption,
   IMediaQueryItem,
-  IMediaQueryActionResult,
-  IMediaQuery
+  IMediaQueryActionResult
 } from './interface';
-import { array, cloneDeepSpec } from '../util';
 import { checkMediaQuery } from './util';
 import { executeMediaQueryAction } from './util/action';
-import { Factory } from '../core';
+import { BaseChartPlugin } from '../base-plugin';
+import type { IChartPluginService } from '../interface';
+import { array, cloneDeepSpec } from '../../../util';
+import type { VChartRenderActionSource } from '../../../core/interface';
 
-export class MediaQuery implements IMediaQuery {
+export class MediaQuery extends BaseChartPlugin {
+  static specKey = 'media';
+  Name: string = 'MediaQueryPlugin';
+
   protected _spec: IMediaQuerySpec;
   protected _option: IMediaQueryOption;
 
@@ -25,14 +29,75 @@ export class MediaQuery implements IMediaQuery {
   /** 当前正在生效的媒体查询 */
   readonly currentActiveItems = new Set<IMediaQueryItem>();
 
-  constructor(spec: IMediaQuerySpec, option: IMediaQueryOption) {
-    this._option = option;
-    this._init(spec);
+  protected _initialized: boolean = false;
+
+  onInit(service: IChartPluginService, chartSpec: any) {
+    if (!chartSpec?.media) {
+      return;
+    }
+    const { globalInstance } = service;
+    this._option = {
+      globalInstance: service.globalInstance,
+      updateSpec: (spec: any, compile?: boolean, render?: boolean) => {
+        if (render) {
+          globalInstance.updateSpecSync(spec);
+        } else if (compile) {
+          globalInstance.updateSpecAndRecompile(spec, false, {
+            transformSpec: true
+          });
+        } else {
+          globalInstance.setRuntimeSpec(spec);
+        }
+      }
+    };
+    this._spec = chartSpec.media;
+    this._initialized = true;
   }
 
-  /** 初始化 */
-  protected _init(spec: IMediaQuerySpec) {
-    this._spec = spec;
+  onBeforeResize(service: IChartPluginService, width: number, height: number) {
+    this.changeSize(width, height, true, false);
+  }
+
+  onAfterChartSpecTransform(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource) {
+    if (actionSource === 'setCurrentTheme') {
+      // 重新执行已生效的所有媒体查询
+      this.reInit(false, false);
+    }
+  }
+
+  onBeforeInitChart(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource) {
+    let resetMediaQuery: boolean;
+    let checkMediaQuery: boolean;
+
+    switch (actionSource) {
+      case 'render':
+      case 'updateModelSpec':
+        resetMediaQuery = false;
+        checkMediaQuery = true;
+        break;
+      case 'updateSpec':
+      case 'setCurrentTheme':
+        resetMediaQuery = true;
+        checkMediaQuery = false;
+        break;
+      case 'updateSpecAndRecompile':
+        resetMediaQuery = false;
+        checkMediaQuery = false;
+        break;
+    }
+
+    if (resetMediaQuery) {
+      this.dispose();
+    }
+    if (!this._initialized) {
+      // 初始化媒体查询
+      this.onInit(service, chartSpec);
+    }
+    if (resetMediaQuery || checkMediaQuery) {
+      // 触发媒体查询
+      const { width, height } = this._option.globalInstance.getCurrentSize();
+      this.changeSize(width, height, false, false);
+    }
   }
 
   /** 更新图表宽高信息，执行所有相关媒体查询，返回是否命中某个查询 */
@@ -142,11 +207,11 @@ export class MediaQuery implements IMediaQuery {
     }
   }
 
-  release() {
-    // empty
+  dispose() {
+    this._initialized = false;
+    this._spec = [];
+    this._option = undefined;
+    this._currentMediaInfo = {};
+    this.currentActiveItems.clear();
   }
 }
-
-export const registerMediaQuery = () => {
-  Factory.registerMediaQuery(MediaQuery);
-};
