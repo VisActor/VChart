@@ -1,1 +1,1 @@
-export * from './spec-transformer';
+export * from './rose-like-transformer';

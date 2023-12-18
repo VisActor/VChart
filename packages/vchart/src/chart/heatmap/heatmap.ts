@@ -3,7 +3,7 @@ import { ChartTypeEnum } from '../interface/type';
 import { registerHeatmapSeries } from '../../series/heatmap/heatmap';
 import { Factory } from '../../core/factory';
 import type { IHeatmapChartSpec } from './interface';
-import { HeatmapChartSpecTransformer } from './spec-transformer';
+import { HeatmapChartSpecTransformer } from './heatmap-transformer';
 import { BaseChart } from '../base';
 
 export class HeatmapChart<T extends IHeatmapChartSpec = IHeatmapChartSpec> extends BaseChart<T> {

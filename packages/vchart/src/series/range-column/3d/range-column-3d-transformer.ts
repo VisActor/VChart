@@ -2,7 +2,7 @@ import type { IRangeColumn3dSeriesSpec, IRangeColumnSeriesTheme } from '../inter
 // eslint-disable-next-line no-duplicate-imports
 import { PositionEnum } from '../interface';
 import { SeriesMarkNameEnum } from '../../interface';
-import { RangeColumnSeriesSpecTransformer } from '../spec-transformer';
+import { RangeColumnSeriesSpecTransformer } from '../range-column-transformer';
 
 export class RangeColumn3dSeriesSpecTransformer<
   T extends IRangeColumn3dSeriesSpec = IRangeColumn3dSeriesSpec,

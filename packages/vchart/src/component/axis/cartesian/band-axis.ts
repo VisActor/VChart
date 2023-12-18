@@ -56,7 +56,7 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
       getBandwidth,
       getAxisType: () => this.type,
       getAxisId: () => this.id,
-      isInverse: () => this._spec.inverse
+      isInverse: () => this._inverse
     };
   }
 

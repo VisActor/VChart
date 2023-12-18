@@ -5,7 +5,7 @@ import type { ITreemapChartSpec } from './interface';
 import { registerTreemapSeries } from '../../series/treemap/treemap';
 import { Factory } from '../../core/factory';
 import type { AdaptiveSpec } from '../../typings';
-import { TreemapChartSpecTransformer } from './spec-transformer';
+import { TreemapChartSpecTransformer } from './treemap-transformer';
 
 export class TreemapChart<T extends ITreemapChartSpec = ITreemapChartSpec> extends BaseChart<
   AdaptiveSpec<T, 'data' | 'series'>

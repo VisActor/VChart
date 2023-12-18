@@ -5,7 +5,7 @@ import { BaseWordCloudChart } from '../base/base';
 import { registerWordCloud3dSeries, registerWordCloudShape3dSeries } from '../../../series/word-cloud/word-cloud-3d';
 import { Factory } from '../../../core/factory';
 import type { AdaptiveSpec } from '../../../typings';
-import { WordCloud3dChartSpecTransformer } from './spec-transformer';
+import { WordCloud3dChartSpecTransformer } from './word-cloud-3d-transformer';
 
 export class WordCloud3dChart<T extends IWordCloud3dChartSpec = IWordCloud3dChartSpec> extends BaseWordCloudChart<
   AdaptiveSpec<T, 'type' | 'series'>

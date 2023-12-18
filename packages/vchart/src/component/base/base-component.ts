@@ -15,7 +15,7 @@ import { AnimateManager } from '../../animation/animate-manager';
 import type { Datum, ILayoutRect } from '../../typings';
 import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
-import { BaseComponentSpecTransformer } from './spec-transformer';
+import { BaseComponentSpecTransformer } from './base-component-transformer';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 
 export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends LayoutModel<T> implements IComponent {

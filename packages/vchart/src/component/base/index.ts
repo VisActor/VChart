@@ -1,2 +1,2 @@
 export * from './base-component';
-export * from './spec-transformer';
+export * from './base-component-transformer';

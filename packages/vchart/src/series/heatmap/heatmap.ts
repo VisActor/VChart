@@ -18,7 +18,7 @@ import { heatmapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { getGroupAnimationParams } from '../util/utils';
-import { HeatmapSeriesSpecTransformer } from './spec-transformer';
+import { HeatmapSeriesSpecTransformer } from './heatmap-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 

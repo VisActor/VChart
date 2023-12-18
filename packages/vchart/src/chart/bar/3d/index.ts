@@ -1,2 +1,2 @@
 export * from './bar-3d';
-export * from './spec-transformer';
+export * from './bar-3d-transformer';

@@ -1,3 +1,3 @@
 export * from './heatmap';
 export * from './interface';
-export * from './spec-transformer';
+export * from './heatmap-transformer';

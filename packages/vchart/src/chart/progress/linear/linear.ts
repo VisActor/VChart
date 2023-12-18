@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../../series/interface/type';
 import type { ILinearProgressChartSpec } from './interface';
 import { registerLinearProgressSeries } from '../../../series/progress/linear';
 import { Factory } from '../../../core/factory';
-import { LinearProgressChartSpecTransformer } from './spec-transformer';
+import { LinearProgressChartSpecTransformer } from './linear-progress-transformer';
 import { BaseChart } from '../../base';
 
 export class LinearProgressChart<T extends ILinearProgressChartSpec = ILinearProgressChartSpec> extends BaseChart<T> {

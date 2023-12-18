@@ -5,7 +5,7 @@ import { BaseHistogramChart } from '../base/base';
 import { Factory } from '../../../core/factory';
 import type { IHistogram3dChartSpec } from '../interface';
 import type { AdaptiveSpec } from '../../../typings';
-import { HistogramChartSpecTransformer } from '../spec-transformer';
+import { HistogramChartSpecTransformer } from '../histogram-transformer';
 
 export class Histogram3dChart<T extends IHistogram3dChartSpec> extends BaseHistogramChart<AdaptiveSpec<T, 'type'>> {
   static readonly type: string = ChartTypeEnum.histogram3d;

@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import type { IBarChartSpec } from './interface';
 import { Factory } from '../../core/factory';
-import { BarChartSpecTransformer } from './spec-transformer';
+import { BarChartSpecTransformer } from './bar-transformer';
 import { BaseChart } from '../base';
 
 export class BarChart<T extends IBarChartSpec = IBarChartSpec> extends BaseChart<T> {

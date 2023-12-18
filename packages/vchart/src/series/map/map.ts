@@ -27,7 +27,7 @@ import { Factory } from '../../core/factory';
 import { registerGeoCoordinate } from '../../component/geo';
 import type { IMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
-import { MapSeriesSpecTransformer } from './spec-transformer';
+import { MapSeriesSpecTransformer } from './map-transformer';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;

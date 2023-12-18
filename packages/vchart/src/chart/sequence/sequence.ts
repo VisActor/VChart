@@ -8,7 +8,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import type { ISeriesConstructor, ISeriesOption } from '../../series/interface';
 import type { IModelSpecInfo } from '../../model/interface';
-import { SequenceChartSpecTransformer } from './spec-transformer';
+import { SequenceChartSpecTransformer } from './sequence-transformer';
 
 export class SequenceChart<T extends ISequenceChartSpec = ISequenceChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sequence;

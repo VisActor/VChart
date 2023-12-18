@@ -1,6 +1,6 @@
 import type { AdaptiveSpec } from '../../../typings';
 import type { IBar3dChartSpec } from '../interface';
-import { BarChartSpecTransformer } from '../spec-transformer';
+import { BarChartSpecTransformer } from '../bar-transformer';
 
 export class Bar3dChartSpecTransformer<T extends IBar3dChartSpec = IBar3dChartSpec> extends BarChartSpecTransformer<
   AdaptiveSpec<T, 'type' | 'series'>

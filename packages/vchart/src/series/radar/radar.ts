@@ -20,7 +20,7 @@ import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { radarSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerMarkOverlapTransform } from '@visactor/vgrammar-core';
-import { LineLikeSeriesSpecTransformer } from '../mixin/spec-transformer';
+import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 
 export interface RadarSeries<T extends IRadarSeriesSpec>
   extends Pick<

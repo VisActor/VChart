@@ -1,7 +1,7 @@
 import type { AdaptiveSpec } from '../../../typings';
 import { SeriesMarkNameEnum } from '../../interface';
 import type { IFunnel3dSeriesSpec, IFunnel3dSeriesTheme } from '../interface';
-import { FunnelSeriesSpecTransformer } from '../spec-transformer';
+import { FunnelSeriesSpecTransformer } from '../funnel-transformer';
 
 export class Funnel3dSeriesSpecTransformer<
   T extends IFunnel3dSeriesSpec = IFunnel3dSeriesSpec,

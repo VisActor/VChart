@@ -25,8 +25,8 @@ import { Factory } from '../../core/factory';
 import { registerAreaAnimation } from './animation';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
-import { LineLikeSeriesSpecTransformer } from '../mixin/spec-transformer';
-import { AreaSeriesSpecTransformer } from './spec-transformer';
+import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
+import { AreaSeriesSpecTransformer } from './area-transformer';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<

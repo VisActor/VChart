@@ -1,3 +1,3 @@
 export * from './waterfall';
 export * from './interface';
-export * from './spec-transformer';
+export * from './waterfall-transformer';

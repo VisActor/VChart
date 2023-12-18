@@ -22,7 +22,7 @@ import { registerRangeColumnAnimation, type RangeColumnAppearPreset } from './an
 import { rangeColumnSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { getGroupAnimationParams } from '../util/utils';
-import { RangeColumnSeriesSpecTransformer } from './spec-transformer';
+import { RangeColumnSeriesSpecTransformer } from './range-column-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 

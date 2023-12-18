@@ -1,3 +1,3 @@
 export * from './linear';
 export * from './interface';
-export * from './spec-transformer';
+export * from './linear-progress-transformer';

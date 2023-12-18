@@ -12,7 +12,15 @@ import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { Factory } from '../../../core/factory';
-import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo } from './util/common';
+import {
+  autoAxisType,
+  isXAxis,
+  getOrient,
+  isZAxis,
+  isYAxis,
+  getCartesianAxisInfo,
+  transformInverse
+} from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
@@ -36,7 +44,7 @@ import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
-import { CartesianAxisSpecTransformer } from './spec-transformer';
+import type { ICartesianChartSpec } from '../../../chart';
 
 const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
 
@@ -45,10 +53,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   implements IAxis
 {
   static type = ComponentTypeEnum.cartesianAxis;
-  static transformerConstructor = CartesianAxisSpecTransformer as any;
   type = ComponentTypeEnum.cartesianAxis;
   name: string = ComponentTypeEnum.cartesianAxis;
-  readonly transformerConstructor = CartesianAxisSpecTransformer;
 
   static specKey = 'axes';
 
@@ -89,6 +95,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   private _latestBounds: IBounds;
   private _verticalLimitSize: number;
   private _unitText: IText;
+
+  protected _inverse: boolean;
 
   protected _layoutCache: {
     width: number;
@@ -216,20 +224,19 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   protected updateScaleRange() {
     let isScaleChange = false;
     const { width, height } = this.getLayoutRect();
-    const inverse = this._spec.inverse;
     let newRange: number[] = [];
     if (isXAxis(this.getOrient())) {
       if (isValidNumber(width)) {
-        newRange = inverse ? [width, 0] : [0, width];
+        newRange = this._inverse ? [width, 0] : [0, width];
       }
     } else if (isZAxis(this.getOrient())) {
       if (isValidNumber(width)) {
-        newRange = inverse ? [width, 0] : [0, width];
+        newRange = this._inverse ? [width, 0] : [0, width];
         this._scale.range(newRange);
       }
     } else {
       if (isValidNumber(height)) {
-        newRange = inverse ? [0, height] : [height, 0];
+        newRange = this._inverse ? [0, height] : [height, 0];
       }
     }
 
@@ -269,6 +276,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       this._axisStyle = axisStyle;
     }
     this._tick = this._spec.tick;
+    const chartSpec = this._option.getChart()?.getSpec() as ICartesianChartSpec;
+    this._inverse = transformInverse(this._spec, chartSpec?.direction === Direction.horizontal);
   }
 
   protected getSeriesStatisticsField(s: ICartesianSeries) {
@@ -311,7 +320,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       getScale,
       getAxisType: () => this.type,
       getAxisId: () => this.id,
-      isInverse: () => this._spec.inverse === true
+      isInverse: () => this._inverse === true
     };
   }
 

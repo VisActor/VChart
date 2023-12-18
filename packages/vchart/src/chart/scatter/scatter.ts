@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
 import type { IScatterChartSpec } from './interface';
 import { Factory } from '../../core/factory';
-import { ScatterChartSpecTransformer } from './spec-transformer';
+import { ScatterChartSpecTransformer } from './scatter-transformer';
 import { BaseChart } from '../base';
 
 export class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> extends BaseChart<T> {

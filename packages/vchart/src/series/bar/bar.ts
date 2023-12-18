@@ -33,7 +33,7 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { registerSampleTransform } from '@visactor/vgrammar-core';
 import type { ILabelSpec } from '../../component';
 import { getGroupAnimationParams } from '../util/utils';
-import { BarSeriesSpecTransformer } from './spec-transformer';
+import { BarSeriesSpecTransformer } from './bar-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;

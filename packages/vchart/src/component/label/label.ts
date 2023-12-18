@@ -25,7 +25,7 @@ import { LabelMark, type ILabelMark, registerLabelMark } from '../../mark/label'
 import type { ICompilableMark } from '../../compile/mark';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { IChartSpec } from '../../typings';
-import { LabelSpecTransformer } from './spec-transformer';
+import { LabelSpecTransformer } from './label-transformer';
 
 export interface ILabelInfo {
   baseMark: ICompilableMark;

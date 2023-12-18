@@ -3,7 +3,7 @@ import { SeriesTypeEnum } from '../../series/interface/type';
 import type { IRangeColumnChartSpec } from './interface';
 import { Factory } from '../../core/factory';
 import { registerRangeColumnSeries } from '../../series/range-column/range-column';
-import { RangeColumnChartSpecTransformer } from './spec-transformer';
+import { RangeColumnChartSpecTransformer } from './range-column-transformer';
 import { BaseChart } from '../base';
 
 export class RangeColumnChart<T extends IRangeColumnChartSpec = IRangeColumnChartSpec> extends BaseChart<T> {

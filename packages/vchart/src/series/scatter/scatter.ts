@@ -29,7 +29,7 @@ import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import type { ILabelSpec } from '../../component';
-import { ScatterSeriesSpecTransformer } from './spec-transformer';
+import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;

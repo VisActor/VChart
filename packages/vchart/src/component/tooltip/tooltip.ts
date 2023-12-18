@@ -36,7 +36,7 @@ import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
-import { TooltipSpecTransformer } from './spec-transformer';
+import { TooltipSpecTransformer } from './tooltip-transformer';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;

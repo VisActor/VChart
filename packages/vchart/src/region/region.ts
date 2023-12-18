@@ -19,7 +19,7 @@ import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { IFilterMode } from '../component/data-zoom/constant';
 import { LayoutModel } from '../model/layout-model';
-import { RegionSpecTransformer } from './spec-transformer';
+import { RegionSpecTransformer } from './region-transformer';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';

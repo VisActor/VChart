@@ -2,7 +2,7 @@ import type { IChartSpecInfo } from '../../chart/interface';
 import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
 import type { ILabelMark } from '../../mark/label';
 import type { IBaseModelSpecTransformerResult } from '../../model/interface';
-import { BaseModelSpecTransformer } from '../../model/spec-transformer';
+import { BaseModelSpecTransformer } from '../../model/base-model-transformer';
 import type { ISeriesSpec } from '../../typings';
 import { array, get, isValid, mergeSpec, transformSeriesThemeToMerge } from '../../util';
 import type { SeriesMarkNameEnum } from '../interface';

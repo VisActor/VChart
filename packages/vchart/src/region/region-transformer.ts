@@ -1,4 +1,4 @@
-import { BaseModelSpecTransformer } from '../model/spec-transformer';
+import { BaseModelSpecTransformer } from '../model/base-model-transformer';
 import type { IRegionSpec } from './interface';
 
 export class RegionSpecTransformer<

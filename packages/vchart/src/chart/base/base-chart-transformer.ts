@@ -220,7 +220,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       if (infoList?.length > 0) {
         hasInitAxis = true;
         infoList.forEach(info => {
-          results.push(callbackfn(cartesianAxis, info, chartSpecInfo));
+          const cmp = Factory.getComponentInKey(info.type);
+          results.push(callbackfn(cmp, info, chartSpecInfo));
         });
       }
     }
@@ -230,7 +231,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       if (infoList?.length > 0) {
         hasInitAxis = true;
         infoList.forEach(info => {
-          results.push(callbackfn(polarAxis, info, chartSpecInfo));
+          const cmp = Factory.getComponentInKey(info.type);
+          results.push(callbackfn(cmp, info, chartSpecInfo));
         });
       }
     }

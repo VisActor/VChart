@@ -3,7 +3,7 @@ import { ChartTypeEnum } from '../interface/type';
 import { Factory } from '../../core/factory';
 import type { ICommonChartSpec } from './interface';
 import type { AdaptiveSpec } from '../../typings';
-import { CommonChartSpecTransformer } from './spec-transformer';
+import { CommonChartSpecTransformer } from './common-transformer';
 
 export class CommonChart<T extends ICommonChartSpec = ICommonChartSpec> extends BaseChart<AdaptiveSpec<T, 'series'>> {
   static readonly type: string = ChartTypeEnum.common;

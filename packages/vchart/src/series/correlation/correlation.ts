@@ -32,7 +32,7 @@ import { Factory } from '../../core/factory';
 import { registerCorrelationAnimation, type CorrelationAppearPreset } from './animation';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IMark } from '../../mark/interface';
-import { CorrelationSeriesSpecTransformer } from './spec-transformer';
+import { CorrelationSeriesSpecTransformer } from './correlation-transformer';
 
 export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSeriesSpec> extends PolarSeries<
   AdaptiveSpec<T, 'outerRadius' | 'innerRadius'>

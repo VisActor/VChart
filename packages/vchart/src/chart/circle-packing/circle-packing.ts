@@ -4,7 +4,7 @@ import { ChartTypeEnum } from '../interface/type';
 import type { ICirclePackingChartSpec } from './interface';
 import { registerCirclePackingSeries } from '../../series/circle-packing/circle-packing';
 import { Factory } from '../../core/factory';
-import { CirclePackingChartSpecTransformer } from './spec-transformer';
+import { CirclePackingChartSpecTransformer } from './circle-packing-transformer';
 
 export class CirclePackingChart<T extends ICirclePackingChartSpec = ICirclePackingChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.circlePacking;

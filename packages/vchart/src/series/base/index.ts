@@ -1,2 +1,2 @@
 export * from './base-series';
-export * from './spec-transformer';
+export * from './base-series-transformer';

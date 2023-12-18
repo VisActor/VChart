@@ -31,7 +31,7 @@ import { MarkSet } from '../mark/mark-set';
 import type { ILayoutItem } from '../layout/interface';
 import { CompilableBase } from '../compile/compilable-base';
 import { PREFIX } from '../constant/base';
-import { BaseModelSpecTransformer } from './spec-transformer';
+import { BaseModelSpecTransformer } from './base-model-transformer';
 import { getProperty } from '@visactor/vutils-extension';
 
 export abstract class BaseModel<T extends IModelSpec> extends CompilableBase implements IModel {

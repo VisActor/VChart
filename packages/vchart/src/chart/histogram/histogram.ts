@@ -4,7 +4,7 @@ import { ChartTypeEnum } from '../interface/type';
 import { BaseHistogramChart } from './base/base';
 import { Factory } from '../../core/factory';
 import type { IHistogramChartSpec } from './interface';
-import { HistogramChartSpecTransformer } from './spec-transformer';
+import { HistogramChartSpecTransformer } from './histogram-transformer';
 
 export class HistogramChart<T extends IHistogramChartSpec = IHistogramChartSpec> extends BaseHistogramChart<T> {
   static readonly type: string = ChartTypeEnum.histogram;
