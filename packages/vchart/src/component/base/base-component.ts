@@ -25,7 +25,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
   readonly transformerConstructor = BaseComponentSpecTransformer as any;
   pluginService?: IComponentPluginService;
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption): IComponent {
     const { spec, ...others } = specInfo;
     return new this(spec, {
       ...options,
