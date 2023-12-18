@@ -96,6 +96,10 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
       return;
     }
 
+    if (this._modelId && e.model.userId !== this._modelId) {
+      return;
+    }
+
     if (get(e, 'event.target.name') !== 'tag-text') {
       return;
     }
