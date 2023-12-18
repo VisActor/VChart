@@ -1,4 +1,4 @@
-import { SUPPORTED_CHART_LIST } from './constants';
+import { SUPPORTED_CHART_LIST } from '../../common/vizDataToSpec/constants';
 
 export const ChartAdvisorPromptEnglish = `You are an expert in data visualization.
 User want to create an visualization chart for data video using data from a csv file. Ignore the duration in User Input.

@@ -1,12 +1,3 @@
-export const detectAxesType = (values: any[], field: string) => {
-  const isNumber = values.every(d => !d[field] || !isNaN(Number(d[field])));
-  if (isNumber) {
-    return 'linear';
-  } else {
-    return 'band';
-  }
-};
-
 export const patchUserInput = (userInput: string) => {
   const FULL_WIDTH_SYMBOLS = ['，', '。'];
   const HALF_WIDTH_SYMBOLS = [',', '.'];
@@ -35,14 +26,3 @@ export const patchUserInput = (userInput: string) => {
     '严格按照prompt中的格式回复，不要有任何多余内容。 Use the original fieldName and DO NOT change or translate any word of the data fields in the response.';
   return finalStr;
 };
-
-export const CARTESIAN_CHART_LIST = [
-  'Dynamic Bar Chart',
-  'Bar Chart',
-  'Line Chart',
-  'Scatter Plot',
-  'Funnel Chart',
-  'Dual Axis Chart',
-  'Waterfall Chart',
-  'Box Plot Chart'
-];

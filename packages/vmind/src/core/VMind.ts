@@ -25,10 +25,7 @@ class VMind {
     if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
       return parseCSVDataWithGPT(csvString, userPrompt, this._options);
     }
-    if (this._model === Model.SKYLARK) {
-      return {};
-      //return parseCSVDataWithSkylark(csvString, userPrompt, this._options);
-    }
+    console.error('Unsupported Model!');
   }
 
   async generateChart(
@@ -42,6 +39,9 @@ class VMind {
       return generateChartWithGPT(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
     } else if (this._model == Model.SKYLARK) {
       return {};
+    }
+    if (this._model === Model.SKYLARK) {
+      return generateChartWithSkylark(userPrompt, fieldInfo);
     }
     return {};
   }

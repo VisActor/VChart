@@ -9,8 +9,8 @@ import {
   oneByOneGroupSize
 } from './constants';
 import { Context } from '../../typings';
-import { detectAxesType } from './utils';
 import { array } from '@visactor/vutils';
+import { detectAxesType } from './utils';
 
 // const chartTypeMap: { [chartName: string]: string } = {
 //   柱状图: "bar",

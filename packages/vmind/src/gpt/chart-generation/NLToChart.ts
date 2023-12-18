@@ -1,6 +1,10 @@
-import { DEFAULT_VIDEO_LENGTH, CHARTTYP_VIDEO_ELENGTH, SUPPORTED_CHART_LIST } from './constants';
+import {
+  DEFAULT_VIDEO_LENGTH,
+  CHARTTYP_VIDEO_ELENGTH,
+  SUPPORTED_CHART_LIST
+} from '../../common/vizDataToSpec/constants';
 import { DataItem, GPTChartAdvisorResult, IGPTOptions, LOCATION, SimpleFieldInfo, VizSchema } from '../../typings';
-import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from './vizDataToSpec';
+import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from '../../common/vizDataToSpec/vizDataToSpec';
 import { parseGPTResponse, requestGPT } from '../utils';
 import { patchUserInput } from './utils';
 import { chartAdvisorHandler } from '../../common/chartAdvisor/chartAdvisorHandler';
