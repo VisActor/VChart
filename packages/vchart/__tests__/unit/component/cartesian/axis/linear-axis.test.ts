@@ -130,7 +130,13 @@ test('config linearAxis.nice default [true] ', () => {
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
   spec = transformer.transformSpec(spec, {}).spec;
-  const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+  const linearAxis = CartesianAxis.createComponent(
+    {
+      type: CartesianAxis.getAxisInfo(spec).componentName,
+      spec
+    },
+    ctx
+  );
 
   linearAxis.created();
   linearAxis.init({});
@@ -150,7 +156,13 @@ test('config linearAxis.nice default [true] ', () => {
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
   spec = transformer.transformSpec(spec, {}).spec;
-  const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+  const linearAxis = CartesianAxis.createComponent(
+    {
+      type: CartesianAxis.getAxisInfo(spec).componentName,
+      spec
+    },
+    ctx
+  );
 
   linearAxis.created();
   linearAxis.init({});
@@ -170,7 +182,13 @@ test('nice === false  ', () => {
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
   spec = transformer.transformSpec(spec, {}).spec;
-  const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+  const linearAxis = CartesianAxis.createComponent(
+    {
+      type: CartesianAxis.getAxisInfo(spec).componentName,
+      spec
+    },
+    ctx
+  );
 
   linearAxis.created();
   linearAxis.init({});
@@ -191,7 +209,13 @@ test('zero === false && nice === false  ', () => {
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
   spec = transformer.transformSpec(spec, {}).spec;
-  const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+  const linearAxis = CartesianAxis.createComponent(
+    {
+      type: CartesianAxis.getAxisInfo(spec).componentName,
+      spec
+    },
+    ctx
+  );
 
   linearAxis.created();
   linearAxis.init({});
@@ -220,7 +244,13 @@ test('zero === true && range is specific  ', () => {
    *
    */
   {
-    const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(config).componentName, config, ctx);
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: CartesianAxis.getAxisInfo(config).componentName,
+        spec: config
+      },
+      ctx
+    );
     linearAxis.created();
     linearAxis.init({});
     // @ts-ignore
@@ -230,7 +260,13 @@ test('zero === true && range is specific  ', () => {
   }
   {
     const spec = { ...config, range: { min: -10, max: 2000 } };
-    const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: CartesianAxis.getAxisInfo(spec).componentName,
+        spec
+      },
+      ctx
+    );
     linearAxis.created();
     linearAxis.init({});
     // @ts-ignore
@@ -241,7 +277,13 @@ test('zero === true && range is specific  ', () => {
   {
     // range优先级要高于nice，一旦设置了max/min，nice不应该改变相应的值
     const spec = { ...config, zero: false, range: { max: 599 } };
-    const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: CartesianAxis.getAxisInfo(spec).componentName,
+        spec
+      },
+      ctx
+    );
     linearAxis.created();
     linearAxis.init({});
     // @ts-ignore
@@ -252,7 +294,13 @@ test('zero === true && range is specific  ', () => {
   {
     // range优先级要高于nice，一旦设置了max/min，nice不应该改变相应的值(d3 tick)
     const spec = { ...config, zero: false, range: { max: 599 }, tick: { tickMode: 'd3' } };
-    const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: CartesianAxis.getAxisInfo(spec).componentName,
+        spec
+      },
+      ctx
+    );
     linearAxis.created();
     linearAxis.init({});
     // @ts-ignore
@@ -263,7 +311,13 @@ test('zero === true && range is specific  ', () => {
   {
     // range优先级要高于nice，一旦设置了max/min，nice不应该改变相应的值
     const spec = { ...config, zero: false, range: { min: 199 } };
-    const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: CartesianAxis.getAxisInfo(spec).componentName,
+        spec
+      },
+      ctx
+    );
     linearAxis.created();
     linearAxis.init({});
     // @ts-ignore
@@ -285,7 +339,13 @@ test('expand', () => {
   config = transformer.transformSpec(config, {}).spec;
 
   {
-    const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(config).componentName, config, ctx);
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: CartesianAxis.getAxisInfo(config).componentName,
+        spec: config
+      },
+      ctx
+    );
     linearAxis.created();
     linearAxis.init({});
     // @ts-ignore
@@ -304,7 +364,13 @@ test('expand', () => {
    */
   {
     const spec = { ...config, range: { min: 500 } };
-    const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: CartesianAxis.getAxisInfo(spec).componentName,
+        spec
+      },
+      ctx
+    );
     linearAxis.created();
     linearAxis.init({});
     // @ts-ignore
@@ -322,7 +388,13 @@ test('expand', () => {
    */
   {
     const spec = { ...config, expand: { max: 0.2 } };
-    const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: CartesianAxis.getAxisInfo(spec).componentName,
+        spec
+      },
+      ctx
+    );
     linearAxis.created();
     linearAxis.init({});
     // @ts-ignore
@@ -343,9 +415,11 @@ test('extend', () => {
   config = transformer.transformSpec(config, {}).spec;
 
   {
-    const linearAxis = CartesianAxis.createAxis(
-      CartesianAxis.getAxisInfo(config).componentName,
-      config,
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: CartesianAxis.getAxisInfo(config).componentName,
+        spec: config
+      },
       ctx
     ) as CartesianLinearAxis;
     linearAxis.created();
@@ -363,9 +437,11 @@ test('extend', () => {
    */
   {
     const spec = { ...config, range: { min: 500, max: 800 } };
-    const linearAxis = CartesianAxis.createAxis(
-      CartesianAxis.getAxisInfo(spec).componentName,
-      spec,
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: CartesianAxis.getAxisInfo(spec).componentName,
+        spec
+      },
       ctx
     ) as CartesianLinearAxis;
     linearAxis.created();
@@ -391,7 +467,13 @@ test('niceDomain should work when domain is 0, and user does not set min or max'
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
   spec = transformer.transformSpec(spec, {}).spec;
-  const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+  const linearAxis = CartesianAxis.createComponent(
+    {
+      type: CartesianAxis.getAxisInfo(spec).componentName,
+      spec
+    },
+    ctx
+  );
 
   linearAxis.created();
   linearAxis.init({});
@@ -416,7 +498,13 @@ test('niceDomain should not work when user set min or max', () => {
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
   spec = transformer.transformSpec(spec, {}).spec;
-  const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+  const linearAxis = CartesianAxis.createComponent(
+    {
+      type: CartesianAxis.getAxisInfo(spec).componentName,
+      spec
+    },
+    ctx
+  );
 
   linearAxis.created();
   linearAxis.init({});
@@ -444,7 +532,13 @@ test('dynamic tickCount', () => {
     getTheme: () => ThemeManager.getCurrentTheme()
   }) as CartesianAxisSpecTransformer;
   spec = transformer.transformSpec(spec, {}).spec;
-  const linearAxis = CartesianAxis.createAxis(CartesianAxis.getAxisInfo(spec).componentName, spec, ctx);
+  const linearAxis = CartesianAxis.createComponent(
+    {
+      type: CartesianAxis.getAxisInfo(spec).componentName,
+      spec
+    },
+    ctx
+  );
 
   linearAxis.created();
   linearAxis.init({});

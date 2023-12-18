@@ -75,14 +75,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new DataZoom(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
 

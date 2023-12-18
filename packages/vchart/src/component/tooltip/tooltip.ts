@@ -89,14 +89,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new Tooltip(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   tooltipHandler?: ITooltipHandler;
 
   private _alwaysShow: boolean = false;

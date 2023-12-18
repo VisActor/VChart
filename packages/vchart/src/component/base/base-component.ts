@@ -16,16 +16,23 @@ import type { Datum, ILayoutRect } from '../../typings';
 import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
 import { BaseComponentSpecTransformer } from './spec-transformer';
+import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 
-export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
-  extends LayoutModel<T>
-  implements IComponent
-{
+export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends LayoutModel<T> implements IComponent {
   static transformerConstructor = BaseComponentSpecTransformer;
   name: string = 'component';
   readonly modelType: string = 'component';
   readonly transformerConstructor = BaseComponentSpecTransformer as any;
   pluginService?: IComponentPluginService;
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    return new this(spec, {
+      ...options,
+      ...others
+    });
+  }
+
   protected declare _option: IComponentOption;
 
   protected _regions: IRegion[];
@@ -59,8 +66,15 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
     this._layout && (this._layout.layoutBindRegionID = this._regions.map(x => x?.id));
   }
 
-  abstract changeRegions(regions: IRegion[]): void;
-  protected abstract _getNeedClearVRenderComponents(): IGraphic[];
+  changeRegions(regions: IRegion[]): void {
+    throw new Error('Method not implemented.');
+  }
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
+    throw new Error('Method not implemented.');
+  }
+  onRender(ctx: IModelRenderOption): void {
+    throw new Error('Method not implemented.');
+  }
 
   getVRenderComponents() {
     return this._getNeedClearVRenderComponents();

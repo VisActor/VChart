@@ -105,14 +105,6 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new CartesianCrossHair(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._currValueX = new Map();

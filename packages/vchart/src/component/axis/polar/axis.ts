@@ -73,15 +73,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   private _axisStyle: any;
   private _gridStyle: any;
 
-  static createAxis(type: string, spec: any, options: IComponentOption): IPolarAxis {
-    const C = Factory.getComponentInKey(type);
-    if (C) {
-      return new C(spec, options) as IPolarAxis;
-    }
-    options.onError(`Component ${type} not found`);
-    return null;
-  }
-
   static getAxisInfo = (spec: IPolarAxisCommonSpec) => {
     // TODO: 基于数据处理 axis 类型
     const axisType = spec.type ?? (spec.orient === 'angle' ? 'band' : 'linear');
@@ -148,10 +139,15 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
     const { spec, ...others } = specInfo;
-    return PolarAxis.createAxis(others.type, spec, {
-      ...options,
-      ...others
-    }) as IPolarAxis;
+    const C = Factory.getComponentInKey(others.type);
+    if (C) {
+      return new C(spec, {
+        ...options,
+        ...others
+      }) as IPolarAxis;
+    }
+    options.onError(`Component ${others.type} not found`);
+    return null;
   }
 
   effect: IEffect = {

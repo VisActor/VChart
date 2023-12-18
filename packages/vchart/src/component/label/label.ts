@@ -88,14 +88,6 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
     return specInfo;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new Label(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   init(option: IModelInitOption): void {
     super.init(option);
     this.initEvent();

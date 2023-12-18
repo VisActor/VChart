@@ -80,14 +80,6 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new Indicator(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   created() {
     super.created();
     // data

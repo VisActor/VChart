@@ -44,14 +44,6 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     ];
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new CustomMark(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   created() {
     super.created();
     this.initMarks();

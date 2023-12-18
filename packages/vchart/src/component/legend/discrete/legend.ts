@@ -65,14 +65,6 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new DiscreteLegend(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   init(option: IModelInitOption): void {
     super.init(option);
     eachSeries(
