@@ -174,8 +174,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       return false;
     }
     const axisScale = axis.getScale() as IBandLikeScale;
-    const axisSpec = axis.getSpec() as ICartesianBandAxisSpec;
-    return axisScale.range()[0] > axisScale.range()[1] && (!axisSpec.inverse || this._isHorizontal);
+    return axisScale.range()[0] > axisScale.range()[1] && (!axis.getInverse() || this._isHorizontal);
   }
 
   protected _updateRangeFactor(tag?: string, label?: string) {
@@ -904,9 +903,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
     let isShown = true;
     if (this._isHorizontal && rect?.width !== this._cacheRect?.width) {
-      axisScale.range(axisSpec.inverse ? [rect.width, 0] : [0, rect.width]);
+      axisScale.range(axis.getInverse() ? [rect.width, 0] : [0, rect.width]);
     } else if (rect?.height !== this._cacheRect?.height) {
-      axisScale.range(axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
+      axisScale.range(axis.getInverse() ? [0, rect.height] : [rect.height, 0]);
     }
 
     this._cacheRect = {

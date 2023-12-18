@@ -96,8 +96,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   private _verticalLimitSize: number;
   private _unitText: IText;
 
-  protected _inverse: boolean;
-
   protected _layoutCache: {
     width: number;
     height: number;

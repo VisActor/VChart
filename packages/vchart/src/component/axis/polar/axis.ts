@@ -180,6 +180,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     const endAngle = this._spec.endAngle ?? chartSpec.endAngle;
     this._startAngle = degreeToRadian(startAngle ?? POLAR_START_ANGLE);
     this._endAngle = degreeToRadian(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
+    this._inverse = this._spec.inverse;
   }
 
   _transformLayoutPosition = (pos: Partial<IPoint>) => {
@@ -236,16 +237,15 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   protected updateScaleRange() {
-    const inverse = this._spec.inverse;
     const prevRange = this._scale.range();
     let newRange: [number, number];
 
     if (this.getOrient() === 'radius') {
-      newRange = inverse
+      newRange = this._inverse
         ? [this.computeLayoutOuterRadius(), this.computeLayoutInnerRadius()]
         : [this.computeLayoutInnerRadius(), this.computeLayoutOuterRadius()];
     } else {
-      newRange = inverse ? [this._endAngle, this._startAngle] : [this._startAngle, this._endAngle];
+      newRange = this._inverse ? [this._endAngle, this._startAngle] : [this._startAngle, this._endAngle];
     }
 
     if (prevRange && newRange && prevRange[0] === newRange[0] && prevRange[1] === newRange[1]) {
