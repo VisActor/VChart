@@ -87,6 +87,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     return this._visible;
   }
 
+  /** 轴是否产生反转的真实值，在横向图表的竖轴上可能和用户在 spec 上配的值相反 */
+  protected _inverse: boolean;
+  getInverse() {
+    return this._inverse;
+  }
+
   protected _tick: ITick | undefined = undefined;
   protected abstract computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[];
   abstract valueToPosition(value: any): number;

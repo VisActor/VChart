@@ -14,6 +14,7 @@ export interface IAxis extends IComponent {
   getScale: () => IBaseScale;
   getScales: () => IBaseScale[];
   getOrient: () => ICartesianAxisSpec['orient'] | IPolarOrientType;
+  getInverse: () => boolean;
   visible: boolean;
   // 标记轴的方向，左到右，右到左，上到下，下到上
   directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
