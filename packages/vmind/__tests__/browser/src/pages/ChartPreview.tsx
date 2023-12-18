@@ -3,7 +3,7 @@ import './index.scss';
 import { Button, Input, Card, Space, Modal, Spin } from '@arco-design/web-react';
 import { defaultTicker } from '@visactor/vrender';
 import { default as VChart } from '@visactor/vchart';
-import VMind from '../../../../src/';
+import VMind from '../../../../src';
 const TextArea = Input.TextArea;
 
 type IPropsType = {
@@ -30,7 +30,7 @@ function downloadVideo(link: string, filename = 'out') {
   a.dispatchEvent(new MouseEvent('click'));
 }
 
-export function RightChart(props: IPropsType) {
+export function ChartPreview(props: IPropsType) {
   const [chartSpace, setChartSpace] = useState<VChart | null>(null);
   const [generating, setGenerating] = useState<boolean>(false);
   const [outType, setOutType] = useState<'gif' | 'video' | ''>('');

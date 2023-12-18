@@ -1,80 +1,49 @@
 import { _chatToVideoWasm } from '../chart-to-video';
-import {
-  chartAdvisorGPT,
-  dataProcessVChart,
-  dataProcessGPT,
-  estimateVideoTime,
-  getSchemaFromFieldInfo
-} from '../gpt/chart-generation/NLToChartPipe';
-import { GPTDataProcessResult, IGPTOptions, TimeType } from '../typings';
-import { patchUserInput } from '../gpt/chart-generation/utils';
-import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from '../gpt/chart-generation/vizDataToSpec';
+import { generateChartWithGPT } from '../gpt/chart-generation/NLToChart';
+import { IGPTOptions, TimeType, Model, SimpleFieldInfo, DataItem } from '../typings';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
-import { chartAdvisorHandler } from '../gpt/chart-generation/chartAdvisorHandler';
+import { parseCSVDataWithGPT } from '../gpt/dataProcess';
+import { parseCSVData as parseCSVDataWithRule } from '../common/dataProcess';
 
 class VMind {
-  private _OPENAI_KEY: string | undefined = undefined;
   private _FPS = 30;
   private _options: IGPTOptions | undefined;
+  private _model: Model;
 
-  constructor(key: string, options?: IGPTOptions) {
-    this.setOpenAIKey(key);
+  constructor(options?: IGPTOptions) {
     this._options = options;
+    this._model = options.model;
   }
 
-  setOpenAIKey(key: string) {
-    this._OPENAI_KEY = key;
+  parseCSVData(csvString: string): { fieldInfo: SimpleFieldInfo[]; dataset: DataItem[] } {
+    //Parse CSV Data without LLM
+    //return dataset and fieldInfo
+    return parseCSVDataWithRule(csvString);
   }
 
-  async generateChart(csvFile: string, userInput: string) {
-    const dataView = dataProcessVChart(csvFile);
-    const userInputFinal = patchUserInput(userInput);
-
-    const dataProcessResJson: GPTDataProcessResult = await dataProcessGPT(
-      csvFile,
-      userInputFinal,
-      this._OPENAI_KEY,
-      this._options
-    );
-    const schema = getSchemaFromFieldInfo(dataProcessResJson);
-
-    const colors = dataProcessResJson.COLOR_PALETTE;
-    const parsedTime = dataProcessResJson.VIDEO_DURATION;
-    let chartType;
-    let cell;
-    let dataset = dataView.latestData;
-    try {
-      // throw 'test chartAdvisorHandler';
-      const resJson: any = await chartAdvisorGPT(
-        schema,
-        dataProcessResJson,
-        userInput,
-        this._OPENAI_KEY,
-        this._options
-      );
-
-      const chartTypeRes = resJson['CHART_TYPE'].toUpperCase();
-      const cellRes = resJson['FIELD_MAP'];
-      const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset);
-      if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
-        chartType = patchResult.chartTypeNew;
-        cell = patchResult.cellNew;
-      }
-    } catch (err) {
-      console.warn(err);
-      console.warn('LLM generation error, use rule generation.');
-      const advisorResult = chartAdvisorHandler(schema, dataset);
-      chartType = advisorResult.chartType;
-      cell = advisorResult.cell;
-      dataset = advisorResult.dataset;
+  parseCSVDataWithLLM(csvString: string, userPrompt: string) {
+    if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
+      return parseCSVDataWithGPT(csvString, userPrompt, this._options);
     }
-    const spec = vizDataToSpec(dataset, chartType, cell, colors, parsedTime ? parsedTime * 1000 : undefined);
-    spec.background = '#00000033';
-    console.info(spec);
-    return {
-      spec,
-      time: estimateVideoTime(chartType, spec, parsedTime ? parsedTime * 1000 : undefined)
-    };
+    if (this._model === Model.SKYLARK) {
+      return {};
+      //return parseCSVDataWithSkylark(csvString, userPrompt, this._options);
+    }
+  }
+
+  async generateChart(
+    userPrompt: string, //user's intent of visualization, usually aspect in data that they want to visualize
+    fieldInfo: SimpleFieldInfo[],
+    dataset: DataItem[],
+    colorPalette?: string[],
+    animationDuration?: number
+  ) {
+    if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
+      return generateChartWithGPT(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
+    } else if (this._model == Model.SKYLARK) {
+      return {};
+    }
+    return {};
   }
 
   async exportVideo(

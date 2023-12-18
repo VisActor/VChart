@@ -1,1 +1,1 @@
-export * from './NLToChartPipe';
+export * from './NLToChart';

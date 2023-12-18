@@ -69,32 +69,6 @@ export const dataProcessVChart = (csvFile: string) => {
   return dataView;
 };
 
-/*
- ** GPT数据预处理，进行字段信息总结和字段筛选
- */
-export const dataProcessGPT = async (
-  csvFile: string,
-  userInput: string,
-  openAIKey: string | undefined,
-  options: IGPTOptions | undefined
-) => {
-  const DATA_TOP_N = 5; //取csv文件的前多少条数据
-  const topNCSVFile = readTopNLine(csvFile, DATA_TOP_N);
-  const dataProcessMessage = `CSV file content:\n${topNCSVFile}\nUser Input: ${userInput}`;
-  const dataProcessRes = await requestGPT(openAIKey as string, DataProcessPromptEnglish, dataProcessMessage, options);
-  // const dataProcessRes = getMockData1()
-  // const dataProcessRes = getMockDataWordCloud1()
-  // const dataProcessRes = getMockDataDynamicBar();
-
-  const dataProcessResJson = parseGPTResponse(dataProcessRes);
-  if (!dataProcessResJson.error) {
-    return dataProcessResJson;
-  } else {
-    //传统方法做兜底
-    return dataProcessResJson;
-  }
-};
-
 export const chartAdvisorGPT = async (
   schema: Partial<VizSchema>,
   dataProcessResJson: GPTDataProcessResult,

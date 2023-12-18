@@ -25,6 +25,7 @@ import {
 } from '../constants/mockData';
 import { excel2csv } from '../../../../src/excel';
 import VMind from '../../../../src/index';
+import { Model } from '../../../../src/typings';
 
 const TextArea = Input.TextArea;
 const Option = Select.Option;
@@ -60,7 +61,7 @@ const demoDataList: { [key: string]: any } = {
   'Global GDP': mockUserInput6Eng,
   'Sales of different drinkings': mockUserInput3Eng
 };
-export function LeftInput(props: IPropsType) {
+export function DataInput(props: IPropsType) {
   const defaultDataKey = Object.keys(demoDataList)[0];
   const [describe, setDescribe] = useState<string>(demoDataList[defaultDataKey].input);
   const [csv, setCsv] = useState<string>(demoDataList[defaultDataKey].csv);
@@ -73,36 +74,12 @@ export function LeftInput(props: IPropsType) {
 
   const askGPT = useCallback(async () => {
     setLoading(true);
-    const { spec, time } = await vmind.generateChart(csv, describe);
+    //const {fieldInfo,dataset}=vmind.parseCSVData(csv)
+    const { fieldInfo, dataset } = await vmind.parseDataWithGPT(csv, describe);
+    const { spec, time } = await vmind.generateChart(Model.GPT3_5, describe, fieldInfo, dataset);
     props.onSpecGenerate(spec, time as any);
     setLoading(false);
   }, [vmind, csv, describe, props]);
-
-  const isAcceptFile = useCallback((file, accept) => {
-    if (accept && file) {
-      const accepts = Array.isArray(accept)
-        ? accept
-        : accept
-            .split(',')
-            .map((x: string) => x.trim())
-            .filter((x: string) => x);
-      const fileExtension = file.name.indexOf('.') > -1 ? file.name.split('.').pop() : '';
-      return accepts.some((type: string) => {
-        const text = type && type.toLowerCase();
-        const fileType = (file.type || '').toLowerCase();
-        if (text === fileType) {
-          // 类似excel文件这种
-          // 比如application/vnd.ms-excel和application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-          // 本身就带有.字符的，不能走下面的.jpg等文件扩展名判断处理
-          // 所以优先对比input的accept类型和文件对象的type值
-          return true;
-        }
-        return false;
-      });
-    }
-
-    return !!file;
-  }, []);
 
   return (
     <div className="left-sider">
