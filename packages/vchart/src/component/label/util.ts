@@ -20,7 +20,8 @@ export const labelRuleMap = {
   stackLabel: stackLabel,
   line: LineLabel,
   area: LineLabel,
-  rect3d: barLabel
+  rect3d: barLabel,
+  arc3d: pieLabel
 };
 
 export function textAttribute(

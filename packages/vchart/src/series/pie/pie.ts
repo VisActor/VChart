@@ -11,10 +11,6 @@ import {
   ARC_QUADRANT,
   ARC_K,
   PREFIX,
-  ARC_LABEL_POINT_BX,
-  ARC_LABEL_POINT_BY,
-  ARC_LABEL_POINT_CX,
-  ARC_LABEL_POINT_CY,
   DEFAULT_LABEL_VISIBLE,
   POLAR_START_RADIAN,
   POLAR_END_RADIAN,
@@ -310,21 +306,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     };
   }
 
-  protected generateLinePath(state: StateValueType) {
-    const key = state === 'normal' ? 'POINT' : state.toUpperCase();
-    return {
-      path: (datum: Datum) => {
-        return (
-          `M${Math.round(datum[`${PREFIX}_ARC_LABEL_${key}_AX`])},${Math.round(
-            datum[`${PREFIX}_ARC_LABEL_${key}_AY`]
-          )}` +
-          ` L${Math.round(datum[ARC_LABEL_POINT_BX])},${Math.round(datum[ARC_LABEL_POINT_BY])}` +
-          ` L${Math.round(datum[ARC_LABEL_POINT_CX])},${Math.round(datum[ARC_LABEL_POINT_CY])}`
-        );
-      }
-    };
-  }
-
   getRadius(state: StateValueType = 'normal'): number {
     const styleRadius =
       state === 'normal'
@@ -339,37 +320,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         ? this.getSpec()[this._pieMark?.name || 'pie']?.style?.innerRadius
         : this.getSpec()[this._pieMark?.name || 'pie']?.state?.[state]?.innerRadius;
     return styleRadius ?? this._innerRadius;
-  }
-
-  getLabelConfig(): IArcLabelSpec {
-    // TODO: 转换 series spec
-    return {
-      visible: true,
-      position: 'outside',
-      showRule: 'all',
-      rotate: true,
-      coverEnable: false,
-      spaceWidth: 5,
-      layoutArcGap: 6,
-      ...this._spec.label,
-
-      style: {
-        visible: true,
-        ...this._spec.label?.style
-      },
-      line: {
-        visible: true,
-        line1MinLength: this._spec.label?.line?.line1MinLength ?? 20,
-        line2MinLength: this._spec.label?.line?.line2MinLength ?? 10,
-        ...this._spec.label?.line
-      },
-      layout: {
-        align: 'arc',
-        strategy: 'priority',
-        tangentConstraint: true,
-        ...this._spec.label?.layout
-      }
-    };
   }
 
   computeRadius(r: number, k?: number): number {
