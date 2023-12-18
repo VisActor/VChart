@@ -434,7 +434,7 @@ export interface IVChart {
   getSpecInfo: () => IChartSpecInfo;
 
   /** 设置运行时 spec */
-  setRuntimeSpec: (spec: any) => IVChart;
+  setRuntimeSpec: (spec: any) => void;
 
   /** 获取运行时 spec */
   getSpec: () => any;

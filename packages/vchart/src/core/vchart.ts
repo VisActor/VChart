@@ -1865,7 +1865,6 @@ export class VChart implements IVChart {
   setRuntimeSpec(spec: any) {
     this._spec = spec;
     this._updateSpecInfo();
-    return this as IVChart;
   }
 
   private _initChartPlugin() {
