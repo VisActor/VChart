@@ -119,6 +119,7 @@ export interface ICompilableMark extends IGrammarItem {
 
   // 是否支持 3d
   getSupport3d: () => boolean | undefined;
+  setSupport3d: (support3d: boolean) => void;
 
   compile: (option?: IMarkCompileOption) => void;
 

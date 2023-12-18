@@ -288,7 +288,6 @@ export interface IArcSeries extends IPolarSeries {
   center: (() => IPoint) | IPoint;
   getRadius: (state?: StateValueType) => number;
   getInnerRadius: (state?: StateValueType) => number;
-  getLabelConfig: () => IArcLabelSpec;
 
   computeRadius: (r: number, k?: number) => number;
   computeDatumRadius: (datum: any, state?: StateValueType) => number;
