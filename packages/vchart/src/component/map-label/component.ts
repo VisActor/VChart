@@ -65,14 +65,6 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     ];
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new MapLabelComponent(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   setAttrFromSpec(): void {
     this.nameField = this._spec.nameField ?? this._series?.getDimensionField()[0];
     this.valueField = this._spec.valueField ?? this._series?.getMeasureField()[0];

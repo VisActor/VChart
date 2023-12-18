@@ -105,15 +105,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._dataSet = options.dataSet;
   }
 
-  static createAxis(type: string, spec: any, options: IComponentOption): IAxis {
-    const C = Factory.getComponentInKey(type);
-    if (C) {
-      return new C(spec, options) as IAxis;
-    }
-    options.onError(`Component ${type} not found`);
-    return null;
-  }
-
   static getAxisInfo(spec: ICartesianAxisCommonSpec, isHorizontal?: boolean) {
     const axisType = spec.type ?? autoAxisType(spec.orient, isHorizontal);
     const componentName = `${CartesianAxis.type}-${axisType}`;
@@ -180,10 +171,15 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
   static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
     const { spec, ...others } = specInfo;
-    return CartesianAxis.createAxis(others.type, spec, {
-      ...options,
-      ...others
-    }) as IAxis;
+    const C = Factory.getComponentInKey(others.type);
+    if (C) {
+      return new C(spec, {
+        ...options,
+        ...others
+      }) as IAxis;
+    }
+    options.onError(`Component ${others.type} not found`);
+    return null;
   }
 
   initLayout(): void {

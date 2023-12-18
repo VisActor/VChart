@@ -58,14 +58,6 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new MarkPoint(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   protected _createMarkerComponent() {
     const itemContent = this._spec.itemContent ?? {};
     const itemContentText = itemContent.text ?? {};

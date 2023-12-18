@@ -60,14 +60,6 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new MarkArea(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   protected _createMarkerComponent() {
     const label = this._spec.label ?? {};
     const { labelBackground = {} } = label;

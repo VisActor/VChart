@@ -78,14 +78,6 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new MarkLine(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   protected _createMarkerComponent() {
     const {
       label = {},

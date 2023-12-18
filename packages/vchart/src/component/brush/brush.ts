@@ -103,14 +103,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     ];
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new Brush(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   created() {
     super.created();
 

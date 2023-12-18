@@ -88,14 +88,6 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new GeoCoordinate(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   effect: IEffect = {
     scaleUpdate: () => {
       this.coordinateHelper();

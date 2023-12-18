@@ -59,14 +59,6 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new ScrollBar(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   constructor(spec: T, options: IComponentOption) {
     super(spec as any, options);
     this._filterMode = spec.filterMode ?? IFilterMode.axis;

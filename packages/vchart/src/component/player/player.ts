@@ -69,14 +69,6 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     ];
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new Player(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   /**
    * 设置Attr
    */

@@ -98,7 +98,7 @@ import { View, registerFilterTransform, registerMapTransform } from '@visactor/v
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
-import { cloneDeepSpec, mergeTheme, preprocessTheme } from '../util/spec';
+import { mergeTheme, preprocessTheme } from '../util/spec';
 import { darkTheme, registerTheme } from '../theme/builtin';
 
 export class VChart implements IVChart {
@@ -395,16 +395,20 @@ export class VChart implements IVChart {
     if (isString(spec)) {
       spec = JSON.parse(spec);
     }
-    if (forceMerge && this._spec) {
-      spec = mergeSpec({}, this._spec, spec);
+    if (forceMerge && this._originalSpec) {
+      spec = mergeSpec({}, this._originalSpec, spec);
     }
-    spec = specTransform(spec) as any;
+    this._originalSpec = spec;
+    this._spec = this._getSpecFromOriginalSpec();
+    return true;
+  }
+
+  private _getSpecFromOriginalSpec() {
+    // 转换在实例上注册的函数 + 深拷贝 spec，保证 _originalSpec 和 _spec 的不同
+    const spec = specTransform(this._originalSpec) as any;
     // because of in data-init, data will be set as array;
     spec.data = spec.data ?? [];
-
-    this._originalSpec = cloneDeepSpec(spec);
-    this._spec = spec;
-    return true;
+    return spec;
   }
 
   private _initChartSpec(spec: any) {
@@ -1313,7 +1317,7 @@ export class VChart implements IVChart {
 
   protected _setCurrentTheme(name: string) {
     this._updateCurrentTheme(name);
-    this._initChartSpec(cloneDeepSpec(this._originalSpec));
+    this._initChartSpec(this._getSpecFromOriginalSpec());
     this._chart?.setCurrentTheme();
     return () => ({ change: true, reMake: false });
   }

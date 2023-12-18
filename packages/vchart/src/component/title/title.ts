@@ -75,14 +75,6 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
     return specInfos;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new Title(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   onRender(ctx: any): void {
     // do nothing
   }

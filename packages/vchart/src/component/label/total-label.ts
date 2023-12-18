@@ -52,14 +52,6 @@ export class TotalLabel extends BaseLabelComponent {
     return specInfo;
   }
 
-  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
-    const { spec, ...others } = specInfo;
-    return new TotalLabel(spec, {
-      ...options,
-      ...others
-    });
-  }
-
   init(option: IModelInitOption): void {
     super.init(option);
     this._initTextMark();
