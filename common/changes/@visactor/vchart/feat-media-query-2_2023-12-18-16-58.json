@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: vchart supports chart-level plugin, related #1784",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
