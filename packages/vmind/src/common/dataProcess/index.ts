@@ -1,5 +1,5 @@
 import { DataSet, DataView, csvParser, fold } from '@visactor/vdataset';
-import { DataItem, IGPTOptions, SimpleFieldInfo } from '../../typings';
+import { DataItem, SimpleFieldInfo } from '../../typings';
 import { getFieldInfoFromDataset } from './utils';
 
 export const parseCSVWithVChart = (csvString: string) => {

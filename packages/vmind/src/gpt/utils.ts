@@ -1,15 +1,15 @@
-import { GPTDataProcessResult, IGPTOptions } from '../typings';
+import { GPTDataProcessResult, ILLMOptions } from '../typings';
 import axios from 'axios';
 import JSON5 from 'json5';
 
-export const requestGPT = async (prompt: string, userMessage: string, options: IGPTOptions | undefined) => {
+export const requestGPT = async (prompt: string, userMessage: string, options: ILLMOptions | undefined) => {
   const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
   const url: string = options?.url ?? OPENAI_API_URL;
-  const defaultHeaders: HeadersInit = { 'Content-Type': 'application/json' };
 
+  const headers = { ...(options.headers ?? {}), 'Content-Type': 'application/json' };
   const res = await axios(url, {
     method: options?.method ?? 'POST',
-    headers: options?.headers ?? (defaultHeaders as any), //must has Authorization: `Bearer ${openAIKey}` if use openai api
+    headers, //must has Authorization: `Bearer ${openAIKey}` if use openai api
     data: {
       model: options?.model ?? 'gpt-3.5-turbo',
       messages: [

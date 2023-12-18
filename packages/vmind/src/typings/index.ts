@@ -1,4 +1,4 @@
-export interface IGPTOptions {
+export interface ILLMOptions {
   url?: string;
   /** gpt request header, which has higher priority */
   headers?: HeadersInit;
@@ -107,7 +107,7 @@ export type VizSchema = {
 export enum Model {
   GPT3_5 = 'gpt-3.5',
   GPT4 = 'gpt-3.5',
-  SKYLARK = 'skylark'
+  SKYLARK = 'skylark-pro'
 }
 
 export type ChartGenerationProps = {

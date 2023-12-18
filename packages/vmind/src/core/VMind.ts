@@ -1,26 +1,40 @@
 import { _chatToVideoWasm } from '../chart-to-video';
 import { generateChartWithGPT } from '../gpt/chart-generation/NLToChart';
-import { IGPTOptions, TimeType, Model, SimpleFieldInfo, DataItem } from '../typings';
+import { ILLMOptions, TimeType, Model, SimpleFieldInfo, DataItem } from '../typings';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { parseCSVDataWithGPT } from '../gpt/dataProcess';
 import { parseCSVData as parseCSVDataWithRule } from '../common/dataProcess';
+import { generateChartWithSkylark } from '../skylark/chart-generation';
 
 class VMind {
   private _FPS = 30;
-  private _options: IGPTOptions | undefined;
+  private _options: ILLMOptions | undefined;
   private _model: Model;
 
-  constructor(options?: IGPTOptions) {
-    this._options = options;
+  constructor(options?: ILLMOptions) {
+    this._options = { ...(options ?? {}) };
     this._model = options.model;
   }
 
+  /**
+   * parse csv string and get the name, type of each field using rule-based method.
+   * @param csvString csv data user want to visualize
+   * @returns fieldInfo and raw dataset.
+   */
   parseCSVData(csvString: string): { fieldInfo: SimpleFieldInfo[]; dataset: DataItem[] } {
     //Parse CSV Data without LLM
     //return dataset and fieldInfo
     return parseCSVDataWithRule(csvString);
   }
 
+  /**
+   * call LLM to parse csv data. return fieldInfo and raw dataset.
+   * fieldInfo includes name, type, role, description of each field.
+   * NOTE: This will transfer your data to LLM.
+   * @param csvString csv data user want to visualize
+   * @param userPrompt
+   * @returns
+   */
   parseCSVDataWithLLM(csvString: string, userPrompt: string) {
     if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
       return parseCSVDataWithGPT(csvString, userPrompt, this._options);
@@ -28,6 +42,15 @@ class VMind {
     console.error('Unsupported Model!');
   }
 
+  /**
+   *
+   * @param userPrompt user's visualization intention (what aspect they want to show in the data)
+   * @param fieldInfo information about fields in the dataset. field name, type, etc. You can get fieldInfo using parseCSVData or parseCSVDataWithLLM
+   * @param dataset raw dataset used in the chart
+   * @param colorPalette color palette of the chart
+   * @param animationDuration duration of chart animation.
+   * @returns spec and time duration of the chart.
+   */
   async generateChart(
     userPrompt: string, //user's intent of visualization, usually aspect in data that they want to visualize
     fieldInfo: SimpleFieldInfo[],
@@ -37,11 +60,9 @@ class VMind {
   ) {
     if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
       return generateChartWithGPT(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
-    } else if (this._model == Model.SKYLARK) {
-      return {};
     }
     if (this._model === Model.SKYLARK) {
-      return generateChartWithSkylark(userPrompt, fieldInfo);
+      return generateChartWithSkylark(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
     }
     return {};
   }

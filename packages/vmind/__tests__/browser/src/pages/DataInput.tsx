@@ -23,7 +23,6 @@ import {
   mockUserInput14,
   mockUserInput16
 } from '../constants/mockData';
-import { excel2csv } from '../../../../src/excel';
 import VMind from '../../../../src/index';
 import { Model } from '../../../../src/typings';
 
@@ -68,15 +67,24 @@ export function DataInput(props: IPropsType) {
   const [spec, setSpec] = useState<string>('');
   const [time, setTime] = useState<number>(1000);
   const [loading, setLoading] = useState<boolean>(false);
-  const vmind = new VMind(import.meta.env.OPENAI_KEY!, {
-    url: import.meta.env.VITE_OPENAI_URL ?? undefined
+  //const vmind = new VMind({
+  //  url: import.meta.env.VITE_OPENAI_URL ?? undefined,
+  //  model:Model.GPT3_5
+  //});
+
+  const vmind = new VMind({
+    url: import.meta.env.VITE_SKYLARK_URL ?? undefined,
+    model: Model.SKYLARK,
+    headers: {
+      'api-key': import.meta.env.VITE_SKYLARK_KEY
+    }
   });
 
   const askGPT = useCallback(async () => {
     setLoading(true);
-    //const {fieldInfo,dataset}=vmind.parseCSVData(csv)
-    const { fieldInfo, dataset } = await vmind.parseDataWithGPT(csv, describe);
-    const { spec, time } = await vmind.generateChart(Model.GPT3_5, describe, fieldInfo, dataset);
+    const { fieldInfo, dataset } = vmind.parseCSVData(csv);
+    //const { fieldInfo, dataset } = await vmind.parseCSVDataWithLLM(csv, describe);
+    const { spec, time } = await vmind.generateChart(describe, fieldInfo, dataset);
     props.onSpecGenerate(spec, time as any);
     setLoading(false);
   }, [vmind, csv, describe, props]);

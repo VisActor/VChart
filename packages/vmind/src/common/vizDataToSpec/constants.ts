@@ -19,7 +19,7 @@ export const oneByOneGroupSize = 10; //one-by-one动画 10个点一组
 export const DEFAULT_VIDEO_LENGTH = 2000;
 export const DEFAULT_PIE_VIDEO_LENGTH = 5000;
 export const DEFAULT_VIDEO_LENGTH_LONG = 10000;
-export const CHARTTYP_VIDEO_ELENGTH: Record<string, number> = {
+export const VIDEO_LENGTH_BY_CHART_TYPE: Record<string, number> = {
   pie: DEFAULT_PIE_VIDEO_LENGTH,
   wordCloud: DEFAULT_VIDEO_LENGTH_LONG,
   wordcloud: DEFAULT_VIDEO_LENGTH_LONG

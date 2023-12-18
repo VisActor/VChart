@@ -1,14 +1,15 @@
-import { SUPPORTED_CHART_LIST } from '../../common/vizDataToSpec/constants';
-import { DataItem, GPTChartAdvisorResult, ILLMOptions, LOCATION, SimpleFieldInfo, VizSchema } from '../../typings';
-import { checkChartTypeAndCell, vizDataToSpec } from '../../common/vizDataToSpec';
-import { parseGPTResponse, requestGPT } from '../utils';
-import { patchChartTypeAndCell, patchUserInput } from './utils';
-import { ChartAdvisorPromptEnglish } from './prompts';
+import axios from 'axios';
 import { chartAdvisorHandler } from '../../common/chartAdvisor';
-import { estimateVideoTime } from '../../common/vizDataToSpec/utils';
 import { getSchemaFromFieldInfo } from '../../common/schema';
+import { SUPPORTED_CHART_LIST, checkChartTypeAndCell, vizDataToSpec } from '../../common/vizDataToSpec';
+import { DataItem, ILLMOptions, SimpleFieldInfo, VizSchema } from '../../typings';
+import { patchChartTypeAndCell, requestSkyLark } from './utils';
+import { ChartRecommendPrompt } from './prompts';
+import { parseSkylarkResponse } from '../utils';
+import { ChartRecommendResult } from '../typings';
+import { estimateVideoTime } from '../../common/vizDataToSpec/utils';
 
-export const generateChartWithGPT = async (
+export const generateChartWithSkylark = async (
   userPrompt: string, //user's intent of visualization, usually aspect in data that they want to visualize
   fieldInfo: SimpleFieldInfo[],
   propsDataset: DataItem[],
@@ -16,7 +17,6 @@ export const generateChartWithGPT = async (
   colorPalette?: string[],
   animationDuration?: number
 ) => {
-  const userInputFinal = patchUserInput(userPrompt);
   const schema = getSchemaFromFieldInfo(fieldInfo);
   const colors = colorPalette;
   let chartType;
@@ -24,10 +24,10 @@ export const generateChartWithGPT = async (
   let dataset: DataItem[] = propsDataset;
   try {
     // throw 'test chartAdvisorHandler';
-    const resJson: any = await chartAdvisorGPT(schema, userInputFinal, options);
+    const resJson: any = await chartAdvisorSkylark(schema, fieldInfo, userPrompt, options);
 
-    const chartTypeRes = resJson['CHART_TYPE'].toUpperCase();
-    const cellRes = resJson['FIELD_MAP'];
+    const chartTypeRes = resJson.chartType.toUpperCase();
+    //TODO: request skylark for cell according to chartType
     const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset);
     if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
       chartType = patchResult.chartTypeNew;
@@ -36,7 +36,6 @@ export const generateChartWithGPT = async (
   } catch (err) {
     console.warn(err);
     console.warn('LLM generation error, use rule generation.');
-    // call rule-based method to get recommended chart type and fieldMap(cell)
     const advisorResult = chartAdvisorHandler(schema, dataset);
     chartType = advisorResult.chartType;
     cell = advisorResult.cell;
@@ -57,36 +56,25 @@ export const generateChartWithGPT = async (
   };
 };
 
-/**
- * call GPT to get recommended chart type and fieldMap
- * @param schema VizSchema
- * @param userInput user input about their intention
- * @param options vmind options
- * @returns
- */
-export const chartAdvisorGPT = async (
+export const chartAdvisorSkylark = async (
   schema: Partial<VizSchema>,
+  fieldInfo: SimpleFieldInfo[],
   userInput: string,
   options: ILLMOptions | undefined
 ) => {
-  //call GPT
-  const filteredFields = schema.fields.filter(
-    field => true
-    //usefulFields.includes(field.fieldName)
-  );
   const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
   console.log(chartAdvisorMessage);
 
-  const advisorRes = await requestGPT(ChartAdvisorPromptEnglish, chartAdvisorMessage, options);
+  const recommendRes = await requestSkyLark(ChartRecommendPrompt, chartAdvisorMessage, options);
 
-  const advisorResJson: GPTChartAdvisorResult = parseGPTResponse(advisorRes) as unknown as GPTChartAdvisorResult;
+  const recommendResJson: ChartRecommendResult = parseSkylarkResponse(recommendRes);
 
-  console.log(advisorResJson);
-  if (advisorResJson.error) {
+  console.log(recommendResJson);
+  if (recommendResJson.error) {
     throw Error('Network Error!');
   }
-  if (!SUPPORTED_CHART_LIST.includes(advisorResJson['CHART_TYPE'])) {
+  if (!SUPPORTED_CHART_LIST.includes(recommendResJson['chartType'])) {
     throw Error('Unsupported Chart Type. Please Change User Input');
   }
-  return advisorResJson;
+  return recommendResJson;
 };
