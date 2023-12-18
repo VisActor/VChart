@@ -24,6 +24,7 @@ import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
 import type { IChart, IChartSpecInfo } from '../chart/interface';
 import type { Stage } from '@visactor/vrender-core';
+import type { IContainerSize } from '@visactor/vrender-components';
 
 export type DataLinkSeries = {
   /**
@@ -144,6 +145,9 @@ export interface IVChart {
     forceMerge?: boolean,
     morphConfig?: IMorphConfig
   ) => Promise<IVChart>;
+
+  /** 更新 spec 并重新编译（不渲染），返回是否成功 */
+  updateSpecAndRecompile: (spec: ISpec, forceMerge: boolean, option: IVChartRenderOption) => boolean;
 
   /**
    * 更新绘制区域。
@@ -428,6 +432,15 @@ export interface IVChart {
 
   /** 获取图表 spec 详细信息 */
   getSpecInfo: () => IChartSpecInfo;
+
+  /** 设置运行时 spec */
+  setRuntimeSpec: (spec: any) => IVChart;
+
+  /** 获取运行时 spec */
+  getSpec: () => any;
+
+  /** 获取当前容器宽高 */
+  getCurrentSize: () => IContainerSize;
 }
 
 export interface IGlobalConfig {
@@ -443,8 +456,12 @@ export interface IVChartRenderOption {
   morphConfig?: IMorphConfig;
   /** 是否重新转换图表 spec */
   transformSpec?: boolean;
-  /** 是否重新初始化媒体查询 */
-  resetMediaQuery?: boolean;
-  /** 是否重新检查已有的媒体查询 */
-  checkMediaQuery?: boolean;
+  actionSource?: VChartRenderActionSource;
 }
+
+export type VChartRenderActionSource =
+  | 'render'
+  | 'updateSpec'
+  | 'updateModelSpec'
+  | 'setCurrentTheme'
+  | 'updateSpecAndRecompile';

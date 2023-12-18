@@ -58,7 +58,6 @@ import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
-import { registerMediaQuery } from './media-query';
 
 VChart.useRegisters([
   // charts
@@ -133,10 +132,7 @@ VChart.useRegisters([
 
   // layout
   registerGridLayout,
-  registerLayout3d,
-
-  // media query
-  registerMediaQuery
+  registerLayout3d
 ]);
 
 export { VChart };

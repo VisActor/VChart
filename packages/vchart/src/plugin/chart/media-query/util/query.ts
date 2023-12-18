@@ -1,5 +1,5 @@
 import { isValid } from '@visactor/vutils';
-import type { IVChart } from '../../core';
+import type { IVChart } from '../../../../core';
 import type { IMediaInfo, IMediaQueryCondition } from '../interface';
 
 /** 判断是否满足媒体查询条件 */

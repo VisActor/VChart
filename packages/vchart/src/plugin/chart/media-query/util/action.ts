@@ -1,6 +1,6 @@
 import { setProperty } from '@visactor/vutils-extension';
-import type { IVChart } from '../../core';
-import { isArray, isFunction, isNil, mergeSpec } from '../../util';
+import type { IVChart } from '../../../../core';
+import { isArray, isFunction, isNil, mergeSpec } from '../../../../util';
 import type { IMediaQueryAction, IMediaQueryCondition, IMediaQueryActionResult } from '../interface';
 import { executeMediaQueryActionFilter } from './filter';
 

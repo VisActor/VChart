@@ -85,14 +85,21 @@ import {
   get,
   cloneDeep
 } from '@visactor/vutils';
-import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart, IVChartRenderOption } from './interface';
+import type {
+  DataLinkAxis,
+  DataLinkSeries,
+  IGlobalConfig,
+  IVChart,
+  IVChartRenderOption,
+  VChartRenderActionSource
+} from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout/base-layout';
-import { GroupMark, registerGroupMark } from '../mark/group';
+import { registerGroupMark } from '../mark/group';
 import { registerVGrammarCommonAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
@@ -100,7 +107,8 @@ import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
 import { mergeTheme, preprocessTheme } from '../util/spec';
 import { darkTheme, registerTheme } from '../theme/builtin';
-import type { IMediaQuery, IMediaQuerySpec } from '../media-query/interface';
+import type { IChartPluginService } from '../plugin/chart/interface';
+import { ChartPluginService } from '../plugin/chart/plugin-service';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -319,8 +327,7 @@ export class VChart implements IVChart {
   private _context: any = {}; // 存放用户在model初始化前通过实例方法传入的配置等
   private _isReleased: boolean;
 
-  private _mediaQuery: IMediaQuery;
-  private _mediaQuerySpec: IMediaQuerySpec;
+  private _chartPlugin?: IChartPluginService;
 
   constructor(spec: ISpec, options: IInitOption) {
     this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
@@ -387,6 +394,7 @@ export class VChart implements IVChart {
     this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
+    this._initChartPlugin();
 
     InstanceManager.registerInstance(this);
   }
@@ -415,7 +423,7 @@ export class VChart implements IVChart {
     return spec;
   }
 
-  private _initChartSpec(spec: any, reApplyMediaQuery?: boolean) {
+  private _initChartSpec(spec: any, actionSource: VChartRenderActionSource) {
     // 如果用户注册了函数，在配置中替换相应函数名为函数内容
     if (VChart.getFunctionList() && VChart.getFunctionList().length) {
       spec = functionTransform(spec, VChart);
@@ -430,11 +438,14 @@ export class VChart implements IVChart {
     }
 
     this._chartSpecTransformer.transformSpec(this._spec);
-    if (reApplyMediaQuery && this._mediaQuery) {
-      // 重新执行已生效的所有媒体查询
-      this._mediaQuery.reInit(false, false);
-    }
+
+    // 插件生命周期
+    this._chartPluginApply('onAfterChartSpecTransform', this._spec, actionSource);
+
     this._specInfo = this._chartSpecTransformer?.transformModelSpec(this._spec);
+
+    // 插件生命周期
+    this._chartPluginApply('onAfterModelSpecTransform', this._spec, this._specInfo, actionSource);
   }
 
   private _updateSpecInfo() {
@@ -528,7 +539,7 @@ export class VChart implements IVChart {
     }
   }
 
-  private _getCurrentSize() {
+  getCurrentSize() {
     const { width: containerWidth, height: containerHeight } = getContainerSize(
       this._container!,
       DEFAULT_CHART_WIDTH,
@@ -538,7 +549,7 @@ export class VChart implements IVChart {
   }
 
   private _doResize() {
-    const { width, height } = this._getCurrentSize();
+    const { width, height } = this.getCurrentSize();
     if (this._currentSize.width !== width || this._currentSize.height !== height) {
       this._currentSize = { width, height };
       this.resize(width, height);
@@ -627,7 +638,7 @@ export class VChart implements IVChart {
         this._compiler?.compile({ chart: this._chart, vChart: this }, {});
       }
       if (updateResult.reSize) {
-        const { width, height } = this._getCurrentSize();
+        const { width, height } = this.getCurrentSize();
         this._chart.onResize(width, height, false);
         this._compiler.resize?.(width, height, false);
       }
@@ -645,24 +656,14 @@ export class VChart implements IVChart {
       return true;
     }
 
-    const { transformSpec, resetMediaQuery, checkMediaQuery } = option;
+    const { transformSpec, actionSource } = option;
     if (transformSpec) {
       // 初始化图表 spec
-      this._initChartSpec(this._spec, false);
+      this._initChartSpec(this._spec, 'render');
     }
-    if (resetMediaQuery) {
-      this._mediaQuery?.release();
-      this._mediaQuery = null;
-    }
-    if (!this._mediaQuery) {
-      // 初始化媒体查询
-      this._initMediaQuery();
-    }
-    if (resetMediaQuery || checkMediaQuery) {
-      // 触发媒体查询
-      const { width, height } = this._getCurrentSize();
-      this._mediaQuery?.changeSize(width, height, false, false);
-    }
+
+    // 插件生命周期
+    this._chartPluginApply('onBeforeInitChart', this._spec, actionSource);
 
     // 实例化图表
     this._option.performanceHook?.beforeInitializeChart?.();
@@ -699,8 +700,7 @@ export class VChart implements IVChart {
     return this._renderSync({
       morphConfig,
       transformSpec: true,
-      resetMediaQuery: false,
-      checkMediaQuery: true
+      actionSource: 'render'
     });
   }
 
@@ -713,8 +713,7 @@ export class VChart implements IVChart {
     return this._renderAsync({
       morphConfig,
       transformSpec: true,
-      resetMediaQuery: false,
-      checkMediaQuery: true
+      actionSource: 'render'
     });
   }
 
@@ -758,6 +757,7 @@ export class VChart implements IVChart {
     if ((this._onResize as any)?.cancel) {
       (this._onResize as any).cancel();
     }
+    this._chartPluginApply('disposeAll');
     this._chartSpecTransformer = null;
     this._chart?.release();
     this._compiler?.release();
@@ -953,7 +953,7 @@ export class VChart implements IVChart {
     await this.updateCustomConfigAndRerender(result, false, {
       morphConfig,
       transformSpec: true,
-      resetMediaQuery: true
+      actionSource: 'updateSpec'
     });
     return this as unknown as IVChart;
   }
@@ -969,15 +969,18 @@ export class VChart implements IVChart {
     this.updateCustomConfigAndRerender(result, true, {
       morphConfig,
       transformSpec: true,
-      resetMediaQuery: true
+      actionSource: 'updateSpec'
     });
     return this as unknown as IVChart;
   }
 
-  /** 更新 spec 并重新编译（不渲染） */
-  protected _updateSpecAndRecompile(spec: ISpec, forceMerge: boolean = false, option: IVChartRenderOption = {}) {
+  /** 更新 spec 并重新编译（不渲染），返回是否成功 */
+  updateSpecAndRecompile(spec: ISpec, forceMerge: boolean = false, option: IVChartRenderOption = {}) {
     const result = this._updateSpec(spec, forceMerge);
-    return this._updateCustomConfigAndRecompile(result, option);
+    return this._updateCustomConfigAndRecompile(result, {
+      actionSource: 'updateSpecAndRecompile',
+      ...option
+    });
   }
 
   private _updateSpec(spec: ISpec, forceMerge: boolean = false): IUpdateSpecResult | undefined {
@@ -1098,8 +1101,7 @@ export class VChart implements IVChart {
     return this.updateCustomConfigAndRerender(result, sync, {
       morphConfig,
       transformSpec: false,
-      resetMediaQuery: false,
-      checkMediaQuery: true
+      actionSource: 'updateModelSpec'
     });
   }
 
@@ -1119,8 +1121,8 @@ export class VChart implements IVChart {
       return this as unknown as IVChart;
     }
 
-    // 触发媒体查询
-    this._mediaQuery?.changeSize(width, height, true, false);
+    // 插件生命周期
+    this._chartPluginApply('onBeforeResize', width, height);
 
     this._option.performanceHook?.beforeResizeWithUpdate?.();
     this._chart.onResize(width, height, false);
@@ -1349,7 +1351,7 @@ export class VChart implements IVChart {
     const result = this._setCurrentTheme(name);
     await this.updateCustomConfigAndRerender(result, false, {
       transformSpec: false,
-      resetMediaQuery: true
+      actionSource: 'setCurrentTheme'
     });
     return this as unknown as IVChart;
   }
@@ -1367,14 +1369,14 @@ export class VChart implements IVChart {
     const result = this._setCurrentTheme(name);
     this.updateCustomConfigAndRerender(result, true, {
       transformSpec: false,
-      resetMediaQuery: true
+      actionSource: 'setCurrentTheme'
     });
     return this as unknown as IVChart;
   }
 
   protected _setCurrentTheme(name?: string): IUpdateSpecResult {
     this._updateCurrentTheme(name);
-    this._initChartSpec(this._getSpecFromOriginalSpec(), true);
+    this._initChartSpec(this._getSpecFromOriginalSpec(), 'setCurrentTheme');
     this._chart?.setCurrentTheme();
     return { change: true, reMake: false };
   }
@@ -1859,27 +1861,28 @@ export class VChart implements IVChart {
     return ExpressionFunction.instance().getFunctionNameList();
   }
 
-  private _initMediaQuery() {
-    this._mediaQuerySpec = this._spec.media;
-    if (this._mediaQuerySpec) {
-      this._mediaQuery = Factory.createMediaQuery(this._mediaQuerySpec, {
-        globalInstance: this,
-        updateSpec: (spec: any, compile?: boolean, render?: boolean) => {
-          if (render) {
-            this.updateSpecSync(spec);
-          } else if (compile) {
-            this._updateSpecAndRecompile(spec, false, {
-              transformSpec: true,
-              resetMediaQuery: false,
-              checkMediaQuery: false
-            });
-          } else {
-            this._spec = spec;
-            this._updateSpecInfo();
-          }
-        }
-      });
+  /** 设置运行时 spec */
+  setRuntimeSpec(spec: any) {
+    this._spec = spec;
+    this._updateSpecInfo();
+    return this as IVChart;
+  }
+
+  private _initChartPlugin() {
+    const pluginList = Factory.getChartPlugins();
+    if (pluginList.length > 0) {
+      this._chartPlugin = new ChartPluginService(this);
+      this._chartPlugin.load(pluginList.map(p => new p()));
+      // 插件生命周期
+      this._chartPluginApply('onInit', this._spec);
     }
+  }
+
+  private _chartPluginApply(funcName: keyof IChartPluginService, ...args: any[]) {
+    if (!this._chartPlugin || !this._chartPlugin[funcName]) {
+      return;
+    }
+    (this._chartPlugin[funcName] as (...args: any[]) => any).apply(this._chartPlugin, args);
   }
 }
 

@@ -29,3 +29,6 @@ export * from '../theme/index';
 
 // vrender
 export { vglobal } from '@visactor/vrender-core';
+
+// plugin
+export * from '../plugin';

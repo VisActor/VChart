@@ -1,13 +1,16 @@
 import { ChartEvent } from '../../../constant/event';
 import { zeroAlign } from './zero-align-transform';
-import { BasicComponentPlugin } from '../basic-plugin';
+import { BaseComponentPlugin } from '../base-plugin';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import type { CartesianAxis, ICartesianLinearAxisSpec, ILinearAxisSync } from '../../../component/axis/cartesian';
 import { isContinuous } from '@visactor/vscale';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { tickAlign } from './tick-align-transform';
 
-export class AxisSyncPlugin extends BasicComponentPlugin implements IComponentPlugin {
+export class AxisSyncPlugin
+  extends BaseComponentPlugin<IComponentPluginService>
+  implements IComponentPlugin<IComponentPluginService>
+{
   Name: string = 'AxisSyncPlugin';
 
   constructor() {

@@ -1,7 +1,7 @@
 import { array, isFunction, isNil } from '@visactor/vutils';
-import type { IChartSpec, IVChart } from '../../core';
+import type { IChartSpec, IVChart } from '../../../../core';
 // eslint-disable-next-line no-duplicate-imports
-import { Factory } from '../../core';
+import { Factory } from '../../../../core';
 import type {
   IMediaQueryAction,
   IMediaQueryActionFilterResult,
@@ -9,14 +9,14 @@ import type {
   MediaQueryActionFilter,
   MediaQueryActionFilterType
 } from '../interface';
-import { SeriesTypeEnum } from '../../series/interface';
+import { SeriesTypeEnum } from '../../../../series/interface';
 import {
   ComponentTypeEnum,
   SimplifiedComponentTypeEnum,
   axisComponentTypes,
   crosshairComponentTypes,
   legendComponentTypes
-} from '../../component/interface';
+} from '../../../../component/interface';
 import { includeSpec } from '@visactor/vutils-extension';
 
 /** 执行元素过滤器 */
