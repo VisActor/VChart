@@ -12,7 +12,6 @@ import { EventDispatcher } from '../../../../../src/event/event-dispatcher';
 import { getTestCompiler } from '../../../../util/factory/compiler';
 import { initChartDataSet } from '../../../../util/context';
 import type { StringOrNumber } from '../../../../../src/typings/common';
-import type { CartesianAxisSpecTransformer } from '../../../../../src/component/axis/cartesian';
 import { getCartesianAxisInfo } from '../../../../../src/component/axis/cartesian/util';
 
 const dataSet = new DataSet();
@@ -129,7 +128,7 @@ test('config linearAxis.nice default [true] ', () => {
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
-  }) as CartesianAxisSpecTransformer;
+  });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
@@ -155,7 +154,7 @@ test('config linearAxis.nice default [true] ', () => {
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
-  }) as CartesianAxisSpecTransformer;
+  });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
@@ -181,7 +180,7 @@ test('nice === false  ', () => {
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
-  }) as CartesianAxisSpecTransformer;
+  });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
@@ -208,7 +207,7 @@ test('zero === false && nice === false  ', () => {
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
-  }) as CartesianAxisSpecTransformer;
+  });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
@@ -237,7 +236,7 @@ test('zero === true && range is specific  ', () => {
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
-  }) as CartesianAxisSpecTransformer;
+  });
   config = transformer.transformSpec(config, {}).spec;
 
   /**
@@ -336,7 +335,7 @@ test('expand', () => {
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
-  }) as CartesianAxisSpecTransformer;
+  });
   config = transformer.transformSpec(config, {}).spec;
 
   {
@@ -412,7 +411,7 @@ test('extend', () => {
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
-  }) as CartesianAxisSpecTransformer;
+  });
   config = transformer.transformSpec(config, {}).spec;
 
   {
@@ -466,7 +465,7 @@ test('niceDomain should work when domain is 0, and user does not set min or max'
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
-  }) as CartesianAxisSpecTransformer;
+  });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
@@ -497,7 +496,7 @@ test('niceDomain should not work when user set min or max', () => {
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
-  }) as CartesianAxisSpecTransformer;
+  });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
@@ -531,7 +530,7 @@ test('dynamic tickCount', () => {
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
     getTheme: () => ThemeManager.getCurrentTheme()
-  }) as CartesianAxisSpecTransformer;
+  });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
     {
