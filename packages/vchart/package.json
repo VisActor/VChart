@@ -123,7 +123,7 @@
     "@visactor/vgrammar-hierarchy": "~0.10.3",
     "@visactor/vgrammar-sankey": "~0.10.3",
     "@visactor/vgrammar-util": "~0.10.3",
-    "@visactor/vutils-extension": "workspace:1.7.4"
+    "@visactor/vutils-extension": "workspace:1.7.5"
   },
   "publishConfig": {
     "access": "public",
