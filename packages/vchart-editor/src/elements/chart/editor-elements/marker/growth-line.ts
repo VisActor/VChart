@@ -716,8 +716,7 @@ export class GrowthLineEditor extends BaseMarkerEditor<MarkLine, MarkLineCompone
     const series = this._getSeries();
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
-
-    if (series.type === 'bar') {
+    if (series.type === 'bar' || series.type === 'waterfall') {
       const rectMark = series.getMarkInName('bar');
       const vgrammarElements = rectMark.getProduct().elements;
 
