@@ -27,7 +27,7 @@ export function progressLikePresetAnimation(params: IProgressLikeAnimationParams
   }
 }
 
-export const registerCircularProgressAnimation = () => {
+export const registerProgressLikeAnimation = () => {
   Factory.registerAnimation(
     'circularProgress',
     (params: IProgressLikeAnimationParams, preset: ProgressLikeAppearPreset) => ({

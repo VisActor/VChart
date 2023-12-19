@@ -15,7 +15,7 @@ import { ProgressArcMark, registerProgressArcMark } from '../../../mark/progress
 import { circularProgressSeriesMark } from './constant';
 import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../constant';
 import { Factory } from '../../../core/factory';
-import { registerCircularProgressAnimation } from '../../polar/progress-like';
+import { registerProgressLikeAnimation } from '../../polar/progress-like';
 import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IMark } from '../../../mark/interface';
 
@@ -194,7 +194,7 @@ export class CircularProgressSeries<
 export const registerCircularProgressSeries = () => {
   registerProgressArcMark();
   registerArcMark();
-  registerCircularProgressAnimation();
+  registerProgressLikeAnimation();
   registerFadeInOutAnimation();
   Factory.registerSeries(CircularProgressSeries.type, CircularProgressSeries);
 };
