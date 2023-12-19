@@ -11,6 +11,7 @@ import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { IAxis, ITick } from '../interface';
+import type { ICartesianTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
 import type { DataSet } from '@visactor/vdataset';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic } from '@visactor/vrender-core';
@@ -69,7 +70,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     init(option: IModelInitOption): void;
     setAttrFromSpec(): void;
     protected getSeriesStatisticsField(s: ICartesianSeries): string[];
-    protected _initTickData(sampling: boolean): void;
+    protected _tickTransformOption(coordinateType: CoordinateType): ICartesianTickDataOpt;
     protected _initData(): void;
     protected axisHelper(): IAxisHelper;
     afterCompile(): void;

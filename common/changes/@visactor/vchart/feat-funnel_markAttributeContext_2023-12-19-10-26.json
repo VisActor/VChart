@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix type defination of vchart spec in #1486",
+      "comment": "feat: add getPoints api in funnel mark attribute context",
       "type": "none"
     }
   ],

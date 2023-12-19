@@ -2,6 +2,24 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.7.5",
+      "tag": "@visactor/vchart_v1.7.5",
+      "date": "Fri, 15 Dec 2023 08:36:30 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix(brush): brush release error after update spec. fix#1720"
+          },
+          {
+            "comment": "fix: series should pick `morph` config in chart\n\n"
+          },
+          {
+            "comment": "fix: fix type defination of vchart spec in #1486"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.7.4",
       "tag": "@visactor/vchart_v1.7.4",
       "date": "Tue, 12 Dec 2023 07:55:54 GMT",

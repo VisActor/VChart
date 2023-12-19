@@ -10,8 +10,8 @@ import type { Functional } from '@visactor/vrender-components';
 type BarMarks = 'bar';
 export interface IBarSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<BarMarks, BarAppearPreset>, IMarkProgressiveConfig, IDataSamping {
     type: 'bar';
-    xField: string | string[];
-    yField: string | string[];
+    xField?: string | string[];
+    yField?: string | string[];
     [SeriesMarkNameEnum.bar]?: IMarkSpec<IRectMarkSpec>;
     [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec>;
     [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position'> & {

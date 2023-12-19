@@ -10,8 +10,8 @@ import type { ILabelSpec } from '../../component';
 type LineMarks = 'point' | 'line';
 export interface ILineSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<LineMarks, LineAppearPreset>, IMarkProgressiveConfig, IDataSamping, IMarkOverlap {
     type: 'line';
-    xField: string | string[];
-    yField: string | string[];
+    xField?: string | string[];
+    yField?: string | string[];
     [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
     [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
     [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
