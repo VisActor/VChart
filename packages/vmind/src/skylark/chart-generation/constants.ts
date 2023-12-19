@@ -40,5 +40,20 @@ export const ChartFieldInfo: ChannelInfo = {
       color: 'field assigned to color channel'
     },
     knowledge: ['Only string fields can be used in color channel.']
+  },
+  'SCATTER PLOT': {
+    visualChannels: {
+      x: "x-axis of scatter plot. Can't be empty.",
+      y: "y-axis of scatter plot. Can't be empty.",
+      color: 'color channel of scatter plot. Used to distinguish different points. Can be empty if no suitable field.',
+      size: 'size channel of scatter plot. Mapped to the size of each point. Only number fields. Can be empty if no suitable field.'
+    },
+    responseDescription: {
+      x: 'field assigned to x channel',
+      y: 'field assigned to y channel',
+      color: 'field assigned to color channel',
+      size: 'field assigned to size channel'
+    },
+    knowledge: ['Only number fields can be used in size channel.']
   }
 };

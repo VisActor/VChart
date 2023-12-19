@@ -11,6 +11,7 @@ Your task is:
 
 Knowledge:
 1. Dynamic Bar Chart is a dynamic chart that is suitable for displaying changing data and can be used to show ranking, comparisons or data changes over time. It usually has a time field. It updates the data dynamically according to the time field and at each time point, the current data is displayed using a bar chart.
+2. Dynamic Bar Chart can only be used when data has a time field.
 
 Let's think step by step. Fill your thoughts in {thoughts}.
 
