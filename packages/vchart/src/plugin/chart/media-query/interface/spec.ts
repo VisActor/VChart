@@ -83,9 +83,9 @@ export type MediaQueryActionFilterType =
   | 'region'
   | 'series'
   | 'chart'
-  | `${SeriesTypeEnum}`
-  | `${ComponentTypeEnum}`
-  | `${SimplifiedComponentTypeEnum}`;
+  | `${SeriesTypeEnum}` // 具体 series 类型，如 'bar'、'line'
+  | `${ComponentTypeEnum}` // 具体 component 类型，如 'cartesianAxis-band'
+  | `${SimplifiedComponentTypeEnum}`; // 简化版 component 类型，如 'axis'
 
 /**
  * 元素过滤器
