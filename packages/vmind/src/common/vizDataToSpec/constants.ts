@@ -1,5 +1,4 @@
 export const SUPPORTED_CHART_LIST = [
-  'Dynamic Bar Chart',
   'Bar Chart',
   'Line Chart',
   'Pie Chart',
@@ -11,7 +10,8 @@ export const SUPPORTED_CHART_LIST = [
   'Funnel Chart',
   'Dual Axis Chart',
   'Waterfall Chart',
-  'Box Plot Chart'
+  'Box Plot Chart',
+  'Dynamic Bar Chart'
 ];
 
 export const animationDuration = 500;

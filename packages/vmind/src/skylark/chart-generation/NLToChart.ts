@@ -4,10 +4,10 @@ import { getSchemaFromFieldInfo } from '../../common/schema';
 import { SUPPORTED_CHART_LIST, checkChartTypeAndCell, vizDataToSpec } from '../../common/vizDataToSpec';
 import { DataItem, ILLMOptions, SimpleFieldInfo, VizSchema } from '../../typings';
 import { getStrFromArray, getStrFromDict, patchChartTypeAndCell, requestSkyLark } from './utils';
-import { ChartRecommendPrompt, getFieldMapPrompt } from './prompts';
+import { ChartRecommendPrompt, getChartRecommendPrompt, getFieldMapPrompt } from './prompts';
 import { parseSkylarkResponse } from '../utils';
 import { estimateVideoTime } from '../../common/vizDataToSpec/utils';
-import { ChartFieldInfo } from './constants';
+import { ChartFieldInfo, chartRecommendKnowledge } from './constants';
 import { omit } from 'lodash';
 
 export const generateChartWithSkylark = async (
@@ -67,7 +67,9 @@ export const chartAdvisorSkylark = async (
   const userMessage = `User's Command: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
 
   //call skylark to get recommended chart
-  const chartRecommendRes = await requestSkyLark(ChartRecommendPrompt, userMessage, options);
+  const chartRecommendKnowledgeStr = getStrFromArray(chartRecommendKnowledge);
+  const chartRecommendPrompt = getChartRecommendPrompt(chartRecommendKnowledgeStr);
+  const chartRecommendRes = await requestSkyLark(chartRecommendPrompt, userMessage, options);
   const chartRecommendResJSON = parseSkylarkResponse(chartRecommendRes);
   console.log(chartRecommendResJSON);
   if (chartRecommendResJSON.error) {
@@ -83,8 +85,8 @@ export const chartAdvisorSkylark = async (
   const { visualChannels, responseDescription, knowledge } = ChartFieldInfo[chartType.toUpperCase()];
   const visualChannelInfoStr = getStrFromDict(visualChannels);
   const channelResponseStr = getStrFromDict(responseDescription);
-  const knowledgeStr = getStrFromArray(knowledge);
-  const fieldMapPrompt = getFieldMapPrompt(chartType, visualChannelInfoStr, channelResponseStr, knowledgeStr);
+  const fieldMapKnowledgeStr = getStrFromArray(knowledge);
+  const fieldMapPrompt = getFieldMapPrompt(chartType, visualChannelInfoStr, channelResponseStr, fieldMapKnowledgeStr);
 
   const fieldMapRes = await requestSkyLark(fieldMapPrompt, userMessage, options);
   const fieldMapResJson = parseSkylarkResponse(fieldMapRes);

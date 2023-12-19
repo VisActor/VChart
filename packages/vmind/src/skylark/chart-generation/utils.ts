@@ -1,10 +1,19 @@
 import axios from 'axios';
-import { ILLMOptions } from '../../typings';
+import { Cell, DataItem, ILLMOptions } from '../../typings';
 
-export const patchChartTypeAndCell = (chartTypeRes, cellRes, dataset) => {
+export const patchChartTypeAndCell = (chartTypeRes: any, cellRes: Cell, dataset: DataItem[]) => {
+  const chartTypeNew = chartTypeRes;
+  let cellNew = cellRes;
+  if (chartTypeRes === 'RADAR CHART') {
+    cellNew = {
+      x: cellRes.angle,
+      y: cellRes.value,
+      color: cellRes.color
+    };
+  }
   return {
-    chartTypeNew: chartTypeRes,
-    cellNew: cellRes
+    chartTypeNew,
+    cellNew
   };
 };
 
@@ -33,7 +42,7 @@ export const requestSkyLark = async (prompt: string, message: string, options: I
           content: message
         }
       ],
-      max_tokens: options?.max_tokens ?? 2000,
+      max_tokens: options?.max_tokens ?? 4096,
       temperature: options?.temperature ?? 0
     }
   })
