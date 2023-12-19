@@ -15,7 +15,7 @@ import { ProgressArcMark, registerProgressArcMark } from '../../mark/progress-ar
 import { gaugeSeriesMark } from './constant';
 import { degreeToRadian, isValid } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
-import { registerCircularProgressAnimation } from '../polar/progress-like';
+import { registerProgressLikeAnimation } from '../polar/progress-like';
 import type { IMark } from '../../mark/interface';
 import { GaugeSeriesSpecTransformer } from './gauge-transformer';
 
@@ -184,6 +184,6 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 
 export const registerGaugeSeries = () => {
   registerProgressArcMark();
-  registerCircularProgressAnimation();
+  registerProgressLikeAnimation();
   Factory.registerSeries(GaugeSeries.type, GaugeSeries);
 };
