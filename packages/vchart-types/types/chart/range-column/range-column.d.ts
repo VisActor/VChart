@@ -1,10 +1,13 @@
-import { CartesianChart } from '../cartesian/cartesian';
-export declare class RangeColumnChart extends CartesianChart {
+import type { IRangeColumnChartSpec } from './interface';
+import { RangeColumnChartSpecTransformer } from './range-column-transformer';
+import { BaseChart } from '../base';
+export declare class RangeColumnChart<T extends IRangeColumnChartSpec = IRangeColumnChartSpec> extends BaseChart<T> {
     static readonly type: string;
+    static readonly seriesType: string;
     static readonly view: string;
+    static readonly transformerConstructor: typeof RangeColumnChartSpecTransformer;
+    readonly transformerConstructor: typeof RangeColumnChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected _getDefaultSeriesSpec(spec: any): any;
-    transformSpec(spec: any): void;
 }
 export declare const registerRangeColumnChart: () => void;

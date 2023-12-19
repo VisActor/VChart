@@ -9,3 +9,7 @@ export declare function getOrient(spec: ICartesianAxisCommonSpec, whiteList?: st
 export declare function getDirectionByOrient(orient: IOrientType): Direction;
 export declare function isOrientInSameDirection(orient1: IOrientType, orient2: IOrientType): boolean;
 export declare function transformInverse(spec: ICartesianAxisCommonSpec, isHorizontal: boolean): boolean;
+export declare function getCartesianAxisInfo(spec: ICartesianAxisCommonSpec, isHorizontal?: boolean): {
+    axisType: import("../..").AxisType;
+    componentName: string;
+};

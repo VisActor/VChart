@@ -10,3 +10,4 @@ export declare class RippleMark extends BaseMark<IRippleMarkSpec> implements IRi
     protected _getDefaultStyle(): IMarkStyle<IRippleMarkSpec>;
     protected _initProduct(group?: string | IGroupMark): void;
 }
+export declare const registerRippleMark: () => void;

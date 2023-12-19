@@ -1,8 +1,8 @@
-import type { IBoundsLike } from '@visactor/vutils';
-import type { IEffect, IModelInitOption } from '../../../model/interface';
+import type { IBoundsLike, Maybe } from '@visactor/vutils';
+import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
-import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
+import type { ICartesianAxisCommonSpec, IAxisHelper } from './interface';
 import type { IOrientType } from '../../../typings/space';
 import type { IBaseScale } from '@visactor/vscale';
 import type { StringOrNumber } from '../../../typings/common';
@@ -11,6 +11,7 @@ import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { IAxis, ITick } from '../interface';
+import type { ICartesianTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
 import type { DataSet } from '@visactor/vdataset';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic } from '@visactor/vrender-core';
@@ -18,6 +19,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    static specKey: string;
     protected readonly _defaultBandPosition = 0.5;
     protected readonly _defaultBandInnerPadding = 0.1;
     protected readonly _defaultBandOuterPadding = 0.3;
@@ -38,7 +40,6 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     set autoIndentOnce(v: boolean);
     protected _scales: IBaseScale[];
     getScales(): IBaseScale[];
-    protected _theme: ICartesianAxisCommonTheme;
     protected _tick: ITick | undefined;
     private _axisStyle;
     private _latestBounds;
@@ -50,8 +51,8 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
         _lastComputeOutBounds: IBoundsLike;
     };
     constructor(spec: T, options: IComponentOption);
-    static createAxis(spec: any, options: IComponentOption, isHorizontal?: boolean): IAxis;
-    static createComponent(spec: any, options: IComponentOption): IAxis | IAxis[];
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
+    static createComponent(specInfo: IModelSpecInfo, options: IComponentOption): IAxis;
     initLayout(): void;
     setLayout3dBox(box3d: {
         width: number;
@@ -69,7 +70,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     init(option: IModelInitOption): void;
     setAttrFromSpec(): void;
     protected getSeriesStatisticsField(s: ICartesianSeries): string[];
-    protected _initTickData(sampling: boolean): void;
+    protected _tickTransformOption(coordinateType: CoordinateType): ICartesianTickDataOpt;
     protected _initData(): void;
     protected axisHelper(): IAxisHelper;
     afterCompile(): void;
@@ -99,7 +100,6 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected _layoutCacheProcessing(rect: ILayoutRect): ILayoutRect;
     _clearLayoutCache(): void;
     onDataUpdate(): void;
-    protected _transformSpec(): void;
     private _appendAxisUnit;
     protected _getNeedClearVRenderComponents(): IGraphic[];
 }

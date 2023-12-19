@@ -25,3 +25,4 @@ export interface ILabelMark extends IMark {
     getComponent: () => IComponentMark;
     setComponent: (component: IComponentMark) => void;
 }
+export declare const registerLabelMark: () => void;

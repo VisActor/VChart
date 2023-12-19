@@ -1,5 +1,5 @@
 import type { IEvent } from '../event/interface';
-import type { IEffect, IModel, IModelInitOption, IModelOption, IModelRenderOption, IModelEvaluateOption, IModelSpec, IModelMarkInfo } from './interface';
+import type { IEffect, IModel, IModelInitOption, IModelOption, IModelRenderOption, IModelEvaluateOption, IModelSpec, IModelMarkInfo, IModelSpecInfo } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect, ILayoutRect } from '../typings';
@@ -8,9 +8,12 @@ import type { IGroupMark } from '@visactor/vgrammar-core';
 import { MarkSet } from '../mark/mark-set';
 import type { ILayoutItem } from '../layout/interface';
 import { CompilableBase } from '../compile/compilable-base';
+import { BaseModelSpecTransformer } from './base-model-transformer';
 export declare abstract class BaseModel<T extends IModelSpec> extends CompilableBase implements IModel {
+    readonly transformerConstructor: typeof BaseModelSpecTransformer;
     protected _spec: T;
     getSpec(): T;
+    getSpecPath(): (string | number)[];
     readonly type: string;
     readonly modelType: string;
     readonly id: number;
@@ -24,7 +27,6 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     protected _specIndex: number;
     getSpecIndex(): number;
     readonly specKey: string;
-    protected _originalSpec: any;
     protected _option: IModelOption;
     getOption(): IModelOption;
     protected _marks: MarkSet;
@@ -33,7 +35,7 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     getMarkSet(): MarkSet;
     getMarkInfoList(): IModelMarkInfo[];
     getChart(): import("../chart/interface").IChart;
-    protected _theme?: any;
+    protected get _theme(): any;
     protected _lastLayoutRect: ILayoutRect;
     constructor(spec: T, option: IModelOption);
     coordinate?: CoordinateType;
@@ -49,29 +51,21 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     onDataUpdate(): void;
     beforeRelease(): void;
     release(): void;
-    updateSpec(spec: any): {
+    updateSpec(spec: T): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;
         reSize: boolean;
         reCompile: boolean;
     };
-    protected _transformSpec(): void;
-    protected _compareSpec(): {
+    protected _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;
         reSize: boolean;
         reCompile: boolean;
     };
-    reInit(theme?: any): void;
-    protected _initTheme(theme?: any): void;
-    protected _getTheme(): any;
-    protected _mergeThemeToSpec(): void;
-    protected _getDefaultSpecFromChart(chartSpec: any): Partial<T>;
-    protected _shouldMergeThemeToSpec(): boolean;
-    protected _prepareSpecBeforeMergingTheme(obj?: any): any;
-    setCurrentTheme(): void;
+    reInit(spec?: T): void;
     updateLayoutAttribute(): void;
     setAttrFromSpec(): void;
     protected _convertMarkStyle<T extends ICommonSpec = ICommonSpec>(style: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>): Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>;
@@ -83,4 +77,5 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     protected _createMark<T extends IMark>(markInfo: IModelMarkInfo, option?: Partial<IMarkOption>): T;
     protected _getDataIdKey(): string | ((datum: Datum) => string) | undefined;
     getColorScheme(): import("..").IThemeColorScheme;
+    getSpecInfo(): IModelSpecInfo<any>;
 }

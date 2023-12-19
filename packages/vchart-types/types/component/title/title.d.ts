@@ -1,26 +1,29 @@
+import type { IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IPoint, IOrientType, ILayoutType, ILayoutRect } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
-import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
+import type { ITitle, ITitleSpec } from './interface';
 import type { IGraphic } from '@visactor/vrender-core';
-export declare class Title extends BaseComponent<ITitleSpec> implements ITitle {
+import type { Maybe } from '@visactor/vutils';
+export declare class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> implements ITitle {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
+    static specKey: string;
+    specKey: string;
     layoutType: ILayoutType;
     layoutZIndex: number;
     layoutLevel: number;
-    protected _theme: ITitleTheme;
     protected _orient: IOrientType;
     private _titleComponent;
     private _cacheAttrs;
     get orient(): IOrientType;
-    constructor(spec: ITitleSpec, options: IComponentOption);
+    constructor(spec: T, options: IComponentOption);
     initLayout(): void;
-    static createComponent(spec: any, options: IComponentOption): Title | Title[];
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     onRender(ctx: any): void;
-    _compareSpec(): {
+    _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;

@@ -2,7 +2,7 @@ import type { ISeries } from '../series/interface/series';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
 import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
-import type { DimensionIndexOption, IChart, IChartConstructor } from '../chart/interface';
+import type { DimensionIndexOption, IChart, IChartConstructor, IChartSpecInfo } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
@@ -20,7 +20,7 @@ import type { ITheme } from '../theme';
 import type { IModel, IUpdateSpecResult } from '../model/interface';
 import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
-import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
+import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart, IVChartRenderOption } from './interface';
 import { InstanceManager } from './instance-manager';
 export declare class VChart implements IVChart {
     readonly id: number;
@@ -46,9 +46,14 @@ export declare class VChart implements IVChart {
     static readonly Utils: {
         measureText: (text: string, textSpec?: Partial<import("@visactor/vrender-core").ITextGraphicAttribute>, option?: Partial<import("@visactor/vutils").ITextMeasureOption>, useNaiveCanvas?: boolean) => import("@visactor/vutils").ITextSize;
     };
+    protected _originalSpec: any;
     protected _spec: any;
+    getSpec(): any;
+    protected _specInfo: IChartSpecInfo;
+    getSpecInfo(): IChartSpecInfo;
     private _viewBox;
     private _chart;
+    private _chartSpecTransformer;
     private _compiler;
     private _event;
     private _userEvents;
@@ -60,29 +65,41 @@ export declare class VChart implements IVChart {
     private _stage?;
     private _autoSize;
     private _option;
-    private _curSize;
+    private _currentSize;
     private _observer;
     private _currentThemeName;
     private _currentTheme;
     private _onError?;
     private _context;
     private _isReleased;
+    private _chartPlugin?;
     constructor(spec: ISpec, options: IInitOption);
-    private _setSpec;
+    private _setNewSpec;
+    private _getSpecFromOriginalSpec;
+    private _initChartSpec;
+    private _updateSpecInfo;
     private _initChart;
     private _releaseData;
     private _bindVGrammarViewEvent;
     private _bindResizeEvent;
     private _unBindResizeEvent;
-    private _getCurSize;
+    getCurrentSize(): {
+        width: any;
+        height: any;
+    };
     private _doResize;
     private _onResize;
     private _initDataSet;
-    updateCustomConfigAndRerender(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig): Promise<IVChart>;
-    updateCustomConfigAndRerenderSync(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig): IVChart;
+    updateCustomConfigAndRerender(updateSpecResult: IUpdateSpecResult | (() => IUpdateSpecResult), sync?: boolean, option?: IVChartRenderOption): IVChart | Promise<IVChart>;
+    protected _updateCustomConfigAndRecompile(updateSpecResult: IUpdateSpecResult, option?: IVChartRenderOption): boolean;
     protected _reCompile(updateResult: IUpdateSpecResult): void;
+    protected _beforeRender(option?: IVChartRenderOption): boolean;
+    protected _afterRender(): boolean;
     renderSync(morphConfig?: IMorphConfig): IVChart;
     renderAsync(morphConfig?: IMorphConfig): Promise<IVChart>;
+    protected _renderSync(option?: IVChartRenderOption): IVChart;
+    protected _renderAsync(option?: IVChartRenderOption): Promise<IVChart>;
+    private _updateAnimateState;
     release(): void;
     updateData(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions): Promise<IVChart>;
     updateDataInBatches(list: {
@@ -95,6 +112,8 @@ export declare class VChart implements IVChart {
     updateFullData(data: IDataValues | IDataValues[], reRender?: boolean): Promise<IVChart>;
     updateSpec(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig): Promise<IVChart>;
     updateSpecSync(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig): IVChart;
+    updateSpecAndRecompile(spec: ISpec, forceMerge?: boolean, option?: IVChartRenderOption): boolean;
+    private _updateSpec;
     updateModelSpec(filter: string | {
         type: string;
         index: number;
@@ -119,6 +138,7 @@ export declare class VChart implements IVChart {
     getCurrentThemeName(): string;
     setCurrentTheme(name: string): Promise<IVChart>;
     setCurrentThemeSync(name: string): IVChart;
+    protected _setCurrentTheme(name?: string): IUpdateSpecResult;
     private _getTooltipComponent;
     setTooltipHandler(tooltipHandler: ITooltipHandler): void;
     getTooltipHandlerByUser(): ITooltipHandler | undefined;
@@ -154,5 +174,8 @@ export declare class VChart implements IVChart {
     registerFunction(key: string, fun: Function): void;
     unregisterFunction(key: string): void;
     getFunctionList(): string[];
+    setRuntimeSpec(spec: any): void;
+    private _initChartPlugin;
+    private _chartPluginApply;
 }
 export declare const registerVChartCore: () => void;

@@ -1,16 +1,19 @@
 import type { IBaseScale } from '@visactor/vscale';
-import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
+import type { IPolarAxis, IPolarAxisCommonSpec } from './interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
+import type { IPolarTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, StringOrNumber, ILayoutType } from '../../../typings';
-import type { IEffect } from '../../../model/interface';
+import type { Maybe } from '@visactor/vutils';
+import type { IEffect, IModelSpecInfo } from '../../../model/interface';
 import { AxisComponent } from '../base-axis';
 import type { ITick } from '../interface';
 export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommonSpec> extends AxisComponent<T> implements IPolarAxis {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    static specKey: string;
     protected readonly _defaultBandPosition = 0;
     protected readonly _defaultBandInnerPadding = 0;
     protected readonly _defaultBandOuterPadding = 0;
@@ -23,17 +26,14 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     get startAngle(): number;
     protected _endAngle: number;
     get endAngle(): number;
-    protected _theme: IPolarAxisCommonTheme;
     protected _orient: IPolarOrientType;
     getOrient(): IPolarOrientType;
     protected _groupScales: IBaseScale[];
     getGroupScales(): IBaseScale[];
-    protected _refAngleAxis: IPolarAxis;
-    setRefAngleAxis(axes: IPolarAxis): this;
     private _axisStyle;
     private _gridStyle;
-    static createAxis(spec: any, options: IComponentOption): IPolarAxis;
-    static createComponent(spec: any, options: IComponentOption): IPolarAxis | IPolarAxis[];
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
+    static createComponent(specInfo: IModelSpecInfo, options: IComponentOption): IPolarAxis;
     effect: IEffect;
     setAttrFromSpec(): void;
     _transformLayoutPosition: (pos: Partial<IPoint>) => Partial<IPoint>;
@@ -41,6 +41,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     onRender(ctx: any): void;
     changeRegions(): void;
     protected _initData(): void;
+    protected _tickTransformOption(coordinateType: CoordinateType): IPolarTickDataOpt;
     afterCompile(): void;
     protected updateScaleRange(): boolean;
     protected collectData(depth: number): {
@@ -75,6 +76,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     updateLayoutAttribute(): void;
     private _layoutAngleAxis;
     private _layoutRadiusAxis;
+    protected _getRelatedAngleAxis(): IPolarAxis | undefined;
     private computeLayoutOuterRadius;
     private computeLayoutInnerRadius;
     private getRefLayoutRect;

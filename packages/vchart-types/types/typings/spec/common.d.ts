@@ -24,6 +24,7 @@ import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { ICommonAxisSpec } from '../../component/axis';
 export type IChartPadding = ILayoutOrientPadding | number;
 export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
     dom?: string | HTMLElement;
@@ -74,6 +75,7 @@ export interface IChartSpec {
     brush?: IBrushSpec;
     scales?: IVisualSpecScale<unknown, unknown>[];
     customMark?: ICustomMarkSpec<EnableMarkType>[];
+    axes?: ICommonAxisSpec[];
     theme?: Omit<ITheme, 'name'> | string;
     background?: IBackgroundSpec;
     stackInverse?: boolean;

@@ -1,21 +1,18 @@
+import type { Maybe } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
-import type { IDiscreteLegendSpec, IDiscreteLegendTheme } from './interface';
+import type { IDiscreteLegendSpec } from './interface';
 import type { ISeries } from '../../../series/interface';
-import type { IModelInitOption } from '../../../model/interface';
-import type { IComponentOption } from '../../interface';
+import type { IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components';
-import type { ILegend } from '../interface';
 import { BaseLegend } from '../base-legend';
 import type { ILayoutRect } from '../../../typings/layout';
 export declare class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     static specKey: string;
-    specKey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    protected _theme: IDiscreteLegendTheme;
-    static createComponent(spec: any, options: IComponentOption): ILegend[] | DiscreteLegend;
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     init(option: IModelInitOption): void;
     protected _initLegendData(): DataView;
     protected _getSeriesLegendField(s: ISeries): string;

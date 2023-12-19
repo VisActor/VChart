@@ -1,21 +1,22 @@
 import type { IRuleMark } from '../../mark/rule';
 import { BarSeries } from '../bar/bar';
-import type { IWaterfallSeriesSpec, IWaterfallSeriesTheme } from './interface';
+import type { IWaterfallSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { ITransformOptions, DataView } from '@visactor/vdataset';
 import { SeriesData } from '../base/series-data';
 import type { ITextMark } from '../../mark/text';
 import type { IModelEvaluateOption } from '../../model/interface';
-import type { Datum, Maybe } from '../../typings';
+import type { Datum } from '../../typings';
 import type { ILabelMark } from '../../mark/label';
 export declare const DefaultBandWidth = 6;
 export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSpec> extends BarSeries<any> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: any;
     protected _stack: boolean;
-    protected _theme: Maybe<IWaterfallSeriesTheme>;
     protected _totalData?: SeriesData;
     getTotalData(): any;
     protected _spec: T;

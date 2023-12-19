@@ -10,3 +10,4 @@ export declare class SymbolMark extends BaseSymbolMark<ISymbolMarkSpec> implemen
     static readonly type = MarkTypeEnum.symbol;
     readonly type = MarkTypeEnum.symbol;
 }
+export declare const registerSymbolMark: () => void;

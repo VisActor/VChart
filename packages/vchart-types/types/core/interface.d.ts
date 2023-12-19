@@ -10,9 +10,9 @@ import type { ITheme } from '../theme';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
-import type { IChart } from '../chart/interface';
-import type { IGradientColor, Stage } from '@visactor/vrender-core';
-import type { IThemeColorScheme } from '../theme/color-scheme/interface';
+import type { IChart, IChartSpecInfo } from '../chart/interface';
+import type { Stage } from '@visactor/vrender-core';
+import type { IContainerSize } from '@visactor/vrender-components';
 export type DataLinkSeries = {
     seriesId?: StringOrNumber;
     seriesIndex?: number;
@@ -23,8 +23,8 @@ export type DataLinkAxis = {
 };
 export interface IVChart {
     readonly id: number;
-    renderSync: (morphConfig?: IMorphConfig) => IVChart;
-    renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
+    renderSync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => IVChart;
+    renderAsync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => Promise<IVChart>;
     updateData: (id: StringOrNumber, data: Datum[] | string, options?: IParserOptions) => Promise<IVChart>;
     updateDataInBatches: (list: {
         id: string;
@@ -32,8 +32,8 @@ export interface IVChart {
         options?: IParserOptions;
     }[]) => Promise<IVChart>;
     updateDataSync: (id: StringOrNumber, data: Datum[], options?: IParserOptions) => IVChart;
-    updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => Promise<IVChart>;
-    updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => void;
+    updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => Promise<IVChart>;
+    updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => void;
     updateModelSpecSync: (filter: string | {
         type: string;
         index: number;
@@ -42,6 +42,7 @@ export interface IVChart {
         type: string;
         index: number;
     }, spec: unknown, forceMerge?: boolean, morphConfig?: IMorphConfig) => Promise<IVChart>;
+    updateSpecAndRecompile: (spec: ISpec, forceMerge: boolean, option: IVChartRenderOption) => boolean;
     updateViewBox: (viewBox: IBoundsLike, reRender?: boolean) => IVChart;
     resize: (width: number, height: number) => Promise<IVChart>;
     release: () => void;
@@ -86,12 +87,17 @@ export interface IVChart {
     unregisterFunction: (key: string) => void;
     getFunction: (key: string) => Function | null;
     getFunctionList: () => string[] | null;
+    getSpecInfo: () => IChartSpecInfo;
+    setRuntimeSpec: (spec: any) => void;
+    getSpec: () => any;
+    getCurrentSize: () => IContainerSize;
 }
 export interface IGlobalConfig {
     uniqueTooltip?: boolean;
 }
-export interface IChartLevelTheme {
-    background?: string | IGradientColor;
-    fontFamily?: string;
-    colorScheme?: IThemeColorScheme;
+export interface IVChartRenderOption {
+    morphConfig?: IMorphConfig;
+    transformSpec?: boolean;
+    actionSource?: VChartRenderActionSource;
 }
+export type VChartRenderActionSource = 'render' | 'updateSpec' | 'updateModelSpec' | 'setCurrentTheme' | 'updateSpecAndRecompile';

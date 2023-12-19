@@ -2,9 +2,9 @@ import type { Dict, IBoundsLike } from '@visactor/vutils';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
-import type { IPadding, Maybe, StringOrNumber } from '../../typings';
+import type { IPadding, StringOrNumber } from '../../typings';
 import type { IComponentOption } from '../interface';
-import type { ICrossHair, CrossHairTrigger, ICartesianCrosshairSpec, IPolarCrosshairSpec, ICrosshairTheme, ICrosshairCategoryFieldSpec } from './interface';
+import type { ICrossHair, CrossHairTrigger, ICartesianCrosshairSpec, IPolarCrosshairSpec, ICrosshairCategoryFieldSpec } from './interface';
 import type { IAxis } from '../axis/interface';
 export type IBound = {
     x1: number;
@@ -31,6 +31,8 @@ export interface IHair {
     };
 }
 export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCrosshairSpec> extends BaseComponent<T> implements ICrossHair {
+    static specKey: string;
+    specKey: string;
     layoutType: 'none';
     gridZIndex: number;
     labelZIndex: number;
@@ -38,7 +40,6 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     enable: boolean;
     showDefault: boolean;
     triggerOff: CrossHairTrigger | 'none';
-    protected _theme: Maybe<ICrosshairTheme>;
     get enableRemain(): boolean;
     private _limitBounds;
     constructor(spec: T, options: IComponentOption);
@@ -50,7 +51,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     protected _showDefaultCrosshair(): void;
     setAttrFromSpec(): void;
     created(): void;
-    _compareSpec(): {
+    _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;

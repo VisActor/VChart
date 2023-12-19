@@ -1,3 +1,4 @@
+import type { Maybe } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { DataFilterBaseComponent } from '../data-filter-base-component';
@@ -6,10 +7,16 @@ import type { IRectGraphicAttribute, ISymbolGraphicAttribute, IGraphic } from '@
 import type { Datum, ILayoutType } from '../../../typings';
 import type { ILinearScale, IBaseScale } from '@visactor/vscale';
 import type { IDataZoomSpec } from './interface';
+import type { IModelSpecInfo } from '../../../model/interface';
+import { DataZoomSpecTransformer } from './data-zoom-transformer';
 export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
     static type: ComponentTypeEnum;
+    static readonly transformerConstructor: any;
     type: ComponentTypeEnum;
     name: string;
+    readonly transformerConstructor: typeof DataZoomSpecTransformer;
+    static specKey: string;
+    specKey: string;
     layoutZIndex: number;
     layoutLevel: number;
     layoutType: ILayoutType;
@@ -19,11 +26,10 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     protected _middleHandlerSize: number;
     protected _startHandlerSize: number;
     protected _endHandlerSize: number;
-    static createComponent(spec: any, options: IComponentOption): DataZoom<any> | DataZoom<IDataZoomSpec>[];
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     constructor(spec: T, options: IComponentOption);
     created(): void;
     setAttrFromSpec(): void;
-    protected _prepareSpecBeforeMergingTheme(originalSpec: T): T;
     onLayoutEnd(ctx: any): void;
     protected _initValueScale(): void;
     protected _updateScaleRange(): void;
@@ -47,6 +53,10 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
             visible: boolean;
             icon: ISymbolGraphicAttribute;
             background: any;
+        } | {
+            visible: boolean;
+            icon?: undefined;
+            background?: undefined;
         };
         endHandlerStyle: ISymbolGraphicAttribute;
         startTextStyle: unknown;

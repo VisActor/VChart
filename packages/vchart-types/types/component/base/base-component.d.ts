@@ -9,10 +9,15 @@ import type { IAnimate } from '../../animation/interface';
 import type { Datum, ILayoutRect } from '../../typings';
 import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
-export declare abstract class BaseComponent<T extends IComponentSpec = IComponentSpec> extends LayoutModel<T> implements IComponent {
+import { BaseComponentSpecTransformer } from './base-component-transformer';
+import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
+export declare class BaseComponent<T extends IComponentSpec = IComponentSpec> extends LayoutModel<T> implements IComponent {
+    static transformerConstructor: typeof BaseComponentSpecTransformer;
     name: string;
     readonly modelType: string;
+    readonly transformerConstructor: any;
     pluginService?: IComponentPluginService;
+    static createComponent(specInfo: IModelSpecInfo, options: IComponentOption): IComponent;
     protected _option: IComponentOption;
     protected _regions: IRegion[];
     getRegions(): IRegion[];
@@ -21,18 +26,17 @@ export declare abstract class BaseComponent<T extends IComponentSpec = IComponen
     animate?: IAnimate;
     constructor(spec: T, options: IComponentOption);
     initLayout(): void;
-    abstract changeRegions(regions: IRegion[]): void;
-    protected abstract _getNeedClearVRenderComponents(): IGraphic[];
+    changeRegions(regions: IRegion[]): void;
+    protected _getNeedClearVRenderComponents(): IGraphic[];
+    onRender(ctx: IModelRenderOption): void;
     getVRenderComponents(): IGraphic<Partial<import("@visactor/vrender-core").IGraphicAttribute>>[];
     protected callPlugin(cb: (plugin: IComponentPlugin) => void): void;
     protected eventPos(markEventParams: BaseEventParams): {
         x: number;
         y: number;
     };
-    protected _getTheme(): any;
-    protected _mergeThemeToSpec(): void;
     protected getContainer(): IGroup;
-    _compareSpec(): {
+    _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;

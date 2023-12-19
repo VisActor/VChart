@@ -1,14 +1,14 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IGrammarItem } from '../../compile/interface';
 import type { IGroupMark } from '../../mark/group';
-import type { IModelMarkInfo, IModelOption } from '../../model/interface';
+import type { IModelConstructor, IModelMarkInfo, IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
-import type { StringOrNumber } from '../../typings';
+import type { ISeriesSpec, StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label';
-import type { SeriesMarkNameEnum } from './type';
+import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
 import type { ICustomPath2D } from '@visactor/vrender-core';
 export interface ISeriesSeriesInfo {
     key: string;
@@ -22,8 +22,8 @@ export interface ISeriesOption extends IModelOption {
     sourceDataList: DataView[];
     getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
 }
-export interface ISeriesConstructor {
-    type: string;
+export interface ISeriesConstructor extends IModelConstructor {
+    readonly type: string;
     mark?: SeriesMarkMap;
     new (spec: any, options: ISeriesOption): ISeries;
 }
@@ -65,7 +65,6 @@ export interface ISeriesMarkInitOption {
     dataProductId?: string;
     seriesId?: number;
     progressive?: IMarkProgressiveConfig;
-    label?: TransformedLabelSpec;
     support3d?: boolean;
     customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
 }
@@ -73,3 +72,9 @@ export interface ISeriesMarkInfo extends IModelMarkInfo {
     name: SeriesMarkNameEnum | string;
 }
 export type SeriesMarkMap = Partial<Record<SeriesMarkNameEnum, ISeriesMarkInfo>>;
+export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec> extends IModelSpecInfo {
+    type: string | SeriesTypeEnum;
+    spec: T;
+    markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
+    totalLabel?: IModelSpecInfo;
+}

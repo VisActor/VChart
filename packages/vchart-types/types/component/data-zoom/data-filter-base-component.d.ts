@@ -44,7 +44,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _zoomAttr: IRoamZoomSpec;
     protected _dragAttr: IRoamDragSpec;
     protected _scrollAttr: IRoamScrollSpec;
-    setStartAndEnd(start: number, end: number): void;
+    setStartAndEnd(start: number | string, end: number | string, rangeMode?: ['percent' | 'value', 'percent' | 'value']): void;
     enableInteraction(): void;
     disableInteraction(): void;
     zoomIn(location?: {
@@ -85,14 +85,14 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     init(option: IModelInitOption): void;
     protected _addTransformToSeries(): void;
     onRender(ctx: any): void;
-    _compareSpec(): {
+    _compareSpec(spec: AdaptiveSpec<T, 'width' | 'height'>, prevSpec: AdaptiveSpec<T, 'width' | 'height'>): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;
         reSize: boolean;
         reCompile: boolean;
     };
-    reInit(theme?: any): void;
+    reInit(spec?: AdaptiveSpec<T, 'width' | 'height'>): void;
     changeRegions(): void;
     protected update(ctx: IComponentOption): void;
     protected resize(ctx: IComponentOption): void;

@@ -1,18 +1,20 @@
 import { BaseComponent } from '../base/base-component';
-import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent } from '@visactor/vrender-components';
-import type { IModelRenderOption } from '../../model/interface';
+import type { Maybe } from '@visactor/vutils';
+import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { ISeries } from '../../series/interface';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec } from './interface';
-export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
+export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> implements IBrush {
     layoutType: 'none';
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    static specKey: string;
+    specKey: string;
     layoutZIndex: number;
     protected _brushComponents: BrushComponent[];
     protected _relativeRegions: IRegion[];
@@ -39,7 +41,7 @@ export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     private _cacheInteractiveRangeAttrs;
     private _needEnablePickable;
     init(): void;
-    static createComponent(spec: any, options: IComponentOption): Brush[];
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     created(): void;
     protected _extendDataInBrush(elementsMap: {
         [brushName: string]: {
@@ -52,6 +54,8 @@ export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     protected _getBrushInteractiveAttr(region: IRegion): BrushInteractiveRangeAttr;
     protected _updateBrushComponent(region: IRegion, componentIndex: number): void;
     protected _createBrushComponent(region: IRegion, componentIndex: number): void;
+    private _handleBrushChange;
+    private _emitEvent;
     private _transformBrushedMarkAttr;
     private _reconfigItem;
     private _reconfigLinkedItem;
@@ -64,7 +68,7 @@ export declare class Brush extends BaseComponent<IBrushSpec> implements IBrush {
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
     protected _getNeedClearVRenderComponents(): IGraphic[];
-    _compareSpec(): {
+    _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;

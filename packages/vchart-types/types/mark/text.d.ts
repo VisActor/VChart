@@ -10,3 +10,4 @@ export declare class TextMark extends BaseMark<ITextMarkSpec> implements ITextMa
     protected _getDefaultStyle(): IMarkStyle<ITextMarkSpec>;
     protected _initProduct(group?: string | IGroupMark): void;
 }
+export declare const registerTextMark: () => void;

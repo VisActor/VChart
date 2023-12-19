@@ -18,3 +18,4 @@ export declare class ArcMark extends BaseArcMark<IArcMarkSpec> implements IArcMa
     static readonly type = MarkTypeEnum.arc;
     readonly type: MarkTypeEnum;
 }
+export declare const registerArcMark: () => void;

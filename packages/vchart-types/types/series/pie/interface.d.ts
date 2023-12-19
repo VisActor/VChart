@@ -6,6 +6,9 @@ import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
 import type { ILabelSpec } from '../../component/label';
 export type PieMarks = 'pie' | 'label' | 'labelLine';
+export type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & {
+    type: string;
+};
 export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMarks, PieAppearPreset> {
     type: 'pie';
     categoryField: string;
