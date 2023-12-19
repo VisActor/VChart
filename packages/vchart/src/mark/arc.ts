@@ -1,3 +1,4 @@
+import { Factory } from './../core/factory';
 import { ARC_MIDDLE_ANGLE } from '../constant';
 import type { IArcMarkSpec, Datum, StateValueType } from '../typings';
 import { polarToCartesian } from '../util/math';
@@ -6,6 +7,8 @@ import { BaseMark } from './base/base-mark';
 import type { IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
+import { registerArcGraphic } from '@visactor/vgrammar-core';
+import { registerVGrammarArcAnimation } from '../animation/config';
 
 export type IArcMark = IMarkRaw<IArcMarkSpec>;
 
@@ -69,3 +72,9 @@ export class ArcMark extends BaseArcMark<IArcMarkSpec> implements IArcMark {
   static readonly type = MarkTypeEnum.arc;
   readonly type: MarkTypeEnum = ArcMark.type;
 }
+
+export const registerArcMark = () => {
+  registerArcGraphic();
+  registerVGrammarArcAnimation();
+  Factory.registerMark(ArcMark.type, ArcMark);
+};

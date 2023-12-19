@@ -1,16 +1,17 @@
-import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
+import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
 import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
 import type { Datum, IShowTooltipOption } from '../../typings';
-import type { ITooltip, ITooltipActiveTypeAsKeys, ITooltipSpec, ITooltipTheme, TooltipHandlerParams, TotalMouseEventData } from './interface';
+import type { ITooltip, ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams, TotalMouseEventData } from './interface';
 import { TooltipResult } from './interface/common';
 import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
 import { MarkTooltipProcessor } from './processor/mark-tooltip';
+import type { Maybe } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
+import { TooltipSpecTransformer } from './tooltip-transformer';
 export type TooltipActualTitleContent = {
     title?: IToolTipLineActual;
     content?: IToolTipLineActual[];
@@ -18,16 +19,19 @@ export type TooltipActualTitleContent = {
 export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected layoutZIndex: number;
     static type: ComponentTypeEnum;
+    static readonly transformerConstructor: typeof TooltipSpecTransformer;
     type: ComponentTypeEnum;
     name: string;
+    readonly transformerConstructor: typeof TooltipSpecTransformer;
+    static specKey: string;
+    specKey: string;
     layoutType: 'none';
     protected _spec: ITooltipSpec;
-    static createComponent(spec: any, options: IComponentOption): Tooltip | Tooltip[];
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     tooltipHandler?: ITooltipHandler;
     private _alwaysShow;
     private _cacheInfo;
     private _eventList;
-    protected _theme: ITooltipTheme;
     protected _processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor>;
     protected _isTooltipShown: boolean;
     isTooltipShown(): boolean;
@@ -51,9 +55,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _showTooltipByMouseEvent: (activeType: TooltipActiveType, mouseEventData: TotalMouseEventData, params: BaseEventParams, useCache?: boolean) => boolean;
     protected _getMouseEventData: (params: BaseEventParams) => TotalMouseEventData;
     protected _hideTooltipByHandler: (params: TooltipHandlerParams) => TooltipResult;
-    protected _initTheme(theme?: any): void;
-    protected _shouldMergeThemeToSpec(): boolean;
-    reInit(theme?: any): void;
+    reInit(spec?: any): void;
     setAttrFromSpec(): void;
     showTooltip(datum: Datum, options: IShowTooltipOption): false | "none" | TooltipActiveType;
     hideTooltip(): boolean;

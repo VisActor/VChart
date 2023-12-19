@@ -36,7 +36,7 @@ import type { ITooltipSpec, ITooltipTheme } from './tooltip';
 import { Tooltip, registerTooltip } from './tooltip';
 import type { ILabelSpec, ITotalLabelTheme } from './label';
 import { Label, registerLabel } from './label';
-import { TotalLabel, registerTotalLabel } from './label/totalLabel';
+import { TotalLabel, registerTotalLabel } from './label/total-label';
 import { registerPoptip } from './poptip/index';
 import type { IComponentTheme } from './interface';
 import type { IAxisCommonTheme, IAxisItemTheme, IBandAxisTheme } from './axis/interface';

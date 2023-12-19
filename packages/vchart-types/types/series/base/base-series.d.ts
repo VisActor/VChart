@@ -4,7 +4,7 @@ import type { IRegion } from '../../region/interface';
 import type { IMark } from '../../mark/interface';
 import type { CoordinateType, IInvalidType, IPoint, DataKeyType, Datum, Maybe, ISeriesSpec, IGroup, ILayoutType, ILayoutPoint, ILayoutRect } from '../../typings';
 import { BaseModel } from '../../model/base-model';
-import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo } from '../interface';
+import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo } from '../interface';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 import type { ITrigger } from '../../interaction/interface';
@@ -12,9 +12,7 @@ import type { StatisticOperations } from '../../data/transforms/dimension-statis
 import { SeriesData } from './series-data';
 import type { IGroupMark } from '../../mark/group';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
-import type { ILabelSpec } from '../../component';
-import type { ILabelMark } from '../../mark/label';
-import type { TransformedLabelSpec } from '../../component/label';
+import { BaseSeriesSpecTransformer } from './base-series-transformer';
 export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
     readonly specKey: string;
     readonly type: string;
@@ -22,6 +20,9 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     readonly modelType: string;
     readonly name: string | undefined;
     static readonly mark: SeriesMarkMap;
+    static readonly transformerConstructor: typeof BaseSeriesSpecTransformer;
+    readonly transformerConstructor: any;
+    getSpecInfo: () => ISeriesSpecInfo;
     protected _trigger: ITrigger;
     getTrigger(): ITrigger;
     protected _option: ISeriesOption;
@@ -137,7 +138,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected initEvent(): void;
     protected _releaseEvent(): void;
     protected initTooltip(): void;
-    _compareSpec(ignoreCheckKeys?: {
+    _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: {
         [key: string]: true;
     }): {
         change: boolean;
@@ -147,7 +148,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
         reCompile: boolean;
     };
     _updateSpecData(): void;
-    reInit(theme?: any, lastSpec?: any): void;
+    reInit(spec?: T): void;
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
     onRender(ctx: IModelRenderOption): void;
     release(): void;
@@ -181,7 +182,6 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     getMeasureField(): string[];
     protected onMarkPositionUpdate(): void;
     protected onMarkTreePositionUpdate(marks: IMark[]): void;
-    protected _getTheme(): any;
     protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option?: ISeriesMarkInitOption): NonNullable<M>;
     protected _getDataIdKey(): string | ((datum: Datum) => string);
     protected _getSeriesDataKey(datum: Datum): string;
@@ -195,5 +195,4 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     getMarkInfoList(): import("../../model/interface").IModelMarkInfo[];
     protected _getInvalidConnectType(): "none" | "zero" | "connect";
     protected _getInvalidDefined: (datum: Datum) => boolean;
-    protected _preprocessLabelSpec(spec: ILabelSpec, styleHandler?: (mark: ILabelMark) => void, hasAnimation?: boolean): TransformedLabelSpec;
 }

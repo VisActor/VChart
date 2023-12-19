@@ -1,15 +1,16 @@
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
+import type { IGaugeSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
 import type { Datum } from '@visactor/vgrammar-core';
-import type { Maybe } from '../../typings';
 import type { IMark } from '../../mark/interface';
+import { GaugeSeriesSpecTransformer } from './gauge-transformer';
 export declare class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<IGaugeSeriesTheme>;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof GaugeSeriesSpecTransformer;
     private _segmentMark;
     private _trackMark;
     protected _stack: boolean;

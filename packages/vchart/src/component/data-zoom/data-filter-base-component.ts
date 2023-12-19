@@ -120,9 +120,19 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
    * @param end datazoom终点所在的相对位置
    * @returns
    */
-  setStartAndEnd(start: number, end: number) {
-    this._handleChange(start, end, true);
+  setStartAndEnd(
+    start: number | string,
+    end: number | string,
+    rangeMode: ['percent' | 'value', 'percent' | 'value'] = ['percent', 'percent']
+  ) {
+    const [startMode = 'percent', endMode = 'percent'] = rangeMode;
+
+    const startPercent = (startMode === 'percent' ? start : this._dataToStatePoint(start)) as number;
+    const endPercent = (endMode === 'percent' ? end : this._dataToStatePoint(end)) as number;
+
+    this._handleChange(startPercent, endPercent, true);
   }
+
   enableInteraction() {
     this._activeRoam = true;
   }
@@ -164,8 +174,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       return false;
     }
     const axisScale = axis.getScale() as IBandLikeScale;
-    const axisSpec = axis.getSpec() as ICartesianBandAxisSpec;
-    return axisScale.range()[0] > axisScale.range()[1] && (!axisSpec.inverse || this._isHorizontal);
+    return axisScale.range()[0] > axisScale.range()[1] && (!axis.getInverse() || this._isHorizontal);
   }
 
   protected _updateRangeFactor(tag?: string, label?: string) {
@@ -675,9 +684,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   /**
    * updateSpec
    */
-  _compareSpec() {
-    const result = super._compareSpec();
-    if (!result.reMake && !isEqual(this._originalSpec, this._spec)) {
+  _compareSpec(spec: AdaptiveSpec<T, 'width' | 'height'>, prevSpec: AdaptiveSpec<T, 'width' | 'height'>) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!result.reMake && !isEqual(prevSpec, spec)) {
       result.reRender = true;
       result.reMake = true;
     }
@@ -685,8 +694,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return result;
   }
 
-  reInit(theme?: any) {
-    super.reInit(theme);
+  reInit(spec?: AdaptiveSpec<T, 'width' | 'height'>) {
+    super.reInit(spec);
 
     this._marks.forEach(g => {
       (<IGroupMark>g).getMarks().forEach(m => {
@@ -894,9 +903,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
     let isShown = true;
     if (this._isHorizontal && rect?.width !== this._cacheRect?.width) {
-      axisScale.range(axisSpec.inverse ? [rect.width, 0] : [0, rect.width]);
+      axisScale.range(axis.getInverse() ? [rect.width, 0] : [0, rect.width]);
     } else if (rect?.height !== this._cacheRect?.height) {
-      axisScale.range(axisSpec.inverse ? [0, rect.height] : [rect.height, 0]);
+      axisScale.range(axis.getInverse() ? [0, rect.height] : [rect.height, 0]);
     }
 
     this._cacheRect = {

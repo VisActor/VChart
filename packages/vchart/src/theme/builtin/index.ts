@@ -1,7 +1,5 @@
 export * from './light';
 export * from './dark';
-/** 历史弃用主题 */
-export * from './common/legacy';
 
 import { isString } from '@visactor/vutils';
 import { mergeTheme } from '../../util/spec/merge-theme';

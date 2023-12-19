@@ -1,4 +1,4 @@
-import type { Group, IArc, Text } from '@visactor/vrender-core';
+import type { Group, Text } from '@visactor/vrender-core';
 import type { IBarChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
 import { createDiv, createCanvas, removeDom } from '../../util/dom';
@@ -154,7 +154,10 @@ describe('VChart', () => {
               visible: false
             }
           }
-        ]
+        ],
+        dataZoom: {
+          visible: true
+        }
       };
       vchart = new VChart(spec, {
         renderCanvas: canvasDom,
@@ -162,7 +165,7 @@ describe('VChart', () => {
         autoFit: true
       });
 
-      expect((vchart as any)._curSize).toEqual({
+      expect((vchart as any)._currentSize).toEqual({
         width: 200,
         height: 150
       });
@@ -171,6 +174,7 @@ describe('VChart', () => {
 
       expect(vchart.getStage()).toBeDefined();
       expect(vchart.getStage().background).toBe('red');
+      expect(vchart.getChart()?.getComponentsByKey('dataZoom').length).toBe(1);
     });
 
     it('updateData', () => {

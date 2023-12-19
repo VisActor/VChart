@@ -3,7 +3,7 @@ import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface/type';
 import { BarSeries } from './bar';
-import { Rect3dMark } from '../../mark/rect-3d';
+import { Rect3dMark, registerRect3dMark } from '../../mark/rect-3d';
 import type { IBar3dSeriesSpec } from './interface';
 import type { AdaptiveSpec } from '../../typings';
 import { bar3dSeriesMark } from './constant';
@@ -21,7 +21,7 @@ export class Bar3dSeries<T extends IBar3dSeriesSpec = IBar3dSeriesSpec> extends 
 }
 
 export const registerBar3dSeries = () => {
-  Factory.registerMark(Rect3dMark.type, Rect3dMark);
-  Factory.registerSeries(Bar3dSeries.type, Bar3dSeries);
   registerBar3dAnimation();
+  registerRect3dMark();
+  Factory.registerSeries(Bar3dSeries.type, Bar3dSeries);
 };

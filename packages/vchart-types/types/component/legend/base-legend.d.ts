@@ -10,6 +10,8 @@ export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends Ba
     layoutType: ILayoutType;
     layoutZIndex: number;
     layoutLevel: number;
+    static specKey: string;
+    specKey: string;
     protected _orient: IOrientType;
     get orient(): IOrientType;
     protected _visible: boolean;
@@ -31,7 +33,7 @@ export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends Ba
     setAttrFromSpec(): void;
     created(): void;
     onRender(ctx: any): void;
-    _compareSpec(): {
+    _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;

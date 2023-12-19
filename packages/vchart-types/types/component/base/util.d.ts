@@ -1,3 +1,3 @@
-import type { IModelOption } from '../../model/interface';
+import type { ITheme } from '../../theme';
 import { ComponentTypeEnum } from '../interface/type';
-export declare function getComponentThemeFromGlobalTheme(type: ComponentTypeEnum, option: Partial<IModelOption>, componentSpec: any): any;
+export declare function getComponentThemeFromGlobalTheme(type: ComponentTypeEnum, chartTheme: ITheme, componentSpec: any, chartSpec: any): any;

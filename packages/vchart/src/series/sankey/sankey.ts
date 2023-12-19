@@ -27,9 +27,9 @@ import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { RectMark } from '../../mark/rect';
-import { TextMark } from '../../mark/text';
-import { LinkPathMark } from '../../mark/link-path';
+import { RectMark, registerRectMark } from '../../mark/rect';
+import { TextMark, registerTextMark } from '../../mark/text';
+import { LinkPathMark, registerLinkPathMark } from '../../mark/link-path';
 import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
@@ -1404,10 +1404,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
 export const registerSankeySeries = () => {
   registerSankeyTransforms();
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerMark(LinkPathMark.type, LinkPathMark);
-  Factory.registerMark(TextMark.type, TextMark);
-  Factory.registerSeries(SankeySeries.type, SankeySeries);
+  registerRectMark();
+  registerLinkPathMark();
+  registerTextMark();
   registerSankeyAnimation();
   registerFadeInOutAnimation();
+  Factory.registerSeries(SankeySeries.type, SankeySeries);
 };

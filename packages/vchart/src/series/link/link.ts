@@ -14,8 +14,8 @@ import type { IGroupMark } from '../../mark/group';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
 import type { ILinkSeriesSpec, ILinkSeriesTheme } from './interface';
 import type { SeriesMarkMap } from '../interface';
-import { RuleMark } from '../../mark/rule';
-import { SymbolMark } from '../../mark/symbol';
+import { RuleMark, registerRuleMark } from '../../mark/rule';
+import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { linkSeriesMark } from './constant';
 import { linkDotInfo } from '../../data/transforms/link-dot-info';
 import { Factory } from '../../core/factory';
@@ -26,8 +26,6 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
   type = SeriesTypeEnum.link;
 
   static readonly mark: SeriesMarkMap = linkSeriesMark;
-
-  protected declare _theme: Maybe<ILinkSeriesTheme>;
 
   protected _fromField?: string;
   getFromField() {
@@ -360,7 +358,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 }
 
 export const registerLinkSeries = () => {
-  Factory.registerMark(RuleMark.type, RuleMark);
-  Factory.registerMark(SymbolMark.type, SymbolMark);
+  registerRuleMark();
+  registerSymbolMark();
   Factory.registerSeries(LinkSeries.type, LinkSeries);
 };

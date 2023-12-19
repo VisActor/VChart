@@ -1,3 +1,4 @@
+import { Factory } from './../core/factory';
 import { isFunction, isValid } from '@visactor/vutils';
 import type { DataView } from '@visactor/vdataset';
 import type { StateValueType } from '../typings/spec';
@@ -7,6 +8,8 @@ import type { IMarkRaw, IMarkStateStyle, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import { BaseArcMark } from './arc';
 import type { IAttributeOpt } from '../compile/mark/interface';
+import { registerVGrammarArcAnimation } from '../animation/config';
+import { registerArcGraphic } from '@visactor/vgrammar-core';
 
 export type IProgressArcMark = IMarkRaw<IProgressArcMarkSpec>;
 
@@ -123,3 +126,9 @@ export class ProgressArcMark extends BaseArcMark<IProgressArcMarkSpec> implement
     return style;
   }
 }
+
+export const registerProgressArcMark = () => {
+  registerArcGraphic();
+  registerVGrammarArcAnimation();
+  Factory.registerMark(ProgressArcMark.constructorType, ProgressArcMark);
+};

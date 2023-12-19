@@ -11,20 +11,21 @@ import type { Maybe } from '../../typings';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 // eslint-disable-next-line no-duplicate-imports
-import { ProgressArcMark } from '../../mark/progress-arc';
+import { ProgressArcMark, registerProgressArcMark } from '../../mark/progress-arc';
 import { gaugeSeriesMark } from './constant';
 import { degreeToRadian, isValid } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
-import { registerCircularProgressAnimation } from '../polar/progress-like';
+import { registerProgressLikeAnimation } from '../polar/progress-like';
 import type { IMark } from '../../mark/interface';
+import { GaugeSeriesSpecTransformer } from './gauge-transformer';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
   type = SeriesTypeEnum.gauge;
 
   static readonly mark: SeriesMarkMap = gaugeSeriesMark;
-
-  protected declare _theme: Maybe<IGaugeSeriesTheme>;
+  static readonly transformerConstructor = GaugeSeriesSpecTransformer as any;
+  readonly transformerConstructor = GaugeSeriesSpecTransformer;
 
   private _segmentMark: IProgressArcMark | null = null;
   private _trackMark: IProgressArcMark | null = null;
@@ -75,8 +76,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     }) as IProgressArcMark;
     this._segmentMark = this._createMark(GaugeSeries.mark.segment, {
       parent: this._arcGroupMark,
-      isSeriesMark: true,
-      label: this._preprocessLabelSpec(this._spec.label)
+      isSeriesMark: true
     }) as IProgressArcMark;
   }
 
@@ -106,7 +106,6 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         // forceShowCap 是内部属性，不在接口中暴露
         forceShowCap: true
       });
-      segmentMark.setLabelSpec(this._preprocessLabelSpec(this._spec.label));
       this._trigger.registerMark(segmentMark);
     }
   }
@@ -184,7 +183,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 }
 
 export const registerGaugeSeries = () => {
-  Factory.registerMark(ProgressArcMark.constructorType, ProgressArcMark);
+  registerProgressArcMark();
+  registerProgressLikeAnimation();
   Factory.registerSeries(GaugeSeries.type, GaugeSeries);
-  registerCircularProgressAnimation();
 };

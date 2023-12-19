@@ -22,9 +22,9 @@ import type { ITheme } from '../theme';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { Compiler } from '../compile/compiler';
-import type { IChart } from '../chart/interface';
-import type { IGradientColor, Stage } from '@visactor/vrender-core';
-import type { IThemeColorScheme } from '../theme/color-scheme/interface';
+import type { IChart, IChartSpecInfo } from '../chart/interface';
+import type { Stage } from '@visactor/vrender-core';
+import type { IContainerSize } from '@visactor/vrender-components';
 
 export type DataLinkSeries = {
   /**
@@ -60,7 +60,7 @@ export interface IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  renderSync: (morphConfig?: IMorphConfig) => IVChart;
+  renderSync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => IVChart;
 
   /**
    * **异步**渲染图表。
@@ -68,7 +68,7 @@ export interface IVChart {
    * @param morphConfig 图表 morph 动画配置，可选
    * @returns VChart 实例
    */
-  renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
+  renderAsync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => Promise<IVChart>;
 
   /**
    * **异步**更新数据。
@@ -101,7 +101,12 @@ export interface IVChart {
    * @param forceMerge
    * @returns
    */
-  updateSpec: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => Promise<IVChart>;
+  updateSpec: (
+    spec: ISpec,
+    forceMerge?: boolean,
+    morphConfig?: IMorphConfig,
+    resetMediaQuery?: boolean
+  ) => Promise<IVChart>;
 
   /**
    * **同步方法**spec 更新。
@@ -109,7 +114,7 @@ export interface IVChart {
    * @param forceMerge
    * @returns
    */
-  updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig) => void;
+  updateSpecSync: (spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => void;
 
   /**
    * **同步方法** 模块 spec 更新
@@ -140,6 +145,9 @@ export interface IVChart {
     forceMerge?: boolean,
     morphConfig?: IMorphConfig
   ) => Promise<IVChart>;
+
+  /** 更新 spec 并重新编译（不渲染），返回是否成功 */
+  updateSpecAndRecompile: (spec: ISpec, forceMerge: boolean, option: IVChartRenderOption) => boolean;
 
   /**
    * 更新绘制区域。
@@ -421,6 +429,18 @@ export interface IVChart {
 
   /** 获取实例函数列表 */
   getFunctionList: () => string[] | null;
+
+  /** 获取图表 spec 详细信息 */
+  getSpecInfo: () => IChartSpecInfo;
+
+  /** 设置运行时 spec */
+  setRuntimeSpec: (spec: any) => void;
+
+  /** 获取运行时 spec */
+  getSpec: () => any;
+
+  /** 获取当前容器宽高 */
+  getCurrentSize: () => IContainerSize;
 }
 
 export interface IGlobalConfig {
@@ -431,12 +451,17 @@ export interface IGlobalConfig {
   // autoRelease?: boolean;
 }
 
-/** 图表层级的主题 */
-export interface IChartLevelTheme {
-  /** 图表背景色 */
-  background?: string | IGradientColor;
-  /** 图表字体配置 */
-  fontFamily?: string;
-  /** 全局色板 */
-  colorScheme?: IThemeColorScheme;
+export interface IVChartRenderOption {
+  /** morphing 动画 spec */
+  morphConfig?: IMorphConfig;
+  /** 是否重新转换图表 spec */
+  transformSpec?: boolean;
+  actionSource?: VChartRenderActionSource;
 }
+
+export type VChartRenderActionSource =
+  | 'render'
+  | 'updateSpec'
+  | 'updateModelSpec'
+  | 'setCurrentTheme'
+  | 'updateSpecAndRecompile';

@@ -43,13 +43,14 @@ import {
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { PolygonMark } from '../../mark/polygon/polygon';
-import { TextMark } from '../../mark/text';
-import { RuleMark } from '../../mark/rule';
+import { PolygonMark, registerPolygonMark } from '../../mark/polygon/polygon';
+import { TextMark, registerTextMark } from '../../mark/text';
+import { RuleMark, registerRuleMark } from '../../mark/rule';
 import { funnelSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import type { LabelItem } from '@visactor/vrender-components';
 import { Factory } from '../../core/factory';
+import { FunnelSeriesSpecTransformer } from './funnel-transformer';
 
 export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   extends BaseSeries<T>
@@ -63,6 +64,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   protected _transformMarkType: MarkTypeEnum = MarkTypeEnum.polygon;
 
   static readonly mark: SeriesMarkMap = funnelSeriesMark;
+  static readonly transformerConstructor = FunnelSeriesSpecTransformer as any;
+  readonly transformerConstructor = FunnelSeriesSpecTransformer;
 
   protected _categoryField!: string;
   getCategoryField() {
@@ -83,8 +86,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   }
 
   protected _viewDataTransform!: SeriesData;
-
-  protected declare _theme: Maybe<IFunnelSeriesTheme>;
 
   protected _funnelAlign: 'left' | 'center' | 'right' | 'top' | 'bottom';
   protected _funnelOrient: IOrientType;
@@ -184,7 +185,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         key: this._seriesField,
         groupKey: this._seriesField,
         isSeriesMark: true,
-        label: this._preprocessLabelSpec(this._spec.label),
         customShape: this._spec.funnel?.customShape
       }
     ) as IPolygonMark;
@@ -202,7 +202,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
           skipBeforeLayouted: false,
           dataView: this._viewDataTransform.getDataView(),
           dataProductId: this._viewDataTransform.getProductId(),
-          label: this._preprocessLabelSpec(this._spec.transformLabel),
           customShape: this._spec.transform?.customShape
         }
       );
@@ -481,6 +480,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     super._buildMarkAttributeContext();
     // position
     this._markAttributeContext.valueToPosition = this.valueToPosition.bind(this);
+    this._markAttributeContext.getPoints = this.getPoints.bind(this);
+    this._markAttributeContext.isTransformLevel = this.isTransformLevel.bind(this);
   }
 
   valueToPosition(category: StringOrNumber) {
@@ -852,9 +853,9 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 }
 
 export const registerFunnelSeries = () => {
-  Factory.registerMark(PolygonMark.type, PolygonMark);
-  Factory.registerMark(TextMark.type, TextMark);
-  Factory.registerMark(RuleMark.type, RuleMark);
+  registerPolygonMark();
+  registerTextMark();
+  registerRuleMark();
   Factory.registerSeries(FunnelSeries.type, FunnelSeries);
   Factory.registerAnimation('funnel', (params: any, preset: FunnelAppearPreset) => ({
     appear: preset === 'clipIn' ? undefined : { type: 'fadeIn' },

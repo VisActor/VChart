@@ -1,6 +1,6 @@
 import type { IOrientType, IPolarOrientType } from '../../typings';
 import type { AxisType, ICommonAxisSpec, ILinearAxisSpec } from './interface';
-import type { IModelOption } from '../../model/interface';
+import type { ITheme } from '../../theme';
 export declare const DEFAULT_TITLE_STYLE: {
     left: {
         textAlign: string;
@@ -24,5 +24,6 @@ export declare function getLinearAxisSpecDomain(axisSpec: ILinearAxisSpec, defau
 };
 export declare function isValidCartesianAxis(spec: any): boolean;
 export declare function isValidPolarAxis(spec: any): boolean;
-export declare const getCartesianAxisTheme: (orient: IOrientType, type: AxisType, option: Partial<IModelOption>) => any;
-export declare const getPolarAxisTheme: (orient: IPolarOrientType, type: AxisType, option: Partial<IModelOption>) => any;
+export declare const getCartesianAxisTheme: (orient: IOrientType, type: AxisType, chartTheme: ITheme) => any;
+export declare const getPolarAxisTheme: (orient: IPolarOrientType, type: AxisType, chartTheme: ITheme) => any;
+export declare const isDiscreteAxis: (axisType: AxisType) => boolean;

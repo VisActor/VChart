@@ -4,8 +4,8 @@ import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
-import { RectMark, type IRectMark } from '../../mark/rect';
-import { TextMark, type ITextMark } from '../../mark/text';
+import { RectMark, type IRectMark, registerRectMark } from '../../mark/rect';
+import { TextMark, type ITextMark, registerTextMark } from '../../mark/text';
 import { valueInScaleRange } from '../../util/scale';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { setRectLabelPos } from '../util/label-mark';
@@ -22,6 +22,7 @@ import { registerRangeColumnAnimation, type RangeColumnAppearPreset } from './an
 import { rangeColumnSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { getGroupAnimationParams } from '../util/utils';
+import { RangeColumnSeriesSpecTransformer } from './range-column-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -34,6 +35,8 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   protected declare _spec: T;
 
   static readonly mark: SeriesMarkMap = rangeColumnSeriesMark;
+  static readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
+  readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
 
   protected _stack: boolean = false;
   private _minLabelMark?: ITextMark;
@@ -48,7 +51,6 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
       morph: shouldMarkDoMorph(this._spec, RangeColumnSeries.mark.bar.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      label: labelPosition === PositionEnum.bothEnd ? undefined : this._preprocessLabelSpec(this._spec.label),
       isSeriesMark: true,
       customShape: this._spec.bar?.customShape
     }) as IRectMark;
@@ -271,9 +273,9 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 }
 
 export const registerRangeColumnSeries = () => {
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerMark(TextMark.type, TextMark);
-  Factory.registerSeries(RangeColumnSeries.type, RangeColumnSeries);
+  registerRectMark();
+  registerTextMark();
   registerRangeColumnAnimation();
   registerFadeInOutAnimation();
+  Factory.registerSeries(RangeColumnSeries.type, RangeColumnSeries);
 };

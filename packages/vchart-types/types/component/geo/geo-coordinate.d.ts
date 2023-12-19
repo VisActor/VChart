@@ -1,12 +1,12 @@
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
-import type { IEffect, IModelLayoutOption, IModelRenderOption } from '../../model/interface';
-import type { IComponentOption } from '../interface';
+import type { IEffect, IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IGeoRegionSpec, IRegion } from '../../region/interface';
 import type { IGeoCoordinate, IGeoCoordinateSpec, IProjectionSpec } from './interface';
-import type { IChartSpec, StringOrNumber } from '../../typings';
+import type { StringOrNumber } from '../../typings';
+import type { Maybe } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
 export declare function projectionName(key: string, id: number): string;
 export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeoCoordinate {
@@ -29,10 +29,7 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
     }>;
     private _actualScale;
     getZoom(): number;
-    private _evaluated;
-    private _lastHeight;
-    private _lastWidth;
-    static createComponent(spec: IChartSpec, options: IComponentOption): IGeoCoordinate[];
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     effect: IEffect;
     setAttrFromSpec(): void;
     created(): void;

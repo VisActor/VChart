@@ -11,3 +11,4 @@ export * from '../constant';
 export * from '../typings/spec/index';
 export * from '../theme/index';
 export { vglobal } from '@visactor/vrender-core';
+export * from '../plugin';

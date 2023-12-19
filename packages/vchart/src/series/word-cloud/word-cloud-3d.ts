@@ -1,5 +1,5 @@
 import { AttributeLevel } from '../../constant';
-import { TextMark, type ITextMark } from '../../mark/text';
+import { type ITextMark, registerTextMark } from '../../mark/text';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IWordCloud3dSeriesSpec } from './interface';
 import type { Datum } from '../../typings';
@@ -114,9 +114,9 @@ export class WordCloud3dSeries<
 
 export const registerWordCloud3dSeries = () => {
   registerWordCloudTransforms();
-  Factory.registerMark(TextMark.type, TextMark);
-  Factory.registerSeries(WordCloud3dSeries.type, WordCloud3dSeries);
+  registerTextMark();
   registerWordCloud3dAnimation();
+  Factory.registerSeries(WordCloud3dSeries.type, WordCloud3dSeries);
 };
 
 export const registerWordCloudShape3dSeries = () => {

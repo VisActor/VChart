@@ -60,11 +60,6 @@ export interface ICompilableMark extends IGrammarItem {
   getFacet: () => string | undefined;
   setFacet: (facet: string) => void;
 
-  // 标签
-  getLabelSpec: () => TransformedLabelSpec[];
-  setLabelSpec: (label: TransformedLabelSpec | TransformedLabelSpec[]) => void;
-  addLabelSpec: (label: TransformedLabelSpec, head?: boolean) => void;
-
   // 状态
   state: MarkStateManager;
   readonly stateStyle: IMarkStateStyle<any>;
@@ -124,6 +119,7 @@ export interface ICompilableMark extends IGrammarItem {
 
   // 是否支持 3d
   getSupport3d: () => boolean | undefined;
+  setSupport3d: (support3d: boolean) => void;
 
   compile: (option?: IMarkCompileOption) => void;
 

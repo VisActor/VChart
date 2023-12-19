@@ -8,3 +8,4 @@ export declare class ImageMark extends BaseMark<IImageMarkSpec> implements IImag
     readonly type = MarkTypeEnum.image;
     protected _getDefaultStyle(): IMarkStyle<IImageMarkSpec>;
 }
+export declare const registerImageMark: () => void;

@@ -8,3 +8,4 @@ export declare class CellMark extends BaseSymbolMark<ICellMarkSpec> implements I
     readonly type = MarkTypeEnum.cell;
     protected _getDefaultStyle(): IMarkStyle<ICellMarkSpec>;
 }
+export declare const registerCellMark: () => void;

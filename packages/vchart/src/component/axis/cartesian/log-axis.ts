@@ -15,6 +15,8 @@ export class CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLogAxi
   static type = ComponentTypeEnum.cartesianLogAxis;
   type = ComponentTypeEnum.cartesianLogAxis;
 
+  static specKey = 'axes';
+
   protected _zero: boolean = false;
 
   protected _scale: LogScale = new LogScale();

@@ -1,3 +1,4 @@
 export * from './pie';
-export * from './pie-3d';
+export * from './3d';
+export * from './base';
 export * from './interface';

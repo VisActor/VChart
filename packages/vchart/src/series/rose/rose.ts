@@ -10,11 +10,12 @@ import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
-import { ArcMark } from '../../mark/arc';
+import { ArcMark, registerArcMark } from '../../mark/arc';
 import { roseSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import type { ILabelMark } from '../../mark/label';
+import { RoseSeriesSpecTransformer } from './rose-transformer';
 
 export const DefaultBandWidth = 0.5;
 
@@ -23,8 +24,8 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
   type = SeriesTypeEnum.rose;
 
   static readonly mark: SeriesMarkMap = roseSeriesMark;
-
-  protected declare _theme: Maybe<IRoseSeriesTheme>;
+  static readonly transformerConstructor = RoseSeriesSpecTransformer as any;
+  readonly transformerConstructor = RoseSeriesSpecTransformer;
 
   protected _supportStack: boolean = true;
 
@@ -59,7 +60,6 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
-      label: this._preprocessLabelSpec(this._spec.label),
       customShape: this._spec.rose?.customShape
     }) as IArcMark;
   }
@@ -164,7 +164,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
 }
 
 export const registerRoseSeries = () => {
-  Factory.registerMark(ArcMark.type, ArcMark);
   Factory.registerSeries(RoseSeries.type, RoseSeries);
+  registerArcMark();
   registerRoseAnimation();
 };

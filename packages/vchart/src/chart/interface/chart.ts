@@ -2,16 +2,18 @@ import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
-import type { IComponent } from '../../component/interface';
+import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { IModel, IUpdateSpecResult } from '../../model/interface';
-import type { IRegion } from '../../region/interface';
-import type { ISeries } from '../../series/interface';
+import type { IModel, IModelConstructor, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
+import type { IRegion, IRegionConstructor, IRegionSpec } from '../../region/interface';
+import type { ISeries, ISeriesConstructor } from '../../series/interface';
 import type {
   IChartEvaluateOption,
   IChartLayoutOption,
   IChartOption,
   IChartRenderOption,
+  IChartSpecInfo,
+  IChartSpecTransformerOption,
   ILayoutParams
 } from './common';
 import type { IBoundsLike, IPadding } from '@visactor/vutils';
@@ -25,9 +27,11 @@ import type {
   IShowTooltipOption,
   IDataValues,
   ILayoutRect,
-  IData
+  IData,
+  ISeriesSpec
 } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
+import { spec } from 'node:test/reporters';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
@@ -47,6 +51,7 @@ export interface IChart extends ICompilable {
 
   readonly type: string;
   readonly chartData: IChartData;
+  readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
 
   getSpec: () => any;
   setSpec: (s: any) => void;
@@ -76,13 +81,12 @@ export interface IChart extends ICompilable {
   updateGlobalScaleDomain: () => void;
   //生命周期
   created: () => void;
-  transformSpec: (spec: any) => void;
   init: () => void;
   onLayoutStart: (ctx: IChartLayoutOption) => void;
   onLayoutEnd: (ctx: IChartLayoutOption) => void;
   onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
   onRender: (ctx: IChartRenderOption) => void;
-  onResize: (width: number, height: number) => void;
+  onResize: (width: number, height: number, reRender: boolean) => void;
   onLayout: (view: IView) => void;
 
   // series
@@ -170,9 +174,46 @@ export interface IChart extends ICompilable {
   setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
 }
 
+export interface IChartSpecTransformer {
+  readonly type: string;
+  readonly seriesType: string;
+
+  /** 此方法不建议重写 */
+  initChartSpec: (spec: any) => IChartSpecInfo;
+  /** 将图表 spec 统一转换为 common chart spec */
+  transformSpec: (spec: any) => void;
+  /** 转换 model spec，应用主题 */
+  transformModelSpec: (spec: any) => IChartSpecInfo;
+  /** 根据图表 spec 生成 spec info */
+  createSpecInfo: (
+    chartSpec: any,
+    transform?: (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => void
+  ) => IChartSpecInfo;
+  /** 枚举 spec 中每个有效的 region */
+  forEachRegionInSpec: <K>(
+    spec: any,
+    callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
+    chartSpecInfo?: IChartSpecInfo
+  ) => K[];
+  /** 枚举 spec 中每个有效的 series */
+  forEachSeriesInSpec: <K>(
+    spec: any,
+    callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
+    chartSpecInfo?: IChartSpecInfo
+  ) => K[];
+  /** 枚举 spec 中每个有效的 component */
+  forEachComponentInSpec: <K>(
+    spec: any,
+    callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
+    chartSpecInfo?: IChartSpecInfo
+  ) => K[];
+}
+
 export interface IChartConstructor {
   readonly type: string;
+  readonly seriesType?: string;
   readonly series?: string | string[];
   readonly view: string;
+  readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
   new (spec: any, options: IChartOption): IChart;
 }

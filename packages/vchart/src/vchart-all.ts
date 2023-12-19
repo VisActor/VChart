@@ -50,7 +50,7 @@ import { registerTitle } from './component/title';
 import { registerMarkArea } from './component/marker/mark-area';
 import { registerPlayer } from './component/player';
 import { registerLabel } from './component/label';
-import { registerTotalLabel } from './component/label/totalLabel';
+import { registerTotalLabel } from './component/label/total-label';
 import { registerMarkPoint } from './component/marker/mark-point';
 import { registerBrush } from './component/brush';
 import { registerCustomMark } from './component/custom-mark';
@@ -58,7 +58,6 @@ import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
-import { registerBrowserEnv, registerNodeEnv } from './env';
 
 VChart.useRegisters([
   // charts

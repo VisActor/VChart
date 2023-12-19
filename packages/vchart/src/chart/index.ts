@@ -59,11 +59,9 @@ import type { ICorrelationChartSpec } from './correlation';
 import { CorrelationChart, registerCorrelationChart } from './correlation';
 import type { IWordCloudChartSpec, IWordCloud3dChartSpec } from './word-cloud';
 import { WordCloudChart, WordCloud3dChart, registerWordCloudChart, registerWordCloud3dChart } from './word-cloud';
-import { BaseChart } from './base-chart';
+import { BaseChart } from './base/base-chart';
 import type { ICartesianChartSpec } from './cartesian';
-import { CartesianChart } from './cartesian';
 import type { IPolarChartSpec } from './polar';
-import { PolarChart, RoseLikeChart, ProgressLikeChart } from './polar';
 export {
   AreaChart,
   BarChart,
@@ -97,11 +95,7 @@ export {
   WordCloudChart,
   WordCloud3dChart,
   TreemapChart,
-  BaseChart,
-  PolarChart,
-  ProgressLikeChart,
-  RoseLikeChart,
-  CartesianChart
+  BaseChart
 };
 
 export {

@@ -27,13 +27,14 @@ import type { IModelEvaluateOption } from '../../model/interface';
 import type { Datum, Maybe } from '../../typings';
 import { Direction } from '../../typings/space';
 import type { IBarAnimationParams } from '../bar/animation';
-import { RuleMark } from '../../mark/rule';
+import { registerRuleMark } from '../../mark/rule';
 import { waterfallSeriesMark } from './constant';
 import { Group } from '../base/group';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
-import { RectMark } from '../../mark';
+import { registerRectMark } from '../../mark/rect';
 import { getGroupAnimationParams } from '../util/utils';
+import { WaterfallSeriesSpecTransformer } from './waterfall-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -42,10 +43,10 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   type = SeriesTypeEnum.waterfall;
 
   static readonly mark: SeriesMarkMap = waterfallSeriesMark;
+  static readonly transformerConstructor = WaterfallSeriesSpecTransformer as any;
+  readonly transformerConstructor = WaterfallSeriesSpecTransformer as any;
 
   protected _stack: boolean = false;
-
-  protected declare _theme: Maybe<IWaterfallSeriesTheme>;
 
   protected _totalData?: SeriesData;
   getTotalData() {
@@ -197,9 +198,6 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       this._leaderLineMark = leaderLine;
       leaderLine.setDataView(this._totalData.getDataView(), this._totalData.getProductId());
     }
-    if (this._spec.stackLabel?.visible) {
-      this._barMark.addLabelSpec(this._preprocessLabelSpec(this._spec.stackLabel));
-    }
   }
 
   initLabelMarkStyle(labelMark: ILabelMark): void {
@@ -307,9 +305,9 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 }
 
 export const registerWaterfallSeries = () => {
-  Factory.registerMark(RuleMark.type, RuleMark);
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerSeries(WaterfallSeries.type, WaterfallSeries);
+  registerRuleMark();
+  registerRectMark();
   registerWaterfallAnimation();
   registerFadeInOutAnimation();
+  Factory.registerSeries(WaterfallSeries.type, WaterfallSeries);
 };

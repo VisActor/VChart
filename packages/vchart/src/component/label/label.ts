@@ -2,25 +2,30 @@ import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
-import type { IModelInitOption } from '../../model/interface';
+import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
 import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { eachSeries } from '../../util/model';
 import type { ISeries } from '../../series/interface';
 import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
+// eslint-disable-next-line no-duplicate-imports
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { labelRuleMap, textAttribute } from './util';
-import { ComponentMark, type IComponentMark } from '../../mark/component';
+import { ComponentMark, registerComponentMark, type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
-import type { LooseFunction } from '@visactor/vutils';
-import { isArray, isFunction, pickWithout } from '@visactor/vutils';
-import type { IGraphic, IGraphicAttribute, IGroup, IText } from '@visactor/vrender-core';
+import type { LooseFunction, Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
+import { array, isArray, isFunction, isNil, pickWithout } from '@visactor/vutils';
+import type { IGroup, IText } from '@visactor/vrender-core';
 import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
-import { LabelMark, type ILabelMark } from '../../mark/label';
+import { LabelMark, type ILabelMark, registerLabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
+import type { IChartSpecInfo } from '../../chart/interface';
+import type { IChartSpec } from '../../typings';
+import { LabelSpecTransformer } from './label-transformer';
 
 export interface ILabelInfo {
   baseMark: ICompilableMark;
@@ -34,10 +39,16 @@ export interface ILabelComponentContext {
   labelInfo: ILabelInfo[];
 }
 
-export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent<T> {
+export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
+
+  static specKey = 'label';
+  specKey = 'label';
+
+  static readonly transformerConstructor = LabelSpecTransformer as any;
+  readonly transformerConstructor = LabelSpecTransformer;
 
   layoutZIndex: number = LayoutZIndex.Label;
 
@@ -49,26 +60,32 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
-    this._layoutRule = spec.labelLayout || 'series';
+    this._layoutRule = (spec as any).labelLayout || 'series';
   }
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const regions = options.getAllRegions();
-    const labelComponents = [];
-    for (let i = 0; i < regions.length; i++) {
-      const marks = regions[i]
-        .getSeries()
-        .map(s => s.getMarksWithoutRoot())
-        .flat();
-      const labelVisible = marks.some(mark => {
-        return mark.getLabelSpec()?.some(labelSpec => labelSpec.visible);
+  static getSpecInfo(chartSpec: any, chartSpecInfo: IChartSpecInfo): Maybe<IModelSpecInfo[]> {
+    const specInfo: IModelSpecInfo[] = [];
+    chartSpecInfo?.region?.forEach((regionInfo, i) => {
+      regionInfo.seriesIndexes?.forEach(seriesIndex => {
+        const seriesInfo = chartSpecInfo.series[seriesIndex] as any;
+        const { markLabelSpec = {} } = seriesInfo;
+        if (
+          Object.values(markLabelSpec).some(labelSpecList =>
+            (labelSpecList as ILabelSpec[]).some(labelSpec => labelSpec.visible)
+          )
+        ) {
+          specInfo.push({
+            spec: chartSpec,
+            type: ComponentTypeEnum.label,
+            // 这里的 specPath 不是对应于真实 spec 的 path，而是 IChartSpecInfo 上的 path
+            specPath: ['region', i, 'markLabel'],
+            // 这里的 specIndex 是 region 的 index，用于 region 定位
+            specIndex: i
+          });
+        }
       });
-      if (labelVisible) {
-        labelComponents.push(new Label(spec, { ...options, specIndex: i }));
-        continue;
-      }
-    }
-    return labelComponents;
+    });
+    return specInfo;
   }
 
   init(option: IModelInitOption): void {
@@ -79,7 +96,8 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     this._initTextMarkStyle();
   }
 
-  reInit(theme?: any) {
+  reInit(spec?: T) {
+    super.reInit(spec);
     this._labelInfoMap && this._labelInfoMap.clear();
     this._initTextMark();
     this._initTextMarkStyle();
@@ -136,36 +154,39 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
     if (!this._labelComponentMap) {
       this._labelComponentMap = new Map();
     }
-    eachSeries(this._regions, (s: ISeries) => {
-      const marks = s.getMarks();
-      const region = s.getRegion();
+    eachSeries(this._regions, (series: ISeries) => {
+      const { markLabelSpec = {} } = series.getSpecInfo();
+      const markNames = Object.keys(markLabelSpec);
+      const region = series.getRegion();
 
       if (!this._labelInfoMap.get(region)) {
         this._labelInfoMap.set(region, []);
       }
-      for (let i = 0; i < marks.length; i++) {
-        const mark = marks[i];
-        if (mark.getLabelSpec()?.length > 0) {
-          mark.getLabelSpec().forEach((labelSpec, index) => {
-            if (labelSpec.visible) {
-              const info = this._labelInfoMap.get(region);
-              const labelMark = this._createMark(
-                {
-                  type: MarkTypeEnum.label,
-                  name: `${mark.name}-label-${index}`
-                },
-                { noSeparateStyle: true }
-              ) as ILabelMark;
-              labelMark.setTarget(mark);
-              info.push({
-                labelMark,
-                baseMark: mark,
-                series: s,
-                labelSpec
-              });
-            }
-          });
+      for (let i = 0; i < markNames.length; i++) {
+        const markName = markNames[i];
+        const mark = series.getMarkInName(markName);
+        if (!mark) {
+          continue;
         }
+        markLabelSpec[markName].forEach((spec: TransformedLabelSpec, index: number) => {
+          if (spec.visible) {
+            const info = this._labelInfoMap.get(region);
+            const labelMark = this._createMark(
+              {
+                type: MarkTypeEnum.label,
+                name: `${markName}-label-${index}`
+              },
+              { noSeparateStyle: true }
+            ) as ILabelMark;
+            labelMark.setTarget(mark);
+            info.push({
+              labelMark,
+              baseMark: mark,
+              series,
+              labelSpec: spec
+            });
+          }
+        });
       }
     });
   }
@@ -178,7 +199,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           {
             componentType: 'label',
             noSeparateStyle: true,
-            support3d: this._spec.support3d
+            support3d: (this._spec as any).support3d
           }
         );
         if (component) {
@@ -216,8 +237,9 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
       labelInfos.forEach(info => {
         const { labelMark, labelSpec, series } = info;
         this.initMarkStyleWithSpec(labelMark, labelSpec, undefined);
-        if (isFunction(labelSpec?.styleHandler)) {
-          labelSpec.styleHandler.call(series, labelMark);
+        if (isFunction(labelSpec?.getStyleHandler)) {
+          const styleHandler = labelSpec.getStyleHandler(series);
+          styleHandler?.call(series, labelMark);
         }
         if (labelMark.stateStyle?.normal?.lineWidth) {
           labelMark.setAttribute('stroke', series.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
@@ -270,7 +292,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
           const interactive = this._interactiveConfig(labelSpec);
           const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state', 'type']);
           /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
-          const centerOffset = this._spec?.centerOffset ?? 0;
+          const centerOffset = (this._spec as any)?.centerOffset ?? 0;
           const spec = mergeSpec(
             {
               textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
@@ -340,7 +362,7 @@ export class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent
 
 export const registerLabel = () => {
   registerVGrammarLabel();
-  Factory.registerMark(LabelMark.constructorType, LabelMark);
-  Factory.registerMark(ComponentMark.type, ComponentMark);
+  registerLabelMark();
+  registerComponentMark();
   Factory.registerComponent(Label.type, Label, true);
 };

@@ -31,7 +31,16 @@ import { TooltipResult } from '../interface/common';
 import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNumber, isObject, isValidNumber, isValid, throttle, isNil } from '@visactor/vutils';
+import {
+  isNumber,
+  isObject,
+  isValidNumber,
+  isValid,
+  throttle,
+  isNil,
+  polygonContainPoint,
+  pointInRect
+} from '@visactor/vutils';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { ILayoutModel, IModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
@@ -39,7 +48,6 @@ import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-compon
 import { getTooltipAttributes } from './utils/attribute';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { IChartOption } from '../../../chart/interface';
-import { isPointInRect, isPointInTriangle } from '../../../util';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -758,12 +766,16 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const pos = this._getPointerPositionRelativeToTooltipParent(params);
 
     if (
-      isPointInRect(pos, {
-        x: tooltipX,
-        y: tooltipY,
-        width: tooltipWidth,
-        height: tooltipHeight
-      })
+      pointInRect(
+        pos,
+        {
+          x1: tooltipX,
+          y1: tooltipY,
+          x2: tooltipX + tooltipWidth,
+          y2: tooltipY + tooltipHeight
+        },
+        false
+      )
     ) {
       return true;
     }
@@ -774,11 +786,12 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
     const c = { x: a.x, y: a.y + tooltipHeight };
     const d = { x: b.x, y: c.y };
     const oldPos = this._cachePointerPosition;
+
     return (
-      isPointInTriangle(pos, oldPos, a, b) ||
-      isPointInTriangle(pos, oldPos, c, d) ||
-      isPointInTriangle(pos, oldPos, a, d) ||
-      isPointInTriangle(pos, oldPos, b, c)
+      polygonContainPoint([oldPos, a, b], pos.x, pos.y) ||
+      polygonContainPoint([oldPos, c, d], pos.x, pos.y) ||
+      polygonContainPoint([oldPos, a, d], pos.x, pos.y) ||
+      polygonContainPoint([oldPos, b, c], pos.x, pos.y)
     );
   }
 

@@ -1,11 +1,14 @@
-import { CartesianChart } from '../cartesian/cartesian';
 import type { IScatterChartSpec } from './interface';
-export declare class ScatterChart extends CartesianChart {
+import { ScatterChartSpecTransformer } from './scatter-transformer';
+import { BaseChart } from '../base';
+export declare class ScatterChart<T extends IScatterChartSpec = IScatterChartSpec> extends BaseChart<T> {
     static readonly type: string;
+    static readonly seriesType: string;
     static readonly view: string;
+    static readonly transformerConstructor: typeof ScatterChartSpecTransformer;
+    readonly transformerConstructor: typeof ScatterChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
     protected _canStack: boolean;
-    protected _getDefaultSeriesSpec(spec: IScatterChartSpec): any;
 }
 export declare const registerScatterChart: () => void;

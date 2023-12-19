@@ -23,10 +23,10 @@ import { objFlat } from '../../data/transforms/obj-flat';
 import { DEFAULT_GRID_BACKGROUND } from './config';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import type { SeriesMarkMap } from '../interface';
-import { SymbolMark } from '../../mark/symbol';
-import { TextMark } from '../../mark/text';
-import { RuleMark } from '../../mark/rule';
-import { RectMark } from '../../mark/rect';
+import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
+import { TextMark, registerTextMark } from '../../mark/text';
+import { RuleMark, registerRuleMark } from '../../mark/rule';
+import { RectMark, registerRectMark } from '../../mark/rect';
 import { dotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
@@ -36,8 +36,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
   type = SeriesTypeEnum.dot;
 
   static readonly mark: SeriesMarkMap = dotSeriesMark;
-
-  protected declare _theme: Maybe<IDotSeriesTheme>;
 
   private _xDimensionStatisticsDomain: any[];
 
@@ -500,10 +498,10 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
 }
 
 export const registerDotSeries = () => {
-  Factory.registerMark(SymbolMark.type, SymbolMark);
-  Factory.registerMark(RuleMark.type, RuleMark);
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerMark(TextMark.type, TextMark);
+  registerSymbolMark();
+  registerRuleMark();
+  registerRectMark();
+  registerTextMark();
 
   Factory.registerSeries(DotSeries.type, DotSeries);
 };

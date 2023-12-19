@@ -1,6 +1,24 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 15 Dec 2023 08:36:30 GMT and should not be manually modified.
+This log was last generated on Tue, 19 Dec 2023 12:04:29 GMT and should not be manually modified.
+
+## 1.8.0
+Tue, 19 Dec 2023 12:04:29 GMT
+
+### Updates
+
+- feat: add getPoints api in funnel mark attribute context
+- fix: fix the api: `getComponentsByKey` not work
+- refactor: update datazoom and brush updatecallback, use event
+- feat: vchart supports chart-level plugin, related #1784
+- feat: new media query plugin to support self-adaptive charts, related #1413
+- feat: support optimize config, and auto set disableCheckGraphicWidthOutRange to true
+- fix: animation support for gauge pointer series, related #1699
+- fix: fix issue with secondary dataflow, closed #1760
+- perf: when visible is false, dont parse detail attrs
+
+
+- feat: remove legacy theme for legends
 
 ## 1.7.5
 Fri, 15 Dec 2023 08:36:30 GMT

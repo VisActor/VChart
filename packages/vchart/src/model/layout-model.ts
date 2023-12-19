@@ -1,4 +1,5 @@
 import type { IBoundsLike } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEqual, merge } from '@visactor/vutils';
 import type { ILayoutItem } from '../layout/interface';
 import type { IOrientType, IPolarOrientType, IRect } from '../typings/space';

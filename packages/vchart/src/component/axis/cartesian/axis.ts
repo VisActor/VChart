@@ -1,6 +1,6 @@
-import type { IBounds, IBoundsLike } from '@visactor/vutils';
+import type { IBounds, IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import type { IEffect, IModelInitOption } from '../../../model/interface';
+import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
@@ -12,7 +12,15 @@ import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { Factory } from '../../../core/factory';
-import { autoAxisType, isXAxis, getOrient, isZAxis, isYAxis, transformInverse } from './util/common';
+import {
+  autoAxisType,
+  isXAxis,
+  getOrient,
+  isZAxis,
+  isYAxis,
+  getCartesianAxisInfo,
+  transformInverse
+} from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
@@ -36,6 +44,7 @@ import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '@visactor/vrender-core';
+import type { ICartesianChartSpec } from '../../../chart';
 
 const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
 
@@ -46,6 +55,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   static type = ComponentTypeEnum.cartesianAxis;
   type = ComponentTypeEnum.cartesianAxis;
   name: string = ComponentTypeEnum.cartesianAxis;
+
+  static specKey = 'axes';
 
   protected readonly _defaultBandPosition = 0.5;
   protected readonly _defaultBandInnerPadding = 0.1;
@@ -78,8 +89,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return this._scales;
   }
 
-  protected declare _theme: ICartesianAxisCommonTheme;
-
   protected _tick: ITick | undefined = undefined;
 
   private _axisStyle: Partial<LineAxisAttributes>;
@@ -102,42 +111,32 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._dataSet = options.dataSet;
   }
 
-  static createAxis(spec: any, options: IComponentOption, isHorizontal: boolean = false): IAxis {
-    const axisType = spec.type ?? autoAxisType(spec.orient, isHorizontal);
-    const componentName = `${CartesianAxis.type}-${axisType}`;
-    const C = Factory.getComponentInKey(componentName);
-    if (C) {
-      return new C(
-        {
-          ...spec,
-          type: axisType
-        },
-        {
-          ...options,
-          type: componentName
-        }
-      ) as IAxis;
-    }
-    options.onError(`Component ${componentName} not found`);
-    return null;
-  }
-
-  static createComponent(spec: any, options: IComponentOption) {
-    const regions = options.getRegionsInIndex();
-    if (regions.find(r => r.coordinate !== 'cartesian')) {
-      return null;
-    }
-    let axesSpec = spec[CartesianAxis.specKey];
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    // const regions = (chartSpec.region as IRegionSpec[]) ?? [];
+    // if (regions.find(r => r.coordinate !== 'cartesian')) {
+    //   return null;
+    // }
+    const axesSpec = chartSpec[this.specKey];
     if (!axesSpec) {
       return null;
     }
-    const isHorizontal = spec.direction === Direction.horizontal;
+
+    const isHorizontal = chartSpec.direction === Direction.horizontal;
+
     if (!isArray(axesSpec)) {
       // 如果非法，或者只有一个z轴就不创建
       if (!isValidCartesianAxis(axesSpec)) {
         return null;
       }
-      return CartesianAxis.createAxis(axesSpec, options, isHorizontal);
+      const { axisType, componentName } = getCartesianAxisInfo(axesSpec, isHorizontal);
+      axesSpec.type = axisType;
+      return [
+        {
+          spec: axesSpec,
+          specPath: [this.specKey],
+          type: componentName
+        }
+      ];
     }
     // 处理spec
     const zAxis = axesSpec.filter(s => s.orient === 'z')[0];
@@ -148,26 +147,39 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       // 必须有x和y，且x必须是bottom
       valid = axesSpec.length === 3 && xAxis && yAxis;
     }
+
+    let axesSpecList = axesSpec.map((spec, index) => ({ spec, index }));
     if (!valid) {
-      axesSpec = axesSpec.filter(s => s.orient !== 'z');
+      axesSpecList = axesSpecList.filter(({ spec }) => spec.orient !== 'z');
     }
-    const axes: IAxis[] = [];
-    axesSpec.forEach((s: any, i: any) => {
-      if (!isValidCartesianAxis(s)) {
+    const specInfos: IModelSpecInfo[] = [];
+    axesSpecList.forEach(({ spec, index }) => {
+      if (!isValidCartesianAxis(spec)) {
         return;
       }
-      axes.push(
-        CartesianAxis.createAxis(
-          s,
-          {
-            ...options,
-            specIndex: i
-          },
-          isHorizontal
-        ) as IAxis
-      );
+      const { axisType, componentName } = getCartesianAxisInfo(spec, isHorizontal);
+      spec.type = axisType;
+      specInfos.push({
+        spec,
+        specIndex: index,
+        specPath: [this.specKey, index],
+        type: componentName
+      });
     });
-    return axes;
+    return specInfos;
+  }
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption) {
+    const { spec, ...others } = specInfo;
+    const C = Factory.getComponentInKey(others.type);
+    if (C) {
+      return new C(spec, {
+        ...options,
+        ...others
+      }) as IAxis;
+    }
+    options.onError(`Component ${others.type} not found`);
+    return null;
   }
 
   initLayout(): void {
@@ -210,20 +222,19 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   protected updateScaleRange() {
     let isScaleChange = false;
     const { width, height } = this.getLayoutRect();
-    const inverse = this._spec.inverse;
     let newRange: number[] = [];
     if (isXAxis(this.getOrient())) {
       if (isValidNumber(width)) {
-        newRange = inverse ? [width, 0] : [0, width];
+        newRange = this._inverse ? [width, 0] : [0, width];
       }
     } else if (isZAxis(this.getOrient())) {
       if (isValidNumber(width)) {
-        newRange = inverse ? [width, 0] : [0, width];
+        newRange = this._inverse ? [width, 0] : [0, width];
         this._scale.range(newRange);
       }
     } else {
       if (isValidNumber(height)) {
-        newRange = inverse ? [0, height] : [height, 0];
+        newRange = this._inverse ? [0, height] : [height, 0];
       }
     }
 
@@ -263,6 +274,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       this._axisStyle = axisStyle;
     }
     this._tick = this._spec.tick;
+    const chartSpec = this._option.getChart()?.getSpec() as ICartesianChartSpec;
+    this._inverse = transformInverse(this._spec, chartSpec?.direction === Direction.horizontal);
   }
 
   protected getSeriesStatisticsField(s: ICartesianSeries) {
@@ -305,7 +318,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       getScale,
       getAxisType: () => this.type,
       getAxisId: () => this.id,
-      isInverse: () => this._spec.inverse === true
+      isInverse: () => this._inverse === true
     };
   }
 
@@ -825,12 +838,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   onDataUpdate(): void {
     // clear layout cache
     this._clearLayoutCache();
-  }
-
-  protected _transformSpec() {
-    // change spec by default logic
-    const chartSpec = this._option.getChart().getSpec();
-    this._spec.inverse = transformInverse(this._spec, chartSpec.direction === Direction.horizontal);
   }
 
   private _appendAxisUnit(bounds: IBounds, isX: boolean) {

@@ -1,8 +1,10 @@
-import { BasicComponentPlugin } from '../basic-plugin';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import type { CartesianAxis, ILinearAxisSync } from '../../../component/axis/cartesian';
-export declare class AxisSyncPlugin extends BasicComponentPlugin implements IComponentPlugin {
-    Name: string;
+import { BasePlugin } from '../../base/base-plugin';
+export declare class AxisSyncPlugin extends BasePlugin<IComponentPluginService> implements IComponentPlugin<IComponentPluginService> {
+    static readonly pluginType: 'component';
+    static readonly type: string;
+    readonly type: string;
     constructor();
     protected _checkEnableSync(axis: CartesianAxis): ILinearAxisSync | false;
     private _getTargetAxis;

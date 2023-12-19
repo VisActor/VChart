@@ -20,7 +20,6 @@ export interface IPolarAxis extends IAxis {
     endAngle: number;
     getOrient: () => IPolarOrientType;
     getScale: () => IBaseScale;
-    setRefAngleAxis: (axes: IPolarAxis) => this;
     tickValues: () => number[];
     getCenter: () => IPoint;
     getOuterRadius: () => number;

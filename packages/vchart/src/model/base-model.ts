@@ -1,6 +1,4 @@
-import { cloneDeepSpec } from '../util/spec/clone-deep';
 import { createID } from '../util/id';
-import { mergeSpec } from '../util/spec/merge-spec';
 import { Event } from '../event/event';
 import type { IEvent } from '../event/interface';
 import type {
@@ -11,7 +9,8 @@ import type {
   IModelRenderOption,
   IModelEvaluateOption,
   IModelSpec,
-  IModelMarkInfo
+  IModelMarkInfo,
+  IModelSpecInfo
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IMark, IMarkOption, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
@@ -26,17 +25,26 @@ import type {
 } from '../typings';
 import type { CompilableData } from '../compile/data/compilable-data';
 import type { IGroupMark } from '@visactor/vgrammar-core';
-import { isArray, isValid } from '@visactor/vutils';
+import { isValid } from '@visactor/vutils';
 import { Factory } from '../core/factory';
 import { MarkSet } from '../mark/mark-set';
 import type { ILayoutItem } from '../layout/interface';
 import { CompilableBase } from '../compile/compilable-base';
 import { PREFIX } from '../constant/base';
+import { BaseModelSpecTransformer } from './base-model-transformer';
+import { getProperty } from '@visactor/vutils-extension';
 
 export abstract class BaseModel<T extends IModelSpec> extends CompilableBase implements IModel {
+  readonly transformerConstructor = BaseModelSpecTransformer;
+
   protected _spec: T;
   getSpec(): T {
     return this._spec || ({} as T);
+  }
+
+  /** 获取当前 model 对应在图表 spec 上的路径 */
+  getSpecPath() {
+    return this._option.specPath;
   }
 
   readonly type: string = 'null';
@@ -71,8 +79,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   readonly specKey: string = '';
 
-  protected _originalSpec: any;
-
   protected declare _option: IModelOption;
   getOption() {
     return this._option;
@@ -99,7 +105,9 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     return this._option.getChart();
   }
 
-  protected _theme?: any; // 非全局 theme，是对应于具体 model 的 theme 对象
+  protected get _theme() {
+    return this.getSpecInfo()?.theme;
+  }
 
   /** for layout diff */
   protected _lastLayoutRect: ILayoutRect = null;
@@ -107,10 +115,8 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   constructor(spec: T, option: IModelOption) {
     super(option);
     this.id = createID();
-    this._originalSpec = spec;
-    this._initTheme();
-    this._transformSpec();
     this.userId = spec.id;
+    this._spec = spec;
     this._specIndex = option.specIndex ?? 0;
     this.effect = {};
     this.event = new Event(option.eventDispatcher, option.mode);
@@ -162,7 +168,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   release() {
     this._releaseEvent();
-    this._originalSpec = {};
     this._spec = undefined;
     this.getMarks().forEach(m => m.release());
     this._data?.release();
@@ -171,22 +176,16 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     super.release();
   }
 
-  updateSpec(spec: any) {
-    this._spec = cloneDeepSpec(spec);
-    const result = this._compareSpec();
-    this._originalSpec = spec;
+  updateSpec(spec: T) {
+    const result = this._compareSpec(spec, this._spec);
+    this._spec = spec;
     if (!result.reMake) {
       this.reInit();
     }
     return result;
   }
 
-  protected _transformSpec() {
-    // do nothing
-    // change spec by default logic
-  }
-
-  protected _compareSpec() {
+  protected _compareSpec(spec: T, prevSpec: T) {
     const result = {
       change: false,
       reMake: false,
@@ -197,74 +196,11 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     return result;
   }
 
-  reInit(theme?: any) {
-    // before reInit reset this._spec to original
-    this._spec = cloneDeepSpec(this._originalSpec);
-    this._transformSpec();
-    this._initTheme(theme);
+  reInit(spec?: T) {
+    if (spec) {
+      this._spec = spec;
+    }
     this.setAttrFromSpec();
-  }
-
-  protected _initTheme(theme?: any) {
-    // if (this.getVisible() === false) {
-    //   // 不展示不需要处理主题
-    //   return;
-    // }
-    if (theme) {
-      this._theme = theme;
-    } else {
-      this._theme = this._getTheme();
-    }
-
-    this._mergeThemeToSpec();
-  }
-
-  protected _getTheme(): any {
-    return undefined;
-  }
-
-  /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec() {
-    if (this._shouldMergeThemeToSpec()) {
-      const specFromChart = this._getDefaultSpecFromChart(this.getChart().getSpec());
-
-      // this._originalSpec + specFromChart + this._theme = this._spec
-      const merge = (originalSpec: any) =>
-        mergeSpec(
-          {},
-          this._theme,
-          this._prepareSpecBeforeMergingTheme(specFromChart),
-          this._prepareSpecBeforeMergingTheme(originalSpec)
-        );
-
-      const baseSpec = this._originalSpec;
-      if (isArray(baseSpec)) {
-        this._spec = baseSpec.map(spec => merge(spec)) as unknown as T;
-      } else {
-        this._spec = merge(baseSpec);
-      }
-    }
-  }
-
-  /** 从 chart spec 提取配置作为 model 的默认 spec 配置 */
-  protected _getDefaultSpecFromChart(chartSpec: any): Partial<T> {
-    return {};
-  }
-
-  /** 是否在初始化时将 theme 自动 merge 到 spec */
-  protected _shouldMergeThemeToSpec(): boolean {
-    return true;
-  }
-
-  /** 在 merge 主题前对 spec 进行预处理 */
-  protected _prepareSpecBeforeMergingTheme(obj?: any): any {
-    // do nothing
-    return obj;
-  }
-
-  setCurrentTheme() {
-    // 重新初始化
-    this.reInit(this._getTheme());
   }
 
   updateLayoutAttribute() {
@@ -354,5 +290,10 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   getColorScheme() {
     return this._option.getTheme?.().colorScheme;
+  }
+
+  getSpecInfo() {
+    const specInfo = this._option.getSpecInfo?.() ?? {};
+    return getProperty<IModelSpecInfo>(specInfo, this.getSpecPath());
   }
 }

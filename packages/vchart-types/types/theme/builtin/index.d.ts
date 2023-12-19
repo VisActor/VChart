@@ -1,6 +1,5 @@
 export * from './light';
 export * from './dark';
-export * from './common/legacy';
 import type { ITheme } from '../interface';
 export declare const builtinThemes: Record<string, ITheme>;
 export declare const defaultThemeName: string;

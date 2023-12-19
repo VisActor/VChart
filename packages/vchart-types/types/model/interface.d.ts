@@ -14,10 +14,13 @@ import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
-import type { IChart } from '../chart/interface';
+import type { IChart, IChartSpecInfo } from '../chart/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
 import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
+import type { ComponentTypeEnum } from '../component/interface';
+import type { SeriesMarkNameEnum, SeriesTypeEnum } from '../series';
+import type { TransformedLabelSpec } from '../component/label';
 export interface IModelInitOption {
 }
 export interface IModelLayoutOption {
@@ -49,6 +52,7 @@ export interface IModel extends ICompilable {
     readonly modelType: string;
     readonly type: string;
     readonly specKey: string;
+    readonly transformerConstructor: new (option: IBaseModelSpecTransformerOption) => IBaseModelSpecTransformer;
     readonly id: number;
     readonly userId?: StringOrNumber;
     readonly event: IEvent;
@@ -64,7 +68,7 @@ export interface IModel extends ICompilable {
     getChart: () => IChart;
     created: () => void;
     init: (option: IModelInitOption) => void;
-    reInit: (theme?: any, lastSpec?: any) => void;
+    reInit: (spec?: any) => void;
     beforeRelease: () => void;
     onEvaluateEnd: (ctx: IModelEvaluateOption) => void;
     onRender: (ctx: IModelRenderOption) => void;
@@ -72,12 +76,13 @@ export interface IModel extends ICompilable {
     updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
     getSpec?: () => any;
     getSpecIndex: () => number;
+    getSpecPath: () => Array<string | number>;
     onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
     onLayoutEnd: (ctx: IModelLayoutOption) => void;
-    setCurrentTheme: () => void;
     getColorScheme: () => IThemeColorScheme | undefined;
     setMarkStyle: <T extends ICommonSpec>(mark?: IMarkRaw<T>, style?: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>, state?: StateValueType, level?: number) => void;
     initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;
+    getSpecInfo: () => IModelSpecInfo;
 }
 export interface ILayoutModel extends IModel {
     getLayoutStartPoint: () => IPoint;
@@ -97,7 +102,9 @@ export interface IModelOption extends ICompilableInitOption {
     globalInstance: VChart;
     specIndex?: number;
     specKey?: string;
+    specPath?: Array<string | number>;
     getTheme?: () => ITheme;
+    getSpecInfo?: () => IChartSpecInfo;
     getChartLayoutRect: () => IRect;
     getChartViewRect: () => ILayoutRect;
     getChart: () => IChart;
@@ -106,8 +113,15 @@ export interface IModelOption extends ICompilableInitOption {
     animation: boolean;
     onError: (...args: any[]) => void;
 }
+export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
+    type: string | ComponentTypeEnum | SeriesTypeEnum;
+    spec: T;
+    specPath?: Array<string | number>;
+    specIndex?: number;
+    theme?: any;
+}
 export interface IModelConstructor {
-    new (ctx: IModelOption): IModel;
+    readonly transformerConstructor: new (option: IBaseModelSpecTransformerOption) => IBaseModelSpecTransformer;
 }
 export type ILayoutModelState = {
     layoutUpdateRank: number;
@@ -119,4 +133,17 @@ export type IModelSpec = ILayoutItemSpec & {
 export interface IModelMarkInfo {
     type: MarkTypeEnum | string | (MarkTypeEnum | string)[];
     name: string;
+}
+export interface IBaseModelSpecTransformerOption {
+    type: string;
+    getTheme: () => ITheme;
+}
+export interface IBaseModelSpecTransformerResult<T, K> {
+    spec: T;
+    theme: K;
+    markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
+}
+export interface IBaseModelSpecTransformer {
+    getTheme: (spec: any, chartSpec: any) => any;
+    transformSpec: (spec: any, chartSpec: any, chartSpecInfo?: IChartSpecInfo) => IBaseModelSpecTransformerResult<any, any>;
 }
