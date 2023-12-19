@@ -686,7 +686,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     const region = series.getRegion();
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
 
-    if (series.type === 'bar') {
+    if (series.type === 'bar' || series.type === 'waterfall') {
       const rectMark = series.getMarkInName('bar');
       const vgrammarElements = rectMark.getProduct().elements;
       // TODO: 完善类型定义
