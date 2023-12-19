@@ -1,3 +1,5 @@
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isArray, isBoolean, isNil, isNumber, isValid, maxInArray, minInArray, uniqArray } from '@visactor/vutils';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import type { IComponentOption } from '../../interface';
@@ -20,11 +22,18 @@ import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { CartesianAxis } from '../../axis/cartesian';
+import type { IModelSpecInfo } from '../../../model/interface';
+import { DataZoomSpecTransformer } from './data-zoom-transformer';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
+  static readonly transformerConstructor = DataZoomSpecTransformer as any;
   type = ComponentTypeEnum.dataZoom;
   name: string = ComponentTypeEnum.dataZoom;
+  readonly transformerConstructor = DataZoomSpecTransformer;
+
+  static specKey = 'dataZoom';
+  specKey = 'dataZoom';
 
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
@@ -40,19 +49,30 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _startHandlerSize!: number;
   protected _endHandlerSize!: number;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const compSpec = spec.dataZoom;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const compSpec = chartSpec[this.specKey];
     if (isNil(compSpec)) {
       return undefined;
     }
     if (!isArray(compSpec)) {
-      return new DataZoom(compSpec, options);
+      return [
+        {
+          spec: compSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.dataZoom
+        }
+      ];
     }
-    const zooms: DataZoom[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     compSpec.forEach((s, i: number) => {
-      zooms.push(new DataZoom(s, { ...options, specIndex: i }));
+      specInfos.push({
+        spec: s,
+        specIndex: i,
+        specPath: [this.specKey, i],
+        type: ComponentTypeEnum.dataZoom
+      });
     });
-    return zooms;
+    return specInfos;
   }
 
   constructor(spec: T, options: IComponentOption) {
@@ -86,12 +106,12 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     this._width = this._computeWidth();
     this._height = this._computeHeight();
     // startHandler和endHandler size如果没有配置，则默认跟随background宽 or 高
-    if (isNil(this._originalSpec?.startHandler?.style?.size)) {
+    if (isNil(this._spec?.startHandler?.style?.size)) {
       this._spec.startHandler.style.size = this._isHorizontal
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
     }
-    if (isNil(this._originalSpec?.endHandler?.style?.size)) {
+    if (isNil(this._spec?.endHandler?.style?.size)) {
       this._spec.endHandler.style.size = this._isHorizontal
         ? this._height - this._middleHandlerSize
         : this._width - this._middleHandlerSize;
@@ -100,41 +120,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const endHandlerVisble = this._spec.endHandler.style.visible ?? true;
     this._startHandlerSize = startHandlerVisble ? this._spec.startHandler.style.size : 0;
     this._endHandlerSize = endHandlerVisble ? this._spec.endHandler.style.size : 0;
-  }
-
-  protected _prepareSpecBeforeMergingTheme(originalSpec: T): T {
-    const newSpec: T = {
-      ...originalSpec
-    };
-    // 为了减少主题更改造成的影响，如果用户在 spec 配置了主题默认关闭的 mark，则自动加上 visible: true
-    const { selectedBackgroundChart = {} } = newSpec;
-    const { line, area } = selectedBackgroundChart;
-    if (line || area) {
-      newSpec.selectedBackgroundChart = {
-        ...selectedBackgroundChart,
-        line:
-          line && line.visible !== false
-            ? {
-                ...line,
-                style: {
-                  ...line.style,
-                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
-                }
-              }
-            : line,
-        area:
-          area && area.visible !== false
-            ? {
-                ...area,
-                style: {
-                  ...area.style,
-                  visible: true // FIXME: visible 应该提到更上面，等 datazoom 支持
-                }
-              }
-            : area
-      };
-    }
-    return newSpec;
   }
 
   /** LifeCycle API**/
@@ -338,10 +323,11 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
           isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
         }
         this._component.setStatePointToData((state: number) => this._statePointToData(state));
-        this._component.setUpdateStateCallback((start: number, end: number, tag?: string) => {
+
+        this._component.addEventListener('change', (e: any) => {
+          const { start, end, tag } = e.detail;
           this._handleChange(start, end, undefined, tag);
         });
-
         container.add(this._component as unknown as INode);
 
         this._updateScaleRange();
@@ -398,14 +384,16 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     return {
       backgroundStyle: transformToGraphic(this._spec.background?.style) as unknown as IRectGraphicAttribute,
       startHandlerStyle: transformToGraphic(this._spec.startHandler?.style) as unknown as ISymbolGraphicAttribute,
-      middleHandlerStyle: {
-        visible: middleHandler.visible ?? false,
-        icon: transformToGraphic(middleHandler.icon?.style) as unknown as ISymbolGraphicAttribute,
-        background: {
-          size: middleHandler.background?.size,
-          style: transformToGraphic(middleHandler.background?.style)
-        } as any
-      },
+      middleHandlerStyle: middleHandler.visible
+        ? {
+            visible: true,
+            icon: transformToGraphic(middleHandler.icon?.style) as unknown as ISymbolGraphicAttribute,
+            background: {
+              size: middleHandler.background?.size,
+              style: transformToGraphic(middleHandler.background?.style)
+            } as any
+          }
+        : { visible: false },
       endHandlerStyle: transformToGraphic(this._spec.endHandler?.style) as unknown as ISymbolGraphicAttribute,
       startTextStyle: {
         padding: startText.padding,

@@ -1,36 +1,20 @@
 import { registerBarSeries } from '../../series/bar/bar';
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
-import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBarChartSpec } from './interface';
 import { Factory } from '../../core/factory';
+import { BarChartSpecTransformer } from './bar-transformer';
+import { BaseChart } from '../base';
 
-export class BarChart extends CartesianChart {
+export class BarChart<T extends IBarChartSpec = IBarChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.bar;
+  static readonly seriesType: string = SeriesTypeEnum.bar;
   static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = BarChartSpecTransformer;
+  readonly transformerConstructor = BarChartSpecTransformer;
   readonly type: string = ChartTypeEnum.bar;
   readonly seriesType: string = SeriesTypeEnum.bar;
   protected _canStack: boolean = true;
-
-  protected _getDefaultSeriesSpec(spec: any): any {
-    return {
-      ...super._getDefaultSeriesSpec(spec),
-      barWidth: (<IBarChartSpec>spec).barWidth,
-      barMaxWidth: (<IBarChartSpec>spec).barMaxWidth,
-      barMinWidth: (<IBarChartSpec>spec).barMinWidth,
-      barGapInGroup: (<IBarChartSpec>spec).barGapInGroup,
-      barMinHeight: (<IBarChartSpec>spec).barMinHeight,
-      sampling: spec.sampling,
-      samplingFactor: spec.samplingFactor,
-      barBackground: (<IBarChartSpec>spec).barBackground
-    };
-  }
-
-  transformSpec(spec: any): void {
-    super.transformSpec(spec);
-    setDefaultCrosshairForCartesianChart(spec);
-  }
 }
 
 export const registerBarChart = () => {

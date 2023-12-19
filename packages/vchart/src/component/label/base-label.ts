@@ -10,7 +10,7 @@ import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
 import { isEqual } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
 
-export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> extends BaseComponent<T> {
+export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
   type = ComponentTypeEnum.label;
   name: string = ComponentTypeEnum.label;
@@ -41,10 +41,10 @@ export abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> exte
   }
 
   /** Update API **/
-  _compareSpec() {
-    const result = super._compareSpec();
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
     result.reRender = true;
-    if (!isEqual(this._originalSpec, this._spec)) {
+    if (!isEqual(prevSpec, spec)) {
       result.reMake = true;
     }
 

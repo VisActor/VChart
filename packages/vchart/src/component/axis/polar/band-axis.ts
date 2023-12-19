@@ -19,6 +19,8 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
   static type = ComponentTypeEnum.polarBandAxis;
   type = ComponentTypeEnum.polarBandAxis;
 
+  static specKey = 'axes';
+
   protected _scale: BandScale = new BandScale();
 
   protected declare _scales: BandScale[];

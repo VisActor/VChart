@@ -1,8 +1,8 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
-import type { Maybe, Datum, DirectionType } from '../../typings';
-import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
+import type { Datum, DirectionType } from '../../typings';
+import type { IBarSeriesSpec } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IRectMark } from '../../mark/rect';
 import type { IModelInitOption } from '../../model/interface';
@@ -11,6 +11,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { SeriesData } from '../base/series-data';
 import { DataView } from '@visactor/vdataset';
+import { BarSeriesSpecTransformer } from './bar-transformer';
 export declare const DefaultBandWidth = 6;
 export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
@@ -18,7 +19,8 @@ export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extend
     protected _barMarkName: SeriesMarkNameEnum;
     protected _barMarkType: MarkTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<IBarSeriesTheme>;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof BarSeriesSpecTransformer;
     protected _supportStack: boolean;
     protected _bandPosition: number;
     protected _barMark: IRectMark;

@@ -1,11 +1,13 @@
 /**
  * @description color legend component
  */
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { debounce, isEmpty, isNil, isArray, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../../series/interface';
-import type { IModelInitOption } from '../../../model/interface';
+import type { IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -14,8 +16,6 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import { eachSeries } from '../../../util/model';
 import { getFieldAlias } from '../../../util/data';
 import { isDataDomainSpec } from '../../../util/type';
-// eslint-disable-next-line no-duplicate-imports
-import type { ILegend } from '../interface';
 import type { IColorLegendSpec, IColorLegendTheme, ISizeLegendSpec } from './interface';
 import {
   continuousLegendDataMake,
@@ -35,45 +35,44 @@ export class ContinuousLegend<
   T extends IColorLegendSpec | ISizeLegendSpec = IColorLegendSpec | ISizeLegendSpec
 > extends BaseLegend<T> {
   static specKey = 'legends';
-  specKey: string = 'legends';
+
   static type = ComponentTypeEnum.continuousLegend;
   type = ComponentTypeEnum.colorLegend;
   name: string = ComponentTypeEnum.colorLegend;
 
-  protected declare _theme: IColorLegendTheme; // TODO: 看下是否需要区分
-
   private _field: string | undefined;
   private _legendType: string;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const legendSpec = spec.legends;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const legendSpec = chartSpec[this.specKey];
     if (!legendSpec) {
       return undefined;
     }
     if (!isArray(legendSpec)) {
       if (isContinuousLegend(legendSpec.type)) {
-        return new ContinuousLegend(legendSpec, {
-          ...options,
-          type: legendSpec.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend,
-          specIndex: 0
-        });
+        return [
+          {
+            spec: legendSpec,
+            specIndex: 0,
+            specPath: [this.specKey],
+            type: legendSpec.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend
+          }
+        ];
       }
-
       return undefined;
     }
-    const legends: ILegend[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     legendSpec.forEach((s: IColorLegendSpec | ISizeLegendSpec, i: number) => {
       if (isContinuousLegend(s.type)) {
-        legends.push(
-          new ContinuousLegend(s, {
-            ...options,
-            specIndex: i,
-            type: s.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend
-          })
-        );
+        specInfos.push({
+          spec: s,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: s.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend
+        });
       }
     });
-    return legends;
+    return specInfos;
   }
 
   constructor(spec: T, options: IComponentOption) {

@@ -84,9 +84,8 @@ export class TestRegion implements IRegion {
   getSceneNodeMarks: () => IVGRrammarMark[];
   release: () => void;
   animate?: IAnimate | undefined;
-  reInit: (theme?: any) => void;
+  reInit: (spec?: any) => void;
   getSpec?: (() => any) | undefined;
-  setCurrentTheme: (theme: any, noRender?: boolean | undefined) => void;
   setMarkStyle: <T extends ICommonSpec>(
     mark?: IMarkRaw<T>,
     style?: Partial<IMarkStyle<T> | ConvertToMarkStyleSpec<T>>,

@@ -9,6 +9,7 @@ export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesian
 export declare class CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec> extends CartesianLinearAxis<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
+    static specKey: string;
     protected _layerTickData: CompilableData;
     protected _zero: boolean;
     effect: IEffect;

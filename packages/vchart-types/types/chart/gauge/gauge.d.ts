@@ -1,12 +1,14 @@
-import { ProgressLikeChart } from '../polar/progress-like';
-export declare class GaugeChart extends ProgressLikeChart {
+import type { IGaugeChartSpec } from './interface';
+import { GaugeChartSpecTransformer } from './gauge-transformer';
+import type { AdaptiveSpec } from '../../typings';
+import { BaseChart } from '../base';
+export declare class GaugeChart<T extends IGaugeChartSpec = IGaugeChartSpec> extends BaseChart<AdaptiveSpec<T, 'axes'>> {
     static readonly type: string;
+    static readonly seriesType: string;
     static readonly view: string;
+    static readonly transformerConstructor: typeof GaugeChartSpecTransformer;
+    readonly transformerConstructor: typeof GaugeChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected _getDefaultSeriesSpec(spec: any): any;
-    protected _getDefaultCircularProgressSeriesSpec(spec: any): any;
-    transformSpec(spec: any): void;
-    protected _transformGaugeAxisSpec(spec: any): void;
 }
 export declare const registerGaugeChart: () => void;

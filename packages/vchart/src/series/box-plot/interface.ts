@@ -1,7 +1,6 @@
-import type { IMarkSpec, IMarkTheme } from '../..';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
-import type { DirectionType, IBoxPlotMarkSpec, IOutlierMarkSpec } from '../../typings';
+import type { DirectionType, IBoxPlotMarkSpec, IOutlierMarkSpec, IMarkSpec, IMarkTheme } from '../../typings';
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 

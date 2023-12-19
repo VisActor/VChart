@@ -10,12 +10,12 @@ import type { ICircularProgressSeriesSpec, ICircularProgressSeriesTheme } from '
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IStateAnimateSpec } from '../../../animation/spec';
 import type { IProgressArcMark } from '../../../mark/progress-arc';
-import { ArcMark } from '../../../mark/arc';
-import { ProgressArcMark } from '../../../mark/progress-arc';
+import { ArcMark, registerArcMark } from '../../../mark/arc';
+import { ProgressArcMark, registerProgressArcMark } from '../../../mark/progress-arc';
 import { circularProgressSeriesMark } from './constant';
 import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../constant';
 import { Factory } from '../../../core/factory';
-import { registerCircularProgressAnimation } from '../../polar/progress-like';
+import { registerProgressLikeAnimation } from '../../polar/progress-like';
 import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IMark } from '../../../mark/interface';
 
@@ -26,8 +26,6 @@ export class CircularProgressSeries<
   type = SeriesTypeEnum.circularProgress;
 
   static readonly mark: SeriesMarkMap = circularProgressSeriesMark;
-
-  protected declare _theme: Maybe<ICircularProgressSeriesTheme>;
 
   private _progressMark: IProgressArcMark | null = null;
   private _trackMark: IProgressArcMark | null = null;
@@ -194,9 +192,9 @@ export class CircularProgressSeries<
 }
 
 export const registerCircularProgressSeries = () => {
-  Factory.registerMark(ArcMark.type, ArcMark);
-  Factory.registerMark(ProgressArcMark.constructorType, ProgressArcMark);
-  Factory.registerSeries(CircularProgressSeries.type, CircularProgressSeries);
-  registerCircularProgressAnimation();
+  registerProgressArcMark();
+  registerArcMark();
+  registerProgressLikeAnimation();
   registerFadeInOutAnimation();
+  Factory.registerSeries(CircularProgressSeries.type, CircularProgressSeries);
 };

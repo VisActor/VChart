@@ -504,7 +504,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return true;
   };
 
-  reInit(theme?: any, lastSpec?: any) {
+  reInit(spec: T) {
     if (this._positionXEncoder) {
       this._positionXEncoder = null;
     }
@@ -512,6 +512,6 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
       this._positionYEncoder = null;
     }
 
-    super.reInit(theme);
+    super.reInit(spec);
   }
 }

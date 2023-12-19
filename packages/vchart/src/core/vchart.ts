@@ -5,7 +5,13 @@ import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/c
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
-import type { DimensionIndexOption, IChart, IChartConstructor } from '../chart/interface';
+import type {
+  DimensionIndexOption,
+  IChart,
+  IChartConstructor,
+  IChartSpecInfo,
+  IChartSpecTransformer
+} from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../component/interface/type';
@@ -79,21 +85,30 @@ import {
   get,
   cloneDeep
 } from '@visactor/vutils';
-import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart } from './interface';
+import type {
+  DataLinkAxis,
+  DataLinkSeries,
+  IGlobalConfig,
+  IVChart,
+  IVChartRenderOption,
+  VChartRenderActionSource
+} from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import { setPoptipTheme } from '@visactor/vrender-components';
 import { calculateChartSize, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout/base-layout';
-import { GroupMark } from '../mark/group';
-import { registerVGrammarAnimation } from '../animation/config';
+import { registerGroupMark } from '../mark/group';
+import { registerVGrammarCommonAnimation } from '../animation/config';
 import { View, registerFilterTransform, registerMapTransform } from '@visactor/vgrammar-core';
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
 import { mergeTheme, preprocessTheme } from '../util/spec';
 import { darkTheme, registerTheme } from '../theme/builtin';
+import type { IChartPluginService } from '../plugin/chart/interface';
+import { ChartPluginService } from '../plugin/chart/plugin-service';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -259,10 +274,20 @@ export class VChart implements IVChart {
   /** 工具方法 */
   static readonly Utils = VCHART_UTILS;
 
+  protected _originalSpec: any;
   protected _spec: any;
+  getSpec() {
+    return this._spec;
+  }
+
+  protected _specInfo: IChartSpecInfo;
+  getSpecInfo() {
+    return this._specInfo;
+  }
 
   private _viewBox: IBoundsLike;
   private _chart!: Maybe<IChart>;
+  private _chartSpecTransformer!: Maybe<IChartSpecTransformer>;
   private _compiler: Compiler;
   private _event: Maybe<IEvent>;
   private _userEvents: {
@@ -285,10 +310,13 @@ export class VChart implements IVChart {
     mode: RenderModeEnum['desktop-browser'],
     onError: (msg: string) => {
       throw new Error(msg);
+    },
+    optimize: {
+      disableCheckGraphicWidthOutRange: true
     }
   };
 
-  private _curSize: { width: number; height: number };
+  private _currentSize: { width: number; height: number };
   private _observer: ResizeObserver = null;
 
   private _currentThemeName: string;
@@ -298,6 +326,8 @@ export class VChart implements IVChart {
 
   private _context: any = {}; // 存放用户在model初始化前通过实例方法传入的配置等
   private _isReleased: boolean;
+
+  private _chartPlugin?: IChartPluginService;
 
   constructor(spec: ISpec, options: IInitOption) {
     this._option = mergeOrigin(this._option, { animation: (spec as any).animation !== false }, options);
@@ -329,9 +359,9 @@ export class VChart implements IVChart {
 
     this._viewBox = this._option.viewBox;
     this._currentThemeName = ThemeManager.getCurrentThemeName();
-    this._setSpec(spec);
+    this._setNewSpec(spec);
     this._updateCurrentTheme();
-    this._curSize = calculateChartSize(this._spec, {
+    this._currentSize = calculateChartSize(this._spec, {
       container: this._container,
       canvas: this._canvas,
       mode: this._option.mode || RenderModeEnum['desktop-browser'],
@@ -351,7 +381,7 @@ export class VChart implements IVChart {
         onError: this._onError
       }
     );
-    this._compiler.setSize(this._curSize.width, this._curSize.height);
+    this._compiler.setSize(this._currentSize.width, this._currentSize.height);
     this._eventDispatcher = new EventDispatcher(this, this._compiler);
     this._event = new Event(this._eventDispatcher, mode);
     this._compiler.initView();
@@ -364,27 +394,74 @@ export class VChart implements IVChart {
     this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
     this._bindVGrammarViewEvent();
+    this._initChartPlugin();
 
     InstanceManager.registerInstance(this);
   }
 
-  private _setSpec(spec: any) {
+  /** 设置新 spec，返回是否成功 */
+  private _setNewSpec(spec: any, forceMerge?: boolean): boolean {
     if (!spec) {
-      return;
+      return false;
+    }
+    if (isString(spec)) {
+      spec = JSON.parse(spec);
+    }
+    if (forceMerge && this._originalSpec) {
+      spec = mergeSpec({}, this._originalSpec, spec);
+    }
+    this._originalSpec = spec;
+    this._spec = this._getSpecFromOriginalSpec();
+    return true;
+  }
+
+  private _getSpecFromOriginalSpec() {
+    // 转换在实例上注册的函数 + 深拷贝 spec，保证 _originalSpec 和 _spec 的不同
+    const spec = specTransform(this._originalSpec) as any;
+    // because of in data-init, data will be set as array;
+    spec.data = spec.data ?? [];
+    return spec;
+  }
+
+  private _initChartSpec(spec: any, actionSource: VChartRenderActionSource) {
+    // 如果用户注册了函数，在配置中替换相应函数名为函数内容
+    if (VChart.getFunctionList() && VChart.getFunctionList().length) {
+      spec = functionTransform(spec, VChart);
+    }
+    this._spec = spec;
+
+    if (!this._chartSpecTransformer) {
+      this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
+        type: this._spec.type,
+        getTheme: () => this._currentTheme ?? {}
+      });
     }
 
-    this._spec = specTransform(isString(spec) ? JSON.parse(spec) : spec);
+    this._chartSpecTransformer.transformSpec(this._spec);
+
+    // 插件生命周期
+    this._chartPluginApply('onAfterChartSpecTransform', this._spec, actionSource);
+
+    this._specInfo = this._chartSpecTransformer?.transformModelSpec(this._spec);
+
+    // 插件生命周期
+    this._chartPluginApply('onAfterModelSpecTransform', this._spec, this._specInfo, actionSource);
+  }
+
+  private _updateSpecInfo() {
+    if (!this._chartSpecTransformer) {
+      this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
+        type: this._spec.type,
+        getTheme: () => this._currentTheme ?? {}
+      });
+    }
+    this._specInfo = this._chartSpecTransformer?.createSpecInfo(this._spec);
   }
 
   private _initChart(spec: any) {
     if (!this._compiler) {
       this._option?.onError('compiler is not initialized');
       return;
-    }
-
-    // 如果用户注册了函数，在配置中替换相应函数名为函数内容
-    if (VChart.getFunctionList() && VChart.getFunctionList().length) {
-      spec = functionTransform(spec, VChart);
     }
 
     // 放到这里而不是放到chart内的考虑
@@ -406,6 +483,7 @@ export class VChart implements IVChart {
       viewBox: this._viewBox,
       animation: this._option.animation,
       getTheme: () => this._currentTheme ?? {},
+      getSpecInfo: () => this._specInfo ?? {},
 
       layout: this._option.layout,
       onError: this._onError
@@ -415,7 +493,7 @@ export class VChart implements IVChart {
       return;
     }
     this._chart = chart;
-    this._chart.setCanvasRect(this._curSize.width, this._curSize.height);
+    this._chart.setCanvasRect(this._currentSize.width, this._currentSize.height);
     this._chart.created();
     this._chart.init();
     this._event.emit(ChartEvent.initialized, {});
@@ -461,7 +539,7 @@ export class VChart implements IVChart {
     }
   }
 
-  private _getCurSize() {
+  getCurrentSize() {
     const { width: containerWidth, height: containerHeight } = getContainerSize(
       this._container!,
       DEFAULT_CHART_WIDTH,
@@ -471,9 +549,9 @@ export class VChart implements IVChart {
   }
 
   private _doResize() {
-    const { width, height } = this._getCurSize();
-    if (this._curSize.width !== width || this._curSize.height !== height) {
-      this._curSize = { width, height };
+    const { width, height } = this.getCurrentSize();
+    if (this._currentSize.width !== width || this._currentSize.height !== height) {
+      this._currentSize = { width, height };
       this.resize(width, height);
     }
   }
@@ -502,29 +580,32 @@ export class VChart implements IVChart {
     }
   }
 
-  /** **异步方法** 执行自定义的回调修改图表配置，并重新渲染 */
-  async updateCustomConfigAndRerender(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
-    if (this._isReleased) {
-      return this as unknown as IVChart;
+  /** 在修改图表配置后重新渲染 */
+  updateCustomConfigAndRerender(
+    updateSpecResult: IUpdateSpecResult | (() => IUpdateSpecResult),
+    sync?: boolean,
+    option: IVChartRenderOption = {}
+  ) {
+    if (this._isReleased || !updateSpecResult) {
+      return undefined;
     }
-    const result = modifyConfig(); // 执行回调
-    if (!isValid(result)) {
-      return this as unknown as IVChart;
+    if (isFunction(updateSpecResult)) {
+      updateSpecResult = updateSpecResult();
     }
-    this._reCompile(result);
-    await this.renderAsync(morphConfig);
-    return this as unknown as IVChart;
+    this._reCompile(updateSpecResult);
+    if (sync) {
+      return this._renderSync(option);
+    }
+    return this._renderAsync(option);
   }
 
-  /** **同步方法** 执行自定义的回调修改图表配置，并重新渲染 */
-  updateCustomConfigAndRerenderSync(modifyConfig: () => IUpdateSpecResult | undefined, morphConfig?: IMorphConfig) {
-    const result = modifyConfig(); // 执行回调
-    if (!isValid(result)) {
-      return this as unknown as IVChart;
+  /** 执行自定义的回调修改图表配置，并重新编译（不渲染） */
+  protected _updateCustomConfigAndRecompile(updateSpecResult: IUpdateSpecResult, option: IVChartRenderOption = {}) {
+    if (!updateSpecResult) {
+      return false;
     }
-    this._reCompile(result);
-    this.renderSync(morphConfig);
-    return this as unknown as IVChart;
+    this._reCompile(updateSpecResult);
+    return this._beforeRender(option);
   }
 
   protected _reCompile(updateResult: IUpdateSpecResult) {
@@ -532,6 +613,7 @@ export class VChart implements IVChart {
       this._releaseData();
       this._initDataSet();
       // 释放图表等等
+      this._chartSpecTransformer = null;
       this._chart.release();
       this._chart = null as unknown as IChart;
       // 如果不需要动画，那么释放item，避免元素残留
@@ -556,11 +638,57 @@ export class VChart implements IVChart {
         this._compiler?.compile({ chart: this._chart, vChart: this }, {});
       }
       if (updateResult.reSize) {
-        const { width, height } = this._getCurSize();
-        this._chart.onResize(width, height);
+        const { width, height } = this.getCurrentSize();
+        this._chart.onResize(width, height, false);
         this._compiler.resize?.(width, height, false);
       }
     }
+  }
+
+  /** 渲染之前的步骤，返回是否成功 */
+  protected _beforeRender(option: IVChartRenderOption = {}): boolean {
+    // 如果 vchart 实例已经卸载，终止渲染
+    if (this._isReleased) {
+      return false;
+    }
+    // 如果图表已经实例化，跳过该步骤
+    if (this._chart) {
+      return true;
+    }
+
+    const { transformSpec, actionSource } = option;
+    if (transformSpec) {
+      // 初始化图表 spec
+      this._initChartSpec(this._spec, 'render');
+    }
+
+    // 插件生命周期
+    this._chartPluginApply('onBeforeInitChart', this._spec, actionSource);
+
+    // 实例化图表
+    this._option.performanceHook?.beforeInitializeChart?.();
+    this._initChart(this._spec);
+    this._option.performanceHook?.afterInitializeChart?.();
+    // 如果实例化失败，终止渲染
+    if (!this._chart || !this._compiler) {
+      return false;
+    }
+
+    // compile
+    this._option.performanceHook?.beforeCompileToVGrammar?.();
+    this._compiler.compile({ chart: this._chart, vChart: this }, { performanceHook: this._option.performanceHook });
+    this._option.performanceHook?.afterCompileToVGrammar?.();
+    return true;
+  }
+
+  /** 渲染之后的步骤 */
+  protected _afterRender(): boolean {
+    if (this._isReleased) {
+      return false;
+    }
+    this._updateAnimateState();
+    this._event.emit(ChartEvent.rendered, {});
+    return true;
   }
 
   /**
@@ -569,32 +697,11 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   renderSync(morphConfig?: IMorphConfig) {
-    if (!this._chart) {
-      this._option.performanceHook?.beforeInitializeChart?.();
-      this._initChart(this._spec);
-      this._option.performanceHook?.afterInitializeChart?.();
-      if (!this._chart || !this._compiler) {
-        return this as unknown as IVChart;
-      }
-      // 先compile
-      this._option.performanceHook?.beforeCompileToVGrammar?.();
-      this._compiler.compile({ chart: this._chart, vChart: this }, { performanceHook: this._option.performanceHook });
-      this._option.performanceHook?.afterCompileToVGrammar?.();
-    }
-    // 最后填充数据绘图
-    this._compiler?.renderSync(morphConfig);
-
-    if (this._option.animation) {
-      this._chart?.getAllRegions().forEach(region => {
-        region.animate?.updateAnimateState(AnimationStateEnum.update, true);
-      });
-      this._chart?.getAllComponents().forEach(component => {
-        component.animate?.updateAnimateState(AnimationStateEnum.update, true);
-      });
-    }
-
-    this._event.emit(ChartEvent.rendered, {});
-    return this as unknown as IVChart;
+    return this._renderSync({
+      morphConfig,
+      transformSpec: true,
+      actionSource: 'render'
+    });
   }
 
   /**
@@ -603,28 +710,36 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   async renderAsync(morphConfig?: IMorphConfig) {
-    if (this._isReleased) {
-      return this as unknown as IVChart;
-    }
-    if (!this._chart) {
-      this._option.performanceHook?.beforeInitializeChart?.();
-      this._initChart(this._spec);
-      this._option.performanceHook?.afterInitializeChart?.();
-      if (!this._chart || !this._compiler) {
-        return this as unknown as IVChart;
-      }
-      // 先compile
-      this._option.performanceHook?.beforeCompileToVGrammar?.();
-      this._compiler.compile({ chart: this._chart, vChart: this }, { performanceHook: this._option.performanceHook });
-      this._option.performanceHook?.afterCompileToVGrammar?.();
-    }
-    // 最后填充数据绘图
-    await this._compiler?.renderAsync(morphConfig);
+    return this._renderAsync({
+      morphConfig,
+      transformSpec: true,
+      actionSource: 'render'
+    });
+  }
 
-    if (this._isReleased) {
-      return this as unknown as IVChart;
+  protected _renderSync(option: IVChartRenderOption = {}) {
+    const self = this as unknown as IVChart;
+    if (!this._beforeRender(option)) {
+      return self;
     }
+    // 填充数据绘图
+    this._compiler?.renderSync(option.morphConfig);
+    this._afterRender();
+    return self;
+  }
 
+  protected async _renderAsync(option: IVChartRenderOption = {}) {
+    const self = this as unknown as IVChart;
+    if (!this._beforeRender(option)) {
+      return self;
+    }
+    // 填充数据绘图
+    await this._compiler?.renderAsync(option.morphConfig);
+    this._afterRender();
+    return self;
+  }
+
+  private _updateAnimateState() {
     if (this._option.animation) {
       this._chart?.getAllRegions().forEach(region => {
         region.animate?.updateAnimateState(AnimationStateEnum.update, true);
@@ -633,9 +748,6 @@ export class VChart implements IVChart {
         component.animate?.updateAnimateState(AnimationStateEnum.update, true);
       });
     }
-
-    this._event.emit(ChartEvent.rendered, {});
-    return this as unknown as IVChart;
   }
 
   /**
@@ -645,6 +757,8 @@ export class VChart implements IVChart {
     if ((this._onResize as any)?.cancel) {
       (this._onResize as any).cancel();
     }
+    this._chartPluginApply('disposeAll');
+    this._chartSpecTransformer = null;
     this._chart?.release();
     this._compiler?.release();
     this._eventDispatcher?.release();
@@ -656,6 +770,7 @@ export class VChart implements IVChart {
     this._chart = null;
     this._compiler = null;
     this._spec = null;
+    this._originalSpec = null;
     // this._option = null;
     this._userEvents = null;
     this._event = null;
@@ -834,34 +949,12 @@ export class VChart implements IVChart {
    * @returns
    */
   async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
-    if (!spec) {
-      return this as unknown as IVChart;
-    }
-    if (isString(spec)) {
-      spec = JSON.parse(spec);
-    }
-
-    if (forceMerge) {
-      spec = mergeSpec({}, this._spec, spec);
-    }
-
-    await this.updateCustomConfigAndRerender(() => {
-      spec = specTransform(spec) as any;
-      const lastSpec = this._spec;
-      this._spec = spec;
-      if (!isEqual(lastSpec.theme, spec.theme)) {
-        this._updateCurrentTheme();
-        this._chart?.setCurrentTheme();
-      }
-      const reSize = this._shouldChartResize(lastSpec);
-      this._compiler?.getVGrammarView()?.updateLayoutTag();
-      return mergeUpdateResult(this._chart.updateSpec(spec), {
-        change: reSize,
-        reMake: false,
-        reCompile: false,
-        reSize
-      });
-    }, morphConfig);
+    const result = this._updateSpec(spec, forceMerge);
+    await this.updateCustomConfigAndRerender(result, false, {
+      morphConfig,
+      transformSpec: true,
+      actionSource: 'updateSpec'
+    });
     return this as unknown as IVChart;
   }
 
@@ -872,42 +965,43 @@ export class VChart implements IVChart {
    * @returns
    */
   updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
-    if (!spec) {
-      return this as unknown as IVChart;
-    }
-    if (isString(spec)) {
-      spec = JSON.parse(spec);
-    }
-
-    // 没有配置变化 因为数据对象的原因，这里会报错
-    // if (specString == JSON.stringify(this._spec)) {
-    //   return;
-    // }
-
-    if (forceMerge) {
-      spec = mergeSpec({}, this._spec, spec);
-    }
-
-    this.updateCustomConfigAndRerenderSync(() => {
-      spec = specTransform(spec) as any;
-      // because of in data-init, data will be set as array;
-      spec.data = spec.data ?? [];
-      const lastSpec = this._spec;
-      this._spec = spec;
-      if (!isEqual(lastSpec.theme, spec.theme)) {
-        this._updateCurrentTheme();
-        this._chart?.setCurrentTheme();
-      }
-      const reSize = this._shouldChartResize(lastSpec);
-      this._compiler?.getVGrammarView()?.updateLayoutTag();
-      return mergeUpdateResult(this._chart.updateSpec(spec), {
-        change: reSize,
-        reMake: false,
-        reCompile: false,
-        reSize
-      });
-    }, morphConfig);
+    const result = this._updateSpec(spec, forceMerge);
+    this.updateCustomConfigAndRerender(result, true, {
+      morphConfig,
+      transformSpec: true,
+      actionSource: 'updateSpec'
+    });
     return this as unknown as IVChart;
+  }
+
+  /** 更新 spec 并重新编译（不渲染），返回是否成功 */
+  updateSpecAndRecompile(spec: ISpec, forceMerge: boolean = false, option: IVChartRenderOption = {}) {
+    const result = this._updateSpec(spec, forceMerge);
+    return this._updateCustomConfigAndRecompile(result, {
+      actionSource: 'updateSpecAndRecompile',
+      ...option
+    });
+  }
+
+  private _updateSpec(spec: ISpec, forceMerge: boolean = false): IUpdateSpecResult | undefined {
+    const lastSpec = this._spec;
+    if (!this._setNewSpec(spec, forceMerge)) {
+      return undefined;
+    }
+
+    if (!isEqual(lastSpec.theme, this._spec.theme)) {
+      this._setCurrentTheme();
+    }
+
+    const reSize = this._shouldChartResize(lastSpec);
+    this._compiler?.getVGrammarView()?.updateLayoutTag();
+
+    return mergeUpdateResult(this._chart.updateSpec(this._spec), {
+      change: reSize,
+      reMake: false,
+      reCompile: false,
+      reSize
+    });
   }
 
   /**
@@ -997,18 +1091,18 @@ export class VChart implements IVChart {
     if (forceMerge) {
       spec = mergeSpec({}, model.getSpec(), spec);
     }
-    const modifyConfig = () => {
-      const result = model.updateSpec(spec);
-      model.reInit();
-      if (result.change || result.reCompile || result.reMake || result.reSize || result.reRender) {
-        this._chart.reDataFlow();
-      }
-      return result;
-    };
-    if (sync) {
-      return this.updateCustomConfigAndRerenderSync(modifyConfig, morphConfig);
+
+    const result = model.updateSpec(spec);
+    model.reInit(spec);
+    if (result.change || result.reCompile || result.reMake || result.reSize || result.reRender) {
+      this._chart.reDataFlow();
     }
-    return this.updateCustomConfigAndRerender(modifyConfig, morphConfig);
+
+    return this.updateCustomConfigAndRerender(result, sync, {
+      morphConfig,
+      transformSpec: false,
+      actionSource: 'updateModelSpec'
+    });
   }
 
   /**
@@ -1026,9 +1120,14 @@ export class VChart implements IVChart {
     if (chartCanvasRect && chartCanvasRect.width === width && chartCanvasRect.height === height) {
       return this as unknown as IVChart;
     }
+
+    // 插件生命周期
+    this._chartPluginApply('onBeforeResize', width, height);
+
     this._option.performanceHook?.beforeResizeWithUpdate?.();
-    this._chart.onResize(width, height);
+    this._chart.onResize(width, height, false);
     this._option.performanceHook?.afterResizeWithUpdate?.();
+
     await this._compiler.resize?.(width, height);
 
     if (this._isReleased) {
@@ -1249,13 +1348,11 @@ export class VChart implements IVChart {
     if (!ThemeManager.themeExist(name)) {
       return this as unknown as IVChart;
     }
-
-    await this.updateCustomConfigAndRerender(() => {
-      this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme();
-      return { change: true, reMake: false };
+    const result = this._setCurrentTheme(name);
+    await this.updateCustomConfigAndRerender(result, false, {
+      transformSpec: false,
+      actionSource: 'setCurrentTheme'
     });
-
     return this as unknown as IVChart;
   }
 
@@ -1269,14 +1366,19 @@ export class VChart implements IVChart {
     if (!ThemeManager.themeExist(name)) {
       return this as unknown as IVChart;
     }
-
-    this.updateCustomConfigAndRerenderSync(() => {
-      this._updateCurrentTheme(name);
-      this._chart?.setCurrentTheme();
-      return { change: true, reMake: false };
+    const result = this._setCurrentTheme(name);
+    this.updateCustomConfigAndRerender(result, true, {
+      transformSpec: false,
+      actionSource: 'setCurrentTheme'
     });
-
     return this as unknown as IVChart;
+  }
+
+  protected _setCurrentTheme(name?: string): IUpdateSpecResult {
+    this._updateCurrentTheme(name);
+    this._initChartSpec(this._getSpecFromOriginalSpec(), 'setCurrentTheme');
+    this._chart?.setCurrentTheme();
+    return { change: true, reMake: false };
   }
 
   // Tooltip 相关方法
@@ -1758,6 +1860,29 @@ export class VChart implements IVChart {
   getFunctionList() {
     return ExpressionFunction.instance().getFunctionNameList();
   }
+
+  /** 设置运行时 spec */
+  setRuntimeSpec(spec: any) {
+    this._spec = spec;
+    this._updateSpecInfo();
+  }
+
+  private _initChartPlugin() {
+    const pluginList = Factory.getChartPlugins();
+    if (pluginList.length > 0) {
+      this._chartPlugin = new ChartPluginService(this);
+      this._chartPlugin.load(pluginList.map(p => new p()));
+      // 插件生命周期
+      this._chartPluginApply('onInit', this._spec);
+    }
+  }
+
+  private _chartPluginApply(funcName: keyof IChartPluginService, ...args: any[]) {
+    if (!this._chartPlugin || !this._chartPlugin[funcName]) {
+      return;
+    }
+    (this._chartPlugin[funcName] as (...args: any[]) => any).apply(this._chartPlugin, args);
+  }
 }
 
 export const registerVChartCore = () => {
@@ -1766,11 +1891,11 @@ export const registerVChartCore = () => {
   // install layout module
   Factory.registerLayout('base', Layout);
   // install essential marks
-  Factory.registerMark(GroupMark.type, GroupMark);
+  registerGroupMark();
   // install essential vgrammar transform
   View.useRegisters([registerFilterTransform, registerMapTransform]);
   // install animation
-  registerVGrammarAnimation();
+  registerVGrammarCommonAnimation();
   // install default theme
   registerTheme(darkTheme.name, darkTheme);
   // set default logger level to Level.error

@@ -1,16 +1,23 @@
-import type { IChartConstructor, IChartOption, IChart } from '../chart/interface';
-import type { ISeriesConstructor, ISeriesOption } from '../series/interface';
+import type {
+  IChartConstructor,
+  IChartOption,
+  IChart,
+  IChartSpecTransformerOption,
+  IChartSpecTransformer
+} from '../chart/interface';
+import type { ISeriesConstructor, ISeriesMarkInfo, ISeriesOption, SeriesMarkNameEnum } from '../series/interface';
 import type { IComponentConstructor } from '../component/interface';
 import type { IMarkConstructor, IMarkOption, MarkConstructor } from '../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../mark/interface/type';
 import type { IRegion, IRegionConstructor } from '../region/interface';
-import type { IModelOption } from '../model/interface';
+import type { IBaseModelSpecTransformer, IBaseModelSpecTransformerOption, IModelOption } from '../model/interface';
 import type { Transform, Parser } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { fields, filter, simplify, fold, csvParser, dsvParser, tsvParser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
 import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
+import type { IChartPluginConstructor } from '../plugin/chart/interface';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
@@ -20,6 +27,7 @@ export class Factory {
   private static _regions: { [key: string]: IRegionConstructor } = {};
   private static _animations: { [key: string]: (params?: any, preset?: any) => MarkAnimationSpec } = {};
   private static _implements: { [key: string]: (...args: any) => void } = {};
+  private static _chartPlugin: { [key: string]: IChartPluginConstructor } = {};
 
   static transforms: { [key: string]: Transform } = {
     // buildIn transforms
@@ -63,6 +71,9 @@ export class Factory {
   static registerImplement(key: string, implement: (...args: any) => void) {
     Factory._implements[key] = implement;
   }
+  static registerChartPlugin(key: string, plugin: IChartPluginConstructor) {
+    Factory._chartPlugin[key] = plugin;
+  }
 
   static createChart(chartType: string, spec: any, options: IChartOption): IChart | null {
     if (!Factory._charts[chartType]) {
@@ -70,6 +81,21 @@ export class Factory {
     }
     const ChartConstructor = Factory._charts[chartType];
     return new ChartConstructor(spec, options);
+  }
+
+  static createChartSpecTransformer(
+    chartType: string,
+    option: IChartSpecTransformerOption
+  ): IChartSpecTransformer | null {
+    if (!Factory._charts[chartType]) {
+      return null;
+    }
+    const ChartConstructor = Factory._charts[chartType];
+    const ChartSpecTransformerConstructor = ChartConstructor.transformerConstructor;
+    return new ChartSpecTransformerConstructor({
+      seriesType: ChartConstructor.seriesType,
+      ...option
+    });
   }
 
   static createRegion(regionType: string, spec: any, options: IModelOption): IRegion | null {
@@ -80,12 +106,36 @@ export class Factory {
     return new RegionConstructor(spec, options);
   }
 
+  static createRegionSpecTransformer(
+    regionType: string,
+    options: IBaseModelSpecTransformerOption
+  ): IBaseModelSpecTransformer | null {
+    if (!Factory._regions[regionType]) {
+      return null;
+    }
+    const RegionConstructor = Factory._regions[regionType];
+    const RegionSpecTransformerConstructor = RegionConstructor.transformerConstructor;
+    return new RegionSpecTransformerConstructor(options);
+  }
+
   static createSeries(seriesType: string, spec: any, options: ISeriesOption) {
     if (!Factory._series[seriesType]) {
       return null;
     }
     const SeriesConstructor = Factory._series[seriesType];
     return new SeriesConstructor(spec, options);
+  }
+
+  static createSeriesSpecTransformer(
+    seriesType: string,
+    options: IBaseModelSpecTransformerOption
+  ): IBaseModelSpecTransformer | null {
+    if (!Factory._series[seriesType]) {
+      return null;
+    }
+    const SeriesConstructor = Factory._series[seriesType];
+    const SeriesSpecTransformerConstructor = SeriesConstructor.transformerConstructor;
+    return new SeriesSpecTransformerConstructor(options);
   }
 
   static createMark(markType: string, name: string, options: IMarkOption) {
@@ -125,11 +175,26 @@ export class Factory {
     return Factory._series[type];
   }
 
+  static getRegionInType(type: string) {
+    return Factory._regions[type];
+  }
+
   static getAnimationInKey(key: string) {
     return Factory._animations[key];
   }
 
   static getImplementInKey(key: string) {
     return Factory._implements[key];
+  }
+
+  static getSeriesMarkMap(seriesType: string): Partial<Record<SeriesMarkNameEnum, ISeriesMarkInfo>> {
+    if (!Factory._series[seriesType]) {
+      return {};
+    }
+    return Factory._series[seriesType].mark;
+  }
+
+  static getChartPlugins() {
+    return Object.values(Factory._chartPlugin);
   }
 }

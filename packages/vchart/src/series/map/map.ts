@@ -7,7 +7,6 @@ import type { IPathMark } from '../../mark/path';
 import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-source';
 import { lookup } from '../../data/transforms/lookup';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { mergeSpec } from '../../util/spec/merge-spec';
 import { GeoSeries } from '../geo/geo';
 import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
@@ -21,19 +20,22 @@ import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
-import { PathMark } from '../../mark/path';
+import { PathMark, registerPathMark } from '../../mark/path';
 import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import { registerGeoCoordinate } from '../../component/geo';
 import type { IMark } from '../../mark/interface';
 import { TransformLevel } from '../../data/initialize';
+import { MapSeriesSpecTransformer } from './map-transformer';
 
 export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
   static readonly type: string = SeriesTypeEnum.map;
   type = SeriesTypeEnum.map;
 
   static readonly mark: SeriesMarkMap = mapSeriesMark;
+  static readonly transformerConstructor = MapSeriesSpecTransformer as any;
+  readonly transformerConstructor = MapSeriesSpecTransformer;
 
   map!: string;
 
@@ -42,9 +44,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     return this._nameMap;
   }
 
-  protected declare _theme: Maybe<IMapSeriesTheme>;
-
   private _areaCache: Map<string, { shape: string }> = new Map();
+  get areaPath() {
+    return this._areaCache;
+  }
 
   private _pathMark: IPathMark;
   private _labelMark: ILabelMark;
@@ -124,8 +127,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       isSeriesMark: true,
       skipBeforeLayouted: true,
       dataView: this._mapViewData.getDataView(),
-      dataProductId: this._mapViewData.getProductId(),
-      label: this._preprocessLabelSpec(this._spec.label, undefined, false) // 地图交互通过 vrender api，自身不支持动画，所以 label 也不支持动画
+      dataProductId: this._mapViewData.getProductId()
     }) as IPathMark;
   }
 
@@ -333,7 +335,7 @@ export const registerMapSeries = () => {
   // 注册语法元素
   registerProjection();
   registerGeoCoordinate();
-  Factory.registerMark(PathMark.type, PathMark);
+  registerPathMark();
   Factory.registerSeries(MapSeries.type, MapSeries);
   Factory.registerImplement('registerMap', registerMapSource);
   Factory.registerImplement('unregisterMap', unregisterMapSource);

@@ -30,7 +30,9 @@ export const commonAxis: IAxisCommonTheme = {
   },
   tick: {
     visible: true,
+    inside: false,
     tickSize: THEME_CONSTANTS.axisTickSize,
+    alignWithLabel: true,
     style: {
       lineWidth: 1,
       stroke: { type: 'palette', key: 'axisDomainColor' },
@@ -48,6 +50,7 @@ export const commonAxis: IAxisCommonTheme = {
   },
   label: {
     visible: true,
+    inside: false,
     space: 10,
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
@@ -58,10 +61,10 @@ export const commonAxis: IAxisCommonTheme = {
   },
   title: {
     space: 10,
+    padding: 0,
     style: {
       fontSize: THEME_CONSTANTS.l5FontSize,
       lineHeight: THEME_CONSTANTS.l5LineHeight,
-
       fill: { type: 'palette', key: 'secondaryFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1

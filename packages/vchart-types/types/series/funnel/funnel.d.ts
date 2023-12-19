@@ -1,16 +1,17 @@
 import type { IFunnelSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';
-import type { IOrientType, Maybe, Datum, StringOrNumber } from '../../typings';
+import type { IOrientType, Datum, StringOrNumber } from '../../typings';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IPolygonMark } from '../../mark/polygon/polygon';
 import { BaseSeries } from '../base/base-series';
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { ITextMark } from '../../mark/text';
-import type { IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
+import type { IFunnelSeriesSpec } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { SeriesData } from '../base/series-data';
 import type { ILabelMark } from '../../mark/label';
+import { FunnelSeriesSpecTransformer } from './funnel-transformer';
 export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec> extends BaseSeries<T> implements IFunnelSeries {
     static readonly type: string;
     type: SeriesTypeEnum;
@@ -19,6 +20,8 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
     protected _transformMarkName: SeriesMarkNameEnum;
     protected _transformMarkType: MarkTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof FunnelSeriesSpecTransformer;
     protected _categoryField: string;
     getCategoryField(): string;
     setCategoryField(f: string): string;
@@ -26,7 +29,6 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
     getValueField(): string;
     setValueField(f: string): string;
     protected _viewDataTransform: SeriesData;
-    protected _theme: Maybe<IFunnelSeriesTheme>;
     protected _funnelAlign: 'left' | 'center' | 'right' | 'top' | 'bottom';
     protected _funnelOrient: IOrientType;
     protected _shape: 'rect' | 'trapezoid';

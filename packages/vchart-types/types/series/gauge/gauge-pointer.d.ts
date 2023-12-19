@@ -2,14 +2,13 @@ import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme, PinMarkSpec, PointerMarkSpec } from './interface';
-import type { Datum, Maybe } from '../../typings';
+import type { IGaugePointerSeriesSpec, PinMarkSpec, PointerMarkSpec } from './interface';
+import type { Datum } from '../../typings';
 import { ProgressLikeSeries } from '../polar/progress-like';
 export declare class GaugePointerSeries<T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec> extends ProgressLikeSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<IGaugePointerSeriesTheme>;
     private _pinMark;
     private _pointerMark;
     private _pinBackgroundMark;

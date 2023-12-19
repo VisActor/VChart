@@ -9,6 +9,7 @@ export interface CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesian
 export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBandAxisSpec> extends CartesianAxis<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
+    static specKey: string;
     protected _scale: BandScale;
     protected _scales: BandScale[];
     protected computeDomain(data: {

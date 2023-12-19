@@ -88,8 +88,14 @@ describe('Bar chart test', () => {
   });
 
   test('Bar chart init', () => {
+    const transformer = new BarChart.transformerConstructor({
+      type: 'bar',
+      seriesType: 'bar',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    const info = transformer.initChartSpec(spec as any);
     chart = new BarChart(
-      spec as unknown as IChartSpec,
+      spec as any,
       {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -116,7 +122,8 @@ describe('Bar chart test', () => {
           } as any;
         },
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        getSpecInfo: () => info
       } as any
     );
     chart.created();
@@ -139,7 +146,7 @@ describe('Bar chart test', () => {
   });
 
   test('Bar chart updateSpec', () => {
-    chart.updateSpec(spec);
+    chart.updateSpec(spec as any);
 
     expect(chart.getAllSeries().length).toEqual(1);
     const series: BarSeries = chart.getAllSeries()[0] as BarSeries;

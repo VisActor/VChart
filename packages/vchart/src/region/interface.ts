@@ -1,5 +1,5 @@
 import type { IMark } from '../mark/interface';
-import type { ILayoutModel, IModelOption } from '../model/interface';
+import type { ILayoutModel, IModelConstructor, IModelOption, IModelSpecInfo } from '../model/interface';
 import type { ISeries, SeriesType } from '../series/interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { IInteraction } from '../interaction/interface';
@@ -37,6 +37,8 @@ export interface IRegion extends ILayoutModel {
   getMarks: () => IMark[];
   getGroupMark: () => IGroupMark;
   getInteractionMark: () => IGroupMark;
+
+  getSpecInfo: () => IRegionSpecInfo;
 }
 
 export type ISeriesFilter = {
@@ -49,7 +51,7 @@ export type ISeriesFilter = {
   dataName?: string;
 };
 
-export interface IRegionConstructor {
+export interface IRegionConstructor extends IModelConstructor {
   new (spec: IRegionSpec, ctx: IModelOption): IRegion;
 }
 
@@ -91,4 +93,17 @@ export interface IGeoRegionSpec extends IRegionSpec {
     min?: number;
     max?: number;
   };
+}
+
+export interface IRegionSpecInfo<T extends IRegionSpec = IRegionSpec> extends IModelSpecInfo {
+  /** model 具体类型 */
+  type: 'region';
+  /** model spec */
+  spec: T;
+  /** 该 region 包含的系列索引 */
+  seriesIndexes?: number[];
+  /** 该 region 挂载的标签组件 */
+  markLabel?: IModelSpecInfo;
+  /** 该 region 挂载的 geoCoordinate 组件 */
+  geoCoordinate?: IModelSpecInfo;
 }

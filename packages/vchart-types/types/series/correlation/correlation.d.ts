@@ -3,15 +3,16 @@ import type { ICorrelationSeriesSpec } from './interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesData } from '../base/series-data';
-import type { Maybe } from '../../typings';
-import type { ICorrelationSeriesTheme } from './interface';
+import type { AdaptiveSpec } from '../../typings';
 import type { ILabelMark } from '../../mark/label';
 import type { IMark } from '../../mark/interface';
-export declare class CorrelationSeries extends PolarSeries<any> {
+import { CorrelationSeriesSpecTransformer } from './correlation-transformer';
+export declare class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSeriesSpec> extends PolarSeries<AdaptiveSpec<T, 'outerRadius' | 'innerRadius'>> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<ICorrelationSeriesTheme>;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof CorrelationSeriesSpecTransformer;
     protected _centerSeriesData: SeriesData;
     private _nodePointMark;
     private _ripplePointMark;

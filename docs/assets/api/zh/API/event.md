@@ -273,6 +273,10 @@ Brush 框选后触发的事件。
 
 Brush 框选结束事件。
 
+- `'brushClear'`
+
+Brush 清除选框事件。
+
 事件参数如下：
 
 ```ts

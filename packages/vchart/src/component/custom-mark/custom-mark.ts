@@ -3,19 +3,25 @@ import { ComponentTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponentOption } from '../interface';
 import type { IRegion } from '../../region/interface';
-import type { IModelRenderOption } from '../../model/interface';
+import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import { LayoutLevel, LayoutZIndex, PREFIX } from '../../constant';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
 import type { IGroupMark } from '../../mark/group';
 import type { MarkTypeEnum } from '../../mark/interface';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
-import { ImageMark } from '../../mark/image';
+import { ImageMark, registerImageMark } from '../../mark/image';
 import type { IGraphic } from '@visactor/vrender-core';
 
-export class CustomMark extends BaseComponent<any> {
+// TODO: 规范范型
+export class CustomMark<T = any> extends BaseComponent<any> {
   static type = ComponentTypeEnum.customMark;
   type = ComponentTypeEnum.customMark;
+
+  static specKey = 'customMark';
+  specKey = 'customMark';
 
   layoutType: 'none' = 'none';
   layoutZIndex: number = LayoutZIndex.CustomMark;
@@ -23,12 +29,19 @@ export class CustomMark extends BaseComponent<any> {
 
   protected declare _spec: (ICustomMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | ICustomMarkGroupSpec)[];
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const customMarkSpec = spec.customMark;
-    if (!customMarkSpec) {
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const spec = chartSpec[this.specKey];
+    if (!spec) {
       return null;
     }
-    return [new CustomMark(customMarkSpec, { ...options, specIndex: 0 })];
+    return [
+      {
+        spec,
+        specIndex: 0,
+        specPath: [this.specKey],
+        type: ComponentTypeEnum.customMark
+      }
+    ];
   }
 
   created() {
@@ -58,6 +71,8 @@ export class CustomMark extends BaseComponent<any> {
         name: `${PREFIX}_${index}`
       },
       {
+        // 避免二次dataflow
+        skipBeforeLayouted: true,
         attributeContext: this._getMarkAttributeContext()
       }
     ) as IGroupMark;
@@ -96,9 +111,9 @@ export class CustomMark extends BaseComponent<any> {
   /**
    * updateSpec
    */
-  _compareSpec() {
-    const result = super._compareSpec();
-    if (!isEqual(this._originalSpec, this._spec)) {
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!isEqual(prevSpec, spec)) {
       result.reMake = true;
     }
 
@@ -129,6 +144,6 @@ export class CustomMark extends BaseComponent<any> {
 }
 
 export const registerCustomMark = () => {
-  Factory.registerMark(ImageMark.type, ImageMark); // image mark is only needed In extension-mark component
+  registerImageMark();
   Factory.registerComponent(CustomMark.type, CustomMark);
 };

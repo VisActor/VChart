@@ -1,15 +1,14 @@
 import { CartesianSeries } from '../cartesian/cartesian';
-import type { Maybe, Datum } from '../../typings';
+import type { Datum } from '../../typings';
 import type { IMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IDotSeriesSpec } from '../dot/interface';
-import type { ILinkSeriesSpec, ILinkSeriesTheme } from './interface';
+import type { ILinkSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';
 export declare class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<ILinkSeriesTheme>;
     protected _fromField?: string;
     getFromField(): string;
     setFromField(field: string): void;

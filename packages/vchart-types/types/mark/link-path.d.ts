@@ -10,3 +10,4 @@ export declare class LinkPathMark extends BaseMark<ILinkPathMarkSpec> implements
     protected _getDefaultStyle(): IMarkStyle<ILinkPathMarkSpec>;
     protected _initProduct(group?: string | IGroupMark): void;
 }
+export declare const registerLinkPathMark: () => void;

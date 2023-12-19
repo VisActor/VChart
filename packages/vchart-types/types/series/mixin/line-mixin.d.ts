@@ -7,7 +7,7 @@ import type { ISymbolMark } from '../../mark/symbol';
 import type { ITextMark } from '../../mark/text';
 import type { DirectionType, IInvalidType, InterpolateType, ILineMarkSpec, ISymbolMarkSpec, Maybe, Datum, IMarkTheme, ILayoutRect } from '../../typings';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
-import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
+import type { ILabelSpec } from '../../component/label';
 import { type DimensionEventParams } from '../../event/events/dimension';
 import type { ILabelMark } from '../../mark/label';
 import type { Functional } from '@visactor/vrender-components';
@@ -45,7 +45,6 @@ export interface LineLikeSeriesMixin extends ISeries {
     _getInvalidDefined: () => boolean;
     _getInvalidConnectType: () => IInvalidType;
     getLayoutRect: () => ILayoutRect;
-    _preprocessLabelSpec: (label: ILabelSpec, styleHandler?: (mark: ILabelMark) => void, hasAnimation?: boolean) => TransformedLabelSpec;
 }
 export declare class LineLikeSeriesMixin {
     addSamplingCompile(): void;

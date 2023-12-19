@@ -12,3 +12,4 @@ export declare class ComponentMark extends BaseMark<ICommonSpec> implements ICom
     constructor(name: string, option: IMarkOption);
     protected _initProduct(group?: string | IGroupMark): void;
 }
+export declare const registerComponentMark: () => void;

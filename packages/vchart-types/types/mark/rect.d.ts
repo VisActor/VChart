@@ -8,3 +8,4 @@ export declare class RectMark extends BaseMark<IRectMarkSpec> implements IRectMa
     readonly type = MarkTypeEnum.rect;
     protected _getDefaultStyle(): IMarkStyle<IRectMarkSpec>;
 }
+export declare const registerRectMark: () => void;

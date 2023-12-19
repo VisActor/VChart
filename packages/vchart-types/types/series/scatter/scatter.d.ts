@@ -1,16 +1,18 @@
 import type { DataView } from '@visactor/vdataset';
-import type { Maybe, IScatterInvalidType } from '../../typings';
-import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
+import type { IScatterInvalidType } from '../../typings';
+import type { IScatterSeriesSpec } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { ILabelMark } from '../../mark/label';
 import type { IMark } from '../../mark/interface';
+import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 export declare class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<IScatterSeriesTheme>;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof ScatterSeriesSpecTransformer;
     private _symbolMark;
     private _labelMark;
     private _size;

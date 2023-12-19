@@ -1,23 +1,19 @@
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
-import { HeatmapSeries, registerHeatmapSeries } from '../../series/heatmap/heatmap';
+import { registerHeatmapSeries } from '../../series/heatmap/heatmap';
 import { Factory } from '../../core/factory';
+import type { IHeatmapChartSpec } from './interface';
+import { HeatmapChartSpecTransformer } from './heatmap-transformer';
+import { BaseChart } from '../base';
 
-export class HeatmapChart extends CartesianChart {
+export class HeatmapChart<T extends IHeatmapChartSpec = IHeatmapChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.heatmap;
+  static readonly seriesType: string = SeriesTypeEnum.heatmap;
   static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = HeatmapChartSpecTransformer;
+  readonly transformerConstructor = HeatmapChartSpecTransformer;
   readonly type: string = ChartTypeEnum.heatmap;
   readonly seriesType: string = SeriesTypeEnum.heatmap;
-
-  protected _getDefaultSeriesSpec(spec: any): any {
-    const series = super._getDefaultSeriesSpec(spec);
-    return {
-      ...series,
-      valueField: spec.valueField,
-      cell: spec.cell
-    };
-  }
 }
 
 export const registerHeatmapChart = () => {

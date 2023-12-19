@@ -1,0 +1,5 @@
+import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
+import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
+export declare class AreaSeriesSpecTransformer<T extends IAreaSeriesSpec = IAreaSeriesSpec, K extends IAreaSeriesTheme = IAreaSeriesTheme> extends LineLikeSeriesSpecTransformer<T, K> {
+    protected _transformLabelSpec(spec: T): void;
+}

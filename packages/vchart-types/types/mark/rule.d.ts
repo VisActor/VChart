@@ -8,3 +8,4 @@ export declare class RuleMark extends BaseMark<IRuleMarkSpec> implements IRuleMa
     readonly type = MarkTypeEnum.rule;
     protected _getDefaultStyle(): IMarkStyle<IRuleMarkSpec>;
 }
+export declare const registerRuleMark: () => void;

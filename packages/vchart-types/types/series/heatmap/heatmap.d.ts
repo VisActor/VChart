@@ -1,18 +1,19 @@
 import { CartesianSeries } from '../cartesian/cartesian';
-import type { Maybe } from '../../typings';
-import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
+import type { IHeatmapSeriesSpec } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
-import type { ITextMark } from '../../mark/text';
+import { type ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { ICellMark } from '../../mark/cell';
 import type { IMark } from '../../mark/interface';
+import { HeatmapSeriesSpecTransformer } from './heatmap-transformer';
 export declare const DefaultBandWidth = 6;
 export declare class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<IHeatmapSeriesTheme>;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof HeatmapSeriesSpecTransformer;
     protected _cellMark: ICellMark;
     protected _backgroundMark: ICellMark;
     protected _fieldValue: string[];

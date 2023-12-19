@@ -1,6 +1,7 @@
 import { array } from '@visactor/vutils';
 import type { IData } from './../../typings/spec/common';
 import { DataView } from '@visactor/vdataset';
+// eslint-disable-next-line no-duplicate-imports
 import type { DataSet } from '@visactor/vdataset';
 import type { IDataValues, StringOrNumber } from '../../typings';
 import { dataToDataView, updateDataViewInData } from '../../data/initialize';

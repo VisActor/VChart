@@ -1,5 +1,4 @@
-import { isArray, isFunction, isObject, isString, isValid, ColorUtil, isNil } from '@visactor/vutils';
-import { Color } from '../../util/color';
+import { isArray, isFunction, isObject, isString, isValid, Color, isNil, rgbToHsl, hslToRgb } from '@visactor/vutils';
 import type {
   ColorScheme,
   ColorSchemeItem,
@@ -121,8 +120,8 @@ export function queryColorFromColorScheme(
   let c = new Color(color);
   if (isValid(colorKey.l)) {
     const { r, g, b } = c.color;
-    const { h, s } = ColorUtil.rgbToHsl(r, g, b);
-    const rgb = ColorUtil.hslToRgb(h, s, colorKey.l);
+    const { h, s } = rgbToHsl(r, g, b);
+    const rgb = hslToRgb(h, s, colorKey.l);
     const newColor = new Color(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
     newColor.setOpacity(c.color.opacity);
     c = newColor;

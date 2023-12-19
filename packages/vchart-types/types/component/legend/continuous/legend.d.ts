@@ -1,21 +1,19 @@
+import type { Maybe } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
-import type { IModelInitOption } from '../../../model/interface';
+import type { IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
-import type { ILegend } from '../interface';
-import type { IColorLegendSpec, IColorLegendTheme, ISizeLegendSpec } from './interface';
+import type { IColorLegendSpec, ISizeLegendSpec } from './interface';
 import { BaseLegend } from '../base-legend';
 import type { ILayoutRect } from '../../../typings/layout';
 export declare class ContinuousLegend<T extends IColorLegendSpec | ISizeLegendSpec = IColorLegendSpec | ISizeLegendSpec> extends BaseLegend<T> {
     static specKey: string;
-    specKey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
-    protected _theme: IColorLegendTheme;
     private _field;
     private _legendType;
-    static createComponent(spec: any, options: IComponentOption): ContinuousLegend<any> | ILegend[];
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     constructor(spec: T, options: IComponentOption);
     setAttrFromSpec(): void;
     init(option: IModelInitOption): void;

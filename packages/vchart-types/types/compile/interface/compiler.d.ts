@@ -8,6 +8,10 @@ export interface IRenderContainer {
     dom?: HTMLElement | 'none';
     canvas?: HTMLCanvasElement | string;
 }
+export type IOptimizeType = {
+    skipRenderWithOutRange?: boolean;
+    disableCheckGraphicWidthOutRange?: boolean;
+};
 export interface IRenderOption {
     mode?: RenderMode;
     modeParams?: {
@@ -28,6 +32,7 @@ export interface IRenderOption {
     disableDirtyBounds?: boolean;
     enableView3dTransform?: boolean;
     pluginList?: string[];
+    optimize?: IOptimizeType;
 }
 export type CompilerListenerParameters = {
     type: EventType;

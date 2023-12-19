@@ -11,10 +11,6 @@ import {
   ARC_QUADRANT,
   ARC_K,
   PREFIX,
-  ARC_LABEL_POINT_BX,
-  ARC_LABEL_POINT_BY,
-  ARC_LABEL_POINT_CX,
-  ARC_LABEL_POINT_CY,
   DEFAULT_LABEL_VISIBLE,
   POLAR_START_RADIAN,
   POLAR_END_RADIAN,
@@ -42,20 +38,22 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import { registerPieAnimation, type IPieAnimationParams, type PieAppearPreset } from './animation/animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
-import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
+import type { IArcLabelSpec, IBasePieSeriesSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
-import { ArcMark } from '../../mark/arc';
+import { ArcMark, registerArcMark } from '../../mark/arc';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { isNil } from '@visactor/vutils';
-
-type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
+import { PieSeriesSpecTransformer } from './pie-transformer';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
+  static readonly transformerConstructor = PieSeriesSpecTransformer as any;
+  readonly transformerConstructor = PieSeriesSpecTransformer;
+
   protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie;
   protected _pieMarkType: MarkTypeEnum = MarkTypeEnum.arc;
 
@@ -82,8 +80,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _pieMark: IArcMark | null = null;
   protected _labelMark: ITextMark | null = null;
   protected _labelLineMark: IPathMark | null = null;
-
-  protected declare _theme: Maybe<IPieSeriesTheme>;
 
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();
@@ -173,7 +169,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true,
-        label: this._preprocessLabelSpec(this._spec.label),
         customShape: this._spec.pie?.customShape
       }
     ) as IArcMark;
@@ -311,21 +306,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     };
   }
 
-  protected generateLinePath(state: StateValueType) {
-    const key = state === 'normal' ? 'POINT' : state.toUpperCase();
-    return {
-      path: (datum: Datum) => {
-        return (
-          `M${Math.round(datum[`${PREFIX}_ARC_LABEL_${key}_AX`])},${Math.round(
-            datum[`${PREFIX}_ARC_LABEL_${key}_AY`]
-          )}` +
-          ` L${Math.round(datum[ARC_LABEL_POINT_BX])},${Math.round(datum[ARC_LABEL_POINT_BY])}` +
-          ` L${Math.round(datum[ARC_LABEL_POINT_CX])},${Math.round(datum[ARC_LABEL_POINT_CY])}`
-        );
-      }
-    };
-  }
-
   getRadius(state: StateValueType = 'normal'): number {
     const styleRadius =
       state === 'normal'
@@ -342,37 +322,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return styleRadius ?? this._innerRadius;
   }
 
-  getLabelConfig(): IArcLabelSpec {
-    // TODO: 转换 series spec
-    return {
-      visible: true,
-      position: 'outside',
-      showRule: 'all',
-      rotate: true,
-      coverEnable: false,
-      spaceWidth: 5,
-      layoutArcGap: 6,
-      ...this._spec.label,
-
-      style: {
-        visible: true,
-        ...this._spec.label?.style
-      },
-      line: {
-        visible: true,
-        line1MinLength: this._spec.label?.line?.line1MinLength ?? 20,
-        line2MinLength: this._spec.label?.line?.line2MinLength ?? 10,
-        ...this._spec.label?.line
-      },
-      layout: {
-        align: 'arc',
-        strategy: 'priority',
-        tangentConstraint: true,
-        ...this._spec.label?.layout
-      }
-    };
-  }
-
   computeRadius(r: number, k?: number): number {
     return this.computeLayoutRadius() * r * (isNil(k) ? 1 : k) + this._centerOffset;
   }
@@ -381,7 +330,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return this.computeLayoutRadius() * this.getRadius(state) + this._centerOffset;
   }
 
-  _compareSpec(ignoreCheckKeys?: { [key: string]: true }) {
+  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
     ignoreCheckKeys = ignoreCheckKeys ?? { data: true };
     ignoreCheckKeys.centerX = true;
     ignoreCheckKeys.centerX = true;
@@ -394,9 +343,9 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     ignoreCheckKeys.endAngle = true;
     ignoreCheckKeys.padAngle = true;
     const { centerX, centerY, centerOffset, radius, innerRadius, cornerRadius, startAngle, endAngle, padAngle } =
-      this._originalSpec;
-    const result = super._compareSpec(ignoreCheckKeys);
-    const spec = this._spec ?? ({} as T);
+      prevSpec;
+    const result = super._compareSpec(spec, prevSpec, ignoreCheckKeys);
+    spec = spec ?? ({} as T);
     if (
       spec.centerY !== centerY ||
       spec.centerX !== centerX ||
@@ -522,34 +471,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   getActiveMarks(): IMark[] {
     return [this._pieMark];
   }
-
-  /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec() {
-    if (this._shouldMergeThemeToSpec()) {
-      const specFromChart = this._getDefaultSpecFromChart(this.getChart().getSpec());
-
-      // this._originalSpec + specFromChart + this._theme = this._spec
-      const merge = (originalSpec: any) => {
-        const chartSpec = this._prepareSpecBeforeMergingTheme(specFromChart);
-        const userSpec = this._prepareSpecBeforeMergingTheme(originalSpec);
-
-        const labelSpec = mergeSpec({}, this._theme.label, chartSpec.label, userSpec.label) as IArcLabelSpec;
-        const labelTheme = mergeSpec(
-          {},
-          this._theme.label,
-          labelSpec.position === 'inside' ? this._theme.innerLabel : this._theme.outerLabel
-        );
-        const newTheme = {
-          ...this._theme,
-          label: labelTheme
-        } as IPieSeriesTheme;
-        return mergeSpec({}, newTheme, chartSpec, userSpec);
-      };
-
-      const baseSpec = this._originalSpec;
-      this._spec = merge(baseSpec);
-    }
-  }
 }
 
 export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
@@ -558,7 +479,7 @@ export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePi
 }
 
 export const registerPieSeries = () => {
-  Factory.registerMark(ArcMark.type, ArcMark);
-  Factory.registerSeries(PieSeries.type, PieSeries);
+  registerArcMark();
   registerPieAnimation();
+  Factory.registerSeries(PieSeries.type, PieSeries);
 };

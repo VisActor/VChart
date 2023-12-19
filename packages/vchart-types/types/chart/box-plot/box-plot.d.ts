@@ -1,11 +1,13 @@
-import { CartesianChart } from '../cartesian/cartesian';
 import type { IBoxPlotChartSpec } from './interface';
-export declare class BoxPlotChart extends CartesianChart {
+import { BoxPlotChartSpecTransformer } from './box-plot-transformer';
+import { BaseChart } from '../base';
+export declare class BoxPlotChart<T extends IBoxPlotChartSpec = IBoxPlotChartSpec> extends BaseChart<T> {
     static readonly type: string;
+    static readonly seriesType: string;
     static readonly view: string;
+    static readonly transformerConstructor: typeof BoxPlotChartSpecTransformer;
+    readonly transformerConstructor: typeof BoxPlotChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected _getDefaultSeriesSpec(spec: IBoxPlotChartSpec): any;
-    transformSpec(spec: IBoxPlotChartSpec): void;
 }
 export declare const registerBoxplotChart: () => void;

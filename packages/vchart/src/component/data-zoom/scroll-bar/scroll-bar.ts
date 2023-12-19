@@ -1,3 +1,4 @@
+import type { Maybe } from '@visactor/vutils';
 import { isArray, isBoolean, isEmpty, isNil, isNumber, isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -15,11 +16,15 @@ import { IFilterMode } from '../constant';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { ILayoutType } from '../../../typings/layout';
+import type { IModelSpecInfo } from '../../../model/interface';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
   type = ComponentTypeEnum.scrollBar;
   name: string = ComponentTypeEnum.scrollBar;
+
+  static specKey = 'scrollBar';
+  specKey = 'scrollBar';
 
   layoutZIndex: number = LayoutZIndex.DataZoom;
   layoutLevel: number = LayoutLevel.DataZoom;
@@ -28,19 +33,30 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   // datazoom组件
   protected _component!: ScrollBarComponent;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const compSpec = spec.scrollBar;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const compSpec = chartSpec[this.specKey];
     if (isNil(compSpec)) {
       return undefined;
     }
     if (!isArray(compSpec)) {
-      return new ScrollBar(compSpec, options);
+      return [
+        {
+          spec: compSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.scrollBar
+        }
+      ];
     }
-    const zooms: ScrollBar[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     compSpec.forEach((s, i: number) => {
-      zooms.push(new ScrollBar(s, { ...options, specIndex: i }));
+      specInfos.push({
+        spec: s,
+        specIndex: i,
+        specPath: [this.specKey, i],
+        type: ComponentTypeEnum.scrollBar
+      });
     });
-    return zooms;
+    return specInfos;
   }
 
   constructor(spec: T, options: IComponentOption) {

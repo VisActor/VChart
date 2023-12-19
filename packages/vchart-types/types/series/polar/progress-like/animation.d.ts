@@ -4,4 +4,4 @@ export interface IProgressLikeAnimationParams {
     startAngle?: number;
 }
 export declare function progressLikePresetAnimation(params: IProgressLikeAnimationParams, preset: ProgressLikeAppearPreset): IAnimationTypeConfig;
-export declare const registerCircularProgressAnimation: () => void;
+export declare const registerProgressLikeAnimation: () => void;
