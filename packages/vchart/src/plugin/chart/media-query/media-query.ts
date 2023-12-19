@@ -8,14 +8,17 @@ import type {
 } from './interface';
 import { checkMediaQuery } from './util';
 import { executeMediaQueryAction } from './util/action';
-import { BaseChartPlugin } from '../base-plugin';
-import type { IChartPluginService } from '../interface';
+import type { IChartPlugin, IChartPluginService } from '../interface';
 import { array, cloneDeepSpec } from '../../../util';
 import type { VChartRenderActionSource } from '../../../core/interface';
+import { BasePlugin } from '../../base/base-plugin';
+import { registerChartPlugin } from '../register';
 
-export class MediaQuery extends BaseChartPlugin {
-  static specKey = 'media';
-  Name: string = 'MediaQueryPlugin';
+export class MediaQuery extends BasePlugin implements IChartPlugin {
+  static readonly pluginType: 'chart' = 'chart';
+  static readonly specKey = 'media';
+  static readonly type: string = 'MediaQueryPlugin';
+  readonly type: string = 'MediaQueryPlugin';
 
   protected _spec: IMediaQuerySpec;
   protected _option: IMediaQueryOption;
@@ -29,7 +32,12 @@ export class MediaQuery extends BaseChartPlugin {
   /** 当前正在生效的媒体查询 */
   readonly currentActiveItems = new Set<IMediaQueryItem>();
 
+  /** 媒体查询是否已经初始化 */
   protected _initialized: boolean = false;
+
+  constructor() {
+    super(MediaQuery.type);
+  }
 
   onInit(service: IChartPluginService, chartSpec: any) {
     if (!chartSpec?.[MediaQuery.specKey]) {
@@ -215,3 +223,7 @@ export class MediaQuery extends BaseChartPlugin {
     this.currentActiveItems.clear();
   }
 }
+
+export const registerMediaQuery = () => {
+  registerChartPlugin(MediaQuery);
+};

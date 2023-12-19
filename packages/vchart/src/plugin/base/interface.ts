@@ -1,4 +1,5 @@
 export interface IBasePlugin<T = any> {
+  readonly type: string;
   id: UniqueId;
   name: string;
   onAdd: (service: T) => void;
