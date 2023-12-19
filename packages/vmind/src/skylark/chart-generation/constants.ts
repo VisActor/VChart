@@ -84,6 +84,35 @@ export const ChartFieldInfo: ChannelInfo = {
       'Only number fields can be used in value channel.',
       'Only string fields can be used in color channel.'
     ]
+  },
+  'SANKEY CHART': {
+    visualChannels: {
+      source: "mapped to the source node of flow in sankey chart. Can't be empty.",
+      target: "mapped to the target node of flow in sankey chart. Can't be empty.",
+      value: "mapped to the amount of the flow in sankey chart. Can't be empty."
+    },
+    responseDescription: {
+      source: 'field assigned to source channel',
+      target: 'field assigned to target channel',
+      value: 'field assigned to value channel'
+    },
+    knowledge: [
+      'Only string fields can be used in source channel.',
+      'Only number fields can be used in value channel.',
+      'Only string fields can be used in target channel.'
+    ]
+  },
+  'ROSE CHART': {
+    visualChannels: {
+      radius: 'radius of sectors in the rose chart. Only number fields',
+      color:
+        "color of sectors in rose chart. Used to distinguish different sectors. Only string fields. Can't be empty."
+    },
+    responseDescription: {
+      radius: 'field assigned to radius channel',
+      color: 'field assigned to color channel'
+    },
+    knowledge: ['Only string fields can be used in color channel.']
   }
 };
 

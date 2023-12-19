@@ -699,7 +699,7 @@ export const rankingBarField = (spec: any, context: Context) => {
 
 export const roseField = (spec: any, context: Context) => {
   const { cell } = context;
-  spec.valueField = cell.angle;
+  spec.valueField = cell.radius || cell.angle;
   if (cell.color) {
     spec.categoryField = cell.color;
     spec.seriesField = cell.color;
@@ -715,10 +715,10 @@ export const roseAxis = (spec: any, context: Context) => {
     {
       orient: 'angle',
       domainLine: {
-        visible: true
+        visible: false
       },
       grid: {
-        visible: true,
+        visible: false,
         alignWithLabel: false
       },
       label: {
@@ -728,7 +728,7 @@ export const roseAxis = (spec: any, context: Context) => {
     {
       orient: 'radius',
       grid: {
-        visible: true,
+        visible: false,
         smooth: true
       }
     }

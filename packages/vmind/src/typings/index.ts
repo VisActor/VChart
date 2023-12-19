@@ -30,6 +30,7 @@ export type Cell = {
   color?: string;
   size?: string;
   angle?: string;
+  radius?: string;
   time?: string;
   source?: string;
   target?: string;

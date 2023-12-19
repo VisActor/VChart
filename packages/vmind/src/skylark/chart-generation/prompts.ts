@@ -43,7 +43,7 @@ Constraints:
 3. All the data are indivisible. Don't use their initials as fields in chart. Use the original field instead.
 4. Please assign appropriate fields to each channel so that the chart can best visualize the data user wants to show.
 
-Let's think step by step. Fill your thoughts in {thoughts} in one line.
+Let's think step by step. Fill your thoughts in thoughts in one line.
 
 Response in the following format:
 thoughts: //Your thoughts in one line. Must show your thought process.
