@@ -26,6 +26,7 @@ import type { EditorChart } from '../elements/chart/chart';
 import type { IPoint } from '../typings/space';
 import { setupSimpleTextEditor } from '../elements/chart/utils/text';
 import { EditorActionMode, EditorActiveTool } from './enum';
+import type { ITextAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
 
 export class VChartEditor {
   static registerParser(key: string, parser: IDataParserConstructor) {
@@ -188,25 +189,23 @@ export class VChartEditor {
 
     // TODO: 先在这里调试，待迁移至飞书图表编辑器中 @张苏
     document.addEventListener('pointerdown', e => {
-      e.stopPropagation();
       if (this.state.activeTool === EditorActiveTool.text && this.state.actionMode === EditorActionMode.addTool) {
-        // TODO: 不生效
-        this.editorController.removeEditorElements();
-        // TODO: 这个位置平移缩放后有问题
-        const currentPos = this.layers[0].transformPosToLayer({ x: e.offsetX, y: e.offsetY });
-
+        this.setState({
+          activeTool: null,
+          actionMode: null
+        });
+        const defaultTextAttributes: Partial<ITextGraphicAttribute> = {
+          fontFamily: 'D-Din',
+          textAlign: 'start',
+          textBaseline: 'top',
+          fontSize: 16,
+          fill: '#000'
+        };
         setupSimpleTextEditor({
-          // text: this._textGraphic,
-          textAttributes: {
-            fontFamily: 'D-Din',
-            textAlign: 'start',
-            textBaseline: 'top',
-            fontSize: 16,
-            fill: '#000'
-          },
+          textAttributes: defaultTextAttributes,
           anchor: {
-            left: currentPos.x,
-            top: currentPos.y,
+            left: e.clientX,
+            top: e.clientY,
             width: 0,
             height: 0
           },
@@ -216,25 +215,15 @@ export class VChartEditor {
             if (isEmpty(text)) {
               return;
             }
-            // @ts-ignore
             this.addElements('text', {
               id: uuid(),
               attribute: {
                 text: text.split('\n'),
-                fontFamily: 'D-Din',
-                textAlign: 'start',
-                textBaseline: 'top',
-                fontSize: 16,
-                fill: '#000',
-                ...currentPos
+                ...defaultTextAttributes,
+                ...this.layers[0].transformPosToLayer({ x: e.offsetX, y: e.offsetY })
               }
             });
           }
-        });
-
-        this.setState({
-          activeTool: null,
-          actionMode: null
         });
       }
     });
