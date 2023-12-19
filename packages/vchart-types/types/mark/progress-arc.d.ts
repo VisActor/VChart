@@ -11,3 +11,4 @@ export declare class ProgressArcMark extends BaseArcMark<IProgressArcMarkSpec> i
     protected _getDefaultStyle(): IMarkStyle<IProgressArcMarkSpec>;
     protected _filterStyle(style: Partial<IMarkStyle<IProgressArcMarkSpec>>, state: StateValueType, level: number, stateStyle?: IMarkStateStyle<IProgressArcMarkSpec>): Partial<ConvertToMarkStyleSpec<IProgressArcMarkSpec>> | Partial<IMarkStyle<IProgressArcMarkSpec>>;
 }
+export declare const registerProgressArcMark: () => void;

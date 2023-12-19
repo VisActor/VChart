@@ -2,15 +2,18 @@ import type { IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
 import type { ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { IRegion, IRegionSpec } from './interface';
+import type { IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
 import type { IGroupMark } from '../mark/group';
 import type { IInteraction, ITrigger } from '../interaction/interface';
 import type { IRectMark } from '../mark/rect';
 import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { LayoutModel } from '../model/layout-model';
+import { RegionSpecTransformer } from './region-transformer';
 export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
     static type: string;
+    static readonly transformerConstructor: typeof RegionSpecTransformer;
+    readonly transformerConstructor: any;
     readonly modelType: string;
     type: string;
     protected _series: ISeries[];
@@ -18,6 +21,7 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
     layoutZIndex: number;
     animate?: IAnimate;
     interaction: IInteraction;
+    getSpecInfo: () => IRegionSpecInfo;
     getMaxWidth(): number;
     setMaxWidth(value: number): void;
     getMaxHeight(): number;
@@ -32,21 +36,20 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
     protected _trigger: ITrigger;
     constructor(spec: T, ctx: IModelOption);
     protected _getClipDefaultValue(): boolean;
-    _initTheme(): void;
     created(): void;
     private _createGroupMark;
     init(option: any): void;
     initMark(): void;
     protected _initBackgroundMarkStyle(): void;
     protected _initForegroundMarkStyle(): void;
-    _compareSpec(): {
+    _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;
         reSize: boolean;
         reCompile: boolean;
     };
-    reInit(theme?: any): void;
+    reInit(spec?: T): void;
     addSeries(s: ISeries): void;
     removeSeries(s: ISeries): void;
     getSeries(opt?: {

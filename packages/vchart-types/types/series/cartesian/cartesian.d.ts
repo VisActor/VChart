@@ -94,5 +94,5 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     viewDataUpdate(d: DataView): void;
     _sortDataInAxisDomain(): void;
     protected _getInvalidDefined: (datum: Datum) => boolean;
-    reInit(theme?: any, lastSpec?: any): void;
+    reInit(spec: T): void;
 }

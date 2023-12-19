@@ -10,3 +10,4 @@ export declare class BoxPlotMark extends BaseMark<IBoxPlotMarkSpec> implements I
     protected _getDefaultStyle(): IMarkStyle<IBoxPlotMarkSpec>;
     protected _initProduct(group?: string | IGroupMark): void;
 }
+export declare const registerBoxPlotMark: () => void;

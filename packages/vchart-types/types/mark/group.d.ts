@@ -3,7 +3,7 @@ import type { IGroupMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IMark, IMarkRaw, IMarkStyle, MarkType } from './interface';
 import { MarkTypeEnum } from './interface/type';
-import type { IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
+import { type IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
 import type { IMarkCompileOption } from '../compile/mark';
 export interface IGroupMark extends IMarkRaw<IGroupMarkSpec> {
     addMark: (m: IMark) => boolean;
@@ -29,3 +29,4 @@ export declare class GroupMark extends BaseMark<IGroupMarkSpec> implements IGrou
     getMarkInName(name: string): IMark;
     protected _compileProduct(option?: IMarkCompileOption): void;
 }
+export declare const registerGroupMark: () => void;

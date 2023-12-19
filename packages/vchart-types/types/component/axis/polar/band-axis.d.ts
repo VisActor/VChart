@@ -9,6 +9,7 @@ export interface PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec
 export declare class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> extends PolarAxis<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
+    static specKey: string;
     protected _scale: BandScale;
     protected _scales: BandScale[];
     protected computeDomain(data: {

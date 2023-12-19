@@ -1,17 +1,19 @@
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
-import type { Datum, Maybe } from '../../typings';
+import type { Datum } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { IRadarSeriesSpec, IRadarSeriesTheme } from './interface';
+import type { IRadarSeriesSpec } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
+import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 export interface RadarSeries<T extends IRadarSeriesSpec> extends Pick<LineLikeSeriesMixin, 'initLineMark' | 'initSymbolMark' | 'initLabelMarkStyle' | 'initLineMarkStyle' | 'initSymbolMarkStyle' | 'encodeDefined' | '_lineMark' | '_symbolMark' | 'addOverlapCompile'>, RoseLikeSeries<T> {
 }
 export declare class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends RoseLikeSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<IRadarSeriesTheme>;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof LineLikeSeriesSpecTransformer;
     private _areaMark;
     protected _sortDataByAxis: boolean;
     initGroups(): void;

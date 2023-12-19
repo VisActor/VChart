@@ -9,6 +9,7 @@ export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICarte
 export declare class CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec> extends CartesianAxis<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
+    static specKey: string;
     protected _zero: boolean;
     protected _nice: boolean;
     protected _extend: {

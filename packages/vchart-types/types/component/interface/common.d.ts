@@ -1,10 +1,11 @@
 import type { ISeriesFilter } from '../../region/interface';
 import type { IAnimate } from '../../animation/interface';
-import type { ILayoutModel, IModelOption } from '../../model/interface';
+import type { ILayoutModel, IModelConstructor, IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { ISeries } from '../../series/interface';
-import type { StringOrNumber } from '../../typings';
+import type { Maybe, StringOrNumber } from '../../typings';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { IChartSpecInfo } from '../../chart/interface';
 export interface IComponentOption extends IModelOption {
     getAllRegions: () => IRegion[];
     getRegionsInIndex: (index?: number[]) => IRegion[];
@@ -28,9 +29,10 @@ export interface IComponent extends ILayoutModel {
     getVRenderComponents: () => IGraphic[];
     clear: () => void;
 }
-export interface IComponentConstructor {
+export interface IComponentConstructor extends IModelConstructor {
     type: string;
     specKey?: string;
-    createComponent: (spec: any, options: IComponentOption) => IComponent | IComponent[] | undefined;
+    getSpecInfo: (chartSpec: any, chartSpecInfo?: IChartSpecInfo) => Maybe<IModelSpecInfo[]>;
+    createComponent: (specInfo: IModelSpecInfo, options: IComponentOption) => IComponent;
     new (spec: any, options: IComponentOption): IComponent;
 }

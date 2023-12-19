@@ -8,6 +8,7 @@ export interface CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLo
 export declare class CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLogAxisSpec> extends CartesianLinearAxis<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
+    static specKey: string;
     protected _zero: boolean;
     protected _scale: LogScale;
     protected _scales: LogScale[];

@@ -1,15 +1,7 @@
 import type { IComponentPlugin, IComponentPluginService } from './interface';
 import type { IComponent } from '../../component/interface';
-export declare class ComponentPluginService implements IComponentPluginService {
-    private plugins;
-    readonly id: number;
+import { BasePluginService } from '../base/base-plugin-service';
+export declare class ComponentPluginService<T extends IComponentPlugin = IComponentPlugin> extends BasePluginService<T> implements IComponentPluginService<T> {
     component: IComponent;
     constructor(component: IComponent);
-    add(plugins: IComponentPlugin[]): IComponentPlugin[] | null;
-    load(plugins: IComponentPlugin[]): void;
-    activate(plugins: IComponentPlugin[]): void;
-    get(id: number): IComponentPlugin | undefined;
-    getAll(): IComponentPlugin[];
-    dispose(pluginsId: number): void;
-    disposeAll(): void;
 }

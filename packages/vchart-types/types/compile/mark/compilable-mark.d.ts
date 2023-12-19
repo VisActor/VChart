@@ -9,7 +9,6 @@ import type { ICompilableMark, IMarkDataInitOption, ICompilableMarkOption, State
 import { MarkData } from './mark-data';
 import { GrammarType } from '../interface/compilable-item';
 import type { IEvent } from '../../event/interface';
-import type { TransformedLabelSpec } from '../../component/label';
 import type { ICustomPath2D } from '@visactor/vrender-core';
 export declare abstract class CompilableMark extends GrammarItem implements ICompilableMark {
     readonly grammarType = GrammarType.mark;
@@ -69,10 +68,6 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     protected _groupKey?: string;
     getGroupKey(): string;
     setGroupKey(groupKey: string): void;
-    protected _label?: TransformedLabelSpec[];
-    getLabelSpec(): TransformedLabelSpec[];
-    setLabelSpec(label: TransformedLabelSpec | TransformedLabelSpec[]): void;
-    addLabelSpec(label: TransformedLabelSpec, head?: boolean): void;
     protected _progressiveConfig: IMarkProgressiveConfig;
     getProgressiveConfig(): IMarkProgressiveConfig;
     setProgressiveConfig(config: IMarkProgressiveConfig): void;

@@ -2,16 +2,18 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
-import type { Datum, Maybe } from '../../typings';
-import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
+import type { Datum } from '../../typings';
+import type { ILineSeriesSpec } from './interface';
 import type { IMark } from '../../mark/interface';
+import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Pick<LineLikeSeriesMixin, 'initLineMark' | 'initSymbolMark' | 'initLabelMarkStyle' | 'initLineMarkStyle' | 'initSymbolMarkStyle' | '_lineMark' | '_symbolMark' | 'addSamplingCompile' | 'addOverlapCompile' | 'reCompileSampling'>, CartesianSeries<T> {
 }
 export declare class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<ILineSeriesTheme>;
+    static readonly transformerConstructor: typeof LineLikeSeriesSpecTransformer;
+    readonly transformerConstructor: typeof LineLikeSeriesSpecTransformer;
     protected _sortDataByAxis: boolean;
     compile(): void;
     initMark(): void;

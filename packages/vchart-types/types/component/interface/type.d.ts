@@ -33,3 +33,11 @@ export declare enum ComponentTypeEnum {
     poptip = "poptip",
     customMark = "customMark"
 }
+export declare enum SimplifiedComponentTypeEnum {
+    axis = "axis",
+    legend = "legend",
+    crosshair = "crosshair"
+}
+export declare const axisComponentTypes: ComponentTypeEnum[];
+export declare const legendComponentTypes: ComponentTypeEnum[];
+export declare const crosshairComponentTypes: ComponentTypeEnum[];

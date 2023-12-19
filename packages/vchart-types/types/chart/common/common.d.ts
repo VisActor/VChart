@@ -1,10 +1,13 @@
-import { BaseChart } from '../base-chart';
-export declare class CommonChart extends BaseChart {
+import { BaseChart } from '../base/base-chart';
+import type { ICommonChartSpec } from './interface';
+import type { AdaptiveSpec } from '../../typings';
+import { CommonChartSpecTransformer } from './common-transformer';
+export declare class CommonChart<T extends ICommonChartSpec = ICommonChartSpec> extends BaseChart<AdaptiveSpec<T, 'series'>> {
     static readonly type: string;
     static readonly view: string;
+    static readonly transformerConstructor: typeof CommonChartSpecTransformer;
+    readonly transformerConstructor: typeof CommonChartSpecTransformer;
     readonly type: string;
     protected _canStack: boolean;
-    protected _getDefaultSeriesSpec(spec: any): any;
-    transformSpec(spec: any): void;
 }
 export declare const registerCommonChart: () => void;

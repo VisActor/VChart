@@ -45,7 +45,7 @@ export interface IRoamSpec {
     rate?: number;
 }
 export interface IDataFilterComponent extends IComponent {
-    setStartAndEnd: (start: number, end: number) => void;
+    setStartAndEnd: (start: number | string, end: number | string, rangeMode: ['percent' | 'value', 'percent' | 'value']) => void;
     enableInteraction: () => void;
     disableInteraction: () => void;
     zoomIn: (location?: {

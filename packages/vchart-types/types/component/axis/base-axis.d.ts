@@ -4,8 +4,6 @@ import type { IGroup, IGraphic } from '@visactor/vrender-core';
 import type { AxisItem } from '@visactor/vrender-components';
 import type { IOrientType, IPolarOrientType, StringOrNumber, CoordinateType } from '../../typings';
 import { BaseComponent } from '../base/base-component';
-import type { IPolarAxisCommonTheme } from './polar/interface';
-import type { ICartesianAxisCommonTheme } from './cartesian/interface';
 import type { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
@@ -21,7 +19,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     getScale(): IBaseScale;
     protected _scales: IBaseScale[];
     getScales(): IBaseScale[];
-    protected _theme: ICartesianAxisCommonTheme | IPolarAxisCommonTheme;
     protected _tickData: CompilableData;
     getTickData(): CompilableData;
     protected _seriesUserId?: StringOrNumber[];
@@ -30,6 +27,8 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _regionIndex?: number[];
     protected _visible: boolean;
     get visible(): boolean;
+    protected _inverse: boolean;
+    getInverse(): boolean;
     protected _tick: ITick | undefined;
     protected abstract computeDomain(data: {
         min: number;
@@ -64,7 +63,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected updateScaleDomain(): void;
     protected computeData(updateType?: 'domain' | 'range' | 'force'): void;
     protected initScales(): void;
-    _compareSpec(): {
+    _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;
@@ -86,6 +85,14 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         };
         tick: {
             visible: boolean;
+            length?: undefined;
+            inside?: undefined;
+            alignWithLabel?: undefined;
+            style?: undefined;
+            state?: undefined;
+            dataFilter?: undefined;
+        } | {
+            visible: true;
             length: number;
             inside: boolean;
             alignWithLabel: boolean;
@@ -95,6 +102,13 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         };
         subTick: {
             visible: boolean;
+            length?: undefined;
+            inside?: undefined;
+            count?: undefined;
+            style?: undefined;
+            state?: undefined;
+        } | {
+            visible: true;
             length: number;
             inside: boolean;
             count: number;
@@ -103,6 +117,10 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         };
         title: any;
         panel: {
+            visible: boolean;
+            style?: undefined;
+            state?: undefined;
+        } | {
             visible: any;
             style: any;
             state: {};
@@ -113,6 +131,11 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         alignWithLabel: any;
         style: any;
         subGrid: {
+            visible: boolean;
+            type?: undefined;
+            alternateColor?: undefined;
+            style?: undefined;
+        } | {
             type: string;
             visible: any;
             alternateColor: any;

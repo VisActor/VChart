@@ -1,17 +1,18 @@
-import type { Maybe } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
+import type { IRoseSeriesSpec } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { ITextMark } from '../../mark/text';
 import type { IMark } from '../../mark/interface';
 import type { ILabelMark } from '../../mark/label';
+import { RoseSeriesSpecTransformer } from './rose-transformer';
 export declare const DefaultBandWidth = 0.5;
 export declare class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends RoseLikeSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<IRoseSeriesTheme>;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof RoseSeriesSpecTransformer;
     protected _supportStack: boolean;
     private _roseMark;
     protected _labelMark: ITextMark | null;

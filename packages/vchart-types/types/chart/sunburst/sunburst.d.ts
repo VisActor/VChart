@@ -1,12 +1,13 @@
-import type { ISunburstSeriesSpec } from '../../series/sunburst/interface';
-import { BaseChart } from '../base-chart';
+import { BaseChart } from '../base/base-chart';
 import type { ISunburstChartSpec } from './interface';
-export declare class SunburstChart extends BaseChart {
+import { SunburstChartSpecTransformer } from './sunburst-transformer';
+export declare class SunburstChart<T extends ISunburstChartSpec = ISunburstChartSpec> extends BaseChart<T> {
     static readonly type: string;
+    static readonly seriesType: string;
     static readonly view: string;
+    static readonly transformerConstructor: typeof SunburstChartSpecTransformer;
+    readonly transformerConstructor: typeof SunburstChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected getDefaultSeriesSpec(spec: ISunburstChartSpec): ISunburstSeriesSpec;
-    transformSpec(spec: ISunburstChartSpec): void;
 }
 export declare const registerSunburstChart: () => void;
