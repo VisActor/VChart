@@ -1,20 +1,22 @@
 import { ChartEvent } from '../../../constant/event';
 import { zeroAlign } from './zero-align-transform';
-import { BaseComponentPlugin } from '../base-plugin';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import type { CartesianAxis, ICartesianLinearAxisSpec, ILinearAxisSync } from '../../../component/axis/cartesian';
 import { isContinuous } from '@visactor/vscale';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { tickAlign } from './tick-align-transform';
+import { BasePlugin } from '../../base/base-plugin';
 
 export class AxisSyncPlugin
-  extends BaseComponentPlugin<IComponentPluginService>
+  extends BasePlugin<IComponentPluginService>
   implements IComponentPlugin<IComponentPluginService>
 {
-  Name: string = 'AxisSyncPlugin';
+  static readonly pluginType: 'component' = 'component';
+  static readonly type: string = 'AxisSyncPlugin';
+  readonly type: string = 'AxisSyncPlugin';
 
   constructor() {
-    super(AxisSyncPlugin.Name);
+    super(AxisSyncPlugin.type);
   }
 
   protected _checkEnableSync(axis: CartesianAxis): ILinearAxisSync | false {

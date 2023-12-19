@@ -4,13 +4,12 @@ import { createID } from '../../util/id';
 export class BasePlugin<T extends IBasePluginService = IBasePluginService> implements IBasePlugin<T> {
   readonly id: number;
   readonly name: string;
+  readonly type: string;
   protected service?: T;
 
-  static Name: string;
-
-  constructor(name: string) {
+  constructor(type: string) {
     this.id = createID();
-    this.name = `${name}_${this.id}`;
+    this.name = `${type}_${this.id}`;
   }
 
   onAdd(service: T): void {

@@ -22,9 +22,9 @@ export interface IChartPlugin<T extends IChartPluginService = any> extends IBase
 }
 
 export interface IChartPluginConstructor {
-  readonly type: 'chartPlugin';
+  readonly pluginType: 'chart';
   readonly specKey?: string;
-  readonly Name: string;
+  readonly type: string;
   new (): IChartPlugin;
 }
 

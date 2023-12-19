@@ -14,6 +14,13 @@ export interface IComponentPlugin<T extends IComponentPluginService = any> exten
   onDidLayoutHorizontal?: (service: T, ...params: any) => MaybePromise<void>;
 }
 
+export interface IChartPluginConstructor {
+  readonly pluginType: 'component';
+  readonly specKey?: string;
+  readonly type: string;
+  new (): IComponentPlugin;
+}
+
 export interface IComponentPluginService<T extends IComponentPlugin = any> extends IBasePluginService<T> {
   component: IComponent;
 }
