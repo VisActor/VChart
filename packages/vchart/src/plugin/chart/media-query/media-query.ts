@@ -32,7 +32,7 @@ export class MediaQuery extends BaseChartPlugin {
   protected _initialized: boolean = false;
 
   onInit(service: IChartPluginService, chartSpec: any) {
-    if (!chartSpec?.media) {
+    if (!chartSpec?.[MediaQuery.specKey]) {
       return;
     }
     const { globalInstance } = service;
@@ -50,7 +50,7 @@ export class MediaQuery extends BaseChartPlugin {
         }
       }
     };
-    this._spec = chartSpec.media;
+    this._spec = chartSpec[MediaQuery.specKey];
     this._initialized = true;
   }
 
