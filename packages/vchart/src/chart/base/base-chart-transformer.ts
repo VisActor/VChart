@@ -27,7 +27,11 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     return this.transformModelSpec(chartSpec);
   }
 
-  /** 将图表 spec 统一转换为 common chart spec */
+  /**
+   * 转换 chart spec。包含以下步骤：
+   * - 将图表 spec 统一转换为 common 图表 spec
+   * - 图表层级的在初始化阶段的 spec 修改
+   */
   transformSpec(chartSpec: T): void {
     if (!chartSpec.region || chartSpec.region.length === 0) {
       chartSpec.region = [{}];
@@ -42,7 +46,11 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
   }
 
-  /** 转换 model spec，应用主题 */
+  /**
+   * 转换 model spec。包含以下步骤：
+   * - model 层级的主题合并
+   * - model 层级的在初始化阶段的 spec 修改，如添加 label spec
+   */
   transformModelSpec(chartSpec: T): IChartSpecInfo {
     const transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
       const { spec, specPath, type } = specInfo;
@@ -50,6 +58,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         type,
         getTheme: this._option.getTheme
       });
+      // 调用 model 自己的 transformer 进行转换
       const transformResult = transformer.transformSpec(spec, chartSpec, chartSpecInfo);
       setProperty(chartSpec, specPath, transformResult.spec);
       setProperty(chartSpecInfo, specPath ?? [type], {
@@ -60,10 +69,17 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     return this.createSpecInfo(chartSpec, transform);
   }
 
-  /** 根据图表 spec 生成 spec info */
+  /** 遍历图表 spec 中包含的所有的 model，进行 spec 转换并生成图表 spec info */
   createSpecInfo(
     chartSpec: T,
-    transform?: (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => void
+    transform?: (
+      /** 当前 model 的类 */
+      constructor: IModelConstructor,
+      /** 当前 model 的 spec info */
+      specInfo: IModelSpecInfo,
+      /** 图表 spec info */
+      chartSpecInfo?: IChartSpecInfo
+    ) => void
   ): IChartSpecInfo {
     if (!transform) {
       transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) =>
@@ -137,7 +153,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     return series;
   }
 
-  /** 枚举 spec 中每个有效的 region */
+  /** 遍历 spec 中每个有效的 region */
   forEachRegionInSpec<K>(
     chartSpec: T,
     callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
@@ -158,7 +174,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     );
   }
 
-  /** 枚举 spec 中每个有效的 series */
+  /** 遍历 spec 中每个有效的 series */
   forEachSeriesInSpec<K>(
     chartSpec: T,
     callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
@@ -179,7 +195,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     );
   }
 
-  /** 枚举 spec 中每个有效的 component */
+  /** 遍历 spec 中每个有效的 component */
   forEachComponentInSpec<K>(
     chartSpec: T,
     callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,

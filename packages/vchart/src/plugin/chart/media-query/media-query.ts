@@ -63,13 +63,13 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   }
 
   onBeforeResize(service: IChartPluginService, width: number, height: number) {
-    this.changeSize(width, height, true, false);
+    this._changeSize(width, height, true, false);
   }
 
   onAfterChartSpecTransform(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource) {
     if (actionSource === 'setCurrentTheme') {
       // 重新执行已生效的所有媒体查询
-      this.reInit(false, false);
+      this._reInit(false, false);
     }
   }
 
@@ -104,12 +104,12 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     if (resetMediaQuery || checkMediaQuery) {
       // 触发媒体查询
       const { width, height } = this._option.globalInstance.getCurrentSize();
-      this.changeSize(width, height, false, false);
+      this._changeSize(width, height, false, false);
     }
   }
 
   /** 更新图表宽高信息，执行所有相关媒体查询，返回是否命中某个查询 */
-  changeSize(width: number, height: number, compile?: boolean, render?: boolean): boolean {
+  protected _changeSize(width: number, height: number, compile?: boolean, render?: boolean): boolean {
     if (this._currentMediaInfo.width === width && this._currentMediaInfo.height === height) {
       return false;
     }
@@ -125,7 +125,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     const changeToActive: IMediaQueryItem[] = []; // 将会生效的查询
     const changeToInactive: IMediaQueryItem[] = []; // 将会失效的查询
     this._spec.forEach(item => {
-      const { hasChanged, isActive } = this.check(item);
+      const { hasChanged, isActive } = this._check(item);
       if (hasChanged) {
         if (isActive) {
           changeToActive.push(item);
@@ -152,7 +152,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
           this.currentActiveItems.delete(item);
           return;
         }
-        const result = this.apply(item, chartSpec);
+        const result = this._apply(item, chartSpec);
         chartSpec = result.chartSpec;
       });
       hasChanged = true;
@@ -163,7 +163,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     // 处理将会生效的查询
     changeToActive.forEach(item => {
       this.currentActiveItems.add(item);
-      const result = this.apply(item, chartSpec);
+      const result = this._apply(item, chartSpec);
       chartSpec = result.chartSpec;
       hasChanged ||= result.hasChanged;
     });
@@ -175,7 +175,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   }
 
   /** 检查媒体查询的条件是否满足 */
-  check(item: IMediaQueryItem): IMediaQueryCheckResult {
+  protected _check(item: IMediaQueryItem): IMediaQueryCheckResult {
     const { globalInstance } = this._option;
     const isActive = checkMediaQuery(item.query, this._currentMediaInfo as IMediaInfo, globalInstance);
     return {
@@ -185,7 +185,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   }
 
   /** 执行一条媒体查询 */
-  apply(item: IMediaQueryItem, chartSpec: any): IMediaQueryActionResult {
+  protected _apply(item: IMediaQueryItem, chartSpec: any): IMediaQueryActionResult {
     const { globalInstance } = this._option;
     const { query, action } = item;
     let hasChanged = false;
@@ -199,13 +199,13 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   }
 
   /** 重新初始化，并重新执行一遍当前生效的媒体查询 */
-  reInit(compile?: boolean, render?: boolean) {
+  protected _reInit(compile?: boolean, render?: boolean) {
     let chartSpec = this._option.globalInstance.getSpec();
     this._baseChartSpec = cloneDeepSpec(chartSpec);
 
     let hasChanged = false;
     this.currentActiveItems.forEach(item => {
-      const result = this.apply(item, chartSpec);
+      const result = this._apply(item, chartSpec);
       chartSpec = result.chartSpec;
       hasChanged ||= result.hasChanged;
     });
