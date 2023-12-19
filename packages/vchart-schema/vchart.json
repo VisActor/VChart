@@ -6812,9 +6812,6 @@
         "_callMap": {
           "$ref": "#/definitions/Map<Function,(...args:any[])=>void>"
         },
-        "_logger": {
-          "$ref": "#/definitions/ILogger"
-        },
         "dataViewMap": {
           "additionalProperties": false,
           "patternProperties": {
@@ -6843,7 +6840,6 @@
       },
       "required": [
         "_callMap",
-        "_logger",
         "dataViewMap",
         "isDataSet",
         "name",
@@ -29903,9 +29899,6 @@
     },
     "IDataSetOptions": {
       "properties": {
-        "logger": {
-          "$ref": "#/definitions/Logger"
-        },
         "name": {
           "type": "string"
         }
@@ -43890,57 +43883,6 @@
           "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
         }
       },
-      "type": "object"
-    },
-    "ILogger": {
-      "properties": {
-        "addErrorHandler": {
-          "typeof": "function"
-        },
-        "canLogDebug": {
-          "typeof": "function"
-        },
-        "canLogError": {
-          "typeof": "function"
-        },
-        "canLogInfo": {
-          "typeof": "function"
-        },
-        "canLogWarn": {
-          "typeof": "function"
-        },
-        "debug": {
-          "typeof": "function"
-        },
-        "error": {
-          "typeof": "function"
-        },
-        "info": {
-          "typeof": "function"
-        },
-        "level": {
-          "typeof": "function"
-        },
-        "removeErrorHandler": {
-          "typeof": "function"
-        },
-        "warn": {
-          "typeof": "function"
-        }
-      },
-      "required": [
-        "addErrorHandler",
-        "canLogDebug",
-        "canLogError",
-        "canLogInfo",
-        "canLogWarn",
-        "debug",
-        "error",
-        "info",
-        "level",
-        "removeErrorHandler",
-        "warn"
-      ],
       "type": "object"
     },
     "IMapChartSpec": {
@@ -69553,19 +69495,6 @@
       "type": "object"
     },
     "LockManager": {
-      "type": "object"
-    },
-    "Logger": {
-      "properties": {
-        "_level": {},
-        "_method": {},
-        "_onErrorHandler": {}
-      },
-      "required": [
-        "_level",
-        "_method",
-        "_onErrorHandler"
-      ],
       "type": "object"
     },
     "Map<Function,(...args:any[])=>void>": {
