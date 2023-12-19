@@ -26,5 +26,19 @@ export const ChartFieldInfo: ChannelInfo = {
       color: 'field assigned to color channel'
     },
     knowledge: ['Only string fields can be used in color channel.']
+  },
+  'LINE CHART': {
+    visualChannels: {
+      x: "x-axis of line chart. Can't be empty. Only string fields",
+      y: "y-axis of line chart. Can't be empty. Only number fields",
+      color:
+        'color channel of line chart. Used to distinguish different lines. Only string fields. Can be empty if no suitable field.'
+    },
+    responseDescription: {
+      x: 'field assigned to x channel',
+      y: 'field assigned to y channel',
+      color: 'field assigned to color channel'
+    },
+    knowledge: ['Only string fields can be used in color channel.']
   }
 };
