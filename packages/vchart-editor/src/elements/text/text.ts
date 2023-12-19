@@ -1,6 +1,6 @@
 import type { VRenderPointerEvent } from './../interface';
-import type { IGraphic, IText, INode, IGroup } from '@visactor/vrender-core';
-import { createRect, createWrapText } from '@visactor/vrender-core';
+import type { IGraphic, IText, INode, IGroup, FederatedPointerEvent } from '@visactor/vrender-core';
+import { createRect, createWrapText, container } from '@visactor/vrender-core';
 import type {
   IEditorElement,
   IElementPath,
@@ -19,9 +19,10 @@ import { BaseElement } from '../base-element';
 import type { IElementOption } from '../interface';
 import { LayoutEditorComponent } from '../../component/layout-component';
 import { MinSize } from '../../core/const';
-import { getLayoutLine, isPointInBounds, isRectConnectRect, transformPointWithMatrix } from '../../utils/space';
+import { getLayoutLine, isPointInBounds, isRectConnectRect } from '../../utils/space';
 import { diffSpec } from '../../utils/spec';
 import { addRectToPathElement, getElementPath, getEndPathWithNode, getPosInClient } from '../../utils/element';
+import { setupSimpleTextEditor } from '../chart/utils/text';
 
 export class EditorText extends BaseElement {
   type = 'text';
@@ -47,6 +48,7 @@ export class EditorText extends BaseElement {
    */
   initEvent() {
     this._textGraphic.addEventListener('pointerdown', this._pointerDown as any);
+    this._textGraphic.addEventListener('dblclick', this._dblclick as any);
     this._textGraphic.addEventListener('pointerover', this._pointerOver as any);
     this._textGraphic.addEventListener('pointerout', this._pointerOut as any);
 
@@ -86,11 +88,55 @@ export class EditorText extends BaseElement {
     if (this._opt.controller.currentEditorElement?.id === this._id) {
       return;
     }
+
     const el: IEditorElement = this._getEditorElement();
     this._currentEl = el;
     this._opt.controller.setEditorElements(el, e);
     this._createEditorGraphic(el, e);
   };
+
+  private _dblclick = (e: VRenderPointerEvent) => {
+    if (!this.pickable) {
+      return;
+    }
+    if (e.target !== this._textGraphic) {
+      return;
+    }
+    if (this._opt.controller.currentEditorElement?.id !== this._id) {
+      return;
+    }
+
+    this.clearLayoutEditorBox();
+    const text = this._textGraphic;
+    const textBounds = text.globalAABBBounds;
+
+    setupSimpleTextEditor({
+      // text: this._textGraphic,
+      textAttributes: text.attribute,
+      anchor: {
+        left: textBounds.x1,
+        top: textBounds.y1,
+        width: textBounds.width(),
+        height: textBounds.height()
+      },
+      container: this.option.layer.container,
+      needExpression: false,
+      onChange: (text: string) => {
+        this._textGraphic.setAttribute('text', text.split('\n'));
+      },
+      onSubmit: (text: string) => {
+        if (this._currentEl) {
+          this._currentEl.updateAttribute({
+            spec: {
+              text: text.split('\n')
+            }
+          });
+          this._currentEl.updateElement();
+        }
+      }
+    });
+  };
+
   private _pointerOver = (e: VRenderPointerEvent) => {
     if (!this.overAble) {
       return false;
@@ -190,6 +236,7 @@ export class EditorText extends BaseElement {
         el.originSpec = this._textGraphic.attribute;
       }
     };
+
     return el;
   }
 
@@ -210,7 +257,10 @@ export class EditorText extends BaseElement {
 
   getData() {
     const data = super.getData();
-    data.attribute = { ...this._textGraphic.attribute };
+    if (this._textGraphic) {
+      data.attribute = { ...this._textGraphic.attribute };
+    }
+
     return data;
   }
 
@@ -399,7 +449,7 @@ export class EditorText extends BaseElement {
 
   pushHistory() {
     const { from, to } = diffSpec(this._snapShot, { attribute: { ...this._textGraphic.attribute } });
-    if (Object.keys(from).length === Object.keys(to).length && Object.keys(from).length === 0) {
+    if (Object.keys(to).length === 0 && Object.keys(from).length === 0) {
       return;
     }
     this._opt.editorData.pushHistoryNextTick({

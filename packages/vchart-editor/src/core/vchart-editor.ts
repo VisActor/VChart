@@ -1,13 +1,22 @@
+import { v4 as uuid } from 'uuid';
+
 import { HighlightBox } from '../component/highlight-box';
 import { EditorController } from './editor-controller';
-import type { EditorMode, IEditorData, IElementPathRoot, IHistory, IVChartEditorInitOption } from './interface';
+import type {
+  EditorMode,
+  EditorState,
+  IEditorData,
+  IElementPathRoot,
+  IHistory,
+  IVChartEditorInitOption
+} from './interface';
 import { EditorEvent } from './editor-event';
 import { ChartLayer } from '../elements/chart/chart-layer';
 import { EditorLayer } from './editor-layer';
 import type { Include } from '../typings/common';
 import { ElementsMap } from './../elements/index';
 import type { IElementOption } from './../elements/interface';
-import { isString, Bounds, isValidNumber, EventEmitter } from '@visactor/vutils';
+import { isString, Bounds, isValidNumber, EventEmitter, isEmpty } from '@visactor/vutils';
 import type { IDataParserConstructor } from '../elements/chart/data/interface';
 import type { IChartTempConstructor } from '../elements/chart/template/interface';
 import { EditorFactory } from './factory';
@@ -15,6 +24,8 @@ import { getCommonHistoryUse } from '../elements/common/editor-history';
 import { EditorData } from './editor-data';
 import type { EditorChart } from '../elements/chart/chart';
 import type { IPoint } from '../typings/space';
+import { setupSimpleTextEditor } from '../elements/chart/utils/text';
+import { EditorActionMode, EditorActiveTool } from './enum';
 
 export class VChartEditor {
   static registerParser(key: string, parser: IDataParserConstructor) {
@@ -28,7 +39,7 @@ export class VChartEditor {
   get option() {
     return this._option;
   }
-  protected _container: HTMLElement;
+  protected _container: HTMLDivElement;
   get container() {
     return this._container;
   }
@@ -44,6 +55,9 @@ export class VChartEditor {
   }
 
   protected _event: EditorEvent;
+  get event() {
+    return this._event;
+  }
 
   emitter: EventEmitter = new EventEmitter();
 
@@ -66,6 +80,23 @@ export class VChartEditor {
     return this._editorData;
   }
 
+  // 编辑器状态
+  private _state: EditorState = {};
+  get state() {
+    return this._state;
+  }
+  setState(newState: Partial<EditorState>) {
+    // Merge the new state with the current state
+    this._state = {
+      ...this._state,
+      ...newState
+    };
+
+    this.emitter.emit('onStateChange', {
+      state: this._state
+    });
+  }
+
   constructor(option: IVChartEditorInitOption) {
     this._option = option;
     const { dom, mode } = this._option;
@@ -78,7 +109,7 @@ export class VChartEditor {
     this._option.data.setLayers(this.getLayers);
     this._option.data.setDataKey(`_vchart_editor_${this._option.id}`);
     if (dom) {
-      this._container = isString(dom) ? document?.getElementById(dom) : dom;
+      this._container = (isString(dom) ? document?.getElementById(dom) : dom) as HTMLDivElement;
     }
     if (this._container) {
       this._container.style.position = 'relative';
@@ -111,6 +142,7 @@ export class VChartEditor {
     if (!ElementsMap[type]) {
       return;
     }
+
     let layer = this.layers[0];
     if (type === 'chart') {
       layer = new ChartLayer(this._container, { mode: this._mode, editor: this }, option.id);
@@ -122,6 +154,7 @@ export class VChartEditor {
         this.addLayer(layer);
       }
     }
+
     option.layer = layer;
     option.controller = this._editorController;
     option.mode = this._mode;
@@ -129,6 +162,7 @@ export class VChartEditor {
     option.editorData = this._editorData;
     option.editorEvent = this._event;
     option.commonHistoryUse = this._commonHistoryUse;
+
     const el = new ElementsMap[type](option as unknown as IElementOption);
     if (!el) {
       return;
@@ -151,6 +185,67 @@ export class VChartEditor {
   initEvent() {
     this._event = new EditorEvent(this);
     this._event.initEvent();
+
+    // TODO: 先在这里调试，待迁移至飞书图表编辑器中 @张苏
+    document.addEventListener('pointerdown', e => {
+      e.stopPropagation();
+      if (this.state.activeTool === EditorActiveTool.text && this.state.actionMode === EditorActionMode.addTool) {
+        // TODO: 不生效
+        this.editorController.removeEditorElements();
+        // TODO: 这个位置平移缩放后有问题
+        const currentPos = this.layers[0].transformPosToLayer({ x: e.offsetX, y: e.offsetY });
+
+        setupSimpleTextEditor({
+          // text: this._textGraphic,
+          textAttributes: {
+            fontFamily: 'D-Din',
+            textAlign: 'start',
+            textBaseline: 'top',
+            fontSize: 16,
+            fill: '#000'
+          },
+          anchor: {
+            left: currentPos.x,
+            top: currentPos.y,
+            width: 0,
+            height: 0
+          },
+          container: this.layers[0].container,
+          needExpression: false,
+          onSubmit: (text: string) => {
+            if (isEmpty(text)) {
+              return;
+            }
+            // @ts-ignore
+            this.addElements('text', {
+              id: uuid(),
+              attribute: {
+                text: text.split('\n'),
+                fontFamily: 'D-Din',
+                textAlign: 'start',
+                textBaseline: 'top',
+                fontSize: 16,
+                fill: '#000',
+                ...currentPos
+              }
+            });
+          }
+        });
+
+        this.setState({
+          activeTool: null,
+          actionMode: null
+        });
+      }
+    });
+
+    document.addEventListener('pointermove', e => {
+      if (this.state.activeTool === EditorActiveTool.text && this.state.actionMode === EditorActionMode.addTool) {
+        this.event.setCursor('text');
+      } else {
+        this.event.setCursorSyncToTriggerLayer();
+      }
+    });
 
     // [
     //   'perLayerDrag',

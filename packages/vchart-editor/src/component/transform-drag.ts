@@ -1,3 +1,6 @@
+import { EditorActionMode } from '../core/enum';
+import type { VChartEditor } from '../core/vchart-editor';
+
 export class DragComponent {
   protected _state: 'startDrag' | 'dragging' | 'stopDrag' | 'none' = 'none';
   get state() {
@@ -7,9 +10,11 @@ export class DragComponent {
   private _lastPosX: number;
   private _lastPosY: number;
   protected _container: HTMLElement;
+  protected _editor: VChartEditor;
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, editor: VChartEditor) {
     this._container = container;
+    this._editor = editor;
     window.addEventListener('pointermove', this.pointerMove, true);
     window.addEventListener('pointerup', this.stopDrag, true);
   }
@@ -18,7 +23,14 @@ export class DragComponent {
   protected _dragEndHandler: () => void;
   protected _unDragEndHandler: () => void;
 
+  private _checkEditorStateEnable() {
+    return this._editor.state.actionMode !== EditorActionMode.addTool;
+  }
+
   pointerMove = (event: PointerEvent) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (event.target !== this._container) {
       return;
     }
@@ -50,6 +62,9 @@ export class DragComponent {
   }
 
   stopDrag = (event: PointerEvent) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (event.target !== this._container) {
       return;
     }

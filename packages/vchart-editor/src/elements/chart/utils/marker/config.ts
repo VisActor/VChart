@@ -68,8 +68,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           text: isPercent ? '50%' : parseInt(`${averageY}`, 10),
           position: 'end',
           labelBackground: {
-            visible: false,
-            padding: { left: 4, right: 4, top: 4, bottom: 4 }
+            visible: false
           },
           style: {
             fill: '#000'
@@ -104,8 +103,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         text: yValue,
         position: 'end',
         labelBackground: {
-          visible: false,
-          padding: { left: 4, right: 4, top: 4, bottom: 4 }
+          visible: false
         },
         style: {
           fill: '#000'
@@ -143,8 +141,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
           text: isPercent ? '50%' : parseInt(`${xValue}`, 10),
           position: 'end',
           labelBackground: {
-            visible: false,
-            padding: { left: 4, right: 4, top: 4, bottom: 4 }
+            visible: false
           },
           style: {
             fill: '#000',
@@ -181,8 +178,7 @@ export function getDefaultValueMarkLineConfig(chart: IVChart, markerType: string
         text: xVlaue,
         position: 'end',
         labelBackground: {
-          visible: false,
-          padding: { left: 4, right: 4, top: 4, bottom: 4 }
+          visible: false
         },
         style: {
           fill: '#000',
@@ -235,8 +231,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
           position: 'right',
           text: isPercent ? '0% - 50%' : `${startValue.toFixed(0)} - ${endValue.toFixed(0)}`,
           labelBackground: {
-            visible: false,
-            padding: { left: 4, right: 4, top: 4, bottom: 4 }
+            visible: false
           },
           style: {
             fill: '#000'
@@ -264,8 +259,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         position: 'right',
         text: `${startValue} - ${endValue}`,
         labelBackground: {
-          visible: false,
-          padding: { left: 4, right: 4, top: 4, bottom: 4 }
+          visible: false
         },
         style: {
           fill: '#000'
@@ -296,8 +290,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
           position: 'top',
           text: isPercent ? '0% - 50%' : `${startValue.toFixed(0)} - ${endValue.toFixed(0)}`,
           labelBackground: {
-            visible: false,
-            padding: { left: 4, right: 4, top: 4, bottom: 4 }
+            visible: false
           },
           style: {
             fill: '#000'
@@ -325,8 +318,7 @@ export function getDefaultMarkAreaConfig(chart: IVChart, markerType: string) {
         position: 'top',
         text: `${startValue} - ${endValue}`,
         labelBackground: {
-          visible: false,
-          padding: { left: 4, right: 4, top: 4, bottom: 4 }
+          visible: false
         },
         style: {
           fill: '#000'
@@ -414,7 +406,6 @@ export function getDefaultGrowthMarkLineConfig(chart: IVChart) {
       position: 'middle',
       text: getCAGRFormatText([startValue, endValue], length),
       labelBackground: {
-        padding: { left: 4, right: 4, top: 4, bottom: 4 },
         style: {
           fill: '#fff',
           fillOpacity: 1,
@@ -530,7 +521,6 @@ export function getDefaultHierarchyDiffMarkLineConfig(chart: IVChart) {
       position: 'middle',
       text: getGrowthFormatText([startValue, endValue]),
       labelBackground: {
-        padding: { left: 4, right: 4, top: 4, bottom: 4 },
         style: {
           fill: '#fff',
           fillOpacity: 1,
@@ -651,7 +641,6 @@ export function getDefaultTotalDiffMarkLineConfig(chart: IVChart) {
       position: 'middle',
       text: getGrowthFormatText([startValue, endValue]),
       labelBackground: {
-        padding: { left: 4, right: 4, top: 4, bottom: 4 },
         style: {
           fill: '#fff',
           fillOpacity: 1,

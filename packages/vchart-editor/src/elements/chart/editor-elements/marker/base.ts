@@ -7,6 +7,7 @@ import type { EventParams, ICartesianSeries, IComponent } from '@visactor/vchart
 import { MarkerTypeEnum } from '../../interface';
 import { setupSimpleTextEditor } from '../../utils/text';
 import { get } from '@visactor/vutils';
+import { EditorActionMode } from '../../../../core/enum';
 
 export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEditorElement {
   readonly type: string = 'marker';
@@ -37,6 +38,11 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     vchart.on('dblclick', { level: 'model', type: this.type }, this._onDblclick);
   }
 
+  private _checkEditorStateEnable() {
+    const editor = this._chart.option.layer.getEditor(); // 获取编辑器
+    return editor.state.actionMode !== EditorActionMode.addTool;
+  }
+
   private _checkEventEnable(e: EventParams) {
     if (!this._chart.pickable) {
       return false;
@@ -46,6 +52,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   }
 
   protected _onHover = (e: EventParams) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (!this._checkEventEnable(e) || (this._editComponent && this._editComponent.attribute.visible)) {
       return;
     }
@@ -61,6 +70,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   };
 
   protected _onDown = (e: EventParams) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (!this._checkEventEnable(e)) {
       return;
     }
@@ -73,6 +85,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   };
 
   protected _onUp = (e: EventParams) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (!this._checkEventEnable(e)) {
       return;
     }
@@ -84,6 +99,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   };
 
   protected _onLeave = (e: EventParams) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (!this._checkEventEnable(e)) {
       return;
     }
@@ -92,6 +110,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   };
 
   protected _checkDblEventEnable(e: EventParams) {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (!this._checkEventEnable(e)) {
       return false;
     }
@@ -112,17 +133,25 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     }
     const vchart = this._chart.vchart;
     const text = e.event.target as IText;
+    const textBounds = text.globalAABBBounds;
     setupSimpleTextEditor({
-      text: text,
-      container: vchart.getContainer(),
+      // text: text,
+      textAttributes: text.attribute,
+      anchor: {
+        left: textBounds.x1,
+        top: textBounds.y1,
+        width: textBounds.width(),
+        height: textBounds.height()
+      },
+      container: vchart.getContainer() as HTMLDivElement,
       panelStyle: {
-        padding: { left: 4, right: 4, top: 4, bottom: 4 },
+        padding: get(e.model.getSpec(), 'label.labelBackground.padding'),
         lineWidth: 2
       },
-      defaultFontFamily: vchart.getCurrentTheme().fontFamily,
       expression: this._spec.expression,
       needExpression: true,
-      change: (expression: string) => {
+      alignCenter: true,
+      onSubmit: (expression: string) => {
         if (
           !this._checkDblEventEnable(e) ||
           expression === this._spec.expression ||

@@ -1,12 +1,17 @@
-import type { IText, ITextGraphicAttribute } from '@visactor/vrender-core';
+import { type ITextGraphicAttribute } from '@visactor/vrender-core';
 import modifyCSS from './dom';
-import type { ITextSize } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { TextMeasure, array, isNil, normalizePadding } from '@visactor/vutils';
+import { array, isEmpty, isNil, normalizePadding } from '@visactor/vutils';
 
 export type TextInfo = {
-  text: IText;
-  container: HTMLElement;
+  textAttributes: ITextGraphicAttribute;
+  anchor: {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  };
+  container: HTMLDivElement;
   /**
    * 文本当前的内容表达式
    */
@@ -15,49 +20,98 @@ export type TextInfo = {
    * 需要处理表达式
    */
   needExpression?: boolean;
-  change?: (expression: string) => void;
+  /**
+   * 输入框是否沿着文本中心点对齐
+   */
+  alignCenter?: boolean;
+  /**
+   * 文本内容改变时的回调
+   * @param textContent 文本内容改变
+   * @returns
+   */
+  onChange?: (textContent: string) => void;
+  /**
+   * 完成输入的回调
+   * @param textContent
+   * @returns
+   */
+  onSubmit?: (textContent: string) => void;
   /**
    * 面板样式
    */
   panelStyle?: any;
-  /**
-   * 默认的字体
-   */
-  defaultFontFamily?: string;
 };
 
-export const measureText = (text: string | string[], textSpec?: Partial<ITextGraphicAttribute>): ITextSize => {
-  return new TextMeasure<ITextGraphicAttribute>({}, textSpec).measure(text);
-};
+let text_measure_ctx: CanvasRenderingContext2D;
+
+function measureText(text: string, font: string) {
+  if (!text_measure_ctx) {
+    const text_measure = document.createElement('canvas');
+    text_measure_ctx = text_measure.getContext('2d');
+  }
+
+  text_measure_ctx.font = font;
+  return text_measure_ctx.measureText(text);
+}
+
+function getFontString(textAttributes: ITextGraphicAttribute) {
+  // font: font-style font-variant font-weight font-size/line-height font-family|caption|icon|menu|message-box|small-caption|status-bar|initial|inherit;
+
+  let font = '';
+  const { fontStyle, fontVariant, fontWeight, fontSize, fontFamily } = textAttributes;
+  if (fontStyle) {
+    font += `${fontStyle}`;
+  }
+
+  if (fontVariant) {
+    font += ` ${fontVariant}`;
+  }
+
+  if (fontWeight) {
+    font += ` ${fontWeight}`;
+  }
+
+  if (fontSize) {
+    font += ` ${fontSize}px`;
+  }
+
+  if (fontFamily) {
+    font += ` ${fontFamily}`;
+  }
+
+  return font;
+}
 
 export const setupSimpleTextEditor = function (textInfo: TextInfo) {
   const {
-    text,
+    textAttributes,
+    anchor: inputAnchor,
     container: chartContainer,
-    panelStyle,
-    defaultFontFamily,
+    panelStyle = {},
     expression,
     needExpression,
-    change
+    onSubmit,
+    onChange,
+    alignCenter
   } = textInfo;
-  const textBounds = text.globalAABBBounds;
 
   const anchor = {
-    left: textBounds.x1,
-    top: textBounds.y1,
-    width: textBounds.width(),
-    height: textBounds.height()
+    ...inputAnchor,
+    x: inputAnchor.left + inputAnchor.width * 0.5,
+    y: inputAnchor.top + inputAnchor.height * 0.5
   };
 
   const { padding = [0, 0, 0, 0] } = panelStyle;
   const panelPadding = normalizePadding(padding);
-  const textAlign = text.attribute.textAlign;
+  const textAlign = textAttributes.textAlign;
+  const fontString = getFontString(textAttributes);
+  const placeholderMeasure = measureText('请输入文本', fontString);
 
-  const body_rect = document.body.parentNode.getBoundingClientRect();
-  const font_size = text.attribute.fontSize;
-  const font_family = text.attribute.fontFamily || defaultFontFamily;
-  const height = anchor.height + panelPadding[0] + panelPadding[2];
-  const width = anchor.width + panelPadding[1] + panelPadding[3];
+  const body_rect = (document.body.parentNode as HTMLElement).getBoundingClientRect();
+  const font_size = textAttributes.fontSize;
+  const lineHeight = (textAttributes.lineHeight || font_size) as number;
+  const height = anchor.height || lineHeight;
+  const width = anchor.width || placeholderMeasure.width;
 
   const wrapper = document.createElement('div');
 
@@ -65,24 +119,22 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
     position: 'absolute',
     zIndex: 110,
     width: width + 'px',
-    fontFamily: font_family,
-    fontSize: font_size + 'px',
     height: height + 'px',
-    lineHeight: height + 'px',
+    lineHeight: lineHeight + 'px',
     left: anchor.left - body_rect.left - panelPadding[3] + 'px',
     top: anchor.top - body_rect.top - panelPadding[0] + 'px',
-    padding: 0,
+    padding: panelPadding.map(val => val + 'px').join(' '),
     margin: '0',
     background: 'white',
-    outline: '1px dashed #AAA',
-    boxShadow: '0 0 2px #AAA',
-    textAlign: textAlign
+    outline: '1px dashed #000',
+    boxSizing: 'content-box'
   });
   chartContainer.append(wrapper);
 
   wrapper.style.visibility = 'visible';
 
   const editableDom = document.createElement('textArea') as HTMLTextAreaElement;
+  editableDom.id = 'vchart-text-editor';
   modifyCSS(editableDom, {
     margin: 0,
     padding: 0,
@@ -90,38 +142,86 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
     border: 'none',
     width: '100%',
     height: '100%',
-    verticalAlign: 'middle',
-    fontSize: font_size + 'px',
+    font: fontString,
+    verticalAlign: textAttributes.textBaseline,
+    lineHeight: 'inherit',
     textAlign: textAlign,
-    resize: 'none'
+    resize: 'none',
+    display: 'inline-block',
+    // minHeight: '1em',
+    backfaceVisibility: 'hidden',
+    background: 'transparent',
+    overflow: 'hidden',
+    wordBreak: 'normal',
+    whiteSpace: 'pre',
+    overflowWrap: 'break-word',
+    boxSizing: 'content-box',
+    color: textAttributes.fill
   });
 
-  const textString = array(text.attribute.text).join('\n');
-  editableDom.value = needExpression ? (isNil(expression) ? '##' : expression || textString) : textString;
+  const textString = array(textAttributes.text).join('\n');
+  const originText = needExpression ? (isNil(expression) ? '##' : expression || textString) : textString;
+  editableDom.value = originText;
+
+  // if (isEmpty(editableDom.value)) {
+  editableDom.placeholder = '请输入文本';
+  // }
 
   wrapper.append(editableDom);
 
   const update_size = function () {
-    const currentValue = editableDom.value.split('\n');
-    const wrapperWidth = Math.max(
-      width,
-      measureText(currentValue, text.attribute).width + panelPadding[1] + panelPadding[3]
-    );
+    if (editableDom.value !== originText) {
+      const currentValue = editableDom.value.split('\n');
 
-    const wrapperHeight = Math.max(
-      height,
-      measureText(currentValue, text.attribute).height + panelPadding[0] + panelPadding[2]
-    );
+      let maxWidth = 0;
+      currentValue.forEach(value => {
+        const currentWidth = measureText(value, fontString).width;
+        if (currentWidth > maxWidth) {
+          maxWidth = currentWidth;
+        }
+      });
 
-    modifyCSS(wrapper, {
-      width: wrapperWidth + 'px',
-      height: wrapperHeight + 'px'
-    });
+      const textMeasure = {
+        width: maxWidth,
+        height: lineHeight * currentValue.length
+      };
+
+      let wrapperWidth;
+      let wrapperHeight;
+      if (needExpression) {
+        wrapperWidth = Math.max(width, textMeasure.width);
+        wrapperHeight = Math.max(height, textMeasure.height);
+      } else {
+        wrapperWidth = isEmpty(editableDom.value) ? placeholderMeasure.width : textMeasure.width;
+        wrapperHeight = textMeasure.height || lineHeight;
+      }
+
+      modifyCSS(wrapper, {
+        width: wrapperWidth + 'px',
+        height: wrapperHeight + 'px'
+      });
+
+      if (alignCenter) {
+        modifyCSS(wrapper, {
+          left: anchor.x - wrapperWidth * 0.5 - body_rect.left - panelPadding[3] + 'px',
+          top: anchor.y - wrapperHeight * 0.5 - body_rect.top - panelPadding[0] + 'px'
+        });
+      }
+    }
   };
   update_size();
 
-  editableDom.focus();
+  const bindBlurEvent = (event?: MouseEvent) => {
+    setTimeout(() => {
+      editableDom.addEventListener('blur', onBlur);
+
+      editableDom.focus();
+    });
+  };
+
   editableDom.select();
+
+  bindBlurEvent();
 
   let isWrapperRemoved = false;
 
@@ -135,7 +235,6 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
       return;
     }
     isWrapperRemoved = true;
-    // remove events to ensure they don't late-fire
     editableDom.removeEventListener('blur', onBlur);
     editableDom.removeEventListener('input', onInput);
     editableDom.removeEventListener('keydown', onKeydown);
@@ -149,12 +248,16 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
 
   const onBlur = function () {
     cleanUp();
-    if (change) {
-      change(editableDom.value);
+    if (onSubmit) {
+      onSubmit(editableDom.value);
     }
   };
   const onInput = function () {
     editableDom.style.backgroundColor = '#FFF';
+
+    if (onChange) {
+      onChange(editableDom.value);
+    }
     update_size();
   };
   const onKeydown = function (e: Event) {
@@ -162,11 +265,11 @@ export const setupSimpleTextEditor = function (textInfo: TextInfo) {
   };
   const onKeyup = function (e: any) {
     if (e.key === 'Escape') {
-      cleanUp();
+      onBlur();
     }
-    update_size();
+    editableDom.focus();
+    // update_size();
   };
-  editableDom.addEventListener('blur', onBlur);
   editableDom.addEventListener('input', onInput);
   editableDom.addEventListener('keydown', onKeydown);
   editableDom.addEventListener('keyup', onKeyup);

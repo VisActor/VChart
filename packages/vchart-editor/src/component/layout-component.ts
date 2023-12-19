@@ -146,6 +146,7 @@ export class LayoutEditorComponent {
       },
       bounds
     );
+    this._editorBox.setEditor(this._opt.editorEvent.editor);
 
     this._editorBox.onEditorStart(() => {
       this._reSetSnap();
@@ -304,7 +305,7 @@ export class LayoutEditorComponent {
   }
 
   addDrag(container: HTMLElement, event: PointerEvent) {
-    this._dragger = new DragComponent(container);
+    this._dragger = new DragComponent(container, this._opt.editorEvent.editor);
     this._dragger.dragHandler(this._dragElement);
     this._dragger.dragEndHandler(this._dragEnd);
     this._dragger.unDragEndHandler(this._unDragEnd);

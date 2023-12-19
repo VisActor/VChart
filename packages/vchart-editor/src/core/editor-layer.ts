@@ -37,7 +37,7 @@ export class EditorLayer implements IEditorLayer {
     return this._canvas;
   }
 
-  protected _container: HTMLElement;
+  protected _container: HTMLDivElement;
   get container() {
     return this._container;
   }
@@ -100,7 +100,7 @@ export class EditorLayer implements IEditorLayer {
   }
 
   constructor(
-    container: HTMLElement,
+    container: HTMLDivElement,
     { mode, editor }: { mode: EditorMode; editor: VChartEditor },
     id?: string | number
   ) {
@@ -112,7 +112,7 @@ export class EditorLayer implements IEditorLayer {
     this.initEvent();
     this.initEditorGroup();
     if (this._mode === 'editor') {
-      this._zoomMove = new LayerZoomMove(this._stage.defaultLayer, editor.emitter, container);
+      this._zoomMove = new LayerZoomMove(this._stage.defaultLayer, editor, container);
     }
   }
 

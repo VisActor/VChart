@@ -2,6 +2,7 @@ import { debounce, type EventEmitter } from '@visactor/vutils';
 import type { ILayer } from '@visactor/vrender-core';
 import { DragComponent } from './transform-drag';
 import type { IPoint } from '../typings/space';
+import type { VChartEditor } from '../core/vchart-editor';
 
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 3;
@@ -25,12 +26,14 @@ export class LayerZoomMove {
   private _isCtrlDown: boolean = false;
 
   private emitter: EventEmitter;
+  private editor: VChartEditor;
 
-  constructor(layer: ILayer, emitter: EventEmitter, container: HTMLElement) {
+  constructor(layer: ILayer, editor: VChartEditor, container: HTMLElement) {
     this._layer = layer;
-    this.emitter = emitter;
+    this.editor = editor;
+    this.emitter = editor.emitter;
     this._container = container;
-    this._dragger = new DragComponent(container);
+    this._dragger = new DragComponent(container, editor);
     this._dragger.dragHandler(this._dragElement);
     this._dragger.dragEndHandler(this._dragEnd);
     this._dragger.unDragEndHandler(this._unDragEnd);
