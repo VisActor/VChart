@@ -19,6 +19,8 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
 
   protected _editComponent: IGroup; // 标注编辑元素
 
+  private _isMarkersSilent: boolean = false;
+
   protected abstract _getEnableMarkerTypes(): string[];
   protected abstract _createEditorGraphic(el: IEditorElement, e: PointerEvent): IGraphic;
   protected abstract _handlePointerDown(e: EventParams): void;
@@ -228,6 +230,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   }
 
   protected _silentAllMarkers() {
+    if (this._isMarkersSilent) {
+      return;
+    }
     const vchart = this._chart.vchart;
     const root = vchart.getStage().getElementsByName('root')[0];
     const marks: string[] = [
@@ -244,9 +249,14 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
         this._setMarkerShapePickable(child as IGraphic, false);
       }
     });
+
+    this._isMarkersSilent = true;
   }
 
   protected _activeAllMarkers() {
+    if (this._isMarkersSilent === false) {
+      return;
+    }
     const vchart = this._chart.vchart;
     const root = vchart.getStage().getElementsByName('root')[0];
     const marks: string[] = [
@@ -264,6 +274,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
         this._setMarkerShapePickable(child as IGraphic, true);
       }
     });
+    this._isMarkersSilent = false;
   }
 
   private _setMarkerShapePickable(node: IGraphic, pickable: boolean) {
