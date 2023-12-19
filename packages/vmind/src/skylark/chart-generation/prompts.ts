@@ -46,6 +46,6 @@ Constraints:
 Let's think step by step. Fill your thoughts in {thoughts} in one line.
 
 Response in the following format:
-thoughts: //Your thoughts in one line.
+thoughts: //Your thoughts in one line. Must show your thought process.
 ${channelsInResponse}.
 `;
