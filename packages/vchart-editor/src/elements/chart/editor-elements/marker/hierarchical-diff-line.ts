@@ -398,7 +398,7 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
     const isHorizontal = series.direction === 'horizontal';
 
-    if (series.type === 'bar') {
+    if (series.type === 'bar' || series.type === 'waterfall') {
       const rectMark = series.getMarkInName('bar');
       const vgrammarElements = rectMark.getProduct().elements;
       const dataPoints: DataPoint[] = [];
@@ -558,7 +558,6 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
 
     const series = this._getSeries();
     this._chart.option.editorEvent.setCursor(series.direction === 'horizontal' ? 'ns-resize' : 'ew-resize');
-
     // Important: 拖拽过程中，关闭对应 markLine 的交互
     this._silentAllMarkers();
 
@@ -566,45 +565,48 @@ export class HierarchicalDiffLineEditor extends BaseMarkerEditor<MarkLine, MarkL
     if (PointService.distancePP(this._prePos, layerPos) > 2) {
       const splitGroup = this._getSplitGroup();
       splitGroup.showAll();
-    }
+      // 寻找最近的数据锚点，更新编辑图形
+      // 转换为画布坐标
+      const currentPoint = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
+      const closestPoint = findClosestPoint(currentPoint, this._splitPoints) as DataPoint;
 
-    // 寻找最近的数据锚点，更新编辑图形
-    // 转换为画布坐标
-    const currentPoint = this._layer.transformPosToLayer({ x: e.offsetX, y: e.offsetY });
-    const closestPoint = findClosestPoint(currentPoint, this._splitPoints) as DataPoint;
+      if (closestPoint) {
+        // 1. 更新 _overlayMiddleHandler
+        this._overlayMiddleHandler.setAttribute('points', closestPoint.points);
 
-    // 1. 更新 _overlayMiddleHandler
-    this._overlayMiddleHandler.setAttribute('points', closestPoint.points);
-
-    // 2. 更新 _overlayLine
-    if (series.direction === 'horizontal') {
-      this._overlayLine.setAttribute('points', [
-        {
-          x: this._overlayStartHandler.attribute.x,
-          y: this._overlayStartHandler.attribute.y
-        },
-        closestPoint.points.find((point: Point) =>
-          SameValueApproximate(point.x, this._overlayStartHandler.attribute.x)
-        ),
-        closestPoint.points.find((point: Point) => SameValueApproximate(point.x, this._overlayEndHandler.attribute.x)),
-        {
-          x: this._overlayEndHandler.attribute.x,
-          y: this._overlayEndHandler.attribute.y
+        // 2. 更新 _overlayLine
+        if (series.direction === 'horizontal') {
+          this._overlayLine.setAttribute('points', [
+            {
+              x: this._overlayStartHandler.attribute.x,
+              y: this._overlayStartHandler.attribute.y
+            },
+            closestPoint.points.find((point: Point) =>
+              SameValueApproximate(point.x, this._overlayStartHandler.attribute.x)
+            ),
+            closestPoint.points.find((point: Point) =>
+              SameValueApproximate(point.x, this._overlayEndHandler.attribute.x)
+            ),
+            {
+              x: this._overlayEndHandler.attribute.x,
+              y: this._overlayEndHandler.attribute.y
+            }
+          ]);
+        } else {
+          this._overlayLine.setAttribute('points', [
+            {
+              x: this._overlayStartHandler.attribute.x,
+              y: this._overlayStartHandler.attribute.y
+            },
+            closestPoint.points.find((point: Point) => point.y === this._overlayStartHandler.attribute.y),
+            closestPoint.points.find((point: Point) => point.y === this._overlayEndHandler.attribute.y),
+            {
+              x: this._overlayEndHandler.attribute.x,
+              y: this._overlayEndHandler.attribute.y
+            }
+          ]);
         }
-      ]);
-    } else {
-      this._overlayLine.setAttribute('points', [
-        {
-          x: this._overlayStartHandler.attribute.x,
-          y: this._overlayStartHandler.attribute.y
-        },
-        closestPoint.points.find((point: Point) => point.y === this._overlayStartHandler.attribute.y),
-        closestPoint.points.find((point: Point) => point.y === this._overlayEndHandler.attribute.y),
-        {
-          x: this._overlayEndHandler.attribute.x,
-          y: this._overlayEndHandler.attribute.y
-        }
-      ]);
+      }
     }
   };
 
