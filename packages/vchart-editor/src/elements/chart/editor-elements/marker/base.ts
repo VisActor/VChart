@@ -137,8 +137,10 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
     const text = e.event.target as IText;
     const textBounds = text.globalAABBBounds;
     setupSimpleTextEditor({
-      // text: text,
-      textAttributes: text.attribute,
+      textAttributes: {
+        fontFamily: 'D-Din',
+        ...text.attribute
+      },
       anchor: {
         left: textBounds.x1,
         top: textBounds.y1,

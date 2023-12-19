@@ -1,6 +1,6 @@
 import type { VRenderPointerEvent } from './../interface';
-import type { IGraphic, IText, INode, IGroup, FederatedPointerEvent } from '@visactor/vrender-core';
-import { createRect, createWrapText, container } from '@visactor/vrender-core';
+import type { IGraphic, IText } from '@visactor/vrender-core';
+import { createRect, createWrapText } from '@visactor/vrender-core';
 import type {
   IEditorElement,
   IElementPath,
@@ -13,7 +13,7 @@ import type {
 /* eslint-disable no-console */
 
 import type { IBoundsLike } from '@visactor/vutils';
-import { isString, isValid } from '@visactor/vutils';
+import { isEmpty, isString, isValid } from '@visactor/vutils';
 import type { IRect, IPoint, ILayoutAttribute } from '../../typings/space';
 import { BaseElement } from '../base-element';
 import type { IElementOption } from '../interface';
@@ -128,7 +128,7 @@ export class EditorText extends BaseElement {
         if (this._currentEl) {
           this._currentEl.updateAttribute({
             spec: {
-              text: text.split('\n')
+              text: isEmpty(text) ? '文本' : text.split('\n')
             }
           });
           this._currentEl.updateElement();
