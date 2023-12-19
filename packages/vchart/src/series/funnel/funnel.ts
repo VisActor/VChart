@@ -481,6 +481,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     super._buildMarkAttributeContext();
     // position
     this._markAttributeContext.valueToPosition = this.valueToPosition.bind(this);
+    this._markAttributeContext.getPoints = this.getPoints.bind(this);
+    this._markAttributeContext.isTransformLevel = this.isTransformLevel.bind(this);
   }
 
   valueToPosition(category: StringOrNumber) {
