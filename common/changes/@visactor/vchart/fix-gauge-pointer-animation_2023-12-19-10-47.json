@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: animation support for gauge pointer series, related #1699",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
