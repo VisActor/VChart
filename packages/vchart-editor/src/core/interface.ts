@@ -6,6 +6,8 @@ import type { IElement, IElementData } from './../elements/interface';
 import type { ILayoutAttribute, IPoint, IRect } from '../typings/space';
 import type { IModelSpec } from '../elements/chart/spec-process/interface';
 import type { VChartEditor } from './vchart-editor';
+import type { KEYS } from './const';
+import type { EditorActionMode, EditorActiveTool } from './enum';
 export interface ILayerData {
   id: string | number;
   type: 'chart' | string;
@@ -32,6 +34,7 @@ export interface IEditorLayer {
   isInActive: boolean;
   readonly isElementReady: boolean;
 
+  container: HTMLDivElement;
   getStage: () => IStage;
   getCanvas: () => HTMLCanvasElement;
   getAABBBounds: () => IBoundsLike;
@@ -61,7 +64,7 @@ export interface IEditorData {
 
 export interface IVChartEditorInitOption {
   id: string | number;
-  dom: string | HTMLElement;
+  dom: string | HTMLDivElement;
   data: IEditorData;
   mode: EditorMode;
 }
@@ -262,4 +265,20 @@ export interface IElementPath {
 export interface IElementPathEnd {
   percentX: number;
   percentY: number;
+}
+
+// 键盘类型
+export type Key = keyof typeof KEYS;
+
+// 编辑器状态
+export interface EditorState {
+  /**
+   * 当前激活的画布工具
+   */
+  activeTool?: EditorActiveTool.chart | EditorActiveTool.data | EditorActiveTool.line | EditorActiveTool.text;
+  /**
+   * 当前画布的操作状态
+   * 1. `add-tool` 添加画布元素时
+   */
+  actionMode?: EditorActionMode.addTool | EditorActionMode.changeChart | EditorActionMode.editData | string;
 }

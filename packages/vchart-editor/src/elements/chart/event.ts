@@ -3,6 +3,7 @@ import { EventEmitter, isNil } from '@visactor/vutils';
 import type { VRenderPointerEvent } from '../interface';
 import { isModelMatchModelInfo } from '../../utils/spec';
 import { BoxSelectionMaskName, TransformComponentName } from '../../core/const';
+import { EditorActionMode } from '../../core/enum';
 
 export class ChartEvent {
   emitter: EventEmitter = new EventEmitter();
@@ -16,6 +17,11 @@ export class ChartEvent {
   initWithVChart(): void {
     this._chart.option.layer.getStage().addEventListener('pointermove', this._overEvent as any);
     this._chart.option.layer.getStage().addEventListener('pointerdown', this._downEvent as any);
+  }
+
+  private _checkEditorStateEnable() {
+    const editor = this._chart.option.layer.getEditor(); // 获取编辑器
+    return editor.state.actionMode !== EditorActionMode.addTool;
   }
 
   private _checkPickChart(e: VRenderPointerEvent) {
@@ -32,6 +38,9 @@ export class ChartEvent {
   }
 
   private _overEvent = (e: VRenderPointerEvent) => {
+    if (!this._checkEditorStateEnable()) {
+      return false;
+    }
     if (!this._chart.overAble) {
       return false;
     }
@@ -53,6 +62,9 @@ export class ChartEvent {
   };
 
   private _downEvent = (e: VRenderPointerEvent) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (!this._checkPickChart(e)) {
       return;
     }

@@ -14,6 +14,8 @@ import type { IAABBBounds, IAABBBoundsLike } from '@visactor/vutils';
 import { AABBBounds, merge, normalizePadding, pi } from '@visactor/vutils';
 import { AbstractComponent } from '@visactor/vrender-components';
 import { transformPointWithMatrix } from '../utils/space';
+import type { VChartEditor } from '../core/vchart-editor';
+import { EditorActionMode } from '../core/enum';
 
 type ResizeType = [boolean, ...boolean[]] & { length: 8 };
 
@@ -87,6 +89,11 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     }
   };
 
+  private _editor: VChartEditor;
+  setEditor(editor: VChartEditor) {
+    this._editor = editor;
+  }
+
   constructor(attributes: Partial<TransformAttributes>, bounds: IAABBBoundsLike) {
     super(
       merge(
@@ -154,7 +161,14 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     this.stage.addEventListener('pointerup', this.handleDragMouseUp);
   }
 
+  private _checkEditorStateEnable() {
+    return this._editor.state.actionMode !== EditorActionMode.addTool;
+  }
+
   protected handleMouseMove = (e: any) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (e.pickParams) {
       const { shadowTarget } = e.pickParams;
       this.setCursor(shadowTarget.attribute.cursor);
@@ -164,10 +178,16 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
   };
 
   protected handleMouseOut = (e: any) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     this.setCursor();
   };
 
   protected handleDragMouseDown = (e: any) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     this.isEditor = true;
     this.editStartCbs.forEach(cb => cb());
     const layerPos = transformPointWithMatrix(this.layer.globalTransMatrix.getInverse(), e.offset);
@@ -185,6 +205,9 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
   };
 
   protected handleDragMouseMove = (e: any) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (!this.isDragging) {
       return;
     }
@@ -210,6 +233,9 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
   };
 
   protected handleDragMouseUp = (e: any) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (!this.isDragging) {
       return;
     }

@@ -400,8 +400,7 @@ export class LayoutEditorElement extends BaseEditorElement {
 
   releaseLast() {
     super.releaseLast();
-    this._layoutComponent?.release();
-    this._layoutComponent = null;
+    this.clearLayoutEditorBox();
   }
 
   release(): void {

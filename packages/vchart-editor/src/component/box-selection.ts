@@ -8,6 +8,7 @@ import { BoxSelectionMaskName, OverGraphicAttribute } from '../core/const';
 import { LayoutEditorComponent } from './layout-component';
 import { isPointInBounds, transformPointWithLayer } from '../utils/space';
 import type { EditorEvent } from '../core/editor-event';
+import { EditorActionMode } from '../core/enum';
 
 export class BoxSelection {
   protected _state: 'none' | 'start' | 'drag' | 'end' | 'per-editor' | 'editor' = 'none';
@@ -31,6 +32,7 @@ export class BoxSelection {
     this.context.editor.emitter.on('onLayerDrag', () => {
       this._cancelSelect = true;
     });
+
     this.context.editor.editorController.addStartHandler(() => {
       if (this._state === 'editor') {
         this._outBoxSelection();
@@ -39,7 +41,14 @@ export class BoxSelection {
     document.addEventListener('keydown', this._keyEvent);
   }
 
+  private _checkEditorStateEnable() {
+    return this.context.editor.state.actionMode !== EditorActionMode.addTool;
+  }
+
   protected _keyEvent = (ev: KeyboardEvent) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if ((ev.ctrlKey && ev.code === 'KeyA') || (ev.metaKey && ev.code === 'KeyA')) {
       this._inBoxSelection();
       //  全选
@@ -100,6 +109,9 @@ export class BoxSelection {
   }
 
   protected _pointerDown = (e: VRenderPointerEvent) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (this._cancelSelect) {
       this._cancelSelect = false;
     }
@@ -135,6 +147,9 @@ export class BoxSelection {
   };
 
   protected _pointerMove = (e: VRenderPointerEvent) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     if (this._cancelSelect) {
       this._state = 'none';
       return;
@@ -172,6 +187,9 @@ export class BoxSelection {
   };
 
   protected _pointerUp = (e: VRenderPointerEvent) => {
+    if (!this._checkEditorStateEnable()) {
+      return;
+    }
     this._transformEventPoint(e);
     if (this._cancelSelect) {
       this._cancelSelect = false;
