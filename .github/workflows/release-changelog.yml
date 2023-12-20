@@ -9,6 +9,10 @@ jobs:
     name: GitHub Actions Test
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [20.x]
+
     steps:
       - name: Checkout
         id: checkout

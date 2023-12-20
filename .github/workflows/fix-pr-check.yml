@@ -22,7 +22,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
 
       - uses: xile611/pr-type-check@main
         with:
