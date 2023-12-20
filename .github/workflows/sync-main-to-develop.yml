@@ -44,11 +44,17 @@ jobs:
         with:
           path: packages/vchart
 
-      - name: merge main to develop
-        uses: devmasx/merge-branch@master
+      - name: Create a new branch
+        run: |
+          git checkout -b sync/main-${{ steps.package-version.outputs.current_version }}
+          git push origin sync/main-${{ steps.package-version.outputs.current_version }}
+
+      - name: Create Pull Request
+        uses: dustinirving/create-pr@v1.0.2
         with:
-          type: now
-          from_branch: main
-          target_branch: develop
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          message: 'build: sync main to develop after releasing version ${{ steps.package-version.outputs.current_version }}'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: '[Auto Sync] Sync the code from branch main to branch develop after release ${{ steps.package-version.outputs.current_version }}'
+          base: develop
+          head: sync/main-${{ steps.package-version.outputs.current_version }}
+          reviewers: xile611
+          body: 'Sync the code from branch main to branch develop after release ${{ steps.package-version.outputs.current_version }}'
