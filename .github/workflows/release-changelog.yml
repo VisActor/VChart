@@ -30,7 +30,7 @@ jobs:
 
       - name: generate changelog
         id: generate-changelog
-        uses: ./
+        uses: xile611/collect-release-changelog@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           folder: ./docs/assets/changelog
