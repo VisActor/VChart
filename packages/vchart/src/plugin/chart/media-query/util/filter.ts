@@ -12,11 +12,12 @@ import type {
 import { SeriesTypeEnum } from '../../../../series/interface';
 import { ComponentTypeEnum } from '../../../../component/interface';
 import { includeSpec } from '@visactor/vutils-extension';
+import type { MaybeArray } from '../../../../typings';
 
 /** 执行元素过滤器 */
 export const executeMediaQueryActionFilter = <T extends Record<string, unknown>>(
   filterType: MediaQueryActionFilterType = 'chart',
-  filter: MediaQueryActionFilter<T> | undefined,
+  filter: MaybeArray<MediaQueryActionFilter<T>> | undefined,
   action: IMediaQueryAction<T>,
   query: IMediaQueryCondition,
   chartSpec: any,
@@ -29,11 +30,13 @@ export const executeMediaQueryActionFilter = <T extends Record<string, unknown>>
       if (isNil(filter)) {
         return true;
       }
-      if (isFunction(filter)) {
-        return filter(info, action, query);
-      }
-      // spec 模糊匹配
-      return includeSpec(info.spec, filter);
+      return array(filter).some(f => {
+        if (isFunction(f)) {
+          return f(info, action, query);
+        }
+        // spec 模糊匹配
+        return includeSpec(info.spec, f);
+      });
     })
   };
 };

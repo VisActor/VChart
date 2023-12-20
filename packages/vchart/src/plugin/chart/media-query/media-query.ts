@@ -43,6 +43,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     if (!chartSpec?.[MediaQuery.specKey]) {
       return;
     }
+
     const { globalInstance } = service;
     this._option = {
       globalInstance: service.globalInstance,
@@ -63,10 +64,18 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   }
 
   onBeforeResize(service: IChartPluginService, width: number, height: number) {
+    if (!this._initialized) {
+      return;
+    }
+
     this._changeSize(width, height, true, false);
   }
 
   onAfterChartSpecTransform(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource) {
+    if (!this._initialized) {
+      return;
+    }
+
     if (actionSource === 'setCurrentTheme') {
       // 重新执行已生效的所有媒体查询
       this._reInit(false, false);
@@ -74,6 +83,10 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   }
 
   onBeforeInitChart(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource) {
+    if (!this._initialized) {
+      return;
+    }
+
     let resetMediaQuery: boolean;
     let checkMediaQuery: boolean;
 
