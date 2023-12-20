@@ -1,4 +1,4 @@
-# OMI Render
+# OMI Introduction
 
 OMI is a Web components framework based on JSX and signal. Correspondingly, the OMIU component library offers a variety of ready-to-use UI components and provides built-in encapsulation for VChart.
 
@@ -24,5 +24,7 @@ A simple OMIU chart rendering code looks like this:
   }}
 ></o-chart>
 ```
+
+![omi-vchart](/vchart/guide/omi-vchart.png)
 
 For more OMIU vchart rendering examples, please refer to [OMIU chart examples](https://omi.cdn-go.cn/omiu/latest/#/data/chart/)
