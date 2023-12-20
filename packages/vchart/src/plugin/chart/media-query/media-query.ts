@@ -139,14 +139,14 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
       return false;
     }
     if (!this._baseChartSpec) {
-      this._baseChartSpec = cloneDeepSpec(this._option.globalInstance.getSpec());
+      this._baseChartSpec = cloneDeepSpec(this._option.globalInstance.getSpec(), ['data', MediaQuery.specKey]);
     }
     let chartSpec: any;
     let hasChanged = false;
 
     // 处理将会失效的查询：重新执行一遍当前生效的查询
     if (changeToInactive.length > 0) {
-      chartSpec = cloneDeepSpec(this._baseChartSpec);
+      chartSpec = cloneDeepSpec(this._baseChartSpec, ['data', MediaQuery.specKey]);
       Array.from(this.currentActiveItems).forEach(item => {
         if (changeToInactive.includes(item)) {
           this.currentActiveItems.delete(item);
@@ -201,7 +201,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   /** 重新初始化，并重新执行一遍当前生效的媒体查询 */
   protected _reInit(compile?: boolean, render?: boolean) {
     let chartSpec = this._option.globalInstance.getSpec();
-    this._baseChartSpec = cloneDeepSpec(chartSpec);
+    this._baseChartSpec = cloneDeepSpec(chartSpec, ['data', MediaQuery.specKey]);
 
     let hasChanged = false;
     this.currentActiveItems.forEach(item => {
