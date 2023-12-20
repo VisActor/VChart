@@ -178,8 +178,8 @@ export const ChartFieldInfo: ChannelInfo = {
   },
   'DYNAMIC BAR CHART': {
     visualChannels: {
-      x: "x-axis of dynamic bar chart. Can't be empty. Only string fields",
-      y: "y-axis of dynamic bar chart. Can't be empty. Only number fields",
+      x: "x-axis of bar chart. Can't be empty. Only string fields. Can't use date fields",
+      y: "y-axis of bar chart. Can't be empty. Only number fields",
       color:
         'color channel of bar chart. Used to distinguish different bars. Only string fields. Can be empty if no suitable field.',
       time: "date field used to divide time frames. Used to divide the data into time frames. Can't be empty. Only date fields"
@@ -190,7 +190,13 @@ export const ChartFieldInfo: ChannelInfo = {
       color: 'field assigned to color channel',
       time: 'field assigned to time channel'
     },
-    knowledge: ['Only string fields can be used in color channel.', 'Only date fields can be used in time channel.']
+    knowledge: [
+      'Dynamic Bar Chart shows changes in rankings over time.',
+      'In each time frame, dynamic bar chart use bar chart to show the data',
+      'Only string fields can be used in x channel.',
+      'Only string fields can be used in color channel.',
+      'Only date fields can be used in time channel.'
+    ]
   }
 };
 

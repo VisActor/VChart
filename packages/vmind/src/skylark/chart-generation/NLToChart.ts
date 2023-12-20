@@ -30,7 +30,7 @@ export const generateChartWithSkylark = async (
     const chartTypeRes = resJson.chartType.toUpperCase();
     //TODO: request skylark for cell according to chartType
     const cellRes = resJson['cell'];
-    const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset);
+    const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset, fieldInfo);
     if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
       chartType = patchResult.chartTypeNew;
       cell = patchResult.cellNew;

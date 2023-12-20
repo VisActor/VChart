@@ -1,9 +1,24 @@
 import axios from 'axios';
-import { Cell, DataItem, ILLMOptions } from '../../typings';
+import { Cell, DataItem, ILLMOptions, SimpleFieldInfo } from '../../typings';
+import { detectAxesType } from '../../common/vizDataToSpec/utils';
 
-export const patchChartTypeAndCell = (chartTypeRes: any, cellRes: any, dataset: DataItem[]) => {
+export const patchChartTypeAndCell = (
+  chartTypeRes: any,
+  cellRes: any,
+  dataset: DataItem[],
+  fieldInfo: SimpleFieldInfo[]
+) => {
   let chartTypeNew = chartTypeRes;
   let cellNew = cellRes;
+  const columns = fieldInfo.map(field => field.fieldName);
+
+  //set null field to undefined
+  Object.keys(cellNew).forEach(key => {
+    if (!columns.includes(cellNew[key]) || cellNew[key] === '') {
+      cellNew[key] = undefined;
+    }
+  });
+
   if (chartTypeRes === 'RADAR CHART') {
     cellNew = {
       x: cellRes.angle,
@@ -27,6 +42,31 @@ export const patchChartTypeAndCell = (chartTypeRes: any, cellRes: any, dataset: 
         };
       }
     }
+  } else if (chartTypeRes === 'DYNAMIC BAR CHART') {
+    const cellNew = { ...cellRes };
+
+    if (!cellRes.time || cellRes.time === '' || cellRes.time.length === 0) {
+      const flattenedXField = Array.isArray(cellRes.x) ? cellRes.x : [cellRes.x];
+      const usedFields = Object.values(cellNew).filter(f => !Array.isArray(f));
+      usedFields.push(...flattenedXField);
+      const dataFields = Object.keys(dataset[0]);
+      const remainedFields = dataFields.filter(f => !usedFields.includes(f));
+
+      //动态条形图没有time字段，选择一个离散字段作为time
+      const timeField = remainedFields.find(f => {
+        const fieldType = detectAxesType(dataset, f);
+        return fieldType === 'band';
+      });
+      if (timeField) {
+        cellNew.time = timeField;
+      } else {
+        cellNew.time = remainedFields[0];
+      }
+    }
+    return {
+      chartTypeNew: chartTypeRes,
+      cellNew
+    };
   }
   return {
     chartTypeNew,
