@@ -113,7 +113,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
 
   protected _checkDblEventEnable(e: EventParams) {
     if (!this._checkEditorStateEnable()) {
-      return;
+      return false;
     }
     if (!this._checkEventEnable(e)) {
       return false;
