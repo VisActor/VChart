@@ -159,6 +159,7 @@ export interface IModelOption extends ICompilableInitOption {
   specIndex?: number;
   specKey?: string;
   specPath?: Array<string | number>;
+  specInfoPath?: Array<string | number>;
 
   getTheme?: () => ITheme;
   getSpecInfo?: () => IChartSpecInfo;
@@ -183,6 +184,8 @@ export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
   spec: T;
   /** 该 spec 在图表 spec 上的路径 */
   specPath?: Array<string | number>;
+  /** 该 spec 在图表 spec info 上的路径 */
+  specInfoPath?: Array<string | number>;
   /** 该 spec 在父级的索引 */
   specIndex?: number;
   /** model 当前主题 */

@@ -53,7 +53,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
    */
   transformModelSpec(chartSpec: T): IChartSpecInfo {
     const transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
-      const { spec, specPath, type } = specInfo;
+      const { spec, specPath, specInfoPath, type } = specInfo;
       const transformer = new constructor.transformerConstructor({
         type,
         getTheme: this._option.getTheme
@@ -61,7 +61,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       // 调用 model 自己的 transformer 进行转换
       const transformResult = transformer.transformSpec(spec, chartSpec, chartSpecInfo);
       setProperty(chartSpec, specPath, transformResult.spec);
-      setProperty(chartSpecInfo, specPath ?? [type], {
+      setProperty(chartSpecInfo, specInfoPath ?? specPath, {
         ...specInfo,
         ...transformResult
       });
@@ -82,8 +82,17 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     ) => void
   ): IChartSpecInfo {
     if (!transform) {
-      transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) =>
-        setProperty(chartSpecInfo, specInfo.specPath, specInfo);
+      transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
+        const { spec, specPath, specInfoPath, type } = specInfo;
+        const transformer = new constructor.transformerConstructor({
+          type,
+          getTheme: this._option.getTheme
+        });
+        setProperty(chartSpecInfo, specInfoPath ?? specPath, {
+          ...specInfo,
+          theme: transformer.getTheme(spec, chartSpec)
+        });
+      };
     }
 
     const currentChartSpecInfo: IChartSpecInfo = {};

@@ -1,5 +1,5 @@
-import type { ComponentTypeEnum, SimplifiedComponentTypeEnum } from '../../../../component/interface';
-import type { IVChart } from '../../../../core';
+import type { ComponentTypeEnum } from '../../../../component/interface';
+import type { IChartSpec, IVChart } from '../../../../core';
 import type { IModelSpecInfo } from '../../../../model/interface';
 import type { SeriesTypeEnum } from '../../../../series';
 import type { IMediaInfo } from './common';
@@ -85,7 +85,7 @@ export type MediaQueryActionFilterType =
   | 'chart'
   | `${SeriesTypeEnum}` // 具体 series 类型，如 'bar'、'line'
   | `${ComponentTypeEnum}` // 具体 component 类型，如 'cartesianAxis-band'
-  | `${SimplifiedComponentTypeEnum}`; // 简化版 component 类型，如 'axis'
+  | keyof IChartSpec; // 组件 spec key，可视为简化版 component 类型，如 'axes'
 
 /**
  * 元素过滤器
