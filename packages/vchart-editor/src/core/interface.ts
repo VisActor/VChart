@@ -199,7 +199,7 @@ export type EditorHandlerFunc = (el: IEditorElement) => void;
 export interface IEditorController {
   container: HTMLElement;
   currentEditorElement: IEditorElement;
-  setEditorElements: (el: IEditorElement, event: PointerEvent) => void;
+  setEditorElements: (el: IEditorElement, event?: PointerEvent) => void;
   editorEnd: () => void;
   editorRun: (type: string) => void;
 

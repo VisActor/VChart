@@ -32,7 +32,7 @@ export class EditorController implements IEditorController {
   }
 
   //
-  setEditorElements(el: IEditorElement, _event: PointerEvent) {
+  setEditorElements(el: IEditorElement, _event?: PointerEvent) {
     if (this._currentEditorElements?.id === el?.id && this._currentEditorElements?.layer === el?.layer) {
       if (this._currentEditorElements !== el) {
         this._currentEditorElements.editorFinish();
