@@ -47,7 +47,7 @@ jobs:
           git checkout -b docs/generate-changelog-${{  github.event.release.tag_name }}
           # Make any necessary changes
           git add .
-          git commit -m "docs: generate changelog of release ${{  github.event.release.tag_name }}"
+          git commit -m "docs: generate changelog of release ${{  github.event.release.tag_name }}" -n
           git push origin docs/generate-changelog-${{  github.event.release.tag_name }}
 
       - name: Create Pull Request
