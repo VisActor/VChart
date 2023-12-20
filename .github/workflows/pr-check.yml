@@ -1,4 +1,4 @@
-name: do some check of pull request
+name: Check of pull request
 
 # 这里业务方根据需求设置
 on:
