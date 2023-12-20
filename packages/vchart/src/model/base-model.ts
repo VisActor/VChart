@@ -299,6 +299,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   getSpecInfo() {
     const specInfo = this._option.getSpecInfo?.() ?? {};
-    return getProperty<IModelSpecInfo>(specInfo, this.getSpecPath());
+    return getProperty<IModelSpecInfo>(specInfo, this.getSpecInfoPath());
   }
 }
