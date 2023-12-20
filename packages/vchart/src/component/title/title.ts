@@ -23,9 +23,6 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
   static specKey = ComponentTypeEnum.title;
   specKey: string = ComponentTypeEnum.title;
 
-  static specKey = 'title';
-  specKey = 'title';
-
   layoutType: ILayoutType = 'normal';
   layoutZIndex: number = LayoutZIndex.Title;
   layoutLevel: number = LayoutLevel.Title;
