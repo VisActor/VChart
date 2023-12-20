@@ -194,7 +194,7 @@ const spec = {
     },
     {
       id: 'sizeScale',
-      type: 'ordinal',
+      type: 'linear',
       domain: [
         {
           dataId: 'data1',
