@@ -1,16 +1,16 @@
-name: hotfix-release CI
+name: hotfix release CI
 
 on:
   push:
     branches:
-      - 'hotfix/[0-9]+.[0-9]+.[0-9]+\+hotfix.[0-9]+'
+      - 'release/[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build:
     runs-on: macOS-latest
-
     permissions:
       contents: write
+      pull-requests: write
 
     strategy:
       matrix:
@@ -19,6 +19,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - run: |
+          git config user.name ${{ github.actor }}
+          git config user.email ${{ github.actor }}@users.noreply.github.com
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -38,8 +42,14 @@ jobs:
           semver_string: ${{ github.ref_name }}
           semver_pattern: '^hotfix/(.*)$' # ^v?(.*)$ by default
 
-      - name: Apply prereleaseName
-        run: node common/scripts/apply-prerelease-version.js '' ${{ steps.semver_parser.outputs.main }} ${{ steps.semver_parser.outputs.build }}
+      - name: update nextBump of version policies
+        uses: xile611/set-next-bump-of-rush@main
+        with:
+          release_version: ${{ steps.semver_parser.outputs.full }}
+          write_next_bump: true
+
+      - name: Update version
+        run: node common/scripts/install-run-rush.js version --bump
 
       - name: Build packages
         env:
@@ -72,9 +82,26 @@ jobs:
           path: packages/vchart
 
       - name: Commit & Push changes
-        uses: actions-js/push@master
+        run: |
+          git add .
+          git commit -m 'build: prelease version ${{ steps.package-version.outputs.current_version }}' -n
+          git push origin ${{ github.ref_name }}
+
+      - name: Collect changelog of rush
+        uses: xile611/collect-rush-changlog@main
+        id: changelog
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          message: 'build: release hotfix version ${{ steps.package-version.outputs.current_version }}'
-          branch: ${{ github.ref_name }}
-          author_name: ${{ github.actor }}
+          version: ${{ steps.package-version.outputs.current_version }}
+
+      - name: Create Release for Tag
+        id: release_tag
+        uses: ncipollo/release-action@v1.12.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag: v${{ steps.package-version.outputs.current_version }}
+          commit: main
+          prerelease: false
+          body: |
+            ${{ steps.changelog.outputs.markdown }}
+          draft: true #
