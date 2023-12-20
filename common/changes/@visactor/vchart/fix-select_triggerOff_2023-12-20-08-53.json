@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " fix: `select.triggerOff: none` not work",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
