@@ -3,7 +3,7 @@ name: hotfix release CI
 on:
   push:
     branches:
-      - 'release/[0-9]+.[0-9]+.[0-9]+'
+      - 'hotfix/[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build:
