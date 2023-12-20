@@ -32,8 +32,8 @@ import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerCirclePackingAnimation, type CirclePackingAppearPreset } from './animation';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { ArcMark } from '../../mark/arc';
-import { TextMark } from '../../mark/text';
+import { ArcMark, registerArcMark } from '../../mark/arc';
+import { TextMark, registerTextMark } from '../../mark/text';
 import { circlePackingSeriesMark } from './constant';
 
 export class CirclePackingSeries<
@@ -278,7 +278,7 @@ export class CirclePackingSeries<
   }
 
   initAnimation(): void {
-    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<CirclePackingAppearPreset>)?.preset;
+    const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<CirclePackingAppearPreset>)?.preset;
 
     this.getMarksInType(MarkTypeEnum.arc).forEach(mark => {
       mark.setAnimationConfig(
@@ -324,9 +324,9 @@ export class CirclePackingSeries<
 mixin(CirclePackingSeries, Drillable);
 
 export const registerCirclePackingSeries = () => {
-  Factory.registerMark(ArcMark.type, ArcMark);
-  Factory.registerMark(TextMark.type, TextMark);
   Factory.registerSeries(CirclePackingSeries.type, CirclePackingSeries);
+  registerArcMark();
+  registerTextMark();
   registerScaleInOutAnimation();
   registerCirclePackingAnimation();
 };

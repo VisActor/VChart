@@ -55,6 +55,7 @@ import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { ICommonAxisSpec } from '../../component/axis';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -200,6 +201,8 @@ export interface IChartSpec {
   scales?: IVisualSpecScale<unknown, unknown>[];
   /** 自定义mark */
   customMark?: ICustomMarkSpec<EnableMarkType>[];
+  /** 轴 */
+  axes?: ICommonAxisSpec[];
   /**
    * 图表上的主题定义。
    * 可以直接配置主题名，前提是该主题名已经注册

@@ -48,7 +48,7 @@ import { registerTitle } from './component/title';
 import { registerMarkArea } from './component/marker/mark-area';
 import { registerPlayer } from './component/player';
 import { registerLabel } from './component/label';
-import { registerTotalLabel } from './component/label/totalLabel';
+import { registerTotalLabel } from './component/label/total-label';
 import { registerMarkPoint } from './component/marker/mark-point';
 import { registerBrush } from './component/brush';
 import { registerCustomMark } from './component/custom-mark';

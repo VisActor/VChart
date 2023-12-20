@@ -8,6 +8,8 @@ import { markerAggregation } from '../../../data/transforms/aggregation';
 import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
@@ -15,37 +17,53 @@ import { LayoutZIndex } from '../../../constant';
 import type { IGroup } from '@visactor/vrender-core';
 import { Factory } from '../../../core/factory';
 import type { IPoint } from '../../../typings';
+import type { IModelSpecInfo } from '../../../model/interface';
 
 export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
   type = ComponentTypeEnum.markArea;
   name: string = ComponentTypeEnum.markArea;
 
-  layoutZIndex: number = LayoutZIndex.MarkArea;
+  static specKey = 'markArea';
+  specKey = 'markArea';
 
-  protected declare _theme: IMarkAreaTheme;
+  layoutZIndex: number = LayoutZIndex.MarkArea;
 
   // markArea组件
   protected declare _markerComponent: MarkAreaComponent;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const markAreaSpec = spec.markArea;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const markAreaSpec = chartSpec[this.specKey];
     if (isEmpty(markAreaSpec)) {
       return undefined;
     }
     if (!isArray(markAreaSpec) && markAreaSpec.visible !== false) {
-      return new MarkArea(markAreaSpec, options);
+      return [
+        {
+          spec: markAreaSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.markArea
+        }
+      ];
     }
-    const markAreas: MarkArea[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     markAreaSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markAreas.push(new MarkArea(m, { ...options, specIndex: i }));
+        specInfos.push({
+          spec: m,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: ComponentTypeEnum.markArea
+        });
       }
     });
-    return markAreas;
+    return specInfos;
   }
 
   protected _createMarkerComponent() {
+    const label = this._spec.label ?? {};
+    const { labelBackground = {} } = label;
+
     const markArea = new MarkAreaComponent({
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? false,
@@ -57,17 +75,17 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
       ],
       areaStyle: transformToGraphic(this._spec.area?.style),
       label: {
-        ...this._spec.label,
-        padding: this._spec.label?.labelBackground?.padding,
+        ...label,
+        padding: labelBackground.padding,
         shape: {
-          ...transformToGraphic(this._spec.label?.shape),
-          visible: this._spec.label?.shape?.visible ?? false
+          ...transformToGraphic(label.shape),
+          visible: label.shape?.visible ?? false
         },
         panel: {
-          ...transformToGraphic(this._spec.label?.labelBackground?.style),
-          visible: this._spec.label?.labelBackground?.visible ?? true
+          ...transformToGraphic(labelBackground.style),
+          visible: labelBackground.visible ?? true
         },
-        textStyle: transformToGraphic(this._spec.label?.style)
+        textStyle: transformToGraphic(label.style)
       },
       clipInRange: this._spec.clip ?? false
     });
@@ -137,18 +155,20 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
       };
     }
 
-    this._markerComponent?.setAttributes({
-      points: points,
-      label: {
-        ...this._markerComponent?.attribute?.label,
-        text: this._spec.label.formatMethod
-          ? this._spec.label.formatMethod(dataPoints, seriesData)
-          : this._markerComponent?.attribute?.label?.text
-      },
-      limitRect,
-      dx: this._layoutOffsetX,
-      dy: this._layoutOffsetY
-    });
+    if (this._markerComponent) {
+      this._markerComponent.setAttributes({
+        points: points,
+        label: {
+          ...this._markerComponent.attribute?.label,
+          text: this._spec.label.formatMethod
+            ? this._spec.label.formatMethod(dataPoints, seriesData)
+            : this._markerComponent.attribute?.label?.text
+        },
+        limitRect,
+        dx: this._layoutOffsetX,
+        dy: this._layoutOffsetY
+      });
+    }
   }
 
   protected _initDataView(): void {

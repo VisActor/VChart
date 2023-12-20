@@ -8,6 +8,7 @@ export interface PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAx
 export declare class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSpec> extends PolarAxis<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
+    static specKey: string;
     protected _zero: boolean;
     protected _nice: boolean;
     protected _scale: LinearScale;

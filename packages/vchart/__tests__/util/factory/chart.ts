@@ -7,7 +7,7 @@ import type { IGlobalScale } from '../../../src/scale/interface';
 import type { IRegionSpec, IRegion } from '../../../src/region/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IComponent } from '../../../src/component/interface';
-import type { IModel, ILayoutOrientPadding, ILayoutRect, IUpdateSpecResult } from '../../../src/model/interface';
+import type { IModel, IUpdateSpecResult } from '../../../src/model/interface';
 import type { IMark } from '../../../src/mark/interface';
 import type { ISeries } from '../../../src/series/interface';
 import type {
@@ -18,7 +18,15 @@ import type {
   IChartRenderOption,
   ILayoutParams
 } from '../../../src/chart/interface';
-import type { Datum, IMarkStateSpec, ISeriesSpec, StringOrNumber } from '../../../src/typings';
+import type {
+  Datum,
+  ILayoutOrientPadding,
+  ILayoutRect,
+  IMarkStateSpec,
+  ISeriesSpec,
+  MaybeArray,
+  StringOrNumber
+} from '../../../src/typings';
 import { TestRegion } from './region';
 import { TestSeries } from './series';
 import { DataSet } from '@visactor/vdataset';
@@ -27,8 +35,8 @@ import type { IView, IGroupMark } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ITheme } from '../../../src/theme';
 import type { LayoutCallBack } from '../../../src/layout/interface';
+// eslint-disable-next-line no-duplicate-imports
 import type { IRegionQuerier } from '../../../src/typings';
-import type { MaybeArray } from '../../../src/util';
 export class TestChart implements IChart {
   protected _spec: any;
 
@@ -143,7 +151,6 @@ export class TestChart implements IChart {
   layout(context: ILayoutParams): void {}
   updateData(id: string, data: any, options?: IParserOptions): void {}
   created(): void {}
-  transformSpec(spec: any): void {}
   init(option: IChartInitOption): void {}
   onLayoutStart(ctx: IChartLayoutOption): void {}
   onLayoutEnd(ctx: IChartLayoutOption): void {}

@@ -20,7 +20,7 @@ import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { RectMark } from '../../mark/rect';
+import { RectMark, registerRectMark } from '../../mark/rect';
 import { array, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
@@ -33,6 +33,7 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { registerSampleTransform } from '@visactor/vgrammar-core';
 import type { ILabelSpec } from '../../component';
 import { getGroupAnimationParams } from '../util/utils';
+import { BarSeriesSpecTransformer } from './bar-transformer';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -47,8 +48,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barMarkType: MarkTypeEnum = MarkTypeEnum.rect;
 
   static readonly mark: SeriesMarkMap = barSeriesMark;
-
-  protected declare _theme: Maybe<IBarSeriesTheme>;
+  static readonly transformerConstructor = BarSeriesSpecTransformer as any;
+  readonly transformerConstructor = BarSeriesSpecTransformer;
 
   protected _supportStack: boolean = true;
   protected _bandPosition = 0;
@@ -78,7 +79,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         defaultMorphElementKey: this.getDimensionField()[0],
         groupKey: this._seriesField,
         isSeriesMark: true,
-        label: this._preprocessLabelSpec(this._spec.label as ILabelSpec),
         progressive,
         customShape: this._spec.bar?.customShape
       }
@@ -490,7 +490,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           ? this._xAxisHelper?.getScale(0).scale(0)
           : this._yAxisHelper?.getScale(0).scale(0)
     };
-    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<BarAppearPreset>)?.preset;
+    const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<BarAppearPreset>)?.preset;
     const animationParams = getGroupAnimationParams(this);
 
     this._barMark.setAnimationConfig(
@@ -632,7 +632,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
 export const registerBarSeries = () => {
   registerSampleTransform();
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerSeries(BarSeries.type, BarSeries);
+  registerRectMark();
   registerBarAnimation();
+  Factory.registerSeries(BarSeries.type, BarSeries);
 };

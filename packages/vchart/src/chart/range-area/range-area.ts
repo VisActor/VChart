@@ -1,36 +1,19 @@
-import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { Direction } from '../../typings';
-import { setDefaultCrosshairForCartesianChart } from '../util';
-import { VChart } from '../../core/vchart';
-import { RangeAreaSeries, registerRangeAreaSeries } from '../../series/range-area/range-area';
+import { registerRangeAreaSeries } from '../../series/range-area/range-area';
 import { Factory } from '../../core/factory';
+import type { IRangeAreaChartSpec } from './interface';
+import { RangeAreaChartSpecTransformer } from './range-area-transformer';
+import { BaseChart } from '../base';
 
-export class RangeAreaChart extends CartesianChart {
+export class RangeAreaChart<T extends IRangeAreaChartSpec = IRangeAreaChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.rangeArea;
+  static readonly seriesType: string = SeriesTypeEnum.rangeArea;
   static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = RangeAreaChartSpecTransformer;
+  readonly transformerConstructor = RangeAreaChartSpecTransformer;
   readonly type: string = ChartTypeEnum.rangeArea;
   readonly seriesType: string = SeriesTypeEnum.rangeArea;
-
-  protected _getDefaultSeriesSpec(spec: any): any {
-    const series: any = {
-      ...super._getDefaultSeriesSpec(spec)
-    };
-    series.area = spec.area;
-    if (spec.direction === Direction.horizontal) {
-      series.xField = spec.xField ?? [spec.minField, spec.maxField];
-    } else {
-      series.yField = spec.yField ?? [spec.minField, spec.maxField];
-    }
-    series.stack = false;
-    return series;
-  }
-
-  transformSpec(spec: any): void {
-    super.transformSpec(spec);
-    setDefaultCrosshairForCartesianChart(spec);
-  }
 }
 
 export const registerRangeAreaChart = () => {

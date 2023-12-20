@@ -27,9 +27,9 @@ import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { RectMark } from '../../mark/rect';
-import { TextMark } from '../../mark/text';
-import { LinkPathMark } from '../../mark/link-path';
+import { RectMark, registerRectMark } from '../../mark/rect';
+import { TextMark, registerTextMark } from '../../mark/text';
+import { LinkPathMark, registerLinkPathMark } from '../../mark/link-path';
 import { sankeySeriesMark } from './constant';
 import { flatten } from '../../data/transforms/flatten';
 import type { SankeyNodeElement } from '@visactor/vgrammar-sankey';
@@ -285,7 +285,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }
 
           const sourceName =
-            this._spec?.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
+            this._spec.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
               ? datum.source
               : this.getNodeList()[datum.source];
           return this._colorScale?.scale(sourceName);
@@ -541,24 +541,24 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     this._nodesSeriesData.getDataView()?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
     this._linksSeriesData.getDataView()?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
-
-    if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'adjacency') {
-      if (this._spec.emphasis?.trigger === 'hover') {
+    const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
+    if (emphasisSpec.enable && emphasisSpec.effect === 'adjacency') {
+      if (emphasisSpec.trigger === 'hover') {
         // 浮动事件
         this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
       } else {
-        // this._spec.emphasis?.trigger === 'click'
+        // emphasisSpec.trigger === 'click'
         // 点击事件
         this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
       }
     }
 
-    if (this._spec.emphasis?.enable && this._spec.emphasis?.effect === 'related') {
-      if (this._spec.emphasis?.trigger === 'hover') {
+    if (emphasisSpec.enable && emphasisSpec.effect === 'related') {
+      if (emphasisSpec.trigger === 'hover') {
         // 浮动事件
         this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
       } else {
-        // this._spec.emphasis?.trigger === 'click'
+        // emphasisSpec.trigger === 'click'
         // 点击事件
         this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
       }
@@ -1404,10 +1404,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
 export const registerSankeySeries = () => {
   registerSankeyTransforms();
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerMark(LinkPathMark.type, LinkPathMark);
-  Factory.registerMark(TextMark.type, TextMark);
-  Factory.registerSeries(SankeySeries.type, SankeySeries);
+  registerRectMark();
+  registerLinkPathMark();
+  registerTextMark();
   registerSankeyAnimation();
   registerFadeInOutAnimation();
+  Factory.registerSeries(SankeySeries.type, SankeySeries);
 };

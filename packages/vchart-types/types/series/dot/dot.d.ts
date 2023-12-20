@@ -1,16 +1,15 @@
 import { CartesianSeries } from '../cartesian/cartesian';
-import type { Maybe, Datum } from '../../typings';
+import type { Datum } from '../../typings';
 import type { IMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IModelEvaluateOption } from '../../model/interface';
 import type { IFillMarkSpec, VisualType } from '../../typings/visual';
-import type { IDotSeriesSpec, IDotSeriesTheme } from './interface';
+import type { IDotSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';
 export declare class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<IDotSeriesTheme>;
     private _xDimensionStatisticsDomain;
     protected _seriesGroupField?: string;
     getSeriesGroupField(): string;

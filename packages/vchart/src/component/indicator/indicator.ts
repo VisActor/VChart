@@ -11,23 +11,27 @@ import { mergeSpec } from '../../util/spec/merge-spec';
 import { eachSeries } from '../../util/model';
 import { transformToGraphic } from '../../util/style';
 import { getActualNumValue } from '../../util/space';
-import { isEqual, isValid, isFunction, array } from '@visactor/vutils';
+import { isEqual, isValid, isFunction, array, isArray } from '@visactor/vutils';
 import { indicatorMapper } from './util';
-import type { IModel } from '../../model/interface';
+import type { IModel, IModelSpecInfo } from '../../model/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { CompilableData } from '../../compile/data/compilable-data';
 import { Indicator as IndicatorComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IndicatorAttributes } from '@visactor/vrender-components';
 import type { IGraphic, INode, IGroup } from '@visactor/vrender-core';
-import type { IVisualScale, IVisualSpecStyle, VisualType, FunctionType } from '../../typings/visual';
+import type { FunctionType } from '../../typings/visual';
 import { Factory } from '../../core/factory';
+// eslint-disable-next-line no-duplicate-imports
 import type { IRichTextCharacter } from '@visactor/vrender-core';
 
 export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
   static type = ComponentTypeEnum.indicator;
   type = ComponentTypeEnum.indicator;
   name: string = ComponentTypeEnum.indicator;
+
+  static specKey = 'indicator';
+  specKey = 'indicator';
 
   layoutType: 'none' = 'none';
   layoutZIndex: number = LayoutZIndex.Indicator;
@@ -44,17 +48,36 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
   private _indicatorComponent: IndicatorComponents;
   private _cacheAttrs: IndicatorAttributes;
 
-  protected declare _theme: Maybe<IIndicatorTheme>;
-
-  static createComponent(spec: any, options: IComponentOption) {
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     if (this.type !== Indicator.type) {
       return null;
     }
-    const indicatorSpec = spec.indicator;
-    const indicators: IIndicator[] = array(indicatorSpec)
-      .filter(s => s && s.visible !== false)
-      .map((s, index) => new Indicator(s, { ...options, specIndex: index }));
-    return indicators;
+    const indicatorSpec = chartSpec[this.specKey];
+    if (!isArray(indicatorSpec)) {
+      if (indicatorSpec.visible === false) {
+        return [];
+      }
+      return [
+        {
+          spec: indicatorSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.indicator
+        }
+      ];
+    }
+
+    const specInfos: IModelSpecInfo[] = [];
+    indicatorSpec.forEach((s, i) => {
+      if (s && s.visible !== false) {
+        specInfos.push({
+          spec: s,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: ComponentTypeEnum.indicator
+        });
+      }
+    });
+    return specInfos;
   }
 
   created() {

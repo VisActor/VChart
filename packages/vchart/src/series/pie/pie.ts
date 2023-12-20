@@ -11,10 +11,6 @@ import {
   ARC_QUADRANT,
   ARC_K,
   PREFIX,
-  ARC_LABEL_POINT_BX,
-  ARC_LABEL_POINT_BY,
-  ARC_LABEL_POINT_CX,
-  ARC_LABEL_POINT_CY,
   DEFAULT_LABEL_VISIBLE,
   POLAR_START_RADIAN,
   POLAR_END_RADIAN,
@@ -42,20 +38,22 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import { registerPieAnimation, type IPieAnimationParams, type PieAppearPreset } from './animation/animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
-import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
+import type { IArcLabelSpec, IBasePieSeriesSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
-import { ArcMark } from '../../mark/arc';
+import { ArcMark, registerArcMark } from '../../mark/arc';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { isNil } from '@visactor/vutils';
-
-type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & { type: string };
+import { PieSeriesSpecTransformer } from './pie-transformer';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
+  static readonly transformerConstructor = PieSeriesSpecTransformer as any;
+  readonly transformerConstructor = PieSeriesSpecTransformer;
+
   protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie;
   protected _pieMarkType: MarkTypeEnum = MarkTypeEnum.arc;
 
@@ -83,8 +81,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _labelMark: ITextMark | null = null;
   protected _labelLineMark: IPathMark | null = null;
 
-  protected declare _theme: Maybe<IPieSeriesTheme>;
-
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();
     // center
@@ -94,20 +90,24 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         y: () => this._center?.y ?? this._region.getLayoutRect().height / 2
       };
     };
+
+    // angle scale
+    this._markAttributeContext.startAngleScale = (datum: Datum) => this.startAngleScale(datum);
+    this._markAttributeContext.endAngleScale = (datum: Datum) => this.endAngleScale(datum);
   }
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
-    this._centerOffset = this._spec?.centerOffset ?? 0;
-    this._cornerRadius = this._spec?.cornerRadius ?? 0;
+    this._centerOffset = this._spec.centerOffset ?? 0;
+    this._cornerRadius = this._spec.cornerRadius ?? 0;
 
     const normalized = normalizeStartEndAngle(
-      isValid(this._spec?.startAngle) ? degreeToRadian(this._spec.startAngle) : this._startAngle,
-      isValid(this._spec?.endAngle) ? degreeToRadian(this._spec.endAngle) : this._endAngle
+      isValid(this._spec.startAngle) ? degreeToRadian(this._spec.startAngle) : this._startAngle,
+      isValid(this._spec.endAngle) ? degreeToRadian(this._spec.endAngle) : this._endAngle
     );
     this._startAngle = normalized.startAngle;
     this._endAngle = normalized.endAngle;
-    this._padAngle = isValid(this._spec?.padAngle) ? degreeToRadian(this._spec.padAngle) : 0;
+    this._padAngle = isValid(this._spec.padAngle) ? degreeToRadian(this._spec.padAngle) : 0;
 
     // 值信息给角度，angleField 是为了兼容小组件用法，因为 spec 改造前已经开放了
     this.setAngleField(this._spec.valueField || this._spec.angleField);
@@ -134,7 +134,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
           angleField: this._angleField[0],
           startAngle: this._startAngle,
           endAngle: this._endAngle,
-          minAngle: isValid(this._spec?.minAngle) ? degreeToRadian(this._spec.minAngle) : 0,
+          minAngle: isValid(this._spec.minAngle) ? degreeToRadian(this._spec.minAngle) : 0,
           asStartAngle: ARC_START_ANGLE,
           asEndAngle: ARC_END_ANGLE,
           asRatio: ARC_RATIO,
@@ -169,10 +169,17 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true,
-        label: this._preprocessLabelSpec(this._spec.label),
         customShape: this._spec.pie?.customShape
       }
     ) as IArcMark;
+  }
+
+  private startAngleScale(datum: Datum) {
+    return field(ARC_START_ANGLE)(datum);
+  }
+
+  private endAngleScale(datum: Datum) {
+    return field(ARC_END_ANGLE)(datum);
   }
 
   initMarkStyle(): void {
@@ -191,8 +198,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
             ? this._innerRadius
             : () => this.computeLayoutRadius() * this._innerRadius,
           cornerRadius: () => this.computeLayoutRadius() * this._cornerRadius,
-          startAngle: field(ARC_START_ANGLE).bind(this),
-          endAngle: field(ARC_END_ANGLE).bind(this),
+          startAngle: datum => this.startAngleScale(datum),
+          endAngle: datum => this.endAngleScale(datum),
           padAngle: this._padAngle,
           centerOffset: this._centerOffset
         },
@@ -277,10 +284,13 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 
   protected generateRadiusStyle(spec: any) {
+    if (!spec) {
+      return;
+    }
     const style: any = {};
-    spec?.outerRadius && (style.outerRadius = () => this.computeLayoutRadius() * spec?.outerRadius);
-    spec?.innerRadius && (style.innerRadius = () => this.computeLayoutRadius() * spec?.innerRadius);
-    spec?.cornerRadius && (style.cornerRadius = () => this.computeLayoutRadius() * spec?.cornerRadius);
+    spec.outerRadius && (style.outerRadius = () => this.computeLayoutRadius() * spec.outerRadius);
+    spec.innerRadius && (style.innerRadius = () => this.computeLayoutRadius() * spec.innerRadius);
+    spec.cornerRadius && (style.cornerRadius = () => this.computeLayoutRadius() * spec.cornerRadius);
     return style;
   }
 
@@ -293,21 +303,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return {
       x: this._pieMark.getAttribute('x', datum, 'normal') as number,
       y: this._pieMark.getAttribute('y', datum, 'normal') as number
-    };
-  }
-
-  protected generateLinePath(state: StateValueType) {
-    const key = state === 'normal' ? 'POINT' : state.toUpperCase();
-    return {
-      path: (datum: Datum) => {
-        return (
-          `M${Math.round(datum[`${PREFIX}_ARC_LABEL_${key}_AX`])},${Math.round(
-            datum[`${PREFIX}_ARC_LABEL_${key}_AY`]
-          )}` +
-          ` L${Math.round(datum[ARC_LABEL_POINT_BX])},${Math.round(datum[ARC_LABEL_POINT_BY])}` +
-          ` L${Math.round(datum[ARC_LABEL_POINT_CX])},${Math.round(datum[ARC_LABEL_POINT_CY])}`
-        );
-      }
     };
   }
 
@@ -327,37 +322,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return styleRadius ?? this._innerRadius;
   }
 
-  getLabelConfig(): IArcLabelSpec {
-    // TODO: 转换 series spec
-    return {
-      visible: true,
-      position: 'outside',
-      showRule: 'all',
-      rotate: true,
-      coverEnable: false,
-      spaceWidth: 5,
-      layoutArcGap: 6,
-      ...this._spec.label,
-
-      style: {
-        visible: true,
-        ...this._spec.label?.style
-      },
-      line: {
-        visible: true,
-        line1MinLength: this._spec.label?.line?.line1MinLength ?? 20,
-        line2MinLength: this._spec.label?.line?.line2MinLength ?? 10,
-        ...this._spec.label?.line
-      },
-      layout: {
-        align: 'arc',
-        strategy: 'priority',
-        tangentConstraint: true,
-        ...this._spec.label?.layout
-      }
-    };
-  }
-
   computeRadius(r: number, k?: number): number {
     return this.computeLayoutRadius() * r * (isNil(k) ? 1 : k) + this._centerOffset;
   }
@@ -366,7 +330,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return this.computeLayoutRadius() * this.getRadius(state) + this._centerOffset;
   }
 
-  _compareSpec(ignoreCheckKeys?: { [key: string]: true }) {
+  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
     ignoreCheckKeys = ignoreCheckKeys ?? { data: true };
     ignoreCheckKeys.centerX = true;
     ignoreCheckKeys.centerX = true;
@@ -379,18 +343,19 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     ignoreCheckKeys.endAngle = true;
     ignoreCheckKeys.padAngle = true;
     const { centerX, centerY, centerOffset, radius, innerRadius, cornerRadius, startAngle, endAngle, padAngle } =
-      this._originalSpec;
-    const result = super._compareSpec(ignoreCheckKeys);
+      prevSpec;
+    const result = super._compareSpec(spec, prevSpec, ignoreCheckKeys);
+    spec = spec ?? ({} as T);
     if (
-      this._spec?.centerY !== centerY ||
-      this._spec?.centerX !== centerX ||
-      this._spec?.centerOffset !== centerOffset ||
-      this._spec?.radius !== radius ||
-      this._spec?.innerRadius !== innerRadius ||
-      this._spec?.cornerRadius !== cornerRadius ||
-      this._spec?.startAngle !== startAngle ||
-      this._spec?.endAngle !== endAngle ||
-      this._spec?.padAngle !== padAngle
+      spec.centerY !== centerY ||
+      spec.centerX !== centerX ||
+      spec.centerOffset !== centerOffset ||
+      spec.radius !== radius ||
+      spec.innerRadius !== innerRadius ||
+      spec.cornerRadius !== cornerRadius ||
+      spec.startAngle !== startAngle ||
+      spec.endAngle !== endAngle ||
+      spec.padAngle !== padAngle
     ) {
       result.reRender = true;
       result.change = true;
@@ -460,7 +425,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         return prevMarkElement?.getGraphicAttribute('endAngle', true);
       }
     };
-    const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<PieAppearPreset>)?.preset;
+    const appearPreset = (this._spec.animationAppear as IStateAnimateSpec<PieAppearPreset>)?.preset;
 
     if (this._pieMark) {
       const pieAnimationConfig = animationConfig(
@@ -506,34 +471,6 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   getActiveMarks(): IMark[] {
     return [this._pieMark];
   }
-
-  /** 将 theme merge 到 spec 中 */
-  protected _mergeThemeToSpec() {
-    if (this._shouldMergeThemeToSpec()) {
-      const specFromChart = this._getDefaultSpecFromChart(this.getChart().getSpec());
-
-      // this._originalSpec + specFromChart + this._theme = this._spec
-      const merge = (originalSpec: any) => {
-        const chartSpec = this._prepareSpecBeforeMergingTheme(specFromChart);
-        const userSpec = this._prepareSpecBeforeMergingTheme(originalSpec);
-
-        const labelSpec = mergeSpec({}, this._theme.label, chartSpec.label, userSpec.label) as IArcLabelSpec;
-        const labelTheme = mergeSpec(
-          {},
-          this._theme.label,
-          labelSpec.position === 'inside' ? this._theme.innerLabel : this._theme.outerLabel
-        );
-        const newTheme = {
-          ...this._theme,
-          label: labelTheme
-        } as IPieSeriesTheme;
-        return mergeSpec({}, newTheme, chartSpec, userSpec);
-      };
-
-      const baseSpec = this._originalSpec;
-      this._spec = merge(baseSpec);
-    }
-  }
 }
 
 export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
@@ -542,7 +479,7 @@ export class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePi
 }
 
 export const registerPieSeries = () => {
-  Factory.registerMark(ArcMark.type, ArcMark);
-  Factory.registerSeries(PieSeries.type, PieSeries);
+  registerArcMark();
   registerPieAnimation();
+  Factory.registerSeries(PieSeries.type, PieSeries);
 };

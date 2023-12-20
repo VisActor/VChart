@@ -14,10 +14,13 @@ import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
-import type { IChart } from '../chart/interface';
+import type { IChart, IChartSpecInfo } from '../chart/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
 import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
+import type { ComponentTypeEnum } from '../component/interface';
+import type { SeriesMarkNameEnum, SeriesTypeEnum } from '../series';
+import type { TransformedLabelSpec } from '../component/label';
 
 // TODO:
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -64,6 +67,7 @@ export interface IModel extends ICompilable {
   readonly modelType: string;
   readonly type: string;
   readonly specKey: string;
+  readonly transformerConstructor: new (option: IBaseModelSpecTransformerOption) => IBaseModelSpecTransformer;
 
   readonly id: number;
 
@@ -99,8 +103,8 @@ export interface IModel extends ICompilable {
   created: () => void;
   // 用来处理与其他图表模块的联系
   init: (option: IModelInitOption) => void;
-  // updateSpec 或者切换主题后，根据新 spec 执行的初始化过程
-  reInit: (theme?: any, lastSpec?: any) => void;
+  /** updateSpec 或者切换主题后，根据新 spec 执行的初始化过程 */
+  reInit: (spec?: any) => void;
   beforeRelease: () => void;
 
   onEvaluateEnd: (ctx: IModelEvaluateOption) => void;
@@ -110,13 +114,12 @@ export interface IModel extends ICompilable {
   updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
   getSpec?: () => any;
   getSpecIndex: () => number;
+  getSpecPath: () => Array<string | number>;
 
   //布局周期
   onLayoutStart: (layoutRect: IRect, viewRect: ILayoutRect, ctx: IModelLayoutOption) => void;
   onLayoutEnd: (ctx: IModelLayoutOption) => void;
 
-  // theme
-  setCurrentTheme: () => void;
   getColorScheme: () => IThemeColorScheme | undefined;
 
   setMarkStyle: <T extends ICommonSpec>(
@@ -127,6 +130,8 @@ export interface IModel extends ICompilable {
   ) => void;
 
   initMarkStyleWithSpec: (mark?: IMark, spec?: any, key?: string) => void;
+
+  getSpecInfo: () => IModelSpecInfo;
 }
 
 export interface ILayoutModel extends IModel {
@@ -153,8 +158,10 @@ export interface IModelOption extends ICompilableInitOption {
   globalInstance: VChart;
   specIndex?: number;
   specKey?: string;
+  specPath?: Array<string | number>;
 
   getTheme?: () => ITheme;
+  getSpecInfo?: () => IChartSpecInfo;
   getChartLayoutRect: () => IRect;
   getChartViewRect: () => ILayoutRect;
 
@@ -174,8 +181,21 @@ export interface IModelOption extends ICompilableInitOption {
   disableTriggerEvent?: boolean;
 }
 
+export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
+  /** model 具体类型 */
+  type: string | ComponentTypeEnum | SeriesTypeEnum;
+  /** model spec */
+  spec: T;
+  /** 该 spec 在图表 spec 上的路径 */
+  specPath?: Array<string | number>;
+  /** 该 spec 在父级的索引 */
+  specIndex?: number;
+  /** model 当前主题 */
+  theme?: any;
+}
+
 export interface IModelConstructor {
-  new (ctx: IModelOption): IModel;
+  readonly transformerConstructor: new (option: IBaseModelSpecTransformerOption) => IBaseModelSpecTransformer;
 }
 
 export type ILayoutModelState = {
@@ -191,4 +211,24 @@ export interface IModelMarkInfo {
   type: MarkTypeEnum | string | (MarkTypeEnum | string)[];
   /** mark 名称 */
   name: string;
+}
+
+export interface IBaseModelSpecTransformerOption {
+  type: string;
+  getTheme: () => ITheme;
+}
+
+export interface IBaseModelSpecTransformerResult<T, K> {
+  spec: T;
+  theme: K;
+  markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
+}
+
+export interface IBaseModelSpecTransformer {
+  getTheme: (spec: any, chartSpec: any) => any;
+  transformSpec: (
+    spec: any,
+    chartSpec: any,
+    chartSpecInfo?: IChartSpecInfo
+  ) => IBaseModelSpecTransformerResult<any, any>;
 }

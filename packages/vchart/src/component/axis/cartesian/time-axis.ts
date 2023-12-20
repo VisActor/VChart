@@ -15,7 +15,6 @@ import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import type { ICartesianTimeAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
-import { PREFIX } from '../../../constant';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition'>,
@@ -26,6 +25,8 @@ export class CartesianTimeAxis<
 > extends CartesianLinearAxis<T> {
   static type = ComponentTypeEnum.cartesianTimeAxis;
   type = ComponentTypeEnum.cartesianTimeAxis;
+
+  static specKey = 'axes';
 
   protected _layerTickData!: CompilableData;
 
@@ -61,7 +62,6 @@ export class CartesianTimeAxis<
 
     // 如果layer数组的第二项未配置，则不显示第二层
     if (this._spec.layers?.[1]) {
-      const label = this._spec.label || {};
       const layerTickData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_layer_1_ticks` })
         .parse(this._scale, {
           type: 'scale'
@@ -70,26 +70,14 @@ export class CartesianTimeAxis<
           {
             type: 'ticks',
             options: {
-              sampling: this._spec.sampling !== false, // default do sampling
-              tickCount: this._spec.layers?.[1]?.tickCount,
-              forceTickCount: this._spec.layers?.[1]?.forceTickCount,
-              tickStep: this._spec.layers?.[1]?.tickStep,
-
-              axisOrientType: this._orient,
-              coordinateType: 'cartesian',
-
-              labelStyle: label.style,
-              labelFormatter: label.formatMethod,
-              labelGap: label.minGap,
-
-              labelLastVisible: label.lastVisible,
-              labelFlush: label.flush
+              ...this._tickTransformOption('cartesian'),
+              tickCount: this._spec.layers[1].tickCount,
+              forceTickCount: this._spec.layers[1].forceTickCount,
+              tickStep: this._spec.layers[1].tickStep
             } as ICartesianTickDataOpt
           },
           false
         );
-      // layerTickData.target.addListener('change', this.updateAxis.bind(this));
-
       this._layerTickData = new CompilableData(this._option, layerTickData);
     }
   }
@@ -107,12 +95,12 @@ export class CartesianTimeAxis<
 
   protected getLabelFormatMethod(): any {
     const timeUtil = TimeUtil.getInstance();
-    const timeFormat1 = this._spec?.layers?.[1]?.timeFormat || '%Y%m%d';
-    const timeFormatMode1 = this._spec?.layers?.[1]?.timeFormatMode || 'local';
+    const timeFormat1 = this._spec.layers?.[1]?.timeFormat || '%Y%m%d';
+    const timeFormatMode1 = this._spec.layers?.[1]?.timeFormatMode || 'local';
     const timeFormatter1 = timeFormatMode1 === 'local' ? timeUtil.timeFormat : timeUtil.timeUTCFormat;
 
-    const timeFormat0 = this._spec?.layers?.[0]?.timeFormat || '%Y%m%d';
-    const timeFormatMode0 = this._spec?.layers?.[0]?.timeFormatMode || 'local';
+    const timeFormat0 = this._spec.layers?.[0]?.timeFormat || '%Y%m%d';
+    const timeFormatMode0 = this._spec.layers?.[0]?.timeFormatMode || 'local';
     const timeFormatter0 = timeFormatMode0 === 'local' ? timeUtil.timeFormat : timeUtil.timeUTCFormat;
 
     return (value: any, datum: any, index: number, data: any[], layer: number) => {

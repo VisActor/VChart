@@ -6,7 +6,7 @@ import type { IAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
-import type { Maybe, Datum, ConvertToMarkStyleSpec, IAreaMarkSpec, InterpolateType } from '../../typings';
+import type { Datum, ConvertToMarkStyleSpec, IAreaMarkSpec, InterpolateType } from '../../typings';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { valueInScaleRange } from '../../util/scale';
 import type { SeriesMarkMap } from '../interface';
@@ -14,19 +14,19 @@ import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { mixin } from '@visactor/vutils';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
-import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
+import type { IAreaSeriesSpec } from './interface';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { LineMark } from '../../mark/line';
-import { AreaMark } from '../../mark/area';
-import { TextMark } from '../../mark/text';
-import { SymbolMark } from '../../mark/symbol';
+import { LineMark, registerLineMark } from '../../mark/line';
+import { AreaMark, registerAreaMark } from '../../mark/area';
+import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 import { areaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerAreaAnimation } from './animation';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
-import type { ILabelSpec } from '../../component';
+import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
+import { AreaSeriesSpecTransformer } from './area-transformer';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -51,8 +51,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   type = SeriesTypeEnum.area;
 
   static readonly mark: SeriesMarkMap = areaSeriesMark;
-
-  protected declare _theme: Maybe<IAreaSeriesTheme>;
+  static readonly transformerConstructor = AreaSeriesSpecTransformer as any;
+  readonly transformerConstructor = AreaSeriesSpecTransformer;
 
   protected _areaMark!: IAreaMark;
   protected _supportStack: boolean = true;
@@ -113,7 +113,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     };
 
     const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
-    const isPointVisible = this._spec.point?.visible !== false && this._spec.point?.style?.visible !== false;
 
     const seriesMark = this._spec.seriesMark ?? 'area';
     // area
@@ -124,15 +123,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       isSeriesMark: isAreaVisible && seriesMark !== 'point',
       customShape: this._spec.area?.customShape
     }) as IAreaMark;
-    if (this._areaMark && this._spec?.areaLabel?.visible) {
-      this._areaMark.addLabelSpec(
-        this._preprocessLabelSpec(this._spec.areaLabel as ILabelSpec, this.initLineLabelMarkStyle),
-        true
-      );
-    }
-    if (!isPointVisible && this._areaMark && this._spec.label?.visible) {
-      this._areaMark.addLabelSpec(this._preprocessLabelSpec(this._spec.label as ILabelSpec));
-    }
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
 
@@ -231,7 +221,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   initAnimation() {
     const animationParams = { direction: this.direction };
-    const appearPreset = (this._spec?.animationAppear as IMarkAnimateSpec<string>)?.preset;
+    const appearPreset = (this._spec.animationAppear as IMarkAnimateSpec<string>)?.preset;
     if (this._lineMark) {
       this._lineMark.setAnimationConfig(
         animationConfig(
@@ -313,10 +303,9 @@ mixin(AreaSeries, LineLikeSeriesMixin);
 export const registerAreaSeries = () => {
   registerSampleTransform();
   registerMarkOverlapTransform();
-  Factory.registerMark(LineMark.type, LineMark);
-  Factory.registerMark(AreaMark.type, AreaMark);
-  Factory.registerMark(TextMark.type, TextMark);
-  Factory.registerMark(SymbolMark.type, SymbolMark);
-  Factory.registerSeries(AreaSeries.type, AreaSeries);
+  registerLineMark();
+  registerAreaMark();
+  registerSymbolMark();
   registerAreaAnimation();
+  Factory.registerSeries(AreaSeries.type, AreaSeries);
 };

@@ -1,8 +1,10 @@
+import { Factory } from './../core/factory';
 import type { IPathMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
+import { registerPathGraphic } from '@visactor/vgrammar-core';
 
 export type IPathMark = IMarkRaw<IPathMarkSpec>;
 
@@ -19,3 +21,8 @@ export class PathMark extends BaseMark<IPathMarkSpec> implements IPathMark {
     return defaultStyle;
   }
 }
+
+export const registerPathMark = () => {
+  Factory.registerMark(PathMark.type, PathMark);
+  registerPathGraphic();
+};

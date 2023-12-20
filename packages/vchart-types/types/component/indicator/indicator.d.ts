@@ -1,14 +1,16 @@
-import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
-import type { IIndicator, IIndicatorSpec, IIndicatorTheme } from './interface';
+import type { IIndicator, IIndicatorSpec } from './interface';
 import type { Maybe } from '../../typings';
+import type { IModelSpecInfo } from '../../model/interface';
 import type { IGraphic } from '@visactor/vrender-core';
 export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implements IIndicator {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    static specKey: string;
+    specKey: string;
     layoutType: 'none';
     layoutZIndex: number;
     layoutLevel: number;
@@ -19,8 +21,7 @@ export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T
     private _content;
     private _indicatorComponent;
     private _cacheAttrs;
-    protected _theme: Maybe<IIndicatorTheme>;
-    static createComponent(spec: any, options: IComponentOption): import("../interface").IComponent[];
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     created(): void;
     setAttrFromSpec(): void;
     onRender(ctx: any): void;

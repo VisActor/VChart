@@ -175,11 +175,6 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     return fields;
   }
 
-  protected _getDefaultSpecFromChart(chartSpec: any) {
-    const { outerRadius, innerRadius } = chartSpec;
-    return { outerRadius, innerRadius } as Partial<T>;
-  }
-
   setAttrFromSpec() {
     super.setAttrFromSpec();
     if (isValid(this._spec.outerRadius)) {

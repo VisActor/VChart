@@ -38,21 +38,31 @@ const spec = {
 
 describe('linearProgress chart test', () => {
   test('linearProgress init', () => {
-    const chart = new LinearProgressChart(spec, {
-      eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
-      globalInstance: {
-        getContainer: () => ({}),
-        getTooltipHandlerByUser: (() => undefined) as () => undefined
-      },
-      dataSet,
-      map: new Map(),
-      container: null,
-      mode: 'desktop-browser',
-      getCompiler: getTestCompiler,
-      globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(),
-      animation: false
-    } as any);
+    const transformer = new LinearProgressChart.transformerConstructor({
+      type: 'linearProgress',
+      seriesType: 'linearProgress',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    const info = transformer.initChartSpec(spec as any);
+    const chart = new LinearProgressChart(
+      spec as any,
+      {
+        eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
+        globalInstance: {
+          getContainer: () => ({}),
+          getTooltipHandlerByUser: (() => undefined) as () => undefined
+        },
+        dataSet,
+        map: new Map(),
+        container: null,
+        mode: 'desktop-browser',
+        getCompiler: getTestCompiler,
+        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        animation: false,
+        getSpecInfo: () => info
+      } as any
+    );
     chart.created();
     chart.init();
 

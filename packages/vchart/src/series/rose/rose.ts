@@ -10,11 +10,12 @@ import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
-import { ArcMark } from '../../mark/arc';
+import { ArcMark, registerArcMark } from '../../mark/arc';
 import { roseSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import type { ILabelMark } from '../../mark/label';
+import { RoseSeriesSpecTransformer } from './rose-transformer';
 
 export const DefaultBandWidth = 0.5;
 
@@ -23,8 +24,8 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
   type = SeriesTypeEnum.rose;
 
   static readonly mark: SeriesMarkMap = roseSeriesMark;
-
-  protected declare _theme: Maybe<IRoseSeriesTheme>;
+  static readonly transformerConstructor = RoseSeriesSpecTransformer as any;
+  readonly transformerConstructor = RoseSeriesSpecTransformer;
 
   protected _supportStack: boolean = true;
 
@@ -39,13 +40,26 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
     this.initRoseMarkStyle();
   }
 
+  protected _buildMarkAttributeContext() {
+    super._buildMarkAttributeContext();
+    // center
+    this._markAttributeContext.getCenter = () => {
+      return {
+        x: () => this.angleAxisHelper.center().x,
+        y: () => this.angleAxisHelper.center().y
+      };
+    };
+    // angle scale
+    this._markAttributeContext.startAngleScale = (datum: Datum) => this.startAngleScale(datum);
+    this._markAttributeContext.endAngleScale = (datum: Datum) => this.endAngleScale(datum);
+  }
+
   private initRoseMark() {
     this._roseMark = this._createMark(RoseSeries.mark.rose, {
       morph: shouldMarkDoMorph(this._spec, RoseSeries.mark.rose.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
-      label: this._preprocessLabelSpec(this._spec.label),
       customShape: this._spec.rose?.customShape
     }) as IArcMark;
   }
@@ -56,19 +70,29 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
     return angleBandWidth;
   }
 
+  private startAngleScale(datum: Datum) {
+    return (
+      this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) -
+      this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5
+    );
+  }
+
+  private endAngleScale(datum: Datum) {
+    return (
+      this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) +
+      this.getRoseAngle() -
+      this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5
+    );
+  }
+
   private initRoseMarkStyle() {
     const roseMark = this._roseMark;
     if (roseMark) {
       this.setMarkStyle(roseMark, {
         x: () => this.angleAxisHelper.center().x,
         y: () => this.angleAxisHelper.center().y,
-        startAngle: (datum: Datum) =>
-          this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) -
-          this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5,
-        endAngle: (datum: Datum) =>
-          this.angleAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this.getGroupFields())) +
-          this.getRoseAngle() -
-          this.angleAxisHelper.getBandwidth(this.getGroupFields().length - 1) * 0.5,
+        startAngle: (datum: Datum) => this.startAngleScale(datum),
+        endAngle: (datum: Datum) => this.endAngleScale(datum),
         fill: this.getColorAttribute(),
         outerRadius: (datum: Datum) =>
           valueInScaleRange(
@@ -140,7 +164,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
 }
 
 export const registerRoseSeries = () => {
-  Factory.registerMark(ArcMark.type, ArcMark);
   Factory.registerSeries(RoseSeries.type, RoseSeries);
+  registerArcMark();
   registerRoseAnimation();
 };

@@ -8,3 +8,4 @@ export declare class PolygonMark extends BasePolygonMark<IPolygonMarkSpec> imple
     readonly type = MarkTypeEnum.polygon;
     protected _getDefaultStyle(): IMarkStyle<IPolygonMarkSpec>;
 }
+export declare const registerPolygonMark: () => void;

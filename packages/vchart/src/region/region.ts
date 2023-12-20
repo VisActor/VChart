@@ -8,7 +8,7 @@ import { MarkTypeEnum } from '../mark/interface/type';
 import type { ISeries } from '../series/interface';
 import type { IModelOption } from '../model/interface';
 import type { CoordinateType } from '../typings/coordinate';
-import type { IRegion, IRegionSpec } from './interface';
+import type { IRegion, IRegionSpec, IRegionSpecInfo } from './interface';
 import type { IGroupMark } from '../mark/group';
 import type { IInteraction, ITrigger } from '../interaction/interface';
 import { Interaction } from '../interaction/interaction';
@@ -19,10 +19,12 @@ import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
 import { IFilterMode } from '../component/data-zoom/constant';
 import { LayoutModel } from '../model/layout-model';
-import { cloneDeepSpec } from '../util/spec/clone-deep';
+import { RegionSpecTransformer } from './region-transformer';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
+  static readonly transformerConstructor = RegionSpecTransformer;
+  readonly transformerConstructor = RegionSpecTransformer as any;
   readonly modelType: string = 'region';
   static specKey = 'region';
   specKey: string = 'region';
@@ -35,6 +37,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   animate?: IAnimate;
 
   interaction: IInteraction = new Interaction();
+
+  declare getSpecInfo: () => IRegionSpecInfo;
 
   getMaxWidth() {
     return this._layout.maxWidth;
@@ -54,6 +58,12 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   getGroupMark() {
     return this._groupMark;
   }
+
+  protected _interactionMark!: IGroupMark;
+  getInteractionMark() {
+    return this._interactionMark;
+  }
+
   getStackInverse() {
     return this._spec.stackInverse === true;
   }
@@ -89,39 +99,18 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     return hasDataZoom || hasScrollBar ? true : this._layout.layoutClip;
   }
 
-  _initTheme() {
-    // do nothing, region don't need to parse theme
-    this._spec = cloneDeepSpec(this._originalSpec);
-  }
-
   created(): void {
     this.initLayout();
     super.created();
-    this._groupMark = this._createMark({ type: MarkTypeEnum.group, name: 'regionGroup' }) as IGroupMark;
-    this._groupMark.setUserId(this.userId);
-    this._groupMark.setZIndex(this.layoutZIndex);
     const clip = this._spec.clip ?? this._getClipDefaultValue();
-    this.setMarkStyle(
-      this._groupMark,
-      {
-        x: () => this.getLayoutStartPoint().x,
-        y: () => this.getLayoutStartPoint().y,
-        width: () => this.getLayoutRect().width,
-        height: () => this.getLayoutRect().height,
-        clip
-      },
-      'normal',
-      AttributeLevel.Built_In
+    this._groupMark = this._createGroupMark('regionGroup', this.userId, this.layoutZIndex);
+    // 交互层
+    this._interactionMark = this._createGroupMark(
+      'regionInteractionGroup',
+      this.userId + '_interaction',
+      LayoutZIndex.Interaction
     );
-    this.setMarkStyle(
-      this._groupMark,
-      {
-        cornerRadius: this._spec.style?.cornerRadius
-      },
-      'normal',
-      AttributeLevel.User_Mark
-    );
-    this._marks.addMark(this._groupMark);
+
     // hack: region 的样式不能设置在groupMark上，因为groupMark目前没有计算dirtyBound，会导致拖影问题
     if (this._spec.style) {
       this._backgroundMark = this._createMark({ type: MarkTypeEnum.rect, name: 'regionBackground' }) as IRectMark;
@@ -147,6 +136,35 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
       this._foregroundMark && this._foregroundMark.setZIndex(LayoutZIndex.Mark + 1);
     }
     this.createTrigger();
+  }
+
+  private _createGroupMark(name: string, userId: StringOrNumber, zIndex: number) {
+    const groupMark = this._createMark({ type: MarkTypeEnum.group, name }) as IGroupMark;
+    groupMark.setUserId(userId);
+    groupMark.setZIndex(zIndex);
+    const clip = this._spec.clip ?? this._getClipDefaultValue();
+    this.setMarkStyle(
+      groupMark,
+      {
+        x: () => this.getLayoutStartPoint().x,
+        y: () => this.getLayoutStartPoint().y,
+        width: () => this.getLayoutRect().width,
+        height: () => this.getLayoutRect().height,
+        clip
+      },
+      'normal',
+      AttributeLevel.Built_In
+    );
+    this.setMarkStyle(
+      groupMark,
+      {
+        cornerRadius: this._spec.style?.cornerRadius
+      },
+      'normal',
+      AttributeLevel.User_Mark
+    );
+    this._marks.addMark(groupMark);
+    return groupMark;
   }
 
   init(option: any) {
@@ -199,16 +217,16 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     }
   }
 
-  _compareSpec() {
-    const result = super._compareSpec();
-    if (!isEqual(this._originalSpec?.style, this._spec?.style)) {
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!isEqual(prevSpec?.style, spec?.style)) {
       result.reMake = true;
     }
     return result;
   }
 
-  reInit(theme?: any) {
-    super.reInit(theme);
+  reInit(spec?: T) {
+    super.reInit(spec);
     this._initBackgroundMarkStyle();
     this._initForegroundMarkStyle();
   }

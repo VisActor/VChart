@@ -1,4 +1,4 @@
-import type { Maybe, IPoint, Datum, StateValueType } from '../../typings';
+import type { IPoint, Datum, StateValueType } from '../../typings';
 import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
 import type { IMark } from '../../mark/interface';
@@ -8,12 +8,12 @@ import type { ITextMark } from '../../mark/text';
 import type { IPathMark } from '../../mark/path';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IArcLabelSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
+import type { IBasePieSeriesSpec, IPieSeriesSpec } from './interface';
 import { SeriesData } from '../base/series-data';
-type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & {
-    type: string;
-};
+import { PieSeriesSpecTransformer } from './pie-transformer';
 export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof PieSeriesSpecTransformer;
     protected _pieMarkName: SeriesMarkNameEnum;
     protected _pieMarkType: MarkTypeEnum;
     static readonly mark: SeriesMarkMap;
@@ -28,11 +28,12 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     protected _pieMark: IArcMark | null;
     protected _labelMark: ITextMark | null;
     protected _labelLineMark: IPathMark | null;
-    protected _theme: Maybe<IPieSeriesTheme>;
     protected _buildMarkAttributeContext(): void;
     setAttrFromSpec(): void;
     initData(): void;
     initMark(): void;
+    private startAngleScale;
+    private endAngleScale;
     initMarkStyle(): void;
     protected initTooltip(): void;
     initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void;
@@ -47,15 +48,11 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     protected generateRadiusStyle(spec: any): any;
     protected computeLayoutRadius(): number;
     computeCenter(datum: Datum): IPoint;
-    protected generateLinePath(state: StateValueType): {
-        path: (datum: Datum) => string;
-    };
     getRadius(state?: StateValueType): number;
     getInnerRadius(state?: StateValueType): number;
-    getLabelConfig(): IArcLabelSpec;
     computeRadius(r: number, k?: number): number;
     computeDatumRadius(datum: Datum, state?: string): number;
-    _compareSpec(ignoreCheckKeys?: {
+    _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: {
         [key: string]: true;
     }): {
         change: boolean;
@@ -74,11 +71,9 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     getStackValueField(): string;
     protected _noAnimationDataKey(datum: Datum, index: number): number;
     getActiveMarks(): IMark[];
-    protected _mergeThemeToSpec(): void;
 }
 export declare class PieSeries<T extends IPieSeriesSpec = IPieSeriesSpec> extends BasePieSeries<T> implements IArcSeries {
     static readonly type: string;
     type: SeriesTypeEnum;
 }
 export declare const registerPieSeries: () => void;
-export {};

@@ -1,6 +1,5 @@
 import type { IRect } from '../../typings/space';
 import { BaseComponent } from '../base/base-component';
-import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { LayoutZIndex } from '../../constant';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './interface';
@@ -9,11 +8,15 @@ import type { IPoint, Datum } from '../../typings';
 import type { IPairInfo } from './layout';
 import { MarkPoint } from '@visactor/vrender-components';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { Maybe } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
+import type { IModelSpecInfo } from '../../model/interface';
 export declare class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    static specKey: string;
+    specKey: string;
     layoutType: 'none';
     layoutZIndex: LayoutZIndex;
     protected nameField: string;
@@ -24,7 +27,7 @@ export declare class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
     protected _latitudeField: string;
     protected _markerComponents: MarkPoint[];
     private _activeDatum;
-    static createComponent(spec: any, options: IComponentOption): MapLabelComponent;
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     setAttrFromSpec(): void;
     created(): void;
     initRelatedInfo(): void;

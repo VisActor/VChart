@@ -1,38 +1,21 @@
 import { SeriesTypeEnum } from '../../series/interface/type';
-import { CartesianChart } from '../cartesian/cartesian';
 import { ChartTypeEnum } from '../interface/type';
-import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { ILineChartSpec } from './interface';
 import { registerLineSeries } from '../../series/line/line';
 import { Factory } from '../../core/factory';
+import { LineChartSpecTransformer } from './line-transformer';
+import { BaseChart } from '../base';
 
-export class LineChart extends CartesianChart {
+export class LineChart<T extends ILineChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.line;
+  static readonly seriesType: string = SeriesTypeEnum.line;
   static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = LineChartSpecTransformer;
+  readonly transformerConstructor = LineChartSpecTransformer;
   readonly type: string = ChartTypeEnum.line;
   readonly seriesType: string = SeriesTypeEnum.line;
 
   protected _canStack: boolean = true;
-
-  protected _getDefaultSeriesSpec(spec: ILineChartSpec): any {
-    return {
-      ...super._getDefaultSeriesSpec(spec),
-      point: spec.point,
-      line: spec.line,
-      seriesMark: spec.seriesMark ?? 'line',
-      activePoint: spec.activePoint,
-      sampling: spec.sampling,
-      samplingFactor: spec.samplingFactor,
-      pointDis: spec.pointDis,
-      pointDisMul: spec.pointDisMul,
-      markOverlap: spec.markOverlap,
-      lineLabel: spec.lineLabel
-    };
-  }
-  transformSpec(spec: any): void {
-    super.transformSpec(spec);
-    setDefaultCrosshairForCartesianChart(spec);
-  }
 }
 
 export const registerLineChart = () => {

@@ -1,35 +1,26 @@
 import type { IComponent } from '../../component/interface';
+import type { IBasePlugin, IBasePluginService, MaybePromise } from '../base/interface';
 
-type UniqueId = number;
-type MaybePromise<T> = T | PromiseLike<T>;
 interface IContext {
   skipLayout: boolean;
 }
 
-export interface IComponentPlugin {
-  id: UniqueId;
-  name: string;
-  onAdd: (service: IComponentPluginService) => void;
-  init?: () => void;
-  dispose?: (service: IComponentPluginService) => void;
-  onInit?: (service: IComponentPluginService, ...params: any) => MaybePromise<void>;
-  onDidCompile?: (service: IComponentPluginService, ...params: any) => MaybePromise<void>;
-  onWillLayout?: (service: IComponentPluginService, ...params: any) => MaybePromise<void>;
-  onDidLayout?: (service: IComponentPluginService, ...params: any) => MaybePromise<void>;
-  onWillLayoutVertical?: (service: IComponentPluginService, context: IContext, ...params: any) => MaybePromise<void>;
-  onWillLayoutHorizontal?: (service: IComponentPluginService, context: IContext, ...params: any) => MaybePromise<void>;
-  onDidLayoutVertical?: (service: IComponentPluginService, ...params: any) => MaybePromise<void>;
-  onDidLayoutHorizontal?: (service: IComponentPluginService, ...params: any) => MaybePromise<void>;
+export interface IComponentPlugin<T extends IComponentPluginService = any> extends IBasePlugin<T> {
+  onWillLayout?: (service: T, ...params: any) => MaybePromise<void>;
+  onDidLayout?: (service: T, ...params: any) => MaybePromise<void>;
+  onWillLayoutVertical?: (service: T, context: IContext, ...params: any) => MaybePromise<void>;
+  onWillLayoutHorizontal?: (service: T, context: IContext, ...params: any) => MaybePromise<void>;
+  onDidLayoutVertical?: (service: T, ...params: any) => MaybePromise<void>;
+  onDidLayoutHorizontal?: (service: T, ...params: any) => MaybePromise<void>;
 }
 
-export interface IComponentPluginService {
-  id: UniqueId;
+export interface IComponentPluginConstructor {
+  readonly pluginType: 'component';
+  readonly specKey?: string;
+  readonly type: string;
+  new (): IComponentPlugin;
+}
+
+export interface IComponentPluginService<T extends IComponentPlugin = any> extends IBasePluginService<T> {
   component: IComponent;
-  load: (plugins: IComponentPlugin[]) => void;
-  add: (plugins: IComponentPlugin[]) => IComponentPlugin[] | null;
-  activate: (plugins: IComponentPlugin[]) => void;
-  get: (id: UniqueId) => IComponentPlugin | undefined;
-  getAll: () => IComponentPlugin[];
-  dispose: (pluginsId: UniqueId) => void;
-  disposeAll: () => void;
 }

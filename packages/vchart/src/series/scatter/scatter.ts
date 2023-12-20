@@ -23,20 +23,21 @@ import {
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerScatterAnimation, type ScatterAppearPreset } from './animation';
-import { SymbolMark } from '../../mark/symbol';
+import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import type { ILabelSpec } from '../../component';
+import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
   type = SeriesTypeEnum.scatter;
 
   static readonly mark: SeriesMarkMap = scatterSeriesMark;
-
-  protected declare _theme: Maybe<IScatterSeriesTheme>;
+  static readonly transformerConstructor = ScatterSeriesSpecTransformer as any;
+  readonly transformerConstructor = ScatterSeriesSpecTransformer;
 
   private _symbolMark: ISymbolMark;
   private _labelMark: ILabelMark;
@@ -212,7 +213,6 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       morph: shouldMarkDoMorph(this._spec, ScatterSeries.mark.point.name),
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
-      label: this._preprocessLabelSpec(this._spec.label as ILabelSpec),
       progressive,
       isSeriesMark: true,
       customShape: this._spec.point?.customShape
@@ -406,7 +406,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
 }
 
 export const registerScatterSeries = () => {
-  Factory.registerMark(SymbolMark.type, SymbolMark);
-  Factory.registerSeries(ScatterSeries.type, ScatterSeries);
+  registerSymbolMark();
   registerScatterAnimation();
+  Factory.registerSeries(ScatterSeries.type, ScatterSeries);
 };

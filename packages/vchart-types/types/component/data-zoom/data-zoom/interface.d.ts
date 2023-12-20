@@ -3,8 +3,8 @@ import type { IAreaMarkSpec, ILineMarkSpec, IRectMarkSpec, ISymbolMarkSpec, ITex
 import type { IComponentSpec } from '../../base/interface';
 import type { IComponent } from '../../interface';
 import type { IFilterMode } from '../constant';
-import type { IDataFilterComponentSpec } from '../interface';
-export type IDataZoom = IComponent;
+import type { IDataFilterComponent, IDataFilterComponentSpec } from '../interface';
+export type IDataZoom = IComponent & IDataFilterComponent;
 export interface IDataZoomStyle {
     showDetail?: 'auto' | boolean;
     middleHandler?: {

@@ -1,11 +1,13 @@
-import { BaseChart } from '../base-chart';
+import { BaseChart } from '../base/base-chart';
 import type { ICorrelationChartSpec } from './interface';
-export declare class CorrelationChart extends BaseChart {
+import { CorrelationChartSpecTransformer } from './correlation-transformer';
+export declare class CorrelationChart<T extends ICorrelationChartSpec = ICorrelationChartSpec> extends BaseChart<T> {
     static readonly type: string;
+    static readonly seriesType: string;
     static readonly view: string;
+    static readonly transformerConstructor: typeof CorrelationChartSpecTransformer;
+    readonly transformerConstructor: typeof CorrelationChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected _getDefaultSeriesSpec(spec: ICorrelationChartSpec): any;
-    transformSpec(spec: ICorrelationChartSpec): void;
 }
 export declare const registerCorrelationChart: () => void;

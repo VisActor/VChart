@@ -22,11 +22,11 @@ export interface IBarSeriesSpec
   /**
    * x轴字段
    */
-  xField: string | string[];
+  xField?: string | string[];
   /**
    * y轴字段
    */
-  yField: string | string[];
+  yField?: string | string[];
   /**
    * 图元配置
    */

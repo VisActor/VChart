@@ -11,11 +11,12 @@ import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
 import { lineSeriesMark } from './constant';
-import { LineMark } from '../../mark/line';
-import { SymbolMark } from '../../mark/symbol';
+import { LineMark, registerLineMark } from '../../mark/line';
+import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
+import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -38,8 +39,8 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   type = SeriesTypeEnum.line;
 
   static readonly mark: SeriesMarkMap = lineSeriesMark;
-
-  protected declare _theme: Maybe<ILineSeriesTheme>;
+  static readonly transformerConstructor = LineLikeSeriesSpecTransformer;
+  readonly transformerConstructor = LineLikeSeriesSpecTransformer;
 
   protected _sortDataByAxis: boolean = false;
 
@@ -122,9 +123,9 @@ mixin(LineSeries, LineLikeSeriesMixin);
 export const registerLineSeries = () => {
   registerSampleTransform();
   registerMarkOverlapTransform();
-  Factory.registerMark(LineMark.type, LineMark);
-  Factory.registerMark(SymbolMark.type, SymbolMark);
-  Factory.registerSeries(LineSeries.type, LineSeries);
+  registerLineMark();
+  registerSymbolMark();
   registerLineAnimation();
   registerScaleInOutAnimation();
+  Factory.registerSeries(LineSeries.type, LineSeries);
 };

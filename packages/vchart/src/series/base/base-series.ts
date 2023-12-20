@@ -43,7 +43,8 @@ import type {
   ISeriesStackData,
   ISeriesTooltipHelper,
   SeriesMarkMap,
-  ISeriesMarkInfo
+  ISeriesMarkInfo,
+  ISeriesSpecInfo
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
@@ -75,17 +76,12 @@ import {
   isString,
   isFunction,
   isArray,
-  isValidNumber,
-  get
+  isValidNumber
 } from '@visactor/vutils';
-import { getDirectionFromSeriesSpec } from '../util/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
-import { transformSeriesThemeToMerge } from '../../util/spec/merge-theme';
-import type { ILabelSpec } from '../../component';
-import type { ILabelMark } from '../../mark/label';
-import type { TransformedLabelSpec } from '../../component/label';
+import { BaseSeriesSpecTransformer } from './base-series-transformer';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -95,6 +91,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   readonly name: string | undefined = undefined;
 
   static readonly mark: SeriesMarkMap = baseSeriesMark;
+  static readonly transformerConstructor = BaseSeriesSpecTransformer;
+  readonly transformerConstructor = BaseSeriesSpecTransformer as any;
+
+  declare getSpecInfo: () => ISeriesSpecInfo;
 
   protected _trigger!: ITrigger;
   /**
@@ -541,9 +541,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         const seriesDataKey = this._getSeriesDataKey(datum);
         if (keyMap.get(seriesDataKey) === undefined) {
           keyMap.set(seriesDataKey, 0);
-        } else {
-          keyMap.set(seriesDataKey, keyMap.get(seriesDataKey) + 1);
+
+          return seriesDataKey;
         }
+
+        keyMap.set(seriesDataKey, keyMap.get(seriesDataKey) + 1);
         return `${seriesDataKey}_${keyMap.get(seriesDataKey)}`;
       };
     }
@@ -687,6 +689,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const mark = this._createMark(
       { type: spec.type, name: `${namePrefix}_${index}` },
       {
+        // 避免二次dataflow
+        skipBeforeLayouted: true,
         markSpec: spec,
         parent: parentMark,
         dataView: false,
@@ -878,11 +882,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   /** updateSpec */
-  _compareSpec(ignoreCheckKeys?: { [key: string]: true }) {
-    const result = super._compareSpec();
+  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
+    const result = super._compareSpec(spec, prevSpec);
 
-    const currentKeys = Object.keys(this._originalSpec || {}).sort();
-    const nextKeys = Object.keys(this._spec || {}).sort();
+    const currentKeys = Object.keys(prevSpec || {}).sort();
+    const nextKeys = Object.keys(spec || {}).sort();
     if (!isEqual(currentKeys, nextKeys)) {
       result.reMake = true;
       return result;
@@ -891,16 +895,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     ignoreCheckKeys = ignoreCheckKeys ?? { data: true };
 
     ignoreCheckKeys.invalidType = true;
-    if (this._spec.invalidType !== this._originalSpec.invalidType) {
+    if (spec.invalidType !== prevSpec.invalidType) {
       result.reCompile = true;
     }
 
     ignoreCheckKeys.extensionMark = true;
     if (
-      array(this._spec.extensionMark).length !== array(this._originalSpec.extensionMark).length ||
-      (<Array<any>>this._originalSpec.extensionMark)?.some(
-        (mark, index) =>
-          mark.type !== this._spec.extensionMark[index].type || mark.id !== this._spec.extensionMark[index].id
+      array(spec.extensionMark).length !== array(prevSpec.extensionMark).length ||
+      (<Array<any>>prevSpec.extensionMark)?.some(
+        (mark, index) => mark.type !== spec.extensionMark[index].type || mark.id !== spec.extensionMark[index].id
       )
     ) {
       result.reMake = true;
@@ -912,9 +915,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     // mark visible logic in compile
     if (
-      (<Array<any>>this._originalSpec.extensionMark)?.some(
-        (mark, index) => mark.visible !== this._spec.extensionMark[index].visible
-      )
+      (<Array<any>>prevSpec.extensionMark)?.some((mark, index) => mark.visible !== spec.extensionMark[index].visible)
     ) {
       result.reCompile = true;
     }
@@ -923,7 +924,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (
       this._marks.getMarks().some(m => {
         ignoreCheckKeys[m.name] = true;
-        return this._originalSpec[m.name]?.visible !== this._spec[m.name]?.visible;
+        return prevSpec[m.name]?.visible !== spec[m.name]?.visible;
       })
     ) {
       result.reCompile = true;
@@ -933,7 +934,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       currentKeys.some(k => {
         if (ignoreCheckKeys[k]) {
           return false;
-        } else if (!isEqual(this._spec[k], this._originalSpec[k])) {
+        } else if (!isEqual(spec[k], prevSpec[k])) {
           return true;
         }
         return false;
@@ -952,12 +953,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
-  reInit(theme?: any, lastSpec?: any) {
-    super.reInit(theme);
+  reInit(spec?: T) {
+    super.reInit(spec);
 
-    const marks = !lastSpec
-      ? this.getMarksWithoutRoot()
-      : this.getMarksWithoutRoot().filter(mark => !isEqual(lastSpec[mark.name], this._spec[mark.name]));
+    const marks = this.getMarksWithoutRoot();
     // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
     marks.forEach(mark => {
       this._spec[mark.name] && this.initMarkStyleWithSpec(mark, this._spec[mark.name]);
@@ -967,7 +966,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       mark.updateStaticEncode();
       mark.updateLayoutState(true);
     });
-    this._updateExtensionMarkSpec(lastSpec);
+    this._updateExtensionMarkSpec(spec);
     this._updateSpecData();
 
     if (this._tooltipHelper) {
@@ -1107,21 +1106,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // do nothing
   }
 
-  protected _getTheme() {
-    const direction = getDirectionFromSeriesSpec(this._originalSpec);
-    const chartTheme = this._option?.getTheme();
-    const { markByName, mark } = chartTheme;
-    const type = this._option.type;
-    const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName);
-    const themeWithDirection = transformSeriesThemeToMerge(
-      get(chartTheme, `series.${type}_${direction}`),
-      `${type}_${direction}`,
-      mark,
-      markByName
-    );
-    return mergeSpec({}, theme, themeWithDirection);
-  }
-
   protected _createMark<M extends IMark>(markInfo: ISeriesMarkInfo, option: ISeriesMarkInitOption = {}) {
     const {
       key,
@@ -1134,7 +1118,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       parent,
       isSeriesMark,
       depend,
-      label,
       progressive,
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false,
@@ -1172,10 +1155,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       if (isValid(depend)) {
         m.setDepend(...array(depend));
-      }
-
-      if (isValid(label)) {
-        m.addLabelSpec(label);
       }
 
       const spec = this.getSpec() || ({} as T);
@@ -1220,8 +1199,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const dimensionFields = this.getDimensionField();
     key = dimensionFields.map(field => datum[field]).join('_');
 
-    if (this.getSeriesField()) {
-      key += `_${datum[this.getSeriesField()]}`;
+    const seriesField = this.getSeriesField();
+
+    if (seriesField && !dimensionFields.includes(seriesField)) {
+      key += `_${datum[seriesField]}`;
     }
 
     return key;
@@ -1279,12 +1260,4 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
-
-  protected _preprocessLabelSpec(spec: ILabelSpec, styleHandler?: (mark: ILabelMark) => void, hasAnimation?: boolean) {
-    return {
-      animation: hasAnimation ?? this._spec.animation,
-      ...spec,
-      styleHandler: styleHandler ?? (this as ISeries).initLabelMarkStyle
-    } as TransformedLabelSpec;
-  }
 }

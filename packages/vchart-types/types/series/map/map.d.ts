@@ -1,16 +1,19 @@
 import { DataView } from '@visactor/vdataset';
-import type { Maybe, StringOrNumber } from '../../typings';
+import type { StringOrNumber } from '../../typings';
 import { GeoSeries } from '../geo/geo';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { IMapSeriesSpec, IMapSeriesTheme } from './interface';
+import type { IMapSeriesSpec } from './interface';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { ILabelMark } from '../../mark/label';
 import type { IMark } from '../../mark/interface';
+import { MapSeriesSpecTransformer } from './map-transformer';
 export declare class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof MapSeriesSpecTransformer;
     map: string;
     protected _nameMap: {
         [key: StringOrNumber]: StringOrNumber;
@@ -19,8 +22,10 @@ export declare class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extend
         [key: string]: StringOrNumber;
         [key: number]: StringOrNumber;
     };
-    protected _theme: Maybe<IMapSeriesTheme>;
     private _areaCache;
+    get areaPath(): Map<string, {
+        shape: string;
+    }>;
     private _pathMark;
     private _labelMark;
     setAttrFromSpec(): void;

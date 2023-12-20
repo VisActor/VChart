@@ -2,6 +2,78 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.0",
+      "tag": "@visactor/vchart_v1.8.0",
+      "date": "Tue, 19 Dec 2023 12:04:29 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add getPoints api in funnel mark attribute context"
+          },
+          {
+            "comment": "fix: fix the api: `getComponentsByKey` not work"
+          },
+          {
+            "comment": "refactor: update datazoom and brush updatecallback, use event"
+          },
+          {
+            "comment": "feat: vchart supports chart-level plugin, related #1784"
+          },
+          {
+            "comment": "feat: new media query plugin to support self-adaptive charts, related #1413"
+          },
+          {
+            "comment": "feat: support optimize config, and auto set disableCheckGraphicWidthOutRange to true"
+          },
+          {
+            "comment": "fix: animation support for gauge pointer series, related #1699"
+          },
+          {
+            "comment": "fix: fix issue with secondary dataflow, closed #1760"
+          },
+          {
+            "comment": "perf: when visible is false, dont parse detail attrs\n\n"
+          },
+          {
+            "comment": "feat: remove legacy theme for legends"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.7.5",
+      "tag": "@visactor/vchart_v1.7.5",
+      "date": "Fri, 15 Dec 2023 08:36:30 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix(brush): brush release error after update spec. fix#1720"
+          },
+          {
+            "comment": "fix: series should pick `morph` config in chart\n\n"
+          },
+          {
+            "comment": "fix: fix type defination of vchart spec in #1486"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.7.4",
+      "tag": "@visactor/vchart_v1.7.4",
+      "date": "Tue, 12 Dec 2023 07:55:54 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support interaction group in region\n\n"
+          },
+          {
+            "comment": "fix: label style not update when change current theme in #1698"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.7.3",
       "tag": "@visactor/vchart_v1.7.3",
       "date": "Wed, 06 Dec 2023 07:34:11 GMT",

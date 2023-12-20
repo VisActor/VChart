@@ -20,11 +20,11 @@ export interface IAreaSeriesSpec
   /**
    * x轴字段
    */
-  xField: string | string[];
+  xField?: string | string[];
   /**
    * y轴字段
    */
-  yField: string | string[];
+  yField?: string | string[];
   /**
    * 点图元配置
    */

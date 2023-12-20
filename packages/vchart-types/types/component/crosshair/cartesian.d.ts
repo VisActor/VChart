@@ -1,3 +1,4 @@
+import type { Maybe } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { ICartesianCrosshairSpec } from './interface';
@@ -5,9 +6,9 @@ import { BaseCrossHair } from './base';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IAxis } from '../axis/interface';
 import type { StringOrNumber } from '../../typings';
+import type { IModelSpecInfo } from '../../model/interface';
 export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCrosshairSpec> extends BaseCrossHair<T> {
     static specKey: string;
-    specKey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
@@ -23,7 +24,7 @@ export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICar
     private _yRightLabel;
     private _currValueX;
     private _currValueY;
-    static createComponent(spec: any, options: IComponentOption): CartesianCrossHair<any> | CartesianCrossHair<ICartesianCrosshairSpec>[];
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     constructor(spec: T, options: IComponentOption);
     protected _showDefaultCrosshairBySpec(): void;
     private _defaultCrosshair;

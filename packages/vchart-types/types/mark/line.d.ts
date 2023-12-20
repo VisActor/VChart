@@ -9,3 +9,4 @@ export declare class LineMark extends BaseLineMark<ILineMarkSpec> implements ILi
     protected _getDefaultStyle(): IMarkStyle<ILineMarkSpec>;
     protected _getIgnoreAttributes(): string[];
 }
+export declare const registerLineMark: () => void;

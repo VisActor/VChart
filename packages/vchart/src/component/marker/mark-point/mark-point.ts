@@ -6,6 +6,8 @@ import { markerAggregation } from '../../../data/transforms/aggregation';
 import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isEmpty, isValid, isArray } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
@@ -13,37 +15,54 @@ import { LayoutZIndex } from '../../../constant';
 import { Factory } from '../../../core/factory';
 import type { IGroup } from '@visactor/vrender-core';
 import type { IPoint } from '../../../typings';
+import type { IModelSpecInfo } from '../../../model/interface';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;
   type = ComponentTypeEnum.markPoint;
   name: string = ComponentTypeEnum.markPoint;
 
-  layoutZIndex: number = LayoutZIndex.MarkPoint;
+  static specKey = 'markPoint';
+  specKey = 'markPoint';
 
-  protected declare _theme: IMarkPointTheme;
+  layoutZIndex: number = LayoutZIndex.MarkPoint;
 
   // markPoint组件
   protected declare _markerComponent: MarkPointComponent;
 
-  static createComponent(spec: any, options: IComponentOption) {
-    const markPointSpec = spec.markPoint;
+  static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
+    const markPointSpec = chartSpec[this.specKey];
     if (isEmpty(markPointSpec)) {
       return undefined;
     }
     if (!isArray(markPointSpec) && markPointSpec.visible !== false) {
-      return new MarkPoint(markPointSpec, options);
+      return [
+        {
+          spec: markPointSpec,
+          specPath: [this.specKey],
+          type: ComponentTypeEnum.markPoint
+        }
+      ];
     }
-    const markPoints: MarkPoint[] = [];
+    const specInfos: IModelSpecInfo[] = [];
     markPointSpec.forEach((m: any, i: number) => {
       if (m.visible !== false) {
-        markPoints.push(new MarkPoint(m, { ...options, specIndex: i }));
+        specInfos.push({
+          spec: m,
+          specIndex: i,
+          specPath: [this.specKey, i],
+          type: ComponentTypeEnum.markPoint
+        });
       }
     });
-    return markPoints;
+    return specInfos;
   }
 
   protected _createMarkerComponent() {
+    const itemContent = this._spec.itemContent ?? {};
+    const itemContentText = itemContent.text ?? {};
+    const labelBackground = itemContentText.labelBackground ?? {};
+
     const markPoint = new MarkPointComponent({
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? false,
@@ -53,22 +72,22 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
         ...this._spec.itemLine
       },
       itemContent: {
-        symbolStyle: transformToGraphic(this._spec.itemContent?.symbol?.style),
-        imageStyle: this._spec.itemContent?.image?.style,
+        symbolStyle: transformToGraphic(itemContent.symbol?.style),
+        imageStyle: itemContent.image?.style,
         textStyle: {
-          ...this._spec.itemContent?.text,
-          padding: this._spec.itemContent?.text?.labelBackground?.padding,
+          ...itemContentText,
+          padding: labelBackground.padding,
           shape: {
-            ...transformToGraphic(this._spec.itemContent?.text?.shape),
-            visible: this._spec.itemContent?.text?.shape?.visible ?? false
+            ...transformToGraphic(itemContentText.shape),
+            visible: itemContentText.shape?.visible ?? false
           },
           panel: {
-            ...transformToGraphic(this._spec.itemContent?.text?.labelBackground?.style),
-            visible: this._spec.itemContent?.text?.labelBackground?.visible ?? true
+            ...transformToGraphic(labelBackground.style),
+            visible: labelBackground.visible ?? true
           },
-          textStyle: transformToGraphic(this._spec.itemContent?.text?.style)
+          textStyle: transformToGraphic(itemContentText.style)
         },
-        richTextStyle: this._spec.itemContent?.richText?.style,
+        richTextStyle: itemContent.richText?.style,
         ...this._spec.itemContent
       },
       clipInRange: this._spec.clip ?? false
@@ -116,22 +135,25 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
         height: maxY - minY
       };
     }
-
-    this._markerComponent?.setAttributes({
-      position: point,
-      itemContent: {
-        ...this._markerComponent?.attribute?.itemContent,
-        textStyle: {
-          ...this._markerComponent?.attribute?.itemContent?.textStyle,
-          text: this._spec.itemContent.text?.formatMethod
-            ? this._spec.itemContent.text.formatMethod(dataPoints, seriesData)
-            : this._markerComponent?.attribute?.itemContent?.textStyle?.text
-        }
-      },
-      limitRect,
-      dx: this._layoutOffsetX,
-      dy: this._layoutOffsetY
-    });
+    if (this._markerComponent) {
+      const attribute = this._markerComponent.attribute ?? {};
+      const textStyle = attribute.itemContent?.textStyle ?? {};
+      this._markerComponent.setAttributes({
+        position: point,
+        itemContent: {
+          ...attribute.itemContent,
+          textStyle: {
+            ...textStyle,
+            text: this._spec.itemContent.text?.formatMethod
+              ? this._spec.itemContent.text.formatMethod(dataPoints, seriesData)
+              : textStyle.text
+          }
+        },
+        limitRect,
+        dx: this._layoutOffsetX,
+        dy: this._layoutOffsetY
+      });
+    }
   }
 
   protected _initDataView(): void {

@@ -1,9 +1,9 @@
 import type { IModelEvaluateOption, IModelInitOption } from '../../model/interface';
-import type { BoxPlotShaftShape, IOutlierMarkSpec, Maybe } from '../../typings';
+import type { BoxPlotShaftShape, IOutlierMarkSpec } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import type { IBoxPlotSeriesSpec, IBoxPlotSeriesTheme } from './interface';
+import type { IBoxPlotSeriesSpec } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IMark } from '../../mark/interface';
 export declare const DEFAULT_FILL_COLOR = "#FFF";
@@ -12,7 +12,6 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
-    protected _theme: Maybe<IBoxPlotSeriesTheme>;
     protected _minField: string;
     getMinField(): string;
     protected _maxField: string;

@@ -1,30 +1,38 @@
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import type { IRegion } from '../../region/interface';
-import type { ComponentTypeEnum, IComponent, IComponentOption } from '../interface';
+import type { IComponent, IComponentOption } from '../interface';
 import type { BaseEventParams } from '../../event/interface';
 import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
-import { getComponentThemeFromGlobalTheme } from './util';
 import type { IGroupMark } from '@visactor/vgrammar-core';
 import { Event_Source_Type } from '../../constant';
 import type { IAnimate } from '../../animation/interface';
 import { AnimateManager } from '../../animation/animate-manager';
 // import { preprocessSpecOrTheme } from '../../util/spec/preprocess';
 import type { Datum, ILayoutRect } from '../../typings';
-import { normalizeLayoutPaddingSpec } from '../../util/space';
 import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
+import { BaseComponentSpecTransformer } from './base-component-transformer';
+import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 
-export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
-  extends LayoutModel<T>
-  implements IComponent
-{
+export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends LayoutModel<T> implements IComponent {
+  static transformerConstructor = BaseComponentSpecTransformer;
   name: string = 'component';
   readonly modelType: string = 'component';
+  readonly transformerConstructor = BaseComponentSpecTransformer as any;
   pluginService?: IComponentPluginService;
+
+  static createComponent(specInfo: IModelSpecInfo, options: IComponentOption): IComponent {
+    const { spec, ...others } = specInfo;
+    return new this(spec, {
+      ...options,
+      ...others
+    });
+  }
+
   protected declare _option: IComponentOption;
 
   protected _regions: IRegion[];
@@ -55,11 +63,18 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   initLayout(): void {
     super.initLayout();
     this._regions = this._regions ?? this._option.getRegionsInIndex();
-    this._layout && (this._layout.layoutBindRegionID = this._regions.map(x => x.id));
+    this._layout && (this._layout.layoutBindRegionID = this._regions.map(x => x?.id));
   }
 
-  abstract changeRegions(regions: IRegion[]): void;
-  protected abstract _getNeedClearVRenderComponents(): IGraphic[];
+  changeRegions(regions: IRegion[]): void {
+    throw new Error('Method not implemented.');
+  }
+  protected _getNeedClearVRenderComponents(): IGraphic[] {
+    throw new Error('Method not implemented.');
+  }
+  onRender(ctx: IModelRenderOption): void {
+    throw new Error('Method not implemented.');
+  }
 
   getVRenderComponents() {
     return this._getNeedClearVRenderComponents();
@@ -78,23 +93,6 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
     };
   }
 
-  protected _getTheme() {
-    return getComponentThemeFromGlobalTheme(this._option.type as ComponentTypeEnum, this._option, this._originalSpec);
-  }
-
-  protected _mergeThemeToSpec() {
-    super._mergeThemeToSpec();
-
-    // 默认忽略外侧 padding
-    const { padding, noOuterPadding = true, orient } = this.getSpec();
-    if (noOuterPadding && padding && orient) {
-      this._spec.padding = {
-        ...normalizeLayoutPaddingSpec(padding),
-        [orient]: 0
-      };
-    }
-  }
-
   protected getContainer() {
     if (!this._container) {
       this._container = this._option?.globalInstance.getStage().find(node => node.name === 'root', true);
@@ -106,14 +104,14 @@ export abstract class BaseComponent<T extends IComponentSpec = IComponentSpec>
   /**
    * updateSpec
    */
-  _compareSpec() {
-    const result = super._compareSpec();
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
     if (!result.reMake) {
       result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        return isEqual(this._originalSpec?.[k], this.getSpec()[k]);
+        return isEqual(prevSpec?.[k], spec[k]);
       });
     }
-    if (this._originalSpec?.visible !== (<any>this.getSpec()).visible) {
+    if ((prevSpec as any)?.visible !== (spec as any).visible) {
       result.reCompile = true;
     }
     return result;

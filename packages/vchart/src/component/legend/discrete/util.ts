@@ -30,7 +30,7 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
     padding, // vchart 布局模块已经处理了
 
     ...restSpec
-  } = mergeSpec({}, spec);
+  } = spec;
 
   const attrs: any = restSpec;
 

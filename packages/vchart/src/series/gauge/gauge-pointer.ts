@@ -8,13 +8,14 @@ import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme, PinMarkSpec, Po
 import type { Datum, Maybe } from '../../typings';
 import type { IPathMark } from '../../mark/path';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { ProgressLikeSeries, registerCircularProgressAnimation } from '../polar/progress-like';
+import { ProgressLikeSeries, registerProgressLikeAnimation } from '../polar/progress-like';
 import type { IRectMark } from '../../mark/rect';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { PathMark } from '../../mark/path';
-import { RectMark } from '../../mark/rect';
+import { PathMark, registerPathMark } from '../../mark/path';
+import { RectMark, registerRectMark } from '../../mark/rect';
 import { gaugePointerSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { registerGaugePointerAnimation } from './animation';
 
 export class GaugePointerSeries<
   T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec
@@ -23,8 +24,6 @@ export class GaugePointerSeries<
   type = SeriesTypeEnum.gaugePointer;
 
   static readonly mark: SeriesMarkMap = gaugePointerSeriesMark;
-
-  protected declare _theme: Maybe<IGaugePointerSeriesTheme>;
 
   private _pinMark: IPathMark | null = null;
   private _pointerMark: IPathMark | IRectMark | null = null;
@@ -191,7 +190,7 @@ export class GaugePointerSeries<
 
     this._pointerMark.setAnimationConfig(
       animationConfig(
-        Factory.getAnimationInKey('circularProgress')?.(
+        Factory.getAnimationInKey('gaugePointer')?.(
           {
             startAngle: this._startAngle
           },
@@ -212,8 +211,8 @@ export class GaugePointerSeries<
 }
 
 export const registerGaugePointerSeries = () => {
-  Factory.registerMark(PathMark.type, PathMark);
-  Factory.registerMark(RectMark.type, RectMark);
+  registerPathMark();
+  registerRectMark();
+  registerGaugePointerAnimation();
   Factory.registerSeries(GaugePointerSeries.type, GaugePointerSeries);
-  registerCircularProgressAnimation();
 };

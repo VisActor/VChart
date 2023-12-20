@@ -1,3 +1,4 @@
 export * from './histogram';
-export * from './histogram-3d';
+export * from './3d';
 export * from './interface';
+export * from './histogram-transformer';

@@ -31,8 +31,8 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { RectMark } from '../../mark/rect';
-import { TextMark } from '../../mark/text';
+import { RectMark, registerRectMark } from '../../mark/rect';
+import { TextMark, registerTextMark } from '../../mark/text';
 import { treemapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerTreemapAnimation } from './animation';
@@ -550,9 +550,9 @@ mixin(TreemapSeries, Zoomable);
 mixin(TreemapSeries, Drillable);
 
 export const registerTreemapSeries = () => {
-  Factory.registerMark(RectMark.type, RectMark);
-  Factory.registerMark(TextMark.type, TextMark);
-  Factory.registerSeries(TreemapSeries.type, TreemapSeries);
+  registerRectMark();
+  registerTextMark();
   registerTreemapAnimation();
   registerFadeInOutAnimation();
+  Factory.registerSeries(TreemapSeries.type, TreemapSeries);
 };

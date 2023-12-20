@@ -28,6 +28,8 @@ export class CartesianLinearAxis<
   static type = ComponentTypeEnum.cartesianLinearAxis;
   type = ComponentTypeEnum.cartesianLinearAxis;
 
+  static specKey = 'axes';
+
   protected _zero: boolean = true;
   protected _nice: boolean = true;
   protected _extend: { [key: string]: number } = {};

@@ -1,16 +1,16 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import type { IModelRenderOption } from '../../model/interface';
+import type { Maybe } from '@visactor/vutils';
+import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type { IComponentOption } from '../interface';
 import type { IPlayer } from './interface';
 import type { IComponent } from '../interface';
 import type { IPoint, IOrientType, ILayoutRect } from '../../typings';
-import { type IChartSpec } from '../..';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 export declare class Player extends BaseComponent<IPlayer> implements IComponent {
     layoutZIndex: number;
     layoutLevel: number;
+    static specKey: string;
     specKey: string;
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
@@ -27,7 +27,7 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
     private _position;
     get orient(): IOrientType;
     set layoutOrient(v: IOrientType);
-    static createComponent: (spec: IChartSpec, options: IComponentOption) => Player;
+    static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     setAttrFromSpec(): void;
     afterSetLayoutStartPoint(pos: IPoint): void;
     getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): {

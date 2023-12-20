@@ -9,3 +9,4 @@ export declare class AreaMark extends BaseLineMark<IAreaMarkSpec> implements IAr
     protected _getDefaultStyle(): IMarkStyle<IAreaMarkSpec>;
     protected _getIgnoreAttributes(): string[];
 }
+export declare const registerAreaMark: () => void;

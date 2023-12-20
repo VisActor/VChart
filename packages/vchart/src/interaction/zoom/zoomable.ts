@@ -1,13 +1,12 @@
 import type { IModelOption } from './../../model/interface';
 /* eslint-disable no-duplicate-imports */
-import { debounce, isNil, throttle } from '@visactor/vutils';
+import { debounce, isNil, pointInRect, throttle } from '@visactor/vutils';
 import type { BaseEventParams, EventType, ExtendEventParam, IEvent } from '../../event/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec';
 import { RenderModeEnum } from '../../typings/spec/common';
 import { getDefaultTriggerEventByMode } from '../../component/common/trigger/config';
 import type { IZoomTrigger } from '../../component/common/trigger/interface';
-import { isPointInRect } from '../../util/space';
 import type { ISeries } from '../../series/interface';
 import { Event_Bubble_Level, Event_Source_Type } from '../../constant';
 import type { IDelayType } from '../../typings/event';
@@ -108,12 +107,13 @@ export class Zoomable implements IZoomable {
       return;
     }
     if (
-      !isPointInRect(
+      !pointInRect(
         {
           x: zoomX,
           y: zoomY
         },
-        this._getRegionOrSeriesLayout(regionOrSeries)
+        this._getRegionOrSeriesLayout(regionOrSeries),
+        false
       )
     ) {
       return;
@@ -135,7 +135,13 @@ export class Zoomable implements IZoomable {
     if (rs.type !== 'region') {
       rs = (<ISeries>rs).getRegion();
     }
-    return rs.layout.getLayout();
+    const { x, y, width, height } = rs.layout.getLayout();
+    return {
+      x1: x,
+      y1: y,
+      x2: x + width,
+      y2: y + height
+    };
   }
 
   private _bindZoomEventAsRegion(
@@ -220,12 +226,13 @@ export class Zoomable implements IZoomable {
       return;
     }
     if (
-      !isPointInRect(
+      !pointInRect(
         {
           x: event.canvasX,
           y: event.canvasY
         },
-        this._getRegionOrSeriesLayout(regionOrSeries)
+        this._getRegionOrSeriesLayout(regionOrSeries),
+        false
       )
     ) {
       return;
@@ -317,12 +324,13 @@ export class Zoomable implements IZoomable {
       }
 
       const { event } = params;
-      const shouldTrigger = isPointInRect(
+      const shouldTrigger = pointInRect(
         {
           x: event.canvasX,
           y: event.canvasY
         },
-        this._getRegionOrSeriesLayout(regionOrSeries)
+        this._getRegionOrSeriesLayout(regionOrSeries),
+        false
       );
       if (shouldTrigger) {
         this._handleDrag(params, callback, option);

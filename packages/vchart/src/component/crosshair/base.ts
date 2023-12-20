@@ -58,6 +58,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   extends BaseComponent<T>
   implements ICrossHair
 {
+  static specKey = 'crosshair';
+  specKey = 'crosshair';
+
   layoutType: 'none' = 'none';
   gridZIndex: number = LayoutZIndex.CrossHair_Grid;
   labelZIndex: number = LayoutZIndex.CrossHair;
@@ -65,8 +68,6 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   enable: boolean;
   showDefault: boolean;
   triggerOff: CrossHairTrigger | 'none' = 'hover'; // 为none则不消失
-
-  protected declare _theme: Maybe<ICrosshairTheme>;
 
   get enableRemain(): boolean {
     return this.triggerOff === 'none';
@@ -123,9 +124,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   /**
    * updateSpec
    */
-  _compareSpec() {
-    const result = super._compareSpec();
-    if (!result.reMake && !isEqual(this._originalSpec, this._spec)) {
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (!result.reMake && !isEqual(prevSpec, spec)) {
       result.reRender = true;
       result.reMake = true;
     }
@@ -324,19 +325,22 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     if (isNumber(opacity)) {
       finalOpacity = (finalOpacity ?? 1) * opacity;
     }
-    hair.style = {
-      opacity: finalOpacity,
-      pickable: false,
-      visible: isBoolean(line.visible) ? line.visible : true,
-      ...restStyle
-    };
+    hair.style =
+      line?.visible === false
+        ? { visible: false }
+        : {
+            opacity: finalOpacity,
+            pickable: false,
+            visible: true,
+            ...restStyle
+          };
     if (isLineType) {
       hair.style.stroke = stroke || fill;
       hair.style.lineWidth = get(line, 'width', lineWidth || 2);
     } else {
       hair.style.fill = fill || stroke;
-      if (this._originalSpec[fieldName]?.line?.style?.stroke) {
-        hair.style.stroke = this._originalSpec[fieldName].line.style.stroke;
+      if (this._spec[fieldName]?.line?.style?.stroke) {
+        hair.style.stroke = this._spec[fieldName].line.style.stroke;
       }
       const rectSize = get(line, 'width');
       if (typeof rectSize === 'string') {
@@ -354,37 +358,41 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       outerBorder,
       ...rectStyle
     } = labelBackground.style || {};
-    hair.label = {
-      visible: !!label.visible,
-      formatMethod: label.formatMethod,
-      minWidth: labelBackground.minWidth,
-      maxWidth: labelBackground.maxWidth,
-      padding: labelBackground.padding,
-      textStyle: {
-        fontSize: 14,
-        pickable: false,
-        ...labelStyle,
-        fill: labelStyle.fill ?? '#fff',
-        stroke: get(labelStyle, 'stroke')
-      },
-      panel: {
-        visible: isBoolean(labelBackground.visible) ? labelBackground.visible : !!labelBackground,
-        pickable: false,
-        fill: rectFill,
-        stroke: rectStroke,
-        // Note: 通过这个配置可以保证 label 和 轴 label 对齐
-        outerBorder: {
-          stroke: rectFill,
-          distance: 0,
-          lineWidth: 3,
-          ...outerBorder
-        },
-        ...rectStyle
-      },
-      zIndex: this.labelZIndex,
-      childrenPickable: false,
-      pickable: false
-    };
+    hair.label = !!label?.visible
+      ? {
+          visible: true,
+          formatMethod: label.formatMethod,
+          minWidth: labelBackground.minWidth,
+          maxWidth: labelBackground.maxWidth,
+          padding: labelBackground.padding,
+          textStyle: {
+            fontSize: 14,
+            pickable: false,
+            ...labelStyle,
+            fill: labelStyle.fill ?? '#fff',
+            stroke: get(labelStyle, 'stroke')
+          },
+          panel: (isBoolean(labelBackground?.visible) ? labelBackground?.visible : !!labelBackground)
+            ? {
+                visible: true,
+                pickable: false,
+                fill: rectFill,
+                stroke: rectStroke,
+                // Note: 通过这个配置可以保证 label 和 轴 label 对齐
+                outerBorder: {
+                  stroke: rectFill,
+                  distance: 0,
+                  lineWidth: 3,
+                  ...outerBorder
+                },
+                ...rectStyle
+              }
+            : { visible: false },
+          zIndex: this.labelZIndex,
+          childrenPickable: false,
+          pickable: false
+        }
+      : { visible: false };
 
     return hair;
   }

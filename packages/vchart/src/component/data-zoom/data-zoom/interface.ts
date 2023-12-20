@@ -9,9 +9,9 @@ import type {
 import type { IComponentSpec } from '../../base/interface';
 import type { IComponent } from '../../interface';
 import type { IFilterMode } from '../constant';
-import type { IDataFilterComponentSpec } from '../interface';
+import type { IDataFilterComponent, IDataFilterComponentSpec } from '../interface';
 
-export type IDataZoom = IComponent;
+export type IDataZoom = IComponent & IDataFilterComponent;
 
 // TODO: 开放的状态样式配置较少，暂时不使用markSpec方式配置
 export interface IDataZoomStyle {

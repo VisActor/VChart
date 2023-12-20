@@ -8,6 +8,7 @@ export interface CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = ICarte
 export declare class CartesianSymlogAxis<T extends ICartesianSymlogAxisSpec = ICartesianSymlogAxisSpec> extends CartesianLinearAxis<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
+    static specKey: string;
     protected _zero: boolean;
     protected _scale: SymlogScale;
     protected _scales: SymlogScale[];

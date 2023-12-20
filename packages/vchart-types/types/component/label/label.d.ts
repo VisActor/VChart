@@ -1,15 +1,19 @@
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
-import type { IModelInitOption } from '../../model/interface';
+import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
 import type { ISeries } from '../../series/interface';
 import type { ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import { type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
+import type { Maybe } from '@visactor/vutils';
 import type { IGroup } from '@visactor/vrender-core';
-import type { ILabelSpec, TransformedLabelSpec } from './interface';
+import type { TransformedLabelSpec } from './interface';
 import { type ILabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
+import type { IChartSpecInfo } from '../../chart/interface';
+import type { IChartSpec } from '../../typings';
+import { LabelSpecTransformer } from './label-transformer';
 export interface ILabelInfo {
     baseMark: ICompilableMark;
     labelMark: ILabelMark;
@@ -20,17 +24,22 @@ export interface ILabelComponentContext {
     region: IRegion;
     labelInfo: ILabelInfo[];
 }
-export declare class Label<T extends ILabelSpec = ILabelSpec> extends BaseLabelComponent<T> {
+export declare class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
+    static specKey: string;
+    specKey: string;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof LabelSpecTransformer;
     layoutZIndex: number;
     protected _labelInfoMap: Map<IRegion, ILabelInfo[]>;
-    protected _labelComponentMap: Map<IComponentMark, ILabelInfo | ILabelInfo[]>;
+    protected _labelComponentMap: Map<IComponentMark, () => ILabelInfo | ILabelInfo[]>;
     protected _layoutRule: 'series' | 'region';
     constructor(spec: T, options: IComponentOption);
-    static createComponent(spec: any, options: IComponentOption): Label<any>[];
+    static getSpecInfo(chartSpec: any, chartSpecInfo: IChartSpecInfo): Maybe<IModelSpecInfo[]>;
     init(option: IModelInitOption): void;
+    reInit(spec?: T): void;
     initEvent(): void;
     protected _delegateLabelEvent(component: IGroup): void;
     protected _initTextMark(): void;

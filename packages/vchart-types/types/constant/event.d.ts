@@ -32,6 +32,7 @@ export declare enum ChartEvent {
     brushStart = "brushStart",
     brushChange = "brushChange",
     brushEnd = "brushEnd",
+    brushClear = "brushClear",
     legendSelectedDataChange = "legendSelectedDataChange",
     legendFilter = "legendFilter",
     legendItemClick = "legendItemClick",

@@ -1,62 +1,20 @@
 import { registerRoseSeries } from '../../series/rose/rose';
-import type { IPolarAxisSpec, IPolarBandAxisSpec } from '../../component/axis/polar/interface';
-import { POLAR_DEFAULT_RADIUS } from '../../constant';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import { ChartTypeEnum } from '../interface/type';
-import { RoseLikeChart } from '../polar/rose-like';
-import { array, isNil, mergeSpec } from '../../util';
 import { Factory } from '../../core/factory';
+import type { IRoseChartSpec } from './interface';
+import { RoseChartSpecTransformer } from './rose-transformer';
+import { BaseChart } from '../base';
 
-export class RoseChart extends RoseLikeChart {
+export class RoseChart<T extends IRoseChartSpec = IRoseChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.rose;
+  static readonly seriesType: string = SeriesTypeEnum.rose;
   static readonly view: string = 'singleDefault';
+  static readonly transformerConstructor = RoseChartSpecTransformer;
+  readonly transformerConstructor = RoseChartSpecTransformer;
   readonly type: string = ChartTypeEnum.rose;
   readonly seriesType: string = SeriesTypeEnum.rose;
-
-  protected _getDefaultSeriesSpec(spec: any): any {
-    return {
-      ...super._getDefaultSeriesSpec(spec),
-      radius: spec.radius ?? POLAR_DEFAULT_RADIUS,
-      outerRadius: spec.outerRadius ?? POLAR_DEFAULT_RADIUS,
-      innerRadius: spec.innerRadius ?? 0,
-      seriesField: spec.seriesField,
-      stack: spec.stack,
-      percent: spec.percent
-      // startAngle: degreeToRadian(spec.startAngle || 0),
-    };
-  }
-
-  transformSpec(spec: any) {
-    super.transformSpec(spec);
-    //默认不显示轴
-    (spec.axes ?? []).forEach((axis: IPolarAxisSpec) => {
-      ['domainLine', 'grid', 'label', 'tick'].forEach(configName => {
-        if (!axis[configName]) {
-          axis[configName] = { visible: false };
-        }
-      });
-      if (axis.orient === 'angle' && isNil((axis as IPolarBandAxisSpec).bandPosition)) {
-        // 玫瑰图的中心点应该是带宽的中心，保证第一个扇形是从坐标系的 startAngle 开始的
-        (axis as IPolarBandAxisSpec).bandPosition = 0.5;
-      }
-    });
-
-    // set default config for crosshair
-    spec.crosshair = array(spec.crosshair || {}).map(crosshairCfg => {
-      return mergeSpec(
-        {
-          categoryField: {
-            visible: true,
-            line: {
-              visible: true,
-              type: 'rect'
-            }
-          }
-        },
-        crosshairCfg
-      );
-    });
-  }
+  protected _canStack: boolean = true;
 }
 
 export const registerRoseChart = () => {

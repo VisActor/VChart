@@ -2,12 +2,12 @@ import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
-import type { IComponent } from '../../component/interface';
+import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { IModel, IUpdateSpecResult } from '../../model/interface';
-import type { IRegion } from '../../region/interface';
-import type { ISeries } from '../../series/interface';
-import type { IChartEvaluateOption, IChartLayoutOption, IChartOption, IChartRenderOption, ILayoutParams } from './common';
+import type { IModel, IModelConstructor, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
+import type { IRegion, IRegionConstructor } from '../../region/interface';
+import type { ISeries, ISeriesConstructor } from '../../series/interface';
+import type { IChartEvaluateOption, IChartLayoutOption, IChartOption, IChartRenderOption, IChartSpecInfo, IChartSpecTransformerOption, ILayoutParams } from './common';
 import type { IBoundsLike, IPadding } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
 import type { IRegionQuerier, MaybeArray, Datum, IMarkStateSpec, StringOrNumber, IShowTooltipOption, IDataValues, ILayoutRect, IData } from '../../typings';
@@ -27,6 +27,7 @@ export interface IChart extends ICompilable {
     padding: IPadding;
     readonly type: string;
     readonly chartData: IChartData;
+    readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
     getSpec: () => any;
     setSpec: (s: any) => void;
     reDataFlow: () => void;
@@ -42,13 +43,12 @@ export interface IChart extends ICompilable {
     updateFullData: (data: IDataValues | IDataValues[]) => void;
     updateGlobalScaleDomain: () => void;
     created: () => void;
-    transformSpec: (spec: any) => void;
     init: () => void;
     onLayoutStart: (ctx: IChartLayoutOption) => void;
     onLayoutEnd: (ctx: IChartLayoutOption) => void;
     onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
     onRender: (ctx: IChartRenderOption) => void;
-    onResize: (width: number, height: number) => void;
+    onResize: (width: number, height: number, reRender: boolean) => void;
     onLayout: (view: IView) => void;
     getAllSeries: () => ISeries[];
     getRegionsInIndex: (index?: number[]) => IRegion[];
@@ -83,9 +83,22 @@ export interface IChart extends ICompilable {
     getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
     setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
 }
+export interface IChartSpecTransformer {
+    readonly type: string;
+    readonly seriesType: string;
+    initChartSpec: (spec: any) => IChartSpecInfo;
+    transformSpec: (spec: any) => void;
+    transformModelSpec: (spec: any) => IChartSpecInfo;
+    createSpecInfo: (chartSpec: any, transform?: (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => void) => IChartSpecInfo;
+    forEachRegionInSpec: <K>(spec: any, callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo) => K[];
+    forEachSeriesInSpec: <K>(spec: any, callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo) => K[];
+    forEachComponentInSpec: <K>(spec: any, callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo) => K[];
+}
 export interface IChartConstructor {
     readonly type: string;
+    readonly seriesType?: string;
     readonly series?: string | string[];
     readonly view: string;
+    readonly transformerConstructor: new (option: IChartSpecTransformerOption) => IChartSpecTransformer;
     new (spec: any, options: IChartOption): IChart;
 }

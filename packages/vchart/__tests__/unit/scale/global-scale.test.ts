@@ -287,8 +287,13 @@ describe('global-scale test', () => {
         return new DataView(dataSet, { name: d.id }).parse(d.values);
       })
     });
+    const transformer = new CommonChart.transformerConstructor({
+      type: 'common',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    const info = transformer.initChartSpec(spec);
     chart = new CommonChart(
-      spec as unknown as IChartSpec,
+      spec as any,
       {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -315,7 +320,8 @@ describe('global-scale test', () => {
             }
           } as any;
         },
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        getSpecInfo: () => info
       } as any
     );
     chart.created();
@@ -442,8 +448,13 @@ describe('global-scale test', () => {
         return new DataView(dataSet, { name: d.id }).parse(d.values);
       })
     });
+    const transformer = new CommonChart.transformerConstructor({
+      type: 'common',
+      getTheme: () => ThemeManager.getCurrentTheme()
+    });
+    const info = transformer.initChartSpec(spec);
     chart = new CommonChart(
-      spec as unknown as IChartSpec,
+      spec as any,
       {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -470,7 +481,8 @@ describe('global-scale test', () => {
             }
           } as any;
         },
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(),
+        getSpecInfo: () => info
       } as any
     );
     chart.created();

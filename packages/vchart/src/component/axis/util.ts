@@ -4,8 +4,8 @@ import type { IOrientType, IPolarOrientType } from '../../typings';
 import type { AxisType, ICommonAxisSpec, ILinearAxisSpec } from './interface';
 import { transformComponentStyle } from '../../util/style';
 import { isXAxis } from './cartesian/util/common';
-import type { IModelOption } from '../../model/interface';
 import { getComponentThemeFromOption } from '../util';
+import type { ITheme } from '../../theme';
 
 export const DEFAULT_TITLE_STYLE = {
   left: {
@@ -65,29 +65,32 @@ export function isValidPolarAxis(spec: any) {
   return orient === 'angle' || orient === 'radius';
 }
 
-export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, option: Partial<IModelOption>) => {
+export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, chartTheme: ITheme) => {
   const axisTypeTheme =
     (type === 'band'
-      ? getComponentThemeFromOption('axisBand', option)
+      ? getComponentThemeFromOption('axisBand', chartTheme)
       : (['linear', 'log', 'symlog'] as AxisType[]).includes(type)
-      ? getComponentThemeFromOption('axisLinear', option)
+      ? getComponentThemeFromOption('axisLinear', chartTheme)
       : {}) ?? {};
   const axisTheme = isXAxis(orient)
-    ? getComponentThemeFromOption('axisX', option)
-    : getComponentThemeFromOption('axisY', option);
-  return mergeSpec({}, getComponentThemeFromOption('axis', option), axisTypeTheme, axisTheme);
+    ? getComponentThemeFromOption('axisX', chartTheme)
+    : getComponentThemeFromOption('axisY', chartTheme);
+  return mergeSpec({}, getComponentThemeFromOption('axis', chartTheme), axisTypeTheme, axisTheme);
 };
 
-export const getPolarAxisTheme = (orient: IPolarOrientType, type: AxisType, option: Partial<IModelOption>) => {
+export const getPolarAxisTheme = (orient: IPolarOrientType, type: AxisType, chartTheme: ITheme) => {
   const axisTypeTheme =
     (type === 'band'
-      ? getComponentThemeFromOption('axisBand', option)
+      ? getComponentThemeFromOption('axisBand', chartTheme)
       : type === 'linear'
-      ? getComponentThemeFromOption('axisLinear', option)
+      ? getComponentThemeFromOption('axisLinear', chartTheme)
       : {}) ?? {};
   const axisTheme =
     orient === 'angle'
-      ? getComponentThemeFromOption('axisAngle', option)
-      : getComponentThemeFromOption('axisRadius', option);
-  return mergeSpec({}, getComponentThemeFromOption('axis', option), axisTypeTheme, axisTheme);
+      ? getComponentThemeFromOption('axisAngle', chartTheme)
+      : getComponentThemeFromOption('axisRadius', chartTheme);
+  return mergeSpec({}, getComponentThemeFromOption('axis', chartTheme), axisTypeTheme, axisTheme);
 };
+
+export const isDiscreteAxis = (axisType: AxisType) =>
+  axisType === 'band' || axisType === 'ordinal' || axisType === 'point';

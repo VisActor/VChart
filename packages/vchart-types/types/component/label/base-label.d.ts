@@ -5,7 +5,7 @@ import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
 import type { ILabelSpec } from './interface';
 import type { IGraphic } from '@visactor/vrender-core';
-export declare abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSpec> extends BaseComponent<T> {
+export declare abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;
@@ -25,7 +25,7 @@ export declare abstract class BaseLabelComponent<T extends ILabelSpec = ILabelSp
         hover: boolean;
         select: boolean;
     };
-    _compareSpec(): {
+    _compareSpec(spec: T, prevSpec: T): {
         change: boolean;
         reMake: boolean;
         reRender: boolean;

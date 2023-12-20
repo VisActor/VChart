@@ -16,6 +16,7 @@ import type {
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { calcLayoutNumber } from '../../util/space';
 import { isAggrSpec } from './utils';
+import { getFirstSeries } from '../../util';
 
 export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';
@@ -207,16 +208,10 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     if (this._firstSeries) {
       return this._firstSeries;
     }
-    for (let i = 0; i < this._regions.length; i++) {
-      const r = this._regions[i];
-      const series = r.getSeries();
-      for (let j = 0; j < series.length; j++) {
-        const s = series[j];
-        if (s) {
-          this._firstSeries = s as ICartesianSeries;
-          return s as ICartesianSeries;
-        }
-      }
+    const firstSeries = getFirstSeries(this._regions) as ICartesianSeries;
+    if (firstSeries) {
+      this._firstSeries = firstSeries;
+      return firstSeries;
     }
     this._option?.onError('need at least one series');
     return null;

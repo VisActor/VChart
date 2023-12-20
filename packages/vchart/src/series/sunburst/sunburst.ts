@@ -33,8 +33,8 @@ import { SunburstTooltipHelper } from './tooltip-helper';
 import type { animationInfo } from './animation/interface';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { ArcMark } from '../../mark/arc';
-import { TextMark } from '../../mark/text';
+import { ArcMark, registerArcMark } from '../../mark/arc';
+import { TextMark, registerTextMark } from '../../mark/text';
 import { sunburstSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 
@@ -430,9 +430,9 @@ export class SunburstSeries extends PolarSeries<any> {
 mixin(SunburstSeries, Drillable);
 
 export const registerSunBurstSeries = () => {
-  Factory.registerMark(ArcMark.type, ArcMark);
-  Factory.registerMark(TextMark.type, TextMark);
   Factory.registerSeries(SunburstSeries.type, SunburstSeries);
+  registerArcMark();
+  registerTextMark();
   registerFadeInOutAnimation();
   registerSunburstAnimation();
 };

@@ -1,3 +1,4 @@
+import { Factory } from './../core/factory';
 import type { IBoxPlotMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IGroupMark } from '@visactor/vgrammar-core';
@@ -28,11 +29,6 @@ export class BoxPlotMark extends BaseMark<IBoxPlotMarkSpec> implements IBoxPlotM
   /** 创建语法元素对象 */
   protected _initProduct(group?: string | IGroupMark) {
     const shaftShape = this.getStyle('shaftShape');
-    if (shaftShape === 'bar') {
-      registerBarBoxplotGlyph();
-    } else {
-      registerBoxplotGlyph();
-    }
     const view = this.getVGrammarView();
 
     // 声明语法元素
@@ -46,3 +42,9 @@ export class BoxPlotMark extends BaseMark<IBoxPlotMarkSpec> implements IBoxPlotM
     this._compiledProductId = id;
   }
 }
+
+export const registerBoxPlotMark = () => {
+  Factory.registerMark(BoxPlotMark.type, BoxPlotMark);
+  registerBoxplotGlyph();
+  registerBarBoxplotGlyph();
+};

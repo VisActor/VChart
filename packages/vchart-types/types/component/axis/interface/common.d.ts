@@ -14,6 +14,7 @@ export interface IAxis extends IComponent {
     getScale: () => IBaseScale;
     getScales: () => IBaseScale[];
     getOrient: () => ICartesianAxisSpec['orient'] | IPolarOrientType;
+    getInverse: () => boolean;
     visible: boolean;
     directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
 }

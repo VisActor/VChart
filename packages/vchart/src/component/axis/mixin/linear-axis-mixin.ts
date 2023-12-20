@@ -51,21 +51,23 @@ export class LinearAxisMixin {
     if (this._spec.niceType === 'accurateFirst') {
       tickCount = Math.max(DEFAULT_TICK_COUNT, tickCount);
     }
-    if (isNil(this._domain?.min) && isNil(this._domain?.max)) {
+    const { min, max } = this._domain ?? {};
+    if (isNil(min) && isNil(max)) {
       this._nice && this._scale.nice(tickCount);
-    } else if (isValid(this._domain?.min) && isNil(this._domain?.max)) {
+    } else if (isValid(min) && isNil(max)) {
       this._nice && this._scale.niceMax(tickCount);
-    } else if (isNil(this._domain?.min) && isValid(this._domain?.max)) {
+    } else if (isNil(min) && isValid(max)) {
       this._nice && this._scale.niceMin(tickCount);
     }
   }
 
   setLogScaleNice() {
-    if (isNil(this._domain?.min) && isNil(this._domain?.max)) {
+    const { min, max } = this._domain ?? {};
+    if (isNil(min) && isNil(max)) {
       this._nice && this._scale.nice();
-    } else if (isValid(this._domain?.min) && isNil(this._domain?.max)) {
+    } else if (isValid(min) && isNil(max)) {
       this._nice && this._scale.niceMax();
-    } else if (isNil(this._domain?.min) && isValid(this._domain?.max)) {
+    } else if (isNil(min) && isValid(max)) {
       this._nice && this._scale.niceMin();
     }
   }
