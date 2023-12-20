@@ -1,4 +1,4 @@
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender';
 import type { IEditorElement } from './../core/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IRect, IPoint } from '../typings/space';

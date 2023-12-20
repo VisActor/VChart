@@ -1,6 +1,6 @@
 import type { IChartModel } from './../../interface';
-import type { IText } from '@visactor/vrender-core';
-import { type IGraphic, type IGroup, type INode } from '@visactor/vrender-core';
+import type { IText } from '@visactor/vrender';
+import { type IGraphic, type IGroup, type INode } from '@visactor/vrender';
 import type { IEditorElement } from '../../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from '../base-editor-element';
 import type { EventParams, ICartesianSeries, IComponent } from '@visactor/vchart';

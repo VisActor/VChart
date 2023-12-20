@@ -2,7 +2,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { IPoint, IRect, ISize } from '../../typings/space';
 import type { IElementOption } from './../interface';
 import type { IParserValue } from './data/interface';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender';
 export interface IChartElementOption extends IElementOption {
   dataSource?: { type: string; value: IParserValue };
   temp?: string;

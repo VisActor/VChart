@@ -1,4 +1,4 @@
-import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender';
 import { isValid, type IBoundsLike } from '@visactor/vutils';
 import type { IModelInfo } from './../../../core/interface';
 import type { ILayoutRect } from './../layout/interface';

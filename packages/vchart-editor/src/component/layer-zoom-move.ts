@@ -1,5 +1,5 @@
 import { debounce, type EventEmitter } from '@visactor/vutils';
-import type { ILayer } from '@visactor/vrender-core';
+import type { ILayer } from '@visactor/vrender';
 import { DragComponent } from './transform-drag';
 import type { IPoint } from '../typings/space';
 import type { VChartEditor } from '../core/vchart-editor';

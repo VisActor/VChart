@@ -2,9 +2,8 @@ import type { VChartEditor } from './vchart-editor';
 import type { IElement, VRenderPointerEvent } from './../elements/interface';
 import { Bounds, Matrix, isValid } from '@visactor/vutils';
 import type { EditorMode, IEditorElement, IEditorLayer, IElementPathRoot, ILayoutLine } from './interface';
-import type { IStage, IGroup, IGraphic, INode } from '@visactor/vrender-core';
-import { createGroup, createStage, container } from '@visactor/vrender-core';
-import { loadBrowserEnv } from '@visactor/vrender-kits';
+import type { IStage, IGroup, IGraphic, INode } from '@visactor/vrender';
+import { createGroup, createStage, container } from '@visactor/vrender';
 import { CreateID } from '../utils/common';
 import { IgnoreEvent, IsWheelEvent, TriggerEvent } from './const';
 import type { BaseElement } from '../elements/base-element';
@@ -12,8 +11,6 @@ import type { IPoint } from '../typings/space';
 import { transformPointWithMatrix } from '../utils/space';
 import { LayerZoomMove } from '../component/layer-zoom-move';
 import { getZIndexInParent } from '../elements/chart/utils/layout';
-// 加载浏览器环境
-loadBrowserEnv(container);
 
 export class EditorLayer implements IEditorLayer {
   type: string = 'default';

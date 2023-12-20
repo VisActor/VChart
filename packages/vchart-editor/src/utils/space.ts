@@ -3,7 +3,7 @@ import type { IBoundsLike, Matrix } from '@visactor/vutils';
 import type { IPoint } from '../typings/space';
 import type { ILayoutRect } from '../elements/chart/layout/interface';
 import type { ILayoutLine } from '../core/interface';
-import type { ILayer } from '@visactor/vrender-core';
+import type { ILayer } from '@visactor/vrender';
 
 export function isPointInBounds(point: IPoint, rect: IBoundsLike) {
   const { x1, y1, x2, y2 } = rect;

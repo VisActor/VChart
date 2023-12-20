@@ -1,7 +1,7 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IChartModel, MarkerTypeEnum } from './../elements/chart/interface';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IGraphic, IGroup, IStage } from '@visactor/vrender-core';
+import type { IGraphic, IGroup, IStage } from '@visactor/vrender';
 import type { IElement, IElementData } from './../elements/interface';
 import type { ILayoutAttribute, IPoint, IRect } from '../typings/space';
 import type { IModelSpec } from '../elements/chart/spec-process/interface';

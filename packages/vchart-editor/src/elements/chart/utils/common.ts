@@ -1,7 +1,7 @@
 import { DEFAULT_DATA_KEY, type ICartesianSeries, type VChart } from '@visactor/vchart';
 import { type IChartModel } from '../interface';
 import { getChartModelWithModelInfo } from './layout';
-import type { IRect } from '@visactor/vrender-core';
+import type { IRect } from '@visactor/vrender';
 import { isNumber, isString } from '@visactor/vutils';
 
 export function refreshModelInVChart(model: IChartModel, vchart: VChart) {

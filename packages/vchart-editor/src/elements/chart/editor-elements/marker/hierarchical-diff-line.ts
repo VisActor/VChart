@@ -2,8 +2,8 @@
  * @description 层级差异标注交互
  * 2. 双击出现编辑框
  */
-import type { IGroup, ILine } from '@visactor/vrender-core';
-import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
+import type { IGroup, ILine } from '@visactor/vrender';
+import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender';
 import type { IEditorElement } from '../../../../core/interface';
 import { PointService, array, isValid, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';

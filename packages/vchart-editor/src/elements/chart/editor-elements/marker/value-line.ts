@@ -2,8 +2,8 @@
  * @description 均值线
  * 2. 双击出现编辑框
  */
-import type { INode, IRect } from '@visactor/vrender-core';
-import { createRect, type IGraphic, createGroup, vglobal } from '@visactor/vrender-core';
+import type { INode, IRect } from '@visactor/vrender';
+import { createRect, type IGraphic, createGroup, vglobal } from '@visactor/vrender';
 import type { IEditorElement } from '../../../../core/interface';
 import { PointService, clamp, merge } from '@visactor/vutils';
 import type { MarkLine as MarkLineComponent } from '@visactor/vrender-components';

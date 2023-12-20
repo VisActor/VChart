@@ -4,8 +4,8 @@
  * 2. DEFAULT_OFFSET_FOR_GROWTH_MARKLINE 这个偏移量还是在坐标点内部计算比较好
  * 3. 不支持的系列类型的处理
  */
-import type { IGroup, ILine, ISymbol } from '@visactor/vrender-core';
-import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender-core';
+import type { IGroup, ILine, ISymbol } from '@visactor/vrender';
+import { type IGraphic, createGroup, vglobal, createLine, createSymbol } from '@visactor/vrender';
 import type { IEditorElement } from '../../../../core/interface';
 import type { IPointLike } from '@visactor/vutils';
 import { PointService, array, get, isString, merge } from '@visactor/vutils';

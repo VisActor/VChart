@@ -9,7 +9,7 @@ import {
   STACK_FIELD_END
 } from '@visactor/vchart';
 import { type IPointLike, array } from '@visactor/vutils';
-import { type IText } from '@visactor/vrender-core';
+import { type IText } from '@visactor/vrender';
 import { sum } from '../math';
 import type { Datum } from '../../data/interface';
 

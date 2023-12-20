@@ -1,4 +1,4 @@
-import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import type { IGraphic, IGroup } from '@visactor/vrender';
 /* eslint-disable promise/no-nesting */
 import type { VRenderPointerEvent } from './../interface';
 import type { IModelInfo, IUpdateAttributeOption } from './../../core/interface';

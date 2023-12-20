@@ -1,7 +1,7 @@
 import { isValid } from '@visactor/vutils';
 import type { IEditorElement, IEditorLayer, ILayoutLine } from './../core/interface';
-import type { IGroup, IRect } from '@visactor/vrender-core';
-import { createRect, createGroup } from '@visactor/vrender-core';
+import type { IGroup, IRect } from '@visactor/vrender';
+import { createRect, createGroup } from '@visactor/vrender';
 import type { IElement, VRenderPointerEvent } from './../elements/interface';
 import type { IPoint, IRect as ILayoutRect } from '../typings/space';
 import { BoxSelectionMaskName, OverGraphicAttribute } from '../core/const';

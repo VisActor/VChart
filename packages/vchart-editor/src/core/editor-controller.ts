@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender';
 import type { IEditorElement, EditorHandlerFunc, IEditorLayer, IEditorController } from './interface';
 
 export class EditorController implements IEditorController {
