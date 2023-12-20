@@ -306,30 +306,38 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     const xUseCache = this.enableRemain && !xVisible && isValid(this._cacheXCrossHairInfo);
     const yUseCache = this.enableRemain && !yVisible && isValid(this._cacheYCrossHairInfo);
 
-    const xCrossHairInfo: ICrosshairInfoX = xUseCache
-      ? this._cacheXCrossHairInfo
-      : {
-          height: 0,
-          leftPos: 0,
-          topPos: 0,
-          x: 0,
-          bottom: { visible: false, text: '', dx: 0, dy: 0 },
-          top: { visible: false, text: '', dx: 0, dy: 0 },
-          visible: xVisible,
-          axis: xAxis
-        };
-    const yCrossHairInfo: ICrosshairInfoY = yUseCache
-      ? this._cacheYCrossHairInfo
-      : {
-          width: 0,
-          leftPos: 0,
-          topPos: 0,
-          y: 0,
-          left: { visible: false, text: '', dx: 0, dy: 0 },
-          right: { visible: false, text: '', dx: 0, dy: 0 },
-          visible: yVisible,
-          axis: yAxis
-        };
+    let xCrossHairInfo: ICrosshairInfoX;
+
+    if (layoutX) {
+      xCrossHairInfo = xUseCache
+        ? this._cacheXCrossHairInfo
+        : {
+            height: 0,
+            leftPos: 0,
+            topPos: 0,
+            x: 0,
+            bottom: { visible: false, text: '', dx: 0, dy: 0 },
+            top: { visible: false, text: '', dx: 0, dy: 0 },
+            visible: xVisible,
+            axis: xAxis
+          };
+    }
+
+    let yCrossHairInfo: ICrosshairInfoY;
+    if (layoutY) {
+      yCrossHairInfo = yUseCache
+        ? this._cacheYCrossHairInfo
+        : {
+            width: 0,
+            leftPos: 0,
+            topPos: 0,
+            y: 0,
+            left: { visible: false, text: '', dx: 0, dy: 0 },
+            right: { visible: false, text: '', dx: 0, dy: 0 },
+            visible: yVisible,
+            axis: yAxis
+          };
+    }
 
     let indexWidth;
     let valueHeight;
@@ -355,7 +363,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             x = startX;
           }
         }
-        if (this._xHair.label?.visible && !xUseCache) {
+        if (xCrossHairInfo && this._xHair.label?.visible && !xUseCache) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
           if (axis.getOrient() === 'bottom') {
             xCrossHairInfo.bottom.visible = true;
@@ -393,7 +401,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             y = startY;
           }
         }
-        if (this._yHair.label?.visible && !yUseCache) {
+        if (yCrossHairInfo && this._yHair.label?.visible && !yUseCache) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
           if (axis.getOrient() === 'left') {
             yCrossHairInfo.left.visible = true;
@@ -410,7 +418,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       });
     }
 
-    if (!xUseCache) {
+    if (xCrossHairInfo && !xUseCache) {
       const xRegion = { x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity };
       this._setRegionArea(xRegion, this._currValueX);
       xCrossHairInfo.leftPos = xRegion.x1;
@@ -424,7 +432,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       }
     }
 
-    if (!yUseCache) {
+    if (yCrossHairInfo && !yUseCache) {
       const yRegion = { x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity };
       this._setRegionArea(yRegion, this._currValueY);
       yCrossHairInfo.leftPos = yRegion.x1;
@@ -438,12 +446,18 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       }
     }
 
-    layoutX && this._layoutHorizontal(yCrossHairInfo, valueHeight ?? 0);
-    layoutY && this._layoutVertical(xCrossHairInfo, indexWidth ?? 0);
+    if (layoutX && xCrossHairInfo) {
+      this._layoutVertical(xCrossHairInfo, indexWidth ?? 0);
+      if (this.enableRemain) {
+        this._cacheXCrossHairInfo = { ...xCrossHairInfo, _isCache: true };
+      }
+    }
 
-    if (this.enableRemain) {
-      this._cacheXCrossHairInfo = { ...xCrossHairInfo, _isCache: true };
-      this._cacheYCrossHairInfo = { ...yCrossHairInfo, _isCache: true };
+    if (layoutY && yCrossHairInfo) {
+      this._layoutHorizontal(yCrossHairInfo, valueHeight ?? 0);
+      if (this.enableRemain) {
+        this._cacheYCrossHairInfo = { ...yCrossHairInfo, _isCache: true };
+      }
     }
   }
 
