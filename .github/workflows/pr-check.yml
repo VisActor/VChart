@@ -4,8 +4,6 @@ name: Check of pull request
 on:
   pull_request:
     branches: ['develop', 'dev/**']
-    types: ['opened', 'edited']
-
 jobs:
   build:
     runs-on: ubuntu-latest
