@@ -43,7 +43,7 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
   // 2. 图表类型为: 柱状图 或 折线图, 图表类型矫正为双轴图
   // 3. 其他情况, 图表类型矫正为散点图
   if (y && typeof y !== 'string' && y.length > 1) {
-    if (chartType === 'BOX PLOT CHART') {
+    if (chartType === 'BOX PLOT') {
       return {
         chartTypeNew: chartType,
         cellNew: cell

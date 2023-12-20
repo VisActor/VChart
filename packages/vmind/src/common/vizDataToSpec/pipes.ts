@@ -34,7 +34,7 @@ const chartTypeMap: { [chartName: string]: string } = {
   'RADAR CHART': 'radar',
   'SANKEY CHART': 'sankey',
   'WATERFALL CHART': 'waterfall',
-  'BOX PLOT CHART': 'boxPlot'
+  'BOX PLOT': 'boxPlot'
 };
 
 export const chartType = (spec: any, context: Context) => {
@@ -397,8 +397,8 @@ export const wordCloudField = (spec: any, context: Context) => {
 export const funnelField = (spec: any, context: Context) => {
   //漏斗图根据cell分配字段
   const { cell } = context;
-  spec.categoryField = cell.x;
-  spec.valueField = cell.y;
+  spec.categoryField = cell.color || cell.x;
+  spec.valueField = cell.value || cell.y;
 
   return spec;
 };
@@ -625,6 +625,20 @@ export const boxPlotField = (spec: any, context: Context) => {
   spec.medianField = y[Math.floor((yFieldsLen - 1) / 2)]; // 中位数: 数值处于中间的字段
   spec.q3Field = y[Math.max(0, yFieldsLen - 2)]; // 上四分位数字段: 数值第二大的字段
   spec.maxField = y[yFieldsLen - 1]; // 最大值字段: 数值最大的字段
+  return spec;
+};
+
+export const boxPlotStyle = (spec: any, context: Context) => {
+  spec.boxPlot = {
+    ...spec.boxPlot,
+    style: {
+      boxWidth: 50,
+      shaftWidth: 30,
+      shaftShape: 'bar',
+      lineWidth: 2,
+      shaftOpacity: 0.3
+    }
+  };
   return spec;
 };
 

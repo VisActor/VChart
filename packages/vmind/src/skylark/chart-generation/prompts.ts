@@ -37,11 +37,13 @@ Knowledge:
 1. Visual channels are described with grammar of graphics and can be used to generate a chart.
 ${channelKnowledge}
 
-Constraints:
+Must follow these constraints:
 1. Only use available visual channels. Don't fabricate non-existent visual channels.
 2. Keep the field names unchanged and don't translate them, even though they are in different languages.
 3. All the data are indivisible. Don't use their initials as fields in chart. Use the original field instead.
-4. Please assign appropriate fields to each channel so that the chart can best visualize the data user wants to show.
+4. Must follow the field type restrictions in each visual channel.
+5. Don't use operator symbols or expressions in any visual channel even though there are no direct fields corresponding to user's command, choose the most related field from data instead.
+6. Please assign appropriate fields to each channel so that the chart can best visualize the data user wants to show.
 
 Let's think step by step. Fill your thoughts in thoughts in one line.
 

@@ -42,7 +42,8 @@ import {
   waterfallField,
   waterfallAxes,
   waterfallStackLabel,
-  boxPlotField
+  boxPlotField,
+  boxPlotStyle
 } from './pipes';
 import { Cell, ChartType, Context, Pipe } from '../../typings';
 import { CARTESIAN_CHART_LIST, detectAxesType } from './utils';
@@ -124,7 +125,7 @@ const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, rad
 const pipelineSankey = [chartType, sankeyData, color, sankeyField, sankeyLink, sankeyLabel, legend];
 
 const pipelineWaterfall = [chartType, data, color, waterfallField, waterfallAxes, waterfallStackLabel, legend];
-const pipelineBoxPlot = [chartType, data, color, boxPlotField, legend];
+const pipelineBoxPlot = [chartType, data, color, boxPlotField, boxPlotStyle, legend];
 
 export const pipelineMap: { [chartType: string]: any } = {
   'BAR CHART': pipelineBar,
@@ -139,7 +140,7 @@ export const pipelineMap: { [chartType: string]: any } = {
   'RADAR CHART': pipelineRadar,
   'SANKEY CHART': pipelineSankey,
   'WATERFALL CHART': pipelineWaterfall,
-  'BOX PLOT CHART': pipelineBoxPlot
+  'BOX PLOT': pipelineBoxPlot
 };
 
 export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>

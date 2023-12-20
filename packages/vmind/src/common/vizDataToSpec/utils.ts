@@ -17,7 +17,7 @@ export const CARTESIAN_CHART_LIST = [
   'Funnel Chart',
   'Dual Axis Chart',
   'Waterfall Chart',
-  'Box Plot Chart'
+  'Box Plot'
 ];
 
 export const estimateVideoTime = (chartType: string, spec: any, parsedTime?: number) => {

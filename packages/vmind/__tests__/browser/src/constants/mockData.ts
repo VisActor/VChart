@@ -3589,22 +3589,22 @@ export const mockUserInput11 = {
  * 瀑布图
  */
 export const mockUserInput12 = {
-  csv: `x,y
-  Feb.11,5
-  Feb.20,2
-  Feb.25,-2
-  Mar.4,2
-  Mar.11,2
-  Mar.19,5
-  Mar.26,1
-  Apr.1,1
-  Apr.8,1
-  Apr.15,2
-  Apr.22,1
-  Apr.29,-2
-  May.6,-1
-  `,
-  input: '展示增长减少情况，使用瀑布图'
+  csv: `date,sales
+Feb.11,5
+Feb.20,2
+Feb.25,-2
+Mar.4,2
+Mar.11,2
+Mar.19,5
+Mar.26,1
+Apr.1,1
+Apr.8,1
+Apr.15,2
+Apr.22,1
+Apr.29,-2
+May.6,-1
+`,
+  input: '使用瀑布图展示销量变化'
 };
 
 /**
@@ -3662,5 +3662,5 @@ Middle East & North Africa,9.54,10.6,11.05,11.5,11.92
 Latin America & Caribbean,8.74,9.46,10.35,10.94,12.21
 East Asia & Pacific,7.8,8.95,10.18,11.57,13.25
 Europe & Central Asia,9.52,10.39,10.93,11.69,12.63`,
-  input: '看下各地区gdp情况'
+  input: '看下各类别销售额分布'
 };

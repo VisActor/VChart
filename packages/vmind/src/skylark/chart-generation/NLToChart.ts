@@ -64,7 +64,7 @@ export const chartAdvisorSkylark = async (
   userInput: string,
   options: ILLMOptions | undefined
 ) => {
-  const userMessage = `User's Command: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
+  const userMessage = `User's Command: ${userInput}\nData field description: ${JSON.stringify(fieldInfo)}`;
 
   //call skylark to get recommended chart
   const chartRecommendKnowledgeStr = getStrFromArray(chartRecommendKnowledge);

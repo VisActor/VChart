@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Cell, DataItem, ILLMOptions } from '../../typings';
 
-export const patchChartTypeAndCell = (chartTypeRes: any, cellRes: Cell, dataset: DataItem[]) => {
-  const chartTypeNew = chartTypeRes;
+export const patchChartTypeAndCell = (chartTypeRes: any, cellRes: any, dataset: DataItem[]) => {
+  let chartTypeNew = chartTypeRes;
   let cellNew = cellRes;
   if (chartTypeRes === 'RADAR CHART') {
     cellNew = {
@@ -10,6 +10,23 @@ export const patchChartTypeAndCell = (chartTypeRes: any, cellRes: Cell, dataset:
       y: cellRes.value,
       color: cellRes.color
     };
+  } else if (chartTypeRes === 'BOX PLOT') {
+    const { x, min, q1, median, q3, max } = cellRes;
+    cellNew = {
+      x,
+      y: [min, q1, median, q3, max].filter(Boolean)
+    };
+  } else if (chartTypeRes === 'BAR CHART') {
+    if ((cellRes.y ?? '').includes(',')) {
+      const yNew = cellRes.y.split(',');
+      if (yNew.length === 2) {
+        chartTypeNew = 'DUAL AXIS CHART';
+        cellNew = {
+          ...cellRes,
+          y: yNew
+        };
+      }
+    }
   }
   return {
     chartTypeNew,

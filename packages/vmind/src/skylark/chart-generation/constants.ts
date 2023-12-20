@@ -4,7 +4,7 @@ export const ChartFieldInfo: ChannelInfo = {
   'BAR CHART': {
     visualChannels: {
       x: "x-axis of bar chart. Can't be empty. Only string fields",
-      y: "y-axis of bar chart. Can't be empty. Only number fields",
+      y: "y-axis of bar chart. Can't be empty. Only number fields. Can be an array if there are more than one number fields need to show.",
       color:
         'color channel of bar chart. Used to distinguish different bars. Only string fields. Can be empty if no suitable field.'
     },
@@ -37,7 +37,7 @@ export const ChartFieldInfo: ChannelInfo = {
     responseDescription: {
       x: 'field assigned to x channel',
       y: 'field assigned to y channel',
-      color: 'field assigned to color channel'
+      color: 'field assigned to color channel. Can be empty if no suitable field.'
     },
     knowledge: ['Only string fields can be used in color channel.']
   },
@@ -113,6 +113,68 @@ export const ChartFieldInfo: ChannelInfo = {
       color: 'field assigned to color channel'
     },
     knowledge: ['Only string fields can be used in color channel.']
+  },
+  'FUNNEL CHART': {
+    visualChannels: {
+      color:
+        "color of each category or stage. Used to distinguish different category or stages in funnel chart. Only string fields. Can't be empty",
+      value:
+        "values of each category or stage. Mapped to the width of the bar representing each category or stage. Only number fields. Can't be empty."
+    },
+    responseDescription: {
+      color: 'field assigned to color channel',
+      value: 'field assigned to value channel'
+    },
+    knowledge: ['Only string fields can be used in color channel.', 'Only number fields can be used in value channel.']
+  },
+  'WATERFALL CHART': {
+    visualChannels: {
+      x: "x-axis of waterfall chart. Can't be empty. Only string fields",
+      y: "y-axis of waterfall chart. Can't be empty. Only number fields",
+      color:
+        'color channel of waterfall chart. Used to distinguish different categories. Only string fields. Can be empty if no suitable field.'
+    },
+    responseDescription: {
+      x: 'field assigned to x channel',
+      y: 'field assigned to y channel',
+      color: 'field assigned to color channel'
+    },
+    knowledge: ['Only string fields can be used in color channel.']
+  },
+  'BOX PLOT': {
+    visualChannels: {
+      x: "x-axis of box plot. Can't be empty. Only string fields",
+      min: 'field representing min value of box plot. Can be empty. Only number fields',
+      q1: 'field representing lower quartile of box plot. Can be empty. Only number fields',
+      median: 'field representing median of box plot. Can be empty. Only number fields',
+      q3: 'field representing upper quartile of box plot. Can be empty. Only number fields',
+      max: 'field representing max value of box plot. Can be empty. Only number fields'
+    },
+    responseDescription: {
+      x: 'field assigned to x channel',
+      min: 'field assigned to min channel',
+      q1: 'field assigned to q1 channel',
+      median: 'field assigned to median channel',
+      q3: 'field assigned to q3 channel',
+      max: 'field assigned to max channel'
+    },
+    knowledge: ['Only string fields can be used in color channel.']
+  },
+  'DUAL AXIS CHART': {
+    visualChannels: {
+      x: "x-axis of dual axis chart. Can't be empty. Only string fields",
+      leftAxis: "left y-axis of dual axis chart. Can't be empty. Only number fields",
+      rightAxis: "right y-axis of dual axis chart. Can't be empty. Only number fields"
+    },
+    responseDescription: {
+      x: 'field assigned to x channel',
+      leftAxis: 'field assigned to leftAxis channel',
+      rightAxis: 'field assigned to rightAxis channel'
+    },
+    knowledge: [
+      'left y-axis is used as main axis and usually used to show main field',
+      'right y-axis is used as sub-axis'
+    ]
   }
 };
 
@@ -122,13 +184,13 @@ export const chartRecommendKnowledge = [
   'Pie chart shows the proportion of each part in the total.',
   'Scatter plot shows the relationship between two variables',
   'Word cloud shows word frequency of text data, usually used to show trends, comparison or popularity of keywords.',
-  'Dual-axis chart shows the changes of two variables with different ranges or units.',
+  'Dual-axis chart is used when there are two y-fields need to visualize.',
   'Sankey chart shows the transfer of flow or energy, reflecting the relationship between various parts.',
   'Radar chart shows data of multiple variables, allowing comparisons between various variables.',
   'Rose chart shows the distribution of periodic data.',
-  'Waterfall chart shows the cumulative effect of data, such as the contribution of each part to the total.',
+  'Waterfall chart shows the cumulative effect of data, particularly suitable for showing the total change between the beginning and the end, and how this total change is composed of increases and decreases from individual sub-items.',
   'Funnel chart shows the process or stages of data, such as the contribution of each stage to the total.',
-  'Box plot shows the distribution and outliers of data.',
+  'If data includes fields related to the minimum value, lower quartile, median, upper quartile, and maximum value, use box plot.',
   'Dynamic Bar Chart is a dynamic chart that is suitable for displaying changing data and can be used to show ranking, comparisons or data changes over time. It usually has a time field. It updates the data dynamically according to the time field and at each time point, the current data is displayed using a bar chart.',
   'Dynamic Bar Chart can only be used when data has a field that is date type.'
 ];
