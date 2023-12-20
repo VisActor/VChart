@@ -4,7 +4,7 @@ import { FieldInfo } from '../../typings';
 export const getChartRecommendPrompt = (knowledgeStr: string) => `You are an export in data visualization.
 Your task is:
 1. Based on the user's command, infer the user's intention, such as comparison, trend, proportion, distribution, etc.
-2. Select the single chart type that best suites the data and user's intention from the list of supported charts: ${JSON.stringify(
+2. Select a single chart type that best suites the data and user's intention from the list of supported charts: ${JSON.stringify(
   SUPPORTED_CHART_LIST
 )}.
 3. Response in YAML format without any additional descriptions
@@ -16,7 +16,7 @@ Let's think step by step. Fill your thoughts in {thoughts}.
 
 Response in the following format:
 thoughts: //Your thoughts
-chartType: //chartType you choose based on data and user's command.
+chartType: //chart type you choose based on data and user's command. Only one chart type can be used.
 `;
 
 export const getFieldMapPrompt = (
@@ -39,11 +39,12 @@ ${channelKnowledge}
 
 Must follow these constraints:
 1. Only use available visual channels. Don't fabricate non-existent visual channels.
-2. Keep the field names unchanged and don't translate them, even though they are in different languages.
-3. All the data are indivisible. Don't use their initials as fields in chart. Use the original field instead.
-4. Must follow the field type restrictions in each visual channel.
-5. Don't use operator symbols or expressions in any visual channel even though there are no direct fields corresponding to user's command, choose the most related field from data instead.
-6. Please assign appropriate fields to each channel so that the chart can best visualize the data user wants to show.
+2. Only use fields in data field description. Don't make up non-existent fields.
+3. Keep the field names unchanged and don't translate them, even though they are in different languages.
+4. All the data are indivisible. Don't use their initials as fields in chart. Use the original field instead.
+5. Must follow the field type restrictions in each visual channel.
+6. Don't use operator symbols or expressions in any visual channel even though there are no direct fields corresponding to user's command, choose the most related field from data instead.
+7. Please assign appropriate fields to each channel so that the chart can best visualize the data user wants to show.
 
 Let's think step by step. Fill your thoughts in thoughts in one line.
 

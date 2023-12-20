@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Cell, DataItem, ILLMOptions, SimpleFieldInfo } from '../../typings';
 import { detectAxesType } from '../../common/vizDataToSpec/utils';
+import { isArray } from 'lodash';
 
 export const patchChartTypeAndCell = (
   chartTypeRes: any,
@@ -14,7 +15,10 @@ export const patchChartTypeAndCell = (
 
   //set null field to undefined
   Object.keys(cellNew).forEach(key => {
-    if (!columns.includes(cellNew[key]) || cellNew[key] === '') {
+    const value = cellNew[key];
+    if (isArray(value)) {
+      cellNew[key] = value.map(v => (columns.includes(v) ? v : undefined)).filter(Boolean);
+    } else if (!columns.includes(value) || value === '') {
       cellNew[key] = undefined;
     }
   });
@@ -32,7 +36,9 @@ export const patchChartTypeAndCell = (
       y: [min, q1, median, q3, max].filter(Boolean)
     };
   } else if (chartTypeRes === 'BAR CHART') {
-    if ((cellRes.y ?? '').includes(',')) {
+    if (isArray(cellRes.y) && cellRes.y.length === 2) {
+      chartTypeNew = 'DUAL AXIS CHART';
+    } else if ((cellRes.y ?? '').includes(',')) {
       const yNew = cellRes.y.split(',');
       if (yNew.length === 2) {
         chartTypeNew = 'DUAL AXIS CHART';
