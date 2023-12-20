@@ -175,6 +175,22 @@ export const ChartFieldInfo: ChannelInfo = {
       'left y-axis is used as main axis and usually used to show main field',
       'right y-axis is used as sub-axis'
     ]
+  },
+  'DYNAMIC BAR CHART': {
+    visualChannels: {
+      x: "x-axis of dynamic bar chart. Can't be empty. Only string fields",
+      y: "y-axis of dynamic bar chart. Can't be empty. Only number fields",
+      color:
+        'color channel of bar chart. Used to distinguish different bars. Only string fields. Can be empty if no suitable field.',
+      time: "date field used to divide time frames. Used to divide the data into time frames. Can't be empty. Only date fields"
+    },
+    responseDescription: {
+      x: 'field assigned to x channel',
+      y: 'field assigned to y channel',
+      color: 'field assigned to color channel',
+      time: 'field assigned to time channel'
+    },
+    knowledge: ['Only string fields can be used in color channel.', 'Only date fields can be used in time channel.']
   }
 };
 
@@ -191,6 +207,6 @@ export const chartRecommendKnowledge = [
   'Waterfall chart shows the cumulative effect of data, particularly suitable for showing the total change between the beginning and the end, and how this total change is composed of increases and decreases from individual sub-items.',
   'Funnel chart shows the process or stages of data, such as the contribution of each stage to the total.',
   'If data includes fields related to the minimum value, lower quartile, median, upper quartile, and maximum value, use box plot.',
-  'Dynamic Bar Chart is a dynamic chart that is suitable for displaying changing data and can be used to show ranking, comparisons or data changes over time. It usually has a time field. It updates the data dynamically according to the time field and at each time point, the current data is displayed using a bar chart.',
+  'Dynamic Bar Chart shows changes in rankings over time.',
   'Dynamic Bar Chart can only be used when data has a field that is date type.'
 ];
