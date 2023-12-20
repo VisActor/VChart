@@ -85,7 +85,7 @@ export type MediaQueryActionFilterType =
   | 'chart'
   | `${SeriesTypeEnum}` // 具体 series 类型，如 'bar'、'line'
   | `${ComponentTypeEnum}` // 具体 component 类型，如 'cartesianAxis-band'
-  | keyof IChartSpec; // 组件 spec key，可视为简化版 component 类型，如 'axes'
+  | keyof IChartSpec; // 组件 spec key，可视为简化版 component 类型，如 'axes'、'legends'、'crosshair'
 
 /**
  * 元素过滤器
