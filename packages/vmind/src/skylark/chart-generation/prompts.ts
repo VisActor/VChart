@@ -3,7 +3,7 @@ import { FieldInfo } from '../../typings';
 
 export const getChartRecommendPrompt = (knowledgeStr: string) => `You are an export in data visualization.
 Your task is:
-1. Based on the user's command, infer the user's intention, such as comparison, trend, proportion, distribution, etc.
+1. Based on the user's command, infer the user's intention and data field description, such as comparison, trend, proportion, distribution, etc. Don't consider intentions that the current data field cannot show.
 2. Select a single chart type that best suites the data and user's intention from the list of supported charts: ${JSON.stringify(
   SUPPORTED_CHART_LIST
 )}.
