@@ -106,7 +106,7 @@ export class EditorText extends BaseElement {
       return;
     }
 
-    this.clearLayoutEditorBox();
+    this.clearCurrentEditorElement();
     const text = this._textGraphic;
     const textBounds = text.globalAABBBounds;
 
@@ -440,6 +440,7 @@ export class EditorText extends BaseElement {
   clearCurrentEditorElement() {
     this._currentEl = null;
     this.clearLayoutEditorBox();
+    this._opt.controller.setEditorElements(null);
   }
 
   protected _snapShot: any = null;
