@@ -13,7 +13,7 @@ class VMind {
 
   constructor(options?: ILLMOptions) {
     this._options = { ...(options ?? {}) };
-    this._model = options.model;
+    this._model = options.model ?? Model.GPT3_5;
   }
 
   /**

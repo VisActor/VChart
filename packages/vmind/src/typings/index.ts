@@ -1,8 +1,8 @@
 export interface ILLMOptions {
-  url?: string;
-  /** gpt request header, which has higher priority */
-  headers?: HeadersInit;
-  method?: string;
+  url?: string; //URL of your LLM service. For gpt, default is openAI API.
+  /** llm request header, which has higher priority */
+  headers?: HeadersInit; // this will be used directly as the header of the LLM request.
+  method?: 'POST' | 'GET'; //post or get
   model?: Model;
   max_tokens?: number;
   temperature?: number;
@@ -10,7 +10,7 @@ export interface ILLMOptions {
 
 export type SimpleFieldInfo = {
   fieldName: string;
-  description?: string;
+  description?: string; //additional description of the field. This will help the model have a more comprehensive understanding of this field, improving the quality of chart generation.
   type: DataType;
   role: ROLE;
 };
