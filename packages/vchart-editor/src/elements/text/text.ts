@@ -1,6 +1,6 @@
 import type { VRenderPointerEvent } from './../interface';
-import type { IGraphic, IText } from '@visactor/vrender-core';
-import { createRect, createWrapText } from '@visactor/vrender-core';
+import type { IGraphic, IText } from '@visactor/vrender';
+import { createRect, createWrapText } from '@visactor/vrender';
 import type {
   IEditorElement,
   IElementPath,

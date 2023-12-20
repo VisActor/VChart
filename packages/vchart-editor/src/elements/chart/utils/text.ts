@@ -1,4 +1,4 @@
-import { type ITextGraphicAttribute } from '@visactor/vrender-core';
+import { type ITextGraphicAttribute } from '@visactor/vrender';
 import modifyCSS from './dom';
 // eslint-disable-next-line no-duplicate-imports
 import { array, isEmpty, isNil, normalizePadding } from '@visactor/vutils';

@@ -1,4 +1,4 @@
-import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
+import type { IGraphic, IGroup, INode } from '@visactor/vrender';
 import type { IEditorLayer, IElementPath, IElementPathEnd } from './../core/interface';
 import { transformPointWithMatrix } from './space';
 import type { IPoint } from '../typings/space';

@@ -1,9 +1,9 @@
 /**
  * @description 区域标注交互
  */
-import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent, IText } from '@visactor/vrender-core';
+import type { IGroup, IGraphic, IPolygon, IRect, FederatedPointerEvent, IText } from '@visactor/vrender';
 // eslint-disable-next-line no-duplicate-imports
-import { createRect, createGroup, vglobal, createPolygon } from '@visactor/vrender-core';
+import { createRect, createGroup, vglobal, createPolygon } from '@visactor/vrender';
 import type { IEditorElement } from '../../../../core/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PointService, clamp, merge } from '@visactor/vutils';

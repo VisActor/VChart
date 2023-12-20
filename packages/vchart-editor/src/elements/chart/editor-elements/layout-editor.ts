@@ -1,7 +1,7 @@
 import type { LayoutMeta } from './../layout/interface';
 import type { ILayoutLine } from './../../../core/interface';
 import { type IChartModel } from './../interface';
-import { createRect, type IGraphic } from '@visactor/vrender-core';
+import { createRect, type IGraphic } from '@visactor/vrender';
 import type { IEditorElement } from '../../../core/interface';
 import { BaseEditorElement, CommonChartEditorElement } from './base-editor-element';
 import {

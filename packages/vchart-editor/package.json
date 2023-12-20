@@ -33,8 +33,7 @@
     "@visactor/vchart": "workspace:1.8.0",
     "@visactor/vutils": "~0.17.1",
     "@visactor/vdataset": "~0.17.1",
-    "@visactor/vrender-core": "~0.17.5",
-    "@visactor/vrender-kits": "~0.17.5",
+    "@visactor/vrender": "~0.17.5",
     "@visactor/vrender-components": "~0.17.5",
     "@visactor/vscale": "~0.17.1",
     "uuid": "~9.0.1"

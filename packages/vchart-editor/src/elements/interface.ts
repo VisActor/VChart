@@ -7,7 +7,7 @@ import type {
   IHistory
 } from './../core/interface';
 import type { IRect, IPoint } from '../typings/space';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender';
 import type { EditorData } from '../core/editor-data';
 import type { EditorEvent } from '../core/editor-event';
 

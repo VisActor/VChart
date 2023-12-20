@@ -4,7 +4,7 @@ import type { IModelInfo, IUpdateAttributeOption } from './../../../core/interfa
 import type { IChartModel } from './../interface';
 import type { IEditorController, IEditorElement, IEditorLayer, IUpdateAttributeParam } from './../../../core/interface';
 import type { EditorChart } from '../chart';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic } from '@visactor/vrender';
 import type { IRect } from '../../../typings/space';
 import { LayoutRectToRect } from '../../../utils/space';
 import { merge, array } from '@visactor/vutils';

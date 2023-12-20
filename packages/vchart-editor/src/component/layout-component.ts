@@ -1,6 +1,6 @@
 import type { EditorEvent } from './../core/editor-event';
-import type { IGroup, IStage, ILine, IRect, IGraphic } from '@visactor/vrender-core';
-import { IContainPointMode, createLine, createRect } from '@visactor/vrender-core';
+import type { IGroup, IStage, ILine, IRect, IGraphic } from '@visactor/vrender';
+import { IContainPointMode, createLine, createRect } from '@visactor/vrender';
 import type { ILayoutAttribute } from './../typings/space';
 import type { IEditorElement, ILayoutLine } from './../core/interface';
 import type { IUpdateParams } from './transform-component2';

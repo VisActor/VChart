@@ -26,7 +26,7 @@ import type { EditorChart } from '../elements/chart/chart';
 import type { IPoint } from '../typings/space';
 import { setupSimpleTextEditor } from '../elements/chart/utils/text';
 import { EditorActionMode, EditorActiveTool } from './enum';
-import type { ITextAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { ITextAttribute, ITextGraphicAttribute } from '@visactor/vrender';
 
 export class VChartEditor {
   static registerParser(key: string, parser: IDataParserConstructor) {
