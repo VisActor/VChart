@@ -155,7 +155,8 @@ export class EditorChart extends BaseElement {
       renderCanvas: this._opt.layer.getCanvas(),
       stage: this._opt.layer.getStage(),
       animation: false,
-      disableTriggerEvent: this._mode === 'editor'
+      disableTriggerEvent: this._mode === 'editor',
+      disableDirtyBounds: true
     }) as any;
     this._event.initWithVChart();
     this._layout.setVChart(this._vchart);

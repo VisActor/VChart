@@ -1,4 +1,5 @@
 import type { DataSet, DataView } from '@visactor/vdataset';
+import { type EventEmitter } from '@visactor/vutils';
 
 export interface Datum {
   [key: string]: any;
@@ -53,11 +54,13 @@ export interface IDataParserConstructor {
     {
       updateCall,
       errorCall,
-      currentData
+      currentData,
+      emitter
     }: {
       updateCall: DataUpdateCall;
       errorCall: DataErrorCall;
       currentData?: IDataParser;
+      emitter: EventEmitter;
     }
   ): IDataParser;
 }
