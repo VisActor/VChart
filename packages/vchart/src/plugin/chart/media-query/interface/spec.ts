@@ -67,7 +67,7 @@ export interface IMediaQueryAction<T extends Record<string, unknown> = any> {
    * - 配置为元素 spec 的一部分，在过滤图表元素时基于此 spec 进行模糊匹配
    * - 配置为函数回调，依次决定当前 filterType 类型下的每个元素实例是否被匹配
    */
-  filter?: MediaQueryActionFilter<T>;
+  filter?: MediaQueryActionFilter<T> | Array<MediaQueryActionFilter<T>>;
   /**
    * 元素过滤器匹配不到图表元素时，是否将新 spec 作为新的图表元素添加到图表
    * （filterType 为 'chart' 时该配置失效）
