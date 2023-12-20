@@ -54,7 +54,8 @@ export class DataTempTransform {
     this._nextDataParser = new parserCreate(this._dataSet, null, {
       updateCall: this._nextDataUpdateCall,
       errorCall: this._nextDataErrorCall,
-      currentData: compareCurrent ? this._dataParser : null
+      currentData: compareCurrent ? this._dataParser : null,
+      emitter: this._chart.option.layer.getEditor().emitter
     });
     return true;
   }

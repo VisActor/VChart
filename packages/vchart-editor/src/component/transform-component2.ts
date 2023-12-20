@@ -16,6 +16,7 @@ import { AbstractComponent } from '@visactor/vrender-components';
 import { transformPointWithMatrix } from '../utils/space';
 import type { VChartEditor } from '../core/vchart-editor';
 import { EditorActionMode } from '../core/enum';
+import { MinSize } from '../core/const';
 
 type ResizeType = [boolean, ...boolean[]] & { length: 8 };
 
@@ -366,6 +367,12 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     //   x: x + (this.horizontalResizble > 0 ? 0 : -1) * dx,
     //   y: y + (this.verticalResizble > 0 ? 0 : -1) * dy
     // });
+    if (center.x - tw / 2 > x + width - MinSize) {
+      return;
+    }
+    if (center.y - th / 2 > y + height - MinSize) {
+      return;
+    }
     this.rect.setAttributes({
       width: tw,
       height: th,
