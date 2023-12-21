@@ -55,7 +55,8 @@ export class DataTempTransform {
       updateCall: this._nextDataUpdateCall,
       errorCall: this._nextDataErrorCall,
       currentData: compareCurrent ? this._dataParser : null,
-      emitter: this._chart.option.layer.getEditor().emitter
+      emitter: this._chart.option.editor.emitter,
+      editor: this._chart.option.editor
     });
     return true;
   }

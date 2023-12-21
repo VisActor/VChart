@@ -43,7 +43,6 @@ export interface IEditorLayer {
   transformPosToLayer: (pos: IPoint) => IPoint;
   transformPosToClient: (pos: IPoint) => IPoint;
   getLayoutLineInLayer: () => ILayoutLine[];
-  getEditor: () => VChartEditor;
 
   changeElementLayoutZIndex: (
     elementId: string,
@@ -271,15 +270,22 @@ export interface IElementPathEnd {
 // 键盘类型
 export type Key = keyof typeof KEYS;
 
+export type ActiveTool = `${EditorActiveTool}`;
+export type ActionMode = `${EditorActionMode}`;
+
 // 编辑器状态
 export interface EditorState {
   /**
    * 当前激活的画布工具
    */
-  activeTool?: EditorActiveTool.chart | EditorActiveTool.data | EditorActiveTool.line | EditorActiveTool.text;
+  activeTool?: ActiveTool;
   /**
    * 当前画布的操作状态
    * 1. `add-tool` 添加画布元素时
    */
-  actionMode?: EditorActionMode.addTool | EditorActionMode.changeChart | EditorActionMode.editData | string;
+  actionMode?: ActionMode;
+}
+
+export interface ICommonInitOption {
+  editor: VChartEditor;
 }

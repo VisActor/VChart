@@ -3,7 +3,7 @@ import type { IElement, VRenderPointerEvent } from './../elements/interface';
 import { Bounds, Matrix, isValid } from '@visactor/vutils';
 import type { EditorMode, IEditorElement, IEditorLayer, IElementPathRoot, ILayoutLine } from './interface';
 import type { IStage, IGroup, IGraphic, INode } from '@visactor/vrender';
-import { createGroup, createStage, container } from '@visactor/vrender';
+import { createGroup, createStage } from '@visactor/vrender';
 import { CreateID } from '../utils/common';
 import { IgnoreEvent, IsWheelEvent, TriggerEvent } from './const';
 import type { BaseElement } from '../elements/base-element';
@@ -62,7 +62,6 @@ export class EditorLayer implements IEditorLayer {
     return this._editorGroup;
   }
 
-  protected _elementGroup: IGroup;
   get elementGroup() {
     return this._stage.defaultLayer;
   }
@@ -92,9 +91,6 @@ export class EditorLayer implements IEditorLayer {
   }
 
   private _editor: VChartEditor;
-  getEditor() {
-    return this._editor;
-  }
 
   constructor(
     container: HTMLDivElement,
@@ -132,8 +128,7 @@ export class EditorLayer implements IEditorLayer {
   }
 
   reLayoutWithOffset(offsetX: number, offsetY: number) {
-    this._elements.forEach(el => el.moveBy(offsetX, offsetY));
-    this._zoomMove.moveTo({ x: 0, y: 0 });
+    this._zoomMove.moveTo({ x: offsetX * this.scale, y: offsetY * this.scale });
   }
 
   transformPosToLayer = (pos: IPoint) => {
@@ -153,7 +148,6 @@ export class EditorLayer implements IEditorLayer {
     this._stage = null;
     this._elements = null;
     this._editorGroup = null;
-    this._elementGroup = null;
     this._elementReadyCallBack = null;
     this._eventHandler.clear();
     this._eventHandler = null;
@@ -168,15 +162,6 @@ export class EditorLayer implements IEditorLayer {
     });
     this._stage.defaultLayer.add(group);
     this._editorGroup = group;
-
-    const elementGroup = createGroup({
-      x: 0,
-      y: 0,
-      pickable: false,
-      zIndex: 999999
-    });
-    this._stage.defaultLayer.add(elementGroup);
-    this._elementGroup = elementGroup;
   }
 
   protected initCanvas() {
@@ -425,7 +410,8 @@ export class EditorLayer implements IEditorLayer {
 
   changeElementLayoutZIndex(
     elementId: string,
-    opt: { zIndex?: number; action: 'toTop' | 'toBottom' | 'levelUp' | 'levelDown' }
+    opt: { zIndex?: number; action: 'toTop' | 'toBottom' | 'levelUp' | 'levelDown' },
+    pushHistory: boolean = true
   ) {
     const el = this._elements.find(e => e.id === elementId);
     if (!el) {
@@ -447,6 +433,6 @@ export class EditorLayer implements IEditorLayer {
       zIndex += 100;
       this._elements.find(e => e.updateLayoutZIndex(zIndex + 1, false));
     }
-    el.updateLayoutZIndex(zIndex, true);
+    el.updateLayoutZIndex(zIndex, pushHistory);
   }
 }

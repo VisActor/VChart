@@ -1,13 +1,14 @@
-import type { IGraphic, IGroup } from '@visactor/vrender';
+import type { IGraphic } from '@visactor/vrender';
 /* eslint-disable promise/no-nesting */
 import type { VRenderPointerEvent } from './../interface';
-import type { IModelInfo, IUpdateAttributeOption } from './../../core/interface';
 import type {
   IEditorElement,
   IElementPathEnd,
   IElementPathRoot,
   ILayoutLine,
-  IUpdateAttributeParam
+  IUpdateAttributeParam,
+  IModelInfo,
+  IUpdateAttributeOption
 } from './../../core/interface';
 /* eslint-disable no-console */
 import { LayoutEditorElement } from './editor-elements/layout-editor';
@@ -91,7 +92,7 @@ export class EditorChart extends BaseElement {
     }
   }
   private _initEvents() {
-    this._opt.layer.getEditor().emitter.on('dataUpdate', actionType => {
+    this._option.editor.emitter.on('dataUpdate', actionType => {
       this._dataActionType = actionType;
 
       if (actionType === 'data-replace') {
@@ -105,13 +106,19 @@ export class EditorChart extends BaseElement {
    * init editors
    */
   initEditors() {
-    this._layoutEditor = new LayoutEditorElement(this._opt.controller, this, this._opt.layer);
-    this._avgMarkLineEditor = new ValueLineEditor(this._opt.controller, this, this._opt.layer);
-    this._markAreaEditor = new MarkAreaEditor(this._opt.controller, this, this._opt.layer);
-    this._growthMarkLineEditor = new GrowthLineEditor(this._opt.controller, this, this._opt.layer);
-    this._hirarchicalDiffMarkLineEditor = new HierarchicalDiffLineEditor(this._opt.controller, this, this._opt.layer);
+    const option = {
+      controller: this._option.controller,
+      chart: this,
+      layer: this._option.layer,
+      editor: this._editor
+    };
+    this._layoutEditor = new LayoutEditorElement(option);
+    this._avgMarkLineEditor = new ValueLineEditor(option);
+    this._markAreaEditor = new MarkAreaEditor(option);
+    this._growthMarkLineEditor = new GrowthLineEditor(option);
+    this._hirarchicalDiffMarkLineEditor = new HierarchicalDiffLineEditor(option);
     // chart editor
-    this._commonModelElement = new CommonModelElement(this._opt.controller, this, this._opt.layer);
+    this._commonModelElement = new CommonModelElement(option);
     this._commonModelElement.emitter.on('chartDataTempChange', this._onChartTempDataChange);
     this._commonModelElement.emitter.on('addMarkLine', this._onAddMarkLine);
     this._commonModelElement.emitter.on('addMarkArea', this._onAddMarkArea);
@@ -138,13 +145,13 @@ export class EditorChart extends BaseElement {
 
   initWithOption(): void {
     super.initWithOption();
-    this._layout.setViewBox(this._opt.rect);
-    if (this._opt.attribute) {
-      if (this._opt.attribute.layout) {
-        this._layout.setLayoutData(this._opt.attribute.layout);
+    this._layout.setViewBox(this._option.rect);
+    if (this._option.attribute) {
+      if (this._option.attribute.layout) {
+        this._layout.setLayoutData(this._option.attribute.layout);
       }
-      if (this._opt.attribute) {
-        this._specProcess.updateEditorSpec(this._opt.attribute as any);
+      if (this._option.attribute) {
+        this._specProcess.updateEditorSpec(this._option.attribute as any);
       }
     }
   }
@@ -152,8 +159,8 @@ export class EditorChart extends BaseElement {
   protected _initVChart(spec: ISpec) {
     spec = this._transformVchartSpec(spec);
     this._vchart = new VChart(spec, {
-      renderCanvas: this._opt.layer.getCanvas(),
-      stage: this._opt.layer.getStage(),
+      renderCanvas: this._option.layer.getCanvas(),
+      stage: this._option.layer.getStage(),
       animation: false,
       disableTriggerEvent: this._mode === 'editor',
       disableDirtyBounds: true
@@ -239,10 +246,11 @@ export class EditorChart extends BaseElement {
 
   protected _afterRender() {
     // 设置zIndex
-    const root = this._opt.layer.getStage().defaultLayer.findChildrenByName('root')[0];
+    const root = this._option.layer.getStage().defaultLayer.findChildrenByName('root')[0];
     // @ts-ignore
     root?.setAttributes({
-      zIndex: this._specProcess.getEditorSpec().zIndex ?? 0
+      zIndex: this._specProcess.getEditorSpec().zIndex ?? 0,
+      pickable: false
     });
     this._layoutEditor?.checkCurrentEditorElementBounds();
 
@@ -311,7 +319,7 @@ export class EditorChart extends BaseElement {
   };
 
   clearDataForChartTypeChange = (attr?: IUpdateAttributeParam) => {
-    this._opt.controller.currentEditorElement?.editorFinish();
+    this._option.controller.currentEditorElement?.editorFinish();
     this._specProcess.clearMarker();
     if (attr?.clearCurrent) {
       this._specProcess.clearEditorSpec();
@@ -417,7 +425,7 @@ export class EditorChart extends BaseElement {
   }
 
   getTargetWithPos(pos: IPoint): IElementPathRoot {
-    const modelInfo = this.layout.getOverModel(pos, this._opt.layer);
+    const modelInfo = this.layout.getOverModel(pos, this._option.layer);
     if (!modelInfo) {
       return this._pickElement(pos);
     }
@@ -491,7 +499,7 @@ export class EditorChart extends BaseElement {
   }
 
   private _pickElement(pos: IPoint): IElementPathRoot {
-    const el = this._opt.layer.getStage().pick(pos.x, pos.y);
+    const el = this._option.layer.getStage().pick(pos.x, pos.y);
     if (!el || !el.graphic) {
       return null;
     }
@@ -855,7 +863,7 @@ export class EditorChart extends BaseElement {
     if (!this._vchart) {
       return null;
     }
-    return this._opt.layer.getStage().defaultLayer.findChildrenByName('root')[0] as IGraphic;
+    return this._option.layer.getStage().defaultLayer.findChildrenByName('root')[0] as IGraphic;
   }
 
   updateLayoutZIndex(zIndex: number, pushHistory: boolean) {

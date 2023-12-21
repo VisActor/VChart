@@ -25,7 +25,7 @@ export class EditorEvent {
   constructor(editor: VChartEditor) {
     this._editor = editor;
     if (this._editor.option.mode === 'editor') {
-      this._boxSelection = new BoxSelection(null, this);
+      this._boxSelection = new BoxSelection(null, this, editor);
     }
     this._mutationObserver = new window.MutationObserver(this._triggerLayerStyleChange);
   }
@@ -173,5 +173,10 @@ export class EditorEvent {
       return true;
     }
     return false;
+  }
+
+  clearCurrentEditorBox() {
+    this._currentEditorBox = null;
+    this._boxSelection.cancelBoxSelection();
   }
 }

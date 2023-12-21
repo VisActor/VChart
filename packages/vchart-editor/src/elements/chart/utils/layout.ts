@@ -198,6 +198,9 @@ export function getZIndexInParent(
   if (opt.action === 'toTop') {
     index = (mark.attribute.zIndex ?? 0) + 1;
     parent.forEachChildren(c => {
+      if (opt.childFilter && !opt.childFilter(c)) {
+        return;
+      }
       index = Math.max(index, (c as IGraphic).attribute.zIndex ?? 0 + 1);
     });
   } else if (opt.action === 'toBottom') {

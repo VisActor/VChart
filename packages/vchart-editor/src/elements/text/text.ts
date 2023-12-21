@@ -52,14 +52,14 @@ export class EditorText extends BaseElement {
     this._textGraphic.addEventListener('pointerover', this._pointerOver as any);
     this._textGraphic.addEventListener('pointerout', this._pointerOut as any);
 
-    this._opt.layer.getStage().addEventListener('pointerdown', this._checkUnPick as any);
+    this._option.layer.getStage().addEventListener('pointerdown', this._checkUnPick as any);
   }
 
   private _checkUnPick = (e: VRenderPointerEvent) => {
     if (e.target !== this._textGraphic && !this._touchEditorBox(e)) {
       this.clearLayoutEditorBox();
-      if (this._opt.controller.currentEditorElement?.id === this._tempKey) {
-        this._opt.controller.setEditorElements(null, e);
+      if (this._option.controller.currentEditorElement?.id === this._tempKey) {
+        this._option.controller.setEditorElements(null, e);
       }
     }
   };
@@ -69,7 +69,7 @@ export class EditorText extends BaseElement {
       return false;
     }
     let node = e.target;
-    while (node && node !== this._opt.layer.getStage().defaultLayer) {
+    while (node && node !== this._option.layer.getStage().defaultLayer) {
       if (node === (this._layoutComponent.editorBox as any)) {
         return true;
       }
@@ -79,19 +79,20 @@ export class EditorText extends BaseElement {
   }
 
   private _pointerDown = (e: VRenderPointerEvent) => {
+    console.log('pointer down!');
     if (!this.pickable) {
       return;
     }
     if (e.target !== this._textGraphic) {
       return;
     }
-    if (this._opt.controller.currentEditorElement?.id === this._id) {
+    if (this._option.controller.currentEditorElement?.id === this._id) {
       return;
     }
 
     const el: IEditorElement = this._getEditorElement();
     this._currentEl = el;
-    this._opt.controller.setEditorElements(el, e);
+    this._option.controller.setEditorElements(el, e);
     this._createEditorGraphic(el, e);
   };
 
@@ -102,7 +103,7 @@ export class EditorText extends BaseElement {
     if (e.target !== this._textGraphic) {
       return;
     }
-    if (this._opt.controller.currentEditorElement?.id !== this._id) {
+    if (this._option.controller.currentEditorElement?.id !== this._id) {
       return;
     }
 
@@ -142,11 +143,11 @@ export class EditorText extends BaseElement {
     if (!this.overAble) {
       return false;
     }
-    this._opt.controller.setOverGraphic(this._getOverGraphic(), this._id, e);
+    this._option.controller.setOverGraphic(this._getOverGraphic(), this._id, e);
     return true;
   };
   private _pointerOut = (e: VRenderPointerEvent) => {
-    this._opt.controller.setOverGraphic(null, this._id, e);
+    this._option.controller.setOverGraphic(null, this._id, e);
   };
 
   tryPick = (e: VRenderPointerEvent) => {
@@ -157,7 +158,7 @@ export class EditorText extends BaseElement {
   };
 
   removeEvent() {
-    this._opt.layer.getStage().removeEventListener('pointerdown', this._checkUnPick as any);
+    this._option.layer.getStage().removeEventListener('pointerdown', this._checkUnPick as any);
   }
 
   release() {
@@ -193,7 +194,7 @@ export class EditorText extends BaseElement {
     };
     const el: IEditorElement = {
       type: 'graphics',
-      layer: this._opt.layer,
+      layer: this._option.layer,
       id: this._id,
       elementId: this._id,
       graphicsType: this.type,
@@ -303,7 +304,7 @@ export class EditorText extends BaseElement {
     const allLayers = this.option.getAllLayers();
     const layoutLines = allLayers.reduce((pre, l) => {
       const tempLine = l.getLayoutLineInLayer();
-      if (l === this._opt.layer) {
+      if (l === this._option.layer) {
         tempLine.forEach(line => {
           // @ts-ignore
           if (line.id === this._id && line.specKey === this._tempKey) {
@@ -317,17 +318,17 @@ export class EditorText extends BaseElement {
       return pre;
     }, []) as ILayoutLine[];
     this._layoutComponent = new LayoutEditorComponent(el, {
-      container: this._opt.controller.container,
+      container: this._option.controller.container,
       layoutLines,
-      editorEvent: this._opt.editorEvent,
-      editorGroup: this._opt.layer.editorGroup,
-      stage: this._opt.layer.getStage(),
+      editorEvent: this._option.editorEvent,
+      editorGroup: this._option.layer.editorGroup,
+      stage: this._option.layer.getStage(),
       startHandler: () => {
         // do nothing
-        this._opt.controller.editorRun('layout');
+        this._option.controller.editorRun('layout');
 
         // disable over
-        this._opt.getAllLayers().forEach(l => {
+        this._option.getAllLayers().forEach(l => {
           l.elements.forEach(e => (e.overAble = false));
         });
         this.option.controller.setOverGraphic(null, null, null);
@@ -359,12 +360,12 @@ export class EditorText extends BaseElement {
         this.saveSnapshot();
         this._updateLayout(data);
         this._layoutComponent?.updateBounds(this._textGraphic.AABBBounds);
-        this._opt.controller.setOverGraphic(null, null, null);
-        this._opt.controller.editorEnd();
+        this._option.controller.setOverGraphic(null, null, null);
+        this._option.controller.editorEnd();
         this.pushHistory();
 
         // enable over
-        this._opt.getAllLayers().forEach(l => {
+        this._option.getAllLayers().forEach(l => {
           l.elements.forEach(e => (e.overAble = true));
         });
       },
@@ -445,7 +446,7 @@ export class EditorText extends BaseElement {
 
   startEditorElement(el: IEditorElement, e: PointerEvent) {
     this._currentEl = el;
-    this._opt.controller.setEditorElements(el, e);
+    this._option.controller.setEditorElements(el, e);
     this._createEditorGraphic(el, e);
   }
 
@@ -464,11 +465,11 @@ export class EditorText extends BaseElement {
     if (Object.keys(to).length === 0 && Object.keys(from).length === 0) {
       return;
     }
-    this._opt.editorData.pushHistoryNextTick({
+    this._option.editorData.pushHistoryNextTick({
       element: this.getElementInfo(),
       from,
       to,
-      use: this._opt.commonHistoryUse
+      use: this._option.commonHistoryUse
     });
   }
 
@@ -498,11 +499,11 @@ export class EditorText extends BaseElement {
   }
 
   getTargetWithPos(pos: IPoint): IElementPathRoot {
-    if (isPointInBounds(this._opt.layer.transformPosToLayer(pos), this._textGraphic.AABBBounds)) {
+    if (isPointInBounds(this._option.layer.transformPosToLayer(pos), this._textGraphic.AABBBounds)) {
       const endPath = getEndPathWithNode(pos, this._textGraphic);
       const result = getElementPath(
         this._textGraphic,
-        this._opt.layer.getStage().defaultLayer,
+        this._option.layer.getStage().defaultLayer,
         endPath
       ) as IElementPathRoot;
       result.elementId = this._id;
