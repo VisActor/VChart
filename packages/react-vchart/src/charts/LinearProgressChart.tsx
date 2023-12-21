@@ -1,5 +1,6 @@
 import React from 'react';
 import { ILinearProgressChartSpec } from '@visactor/vchart';
+import { default as VChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 export interface LinearProgressChartProps
@@ -8,5 +9,8 @@ export interface LinearProgressChartProps
 
 export const LinearProgressChart = createChart<React.PropsWithChildren<LinearProgressChartProps>>(
   'LinearProgressChart',
-  'linearProgress'
+  {
+    type: 'linearProgress',
+    vchartConstrouctor: VChart
+  }
 );

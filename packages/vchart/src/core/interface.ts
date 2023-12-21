@@ -3,6 +3,7 @@ import type { DataSet } from '@visactor/vdataset';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type {
   Datum,
+  IInitOption,
   IMarkStateSpec,
   IPoint,
   IRegionQuerier,
@@ -51,6 +52,10 @@ export type DataLinkAxis = {
    */
   axisIndex?: number;
 };
+
+export interface IVChartConstructor {
+  new (spec: ISpec, options: IInitOption): IVChart;
+}
 
 export interface IVChart {
   readonly id: number;

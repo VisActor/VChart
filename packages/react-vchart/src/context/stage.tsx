@@ -1,7 +1,7 @@
 import React from 'react';
-import type { Stage } from '@visactor/vrender-core';
+import type { IStage } from '@visactor/vrender-core';
 
-const StageContext = React.createContext<Stage>(null);
+const StageContext = React.createContext<IStage>(null);
 StageContext.displayName = 'StageContext';
 
 export function withStage<T>(Component: typeof React.Component) {

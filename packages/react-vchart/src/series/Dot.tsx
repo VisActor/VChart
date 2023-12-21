@@ -1,5 +1,5 @@
 import { BaseSeriesProps, createSeries } from './BaseSeries';
-import { IDotSeriesSpec } from '@visactor/vchart';
+import type { IDotSeriesSpec } from '@visactor/vchart';
 
 export type DotProps = BaseSeriesProps & Omit<IDotSeriesSpec, 'type'>;
 
