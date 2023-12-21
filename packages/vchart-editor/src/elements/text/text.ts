@@ -13,7 +13,7 @@ import type {
 /* eslint-disable no-console */
 
 import type { IBoundsLike } from '@visactor/vutils';
-import { isEmpty, isString, isValid } from '@visactor/vutils';
+import { isEmpty, isString, isValid, isArray } from '@visactor/vutils';
 import type { IRect, IPoint, ILayoutAttribute } from '../../typings/space';
 import { BaseElement } from '../base-element';
 import type { IElementOption } from '../interface';
@@ -23,6 +23,8 @@ import { getLayoutLine, isPointInBounds, isRectConnectRect } from '../../utils/s
 import { diffSpec } from '../../utils/spec';
 import { addRectToPathElement, getElementPath, getEndPathWithNode, getPosInClient } from '../../utils/element';
 import { setupSimpleTextEditor } from '../chart/utils/text';
+
+const MinFontSize = 10;
 
 export class EditorText extends BaseElement {
   type = 'text';
@@ -107,7 +109,7 @@ export class EditorText extends BaseElement {
       return;
     }
 
-    this.clearLayoutEditorBox();
+    this.clearCurrentEditorElement();
 
     const text = this._textGraphic;
     const textBounds = text.globalAABBBounds;
@@ -283,7 +285,9 @@ export class EditorText extends BaseElement {
           text: '文本',
           fontSize: 16
         },
-        ...this.option.attribute
+        ...this.option.attribute,
+        maxLineWidth: 99999,
+        heightLimit: 99999
       })
     );
     this.option.layer.elementGroup.add(this._textGraphic);
@@ -317,6 +321,7 @@ export class EditorText extends BaseElement {
       }
       return pre;
     }, []) as ILayoutLine[];
+    const lineCount = isArray(this._textGraphic.attribute.text) ? this._textGraphic.attribute.text.length : 1;
     this._layoutComponent = new LayoutEditorComponent(el, {
       container: this._option.controller.container,
       layoutLines,
@@ -371,7 +376,8 @@ export class EditorText extends BaseElement {
       },
       event: e,
       editorBoxStyle: {
-        enabledAnchors: ['left-bottom', 'left-top', 'right-bottom', 'right-top']
+        enabledAnchors: ['left-bottom', 'left-top', 'right-bottom', 'right-top'],
+        minHeight: (MinFontSize + 2) * lineCount
       }
     });
 
@@ -379,6 +385,7 @@ export class EditorText extends BaseElement {
   }
 
   private _updateLayout(layoutData: ILayoutAttribute) {
+    console.log(layoutData.height);
     if (isValid(layoutData.dy)) {
       this._textGraphic.setAttributes({
         x: layoutData.dx + this._textGraphic.attribute.x
@@ -390,13 +397,11 @@ export class EditorText extends BaseElement {
       });
     }
     if (isValid(layoutData.x) && isValid(layoutData.y) && isValid(layoutData.width) && isValid(layoutData.height)) {
+      const lineCount = isArray(this._textGraphic.attribute.text) ? this._textGraphic.attribute.text.length : 1;
       this._textGraphic.setAttributes({
         x: layoutData.x - (this._textGraphic.AABBBounds.x1 - this._textGraphic.attribute.x),
         y: layoutData.y - (this._textGraphic.AABBBounds.y1 - this._textGraphic.attribute.y),
-        maxLineWidth: layoutData.width,
-        // vRender type error
-        // @ts-ignore
-        heightLimit: layoutData.height
+        fontSize: Math.max(Math.ceil((layoutData.height - lineCount * 2) / lineCount), MinFontSize)
       });
     }
 
@@ -453,6 +458,9 @@ export class EditorText extends BaseElement {
   clearCurrentEditorElement() {
     this._currentEl = null;
     this.clearLayoutEditorBox();
+    if (this._option.controller.currentEditorElement?.id === this._tempKey) {
+      this._option.controller.setEditorElements(null, null);
+    }
   }
 
   protected _snapShot: any = null;
@@ -489,7 +497,7 @@ export class EditorText extends BaseElement {
       this._currentEl.rect.y = bounds.y1;
       this._currentEl.rect.width = bounds.width();
       this._currentEl.rect.height = bounds.height();
-
+      console.log('_updateEditorBox', this._currentEl.rect.height);
       if (this._layoutComponent) {
         this._layoutComponent.editorBox.rect.setAttributes({
           ...this._currentEl.rect
