@@ -57,6 +57,8 @@ export interface BaseChartProps
   onReady?: (instance: IVChart, isInitial: boolean) => void;
   /** throw error when chart run into an error */
   onError?: (err: Error) => void;
+  /** use sync render */
+  useSyncRender?: boolean;
 }
 
 type Props = React.PropsWithChildren<BaseChartProps>;
@@ -84,6 +86,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const prevSpec = useRef(pickWithout(props, notSpecKeys));
   const eventsBinded = React.useRef<BaseChartProps>(null);
   const skipFunctionDiff = !!props.skipFunctionDiff;
+  const useSyncRender = !!props.useSyncRender;
 
   const parseSpec = (props: Props) => {
     if (hasSpec && props.spec) {
@@ -99,6 +102,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const createChart = (props: Props) => {
     const cs = new props.vchartConstrouctor(parseSpec(props), {
       ...props.options,
+      onError: props.onError,
       autoFit: true,
       dom: props.container
     });
@@ -121,11 +125,12 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
   const renderChart = () => {
     if (chartContext.current.chart) {
-      // eslint-disable-next-line promise/catch-or-return
-      const renderPromise = chartContext.current.chart.renderAsync().then(handleChartRender);
-
-      if (props.onError) {
-        renderPromise.catch(props.onError);
+      if (useSyncRender) {
+        chartContext.current.chart.renderSync();
+        handleChartRender();
+      } else {
+        // eslint-disable-next-line promise/catch-or-return
+        chartContext.current.chart.renderAsync().then(handleChartRender);
       }
     }
   };
@@ -146,13 +151,17 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
         eventsBinded.current = props;
-        // eslint-disable-next-line promise/catch-or-return
-        const updatePromise = chartContext.current.chart
-          .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
-          .then(handleChartRender);
-
-        if (props.onError) {
-          updatePromise.catch(props.onError);
+        if (useSyncRender) {
+          chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
+            morph: false,
+            enableExitAnimation: false
+          });
+          handleChartRender();
+        } else {
+          // eslint-disable-next-line promise/catch-or-return
+          chartContext.current.chart
+            .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
+            .then(handleChartRender);
         }
       }
       return;
@@ -165,13 +174,18 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       chartContext.current.isChildrenUpdated
     ) {
       prevSpec.current = newSpec;
-      // eslint-disable-next-line promise/catch-or-return
-      const updatePromise = chartContext.current.chart
-        .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
-        .then(handleChartRender);
 
-      if (props.onError) {
-        updatePromise.catch(props.onError);
+      if (useSyncRender) {
+        chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
+          morph: false,
+          enableExitAnimation: false
+        });
+        handleChartRender();
+      } else {
+        // eslint-disable-next-line promise/catch-or-return
+        chartContext.current.chart
+          .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
+          .then(handleChartRender);
       }
     }
     chartContext.current = {
