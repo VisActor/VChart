@@ -36,7 +36,7 @@ export function ChartPreview(props: IPropsType) {
   const [outType, setOutType] = useState<'gif' | 'video' | ''>('');
   const [src, setSrc] = useState('');
 
-  const vmind = new VMind(import.meta.OPENAI_KEY!);
+  const vmind = new VMind({});
   // const [describe, setDescribe] = useState<string>(mockUserInput6.input);
   // const [csv, setCsv] = useState<string>(mockUserInput6.csv);
   // const [loading, setLoading] = useState<boolean>(false);

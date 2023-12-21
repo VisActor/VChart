@@ -1,40 +1,18 @@
-import { DEFAULT_VIDEO_LENGTH, CHARTTYP_VIDEO_ELENGTH, SUPPORTED_CHART_LIST } from './constants';
-import { DataItem, GPTChartAdvisorResult, IGPTOptions, LOCATION, SimpleFieldInfo, VizSchema } from '../../typings';
-import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from './vizDataToSpec';
+import { SUPPORTED_CHART_LIST } from '../../common/vizDataToSpec/constants';
+import { DataItem, GPTChartAdvisorResult, ILLMOptions, LOCATION, SimpleFieldInfo, VizSchema } from '../../typings';
+import { checkChartTypeAndCell, vizDataToSpec } from '../../common/vizDataToSpec';
 import { parseGPTResponse, requestGPT } from '../utils';
-import { patchUserInput } from './utils';
-import { chartAdvisorHandler } from '../../common/chartAdvisor/chartAdvisorHandler';
+import { patchChartTypeAndCell, patchUserInput } from './utils';
 import { ChartAdvisorPromptEnglish } from './prompts';
-
-export const estimateVideoTime = (chartType: string, spec: any, parsedTime?: number) => {
-  //估算视频长度
-  if (chartType === 'DYNAMIC BAR CHART') {
-    const frameNumber = spec.player.specs.length;
-    const duration = spec.player.interval;
-    return {
-      totalTime: parsedTime ?? frameNumber * duration,
-      frameArr: parsedTime
-        ? Array.from(new Array(frameNumber).keys()).map(n => Number(parsedTime / frameNumber))
-        : Array.from(new Array(frameNumber).keys()).map(n => duration)
-    };
-  }
-
-  // chartType不是真实的图表类型，转一次
-  const map: Record<string, string> = {
-    'PIE CHART': 'pie',
-    'WORD CLOUD': 'wordCloud'
-  };
-  return {
-    totalTime: parsedTime ?? CHARTTYP_VIDEO_ELENGTH[map[chartType]] ?? DEFAULT_VIDEO_LENGTH,
-    frameArr: []
-  };
-};
+import { chartAdvisorHandler } from '../../common/chartAdvisor';
+import { estimateVideoTime } from '../../common/vizDataToSpec/utils';
+import { getSchemaFromFieldInfo } from '../../common/schema';
 
 export const generateChartWithGPT = async (
   userPrompt: string, //user's intent of visualization, usually aspect in data that they want to visualize
   fieldInfo: SimpleFieldInfo[],
   propsDataset: DataItem[],
-  options: IGPTOptions,
+  options: ILLMOptions,
   colorPalette?: string[],
   animationDuration?: number
 ) => {
@@ -46,7 +24,7 @@ export const generateChartWithGPT = async (
   let dataset: DataItem[] = propsDataset;
   try {
     // throw 'test chartAdvisorHandler';
-    const resJson: any = await chartAdvisorGPT(schema, fieldInfo, userInputFinal, options);
+    const resJson: any = await chartAdvisorGPT(schema, userInputFinal, options);
 
     const chartTypeRes = resJson['CHART_TYPE'].toUpperCase();
     const cellRes = resJson['FIELD_MAP'];
@@ -58,6 +36,7 @@ export const generateChartWithGPT = async (
   } catch (err) {
     console.warn(err);
     console.warn('LLM generation error, use rule generation.');
+    // call rule-based method to get recommended chart type and fieldMap(cell)
     const advisorResult = chartAdvisorHandler(schema, dataset);
     chartType = advisorResult.chartType;
     cell = advisorResult.cell;
@@ -78,13 +57,20 @@ export const generateChartWithGPT = async (
   };
 };
 
+/**
+ * call GPT to get recommended chart type and fieldMap
+ * @param schema VizSchema
+ * @param userInput user input about their intention
+ * @param options vmind options
+ * @returns
+ */
 export const chartAdvisorGPT = async (
   schema: Partial<VizSchema>,
-  fieldInfo: SimpleFieldInfo[],
   userInput: string,
-  options: IGPTOptions | undefined
+  options: ILLMOptions | undefined
 ) => {
-  const filteredFields = fieldInfo.filter(
+  //call GPT
+  const filteredFields = schema.fields.filter(
     field => true
     //usefulFields.includes(field.fieldName)
   );
@@ -103,21 +89,4 @@ export const chartAdvisorGPT = async (
     throw Error('Unsupported Chart Type. Please Change User Input');
   }
   return advisorResJson;
-};
-
-export const getSchemaFromFieldInfo = (fieldInfo: SimpleFieldInfo[]): Partial<VizSchema> => {
-  const schema = {
-    fields: fieldInfo
-      //.filter(d => usefulFields.includes(d.fieldName))
-      .map(d => ({
-        id: d.fieldName,
-        alias: d.fieldName,
-        description: d.description,
-        visible: true,
-        type: d.type,
-        role: d.role,
-        location: d.role as unknown as LOCATION
-      }))
-  };
-  return schema;
 };

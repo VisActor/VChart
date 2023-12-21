@@ -1,8 +1,8 @@
-export interface IGPTOptions {
-  url?: string;
-  /** gpt request header, which has higher priority */
-  headers?: HeadersInit;
-  method?: string;
+export interface ILLMOptions {
+  url?: string; //URL of your LLM service. For gpt, default is openAI API.
+  /** llm request header, which has higher priority */
+  headers?: HeadersInit; // this will be used directly as the header of the LLM request.
+  method?: 'POST' | 'GET'; //post or get
   model?: Model;
   max_tokens?: number;
   temperature?: number;
@@ -10,7 +10,7 @@ export interface IGPTOptions {
 
 export type SimpleFieldInfo = {
   fieldName: string;
-  description?: string;
+  description?: string; //additional description of the field. This will help the model have a more comprehensive understanding of this field, improving the quality of chart generation.
   type: DataType;
   role: ROLE;
 };
@@ -30,6 +30,7 @@ export type Cell = {
   color?: string;
   size?: string;
   angle?: string;
+  radius?: string;
   time?: string;
   source?: string;
   target?: string;
@@ -107,7 +108,7 @@ export type VizSchema = {
 export enum Model {
   GPT3_5 = 'gpt-3.5',
   GPT4 = 'gpt-3.5',
-  SKYLARK = 'skylark'
+  SKYLARK = 'skylark-pro'
 }
 
 export type ChartGenerationProps = {

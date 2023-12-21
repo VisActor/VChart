@@ -1,53 +1,125 @@
 import axios from 'axios';
-import { GPTDataProcessResult, IGPTOptions } from '../../typings';
-import { isValid } from '@visactor/vutils';
-import JSON5 from 'json5';
+import { Cell, DataItem, ILLMOptions, SimpleFieldInfo } from '../../typings';
+import { detectAxesType } from '../../common/vizDataToSpec/utils';
+import { isArray } from 'lodash';
 
-export const detectAxesType = (values: any[], field: string) => {
-  const isNumber = values.every(d => !d[field] || !isNaN(Number(d[field])));
-  if (isNumber) {
-    return 'linear';
-  } else {
-    return 'band';
+export const patchChartTypeAndCell = (
+  chartTypeRes: any,
+  cellRes: any,
+  dataset: DataItem[],
+  fieldInfo: SimpleFieldInfo[]
+) => {
+  let chartTypeNew = chartTypeRes;
+  let cellNew = cellRes;
+  const columns = fieldInfo.map(field => field.fieldName);
+
+  //set null field to undefined
+  Object.keys(cellNew).forEach(key => {
+    const value = cellNew[key];
+    if (isArray(value)) {
+      cellNew[key] = value.map(v => (columns.includes(v) ? v : undefined)).filter(Boolean);
+    } else if (!columns.includes(value) || value === '') {
+      cellNew[key] = undefined;
+    }
+  });
+
+  if (chartTypeRes === 'RADAR CHART') {
+    cellNew = {
+      x: cellRes.angle,
+      y: cellRes.value,
+      color: cellRes.color
+    };
+  } else if (chartTypeRes === 'BOX PLOT') {
+    const { x, min, q1, median, q3, max } = cellRes;
+    cellNew = {
+      x,
+      y: [min, q1, median, q3, max].filter(Boolean)
+    };
+  } else if (chartTypeRes === 'BAR CHART') {
+    if (isArray(cellRes.y) && cellRes.y.length === 2) {
+      chartTypeNew = 'DUAL AXIS CHART';
+    } else if ((cellRes.y ?? '').includes(',')) {
+      const yNew = cellRes.y.split(',');
+      if (yNew.length === 2) {
+        chartTypeNew = 'DUAL AXIS CHART';
+        cellNew = {
+          ...cellRes,
+          y: yNew
+        };
+      }
+    }
+  } else if (chartTypeRes === 'DYNAMIC BAR CHART') {
+    const cellNew = { ...cellRes };
+
+    if (!cellRes.time || cellRes.time === '' || cellRes.time.length === 0) {
+      const flattenedXField = Array.isArray(cellRes.x) ? cellRes.x : [cellRes.x];
+      const usedFields = Object.values(cellNew).filter(f => !Array.isArray(f));
+      usedFields.push(...flattenedXField);
+      const dataFields = Object.keys(dataset[0]);
+      const remainedFields = dataFields.filter(f => !usedFields.includes(f));
+
+      //动态条形图没有time字段，选择一个离散字段作为time
+      const timeField = remainedFields.find(f => {
+        const fieldType = detectAxesType(dataset, f);
+        return fieldType === 'band';
+      });
+      if (timeField) {
+        cellNew.time = timeField;
+      } else {
+        cellNew.time = remainedFields[0];
+      }
+    }
+    return {
+      chartTypeNew: chartTypeRes,
+      cellNew
+    };
   }
+  return {
+    chartTypeNew,
+    cellNew
+  };
 };
 
-export const patchUserInput = (userInput: string) => {
-  const FULL_WIDTH_SYMBOLS = ['，', '。'];
-  const HALF_WIDTH_SYMBOLS = [',', '.'];
+/**
+ *
+ * @param prompt
+ * @param message
+ * @param options
+ */
+export const requestSkyLark = async (prompt: string, message: string, options: ILLMOptions) => {
+  const url: string = options?.url;
+  const headers = { ...(options.headers ?? {}), 'Content-Type': 'application/json' };
 
-  const BANNED_WORD_LIST = ['动态'];
-  const ALLOWED_WORD_LIST = ['动态条形图', '动态柱状图', '动态柱图'];
-  const PLACEHOLDER = '_USER_INPUT_PLACE_HOLDER';
-  const tempStr1 = ALLOWED_WORD_LIST.reduce((prev, cur, index) => {
-    return prev.split(cur).join(PLACEHOLDER + '_' + index);
-  }, userInput);
-  const tempStr2 = BANNED_WORD_LIST.reduce((prev, cur) => {
-    return prev.split(cur).join('');
-  }, tempStr1);
-  const replacedStr = ALLOWED_WORD_LIST.reduce((prev, cur, index) => {
-    return prev.split(PLACEHOLDER + '_' + index).join(cur);
-  }, tempStr2);
+  const res = await axios(url, {
+    method: options?.method ?? 'POST',
+    headers, //must has Authorization: `Bearer ${openAIKey}` if use openai api
+    data: {
+      model: options?.model ?? 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'system',
+          content: prompt
+        },
+        {
+          role: 'user',
+          content: message
+        }
+      ],
+      max_tokens: options?.max_tokens ?? 4096,
+      temperature: options?.temperature ?? 0
+    }
+  })
+    .then(response => response.data)
+    .then(data => data.choices);
 
-  let finalStr = HALF_WIDTH_SYMBOLS.reduce((prev, cur, index) => {
-    return prev.split(HALF_WIDTH_SYMBOLS[index]).join(FULL_WIDTH_SYMBOLS[index]);
-  }, replacedStr);
-  const lastCharacter = finalStr[finalStr.length - 1];
-  if (!FULL_WIDTH_SYMBOLS.includes(lastCharacter) && !HALF_WIDTH_SYMBOLS.includes(lastCharacter)) {
-    finalStr += '。';
-  }
-  finalStr +=
-    '严格按照prompt中的格式回复，不要有任何多余内容。 Use the original fieldName and DO NOT change or translate any word of the data fields in the response.';
-  return finalStr;
+  return res;
 };
 
-export const CARTESIAN_CHART_LIST = [
-  'Dynamic Bar Chart',
-  'Bar Chart',
-  'Line Chart',
-  'Scatter Plot',
-  'Funnel Chart',
-  'Dual Axis Chart',
-  'Waterfall Chart',
-  'Box Plot Chart'
-];
+export const getStrFromDict = (dict: Record<string, string>) =>
+  Object.keys(dict)
+    .map(key => `${key}: ${dict[key]}`)
+    .join('\n');
+
+const KNOWLEDGE_START_INDEX = 1;
+export const getStrFromArray = (array: string[]) =>
+  array.map((item, index) => `${index + KNOWLEDGE_START_INDEX}. ${item}`).join('\n');
