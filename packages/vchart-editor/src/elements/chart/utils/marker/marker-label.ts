@@ -72,7 +72,7 @@ export function parseMarkerSpecWithExpression(expression: string, spec: any, opt
 }
 
 export function parseMarkerLabelText(labelText: string, spec: any, spit: boolean = true) {
-  const { expression } = spec;
+  const { expression } = spec ?? {};
 
   let parsedText = labelText;
   if (expression) {

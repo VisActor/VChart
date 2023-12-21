@@ -86,6 +86,7 @@ export class DataTempTransform {
     this._nextDataParser = null;
     this._dataParser.setDataErrorHandler(this._currentDataErrorCall);
     this._dataParser.setDataUpdateHandler(this._currentDataUpdateCall);
+    this._chart.option.editorEvent.editor.emitter.emit('success', { type });
     this._currentDataUpdateCall(d, type);
   }
 
