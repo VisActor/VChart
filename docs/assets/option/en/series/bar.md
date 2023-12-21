@@ -44,6 +44,14 @@ BarBackground mark style configuration. This mark is invisible by default.
 
 Supported since version 1.6.0.
 
+##${prefix} isGroupLevel(boolean)
+
+Whether the barBackground mark is displayed at the group level.
+
+Supported since version 1.9.0.
+
+For example, in a grouped bar chart, if configured as true, each group corresponds to a global barBackground; If configured as false, each bar corresponds to a barBackground.
+
 {{ use: common-mark(
   prefix = '#' + ${prefix}
 ) }}
@@ -126,6 +134,7 @@ Total label, working when the data is stacked. Supported since version `1.3.0`.
 Data Sampling - Sampling method. Supported since version `1.6.0`.
 The downsampling strategy of the line chart when the amount of data is much larger than the pixels can effectively optimize the drawing efficiency of the chart when it is turned on. It is turned off by default, that is, all data points are drawn without filtering.
 Optional values:
+
 - `'lttb'`: Using the Largest-Triangle-Three-Bucket algorithm, the trend, shape and extreme value of the sampled line can be guaranteed to the greatest extent.
 - `'min'`: Get the minimum value of filter points
 - `'max'`: Take the maximum value of filter points

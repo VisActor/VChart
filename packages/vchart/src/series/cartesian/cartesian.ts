@@ -317,69 +317,72 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._axisPosition(this._yAxisHelper, value, datum);
   }
 
-  protected _positionXEncoder?: (datum: Datum) => number;
-
-  dataToPositionX(datum: Datum): number {
-    if (this._positionXEncoder) {
-      return this._positionXEncoder(datum);
+  protected _dataToPosition(
+    datum: Datum,
+    axisHelper: IAxisHelper,
+    field: string[],
+    scaleDepth: number,
+    getEncoder: () => (datum: Datum) => number,
+    setEncoder: (encoder: (datum: Datum) => number) => void
+  ): number {
+    const encoder = getEncoder();
+    if (encoder) {
+      return encoder(datum);
     }
 
-    if (!this._xAxisHelper) {
-      this._positionXEncoder = (datum: Datum) => Number.NaN;
-
+    if (!axisHelper) {
+      setEncoder((datum: Datum) => Number.NaN);
       return Number.NaN;
     }
-    const fields = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._fieldX;
+    const fields = (axisHelper.getFields ? axisHelper.getFields() : field).slice(0, scaleDepth);
     if (!fields || fields.length === 0) {
-      this._positionXEncoder = (datum: Datum) => null;
+      setEncoder((datum: Datum) => null);
       return null;
     }
 
-    if (this._xAxisHelper.isContinuous) {
-      this._positionXEncoder = (datum: Datum) => {
+    if (axisHelper.isContinuous) {
+      setEncoder((datum: Datum) => {
         this._scaleConfig.datum = datum;
-        return this._xAxisHelper.valueToPosition(this.getDatumPositionValue(datum, fields[0]), this._scaleConfig);
-      };
+        return axisHelper.valueToPosition(this.getDatumPositionValue(datum, fields[0]), this._scaleConfig);
+      });
     } else {
-      this._positionXEncoder = (datum: Datum) => {
+      setEncoder((datum: Datum) => {
         this._scaleConfig.datum = datum;
-        return this._xAxisHelper.dataToPosition(array(this.getDatumPositionValues(datum, fields)), this._scaleConfig);
-      };
+        return axisHelper.dataToPosition(array(this.getDatumPositionValues(datum, fields)), this._scaleConfig);
+      });
     }
 
-    return this._positionXEncoder(datum);
+    return getEncoder()(datum);
+  }
+
+  protected _positionXEncoder?: (datum: Datum) => number;
+
+  dataToPositionX(datum: Datum, scaleDepth: number = 2): number {
+    return this._dataToPosition(
+      datum,
+      this._xAxisHelper,
+      this.fieldX,
+      scaleDepth,
+      () => this._positionXEncoder?.bind(this),
+      (encoder: (datum: Datum) => number) => {
+        this._positionXEncoder = encoder.bind(this);
+      }
+    );
   }
 
   protected _positionYEncoder?: (datum: Datum) => number;
 
-  dataToPositionY(datum: Datum): number {
-    if (this._positionYEncoder) {
-      return this._positionYEncoder(datum);
-    }
-
-    if (!this._yAxisHelper) {
-      this._positionYEncoder = (datum: Datum) => Number.NaN;
-      return Number.NaN;
-    }
-    const fields = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._fieldY;
-    if (!fields || fields.length === 0) {
-      this._positionYEncoder = (datum: Datum) => null;
-      return null;
-    }
-
-    if (this._yAxisHelper.isContinuous) {
-      this._positionYEncoder = (datum: Datum) => {
-        this._scaleConfig.datum = datum;
-        return this._yAxisHelper.valueToPosition(this.getDatumPositionValue(datum, fields[0]), this._scaleConfig);
-      };
-    } else {
-      this._positionYEncoder = (datum: Datum) => {
-        this._scaleConfig.datum = datum;
-        return this._yAxisHelper.dataToPosition(array(this.getDatumPositionValues(datum, fields)), this._scaleConfig);
-      };
-    }
-
-    return this._positionYEncoder(datum);
+  dataToPositionY(datum: Datum, scaleDepth: number = 2): number {
+    return this._dataToPosition(
+      datum,
+      this._yAxisHelper,
+      this.fieldY,
+      scaleDepth,
+      () => this._positionYEncoder?.bind(this),
+      (encoder: (datum: Datum) => number) => {
+        this._positionYEncoder = encoder.bind(this);
+      }
+    );
   }
 
   dataToPositionZ(datum: Datum): number {

@@ -44,6 +44,14 @@ BarBackground mark style configuration. This mark is invisible by default.
 
 Supported since version 1.6.0.
 
+##${prefix} isGroupLevel(boolean)
+
+Whether the barBackground mark is displayed at the group level.
+
+Supported since version 1.9.0.
+
+For example, in a grouped bar chart, if configured as true, each group corresponds to a global barBackground; If configured as false, each bar corresponds to a barBackground.
+
 {{ use: common-mark(
   prefix = '#' + ${prefix}
 ) }}

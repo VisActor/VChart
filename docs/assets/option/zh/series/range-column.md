@@ -44,6 +44,12 @@ barBackground 图元样式配置。该图元默认不显示。
 
 自 1.6.0 版本开始支持。
 
+##${prefix} isGroupLevel(boolean)
+
+柱状背景图元是否显示在组的层级上。自 `1.9.0` 版本开始支持。
+
+例如：在分组柱状图中，如果配置为 true，则每个组对应一个整体的 barBackground；如果配置为 false，则每个柱条对应一个 barBackground。
+
 {{ use: common-mark(
   prefix = '#' + ${prefix}
 ) }}
