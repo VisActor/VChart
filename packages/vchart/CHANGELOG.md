@@ -1,6 +1,14 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 19 Dec 2023 12:04:29 GMT and should not be manually modified.
+This log was last generated on Thu, 21 Dec 2023 08:30:03 GMT and should not be manually modified.
+
+## 1.8.1
+Thu, 21 Dec 2023 08:30:03 GMT
+
+### Updates
+
+- fix: improve the stability of spec transformer and media query
+-  fix: `select.triggerOff: none` not work
 
 ## 1.8.0
 Tue, 19 Dec 2023 12:04:29 GMT

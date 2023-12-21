@@ -578,10 +578,32 @@
                 "zh": "VChart 扩展主题包",
                 "en": "VChart Extended Theme Packages"
               }
+            },
+            {
+              "path": "Semi_Design",
+              "title": {
+                "zh": "适用于 Semi Design 的主题",
+                "en": "Theme for Semi Design"
+              }
             }
           ]
         },
-
+        {
+          "path": "Self-adaption",
+          "title": {
+            "zh": "自适应",
+            "en": "Self-adaption"
+          },
+          "children": [
+            {
+              "path": "Media_Query",
+              "title": {
+                "zh": "媒体查询器",
+                "en": "Media Query"
+              }
+            }
+          ]
+        },
         {
           "path": "Intelligent_Visualization",
           "title": {
@@ -697,6 +719,13 @@
                   }
                 }
               ]
+            },
+            {
+              "path": "omi",
+              "title": {
+                "zh": "OMI",
+                "en": "OMI"
+              }
             }
           ]
         },

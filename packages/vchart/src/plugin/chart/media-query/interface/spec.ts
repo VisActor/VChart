@@ -1,5 +1,5 @@
-import type { ComponentTypeEnum, SimplifiedComponentTypeEnum } from '../../../../component/interface';
-import type { IVChart } from '../../../../core';
+import type { ComponentTypeEnum } from '../../../../component/interface';
+import type { IChartSpec, IVChart } from '../../../../core';
 import type { IModelSpecInfo } from '../../../../model/interface';
 import type { SeriesTypeEnum } from '../../../../series';
 import type { IMediaInfo } from './common';
@@ -67,7 +67,7 @@ export interface IMediaQueryAction<T extends Record<string, unknown> = any> {
    * - 配置为元素 spec 的一部分，在过滤图表元素时基于此 spec 进行模糊匹配
    * - 配置为函数回调，依次决定当前 filterType 类型下的每个元素实例是否被匹配
    */
-  filter?: MediaQueryActionFilter<T>;
+  filter?: MediaQueryActionFilter<T> | Array<MediaQueryActionFilter<T>>;
   /**
    * 元素过滤器匹配不到图表元素时，是否将新 spec 作为新的图表元素添加到图表
    * （filterType 为 'chart' 时该配置失效）
@@ -83,9 +83,9 @@ export type MediaQueryActionFilterType =
   | 'region'
   | 'series'
   | 'chart'
-  | `${SeriesTypeEnum}`
-  | `${ComponentTypeEnum}`
-  | `${SimplifiedComponentTypeEnum}`;
+  | `${SeriesTypeEnum}` // 具体 series 类型，如 'bar'、'line'
+  | `${ComponentTypeEnum}` // 具体 component 类型，如 'cartesianAxis-band'
+  | keyof IChartSpec; // 组件 spec key，可视为简化版 component 类型，如 'axes'、'legends'、'crosshair'
 
 /**
  * 元素过滤器

@@ -77,8 +77,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
           specInfo.push({
             spec: chartSpec,
             type: ComponentTypeEnum.label,
-            // 这里的 specPath 不是对应于真实 spec 的 path，而是 IChartSpecInfo 上的 path
-            specPath: ['region', i, 'markLabel'],
+            specInfoPath: ['region', i, 'markLabel'],
             // 这里的 specIndex 是 region 的 index，用于 region 定位
             specIndex: i
           });

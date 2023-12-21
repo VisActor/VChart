@@ -6812,6 +6812,9 @@
         "_callMap": {
           "$ref": "#/definitions/Map<Function,(...args:any[])=>void>"
         },
+        "_logger": {
+          "$ref": "#/definitions/ILogger"
+        },
         "dataViewMap": {
           "additionalProperties": false,
           "patternProperties": {
@@ -6840,6 +6843,7 @@
       },
       "required": [
         "_callMap",
+        "_logger",
         "dataViewMap",
         "isDataSet",
         "name",
@@ -29899,6 +29903,9 @@
     },
     "IDataSetOptions": {
       "properties": {
+        "logger": {
+          "$ref": "#/definitions/Logger"
+        },
         "name": {
           "type": "string"
         }
@@ -43883,6 +43890,57 @@
           "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
         }
       },
+      "type": "object"
+    },
+    "ILogger": {
+      "properties": {
+        "addErrorHandler": {
+          "typeof": "function"
+        },
+        "canLogDebug": {
+          "typeof": "function"
+        },
+        "canLogError": {
+          "typeof": "function"
+        },
+        "canLogInfo": {
+          "typeof": "function"
+        },
+        "canLogWarn": {
+          "typeof": "function"
+        },
+        "debug": {
+          "typeof": "function"
+        },
+        "error": {
+          "typeof": "function"
+        },
+        "info": {
+          "typeof": "function"
+        },
+        "level": {
+          "typeof": "function"
+        },
+        "removeErrorHandler": {
+          "typeof": "function"
+        },
+        "warn": {
+          "typeof": "function"
+        }
+      },
+      "required": [
+        "addErrorHandler",
+        "canLogDebug",
+        "canLogError",
+        "canLogInfo",
+        "canLogWarn",
+        "debug",
+        "error",
+        "info",
+        "level",
+        "removeErrorHandler",
+        "warn"
+      ],
       "type": "object"
     },
     "IMapChartSpec": {
@@ -69497,9 +69555,22 @@
     "LockManager": {
       "type": "object"
     },
+    "Logger": {
+      "properties": {
+        "_level": {},
+        "_method": {},
+        "_onErrorHandler": {}
+      },
+      "required": [
+        "_level",
+        "_method",
+        "_onErrorHandler"
+      ],
+      "type": "object"
+    },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         },
         "size": {
@@ -69507,14 +69578,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12575",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         },
         "size": {
@@ -69522,14 +69593,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12575",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         },
         "size": {
@@ -69537,14 +69608,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12575",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         },
         "size": {
@@ -69552,14 +69623,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12575",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         },
         "size": {
@@ -69567,14 +69638,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12575",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         },
         "size": {
@@ -69582,14 +69653,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12575",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         },
         "size": {
@@ -69597,14 +69668,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12575",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         },
         "size": {
@@ -69612,14 +69683,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12575",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         },
         "size": {
@@ -69627,7 +69698,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12575",
         "size"
       ],
       "type": "object"
@@ -85724,34 +85795,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12577"
+        "__@toStringTag@12575"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12577"
+        "__@toStringTag@12575"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12575": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12577"
+        "__@toStringTag@12575"
       ],
       "type": "object"
     },
