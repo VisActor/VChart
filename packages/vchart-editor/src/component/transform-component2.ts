@@ -1,4 +1,3 @@
-import { isArray } from '@visactor/vutils';
 /**
  * @description PopTip组件
  */
@@ -8,27 +7,32 @@ import {
   type IRect,
   type IRectGraphicAttribute,
   type ILineGraphicAttribute,
-  createRect
+  createRect,
+  vglobal
 } from '@visactor/vrender';
 import type { IAABBBounds, IAABBBoundsLike } from '@visactor/vutils';
-import { AABBBounds, merge, normalizePadding, pi } from '@visactor/vutils';
+import { AABBBounds, merge, normalizePadding, pi, isArray } from '@visactor/vutils';
 import { AbstractComponent } from '@visactor/vrender-components';
 import { transformPointWithMatrix } from '../utils/space';
 import type { VChartEditor } from '../core/vchart-editor';
 import { EditorActionMode } from '../core/enum';
 import { MinSize } from '../core/const';
 
-type ResizeType = [boolean, ...boolean[]] & { length: 8 };
+type AnchorDirection = 'top' | 'bottom' | 'left-top' | 'left-bottom' | 'right' | 'left' | 'right-top' | 'right-bottom';
 
-type TransformAttributes = {
-  padding: number | [number, number, number, number];
-  bbox: Partial<IRectGraphicAttribute>;
-  cornerRect: Partial<IRectGraphicAttribute>;
-  handlerLine: Partial<ILineGraphicAttribute> & { size: number };
+export type TransformAttributes = {
+  padding?: number | [number, number, number, number];
+  bbox?: Partial<IRectGraphicAttribute>;
+  cornerRect?: Partial<IRectGraphicAttribute>;
+  handlerLine?: Partial<ILineGraphicAttribute> & { size: number };
   move?: boolean;
   rotate?: boolean;
-  resize?: boolean | ResizeType;
+  resize?: boolean;
   setCursor?: (c: string) => void;
+  /**
+   * 支持的锚点
+   */
+  enabledAnchors?: AnchorDirection[];
 } & IGroupGraphicAttribute;
 
 export type IUpdateParams = {
@@ -38,6 +42,28 @@ export type IUpdateParams = {
   height: number;
   angle: number;
   anchor: [number | string, number | string];
+};
+
+const anchorPositionMap = {
+  'left-top': [0, 0],
+  top: [0.5, 0],
+  'right-top': [1, 0],
+  left: [0, 0.5],
+  right: [1, 0.5],
+  'left-bottom': [0, 1],
+  bottom: [0.5, 1],
+  'right-bottom': [1, 1]
+};
+
+const anchorCursorMap = {
+  'left-top': 'nwse-resize',
+  top: 'n-resize',
+  'right-top': 'nesw-resize',
+  left: 'w-resize',
+  right: 'e-resize',
+  'left-bottom': 'nesw-resize',
+  bottom: 's-resize',
+  'right-bottom': 'nwse-resize'
 };
 
 export class TransformComponent2 extends AbstractComponent<Required<TransformAttributes>> {
@@ -65,7 +91,7 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
   _editorConfig: {
     move: boolean;
     rotate: boolean;
-    resize: ResizeType;
+    resize: boolean;
   };
 
   _setCursor: (c: string) => void = null;
@@ -80,8 +106,9 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
       fill: 'white',
       stroke: '#4284FF',
       lineWidth: 1,
-      width: 10,
-      height: 10
+      width: 8,
+      height: 8,
+      cornerRadius: 2
     },
     handlerLine: {
       stroke: '#4284FF',
@@ -108,9 +135,7 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     this._editorConfig = {
       move: attributes.move !== false,
       rotate: attributes.rotate !== false,
-      resize: (isArray(attributes.resize)
-        ? attributes.resize
-        : new Array(8).fill(attributes.resize !== false)) as ResizeType
+      resize: attributes.resize !== false
     };
     this.rectB = new AABBBounds();
     this.dragOffsetX = 0;
@@ -150,7 +175,7 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
   }
 
   initEvent() {
-    // curser
+    // cursor
     this.editBorder.addEventListener('mousemove', this.handleMouseMove);
     this.addEventListener('pointerout', this.handleMouseOut);
 
@@ -421,29 +446,14 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     return Math.atan2(m.b, m.a);
   }
 
-  static cornerRect: Array<[number, number, string]> = [
-    [0, 0, 'left-top'],
-    [0.5, 0, 'top'],
-    [1, 0, 'right-top'],
-    [0, 0.5, 'left'],
-    [1, 0.5, 'right'],
-    [0, 1, 'left-bottom'],
-    [0.5, 1, 'bottom'],
-    [1, 1, 'right-bottom']
-  ];
-  static cursor: string[] = [
-    'nw-resize',
-    'n-resize',
-    'ne-resize',
-    'w-resize',
-    'e-resize',
-    'sw-resize',
-    's-resize',
-    'se-resize'
-  ];
-
   protected render() {
-    const { bbox, padding, cornerRect, handlerLine } = this.attribute as TransformAttributes;
+    const {
+      bbox,
+      padding,
+      cornerRect,
+      handlerLine,
+      enabledAnchors = ['top', 'bottom', 'left-top', 'left-bottom', 'right', 'left', 'right-top', 'right-bottom']
+    } = this.attribute as TransformAttributes;
 
     const root = this.editBorder.shadowRoot;
     if (!root || this.count === 1) {
@@ -499,20 +509,20 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
       );
     }
 
-    // 添加8个角
-    TransformComponent2.cornerRect.forEach((item, i) => {
-      if (this._editorConfig.resize[i]) {
-        root.createOrUpdateChild(
-          `scale-${item[2]}`,
-          {
-            x: minX + item[0] * width - cornerRect.width! / 2,
-            y: minY + item[1] * height - cornerRect.height! / 2,
-            cursor: TransformComponent2.cursor[i] as any,
-            ...cornerRect
-          },
-          'rect'
-        );
-      }
+    // 添加锚点
+    enabledAnchors.forEach((anchor: string, i: number) => {
+      const item = anchorPositionMap[anchor];
+      const cursor = anchorCursorMap[anchor];
+      root.createOrUpdateChild(
+        `scale-${anchor}`,
+        {
+          x: minX + item[0] * width - cornerRect.width! / 2,
+          y: minY + item[1] * height - cornerRect.height! / 2,
+          cursor,
+          ...cornerRect
+        },
+        'rect'
+      );
     });
   }
 
@@ -536,7 +546,6 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     this.updateCbs.forEach(cb => {
       const data = cb(out);
       if (data) {
-        // console.log('设置宽高', data);
         const { x, y, width, height, anchor, angle } = data;
         Number.isFinite(x) && this.rect.setAttribute('x', x);
         Number.isFinite(y) && this.rect.setAttribute('y', y);

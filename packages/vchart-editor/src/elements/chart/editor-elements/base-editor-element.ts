@@ -95,7 +95,7 @@ export class CommonChartEditorElement implements IEditorElement {
   editProperties?: {
     move?: boolean;
     rotate?: boolean;
-    resize?: boolean | ([boolean, ...boolean[]] & { length: 8 });
+    resize?: boolean;
   } & { [key: string]: unknown };
   originSpec?: any;
   allModelSpec?: IModelSpec[];
