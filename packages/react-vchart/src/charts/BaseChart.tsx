@@ -1,4 +1,4 @@
-import VChart, { IData, IInitOption, ISpec } from '@visactor/vchart';
+import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor } from '@visactor/vchart';
 import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
@@ -35,6 +35,7 @@ export interface BaseChartProps
     DimensionEventProps,
     HierarchyEventProps,
     ChartLifeCycleEventProps {
+  vchartConstrouctor?: IVChartConstructor;
   type?: string;
   /** 上层container */
   container?: HTMLDivElement;
@@ -53,7 +54,7 @@ export interface BaseChartProps
   /** skip function diff when component update */
   skipFunctionDiff?: boolean;
   /** 图表渲染完成事件 */
-  onReady?: (instance: VChart, isInitial: boolean) => void;
+  onReady?: (instance: IVChart, isInitial: boolean) => void;
   /** throw error when chart run into an error */
   onError?: (err: Error) => void;
 }
@@ -96,7 +97,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   };
 
   const createChart = (props: Props) => {
-    const cs = new VChart(parseSpec(props), {
+    const cs = new props.vchartConstrouctor(parseSpec(props), {
       ...props.options,
       autoFit: true,
       dom: props.container
@@ -208,16 +209,18 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   );
 });
 
-export const createChart = <T extends Props>(componentName: string, type?: string, callback?: (props: T) => T) => {
+export const createChart = <T extends Props>(
+  componentName: string,
+  defaultProps?: Partial<T>,
+  callback?: (props: T, defaultProps?: Partial<T>) => T
+) => {
   const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
-    props.type = type;
-
     if (callback) {
-      return callback(props);
+      return callback(props, defaultProps);
     }
 
-    if (type) {
-      return { ...props, type };
+    if (defaultProps) {
+      return Object.assign(props, defaultProps);
     }
     return props;
   });

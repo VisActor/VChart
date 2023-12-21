@@ -1,5 +1,5 @@
 import { BaseSeriesProps, createSeries } from './BaseSeries';
-import { IScatterSeriesSpec } from '@visactor/vchart';
+import type { IScatterSeriesSpec } from '@visactor/vchart';
 
 export type ScatterProps = BaseSeriesProps & Omit<IScatterSeriesSpec, 'type'>;
 

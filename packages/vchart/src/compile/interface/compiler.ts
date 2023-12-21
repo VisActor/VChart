@@ -107,6 +107,8 @@ export interface IRenderOption {
    * @since 1.8.0
    */
   optimize?: IOptimizeType;
+
+  enableHtmlAttribute?: boolean;
 }
 
 export type CompilerListenerParameters = {

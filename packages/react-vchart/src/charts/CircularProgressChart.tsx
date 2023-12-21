@@ -1,5 +1,6 @@
 import React from 'react';
 import { ICircularProgressChartSpec } from '@visactor/vchart';
+import { default as VChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 export interface CircularProgressChartProps
@@ -8,5 +9,8 @@ export interface CircularProgressChartProps
 
 export const CircularProgressChart = createChart<React.PropsWithChildren<CircularProgressChartProps>>(
   'CircularProgressChart',
-  'circularProgress'
+  {
+    type: 'circularProgress',
+    vchartConstrouctor: VChart
+  }
 );
