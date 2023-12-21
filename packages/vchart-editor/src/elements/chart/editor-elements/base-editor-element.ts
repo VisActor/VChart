@@ -1,5 +1,6 @@
+import type { VChartEditor } from './../../../core/vchart-editor';
 import type { DataView } from '@visactor/vdataset';
-import type { IModelInfo, IUpdateAttributeOption } from './../../../core/interface';
+import type { ICommonInitOption, IModelInfo, IUpdateAttributeOption } from './../../../core/interface';
 /* eslint-disable no-console */
 import type { IChartModel } from './../interface';
 import type { IEditorController, IEditorElement, IEditorLayer, IUpdateAttributeParam } from './../../../core/interface';
@@ -30,10 +31,19 @@ export abstract class BaseEditorElement {
     return this._currentEl;
   }
 
-  constructor(controller: IEditorController, chart: EditorChart, layer: IEditorLayer) {
-    this._controller = controller;
-    this._chart = chart;
-    this._layer = layer;
+  protected _editor: VChartEditor;
+
+  constructor(
+    option: {
+      controller: IEditorController;
+      chart: EditorChart;
+      layer: IEditorLayer;
+    } & ICommonInitOption
+  ) {
+    this._controller = option.controller;
+    this._chart = option.chart;
+    this._layer = option.layer;
+    this._editor = option.editor;
   }
 
   protected showOverGraphic(el: IEditorElement, id: string, e?: PointerEvent) {

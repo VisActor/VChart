@@ -41,8 +41,7 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
   }
 
   private _checkEditorStateEnable() {
-    const editor = this._chart.option.layer.getEditor(); // 获取编辑器
-    return editor.state.actionMode !== EditorActionMode.addTool;
+    return this._editor.state.actionMode !== EditorActionMode.addTool;
   }
 
   private _checkEventEnable(e: EventParams) {
@@ -193,7 +192,9 @@ export abstract class BaseMarkerEditor<T extends IComponent, D> extends BaseEdit
               specKey: model.specKey,
               specIndex: model.specIndex
             },
-            element.model,
+            // 任何编辑操作导致执行 updateSpec 后都会导致 model 不是当前 vchart 上的 model
+            // 所以不传递 model 过去，由 chart 自己获取当前的 vchart 的 model
+            null,
             { action: attr.zIndex }
           );
           reRender = true;

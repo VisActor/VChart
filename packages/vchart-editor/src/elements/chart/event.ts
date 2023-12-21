@@ -20,7 +20,7 @@ export class ChartEvent {
   }
 
   private _checkEditorStateEnable() {
-    const editor = this._chart.option.layer.getEditor(); // 获取编辑器
+    const editor = this._chart.option.editor; // 获取编辑器
     return editor.state.actionMode !== EditorActionMode.addTool;
   }
 

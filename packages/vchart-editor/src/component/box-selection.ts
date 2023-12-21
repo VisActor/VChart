@@ -1,3 +1,4 @@
+import type { VChartEditor } from './../core/vchart-editor';
 import { isValid } from '@visactor/vutils';
 import type { IEditorElement, IEditorLayer, ILayoutLine } from './../core/interface';
 import type { IGroup, IRect } from '@visactor/vrender';
@@ -22,16 +23,9 @@ export class BoxSelection {
   protected _layoutComponent: LayoutEditorComponent;
 
   protected _currentMatchElements: { e: IElement; el: IEditorElement }[] = null;
-  private _cancelSelect = false;
 
-  constructor(public layer: IEditorLayer, public context: EditorEvent) {
+  constructor(public layer: IEditorLayer, public context: EditorEvent, public editor: VChartEditor) {
     this.setLayer(layer);
-    this.context.editor.emitter.on('onLayerWheel', () => {
-      this._cancelSelect = true;
-    });
-    this.context.editor.emitter.on('onLayerDrag', () => {
-      this._cancelSelect = true;
-    });
 
     this.context.editor.editorController.addStartHandler(() => {
       if (this._state === 'editor') {
@@ -46,14 +40,20 @@ export class BoxSelection {
   }
 
   protected _keyEvent = (ev: KeyboardEvent) => {
+    if (ev.target !== document.body) {
+      return;
+    }
+    if (this._state !== 'none' && this._state !== 'end') {
+      return;
+    }
     if (!this._checkEditorStateEnable()) {
       return;
     }
     if ((ev.ctrlKey && ev.code === 'KeyA') || (ev.metaKey && ev.code === 'KeyA')) {
       this._inBoxSelection();
       //  全选
-      this._currentBox.x = 0;
-      this._currentBox.y = 0;
+      this._currentBox.x = Number.MIN_SAFE_INTEGER / 2;
+      this._currentBox.y = Number.MIN_SAFE_INTEGER / 2;
       this._currentBox.width = Number.MAX_SAFE_INTEGER;
       this._currentBox.height = Number.MAX_SAFE_INTEGER;
       this._checkEditorWithBox(null);
@@ -99,21 +99,18 @@ export class BoxSelection {
 
   protected _initEvent() {
     this.layer.getStage().addEventListener('pointerdown', this._pointerDown as any);
-    this.layer.getStage().addEventListener('pointerup', this._pointerUp as any);
-    this.layer.getStage().addEventListener('pointermove', this._pointerMove as any);
+    document.addEventListener('pointerup', this._pointerUp as any);
+    document.addEventListener('pointermove', this._pointerMove as any);
   }
   protected _removeEvent() {
     this.layer?.getStage()?.removeEventListener('pointerdown', this._pointerDown as any);
-    this.layer?.getStage()?.removeEventListener('pointerup', this._pointerUp as any);
-    this.layer?.getStage()?.removeEventListener('pointermove', this._pointerMove as any);
+    document.removeEventListener('pointerup', this._pointerUp as any);
+    document.removeEventListener('pointermove', this._pointerMove as any);
   }
 
   protected _pointerDown = (e: VRenderPointerEvent) => {
     if (!this._checkEditorStateEnable()) {
       return;
-    }
-    if (this._cancelSelect) {
-      this._cancelSelect = false;
     }
     this._transformEventPoint(e);
     this._overGroup.removeAllChild();
@@ -150,10 +147,6 @@ export class BoxSelection {
     if (!this._checkEditorStateEnable()) {
       return;
     }
-    if (this._cancelSelect) {
-      this._state = 'none';
-      return;
-    }
     this._transformEventPoint(e);
     if (this._state === 'start') {
       this._state = 'drag';
@@ -161,6 +154,8 @@ export class BoxSelection {
     if (this._state === 'per-editor') {
       if (this.context.isCurrentLayoutEditorBox(null)) {
         this._inBoxSelection();
+        // 框选开始框元素
+        this.editor.setState({ actionMode: 'box-selection-selecting' });
         this._boxGraphic.setAttributes({
           visible: true
         });
@@ -190,16 +185,11 @@ export class BoxSelection {
     if (!this._checkEditorStateEnable()) {
       return;
     }
-    this._transformEventPoint(e);
-    if (this._cancelSelect) {
-      this._cancelSelect = false;
-      // clear
-      this._overGroup.removeAllChild();
-      this._boxGraphic.setAttributes({
-        visible: false
-      });
-      return;
+    if (this.context.editor.state.actionMode === 'box-selection-selecting') {
+      // 框选框元素结束
+      this.editor.setState({ actionMode: 'none' });
     }
+    this._transformEventPoint(e);
     // up
     this.context.setElementPickable(true);
     this.context.setElementsOverAble(true);
@@ -478,7 +468,15 @@ export class BoxSelection {
     this.context.setCursorSyncToTriggerLayer();
   }
 
-  private _transformEventPoint(e: VRenderPointerEvent) {
-    (<any>e)._layerPoint = transformPointWithLayer(e.canvas, this.layer.getStage().defaultLayer);
+  private _transformEventPoint(e: PointerEvent) {
+    (<any>e)._layerPoint = transformPointWithLayer({ x: e.pageX, y: e.pageY }, this.layer.getStage().defaultLayer);
+  }
+
+  cancelBoxSelection() {
+    this._outBoxSelection();
+  }
+
+  release() {
+    this._removeEvent();
   }
 }

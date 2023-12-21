@@ -7,11 +7,10 @@ import {
   type IRect,
   type IRectGraphicAttribute,
   type ILineGraphicAttribute,
-  createRect,
-  vglobal
+  createRect
 } from '@visactor/vrender';
 import type { IAABBBounds, IAABBBoundsLike } from '@visactor/vutils';
-import { AABBBounds, merge, normalizePadding, pi, isArray } from '@visactor/vutils';
+import { AABBBounds, merge, normalizePadding, pi } from '@visactor/vutils';
 import { AbstractComponent } from '@visactor/vrender-components';
 import { transformPointWithMatrix } from '../utils/space';
 import type { VChartEditor } from '../core/vchart-editor';
@@ -181,7 +180,6 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
 
     // drag
     this.addEventListener('pointerdown', this.handleDragMouseDown);
-    // this.addEventListener('drag', this.onDrag);
 
     this.stage.addEventListener('pointermove', this.handleDragMouseMove);
     this.stage.addEventListener('pointerup', this.handleDragMouseUp);
@@ -510,20 +508,22 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     }
 
     // 添加锚点
-    enabledAnchors.forEach((anchor: string, i: number) => {
-      const item = anchorPositionMap[anchor];
-      const cursor = anchorCursorMap[anchor];
-      root.createOrUpdateChild(
-        `scale-${anchor}`,
-        {
-          x: minX + item[0] * width - cornerRect.width! / 2,
-          y: minY + item[1] * height - cornerRect.height! / 2,
-          cursor,
-          ...cornerRect
-        },
-        'rect'
-      );
-    });
+    if (this._editorConfig.resize) {
+      enabledAnchors.forEach((anchor: string, i: number) => {
+        const item = anchorPositionMap[anchor];
+        const cursor = anchorCursorMap[anchor];
+        root.createOrUpdateChild(
+          `scale-${anchor}`,
+          {
+            x: minX + item[0] * width - cornerRect.width! / 2,
+            y: minY + item[1] * height - cornerRect.height! / 2,
+            cursor,
+            ...cornerRect
+          },
+          'rect'
+        );
+      });
+    }
   }
 
   moveBy(dx: number, dy: number): this {

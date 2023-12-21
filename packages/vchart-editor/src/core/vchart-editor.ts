@@ -26,7 +26,7 @@ import type { EditorChart } from '../elements/chart/chart';
 import type { IPoint } from '../typings/space';
 import { setupSimpleTextEditor } from '../elements/chart/utils/text';
 import { EditorActionMode, EditorActiveTool } from './enum';
-import type { ITextAttribute, ITextGraphicAttribute } from '@visactor/vrender';
+import type { ITextGraphicAttribute } from '@visactor/vrender';
 
 export class VChartEditor {
   static registerParser(key: string, parser: IDataParserConstructor) {
@@ -82,7 +82,10 @@ export class VChartEditor {
   }
 
   // 编辑器状态
-  private _state: EditorState = {};
+  private _state: EditorState = {
+    actionMode: 'none',
+    activeTool: 'none'
+  };
   get state() {
     return this._state;
   }
@@ -121,7 +124,8 @@ export class VChartEditor {
           return this._event.triggerLayer;
         }
         return this._layers[0];
-      }
+      },
+      editor: this
     });
     this._editorController.addEndHandler(() => {
       // this._option.data?.save?.();
@@ -170,6 +174,8 @@ export class VChartEditor {
     }
     el.initWithOption();
     layer.addElements(el);
+    // 新元素始终在最上层
+    layer.changeElementLayoutZIndex(el.id as string, { action: 'toTop' }, false);
     if (triggerHistory) {
       el.afterAdd();
     }
@@ -221,7 +227,8 @@ export class VChartEditor {
                 text: text.split('\n'),
                 ...defaultTextAttributes,
                 ...this.layers[0].transformPosToLayer({ x: e.offsetX, y: e.offsetY })
-              }
+              },
+              editor: this
             });
           }
         });
@@ -308,7 +315,8 @@ export class VChartEditor {
             getAllLayers: () => this._layers,
             editorData: this._editorData,
             editorEvent: this._event,
-            commonHistoryUse: this._commonHistoryUse
+            commonHistoryUse: this._commonHistoryUse,
+            editor: this
           });
           if (!el) {
             return;
@@ -488,11 +496,20 @@ export class VChartEditor {
     });
   }
 
+  // 删除编辑元素，指的是与模块相关，能够弹出编辑条/编辑看板的相关内容。
   clearCurrentEditorElement() {
     this._layers.forEach(l => {
       l.elements.forEach(e => {
         e.clearCurrentEditorElement();
       });
     });
+    this.editorController.setEditorElements(null, null);
+  }
+
+  // 删除框选，元素编辑框，over悬浮等全部内容
+  clearAllEditorElements() {
+    this.clearCurrentEditorElement();
+    this._event.clearCurrentEditorBox();
+    this._editorController.setOverGraphic(null, null, null);
   }
 }

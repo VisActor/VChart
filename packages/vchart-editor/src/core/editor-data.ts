@@ -84,11 +84,8 @@ export class EditorData {
   }
 
   private _clearEditorElement() {
-    this._editor.layers.forEach(l => {
-      l.elements.forEach(e => {
-        e.clearCurrentEditorElement();
-      });
-    });
+    this._editor.clearCurrentEditorElement();
+    this._editor.event.clearCurrentEditorBox();
   }
 
   saveData() {

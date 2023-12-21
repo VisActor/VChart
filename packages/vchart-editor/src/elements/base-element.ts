@@ -1,3 +1,4 @@
+import type { VChartEditor } from './../core/vchart-editor';
 import type { IGraphic } from '@visactor/vrender';
 import type { IEditorElement } from './../core/interface';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -9,9 +10,9 @@ export abstract class BaseElement implements IElement {
   type: string = 'base';
   protected _rect: IRect;
   protected _anchor: IPoint;
-  protected _opt: IElementOption;
+  protected _option: IElementOption;
   get option() {
-    return this._opt;
+    return this._option;
   }
 
   protected _id: string | number;
@@ -42,18 +43,21 @@ export abstract class BaseElement implements IElement {
     this._overAble = v;
   }
 
+  protected _editor: VChartEditor;
+
   constructor(opt: IElementOption) {
-    this._opt = opt;
+    this._option = opt;
+    this._editor = opt.editor;
     this._id = opt.id ?? CreateID();
     this._mode = opt.mode;
   }
 
   initWithOption() {
-    this._rect = this._opt.rect;
+    this._rect = this._option.rect;
     if (!this._rect) {
       this._rect = { x: 50, y: 50, width: 100, height: 100 };
     }
-    this._anchor = this._opt.anchor ?? { x: 0, y: 0 };
+    this._anchor = this._option.anchor ?? { x: 0, y: 0 };
   }
 
   setRect(rect: IRect) {
@@ -117,25 +121,25 @@ export abstract class BaseElement implements IElement {
   }
 
   beforeDelete() {
-    this._opt.editorData.pushHistoryNextTick({
-      element: { layerId: this._opt.layer.id, id: this._id, type: this.type },
+    this._option.editorData.pushHistoryNextTick({
+      element: { layerId: this._option.layer.id, id: this._id, type: this.type },
       from: this.getData(),
       to: null,
-      use: this._opt.commonHistoryUse
+      use: this._option.commonHistoryUse
     });
   }
 
   afterAdd() {
-    this._opt.editorData.pushHistoryNextTick({
-      element: { layerId: this._opt.layer.id, id: this._id, type: this.type },
+    this._option.editorData.pushHistoryNextTick({
+      element: { layerId: this._option.layer.id, id: this._id, type: this.type },
       from: null,
       to: this.getData(),
-      use: this._opt.commonHistoryUse
+      use: this._option.commonHistoryUse
     });
   }
 
   getElementInfo() {
-    return { layerId: this._opt.layer.id, id: this._id, type: this.type };
+    return { layerId: this._option.layer.id, id: this._id, type: this.type };
   }
 
   abstract geElementRootMark(): IGraphic;

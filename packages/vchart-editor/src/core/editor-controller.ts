@@ -1,3 +1,4 @@
+import type { ICommonInitOption } from './interface';
 /* eslint-disable no-console */
 import type { IGraphic } from '@visactor/vrender';
 import type { IEditorElement, EditorHandlerFunc, IEditorLayer, IEditorController } from './interface';
@@ -18,17 +19,17 @@ export class EditorController implements IEditorController {
   protected _runHandler: ((type: string) => void)[] = [];
   protected _endHandler: EditorHandlerFunc[] = [];
 
-  protected _opt: {
+  protected _option: {
     getTopLayer: () => IEditorLayer;
-  };
+  } & ICommonInitOption;
 
   constructor(
     public container: HTMLElement,
     opt: {
       getTopLayer: () => IEditorLayer;
-    }
+    } & ICommonInitOption
   ) {
-    this._opt = opt;
+    this._option = opt;
   }
 
   //
@@ -151,7 +152,7 @@ export class EditorController implements IEditorController {
     if (this._currentOverGraphic) {
       this.removeOverGraphic();
     }
-    const layer = this._currentEditorElements?.layer ?? this._opt.getTopLayer();
+    const layer = this._currentEditorElements?.layer ?? this._option.getTopLayer();
     if (!layer) {
       return;
     }

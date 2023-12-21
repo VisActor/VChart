@@ -1,5 +1,6 @@
 import type {
   EditorMode,
+  ICommonInitOption,
   IEditorController,
   IEditorElement,
   IEditorLayer,
@@ -11,7 +12,7 @@ import type { IGraphic } from '@visactor/vrender';
 import type { EditorData } from '../core/editor-data';
 import type { EditorEvent } from '../core/editor-event';
 
-export interface IElementOption extends Partial<IElementData> {
+export interface IElementOption extends Partial<IElementData>, ICommonInitOption {
   layer: IEditorLayer;
   id?: string | number;
   controller: IEditorController;
