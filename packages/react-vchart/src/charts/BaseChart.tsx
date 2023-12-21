@@ -79,7 +79,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const chartContext = useRef<ChartContextType>({
     specFromChildren: {}
   });
-  useImperativeHandle(ref, () => chartContext.current.chart);
+  useImperativeHandle(ref, () => chartContext.current?.chart);
   const hasSpec = !!props.spec;
   const [view, setView] = useState<IView>(null);
   const isUnmount = useRef<boolean>(false);
@@ -95,7 +95,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     return {
       ...prevSpec.current,
-      ...chartContext.current.specFromChildren
+      ...chartContext.current?.specFromChildren
     };
   };
 
@@ -136,7 +136,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   };
 
   useEffect(() => {
-    if (!chartContext.current.chart) {
+    if (!chartContext.current?.chart) {
       createChart(props);
       renderChart();
       bindEventsToChart(chartContext.current.chart, props, null, CHART_EVENTS);
