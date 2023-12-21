@@ -175,11 +175,13 @@ export class SpecProcess implements ISpecProcess {
       });
     }
 
+    const chartType = this._dataTempTransform.specTemp.type;
+    const aeolusChartType = (this._dataTempTransform.specTemp as any)?._data?.chartType;
     // process formatConfig
     const traverseSpec = (spec: any, modelSpec?: any) => {
       const specKeys = Object.keys(spec);
       if (specKeys.includes('formatConfig')) {
-        this.processFormatConfig(spec, modelSpec, this._dataTempTransform.specTemp.type);
+        this.processFormatConfig(spec, modelSpec, chartType, aeolusChartType);
       }
       const currentModel = isValid(spec.name) || isValid(spec.id) ? spec : modelSpec;
       specKeys.forEach(specKey => {
@@ -192,10 +194,15 @@ export class SpecProcess implements ISpecProcess {
     traverseSpec(this._vchartSpec);
   }
 
-  private processFormatConfig(spec: any, modelSpec: any, chartType: string) {
+  private processFormatConfig(spec: any, modelSpec: any, chartType: string, aeolusChartType?: string) {
     // TODO: check by template
     const isPercentageChart =
-      chartType === 'barPercent' || chartType === 'horizontalBarPercent' || chartType === 'areaPercent';
+      chartType === 'barPercent' ||
+      chartType === 'horizontalBarPercent' ||
+      chartType === 'areaPercent' ||
+      aeolusChartType === 'bar_percent' ||
+      aeolusChartType === 'column_percent' ||
+      aeolusChartType === 'area_percent';
     const isDimensionChart = chartType === 'pie';
     let defaultFormatConfig: FormatConfig = isDimensionChart ? { content: 'dimension', fixed: 0 } : { fixed: 0 };
     switch (modelSpec?.name) {
