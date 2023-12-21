@@ -103,6 +103,7 @@ export interface IModelOption extends ICompilableInitOption {
     specIndex?: number;
     specKey?: string;
     specPath?: Array<string | number>;
+    specInfoPath?: Array<string | number>;
     getTheme?: () => ITheme;
     getSpecInfo?: () => IChartSpecInfo;
     getChartLayoutRect: () => IRect;
@@ -117,6 +118,7 @@ export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
     type: string | ComponentTypeEnum | SeriesTypeEnum;
     spec: T;
     specPath?: Array<string | number>;
+    specInfoPath?: Array<string | number>;
     specIndex?: number;
     theme?: any;
 }
