@@ -185,7 +185,7 @@ export interface IEditorElement {
     // layout
     move?: boolean;
     rotate?: boolean;
-    resize?: boolean | ([boolean, ...boolean[]] & { length: 8 });
+    resize?: boolean;
     //
   } & { [key: string]: unknown };
   updateAttribute: (attr: IUpdateAttributeParam, option?: IUpdateAttributeOption) => false | { [key: string]: unknown };
@@ -200,6 +200,7 @@ export interface IEditorController {
   container: HTMLElement;
   currentEditorElement: IEditorElement;
   setEditorElements: (el: IEditorElement, event?: PointerEvent) => void;
+  removeEditorElements: () => void;
   editorEnd: () => void;
   editorRun: (type: string) => void;
 

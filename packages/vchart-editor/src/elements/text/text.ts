@@ -106,7 +106,8 @@ export class EditorText extends BaseElement {
       return;
     }
 
-    this.clearCurrentEditorElement();
+    this.clearLayoutEditorBox();
+
     const text = this._textGraphic;
     const textBounds = text.globalAABBBounds;
 
@@ -332,6 +333,14 @@ export class EditorText extends BaseElement {
         this.option.controller.setOverGraphic(null, null, null);
       },
       updateHandler: data => {
+        // const { width, height } = data;
+        // this._textGraphic.setAttribute('fontSize', Math.max(Math.ceil(height), 8));
+        // data.width = this._textGraphic.AABBBounds.width();
+
+        // this._updateLayout(data);
+
+        // return data;
+
         let hasChange = false;
         if (data.width < (this._textGraphic.attribute.fontSize ?? 12) * 1.5) {
           data.width = (this._textGraphic.attribute.fontSize ?? 12) * 1.5;
@@ -359,7 +368,10 @@ export class EditorText extends BaseElement {
           l.elements.forEach(e => (e.overAble = true));
         });
       },
-      event: e
+      event: e,
+      editorBoxStyle: {
+        enabledAnchors: ['left-bottom', 'left-top', 'right-bottom', 'right-top']
+      }
     });
 
     return this._layoutComponent.editorBox as unknown as IGraphic;
@@ -440,7 +452,6 @@ export class EditorText extends BaseElement {
   clearCurrentEditorElement() {
     this._currentEl = null;
     this.clearLayoutEditorBox();
-    this._opt.controller.setEditorElements(null);
   }
 
   protected _snapShot: any = null;

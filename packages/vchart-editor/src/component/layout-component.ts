@@ -3,7 +3,7 @@ import type { IGroup, IStage, ILine, IRect, IGraphic } from '@visactor/vrender';
 import { IContainPointMode, createLine, createRect } from '@visactor/vrender';
 import type { ILayoutAttribute } from './../typings/space';
 import type { IEditorElement, ILayoutLine } from './../core/interface';
-import type { IUpdateParams } from './transform-component2';
+import type { IUpdateParams, TransformAttributes } from './transform-component2';
 import { TransformComponent2 } from './transform-component2';
 import type { IBoundsLike } from '@visactor/vutils';
 import { DragComponent } from './transform-drag';
@@ -58,6 +58,7 @@ export class LayoutEditorComponent {
       layoutLines: ILayoutLine[];
       editorGroup: IGroup;
       swallowInteraction?: boolean;
+      editorBoxStyle?: TransformAttributes;
     }
   ) {
     this._el = el;
@@ -131,6 +132,7 @@ export class LayoutEditorComponent {
     };
     this._editorBox = new TransformComponent2(
       {
+        ...this._opt.editorBoxStyle,
         childrenPickable: true,
         pickable: this._opt.swallowInteraction === true,
         move: this._el.editProperties.move,
