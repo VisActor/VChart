@@ -6,7 +6,9 @@
     "rootDir": "./src",
     "types": ["jest", "offscreencanvas", "node"],
     "lib": ["DOM", "ESNext"],
-    "paths": {}
+    "composite": true,
+    "outDir": "./esm",
+    "ignoreDeprecations": "5.0"
   },
   "ts-node": {
     "transpileOnly": true,

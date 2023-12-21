@@ -1,8 +1,8 @@
 import React from 'react';
-import type VChart from '@visactor/vchart';
+import type { IVChart } from '@visactor/vchart';
 
 export interface ChartContextType {
-  chart?: VChart;
+  chart?: IVChart;
   specFromChildren: any;
   isChildrenUpdated?: boolean;
 }

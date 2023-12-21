@@ -1,5 +1,5 @@
 import { BaseSeriesProps, createSeries } from './BaseSeries';
-import { IPieSeriesSpec } from '@visactor/vchart';
+import type { IPieSeriesSpec } from '@visactor/vchart';
 
 export type PieProps = BaseSeriesProps & Omit<IPieSeriesSpec, 'type'>;
 

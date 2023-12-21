@@ -91,6 +91,8 @@ export interface IRenderOption {
    * vrender 的插件列表
    */
   pluginList?: string[];
+
+  enableHtmlAttribute?: boolean;
 }
 
 export type CompilerListenerParameters = {

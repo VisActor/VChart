@@ -1,5 +1,6 @@
 import React from 'react';
-import { IRangeColumnChartSpec } from '@visactor/vchart';
+import type { IRangeColumnChartSpec } from '@visactor/vchart';
+import { default as VChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 export interface RangeColumnChartProps
@@ -8,5 +9,9 @@ export interface RangeColumnChartProps
 
 export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnChartProps>>(
   'RangeColumnChart',
-  'rangeColumn'
+
+  {
+    type: 'rangeColumn',
+    vchartConstrouctor: VChart
+  }
 );

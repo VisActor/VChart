@@ -16,8 +16,8 @@ import type {
   CrossHairTrigger,
   ICartesianCrosshairSpec,
   IPolarCrosshairSpec,
-  ICrosshairTheme,
-  ICrosshairCategoryFieldSpec
+  ICrosshairCategoryFieldSpec,
+  ICrosshairTheme
 } from './interface';
 import { Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
 import { getDefaultCrosshairTriggerEventByMode } from './config';

@@ -25,7 +25,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@visactor/vchart': path.resolve(__dirname, '../../vchart/src/index.ts')
+      '@visactor/vchart': path.resolve(__dirname, '../../vchart/src/index.ts'),
+      '@visactor/vutils-extension': path.resolve(__dirname, '../../vutils-extension/src/index.ts')
       // ...localConf.resolve?.alias
     }
   }
