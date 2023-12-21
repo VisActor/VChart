@@ -2,6 +2,21 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.1",
+      "tag": "@visactor/vchart_v1.8.1",
+      "date": "Thu, 21 Dec 2023 08:30:03 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: improve the stability of spec transformer and media query"
+          },
+          {
+            "comment": " fix: `select.triggerOff: none` not work"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.0",
       "tag": "@visactor/vchart_v1.8.0",
       "date": "Tue, 19 Dec 2023 12:04:29 GMT",

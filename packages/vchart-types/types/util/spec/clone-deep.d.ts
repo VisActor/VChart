@@ -1,1 +1,1 @@
-export declare function cloneDeepSpec(spec: any): any;
+export declare function cloneDeepSpec(spec: any, excludeKeys?: string[]): any;
