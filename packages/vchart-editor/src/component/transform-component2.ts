@@ -32,6 +32,9 @@ export type TransformAttributes = {
    * 支持的锚点
    */
   enabledAnchors?: AnchorDirection[];
+  // minSize
+  minWidth?: number;
+  minHeight?: number;
 } & IGroupGraphicAttribute;
 
 export type IUpdateParams = {
@@ -93,6 +96,8 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     resize: boolean;
   };
 
+  minSize: { width: number; height: number } = { width: MinSize, height: MinSize };
+
   _setCursor: (c: string) => void = null;
 
   static defaultAttributes: Partial<TransformAttributes> = {
@@ -144,6 +149,8 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     this.verticalResizble = 0;
     this.rotatable = 0;
     this.runningAddChildUpdateBoundTag = false;
+    this.minSize.width = attributes.minWidth ?? MinSize;
+    this.minSize.height = attributes.minHeight ?? MinSize;
     this.rect = createRect({
       fill: false,
       stroke: false,
@@ -390,10 +397,10 @@ export class TransformComponent2 extends AbstractComponent<Required<TransformAtt
     //   x: x + (this.horizontalResizble > 0 ? 0 : -1) * dx,
     //   y: y + (this.verticalResizble > 0 ? 0 : -1) * dy
     // });
-    if (center.x - tw / 2 > x + width - MinSize) {
+    if (center.x - tw / 2 > x + width - this.minSize.width) {
       return;
     }
-    if (center.y - th / 2 > y + height - MinSize) {
+    if (center.y - th / 2 > y + height - this.minSize.height) {
       return;
     }
     this.rect.setAttributes({
