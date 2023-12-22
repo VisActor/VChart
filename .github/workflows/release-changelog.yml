@@ -7,11 +7,11 @@ on:
 jobs:
   update-changelog-after-publish-a-release:
     name: GitHub Actions Test
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [18.x]
 
     steps:
       - name: Checkout
@@ -44,6 +44,7 @@ jobs:
 
       - name: Create branch
         run: |
+          git status
           git checkout -b docs/generate-changelog-${{  github.event.release.tag_name }}
           # Make any necessary changes
           git add .

@@ -11,7 +11,7 @@ jobs:
   if_merged:
     if: github.event.pull_request.merged == true
 
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     permissions:
       contents: write
@@ -46,6 +46,7 @@ jobs:
 
       - name: Create a new branch
         run: |
+          git status
           git checkout -b sync/main-${{ steps.package-version.outputs.current_version }}
           git push origin sync/main-${{ steps.package-version.outputs.current_version }}
 
