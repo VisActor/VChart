@@ -7,7 +7,10 @@ export interface HistogramChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
     Omit<IHistogramChartSpec, 'type'> {}
 
-export const HistogramChart = createChart<React.PropsWithChildren<HistogramChartProps>>('HistogramChart', {
-  type: 'histogram',
-  vchartConstrouctor: VChart
-});
+export const HistogramChart = createChart<React.PropsWithChildren<HistogramChartProps> & { type: 'histogram' }>(
+  'HistogramChart',
+  {
+    type: 'histogram',
+    vchartConstrouctor: VChart
+  }
+);

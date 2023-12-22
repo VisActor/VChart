@@ -7,7 +7,10 @@ export interface SequenceChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
     Omit<ISequenceChartSpec, 'type'> {}
 
-export const SequenceChart = createChart<React.PropsWithChildren<SequenceChartProps>>('SequenceChart', {
-  type: 'sequence',
-  vchartConstrouctor: VChart
-});
+export const SequenceChart = createChart<React.PropsWithChildren<SequenceChartProps> & { type: 'sequence' }>(
+  'SequenceChart',
+  {
+    type: 'sequence',
+    vchartConstrouctor: VChart
+  }
+);

@@ -7,7 +7,7 @@ export interface FunnelChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
     Omit<IFunnelChartSpec, 'type'> {}
 
-export const FunnelChart = createChart<React.PropsWithChildren<FunnelChartProps>>('FunnelChart', {
+export const FunnelChart = createChart<React.PropsWithChildren<FunnelChartProps> & { type: 'funnel' }>('FunnelChart', {
   type: 'funnel',
   vchartConstrouctor: VChart
 });

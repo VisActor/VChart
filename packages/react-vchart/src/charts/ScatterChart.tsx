@@ -7,7 +7,10 @@ export interface ScatterChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
     Omit<IScatterChartSpec, 'type'> {}
 
-export const ScatterChart = createChart<React.PropsWithChildren<ScatterChartProps>>('ScatterChart', {
-  type: 'scatter',
-  vchartConstrouctor: VChart
-});
+export const ScatterChart = createChart<React.PropsWithChildren<ScatterChartProps> & { type: 'scatter' }>(
+  'ScatterChart',
+  {
+    type: 'scatter',
+    vchartConstrouctor: VChart
+  }
+);

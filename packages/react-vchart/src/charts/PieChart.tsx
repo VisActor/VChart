@@ -7,7 +7,7 @@ export interface PieChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
     Omit<IPieChartSpec, 'type'> {}
 
-export const PieChart = createChart<React.PropsWithChildren<PieChartProps>>('PieChart', {
+export const PieChart = createChart<React.PropsWithChildren<PieChartProps> & { type: 'pie' }>('PieChart', {
   type: 'pie',
   vchartConstrouctor: VChart
 });

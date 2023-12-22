@@ -7,7 +7,7 @@ export interface RadarChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
     Omit<IRadarChartSpec, 'type'> {}
 
-export const RadarChart = createChart<React.PropsWithChildren<RadarChartProps>>('RadarChart', {
+export const RadarChart = createChart<React.PropsWithChildren<RadarChartProps> & { type: 'radar' }>('RadarChart', {
   type: 'radar',
   vchartConstrouctor: VChart
 });

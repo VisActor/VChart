@@ -7,7 +7,10 @@ export interface BoxPlotChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
     Omit<IBoxPlotChartSpec, 'type'> {}
 
-export const BoxPlotChart = createChart<React.PropsWithChildren<BoxPlotChartProps>>('BoxPlotChart', {
-  type: 'boxPlot',
-  vchartConstrouctor: VChart
-});
+export const BoxPlotChart = createChart<React.PropsWithChildren<BoxPlotChartProps> & { type: 'boxPlot' }>(
+  'BoxPlotChart',
+  {
+    type: 'boxPlot',
+    vchartConstrouctor: VChart
+  }
+);
