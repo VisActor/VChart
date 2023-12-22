@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: error in chart level modification of media query action",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
