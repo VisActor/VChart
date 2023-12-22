@@ -429,11 +429,11 @@ export class VChart implements IVChart {
       spec = functionTransform(spec, VChart);
     }
     this._spec = spec;
-
     if (!this._chartSpecTransformer) {
       this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
         type: this._spec.type,
-        getTheme: () => this._currentTheme ?? {}
+        getTheme: () => this._currentTheme ?? {},
+        animation: this._option.animation
       });
     }
 
