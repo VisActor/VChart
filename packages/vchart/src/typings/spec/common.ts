@@ -113,7 +113,7 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
 
   /**
    * 是否关闭交互效果
-   * @since 1.5.0
+   * @since 1.9.0
    * @default false
    */
   disableTriggerEvent?: boolean;
