@@ -4,7 +4,6 @@ import { AttributeLevel, DEFAULT_DATA_KEY, VGRAMMAR_HOOK_EVENT } from '../../con
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IRectMark } from '../../mark/rect';
-import type { ITextMark } from '../../mark/text';
 import type { Datum, IRectMarkSpec, ITextMarkSpec } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
@@ -14,7 +13,7 @@ import { registerDataSetInstanceTransform } from '../../data/register';
 import type { ITreemapOpt } from '../../data/transforms/treemap';
 import { treemap } from '../../data/transforms/treemap';
 import { flatten } from '../../data/transforms/flatten';
-import type { IBounds, IBoundsLike } from '@visactor/vutils';
+import type { IBounds } from '@visactor/vutils';
 import { isValidNumber, Bounds, Matrix, mixin } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { TreemapNodeElement } from '@visactor/vgrammar-hierarchy';
@@ -31,12 +30,14 @@ import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { RectMark, registerRectMark } from '../../mark/rect';
-import { TextMark, registerTextMark } from '../../mark/text';
+import { registerRectMark } from '../../mark/rect';
+import { registerTextMark } from '../../mark/text';
 import { treemapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerTreemapAnimation } from './animation';
 import { TransformLevel } from '../../data/initialize';
+import type { ILabelMark } from '../../mark/label';
+import { TreemapSeriesSpecTransformer } from './treemap-transform';
 
 export class TreemapSeries extends CartesianSeries<any> {
   static readonly type: string = SeriesTypeEnum.treemap;
@@ -44,10 +45,13 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   static readonly mark: SeriesMarkMap = treemapSeriesMark;
 
+  static readonly transformerConstructor = TreemapSeriesSpecTransformer;
+  readonly transformerConstructor = TreemapSeriesSpecTransformer;
+
   private _leafMark: IRectMark;
   private _nonLeafMark: IRectMark;
-  private _labelMark: ITextMark;
-  private _nonLeafLabelMark: ITextMark;
+  private _labelMark: ILabelMark;
+  private _nonLeafLabelMark: ILabelMark;
 
   protected declare _spec: ITreemapSeriesSpec;
 
@@ -76,8 +80,6 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   // range for treemap layout, change while zoom and pan
   private _viewBox: IBounds = new Bounds();
-
-  private _clickEnable: boolean = true;
 
   private _enableAnimationHook = this.enableMarkAnimation.bind(this);
 
@@ -271,47 +273,11 @@ export class TreemapSeries extends CartesianSeries<any> {
       this._leafMark = leafMark;
       this._trigger.registerMark(leafMark);
     }
-
-    if (this._spec.label?.visible) {
-      const textMark = this._createMark(TreemapSeries.mark.label, {
-        skipBeforeLayouted: false
-      });
-      if (textMark) {
-        textMark.setTransform([
-          {
-            type: 'filter',
-            callback: (datum: TreemapNodeElement) => {
-              return !this._shouldFilterElement(datum, 'leaf');
-            }
-          } as TransformSpec
-        ]);
-        this._labelMark = textMark;
-        this._trigger.registerMark(textMark);
-      }
-    }
-
-    if (this._spec.nonLeafLabel?.visible) {
-      const textMark = this._createMark(TreemapSeries.mark.nonLeafLabel);
-      if (textMark) {
-        textMark.setTransform([
-          {
-            type: 'filter' as string,
-            callback: (datum: TreemapNodeElement) => {
-              return !this._shouldFilterElement(datum, 'nonLeaf');
-            }
-          } as TransformSpec
-        ]);
-        this._nonLeafLabelMark = textMark;
-        this._trigger.registerMark(textMark);
-      }
-    }
   }
 
   initMarkStyle() {
     this._initLeafMarkStyle();
     this._initNonLeafMarkStyle();
-    this._initLabelMarkStyle();
-    this._initNonLeafLabelMarkStyle();
   }
 
   protected _initLeafMarkStyle() {
@@ -351,29 +317,21 @@ export class TreemapSeries extends CartesianSeries<any> {
     );
   }
 
-  protected _initLabelMarkStyle() {
-    if (!this._labelMark) {
+  initLabelMarkStyle(labelMark: ILabelMark) {
+    if (!labelMark) {
       return;
     }
+    this._labelMark = labelMark;
+    labelMark.setRule('treemap');
     this.setMarkStyle<ITextMarkSpec>(
-      this._labelMark,
+      labelMark,
       {
-        visible: (datum, ctx, { element }) => {
-          const isLeaf = datum.isLeaf;
-          if (!isLeaf) {
-            return false;
-          }
-          const bounds = element.getBounds() as IBoundsLike;
-          const { y0, y1 } = datum;
-          // 只需要判断高度，宽度放不下会由 limit 来处理
-          return !!bounds && bounds.y1 > y0 && bounds.y2 < y1;
-        },
         x: datum => (datum.x0 + datum.x1) / 2,
         y: datum => (datum.y0 + datum.y1) / 2,
         text: datum => {
           return datum.datum[datum.depth]?.[this.getDimensionField()[0]];
         },
-        limit: (datum: Datum) => {
+        maxLineWidth: (datum: Datum) => {
           return datum.x1 === datum.x0 ? Number.MIN_VALUE : datum.x1 - datum.x0;
         }
       },
@@ -382,14 +340,15 @@ export class TreemapSeries extends CartesianSeries<any> {
     );
   }
 
-  protected _initNonLeafLabelMarkStyle() {
-    if (!this._nonLeafLabelMark) {
+  protected initNonLeafLabelMarkStyle(labelMark: ILabelMark) {
+    if (!labelMark) {
       return;
     }
+    this._nonLeafLabelMark = labelMark;
+    labelMark.setRule('treemap');
     this.setMarkStyle<ITextMarkSpec>(
-      this._nonLeafLabelMark,
+      labelMark,
       {
-        visible: datum => !!datum.labelRect,
         x: datum => {
           if (datum.labelRect) {
             return (datum.labelRect.x0 + datum.labelRect.x1) / 2;
@@ -405,7 +364,7 @@ export class TreemapSeries extends CartesianSeries<any> {
         text: datum => {
           return datum.datum[datum.depth]?.[this.getDimensionField()[0]];
         },
-        limit: (datum: any) => {
+        maxLineWidth: (datum: any) => {
           return datum.x1 === datum.x0 ? Number.MIN_VALUE : datum.x1 - datum.x0;
         }
       },
@@ -461,10 +420,7 @@ export class TreemapSeries extends CartesianSeries<any> {
 
   protected initTooltip() {
     this._tooltipHelper = new TreemapTooltipHelper(this);
-    this._nonLeafLabelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nonLeafMark);
     this._leafMark && this._tooltipHelper.activeTriggerSet.mark.add(this._leafMark);
-    this._labelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._labelMark);
-    this._nonLeafLabelMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nonLeafLabelMark);
   }
 
   private _shouldFilterElement(datum: TreemapNodeElement, nodeType: 'leaf' | 'nonLeaf') {
@@ -527,6 +483,11 @@ export class TreemapSeries extends CartesianSeries<any> {
     this.getMarks().forEach(mark => {
       mark.getProduct().animate?.enable();
     });
+    [this._labelMark, this._nonLeafLabelMark].forEach(m => {
+      if (m && m.getComponent()) {
+        m.getComponent().getProduct().getGroupGraphicItem().enableAnimation();
+      }
+    });
     // 在所有动画执行之后关闭动画
     this.event.off(VGRAMMAR_HOOK_EVENT.AFTER_DO_RENDER, this._enableAnimationHook);
   }
@@ -534,6 +495,11 @@ export class TreemapSeries extends CartesianSeries<any> {
   protected disableMarkAnimation() {
     this.getMarks().forEach(mark => {
       mark.getProduct().animate?.disable();
+    });
+    [this._labelMark, this._nonLeafLabelMark].forEach(m => {
+      if (m && m.getComponent()) {
+        m.getComponent().getProduct().getGroupGraphicItem().disableAnimation();
+      }
     });
   }
 
@@ -546,8 +512,8 @@ export class TreemapSeries extends CartesianSeries<any> {
   }
 }
 
-mixin(TreemapSeries, Zoomable);
 mixin(TreemapSeries, Drillable);
+mixin(TreemapSeries, Zoomable);
 
 export const registerTreemapSeries = () => {
   registerRectMark();
