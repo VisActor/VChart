@@ -241,8 +241,9 @@ const vchart = new VChart(...);
 
 声明媒体查询逻辑，在图表高度小于 200px 时：
 
-- 将显示在顶部、底部的图例显示在左侧
+- 将显示在顶部、底部的图例显示在左侧，padding 设为 0
 - 隐藏标题
+- 将图表 padding 设为 10
 
 ```javascript livedemo
 VCHART_MODULE.registerMediaQuery();
@@ -295,11 +296,15 @@ const getSpec = () => ({
         {
           filterType: 'legends',
           filter: [{ orient: 'top' }, { orient: 'bottom' }],
-          spec: { orient: 'left' }
+          spec: { orient: 'left', padding: 0 }
         },
         {
           filterType: 'title',
           spec: { visible: false }
+        },
+        {
+          filterType: 'chart',
+          spec: { padding: 10 }
         }
       ]
     }
@@ -314,7 +319,7 @@ vChart.getCanvas().style.outline = '1px solid orange';
 setTimeout(() => {
   vChart.updateSpec(
     {
-      width: 400,
+      width: 300,
       height: 199
     },
     true
