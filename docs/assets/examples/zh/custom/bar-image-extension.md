@@ -3,7 +3,7 @@ category: examples
 group: customMark
 title: 条形图image填充
 order: 40-4
-cover:
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/custom-mark/bar-image-fill.png
 option: barChart#extensionMark
 ---
 
