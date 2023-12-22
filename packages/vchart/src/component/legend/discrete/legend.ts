@@ -1,4 +1,5 @@
 import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { isFunction, isNil, isValidNumber, isArray, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import type { IDiscreteLegendSpec, IDiscreteLegendTheme } from './interface';

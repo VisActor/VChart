@@ -212,11 +212,14 @@ export class Trigger implements ITrigger {
   }
 
   protected unselectItems(params: BaseEventParams): void {
-    this.interaction.removeEventElement(STATE_VALUE_ENUM.STATE_SELECTED, params.item);
-    this.event.emit('unselected', {
-      model: this._option.model,
-      value: params.item
-    });
+    const { triggerOff } = this._select;
+    if (triggerOff !== 'none') {
+      this.interaction.removeEventElement(STATE_VALUE_ENUM.STATE_SELECTED, params.item);
+      this.event.emit('unselected', {
+        model: this._option.model,
+        value: params.item
+      });
+    }
   }
 
   protected handleSingleEventSelect(params: BaseEventParams): void {

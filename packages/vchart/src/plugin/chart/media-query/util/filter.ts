@@ -10,19 +10,14 @@ import type {
   MediaQueryActionFilterType
 } from '../interface';
 import { SeriesTypeEnum } from '../../../../series/interface';
-import {
-  ComponentTypeEnum,
-  SimplifiedComponentTypeEnum,
-  axisComponentTypes,
-  crosshairComponentTypes,
-  legendComponentTypes
-} from '../../../../component/interface';
+import { ComponentTypeEnum } from '../../../../component/interface';
 import { includeSpec } from '@visactor/vutils-extension';
+import type { MaybeArray } from '../../../../typings';
 
 /** 执行元素过滤器 */
 export const executeMediaQueryActionFilter = <T extends Record<string, unknown>>(
   filterType: MediaQueryActionFilterType = 'chart',
-  filter: MediaQueryActionFilter<T> | undefined,
+  filter: MaybeArray<MediaQueryActionFilter<T>> | undefined,
   action: IMediaQueryAction<T>,
   query: IMediaQueryCondition,
   chartSpec: any,
@@ -35,11 +30,13 @@ export const executeMediaQueryActionFilter = <T extends Record<string, unknown>>
       if (isNil(filter)) {
         return true;
       }
-      if (isFunction(filter)) {
-        return filter(info, action, query);
-      }
-      // spec 模糊匹配
-      return includeSpec(info.spec, filter);
+      return array(filter).some(f => {
+        if (isFunction(f)) {
+          return f(info, action, query);
+        }
+        // spec 模糊匹配
+        return includeSpec(info.spec, f);
+      });
     })
   };
 };
@@ -100,34 +97,6 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
         });
       }
     });
-  } else if (Object.values(SimplifiedComponentTypeEnum).includes(filterType as SimplifiedComponentTypeEnum)) {
-    result.modelType = 'component';
-    let componentTypes: ComponentTypeEnum[] | undefined;
-    switch (filterType) {
-      case SimplifiedComponentTypeEnum.axis:
-        componentTypes = axisComponentTypes;
-        result.specKey = 'axes';
-        break;
-      case SimplifiedComponentTypeEnum.legend:
-        componentTypes = legendComponentTypes;
-        result.specKey = 'legends';
-        break;
-      case SimplifiedComponentTypeEnum.crosshair:
-        componentTypes = crosshairComponentTypes;
-        result.specKey = 'crosshair';
-    }
-
-    const { specKey } = result;
-    const infoList = array(chartSpecInfo[specKey] ?? []);
-    array(chartSpec[specKey] ?? []).forEach((componentSpec, i) => {
-      const specInfo = infoList[i];
-      if (componentTypes?.includes(specInfo.type as ComponentTypeEnum)) {
-        result.modelInfo.push({
-          ...specInfo,
-          spec: componentSpec
-        });
-      }
-    });
   } else if (Object.values(ComponentTypeEnum).includes(filterType as ComponentTypeEnum)) {
     result.modelType = 'component';
     result.type = filterType as ComponentTypeEnum;
@@ -144,6 +113,27 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
         });
       }
     });
+  } else {
+    // 根据 specKey 进行匹配
+    const componentTypes = Factory.getComponents()
+      .filter(({ cmp }) => cmp.specKey === filterType)
+      .map(({ cmp }) => cmp.type);
+    if (componentTypes.length > 0) {
+      result.modelType = 'component';
+      const specKey = filterType as keyof IChartSpec;
+      result.specKey = specKey;
+
+      const infoList = array(chartSpecInfo[specKey] ?? []);
+      array(chartSpec[specKey] ?? []).forEach((componentSpec, i) => {
+        const specInfo = infoList[i];
+        if (componentTypes.includes(specInfo.type as ComponentTypeEnum)) {
+          result.modelInfo.push({
+            ...specInfo,
+            spec: componentSpec
+          });
+        }
+      });
+    }
   }
 
   return result;

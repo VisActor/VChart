@@ -39,6 +39,7 @@ export interface IChartOption
 export interface IChartSpecTransformerOption {
   type: string;
   seriesType?: string;
+  animation?: boolean;
   getTheme: () => ITheme;
 }
 

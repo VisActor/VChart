@@ -5,7 +5,7 @@ import { isDataView, isHTMLElement } from './common';
  * 深拷贝 spec，为避免循环引用，DataView 维持原有引用
  * @param spec 原spec
  */
-export function cloneDeepSpec(spec: any) {
+export function cloneDeepSpec(spec: any, excludeKeys: string[] = ['data']) {
   const value = spec;
 
   let result;
@@ -49,8 +49,13 @@ export function cloneDeepSpec(spec: any) {
     while (++index < (props || value).length) {
       const key = props ? props[index] : index;
       const subValue = value[key];
-      result[key] = cloneDeepSpec(subValue);
+      if (excludeKeys?.includes(key.toString())) {
+        result[key] = subValue;
+      } else {
+        result[key] = cloneDeepSpec(subValue, excludeKeys);
+      }
     }
   }
+
   return result;
 }

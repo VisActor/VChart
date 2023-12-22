@@ -18,11 +18,11 @@ export declare class MediaQuery extends BasePlugin implements IChartPlugin {
     onBeforeResize(service: IChartPluginService, width: number, height: number): void;
     onAfterChartSpecTransform(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource): void;
     onBeforeInitChart(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource): void;
-    changeSize(width: number, height: number, compile?: boolean, render?: boolean): boolean;
+    protected _changeSize(width: number, height: number, compile?: boolean, render?: boolean): boolean;
     protected _applyQueries(compile?: boolean, render?: boolean): boolean;
-    check(item: IMediaQueryItem): IMediaQueryCheckResult;
-    apply(item: IMediaQueryItem, chartSpec: any): IMediaQueryActionResult;
-    reInit(compile?: boolean, render?: boolean): void;
+    protected _check(item: IMediaQueryItem): IMediaQueryCheckResult;
+    protected _apply(item: IMediaQueryItem, chartSpec: any): IMediaQueryActionResult;
+    protected _reInit(compile?: boolean, render?: boolean): void;
     dispose(): void;
 }
 export declare const registerMediaQuery: () => void;

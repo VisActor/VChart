@@ -14,6 +14,7 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     protected _spec: T;
     getSpec(): T;
     getSpecPath(): (string | number)[];
+    getSpecInfoPath(): (string | number)[];
     readonly type: string;
     readonly modelType: string;
     readonly id: number;
