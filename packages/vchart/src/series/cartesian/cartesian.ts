@@ -357,32 +357,40 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
 
   protected _positionXEncoder?: (datum: Datum) => number;
 
-  dataToPositionX(datum: Datum, scaleDepth: number = 2): number {
-    return this._dataToPosition(
-      datum,
-      this._xAxisHelper,
-      this.fieldX,
-      scaleDepth,
-      () => this._positionXEncoder?.bind(this),
-      (encoder: (datum: Datum) => number) => {
-        this._positionXEncoder = encoder.bind(this);
-      }
-    );
+  getDataToPositionXFunc(scaleDepth?: number): (datum: Datum) => number {
+    return (datum: Datum) =>
+      this._dataToPosition(
+        datum,
+        this._xAxisHelper,
+        this.fieldX,
+        scaleDepth,
+        () => this._positionXEncoder?.bind(this),
+        (encoder: (datum: Datum) => number) => {
+          this._positionXEncoder = encoder.bind(this);
+        }
+      );
+  }
+  dataToPositionX(datum: Datum): number {
+    return this.getDataToPositionXFunc()(datum);
   }
 
   protected _positionYEncoder?: (datum: Datum) => number;
 
-  dataToPositionY(datum: Datum, scaleDepth: number = 2): number {
-    return this._dataToPosition(
-      datum,
-      this._yAxisHelper,
-      this.fieldY,
-      scaleDepth,
-      () => this._positionYEncoder?.bind(this),
-      (encoder: (datum: Datum) => number) => {
-        this._positionYEncoder = encoder.bind(this);
-      }
-    );
+  getDataToPositionYFunc(scaleDepth?: number): (datum: Datum) => number {
+    return (datum: Datum) =>
+      this._dataToPosition(
+        datum,
+        this._yAxisHelper,
+        this.fieldY,
+        scaleDepth,
+        () => this._positionYEncoder?.bind(this),
+        (encoder: (datum: Datum) => number) => {
+          this._positionYEncoder = encoder.bind(this);
+        }
+      );
+  }
+  dataToPositionY(datum: Datum): number {
+    return this.getDataToPositionYFunc()(datum);
   }
 
   dataToPositionZ(datum: Datum): number {
