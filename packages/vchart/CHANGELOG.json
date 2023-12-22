@@ -2,6 +2,24 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.2",
+      "tag": "@visactor/vchart_v1.8.2",
+      "date": "Fri, 22 Dec 2023 12:49:18 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: chart option.animation not work"
+          },
+          {
+            "comment": "feat: Supports the initialization parameter `disableTriggerEvent` to turn off the default interactive effect of the chart\n\n"
+          },
+          {
+            "comment": "fix: error in chart level modification of media query action"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.1",
       "tag": "@visactor/vchart_v1.8.1",
       "date": "Thu, 21 Dec 2023 08:30:03 GMT",

@@ -35,5 +35,6 @@ export type ILegendCommonSpec = {
         padding?: IPadding | number | number[];
         style?: Omit<NoVisibleMarkStyle<IRectMarkSpec>, 'visible' | 'width' | 'height'>;
     };
+    interactive?: boolean;
 } & Omit<IComponentSpec, 'orient'>;
 export type ILegendSpec = IDiscreteLegendSpec | IColorLegendSpec | ISizeLegendSpec;
