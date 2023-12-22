@@ -358,8 +358,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     const titleBackgroundSpec = spec.title.background ?? {};
     return {
       orient: this.getOrient(),
-      select: spec.select,
-      hover: spec.hover,
+      select: this._option.disableTriggerEvent === true ? false : spec.select,
+      hover: this._option.disableTriggerEvent === true ? false : spec.hover,
       line: transformAxisLineStyle(spec.domainLine),
       label: {
         style: isFunction(spec.label.style)
