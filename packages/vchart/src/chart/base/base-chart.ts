@@ -209,7 +209,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._transformer = new this.transformerConstructor({
       type: this.type,
       seriesType: this.seriesType,
-      getTheme: this._option.getTheme
+      getTheme: this._option.getTheme,
+      animation: this._option.animation
     });
     // data
     this._chartData.parseData(this._spec.data);
@@ -311,11 +312,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
 
     const { spec, ...others } = specInfo;
-
-    // 如果用户在 vchart 构造函数参数中关闭了 animation, 则已该配置为准
-    if (this._option.animation === false) {
-      spec.animation = false;
-    }
 
     let region: IRegion | undefined;
     if (isValid(spec.regionId)) {
