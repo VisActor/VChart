@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: chart option.animation not work",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
