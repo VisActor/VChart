@@ -721,6 +721,13 @@
               ]
             },
             {
+              "path": "Semi_Design",
+              "title": {
+                "zh": "Semi Design",
+                "en": "Semi Design"
+              }
+            },
+            {
               "path": "omi",
               "title": {
                 "zh": "OMI",

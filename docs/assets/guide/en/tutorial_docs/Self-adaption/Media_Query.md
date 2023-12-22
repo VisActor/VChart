@@ -27,7 +27,7 @@ VChart 的媒体查询可以总结为 query-action 结构。其中：
 
 接下来将详述上图中的每个部分。
 
-### 动作类型 `actionType`
+### 动作类型 actionType
 
 在命中 `query` 之后，有两类动作相对比较高频：
 
@@ -39,7 +39,7 @@ VChart 的媒体查询可以总结为 query-action 结构。其中：
 - `update`：使用元素过滤器 `filter` 来过滤需要更改的图表元素，并将新 spec 依次合并到这些元素。
 - `updateOrAdd`：使用元素过滤器 `filter` 来过滤需要更改的图表元素，如果过滤到了某些图表元素，则将新 spec 依次合并到这些元素；否则将新 spec 作为新的图表元素添加到图表。
 
-### 元素过滤器 `filter`
+### 元素过滤器 filter
 
 如果动作类型为 `update`，元素过滤器 `filter` 用于指定在命中了 `query` 以后，哪些图表元素需要更新 spec。在 `filter` 匹配到了某些图表元素后，新的 spec 将依次合并到这些图表元素的 spec 中。
 
@@ -309,9 +309,12 @@ const getSpec = () => ({
 const vChart = new VChart(getSpec(), { dom: CONTAINER_ID });
 await vChart.renderAsync();
 
+vChart.getCanvas().style.outline = '1px solid orange';
+
 setTimeout(() => {
   vChart.updateSpec(
     {
+      width: 400,
       height: 199
     },
     true
