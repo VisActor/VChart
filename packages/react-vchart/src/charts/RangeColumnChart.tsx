@@ -7,9 +7,8 @@ export interface RangeColumnChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
     Omit<IRangeColumnChartSpec, 'type'> {}
 
-export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnChartProps>>(
+export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnChartProps> & { type: 'rangeColumn' }>(
   'RangeColumnChart',
-
   {
     type: 'rangeColumn',
     vchartConstrouctor: VChart

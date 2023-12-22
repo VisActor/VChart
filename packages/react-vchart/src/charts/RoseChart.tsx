@@ -7,7 +7,7 @@ export interface RoseChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
     Omit<IRoseChartSpec, 'type'> {}
 
-export const RoseChart = createChart<React.PropsWithChildren<RoseChartProps>>('RoseChart', {
+export const RoseChart = createChart<React.PropsWithChildren<RoseChartProps> & { type: 'rose' }>('RoseChart', {
   type: 'rose',
   vchartConstrouctor: VChart
 });
