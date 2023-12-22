@@ -26,6 +26,8 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   static readonly transformerConstructor = RegionSpecTransformer;
   readonly transformerConstructor = RegionSpecTransformer as any;
   readonly modelType: string = 'region';
+  static specKey = 'region';
+  specKey: string = 'region';
 
   type = Region.type;
   protected _series: ISeries[] = [];
@@ -80,6 +82,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
         getCompiler: ctx.getCompiler
       });
     }
+    this.interaction.setDisableActiveEffect(this._option.disableTriggerEvent);
   }
 
   protected _getClipDefaultValue() {
