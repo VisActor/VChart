@@ -10,7 +10,7 @@ import type { Maybe } from '@visactor/vutils';
 export declare class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> implements ITitle {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
-    static specKey: string;
+    static specKey: ComponentTypeEnum;
     specKey: string;
     layoutType: ILayoutType;
     layoutZIndex: number;

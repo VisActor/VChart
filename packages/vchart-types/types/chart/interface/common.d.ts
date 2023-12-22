@@ -20,6 +20,7 @@ export interface IChartOption extends Omit<IModelOption, 'getChartViewRect' | 'g
     modeParams?: IRenderOption['modeParams'];
     viewBox?: IBoundsLike;
     layout?: LayoutCallBack;
+    disableTriggerEvent?: boolean;
 }
 export interface IChartSpecTransformerOption {
     type: string;
