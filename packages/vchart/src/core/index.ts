@@ -18,6 +18,7 @@ export * from '../typings/spec/common';
 export * from '../event/interface';
 export * from '../theme/interface';
 export * from '../constant';
+export * from './interface';
 
 /**
  * spec
