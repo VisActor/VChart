@@ -7,10 +7,9 @@ export interface LinearProgressChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
     Omit<ILinearProgressChartSpec, 'type'> {}
 
-export const LinearProgressChart = createChart<React.PropsWithChildren<LinearProgressChartProps>>(
-  'LinearProgressChart',
-  {
-    type: 'linearProgress',
-    vchartConstrouctor: VChart
-  }
-);
+export const LinearProgressChart = createChart<
+  React.PropsWithChildren<LinearProgressChartProps> & { type: 'linearProgress' }
+>('LinearProgressChart', {
+  type: 'linearProgress',
+  vchartConstrouctor: VChart
+});
