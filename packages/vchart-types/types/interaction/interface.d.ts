@@ -15,6 +15,7 @@ export interface IInteraction {
     exchangeEventElement: (stateValue: StateValue, elements: IElement) => void;
     clearEventElement: (stateValue: StateValue, clearReverse: boolean) => void;
     reverseEventElement: (stateValue: StateValue) => void;
+    setDisableActiveEffect: (disable: boolean) => void;
 }
 export interface ITrigger {
     init: () => void;

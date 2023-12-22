@@ -71,6 +71,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
             line: any;
             area: any;
         };
+        disableTriggerEvent: boolean;
     };
     protected _getNeedClearVRenderComponents(): IGraphic[];
 }

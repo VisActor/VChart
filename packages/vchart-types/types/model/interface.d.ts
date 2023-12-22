@@ -113,6 +113,7 @@ export interface IModelOption extends ICompilableInitOption {
     globalScale: IGlobalScale;
     animation: boolean;
     onError: (...args: any[]) => void;
+    disableTriggerEvent?: boolean;
 }
 export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
     type: string | ComponentTypeEnum | SeriesTypeEnum;
