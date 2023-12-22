@@ -136,7 +136,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
       seriesStyle: chartSpec.seriesStyle,
 
-      animation: chartSpec.animation,
+      animation: chartSpec.animation ?? this._option.animation,
       animationThreshold: chartSpec.animationThreshold ?? this._option.getTheme?.().animationThreshold,
       animationAppear: chartSpec.animationAppear,
       animationDisappear: chartSpec.animationDisappear,
