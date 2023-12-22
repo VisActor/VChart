@@ -192,69 +192,6 @@ export class VChartEditor {
   initEvent() {
     this._event = new EditorEvent(this);
     this._event.initEvent();
-
-    // TODO: 先在这里调试，待迁移至飞书图表编辑器中 @张苏
-    document.addEventListener('pointerdown', e => {
-      if (this.state.activeTool === EditorActiveTool.text && this.state.actionMode === EditorActionMode.addTool) {
-        this.setState({
-          activeTool: null,
-          actionMode: null
-        });
-        const defaultTextAttributes: Partial<ITextGraphicAttribute> = {
-          fontFamily: 'D-Din',
-          textAlign: 'start',
-          textBaseline: 'top',
-          fontSize: 16,
-          fill: '#000'
-        };
-        setupSimpleTextEditor({
-          textAttributes: defaultTextAttributes,
-          anchor: {
-            left: e.clientX,
-            top: e.clientY,
-            width: 0,
-            height: 0
-          },
-          container: this.layers[0].container,
-          needExpression: false,
-          onSubmit: (text: string) => {
-            if (isEmpty(text)) {
-              return;
-            }
-            this.addElements('text', {
-              id: uuid(),
-              attribute: {
-                text: text.split('\n'),
-                ...defaultTextAttributes,
-                ...this.layers[0].transformPosToLayer({ x: e.offsetX, y: e.offsetY })
-              },
-              editor: this
-            });
-          }
-        });
-      }
-    });
-
-    document.addEventListener('pointermove', e => {
-      if (this.state.activeTool === EditorActiveTool.text && this.state.actionMode === EditorActionMode.addTool) {
-        this.event.setCursor('text');
-      } else {
-        this.event.setCursorSyncToTriggerLayer();
-      }
-    });
-
-    // [
-    //   'perLayerDrag',
-    //   'perLayerWheel',
-    //   'onLayerWheelStart',
-    //   'onLayerDragStart',
-    //   'onLayerDragOver',
-    //   'onLayerWheelOver'
-    // ].forEach(e => {
-    //   this.emitter.on(e, () => {
-    //     console.log(e);
-    //   });
-    // });
   }
 
   resetLayoutZIndex() {

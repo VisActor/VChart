@@ -16,6 +16,8 @@ export * from './elements/interface';
 
 export * from './elements/chart/template/templates/baseTemp';
 
+export * from './elements/chart/utils/text';
+
 import { EditorFactory } from './core/factory';
 import { ClipBoardParser } from './elements/chart/data/parser/clipboard';
 import { CSVParser } from './elements/chart/data/parser/csv';
