@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: disableTriggerEvent could effect axis background\n\n",
+      "comment": "feat: Supports the initialization parameter `disableTriggerEvent` to turn off the default interactive effect of the chart\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
