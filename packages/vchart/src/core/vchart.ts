@@ -486,7 +486,8 @@ export class VChart implements IVChart {
       getSpecInfo: () => this._specInfo ?? {},
 
       layout: this._option.layout,
-      onError: this._onError
+      onError: this._onError,
+      disableTriggerEvent: this._option.disableTriggerEvent === true
     });
     if (!chart) {
       this._option?.onError('init chart fail');
@@ -501,6 +502,10 @@ export class VChart implements IVChart {
 
   private _releaseData() {
     if (this._dataSet) {
+      // Object.values(this._dataSet.dataViewMap).forEach(d => {
+      //   d.target.removeAllListeners();
+      //   d.destroy();
+      // });
       this._dataSet.dataViewMap = {};
       this._dataSet = null;
     }
@@ -608,7 +613,7 @@ export class VChart implements IVChart {
     return this._beforeRender(option);
   }
 
-  protected _reCompile(updateResult: IUpdateSpecResult) {
+  protected _reCompile(updateResult: IUpdateSpecResult, morphConfig?: IMorphConfig) {
     if (updateResult.reMake) {
       this._releaseData();
       this._initDataSet();

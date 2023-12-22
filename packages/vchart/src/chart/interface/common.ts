@@ -34,6 +34,11 @@ export interface IChartOption
    * 自定义布局方法
    */
   layout?: LayoutCallBack;
+
+  /**
+   * 是否关闭交互效果
+   */
+  disableTriggerEvent?: boolean;
 }
 
 export interface IChartSpecTransformerOption {

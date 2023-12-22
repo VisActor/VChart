@@ -134,6 +134,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected _initEvent() {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
     const triggerConfig = this._getTriggerEvent();
     if (triggerConfig) {
       const { in: triggerEvent, out: outTriggerEvent } = triggerConfig;
