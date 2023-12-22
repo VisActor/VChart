@@ -1,6 +1,6 @@
 {{ target: component-scrollbar }}
 
-## scrollbar(Array)
+## scrollBar(Array)
 
 滚动条配置。
 
