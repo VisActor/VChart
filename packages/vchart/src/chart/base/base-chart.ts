@@ -199,6 +199,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       getChart: () => this,
       globalScale: this._globalScale,
       onError: this._option?.onError,
+      disableTriggerEvent: this._option?.disableTriggerEvent === true,
       getSeriesData: this._chartData.getSeriesData.bind(this._chartData)
     };
 

@@ -228,6 +228,8 @@ export interface ICartesianSeries extends ISeries {
   dataToPositionY1: (datum: Datum) => number | null;
 
   valueToPosition: (value1: any, value2: any) => IPoint;
+  valueToPositionX: (value: StringOrNumber | StringOrNumber[], datum?: any) => any;
+  valueToPositionY: (value: StringOrNumber | StringOrNumber[], datum?: any) => any;
 }
 
 export interface IPolarSeries extends ISeries {

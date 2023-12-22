@@ -1,3 +1,4 @@
+import type { IModelOption } from './../../model/interface';
 /* eslint-disable no-duplicate-imports */
 import { debounce, isNil, pointInRect, throttle } from '@visactor/vutils';
 import type { BaseEventParams, EventType, ExtendEventParam, IEvent } from '../../event/interface';
@@ -66,6 +67,8 @@ export interface IZoomable {
 
 export class Zoomable implements IZoomable {
   private _clickEnable: boolean;
+
+  private _option: IModelOption;
 
   private _zoomableTrigger: IZoomTrigger;
 
@@ -175,6 +178,9 @@ export class Zoomable implements IZoomable {
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       this._bindZoomEventAsRegion(s.event, s, callback, option);
     }
@@ -186,6 +192,9 @@ export class Zoomable implements IZoomable {
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       regions.forEach(r => {
         if (filter) {
@@ -206,7 +215,7 @@ export class Zoomable implements IZoomable {
     regionOrSeries: IRegion | ISeries,
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
   ) {
-    if (!params.event) {
+    if (!params.event || this._option.disableTriggerEvent) {
       return;
     }
     const { event } = params;
@@ -285,6 +294,9 @@ export class Zoomable implements IZoomable {
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       regions.forEach(r => {
         if (filter) {
@@ -336,6 +348,9 @@ export class Zoomable implements IZoomable {
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       s.event.on(
         this._getTriggerEvent('start'),
@@ -353,6 +368,9 @@ export class Zoomable implements IZoomable {
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       regions.forEach(r => {
         if (filter) {
@@ -389,6 +407,9 @@ export class Zoomable implements IZoomable {
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
     this._clickEnable = true;
     if (!this._zoomableTrigger.parserDragEvent(params.event)) {
       return;

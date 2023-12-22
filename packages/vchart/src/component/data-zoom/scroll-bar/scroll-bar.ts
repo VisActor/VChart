@@ -204,6 +204,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     if (!isEmpty(slider?.style)) {
       attrs.sliderStyle = transformToGraphic(slider.style) as unknown as IRectGraphicAttribute;
     }
+    attrs.disableTriggerEvent = this._option.disableTriggerEvent;
     return attrs;
   }
 
