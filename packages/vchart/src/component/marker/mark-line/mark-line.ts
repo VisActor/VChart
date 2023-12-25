@@ -2,13 +2,11 @@ import { DataView } from '@visactor/vdataset';
 import type {
   IMarkLine,
   IMarkLineSpec,
-  IMarkLineTheme,
   IMarkLineXYSpec,
   IMarkLineXYY1Spec,
   IMarkLineYXX1Spec,
   IStepMarkLineSpec
 } from './interface';
-import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
@@ -21,7 +19,7 @@ import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty, isValid, isArray } from '@visactor/vutils';
+import { isEmpty, isValid, isArray, normalizePadding } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import type { IGroup } from '@visactor/vrender-core';
@@ -111,7 +109,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       },
       label: {
         ...label,
-        padding: labelBackground.padding,
+        padding: normalizePadding(labelBackground.padding),
         shape: {
           ...transformToGraphic(label.shape),
           visible: label.shape?.visible ?? false

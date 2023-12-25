@@ -10,7 +10,7 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty, isValid, isArray } from '@visactor/vutils';
+import { isEmpty, isValid, isArray, normalizePadding } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
@@ -76,7 +76,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
       areaStyle: transformToGraphic(this._spec.area?.style),
       label: {
         ...label,
-        padding: labelBackground.padding,
+        padding: normalizePadding(labelBackground.padding),
         shape: {
           ...transformToGraphic(label.shape),
           visible: label.shape?.visible ?? false

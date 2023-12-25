@@ -1,6 +1,5 @@
 import { DataView } from '@visactor/vdataset';
-import type { IMarkPoint, IMarkPointCoordinateSpec, IMarkPointSpec, IMarkPointTheme } from './interface';
-import type { IComponentOption } from '../../interface';
+import type { IMarkPoint, IMarkPointCoordinateSpec, IMarkPointSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { markerAggregation } from '../../../data/transforms/aggregation';
 import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
@@ -8,7 +7,7 @@ import { registerDataSetInstanceTransform } from '../../../data/register';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEmpty, isValid, isArray } from '@visactor/vutils';
+import { isEmpty, isValid, isArray, normalizePadding } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
@@ -76,7 +75,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
         imageStyle: itemContent.image?.style,
         textStyle: {
           ...itemContentText,
-          padding: labelBackground.padding,
+          padding: normalizePadding(labelBackground.padding),
           shape: {
             ...transformToGraphic(itemContentText.shape),
             visible: itemContentText.shape?.visible ?? false
