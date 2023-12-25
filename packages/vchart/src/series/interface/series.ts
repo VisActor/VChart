@@ -11,7 +11,7 @@ import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 import type { ISeriesSeriesInfo, ISeriesSpecInfo, ISeriesStackData } from './common';
 import type { ISeriesTooltipHelper } from './tooltip-helper';
 import type { IInvalidType, Datum, DirectionType, IGroup, StringOrNumber } from '../../typings';
-import type { StateValueType } from '../../compile/mark';
+import type { ISeriesMarkAttributeContext, StateValueType } from '../../compile/mark';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { IGroupMark } from '../../mark/group';
 import type { IArcLabelSpec } from '../pie/interface';
@@ -188,6 +188,7 @@ export interface ISeries extends IModel {
   getGroupFields: () => string[];
 
   getSpecInfo: () => ISeriesSpecInfo;
+  getMarkAttributeContext: () => ISeriesMarkAttributeContext;
 }
 
 export interface ICartesianSeries extends ISeries {
