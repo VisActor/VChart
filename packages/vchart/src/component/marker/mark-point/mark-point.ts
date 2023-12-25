@@ -2,8 +2,9 @@ import { DataView } from '@visactor/vdataset';
 import type { IMarkPoint, IMarkPointCoordinateSpec, IMarkPointSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
+import { computeClipRange, coordinateLayout, positionLayout, transformLabelAttributes, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
+import type { MarkPointAttrs } from '@visactor/vrender-components';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -58,39 +59,37 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
   }
 
   protected _createMarkerComponent() {
-    const itemContent = this._spec.itemContent ?? {};
-    const itemContentText = itemContent.text ?? {};
-    const labelBackground = itemContentText.labelBackground ?? {};
+    const { itemContent = {}, itemLine = {} } = this._spec;
+    const { text: label = {}, symbol, image, richText, ...restItemContent } = itemContent;
 
-    const markPoint = new MarkPointComponent({
+    const markPointAttrs: MarkPointAttrs = {
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? false,
       position: { x: 0, y: 0 },
-      itemLine: {
-        lineStyle: transformToGraphic(this._spec.itemLine?.line?.style),
-        ...this._spec.itemLine
-      },
+      clipInRange: this._spec.clip ?? false,
       itemContent: {
-        symbolStyle: transformToGraphic(itemContent.symbol?.style),
-        imageStyle: itemContent.image?.style,
-        textStyle: {
-          ...itemContentText,
-          padding: normalizePadding(labelBackground.padding),
-          shape: {
-            ...transformToGraphic(itemContentText.shape),
-            visible: itemContentText.shape?.visible ?? false
-          },
-          panel: {
-            ...transformToGraphic(labelBackground.style),
-            visible: labelBackground.visible ?? true
-          },
-          textStyle: transformToGraphic(itemContentText.style)
-        },
-        richTextStyle: itemContent.richText?.style,
-        ...this._spec.itemContent
-      },
-      clipInRange: this._spec.clip ?? false
-    });
+        ...restItemContent,
+        symbolStyle: transformToGraphic(symbol?.style),
+        imageStyle: image?.style,
+        textStyle: transformLabelAttributes(label),
+        richTextStyle: richText?.style
+      }
+    };
+
+    const { visible, line = {}, ...restItemLine } = itemLine;
+    if (visible !== false) {
+      markPointAttrs.itemLine = {
+        ...restItemLine,
+        visible: true,
+        lineStyle: transformToGraphic(line.style)
+      };
+    } else {
+      markPointAttrs.itemLine = {
+        visible: false
+      };
+    }
+
+    const markPoint = new MarkPointComponent(markPointAttrs);
     return markPoint as unknown as IGroup;
   }
 

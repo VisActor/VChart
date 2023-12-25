@@ -1,12 +1,12 @@
 import { DataView } from '@visactor/vdataset';
-import type { IMarkArea, IMarkAreaSpec, IMarkAreaTheme } from './interface';
-import type { IComponentOption } from '../../interface';
+import type { IMarkArea, IMarkAreaSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
+import { computeClipRange, coordinateLayout, positionLayout, xyLayout, transformLabelAttributes } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
+import type { MarkAreaAttrs } from '@visactor/vrender-components';
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -62,9 +62,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
 
   protected _createMarkerComponent() {
     const label = this._spec.label ?? {};
-    const { labelBackground = {} } = label;
-
-    const markArea = new MarkAreaComponent({
+    const markAreaAttrs: MarkAreaAttrs = {
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? false,
       points: [
@@ -74,21 +72,11 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
         }
       ],
       areaStyle: transformToGraphic(this._spec.area?.style),
-      label: {
-        ...label,
-        padding: normalizePadding(labelBackground.padding),
-        shape: {
-          ...transformToGraphic(label.shape),
-          visible: label.shape?.visible ?? false
-        },
-        panel: {
-          ...transformToGraphic(labelBackground.style),
-          visible: labelBackground.visible ?? true
-        },
-        textStyle: transformToGraphic(label.style)
-      },
-      clipInRange: this._spec.clip ?? false
-    });
+      clipInRange: this._spec.clip ?? false,
+      label: transformLabelAttributes(label)
+    };
+
+    const markArea = new MarkAreaComponent(markAreaAttrs);
     return markArea as unknown as IGroup;
   }
 
