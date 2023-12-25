@@ -106,6 +106,11 @@ export type ILegendCommonSpec = {
      */
     style?: Omit<NoVisibleMarkStyle<IRectMarkSpec>, 'visible' | 'width' | 'height'>;
   };
+  /**
+   * 是否允许交互
+   * @default true
+   */
+  interactive?: boolean;
 } & Omit<IComponentSpec, 'orient'>;
 
 export type ILegendSpec = IDiscreteLegendSpec | IColorLegendSpec | ISizeLegendSpec;

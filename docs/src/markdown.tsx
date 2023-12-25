@@ -8,6 +8,9 @@ import hljs from 'highlight.js';
 
 import 'highlight.js/styles/atom-one-light.css';
 
+import * as VCHART_MODULE from '@visactor/vchart';
+(window as any).VCHART_MODULE = VCHART_MODULE;
+
 const markdownParser = MarkdownIt({
   html: true,
   highlight: function (str, lang) {
@@ -113,7 +116,9 @@ function Content(props: IContentProps) {
     const code = demo[1];
     const containerId = `markdown-demo-${globalContainerId++}`;
     content = content.replace(pre, `<div id="${containerId}" class="markdown-demo"></div>`);
-    const evaluateCode = code.replace('CONTAINER_ID', `"${containerId}"`).concat(`window['${containerId}'] = vchart;`);
+    const evaluateCode = code
+      .replace('CONTAINER_ID', `"${containerId}"`)
+      .concat(`window['${containerId}'] = (() => { try { return vchart; } catch { return vChart; } })();`);
     return {
       code: htmlRestore(evaluateCode),
       id: containerId

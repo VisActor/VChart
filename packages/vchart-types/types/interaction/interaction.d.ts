@@ -7,6 +7,8 @@ export declare class Interaction implements IInteraction {
     private _stateMarks;
     private _stateElements;
     static markStateEnable(mark: IMark, state: string): boolean;
+    private _disableTriggerEvent;
+    setDisableActiveEffect(disable: boolean): void;
     registerMark(state: StateValue, mark: IMark): void;
     getStateMark(state: StateValue): IMark[] | null;
     filterEventMark(params: BaseEventParams, state: StateValue): boolean;

@@ -110,6 +110,13 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * @since 1.3.0
    */
   theme?: string | ITheme;
+
+  /**
+   * 是否关闭交互效果
+   * @since 1.9.0
+   * @default false
+   */
+  disableTriggerEvent?: boolean;
 }
 
 export enum RenderModeEnum {

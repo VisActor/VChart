@@ -31,7 +31,10 @@ export const executeMediaQueryAction = <T extends Record<string, unknown>>(
   const newSpec = isFunction(spec) ? spec(modelInfo, action, query) : spec;
   for (const { spec, specPath } of modelInfo) {
     if (isChart) {
-      return mergeSpec(targetSpec, newSpec);
+      return {
+        chartSpec: mergeSpec(targetSpec, newSpec),
+        hasChanged: true
+      };
     }
     const modelSpec = mergeSpec({}, spec, newSpec);
     setProperty(targetSpec, specPath, modelSpec);

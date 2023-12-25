@@ -424,7 +424,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
           visible: true,
           ...transformToGraphic(selectedBackgroundChart.area?.style)
         }
-      }
+      },
+      disableTriggerEvent: this._option.disableTriggerEvent
     };
   }
 
