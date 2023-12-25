@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: optimize the style configuration of marker",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
