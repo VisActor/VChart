@@ -421,6 +421,7 @@ export class TreemapSeries extends CartesianSeries<any> {
   protected initTooltip() {
     this._tooltipHelper = new TreemapTooltipHelper(this);
     this._leafMark && this._tooltipHelper.activeTriggerSet.mark.add(this._leafMark);
+    this._nonLeafMark && this._tooltipHelper.activeTriggerSet.mark.add(this._nonLeafMark);
   }
 
   private _shouldFilterElement(datum: TreemapNodeElement, nodeType: 'leaf' | 'nonLeaf') {
