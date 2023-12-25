@@ -339,7 +339,11 @@ export function transformLabelAttributes(label: IMarkerLabelSpec) {
     if (shape?.visible) {
       labelAttrs.shape = {
         visible: true,
-        ...transformToGraphic(shape)
+        ...transformToGraphic(shape.style)
+      };
+    } else {
+      labelAttrs.shape = {
+        visible: false
       };
     }
 
@@ -347,6 +351,10 @@ export function transformLabelAttributes(label: IMarkerLabelSpec) {
       labelAttrs.panel = {
         visible: true,
         ...transformToGraphic(labelBackground.style)
+      };
+    } else {
+      labelAttrs.panel = {
+        visible: false
       };
     }
 
