@@ -333,9 +333,7 @@ export function transformLabelAttributes(label: IMarkerLabelSpec) {
 
   if (label.visible !== false) {
     const labelAttrs = restLabel as any;
-    if (isValid(labelBackground.padding)) {
-      labelAttrs.padding = normalizePadding(labelBackground.padding);
-    }
+
     if (shape?.visible) {
       labelAttrs.shape = {
         visible: true,
@@ -352,10 +350,14 @@ export function transformLabelAttributes(label: IMarkerLabelSpec) {
         visible: true,
         ...transformToGraphic(labelBackground.style)
       };
+      if (isValid(labelBackground.padding)) {
+        labelAttrs.padding = normalizePadding(labelBackground.padding);
+      }
     } else {
       labelAttrs.panel = {
         visible: false
       };
+      labelAttrs.padding = 0;
     }
 
     if (style) {
