@@ -175,7 +175,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
                 type: MarkTypeEnum.label,
                 name: `${markName}-label-${index}`
               },
-              { noSeparateStyle: true }
+              { noSeparateStyle: true, attributeContext: series.getMarkAttributeContext() }
             ) as ILabelMark;
             labelMark.setTarget(mark);
             info.push({
