@@ -44,22 +44,17 @@ jobs:
         with:
           path: packages/vchart
 
-      - name: Checkout a new branch from main
+      - name: Create a new branch
         run: |
-          git status
-          git fetch origin main:main
-          git checkout main
-          git checkout -b 'sync-mian-${{ steps.package-version.outputs.current_version }}-to-develop'
-          git push origin 'sync-main-${{ steps.package-version.outputs.current_version }}-to-develop'
+          git checkout -b sync/main-${{ steps.package-version.outputs.current_version }}
+          git push origin sync/main-${{ steps.package-version.outputs.current_version }}
 
       - name: Create Pull Request
         uses: dustinirving/create-pr@v1.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title: '[Auto merge] synchronize branch main to develop after release ${{ steps.package-version.outputs.current_version }}'
+          title: '[Auto Sync] Sync the code from branch main to branch develop after release ${{ steps.package-version.outputs.current_version }}'
           base: develop
-          head: 'sync-${{ steps.package-version.outputs.current_version }}-to-develop'
-          labels: release # default labels, the action will throw error if not specified
-          reviewers: kkxxkk2019 # default reviewers, the action will throw error if not specified
-          body: |
-            synchronize branch main to develop
+          head: sync/main-${{ steps.package-version.outputs.current_version }}
+          reviewers: xile611
+          body: 'Sync the code from branch main to branch develop after release ${{ steps.package-version.outputs.current_version }}'

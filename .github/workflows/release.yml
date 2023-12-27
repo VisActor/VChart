@@ -66,17 +66,17 @@ jobs:
           NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/wx-vchart
 
-      # - name: Run Bugserver
-      #   working-directory: ./packages/vchart
-      #   env:
-      #     BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
-      #   run: node ../../common/scripts/install-run-rushx.js ci
+      - name: Run Bugserver
+        working-directory: ./packages/vchart
+        env:
+          BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
+        run: node ../../common/scripts/install-run-rushx.js ci
 
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           NPM_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-        run: node common/scripts/install-run-rush.js publish --publish --include-all
+        run: node common/scripts/install-run-rush.js publish --publish --include-all --tag latest
 
       - name: Update shrinkwrap
         run: node common/scripts/install-run-rush.js update
@@ -88,11 +88,10 @@ jobs:
           path: packages/vchart
 
       - name: Commit & Push changes
-        uses: actions-js/push@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          message: 'build: prelease version ${{ steps.package-version.outputs.current_version }}'
-          branch: ${{ github.ref_name }}
+        run: |
+          git add .
+          git commit -m 'build: prelease version ${{ steps.package-version.outputs.current_version }}' -n
+          git push origin ${{ github.ref_name }}
 
       - name: Collect changelog of rush
         uses: xile611/collect-rush-changlog@main
