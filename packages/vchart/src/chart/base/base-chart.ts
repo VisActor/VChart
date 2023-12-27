@@ -856,7 +856,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           componentCount: 0
         };
         componentCache[compSpecKey].componentCount++;
-        mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()], cmpSpec));
+        mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()] ?? {}, cmpSpec));
       } else {
         mergeUpdateResult(result, c.updateSpec(cmpSpec));
       }
