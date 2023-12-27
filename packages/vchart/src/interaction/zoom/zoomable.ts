@@ -1,7 +1,7 @@
 import type { IModelOption } from './../../model/interface';
 /* eslint-disable no-duplicate-imports */
 import { debounce, isNil, pointInRect, throttle } from '@visactor/vutils';
-import type { BaseEventParams, EventType, ExtendEventParam, IEvent } from '../../event/interface';
+import type { BaseEventParams, EventQuery, EventType, ExtendEventParam, IEvent } from '../../event/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec';
 import { RenderModeEnum } from '../../typings/spec/common';
@@ -10,6 +10,8 @@ import type { IZoomTrigger } from '../../component/common/trigger/interface';
 import type { ISeries } from '../../series/interface';
 import { Event_Bubble_Level, Event_Source_Type } from '../../constant';
 import type { IDelayType } from '../../typings/event';
+import { isMiniAppLikeMode, isMobileLikeMode } from '../../util';
+import type { Gesture } from '@visactor/vrender-kits';
 
 const delayMap = {
   debounce: debounce,
@@ -76,9 +78,12 @@ export class Zoomable implements IZoomable {
 
   private _renderMode: RenderMode;
 
+  private _gestureController!: Gesture | null;
+
   initZoomable(evt: IEvent, mode: RenderMode = RenderModeEnum['desktop-browser']) {
     this._eventObj = evt;
     this._renderMode = mode;
+    this._gestureController = (this._option.getChart().getVGrammarView().renderer as any)._gestureController;
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
       this._clickEnable = true;
@@ -91,15 +96,19 @@ export class Zoomable implements IZoomable {
     return getDefaultTriggerEventByMode(this._renderMode)[type];
   }
 
+  private _isGestureListener() {
+    return isMobileLikeMode(this._renderMode) || isMiniAppLikeMode(this._renderMode);
+  }
+
   private _zoomEventDispatch(
     params: BaseEventParams,
     regionOrSeries: IRegion | ISeries,
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
   ) {
-    if (!params.event) {
+    if (!this._isGestureListener() && !params.event) {
       return;
     }
-    const event = params.event.clone();
+    const event = this._isGestureListener() ? params : params.event.clone();
     this._zoomableTrigger.parserZoomEvent(event);
     // FIXME: event类型目前不全
     const { zoomDelta, zoomX, zoomY } = event as any;
@@ -153,18 +162,24 @@ export class Zoomable implements IZoomable {
     const delayType = option?.delayType ?? 'throttle';
     const delayTime = option?.delayTime ?? 0;
 
+    const event = this._isGestureListener() ? this._gestureController : eventObj;
+    const zoomParams = this._isGestureListener()
+      ? [this._getTriggerEvent('zoom')]
+      : [this._getTriggerEvent('zoom'), { level: Event_Bubble_Level.chart, consume: true }];
+    const zoomEndParams: [string] | [string, EventQuery] = this._isGestureListener()
+      ? [this._getTriggerEvent('zoomEnd')]
+      : [this._getTriggerEvent('zoomEnd'), { level: Event_Bubble_Level.chart, consume: false }];
+
     // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
-    eventObj.on(
-      this._getTriggerEvent('scrollEnd'),
-      { level: Event_Bubble_Level.chart, consume: false },
+    (event as any).on(
+      ...zoomEndParams,
       delayMap[delayType]((params: BaseEventParams) => {
         this._zoomableTrigger.clearZoom();
       }, delayTime) as any
     );
 
-    eventObj.on(
-      this._getTriggerEvent('scroll'),
-      { level: Event_Bubble_Level.chart, consume: true },
+    (event as any).on(
+      ...zoomParams,
       delayMap[delayType]((params: BaseEventParams) => {
         // if (realTime) {
         this._zoomEventDispatch(params, regionOrSeries, callback);
@@ -215,21 +230,21 @@ export class Zoomable implements IZoomable {
     regionOrSeries: IRegion | ISeries,
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
   ) {
-    if (!params.event || this._option.disableTriggerEvent) {
+    if (!this._isGestureListener() && (!params.event || this._option.disableTriggerEvent)) {
       return;
     }
-    const { event } = params;
+    const event = this._isGestureListener() ? params : params.event;
     this._zoomableTrigger.parserScrollEvent(event);
     // FIXME: event类型目前不全
-    const { scrollX, scrollY } = event as any;
+    const { scrollX, scrollY, canvasX, canvasY } = event as any;
     if (isNil(scrollX) && isNil(scrollY)) {
       return;
     }
     if (
       !pointInRect(
         {
-          x: event.canvasX,
-          y: event.canvasY
+          x: canvasX,
+          y: canvasY
         },
         this._getRegionOrSeriesLayout(regionOrSeries),
         false
@@ -240,7 +255,7 @@ export class Zoomable implements IZoomable {
     this._clickEnable = false;
 
     if (callback) {
-      callback({ scrollX, scrollY }, event);
+      callback({ scrollX, scrollY }, event as any);
     }
     this._eventObj.emit('scroll', {
       scrollX,
@@ -258,18 +273,24 @@ export class Zoomable implements IZoomable {
     const delayType = option?.delayType ?? 'throttle';
     const delayTime = option?.delayTime ?? 0;
 
+    const event = this._isGestureListener() ? this._gestureController : eventObj;
+    const scrollParams = this._isGestureListener()
+      ? [this._getTriggerEvent('scroll')]
+      : [this._getTriggerEvent('scroll'), { level: Event_Bubble_Level.chart, consume: true }];
+    const scrollEndParams = this._isGestureListener()
+      ? [this._getTriggerEvent('scrollEnd')]
+      : [this._getTriggerEvent('scrollEnd'), { level: Event_Bubble_Level.chart, consume: false }];
+
     // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
-    eventObj.on(
-      this._getTriggerEvent('scrollEnd'),
-      { level: Event_Bubble_Level.chart, consume: false },
+    (event as any).on(
+      ...scrollEndParams,
       delayMap[delayType]((params: any) => {
         this._zoomableTrigger.clearScroll();
       }, delayTime)
     );
 
-    eventObj.on(
-      this._getTriggerEvent('scroll'),
-      { level: Event_Bubble_Level.chart, consume: true },
+    (event as any).on(
+      ...scrollParams,
       delayMap[delayType]((params: any) => {
         // if (realTime) {
         this._scrollEventDispatch(params, regionOrSeries, callback);
