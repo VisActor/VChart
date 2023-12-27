@@ -68,11 +68,11 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
       position: { x: 0, y: 0 },
       clipInRange: this._spec.clip ?? false,
       itemContent: {
-        ...restItemContent,
         symbolStyle: transformToGraphic(symbol?.style),
         imageStyle: image?.style,
         textStyle: transformLabelAttributes(label),
-        richTextStyle: richText?.style
+        richTextStyle: richText?.style,
+        ...restItemContent // Tips: 因为网站 demo 上已经透出了 imageStyle richTextStyle 的写法，为了兼容所以这个需要在后面覆盖
       }
     };
 
