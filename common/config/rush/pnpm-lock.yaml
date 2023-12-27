@@ -507,6 +507,7 @@ importers:
       '@visactor/vutils-extension': workspace:1.8.2
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
+      dayjs: ~1.11.10
       eslint: ~8.18.0
       eslint-config-prettier: 8.5.0
       eslint-plugin-import: ^2.27.5
@@ -533,6 +534,7 @@ importers:
       '@visactor/vrender-kits': 0.17.7
       '@visactor/vutils': 0.17.1
       axios: 1.6.2
+      dayjs: 1.11.10
       exceljs: 4.4.0
       json5: 2.2.3
       lodash: 4.17.21

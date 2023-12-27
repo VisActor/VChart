@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Layout } from '@arco-design/web-react';
-import { LeftInput } from './LeftInput';
-import { RightChart } from './RightChart';
+import { DataInput } from './DataInput';
+import { ChartPreview } from './ChartPreview';
 const Sider = Layout.Sider;
 const Content = Layout.Content;
 
@@ -20,7 +20,7 @@ export function Home() {
           minWidth: 300
         }}
       >
-        <LeftInput
+        <DataInput
           onSpecGenerate={(spec, time) => {
             setSpec(spec);
             setTime(time);
@@ -28,7 +28,7 @@ export function Home() {
         />
       </Sider>
       <Content>
-        <RightChart spec={spec} time={time} />
+        <ChartPreview spec={spec} time={time} />
       </Content>
     </Layout>
   );

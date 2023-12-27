@@ -1,68 +1,32 @@
-import {
-  axis,
-  cartesianBar,
-  cartesianLine,
-  chartType,
-  color,
-  data,
-  legend,
-  pieField,
-  scatterField,
-  wordCloudField,
-  roseField,
-  roseAxis,
-  radarField,
-  radarDisplayConf,
-  radarAxis,
-  sankeyData,
-  sankeyField,
-  sankeyLabel,
-  sankeyLink,
-  sequenceData,
-  rankingBarAxis,
-  rankingBarField,
-  customMark,
-  scatterAxis,
-  animationOneByOne,
-  animationCartesianBar,
-  animationCartisianLine,
-  animationCartesianPie,
-  wordCloudData,
-  displayConfBar,
-  displayConfLine,
-  colorLine,
-  colorBar,
-  colorDynamicBar,
-  wordCloudDisplayConf,
-  rankingBarLabel,
-  funnelField,
-  funnelData,
-  dualAxisSeries,
-  dualAxisAxes,
-  waterfallField,
-  waterfallAxes,
-  waterfallStackLabel,
-  boxPlotField
-} from './pipes';
-import { Cell, ChartType, Context, Pipe } from '../typings';
-import { CARTESIAN_CHART_LIST, detectAxesType } from './utils';
+import { CARTESIAN_CHART_LIST, detectAxesType } from '../../common/vizDataToSpec/utils';
 
-export const vizDataToSpec = (
-  dataset: any[],
-  chartType: ChartType,
-  cell: Cell,
-  colors: string[] | undefined,
-  totalTime?: number
-) => {
-  const pipelines = pipelineMap[chartType];
-  const spec = execPipeline({}, pipelines, {
-    chartType,
-    dataset,
-    cell,
-    colors,
-    totalTime
-  });
-  return spec;
+export const patchUserInput = (userInput: string) => {
+  const FULL_WIDTH_SYMBOLS = ['，', '。'];
+  const HALF_WIDTH_SYMBOLS = [',', '.'];
+
+  const BANNED_WORD_LIST = ['动态'];
+  const ALLOWED_WORD_LIST = ['动态条形图', '动态柱状图', '动态柱图'];
+  const PLACEHOLDER = '_USER_INPUT_PLACE_HOLDER';
+  const tempStr1 = ALLOWED_WORD_LIST.reduce((prev, cur, index) => {
+    return prev.split(cur).join(PLACEHOLDER + '_' + index);
+  }, userInput);
+  const tempStr2 = BANNED_WORD_LIST.reduce((prev, cur) => {
+    return prev.split(cur).join('');
+  }, tempStr1);
+  const replacedStr = ALLOWED_WORD_LIST.reduce((prev, cur, index) => {
+    return prev.split(PLACEHOLDER + '_' + index).join(cur);
+  }, tempStr2);
+
+  let finalStr = HALF_WIDTH_SYMBOLS.reduce((prev, cur, index) => {
+    return prev.split(HALF_WIDTH_SYMBOLS[index]).join(FULL_WIDTH_SYMBOLS[index]);
+  }, replacedStr);
+  const lastCharacter = finalStr[finalStr.length - 1];
+  if (!FULL_WIDTH_SYMBOLS.includes(lastCharacter) && !HALF_WIDTH_SYMBOLS.includes(lastCharacter)) {
+    finalStr += '。';
+  }
+  finalStr +=
+    '严格按照prompt中的格式回复，不要有任何多余内容。 Use the original fieldName and DO NOT change or translate any word of the data fields in the response.';
+  return finalStr;
 };
 
 export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, dataset: any[]) => {
@@ -79,7 +43,7 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
   // 2. 图表类型为: 柱状图 或 折线图, 图表类型矫正为双轴图
   // 3. 其他情况, 图表类型矫正为散点图
   if (y && typeof y !== 'string' && y.length > 1) {
-    if (chartType === 'BOX PLOT CHART') {
+    if (chartType === 'BOX PLOT') {
       return {
         chartTypeNew: chartType,
         cellNew: cell
@@ -245,87 +209,3 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
     cellNew: cell
   };
 };
-
-export const checkChartTypeAndCell = (chartType: string, cell: any): boolean => {
-  switch (chartType) {
-    case 'BAR CHART':
-    case 'LINE CHART':
-      checkChannel(cell, 'x');
-      checkChannel(cell, 'y');
-      break;
-    case 'DUAL AXIS CHART':
-      checkChannel(cell, 'x');
-      checkChannel(cell, 'y', 2);
-      break;
-    default:
-      console.warn('Unchecked Chart Type', chartType);
-      break;
-  }
-  return true;
-};
-
-const checkChannel = (cell: any, channel: string, count = 1) => {
-  if (count === 1 && typeof cell[channel] === 'string') {
-    // channel exist and is a string
-    return true;
-  }
-  if (Array.isArray(cell[channel]) && cell[channel].length === count) {
-    // channel is a array
-    return true;
-  } else {
-    throw `cell mismatch channel '${channel}'`;
-  }
-};
-
-const pipelineBar = [chartType, data, colorBar, cartesianBar, axis, legend, displayConfBar, animationCartesianBar];
-const pipelineLine = [chartType, data, colorLine, cartesianLine, axis, legend, displayConfLine, animationCartisianLine];
-const pipelinePie = [chartType, data, color, pieField, legend, animationCartesianPie];
-const pipelineRankingBar = [
-  chartType,
-  sequenceData,
-  colorDynamicBar,
-  rankingBarField,
-  rankingBarAxis,
-  customMark,
-  rankingBarLabel
-];
-
-const pipelineWordCloud = [chartType, wordCloudData, color, wordCloudField, wordCloudDisplayConf, animationOneByOne];
-
-const pipelineScatterPlot = [chartType, data, color, scatterField, scatterAxis, legend, animationOneByOne];
-
-const pipelineFunnel = [chartType, funnelData, color, funnelField, legend];
-
-const pipelineDualAxis = [chartType, data, color, dualAxisSeries, dualAxisAxes, legend];
-
-const pipelineRose = [chartType, data, color, roseField, roseAxis, legend, animationCartesianPie];
-
-const pipelineRadar = [chartType, data, color, radarField, radarDisplayConf, radarAxis, legend, animationCartisianLine];
-
-const pipelineSankey = [chartType, sankeyData, color, sankeyField, sankeyLink, sankeyLabel, legend];
-
-const pipelineWaterfall = [chartType, data, color, waterfallField, waterfallAxes, waterfallStackLabel, legend];
-const pipelineBoxPlot = [chartType, data, color, boxPlotField, legend];
-
-export const pipelineMap: { [chartType: string]: any } = {
-  'BAR CHART': pipelineBar,
-  'LINE CHART': pipelineLine,
-  'PIE CHART': pipelinePie,
-  'WORD CLOUD': pipelineWordCloud,
-  'SCATTER PLOT': pipelineScatterPlot,
-  'DYNAMIC BAR CHART': pipelineRankingBar,
-  'FUNNEL CHART': pipelineFunnel,
-  'DUAL AXIS CHART': pipelineDualAxis,
-  'ROSE CHART': pipelineRose,
-  'RADAR CHART': pipelineRadar,
-  'SANKEY CHART': pipelineSankey,
-  'WATERFALL CHART': pipelineWaterfall,
-  'BOX PLOT CHART': pipelineBoxPlot
-};
-
-export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>
-  pipes.reduce((pre: any, pipe: Pipe) => {
-    const result = pipe(pre, context);
-    // console.log(result);
-    return result;
-  }, src);

@@ -8,9 +8,9 @@ import {
   animationDuration,
   oneByOneGroupSize
 } from './constants';
-import { Context } from '../typings';
-import { detectAxesType } from './utils';
+import { Context } from '../../typings';
 import { array } from '@visactor/vutils';
+import { detectAxesType } from './utils';
 
 // const chartTypeMap: { [chartName: string]: string } = {
 //   柱状图: "bar",
@@ -34,7 +34,7 @@ const chartTypeMap: { [chartName: string]: string } = {
   'RADAR CHART': 'radar',
   'SANKEY CHART': 'sankey',
   'WATERFALL CHART': 'waterfall',
-  'BOX PLOT CHART': 'boxPlot'
+  'BOX PLOT': 'boxPlot'
 };
 
 export const chartType = (spec: any, context: Context) => {
@@ -397,8 +397,8 @@ export const wordCloudField = (spec: any, context: Context) => {
 export const funnelField = (spec: any, context: Context) => {
   //漏斗图根据cell分配字段
   const { cell } = context;
-  spec.categoryField = cell.x;
-  spec.valueField = cell.y;
+  spec.categoryField = cell.color || cell.x;
+  spec.valueField = cell.value || cell.y;
 
   return spec;
 };
@@ -628,6 +628,20 @@ export const boxPlotField = (spec: any, context: Context) => {
   return spec;
 };
 
+export const boxPlotStyle = (spec: any, context: Context) => {
+  spec.boxPlot = {
+    ...spec.boxPlot,
+    style: {
+      boxWidth: 50,
+      shaftWidth: 30,
+      shaftShape: 'bar',
+      lineWidth: 2,
+      shaftOpacity: 0.3
+    }
+  };
+  return spec;
+};
+
 export const sankeyLabel = (spec: any, context: Context) => {
   spec.label = {
     visible: true,
@@ -699,7 +713,7 @@ export const rankingBarField = (spec: any, context: Context) => {
 
 export const roseField = (spec: any, context: Context) => {
   const { cell } = context;
-  spec.valueField = cell.angle;
+  spec.valueField = cell.radius || cell.angle;
   if (cell.color) {
     spec.categoryField = cell.color;
     spec.seriesField = cell.color;
@@ -715,10 +729,10 @@ export const roseAxis = (spec: any, context: Context) => {
     {
       orient: 'angle',
       domainLine: {
-        visible: true
+        visible: false
       },
       grid: {
-        visible: true,
+        visible: false,
         alignWithLabel: false
       },
       label: {
@@ -728,7 +742,7 @@ export const roseAxis = (spec: any, context: Context) => {
     {
       orient: 'radius',
       grid: {
-        visible: true,
+        visible: false,
         smooth: true
       }
     }
