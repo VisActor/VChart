@@ -347,7 +347,7 @@ export function transformLabelAttributes(label: IMarkerLabelSpec) {
       };
     }
 
-    if (labelBackground.visible) {
+    if (labelBackground.visible !== false) {
       labelAttrs.panel = {
         visible: true,
         ...transformToGraphic(labelBackground.style)
