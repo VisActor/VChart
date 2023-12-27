@@ -1,6 +1,13 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 21 Nov 2023 11:02:31 GMT and should not be manually modified.
+This log was last generated on Wed, 27 Dec 2023 06:14:47 GMT and should not be manually modified.
+
+## 1.6.8
+Wed, 27 Dec 2023 06:14:47 GMT
+
+### Updates
+
+- fix: fix error of react-vchart
 
 ## 1.6.7
 Tue, 21 Nov 2023 11:02:31 GMT

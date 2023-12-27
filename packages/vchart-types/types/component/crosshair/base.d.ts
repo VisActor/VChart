@@ -5,7 +5,7 @@ import { BaseComponent } from '../base/base-component';
 import type { IPadding, Maybe, StringOrNumber } from '../../typings';
 import type { LayoutItem } from '../../model/layout-item';
 import type { IComponentOption } from '../interface';
-import type { ICrossHair, CrossHairTrigger, ICartesianCrosshairSpec, IPolarCrosshairSpec, ICrosshairTheme, ICrosshairCategoryFieldSpec } from './interface';
+import type { ICrossHair, CrossHairTrigger, ICartesianCrosshairSpec, IPolarCrosshairSpec, ICrosshairCategoryFieldSpec, ICrosshairTheme } from './interface';
 import type { IAxis } from '../axis/interface';
 type IBound = {
     x1: number;

@@ -2,6 +2,18 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.6.8",
+      "tag": "@visactor/vchart_v1.6.8",
+      "date": "Wed, 27 Dec 2023 06:14:47 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix error of react-vchart"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.6.7",
       "tag": "@visactor/vchart_v1.6.7",
       "date": "Tue, 21 Nov 2023 11:02:31 GMT",

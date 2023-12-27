@@ -80,5 +80,5 @@ export declare abstract class BaseModel<T extends IModelSpec> extends LayoutItem
     protected _createMark<T extends IMark>(markInfo: IModelMarkInfo, option?: Partial<IMarkOption>): T;
     protected _getDataIdKey(): string | ((datum: Datum) => string) | undefined;
     getColorScheme(): import("..").IThemeColorScheme;
-    protected _getChartLevelTheme(): import("../core/interface").IChartLevelTheme;
+    protected _getChartLevelTheme(): import("..").IChartLevelTheme;
 }

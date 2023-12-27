@@ -28,6 +28,7 @@ export interface IRenderOption {
     disableDirtyBounds?: boolean;
     enableView3dTransform?: boolean;
     pluginList?: string[];
+    enableHtmlAttribute?: boolean;
 }
 export type CompilerListenerParameters = {
     type: EventType;
