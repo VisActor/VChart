@@ -576,6 +576,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     }
   }
 
+  clearGraphic(): void {
+    if (this._brushComponents) {
+      this._brushComponents.forEach(brush => {
+        (brush as any)._container.incrementalClearChild();
+      });
+    }
+  }
+
   clear(): void {
     if (this._brushComponents) {
       this.getContainer()?.removeChild(this._brushComponents as unknown as INode);
