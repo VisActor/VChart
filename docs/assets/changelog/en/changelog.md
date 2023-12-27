@@ -1,3 +1,15 @@
+# v1.8.3-alpha.0
+
+2023-12-27
+
+**Bug fix**
+
+* only for test
+
+
+
+[more detail about v1.8.3-alpha.0](https://github.com/VisActor/VChart/releases/tag/v1.8.3-alpha.0)
+
 # v1.8.2
 
 2023-12-22
