@@ -1,35 +1,41 @@
 import { GPTDataProcessResult, ILLMOptions } from '../typings';
 import axios from 'axios';
 import JSON5 from 'json5';
+import { omit } from 'lodash';
 
 export const requestGPT = async (prompt: string, userMessage: string, options: ILLMOptions | undefined) => {
   const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
   const url: string = options?.url ?? OPENAI_API_URL;
 
   const headers: any = { ...(options.headers ?? {}), 'Content-Type': 'application/json' };
-  const res = await axios(url, {
-    method: options?.method ?? 'POST',
-    headers, //must has Authorization: `Bearer ${openAIKey}` if use openai api
-    data: {
-      model: options?.model ?? 'gpt-3.5-turbo',
-      messages: [
-        {
-          role: 'system',
-          content: prompt
-        },
-        {
-          role: 'user',
-          content: userMessage
-        }
-      ],
-      max_tokens: options?.max_tokens ?? 2000,
-      temperature: options?.temperature ?? 0
-    }
-  })
-    .then(response => response.data)
-    .then(data => data.choices);
+  try {
+    const res = await axios(url, {
+      method: options?.method ?? 'POST',
+      headers, //must has Authorization: `Bearer ${openAIKey}` if use openai api
+      data: {
+        ...omit(options, ['headers', 'url', 'method']),
+        model: options?.model ?? 'gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'system',
+            content: prompt
+          },
+          {
+            role: 'user',
+            content: userMessage
+          }
+        ],
+        max_tokens: options?.max_tokens ?? 2000,
+        temperature: options?.temperature ?? 0
+      }
+    })
+      .then(response => response.data)
+      .then(data => data.choices);
 
-  return res;
+    return res;
+  } catch (err: any) {
+    return err.response.data;
+  }
 };
 export const parseGPTJson = (JsonStr: string, prefix?: string) => {
   const parseNoPrefixStr = (str: string) => {
@@ -58,6 +64,12 @@ export const parseGPTJson = (JsonStr: string, prefix?: string) => {
 };
 
 export const parseGPTResponse = (GPTRes: any) => {
+  if (GPTRes.error) {
+    return {
+      error: true,
+      ...GPTRes.error
+    };
+  }
   const content = GPTRes[0].message.content;
   const resJson: GPTDataProcessResult = parseGPTJson(content, '```');
   return resJson;

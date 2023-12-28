@@ -22,12 +22,12 @@ export const generateChartWithSkylark = async (
   let chartType;
   let cell;
   let dataset: DataItem[] = propsDataset;
+  let chartSource: string = options.model;
   try {
     // throw 'test chartAdvisorHandler';
     const resJson: any = await chartAdvisorSkylark(schema, fieldInfo, userPrompt, options);
 
     const chartTypeRes = resJson.chartType.toUpperCase();
-    //TODO: request skylark for cell according to chartType
     const cellRes = resJson['cell'];
     const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset, fieldInfo);
     if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
@@ -41,6 +41,7 @@ export const generateChartWithSkylark = async (
     chartType = advisorResult.chartType;
     cell = advisorResult.cell;
     dataset = advisorResult.dataset as DataItem[];
+    chartSource = 'chartAdvisor';
   }
   const spec = vizDataToSpec(
     dataset,
@@ -50,8 +51,8 @@ export const generateChartWithSkylark = async (
     animationDuration ? animationDuration * 1000 : undefined
   );
   spec.background = '#00000033';
-  console.info(spec);
   return {
+    chartSource,
     spec,
     time: estimateVideoTime(chartType, spec, animationDuration ? animationDuration * 1000 : undefined)
   };
@@ -70,7 +71,7 @@ export const chartAdvisorSkylark = async (
   const chartRecommendPrompt = getChartRecommendPrompt(chartRecommendKnowledgeStr);
   const chartRecommendRes = await requestSkyLark(chartRecommendPrompt, userMessage, options);
   const chartRecommendResJSON = parseSkylarkResponse(chartRecommendRes);
-  console.log(chartRecommendResJSON);
+  //console.log(chartRecommendResJSON);
   if (chartRecommendResJSON.error) {
     throw Error('Network Error!');
   }
@@ -89,7 +90,7 @@ export const chartAdvisorSkylark = async (
 
   const fieldMapRes = await requestSkyLark(fieldMapPrompt, userMessage, options);
   const fieldMapResJson = parseSkylarkResponse(fieldMapRes);
-  console.log(fieldMapResJson);
+  //console.log(fieldMapResJson);
   if (fieldMapResJson.error) {
     throw Error('Network Error!');
   }

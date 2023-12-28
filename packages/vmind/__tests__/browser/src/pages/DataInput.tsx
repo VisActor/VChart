@@ -67,18 +67,21 @@ export function DataInput(props: IPropsType) {
   const [spec, setSpec] = useState<string>('');
   const [time, setTime] = useState<number>(1000);
   const [loading, setLoading] = useState<boolean>(false);
-  //const vmind = new VMind({
-  //  url: import.meta.env.VITE_OPENAI_URL ?? undefined,
-  //  model:Model.GPT3_5
-  //});
-
   const vmind = new VMind({
-    url: import.meta.env.VITE_SKYLARK_URL ?? undefined,
-    model: Model.SKYLARK,
+    url: import.meta.env.VITE_GPT_URL ?? undefined,
+    model: Model.GPT3_5,
     headers: {
-      'api-key': import.meta.env.VITE_SKYLARK_KEY
+      'api-key': import.meta.env.VITE_GPT_KEY
     }
   });
+
+  //const vmind = new VMind({
+  //  url: import.meta.env.VITE_SKYLARK_URL ?? undefined,
+  //  model: Model.SKYLARK,
+  //  headers: {
+  //    'api-key': import.meta.env.VITE_SKYLARK_KEY
+  //  }
+  //});
 
   const askGPT = useCallback(async () => {
     setLoading(true);
