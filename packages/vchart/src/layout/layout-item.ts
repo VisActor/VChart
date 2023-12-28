@@ -374,7 +374,8 @@ export class LayoutItem implements ILayoutItem {
     // 用户设置了布局元素宽高的场景下，内部布局结果的 bounds 不能直接作为图表布局bounds
     this.changeBoundsBySetting(bounds);
     // 保留当前模块的布局超出内容,用来处理自动缩进
-    if (this.autoIndent) {
+    // 当前 bounds 需要有实际宽高
+    if (this.autoIndent && bounds.x2 - bounds.x1 > 0 && bounds.y2 - bounds.y1 > 0) {
       this._lastComputeOutBounds.x1 = Math.ceil(-bounds.x1);
       this._lastComputeOutBounds.x2 = Math.ceil(bounds.x2 - rect.width);
       this._lastComputeOutBounds.y1 = Math.ceil(-bounds.y1);
