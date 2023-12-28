@@ -170,6 +170,13 @@
             "zh": "点击维度项高亮所有相关点",
             "en": "Highlight All Related Points When Clicking the Dimension Item"
           }
+        },
+        {
+          "path": "line-default-select",
+          "title": {
+            "zh": "Set Default Selected Dimension",
+            "en": "Set the default select dimension after render"
+          }
         }
       ]
     },
