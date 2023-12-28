@@ -4,7 +4,7 @@ export * from './components';
 export * from './VChart';
 export * from './VChartSimple';
 
-// export the version
+// export the version, since @1.8.3
 export const version = __VERSION__;
 
 export type {
