@@ -4,6 +4,9 @@ export * from './components';
 export * from './VChart';
 export * from './VChartSimple';
 
+// export the version
+export const version = __VERSION__;
+
 export type {
   IAreaChartSpec,
   IBarChartSpec,
