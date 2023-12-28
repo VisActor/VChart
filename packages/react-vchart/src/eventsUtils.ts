@@ -155,7 +155,8 @@ export const LEGEND_CUSTOMIZED_EVENTS = {
 export const BRUSH_CUSTOMIZED_EVENTS = {
   onBrushStart: 'brushStart',
   onBrushChange: 'brushChange',
-  onBrushEnd: 'brushEnd'
+  onBrushEnd: 'brushEnd',
+  onBrushClear: 'brushClear'
 };
 
 export const DATAZOOM_CUSTOMIZED_EVENTS = {

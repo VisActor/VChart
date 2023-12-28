@@ -57,7 +57,11 @@ export interface BaseChartProps
   onReady?: (instance: IVChart, isInitial: boolean) => void;
   /** throw error when chart run into an error */
   onError?: (err: Error) => void;
-  /** use sync render */
+  /**
+   * use sync render
+   *
+   * @since 1.8.3
+   **/
   useSyncRender?: boolean;
 }
 
