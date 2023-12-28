@@ -108,7 +108,7 @@ export class LineLikeSeriesMixin {
       const overlapTrans = [];
       overlapTrans.push({
         type: 'markoverlap',
-        direction: this._direction === Direction.vertical ? 2 : 1,
+        direction: this._direction === Direction.vertical ? 1 : 2,
         delta: this._spec.pointDis,
         deltaMul: this._spec.pointDisMul,
         groupBy: this._seriesField
