@@ -403,7 +403,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     let itemBounds: { x: number; y: number }[] = [];
     if (item.type === 'symbol') {
       const { size: itemSize = 0 } = item?.attribute as ISymbolGraphicAttribute;
-      const size = array(itemSize)[0];
+      const size = array(itemSize)[0] / 2;
       itemBounds = [
         {
           x: x - size,
