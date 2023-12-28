@@ -118,15 +118,17 @@ async function previewMenuItem(menuItem, parentPath) {
 }
 
 async function preview() {
-  const examplesMenu = readExampleMenu();
-  fse.emptyDirSync(previewDirectory);
-  for (const menuItem of examplesMenu.children) {
-    await previewMenuItem(menuItem, '');
-  }
-  const failPath = path.resolve(previewDirectory, failListName);
-  console.log(`Failure count: ${failedPreviewLists.length}, failed list written to ${failPath}`);
-  fs.writeFileSync(failPath, JSON.stringify(failedPreviewLists, null, 2));
-  console.log('Preview done.');
+  // const examplesMenu = readExampleMenu();
+  // fse.emptyDirSync(previewDirectory);
+  // for (const menuItem of examplesMenu.children) {
+  //   await previewMenuItem(menuItem, '');
+  // }
+
+  await previewMenuItem({path: 'line-default-select'}, 'line-chart');
+  // const failPath = path.resolve(previewDirectory, failListName);
+  // console.log(`Failure count: ${failedPreviewLists.length}, failed list written to ${failPath}`);
+  // fs.writeFileSync(failPath, JSON.stringify(failedPreviewLists, null, 2));
+  // console.log('Preview done.');
 }
 
 preview();
