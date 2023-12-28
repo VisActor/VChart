@@ -80,10 +80,13 @@ export class Zoomable implements IZoomable {
 
   private _gestureController!: Gesture | null;
 
+  private _isGestureListener: boolean = false;
+
   initZoomable(evt: IEvent, mode: RenderMode = RenderModeEnum['desktop-browser']) {
     this._eventObj = evt;
     this._renderMode = mode;
     this._gestureController = (this._option.getChart().getVGrammarView().renderer as any)._gestureController;
+    this._isGestureListener = isMobileLikeMode(this._renderMode) || isMiniAppLikeMode(this._renderMode);
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
       this._clickEnable = true;
@@ -96,19 +99,15 @@ export class Zoomable implements IZoomable {
     return getDefaultTriggerEventByMode(this._renderMode)[type];
   }
 
-  private _isGestureListener() {
-    return isMobileLikeMode(this._renderMode) || isMiniAppLikeMode(this._renderMode);
-  }
-
   private _zoomEventDispatch(
     params: BaseEventParams,
     regionOrSeries: IRegion | ISeries,
     callback?: (params: { zoomDelta: number; zoomX: number; zoomY: number }, e: BaseEventParams['event']) => void
   ) {
-    if (!this._isGestureListener() && !params.event) {
+    if (!this._isGestureListener && !params.event) {
       return;
     }
-    const event = this._isGestureListener() ? params : params.event.clone();
+    const event = this._isGestureListener ? params : params.event.clone();
     this._zoomableTrigger.parserZoomEvent(event);
     // FIXME: event类型目前不全
     const { zoomDelta, zoomX, zoomY } = event as any;
@@ -162,11 +161,11 @@ export class Zoomable implements IZoomable {
     const delayType = option?.delayType ?? 'throttle';
     const delayTime = option?.delayTime ?? 0;
 
-    const event = this._isGestureListener() ? this._gestureController : eventObj;
-    const zoomParams = this._isGestureListener()
+    const event = this._isGestureListener ? this._gestureController : eventObj;
+    const zoomParams = this._isGestureListener
       ? [this._getTriggerEvent('zoom')]
       : [this._getTriggerEvent('zoom'), { level: Event_Bubble_Level.chart, consume: true }];
-    const zoomEndParams: [string] | [string, EventQuery] = this._isGestureListener()
+    const zoomEndParams: [string] | [string, EventQuery] = this._isGestureListener
       ? [this._getTriggerEvent('zoomEnd')]
       : [this._getTriggerEvent('zoomEnd'), { level: Event_Bubble_Level.chart, consume: false }];
 
@@ -230,10 +229,10 @@ export class Zoomable implements IZoomable {
     regionOrSeries: IRegion | ISeries,
     callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
   ) {
-    if (!this._isGestureListener() && (!params.event || this._option.disableTriggerEvent)) {
+    if (!this._isGestureListener && (!params.event || this._option.disableTriggerEvent)) {
       return;
     }
-    const event = this._isGestureListener() ? params : params.event;
+    const event = this._isGestureListener ? params : params.event;
     this._zoomableTrigger.parserScrollEvent(event);
     // FIXME: event类型目前不全
     const { scrollX, scrollY, canvasX, canvasY } = event as any;
@@ -273,11 +272,11 @@ export class Zoomable implements IZoomable {
     const delayType = option?.delayType ?? 'throttle';
     const delayTime = option?.delayTime ?? 0;
 
-    const event = this._isGestureListener() ? this._gestureController : eventObj;
-    const scrollParams = this._isGestureListener()
+    const event = this._isGestureListener ? this._gestureController : eventObj;
+    const scrollParams = this._isGestureListener
       ? [this._getTriggerEvent('scroll')]
       : [this._getTriggerEvent('scroll'), { level: Event_Bubble_Level.chart, consume: true }];
-    const scrollEndParams = this._isGestureListener()
+    const scrollEndParams = this._isGestureListener
       ? [this._getTriggerEvent('scrollEnd')]
       : [this._getTriggerEvent('scrollEnd'), { level: Event_Bubble_Level.chart, consume: false }];
 
