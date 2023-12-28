@@ -138,9 +138,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       return;
     }
 
-    type DimensionItemsConfig = {
-      scaleDepth: number;
-    };
+    type DimensionItemsConfig = { scaleDepth: number };
 
     /**
      * @description 准备 barBackground 数据
