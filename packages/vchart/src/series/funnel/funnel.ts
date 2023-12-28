@@ -366,8 +366,22 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
             Factory.getAnimationInKey('cartesianGroupClip')?.(
               {
                 direction: () => (this._isHorizontal() ? 'x' : 'y'),
-                width: () => this.getLayoutRect().width,
-                height: () => this.getLayoutRect().height,
+                width: () => {
+                  const rootMark = this.getRootMark().getProduct();
+                  if (rootMark) {
+                    const { x1, x2 } = rootMark.getBounds();
+                    return Math.abs(x1 - x2);
+                  }
+                  return this.getLayoutRect().width;
+                },
+                height: () => {
+                  const rootMark = this.getRootMark().getProduct();
+                  if (rootMark) {
+                    const { y1, y2 } = rootMark.getBounds();
+                    return Math.abs(y1 - y2);
+                  }
+                  return this.getLayoutRect().height;
+                },
                 orient: () => (this._isReverse() ? 'negative' : 'positive')
               },
               appearPreset
@@ -480,8 +494,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     super._buildMarkAttributeContext();
     // position
     this._markAttributeContext.valueToPosition = this.valueToPosition.bind(this);
-    this._markAttributeContext.getPoints = this.getPoints.bind(this);
-    this._markAttributeContext.isTransformLevel = this.isTransformLevel.bind(this);
   }
 
   valueToPosition(category: StringOrNumber) {
