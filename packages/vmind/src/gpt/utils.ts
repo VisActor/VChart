@@ -6,7 +6,7 @@ export const requestGPT = async (prompt: string, userMessage: string, options: I
   const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
   const url: string = options?.url ?? OPENAI_API_URL;
 
-  const headers = { ...(options.headers ?? {}), 'Content-Type': 'application/json' };
+  const headers: any = { ...(options.headers ?? {}), 'Content-Type': 'application/json' };
   const res = await axios(url, {
     method: options?.method ?? 'POST',
     headers, //must has Authorization: `Bearer ${openAIKey}` if use openai api

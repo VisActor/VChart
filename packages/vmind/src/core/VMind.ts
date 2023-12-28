@@ -40,6 +40,8 @@ class VMind {
       return parseCSVDataWithGPT(csvString, userPrompt, this._options);
     }
     console.error('Unsupported Model!');
+
+    return undefined;
   }
 
   /**

@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import './index.scss';
 import { Button, Input, Card, Space, Modal, Spin } from '@arco-design/web-react';
-import { defaultTicker } from '@visactor/vrender';
-import { default as VChart } from '@visactor/vchart';
+import VChart from '@visactor/vchart';
 import VMind from '../../../../src';
 const TextArea = Input.TextArea;
 
@@ -73,7 +72,7 @@ export function ChartPreview(props: IPropsType) {
   }, [props.spec, props.time]);
 
   useEffect(() => {
-    defaultTicker.mode = 'raf';
+    //defaultTicker.mode = 'raf';
     const { spec, time } = props;
     if (!time || !spec) {
       return;

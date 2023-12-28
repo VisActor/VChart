@@ -1,10 +1,9 @@
-import axios from 'axios';
 import { chartAdvisorHandler } from '../../common/chartAdvisor';
 import { getSchemaFromFieldInfo } from '../../common/schema';
 import { SUPPORTED_CHART_LIST, checkChartTypeAndCell, vizDataToSpec } from '../../common/vizDataToSpec';
 import { DataItem, ILLMOptions, SimpleFieldInfo, VizSchema } from '../../typings';
 import { getStrFromArray, getStrFromDict, patchChartTypeAndCell, requestSkyLark } from './utils';
-import { ChartRecommendPrompt, getChartRecommendPrompt, getFieldMapPrompt } from './prompts';
+import { getChartRecommendPrompt, getFieldMapPrompt } from './prompts';
 import { parseSkylarkResponse } from '../utils';
 import { estimateVideoTime } from '../../common/vizDataToSpec/utils';
 import { ChartFieldInfo, chartRecommendKnowledge } from './constants';

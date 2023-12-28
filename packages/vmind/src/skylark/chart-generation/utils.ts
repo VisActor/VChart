@@ -88,7 +88,7 @@ export const patchChartTypeAndCell = (
  */
 export const requestSkyLark = async (prompt: string, message: string, options: ILLMOptions) => {
   const url: string = options?.url;
-  const headers = { ...(options.headers ?? {}), 'Content-Type': 'application/json' };
+  const headers: any = { ...(options.headers ?? {}), 'Content-Type': 'application/json' };
 
   const res = await axios(url, {
     method: options?.method ?? 'POST',
