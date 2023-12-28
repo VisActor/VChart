@@ -141,10 +141,9 @@ Here is a modified bar chart according to the requirements:
 
 By adjusting the configuration, we have created a bar chart that is more suitable for use in actual projects.
 
-
 ## Unified Chart Component `<VChart />`
 
- `<VChart />` receives a complete **spec** as the chart definition. The data structure of its **spec** is exactly the same as the definition in VChart, so developers can input any valid VChart spec into React-VChart for chart rendering.
+`<VChart />` receives a complete **spec** as the chart definition. The data structure of its **spec** is exactly the same as the definition in VChart, so developers can input any valid VChart spec into React-VChart for chart rendering.
 
 ### Props
 
@@ -164,17 +163,17 @@ interface VChartProps extends EventsProps {
   options?: ChartOptions;
   /** Chart rendering completion event */
   onReady?: (instance: VChart, isInitial: boolean) => void;
-   /** throw error when chart run into an error */
+  /** throw error when chart run into an error */
   onError?: (err: Error) => void;
-  /** 
+  /**
    * Switch to synchronous rendering
    *
    * @since 1.8.3
    **/
   useSyncRender?: boolean;
-  /** 
-   * When props are updated, skip all function checks, i.e., all functions are considered not updated 
-   * 
+  /**
+   * When props are updated, skip all function checks, i.e., all functions are considered not updated
+   *
    * @since 1.6.5
    **/
   skipFunctionDiff?: boolean;
@@ -185,7 +184,7 @@ The definition of `EventsProps` refers to the event interaction section.
 
 `onReady` is a built-in callback event that is triggered when the chart is rendered or updated. Its parameters represent the chart instance object and whether it is the initial rendering.
 
- For example, developers can register the required callback events on the chart instance during the initial rendering to implement chart interaction functionality.
+For example, developers can register the required callback events on the chart instance during the initial rendering to implement chart interaction functionality.
 
 ## Syntactic Tags
 
@@ -216,7 +215,7 @@ import {
   CircularProgressChart,
   LinearProgressChart,
   RangeColumnChart,
-  CommonChart,
+  CommonChart
 } from '@visactor/react-vchart';
 ```
 
@@ -249,17 +248,11 @@ Component tags refer to the visual components inside the VChart, including the f
 
 ```typescript
 import {
-  // 坐标轴组件
   Axis,
-  // 图例组件
   Legend,
-  // Brush组件
   Brush,
-  // Crosshair组件
   Crosshair,
-  // DataZoom 组件
   DataZoom,
-  // Indicator 组件
   Indicator,
   MarkArea,
   MarkLine,
@@ -268,10 +261,8 @@ import {
   ScrollBar,
   Title,
   Tooltip,
-  // 自定义图元系列
   Mark,
-  // 
-  Region,
+  Region
 } from '@visactor/react-vchart';
 ```
 
@@ -280,7 +271,8 @@ These components do not actually exist in the DOM structure. This notation is ju
 #### Series Components
 
 Series components refer to the components defined for the element series corresponding to the chart type. If the type of the chart component is specified, the series components corresponding to it should be used for defining the elements. The series components include the following:
-```
+
+````
 ```typescript
 import {
   Area,
@@ -300,14 +292,15 @@ import {
   RangeColumn,
   BoxPlot,
 } from '@visactor/react-vchart';
-```
+````
 
 ### Usage of Syntactic Tags
 
 First, it is important to clarify the basic principles of syntactic tag prop definitions: the props of syntactic tags are essentially equivalent to the API definitions of corresponding components in the spec. In addition, more callback entry points have been added to syntactic tags to facilitate event mounting.
 
 For example, consider the following spec definition for a line chart:
-```javascript
+
+````javascript
 {
   type: 'line',
   data: [
@@ -361,7 +354,7 @@ For example, consider the following spec definition for a line chart:
     }
   ]
 }
-```
+````
 
 The corresponding syntactic tag definition is as follows:
 
@@ -391,28 +384,23 @@ function MyChart(props) {
         { State: 'AK', 年龄段: '14至17岁', 人口数量: 22153 }
       ]
     }
-  ]
+  ];
 
   return (
     <BarChart
       data={barData}
-      onClick={(ev) => { console.log('chart click', ev) }}
+      onClick={ev => {
+        console.log('chart click', ev);
+      }}
     >
-      <Bar
-        xField="State"
-        yField="人口数量"
-      />
-      <Axis
-        orient="bottom"
-        type="band"
-      />
-      <Axis
-        orient="left"
-        type="linear"
-      />
+      <Bar xField="State" yField="人口数量" />
+      <Axis orient="bottom" type="band" />
+      <Axis orient="left" type="linear" />
       <Legend
         visible={true}
-        onLegendItemClick={(ev) => { console.log('legend click', ev) }}
+        onLegendItemClick={ev => {
+          console.log('legend click', ev);
+        }}
       />
     </BarChart>
   );
@@ -429,34 +417,33 @@ If there are components not covered by syntactic tags when using React-VChart, y
 
 React-VChart itself supports on-demand loading. When VChart needs to be loaded on demand, it is recommended to use the `<VChartSimple />` tag,
 
-
 The `<VChartSimple />` component and the `<VChart />` component are used in almost the same way. The only difference is that users need to import the `VChart` constructor class from `@viasctor/vchart/esm/core` and pass it to `<VChartSimple />`;
 Reference for on-demand import of VChart [related documents](../Basic/How_to_Import_VChart.md#use-with-npm)
 
-```typescript
+````typescript
 interface VChartSimpleProps extends EventsProps {
-  /** 图表定义 */
+  /** the spec of chart */
   spec: any;
-  /** 图表配置 */
+  /** the options of chart */
   options?: ChartOptions;
-  /** 图表渲染完成事件 */
+  /** call when the chart is rendered */
   onReady?: (instance: VChart, isInitial: boolean) => void;
    /** throw error when chart run into an error */
   onError?: (err: Error) => void;
-  /** 
-   * 切换到同步渲染
+  /**
+   * use renderSync
    *
    * @since 1.8.3
    **/
   useSyncRender?: boolean;
-  /** 
-   * props更新的时候，跳过所有函数的检查，即所有的函数都认为没有更新 
-   * 
+  /**
+   * skip the difference of all functions
+   *
    * @since 1.6.5
    **/
   skipFunctionDiff?: boolean;
-  /** 
-   * VChart构造类
+  /**
+   * the constrouctor class of vchart
    *
    * @since 1.8.3
    **/
@@ -519,13 +506,13 @@ interface EventsProps {
   onClick?: (e: any) => void | boolean;
   onDblClick?: (e: any) => void | boolean;
 }
-```
+````
 
 ### Component Tag Events
 
 In addition to the scene tree events, the chart components also support custom events. Custom events can be listened to on semantic component tags, as well as on the outermost Chart component.
 
-* `<Legend />` Custom Events
+- `<Legend />` Custom Events
 
 ```typescript
 interface LegendEventsProps {
@@ -540,22 +527,22 @@ interface LegendEventsProps {
 }
 ```
 
-* `<Brush />` Custom Events
+- `<Brush />` Custom Events
 
 ```typescript
 interface BrushEventsProps {
-  /** Brush开始事件 */
+  /** call when a brush start */
   onBrushStart?: (e: any) => void | boolean;
-  /** Brush更新事件 */
+  /** call when a brush change */
   onBrushChange?: (e: any) => void | boolean;
-  /** Brush结束事件 */
+  /** call when a brush end */
   onBrushEnd?: (e: any) => void | boolean;
-  /** Brush清除事件 */
+  /** call when a brush cleared */
   onBrushClear?: (e: any) => void | boolean;
 }
 ```
 
-* `<DataZoom />` Custom Events
+- `<DataZoom />` Custom Events
 
 ```typescript
 interface DataZoomEventsProps {
@@ -564,7 +551,7 @@ interface DataZoomEventsProps {
 }
 ```
 
-* `<Player />` Custom Events
+- `<Player />` Custom Events
 
 ```typescript
 interface PlayerEventsProps {
@@ -575,17 +562,14 @@ interface PlayerEventsProps {
   onPlayerForward?: (e: any) => void | boolean;
   onPlayerBackward?: (e: any) => void | boolean;
 }
-
 ```
 
-* `<ScrollBar />` Custom Events
-
+- `<ScrollBar />` Custom Events
 
 ```typescript
 interface ScrollBarEventsProps {
   onScrollBarChange?: (e: any) => void | boolean;
 }
-
 ```
 
 ### Series Component Events
@@ -596,27 +580,24 @@ Series components (such as `Bar`, `Line`, etc.) also inherit the `EventsProps` e
 
 In addition to the above events, the following events can also be listened to in the Chart
 
-* Custom Dimension Events
-
+- Custom Dimension Events
 
 ```typescript
 interface DimensionEventsProps {
   onDimensionHover?: (e: any) => void | boolean;
   onDimensionClick?: (e: any) => void | boolean;
 }
-
 ```
 
-* Hierarchy Chart Events
+- Hierarchy Chart Events
 
 ```typescript
 interface HierarchyEventsProps {
   onDrill?: (e: any) => void | boolean;
 }
-
 ```
 
-* Lifecycle-related events
+- Lifecycle-related events
 
 ```typescript
 interface LifeCycleEventsProps {
@@ -627,7 +608,6 @@ interface LifeCycleEventsProps {
   onLayoutStart?: (e: any) => void | boolean;
   onLayoutEnd?: (e: any) => void | boolean;
 }
-
 ```
 
 ### Event Usage Example
@@ -648,29 +628,29 @@ function MyChart(props) {
         { month: 'Friday', sales: 38 }
       ]
     }
-  ]
+  ];
 
   return (
     <BarChart
       data={barData}
-      onClick={(ev) => { console.log('图表被点击', ev) }}
+      onClick={ev => {
+        console.log('图表被点击', ev);
+      }}
     >
       <Bar
         xField="month"
         yField="sales"
-        onClick={(ev) => { console.log('柱形被点击', ev) }}
+        onClick={ev => {
+          console.log('柱形被点击', ev);
+        }}
       />
-      <Axis
-        orient="bottom"
-        type="band"
-      />
-      <Axis
-        orient="left"
-        type="linear"
-      />
+      <Axis orient="bottom" type="band" />
+      <Axis orient="left" type="linear" />
       <Legend
         visible={true}
-        onLegendItemClick={(ev) => { console.log('图例项被点击', ev) }}
+        onLegendItemClick={ev => {
+          console.log('图例项被点击', ev);
+        }}
       />
     </BarChart>
   );
@@ -695,7 +675,20 @@ import { VChartCore, BarChart, Bar, Axis, Legend } from '@visactor/react-vchart'
 
 const theme = {
   colorScheme: {
-    default: ['#5383F4', '#7BCF8E', '#FF9D2C', '#FFDB26', '#7568D9', '#80D8FB', '#1857A3', '#CAB0E8', '#FF8867', '#B9E493', '#2CB4A8', '#B9E4E3'],
+    default: [
+      '#5383F4',
+      '#7BCF8E',
+      '#FF9D2C',
+      '#FFDB26',
+      '#7568D9',
+      '#80D8FB',
+      '#1857A3',
+      '#CAB0E8',
+      '#FF8867',
+      '#B9E493',
+      '#2CB4A8',
+      '#B9E4E3'
+    ]
   },
   series: {
     bar: {
@@ -717,7 +710,7 @@ const theme = {
   markByName: {
     bar: {
       style: {
-        cornerRadius: 15,
+        cornerRadius: 15
       }
     }
   }
@@ -730,30 +723,25 @@ VChartCore.ThemeManager.setCurrentTheme('userTheme');
 
 function MyChart(props) {
   const data = [
-    { type: 'oxygen', value: '46.60'},
-    { type: 'silicon', value: '27.72'},
-    { type: 'aluminum', value: '8.13'},
-    { type: 'iron', value: '5'},
-    { type: 'calcium', value: '3.63'},
-    { type: 'sodium', value: '2.83'},
-    { type: 'potassium', value: '2.59'},
+    { type: 'oxygen', value: '46.60' },
+    { type: 'silicon', value: '27.72' },
+    { type: 'aluminum', value: '8.13' },
+    { type: 'iron', value: '5' },
+    { type: 'calcium', value: '3.63' },
+    { type: 'sodium', value: '2.83' },
+    { type: 'potassium', value: '2.59' },
     { type: 'others', value: '3.5' }
   ];
 
   return (
     <BarChart data={[{ id: 'id0', values: data }]}>
-      <Bar
-        xField="type"
-        yField="value"
-        seriesField="type"
-      />
+      <Bar xField="type" yField="value" seriesField="type" />
     </BarChart>
   );
 }
 
 export default MyChart;
 ```
-
 
 ## typical scenarios
 
