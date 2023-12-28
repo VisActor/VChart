@@ -138,10 +138,14 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       return;
     }
 
+    type DimensionItemsConfig = {
+      scaleDepth: number;
+    };
+
     /**
      * @description 准备 barBackground 数据
      */
-    const dimensionItems = ([data]: DataView[], { scaleDepth }: any) => {
+    const dimensionItems = ([data]: DataView[], { scaleDepth }: DimensionItemsConfig) => {
       let dataCollect: any[] = [{}];
       const fields = this.getDimensionField();
       // 将维度轴的所有层级 field 的对应数据做笛卡尔积
@@ -177,7 +181,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           type: 'dimensionItems',
           options: {
             scaleDepth: spec.isGroupLevel ? 1 : 2
-          }
+          } as DimensionItemsConfig
         },
         false
       )
@@ -590,6 +594,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   }
 
   protected _barBackgroundPositionXEncoder?: (datum: Datum) => number;
+  protected _getBarBackgroundPositionXEncoder = () => this._barBackgroundPositionXEncoder?.bind(this);
+  protected _setBarBackgroundPositionXEncoder = (encoder: (datum: Datum) => number) => {
+    this._barBackgroundPositionXEncoder = encoder.bind(this);
+  };
 
   dataToBarBackgroundPositionX(datum: Datum, scaleDepth: number = 2): number {
     return this._dataToPosition(
@@ -597,14 +605,16 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this._xAxisHelper,
       this.fieldX,
       scaleDepth,
-      () => this._barBackgroundPositionXEncoder?.bind(this),
-      (encoder: (datum: Datum) => number) => {
-        this._barBackgroundPositionXEncoder = encoder.bind(this);
-      }
+      this._getBarBackgroundPositionXEncoder,
+      this._setBarBackgroundPositionXEncoder
     );
   }
 
   protected _barBackgroundPositionYEncoder?: (datum: Datum) => number;
+  protected _getBarBackgroundPositionYEncoder = () => this._barBackgroundPositionYEncoder?.bind(this);
+  protected _setBarBackgroundPositionYEncoder = (encoder: (datum: Datum) => number) => {
+    this._barBackgroundPositionYEncoder = encoder.bind(this);
+  };
 
   dataToBarBackgroundPositionY(datum: Datum, scaleDepth: number = 2): number {
     return this._dataToPosition(
@@ -612,10 +622,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this._yAxisHelper,
       this.fieldY,
       scaleDepth,
-      () => this._barBackgroundPositionYEncoder?.bind(this),
-      (encoder: (datum: Datum) => number) => {
-        this._barBackgroundPositionYEncoder = encoder.bind(this);
-      }
+      this._getBarBackgroundPositionYEncoder,
+      this._setBarBackgroundPositionYEncoder
     );
   }
 
