@@ -34,6 +34,7 @@ importers:
       lodash: 4.17.21
       markdown-it: ^13.0.0
       marked: ^0.3.19
+      minimist: 1.2.8
       react: ^18.0.0
       react-device-detect: ^2.2.2
       react-dom: ^18.0.0
@@ -73,6 +74,7 @@ importers:
       htmlparser2: 4.1.0
       lodash: 4.17.21
       marked: 0.3.19
+      minimist: 1.2.8
       react-device-detect: 2.2.3_biqbaboplfbrettd7655fr4n2y
       typescript: 4.9.5
       vite: 3.2.6

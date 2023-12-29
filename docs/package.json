@@ -7,7 +7,8 @@
     "serve": "vite --host",
     "watch": "node ./libs/template-parse/build.js --env dev --watch",
     "start": "npx concurrently --kill-others \"npm:watch\" \"npm:serve\"",
-    "preview": "node ./libs/preview.js"
+    "preview": "node ./libs/preview.js",
+    "preview-empty": "node ./libs/preview.js --empty"
   },
   "dependencies": {
     "@arco-design/web-react": "2.46.1",
@@ -45,6 +46,7 @@
     "htmlparser2": "^4.1.0",
     "globby": "11.1.0",
     "chokidar": "^3.5.0",
-    "react-device-detect": "^2.2.2"
+    "react-device-detect": "^2.2.2",
+    "minimist": "1.2.8"
   }
 }
