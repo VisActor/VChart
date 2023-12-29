@@ -22,6 +22,7 @@ export const generateChartWithGPT = async (
   let chartType;
   let cell;
   let dataset: DataItem[] = propsDataset;
+  let chartSource: string = options.model;
   try {
     // throw 'test chartAdvisorHandler';
     const resJson: any = await chartAdvisorGPT(schema, userInputFinal, options);
@@ -41,6 +42,7 @@ export const generateChartWithGPT = async (
     chartType = advisorResult.chartType;
     cell = advisorResult.cell;
     dataset = advisorResult.dataset as DataItem[];
+    chartSource = 'chartAdvisor';
   }
   const spec = vizDataToSpec(
     dataset,
@@ -52,6 +54,7 @@ export const generateChartWithGPT = async (
   spec.background = '#00000033';
   console.info(spec);
   return {
+    chartSource,
     spec,
     time: estimateVideoTime(chartType, spec, animationDuration ? animationDuration * 1000 : undefined)
   };
@@ -75,13 +78,13 @@ export const chartAdvisorGPT = async (
     //usefulFields.includes(field.fieldName)
   );
   const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
-  console.log(chartAdvisorMessage);
+  //console.log(chartAdvisorMessage);
 
   const advisorRes = await requestGPT(ChartAdvisorPromptEnglish, chartAdvisorMessage, options);
 
   const advisorResJson: GPTChartAdvisorResult = parseGPTResponse(advisorRes) as unknown as GPTChartAdvisorResult;
 
-  console.log(advisorResJson);
+  //console.log(advisorResJson);
   if (advisorResJson.error) {
     throw Error('Network Error!');
   }

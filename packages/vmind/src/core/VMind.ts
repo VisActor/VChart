@@ -40,6 +40,8 @@ class VMind {
       return parseCSVDataWithGPT(csvString, userPrompt, this._options);
     }
     console.error('Unsupported Model!');
+
+    return undefined;
   }
 
   /**
@@ -64,7 +66,8 @@ class VMind {
     if (this._model === Model.SKYLARK) {
       return generateChartWithSkylark(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
     }
-    return {};
+    console.error('unsupported model in chart generation!');
+    return { spec: undefined, time: undefined, dataSource: undefined, tokens: undefined } as any;
   }
 
   async exportVideo(

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Cell, DataItem, ILLMOptions, SimpleFieldInfo } from '../../typings';
 import { detectAxesType } from '../../common/vizDataToSpec/utils';
-import { isArray } from 'lodash';
+import { isArray, omit } from 'lodash';
 
 export const patchChartTypeAndCell = (
   chartTypeRes: any,
@@ -88,31 +88,34 @@ export const patchChartTypeAndCell = (
  */
 export const requestSkyLark = async (prompt: string, message: string, options: ILLMOptions) => {
   const url: string = options?.url;
-  const headers = { ...(options.headers ?? {}), 'Content-Type': 'application/json' };
+  const headers: any = { ...(options.headers ?? {}), 'Content-Type': 'application/json' };
 
-  const res = await axios(url, {
-    method: options?.method ?? 'POST',
-    headers, //must has Authorization: `Bearer ${openAIKey}` if use openai api
-    data: {
-      model: options?.model ?? 'gpt-3.5-turbo',
-      messages: [
-        {
-          role: 'system',
-          content: prompt
-        },
-        {
-          role: 'user',
-          content: message
-        }
-      ],
-      max_tokens: options?.max_tokens ?? 4096,
-      temperature: options?.temperature ?? 0
-    }
-  })
-    .then(response => response.data)
-    .then(data => data.choices);
+  try {
+    const res = await axios(url, {
+      method: options?.method ?? 'POST',
+      headers, //must has Authorization: `Bearer ${openAIKey}` if use openai api
+      data: {
+        ...omit(options, ['headers', 'url', 'method']),
+        model: options?.model ?? 'gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'system',
+            content: prompt
+          },
+          {
+            role: 'user',
+            content: message
+          }
+        ],
+        max_tokens: options?.max_tokens ?? 4096,
+        temperature: options?.temperature ?? 0
+      }
+    }).then(response => response.data);
 
-  return res;
+    return res;
+  } catch (err: any) {
+    return err.response.data;
+  }
 };
 
 export const getStrFromDict = (dict: Record<string, string>) =>

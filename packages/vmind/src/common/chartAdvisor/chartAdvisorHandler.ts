@@ -2,13 +2,13 @@ import { chartAdvisor, DataTypeName, ChartType } from '@visactor/chart-advisor';
 import { Cell, VizSchema } from '../../typings';
 
 export const chartAdvisorHandler = (schema: Partial<VizSchema>, dataset: any[]) => {
-  const dimensionList = schema.fields
+  const dimensionList: any = schema.fields
     .filter(d => d.role === 'dimension')
     .map(d => ({
       uniqueId: d.id,
       type: typeMap(d.type)
     }));
-  const measureList = schema.fields
+  const measureList: any = schema.fields
     .filter(d => d.role === 'measure')
     .map(d => ({
       uniqueId: d.id,
