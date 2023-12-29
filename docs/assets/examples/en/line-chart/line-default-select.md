@@ -4,7 +4,7 @@ group: line chart
 title: Set Default Selected Dimension
 keywords: lineChart,comparison,trend,line
 order: 0-13
-cover:
+cover: /vchart/preview/line-chart-line-default-select_1.8.2.png
 option: lineChart
 ---
 
