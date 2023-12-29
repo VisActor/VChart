@@ -65,8 +65,8 @@
   },
   "dependencies": {
     "@visactor/chart-advisor": "0.1.10",
-    "@visactor/vrender-core": "~0.17.7",
-    "@visactor/vrender-kits": "~0.17.7",
+    "@visactor/vrender-core": "~0.17.8",
+    "@visactor/vrender-kits": "~0.17.8",
     "@visactor/vdataset": "~0.17.3",
     "@visactor/vutils": "~0.17.3",
     "axios": "^1.4.0",

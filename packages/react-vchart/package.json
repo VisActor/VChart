@@ -30,9 +30,9 @@
   "dependencies": {
     "@visactor/vchart": "workspace:1.8.2",
     "@visactor/vutils": "~0.17.3",
-    "@visactor/vrender-core": "~0.17.7",
-    "@visactor/vrender-kits": "~0.17.7",
-    "@visactor/vgrammar-core": "~0.10.4",
+    "@visactor/vrender-core": "~0.17.8",
+    "@visactor/vrender-kits": "~0.17.8",
+    "@visactor/vgrammar-core": "~0.10.5",
     "react-is": "^18.2.0"
   },
   "devDependencies": {
