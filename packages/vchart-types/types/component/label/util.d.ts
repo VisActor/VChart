@@ -13,6 +13,7 @@ export declare const labelRuleMap: {
     area: typeof LineLabel;
     rect3d: typeof barLabel;
     arc3d: typeof pieLabel;
+    treemap: typeof treemapLabel;
 };
 export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod'], formatter?: ILabelSpec['formatter']): any;
 export declare function symbolLabel(labelInfo: ILabelInfo): {
@@ -52,6 +53,10 @@ export declare function stackLabel(labelInfo: ILabelInfo): {
     overlap: {
         strategy: any;
     };
+};
+export declare function treemapLabel(labelInfo: ILabelInfo): {
+    customLayoutFunc: (labels: LabelItem[]) => import("@visactor/vrender-core").IText[];
+    overlap: boolean;
 };
 export declare function LineLabel(labelInfo: ILabelInfo): {
     position: string;

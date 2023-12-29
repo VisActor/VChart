@@ -50,6 +50,8 @@ export declare class Zoomable implements IZoomable {
     private _zoomableTrigger;
     private _eventObj;
     private _renderMode;
+    private _gestureController;
+    private _isGestureListener;
     initZoomable(evt: IEvent, mode?: RenderMode): void;
     private _getTriggerEvent;
     private _zoomEventDispatch;

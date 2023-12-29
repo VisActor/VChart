@@ -1,7 +1,7 @@
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
 import type { IPoint } from '../../typings';
-import type { IDataPos, MarkerPositionPoint } from './interface';
+import type { IDataPos, IMarkerLabelSpec, MarkerPositionPoint } from './interface';
 import type { IRegion } from '../../region/interface';
 import type { OffsetPoint } from './interface';
 export declare function isAggrSpec(spec: IDataPos): boolean;
@@ -14,3 +14,4 @@ export declare function computeClipRange(regions: IRegion[]): {
     minY: number;
     maxY: number;
 };
+export declare function transformLabelAttributes(label: IMarkerLabelSpec): any;

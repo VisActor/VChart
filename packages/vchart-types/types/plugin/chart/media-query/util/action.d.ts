@@ -1,3 +1,3 @@
-import type { IVChart } from '../../../../core';
 import type { IMediaQueryAction, IMediaQueryCondition, IMediaQueryActionResult } from '../interface';
-export declare const executeMediaQueryAction: <T extends Record<string, unknown>>(action: IMediaQueryAction<T>, query: IMediaQueryCondition, chartSpec: any, globalInstance: IVChart) => IMediaQueryActionResult;
+import type { IChartSpecInfo } from '../../../../chart/interface';
+export declare const executeMediaQueryAction: <T extends Record<string, unknown>>(action: IMediaQueryAction<T>, query: IMediaQueryCondition, chartSpec: any, chartSpecInfo: IChartSpecInfo) => IMediaQueryActionResult;
