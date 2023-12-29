@@ -12,20 +12,20 @@ import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgram
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { labelRuleMap, textAttribute } from './util';
-import { ComponentMark, registerComponentMark, type IComponentMark } from '../../mark/component';
+import { registerComponentMark, type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, isArray, isFunction, isNil, pickWithout } from '@visactor/vutils';
+import { isArray, isFunction, pickWithout } from '@visactor/vutils';
 import type { IGroup, IText } from '@visactor/vrender-core';
-import type { LabelItem } from '@visactor/vrender-components';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
-import { LabelMark, type ILabelMark, registerLabelMark } from '../../mark/label';
+import { type ILabelMark, registerLabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { IChartSpec } from '../../typings';
 import { LabelSpecTransformer } from './label-transformer';
+import type { LabelItem } from '@visactor/vrender-components';
 
 export interface ILabelInfo {
   baseMark: ICompilableMark;
@@ -65,28 +65,30 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
 
   static getSpecInfo(chartSpec: any, chartSpecInfo: IChartSpecInfo): Maybe<IModelSpecInfo[]> {
     const specInfo: IModelSpecInfo[] = [];
-    chartSpecInfo?.region?.forEach((regionInfo, i) => {
-      regionInfo.seriesIndexes?.forEach(seriesIndex => {
-        const seriesInfo = chartSpecInfo.series[seriesIndex] as any;
+    const regionSpecInfo = chartSpecInfo?.region || [];
+    const isLabelVisible = (labelSpecList: ILabelSpec[]) => {
+      return labelSpecList.some(labelSpec => labelSpec.visible);
+    };
+
+    regionSpecInfo.forEach((regionInfo, i) => {
+      const seriesIndexes = regionInfo.seriesIndexes || [];
+      const hasVisibleLabel = seriesIndexes.some(seriesIndex => {
+        const seriesInfo = chartSpecInfo.series[seriesIndex];
         const { markLabelSpec = {} } = seriesInfo;
-        if (
-          Object.values(markLabelSpec).some(labelSpecList =>
-            (labelSpecList as ILabelSpec[]).some(labelSpec => labelSpec.visible)
-          )
-        ) {
-          specInfo.push({
-            spec: chartSpec,
-            type: ComponentTypeEnum.label,
-            specInfoPath: ['region', i, 'markLabel'],
-            // 这里的 specIndex 是 region 的 index，用于 region 定位
-            specIndex: i
-          });
-        }
+        return Object.values(markLabelSpec).some(
+          labelSpecList => Array.isArray(labelSpecList) && isLabelVisible(labelSpecList)
+        );
       });
+
+      if (chartSpec.labelLayout !== 'region' || hasVisibleLabel) {
+        specInfo.push({
+          spec: chartSpec,
+          type: ComponentTypeEnum.label,
+          specInfoPath: ['region', i, 'markLabel'],
+          specIndex: i // 这里的 specIndex 是 region 的 index，用于 region 定位
+        });
+      }
     });
-    if (chartSpec.labelLayout === 'region' && specInfo.length) {
-      return specInfo.slice(0, 1);
-    }
     return specInfo;
   }
 
