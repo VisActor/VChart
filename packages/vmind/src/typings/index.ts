@@ -6,6 +6,7 @@ export interface ILLMOptions {
   model?: Model;
   max_tokens?: number;
   temperature?: number;
+  [key: string]: any;
 }
 
 export type SimpleFieldInfo = {
@@ -106,8 +107,8 @@ export type VizSchema = {
 //models that VMind support
 //more models is under developing
 export enum Model {
-  GPT3_5 = 'gpt-3.5',
-  GPT4 = 'gpt-3.5',
+  GPT3_5 = 'gpt-3.5-turbo',
+  GPT4 = 'gpt-4',
   SKYLARK = 'skylark-pro'
 }
 

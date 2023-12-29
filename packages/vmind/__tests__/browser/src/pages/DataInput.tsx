@@ -1,6 +1,17 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import './index.scss';
-import { Avatar, Input, Divider, Button, InputNumber, Upload, Message, Select } from '@arco-design/web-react';
+import {
+  Avatar,
+  Input,
+  Divider,
+  Button,
+  InputNumber,
+  Upload,
+  Message,
+  Select,
+  Radio,
+  Checkbox
+} from '@arco-design/web-react';
 import {
   mockUserInput10,
   mockUserInput2,
@@ -28,6 +39,7 @@ import { Model } from '../../../../src/typings';
 
 const TextArea = Input.TextArea;
 const Option = Select.Option;
+const RadioGroup = Radio.Group;
 
 type IPropsType = {
   onSpecGenerate: (
@@ -35,7 +47,8 @@ type IPropsType = {
     time: {
       totalTime: number;
       frameArr: any[];
-    }
+    },
+    costTime: number
   ) => void;
 };
 const demoDataList: { [key: string]: any } = {
@@ -60,54 +73,77 @@ const demoDataList: { [key: string]: any } = {
   'Global GDP': mockUserInput6Eng,
   'Sales of different drinkings': mockUserInput3Eng
 };
+
+const globalVariables = (import.meta as any).env;
+const ModelConfigMap = {
+  [Model.SKYLARK]: { url: globalVariables.VITE_SKYLARK_URL, key: globalVariables.VITE_SKYLARK_KEY },
+  [Model.GPT3_5]: { url: globalVariables.VITE_GPT_URL, key: globalVariables.VITE_GPT_KEY },
+  [Model.GPT4]: { url: globalVariables.VITE_GPT_URL, key: globalVariables.VITE_GPT_KEY }
+};
+
 export function DataInput(props: IPropsType) {
   const defaultDataKey = Object.keys(demoDataList)[3];
   const [describe, setDescribe] = useState<string>(demoDataList[defaultDataKey].input);
   const [csv, setCsv] = useState<string>(demoDataList[defaultDataKey].csv);
   const [spec, setSpec] = useState<string>('');
   const [time, setTime] = useState<number>(1000);
-  const [loading, setLoading] = useState<boolean>(false);
-  //const vmind = new VMind({
-  //  url: import.meta.env.VITE_OPENAI_URL ?? undefined,
-  //  model:Model.GPT3_5
-  //});
+  const [model, setModel] = useState<Model>(Model.SKYLARK);
+  const [cache, setCache] = useState<boolean>(false);
 
-  const vmind = new VMind({
-    url: import.meta.env.VITE_SKYLARK_URL ?? undefined,
-    model: Model.SKYLARK,
-    headers: {
-      'api-key': import.meta.env.VITE_SKYLARK_KEY
-    }
-  });
+  const [loading, setLoading] = useState<boolean>(false);
+  const vmind = useMemo(
+    () =>
+      new VMind({
+        url: ModelConfigMap[model].url ?? undefined,
+        model,
+        cache,
+        headers: {
+          'api-key': ModelConfigMap[model].key
+        }
+      }),
+    [cache, model]
+  );
 
   const askGPT = useCallback(async () => {
     setLoading(true);
     const { fieldInfo, dataset } = vmind.parseCSVData(csv);
     //const { fieldInfo, dataset } = await vmind.parseCSVDataWithLLM(csv, describe);
+    const startTime = new Date().getTime();
     const { spec, time } = await vmind.generateChart(describe, fieldInfo, dataset);
-    props.onSpecGenerate(spec, time as any);
+    const endTime = new Date().getTime();
+    const costTime = endTime - startTime;
+    props.onSpecGenerate(spec, time as any, costTime);
     setLoading(false);
   }, [vmind, csv, describe, props]);
 
   return (
     <div className="left-sider">
-      <Select
-        style={{
-          width: '100%'
-        }}
-        defaultValue={defaultDataKey}
-        onChange={v => {
-          const dataObj = demoDataList[v];
-          setDescribe(dataObj.input);
-          setCsv(dataObj.csv);
-        }}
-      >
-        {Object.keys(demoDataList).map(name => (
-          <Option key={name} value={name}>
-            {name}
-          </Option>
-        ))}
-      </Select>
+      <div style={{ width: '90%', marginBottom: 20 }}>
+        <p>
+          <Avatar size={18} style={{ backgroundColor: '#3370ff' }}>
+            0
+          </Avatar>
+          <span style={{ marginLeft: 10 }}>Select Demo Data (optional)</span>
+        </p>
+        <Select
+          style={{
+            width: '100%'
+          }}
+          defaultValue={defaultDataKey}
+          onChange={v => {
+            const dataObj = demoDataList[v];
+            setDescribe(dataObj.input);
+            setCsv(dataObj.csv);
+          }}
+        >
+          {Object.keys(demoDataList).map(name => (
+            <Option key={name} value={name}>
+              {name}
+            </Option>
+          ))}
+        </Select>
+      </div>
+
       <div>
         <p>
           <Avatar size={18} style={{ backgroundColor: '#3370ff' }}>
@@ -166,7 +202,7 @@ export function DataInput(props: IPropsType) {
       </div>
 
       <Divider style={{ marginTop: 60 }} />
-
+      {/*
       <div>
         <p>
           <Avatar size={18} style={{ backgroundColor: '#3370ff' }}>
@@ -188,8 +224,19 @@ export function DataInput(props: IPropsType) {
           }}
         />
         <InputNumber defaultValue={time} onChange={v => setTime(v)}></InputNumber>
+      </div>*/}
+      <div style={{ width: '90%', marginBottom: 10 }}>
+        <RadioGroup value={model} onChange={v => setModel(v)}>
+          <Radio value={Model.GPT3_5}>GPT-3.5</Radio>
+          <Radio value={Model.GPT4}>GPT-4</Radio>
+          <Radio value={Model.SKYLARK}>skylark pro</Radio>
+        </RadioGroup>
       </div>
-
+      <div style={{ width: '90%', marginBottom: 10 }}>
+        <Checkbox checked={cache} onChange={v => setCache(v)}>
+          Enable Cache
+        </Checkbox>
+      </div>
       <div className="generate-botton">
         <Button
           loading={loading}

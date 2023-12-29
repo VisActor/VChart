@@ -27,7 +27,6 @@ export const getDataset = (csvString: string): { dataset: DataItem[]; columns: s
 export const parseCSVData = (csvString: string): { fieldInfo: SimpleFieldInfo[]; dataset: DataItem[] } => {
   //parse the CSV string to get information about the fields(fieldInfo) and dataset object
   const { dataset, columns } = getDataset(csvString);
-  console.log(columns, dataset);
   const fieldInfo = getFieldInfoFromDataset(dataset, columns);
 
   return { fieldInfo, dataset };
