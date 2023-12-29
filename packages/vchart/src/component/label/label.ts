@@ -84,6 +84,9 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         }
       });
     });
+    if (chartSpec.labelLayout === 'region' && specInfo.length) {
+      return specInfo.slice(0, 1);
+    }
     return specInfo;
   }
 
