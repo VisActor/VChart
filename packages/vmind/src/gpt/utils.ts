@@ -27,6 +27,7 @@ export const requestGPT = async (prompt: string, userMessage: string, options: I
         ],
         max_tokens: options?.max_tokens ?? 2000,
         temperature: options?.temperature ?? 0
+        //response_format: { type: 'json_object' } //Only models after gpt-3.5-turbo-1106 support this parameter.
       }
     })
       .then(response => response.data)

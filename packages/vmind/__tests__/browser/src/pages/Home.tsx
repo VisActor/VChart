@@ -11,24 +11,25 @@ export function Home() {
     totalTime: number;
     frameArr: any[];
   }>();
+  const [costTime, setCostTime] = useState<number>(0);
   return (
     <Layout>
       <Sider
-        resizeDirections={['right']}
         style={{
           height: '100%',
           minWidth: 300
         }}
       >
         <DataInput
-          onSpecGenerate={(spec, time) => {
+          onSpecGenerate={(spec, time, costTime) => {
             setSpec(spec);
             setTime(time);
+            setCostTime(costTime);
           }}
         />
       </Sider>
       <Content>
-        <ChartPreview spec={spec} time={time} />
+        <ChartPreview spec={spec} time={time} costTime={costTime} />
       </Content>
     </Layout>
   );

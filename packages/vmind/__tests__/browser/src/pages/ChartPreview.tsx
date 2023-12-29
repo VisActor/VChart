@@ -13,6 +13,7 @@ type IPropsType = {
         frameArr: any[];
       }
     | undefined;
+  costTime: number;
 };
 
 function downloadGif(link: string, filename = 'out') {
@@ -56,7 +57,7 @@ export function ChartPreview(props: IPropsType) {
     setSrc(src);
     setOutType('video');
     setGenerating(false);
-  }, [props.spec, props.time]);
+  }, [props, vmind]);
 
   const generateGif = useCallback(async () => {
     const { spec, time } = props;
@@ -69,7 +70,7 @@ export function ChartPreview(props: IPropsType) {
     setOutType('gif');
     setGenerating(false);
     // downloadVideo(src);
-  }, [props.spec, props.time]);
+  }, [props, vmind]);
 
   useEffect(() => {
     //defaultTicker.mode = 'raf';
@@ -90,7 +91,7 @@ export function ChartPreview(props: IPropsType) {
       cs.updateSpec(props.spec);
     }
     cs.renderAsync();
-  }, [props.spec, props.time]);
+  }, [chartSpace, props, props.spec, props.time]);
 
   return (
     <div className="right-chart">
@@ -142,6 +143,14 @@ export function ChartPreview(props: IPropsType) {
           <div className="right-chart-content">
             <div id="chart"></div>
           </div>
+          {props.spec ? (
+            <div>
+              <p>Total Time: {props.costTime / 1000} ms</p>
+              <p>spec:</p>
+              <TextArea value={JSON.stringify(props.spec, null, 4)} style={{ height: 300 }}></TextArea>
+              {/*<pre style={{ whiteSpace: 'pre' }}>{JSON.stringify(props.spec, null, 4)}</pre>*/}
+            </div>
+          ) : null}
         </Card>
       </Spin>
     </div>
