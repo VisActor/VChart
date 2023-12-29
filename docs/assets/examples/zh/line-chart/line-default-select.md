@@ -4,7 +4,7 @@ group: line chart
 title: 设置默认选中维度
 keywords: lineChart,comparison,trend,line
 order: 0-13
-cover:
+cover: /vchart/preview/line-chart-line-default-select_1.8.2.png
 option: lineChart
 ---
 
