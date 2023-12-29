@@ -2,6 +2,18 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.6.9",
+      "tag": "@visactor/vchart_v1.6.9",
+      "date": "Fri, 29 Dec 2023 06:15:58 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix bug in layout when band axis has no domain\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.6.8",
       "tag": "@visactor/vchart_v1.6.8",
       "date": "Wed, 27 Dec 2023 06:14:47 GMT",

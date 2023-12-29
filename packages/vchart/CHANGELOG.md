@@ -1,6 +1,15 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 27 Dec 2023 06:14:47 GMT and should not be manually modified.
+This log was last generated on Fri, 29 Dec 2023 06:15:58 GMT and should not be manually modified.
+
+## 1.6.9
+Fri, 29 Dec 2023 06:15:58 GMT
+
+### Updates
+
+- fix: fix bug in layout when band axis has no domain
+
+
 
 ## 1.6.8
 Wed, 27 Dec 2023 06:14:47 GMT
