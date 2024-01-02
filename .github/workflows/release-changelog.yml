@@ -32,6 +32,14 @@ jobs:
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
 
+      - name: Create branch
+        run: |
+          git status
+          git fetch origin develop:develop
+          git checkout develop
+          git status
+          git checkout -b docs/generate-changelog-${{  github.event.release.tag_name }}
+
       - name: generate changelog
         id: generate-changelog
         uses: xile611/collect-release-changelog@main
@@ -42,11 +50,8 @@ jobs:
           tag_name: ${{github.event.release.tag_name}}
           file_name: changelog.md
 
-      - name: Create branch
+      - name: Push branch
         run: |
-          git status
-          git checkout -b docs/generate-changelog-${{  github.event.release.tag_name }}
-          # Make any necessary changes
           git add .
           git commit -m "docs: generate changelog of release ${{  github.event.release.tag_name }}" -n
           git push origin docs/generate-changelog-${{  github.event.release.tag_name }}

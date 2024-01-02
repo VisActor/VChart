@@ -1,5 +1,6 @@
 import React from 'react';
-import { IBarChartSpec } from '@visactor/vchart';
+import type { IBarChartSpec } from '@visactor/vchart';
+import { default as VChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 export interface BarChartProps
@@ -8,4 +9,7 @@ export interface BarChartProps
   //
 }
 
-export const BarChart = createChart<React.PropsWithChildren<BarChartProps>>('BarChart', 'bar');
+export const BarChart = createChart<React.PropsWithChildren<BarChartProps> & { type: 'bar' }>('BarChart', {
+  type: 'bar',
+  vchartConstrouctor: VChart
+});

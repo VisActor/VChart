@@ -1,6 +1,5 @@
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
-import type { ILabelMark } from '../../mark/label';
 import type { IBaseModelSpecTransformerResult } from '../../model/interface';
 import { BaseModelSpecTransformer } from '../../model/base-model-transformer';
 import type { ISeriesSpec } from '../../typings';

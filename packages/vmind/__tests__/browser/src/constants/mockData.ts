@@ -983,7 +983,7 @@ export const mockUserInput4 = {
 469,75,品牌15,532
 5689,54,品牌16,498
 `,
-  input: '帮我比较不同电动汽车品牌性能'
+  input: '帮我比较不同电动汽车品牌性能，使用散点图'
 };
 
 /*
@@ -3589,22 +3589,22 @@ export const mockUserInput11 = {
  * 瀑布图
  */
 export const mockUserInput12 = {
-  csv: `x,y
-  Feb.11,5
-  Feb.20,2
-  Feb.25,-2
-  Mar.4,2
-  Mar.11,2
-  Mar.19,5
-  Mar.26,1
-  Apr.1,1
-  Apr.8,1
-  Apr.15,2
-  Apr.22,1
-  Apr.29,-2
-  May.6,-1
-  `,
-  input: '展示增长减少情况，使用瀑布图'
+  csv: `date,sales
+Feb.11,5
+Feb.20,2
+Feb.25,-2
+Mar.4,2
+Mar.11,2
+Mar.19,5
+Mar.26,1
+Apr.1,1
+Apr.8,1
+Apr.15,2
+Apr.22,1
+Apr.29,-2
+May.6,-1
+`,
+  input: '使用瀑布图展示销量变化'
 };
 
 /**
@@ -3612,12 +3612,12 @@ export const mockUserInput12 = {
  */
 export const mockUserInput13 = {
   csv: `品牌名称,市场份额,平均价格,净利润
-  Apple,0.5,7068,314531
-  Samsung,0.2,6059,362345
-  Vivo,0.05,3406,234512
-  Nokia,0.01,1064,-1345
-  Xiaomi,0.1,4087,131345
-  `,
+Apple,0.5,7068,314531
+Samsung,0.2,6059,362345
+Vivo,0.05,3406,234512
+Nokia,0.01,1064,-1345
+Xiaomi,0.1,4087,131345
+`,
   input: '使用玫瑰图展示各品牌市场占有率'
 };
 
@@ -3626,12 +3626,12 @@ export const mockUserInput13 = {
  */
 export const mockUserInput14 = {
   csv: `key,value
-  Strength,5
-  Speed,5
-  Shooting,3
-  Endurance,5
-  Precision,5
-  Growth,5
+Strength,5
+Speed,5
+Shooting,3
+Endurance,5
+Precision,5
+Growth,5
   `,
   input: '帮我展示个人在不同方面的绩效，他是否是六边形战士'
 };
@@ -3641,11 +3641,13 @@ export const mockUserInput14 = {
  */
 export const mockUserInput15 = {
   csv: `始发地,终点站,value
-  Node A,Node 1,10
-  Node A,Node 2,5
-  Node B,Node 1,8
-  Node B,Node 3,2
-  Node C,Node 2,4
+Node A,Node 1,10
+Node A,Node 2,5
+Node B,Node 2,8
+Node B,Node 3,2
+Node C,Node 2,4
+Node A,Node C,2
+Node C,Node 1,2
   `,
   input: '展示数据流动'
 };
@@ -3660,5 +3662,5 @@ Middle East & North Africa,9.54,10.6,11.05,11.5,11.92
 Latin America & Caribbean,8.74,9.46,10.35,10.94,12.21
 East Asia & Pacific,7.8,8.95,10.18,11.57,13.25
 Europe & Central Asia,9.52,10.39,10.93,11.69,12.63`,
-  input: '看下各地区gdp情况'
+  input: '看下各类别销售额分布'
 };

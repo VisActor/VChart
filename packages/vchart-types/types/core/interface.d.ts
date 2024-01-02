@@ -1,6 +1,6 @@
 import type { DataSet } from '@visactor/vdataset';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
-import type { Datum, IMarkStateSpec, IPoint, IRegionQuerier, IShowTooltipOption, ISpec, ITooltipHandler, Maybe, MaybeArray, StringOrNumber } from '../typings';
+import type { Datum, IInitOption, IMarkStateSpec, IPoint, IRegionQuerier, IShowTooltipOption, ISpec, ITooltipHandler, Maybe, MaybeArray, StringOrNumber } from '../typings';
 import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
@@ -21,6 +21,9 @@ export type DataLinkAxis = {
     axisId?: StringOrNumber;
     axisIndex?: number;
 };
+export interface IVChartConstructor {
+    new (spec: ISpec, options: IInitOption): IVChart;
+}
 export interface IVChart {
     readonly id: number;
     renderSync: (morphConfig?: IMorphConfig, resetMediaQuery?: boolean) => IVChart;

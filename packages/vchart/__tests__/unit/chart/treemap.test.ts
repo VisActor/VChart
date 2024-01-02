@@ -134,14 +134,11 @@ describe('treemap chart test', () => {
     const series: TreemapSeries = vchart.getChart().getAllSeries()[0] as TreemapSeries;
     const leafMark = series.getMarkInName('leaf');
     const nonLeafMark = series.getMarkInName('nonLeaf');
-    const labelMark = series.getMarkInName('label');
 
     const leafProduct = leafMark?.getProduct();
-    const labelProduct = labelMark?.getProduct();
     const nonLeafProduct = nonLeafMark?.getProduct();
 
     expect(leafProduct?.elements.length).toBe(86); // 叶子图元
-    expect(labelProduct?.elements.length).toBe(86); // 叶子标签图元
     expect(nonLeafProduct?.elements.length).toBe(17); // 非叶子图元
   });
 });

@@ -76,6 +76,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     getInvalidType(): IInvalidType;
     setInvalidType(t: IInvalidType): void;
     protected _markAttributeContext: ISeriesMarkAttributeContext;
+    getMarkAttributeContext(): ISeriesMarkAttributeContext;
     constructor(spec: T, options: ISeriesOption);
     created(): void;
     protected _buildMarkAttributeContext(): void;

@@ -361,12 +361,7 @@ export class VChart implements IVChart {
     this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setNewSpec(spec);
     this._updateCurrentTheme();
-    this._currentSize = calculateChartSize(this._spec, {
-      container: this._container,
-      canvas: this._canvas,
-      mode: this._option.mode || RenderModeEnum['desktop-browser'],
-      modeParams: this._option.modeParams
-    });
+    this._currentSize = this.getCurrentSize();
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -545,12 +540,12 @@ export class VChart implements IVChart {
   }
 
   getCurrentSize() {
-    const { width: containerWidth, height: containerHeight } = getContainerSize(
-      this._container!,
-      DEFAULT_CHART_WIDTH,
-      DEFAULT_CHART_HEIGHT
-    );
-    return { width: this._spec.width ?? containerWidth, height: this._spec.height ?? containerHeight };
+    return calculateChartSize(this._spec, {
+      container: this._container,
+      canvas: this._canvas,
+      mode: this._option.mode || RenderModeEnum['desktop-browser'],
+      modeParams: this._option.modeParams
+    });
   }
 
   private _doResize() {

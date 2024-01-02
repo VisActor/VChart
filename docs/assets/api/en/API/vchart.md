@@ -1057,6 +1057,8 @@ type DimensionIndexOption = {
 
 ```
 
+[Related example](https://visactor.io/vchart/demo/line-chart/line-default-select)
+
 ### convertDatumToPosition
 
 Obtain the corresponding chart coordinate position according to the data in the dataset. The data needs to be obtained from the dataset passed into the chart. If the data does not exist in the dataset, the `convertValueToPosition` method can be used.

@@ -1,5 +1,5 @@
 import { BaseSeriesProps, createSeries } from './BaseSeries';
-import { ILinearProgressSeriesSpec } from '@visactor/vchart';
+import type { ILinearProgressSeriesSpec } from '@visactor/vchart';
 
 export type LinearProgressProps = BaseSeriesProps & Omit<ILinearProgressSeriesSpec, 'type'>;
 

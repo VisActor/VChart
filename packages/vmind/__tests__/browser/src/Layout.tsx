@@ -6,15 +6,8 @@ export function LayoutWrap(props: any) {
     <Layout style={{ height: '100%' }}>
       <PageHeader
         style={{ background: 'var(--color-bg-2)', borderBottom: '1px solid #eee' }}
-        title="VChart Video"
-        subTitle="every word, every story"
-        extra={
-          <div>
-            <Button shape="round" type="primary">
-              sign in with google
-            </Button>
-          </div>
-        }
+        title="VMind Playground"
+        subTitle="make visualization easier"
       />
       {props.children}
     </Layout>

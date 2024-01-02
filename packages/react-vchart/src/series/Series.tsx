@@ -1,5 +1,5 @@
 import { BaseSeriesProps, createSeries } from './BaseSeries';
-import {
+import type {
   IBarSeriesSpec,
   IAreaSeriesSpec,
   IBoxPlotSeriesSpec,

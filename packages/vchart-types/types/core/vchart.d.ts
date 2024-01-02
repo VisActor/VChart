@@ -84,8 +84,8 @@ export declare class VChart implements IVChart {
     private _bindResizeEvent;
     private _unBindResizeEvent;
     getCurrentSize(): {
-        width: any;
-        height: any;
+        width: number;
+        height: number;
     };
     private _doResize;
     private _onResize;

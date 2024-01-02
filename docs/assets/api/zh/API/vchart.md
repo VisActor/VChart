@@ -1062,6 +1062,8 @@ type DimensionIndexOption = {
 
 ```
 
+[相关示例](https://visactor.io/vchart/demo/line-chart/line-default-select)
+
 ### convertDatumToPosition
 
 根据数据集中的数据获取对应的图表坐标位置。该数据需要从传入图表的数据集中获取，如果数据不存在数据集中，可以使用 `convertValueToPosition` 方法。

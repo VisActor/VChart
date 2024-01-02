@@ -1,9 +1,18 @@
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
-import { isValid, isNumber, array, minInArray, maxInArray, isFunction, isArray } from '@visactor/vutils';
+import {
+  isValid,
+  isNumber,
+  array,
+  minInArray,
+  maxInArray,
+  isFunction,
+  isArray,
+  normalizePadding
+} from '@visactor/vutils';
 import type { Datum, IPoint, StringOrNumber } from '../../typings';
-import { isPercent } from '../../util';
-import type { IDataPointCallback, IDataPos, MarkerPositionPoint } from './interface';
+import { isPercent, transformToGraphic } from '../../util';
+import type { IDataPointCallback, IDataPos, IMarkerLabelSpec, MarkerPositionPoint } from './interface';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IRegion } from '../../region/interface';
 import type { OffsetPoint } from './interface';
@@ -317,4 +326,46 @@ export function computeClipRange(regions: IRegion[]) {
     }
   });
   return { minX, maxX, minY, maxY };
+}
+
+export function transformLabelAttributes(label: IMarkerLabelSpec) {
+  const { labelBackground = {}, style, shape, ...restLabel } = label;
+
+  if (label.visible !== false) {
+    const labelAttrs = restLabel as any;
+
+    if (shape?.visible) {
+      labelAttrs.shape = {
+        visible: true,
+        ...transformToGraphic(shape.style)
+      };
+    } else {
+      labelAttrs.shape = {
+        visible: false
+      };
+    }
+
+    if (labelBackground.visible !== false) {
+      labelAttrs.panel = {
+        visible: true,
+        ...transformToGraphic(labelBackground.style)
+      };
+      if (isValid(labelBackground.padding)) {
+        labelAttrs.padding = normalizePadding(labelBackground.padding);
+      }
+    } else {
+      labelAttrs.panel = {
+        visible: false
+      };
+      labelAttrs.padding = 0;
+    }
+
+    if (style) {
+      labelAttrs.textStyle = transformToGraphic(style);
+    }
+    return labelAttrs;
+  }
+  return {
+    visible: false
+  };
 }
