@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: add media query spec interface to default chart spec",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
