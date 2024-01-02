@@ -3,10 +3,6 @@ import type { IVChart } from '../../../../core';
 import type { IModelSpecInfo } from '../../../../model/interface';
 import type { SeriesTypeEnum } from '../../../../series';
 import type { IChartSpec } from '../../../../typings';
-export interface IMediaInfo {
-    width: number;
-    height: number;
-}
 export interface IMediaQueryActionFilterResult<T extends Record<string, unknown> = any> {
     isChart?: boolean;
     modelType?: 'series' | 'region' | 'component';

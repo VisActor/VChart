@@ -33,15 +33,22 @@ export function animationConfig<Preset extends string>(
   const config = {} as MarkAnimationSpec;
   for (let i = 0; i < AnimationStates.length; i++) {
     const state = AnimationStates[i];
+    const userStateConfig = userConfig ? userConfig[state] : undefined;
 
-    if (userConfig?.[state] === false) {
+    if (userStateConfig === false) {
       continue;
     }
 
     if (state === 'normal') {
-      userConfig.normal && (config.normal = userConfig.normal as IAnimationTypeConfig);
+      userStateConfig && (config.normal = userStateConfig as IAnimationTypeConfig);
       continue;
     }
+
+    if (state !== 'update' && !userStateConfig && !defaultConfig[state]) {
+      // no user config and default config
+      continue;
+    }
+
     // 开始处理默认动画逻辑
     let defaultStateConfig: IAnimationConfig[];
     if (isArray(defaultConfig[state])) {
@@ -57,22 +64,18 @@ export function animationConfig<Preset extends string>(
       });
     }
 
-    if (!userConfig?.[state]) {
+    if (!userStateConfig) {
       config[state] = defaultStateConfig;
       continue;
     }
 
     // 开始处理用户配置的动画逻辑
     let stateConfig: IAnimationConfig[];
-    if (isArray(userConfig[state])) {
-      stateConfig = userConfig[state];
+    if (isArray(userStateConfig)) {
+      stateConfig = userStateConfig;
     } else {
       stateConfig = defaultStateConfig.map((stateConfig, i) => {
-        let singleConfig: IAnimationConfig = mergeSpec(
-          {},
-          defaultStateConfig[i],
-          userConfig[state]
-        ) as IAnimationConfig;
+        let singleConfig: IAnimationConfig = mergeSpec({}, defaultStateConfig[i], userStateConfig) as IAnimationConfig;
         if (isChannelAnimation(singleConfig)) {
           // `type` and `channel` is conflict, and `type` has a higher priority.
           // here if user configured `channel`, we should remove `type` which will come from default animation config
@@ -103,14 +106,31 @@ export function userAnimationConfig<M extends string, Preset extends string>(
   spec: IAnimationSpec<M, Preset>,
   ctx: ISeriesMarkAttributeContext
 ) {
-  const userConfig = {
-    appear: spec.animationAppear?.[markName] ?? spec.animationAppear,
-    disappear: spec.animationDisappear?.[markName] ?? spec.animationDisappear,
-    enter: spec.animationEnter?.[markName] ?? spec.animationEnter,
-    exit: spec.animationExit?.[markName] ?? spec.animationExit,
-    update: spec.animationUpdate?.[markName] ?? spec.animationUpdate,
-    normal: spec.animationNormal?.[markName]
-  };
+  const userConfig: Partial<
+    Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>
+  > = {};
+
+  if (spec.animationAppear) {
+    userConfig.appear = spec.animationAppear[markName] ?? spec.animationAppear;
+  }
+
+  if (spec.animationDisappear) {
+    userConfig.disappear = spec.animationDisappear[markName] ?? spec.animationDisappear;
+  }
+  if (spec.animationEnter) {
+    userConfig.enter = spec.animationEnter[markName] ?? spec.animationEnter;
+  }
+
+  if (spec.animationExit) {
+    userConfig.exit = spec.animationExit[markName] ?? spec.animationExit;
+  }
+  if (spec.animationUpdate) {
+    userConfig.update = spec.animationUpdate[markName] ?? spec.animationUpdate;
+  }
+  if (spec.animationNormal && spec.animationNormal[markName]) {
+    userConfig.normal = spec.animationNormal[markName];
+  }
+
   return uniformAnimationConfig(userConfig, ctx);
 }
 

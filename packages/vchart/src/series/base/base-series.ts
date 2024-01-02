@@ -287,10 +287,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // mark
     this.initRootMark();
     this.initMark();
-    this._initExtensionMark();
+
+    const hasAnimation = isAnimationEnabledForSeries(this);
+
+    this._initExtensionMark({ hasAnimation });
     this.initMarkStyle();
     this.initMarkState();
-    if (isAnimationEnabledForSeries(this)) {
+    if (hasAnimation) {
       this.initAnimation();
     }
     this.afterInitMark();
@@ -674,12 +677,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 
-  protected _initExtensionMark() {
+  protected _initExtensionMark(options: { hasAnimation: boolean }) {
     if (!this._spec.extensionMark) {
       return;
     }
     this._spec.extensionMark?.forEach((m, i) => {
-      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i);
+      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, options);
     });
   }
 
@@ -687,7 +690,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     spec: IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec,
     parentMark: null | IGroupMark,
     namePrefix: string,
-    index: number
+    index: number,
+    options: { hasAnimation: boolean }
   ) {
     const mark = this._createMark(
       { type: spec.type, name: `${namePrefix}_${index}` },
@@ -704,14 +708,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return;
     }
 
-    // 自定义图元默认不添加动画
-    const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
-    mark.setAnimationConfig(config);
+    if (options.hasAnimation) {
+      // 自定义图元默认不添加动画
+      const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
+      mark.setAnimationConfig(config);
+    }
 
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;
       spec.children?.forEach((s, i) => {
-        this._createExtensionMark(s as any, mark, namePrefix, i);
+        this._createExtensionMark(s as any, mark, namePrefix, i, options);
       });
     } else if (!parentMark && (!isNil(spec.dataId) || !isNil(spec.dataIndex))) {
       const dataView = this._option.getSeriesData(spec.dataId, spec.dataIndex);

@@ -56,6 +56,7 @@ import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 import type { ICustomPath2D } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
+import type { IMediaQuerySpec } from '..';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -223,6 +224,11 @@ export interface IChartSpec {
    * @since 1.4.0
    */
   stackInverse?: boolean;
+  /**
+   * 媒体查询配置
+   * @since 1.8.0
+   */
+  media?: IMediaQuerySpec;
 }
 
 export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {
