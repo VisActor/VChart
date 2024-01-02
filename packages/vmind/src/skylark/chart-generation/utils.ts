@@ -3,6 +3,26 @@ import { Cell, DataItem, ILLMOptions, SimpleFieldInfo } from '../../typings';
 import { detectAxesType } from '../../common/vizDataToSpec/utils';
 import { isArray, omit } from 'lodash';
 
+const matchFieldWithoutPunctuation = (field: string, fieldList: string[]): string | undefined => {
+  //try to match the field without punctuation
+  //return undefined if no field is match
+  if (!field) {
+    return field;
+  }
+  const punctuationRegex = /[.,\/#!$%\^&\*;:{}=\-_`~()\s]/g;
+  const pureFieldStr = field.replace(punctuationRegex, '');
+  let matchedField = undefined;
+  fieldList.some((f: string) => {
+    const pureStr = f.replace(punctuationRegex, '');
+    if (pureStr === pureFieldStr) {
+      matchedField = f;
+      return true;
+    }
+    return false;
+  });
+  return matchedField;
+};
+
 export const patchChartTypeAndCell = (
   chartTypeRes: any,
   cellRes: any,
@@ -10,16 +30,18 @@ export const patchChartTypeAndCell = (
   fieldInfo: SimpleFieldInfo[]
 ) => {
   let chartTypeNew = chartTypeRes;
-  let cellNew = cellRes;
+  let cellNew = { ...cellRes };
   const columns = fieldInfo.map(field => field.fieldName);
 
   //set null field to undefined
   Object.keys(cellNew).forEach(key => {
     const value = cellNew[key];
     if (isArray(value)) {
-      cellNew[key] = value.map(v => (columns.includes(v) ? v : undefined)).filter(Boolean);
+      cellNew[key] = value
+        .map(v => (columns.includes(v) ? v : matchFieldWithoutPunctuation(v, columns)))
+        .filter(Boolean);
     } else if (!columns.includes(value) || value === '') {
-      cellNew[key] = undefined;
+      cellNew[key] = matchFieldWithoutPunctuation(cellNew[key], columns);
     }
   });
 
@@ -49,8 +71,6 @@ export const patchChartTypeAndCell = (
       }
     }
   } else if (chartTypeRes === 'DYNAMIC BAR CHART') {
-    const cellNew = { ...cellRes };
-
     if (!cellRes.time || cellRes.time === '' || cellRes.time.length === 0) {
       const flattenedXField = Array.isArray(cellRes.x) ? cellRes.x : [cellRes.x];
       const usedFields = Object.values(cellNew).filter(f => !Array.isArray(f));
@@ -74,6 +94,12 @@ export const patchChartTypeAndCell = (
       cellNew
     };
   }
+  //only x and y field can be array
+  Object.keys(cellNew).forEach(key => {
+    if (key !== 'x' && key !== 'y' && isArray(cellNew[key])) {
+      cellNew[key] = cellNew[key][0];
+    }
+  });
   return {
     chartTypeNew,
     cellNew

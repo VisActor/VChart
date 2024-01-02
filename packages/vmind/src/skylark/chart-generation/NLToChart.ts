@@ -6,7 +6,7 @@ import { getStrFromArray, getStrFromDict, patchChartTypeAndCell, requestSkyLark 
 import { getChartRecommendPrompt, getFieldMapPrompt } from './prompts';
 import { parseSkylarkResponse } from '../utils';
 import { estimateVideoTime } from '../../common/vizDataToSpec/utils';
-import { ChartFieldInfo, chartRecommendKnowledge } from './constants';
+import { ChartFieldInfo, chartRecommendConstraints, chartRecommendKnowledge } from './constants';
 import { omit } from 'lodash';
 
 export const generateChartWithSkylark = async (
@@ -30,7 +30,7 @@ export const generateChartWithSkylark = async (
     const chartTypeRes = resJson.chartType.toUpperCase();
     const cellRes = resJson['cell'];
     const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset, fieldInfo);
-    if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
+    if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew, fieldInfo)) {
       chartType = patchResult.chartTypeNew;
       cell = patchResult.cellNew;
     }
@@ -68,7 +68,8 @@ export const chartAdvisorSkylark = async (
 
   //call skylark to get recommended chart
   const chartRecommendKnowledgeStr = getStrFromArray(chartRecommendKnowledge);
-  const chartRecommendPrompt = getChartRecommendPrompt(chartRecommendKnowledgeStr);
+  const chartRecommendConstraintsStr = getStrFromArray(chartRecommendConstraints);
+  const chartRecommendPrompt = getChartRecommendPrompt(chartRecommendKnowledgeStr, chartRecommendConstraintsStr);
   const chartRecommendRes = await requestSkyLark(chartRecommendPrompt, userMessage, options);
   const chartRecommendResJSON = parseSkylarkResponse(chartRecommendRes);
   //console.log(chartRecommendResJSON);
@@ -97,7 +98,7 @@ export const chartAdvisorSkylark = async (
 
   return {
     chartType,
-    cell: omit(fieldMapResJson, ['thoughts'])
+    cell: omit(fieldMapResJson, ['thoughts', 'usage'])
   };
 };
 

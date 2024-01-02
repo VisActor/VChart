@@ -5,10 +5,14 @@ const startsWithTextAndColon = (str: string) => {
   return regex.test(str);
 };
 
+const isStringArray = (str: string) => {
+  const regex = /^(.*)\: ".+"(, ".+")+$/;
+  return regex.test(str);
+};
 export const parseSkylarkResponse = (larkResponse: any): Record<string, any> => {
   try {
     if (larkResponse.error) {
-      console.log(larkResponse.error);
+      console.error(larkResponse.error);
       return { error: true, ...larkResponse.error };
     }
     const responseStr = larkResponse.choices[0].message.content;
@@ -18,12 +22,19 @@ export const parseSkylarkResponse = (larkResponse: any): Record<string, any> => 
       /{(.*?)}/g,
       (matchedStr: string, matchedGroup: string) => matchedGroup + ':'
     );
-    //remove lines that is not start with text and colon
-    //remove blank space at the start of each line
-    const patchedStr = responseStr
+    const patchedStr = replacedStr
       .split('\n')
+      //remove lines that is not start with text and colon
       .filter((str: string) => startsWithTextAndColon(str))
+      //remove blank space at the start of each line
       .map((str: string) => str.replace(/^\s+/, ''))
+      //wrap string list with []
+      .map((str: string) => {
+        if (isStringArray(str)) {
+          return str.replace(/(.*): (.*)/, '$1: [$2]');
+        }
+        return str;
+      })
       .join('\n');
 
     const resJson = yaml.load(patchedStr) as Record<string, any>;

@@ -53,7 +53,8 @@ const START_INDEX = 0;
 
 const modelResultMap = {
   [Model.GPT3_5]: { totalCount: 0, successCount: 0, totalTime: 0 },
-  [Model.SKYLARK]: { totalCount: 0, successCount: 0, totalTime: 0 }
+  [Model.SKYLARK]: { totalCount: 0, successCount: 0, totalTime: 0 },
+  [Model.SKYLARK2]: { totalCount: 0, successCount: 0, totalTime: 0 }
 };
 
 const testPerformance = (model: Model, vmind: any) => {
@@ -112,6 +113,21 @@ if (skylarkKey && skylarkURL) {
     }
   });
   testPerformance(Model.SKYLARK, vmind);
+}
+
+const skylark2Key = process.env.VITE_SKYLARK_KEY;
+const skylark2URL = process.env.VITE_SKYLARK_JEST_URL;
+
+if (skylark2Key && skylark2URL) {
+  const vmind = new VMind({
+    url: skylark2URL,
+    model: Model.SKYLARK2,
+    cache: false,
+    headers: {
+      'api-key': skylark2Key
+    }
+  });
+  testPerformance(Model.SKYLARK2, vmind);
 }
 
 afterAll(() => {
