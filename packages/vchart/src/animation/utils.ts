@@ -44,6 +44,11 @@ export function animationConfig<Preset extends string>(
       continue;
     }
 
+    if (state !== 'update' && !userStateConfig && !defaultConfig[state]) {
+      // no user config and default config
+      continue;
+    }
+
     // 开始处理默认动画逻辑
     let defaultStateConfig: IAnimationConfig[];
     if (isArray(defaultConfig[state])) {
