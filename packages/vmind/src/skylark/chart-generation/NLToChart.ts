@@ -75,11 +75,11 @@ export const chartAdvisorSkylark = async (
   if (chartRecommendResJSON.error) {
     throw Error('Network Error!');
   }
-  if (!SUPPORTED_CHART_LIST.includes(chartRecommendResJSON['chartType'])) {
+  if (!SUPPORTED_CHART_LIST.includes(chartRecommendResJSON['charttype'])) {
     throw Error('Unsupported Chart Type. Please Change User Input');
   }
 
-  const { chartType } = chartRecommendResJSON;
+  const { charttype: chartType } = chartRecommendResJSON;
 
   //call skylark to get field map result.
   const { visualChannels, responseDescription, knowledge } = ChartFieldInfo[chartType.toUpperCase()];
