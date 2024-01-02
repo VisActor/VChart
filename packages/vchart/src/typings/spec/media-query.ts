@@ -1,8 +1,14 @@
-import type { ComponentTypeEnum } from '../../../../component/interface';
-import type { IChartSpec, IVChart } from '../../../../core';
-import type { IModelSpecInfo } from '../../../../model/interface';
-import type { SeriesTypeEnum } from '../../../../series';
-import type { IMediaInfo } from './common';
+import type { ComponentTypeEnum } from '../../component/interface';
+import type { IChartSpec, IVChart } from '../../core';
+import type { IModelSpecInfo } from '../../model/interface';
+import type { SeriesTypeEnum } from '../../series';
+
+export interface IMediaInfo {
+  /** 图表宽度 */
+  width: number;
+  /** 图表高度 */
+  height: number;
+}
 
 /**
  * 媒体查询配置（包含多项查询）
