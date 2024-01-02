@@ -1,6 +1,16 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 29 Dec 2023 14:44:05 GMT and should not be manually modified.
+This log was last generated on Tue, 02 Jan 2024 11:27:39 GMT and should not be manually modified.
+
+## 1.8.4
+Tue, 02 Jan 2024 11:27:39 GMT
+
+### Updates
+
+- fix: add media query spec interface to default chart spec
+- fix: fix the bug of extension mark when no valid animation, fix #1877
+
+
 
 ## 1.8.3
 Fri, 29 Dec 2023 14:44:05 GMT
