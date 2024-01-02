@@ -1,12 +1,14 @@
 import { BandScale } from '@visactor/vscale';
 import { ComponentTypeEnum } from '../../interface/type';
 import { PolarAxis } from './axis';
-import { mixin } from '@visactor/vutils';
+import type { Dict } from '@visactor/vutils';
+import { array, mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
-import type { StringOrNumber } from '../../../typings';
+import type { Datum, StringOrNumber } from '../../../typings';
 import type { IPolarBandAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
+import type { AxisItem } from '@visactor/vrender-components';
 
 export interface PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec>
   extends Pick<
