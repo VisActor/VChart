@@ -5,10 +5,14 @@ import { SeriesTypeEnum } from '../interface/type';
 import type { ITreemapSeriesSpec } from './interface';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { DataView } from '@visactor/vdataset';
+import type { ILabelMark } from '../../mark/label';
+import { TreemapSeriesSpecTransformer } from './treemap-transform';
 export declare class TreemapSeries extends CartesianSeries<any> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly transformerConstructor: typeof TreemapSeriesSpecTransformer;
+    readonly transformerConstructor: typeof TreemapSeriesSpecTransformer;
     private _leafMark;
     private _nonLeafMark;
     private _labelMark;
@@ -23,7 +27,6 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     private _maxDepth;
     private _matrix;
     private _viewBox;
-    private _clickEnable;
     private _enableAnimationHook;
     setAttrFromSpec(): void;
     initData(): void;
@@ -38,8 +41,8 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     initMarkStyle(): void;
     protected _initLeafMarkStyle(): void;
     protected _initNonLeafMarkStyle(): void;
-    protected _initLabelMarkStyle(): void;
-    protected _initNonLeafLabelMarkStyle(): void;
+    initLabelMarkStyle(labelMark: ILabelMark): void;
+    protected initNonLeafLabelMarkStyle(labelMark: ILabelMark): void;
     initAnimation(): void;
     protected initEvent(): void;
     protected _getDataIdKey(): string;

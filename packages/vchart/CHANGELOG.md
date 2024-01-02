@@ -1,6 +1,31 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 22 Dec 2023 12:49:18 GMT and should not be manually modified.
+This log was last generated on Fri, 29 Dec 2023 14:44:05 GMT and should not be manually modified.
+
+## 1.8.3
+Fri, 29 Dec 2023 14:44:05 GMT
+
+### Updates
+
+- fix: chart option.animation not work
+- feat: add props `useSyncRender` to react-vchart, close #1685
+
+
+- fix: fix error in strict mode of react-vchart, fix #1669
+
+
+- feat: Supports the initialization parameter `disableTriggerEvent` to turn off the default interactive effect of the chart
+
+
+- fix: error in chart level modification of media query action
+- fix: dimension tooltip in the dual-dimension chart contains data of only one dimension, related #1841 
+- fix: fix bug in layout when band axis has no domain
+
+
+- fix: funnel clipIn animation has delay for marks which overflows the range of region in #1839
+- fix: when marker label's padding is an object, it should work
+- refactor: optimize the style configuration of marker
+- fix: undefined globalThis in tt miniprogram, see #1854
 
 ## 1.8.2
 Fri, 22 Dec 2023 12:49:18 GMT
