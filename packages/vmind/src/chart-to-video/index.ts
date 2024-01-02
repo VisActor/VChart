@@ -1,4 +1,4 @@
-import { ManualTicker, defaultTimeline } from '@visactor/vrender';
+import { ManualTicker, defaultTimeline } from '@visactor/vrender-core';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { cloneDeep } from 'lodash';
 import { TimeType } from '../typings';

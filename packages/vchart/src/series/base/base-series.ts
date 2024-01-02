@@ -262,6 +262,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _markAttributeContext: ISeriesMarkAttributeContext;
+  getMarkAttributeContext() {
+    return this._markAttributeContext;
+  }
 
   constructor(spec: T, options: ISeriesOption) {
     super(spec, options);
@@ -349,7 +352,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         onError: this._option?.onError
       });
     }
-    this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
+    this._rawData?.target?.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
     // 初始化viewData
     if (this._rawData) {
@@ -987,7 +990,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // TODO: rawData transform clear;
     // this._dataSet=>// _rawData.tag = vchart
     // clear add transforms of rawData
-    const transformIndex = this._rawData.transformsArr.findIndex(t => t.type === 'addVChartProperty');
+    const transformIndex = this._rawData?.transformsArr?.findIndex(t => t.type === 'addVChartProperty');
     if (transformIndex >= 0) {
       this._rawData.transformsArr.splice(transformIndex, 1);
     }

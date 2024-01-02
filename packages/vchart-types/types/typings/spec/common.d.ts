@@ -38,6 +38,7 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
     poptip?: boolean;
     onError?: (...args: any[]) => void;
     theme?: string | ITheme;
+    disableTriggerEvent?: boolean;
 }
 export declare enum RenderModeEnum {
     'desktop-browser' = "desktop-browser",

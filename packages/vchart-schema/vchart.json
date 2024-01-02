@@ -28151,6 +28151,11 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
         },
+        "interactive": {
+          "default": true,
+          "description": "是否允许交互",
+          "type": "boolean"
+        },
         "layout": {
           "description": "图例组件的布局配置，默认自动跟随显示位置进行调整。\n1. `orient` 为 'top' 或者 'bottom' 时，默认为 'horizontal' 水平布局\n2. `orient` 为 'left' 或者 'right' 时，默认为 'vertical' 垂直布局",
           "enum": [
@@ -30846,6 +30851,8 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "interactive": {
+          "default": true,
+          "description": "是否允许交互",
           "type": "boolean"
         },
         "item": {
@@ -69570,7 +69577,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         },
         "size": {
@@ -69578,14 +69585,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12575",
+        "__@toStringTag@12578",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         },
         "size": {
@@ -69593,14 +69600,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12575",
+        "__@toStringTag@12578",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         },
         "size": {
@@ -69608,14 +69615,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12575",
+        "__@toStringTag@12578",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         },
         "size": {
@@ -69623,14 +69630,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12575",
+        "__@toStringTag@12578",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         },
         "size": {
@@ -69638,14 +69645,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12575",
+        "__@toStringTag@12578",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         },
         "size": {
@@ -69653,14 +69660,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12575",
+        "__@toStringTag@12578",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         },
         "size": {
@@ -69668,14 +69675,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12575",
+        "__@toStringTag@12578",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         },
         "size": {
@@ -69683,14 +69690,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12575",
+        "__@toStringTag@12578",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         },
         "size": {
@@ -69698,7 +69705,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12575",
+        "__@toStringTag@12578",
         "size"
       ],
       "type": "object"
@@ -85795,34 +85802,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12575"
+        "__@toStringTag@12578"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12575"
+        "__@toStringTag@12578"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12575": {
+        "__@toStringTag@12578": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12575"
+        "__@toStringTag@12578"
       ],
       "type": "object"
     },

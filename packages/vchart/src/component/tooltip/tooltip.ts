@@ -178,6 +178,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   }
 
   protected _initEvent() {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
     const trigger = this._spec.trigger ?? 'hover';
     // TODO: triggerOff完整支持
     // const triggerOff = this._spec.triggerOff ?? trigger;
@@ -423,7 +426,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     if (isValid(userSpec.parentElement)) {
       if (isString(userSpec.parentElement)) {
-        this._spec.parentElement = globalThis.document?.getElementById(userSpec.parentElement);
+        this._spec.parentElement = globalThis?.document?.getElementById(userSpec.parentElement);
       } else {
         this._spec.parentElement = userSpec.parentElement;
       }

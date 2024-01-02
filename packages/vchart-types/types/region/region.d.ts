@@ -15,6 +15,8 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
     static readonly transformerConstructor: typeof RegionSpecTransformer;
     readonly transformerConstructor: any;
     readonly modelType: string;
+    static specKey: string;
+    specKey: string;
     type: string;
     protected _series: ISeries[];
     layoutType: ILayoutType;

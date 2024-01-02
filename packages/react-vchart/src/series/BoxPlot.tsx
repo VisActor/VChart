@@ -1,5 +1,5 @@
 import { BaseSeriesProps, createSeries } from './BaseSeries';
-import { IBoxPlotSeriesSpec } from '@visactor/vchart';
+import type { IBoxPlotSeriesSpec } from '@visactor/vchart';
 
 export type BoxPlotProps = BaseSeriesProps & Omit<IBoxPlotSeriesSpec, 'type'>;
 

@@ -1,4 +1,4 @@
-import VChart, { IData, IInitOption, ISpec } from '@visactor/vchart';
+import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor } from '@visactor/vchart';
 import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
@@ -35,6 +35,7 @@ export interface BaseChartProps
     DimensionEventProps,
     HierarchyEventProps,
     ChartLifeCycleEventProps {
+  vchartConstrouctor?: IVChartConstructor;
   type?: string;
   /** 上层container */
   container?: HTMLDivElement;
@@ -53,9 +54,15 @@ export interface BaseChartProps
   /** skip function diff when component update */
   skipFunctionDiff?: boolean;
   /** 图表渲染完成事件 */
-  onReady?: (instance: VChart, isInitial: boolean) => void;
+  onReady?: (instance: IVChart, isInitial: boolean) => void;
   /** throw error when chart run into an error */
   onError?: (err: Error) => void;
+  /**
+   * use sync render
+   *
+   * @since 1.8.3
+   **/
+  useSyncRender?: boolean;
 }
 
 type Props = React.PropsWithChildren<BaseChartProps>;
@@ -76,13 +83,14 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const chartContext = useRef<ChartContextType>({
     specFromChildren: {}
   });
-  useImperativeHandle(ref, () => chartContext.current.chart);
+  useImperativeHandle(ref, () => chartContext.current?.chart);
   const hasSpec = !!props.spec;
   const [view, setView] = useState<IView>(null);
   const isUnmount = useRef<boolean>(false);
   const prevSpec = useRef(pickWithout(props, notSpecKeys));
   const eventsBinded = React.useRef<BaseChartProps>(null);
   const skipFunctionDiff = !!props.skipFunctionDiff;
+  const useSyncRender = !!props.useSyncRender;
 
   const parseSpec = (props: Props) => {
     if (hasSpec && props.spec) {
@@ -91,13 +99,14 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     return {
       ...prevSpec.current,
-      ...chartContext.current.specFromChildren
+      ...chartContext.current?.specFromChildren
     };
   };
 
   const createChart = (props: Props) => {
-    const cs = new VChart(parseSpec(props), {
+    const cs = new props.vchartConstrouctor(parseSpec(props), {
       ...props.options,
+      onError: props.onError,
       autoFit: true,
       dom: props.container
     });
@@ -120,17 +129,18 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
   const renderChart = () => {
     if (chartContext.current.chart) {
-      // eslint-disable-next-line promise/catch-or-return
-      const renderPromise = chartContext.current.chart.renderAsync().then(handleChartRender);
-
-      if (props.onError) {
-        renderPromise.catch(props.onError);
+      if (useSyncRender) {
+        chartContext.current.chart.renderSync();
+        handleChartRender();
+      } else {
+        // eslint-disable-next-line promise/catch-or-return
+        chartContext.current.chart.renderAsync().then(handleChartRender);
       }
     }
   };
 
   useEffect(() => {
-    if (!chartContext.current.chart) {
+    if (!chartContext.current?.chart) {
       createChart(props);
       renderChart();
       bindEventsToChart(chartContext.current.chart, props, null, CHART_EVENTS);
@@ -145,13 +155,17 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
         eventsBinded.current = props;
-        // eslint-disable-next-line promise/catch-or-return
-        const updatePromise = chartContext.current.chart
-          .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
-          .then(handleChartRender);
-
-        if (props.onError) {
-          updatePromise.catch(props.onError);
+        if (useSyncRender) {
+          chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
+            morph: false,
+            enableExitAnimation: false
+          });
+          handleChartRender();
+        } else {
+          // eslint-disable-next-line promise/catch-or-return
+          chartContext.current.chart
+            .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
+            .then(handleChartRender);
         }
       }
       return;
@@ -164,13 +178,18 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       chartContext.current.isChildrenUpdated
     ) {
       prevSpec.current = newSpec;
-      // eslint-disable-next-line promise/catch-or-return
-      const updatePromise = chartContext.current.chart
-        .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
-        .then(handleChartRender);
 
-      if (props.onError) {
-        updatePromise.catch(props.onError);
+      if (useSyncRender) {
+        chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
+          morph: false,
+          enableExitAnimation: false
+        });
+        handleChartRender();
+      } else {
+        // eslint-disable-next-line promise/catch-or-return
+        chartContext.current.chart
+          .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
+          .then(handleChartRender);
       }
     }
     chartContext.current = {
@@ -208,16 +227,18 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   );
 });
 
-export const createChart = <T extends Props>(componentName: string, type?: string, callback?: (props: T) => T) => {
+export const createChart = <T extends Props>(
+  componentName: string,
+  defaultProps?: Partial<T>,
+  callback?: (props: T, defaultProps?: Partial<T>) => T
+) => {
   const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
-    props.type = type;
-
     if (callback) {
-      return callback(props);
+      return callback(props, defaultProps);
     }
 
-    if (type) {
-      return { ...props, type };
+    if (defaultProps) {
+      return Object.assign(props, defaultProps);
     }
     return props;
   });

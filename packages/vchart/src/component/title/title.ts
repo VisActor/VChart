@@ -20,9 +20,8 @@ import { isEqual, isArray, isValidNumber, pickWithout } from '@visactor/vutils';
 export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> implements ITitle {
   static type = ComponentTypeEnum.title;
   type = ComponentTypeEnum.title;
-
-  static specKey = 'title';
-  specKey = 'title';
+  static specKey = ComponentTypeEnum.title;
+  specKey: string = ComponentTypeEnum.title;
 
   layoutType: ILayoutType = 'normal';
   layoutZIndex: number = LayoutZIndex.Title;

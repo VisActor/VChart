@@ -361,12 +361,7 @@ export class VChart implements IVChart {
     this._currentThemeName = ThemeManager.getCurrentThemeName();
     this._setNewSpec(spec);
     this._updateCurrentTheme();
-    this._currentSize = calculateChartSize(this._spec, {
-      container: this._container,
-      canvas: this._canvas,
-      mode: this._option.mode || RenderModeEnum['desktop-browser'],
-      modeParams: this._option.modeParams
-    });
+    this._currentSize = this.getCurrentSize();
     this._compiler = new Compiler(
       {
         dom: this._container ?? 'none',
@@ -486,7 +481,8 @@ export class VChart implements IVChart {
       getSpecInfo: () => this._specInfo ?? {},
 
       layout: this._option.layout,
-      onError: this._onError
+      onError: this._onError,
+      disableTriggerEvent: this._option.disableTriggerEvent === true
     });
     if (!chart) {
       this._option?.onError('init chart fail');
@@ -501,6 +497,10 @@ export class VChart implements IVChart {
 
   private _releaseData() {
     if (this._dataSet) {
+      // Object.values(this._dataSet.dataViewMap).forEach(d => {
+      //   d.target.removeAllListeners();
+      //   d.destroy();
+      // });
       this._dataSet.dataViewMap = {};
       this._dataSet = null;
     }
@@ -540,12 +540,12 @@ export class VChart implements IVChart {
   }
 
   getCurrentSize() {
-    const { width: containerWidth, height: containerHeight } = getContainerSize(
-      this._container!,
-      DEFAULT_CHART_WIDTH,
-      DEFAULT_CHART_HEIGHT
-    );
-    return { width: this._spec.width ?? containerWidth, height: this._spec.height ?? containerHeight };
+    return calculateChartSize(this._spec, {
+      container: this._container,
+      canvas: this._canvas,
+      mode: this._option.mode || RenderModeEnum['desktop-browser'],
+      modeParams: this._option.modeParams
+    });
   }
 
   private _doResize() {
@@ -608,7 +608,7 @@ export class VChart implements IVChart {
     return this._beforeRender(option);
   }
 
-  protected _reCompile(updateResult: IUpdateSpecResult) {
+  protected _reCompile(updateResult: IUpdateSpecResult, morphConfig?: IMorphConfig) {
     if (updateResult.reMake) {
       this._releaseData();
       this._initDataSet();

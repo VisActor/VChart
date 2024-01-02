@@ -46,6 +46,7 @@ export interface IZoomable {
 }
 export declare class Zoomable implements IZoomable {
     private _clickEnable;
+    private _option;
     private _zoomableTrigger;
     private _eventObj;
     private _renderMode;

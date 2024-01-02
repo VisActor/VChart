@@ -14,7 +14,6 @@ import type {
   CrossHairTrigger,
   ICartesianCrosshairSpec,
   IPolarCrosshairSpec,
-  ICrosshairTheme,
   ICrosshairCategoryFieldSpec
 } from './interface';
 import { Event_Bubble_Level, Event_Source_Type, LayoutZIndex } from '../../constant';
@@ -134,6 +133,9 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected _initEvent() {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
     const triggerConfig = this._getTriggerEvent();
     if (triggerConfig) {
       const { in: triggerEvent, out: outTriggerEvent } = triggerConfig;

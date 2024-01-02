@@ -1,5 +1,5 @@
 import { array, isFunction, isNil } from '@visactor/vutils';
-import type { IChartSpec, IVChart } from '../../../../core';
+import type { IChartSpec } from '../../../../core';
 // eslint-disable-next-line no-duplicate-imports
 import { Factory } from '../../../../core';
 import type {
@@ -13,6 +13,7 @@ import { SeriesTypeEnum } from '../../../../series/interface';
 import { ComponentTypeEnum } from '../../../../component/interface';
 import { includeSpec } from '@visactor/vutils-extension';
 import type { MaybeArray } from '../../../../typings';
+import type { IChartSpecInfo } from '../../../../chart/interface';
 
 /** 执行元素过滤器 */
 export const executeMediaQueryActionFilter = <T extends Record<string, unknown>>(
@@ -21,9 +22,9 @@ export const executeMediaQueryActionFilter = <T extends Record<string, unknown>>
   action: IMediaQueryAction<T>,
   query: IMediaQueryCondition,
   chartSpec: any,
-  globalInstance: IVChart
+  chartSpecInfo: IChartSpecInfo
 ): IMediaQueryActionFilterResult => {
-  const result = executeMediaQueryActionFilterType<T>(filterType, chartSpec, globalInstance);
+  const result = executeMediaQueryActionFilterType<T>(filterType, chartSpec, chartSpecInfo);
   return {
     ...result,
     modelInfo: result.modelInfo.filter(info => {
@@ -45,12 +46,11 @@ export const executeMediaQueryActionFilter = <T extends Record<string, unknown>>
 export const executeMediaQueryActionFilterType = <T extends Record<string, unknown>>(
   filterType: MediaQueryActionFilterType = 'chart',
   chartSpec: any,
-  globalInstance: IVChart
+  chartSpecInfo: IChartSpecInfo
 ): IMediaQueryActionFilterResult<T> => {
   const result: IMediaQueryActionFilterResult<T> = {
     modelInfo: []
   };
-  const chartSpecInfo = globalInstance.getSpecInfo();
 
   if (filterType === 'chart') {
     result.isChart = true;
