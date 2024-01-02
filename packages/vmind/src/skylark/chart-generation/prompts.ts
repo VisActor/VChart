@@ -23,7 +23,7 @@ Let's think step by step. ${showThoughts ? 'Fill your thoughts in {thoughts}.' :
 
 Response in the following format:
 ${
-  showThoughts ? 'thoughts: //Your thoughts' : ''
+  showThoughts ? 'thoughts: //Your thoughts\n' : ''
 }chartType: //chart type you choose based on data and user's command. Only one chart type can be used.
 `;
 
@@ -58,5 +58,5 @@ Must follow these constraints:
 Let's think step by step. ${showThoughts ? 'Fill your thoughts in thoughts in one line.' : ''}
 
 Response in the following format:
-${showThoughts ? 'thoughts: //Your thoughts in one line. Must show your thought process.' : ''}${channelsInResponse}.
+${showThoughts ? 'thoughts: //Your thoughts in one line. Must show your thought process.\n' : ''}${channelsInResponse}.
 `;

@@ -71,8 +71,8 @@ export const patchChartTypeAndCell = (
       }
     }
   } else if (chartTypeRes === 'DYNAMIC BAR CHART') {
-    if (!cellRes.time || cellRes.time === '' || cellRes.time.length === 0) {
-      const flattenedXField = Array.isArray(cellRes.x) ? cellRes.x : [cellRes.x];
+    if (!cellNew.time || cellNew.time === '' || cellNew.time.length === 0) {
+      const flattenedXField = Array.isArray(cellNew.x) ? cellNew.x : [cellNew.x];
       const usedFields = Object.values(cellNew).filter(f => !Array.isArray(f));
       usedFields.push(...flattenedXField);
       const dataFields = Object.keys(dataset[0]);
