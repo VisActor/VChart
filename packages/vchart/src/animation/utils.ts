@@ -44,7 +44,7 @@ export function animationConfig<Preset extends string>(
       continue;
     }
 
-    if (!userStateConfig && !defaultConfig[state]) {
+    if (state !== 'update' && !userStateConfig && !defaultConfig[state]) {
       // no user config and default config
       continue;
     }
