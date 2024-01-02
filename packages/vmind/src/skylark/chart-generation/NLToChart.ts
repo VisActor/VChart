@@ -69,7 +69,11 @@ export const chartAdvisorSkylark = async (
   //call skylark to get recommended chart
   const chartRecommendKnowledgeStr = getStrFromArray(chartRecommendKnowledge);
   const chartRecommendConstraintsStr = getStrFromArray(chartRecommendConstraints);
-  const chartRecommendPrompt = getChartRecommendPrompt(chartRecommendKnowledgeStr, chartRecommendConstraintsStr);
+  const chartRecommendPrompt = getChartRecommendPrompt(
+    chartRecommendKnowledgeStr,
+    chartRecommendConstraintsStr,
+    options.showThoughts ?? true
+  );
   const chartRecommendRes = await requestSkyLark(chartRecommendPrompt, userMessage, options);
   const chartRecommendResJSON = parseSkylarkResponse(chartRecommendRes);
   //console.log(chartRecommendResJSON);
@@ -87,7 +91,13 @@ export const chartAdvisorSkylark = async (
   const visualChannelInfoStr = getStrFromDict(visualChannels);
   const channelResponseStr = getStrFromDict(responseDescription);
   const fieldMapKnowledgeStr = getStrFromArray(knowledge);
-  const fieldMapPrompt = getFieldMapPrompt(chartType, visualChannelInfoStr, channelResponseStr, fieldMapKnowledgeStr);
+  const fieldMapPrompt = getFieldMapPrompt(
+    chartType,
+    visualChannelInfoStr,
+    channelResponseStr,
+    fieldMapKnowledgeStr,
+    options.showThoughts ?? true
+  );
 
   const fieldMapRes = await requestSkyLark(fieldMapPrompt, userMessage, options);
   const fieldMapResJson = parseSkylarkResponse(fieldMapRes);

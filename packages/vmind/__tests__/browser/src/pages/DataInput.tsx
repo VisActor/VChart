@@ -98,6 +98,7 @@ export function DataInput(props: IPropsType) {
         url: ModelConfigMap[model].url ?? undefined,
         model,
         cache,
+        showThoughts: false,
         headers: {
           'api-key': ModelConfigMap[model].key
         }

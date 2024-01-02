@@ -121,7 +121,7 @@ export const requestSkyLark = async (prompt: string, message: string, options: I
       method: options?.method ?? 'POST',
       headers, //must has Authorization: `Bearer ${openAIKey}` if use openai api
       data: {
-        ...omit(options, ['headers', 'url', 'method']),
+        ...omit(options, ['headers', 'url', 'method', 'showThoughts']),
         model: options?.model ?? 'gpt-3.5-turbo',
         messages: [
           {

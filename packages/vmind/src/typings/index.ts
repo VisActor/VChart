@@ -6,6 +6,7 @@ export interface ILLMOptions {
   model?: Model;
   max_tokens?: number;
   temperature?: number;
+  showThoughts?: boolean;
   [key: string]: any;
 }
 
