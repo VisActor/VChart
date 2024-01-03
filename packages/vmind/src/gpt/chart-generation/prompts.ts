@@ -1,6 +1,6 @@
 import { SUPPORTED_CHART_LIST } from '../../common/vizDataToSpec/constants';
 
-export const ChartAdvisorPromptEnglish = `You are an expert in data visualization.
+export const getChartAdvisorPrompt = (showThoughts: boolean) => `You are an expert in data visualization.
 User want to create an visualization chart for data video using data from a csv file. Ignore the duration in User Input.
 Your task is:
 1. Based on the user's input, infer the user's intention, such as comparison, ranking, trend display, proportion, distribution, etc. If user did not show their intention, just ignore and do the next steps.
@@ -13,17 +13,18 @@ Knowledge:
 1. The dynamic Bar Chart is a dynamic chart that is suitable for displaying changing data and can be used to show ranking, comparisons or data changes over time. It usually has a time field. It updates the data dynamically according to the time field and at each time point, the current data is displayed using a bar chart.
 2. A number field can not be used as a color field.
 
-Let's think step by step. Fill your thoughts in {THOUGHT}.
+Let's think step by step. ${showThoughts ? 'Fill your thoughts in {THOUGHT}.' : ''}
 
 Respone in the following format:
 
 \`\`\`
 {
-"THOUGHT": your thoughts
-"CHART_TYPE": the chart type you choose. Supported chart types: ${JSON.stringify(SUPPORTED_CHART_LIST)}.
+${
+  showThoughts ? '"THOUGHT": your thoughts\n' : ''
+}"CHART_TYPE": the chart type you choose. Supported chart types: ${JSON.stringify(SUPPORTED_CHART_LIST)}.
 "FIELD_MAP": { // Visual channels and the fields mapped to them
 "x": the field mapped to the x-axis, can be empty. Can Only has one field.
-"y": the field mapped to the y-axis, can be empty. Can only has one field.
+"y": the field mapped to the y-axis, can be empty. Can be an array with two fields in Dual Axis Chart.
 "color": the field mapped to the color channel. Must use a string field. Can't be empty in Word Cloud, Pie Chart and Rose Chart.
 "size": the field mapped to the size channel. Must use a number field. Can be empty
 "angle": the field mapped to the angle channel of the pie chart, can be empty.
@@ -31,8 +32,7 @@ Respone in the following format:
 "source": the field mapped to the source channel. Can't be empty in Sankey Chart.
 "target": the field mapped to the target channel. Can't be empty in Sankey Chart.
 "value": the field mapped to the value channel. Can't be empty in Sankey Chart.
-},
-"Reason": the reason for selecting the chart type and visual mapping.
+}
 }
 \`\`\`
 
@@ -42,7 +42,8 @@ Constraints:
 3. Just ignore the user's request about duration and style in their input.
 4. DO NOT change or translate the field names in FIELD_MAP.
 5. The keys in FIELD_MAP must be selected from the list of available visual channels.
-6. Wrap the reply content using \`\`\`, and the returned content must be directly parsed by JSON.parse() in JavaScript.
+6. Don't use non-existent fields in FIELD_MAP.
+7. Wrap the reply content using \`\`\`, and the returned content must be directly parsed by JSON.parse() in JavaScript.
 
 Here are some examples:
 
@@ -74,8 +75,7 @@ Data field description: [
 Response:
 \`\`\`
 {
-"THOUGHT": "Your thoughts",
-"CHART_TYPE": "Dynamic Bar Chart",
+${showThoughts ? '"THOUGHT": "Your thoughts",\n' : ''}"CHART_TYPE": "Dynamic Bar Chart",
 "FIELD_MAP": {
 "x": "country",
 "y": "金牌数量",
@@ -108,8 +108,7 @@ Data field description: [
 Response:
 \`\`\`
 {
-"THOUGHT": "Your thoughts",
-"CHART_TYPE": "Pie Chart",
+${showThoughts ? '"THOUGHT": "Your thoughts",\n' : ''}"CHART_TYPE": "Pie Chart",
 "FIELD_MAP": {
 "angle": "市场份额",
 "color": "品牌名称"
@@ -141,8 +140,7 @@ Data field description: [
 Response:
 \`\`\`
 {
-"THOUGHT": "Your thoughts",
-"CHART_TYPE": "Line Chart",
+${showThoughts ? '"THOUGHT": "Your thoughts",\n' : ''}"CHART_TYPE": "Line Chart",
 "FIELD_MAP": {
 "x": "日期",
 "y": "降雨量"
@@ -174,8 +172,7 @@ Data field description: [
 Response:
 \`\`\`
 {
-"THOUGHT": "Your thoughts",
-"CHART_TYPE": "Line Chart",
+${showThoughts ? '"THOUGHT": "Your thoughts",\n' : ''}"CHART_TYPE": "Line Chart",
 "FIELD_MAP": {
 "x": "日期",
 "y": "降雨量"

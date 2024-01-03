@@ -63,7 +63,7 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
     }
     if (chartType === 'BAR CHART' || chartType === 'LINE CHART') {
       chartType = 'DUAL AXIS CHART';
-    } else {
+    } else if (chartType !== 'DUAL AXIS CHART') {
       return {
         chartTypeNew: 'SCATTER PLOT',
         cellNew: {

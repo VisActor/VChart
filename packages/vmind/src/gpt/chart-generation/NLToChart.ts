@@ -3,7 +3,7 @@ import { DataItem, GPTChartAdvisorResult, ILLMOptions, LOCATION, SimpleFieldInfo
 import { checkChartTypeAndCell, vizDataToSpec } from '../../common/vizDataToSpec';
 import { parseGPTResponse, requestGPT } from '../utils';
 import { patchChartTypeAndCell, patchUserInput } from './utils';
-import { ChartAdvisorPromptEnglish } from './prompts';
+import { getChartAdvisorPrompt } from './prompts';
 import { chartAdvisorHandler } from '../../common/chartAdvisor';
 import { estimateVideoTime } from '../../common/vizDataToSpec/utils';
 import { getSchemaFromFieldInfo } from '../../common/schema';
@@ -80,7 +80,8 @@ export const chartAdvisorGPT = async (
   const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
   //console.log(chartAdvisorMessage);
 
-  const advisorRes = await requestGPT(ChartAdvisorPromptEnglish, chartAdvisorMessage, options);
+  const chartAdvisorPrompt = getChartAdvisorPrompt(options.showThoughts);
+  const advisorRes = await requestGPT(chartAdvisorPrompt, chartAdvisorMessage, options);
 
   const advisorResJson: GPTChartAdvisorResult = parseGPTResponse(advisorRes) as unknown as GPTChartAdvisorResult;
 
