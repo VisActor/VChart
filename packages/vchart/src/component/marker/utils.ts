@@ -1,18 +1,9 @@
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
-import {
-  isValid,
-  isNumber,
-  array,
-  minInArray,
-  maxInArray,
-  isFunction,
-  isArray,
-  normalizePadding
-} from '@visactor/vutils';
+import { isValid, isNumber, array, minInArray, maxInArray, isArray, normalizePadding } from '@visactor/vutils';
 import type { Datum, IPoint, StringOrNumber } from '../../typings';
 import { isPercent, transformToGraphic } from '../../util';
-import type { IDataPointCallback, IDataPos, IMarkerLabelSpec, MarkerPositionPoint } from './interface';
+import type { IDataPos, IMarkerLabelSpec, MarkerPositionPoint } from './interface';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IRegion } from '../../region/interface';
 import type { OffsetPoint } from './interface';
@@ -38,7 +29,7 @@ function getXValue(
   regionWidth: number,
   regionStartLayoutStartPoint: IPoint
 ) {
-  const { relativeSeries, startRelativeSeries, endRelativeSeries } = refSeries;
+  const { relativeSeries } = refSeries;
   isNumber(datum.x) &&
     isNeedExtendDomain(xDomain, datum.x, autoRange) &&
     relativeSeries?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
@@ -46,21 +37,7 @@ function getXValue(
   if (isPercent(datum.x)) {
     x = convertPercentToValue(datum.x, regionWidth) + regionStartLayoutStartPoint.x;
   } else {
-    x = datum.x;
-    if (isFunction(datum.x)) {
-      const relativeSeriesData = relativeSeries.getData().getLatestData();
-      const startRelativeSeriesData = startRelativeSeries.getData().getLatestData();
-      const endRelativeSeriesData = endRelativeSeries.getData().getLatestData();
-      x = datum.x(
-        relativeSeriesData,
-        startRelativeSeriesData,
-        endRelativeSeriesData,
-        relativeSeries,
-        startRelativeSeries,
-        endRelativeSeries
-      );
-    }
-    x = relativeSeries.getXAxisHelper().dataToPosition([x]) + regionStartLayoutStartPoint.x;
+    x = relativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
   }
 
   return x;
@@ -74,7 +51,7 @@ function getYValue(
   regionHeight: number,
   regionStartLayoutStartPoint: IPoint
 ) {
-  const { relativeSeries, startRelativeSeries, endRelativeSeries } = refSeries;
+  const { relativeSeries } = refSeries;
   isNumber(datum.y) &&
     isNeedExtendDomain(yDomain, datum.y, autoRange) &&
     relativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
@@ -83,21 +60,7 @@ function getYValue(
   if (isPercent(datum.y)) {
     y = convertPercentToValue(datum.y, regionHeight) + regionStartLayoutStartPoint.y;
   } else {
-    y = datum.y;
-    if (isFunction(datum.y)) {
-      const relativeSeriesData = relativeSeries.getData().getLatestData();
-      const startRelativeSeriesData = startRelativeSeries.getData().getLatestData();
-      const endRelativeSeriesData = endRelativeSeries.getData().getLatestData();
-      y = datum.y(
-        relativeSeriesData,
-        startRelativeSeriesData,
-        endRelativeSeriesData,
-        relativeSeries,
-        startRelativeSeries,
-        endRelativeSeries
-      );
-    }
-    y = relativeSeries.getYAxisHelper().dataToPosition([y]) + regionStartLayoutStartPoint.y;
+    y = relativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
   }
 
   return y;
@@ -207,8 +170,8 @@ export function coordinateLayout(
   dataPoints.forEach(
     (
       datum: {
-        x: StringOrNumber[] | StringOrNumber | IDataPointCallback | null;
-        y: StringOrNumber[] | StringOrNumber | IDataPointCallback | null;
+        x: StringOrNumber[] | StringOrNumber | null;
+        y: StringOrNumber[] | StringOrNumber | null;
         getRefRelativeSeries?: () => ICartesianSeries;
       },
       index: number
@@ -235,19 +198,8 @@ export function coordinateLayout(
 
       const xDomain = refRelativeSeries.getXAxisHelper().getScale(0).domain();
       const yDomain = refRelativeSeries.getYAxisHelper().getScale(0).domain();
-      const refRelativeSeriesData = refRelativeSeries.getData().getLatestData();
-      const xValue = array(datum.x).map(x => {
-        if (isFunction(x)) {
-          return x(refRelativeSeriesData, refRelativeSeries);
-        }
-        return x;
-      });
-      const yValue = array(datum.y).map(y => {
-        if (isFunction(y)) {
-          return y(refRelativeSeriesData, refRelativeSeries);
-        }
-        return y;
-      });
+      const xValue = array(datum.x);
+      const yValue = array(datum.y);
 
       xValue.length === 1 &&
         isNumber(xValue[0]) &&
