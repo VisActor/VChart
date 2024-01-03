@@ -90,6 +90,7 @@ export function DataInput(props: IPropsType) {
   const [time, setTime] = useState<number>(1000);
   const [model, setModel] = useState<Model>(Model.SKYLARK2);
   const [cache, setCache] = useState<boolean>(false);
+  const [showThoughts, setShowThoughts] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(false);
   const vmind = useMemo(
@@ -98,12 +99,12 @@ export function DataInput(props: IPropsType) {
         url: ModelConfigMap[model].url ?? undefined,
         model,
         cache,
-        showThoughts: false,
+        showThoughts: showThoughts,
         headers: {
           'api-key': ModelConfigMap[model].key
         }
       }),
-    [cache, model]
+    [cache, model, showThoughts]
   );
 
   const askGPT = useCallback(async () => {
@@ -239,6 +240,11 @@ export function DataInput(props: IPropsType) {
       <div style={{ width: '90%', marginBottom: 10 }}>
         <Checkbox checked={cache} onChange={v => setCache(v)}>
           Enable Cache
+        </Checkbox>
+      </div>
+      <div style={{ width: '90%', marginBottom: 10 }}>
+        <Checkbox checked={showThoughts} onChange={v => setShowThoughts(v)}>
+          Show Thoughts
         </Checkbox>
       </div>
       <div className="generate-botton">

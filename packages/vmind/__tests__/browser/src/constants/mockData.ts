@@ -386,7 +386,7 @@ Samsung,0.2,6059,362345
 Vivo,0.05,3406,234512
 Nokia,0.01,1064,-1345
 Xiaomi,0.1,4087,131345`,
-  input: '展示各品牌市场占有率，森林风格'
+  input: '展示各品牌市场占有率'
 };
 
 export const mockUserInput8 = {
@@ -3662,5 +3662,5 @@ Middle East & North Africa,9.54,10.6,11.05,11.5,11.92
 Latin America & Caribbean,8.74,9.46,10.35,10.94,12.21
 East Asia & Pacific,7.8,8.95,10.18,11.57,13.25
 Europe & Central Asia,9.52,10.39,10.93,11.69,12.63`,
-  input: '看下各类别销售额分布'
+  input: '看下各类别销售额情况'
 };
