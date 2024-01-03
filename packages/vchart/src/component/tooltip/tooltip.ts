@@ -1,25 +1,19 @@
-import type { IComponentOption } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
 import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
-import { DomTooltipHandler } from './handler/dom';
-import { CanvasTooltipHandler } from './handler/canvas';
 import type { Datum, IPoint, IShowTooltipOption } from '../../typings';
 import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode, domDocument } from '../../util/env';
 import type {
   ITooltip,
   ITooltipActiveTypeAsKeys,
   ITooltipSpec,
-  ITooltipTheme,
   TooltipHandlerParams,
   TotalMouseEventData
 } from './interface';
 import { TooltipResult } from './interface/common';
-import { TOOLTIP_EL_CLASS_NAME } from './handler/constants';
 import { showTooltip } from './utils/show-tooltip';
 import { getTooltipActualActiveType, isEmptyPos } from './utils/common';
 import { isSameDimensionInfo } from '../../event/events/dimension/util/common';
@@ -37,6 +31,8 @@ import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
+import { TOOLTIP_EL_CLASS_NAME, TooltipHandlerType } from '../../plugin/components/tooltip-handler/constants';
+import { error } from '../../util';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
@@ -164,9 +160,16 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       this.tooltipHandler = userTooltipHandler;
     } else {
       // 构造内部默认 handler
-      const Handler = renderMode === 'canvas' ? CanvasTooltipHandler : DomTooltipHandler;
-      const id = `${this._spec.className}-${this._option.globalInstance.id ?? 0}-${this.getSpecIndex()}`;
-      this.tooltipHandler = new Handler(id, this);
+      const type = renderMode === 'canvas' ? TooltipHandlerType.canvas : TooltipHandlerType.dom;
+      const handlerConstructor = Factory.getComponentPluginInType(type);
+      if (!handlerConstructor) {
+        error('Can not find tooltip handler: ' + type);
+      }
+      const handler = new handlerConstructor();
+      handler.name = `${this._spec.className}-${this._option.globalInstance.id ?? 0}-${this.getSpecIndex()}`;
+      this.pluginService?.load([handler]);
+
+      this.tooltipHandler = handler as unknown as ITooltipHandler;
     }
   }
 

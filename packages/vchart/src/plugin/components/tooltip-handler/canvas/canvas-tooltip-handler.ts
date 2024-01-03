@@ -1,25 +1,31 @@
 import type { ILayer, INode, Stage } from '@visactor/vrender-core';
 import type { IToolTipActual } from '../../../../typings/tooltip';
-import type { TooltipHandlerParams } from '../../interface';
 import { BaseTooltipHandler } from '../base';
 import { Tooltip as TooltipComponent } from '@visactor/vrender-components';
 import { isValid } from '@visactor/vutils';
 import { TooltipHandlerType } from '../constants';
-import type { Tooltip } from '../../tooltip';
+import type { TooltipHandlerParams } from '../../../../component/tooltip';
+import type { IComponentPluginService } from '../../interface';
+import { registerComponentPlugin } from '../../register';
 
 /**
  * The tooltip handler class.
  */
 export class CanvasTooltipHandler extends BaseTooltipHandler {
-  type = TooltipHandlerType.canvas;
+  static readonly type = TooltipHandlerType.canvas;
+  readonly type = TooltipHandlerType.canvas;
 
   private _layer: ILayer;
   protected _el?: HTMLCanvasElement;
   protected _tooltipCanvasId?: string;
   protected _tooltipComponent: TooltipComponent;
 
-  constructor(tooltipId: string, component: Tooltip) {
-    super(tooltipId, component);
+  constructor() {
+    super(CanvasTooltipHandler.type);
+  }
+
+  onAdd(service: IComponentPluginService<any>): void {
+    super.onAdd(service);
     this._tooltipCanvasId = (this._chartOption.modeParams as any)?.tooltipCanvasId;
   }
 
@@ -107,3 +113,7 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
     this._layer?.release();
   }
 }
+
+export const registerCanvasTooltipHandler = () => {
+  registerComponentPlugin(CanvasTooltipHandler);
+};

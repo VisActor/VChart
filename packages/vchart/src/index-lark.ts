@@ -55,6 +55,7 @@ import { registerCustomMark } from './component/custom-mark';
 import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerPoptip } from './component/poptip';
+import { registerCanvasTooltipHandler } from './plugin/components/tooltip-handler';
 
 VChart.useRegisters([
   // charts
@@ -117,7 +118,10 @@ VChart.useRegisters([
   registerPoptip,
 
   // layout
-  registerGridLayout
+  registerGridLayout,
+
+  // plugin
+  registerCanvasTooltipHandler
 ]);
 
 // load env code

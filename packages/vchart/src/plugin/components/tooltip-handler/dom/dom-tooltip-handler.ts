@@ -1,19 +1,21 @@
 import type { IToolTipActual } from '../../../../typings/tooltip';
-import type { ITooltipSpec, TooltipHandlerParams } from '../../interface';
 import { BaseTooltipHandler } from '../base';
 import { getDomStyles } from './util';
 import type { IDomTooltipStyle } from './interface';
 import { TooltipModel } from './model/tooltip-model';
 import { TOOLTIP_CONTAINER_EL_CLASS_NAME, TooltipHandlerType } from '../constants';
-import type { Tooltip } from '../../tooltip';
 import type { Maybe } from '@visactor/vutils';
 import { domDocument } from '../../../../util/env';
+import type { ITooltipSpec, TooltipHandlerParams } from '../../../../component/tooltip';
+import type { IComponentPluginService } from '../../interface';
+import { registerComponentPlugin } from '../../register';
 
 /**
  * The tooltip handler class.
  */
 export class DomTooltipHandler extends BaseTooltipHandler {
-  type = TooltipHandlerType.dom;
+  static readonly type = TooltipHandlerType.dom;
+  readonly type = TooltipHandlerType.dom;
 
   protected _tooltipContainer = domDocument?.body;
   protected _domStyle: IDomTooltipStyle;
@@ -33,8 +35,12 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     }
   }
 
-  constructor(tooltipId: string, component: Tooltip) {
-    super(tooltipId, component);
+  constructor() {
+    super(DomTooltipHandler.type);
+  }
+
+  onAdd(service: IComponentPluginService<any>): void {
+    super.onAdd(service);
     this._initStyle();
     this.initEl();
   }
@@ -64,7 +70,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
           getTooltipAttributes: () => this._attributes
         },
         [tooltipSpec.className],
-        this.id
+        this.name
       );
     }
   }
@@ -128,3 +134,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     this._initStyle();
   }
 }
+
+export const registerDomTooltipHandler = () => {
+  registerComponentPlugin(DomTooltipHandler);
+};

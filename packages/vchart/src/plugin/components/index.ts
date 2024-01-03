@@ -1,4 +1,4 @@
-import { AxisSyncPlugin } from './axis-sync-plugin/';
+import { AxisSyncPlugin } from './axis-sync';
 
 export default {
   AxisSyncPlugin

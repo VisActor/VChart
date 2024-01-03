@@ -2,7 +2,7 @@ import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../../constant/bas
 import type { Options } from './constants';
 // eslint-disable-next-line no-duplicate-imports
 import { DEFAULT_OPTIONS } from './constants';
-import type { Maybe, IPoint, ILayoutPoint } from '../../../typings';
+import type { Maybe, IPoint, ILayoutPoint, RenderMode } from '../../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipPositionMode } from '../../../typings/tooltip/position';
 // eslint-disable-next-line no-duplicate-imports
@@ -23,11 +23,7 @@ import { getTooltipPatternValue, getScale } from './utils/common';
 import { getActualTooltipPositionValue, getHorizontalPositionType, getVerticalPositionType } from './utils/position';
 import { getShowContent } from './utils/compose';
 import { getTooltipSpecForShow } from './utils/get-spec';
-import type { Tooltip, TooltipActualTitleContent } from '../tooltip';
 import type { ISeries } from '../../../series/interface';
-import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
-import { TooltipResult } from '../interface/common';
 import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -48,6 +44,16 @@ import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-compon
 import { getTooltipAttributes } from './utils/attribute';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { IChartOption } from '../../../chart/interface';
+import type {
+  ITooltipSpec,
+  Tooltip,
+  TooltipActualTitleContent,
+  TooltipHandlerParams
+} from '../../../component/tooltip';
+// eslint-disable-next-line no-duplicate-imports
+import { TooltipResult } from '../../../component/tooltip';
+import type { IComponentPlugin, IComponentPluginService } from '../interface';
+import { BasePlugin } from '../../base/base-plugin';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -66,7 +72,10 @@ type ChangeTooltipPositionFunc = (
 /**
  * The tooltip handler class.
  */
-export abstract class BaseTooltipHandler implements ITooltipHandler {
+export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipHandler, IComponentPlugin {
+  static readonly pluginType: 'component';
+  static readonly specKey = 'tooltip';
+
   readonly type: string;
 
   /** 是否可见 */
@@ -78,12 +87,7 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
   protected _chartOption: IChartOption;
 
-  protected _id = '';
-  public get id() {
-    return this._id;
-  }
-
-  protected _env;
+  protected _env: RenderMode;
   public get env() {
     return this._env;
   }
@@ -109,16 +113,14 @@ export abstract class BaseTooltipHandler implements ITooltipHandler {
 
   protected _isReleased: boolean = false;
 
-  /**
-   * Create the tooltip handler.
-   */
-  constructor(tooltipId: string, component: Tooltip) {
+  onAdd(service: IComponentPluginService<any>): void {
+    super.onAdd(service);
+    const component = service.component as Tooltip;
     this._component = component;
     this._chartOption = component.getOption() as any;
     this._env = this._chartOption.mode;
     this._chartContainer = this._chartOption.globalInstance.getContainer();
     this._compiler = component.getCompiler();
-    this._id = tooltipId; // 可能有多个 tooltip
     this._initFromSpec();
   }
 

@@ -1,14 +1,15 @@
 import type { Datum } from '@visactor/vgrammar-core';
 import type { MaybeArray, TooltipContentProperty, TooltipData, TooltipPatternProperty } from '../../../../typings';
 import { isFunction, isObject, isString, isNil, isArray, isValid } from '@visactor/vutils';
-import type { TooltipHandlerParams } from '../../interface';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension';
 import type { IRichTextParagraphCharacter } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { getRichTextBounds } from '@visactor/vrender-core';
 import type { ITooltipTextStyle } from '../interface/style';
 import type { TooltipRichTextAttrs } from '@visactor/vrender-components';
+// eslint-disable-next-line no-duplicate-imports
 import type { IRichTextCharacter } from '@visactor/vrender-core';
+import type { TooltipHandlerParams } from '../../../../component/tooltip';
 
 interface IGradientColor {
   [key: string]: any;
