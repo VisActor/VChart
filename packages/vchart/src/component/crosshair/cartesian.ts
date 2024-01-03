@@ -260,6 +260,19 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     this._yRightLabel && this._yRightLabel.hideAll();
   }
 
+  // 计算x轴和y轴对应的region区域
+  _setRegionArea(outRegion: IBound, currentValue: Map<number, { v: StringOrNumber; axis: IAxis }>) {
+    currentValue.forEach(({ axis }) => {
+      const regions = axis.getRegions();
+      regions.forEach(r => {
+        outRegion.x1 = Math.min(outRegion.x1, r.getLayoutStartPoint().x);
+        outRegion.y1 = Math.min(outRegion.y1, r.getLayoutStartPoint().y);
+        outRegion.x2 = Math.max(outRegion.x2, r.getLayoutStartPoint().x + r.getLayoutRect().width);
+        outRegion.y2 = Math.max(outRegion.y2, r.getLayoutStartPoint().y + r.getLayoutRect().height);
+      });
+    });
+  }
+
   layoutByValue(tag: number = LayoutType.ALL) {
     if (!this.enable) {
       return;
@@ -269,59 +282,62 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     if (!series) {
       return;
     }
-    let xCrossHairInfo: ICrosshairInfoX = {
-      height: 0,
-      leftPos: 0,
-      topPos: 0,
-      x: 0,
-      bottom: { visible: false, text: '', dx: 0, dy: 0 },
-      top: { visible: false, text: '', dx: 0, dy: 0 },
-      visible: false,
-      axis: null
-    };
-    let yCrossHairInfo: ICrosshairInfoY = {
-      width: 0,
-      leftPos: 0,
-      topPos: 0,
-      y: 0,
-      left: { visible: false, text: '', dx: 0, dy: 0 },
-      right: { visible: false, text: '', dx: 0, dy: 0 },
-      visible: false,
-      axis: null
-    };
-    // 计算x轴和y轴对应的region区域
-    const getRegionArea = (outRegion: IBound, currentValue: Map<number, { v: StringOrNumber; axis: IAxis }>) => {
-      currentValue.forEach(({ axis }) => {
-        const regions = axis.getRegions();
-        regions.forEach(r => {
-          outRegion.x1 = Math.min(outRegion.x1, r.getLayoutStartPoint().x);
-          outRegion.y1 = Math.min(outRegion.y1, r.getLayoutStartPoint().y);
-          outRegion.x2 = Math.max(outRegion.x2, r.getLayoutStartPoint().x + r.getLayoutRect().width);
-          outRegion.y2 = Math.max(outRegion.y2, r.getLayoutStartPoint().y + r.getLayoutRect().height);
-        });
-      });
-    };
+    const layoutX = tag & LayoutType.VERTICAL;
+    const layoutY = tag & LayoutType.HORIZONTAL;
+
     // 计算x和y的坐标
+    let xAxis = null;
+    let yAxis = null;
     let x = 0;
     let y = 0;
     if (this._currValueX.size) {
       const item = Array.from(this._currValueX.values())[0];
       x = item.axis.getScale().scale(item.v) + item.axis.getLayoutStartPoint().x - this.getLayoutStartPoint().x;
-      xCrossHairInfo.axis = item.axis;
+      xAxis = item.axis;
     }
     if (this._currValueY.size) {
       const item = Array.from(this._currValueY.values())[0];
       y = item.axis.getScale().scale(item.v) + item.axis.getLayoutStartPoint().y - this.getLayoutStartPoint().y;
-      yCrossHairInfo.axis = item.axis;
+      yAxis = item.axis;
     }
 
-    xCrossHairInfo.visible = !!this._currValueX.size && Number.isFinite(x);
-    yCrossHairInfo.visible = !!this._currValueY.size && Number.isFinite(y);
+    const xVisible = !!this._currValueX.size && Number.isFinite(x);
+    const yVisible = !!this._currValueY.size && Number.isFinite(y);
+    const xUseCache = this.enableRemain && !xVisible && isValid(this._cacheXCrossHairInfo);
+    const yUseCache = this.enableRemain && !yVisible && isValid(this._cacheYCrossHairInfo);
 
-    const xRegion = { x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity };
-    const yRegion = { x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity };
-    getRegionArea(xRegion, this._currValueX);
-    getRegionArea(yRegion, this._currValueY);
+    let xCrossHairInfo: ICrosshairInfoX;
+
+    if (layoutX) {
+      xCrossHairInfo = xUseCache
+        ? this._cacheXCrossHairInfo
+        : {
+            height: 0,
+            leftPos: 0,
+            topPos: 0,
+            x: 0,
+            bottom: { visible: false, text: '', dx: 0, dy: 0 },
+            top: { visible: false, text: '', dx: 0, dy: 0 },
+            visible: xVisible,
+            axis: xAxis
+          };
+    }
+
+    let yCrossHairInfo: ICrosshairInfoY;
+    if (layoutY) {
+      yCrossHairInfo = yUseCache
+        ? this._cacheYCrossHairInfo
+        : {
+            width: 0,
+            leftPos: 0,
+            topPos: 0,
+            y: 0,
+            left: { visible: false, text: '', dx: 0, dy: 0 },
+            right: { visible: false, text: '', dx: 0, dy: 0 },
+            visible: yVisible,
+            axis: yAxis
+          };
+    }
 
     let indexWidth;
     let valueHeight;
@@ -347,7 +363,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             x = startX;
           }
         }
-        if (this._xHair.label?.visible) {
+        if (xCrossHairInfo && this._xHair.label?.visible && !xUseCache) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
           if (axis.getOrient() === 'bottom') {
             xCrossHairInfo.bottom.visible = true;
@@ -385,7 +401,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             y = startY;
           }
         }
-        if (this._yHair.label?.visible) {
+        if (yCrossHairInfo && this._yHair.label?.visible && !yUseCache) {
           const labelOffset = getAxisLabelOffset(axis.getSpec());
           if (axis.getOrient() === 'left') {
             yCrossHairInfo.left.visible = true;
@@ -402,9 +418,9 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       });
     }
 
-    if (this.enableRemain && !xCrossHairInfo.visible && isValid(this._cacheXCrossHairInfo)) {
-      xCrossHairInfo = this._cacheXCrossHairInfo;
-    } else {
+    if (xCrossHairInfo && !xUseCache) {
+      const xRegion = { x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity };
+      this._setRegionArea(xRegion, this._currValueX);
       xCrossHairInfo.leftPos = xRegion.x1;
       xCrossHairInfo.topPos = xRegion.y1;
       xCrossHairInfo.height = xRegion.y2 - xRegion.y1;
@@ -416,9 +432,9 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       }
     }
 
-    if (this.enableRemain && !yCrossHairInfo.visible && isValid(this._cacheYCrossHairInfo)) {
-      yCrossHairInfo = this._cacheYCrossHairInfo;
-    } else {
+    if (yCrossHairInfo && !yUseCache) {
+      const yRegion = { x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity };
+      this._setRegionArea(yRegion, this._currValueY);
       yCrossHairInfo.leftPos = yRegion.x1;
       yCrossHairInfo.topPos = yRegion.y1;
       yCrossHairInfo.width = yRegion.x2 - yRegion.x1;
@@ -430,14 +446,18 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       }
     }
 
-    if (tag) {
-      LayoutType.HORIZONTAL && this._layoutHorizontal(yCrossHairInfo, valueHeight ?? 0);
-      LayoutType.VERTICAL && this._layoutVertical(xCrossHairInfo, indexWidth ?? 0);
+    if (layoutX && xCrossHairInfo) {
+      this._layoutVertical(xCrossHairInfo, indexWidth ?? 0);
+      if (this.enableRemain) {
+        this._cacheXCrossHairInfo = { ...xCrossHairInfo, _isCache: true };
+      }
     }
 
-    if (this.enableRemain) {
-      this._cacheXCrossHairInfo = { ...xCrossHairInfo, _isCache: true };
-      this._cacheYCrossHairInfo = { ...yCrossHairInfo, _isCache: true };
+    if (layoutY && yCrossHairInfo) {
+      this._layoutHorizontal(yCrossHairInfo, valueHeight ?? 0);
+      if (this.enableRemain) {
+        this._cacheYCrossHairInfo = { ...yCrossHairInfo, _isCache: true };
+      }
     }
   }
 
@@ -608,17 +628,15 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   private _updateCrosshair(dim: string, type: string, attributes: any) {
     const container = this.getContainer();
     let crosshair;
-    let style;
     if (dim === 'x') {
       crosshair = this._xCrosshair;
-      style = this._xHair.style;
     } else {
       crosshair = this._yCrosshair;
-      style = this._yHair.style;
     }
     if (crosshair) {
       crosshair.setAttributes(attributes);
     } else {
+      const style = dim === 'x' ? this._xHair.style : this._yHair.style;
       // 创建
       if (type === 'line') {
         crosshair = new LineCrosshair({

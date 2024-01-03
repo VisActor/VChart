@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: `triggerOff` of crosshair support number to close crosshair by setTimeout, fix #1676",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
