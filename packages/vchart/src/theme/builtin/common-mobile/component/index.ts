@@ -1,6 +1,6 @@
 import type { IComponentTheme } from '../../../../component/interface';
 import { axisBand } from './axis/band-axis';
-import { axisX, axisY } from './axis/cartesian-axis';
+import { axisX, axisY, axisZ } from './axis/cartesian-axis';
 import { commonAxis } from './axis/common-axis';
 import { axisLinear } from './axis/linear-axis';
 import { axisAngle, axisRadius } from './axis/polar-axis';
@@ -29,6 +29,7 @@ export const component: IComponentTheme = {
   axisLinear,
   axisX,
   axisY,
+  axisZ,
   axisAngle,
   axisRadius,
   markLine,
