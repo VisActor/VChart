@@ -19,9 +19,14 @@ Data field and data value configuration supports:
 3. Callback function(**Since `1.7.3` version**). When you expect your label position to be dynamic, you can configure a callback for the corresponding data field, and then process it according to your needs in the callback function. The callback parameters are as follows:
 
 ```ts
-// relativeSeriesData is the data set of the series associated with the label
-// relativeSeries is the series instance associated with the label
-export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
+export type IDataPosCallback = (
+  relativeSeriesData: Datum[],
+  startRelativeSeriesData: Datum[],
+  endRelativeSeriesData: Datum[],
+  relativeSeries: ICartesianSeries,
+  startRelativeSeries: ICartesianSeries,
+  endRelativeSeries: ICartesianSeries
+) => StringOrNumber;
 ```
 
 `example`:
@@ -29,14 +34,14 @@ export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: I
 ```ts
 coordinates: [
   {
-    x: (data, series) => {
-      const scale = series.getXAxisHelper().getScale(0);
+    x: (relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData, relativeSeries) => {
+      const scale = relativeSeries.getXAxisHelper().getScale(0);
       console.log(scale.domain());
 
       return scale.domain()[1];
     },
-    y: (data, series) => {
-      const scale = series.getYAxisHelper().getScale();
+    y: (relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData, relativeSeries) => {
+      const scale = relativeSeries.getYAxisHelper().getScale();
       console.log(scale.domain());
 
       return scale.domain()[1];

@@ -19,9 +19,14 @@
 3. 回调函数（自 `1.7.3` 版本开始支持），当你期望你的标注位置是动态的，你可以为对应的数据字段配置回调，然后在回调函数中根据你的需求进行处理，回调参数如下：
 
 ```ts
-// relativeSeriesData 为标注关联的系列的数据集
-// relativeSeries 为标注关联的系列实例
-export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
+export type IDataPosCallback = (
+  relativeSeriesData: Datum[],
+  startRelativeSeriesData: Datum[],
+  endRelativeSeriesData: Datum[],
+  relativeSeries: ICartesianSeries,
+  startRelativeSeries: ICartesianSeries,
+  endRelativeSeries: ICartesianSeries
+) => StringOrNumber;
 ```
 
 `example`:
@@ -29,14 +34,14 @@ export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: I
 ```ts
 coordinates: [
   {
-    x: (data, series) => {
-      const scale = series.getXAxisHelper().getScale(0);
+    x: (relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData, relativeSeries) => {
+      const scale = relativeSeries.getXAxisHelper().getScale(0);
       console.log(scale.domain());
 
       return scale.domain()[1];
     },
-    y: (data, series) => {
-      const scale = series.getYAxisHelper().getScale();
+    y: (relativeSeriesData, startRelativeSeriesData, endRelativeSeriesData, relativeSeries) => {
+      const scale = relativeSeries.getYAxisHelper().getScale();
       console.log(scale.domain());
 
       return scale.domain()[1];
