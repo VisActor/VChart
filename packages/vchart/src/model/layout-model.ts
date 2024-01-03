@@ -70,7 +70,7 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
   }
 
   protected _forceLayout() {
-    if (this._isLayout || this._forceLayoutTag) {
+    if (this._isLayout) {
       return;
     }
     this._forceLayoutTag = true;
