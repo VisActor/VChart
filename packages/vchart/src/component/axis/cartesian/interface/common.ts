@@ -115,7 +115,7 @@ export interface IAxisHelper {
 
   getAxisId: () => number;
 
-  getSpec: () => ICommonAxisSpec;
+  getSpec?: () => ICommonAxisSpec;
 
   isInverse: () => boolean;
 
