@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: compute layer translate for crosshair",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
