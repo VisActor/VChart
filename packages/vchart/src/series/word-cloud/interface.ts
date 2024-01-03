@@ -3,6 +3,7 @@ import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { WordcloudAppearPreset } from './animation';
 
+// TODO: 从 vgrammar 导出
 export enum WordCloudShapeEnum {
   triangleForward = 'triangleForward', // 右箭头
   triangle = 'triangle', // 三角形
