@@ -36,8 +36,20 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
   //TODO: 多个y字段时，使用fold
 
   const { x, y } = cell;
+  const cellNew = { ...cell };
+
+  //将category订正为color
+  if (!cellNew.color && cellNew.category) {
+    cellNew.color = cellNew.category;
+  }
 
   let chartType = chartTypeOutter;
+  if (chartType !== 'SANKEY CHART') {
+    //patch value to y
+    if (cell.value && !cell.y) {
+      cell.y = cell.value;
+    }
+  }
   // y轴字段有多个时，处理方式:
   // 1. 图表类型为: 箱型图, 图表类型不做矫正
   // 2. 图表类型为: 柱状图 或 折线图, 图表类型矫正为双轴图
@@ -72,7 +84,6 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
   }
   //饼图 必须有color字段和angle字段
   if (chartType === 'PIE CHART') {
-    const cellNew = { ...cell };
     if (!cellNew.color || !cellNew.angle) {
       const usedFields = Object.values(cell);
       const dataFields = Object.keys(dataset[0]);
@@ -109,7 +120,6 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
   }
   //词云 必须有color字段和size字段
   if (chartType === 'WORD CLOUD') {
-    const cellNew = { ...cell };
     if (!cellNew.size || !cellNew.color || cellNew.color === cellNew.size) {
       const usedFields = Object.values(cell);
       const dataFields = Object.keys(dataset[0]);
@@ -155,8 +165,6 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
     };
   }
   if (chartType === 'DYNAMIC BAR CHART') {
-    const cellNew = { ...cell };
-
     if (!cell.time || cell.time === '' || cell.time.length === 0) {
       const flattenedXField = Array.isArray(cell.x) ? cell.x : [cell.x];
       const usedFields = Object.values(cellNew).filter(f => !Array.isArray(f));
@@ -182,7 +190,6 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
   }
   //直角坐标图表 必须有x字段
   if (CARTESIAN_CHART_LIST.map(chart => chart.toUpperCase()).includes(chartType)) {
-    const cellNew = { ...cell };
     if (!cellNew.x) {
       const usedFields = Object.values(cell);
       const dataFields = Object.keys(dataset[0]);
@@ -206,6 +213,6 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
 
   return {
     chartTypeNew: chartType,
-    cellNew: cell
+    cellNew
   };
 };

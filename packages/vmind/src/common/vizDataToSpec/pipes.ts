@@ -529,13 +529,9 @@ export const wordCloudDisplayConf = (spec: any, context: Context) => {
 
 export const radarField = (spec: any, context: Context) => {
   const { cell } = context;
-  if (cell.x && cell.y) {
-    spec.categoryField = cell.x;
-    spec.valueField = cell.y;
-  } else if (cell.angle && cell.size) {
-    spec.categoryField = cell.angle;
-    spec.valueField = cell.size;
-  }
+  spec.categoryField = cell.x ?? cell.angle;
+  spec.valueField = cell.y ?? cell.size ?? cell.value;
+
   if (cell.color) {
     spec.seriesField = cell.color;
   }

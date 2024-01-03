@@ -88,7 +88,7 @@ export function DataInput(props: IPropsType) {
   const [csv, setCsv] = useState<string>(demoDataList[defaultDataKey].csv);
   const [spec, setSpec] = useState<string>('');
   const [time, setTime] = useState<number>(1000);
-  const [model, setModel] = useState<Model>(Model.SKYLARK2);
+  const [model, setModel] = useState<Model>(Model.GPT3_5);
   const [cache, setCache] = useState<boolean>(false);
   const [showThoughts, setShowThoughts] = useState<boolean>(false);
 
