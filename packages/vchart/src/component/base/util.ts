@@ -15,13 +15,13 @@ export function getComponentThemeFromGlobalTheme(
 ) {
   switch (type) {
     case ComponentTypeEnum.cartesianBandAxis:
-      return getCartesianAxisTheme(getOrient(componentSpec), 'band', chartTheme);
+      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'band', chartTheme);
     case ComponentTypeEnum.cartesianLinearAxis:
-      return getCartesianAxisTheme(getOrient(componentSpec), 'linear', chartTheme);
+      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'linear', chartTheme);
     case ComponentTypeEnum.cartesianLogAxis:
-      return getCartesianAxisTheme(getOrient(componentSpec), 'log', chartTheme);
+      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'log', chartTheme);
     case ComponentTypeEnum.cartesianSymlogAxis:
-      return getCartesianAxisTheme(getOrient(componentSpec), 'symlog', chartTheme);
+      return getCartesianAxisTheme(getOrient(componentSpec, ['z']), 'symlog', chartTheme);
     case ComponentTypeEnum.cartesianAxis:
     case ComponentTypeEnum.cartesianTimeAxis:
       return getCartesianAxisTheme(getOrient(componentSpec), undefined, chartTheme);
