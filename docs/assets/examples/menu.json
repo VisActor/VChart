@@ -1601,6 +1601,20 @@
             "zh": "纵排轴标签",
             "en": "Axis label with vertical direction"
           }
+        },
+        {
+          "path": "multiple-layers-of-axis",
+          "title": {
+            "zh": "多层级坐标轴",
+            "en": "Multi-level axes"
+          }
+        },
+        {
+          "path": "multiple-layers-of-axis-1",
+          "title": {
+            "zh": "多层级坐标轴",
+            "en": "Multi-level axes"
+          }
         }
       ]
     },

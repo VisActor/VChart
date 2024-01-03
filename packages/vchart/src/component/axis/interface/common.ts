@@ -78,3 +78,11 @@ export interface ITickCalculationCfg {
    */
   noDecimals?: boolean;
 }
+
+export interface IBandAxisLayer extends Omit<ITickCalculationCfg, 'noDecimals' | 'tickMode'> {
+  /**
+   * 是否显示
+   * @default true
+   */
+  visible?: boolean;
+}
