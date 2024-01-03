@@ -3,8 +3,8 @@ import type { IBounds, IBoundsLike, Maybe } from '@visactor/vutils';
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
-import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
-import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined, array } from '../../../util';
+import type { ICartesianAxisCommonSpec, IAxisHelper } from './interface';
+import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined } from '../../../util';
 import type { IOrientType } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
@@ -27,11 +27,10 @@ import type { AxisItem, LineAxisAttributes } from '@visactor/vrender-components'
 // eslint-disable-next-line no-duplicate-imports
 import { getAxisItem, isValidCartesianAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
-import type { ICartesianTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
+import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
