@@ -3,7 +3,7 @@ import type { IBaseScale, BandScale, LinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { ChartEvent, LayoutZIndex, POLAR_START_ANGLE, POLAR_START_RADIAN } from '../../../constant';
-import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
+import type { IPolarAxis, IPolarAxisCommonSpec } from './interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -11,7 +11,7 @@ import { Factory } from '../../../core/factory';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import { eachSeries } from '../../../util/model';
 import { polarToCartesian } from '../../../util/math';
-import type { IPolarTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
+import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber, ILayoutType } from '../../../typings';
@@ -22,7 +22,6 @@ import type { Dict, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { PointService, degreeToRadian, isValid, isArray, isValidNumber } from '@visactor/vutils';
 import type { IEffect, IModelSpecInfo } from '../../../model/interface';
-import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
@@ -431,9 +430,9 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       if (latestData && !isArray(latestData)) {
         // the ticks data of scale has not be calculated
         this.computeData('force');
+      } else {
+        return latestData || [];
       }
-
-      return latestData || [];
     }
 
     return (this._scale as BandScale | LinearScale).ticks();

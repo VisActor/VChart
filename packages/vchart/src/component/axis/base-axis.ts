@@ -4,7 +4,6 @@ import type { ITickDataOpt } from '@visactor/vutils-extension';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import type { AxisItem } from '@visactor/vrender-components';
 import type {
   IOrientType,
   IPolarOrientType,
@@ -17,7 +16,6 @@ import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
-import type { Dict } from '@visactor/vutils';
 import { array, get, isArray, isBoolean, isFunction, isNil, isValid, maxInArray } from '@visactor/vutils';
 import { eachSeries, getSeries } from '../../util/model';
 import { mergeSpec } from '../../util/spec/merge-spec';
@@ -26,7 +24,7 @@ import { ChartEvent, LayoutZIndex } from '../../constant';
 import { animationConfig } from '../../animation/utils';
 // eslint-disable-next-line no-duplicate-imports
 import { degreeToRadian, pickWithout, type LooseFunction, isEqual } from '@visactor/vutils';
-import { DEFAULT_TITLE_STYLE, getAxisItem, transformAxisLineStyle } from './util';
+import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
 import { DataView, type ITransformOptions } from '@visactor/vdataset';
 import {
