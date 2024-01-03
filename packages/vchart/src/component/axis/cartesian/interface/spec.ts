@@ -76,6 +76,12 @@ export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
    * @since 1.5.1
    */
   unit?: ICartesianAxisUnit;
+  /**
+   * 是否在此轴上指定显示 dimension tooltip
+   * （离散轴默认不需要配置）
+   * @since 1.9.0
+   */
+  hasDimensionTooltip?: boolean;
 };
 
 export interface ILinearAxisSync {

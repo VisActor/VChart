@@ -1,6 +1,14 @@
 import type { SegmentAttributes, AxisLabelOverlap } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
-import type { IAxis, IAxisLocationCfg, IDomainLine, ILabel, ITickCalculationCfg, ITitle } from '../../interface';
+import type {
+  IAxis,
+  IAxisLocationCfg,
+  ICommonAxisSpec,
+  IDomainLine,
+  ILabel,
+  ITickCalculationCfg,
+  ITitle
+} from '../../interface';
 import type { ITextMarkSpec, StringOrNumber } from '../../../../typings';
 
 export type ICartesianDomainLineSpec = {
@@ -106,6 +114,8 @@ export interface IAxisHelper {
   getAxisType: () => string;
 
   getAxisId: () => number;
+
+  getSpec: () => ICommonAxisSpec;
 
   isInverse: () => boolean;
 
