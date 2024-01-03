@@ -15,6 +15,7 @@ import type { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import type { ICartesianTimeAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
+import { getAxisItem } from '../util';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition'>,
@@ -70,7 +71,7 @@ export class CartesianTimeAxis<
           {
             type: 'ticks',
             options: {
-              ...this._tickTransformOption('cartesian'),
+              ...this._tickTransformOption(),
               tickCount: this._spec.layers[1].tickCount,
               forceTickCount: this._spec.layers[1].forceTickCount,
               tickStep: this._spec.layers[1].tickStep
@@ -117,29 +118,22 @@ export class CartesianTimeAxis<
 
   protected getLabelItems(length: number) {
     const items = [];
-    if (isArray(this._tickData.getLatestData())) {
+
+    const tickData = this.getTickData();
+    const tickLatestData = tickData.getLatestData();
+    if (tickLatestData && tickLatestData.length) {
       items.push(
-        this._tickData.getLatestData().map((obj: Datum) => {
-          return {
-            id: obj.value,
-            label: obj.value,
-            value: length === 0 ? 0 : this.dataToPosition([obj.value]) / length,
-            rawValue: obj.value
-          };
+        tickLatestData.map((obj: Datum) => {
+          return getAxisItem(obj.value, this._getNormalizedValue([obj.value], length));
         })
       );
     }
 
-    if (this._layerTickData && isArray(this._layerTickData.getLatestData())) {
+    const layerLatestData = this._layerTickData?.getLatestData();
+    if (layerLatestData && layerLatestData.length) {
       items.push(
-        this._layerTickData.getLatestData().map((obj: Datum) => {
-          const value = this.dataToPosition([obj.value]);
-          return {
-            id: obj.value,
-            label: obj.value,
-            value: value / length,
-            rawValue: obj.value
-          };
+        layerLatestData.map((obj: Datum) => {
+          return getAxisItem(obj.value, this._getNormalizedValue([obj.value], length));
         })
       );
     }

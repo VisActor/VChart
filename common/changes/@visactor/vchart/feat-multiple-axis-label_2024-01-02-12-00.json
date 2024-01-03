@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: band type axis supports multi-layer axis label display",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

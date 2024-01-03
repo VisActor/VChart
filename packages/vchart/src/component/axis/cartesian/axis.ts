@@ -3,7 +3,7 @@ import type { IBounds, IBoundsLike, Maybe } from '@visactor/vutils';
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
-import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
+import type { ICartesianAxisCommonSpec, IAxisHelper } from './interface';
 import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined } from '../../../util';
 import type { IOrientType } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
@@ -12,34 +12,25 @@ import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { Factory } from '../../../core/factory';
-import {
-  autoAxisType,
-  isXAxis,
-  getOrient,
-  isZAxis,
-  isYAxis,
-  getCartesianAxisInfo,
-  transformInverse
-} from './util/common';
+import { isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo, transformInverse } from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
-import type { StringOrNumber } from '../../../typings/common';
+import type { Datum, StringOrNumber } from '../../../typings/common';
 import type { IPoint } from '../../../typings/coordinate';
 import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
-import type { LineAxisAttributes } from '@visactor/vrender-components';
+import type { AxisItem, LineAxisAttributes } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { isValidCartesianAxis } from '../util';
+import { getAxisItem, isValidCartesianAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
-import type { ICartesianTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
+import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
@@ -109,13 +100,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       this.layoutType = 'absolute';
     }
     this._dataSet = options.dataSet;
+    this._coordinateType = 'cartesian';
   }
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
-    // const regions = (chartSpec.region as IRegionSpec[]) ?? [];
-    // if (regions.find(r => r.coordinate !== 'cartesian')) {
-    //   return null;
-    // }
     const axesSpec = chartSpec[this.specKey];
     if (!axesSpec) {
       return null;
@@ -293,19 +281,13 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return [f[0]];
   }
 
-  protected _tickTransformOption(coordinateType: CoordinateType) {
+  protected _tickTransformOption() {
     return {
-      ...super._tickTransformOption(coordinateType),
+      ...super._tickTransformOption(),
       noDecimals: this._tick.noDecimals,
       labelLastVisible: this._spec.label?.lastVisible,
       labelFlush: this._spec.label?.flush
     } as ICartesianTickDataOpt;
-  }
-
-  protected _initData() {
-    const tickData = this._initTickDataSet(this._tickTransformOption('cartesian'));
-    tickData.target.addListener('change', this._forceLayout.bind(this));
-    this._tickData = new CompilableData(this._option, tickData);
   }
 
   protected axisHelper(): IAxisHelper {
@@ -534,7 +516,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this.setLayoutRect(rect);
     const isChanged = this.updateScaleRange();
     // 防止一直没有计算latestData
-    if (isChanged || !isArray(this._tickData.getLatestData())) {
+    if (isChanged || !isArray(this.getTickData().getLatestData())) {
       this.computeData('range');
     }
     const context = { skipLayout: false };
@@ -728,6 +710,22 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return attrs;
   }
 
+  protected getLabelItems(length: number) {
+    const tickData = this.getTickData();
+    const tickLatestData = tickData.getLatestData();
+    if (tickLatestData && tickLatestData.length) {
+      return [
+        tickLatestData
+          .map((obj: Datum) => {
+            const normalizedValue = this._getNormalizedValue([obj.value], length);
+            return getAxisItem(obj.value, normalizedValue);
+          })
+          .filter((entry: AxisItem) => entry.value >= 0 && entry.value <= 1)
+      ];
+    }
+    return [];
+  }
+
   protected initEvent() {
     super.initEvent();
 
@@ -739,6 +737,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         this._clearLayoutCache();
       });
     }
+  }
+
+  protected _getNormalizedValue(values: any[], length: number) {
+    return length === 0 ? 0 : this.dataToPosition(values) / length;
   }
 
   private _fixAxisOnZero = () => {

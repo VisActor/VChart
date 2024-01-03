@@ -62,3 +62,39 @@ When `bandSize` is already configured, `minBandSize` will no longer take effect.
 **Only valid when the axis is a discrete axis**，configure whether to automatically calculate region width or height based on band size. Supported since version `1.4.0`.
 
 This configuration only takes effect when `bandSize` or `maxBandSize` has already been configured.
+
+#${prefix} showAllGroupLayers(boolean)=false
+
+Supported since version `1.9.0`, **only takes effect when the axis is a discrete axis**. When there is a multi-layer grouping scene, whether to display all grouping axes, it is turned off by default.
+
+#${prefix} layers(object[])
+
+Supported since `1.9.0` version, **takes effect only when `showAllGroupLayers` configuration is turned on**, used for the related configuration of each layer axis, layer[0] is the axis closest to the coordinate axis, the specific configuration is as follows :
+
+##${prefix} visible(boolean)=true
+
+Whether to display.
+
+##${prefix} tickStep(number)
+
+tick step size.
+
+##${prefix} tickStep(number)
+
+tick step size.
+
+##${prefix} tickCount(number|function) = 5
+
+The recommended number of ticks does not guarantee that the result will be the configured value.
+After version `1.4.0`, **in continuous axis**, `tickCount` supports configuration as a function, which is usually used to dynamically configure the number of ticks. The function is defined as follows:
+
+```ts
+tickCount?: (option: {
+   axisLength?: number; //The size of the canvas occupied by the coordinate axis. The width or height of the axis in the rectangular coordinate system, and the length of the radial axis in the polar coordinate system.
+   labelStyle?: ITextGraphicAttribute; // Style of axis label
+}) => number;
+```
+
+##${prefix} forceTickCount(number)
+
+The forcibly set number of ticks can ensure that the number of ticks matches the set value, but the tick value may be a decimal due to the data range.

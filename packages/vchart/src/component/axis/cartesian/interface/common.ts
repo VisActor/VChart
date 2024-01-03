@@ -1,6 +1,6 @@
 import type { SegmentAttributes, AxisLabelOverlap } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
-import type { IAxis, IAxisLocationCfg, IDomainLine, ILabel, ITickCallbackOption, ITitle } from '../../interface';
+import type { IAxis, IAxisLocationCfg, IDomainLine, ILabel, ITickCalculationCfg, ITitle } from '../../interface';
 import type { ITextMarkSpec, StringOrNumber } from '../../../../typings';
 
 export type ICartesianDomainLineSpec = {
@@ -113,11 +113,7 @@ export interface IAxisHelper {
   getFields?: () => string[];
 }
 
-export interface ITimeLayerType {
-  /**
-   * tick间隔
-   */
-  tickStep?: number;
+export interface ITimeLayerType extends Omit<ITickCalculationCfg, 'noDecimals' | 'tickMode'> {
   /**
    * 时间转换格式
    * @default '%Y%m%d'
@@ -128,21 +124,6 @@ export interface ITimeLayerType {
    * @default 'local'
    */
   timeFormatMode?: 'utc' | 'local'; // todo: 'iso'
-  /**
-   * 期望的连续轴tick数量
-   * The desired number of ticks draw on linear axis.
-   * @default 5
-   * @description 建议的tick数量，并不保证结果一定是配置值
-   * @since 1.4.0 后支持函数回调方式配置
-   */
-  tickCount?: number | ((option: ITickCallbackOption) => number);
-  /**
-   * 强制设置tick数量
-   * The exact number of ticks draw on linear axis. Might lead to decimal step.
-   * @default 5
-   * @description 强制设置的tick数量，可能由于数据范围导致tick值为小数
-   */
-  forceTickCount?: number;
 }
 
 export type ICartesianAxisUnit = {

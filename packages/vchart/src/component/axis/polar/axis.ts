@@ -3,7 +3,7 @@ import type { IBaseScale, BandScale, LinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { ChartEvent, LayoutZIndex, POLAR_START_ANGLE, POLAR_START_RADIAN } from '../../../constant';
-import type { IPolarAxis, IPolarAxisCommonSpec, IPolarAxisCommonTheme } from './interface';
+import type { IPolarAxis, IPolarAxisCommonSpec } from './interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -11,18 +11,17 @@ import { Factory } from '../../../core/factory';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import { eachSeries } from '../../../util/model';
 import { polarToCartesian } from '../../../util/math';
-import type { IPolarTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
+import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, Datum, StringOrNumber, ILayoutType } from '../../../typings';
 import { isPolarAxisSeries } from '../../../series/util/utils';
-import { getAxisLabelOffset, isValidPolarAxis } from '../util';
+import { getAxisItem, getAxisLabelOffset, isValidPolarAxis } from '../util';
 
 import type { Dict, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { PointService, degreeToRadian, isValid, isArray, isValidNumber } from '@visactor/vutils';
 import type { IEffect, IModelSpecInfo } from '../../../model/interface';
-import { CompilableData } from '../../../compile/data/compilable-data';
 import { AxisComponent } from '../base-axis';
 import type { IBandAxisSpec, ITick } from '../interface';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
@@ -144,6 +143,12 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return null;
   }
 
+  constructor(spec: T, options: IComponentOption) {
+    super(spec, options);
+
+    this._coordinateType = 'polar';
+  }
+
   effect: IEffect = {
     scaleUpdate: param => {
       this.computeData(param?.value);
@@ -207,16 +212,9 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     // do nothing
   }
 
-  // data
-  protected _initData() {
-    const tickData = this._initTickDataSet(this._tickTransformOption('polar'));
-    tickData.target.addListener('change', this._forceLayout.bind(this));
-    this._tickData = new CompilableData(this._option, tickData);
-  }
-
-  protected _tickTransformOption(coordinateType: CoordinateType) {
+  protected _tickTransformOption() {
     return {
-      ...super._tickTransformOption(coordinateType),
+      ...super._tickTransformOption(),
       noDecimal: this._tick.noDecimals,
       startAngle: this.startAngle,
       labelOffset: getAxisLabelOffset(this._spec),
@@ -425,15 +423,16 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   tickValues(): number[] {
-    if (this._tickData) {
-      const latestData = this._tickData.getLatestData();
+    const tickData = this.getTickData();
+    if (tickData) {
+      const latestData = tickData.getLatestData();
 
       if (latestData && !isArray(latestData)) {
         // the ticks data of scale has not be calculated
         this.computeData('force');
+      } else {
+        return latestData || [];
       }
-
-      return this._tickData.getLatestData() || [];
     }
 
     return (this._scale as BandScale | LinearScale).ticks();
@@ -451,22 +450,36 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     super.updateLayoutAttribute();
   }
 
+  protected _getNormalizedValue(values: any[], length: number) {
+    return length === 0 ? 0 : (this.dataToPosition(values) - this._getStartValue()) / length;
+  }
+
+  protected getLabelItems(length: number) {
+    const tickData = this.getTickData();
+    const tickLatestData = tickData.getLatestData();
+    if (tickLatestData && tickLatestData.length) {
+      return [
+        tickLatestData.map((obj: Datum) => {
+          return getAxisItem(obj.value, this._getNormalizedValue([obj.value], length));
+        })
+      ];
+    }
+    return [];
+  }
+  protected _getStartValue() {
+    if (this.getOrient() === 'radius') {
+      return this.computeLayoutInnerRadius();
+    }
+
+    return this._startAngle;
+  }
+
   private _layoutAngleAxis(): void {
     const center = this.getCenter();
     const radius = this.computeLayoutOuterRadius();
     const innerRadius = this.computeLayoutInnerRadius();
     const angleRange = this._endAngle - this._startAngle;
-    const items = isArray(this._tickData.getLatestData())
-      ? this._tickData.getLatestData().map((obj: Datum) => {
-          const angle = this.dataToPosition([obj.value]);
-          return {
-            id: obj.value,
-            label: obj.value,
-            value: (angle - this._startAngle) / angleRange,
-            rawValue: obj.value
-          };
-        })
-      : [];
+    const items = this.getLabelItems(angleRange);
     const commonAttrs = {
       ...this.getLayoutStartPoint(),
       inside: this._spec.inside,
@@ -481,13 +494,13 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items: items.length ? [items] : []
+      items
     };
     if (this._spec.grid.visible) {
       attrs.grid = {
         type: 'line',
         smoothLink: true,
-        items,
+        items: items[0],
         ...commonAttrs
       };
     }
@@ -501,17 +514,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     const endPoint = this.coordToPoint({ angle: this._startAngle, radius });
     const startPoint = this.coordToPoint({ angle: this._startAngle, radius: innerRadius });
     const distance = PointService.distancePP(startPoint, endPoint);
-    const items = isArray(this._tickData.getLatestData())
-      ? this._tickData.getLatestData().map((obj: Datum) => {
-          const value = this.dataToPosition([obj.value]);
-          return {
-            id: obj.value,
-            label: obj.value,
-            value: (value - innerRadius) / distance,
-            rawValue: obj.value
-          };
-        })
-      : [];
+    const items = this.getLabelItems(distance);
     const commonAttrs = {
       ...this.getLayoutStartPoint(),
       start: startPoint,
@@ -523,11 +526,11 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items: items.length ? [items] : []
+      items
     };
     if (this._spec.grid?.visible) {
       attrs.grid = {
-        items,
+        items: items[0],
         type: this._spec.grid?.smooth ? 'circle' : 'polygon',
         center,
         closed: true,
