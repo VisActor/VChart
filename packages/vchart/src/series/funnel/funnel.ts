@@ -370,7 +370,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
                   const rootMark = this.getRootMark().getProduct();
                   if (rootMark) {
                     const { x1, x2 } = rootMark.getBounds();
-                    return Math.abs(x1 - x2);
+                    return Math.max(x1, x2); // rootMark.x === 0, so need to find largest bound x instead of bounds width
                   }
                   return this.getLayoutRect().width;
                 },
@@ -378,7 +378,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
                   const rootMark = this.getRootMark().getProduct();
                   if (rootMark) {
                     const { y1, y2 } = rootMark.getBounds();
-                    return Math.abs(y1 - y2);
+                    return Math.max(y1, y2);
                   }
                   return this.getLayoutRect().height;
                 },
