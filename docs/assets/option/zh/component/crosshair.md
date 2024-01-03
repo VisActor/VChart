@@ -26,6 +26,12 @@ crosshair 的触发方式，默认为 'hover'，即鼠标悬浮时触发。可�
 - 和 trigger 一致的设置，即当`trigger`为`hover`时，triggerOff 也为`hover`
 - `number`: 定时关闭`crosshair`，单位为 `ms`
 
+### lockAfterClick(boolean)
+
+`1.9.0` 版本后支持该配置；
+
+点击后锁定`crosshair`，通常用于`trigger`为`['hover', 'click']`的场景
+
 ### labelZIndex(number) = 500
 
 crosshair 文字标签的 z-index。

@@ -23,6 +23,12 @@ export interface ICommonCrosshairSpec extends IComponentSpec {
    */
   triggerOff?: CrossHairTrigger | 'none' | number;
   /**
+   * 点击后锁定，只有点击才可以更新位置或者解锁
+   *
+   * @since 1.9.0
+   */
+  lockAfterClick?: boolean;
+  /**
    * crosshair 文本的显示层级
    */
   labelZIndex?: number;

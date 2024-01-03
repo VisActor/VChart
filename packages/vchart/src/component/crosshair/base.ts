@@ -194,7 +194,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   private _handleClickInEvent = (params: any) => {
     this._handleIn(params);
 
-    this._clickLock = this._hasActive;
+    this._clickLock = this._hasActive && this._spec.lockAfterClick;
 
     if (this._clickLock && isNumber(this.triggerOff)) {
       if (this._timer) {

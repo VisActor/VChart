@@ -26,6 +26,12 @@ The triggerOff options for hiding the crosshair currently support three settings
 - Consistent with the trigger setting, i.e., when `trigger` is `hover`, triggerOff is also `hover`
 - `number`: Automatically closes the crosshair after a specified time, in milliseconds
 
+### lockAfterClick(boolean)
+
+Supported since version `1.9.0`
+
+Locks the `crosshair` after clicking, usually used in scenarios where `trigger` is `['hover', 'click']`
+
 ### labelZIndex(number) = 500
 
 The z-index of the crosshair text label.
