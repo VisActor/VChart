@@ -3,7 +3,7 @@
  */
 export const mockUserInput6 = {
   csv: `country,continent,GDP,year
-日本,亚洲,239270,1973
+美国,美洲,239270,1973
 印度,亚洲,22960,1973
 韩国,亚洲,7870,1973
 土耳其,亚洲,17240,1973
@@ -21,7 +21,7 @@ export const mockUserInput6 = {
 瑞典,欧洲,23020,1973
 比利时,欧洲,22280,1973
 挪威,欧洲,14540,1973
-日本,亚洲,278390,1978
+美国,美洲,278390,1978
 印度,亚洲,29220,1978
 韩国,亚洲,13120,1978
 土耳其,亚洲,22620,1978
@@ -39,7 +39,7 @@ export const mockUserInput6 = {
 瑞典,欧洲,24650,1978
 比利时,欧洲,24970,1978
 挪威,欧洲,18160,1978
-日本,亚洲,336520,1983
+美国,美洲,336520,1983
 印度,亚洲,34790,1983
 韩国,亚洲,18480,1983
 土耳其,亚洲,25000,1983
@@ -57,7 +57,7 @@ export const mockUserInput6 = {
 瑞典,欧洲,26980,1983
 比利时,欧洲,26860,1983
 挪威,欧洲,20980,1983
-日本,亚洲,427650,1988
+美国,美洲,427650,1988
 印度,亚洲,45400,1988
 韩国,亚洲,30960,1988
 土耳其,亚洲,33340,1988
@@ -75,7 +75,7 @@ export const mockUserInput6 = {
 瑞典,欧洲,31270,1988
 比利时,欧洲,30520,1988
 挪威,欧洲,24800,1988
-日本,亚洲,488020,1993
+美国,美洲,488020,1993
 印度,亚洲,56680,1993
 韩国,亚洲,45790,1993
 土耳其,亚洲,41600,1993
@@ -93,7 +93,7 @@ export const mockUserInput6 = {
 瑞典,欧洲,30950,1993
 比利时,欧洲,33350,1993
 挪威,欧洲,28050,1993
-日本,亚洲,521740,1998
+美国,美洲,521740,1998
 印度,亚洲,77270,1998
 韩国,亚洲,59600,1998
 土耳其,亚洲,50560,1998
@@ -111,7 +111,7 @@ export const mockUserInput6 = {
 瑞典,欧洲,36510,1998
 比利时,欧洲,37790,1998
 挪威,欧洲,34830,1998
-日本,亚洲,545920,2003
+美国,美洲,545920,2003
 印度,亚洲,102500,2003
 韩国,亚洲,84420,2003
 土耳其,亚洲,55060,2003
@@ -129,7 +129,7 @@ export const mockUserInput6 = {
 瑞典,欧洲,42290,2003
 比利时,欧洲,42160,2003
 挪威,欧洲,38320,2003
-日本,亚洲,578410,2008
+美国,美洲,578410,2008
 印度,亚洲,143180,2008
 韩国,亚洲,106280,2008
 土耳其,亚洲,74660,2008
@@ -147,7 +147,7 @@ export const mockUserInput6 = {
 瑞典,欧洲,48920,2008
 比利时,欧洲,47720,2008
 挪威,欧洲,43330,2008
-日本,亚洲,589420,2013
+美国,美洲,589420,2013
 印度,亚洲,197840,2013
 韩国,亚洲,125320,2013
 土耳其,亚洲,97510,2013
@@ -165,7 +165,7 @@ export const mockUserInput6 = {
 瑞典,欧洲,51470,2013
 比利时,欧洲,49500,2013
 挪威,欧洲,44930,2013
-日本,亚洲,617030,2018
+美国,美洲,617030,2018
 印度,亚洲,282220,2018
 韩国,亚洲,144970,2018
 土耳其,亚洲,124050,2018
@@ -192,7 +192,7 @@ export const mockUserInput6 = {
  */
 export const mockUserInput6Eng = {
   csv: `country,continent,GDP,year
-Japan,Asia,239270,1973
+USA,North America,239270,1973
 India,Asia,22960,1973
 South Korea,Asia,7870,1973
 Turkey,Asia,17240,1973
@@ -210,7 +210,7 @@ Finland,Europe,9930,1973
 Sweden,Europe,23020,1973
 Belgium,Europe,22280,1973
 Norway,Europe,14540,1973
-Japan,Asia,278390,1978
+USA,North America,278390,1978
 India,Asia,29220,1978
 South Korea,Asia,13120,1978
 Turkey,Asia,22620,1978
@@ -228,7 +228,7 @@ Finland,Europe,10800,1978
 Sweden,Europe,24650,1978
 Belgium,Europe,24970,1978
 Norway,Europe,18160,1978
-Japan,Asia,336520,1983
+USA,North America,336520,1983
 India,Asia,34790,1983
 South Korea,Asia,18480,1983
 Turkey,Asia,25000,1983
@@ -246,7 +246,7 @@ Finland,Europe,13130,1983
 Sweden,Europe,26980,1983
 Belgium,Europe,26860,1983
 Norway,Europe,20980,1983
-Japan,Asia,427650,1988
+USA,North America,427650,1988
 India,Asia,45400,1988
 South Korea,Asia,30960,1988
 Turkey,Asia,33340,1988
@@ -264,7 +264,7 @@ Finland,Europe,15720,1988
 Sweden,Europe,31270,1988
 Belgium,Europe,30520,1988
 Norway,Europe,24800,1988
-Japan,Asia,488020,1993
+USA,North America,488020,1993
 India,Asia,56680,1993
 South Korea,Asia,45790,1993
 Turkey,Asia,41600,1993
@@ -282,7 +282,7 @@ Finland,Europe,15040,1993
 Sweden,Europe,30950,1993
 Belgium,Europe,33350,1993
 Norway,Europe,28050,1993
-Japan,Asia,521740,1998
+USA,North America,521740,1998
 India,Asia,77270,1998
 South Korea,Asia,59600,1998
 Turkey,Asia,50560,1998
@@ -300,7 +300,7 @@ Finland,Europe,18940,1998
 Sweden,Europe,36510,1998
 Belgium,Europe,37790,1998
 Norway,Europe,34830,1998
-Japan,Asia,545920,2003
+USA,North America,545920,2003
 India,Asia,102500,2003
 South Korea,Asia,84420,2003
 Turkey,Asia,55060,2003
@@ -318,7 +318,7 @@ Finland,Europe,22260,2003
 Sweden,Europe,42290,2003
 Belgium,Europe,42160,2003
 Norway,Europe,38320,2003
-Japan,Asia,578410,2008
+USA,North America,578410,2008
 India,Asia,143180,2008
 South Korea,Asia,106280,2008
 Turkey,Asia,74660,2008
@@ -336,7 +336,7 @@ Finland,Europe,26270,2008
 Sweden,Europe,48920,2008
 Belgium,Europe,47720,2008
 Norway,Europe,43330,2008
-Japan,Asia,589420,2013
+USA,North America,589420,2013
 India,Asia,197840,2013
 South Korea,Asia,125320,2013
 Turkey,Asia,97510,2013
@@ -354,7 +354,7 @@ Finland,Europe,24970,2013
 Sweden,Europe,51470,2013
 Belgium,Europe,49500,2013
 Norway,Europe,44930,2013
-Japan,Asia,617030,2018
+USA,North America,617030,2018
 India,Asia,282220,2018
 South Korea,Asia,144970,2018
 Turkey,Asia,124050,2018
@@ -1165,7 +1165,7 @@ export const mockUserInput5 = {
 1631076022005768,全智贤,4
 1585004656595981,冷知识,4
 1677802272411661,电影禁锢之地,4
-1568324992666625,日本,4
+1568324992666625,美国,4
 1656420455173128,疫情全知道,4
 1574499671323662,虐心,4
 1566641875307522,王者,4
@@ -3662,5 +3662,5 @@ Middle East & North Africa,9.54,10.6,11.05,11.5,11.92
 Latin America & Caribbean,8.74,9.46,10.35,10.94,12.21
 East Asia & Pacific,7.8,8.95,10.18,11.57,13.25
 Europe & Central Asia,9.52,10.39,10.93,11.69,12.63`,
-  input: '看下各类别销售额情况'
+  input: '看下各类别数值分布'
 };

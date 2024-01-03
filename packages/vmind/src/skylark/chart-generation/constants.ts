@@ -215,7 +215,7 @@ export const chartRecommendKnowledge = [
   'Rose chart shows the distribution of periodic data.',
   'Waterfall chart shows the cumulative effect of data, particularly suitable for showing the total change between the beginning and the end, and how this total change is composed of increases and decreases from individual sub-items.',
   'Funnel chart shows the process or stages of data, or conversion rates.',
-  'Box Plot shows the distribution of different categories, particularly suitable for displaying data that contains maximum values, lower quartiles, medians, upper quartiles, and maximum values.',
+  'Box Plot is suitable for displaying data that contains maximum values, lower quartiles, medians, upper quartiles, and maximum values.',
   'Dynamic Bar Chart shows changes in rankings over time.',
   'Dynamic Bar Chart can only be used when data has a field that is date type.'
 ];
