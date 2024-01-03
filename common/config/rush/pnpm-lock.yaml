@@ -15,9 +15,9 @@ importers:
       '@types/markdown-it': ^13.0.0
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
-      '@visactor/vchart': workspace:1.8.2
+      '@visactor/vchart': workspace:1.8.4
       '@visactor/vchart-theme': ~1.6.6
-      '@visactor/vgrammar': ~0.10.4
+      '@visactor/vgrammar': ~0.10.5
       '@visactor/vmind': workspace:1.1.0
       '@visactor/vrender': ~0.17.9
       '@visactor/vrender-kits': ~0.17.9
@@ -127,8 +127,8 @@ importers:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
       '@types/react-is': ^17.0.3
-      '@visactor/vchart': workspace:1.8.2
-      '@visactor/vgrammar-core': ~0.10.4
+      '@visactor/vchart': workspace:1.8.4
+      '@visactor/vgrammar-core': ~0.10.5
       '@visactor/vrender-core': ~0.17.9
       '@visactor/vrender-kits': ~0.17.9
       '@visactor/vutils': ~0.17.3
@@ -209,7 +209,7 @@ importers:
       '@types/webpack-env': ^1.13.6
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:1.8.2
+      '@visactor/vchart': workspace:1.8.4
       '@vitejs/plugin-react': 3.1.0
       babel-preset-taro: 3.3.17
       eslint: ~8.18.0
@@ -285,19 +285,19 @@ importers:
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
       '@visactor/vdataset': ~0.17.3
-      '@visactor/vgrammar-core': ~0.10.4
-      '@visactor/vgrammar-hierarchy': ~0.10.4
-      '@visactor/vgrammar-projection': ~0.10.4
-      '@visactor/vgrammar-sankey': ~0.10.4
-      '@visactor/vgrammar-util': ~0.10.4
-      '@visactor/vgrammar-wordcloud': ~0.10.4
-      '@visactor/vgrammar-wordcloud-shape': ~0.10.4
+      '@visactor/vgrammar-core': ~0.10.5
+      '@visactor/vgrammar-hierarchy': ~0.10.5
+      '@visactor/vgrammar-projection': ~0.10.5
+      '@visactor/vgrammar-sankey': ~0.10.5
+      '@visactor/vgrammar-util': ~0.10.5
+      '@visactor/vgrammar-wordcloud': ~0.10.5
+      '@visactor/vgrammar-wordcloud-shape': ~0.10.5
       '@visactor/vrender-components': ~0.17.9
       '@visactor/vrender-core': ~0.17.9
       '@visactor/vrender-kits': ~0.17.9
       '@visactor/vscale': ~0.17.3
       '@visactor/vutils': ~0.17.3
-      '@visactor/vutils-extension': workspace:1.8.2
+      '@visactor/vutils-extension': workspace:1.8.4
       canvas: 2.11.2
       d3-array: ^1.2.4
       d3-dsv: ^3.0.1
@@ -395,7 +395,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
-      '@visactor/vchart': workspace:1.8.2
+      '@visactor/vchart': workspace:1.8.4
       '@visactor/vdataset': ~0.17.3
       '@visactor/vrender-core': ~0.17.9
       '@visactor/vrender-kits': ~0.17.9
@@ -501,12 +501,12 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
       '@visactor/chart-advisor': 0.1.10
-      '@visactor/vchart': workspace:1.8.2
+      '@visactor/vchart': workspace:1.8.4
       '@visactor/vdataset': ~0.17.3
       '@visactor/vrender-core': ~0.17.9
       '@visactor/vrender-kits': ~0.17.9
       '@visactor/vutils': ~0.17.3
-      '@visactor/vutils-extension': workspace:1.8.2
+      '@visactor/vutils-extension': workspace:1.8.4
       '@vitejs/plugin-react': 3.1.0
       axios: ^1.4.0
       dayjs: ~1.11.10
@@ -534,6 +534,8 @@ importers:
     dependencies:
       '@visactor/chart-advisor': 0.1.10
       '@visactor/vdataset': 0.17.3
+      '@visactor/vrender-core': 0.17.9
+      '@visactor/vrender-kits': 0.17.9
       '@visactor/vutils': 0.17.3
       axios: 1.6.3
       dayjs: 1.11.10
@@ -558,8 +560,6 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.30.0_cow5zg7tx6c3eisi5a4ud5kwia
       '@typescript-eslint/parser': 5.30.0_vwud3sodsb5zxmzckoj7rdwdbq
       '@visactor/vchart': link:../vchart
-      '@visactor/vrender-core': 0.17.9
-      '@visactor/vrender-kits': 0.17.9
       '@visactor/vutils-extension': link:../vutils-extension
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
       dotenv: 16.3.1
@@ -854,7 +854,7 @@ importers:
       '@types/node': '*'
       '@typescript-eslint/eslint-plugin': 5.30.0
       '@typescript-eslint/parser': 5.30.0
-      '@visactor/vchart': workspace:1.8.2
+      '@visactor/vchart': workspace:1.8.4
       '@visactor/vrender': ~0.17.9
       '@visactor/vrender-core': ~0.17.9
       '@visactor/vrender-kits': ~0.17.9
@@ -3138,6 +3138,7 @@ packages:
     cpu: [arm]
     os: [android]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-android-arm64/2.4.1:
@@ -3146,6 +3147,7 @@ packages:
     cpu: [arm64]
     os: [android]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-darwin-arm64/2.4.1:
@@ -3154,6 +3156,7 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-darwin-x64/2.4.1:
@@ -3162,6 +3165,7 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-linux-arm-gnueabihf/2.4.1:
@@ -3170,6 +3174,7 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-linux-arm64-gnu/2.4.1:
@@ -3178,6 +3183,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-linux-arm64-musl/2.4.1:
@@ -3186,6 +3192,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-linux-x64-gnu/2.4.1:
@@ -3194,6 +3201,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-linux-x64-musl/2.4.1:
@@ -3202,6 +3210,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-win32-arm64-msvc/2.4.1:
@@ -3210,6 +3219,7 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-win32-ia32-msvc/2.4.1:
@@ -3218,6 +3228,7 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js-win32-x64-msvc/2.4.1:
@@ -3226,6 +3237,7 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@resvg/resvg-js/2.4.1:
@@ -3244,6 +3256,7 @@ packages:
       '@resvg/resvg-js-win32-arm64-msvc': 2.4.1
       '@resvg/resvg-js-win32-ia32-msvc': 2.4.1
       '@resvg/resvg-js-win32-x64-msvc': 2.4.1
+    dev: false
 
   /@rollup/plugin-alias/5.0.0_rollup@3.20.5:
     resolution: {integrity: sha512-l9hY5chSCjuFRPsnRm16twWBiSApl2uYFLsepQYwtBuAxNMQ/1dJqADld40P0Jkqm65GRTLy/AC6hnpVebtLsA==}
@@ -4087,11 +4100,13 @@ packages:
 
   /@turf/helpers/6.5.0:
     resolution: {integrity: sha512-VbI1dV5bLFzohYYdgqwikdMVpe7pJ9X3E+dlr425wa2/sMJqYDhTO++ec38/pcPvPE6oD9WEEeU3Xu3gza+VPw==}
+    dev: false
 
   /@turf/invariant/6.5.0:
     resolution: {integrity: sha512-Wv8PRNCtPD31UVbdJE/KVAWKe7l6US+lJItRR/HOEW3eh+U/JwRCSUl/KZ7bmjM/C+zLNoreM2TU6OoLACs4eg==}
     dependencies:
       '@turf/helpers': 6.5.0
+    dev: false
 
   /@turf/meta/3.14.0:
     resolution: {integrity: sha512-OtXqLQuR9hlQ/HkAF/OdzRea7E0eZK1ay8y8CBXkoO2R6v34CsDrWYLMSo0ZzMsaQDpKo76NPP2GGo+PyG1cSg==}
@@ -4851,6 +4866,7 @@ packages:
     dependencies:
       '@visactor/vutils': 0.17.3
       color-convert: 2.0.1
+    dev: false
 
   /@visactor/vrender-kits/0.17.9:
     resolution: {integrity: sha512-D95kye1bgTHVfm0ZFnzEWonPqMQjHMpY9Idu6vMiaDG0axstg3/jtsZbQ5MDEl80PYWJRDwq6d6SvNjrGRAYBA==}
@@ -4859,6 +4875,7 @@ packages:
       '@visactor/vrender-core': 0.17.9
       '@visactor/vutils': 0.17.3
       roughjs: 4.5.2
+    dev: false
 
   /@visactor/vrender/0.17.9:
     resolution: {integrity: sha512-bi4c9VFAd5qC8bu9De7W2QcSjQrVzaoeYeoVuL44TyCa/g5by6SF29wpDUR+fA8UOlCfE+XhGRIyeMm2sXZ7Ag==}
@@ -4879,6 +4896,7 @@ packages:
       '@turf/helpers': 6.5.0
       '@turf/invariant': 6.5.0
       eventemitter3: 4.0.7
+    dev: false
 
   /@vitejs/plugin-react/3.1.0_vite@3.2.6:
     resolution: {integrity: sha512-AfgcRL8ZBhAlc3BFdigClmTUMISmmzHn7sB2h9U1odvc5U/MjWXsAaz18b/WoppUTDBzxOJwo2VdClfUcItu9g==}
@@ -4891,7 +4909,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.23.3_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 3.2.6_@types+node@20.10.6
+      vite: 3.2.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -17121,6 +17139,7 @@ packages:
 
   /path-data-parser/0.1.0:
     resolution: {integrity: sha512-NOnmBpt5Y2RWbuv0LMzsayp3lVylAHLPUTut412ZA3l+C4uw4ZVkQbjShYCQ8TCpUMdPapr4YjUqLYD6v68j+w==}
+    dev: false
 
   /path-dirname/1.0.2:
     resolution: {integrity: sha512-ALzNPpyNq9AqXMBjeymIjFDAkAFH06mHJH/cSBHAgU0s4vfpBn6b2nf8tiRLvagKD8RbTpq2FKTBg7cl9l3c7Q==}
@@ -17370,12 +17389,14 @@ packages:
 
   /points-on-curve/0.2.0:
     resolution: {integrity: sha512-0mYKnYYe9ZcqMCWhUjItv/oHjvgEsfKvnUTg8sAtnHr3GVy7rGkXCb6d5cSyqrWqL4k81b9CPg3urd+T7aop3A==}
+    dev: false
 
   /points-on-path/0.2.1:
     resolution: {integrity: sha512-25ClnWWuw7JbWZcgqY/gJ4FQWadKxGWk+3kR/7kD0tCaDtPPMj7oHu2ToLaVhfpnHrZzYby2w6tUA0eOIuUg8g==}
     dependencies:
       path-data-parser: 0.1.0
       points-on-curve: 0.2.0
+    dev: false
 
   /portfinder/1.0.32:
     resolution: {integrity: sha512-on2ZJVVDXRADWE6jnQaX0ioEylzgBpQk8r55NE4wjXW1ZxO+BgDlY6DXwj20i0V8eB4SenDQ00WEaxfiIQPcxg==}
@@ -19071,6 +19092,7 @@ packages:
       path-data-parser: 0.1.0
       points-on-curve: 0.2.0
       points-on-path: 0.2.1
+    dev: false
 
   /rsvp/4.8.5:
     resolution: {integrity: sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==}

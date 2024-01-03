@@ -1,3 +1,38 @@
+# v1.8.4
+
+2024-01-02
+
+**🐛 功能修复**
+- **@visactor/vchart**: add media query spec interface to default chart spec
+- **@visactor/vchart**: fix the bug of extension mark when no valid animation, fix [#1877](https://github.com/VisActor/VChart/issues/1877)
+
+
+
+[更多详情请查看 v1.8.4](https://github.com/VisActor/VChart/releases/tag/v1.8.4)
+
+# v1.8.3
+
+2024-01-02
+
+**🆕 新增功能**
+- **@visactor/vchart**: add props `useSyncRender` to react-vchart, close [#1685](https://github.com/VisActor/VChart/issues/1685)
+- **@visactor/vchart**: Supports the initialization parameter `disableTriggerEvent` to turn off the default interactive effect of the chart
+**🐛 功能修复**
+- **@visactor/vchart**: chart option.animation not work
+- **@visactor/vchart**: fix error in strict mode of react-vchart, fix [#1669](https://github.com/VisActor/VChart/issues/1669)
+- **@visactor/vchart**: error in chart level modification of media query action
+- **@visactor/vchart**: dimension tooltip in the dual-dimension chart contains data of only one dimension, related [#1841](https://github.com/VisActor/VChart/issues/1841)
+- **@visactor/vchart**: fix bug in layout when band axis has no domain
+- **@visactor/vchart**: funnel clipIn animation has delay for marks which overflows the range of region in [#1839](https://github.com/VisActor/VChart/issues/1839)
+- **@visactor/vchart**: when marker label's padding is an object, it should work
+- **@visactor/vchart**: undefined globalThis in tt miniprogram, see [#1854](https://github.com/VisActor/VChart/issues/1854)
+**🔨 功能重构**
+- **@visactor/vchart**: optimize the style configuration of marker
+
+
+
+[更多详情请查看 v1.8.3](https://github.com/VisActor/VChart/releases/tag/v1.8.3)
+
 # v1.8.2
 
 2023-12-22

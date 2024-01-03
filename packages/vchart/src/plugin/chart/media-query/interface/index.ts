@@ -1,2 +1,2 @@
-export * from './spec';
+export * from '../../../../typings/spec/media-query';
 export * from './common';

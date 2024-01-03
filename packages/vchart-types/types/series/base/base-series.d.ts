@@ -76,6 +76,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     getInvalidType(): IInvalidType;
     setInvalidType(t: IInvalidType): void;
     protected _markAttributeContext: ISeriesMarkAttributeContext;
+    getMarkAttributeContext(): ISeriesMarkAttributeContext;
     constructor(spec: T, options: ISeriesOption);
     created(): void;
     protected _buildMarkAttributeContext(): void;
@@ -122,7 +123,9 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     setValueFieldToStackOffsetSilhouette(): void;
     abstract getActiveMarks(): IMark[];
     initRootMark(): void;
-    protected _initExtensionMark(): void;
+    protected _initExtensionMark(options: {
+        hasAnimation: boolean;
+    }): void;
     private _createExtensionMark;
     protected _updateExtensionMarkSpec(lastSpec?: any): void;
     getStackData(): ISeriesStackData;

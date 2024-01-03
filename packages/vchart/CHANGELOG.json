@@ -2,6 +2,63 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.4",
+      "tag": "@visactor/vchart_v1.8.4",
+      "date": "Tue, 02 Jan 2024 11:27:39 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: add media query spec interface to default chart spec"
+          },
+          {
+            "comment": "fix: fix the bug of extension mark when no valid animation, fix #1877\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.8.3",
+      "tag": "@visactor/vchart_v1.8.3",
+      "date": "Fri, 29 Dec 2023 14:44:05 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: chart option.animation not work"
+          },
+          {
+            "comment": "feat: add props `useSyncRender` to react-vchart, close #1685\n\n"
+          },
+          {
+            "comment": "fix: fix error in strict mode of react-vchart, fix #1669\n\n"
+          },
+          {
+            "comment": "feat: Supports the initialization parameter `disableTriggerEvent` to turn off the default interactive effect of the chart\n\n"
+          },
+          {
+            "comment": "fix: error in chart level modification of media query action"
+          },
+          {
+            "comment": "fix: dimension tooltip in the dual-dimension chart contains data of only one dimension, related #1841 "
+          },
+          {
+            "comment": "fix: fix bug in layout when band axis has no domain\n\n"
+          },
+          {
+            "comment": "fix: funnel clipIn animation has delay for marks which overflows the range of region in #1839"
+          },
+          {
+            "comment": "fix: when marker label's padding is an object, it should work"
+          },
+          {
+            "comment": "refactor: optimize the style configuration of marker"
+          },
+          {
+            "comment": "fix: undefined globalThis in tt miniprogram, see #1854"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.2",
       "tag": "@visactor/vchart_v1.8.2",
       "date": "Fri, 22 Dec 2023 12:49:18 GMT",

@@ -200,9 +200,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
             get(this._option.getChart().getSpec(), 'animationUpdate')
         });
         // 因为坐标轴的更新动画中处理了 enter，所以需要将 enter 的参数传入
-        axisAnimateConfig.update[0].customParameters = {
-          enter: axisAnimateConfig.enter[0]
-        };
+        if (axisAnimateConfig.enter) {
+          axisAnimateConfig.update[0].customParameters = {
+            enter: axisAnimateConfig.enter[0]
+          };
+        }
         this._marks.forEach(m => m.setAnimationConfig(axisAnimateConfig));
       }
     }

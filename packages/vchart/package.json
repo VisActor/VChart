@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.8.2",
+  "version": "1.8.4",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -116,14 +116,14 @@
     "@visactor/vrender-core": "~0.17.9",
     "@visactor/vrender-kits": "~0.17.9",
     "@visactor/vrender-components": "~0.17.9",
-    "@visactor/vgrammar-core": "~0.10.4",
-    "@visactor/vgrammar-projection": "~0.10.4",
-    "@visactor/vgrammar-wordcloud": "~0.10.4",
-    "@visactor/vgrammar-wordcloud-shape": "~0.10.4",
-    "@visactor/vgrammar-hierarchy": "~0.10.4",
-    "@visactor/vgrammar-sankey": "~0.10.4",
-    "@visactor/vgrammar-util": "~0.10.4",
-    "@visactor/vutils-extension": "workspace:1.8.2"
+    "@visactor/vgrammar-core": "~0.10.5",
+    "@visactor/vgrammar-projection": "~0.10.5",
+    "@visactor/vgrammar-wordcloud": "~0.10.5",
+    "@visactor/vgrammar-wordcloud-shape": "~0.10.5",
+    "@visactor/vgrammar-hierarchy": "~0.10.5",
+    "@visactor/vgrammar-sankey": "~0.10.5",
+    "@visactor/vgrammar-util": "~0.10.5",
+    "@visactor/vutils-extension": "workspace:1.8.4"
   },
   "publishConfig": {
     "access": "public",
