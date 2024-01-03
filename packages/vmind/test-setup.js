@@ -7,8 +7,8 @@ global.console = {
   log: log,
 
   // Keep native behaviour for other methods, use those to print out things in your own tests, not `console.log`
-  error: jest.fn(),
-  warn: jest.fn(),
+  error: error,
+  warn: warn,
   info: jest.fn(),
   debug: jest.fn()
 };

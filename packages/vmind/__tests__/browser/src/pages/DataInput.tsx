@@ -76,6 +76,7 @@ const demoDataList: { [key: string]: any } = {
 
 const globalVariables = (import.meta as any).env;
 const ModelConfigMap = {
+  [Model.SKYLARK2]: { url: globalVariables.VITE_SKYLARK_URL, key: globalVariables.VITE_SKYLARK_KEY },
   [Model.SKYLARK]: { url: globalVariables.VITE_SKYLARK_URL, key: globalVariables.VITE_SKYLARK_KEY },
   [Model.GPT3_5]: { url: globalVariables.VITE_GPT_URL, key: globalVariables.VITE_GPT_KEY },
   [Model.GPT4]: { url: globalVariables.VITE_GPT_URL, key: globalVariables.VITE_GPT_KEY }
@@ -87,8 +88,9 @@ export function DataInput(props: IPropsType) {
   const [csv, setCsv] = useState<string>(demoDataList[defaultDataKey].csv);
   const [spec, setSpec] = useState<string>('');
   const [time, setTime] = useState<number>(1000);
-  const [model, setModel] = useState<Model>(Model.SKYLARK);
+  const [model, setModel] = useState<Model>(Model.SKYLARK2);
   const [cache, setCache] = useState<boolean>(false);
+  const [showThoughts, setShowThoughts] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(false);
   const vmind = useMemo(
@@ -97,11 +99,12 @@ export function DataInput(props: IPropsType) {
         url: ModelConfigMap[model].url ?? undefined,
         model,
         cache,
+        showThoughts: showThoughts,
         headers: {
           'api-key': ModelConfigMap[model].key
         }
       }),
-    [cache, model]
+    [cache, model, showThoughts]
   );
 
   const askGPT = useCallback(async () => {
@@ -229,12 +232,19 @@ export function DataInput(props: IPropsType) {
         <RadioGroup value={model} onChange={v => setModel(v)}>
           <Radio value={Model.GPT3_5}>GPT-3.5</Radio>
           <Radio value={Model.GPT4}>GPT-4</Radio>
+          <Radio value={Model.SKYLARK2}>skylark2 pro</Radio>
+
           <Radio value={Model.SKYLARK}>skylark pro</Radio>
         </RadioGroup>
       </div>
       <div style={{ width: '90%', marginBottom: 10 }}>
         <Checkbox checked={cache} onChange={v => setCache(v)}>
           Enable Cache
+        </Checkbox>
+      </div>
+      <div style={{ width: '90%', marginBottom: 10 }}>
+        <Checkbox checked={showThoughts} onChange={v => setShowThoughts(v)}>
+          Show Thoughts
         </Checkbox>
       </div>
       <div className="generate-botton">

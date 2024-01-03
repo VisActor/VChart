@@ -30,7 +30,7 @@ export const generateChartWithGPT = async (
     const chartTypeRes = resJson['CHART_TYPE'].toUpperCase();
     const cellRes = resJson['FIELD_MAP'];
     const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset);
-    if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
+    if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew, fieldInfo)) {
       chartType = patchResult.chartTypeNew;
       cell = patchResult.cellNew;
     }
