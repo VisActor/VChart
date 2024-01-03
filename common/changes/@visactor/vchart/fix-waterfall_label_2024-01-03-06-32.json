@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: waterfall.label not work in #1897",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
