@@ -20,7 +20,11 @@ The trigger mode of the crosshair, default is 'hover', triggered when the mouse 
 
 ### triggerOff(string)
 
-The trigger mode to hide the crosshair (currently only supports the same setting as trigger and `'none'`).
+The triggerOff options for hiding the crosshair currently support three settings:
+
+- `'none'`: Does not close the crosshair
+- Consistent with the trigger setting, i.e., when `trigger` is `hover`, triggerOff is also `hover`
+- `number`: Automatically closes the crosshair after a specified time, in milliseconds
 
 ### labelZIndex(number) = 500
 

@@ -18,9 +18,13 @@ crosshair 的触发方式，默认为 'hover'，即鼠标悬浮时触发。可�
 - `'click'`: 鼠标点击时触发。
 - `['hover', 'click']`: 鼠标悬浮和点击时同时触发。
 
-### triggerOff(string)
+### triggerOff(string | number)
 
-隐藏 crosshair 的触发方式（目前仅支持和 trigger 一致的设置以及 `'none'`）。
+隐藏 crosshair 的触发方式，目前支持三种设置：
+
+- `'none'`: 不关闭 crosshair
+- 和 trigger 一致的设置，即当`trigger`为`hover`时，triggerOff 也为`hover`
+- `number`: 定时关闭`crosshair`，单位为 `ms`
 
 ### labelZIndex(number) = 500
 
