@@ -46,7 +46,9 @@ $ rush vmind
 ### 项目结构
 
 - \_\_tests\_\_: 开发用的 playground
-- src/chart-generation: 图表智能生成相关代码
+- src/common: 公共的数据处理、图表推荐方法，图表生成 pipelines
+- src/gpt: gpt 图表智能生成相关代码
+- src/skylark: skylark 图表智能生成相关代码
 - src/chart-to-video: 导出视频、GIF 相关代码
 
 ## 使用说明
@@ -65,12 +67,101 @@ $ yarn add @visactor/vmind
 
 #### 图表智能生成
 
+首先，我们需要在项目中安装 VMind：
+
+```bash
+# 使用 npm 安装
+
+npm install @visactor/vmind
+
+# 使用 yarn 安装
+
+yarn add @visactor/vmind
+```
+
+接下来，在 JavaScript 文件顶部使用 import 引入 VMind
+
 ```typescript
 import VMind from '@visactor/vmind';
+```
 
-const vmind = new VMind(openAIKey); //传入您的openAI key
+VMind 目前支持 OpenAI GPT-3.5、GPT-4 模型和 skylark-pro 系列模型。用户可以在初始化 VMind 对象时指定调用的模型类型，并传入大模型服务 URL。接下来，我们初始化一个 VMind 实例，并传入模型类型、模型 url：
 
-const { spec, time } = await vmind.generateChart(csv, describe); //图表智能生成，传入您的csv格式的数据和图表描述，返回图表spec和图表动画时长
+```typescript
+import { Model } from '@visactor/vmind';
+
+const vmind = new VMind({
+  url: LLM_SERVICE_URL, //大模型服务的 url
+  model: Model.SKYLARK, //目前支持 gpt-3.5, gpt-4, skylark pro 模型。在后续的图表生成中将调用指定的模型
+  headers: {
+    'api-key': LLM_API_KEY
+  } //headers 将会被直接用作大模型请求中的 request header. 可以将模型 api key 放入 header 中
+});
+```
+
+这里列出了支持的模型列表：
+
+```typescript
+//models that VMind support
+//more models is under developing
+export enum Model {
+  GPT3_5 = 'gpt-3.5-turbo',
+  GPT4 = 'gpt-4',
+  SKYLARK = 'skylark-pro',
+  SKYLARK2 = 'skylark2-pro-4k'
+}
+```
+
+为了在后续流程中使用 csv 数据，需要调用数据处理方法，提取数据中的字段信息，并转换成结构化的 dataset。VMind 提供了基于规则的和基于大模型的方法来获取字段信息：
+
+```typescript
+//传入 csv 字符串，获得 fieldInfo 和 dataset 用于图表生成
+const { fieldInfo, dataset } = vmind.parseCSVData(csv);
+//传入 csv 字符串，和用户的展示意图，调用大模型，获得 fieldInfo 和 dataset 用于图表生成。NOTE：这将会把明数据传给大模型
+const { fieldInfo, dataset } = await vmind.parseCSVDataWithLLM(csv, userInput);
+```
+
+我们想要展示的内容为“各品牌汽车销量排行的变化”。调用 generateChart 方法，将数据和展示内容描述直接传递给 VMind：
+
+```typescript
+const describe = 'show me the changes in sales rankings of various car brand';
+//调用图表生成接口，获得 spec 和图表动画时长
+const { spec, time } = await vmind.generateChart(userInput, fieldInfo, dataset);
+```
+
+这样我们就得到了对应动态图表的 VChart spec。我们可以基于该 spec 渲染图表：
+
+```typescript
+import VChart from '@visactor/vchart';
+
+<body>
+  <!-- 为 vchart 准备一个具备大小（宽高）的 DOM，当然你也可以在 spec 配置中指定 -->
+  <div id="chart" style="width: 600px;height:400px;"></div>
+</body>
+
+// 创建 vchart 实例
+const vchart = new VChart(spec, { dom: 'chart' });
+// 绘制
+vchart.renderAsync();
+```
+
+得益于大语言模型的能力，用户可以通过自然语言描述更多的需求，对菜品进行“风味定制”。
+用户可以指定不同的主题风格（目前只有 gpt 版图表生成支持该功能）。例如，用户可以指定生成科技感风格的图表：
+
+```typescript
+//describe使用中英文均可
+//指定生成科技感风格的图表
+const describe = 'show me the changes in sales rankings of various car brand,tech style';
+const { spec, time } = await vmind.generateChart(userInput, fieldInfo, dataset);
+```
+
+也可以指定 VMind 支持的图表类型，字段映射等等。比如：
+
+```typescript
+//指定生成折线图，汽车厂商做 x 轴
+const describe =
+  'show me the changes in sales rankings of various car brands,tech style.Using a line chart, Manufacturer makes the x-axis';
+const { spec, time } = await(vmind.generateChart(csvData, describe));
 ```
 
 #### 自定义大模型调用方式
@@ -92,15 +183,6 @@ const vmind = new VMind(openAIKey:string, params:{
 
 在 url 中指定您的大模型服务 url（默认为https://api.openai.com/v1/chat/completions）
 在随后的调用中，VMind 会使用 params 中的参数请求大模型服务 url
-
-#### 图表导出
-
-```typescript
-//导出视频
-const src = await vmind.exportVideo(spec, time); //传入图表spec和视频时长，返回ObjectURL
-//导出GIF图片
-const src = await vmind.exportGIF(spec, time); //传入图表spec和GIF时长，返回ObjectURL
-```
 
 #### 对话式编辑
 

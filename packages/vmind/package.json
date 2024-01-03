@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vmind",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
