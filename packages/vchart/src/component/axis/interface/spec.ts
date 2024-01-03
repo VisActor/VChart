@@ -162,7 +162,7 @@ export interface IBandAxisSpec {
   showAllGroupLayers?: boolean;
   /**
    * 每一层轴的配置
-   * layer[0] 为主轴，即离坐标轴线最近的轴，当且仅当 `showAllGroupLayers` 配置开启生效。
+   * layer[0] 为离坐标轴线最近的轴，当且仅当 `showAllGroupLayers` 配置开启生效。
    * @since 1.9.0
    */
   layers?: IBandAxisLayer[];
