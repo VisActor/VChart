@@ -35,7 +35,7 @@ import {
   mockUserInput16
 } from '../constants/mockData';
 import VMind from '../../../../src/index';
-import { Model } from '../../../../src/typings';
+import { Model } from '../../../../src/index';
 
 const TextArea = Input.TextArea;
 const Option = Select.Option;
