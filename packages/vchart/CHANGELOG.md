@@ -1,6 +1,19 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 02 Jan 2024 11:27:39 GMT and should not be manually modified.
+This log was last generated on Wed, 03 Jan 2024 15:19:37 GMT and should not be manually modified.
+
+## 1.8.5
+Wed, 03 Jan 2024 15:19:37 GMT
+
+### Updates
+
+- feat: add zAxis theme and set label space to 0, closed #149
+- fix: compute layer translate for crosshair
+- fix: optimize funnel clip animation without extensionMarks
+- fix: fix the hover state of multiple series, close #1899
+
+
+- fix: waterfall.label not work in #1897
 
 ## 1.8.4
 Tue, 02 Jan 2024 11:27:39 GMT

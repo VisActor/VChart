@@ -21,6 +21,7 @@ export interface IComponentTheme {
     axisLinear?: IAxisCommonTheme;
     axisX?: ICartesianAxisCommonTheme;
     axisY?: ICartesianAxisCommonTheme;
+    axisZ?: ICartesianAxisCommonTheme;
     axisRadius?: IPolarAxisCommonTheme;
     axisAngle?: IPolarAxisCommonTheme;
     [ComponentTypeEnum.discreteLegend]?: IDiscreteLegendTheme;
