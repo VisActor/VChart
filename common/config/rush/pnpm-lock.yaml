@@ -4909,7 +4909,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.23.3_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 3.2.6_@types+node@20.10.6
+      vite: 3.2.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -21139,7 +21139,7 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 20.10.5
+      '@types/node': 20.10.6
       acorn: 8.11.3
       acorn-walk: 8.3.1
       arg: 4.1.3
