@@ -1,3 +1,15 @@
+# v1.8.4
+
+2024-01-02
+
+**🐛 Bug fix**
+- **@visactor/vchart**: add media query spec interface to default chart spec
+- **@visactor/vchart**: fix the bug of extension mark when no valid animation, fix [#1877](https://github.com/VisActor/VChart/issues/1877)
+
+
+
+[more detail about v1.8.4](https://github.com/VisActor/VChart/releases/tag/v1.8.4)
+
 # v1.8.3
 
 2024-01-02

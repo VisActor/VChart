@@ -63,7 +63,7 @@ class VMind {
     if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
       return generateChartWithGPT(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
     }
-    if (this._model === Model.SKYLARK) {
+    if ([Model.SKYLARK, Model.SKYLARK2].includes(this._model)) {
       return generateChartWithSkylark(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
     }
     console.error('unsupported model in chart generation!');

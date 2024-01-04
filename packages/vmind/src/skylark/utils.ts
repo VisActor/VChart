@@ -1,9 +1,18 @@
 import yaml from 'js-yaml';
 
+const startsWithTextAndColon = (str: string) => {
+  const regex = /^.+\:/;
+  return regex.test(str);
+};
+
+const isStringArray = (str: string) => {
+  const regex = /^(.*)\: ".+"(, ".+")+$/;
+  return regex.test(str);
+};
 export const parseSkylarkResponse = (larkResponse: any): Record<string, any> => {
   try {
     if (larkResponse.error) {
-      console.log(larkResponse.error);
+      console.error(larkResponse.error);
       return { error: true, ...larkResponse.error };
     }
     const responseStr = larkResponse.choices[0].message.content;
@@ -13,9 +22,25 @@ export const parseSkylarkResponse = (larkResponse: any): Record<string, any> => 
       /{(.*?)}/g,
       (matchedStr: string, matchedGroup: string) => matchedGroup + ':'
     );
-    const resJson = yaml.load(replacedStr) as Record<string, any>;
+    const patchedStr = replacedStr
+      .split('\n')
+      //remove lines that is not start with text and colon
+      .filter((str: string) => startsWithTextAndColon(str))
+      //remove blank space at the start of each line
+      .map((str: string) => str.replace(/^\s+/, ''))
+      //wrap string list with []
+      .map((str: string) => {
+        if (isStringArray(str)) {
+          return str.replace(/(.*): (.*)/, '$1: [$2]');
+        }
+        return str;
+      })
+      .join('\n');
+
+    const resJson = yaml.load(patchedStr) as Record<string, any>;
     resJson.usage = usage;
-    return resJson;
+    //replace all the keys to lower case.
+    return Object.keys(resJson).reduce((prev, cur) => ({ ...prev, [cur.toLocaleLowerCase()]: resJson[cur] }), {});
   } catch (err) {
     console.error(err);
     return { error: true };

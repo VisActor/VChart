@@ -7,6 +7,7 @@ export class WaterfallSeriesSpecTransformer<
   K extends IWaterfallSeriesTheme = IWaterfallSeriesTheme
 > extends BarSeriesSpecTransformer<any, K> {
   protected _transformLabelSpec(spec: T): void {
+    this._addMarkLabelSpec(spec, SeriesMarkNameEnum.bar);
     this._addMarkLabelSpec(spec, SeriesMarkNameEnum.bar, 'stackLabel');
   }
 }

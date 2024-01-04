@@ -14,6 +14,7 @@ export declare class Trigger implements ITrigger {
     protected _fields: string[] | null;
     protected _marks: MarkSet;
     protected _markReverse: MarkSet;
+    private _isHovered?;
     constructor(spec: ITriggerSpec, option: ITriggerOption);
     setStateKeys(fields: string[]): void;
     registerMark(mark: IMark): void;

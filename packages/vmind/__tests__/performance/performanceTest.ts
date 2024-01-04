@@ -53,7 +53,8 @@ const START_INDEX = 0;
 
 const modelResultMap = {
   [Model.GPT3_5]: { totalCount: 0, successCount: 0, totalTime: 0 },
-  [Model.SKYLARK]: { totalCount: 0, successCount: 0, totalTime: 0 }
+  [Model.SKYLARK]: { totalCount: 0, successCount: 0, totalTime: 0 },
+  [Model.SKYLARK2]: { totalCount: 0, successCount: 0, totalTime: 0 }
 };
 
 const testPerformance = (model: Model, vmind: any) => {
@@ -85,33 +86,49 @@ const testPerformance = (model: Model, vmind: any) => {
 
 const dataList = Object.keys(demoDataList);
 
-const gptKey = process.env.VITE_GPT_KEY;
-const gptURL = process.env.VITE_GPT_JEST_URL;
-if (gptKey && gptURL) {
+//const gptKey = process.env.VITE_GPT_KEY;
+//const gptURL = process.env.VITE_GPT_JEST_URL;
+//if (gptKey && gptURL) {
+//  const vmind = new VMind({
+//    url: gptURL,
+//    model: Model.GPT3_5,
+//    cache: false,
+//    headers: {
+//      'api-key': gptKey
+//    }
+//  });
+//  testPerformance(Model.GPT3_5, vmind);
+//}
+
+//const skylarkKey = process.env.VITE_SKYLARK_KEY;
+//const skylarkURL = process.env.VITE_SKYLARK_JEST_URL;
+
+//if (skylarkKey && skylarkURL) {
+//  const vmind = new VMind({
+//    url: skylarkURL,
+//    model: Model.SKYLARK,
+//    cache: false,
+//    headers: {
+//      'api-key': skylarkKey
+//    }
+//  });
+//  testPerformance(Model.SKYLARK, vmind);
+//}
+
+const skylark2Key = process.env.VITE_SKYLARK_KEY;
+const skylark2URL = process.env.VITE_SKYLARK_JEST_URL;
+
+if (skylark2Key && skylark2URL) {
   const vmind = new VMind({
-    url: gptURL,
-    model: Model.GPT3_5,
+    url: skylark2URL,
+    model: Model.SKYLARK2,
     cache: false,
+    showThoughts: false,
     headers: {
-      'api-key': gptKey
+      'api-key': skylark2Key
     }
   });
-  testPerformance(Model.GPT3_5, vmind);
-}
-
-const skylarkKey = process.env.VITE_SKYLARK_KEY;
-const skylarkURL = process.env.VITE_SKYLARK_JEST_URL;
-
-if (skylarkKey && skylarkURL) {
-  const vmind = new VMind({
-    url: skylarkURL,
-    model: Model.SKYLARK,
-    cache: false,
-    headers: {
-      'api-key': skylarkKey
-    }
-  });
-  testPerformance(Model.SKYLARK, vmind);
+  testPerformance(Model.SKYLARK2, vmind);
 }
 
 afterAll(() => {

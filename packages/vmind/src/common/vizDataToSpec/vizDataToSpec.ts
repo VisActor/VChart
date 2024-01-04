@@ -45,9 +45,9 @@ import {
   boxPlotField,
   boxPlotStyle
 } from './pipes';
-import { Cell, ChartType, Context, Pipe } from '../../typings';
+import { Cell, ChartType, Context, FieldInfo, Pipe, SimpleFieldInfo } from '../../typings';
 import { CARTESIAN_CHART_LIST, detectAxesType } from './utils';
-
+import { isArray } from 'lodash';
 export const vizDataToSpec = (
   dataset: any[],
   chartType: ChartType,
@@ -66,7 +66,23 @@ export const vizDataToSpec = (
   return spec;
 };
 
-export const checkChartTypeAndCell = (chartType: string, cell: any): boolean => {
+export const checkChartTypeAndCell = (chartType: string, cell: any, fieldInfo: SimpleFieldInfo[]): boolean => {
+  const fieldList = fieldInfo.map(f => f.fieldName);
+  const cellFields: (string | string[])[] = Object.values(cell);
+  cellFields.forEach((cellField: string | string[]) => {
+    if (!cellField) {
+      return;
+    }
+    if (isArray(cellField)) {
+      if (!cellField.every(f => f && fieldList.includes(f))) {
+        throw `missing field ${cellField}`;
+      }
+    } else {
+      if (cellField && !fieldList.includes(cellField)) {
+        throw `missing field ${cellField}`;
+      }
+    }
+  });
   switch (chartType) {
     case 'BAR CHART':
     case 'LINE CHART':

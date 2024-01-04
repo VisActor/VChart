@@ -166,9 +166,12 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
   private _handleEvent = throttle((params: any) => {
     const { event } = params as BaseEventParams;
-    const x = (event as any).viewX - this.getLayoutStartPoint().x;
-    const y = (event as any).viewY - this.getLayoutStartPoint().y;
-    // 索引到datum
+    // compute layer offset
+    const layer = this._option.getCompiler().getStage().getLayer(undefined);
+    const point = { x: event.viewX, y: event.viewY };
+    layer.globalTransMatrix.transformPoint({ x: event.viewX, y: event.viewY }, point);
+    const x = point.x - this.getLayoutStartPoint().x;
+    const y = point.y - this.getLayoutStartPoint().y;
     this.showDefault = false;
     this._layoutCrosshair(x, y);
   }, 10);
