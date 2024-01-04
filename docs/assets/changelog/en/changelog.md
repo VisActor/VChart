@@ -1,3 +1,19 @@
+# v1.8.5
+
+2024-01-04
+
+**🆕 New feature**
+- **@visactor/vchart**: add zAxis theme and set label space to 0, closed [#149](https://github.com/VisActor/VChart/issues/149)
+**🐛 Bug fix**
+- **@visactor/vchart**: compute layer translate for crosshair
+- **@visactor/vchart**: optimize funnel clip animation without extensionMarks
+- **@visactor/vchart**: fix the hover state of multiple series, close [#1899](https://github.com/VisActor/VChart/issues/1899)
+- **@visactor/vchart**: waterfall.label not work in [#1897](https://github.com/VisActor/VChart/issues/1897)
+
+
+
+[more detail about v1.8.5](https://github.com/VisActor/VChart/releases/tag/v1.8.5)
+
 # v1.8.4
 
 2024-01-02
