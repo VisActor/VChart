@@ -511,7 +511,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   }
 
   protected _getBarWidth(axisHelper: IAxisHelper, scaleDepth: number = 2) {
-    const depthFromSpec = this._groups ? this._groups.fields.length : 1;
+    const depthFromSpec = this._groups ? Math.min(this._groups.fields.length, 2) : 1;
     const depth = Math.min(depthFromSpec, scaleDepth);
 
     const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
@@ -553,7 +553,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
     const scale = axisHelper.getScale(0);
 
-    const depthFromSpec = this._groups ? this._groups.fields.length : 1;
+    const depthFromSpec = this._groups ? Math.min(this._groups.fields.length, 2) : 1;
     const depth = Math.min(depthFromSpec, scaleDepth);
 
     const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
