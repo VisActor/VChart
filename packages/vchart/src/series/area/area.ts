@@ -16,16 +16,15 @@ import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import type { IAreaSeriesSpec } from './interface';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { LineMark, registerLineMark } from '../../mark/line';
-import { AreaMark, registerAreaMark } from '../../mark/area';
-import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
+import { registerLineMark } from '../../mark/line';
+import { registerAreaMark } from '../../mark/area';
+import { registerSymbolMark } from '../../mark/symbol';
 import { AreaSeriesTooltipHelper } from './tooltip-helpter';
 import { areaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerAreaAnimation } from './animation';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
-import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import { AreaSeriesSpecTransformer } from './area-transformer';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
@@ -65,7 +64,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     // merge line to area
     const areaSpec = this._spec.area ?? {};
     const lineSpec = this._spec.line ?? {};
-    areaSpec.interactive = areaSpec.interactive || lineSpec.interactive;
     areaSpec.support3d = areaSpec.support3d || lineSpec.support3d;
     areaSpec.zIndex =
       isValid(areaSpec.zIndex) || isValid(lineSpec.zIndex)
@@ -101,6 +99,16 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     if (!isLineVisible) {
       areaSpec.style.stroke = false;
     }
+
+    if (areaSpec.interactive === false) {
+      areaSpec.style.fillPickable = false;
+    }
+    if (lineSpec.interactive === false) {
+      areaSpec.style.strokePickable = false;
+    }
+
+    areaSpec.interactive = areaSpec.interactive || lineSpec.interactive;
+
     areaSpec.visible = !(!isAreaVisible && !isLineVisible);
   }
 
