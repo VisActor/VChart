@@ -117,7 +117,8 @@ const spec = {
             range: ['#E33232', '#FFC528', '#07A35A']
           }
         }
-      }
+      },
+      animation: false
     }
   ],
   startAngle: -200,
