@@ -122,13 +122,6 @@
     },
     {
       "commandKind": "global",
-      "name": "editor",
-      "summary": "Start the vchart editor development server",
-      "description": "Run this command to start vchart editor development server",
-      "shellCommand": "rush run -p @visactor/vchart-editor -s start"
-    },
-    {
-      "commandKind": "global",
       "name": "types",
       "summary": "Build the types of vchart",
       "description": "Run this command to build the types of vchart",
