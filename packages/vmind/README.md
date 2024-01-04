@@ -46,7 +46,9 @@ You can start the vmind development page.
 ### Project Structure
 
 - \_\_tests\_\_: Playground for development
-- src/chart-generation: Code related to intelligent chart generation
+- src/common: Common data processing, chart recommendation methods, chart generation pipelines
+- src/gpt: Code related to gpt intelligent chart generation
+- src/skylark: Code related to skylark intelligent chart generation
 - src/chart-to-video: Code related to exporting videos, GIFs
 
 ## Instructions for use
@@ -61,16 +63,105 @@ $ npm install @visactor/vmind
 $ yarn add @visactor/vmind
 ```
 
-### 📊 Usage example
+### 📊 Usage Example
 
-#### Intelligent chart generation
+#### Intelligent Chart Generation
+
+First, we need to install VMind in the project:
+
+```bash
+# Install with npm
+
+npm install @visactor/vmind
+
+# Install with yarn
+
+yarn add @visactor/vmind
+```
+
+Next, import VMind at the top of the JavaScript file
 
 ```typescript
 import VMind from '@visactor/vmind';
+```
 
-const vmind = new VMind(openAIKey); //Pass in your openAI key
+VMind currently supports OpenAI GPT-3.5, GPT-4 models and skylark-pro series models. Users can specify the model type to be called when initializing the VMind object, and pass in the URL of the large model service. Next, we initialize a VMind instance and pass in the model type and model url:
 
-const { spec, time } = await vmind.generateChart(csv, describe); //Intelligent chart generation, pass in your csv format data and chart description, and return the chart spec and chart animation duration
+```typescript
+import { Model } from '@visactor/vmind';
+
+const vmind = new VMind({
+  url: LLM_SERVICE_URL, //URL of the large model service
+  model: Model.SKYLARK, //Currently supports gpt-3.5, gpt-4, skylark pro models. The specified model will be called in subsequent chart generation
+  headers: {
+    'api-key': LLM_API_KEY
+  } //headers will be used directly as the request header in the large model request. You can put the model api key in the header
+});
+```
+
+Here is a list of supported models:
+
+```typescript
+//models that VMind support
+//more models are under development
+export enum Model {
+  GPT3_5 = 'gpt-3.5-turbo',
+  GPT4 = 'gpt-4',
+  SKYLARK = 'skylark-pro',
+  SKYLARK2 = 'skylark2-pro-4k'
+}
+```
+
+In order to use csv data in subsequent processes, you need to call the data processing method, extract the field information in the data, and convert it into a structured dataset. VMind provides rule-based and large model-based methods to obtain field information:
+
+```typescript
+//Pass in csv string to get fieldInfo and dataset for chart generation
+const { fieldInfo, dataset } = vmind.parseCSVData(csv);
+//Pass in csv string and user's display intention, call large model, get fieldInfo and dataset for chart generation. NOTE: This will pass the raw data to the large model
+const { fieldInfo, dataset } = await vmind.parseCSVDataWithLLM(csv, userInput);
+```
+
+We want to show "the changes in sales rankings of various car brands". Call the generateChart method and pass the data and display content description directly to VMind:
+
+```typescript
+const describe = 'show me the changes in sales rankings of various car brand';
+//Call the chart generation interface to get spec and chart animation duration
+const { spec, time } = await vmind.generateChart(userInput, fieldInfo, dataset);
+```
+
+In this way, we get the VChart spec of the corresponding dynamic chart. We can render the chart based on this spec:
+
+```typescript
+import VChart from '@visactor/vchart';
+
+<body>
+<!-- Prepare a DOM with size (width and height) for vchart, of course you can also specify it in the spec configuration -->
+<div id="chart" style="width: 600px;height:400px;"></div>
+</body>
+
+// Create a vchart instance
+const vchart = new VChart(spec, { dom: 'chart' });
+// Draw
+vchart.renderAsync();
+```
+
+Thanks to the capabilities of the large language model, users can describe more requirements in natural language and "customize" dishes.
+Users can specify different theme styles (currently only gpt chart generation supports this feature). For example, users can specify to generate a tech-style chart:
+
+```typescript
+//describe can be in both Chinese and English
+//Specify to generate a tech-style chart
+const describe = 'show me the changes in sales rankings of various car brand,tech style';
+const { spec, time } = await vmind.generateChart(userInput, fieldInfo, dataset);
+```
+
+You can also specify the chart type, field mapping, etc. supported by VMind. For example:
+
+```typescript
+//Specify to generate a line chart, with car manufacturers as the x-axis
+const describe =
+  'show me the changes in sales rankings of various car brands,tech style.Using a line chart, Manufacturer makes the x-axis';
+const { spec, time } = await(vmind.generateChart(csvData, describe));
 ```
 
 #### Customizing LLM Request Method
@@ -92,15 +183,6 @@ temperature?: number;//recommended to set to 0
 
 Specify your LLM service url in url (default is https://api.openai.com/v1/chat/completions)
 In subsequent calls, VMind will use the parameters in params to request the LLM service url.
-
-#### Chart export
-
-```typescript
-//Export video
-const src = await vmind.exportVideo(spec, time); //Pass in the chart spec and video duration, and return ObjectURL
-//Export GIF image
-const src = await vmind.exportGIF(spec, time); //Pass in the chart spec and GIF duration, and return ObjectURL
-```
 
 #### Dialog-based editing
 

@@ -6,7 +6,7 @@ import { getStrFromArray, getStrFromDict, patchChartTypeAndCell, requestSkyLark 
 import { getChartRecommendPrompt, getFieldMapPrompt } from './prompts';
 import { parseSkylarkResponse } from '../utils';
 import { estimateVideoTime } from '../../common/vizDataToSpec/utils';
-import { ChartFieldInfo, chartRecommendKnowledge } from './constants';
+import { ChartFieldInfo, chartRecommendConstraints, chartRecommendKnowledge } from './constants';
 import { omit } from 'lodash';
 
 export const generateChartWithSkylark = async (
@@ -30,7 +30,7 @@ export const generateChartWithSkylark = async (
     const chartTypeRes = resJson.chartType.toUpperCase();
     const cellRes = resJson['cell'];
     const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset, fieldInfo);
-    if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
+    if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew, fieldInfo)) {
       chartType = patchResult.chartTypeNew;
       cell = patchResult.cellNew;
     }
@@ -68,25 +68,36 @@ export const chartAdvisorSkylark = async (
 
   //call skylark to get recommended chart
   const chartRecommendKnowledgeStr = getStrFromArray(chartRecommendKnowledge);
-  const chartRecommendPrompt = getChartRecommendPrompt(chartRecommendKnowledgeStr);
+  const chartRecommendConstraintsStr = getStrFromArray(chartRecommendConstraints);
+  const chartRecommendPrompt = getChartRecommendPrompt(
+    chartRecommendKnowledgeStr,
+    chartRecommendConstraintsStr,
+    options.showThoughts ?? true
+  );
   const chartRecommendRes = await requestSkyLark(chartRecommendPrompt, userMessage, options);
   const chartRecommendResJSON = parseSkylarkResponse(chartRecommendRes);
   //console.log(chartRecommendResJSON);
   if (chartRecommendResJSON.error) {
     throw Error('Network Error!');
   }
-  if (!SUPPORTED_CHART_LIST.includes(chartRecommendResJSON['chartType'])) {
+  if (!SUPPORTED_CHART_LIST.includes(chartRecommendResJSON['charttype'])) {
     throw Error('Unsupported Chart Type. Please Change User Input');
   }
 
-  const { chartType } = chartRecommendResJSON;
+  const { charttype: chartType } = chartRecommendResJSON;
 
   //call skylark to get field map result.
   const { visualChannels, responseDescription, knowledge } = ChartFieldInfo[chartType.toUpperCase()];
   const visualChannelInfoStr = getStrFromDict(visualChannels);
   const channelResponseStr = getStrFromDict(responseDescription);
   const fieldMapKnowledgeStr = getStrFromArray(knowledge);
-  const fieldMapPrompt = getFieldMapPrompt(chartType, visualChannelInfoStr, channelResponseStr, fieldMapKnowledgeStr);
+  const fieldMapPrompt = getFieldMapPrompt(
+    chartType,
+    visualChannelInfoStr,
+    channelResponseStr,
+    fieldMapKnowledgeStr,
+    options.showThoughts ?? true
+  );
 
   const fieldMapRes = await requestSkyLark(fieldMapPrompt, userMessage, options);
   const fieldMapResJson = parseSkylarkResponse(fieldMapRes);
@@ -97,7 +108,7 @@ export const chartAdvisorSkylark = async (
 
   return {
     chartType,
-    cell: omit(fieldMapResJson, ['thoughts'])
+    cell: omit(fieldMapResJson, ['thoughts', 'usage'])
   };
 };
 

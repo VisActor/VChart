@@ -15,7 +15,8 @@ export const ChartFieldInfo: ChannelInfo = {
     },
     knowledge: [
       'Only string fields can be used in color channel.',
-      'You can use color channel to distinguish different categories.'
+      'You can use color channel to distinguish different categories.',
+      'Use an array in y-axis if you want to assign more than one fields in y-axis.'
     ]
   },
   'PIE CHART': {
@@ -181,22 +182,22 @@ export const ChartFieldInfo: ChannelInfo = {
   },
   'DYNAMIC BAR CHART': {
     visualChannels: {
+      time: "date field used to divide time frames. Used to divide the data into time frames. Can't be empty. Only date fields. Can't be the same as x-axis.",
       x: "x-axis of bar chart. Can't be empty. Can only use categorical field. Can't use time field",
       y: "y-axis of bar chart. Can't be empty. Only number fields",
       color:
-        'color channel of bar chart. Used to distinguish different bars. Only categorical fields. Can be empty if no suitable field.',
-      time: "date field used to divide time frames. Used to divide the data into time frames. Can't be empty. Only date fields"
+        'color channel of bar chart. Used to distinguish different bars. Only categorical fields. Can be empty if no suitable field.'
     },
     responseDescription: {
+      time: 'field assigned to time channel',
       x: 'field assigned to x channel',
       y: 'field assigned to y channel',
-      color: 'field assigned to color channel',
-      time: 'field assigned to time channel'
+      color: 'field assigned to color channel'
     },
     knowledge: [
       "x-axis in dynamic bar chart can only be a categorical field. Don't use time field",
-      'In each time frame, dynamic bar chart use bar chart to show the data',
       'Only use categorical field can be used in x channel',
+      "time channel can't be empty",
       'Only date fields can be used in time channel.'
     ]
   }
@@ -214,7 +215,12 @@ export const chartRecommendKnowledge = [
   'Rose chart shows the distribution of periodic data.',
   'Waterfall chart shows the cumulative effect of data, particularly suitable for showing the total change between the beginning and the end, and how this total change is composed of increases and decreases from individual sub-items.',
   'Funnel chart shows the process or stages of data, or conversion rates.',
-  'If data includes fields related to the minimum value, lower quartile, median, upper quartile, and maximum value, use box plot.',
+  'Box Plot is suitable for displaying data that contains maximum values, lower quartiles, medians, upper quartiles, and maximum values.',
   'Dynamic Bar Chart shows changes in rankings over time.',
   'Dynamic Bar Chart can only be used when data has a field that is date type.'
+];
+
+export const chartRecommendConstraints = [
+  'Use Box Plot if data includes fields related to the minimum value, lower quartile, median, upper quartile, and maximum value.',
+  'Use Dynamic Bar Chart if user want to show changes of rankings in data.'
 ];

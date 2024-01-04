@@ -3,7 +3,7 @@ import { mergeSpec } from '../../util/spec/merge-spec';
 import type { IOrientType, IPolarOrientType } from '../../typings';
 import type { AxisType, ICommonAxisSpec, ILinearAxisSpec } from './interface';
 import { transformComponentStyle } from '../../util/style';
-import { isXAxis } from './cartesian/util/common';
+import { isXAxis, isYAxis } from './cartesian/util/common';
 import { getComponentThemeFromOption } from '../util';
 import type { ITheme } from '../../theme';
 
@@ -74,7 +74,9 @@ export const getCartesianAxisTheme = (orient: IOrientType, type: AxisType, chart
       : {}) ?? {};
   const axisTheme = isXAxis(orient)
     ? getComponentThemeFromOption('axisX', chartTheme)
-    : getComponentThemeFromOption('axisY', chartTheme);
+    : isYAxis(orient)
+    ? getComponentThemeFromOption('axisY', chartTheme)
+    : getComponentThemeFromOption('axisZ', chartTheme);
   return mergeSpec({}, getComponentThemeFromOption('axis', chartTheme), axisTypeTheme, axisTheme);
 };
 

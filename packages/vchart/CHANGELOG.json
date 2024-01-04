@@ -2,6 +2,30 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.5",
+      "tag": "@visactor/vchart_v1.8.5",
+      "date": "Wed, 03 Jan 2024 15:19:37 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add zAxis theme and set label space to 0, closed #149"
+          },
+          {
+            "comment": "fix: compute layer translate for crosshair"
+          },
+          {
+            "comment": "fix: optimize funnel clip animation without extensionMarks"
+          },
+          {
+            "comment": "fix: fix the hover state of multiple series, close #1899\n\n"
+          },
+          {
+            "comment": "fix: waterfall.label not work in #1897"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.4",
       "tag": "@visactor/vchart_v1.8.4",
       "date": "Tue, 02 Jan 2024 11:27:39 GMT",

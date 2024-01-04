@@ -3,7 +3,7 @@ import type { IAggrType } from '../../component/marker/interface';
 import type { ICartesianSeries } from '../../series/interface';
 import type { Datum, StringOrNumber } from '../../typings';
 
-import { isPlainObject, isValid } from '@visactor/vutils';
+import { isArray, isFunction, isPlainObject, isValid } from '@visactor/vutils';
 import { variance, average, min, max, sum, standardDeviation, median } from '../../util/math';
 
 export type IOption = {
@@ -79,15 +79,6 @@ export function markerMedian(_data: Array<DataView>, opt: IOption) {
 }
 
 export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]) {
-  const aggrMap = {
-    min: markerMin,
-    max: markerMax,
-    sum: markerSum,
-    average: markerAverage,
-    variance: markerVariance,
-    standardDeviation: markerStandardDeviation,
-    median: markerMedian
-  };
   const results: {
     x: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
     y: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
@@ -98,22 +89,22 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
       y: StringOrNumber[] | StringOrNumber | null;
       getRefRelativeSeries?: () => ICartesianSeries;
     } = { x: null, y: null };
+
     if (isValid(option.x)) {
       const x = option.x;
-      if (isPlainObject(x)) {
-        const { aggrType, field } = x as IOptionAggrField;
-        result.x = aggrMap[aggrType](_data, { field: field });
+
+      if (isArray(x)) {
+        result.x = x.map(item => getFinalValue(item, _data, option)) as StringOrNumber[];
       } else {
-        result.x = x;
+        result.x = getFinalValue(x, _data, option) as StringOrNumber;
       }
     }
     if (isValid(option.y)) {
       const y = option.y;
-      if (isPlainObject(y)) {
-        const { aggrType, field } = y as IOptionAggrField;
-        result.y = aggrMap[aggrType](_data, { field: field });
+      if (isArray(y)) {
+        result.y = y.map(item => getFinalValue(item, _data, option)) as StringOrNumber[];
       } else {
-        result.y = y;
+        result.y = getFinalValue(y, _data, option) as StringOrNumber;
       }
     }
     if (option.getRefRelativeSeries) {
@@ -123,4 +114,40 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
   });
 
   return results;
+}
+
+const aggrMap = {
+  min: markerMin,
+  max: markerMax,
+  sum: markerSum,
+  average: markerAverage,
+  variance: markerVariance,
+  standardDeviation: markerStandardDeviation,
+  median: markerMedian
+};
+
+function getFinalValue(source: IOptionPos | IOptionCallback, _data: Array<DataView>, option: IOptionAggr) {
+  const relativeSeries = option.getRelativeSeries();
+  const startSeries = option.getStartRelativeSeries();
+  const endSeries = option.getEndRelativeSeries();
+  const relativeSeriesData = relativeSeries.getData().getLatestData();
+  const startRelativeSeriesData = startSeries.getData().getLatestData();
+  const endRelativeSeriesData = endSeries.getData().getLatestData();
+
+  if (isFunction(source)) {
+    return source(
+      relativeSeriesData,
+      startRelativeSeriesData,
+      endRelativeSeriesData,
+      relativeSeries,
+      startSeries,
+      endSeries
+    ) as StringOrNumber[] | StringOrNumber;
+  }
+  if (isPlainObject(source)) {
+    const { aggrType, field } = source as IOptionAggrField;
+    return aggrMap[aggrType](_data, { field: field });
+  }
+
+  return source;
 }

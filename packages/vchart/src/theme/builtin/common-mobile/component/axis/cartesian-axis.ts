@@ -30,3 +30,10 @@ export const axisY: ICartesianAxisCommonTheme = {
     }
   }
 };
+
+export const axisZ: ICartesianAxisCommonTheme = {
+  ...axisX,
+  label: {
+    space: 0
+  }
+};
