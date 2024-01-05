@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: optimize viusal effect for duplicated data in funnel charts, see #1921",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
