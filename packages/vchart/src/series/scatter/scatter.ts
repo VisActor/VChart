@@ -83,7 +83,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         return spec;
       }
 
-      if (spec.length > 2) {
+      if (defaultScaleType !== 'ordinal' && (spec as any[]).length > 2) {
         this._option?.onError(`${key} length is invalid, specify up to 2 ${key}s.`);
         return spec;
       }
