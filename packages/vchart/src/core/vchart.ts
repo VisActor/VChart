@@ -552,7 +552,7 @@ export class VChart implements IVChart {
     const { width, height } = this.getCurrentSize();
     if (this._currentSize.width !== width || this._currentSize.height !== height) {
       this._currentSize = { width, height };
-      this.resize(width, height);
+      this.resizeSync(width, height);
     }
   }
 
