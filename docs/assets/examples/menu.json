@@ -2106,6 +2106,13 @@
           }
         },
         {
+          "path": "bar-label-syncState",
+          "title": {
+            "zh": "柱状图标签状态配置",
+            "en": "Bar Chart Label State"
+          }
+        },
+        {
           "path": "line-label",
           "title": {
             "zh": "折线图标签",
