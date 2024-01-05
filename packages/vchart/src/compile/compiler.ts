@@ -12,7 +12,7 @@ import type {
 } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { GrammarType } from './interface/compilable-item';
-import { toRenderMode } from './util';
+import { toRenderMode, viewResizeSync } from './util';
 import { isMobileLikeMode, isTrueBrowser } from '../util/env';
 import { isString } from '../util/type';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -197,15 +197,30 @@ export class Compiler {
     this._view.renderer.setViewBox(viewBox, reRender);
   }
 
-  resize(width: number, height: number, reRender: boolean = true) {
+  async resize(width: number, height: number, reRender: boolean = true) {
     if (!this._view) {
-      return Promise.reject();
+      return;
     }
     this._width = width;
     this._height = height;
 
-    this._view.resize(width, height);
-    return reRender ? this.renderAsync({ morph: false }) : this;
+    await this._view.resize(width, height);
+    if (reRender) {
+      await this.renderAsync({ morph: false });
+    }
+  }
+
+  resizeSync(width: number, height: number, reRender: boolean = true) {
+    if (!this._view) {
+      return;
+    }
+    this._width = width;
+    this._height = height;
+
+    viewResizeSync(this._view, width, height);
+    if (reRender) {
+      this.renderSync({ morph: false });
+    }
   }
 
   setBackground(color: IColor) {
