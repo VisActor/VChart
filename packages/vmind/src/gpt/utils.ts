@@ -1,9 +1,13 @@
-import { GPTDataProcessResult, ILLMOptions } from '../typings';
+import { GPTDataProcessResult, ILLMOptions, LLMResponse } from '../typings';
 import axios from 'axios';
 import JSON5 from 'json5';
 import { omit } from 'lodash';
 
-export const requestGPT = async (prompt: string, userMessage: string, options: ILLMOptions | undefined) => {
+export const requestGPT = async (
+  prompt: string,
+  userMessage: string,
+  options: ILLMOptions | undefined
+): Promise<LLMResponse> => {
   const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
   const url: string = options?.url ?? OPENAI_API_URL;
 
@@ -13,7 +17,7 @@ export const requestGPT = async (prompt: string, userMessage: string, options: I
       method: options?.method ?? 'POST',
       headers, //must has Authorization: `Bearer ${openAIKey}` if use openai api
       data: {
-        ...omit(options, ['headers', 'url', 'method', 'showThoughts']),
+        ...omit(options, ['headers', 'url', 'method', 'showThoughts', 'customRequestFunc']),
         model: options?.model ?? 'gpt-3.5-turbo',
         messages: [
           {
@@ -29,9 +33,7 @@ export const requestGPT = async (prompt: string, userMessage: string, options: I
         temperature: options?.temperature ?? 0
         //response_format: { type: 'json_object' } //Only models after gpt-3.5-turbo-1106 support this parameter.
       }
-    })
-      .then(response => response.data)
-      .then(data => data.choices);
+    }).then(response => response.data);
 
     return res;
   } catch (err: any) {
@@ -64,14 +66,15 @@ export const parseGPTJson = (JsonStr: string, prefix?: string) => {
   return res2;
 };
 
-export const parseGPTResponse = (GPTRes: any) => {
+export const parseGPTResponse = (GPTRes: LLMResponse) => {
   if (GPTRes.error) {
     return {
       error: true,
       ...GPTRes.error
     };
   }
-  const content = GPTRes[0].message.content;
+  const choices = GPTRes.choices;
+  const content = choices[0].message.content;
   const resJson: GPTDataProcessResult = parseGPTJson(content, '```');
   return resJson;
 };

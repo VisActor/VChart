@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Cell, DataItem, ILLMOptions, SimpleFieldInfo } from '../../typings';
+import { DataItem, ILLMOptions, LLMResponse, SimpleFieldInfo } from '../../typings';
 import { detectAxesType } from '../../common/vizDataToSpec/utils';
 import { isArray, omit } from 'lodash';
 
@@ -112,7 +112,7 @@ export const patchChartTypeAndCell = (
  * @param message
  * @param options
  */
-export const requestSkyLark = async (prompt: string, message: string, options: ILLMOptions) => {
+export const requestSkyLark = async (prompt: string, message: string, options: ILLMOptions): Promise<LLMResponse> => {
   const url: string = options?.url;
   const headers: any = { ...(options.headers ?? {}), 'Content-Type': 'application/json' };
 
@@ -121,7 +121,7 @@ export const requestSkyLark = async (prompt: string, message: string, options: I
       method: options?.method ?? 'POST',
       headers, //must has Authorization: `Bearer ${openAIKey}` if use openai api
       data: {
-        ...omit(options, ['headers', 'url', 'method', 'showThoughts']),
+        ...omit(options, ['headers', 'url', 'method', 'showThoughts', 'customRequestFunc']),
         model: options?.model ?? 'gpt-3.5-turbo',
         messages: [
           {

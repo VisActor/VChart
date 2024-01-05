@@ -1,4 +1,5 @@
 import yaml from 'js-yaml';
+import { LLMResponse } from '../typings';
 
 const startsWithTextAndColon = (str: string) => {
   const regex = /^.+\:/;
@@ -9,7 +10,7 @@ const isStringArray = (str: string) => {
   const regex = /^(.*)\: ".+"(, ".+")+$/;
   return regex.test(str);
 };
-export const parseSkylarkResponse = (larkResponse: any): Record<string, any> => {
+export const parseSkylarkResponse = (larkResponse: LLMResponse): Record<string, any> => {
   try {
     if (larkResponse.error) {
       console.error(larkResponse.error);
