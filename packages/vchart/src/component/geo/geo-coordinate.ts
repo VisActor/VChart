@@ -268,8 +268,8 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   }
 
   onLayoutEnd(ctx: IModelLayoutOption) {
-    this.setLayoutRect(this._regions[0].getLayoutRect());
-    this.setLayoutStartPosition(this._regions[0].getLayoutStartPoint());
+    this.setLayoutRect(this._regions[0].getLayoutRectWidthIndent());
+    this.setLayoutStartPosition(this._regions[0].getLayoutPositionWidthIndent());
     const { width, height } = this.getLayoutRect();
     const { translate, scale, center } = this.evaluateProjection([0, 0], [width, height]);
     translate && this._projection.translate(translate);

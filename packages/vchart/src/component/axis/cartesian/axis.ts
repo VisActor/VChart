@@ -620,13 +620,13 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (!ignoreGrid) {
       const regions = this.getRegions();
       let { x: minX, y: minY } = regions[0].getLayoutStartPoint();
-      let maxX = minX + regions[0].getLayoutRect().width;
-      let maxY = minY + regions[0].getLayoutRect().height;
+      let maxX = minX + regions[0].getLayoutRectWidthIndent().width;
+      let maxY = minY + regions[0].getLayoutRectWidthIndent().height;
 
       for (let index = 1; index < regions.length; index++) {
         const region = regions[index];
-        const { x, y } = region.getLayoutStartPoint();
-        const { width, height } = region.getLayoutRect();
+        const { x, y } = region.getLayoutPositionWidthIndent();
+        const { width, height } = region.getLayoutRectWidthIndent();
 
         minX = Math.min(minX, x);
         maxX = Math.max(maxX, width + x);

@@ -121,15 +121,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   };
 
   getLayoutStartPoint(): ILayoutPoint {
-    return this._region.getLayoutStartPoint();
+    return this._region.getLayoutPositionWidthIndent();
   }
 
   private _layoutRect: ILayoutRect = { width: null, height: null };
 
   getLayoutRect: () => ILayoutRect = () => {
     return {
-      width: this._layoutRect.width ?? this._region.getLayoutRect().width,
-      height: this._layoutRect.height ?? this._region.getLayoutRect().height
+      width: this._layoutRect.width ?? this._region.getLayoutRectWidthIndent().width,
+      height: this._layoutRect.height ?? this._region.getLayoutRectWidthIndent().height
     };
   };
 
@@ -674,6 +674,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         dataView: false
       }
     ) as IGroupMark;
+    this.setMarkStyle(
+      this._rootMark,
+      {
+        x: () => this._region.layout.indent.left,
+        y: () => this._region.layout.indent.right
+      },
+      'normal',
+      AttributeLevel.Base_Series
+    );
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 

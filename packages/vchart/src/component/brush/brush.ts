@@ -132,10 +132,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   protected _getBrushInteractiveAttr(region: IRegion) {
-    const seriesRegionStartX = region.getLayoutStartPoint().x;
-    const seriesRegionEndX = seriesRegionStartX + region.getLayoutRect().width;
-    const seriesRegionStartY = region.getLayoutStartPoint().y;
-    const seriesRegionEndY = seriesRegionStartY + region.getLayoutRect().height;
+    const seriesRegionStartX = region.getLayoutPositionWidthIndent().x;
+    const seriesRegionEndX = seriesRegionStartX + region.getLayoutRectWidthIndent().width;
+    const seriesRegionStartY = region.getLayoutPositionWidthIndent().y;
+    const seriesRegionEndY = seriesRegionStartY + region.getLayoutRectWidthIndent().height;
     return {
       interactiveRange: {
         minY: seriesRegionStartY,
@@ -322,8 +322,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     const seriesId = region.getSeries().map(s => s.id);
     this._linkedSeries.forEach((s: ISeries) => {
       if (!seriesId.includes(s.id)) {
-        const regionOffsetX = s.getRegion().getLayoutStartPoint().x - region.getLayoutStartPoint().x;
-        const regionOffsetY = s.getRegion().getLayoutStartPoint().y - region.getLayoutStartPoint().y;
+        const regionOffsetX = s.getRegion().getLayoutPositionWidthIndent().x - region.getLayoutPositionWidthIndent().x;
+        const regionOffsetY = s.getRegion().getLayoutPositionWidthIndent().y - region.getLayoutPositionWidthIndent().y;
 
         this._linkedItemMap[s.id].forEach((mark: IMark) => {
           const grammarMark = mark.getProduct();

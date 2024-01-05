@@ -5,7 +5,7 @@ import type { IBaseLayout, ILayoutItem } from '../interface';
 import { Layout } from '../base-layout';
 import { isXAxis, isYAxis } from '../../component/axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
-import { IAxis } from '../../component/axis';
+import type { IAxis } from '../../component/axis';
 
 interface IOffset {
   offsetLeft: number;
@@ -215,20 +215,20 @@ export class Layout3d extends Layout implements IBaseLayout {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
-          height: relativeRegion.getLayoutRect().height
+          height: relativeRegion.layoutWithIndent.height
         });
         item.setLayoutStartPosition({
-          y: relativeRegion.getLayoutStartPoint().y + item.layoutOffsetY + item.layoutPaddingTop
+          y: relativeRegion.layoutWithIndent.y + item.layoutOffsetY + item.layoutPaddingTop
         });
       } else if (['top', 'bottom'].includes(item.layoutOrient)) {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
-          width: relativeRegion.getLayoutRect().width
+          width: relativeRegion.layoutWithIndent.width
         });
 
         item.setLayoutStartPosition({
-          x: relativeRegion.getLayoutStartPoint().x + item.layoutOffsetX + item.layoutPaddingLeft
+          x: relativeRegion.layoutWithIndent.x + item.layoutOffsetX + item.layoutPaddingLeft
         });
       }
     });

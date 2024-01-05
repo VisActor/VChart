@@ -1,6 +1,6 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../typings/common';
-import type { IOrientType, IRect } from '../typings/space';
+import type { IOrientType, IPadding, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
 import type { ILayoutNumber, ILayoutPaddingSpec, ILayoutPoint, ILayoutRect, ILayoutType } from '../typings/layout';
 import type { ILayoutModel } from '../model/interface';
@@ -91,6 +91,11 @@ export interface ILayoutItem {
   layoutPaddingRight: number;
   layoutPaddingBottom: number;
 
+  // 锁进 概念上等同于 padding
+  indent: IPadding;
+  // 锁进后的布局属性
+  layoutWithIndent: IRect;
+
   layoutOffsetX: number;
   layoutOffsetY: number;
 
@@ -156,6 +161,11 @@ export interface ILayoutItemSpec {
   orient?: IOrientType;
   /** 模块的布局间距 */
   padding?: ILayoutPaddingSpec;
+  /**
+   * 模块的布局锁进
+   * @since 1.8.6
+   * */
+  indent?: ILayoutPaddingSpec;
   /** 是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效 */
   noOuterPadding?: boolean;
   /** 模块的布局大小：宽度 */
