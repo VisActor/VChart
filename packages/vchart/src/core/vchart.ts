@@ -640,7 +640,7 @@ export class VChart implements IVChart {
       if (updateResult.reSize) {
         const { width, height } = this.getCurrentSize();
         this._chart.onResize(width, height, false);
-        this._compiler.resize?.(width, height, false);
+        this._compiler.resizeSync(width, height, false);
       }
     }
   }
@@ -1112,13 +1112,35 @@ export class VChart implements IVChart {
    * @returns VChart 当前实例
    */
   async resize(width: number, height: number) {
-    if (!this._chart || !this._compiler) {
+    if (!this._beforeResize(width, height)) {
       return this as unknown as IVChart;
+    }
+    await this._compiler.resize?.(width, height);
+    return this._afterResize();
+  }
+
+  /**
+   * **同步方法**，图表尺寸更新方法
+   * @param width 宽度
+   * @param height 高度
+   * @returns VChart 当前实例
+   */
+  resizeSync(width: number, height: number) {
+    if (!this._beforeResize(width, height)) {
+      return this as unknown as IVChart;
+    }
+    this._compiler.resizeSync?.(width, height);
+    return this._afterResize();
+  }
+
+  protected _beforeResize(width: number, height: number): boolean {
+    if (!this._chart || !this._compiler) {
+      return false;
     }
     // 如果宽高未变化，不需要重新执行 resize，防止当图表初始化时会执行一次多余的 resize
     const chartCanvasRect = this._chart.getCanvasRect();
     if (chartCanvasRect && chartCanvasRect.width === width && chartCanvasRect.height === height) {
-      return this as unknown as IVChart;
+      return false;
     }
 
     // 插件生命周期
@@ -1128,13 +1150,14 @@ export class VChart implements IVChart {
     this._chart.onResize(width, height, false);
     this._option.performanceHook?.afterResizeWithUpdate?.();
 
-    await this._compiler.resize?.(width, height);
+    return true;
+  }
 
-    if (this._isReleased) {
-      return this as unknown as IVChart;
+  protected _afterResize() {
+    if (!this._isReleased) {
+      // emit resize event
+      this._event.emit(ChartEvent.afterResize, { chart: this._chart });
     }
-    // emit resize event
-    this._event.emit(ChartEvent.afterResize, { chart: this._chart });
     return this as unknown as IVChart;
   }
 
