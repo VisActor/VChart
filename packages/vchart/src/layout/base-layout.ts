@@ -179,13 +179,13 @@ export class Layout implements IBaseLayout {
     regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
 
     // region 处理
-    const regionWidth = Math.min(
-      regionRelativeTotalWidth,
-      ...regionItems.map(region => region.maxWidth ?? Number.MAX_VALUE)
+    const regionWidth = Math.max(
+      Math.min(regionRelativeTotalWidth, ...regionItems.map(region => region.maxWidth ?? Number.MAX_VALUE)),
+      0
     );
-    const regionHeight = Math.min(
-      regionRelativeTotalHeight,
-      ...regionItems.map(region => region.maxHeight ?? Number.MAX_VALUE)
+    const regionHeight = Math.max(
+      Math.min(regionRelativeTotalHeight, ...regionItems.map(region => region.maxHeight ?? Number.MAX_VALUE)),
+      0
     );
     regionItems.forEach(region => {
       region.setLayoutRect({
