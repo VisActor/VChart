@@ -7,6 +7,7 @@ export interface ILLMOptions {
   max_tokens?: number;
   temperature?: number;
   showThoughts?: boolean;
+  customRequestFunc?: (prompt: string, userMessage: string, options: ILLMOptions | undefined) => Promise<LLMResponse>;
   [key: string]: any;
 }
 
@@ -121,3 +122,12 @@ export type ChartGenerationProps = {
 };
 
 export type DataItem = Record<string, number | string>;
+
+export type LLMResponse = {
+  choices: {
+    index: number;
+    message: any;
+  }[];
+  usage: any;
+  [key: string]: any;
+};
