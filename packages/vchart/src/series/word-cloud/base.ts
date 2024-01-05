@@ -270,7 +270,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   compile(): void {
     super.compile();
-    const { width, height } = this._region.getLayoutRectWidthIndent();
+    const { width, height } = this._region.getLayoutRectExcludeIndent();
     // 非正常尺寸下不进行布局
     if (!isValidNumber(width) || !isValidNumber(height) || !(height > 0 && width > 0)) {
       return;
@@ -347,7 +347,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   protected _wordCloudTransformOption(): Object {
-    const { width, height } = this._region.getLayoutRectWidthIndent();
+    const { width, height } = this._region.getLayoutRectExcludeIndent();
     const wordStyleSpec = this._spec.word?.style ?? {};
 
     return {
@@ -380,7 +380,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   protected _wordCloudShapeTransformOption(): Object {
-    const { width, height } = this._region.getLayoutRectWidthIndent();
+    const { width, height } = this._region.getLayoutRectExcludeIndent();
     const wordStyleSpec = this._spec.word?.style ?? {};
     const wordCloudShapeConfig = this._wordCloudShapeConfig ?? {};
     const fillingRotateAngles = this._wordCloudShapeConfig.fillingRotateAngles;

@@ -741,7 +741,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
     const { zoomDelta, zoomX, zoomY } = params;
     const { x, y } = this._regions[0].getLayoutStartPoint();
-    const { width, height } = this._regions[0].getLayoutRectWidthIndent();
+    const { width, height } = this._regions[0].getLayoutRectExcludeIndent();
 
     const delta = Math.abs(this._start - this._end);
     const zoomRate = (this._spec.roamZoom as IRoamZoomSpec)?.rate ?? 1;

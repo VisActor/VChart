@@ -107,15 +107,15 @@ export class LayoutItem implements ILayoutItem {
     return this._indent;
   }
 
-  private _layoutWithIndent: IRect = {
+  private _layoutExcludeIndent: IRect = {
     x: 0,
     y: 0,
     width: 0,
     height: 0
   };
 
-  get layoutWithIndent() {
-    return this._layoutWithIndent;
+  get layoutExcludeIndent() {
+    return this._layoutExcludeIndent;
   }
 
   layoutOffsetX: ILayoutItem['layoutOffsetX'] = 0;
@@ -296,8 +296,8 @@ export class LayoutItem implements ILayoutItem {
     if (isValidNumber(pos.y)) {
       this._layoutStartPoint.y = pos.y;
     }
-    this._layoutWithIndent.x = this._layoutStartPoint.x + this._indent.left;
-    this._layoutWithIndent.y = this._layoutStartPoint.y + this._indent.top;
+    this._layoutExcludeIndent.x = this._layoutStartPoint.x + this._indent.left;
+    this._layoutExcludeIndent.y = this._layoutStartPoint.y + this._indent.top;
 
     this._model.afterSetLayoutStartPoint?.(this._layoutStartPoint);
   }
@@ -315,8 +315,8 @@ export class LayoutItem implements ILayoutItem {
 
     this.setRectInSpec(this._layoutRect);
 
-    this._layoutWithIndent.width = this._layoutRect.width - this._indent.left - this._indent.right;
-    this._layoutWithIndent.height = this._layoutRect.height - this._indent.top - this._indent.bottom;
+    this._layoutExcludeIndent.width = Math.max(this._layoutRect.width - this._indent.left - this._indent.right, 1);
+    this._layoutExcludeIndent.height = Math.max(this._layoutRect.height - this._indent.top - this._indent.bottom, 1);
   }
 
   getLayout(): IRect {

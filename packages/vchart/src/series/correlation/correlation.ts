@@ -344,8 +344,8 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
     this._viewBox.set(
       0,
       0,
-      this._region.getLayoutRectWidthIndent().width,
-      this._region.getLayoutRectWidthIndent().height
+      this._region.getLayoutRectExcludeIndent().width,
+      this._region.getLayoutRectExcludeIndent().height
     );
     this._rawData.reRunAllTransform();
     this.getViewData().reRunAllTransform();

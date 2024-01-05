@@ -369,8 +369,8 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
       const anchor = this.dataToPosition(datum);
       const showLeader = !!(this._spec.leader?.visible && (icon || nameLabel || valueLabel));
       this._markerComponents[i].setAttributes({
-        x: this.getRegions()[0].getLayoutPositionWidthIndent().x,
-        y: this.getRegions()[0].getLayoutPositionWidthIndent().y,
+        x: this.getRegions()[0].getLayoutPositionExcludeIndent().x,
+        y: this.getRegions()[0].getLayoutPositionExcludeIndent().y,
         position: anchor,
         visible: this._activeDatum.includes(datum),
         itemContent: {

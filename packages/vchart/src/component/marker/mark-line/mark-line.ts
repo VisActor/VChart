@@ -182,16 +182,16 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       let expandDistanceValue: number;
       if (isPercent(expandDistance)) {
         const regionStart = startRelativeSeries.getRegion();
-        const regionStartLayoutStartPoint = regionStart.getLayoutPositionWidthIndent();
+        const regionStartLayoutStartPoint = regionStart.getLayoutPositionExcludeIndent();
         const regionEnd = endRelativeSeries.getRegion();
-        const regionEndLayoutStartPoint = regionEnd.getLayoutPositionWidthIndent();
+        const regionEndLayoutStartPoint = regionEnd.getLayoutPositionExcludeIndent();
 
         if (connectDirection === 'bottom' || connectDirection === 'top') {
           const regionHeight = Math.abs(
             Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y) -
               Math.max(
-                regionStartLayoutStartPoint.y + regionStart.getLayoutRectWidthIndent().height,
-                regionEndLayoutStartPoint.y + regionEnd.getLayoutRectWidthIndent().height
+                regionStartLayoutStartPoint.y + regionStart.getLayoutRectExcludeIndent().height,
+                regionEndLayoutStartPoint.y + regionEnd.getLayoutRectExcludeIndent().height
               )
           );
           expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionHeight) / 100;
@@ -199,8 +199,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
           const regionWidth = Math.abs(
             Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x) -
               Math.max(
-                regionStartLayoutStartPoint.x + regionStart.getLayoutRectWidthIndent().width,
-                regionEndLayoutStartPoint.x + regionEnd.getLayoutRectWidthIndent().width
+                regionStartLayoutStartPoint.x + regionStart.getLayoutRectExcludeIndent().width,
+                regionEndLayoutStartPoint.x + regionEnd.getLayoutRectExcludeIndent().width
               )
           );
           expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionWidth) / 100;

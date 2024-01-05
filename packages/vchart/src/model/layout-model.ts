@@ -79,14 +79,14 @@ export abstract class LayoutModel<T extends IModelSpec> extends BaseModel<T> {
 
   // 布局相关
   // 得到排除锁进后的布局起点
-  getLayoutPositionWidthIndent() {
+  getLayoutPositionExcludeIndent() {
     let { x, y } = this.getLayoutStartPoint();
     x += this._layout.indent.left;
     y += this._layout.indent.top;
     return { x, y };
   }
   // 得到排除锁进后的尺寸
-  getLayoutRectWidthIndent() {
+  getLayoutRectExcludeIndent() {
     let { width, height } = this.getLayoutRect();
     width -= this._layout.indent.left + this._layout.indent.right;
     height -= this._layout.indent.top + this._layout.indent.bottom;

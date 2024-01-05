@@ -1383,8 +1383,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._viewBox.set(
       0,
       0,
-      this._region.getLayoutRectWidthIndent().width,
-      this._region.getLayoutRectWidthIndent().height
+      this._region.getLayoutRectExcludeIndent().width,
+      this._region.getLayoutRectExcludeIndent().height
     );
 
     // calculate the sankeyLayout

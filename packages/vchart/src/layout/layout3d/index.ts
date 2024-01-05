@@ -215,20 +215,20 @@ export class Layout3d extends Layout implements IBaseLayout {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
-          height: relativeRegion.layoutWithIndent.height
+          height: relativeRegion.layoutExcludeIndent.height
         });
         item.setLayoutStartPosition({
-          y: relativeRegion.layoutWithIndent.y + item.layoutOffsetY + item.layoutPaddingTop
+          y: relativeRegion.layoutExcludeIndent.y + item.layoutOffsetY + item.layoutPaddingTop
         });
       } else if (['top', 'bottom'].includes(item.layoutOrient)) {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
-          width: relativeRegion.layoutWithIndent.width
+          width: relativeRegion.layoutExcludeIndent.width
         });
 
         item.setLayoutStartPosition({
-          x: relativeRegion.layoutWithIndent.x + item.layoutOffsetX + item.layoutPaddingLeft
+          x: relativeRegion.layoutExcludeIndent.x + item.layoutOffsetX + item.layoutPaddingLeft
         });
       }
     });

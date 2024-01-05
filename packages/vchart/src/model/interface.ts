@@ -142,9 +142,9 @@ export interface ILayoutModel extends IModel {
   setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) => void;
 
   // 得到排除锁进后的布局起点
-  getLayoutPositionWidthIndent: () => IPoint;
+  getLayoutPositionExcludeIndent: () => IPoint;
   // 得到排除锁进后的尺寸
-  getLayoutRectWidthIndent: () => ILayoutRect;
+  getLayoutRectExcludeIndent: () => ILayoutRect;
 
   getLastComputeOutBounds: () => IBoundsLike;
 

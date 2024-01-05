@@ -303,8 +303,8 @@ export function showTooltip(
 
   // 组织数据
   const activeType = opt.activeType ?? (markInfoList.length > 1 ? 'dimension' : 'mark');
-  const regionPos = region.getLayoutPositionWidthIndent();
-  const regionRect = region.getLayoutRectWidthIndent();
+  const regionPos = region.getLayoutPositionExcludeIndent();
+  const regionRect = region.getLayoutRectExcludeIndent();
   const container = componentOptions.globalInstance.getContainer();
   const containerPos = {
     x: 0,

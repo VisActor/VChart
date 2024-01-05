@@ -174,8 +174,8 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
 
   private _getIndicatorAttrs() {
     const region = this._regions[0];
-    const { width, height } = region.getLayoutRectWidthIndent();
-    const { x, y } = region.getLayoutPositionWidthIndent();
+    const { width, height } = region.getLayoutRectExcludeIndent();
+    const { x, y } = region.getLayoutPositionExcludeIndent();
 
     const contentComponentSpec: IIndicatorItemSpec[] = [];
     array(this._spec.content).forEach((eachItem: IIndicatorItemSpec) => {
@@ -261,7 +261,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
 
   private _computeLayoutRadius() {
     const region = this._regions[0];
-    const { width, height } = region.getLayoutRectWidthIndent();
+    const { width, height } = region.getLayoutRectExcludeIndent();
     return Math.min(width / 2, height / 2);
   }
 

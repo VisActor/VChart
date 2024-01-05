@@ -94,7 +94,7 @@ export interface ILayoutItem {
   // 锁进 概念上等同于 padding
   indent: IPadding;
   // 锁进后的布局属性
-  layoutWithIndent: IRect;
+  layoutExcludeIndent: IRect;
 
   layoutOffsetX: number;
   layoutOffsetY: number;

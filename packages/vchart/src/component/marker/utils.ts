@@ -82,22 +82,22 @@ export function xyLayout(
   autoRange: boolean
 ) {
   const regionStart = startRelativeSeries.getRegion();
-  const regionStartLayoutStartPoint = regionStart.getLayoutPositionWidthIndent();
+  const regionStartLayoutStartPoint = regionStart.getLayoutPositionExcludeIndent();
   const regionEnd = endRelativeSeries.getRegion();
-  const regionEndLayoutStartPoint = regionEnd.getLayoutPositionWidthIndent();
+  const regionEndLayoutStartPoint = regionEnd.getLayoutPositionExcludeIndent();
 
   const regionWidth = Math.abs(
     Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x) -
       Math.max(
-        regionStartLayoutStartPoint.x + regionStart.getLayoutRectWidthIndent().width,
-        regionEndLayoutStartPoint.x + regionEnd.getLayoutRectWidthIndent().width
+        regionStartLayoutStartPoint.x + regionStart.getLayoutRectExcludeIndent().width,
+        regionEndLayoutStartPoint.x + regionEnd.getLayoutRectExcludeIndent().width
       )
   );
   const regionHeight = Math.abs(
     Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y) -
       Math.max(
-        regionStartLayoutStartPoint.y + regionStart.getLayoutRectWidthIndent().height,
-        regionEndLayoutStartPoint.y + regionEnd.getLayoutRectWidthIndent().height
+        regionStartLayoutStartPoint.y + regionStart.getLayoutRectExcludeIndent().height,
+        regionEndLayoutStartPoint.y + regionEnd.getLayoutRectExcludeIndent().height
       )
   );
 
@@ -121,8 +121,8 @@ export function xyLayout(
     } else if (isValid(datum.x)) {
       const x = getXValue(datum, xDomain, autoRange, refSeries, regionWidth, regionStartLayoutStartPoint);
       const y = Math.max(
-        regionStartLayoutStartPoint.y + regionStart.getLayoutRectWidthIndent().height,
-        regionEndLayoutStartPoint.y + regionEnd.getLayoutRectWidthIndent().height
+        regionStartLayoutStartPoint.y + regionStart.getLayoutRectExcludeIndent().height,
+        regionEndLayoutStartPoint.y + regionEnd.getLayoutRectExcludeIndent().height
       );
       const y1 = Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y);
       lines.push([
@@ -139,8 +139,8 @@ export function xyLayout(
       const x = Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x);
       const y = getYValue(datum, yDomain, autoRange, refSeries, regionHeight, regionStartLayoutStartPoint);
       const x1 = Math.max(
-        regionStartLayoutStartPoint.x + regionStart.getLayoutRectWidthIndent().width,
-        regionEndLayoutStartPoint.x + regionEnd.getLayoutRectWidthIndent().width
+        regionStartLayoutStartPoint.x + regionStart.getLayoutRectExcludeIndent().width,
+        regionEndLayoutStartPoint.x + regionEnd.getLayoutRectExcludeIndent().width
       );
       lines.push([
         {
@@ -178,9 +178,9 @@ export function coordinateLayout(
     ) => {
       const refRelativeSeries = datum?.getRefRelativeSeries ? datum.getRefRelativeSeries() : relativeSeries;
       const regionStart = refRelativeSeries.getRegion();
-      const regionStartLayoutStartPoint = regionStart.getLayoutPositionWidthIndent();
+      const regionStartLayoutStartPoint = regionStart.getLayoutPositionExcludeIndent();
 
-      const { width: regionWidth, height: regionHeight } = regionStart.getLayoutRectWidthIndent();
+      const { width: regionWidth, height: regionHeight } = regionStart.getLayoutRectExcludeIndent();
 
       let offsetX = 0;
       let offsetY = 0;
@@ -222,8 +222,8 @@ export function coordinateLayout(
 export function positionLayout(positions: MarkerPositionPoint[], series: ISeries, regionRelative: boolean): IPoint[] {
   if (regionRelative) {
     const region = series.getRegion();
-    const { x: regionStartX, y: regionStartY } = region.getLayoutPositionWidthIndent();
-    const { width: regionWidth, height: regionHeight } = region.getLayoutRectWidthIndent();
+    const { x: regionStartX, y: regionStartY } = region.getLayoutPositionExcludeIndent();
+    const { width: regionWidth, height: regionHeight } = region.getLayoutRectExcludeIndent();
     return positions.map(position => {
       let { x, y } = position;
       if (isPercent(x)) {
@@ -264,17 +264,17 @@ export function computeClipRange(regions: IRegion[]) {
   let minY = Infinity;
   let maxY = -Infinity;
   regions.forEach((region: IRegion) => {
-    if (region.getLayoutPositionWidthIndent().x < minX) {
-      minX = region.getLayoutPositionWidthIndent().x;
+    if (region.getLayoutPositionExcludeIndent().x < minX) {
+      minX = region.getLayoutPositionExcludeIndent().x;
     }
-    if (region.getLayoutPositionWidthIndent().x + region.getLayoutRectWidthIndent().width > maxX) {
-      maxX = region.getLayoutPositionWidthIndent().x + region.getLayoutRectWidthIndent().width;
+    if (region.getLayoutPositionExcludeIndent().x + region.getLayoutRectExcludeIndent().width > maxX) {
+      maxX = region.getLayoutPositionExcludeIndent().x + region.getLayoutRectExcludeIndent().width;
     }
-    if (region.getLayoutPositionWidthIndent().y < minY) {
-      minY = region.getLayoutPositionWidthIndent().y;
+    if (region.getLayoutPositionExcludeIndent().y < minY) {
+      minY = region.getLayoutPositionExcludeIndent().y;
     }
-    if (region.getLayoutPositionWidthIndent().y + region.getLayoutRectWidthIndent().height > maxY) {
-      maxY = region.getLayoutPositionWidthIndent().y + region.getLayoutRectWidthIndent().height;
+    if (region.getLayoutPositionExcludeIndent().y + region.getLayoutRectExcludeIndent().height > maxY) {
+      maxY = region.getLayoutPositionExcludeIndent().y + region.getLayoutRectExcludeIndent().height;
     }
   });
   return { minX, maxX, minY, maxY };

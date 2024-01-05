@@ -121,15 +121,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   };
 
   getLayoutStartPoint(): ILayoutPoint {
-    return this._region.getLayoutPositionWidthIndent();
+    return this._region.getLayoutPositionExcludeIndent();
   }
 
   private _layoutRect: ILayoutRect = { width: null, height: null };
 
   getLayoutRect: () => ILayoutRect = () => {
     return {
-      width: this._layoutRect.width ?? this._region.getLayoutRectWidthIndent().width,
-      height: this._layoutRect.height ?? this._region.getLayoutRectWidthIndent().height
+      width: this._layoutRect.width ?? this._region.getLayoutRectExcludeIndent().width,
+      height: this._layoutRect.height ?? this._region.getLayoutRectExcludeIndent().height
     };
   };
 
