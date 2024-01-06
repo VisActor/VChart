@@ -1,6 +1,16 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 03 Jan 2024 15:19:37 GMT and should not be manually modified.
+This log was last generated on Sat, 06 Jan 2024 05:10:05 GMT and should not be manually modified.
+
+## 1.8.6
+Sat, 06 Jan 2024 05:10:05 GMT
+
+### Updates
+
+- fix: optimize viusal effect for duplicated data in funnel charts, see #1921
+- fix: fix error of scatter when the shape is an array, close #1719
+
+
 
 ## 1.8.5
 Wed, 03 Jan 2024 15:19:37 GMT
