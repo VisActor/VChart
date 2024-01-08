@@ -4,7 +4,11 @@
 
 #${prefix} symbolType(string)
 
-symbol 的形状类型。目前内置了如下形状：`'circle'`, `'cross'`, `'diamond'`, `'square'`, `'arrow'`, `'arrow2Left'`, `'arrow2Right'`, `'wedge'`, `'thinTriangle'`, `'triangle'`, `'triangleUp'`, `'triangleDown'`, `'triangleRight'`, `'triangleLeft'`, `'stroke'`, `'star'`, `'wye'`, `'rect'`。
+symbol 的形状类型，支持传入内置的类型，也可以设置为自定义的路径字符串。
+
+目前内置了如下形状：`'circle'`, `'cross'`, `'diamond'`, `'square'`, `'arrow'`, `'arrow2Left'`, `'arrow2Right'`, `'wedge'`, `'thinTriangle'`, `'triangle'`, `'triangleUp'`, `'triangleDown'`, `'triangleRight'`, `'triangleLeft'`, `'stroke'`, `'star'`, `'wye'`, `'rect'`, `'arrowLeft'`,`'arrowRight'`, `'rectRound'`, `'roundLine'`。
+
+自定义路径字符串用法可以参考 demo： [自定义图例形状](../../../vchart/demo/legend/custom-line-legend)
 
 #${prefix} size(number|[number, number])
 

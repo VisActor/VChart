@@ -4,7 +4,11 @@
 
 #${prefix} symbolType(string)
 
-The shape type of the symbol. The built-in shapes are as follows: `'circle'`, `'cross'`, `'diamond'`, `'square'`, `'arrow'`, `'arrow2Left'`, `'arrow2Right'`, `'wedge'`, `'thinTriangle'`, `'triangle'`, `'triangleUp'`, `'triangleDown'`, `'triangleRight'`, `'triangleLeft'`, `'stroke'`, `'star'`, `'wye'`, `'rect'`.
+The shape type of the symbol. Supports passing in built-in type string, or it can be set as a custom path string.
+
+The built-in shapes are as follows: `'circle'`, `'cross'`, `'diamond'`, `'square'`, `'arrow'`, `'arrow2Left'`, `'arrow2Right'`, `'wedge'`, `'thinTriangle'`, `'triangle'`, `'triangleUp'`, `'triangleDown'`, `'triangleRight'`, `'triangleLeft'`, `'stroke'`, `'star'`, `'wye'`, `'rect'`, `'arrowLeft'`,`'arrowRight'`, `'rectRound'`, `'roundLine'`.
+
+You can refer to the demo for usage example: [Custom Legend Shapes](../../../vchart/demo/legend/custom-line-legend)
 
 #${prefix} size(number|[number, number])
 
