@@ -58,6 +58,10 @@ VChart.ThemeManager.setCurrentTheme('vScreenVolcanoBlue');
 
 该包主要包含以下主题 json 资源：
 
+- [light](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/light.json) Default Theme - light
+- [dark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/dark.json) Default Theme - dark
+- [semiDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-semi-theme/public/semiDesignLight.json) Semi Design - light
+- [semiDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-semi-theme/public/semiDesignDark.json) Semi Design - dark
 - [vScreenVolcanoBlue](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenVolcanoBlue.json) 大屏-火山蓝
 - [vScreenClean](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenClean.json) 大屏-清新蜡笔
 - [vScreenOutskirts](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenOutskirts.json) 大屏-郊外
