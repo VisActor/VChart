@@ -2349,6 +2349,29 @@
           }
         }
       ]
+    },
+    {
+      "path": "interaction",
+      "title": {
+        "zh": "交互",
+        "en": "interaction"
+      },
+      "children": [
+        {
+          "path": "element-active",
+          "title": {
+            "zh": "组合图元素高亮",
+            "en": "element-active of common chart"
+          }
+        },
+        {
+          "path": "highlight-by-legend",
+          "title": {
+            "zh": "图例触发系列高亮",
+            "en": "highlight series by legend"
+          }
+        }
+      ]
     }
   ]
 }
