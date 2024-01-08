@@ -42,6 +42,9 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
     this.setAngleField(this._spec.valueField || this._spec.angleField);
     // 分类信息给半径
     this.setRadiusField(this._spec.categoryField || this._spec.radiusField);
+
+    this._specAngleField = [...this._angleField];
+    this._specRadiusField = [...this._radiusField];
   }
 
   getStackGroupFields(): string[] {
@@ -178,11 +181,11 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
   }
 
   getDimensionField(): string[] {
-    return this._radiusField;
+    return this._specRadiusField;
   }
 
   getMeasureField(): string[] {
-    return this._angleField;
+    return this._specAngleField;
   }
 
   initMark(): void {
