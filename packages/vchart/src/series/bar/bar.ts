@@ -582,7 +582,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     super.compile();
 
     if (this._spec.sampling) {
-      const { width, height } = this._region.getLayoutRect();
+      const { width, height } = this._region.getLayoutRectExcludeIndent();
       const samplingTrans = [];
       const fieldsY = this._fieldY;
       const fieldsX = this._fieldX;
