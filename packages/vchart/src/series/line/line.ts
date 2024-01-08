@@ -4,19 +4,20 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
-import type { Datum, Maybe } from '../../typings';
+import type { Datum } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerLineAnimation, registerScaleInOutAnimation } from '../../animation/config';
-import type { ILineSeriesSpec, ILineSeriesTheme } from './interface';
+import type { ILineSeriesSpec } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { LineAppearPreset } from './animation';
 import { lineSeriesMark } from './constant';
-import { LineMark, registerLineMark } from '../../mark/line';
-import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
+import { registerLineMark } from '../../mark/line';
+import { registerSymbolMark } from '../../mark/symbol';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
+import { getGroupAnimationParams } from '../util/utils';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -74,20 +75,22 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   }
 
   initAnimation() {
-    const animationParams = { direction: this.direction };
+    const lineAnimationParams = { direction: this.direction };
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<LineAppearPreset>)?.preset;
     this._lineMark.setAnimationConfig(
       animationConfig(
-        Factory.getAnimationInKey('line')?.(animationParams, appearPreset),
+        Factory.getAnimationInKey('line')?.(lineAnimationParams, appearPreset),
         userAnimationConfig(SeriesMarkNameEnum.line, this._spec, this._markAttributeContext)
       )
     );
 
     if (this._symbolMark) {
+      const animationParams = getGroupAnimationParams(this);
       this._symbolMark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('scaleInOut')?.(),
-          userAnimationConfig(SeriesMarkNameEnum.point, this._spec, this._markAttributeContext)
+          userAnimationConfig(SeriesMarkNameEnum.point, this._spec, this._markAttributeContext),
+          animationParams
         )
       );
     }
