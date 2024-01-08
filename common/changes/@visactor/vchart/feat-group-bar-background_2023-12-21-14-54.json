@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: the `barBackground` mark in the bar chart supports `isGroupLevel` config to indicate whether the `barBackground` mark is displayed at the group level, related #1601",
+      "comment": "feat: the `barBackground` mark in the bar chart supports `fieldLevel` config to indicate whether the `barBackground` mark is displayed at the group level and at which level it is displayed, related #1601",
       "type": "none"
     }
   ],

@@ -97,12 +97,11 @@ export interface IBarSeriesSpec
 
 export interface IBarBackgroundSpec {
   /**
-   * 柱状背景图元是否显示在组的层级上。
-   * 例如：在分组柱状图中，如果配置为 true，则每个组对应一个整体的 barBackground；如果配置为 false，则每个柱条对应一个 barBackground。
-   * @default false
+   * 决定柱状背景图元是否显示在组的层级上，以及显示在哪个层级上。
+   * 例如：在分组柱状图中，xField 为 `['A', 'B', 'C']`，如果配置为 0，则以 'A' 划分的每个组对应一个整体的 barBackground；如果配置为 1，则以 'B' 划分的每个组对应一个整体的 barBackground；如果配置为 2，则每个柱条对应一个 barBackground。
    * @since 1.9.0
    */
-  isGroupLevel?: boolean;
+  fieldLevel?: number;
 }
 
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {

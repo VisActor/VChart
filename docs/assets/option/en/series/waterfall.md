@@ -44,13 +44,15 @@ BarBackground mark style configuration. This mark is invisible by default.
 
 Supported since version 1.6.0.
 
-##${prefix} isGroupLevel(boolean)
+##${prefix} fieldLevel(number)
 
-Whether the barBackground mark is displayed at the group level.
+Whether the barBackground mark is displayed at the group level and at which level it is displayed.
 
 Supported since version 1.9.0.
 
-For example, in a grouped bar chart, if configured as true, each group corresponds to a global barBackground; If configured as false, each bar corresponds to a barBackground.
+For example, in a grouped bar chart, `xField` is set to `['A', 'B', 'C']`. If configured as 0, each group divided by `'A'` corresponds to a global barBackground; If configured as 1, each group divided by `'B'` corresponds to a global barBackground; If configured as 2, each bar corresponds to a barBackground.
+
+The default value is that each bar corresponds to a barBackground.
 
 {{ use: common-mark(
   prefix = '#' + ${prefix}

@@ -179,7 +179,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         {
           type: 'dimensionItems',
           options: {
-            scaleDepth: spec.isGroupLevel ? 1 : undefined
+            scaleDepth: isNil(spec.fieldLevel) ? undefined : spec.fieldLevel + 1
           } as DimensionItemsConfig
         },
         false
@@ -373,7 +373,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
     const spec = this._spec.barBackground ?? {};
-    const scaleDepth = spec.isGroupLevel ? 1 : undefined;
+    const scaleDepth = isNil(spec.fieldLevel) ? undefined : spec.fieldLevel + 1;
 
     // guess the direction which the user want
     if (this.direction === Direction.horizontal) {
