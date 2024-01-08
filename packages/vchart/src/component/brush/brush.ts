@@ -132,10 +132,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   protected _getBrushInteractiveAttr(region: IRegion) {
-    const seriesRegionStartX = region.getLayoutPositionExcludeIndent().x;
-    const seriesRegionEndX = seriesRegionStartX + region.getLayoutRectExcludeIndent().width;
-    const seriesRegionStartY = region.getLayoutPositionExcludeIndent().y;
-    const seriesRegionEndY = seriesRegionStartY + region.getLayoutRectExcludeIndent().height;
+    const regionLayoutPosition = region.getLayoutPositionExcludeIndent();
+    const regionLayoutRect = region.getLayoutRectExcludeIndent();
+    const seriesRegionStartX = regionLayoutPosition.x;
+    const seriesRegionEndX = seriesRegionStartX + regionLayoutRect.width;
+    const seriesRegionStartY = regionLayoutPosition.y;
+    const seriesRegionEndY = seriesRegionStartY + regionLayoutRect.height;
     return {
       interactiveRange: {
         minY: seriesRegionStartY,
@@ -319,13 +321,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   private _reconfigLinkedItem(operateMask: IPolygon, region: IRegion) {
+    const regionLayoutPos = region.getLayoutPositionExcludeIndent();
     const seriesId = region.getSeries().map(s => s.id);
     this._linkedSeries.forEach((s: ISeries) => {
       if (!seriesId.includes(s.id)) {
-        const regionOffsetX =
-          s.getRegion().getLayoutPositionExcludeIndent().x - region.getLayoutPositionExcludeIndent().x;
-        const regionOffsetY =
-          s.getRegion().getLayoutPositionExcludeIndent().y - region.getLayoutPositionExcludeIndent().y;
+        const sRegionLayoutPos = s.getRegion().getLayoutPositionExcludeIndent();
+
+        const regionOffsetX = sRegionLayoutPos.x - regionLayoutPos.x;
+        const regionOffsetY = sRegionLayoutPos.y - regionLayoutPos.y;
 
         this._linkedItemMap[s.id].forEach((mark: IMark) => {
           const grammarMark = mark.getProduct();

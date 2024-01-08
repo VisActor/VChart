@@ -264,17 +264,19 @@ export function computeClipRange(regions: IRegion[]) {
   let minY = Infinity;
   let maxY = -Infinity;
   regions.forEach((region: IRegion) => {
-    if (region.getLayoutPositionExcludeIndent().x < minX) {
-      minX = region.getLayoutPositionExcludeIndent().x;
+    const regionPos = region.getLayoutPositionExcludeIndent();
+    const regionRect = region.getLayoutRectExcludeIndent();
+    if (regionPos.x < minX) {
+      minX = regionPos.x;
     }
-    if (region.getLayoutPositionExcludeIndent().x + region.getLayoutRectExcludeIndent().width > maxX) {
-      maxX = region.getLayoutPositionExcludeIndent().x + region.getLayoutRectExcludeIndent().width;
+    if (regionPos.x + regionRect.width > maxX) {
+      maxX = regionPos.x + regionRect.width;
     }
-    if (region.getLayoutPositionExcludeIndent().y < minY) {
-      minY = region.getLayoutPositionExcludeIndent().y;
+    if (regionPos.y < minY) {
+      minY = regionPos.y;
     }
-    if (region.getLayoutPositionExcludeIndent().y + region.getLayoutRectExcludeIndent().height > maxY) {
-      maxY = region.getLayoutPositionExcludeIndent().y + region.getLayoutRectExcludeIndent().height;
+    if (regionPos.y + regionRect.height > maxY) {
+      maxY = regionPos.y + regionRect.height;
     }
   });
   return { minX, maxX, minY, maxY };

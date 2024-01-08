@@ -367,10 +367,11 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
       });
       const datum = this._data.getLatestData()[i];
       const anchor = this.dataToPosition(datum);
+      const regionPos = this.getRegions()[0].getLayoutPositionExcludeIndent();
       const showLeader = !!(this._spec.leader?.visible && (icon || nameLabel || valueLabel));
       this._markerComponents[i].setAttributes({
-        x: this.getRegions()[0].getLayoutPositionExcludeIndent().x,
-        y: this.getRegions()[0].getLayoutPositionExcludeIndent().y,
+        x: regionPos.x,
+        y: regionPos.y,
         position: anchor,
         visible: this._activeDatum.includes(datum),
         itemContent: {
