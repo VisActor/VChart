@@ -587,7 +587,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
 
     const continuous = isContinuous(scale.type || 'band');
-    const pos = dataToPosition(datum, scaleDepth);
+    const pos = dataToPosition(datum, depth);
 
     return pos + (bandWidth - size) * 0.5 + (continuous ? -bandWidth / 2 : 0);
   }
@@ -598,7 +598,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     this._barBackgroundPositionXEncoder = encoder.bind(this);
   };
 
-  dataToBarBackgroundPositionX(datum: Datum, scaleDepth: number = 2): number {
+  dataToBarBackgroundPositionX(datum: Datum, scaleDepth?: number): number {
     return this._dataToPosition(
       datum,
       this._xAxisHelper,
@@ -615,7 +615,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     this._barBackgroundPositionYEncoder = encoder.bind(this);
   };
 
-  dataToBarBackgroundPositionY(datum: Datum, scaleDepth: number = 2): number {
+  dataToBarBackgroundPositionY(datum: Datum, scaleDepth?: number): number {
     return this._dataToPosition(
       datum,
       this._yAxisHelper,

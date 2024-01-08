@@ -321,7 +321,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     datum: Datum,
     axisHelper: IAxisHelper,
     field: string[],
-    scaleDepth: number,
+    scaleDepth: number | undefined,
     getEncoder: () => (datum: Datum) => number,
     setEncoder: (encoder: (datum: Datum) => number) => void
   ): number {
@@ -361,12 +361,12 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this._positionXEncoder = encoder.bind(this);
   };
 
-  dataToPositionX(datum: Datum): number {
+  dataToPositionX(datum: Datum, scaleDepth?: number): number {
     return this._dataToPosition(
       datum,
       this._xAxisHelper,
       this.fieldX,
-      2,
+      scaleDepth,
       this._getPositionXEncoder,
       this._setPositionXEncoder
     );
@@ -378,12 +378,12 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this._positionYEncoder = encoder.bind(this);
   };
 
-  dataToPositionY(datum: Datum): number {
+  dataToPositionY(datum: Datum, scaleDepth?: number): number {
     return this._dataToPosition(
       datum,
       this._yAxisHelper,
       this.fieldY,
-      2,
+      scaleDepth,
       this._getPositionYEncoder,
       this._setPositionYEncoder
     );
