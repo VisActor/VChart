@@ -21,7 +21,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { RectMark, registerRectMark } from '../../mark/rect';
-import { array, isValid, last } from '@visactor/vutils';
+import { array, isNil, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
 import { Factory } from '../../core/factory';
@@ -138,7 +138,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       return;
     }
 
-    type DimensionItemsConfig = { scaleDepth: number };
+    type DimensionItemsConfig = { scaleDepth?: number };
 
     /**
      * @description 准备 barBackground 数据
@@ -147,7 +147,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       let dataCollect: any[] = [{}];
       const fields = this.getDimensionField();
       // 将维度轴的所有层级 field 的对应数据做笛卡尔积
-      for (let i = 0; i < Math.min(fields.length, scaleDepth); i++) {
+      const depth = isNil(scaleDepth) ? fields.length : Math.min(fields.length, scaleDepth);
+      for (let i = 0; i < depth; i++) {
         const field = fields[i];
         const values = data.latestData[field]?.values;
         if (!values?.length) {
@@ -178,7 +179,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         {
           type: 'dimensionItems',
           options: {
-            scaleDepth: spec.isGroupLevel ? 1 : 2
+            scaleDepth: spec.isGroupLevel ? 1 : undefined
           } as DimensionItemsConfig
         },
         false
@@ -372,7 +373,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
     const spec = this._spec.barBackground ?? {};
-    const scaleDepth = spec.isGroupLevel ? 1 : 2;
+    const scaleDepth = spec.isGroupLevel ? 1 : undefined;
 
     // guess the direction which the user want
     if (this.direction === Direction.horizontal) {
@@ -510,9 +511,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     );
   }
 
-  protected _getBarWidth(axisHelper: IAxisHelper, scaleDepth: number = 2) {
-    const depthFromSpec = this._groups ? Math.min(this._groups.fields.length, 2) : 1;
-    const depth = Math.min(depthFromSpec, scaleDepth);
+  protected _getBarWidth(axisHelper: IAxisHelper, scaleDepth?: number) {
+    const depthFromSpec = this._groups ? this._groups.fields.length : 1;
+    const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
 
     const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
     const hasBarWidth = this._spec.barWidth !== undefined && depth === depthFromSpec;
@@ -532,7 +533,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     return width;
   }
 
-  protected _getPosition(direction: DirectionType, datum: Datum, scaleDepth: number = 2, mark?: SeriesMarkNameEnum) {
+  protected _getPosition(direction: DirectionType, datum: Datum, scaleDepth?: number, mark?: SeriesMarkNameEnum) {
     let axisHelper;
     let sizeAttribute;
     let dataToPosition;
@@ -553,8 +554,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
     const scale = axisHelper.getScale(0);
 
-    const depthFromSpec = this._groups ? Math.min(this._groups.fields.length, 2) : 1;
-    const depth = Math.min(depthFromSpec, scaleDepth);
+    const depthFromSpec = this._groups ? this._groups.fields.length : 1;
+    const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
 
     const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
     const size = depth === depthFromSpec ? (this._barMark.getAttribute(sizeAttribute, datum) as number) : bandWidth;
