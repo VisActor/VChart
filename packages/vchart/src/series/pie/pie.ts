@@ -116,7 +116,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     }
     this._radiusField = [];
 
-    this._specAngleField = [...this._angleField];
+    this._specAngleField = this._angleField.slice();
     this._specRadiusField = [];
   }
 

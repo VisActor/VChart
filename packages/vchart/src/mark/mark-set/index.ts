@@ -58,7 +58,7 @@ export class MarkSet {
   }
 
   getMarks() {
-    return [...this._children];
+    return this._children.slice();
   }
 
   getMarksInType(type: string | string[]): IMark[] {

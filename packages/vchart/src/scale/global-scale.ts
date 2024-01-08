@@ -236,7 +236,7 @@ export class GlobalScale implements IGlobalScale {
         if (!scaleSpec.domain || scaleSpec.domain.length === 0) {
           scale.domain(defaultDomain);
         }
-        this._updateMarkScale(id, scale, [...scale.domain()]);
+        this._updateMarkScale(id, scale, scale.domain().slice());
         return;
       }
       let domain: unknown[] | Set<string>;

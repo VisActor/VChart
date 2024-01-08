@@ -43,8 +43,8 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
     // 分类信息给半径
     this.setRadiusField(this._spec.categoryField || this._spec.radiusField);
 
-    this._specAngleField = [...this._angleField];
-    this._specRadiusField = [...this._radiusField];
+    this._specAngleField = this._angleField.slice();
+    this._specRadiusField = this._radiusField.slice();
   }
 
   getStackGroupFields(): string[] {
