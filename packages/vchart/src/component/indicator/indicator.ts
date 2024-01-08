@@ -187,6 +187,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         autoLimit: contentSpec.autoLimit,
         autoFit: contentSpec.autoFit,
         fitPercent: contentSpec.fitPercent,
+        fitStrategy: contentSpec.fitStrategy,
         style: {
           ...transformToGraphic(contentSpec.style),
           text: this._createText(contentSpec.field, contentSpec.style.text)
@@ -212,6 +213,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         autoLimit: this._spec.title.autoLimit,
         autoFit: this._spec.title.autoFit,
         fitPercent: this._spec.title.fitPercent,
+        fitStrategy: this._spec.title.fitStrategy,
         style: {
           ...transformToGraphic(this._spec.title.style),
           text: this._createText(this._spec.title.field, this._spec.title.style.text)
