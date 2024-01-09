@@ -34,6 +34,7 @@ import { registerSampleTransform } from '@visactor/vgrammar-core';
 import type { ILabelSpec } from '../../component';
 import { getGroupAnimationParams } from '../util/utils';
 import { BarSeriesSpecTransformer } from './bar-transformer';
+import { ComponentTypeEnum } from '../../component/interface';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 const RECT_X = `${PREFIX}_rect_x`;
@@ -134,60 +135,18 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     super._statisticViewData();
 
     const spec = this._spec.barBackground ?? {};
-    const isLinearAxis = isNil(this._viewDataStatistics.latestData[this.getDimensionField()[0]]?.values);
     if (!spec.visible) {
       return;
     }
 
+    const hasBandAxis = this._getRelatedComponentSpecInfo('axes').some(
+      axisInfo => axisInfo.type === ComponentTypeEnum.cartesianBandAxis
+    );
+
     let barBackgroundData: DataView;
     registerDataSetInstanceTransform(this._option.dataSet, 'addVChartProperty', addVChartProperty);
-    if (isLinearAxis) {
-      /**
-       * @description 准备 barBackground 数据（连续轴）
-       */
-      const dimensionItems = ([data]: DataView[]) => {
-        const dataCollect: Datum[] = [];
-        const [field0, field1] = this.getDimensionContinuousField();
-        const map: Record<string, Datum> = {};
-        viewData.latestData.forEach((datum: Datum) => {
-          const key = `${datum[field0]}-${datum[field1]}`;
-          if (!map[key]) {
-            map[key] = {
-              [field0]: datum[field0],
-              [field1]: datum[field1]
-            };
-            dataCollect.push(map[key]);
-          }
-        });
-        return dataCollect;
-      };
 
-      registerDataSetInstanceTransform(this._option.dataSet, 'dimensionItems', dimensionItems);
-
-      const viewData = this.getViewData();
-      const barBackgroundData = new DataView(this._option.dataSet)
-        .parse([viewData], {
-          type: 'dataview'
-        })
-        .transform(
-          {
-            type: 'dimensionItems'
-          },
-          false
-        )
-        .transform(
-          {
-            type: 'addVChartProperty',
-            options: {
-              beforeCall: initKeyMap.bind(this),
-              call: addDataKey
-            }
-          },
-          false
-        );
-
-      viewData?.target.addListener('change', barBackgroundData.reRunAllTransform);
-    } else {
+    if (hasBandAxis) {
       type DimensionItemsConfig = { scaleDepth?: number };
 
       /**
@@ -220,7 +179,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
       registerDataSetInstanceTransform(this._option.dataSet, 'dimensionItems', dimensionItems);
 
-      const barBackgroundData = new DataView(this._option.dataSet)
+      barBackgroundData = new DataView(this._option.dataSet)
         .parse([this._viewDataStatistics], {
           type: 'dataview'
         })
@@ -245,6 +204,52 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         );
 
       this._viewDataStatistics?.target.addListener('change', barBackgroundData.reRunAllTransform);
+    } else {
+      /**
+       * @description 准备 barBackground 数据（连续轴）
+       */
+      const dimensionItems = ([data]: DataView[]) => {
+        const dataCollect: Datum[] = [];
+        const [field0, field1] = this.getDimensionContinuousField();
+        const map: Record<string, Datum> = {};
+        viewData.latestData.forEach((datum: Datum) => {
+          const key = `${datum[field0]}-${datum[field1]}`;
+          if (!map[key]) {
+            map[key] = {
+              [field0]: datum[field0],
+              [field1]: datum[field1]
+            };
+            dataCollect.push(map[key]);
+          }
+        });
+        return dataCollect;
+      };
+
+      registerDataSetInstanceTransform(this._option.dataSet, 'dimensionItems', dimensionItems);
+
+      const viewData = this.getViewData();
+      barBackgroundData = new DataView(this._option.dataSet)
+        .parse([viewData], {
+          type: 'dataview'
+        })
+        .transform(
+          {
+            type: 'dimensionItems'
+          },
+          false
+        )
+        .transform(
+          {
+            type: 'addVChartProperty',
+            options: {
+              beforeCall: initKeyMap.bind(this),
+              call: addDataKey
+            }
+          },
+          false
+        );
+
+      viewData?.target.addListener('change', barBackgroundData.reRunAllTransform);
     }
     this._barBackgroundViewData = new SeriesData(this._option, barBackgroundData);
   }

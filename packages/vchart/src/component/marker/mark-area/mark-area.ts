@@ -42,6 +42,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
         {
           spec: markAreaSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: ComponentTypeEnum.markArea
         }
       ];
@@ -51,8 +52,8 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
       if (m.visible !== false) {
         specInfos.push({
           spec: m,
-          specIndex: i,
           specPath: [this.specKey, i],
+          specInfoPath: ['component', this.specKey, i],
           type: ComponentTypeEnum.markArea
         });
       }

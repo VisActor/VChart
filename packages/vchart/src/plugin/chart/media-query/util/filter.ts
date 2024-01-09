@@ -66,7 +66,6 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
       result.modelInfo.push({
         spec: regionSpec,
         specPath: ['region', i],
-        specIndex: i,
         type: 'region'
       });
     });
@@ -78,7 +77,6 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
       result.modelInfo.push({
         spec: seriesSpec,
         specPath: ['series', i],
-        specIndex: i,
         type: seriesSpec.type as string
       });
     });
@@ -92,7 +90,6 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
         result.modelInfo.push({
           spec: seriesSpec,
           specPath: ['series', i],
-          specIndex: i,
           type: filterType
         });
       }

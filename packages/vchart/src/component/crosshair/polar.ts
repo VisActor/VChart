@@ -81,6 +81,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
           {
             spec: crosshairSpec,
             specPath: [this.specKey],
+            specInfoPath: ['component', this.specKey, 0],
             type: ComponentTypeEnum.polarCrosshair
           }
         ];
@@ -92,8 +93,8 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
       if (s.categoryField || s.valueField) {
         specInfos.push({
           spec: s,
-          specIndex: i,
           specPath: [this.specKey, i],
+          specInfoPath: ['component', this.specKey, i],
           type: ComponentTypeEnum.polarCrosshair
         });
       }

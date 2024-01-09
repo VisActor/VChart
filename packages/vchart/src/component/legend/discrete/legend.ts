@@ -44,8 +44,8 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
         return [
           {
             spec: legendSpec,
-            specIndex: 0,
             specPath: [this.specKey],
+            specInfoPath: ['component', this.specKey, 0],
             type: ComponentTypeEnum.discreteLegend
           }
         ];
@@ -57,8 +57,8 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       if (!s.type || s.type === 'discrete') {
         specInfos.push({
           spec: s,
-          specIndex: i,
           specPath: [this.specKey, i],
+          specInfoPath: ['component', this.specKey, i],
           type: ComponentTypeEnum.discreteLegend
         });
       }

@@ -85,6 +85,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
           {
             spec: crosshairSpec,
             specPath: [this.specKey],
+            specInfoPath: ['component', this.specKey, 0],
             type: ComponentTypeEnum.cartesianCrosshair
           }
         ];
@@ -96,8 +97,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       if (s.xField || s.yField) {
         specInfos.push({
           spec: s,
-          specIndex: i,
           specPath: [this.specKey, i],
+          specInfoPath: ['component', this.specKey, i],
           type: ComponentTypeEnum.cartesianCrosshair
         });
       }

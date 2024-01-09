@@ -73,6 +73,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         {
           spec: tooltipSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: ComponentTypeEnum.tooltip
         }
       ];
@@ -81,8 +82,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     tooltipSpec.forEach((s: any, i: number) => {
       specInfos.push({
         spec: s,
-        specIndex: i,
         specPath: [this.specKey, i],
+        specInfoPath: ['component', this.specKey, i],
         type: ComponentTypeEnum.tooltip
       });
     });
@@ -164,7 +165,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     } else {
       // 构造内部默认 handler
       const Handler = renderMode === 'canvas' ? CanvasTooltipHandler : DomTooltipHandler;
-      const id = `${this._spec.className}-${this._option.globalInstance.id ?? 0}-${this._option.specIndex ?? 0}`;
+      const id = `${this._spec.className}-${this._option.globalInstance.id ?? 0}-${this.getSpecIndex()}`;
       this.tooltipHandler = new Handler(id, this);
     }
   }

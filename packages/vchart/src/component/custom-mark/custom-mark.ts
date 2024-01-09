@@ -37,8 +37,8 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     return [
       {
         spec,
-        specIndex: 0,
         specPath: [this.specKey],
+        specInfoPath: ['component', this.specKey, 0],
         type: ComponentTypeEnum.customMark
       }
     ];

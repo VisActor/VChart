@@ -34,7 +34,7 @@ export class TotalLabel extends BaseLabelComponent {
 
   static getSpecInfo(chartSpec: any, chartSpecInfo?: IChartSpecInfo): Maybe<IModelSpecInfo[]> {
     const specInfo: IModelSpecInfo[] = [];
-    chartSpecInfo?.region?.forEach((regionInfo, i) => {
+    chartSpecInfo?.region?.forEach((regionInfo, regionIndex) => {
       regionInfo.seriesIndexes?.forEach(seriesIndex => {
         const { spec } = chartSpecInfo.series[seriesIndex];
         const labelSpec = spec[this.specKey];
@@ -43,8 +43,9 @@ export class TotalLabel extends BaseLabelComponent {
             spec: labelSpec,
             type: ComponentTypeEnum.totalLabel,
             specPath: ['series', seriesIndex, this.specKey],
-            // 这里的 specIndex 是 region 的 index，用于 region 定位
-            specIndex: i
+            specInfoPath: ['component', this.specKey, seriesIndex],
+            regionIndexes: [regionIndex],
+            seriesIndexes: [seriesIndex]
           });
         }
       });

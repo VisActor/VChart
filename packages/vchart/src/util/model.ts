@@ -1,4 +1,3 @@
-import type { IChart } from '../chart/interface';
 import type { IRegion, ISeriesFilter } from '../region/interface';
 import type { ISeries } from '../series/interface';
 import { isFunction } from './type';

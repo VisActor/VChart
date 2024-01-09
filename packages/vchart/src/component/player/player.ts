@@ -64,6 +64,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
       {
         spec: playerSpec,
         specPath: [this.specKey],
+        specInfoPath: ['component', this.specKey, 0],
         type: ComponentTypeEnum.player
       }
     ];

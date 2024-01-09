@@ -48,16 +48,11 @@ export interface IChartSpecTransformerOption {
   getTheme: () => ITheme;
 }
 
-/** 这个对象保持和 chart spec 相同的一级结构，只是把原有的所有 model spec 替换为 IModelSpecInfo 对象 */
+/** 图表 spec 信息，包含所有的 IModelSpecInfo 对象 */
 export interface IChartSpecInfo {
-  // 在图表 spec 中有对应位置的组件，保持和 chart spec 相同的一级结构
   region?: IRegionSpecInfo[];
   series?: ISeriesSpecInfo[];
-  axes?: IModelSpecInfo | IModelSpecInfo[];
-  legends?: IModelSpecInfo | IModelSpecInfo[];
-  crosshair?: IModelSpecInfo | IModelSpecInfo[];
-  // 其他组件
-  [key: string]: IModelSpecInfo | IModelSpecInfo[];
+  component?: Record<string, Array<IModelSpecInfo>>;
 }
 
 // TODO: interface definition

@@ -61,6 +61,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         {
           spec: indicatorSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: ComponentTypeEnum.indicator
         }
       ];
@@ -71,8 +72,8 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       if (s && s.visible !== false) {
         specInfos.push({
           spec: s,
-          specIndex: i,
           specPath: [this.specKey, i],
+          specInfoPath: ['component', this.specKey, i],
           type: ComponentTypeEnum.indicator
         });
       }
