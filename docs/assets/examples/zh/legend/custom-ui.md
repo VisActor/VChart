@@ -66,6 +66,8 @@ vchart.renderAsync().then(() => {
   const checkbox = document.createElement('input');
   const checkboxLabel = document.createElement('label');
 
+  checkboxContainer.setAttribute('id', 'checkboxContainer');
+
   checkbox.setAttribute('type', 'checkbox');
   checkbox.setAttribute('id', 'checkbox');
   checkbox.style.verticalAlign = 'middle';
@@ -90,6 +92,11 @@ vchart.renderAsync().then(() => {
     }
   });
 });
+
+window.customRelease = () => {
+  const checkboxDom = document.getElementById('checkboxContainer');
+  checkboxDom && checkboxDom.remove();
+};
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
