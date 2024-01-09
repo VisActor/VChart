@@ -468,16 +468,16 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
 
   getDimensionField(): string[] {
     if (this._direction === Direction.vertical) {
-      return this.fieldX;
+      return this._specXField;
     }
-    return this.fieldY;
+    return this._specYField;
   }
 
   getMeasureField(): string[] {
     if (this._direction === Direction.vertical) {
-      return array(this._spec.yField ?? this.fieldY);
+      return this._specYField;
     }
-    return array(this._spec.xField ?? this.fieldX);
+    return this._specXField;
   }
 
   viewDataUpdate(d: DataView): void {

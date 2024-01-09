@@ -72,6 +72,9 @@ export class TitleModel extends BaseTooltipModel {
         hollow: title?.shapeHollow
       }
     );
+    this.textSpan?.setStyle({
+      color: 'inherit'
+    });
   }
 
   setContent(): void {
@@ -87,6 +90,9 @@ export class TitleModel extends BaseTooltipModel {
       size: tooltipStyle.shapeColumn.common?.width,
       fill: title?.shapeColor,
       hollow: title?.shapeHollow
+    });
+    this.textSpan?.setStyle({
+      color: 'inherit'
     });
     this.textSpan?.setContent(title?.value, tooltipAttributes.title?.value?.multiLine);
   }

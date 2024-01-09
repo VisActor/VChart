@@ -32,7 +32,7 @@ export class DimensionClickEvent extends DimensionEvent {
     this._callback.call(null, {
       ...params,
       action: 'click',
-      dimensionInfo: [...targetDimensionInfo]
+      dimensionInfo: targetDimensionInfo.slice()
     });
   };
 }

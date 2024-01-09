@@ -179,13 +179,13 @@ export class Layout implements IBaseLayout {
     regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
 
     // region 处理
-    const regionWidth = Math.min(
-      regionRelativeTotalWidth,
-      ...regionItems.map(region => region.maxWidth ?? Number.MAX_VALUE)
+    const regionWidth = Math.max(
+      Math.min(regionRelativeTotalWidth, ...regionItems.map(region => region.maxWidth ?? Number.MAX_VALUE)),
+      0
     );
-    const regionHeight = Math.min(
-      regionRelativeTotalHeight,
-      ...regionItems.map(region => region.maxHeight ?? Number.MAX_VALUE)
+    const regionHeight = Math.max(
+      Math.min(regionRelativeTotalHeight, ...regionItems.map(region => region.maxHeight ?? Number.MAX_VALUE)),
+      0
     );
     regionItems.forEach(region => {
       region.setLayoutRect({
@@ -207,10 +207,10 @@ export class Layout implements IBaseLayout {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
-          height: relativeRegion.getLayoutRect().height
+          height: relativeRegion.layoutExcludeIndent.height
         });
         item.setLayoutStartPosition({
-          y: relativeRegion.getLayoutStartPoint().y + item.layoutOffsetY + item.layoutPaddingTop
+          y: relativeRegion.layoutExcludeIndent.y + item.layoutOffsetY + item.layoutPaddingTop
         });
 
         if (item.layoutOrient === 'right') {
@@ -222,11 +222,11 @@ export class Layout implements IBaseLayout {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
-          width: relativeRegion.getLayoutRect().width
+          width: relativeRegion.layoutExcludeIndent.width
         });
 
         item.setLayoutStartPosition({
-          x: relativeRegion.getLayoutStartPoint().x + item.layoutOffsetX + item.layoutPaddingLeft
+          x: relativeRegion.layoutExcludeIndent.x + item.layoutOffsetX + item.layoutPaddingLeft
         });
 
         if (item.layoutOrient === 'bottom') {

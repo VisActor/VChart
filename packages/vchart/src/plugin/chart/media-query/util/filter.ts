@@ -1,7 +1,7 @@
 import { array, isFunction, isNil } from '@visactor/vutils';
-import type { IChartSpec } from '../../../../core';
+import type { IChartSpec } from '../../../../typings/spec/common';
 // eslint-disable-next-line no-duplicate-imports
-import { Factory } from '../../../../core';
+import { Factory } from '../../../../core/factory';
 import type {
   IMediaQueryAction,
   IMediaQueryActionFilterResult,

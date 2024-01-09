@@ -17,7 +17,7 @@ export function stackWithMinHeight(
     // stack one group
     let seriesInfo = stackCache.series;
     if (stackInverse) {
-      seriesInfo = [...seriesInfo].reverse();
+      seriesInfo = seriesInfo.slice().reverse();
     }
     // temp
     let lastY: number;

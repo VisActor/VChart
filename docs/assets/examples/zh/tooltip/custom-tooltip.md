@@ -4,7 +4,7 @@ group: tooltip
 title: 自定义 tooltip
 keywords: tooltip
 order: 26-1
-cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/57a706137957fce7388f3ab03.png
+cover: /vchart/preview/custom-tooltip.png
 option: barChart#tooltip
 ---
 
@@ -15,130 +15,152 @@ option: barChart#tooltip
 ## 代码演示
 
 ```javascript livedemo
-const data = [
-  {
-    x: '2:00',
-    y: 82
-  },
-  {
-    x: '4:00',
-    y: 50
-  },
-  {
-    x: '6:00',
-    y: 64
-  },
-  {
-    x: '8:00',
-    y: 10
-  },
-  {
-    x: '10:00',
-    y: 30
-  },
-  {
-    x: '12:00',
-    y: 40
-  },
-  {
-    x: '14:00',
-    y: 56
-  },
-  {
-    x: '16:00',
-    y: 40
-  },
-  {
-    x: '18:00',
-    y: 64
-  },
-  {
-    x: '20:00',
-    y: 74
-  },
-  {
-    x: '22:00',
-    y: 98
-  }
-];
-const sum = data.reduce((sum, cur) => sum + cur.y, 0);
-
+const markLineValue = 10000;
 const spec = {
-  type: 'bar',
+  type: 'line',
   data: {
-    id: 'data1',
-    values: data
+    values: [
+      { type: 'Nail polish', country: 'Africa', value: 4229 },
+      { type: 'Nail polish', country: 'EU', value: 4376 },
+      { type: 'Nail polish', country: 'China', value: 3054 },
+      { type: 'Nail polish', country: 'USA', value: 12814 },
+      { type: 'Eyebrow pencil', country: 'Africa', value: 3932 },
+      { type: 'Eyebrow pencil', country: 'EU', value: 3987 },
+      { type: 'Eyebrow pencil', country: 'China', value: 5067 },
+      { type: 'Eyebrow pencil', country: 'USA', value: 13012 },
+      { type: 'Rouge', country: 'Africa', value: 5221 },
+      { type: 'Rouge', country: 'EU', value: 3574 },
+      { type: 'Rouge', country: 'China', value: 7004 },
+      { type: 'Rouge', country: 'USA', value: 11624 },
+      { type: 'Lipstick', country: 'Africa', value: 9256 },
+      { type: 'Lipstick', country: 'EU', value: 4376 },
+      { type: 'Lipstick', country: 'China', value: 9054 },
+      { type: 'Lipstick', country: 'USA', value: 8814 },
+      { type: 'Eyeshadows', country: 'Africa', value: 3308 },
+      { type: 'Eyeshadows', country: 'EU', value: 4572 },
+      { type: 'Eyeshadows', country: 'China', value: 12043 },
+      { type: 'Eyeshadows', country: 'USA', value: 12998 },
+      { type: 'Eyeliner', country: 'Africa', value: 5432 },
+      { type: 'Eyeliner', country: 'EU', value: 3417 },
+      { type: 'Eyeliner', country: 'China', value: 15067 },
+      { type: 'Eyeliner', country: 'USA', value: 12321 },
+      { type: 'Foundation', country: 'Africa', value: 13701 },
+      { type: 'Foundation', country: 'EU', value: 5231 },
+      { type: 'Foundation', country: 'China', value: 10119 },
+      { type: 'Foundation', country: 'USA', value: 10342 },
+      { type: 'Lip gloss', country: 'Africa', value: 4008 },
+      { type: 'Lip gloss', country: 'EU', value: 4572 },
+      { type: 'Lip gloss', country: 'China', value: 12043 },
+      { type: 'Lip gloss', country: 'USA', value: 22998 },
+      { type: 'Mascara', country: 'Africa', value: 18712 },
+      { type: 'Mascara', country: 'EU', value: 6134 },
+      { type: 'Mascara', country: 'China', value: 10419 },
+      { type: 'Mascara', country: 'USA', value: 11261 }
+    ]
   },
-  xField: 'x',
-  yField: 'y',
-  bar: {
+  stack: false,
+  xField: 'type',
+  yField: 'value',
+  seriesField: 'country',
+  lineLabel: { visible: true },
+  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
+  point: {
     style: {
-      fill: {
-        gradient: 'linear',
-        x0: 0.5,
-        y0: 0.4,
-        x1: 1,
-        y1: 0.5,
-        stops: [
-          {
-            offset: 0,
-            color: '#4FC6B4'
-          },
-          {
-            offset: 1,
-            color: '#31679E'
-          }
-        ]
-      },
-      cornerRadius: 10
+      opacity: 0
+    },
+    state: {
+      dimension_hover: {
+        opacity: 1,
+        size: 10,
+        lineWidth: 2,
+        stroke: {
+          scale: 'color',
+          field: 'country'
+        },
+        fill: 'white'
+      }
     }
   },
+  markLine: [
+    {
+      y: markLineValue,
+      endSymbol: {
+        visible: false
+      },
+      line: {
+        style: {
+          stroke: 'orange',
+          lineWidth: 2
+        }
+      }
+    }
+  ],
   tooltip: {
     mark: {
-      position: 'top',
+      position: 'bottom',
       content: [
         {
-          key: 'Measure',
-          value: datum => datum.y
-        },
-        {
-          key: 'Ratio',
-          value: datum => Math.floor((datum.y / sum) * 10000) / 100 + '%',
-          hasShape: false
+          key: datum => datum.country,
+          value: datum => datum.value,
+          shapeLineWidth: 0.1,
+          shapeColor: 'white',
+          shapeType: 'circle'
         }
-      ],
-      updateContent: prev =>
-        (prev ?? [])
-          .map(c => {
-            c.key += ' Value:';
-            return c;
-          })
-          .concat({
-            key: 'I AM',
-            value: 'A NEW LINE'
-          })
+      ]
     },
     dimension: {
-      position: 'tl',
-      positionMode: 'pointer',
-      updateContent: prev =>
-        (prev ?? []).concat({
-          key: 'I AM',
-          value: 'A NEW LINE'
-        })
+      content: [
+        {
+          key: datum => datum.country,
+          value: datum => datum.value,
+          shapeLineWidth: 0.1,
+          shapeColor: 'white',
+          shapeType: 'circle'
+        }
+      ],
+      position: 'top',
+      positionAt: 'pointer',
+      updateContent: prev => {
+        console.log(prev);
+        // sort tooltip items
+        prev.sort((a, b) => b.value - a.value);
+        // highlight tooltip items whose value is greater than mark line
+        prev.forEach(item => {
+          if (item.value >= markLineValue) {
+            item.valueStyle = {
+              fill: 'red'
+            };
+          }
+        });
+        // add a new tooltip line
+        prev.push({
+          key: 'Mark Line',
+          value: markLineValue,
+          keyStyle: {
+            fill: 'orange'
+          },
+          valueStyle: {
+            fill: 'orange'
+          },
+          shapeType:
+            'M44.3,22.1H25.6V3.3h18.8V22.1z M76.8,3.3H58v18.8h18.8V3.3z M99.8,3.3h-9.4v18.8h9.4V3.3z M12.9,3.3H3.5v18.8h9.4V3.3z',
+          shapeColor: 'orange',
+          hasShape: true
+        });
+      }
     },
     style: {
       panel: {
         padding: {
-          top: 5,
-          bottom: 10,
+          top: 10,
+          bottom: 15,
           left: 10,
           right: 10
         },
-        backgroundColor: '#272d54',
+        backgroundColor: '#eee',
         border: {
-          color: '#999',
-          width: 4,
+          color: '#ccc',
+          width: 1,
           radius: 10
         },
         shadow: {
@@ -146,27 +168,29 @@ const spec = {
           y: 0,
           blur: 10,
           spread: 5,
-          color: '#666'
+          color: '#ddd'
         }
       },
       titleLabel: {
         fontSize: 20,
-        fontColor: 'white',
+        fontFamily: 'Times New Roman',
+        fill: 'brown',
         fontWeight: 'bold',
-        align: 'center',
+        textAlign: 'center',
         lineHeight: 24
       },
       keyLabel: {
         fontSize: 14,
-        fontColor: 'orange',
-        align: 'center',
+        fontFamily: 'Times New Roman',
+        fill: 'black',
+        textAlign: 'center',
         lineHeight: 15,
         spacing: 10
       },
       valueLabel: {
         fontSize: 14,
-        fontColor: 'yellow',
-        align: 'center',
+        fill: 'black',
+        textAlign: 'center',
         lineHeight: 15,
         spacing: 10
       },

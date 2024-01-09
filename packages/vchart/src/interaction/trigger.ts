@@ -43,7 +43,7 @@ export class Trigger implements ITrigger {
   }
 
   setStateKeys(fields: string[]): void {
-    this._fields = [...fields];
+    this._fields = fields.slice();
   }
 
   registerMark(mark: IMark): void {

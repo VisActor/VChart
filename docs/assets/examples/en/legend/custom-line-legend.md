@@ -4,7 +4,7 @@ group: legend
 title: Tiled Legend Items
 keywords: lineChart,comparison,trend,line,legend
 order: 27-7
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/legend/custom-line-legend.png
+cover: /vchart/preview/custom-line-legend_1.8.6.png
 option: lineChart#legends
 ---
 

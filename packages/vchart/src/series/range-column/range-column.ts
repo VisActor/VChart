@@ -266,6 +266,8 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 
   protected initTooltip() {
     this._tooltipHelper = new RangeColumnSeriesTooltipHelper(this);
+    this._barMark && this._tooltipHelper.activeTriggerSet.mark.add(this._barMark);
+
     this._minLabelMark && this._tooltipHelper.ignoreTriggerSet.mark.add(this._minLabelMark);
     this._maxLabelMark && this._tooltipHelper.ignoreTriggerSet.mark.add(this._maxLabelMark);
     this._labelMark && this._tooltipHelper.ignoreTriggerSet.mark.add(this._labelMark);

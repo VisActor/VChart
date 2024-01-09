@@ -682,6 +682,10 @@ value: {
   prefix = '######'
 ) }}
 
+#### focus(boolean) = false
+
+是否开启聚焦功能，默认关闭。
+
 #### focusIconStyle(Object)
 
 聚焦按钮样式配置。

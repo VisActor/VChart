@@ -26,6 +26,8 @@ export abstract class RoseLikeSeries<T extends IRoseLikeSeriesSpec> extends Pola
     // 兼容小组件写法，因为 spec 改造前已经开放了
     this.setAngleField(this._spec.categoryField || this._spec.angleField);
     this.setRadiusField(this._spec.valueField || this._spec.radiusField);
+    this._specAngleField = this._angleField.slice();
+    this._specRadiusField = this._radiusField.slice();
     this.setInnerRadiusField(this._spec.valueField || this._spec.radiusField);
     if (this._stack) {
       this.setValueFieldToStack();
@@ -46,10 +48,10 @@ export abstract class RoseLikeSeries<T extends IRoseLikeSeriesSpec> extends Pola
   }
 
   getDimensionField(): string[] {
-    return this._angleField;
+    return this._specAngleField;
   }
   getMeasureField(): string[] {
-    return this._radiusField;
+    return this._specRadiusField;
   }
 
   getDefaultShapeType(): string {
