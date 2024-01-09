@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: remove label line height in default themes, related #1983",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
