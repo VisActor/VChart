@@ -166,7 +166,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
           angle: (datum: Datum) => datum.angle,
-          visible: (datum: Datum) => !datum.isFillingWord
+          visible: (datum: Datum) => !datum.isFillingWord && datum.visible
         },
         'normal',
         AttributeLevel.Series
@@ -195,7 +195,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
           angle: (datum: Datum) => datum.angle,
-          visible: (datum: Datum) => datum.isFillingWord
+          visible: (datum: Datum) => datum.isFillingWord && datum.visible
         },
         'normal',
         AttributeLevel.Series
@@ -393,7 +393,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
       text: { field: this._textField },
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
-      fontSizeRange: this._fontSizeRange,
+      fontSizeRange: this._spec.fontSizeRange, // 对齐3.x效果, 形状词云fontSizeRange不设默认值
       padding: this._fontPadding,
       rotateList: this._rotateAngles,
       fontFamily: this._fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
