@@ -21,7 +21,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { RectMark, registerRectMark } from '../../mark/rect';
-import { array, isValid, last } from '@visactor/vutils';
+import { array, isNil, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
 import { Factory } from '../../core/factory';
@@ -133,18 +133,22 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _statisticViewData(): void {
     super._statisticViewData();
 
-    if (!this._spec.barBackground?.visible) {
+    const spec = this._spec.barBackground ?? {};
+    if (!spec.visible) {
       return;
     }
+
+    type DimensionItemsConfig = { scaleDepth?: number };
 
     /**
      * @description 准备 barBackground 数据
      */
-    const dimensionItems = ([data]: DataView[], op: string) => {
+    const dimensionItems = ([data]: DataView[], { scaleDepth }: DimensionItemsConfig) => {
       let dataCollect: any[] = [{}];
       const fields = this.getDimensionField();
       // 将维度轴的所有层级 field 的对应数据做笛卡尔积
-      for (let i = 0; i < fields.length; i++) {
+      const depth = isNil(scaleDepth) ? fields.length : Math.min(fields.length, scaleDepth);
+      for (let i = 0; i < depth; i++) {
         const field = fields[i];
         const values = data.latestData[field]?.values;
         if (!values?.length) {
@@ -173,7 +177,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       })
       .transform(
         {
-          type: 'dimensionItems'
+          type: 'dimensionItems',
+          options: {
+            scaleDepth: isNil(spec.fieldLevel) ? undefined : spec.fieldLevel + 1
+          } as DimensionItemsConfig
         },
         false
       )
@@ -365,6 +372,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
+    const spec = this._spec.barBackground ?? {};
+    const scaleDepth = isNil(spec.fieldLevel) ? undefined : spec.fieldLevel + 1;
 
     // guess the direction which the user want
     if (this.direction === Direction.horizontal) {
@@ -381,8 +390,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             const max = Math.max(range[0], range[range.length - 1]);
             return max;
           },
-          y: (datum: Datum) => this._getPosition(this.direction, datum),
-          height: () => this._getBarWidth(this._yAxisHelper)
+          y: (datum: Datum) => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
+          height: () => this._getBarWidth(this._yAxisHelper, scaleDepth)
         },
         'normal',
         AttributeLevel.Series
@@ -391,7 +400,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         this._barBackgroundMark,
         {
-          x: (datum: Datum) => this._getPosition(this.direction, datum),
+          x: (datum: Datum) => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
           y: () => {
             const range = yScale.range();
             const min = Math.min(range[0], range[range.length - 1]);
@@ -403,7 +412,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             return max;
           },
           width: () => {
-            return this._getBarWidth(this._xAxisHelper);
+            return this._getBarWidth(this._xAxisHelper, scaleDepth);
           }
         },
         'normal',
@@ -502,9 +511,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     );
   }
 
-  protected _getBarWidth(axisHelper: IAxisHelper) {
-    const hasBarWidth = this._spec.barWidth !== undefined;
-    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
+  protected _getBarWidth(axisHelper: IAxisHelper, scaleDepth?: number) {
+    const depthFromSpec = this._groups ? this._groups.fields.length : 1;
+    const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
+
+    const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
+    const hasBarWidth = this._spec.barWidth !== undefined && depth === depthFromSpec;
 
     if (hasBarWidth) {
       return getActualNumValue(this._spec.barWidth, bandWidth);
@@ -521,23 +533,34 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     return width;
   }
 
-  protected _getPosition(direction: DirectionType, datum: Datum) {
+  protected _getPosition(direction: DirectionType, datum: Datum, scaleDepth?: number, mark?: SeriesMarkNameEnum) {
     let axisHelper;
     let sizeAttribute;
     let dataToPosition;
     if (direction === Direction.horizontal) {
       axisHelper = this.getYAxisHelper();
       sizeAttribute = 'height';
-      dataToPosition = this.dataToPositionY.bind(this);
+      dataToPosition =
+        mark === SeriesMarkNameEnum.barBackground
+          ? this.dataToBarBackgroundPositionY.bind(this)
+          : this.dataToPositionY.bind(this);
     } else {
       axisHelper = this.getXAxisHelper();
       sizeAttribute = 'width';
-      dataToPosition = this.dataToPositionX.bind(this);
+      dataToPosition =
+        mark === SeriesMarkNameEnum.barBackground
+          ? this.dataToBarBackgroundPositionX.bind(this)
+          : this.dataToPositionX.bind(this);
     }
     const scale = axisHelper.getScale(0);
-    const size = this._barMark.getAttribute(sizeAttribute, datum) as number;
-    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
-    if (this._groups?.fields?.length > 1 && isValid(this._spec.barGapInGroup)) {
+
+    const depthFromSpec = this._groups ? this._groups.fields.length : 1;
+    const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
+
+    const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
+    const size = depth === depthFromSpec ? (this._barMark.getAttribute(sizeAttribute, datum) as number) : bandWidth;
+
+    if (depth > 1 && isValid(this._spec.barGapInGroup)) {
       // 自里向外计算，沿着第一层分组的中心点进行位置调整
       const groupFields = this._groups.fields;
       const barInGroup = array(this._spec.barGapInGroup);
@@ -564,8 +587,43 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
 
     const continuous = isContinuous(scale.type || 'band');
-    const pos = dataToPosition(datum);
+    const pos = dataToPosition(datum, depth);
+
     return pos + (bandWidth - size) * 0.5 + (continuous ? -bandWidth / 2 : 0);
+  }
+
+  protected _barBackgroundPositionXEncoder?: (datum: Datum) => number;
+  protected _getBarBackgroundPositionXEncoder = () => this._barBackgroundPositionXEncoder?.bind(this);
+  protected _setBarBackgroundPositionXEncoder = (encoder: (datum: Datum) => number) => {
+    this._barBackgroundPositionXEncoder = encoder.bind(this);
+  };
+
+  dataToBarBackgroundPositionX(datum: Datum, scaleDepth?: number): number {
+    return this._dataToPosition(
+      datum,
+      this._xAxisHelper,
+      this.fieldX,
+      scaleDepth,
+      this._getBarBackgroundPositionXEncoder,
+      this._setBarBackgroundPositionXEncoder
+    );
+  }
+
+  protected _barBackgroundPositionYEncoder?: (datum: Datum) => number;
+  protected _getBarBackgroundPositionYEncoder = () => this._barBackgroundPositionYEncoder?.bind(this);
+  protected _setBarBackgroundPositionYEncoder = (encoder: (datum: Datum) => number) => {
+    this._barBackgroundPositionYEncoder = encoder.bind(this);
+  };
+
+  dataToBarBackgroundPositionY(datum: Datum, scaleDepth?: number): number {
+    return this._dataToPosition(
+      datum,
+      this._yAxisHelper,
+      this.fieldY,
+      scaleDepth,
+      this._getBarBackgroundPositionYEncoder,
+      this._setBarBackgroundPositionYEncoder
+    );
   }
 
   onLayoutEnd(ctx: any): void {
