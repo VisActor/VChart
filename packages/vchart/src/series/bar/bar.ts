@@ -134,68 +134,118 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     super._statisticViewData();
 
     const spec = this._spec.barBackground ?? {};
+    const isLinearAxis = isNil(this._viewDataStatistics.latestData[this.getDimensionField()[0]]?.values);
     if (!spec.visible) {
       return;
     }
 
-    type DimensionItemsConfig = { scaleDepth?: number };
-
-    /**
-     * @description 准备 barBackground 数据
-     */
-    const dimensionItems = ([data]: DataView[], { scaleDepth }: DimensionItemsConfig) => {
-      let dataCollect: any[] = [{}];
-      const fields = this.getDimensionField();
-      // 将维度轴的所有层级 field 的对应数据做笛卡尔积
-      const depth = isNil(scaleDepth) ? fields.length : Math.min(fields.length, scaleDepth);
-      for (let i = 0; i < depth; i++) {
-        const field = fields[i];
-        const values = data.latestData[field]?.values;
-        if (!values?.length) {
-          continue;
-        }
-        const newDataCollect: any[] = [];
-        for (let j = 0; j < values.length; j++) {
-          for (let k = 0; k < dataCollect.length; k++) {
-            newDataCollect.push({
-              ...dataCollect[k],
-              [field]: values[j]
-            });
-          }
-        }
-        dataCollect = newDataCollect;
-      }
-      return dataCollect;
-    };
-
+    let barBackgroundData: DataView;
     registerDataSetInstanceTransform(this._option.dataSet, 'addVChartProperty', addVChartProperty);
-    registerDataSetInstanceTransform(this._option.dataSet, 'dimensionItems', dimensionItems);
-
-    const barBackgroundData = new DataView(this._option.dataSet)
-      .parse([this._viewDataStatistics], {
-        type: 'dataview'
-      })
-      .transform(
-        {
-          type: 'dimensionItems',
-          options: {
-            scaleDepth: isNil(spec.fieldLevel) ? undefined : spec.fieldLevel + 1
-          } as DimensionItemsConfig
-        },
-        false
-      )
-      .transform(
-        {
-          type: 'addVChartProperty',
-          options: {
-            beforeCall: initKeyMap.bind(this),
-            call: addDataKey
+    if (isLinearAxis) {
+      /**
+       * @description 准备 barBackground 数据（连续轴）
+       */
+      const dimensionItems = ([data]: DataView[]) => {
+        const dataCollect: Datum[] = [];
+        const [field0, field1] = this.getDimensionContinuousField();
+        const map: Record<string, Datum> = {};
+        viewData.latestData.forEach((datum: Datum) => {
+          const key = `${datum[field0]}-${datum[field1]}`;
+          if (!map[key]) {
+            map[key] = {
+              [field0]: datum[field0],
+              [field1]: datum[field1]
+            };
+            dataCollect.push(map[key]);
           }
-        },
-        false
-      );
+        });
+        return dataCollect;
+      };
 
-    this._viewDataStatistics?.target.addListener('change', barBackgroundData.reRunAllTransform);
+      registerDataSetInstanceTransform(this._option.dataSet, 'dimensionItems', dimensionItems);
+
+      const viewData = this.getViewData();
+      const barBackgroundData = new DataView(this._option.dataSet)
+        .parse([viewData], {
+          type: 'dataview'
+        })
+        .transform(
+          {
+            type: 'dimensionItems'
+          },
+          false
+        )
+        .transform(
+          {
+            type: 'addVChartProperty',
+            options: {
+              beforeCall: initKeyMap.bind(this),
+              call: addDataKey
+            }
+          },
+          false
+        );
+
+      viewData?.target.addListener('change', barBackgroundData.reRunAllTransform);
+    } else {
+      type DimensionItemsConfig = { scaleDepth?: number };
+
+      /**
+       * @description 准备 barBackground 数据（离散轴）
+       */
+      const dimensionItems = ([data]: DataView[], { scaleDepth }: DimensionItemsConfig) => {
+        let dataCollect: Datum[] = [{}];
+        const fields = this.getDimensionField();
+        // 将维度轴的所有层级 field 的对应数据做笛卡尔积
+        const depth = isNil(scaleDepth) ? fields.length : Math.min(fields.length, scaleDepth);
+        for (let i = 0; i < depth; i++) {
+          const field = fields[i];
+          const values = data.latestData[field]?.values;
+          if (!values?.length) {
+            continue;
+          }
+          const newDataCollect: Datum[] = [];
+          for (let j = 0; j < values.length; j++) {
+            for (let k = 0; k < dataCollect.length; k++) {
+              newDataCollect.push({
+                ...dataCollect[k],
+                [field]: values[j]
+              });
+            }
+          }
+          dataCollect = newDataCollect;
+        }
+        return dataCollect;
+      };
+
+      registerDataSetInstanceTransform(this._option.dataSet, 'dimensionItems', dimensionItems);
+
+      const barBackgroundData = new DataView(this._option.dataSet)
+        .parse([this._viewDataStatistics], {
+          type: 'dataview'
+        })
+        .transform(
+          {
+            type: 'dimensionItems',
+            options: {
+              scaleDepth: isNil(spec.fieldLevel) ? undefined : spec.fieldLevel + 1
+            } as DimensionItemsConfig
+          },
+          false
+        )
+        .transform(
+          {
+            type: 'addVChartProperty',
+            options: {
+              beforeCall: initKeyMap.bind(this),
+              call: addDataKey
+            }
+          },
+          false
+        );
+
+      this._viewDataStatistics?.target.addListener('change', barBackgroundData.reRunAllTransform);
+    }
     this._barBackgroundViewData = new SeriesData(this._option, barBackgroundData);
   }
 
@@ -362,10 +412,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         AttributeLevel.Series
       );
     }
-    this._initBarBackgroundMarkStyle();
+    this._initBandBarBackgroundMarkStyle();
   }
 
-  protected _initBarBackgroundMarkStyle() {
+  protected _initBandBarBackgroundMarkStyle() {
     if (!this._barBackgroundMark) {
       return;
     }
@@ -477,6 +527,54 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
               return datum[RECT_X1];
             }
             return valueInScaleRange(this.dataToPositionX1(datum), xScale);
+          },
+          y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
+          y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale)
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+    this._initLinearBarBackgroundMarkStyle();
+  }
+
+  protected _initLinearBarBackgroundMarkStyle() {
+    const xScale = this._xAxisHelper?.getScale?.(0);
+    const yScale = this._yAxisHelper?.getScale?.(0);
+
+    if (this.direction === Direction.vertical) {
+      this.setMarkStyle(
+        this._barBackgroundMark,
+        {
+          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
+          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
+          y: () => {
+            const range = yScale.range();
+            const min = Math.min(range[0], range[range.length - 1]);
+            return min;
+          },
+          y1: () => {
+            const range = yScale.range();
+            const max = Math.max(range[0], range[range.length - 1]);
+            return max;
+          }
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    } else {
+      this.setMarkStyle(
+        this._barBackgroundMark,
+        {
+          x: () => {
+            const range = xScale.range();
+            const min = Math.min(range[0], range[range.length - 1]);
+            return min;
+          },
+          x1: () => {
+            const range = xScale.range();
+            const max = Math.max(range[0], range[range.length - 1]);
+            return max;
           },
           y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
           y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale)
