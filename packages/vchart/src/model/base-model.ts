@@ -77,15 +77,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     return this._layout;
   }
 
-  getSpecIndex() {
-    const path = this.getSpecPath();
-    const index = Number(path[path.length - 1]);
-    if (isNaN(index)) {
-      return 0;
-    }
-    return index;
-  }
-
   readonly specKey: string = '';
 
   protected declare _option: IModelOption;
@@ -303,5 +294,17 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   getSpecInfo() {
     const specInfo = this._option.getSpecInfo?.() ?? {};
     return getProperty<IModelSpecInfo>(specInfo, this.getSpecInfoPath());
+  }
+
+  getSpecIndex() {
+    const path = this.getSpecPath();
+    if (!path?.length) {
+      return 0;
+    }
+    const index = Number(path[path.length - 1]);
+    if (isNaN(index)) {
+      return 0;
+    }
+    return index;
   }
 }
