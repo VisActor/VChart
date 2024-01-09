@@ -1,6 +1,7 @@
 {
   "name": "@visactor/react-vchart",
   "version": "1.8.6",
+  "sideEffects": false,
   "description": "The react version of VChart 4.x",
   "keywords": [
     "react",
