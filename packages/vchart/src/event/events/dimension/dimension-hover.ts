@@ -57,7 +57,7 @@ export class DimensionHoverEvent extends DimensionEvent {
       this._callback.call(null, {
         ...params,
         action: 'leave',
-        dimensionInfo: [...this._cacheDimensionInfo]
+        dimensionInfo: this._cacheDimensionInfo.slice()
       });
       this._cacheDimensionInfo = targetDimensionInfo;
     } else if (
@@ -70,7 +70,7 @@ export class DimensionHoverEvent extends DimensionEvent {
       this._callback.call(null, {
         ...params,
         action: 'enter',
-        dimensionInfo: [...targetDimensionInfo]
+        dimensionInfo: targetDimensionInfo.slice()
       });
       this._cacheDimensionInfo = targetDimensionInfo;
     } else if (targetDimensionInfo !== null) {
@@ -78,7 +78,7 @@ export class DimensionHoverEvent extends DimensionEvent {
       this._callback.call(null, {
         ...params,
         action: 'move',
-        dimensionInfo: [...targetDimensionInfo]
+        dimensionInfo: targetDimensionInfo.slice()
       });
     }
   };
@@ -91,7 +91,7 @@ export class DimensionHoverEvent extends DimensionEvent {
     this._callback.call(null, {
       ...params,
       action: 'leave',
-      dimensionInfo: this._cacheDimensionInfo ? [...this._cacheDimensionInfo] : []
+      dimensionInfo: this._cacheDimensionInfo ? this._cacheDimensionInfo.slice() : []
     });
     this._cacheDimensionInfo = null;
   };

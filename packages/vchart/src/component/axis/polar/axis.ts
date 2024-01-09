@@ -190,7 +190,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   _transformLayoutPosition = (pos: Partial<IPoint>) => {
     const region = this.getRegions()?.[0];
-    return region ? region.getLayoutStartPoint() : pos;
+    return region ? region.getLayoutPositionExcludeIndent() : pos;
   };
 
   onLayoutEnd(ctx: any): void {
@@ -569,7 +569,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   private getRefLayoutRect() {
-    return this.getRegions()[0].getLayoutRect();
+    return this.getRegions()[0].getLayoutRectExcludeIndent();
   }
 
   private getRefSeriesRadius() {

@@ -30736,6 +30736,9 @@
           ],
           "description": "图例背景配置"
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -49451,6 +49454,9 @@
         },
         "angle": {
           "type": "number"
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -69957,7 +69963,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69965,14 +69971,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12602",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69980,14 +69986,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12602",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69995,14 +70001,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12602",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -70010,14 +70016,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12602",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -70025,14 +70031,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12602",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -70040,14 +70046,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12602",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -70055,14 +70061,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12602",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -70070,14 +70076,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12602",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -70085,7 +70091,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12602",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
@@ -70615,6 +70621,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -73195,6 +73204,9 @@
         "angle": {
           "type": "number"
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -75016,6 +75028,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -75743,6 +75758,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -76163,6 +76181,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -76642,6 +76663,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -77086,6 +77110,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -77492,6 +77519,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -77882,6 +77912,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -78320,6 +78353,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -78978,6 +79014,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -80170,6 +80209,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -80556,6 +80598,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -81202,6 +81247,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -81603,6 +81651,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -82359,6 +82410,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -82755,6 +82809,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -83835,6 +83892,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -84323,6 +84383,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -84716,6 +84779,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -86416,34 +86482,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12602"
+        "__@toStringTag@12605"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12602"
+        "__@toStringTag@12605"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12602": {
+        "__@toStringTag@12605": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12602"
+        "__@toStringTag@12605"
       ],
       "type": "object"
     },
@@ -86622,6 +86688,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -86951,6 +87020,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -87118,6 +87188,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -87438,6 +87511,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -87605,6 +87679,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -87896,6 +87973,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -88057,6 +88135,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -88371,6 +88452,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -88551,6 +88633,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -88899,6 +88984,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -89067,6 +89153,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -89387,6 +89476,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -89551,6 +89641,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -89874,6 +89967,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -90042,6 +90136,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -90337,6 +90434,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -90497,6 +90595,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -90801,6 +90902,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -90962,6 +91064,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -91272,6 +91377,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -91436,6 +91542,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -91743,6 +91852,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -91906,6 +92016,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -92230,6 +92343,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -92422,6 +92536,9 @@
         },
         "backgroundFillOpacity": {
           "type": "number"
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundHeight": {
           "type": "number"
@@ -92808,6 +92925,7 @@
         "background",
         "backgroundFill",
         "backgroundFillOpacity",
+        "backgroundFit",
         "backgroundHeight",
         "backgroundMode",
         "backgroundRadius",
@@ -92983,6 +93101,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -93288,6 +93409,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -93448,6 +93570,9 @@
               "type": "string"
             }
           ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -93847,6 +93972,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",

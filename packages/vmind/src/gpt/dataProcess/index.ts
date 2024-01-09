@@ -12,7 +12,10 @@ export const parseCSVDataWithGPT = async (csvFile: string, userInput: string, op
   const DATA_TOP_N = 5; //取csv文件的前多少条数据
   const topNCSVFile = readTopNLine(csvFile, DATA_TOP_N);
   const dataProcessMessage = `CSV file content:\n${topNCSVFile}\nUser Input: ${userInput}`;
-  const dataProcessRes = await requestGPT(DataProcessPromptEnglish, dataProcessMessage, options);
+
+  const requestFunc = options.customRequestFunc ?? requestGPT;
+
+  const dataProcessRes = await requestFunc(DataProcessPromptEnglish, dataProcessMessage, options);
 
   const dataProcessResJson = parseGPTResponse(dataProcessRes);
   const { dataset } = getDataset(csvFile);

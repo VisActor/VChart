@@ -80,7 +80,9 @@ export const chartAdvisorGPT = async (
   const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
   //console.log(chartAdvisorMessage);
 
-  const advisorRes = await requestGPT(ChartAdvisorPromptEnglish, chartAdvisorMessage, options);
+  const requestFunc = options.customRequestFunc ?? requestGPT;
+
+  const advisorRes = await requestFunc(ChartAdvisorPromptEnglish, chartAdvisorMessage, options);
 
   const advisorResJson: GPTChartAdvisorResult = parseGPTResponse(advisorRes) as unknown as GPTChartAdvisorResult;
 

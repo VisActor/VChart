@@ -692,6 +692,10 @@ value: {
   prefix = '######'
 ) }}
 
+#### focus(boolean) = false
+
+Whether to enable the legend focus feature, which is disabled by default.
+
 #### focusIconStyle(Object)
 
 Focus button style configuration.

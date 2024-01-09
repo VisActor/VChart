@@ -4,7 +4,7 @@ group: line chart
 title: Highlight All Related Points When Clicking the Dimension Item
 keywords: lineChart,comparison,trend,line
 order: 0-12
-cover: /vchart/preview/line-custom-state_1.7.2.png
+cover: /vchart/preview/line-custom-state_1.8.6.png
 option: lineChart
 ---
 
@@ -87,7 +87,14 @@ const spec = {
       }
     }
   },
-  legends: [{ visible: true, position: 'middle', orient: 'bottom' }]
+  legends: [
+    {
+      visible: true,
+      position: 'middle',
+      orient: 'bottom',
+      item: { shape: { style: { symbolType: 'roundLine' } } }
+    }
+  ]
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });

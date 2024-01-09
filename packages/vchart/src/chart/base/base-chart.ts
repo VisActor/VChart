@@ -1164,7 +1164,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
               });
             } else {
               if (datum.length > 1) {
-                const datumTemp = [...(datum as Datum[])];
+                const datumTemp = (datum as Datum[]).slice();
                 pickElements = elements.filter(e => {
                   if (datumTemp.length === 0) {
                     return false;

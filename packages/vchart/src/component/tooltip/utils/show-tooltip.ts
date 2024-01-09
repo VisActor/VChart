@@ -95,7 +95,7 @@ export function showTooltip(
           const nextList: any[][] = [];
           dimensionDataList.forEach(dimensionData => {
             domain.forEach((value: any) => {
-              const newData = [...(dimensionData ?? [])];
+              const newData = dimensionData?.slice() ?? [];
               newData[i] = value;
               nextList.push(newData);
             });
@@ -303,8 +303,8 @@ export function showTooltip(
 
   // 组织数据
   const activeType = opt.activeType ?? (markInfoList.length > 1 ? 'dimension' : 'mark');
-  const regionPos = region.getLayoutStartPoint();
-  const regionRect = region.getLayoutRect();
+  const regionPos = region.getLayoutPositionExcludeIndent();
+  const regionRect = region.getLayoutRectExcludeIndent();
   const container = componentOptions.globalInstance.getContainer();
   const containerPos = {
     x: 0,

@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import { degreeToRadian, isValid } from '@visactor/vutils';
+import { array, degreeToRadian, isValid } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import {
   AttributeLevel,
@@ -65,8 +65,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _center!: IPoint | null;
   public get center(): IPoint {
     return {
-      x: this._spec?.centerX ?? this._region.getLayoutRect().width / 2,
-      y: this._spec?.centerY ?? this._region.getLayoutRect().height / 2
+      x: this._spec?.centerX ?? this._region.getLayoutRectExcludeIndent().width / 2,
+      y: this._spec?.centerY ?? this._region.getLayoutRectExcludeIndent().height / 2
     };
   }
   protected _centerOffset!: number;
@@ -86,8 +86,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     // center
     this._markAttributeContext.getCenter = () => {
       return {
-        x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
-        y: () => this._center?.y ?? this._region.getLayoutRect().height / 2
+        x: () => this._center?.x ?? this._region.getLayoutRectExcludeIndent().width / 2,
+        y: () => this._center?.y ?? this._region.getLayoutRectExcludeIndent().height / 2
       };
     };
 
@@ -115,6 +115,9 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       this.setSeriesField(this._spec.categoryField);
     }
     this._radiusField = [];
+
+    this._specAngleField = this._angleField.slice();
+    this._specRadiusField = [];
   }
 
   initData() {
@@ -188,8 +191,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       this.setMarkStyle(
         pieMark,
         {
-          x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
-          y: () => this._center?.y ?? this._region.getLayoutRect().height / 2,
+          x: () => this._center?.x ?? this._region.getLayoutRectExcludeIndent().width / 2,
+          y: () => this._center?.y ?? this._region.getLayoutRectExcludeIndent().height / 2,
           fill: this.getColorAttribute(),
           outerRadius: isSpecValueWithScale(this._outerRadius)
             ? this._outerRadius
@@ -275,7 +278,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return this._seriesField ? [this._seriesField] : [];
   }
   getMeasureField(): string[] {
-    return this._angleField;
+    return this._specAngleField;
   }
 
   private viewDataLabelUpdate() {
@@ -295,7 +298,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 
   protected computeLayoutRadius() {
-    const { width, height } = this._region.getLayoutRect();
+    const { width, height } = this._region.getLayoutRectExcludeIndent();
     return Math.min(width / 2, height / 2);
   }
 
