@@ -46,7 +46,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
      */
     const spiltSegment = (data: Datum[], op: string) => {
       // 数据处理
-      const dataCollect = [...data];
+      const dataCollect = data.slice();
       dataCollect.sort((a, b) => a[this._angleField[0]] - b[this._angleField[0]]);
       dataCollect.forEach((datum: any, i) => {
         datum[SEGMENT_FIELD_END] = datum[this._angleField[0]];
