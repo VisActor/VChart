@@ -241,8 +241,9 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
   /**
    * 字体大小范围
    * @description 当valueField存在时，默认值[20,40]; 当valueField不存在时，默认值[10, 10]
+   * @since 1.8.0 如果配置为'auto', 则fontSizeRange不传入, 字体大小会随画布大小改变而改变
    */
-  fontSizeRange?: [number, number]; // 需要固定字体大小的话，数组里面的数就配置成一样的
+  fontSizeRange?: [number, number] | 'auto'; // 需要固定字体大小的话，数组里面的数就配置成一样的
   /**
    * 词云形状
    * @default 'circle'

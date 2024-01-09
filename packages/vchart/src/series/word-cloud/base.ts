@@ -358,7 +358,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       dataIndexKey: DEFAULT_DATA_KEY,
       text: { field: this._textField },
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
-      fontSizeRange: this._fontSizeRange,
+      fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange,
       padding: this._fontPadding,
       rotate: { field: WORD_CLOUD_ANGLE },
       fontFamily: this._fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
@@ -393,7 +393,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
       text: { field: this._textField },
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
-      fontSizeRange: this._spec.fontSizeRange, // 对齐3.x效果, 形状词云fontSizeRange不设默认值
+      fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange, // 如果配置为'auto', 则形状词云fontSizeRange不设默认值(对齐3.x效果)
       padding: this._fontPadding,
       rotateList: this._rotateAngles,
       fontFamily: this._fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,

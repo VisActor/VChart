@@ -4,21 +4,21 @@
 
 #${prefix} min(number)
 
-**仅当轴为线性轴时生效**，最小值，**优先级高于 zero，nice**。
+**仅当轴为线性轴或时间轴时生效**，最小值(时间轴仅支持时间戳)，**优先级高于 zero，nice**。
 
 #${prefix} max(number)
 
-**仅当轴为线性轴时生效**，最大值，**优先级高于 zero，nice**。
+**仅当轴为线性轴或时间轴时生效**，最大值(时间轴仅支持时间戳)，**优先级高于 zero，nice**。
 
 #${prefix} nice(boolean) = true
 
-**仅当轴为线性轴时生效**，是否根据数据将轴范围调整到相对规整的数值，当配置了 `min` 和 `max`，该配置项失效。
+**仅当轴为线性轴或时间轴时生效**，是否根据数据将轴范围调整到相对规整的数值，当配置了 `min` 和 `max`，该配置项失效。
 
 比如当配置了 `max = 999`, `nice` 并不会将轴范围优化到 1000。
 
 #${prefix} niceType(string) = 'tickCountFirst'
 
-**仅当轴为线性轴时生效**，nice 效果的类型，是精度优先还是 tickCount 优先（比如 tickCount 为 2 那 nice 出来的精度就很低）。不配置就默认是 tickCountFirst。
+**仅当轴为线性轴或时间轴时生效**，nice 效果的类型，是精度优先还是 tickCount 优先（比如 tickCount 为 2 那 nice 出来的精度就很低）。不配置就默认是 tickCountFirst。
 
 可选值：
 
@@ -29,11 +29,11 @@
 
 #${prefix} zero(boolean) = true
 
-**仅当轴为线性轴时生效**，是否包含 0 值。当配置了 min 和 max，该配置项失效。
+**仅当轴为线性轴或时间轴时生效**，是否包含 0 值。当配置了 min 和 max，该配置项失效。
 
 #${prefix} expand(Object)
 
-**仅当轴为线性轴时生效**，轴范围按比例扩展，当配置了 min 和 max，该配置项失效。
+**仅当轴为线性轴或时间轴时生效**，轴范围按比例扩展，当配置了 min 和 max，该配置项失效。
 
 ##${prefix} min(number)
 
@@ -61,6 +61,6 @@
 
 #${prefix} tooltipFilterRange(number | [number, number])
 
-**仅当轴为线性轴时生效**，配置连续轴上的 dimension tooltip 数据筛选范围。从 1.4.0 版本开始支持。
+**仅当轴为线性轴或时间轴时生效**，配置连续轴上的 dimension tooltip 数据筛选范围。从 1.4.0 版本开始支持。
 
 如果配置为单个数字形如 `d`，则筛选区间为 `[x0 - d, x0 + d]`；如果配置为二元组形如 `[d1, d2]`，则筛选区间为 `[x0 + d1, x0 + d2]`。
