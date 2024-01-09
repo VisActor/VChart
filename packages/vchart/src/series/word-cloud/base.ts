@@ -66,8 +66,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _fontWeightRange?: [number, number];
   protected _textField?: string;
 
-  protected _fontSizeRange?: [number, number] = [DEFAULT_MIN_FONT_SIZE, DEFAULT_MIN_FONT_SIZE];
-  setFontSizeRange(fontSizeRange: [number, number]) {
+  protected _fontSizeRange?: [number, number] | 'auto' = [DEFAULT_MIN_FONT_SIZE, DEFAULT_MIN_FONT_SIZE];
+  setFontSizeRange(fontSizeRange: [number, number] | 'auto') {
     if (isValid(fontSizeRange)) {
       this._fontSizeRange = fontSizeRange;
     } else {
