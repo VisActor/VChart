@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(markPoint): mark point support item content confine. fix #1573",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
