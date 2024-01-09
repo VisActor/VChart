@@ -18161,6 +18161,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "interactive": {
           "description": "是否支持交互。@default false",
           "type": "boolean"
@@ -24324,6 +24329,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "labelZIndex": {
           "description": "crosshair 文本的显示层级",
           "type": "number"
@@ -26863,6 +26873,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "inverse": {
           "default": false,
           "description": "是否开启反向坐标轴。",
@@ -27525,6 +27540,11 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -28218,6 +28238,11 @@
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "interactive": {
           "default": true,
@@ -29413,6 +29438,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "labelZIndex": {
           "description": "crosshair 文本的显示层级",
           "type": "number"
@@ -30193,6 +30223,11 @@
           "since": "1.7.0",
           "type": "boolean"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
           "type": "number"
@@ -30928,6 +30963,11 @@
         },
         "html": {
           "typeof": "function"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -39873,6 +39913,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
           "type": "number"
@@ -40082,6 +40127,11 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -40457,6 +40507,11 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -41398,6 +41453,11 @@
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -45822,6 +45882,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "interactive": {
           "default": false,
           "description": "marker组件是否可交互",
@@ -48403,6 +48468,11 @@
           "description": "组件高度",
           "type": "number"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "interval": {
           "default": 1000,
           "description": "该配置与totalDuration互斥, 若配置播放间隔, 则会重新计算总时长.",
@@ -48612,6 +48682,11 @@
         "height": {
           "description": "组件高度",
           "type": "number"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -48912,6 +48987,11 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "labelZIndex": {
           "description": "crosshair 文本的显示层级",
@@ -55566,6 +55646,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
           "type": "number"
@@ -59000,6 +59085,11 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "innerPadding": {
           "anyOf": [
@@ -63061,6 +63151,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "innerPadding": {
           "anyOf": [
             {
@@ -63378,6 +63473,11 @@
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -69963,7 +70063,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         },
         "size": {
@@ -69971,14 +70071,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12605",
+        "__@toStringTag@12606",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         },
         "size": {
@@ -69986,14 +70086,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12605",
+        "__@toStringTag@12606",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         },
         "size": {
@@ -70001,14 +70101,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12605",
+        "__@toStringTag@12606",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         },
         "size": {
@@ -70016,14 +70116,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12605",
+        "__@toStringTag@12606",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         },
         "size": {
@@ -70031,14 +70131,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12605",
+        "__@toStringTag@12606",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         },
         "size": {
@@ -70046,14 +70146,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12605",
+        "__@toStringTag@12606",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         },
         "size": {
@@ -70061,14 +70161,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12605",
+        "__@toStringTag@12606",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         },
         "size": {
@@ -70076,14 +70176,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12605",
+        "__@toStringTag@12606",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         },
         "size": {
@@ -70091,7 +70191,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12605",
+        "__@toStringTag@12606",
         "size"
       ],
       "type": "object"
@@ -71496,6 +71596,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "label": {
           "$ref": "#/definitions/ICartesianLabel",
           "description": "轴标签配置"
@@ -72121,6 +72226,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "inverse": {
           "default": false,
           "description": "是否开启反向坐标轴。",
@@ -72300,6 +72410,11 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -73600,6 +73715,11 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -78725,6 +78845,11 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
+        },
         "interactive": {
           "description": "是否支持交互。@default false",
           "type": "boolean"
@@ -79388,6 +79513,11 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
+        },
+        "indent": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局锁进",
+          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -86482,34 +86612,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12605"
+        "__@toStringTag@12606"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12605"
+        "__@toStringTag@12606"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12605": {
+        "__@toStringTag@12606": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12605"
+        "__@toStringTag@12606"
       ],
       "type": "object"
     },
