@@ -146,7 +146,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   protected abstract _initEvent(): void;
 
   private _bindLegendDataChange() {
-    this._preSelectedData = [...this._selectedData];
+    this._preSelectedData = this._selectedData.slice();
     this._initSelectedData();
   }
 

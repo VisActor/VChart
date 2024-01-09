@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import { degreeToRadian, isValid } from '@visactor/vutils';
+import { array, degreeToRadian, isValid } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import {
   AttributeLevel,
@@ -115,6 +115,9 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       this.setSeriesField(this._spec.categoryField);
     }
     this._radiusField = [];
+
+    this._specAngleField = this._angleField.slice();
+    this._specRadiusField = [];
   }
 
   initData() {
@@ -275,7 +278,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return this._seriesField ? [this._seriesField] : [];
   }
   getMeasureField(): string[] {
-    return this._angleField;
+    return this._specAngleField;
   }
 
   private viewDataLabelUpdate() {

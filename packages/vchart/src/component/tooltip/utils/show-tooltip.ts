@@ -95,7 +95,7 @@ export function showTooltip(
           const nextList: any[][] = [];
           dimensionDataList.forEach(dimensionData => {
             domain.forEach((value: any) => {
-              const newData = [...(dimensionData ?? [])];
+              const newData = dimensionData?.slice() ?? [];
               newData[i] = value;
               nextList.push(newData);
             });

@@ -46,6 +46,9 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     return this._radiusField;
   }
 
+  protected _specAngleField: string[];
+  protected _specRadiusField: string[];
+
   protected _innerRadiusField!: string[];
   public get innerRadiusField() {
     return this._innerRadiusField;
