@@ -33,8 +33,6 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
 
-  private _legendItems: LegendItemDatum[];
-
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const legendSpec = chartSpec[this.specKey];
     if (!legendSpec) {
@@ -206,9 +204,6 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   }
 
   private _getLegendItems() {
-    if (this._legendItems) {
-      return this._legendItems;
-    }
     const originData = (this._legendData.getLatestData() || []).map((datum: any) => {
       const fillOpacity = datum.style('fillOpacity');
       const strokeOpacity = datum.style('strokeOpacity');
@@ -239,13 +234,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     const legendItems = isFunction(this._spec.data)
       ? this._spec.data(originData, this._option.globalScale.getScale('color'), this._option.globalScale)
       : originData;
-    this._legendItems = legendItems;
     return legendItems;
-  }
-
-  clear(): void {
-    super.clear();
-    this._legendItems = null;
   }
 }
 
