@@ -4,13 +4,6 @@ import type { IModelSpecInfo } from '../../../../model/interface';
 import type { SeriesTypeEnum } from '../../../../series';
 import type { IChartSpec } from '../../../../typings';
 
-export interface IMediaInfo {
-  /** 图表宽度 */
-  width: number;
-  /** 图表高度 */
-  height: number;
-}
-
 export interface IMediaQueryActionFilterResult<T extends Record<string, unknown> = any> {
   /** 是否是图表层级 */
   isChart?: boolean;

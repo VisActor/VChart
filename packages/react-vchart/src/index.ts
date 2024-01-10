@@ -2,9 +2,10 @@ export * from './charts';
 export * from './series';
 export * from './components';
 export * from './VChart';
+export * from './VChartSimple';
 
-import VChartCore from '@visactor/vchart';
-export { VChartCore };
+// export the version, since @1.8.3
+export const version = __VERSION__;
 
 export type {
   IAreaChartSpec,

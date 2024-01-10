@@ -1,11 +1,11 @@
 /* eslint-disable no-duplicate-imports */
 import type { IFunnelSeries, SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum } from '../interface/type';
-import type { IOrientType, IPoint, TextAlign, TextBaseLine, Maybe, Datum, StringOrNumber } from '../../typings';
+import type { IOrientType, IPoint, TextAlign, TextBaseLine, Datum, StringOrNumber } from '../../typings';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IPolygonMark } from '../../mark/polygon/polygon';
 import { BaseSeries } from '../base/base-series';
-import { AttributeLevel, PREFIX } from '../../constant';
+import { AttributeLevel, DEFAULT_DATA_KEY, PREFIX } from '../../constant';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { DataView } from '@visactor/vdataset';
 import type { IMark } from '../../mark/interface';
@@ -31,10 +31,10 @@ import {
 import type { ITextMark } from '../../mark/text';
 import { calcLayoutNumber } from '../../util/space';
 import { field } from '../../util/object';
-import type { FunnelAppearPreset, IFunnelSeriesSpec, IFunnelSeriesTheme } from './interface';
+import type { FunnelAppearPreset, IFunnelSeriesSpec } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
-import { isFunction, isValid, merge, isNumber } from '@visactor/vutils';
+import { isFunction, isValid, isNumber } from '@visactor/vutils';
 import {
   FadeInOutAnimation,
   registerCartesianGroupClipAnimation,
@@ -43,9 +43,9 @@ import {
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { PolygonMark, registerPolygonMark } from '../../mark/polygon/polygon';
-import { TextMark, registerTextMark } from '../../mark/text';
-import { RuleMark, registerRuleMark } from '../../mark/rule';
+import { registerPolygonMark } from '../../mark/polygon/polygon';
+import { registerTextMark } from '../../mark/text';
+import { registerRuleMark } from '../../mark/rule';
 import { funnelSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import type { LabelItem } from '@visactor/vrender-components';
@@ -182,7 +182,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         themeSpec: this._theme?.funnel,
         morph: shouldMarkDoMorph(this._spec, this._funnelMarkName),
         defaultMorphElementKey: this._seriesField,
-        key: this._seriesField,
         groupKey: this._seriesField,
         isSeriesMark: true,
         customShape: this._spec.funnel?.customShape
@@ -198,7 +197,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         },
         {
           themeSpec: this._theme?.transform,
-          key: this._seriesField,
           skipBeforeLayouted: false,
           dataView: this._viewDataTransform.getDataView(),
           dataProductId: this._viewDataTransform.getProductId(),
@@ -213,14 +211,12 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
 
       this._funnelOuterLabelMark.label = this._createMark(FunnelSeries.mark.outerLabel, {
         themeSpec: this._theme?.outerLabel,
-        key: this._seriesField,
         markSpec: this._spec.outerLabel,
         skipBeforeLayouted: true
       }) as ITextMark;
 
       this._funnelOuterLabelMark.line = this._createMark(FunnelSeries.mark.outerLabelLine, {
         themeSpec: lineTheme,
-        key: this._seriesField,
         markSpec: line,
         depend: [this._funnelOuterLabelMark.label]
       }) as IRuleMark;
@@ -366,8 +362,22 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
             Factory.getAnimationInKey('cartesianGroupClip')?.(
               {
                 direction: () => (this._isHorizontal() ? 'x' : 'y'),
-                width: () => this.getLayoutRect().width,
-                height: () => this.getLayoutRect().height,
+                width: () => {
+                  const rootMark = this.getRootMark().getProduct();
+                  if (rootMark) {
+                    const { x1, x2 } = rootMark.getBounds();
+                    return Math.max(x1, x2); // rootMark.x === 0, so need to find largest bound x instead of bounds width
+                  }
+                  return this.getLayoutRect().width;
+                },
+                height: () => {
+                  const rootMark = this.getRootMark().getProduct();
+                  if (rootMark) {
+                    const { y1, y2 } = rootMark.getBounds();
+                    return Math.max(y1, y2);
+                  }
+                  return this.getLayoutRect().height;
+                },
                 orient: () => (this._isReverse() ? 'negative' : 'positive')
               },
               appearPreset
@@ -480,8 +490,6 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     super._buildMarkAttributeContext();
     // position
     this._markAttributeContext.valueToPosition = this.valueToPosition.bind(this);
-    this._markAttributeContext.getPoints = this.getPoints.bind(this);
-    this._markAttributeContext.isTransformLevel = this.isTransformLevel.bind(this);
   }
 
   valueToPosition(category: StringOrNumber) {
@@ -509,7 +517,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
   }
 
   private _getMainAxisLength(isTransform = false) {
-    const funnelCount = this.getViewDataStatistics().latestData[this.getCategoryField()].values.length;
+    const funnelCount = this.getViewData().latestData.length;
     const viewHeight = this._isHorizontal() ? this.getLayoutRect().width : this.getLayoutRect().height;
 
     const hasTransform = !!this._spec.isTransform;
@@ -536,7 +544,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
    */
   private _getPositionByData(datum: Datum) {
     const index = this.getViewData().latestData?.findIndex(
-      (d: Datum) => d[this._seriesField] === datum[this._seriesField]
+      (d: Datum) =>
+        d[this._categoryField] === datum[this._categoryField] && d[DEFAULT_DATA_KEY] === datum[DEFAULT_DATA_KEY]
     );
     if (!isValid(index) || index < 0) {
       return {};

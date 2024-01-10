@@ -6812,6 +6812,9 @@
         "_callMap": {
           "$ref": "#/definitions/Map<Function,(...args:any[])=>void>"
         },
+        "_logger": {
+          "$ref": "#/definitions/ILogger"
+        },
         "dataViewMap": {
           "additionalProperties": false,
           "patternProperties": {
@@ -6840,6 +6843,7 @@
       },
       "required": [
         "_callMap",
+        "_logger",
         "dataViewMap",
         "isDataSet",
         "name",
@@ -19206,6 +19210,14 @@
           ],
           "description": "参考点配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -20880,6 +20892,14 @@
           ],
           "description": "参考点配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -21698,6 +21718,14 @@
             }
           ],
           "description": "参考点配置"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "name": {
           "description": "系列名称",
@@ -23031,6 +23059,14 @@
         "maxField": {
           "description": "最大值字段",
           "type": "string"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "medianField": {
           "description": "中位数字段",
@@ -24882,6 +24918,14 @@
           ],
           "description": "图例配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "padding": {
           "$ref": "#/definitions/ILayoutPaddingSpec",
           "description": "图表整体 padding 设置"
@@ -25254,6 +25298,14 @@
             }
           ],
           "description": "图例配置"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "name": {
           "description": "系列名称",
@@ -25993,6 +26045,14 @@
         "maxValue": {
           "description": "数据最大值，默认为 1",
           "type": "number"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "name": {
           "description": "系列名称",
@@ -27242,6 +27302,14 @@
           "$ref": "#/definitions/IMarkPointSpec",
           "description": "**仅适用于笛卡尔坐标系**，参考点配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "padding": {
           "$ref": "#/definitions/ILayoutPaddingSpec",
           "description": "图表整体 padding 设置"
@@ -27617,6 +27685,10 @@
         "axisY": {
           "$ref": "#/definitions/ICartesianAxisCommonTheme",
           "description": "笛卡尔坐标系下 y 轴配置"
+        },
+        "axisZ": {
+          "$ref": "#/definitions/ICartesianAxisCommonTheme",
+          "description": "笛卡尔坐标系下 z 轴配置"
         },
         "brush": {
           "$ref": "#/definitions/IBrushTheme",
@@ -28147,6 +28219,11 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
         },
+        "interactive": {
+          "default": true,
+          "description": "是否允许交互",
+          "type": "boolean"
+        },
         "layout": {
           "description": "图例组件的布局配置，默认自动跟随显示位置进行调整。\n1. `orient` 为 'top' 或者 'bottom' 时，默认为 'horizontal' 水平布局\n2. `orient` 为 'left' 或者 'right' 时，默认为 'vertical' 垂直布局",
           "enum": [
@@ -28552,6 +28629,14 @@
             }
           ],
           "description": "图例配置"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "name": {
           "description": "系列名称",
@@ -29899,6 +29984,9 @@
     },
     "IDataSetOptions": {
       "properties": {
+        "logger": {
+          "$ref": "#/definitions/Logger"
+        },
         "name": {
           "type": "string"
         }
@@ -30648,6 +30736,9 @@
           ],
           "description": "图例背景配置"
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -30746,6 +30837,9 @@
         "fillOpacity": {
           "type": "number"
         },
+        "fillPickable": {
+          "type": "boolean"
+        },
         "filter": {
           "description": "是否进行数据筛选，默认为 true",
           "type": "boolean"
@@ -30839,6 +30933,8 @@
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
         "interactive": {
+          "default": true,
+          "description": "是否允许交互",
           "type": "boolean"
         },
         "item": {
@@ -31339,6 +31435,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -32315,6 +32414,14 @@
           "default": "'80%'",
           "description": "漏斗图最大宽度，支持配置像素值和百分比字符串。"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "minSize": {
           "anyOf": [
             {
@@ -32828,6 +32935,14 @@
           ],
           "default": "'80%'",
           "description": "漏斗图最大宽度，支持配置像素值和百分比字符串。"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "minSize": {
           "anyOf": [
@@ -33813,6 +33928,14 @@
             }
           ],
           "description": "图例配置"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "name": {
           "description": "系列名称",
@@ -37410,6 +37533,14 @@
           ],
           "description": "参考点配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -38586,6 +38717,14 @@
           ],
           "description": "参考点配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -39377,6 +39516,14 @@
             }
           ],
           "description": "参考点配置"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "name": {
           "description": "系列名称",
@@ -41939,6 +42086,14 @@
           ],
           "description": "参考点配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -43155,6 +43310,14 @@
           ],
           "description": "图例配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -43885,6 +44048,57 @@
       },
       "type": "object"
     },
+    "ILogger": {
+      "properties": {
+        "addErrorHandler": {
+          "typeof": "function"
+        },
+        "canLogDebug": {
+          "typeof": "function"
+        },
+        "canLogError": {
+          "typeof": "function"
+        },
+        "canLogInfo": {
+          "typeof": "function"
+        },
+        "canLogWarn": {
+          "typeof": "function"
+        },
+        "debug": {
+          "typeof": "function"
+        },
+        "error": {
+          "typeof": "function"
+        },
+        "info": {
+          "typeof": "function"
+        },
+        "level": {
+          "typeof": "function"
+        },
+        "removeErrorHandler": {
+          "typeof": "function"
+        },
+        "warn": {
+          "typeof": "function"
+        }
+      },
+      "required": [
+        "addErrorHandler",
+        "canLogDebug",
+        "canLogError",
+        "canLogInfo",
+        "canLogWarn",
+        "debug",
+        "error",
+        "info",
+        "level",
+        "removeErrorHandler",
+        "warn"
+      ],
+      "type": "object"
+    },
     "IMapChartSpec": {
       "properties": {
         "animation": {
@@ -44152,6 +44366,14 @@
         "map": {
           "description": "地图数据源",
           "type": "string"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "name": {
           "description": "系列名称",
@@ -45897,6 +46119,106 @@
       ],
       "type": "object"
     },
+    "IMediaQueryAction<any>": {
+      "description": "命中媒体查询条件之后的动作",
+      "properties": {
+        "filter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<any>"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/MediaQueryActionFilter<any>"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "元素过滤器\n（如果不配置，则匹配 filterType 对应的所有元素）\n\n有两种配置类型：\n- 配置为元素 spec 的一部分，在过滤图表元素时基于此 spec 进行模糊匹配\n- 配置为函数回调，依次决定当前 filterType 类型下的每个元素实例是否被匹配"
+        },
+        "filterType": {
+          "$ref": "#/definitions/MediaQueryActionFilterType",
+          "default": "'chart'",
+          "description": "元素过滤器类型\n（规定 filter 需要过滤的元素类型，以及新 spec 对应的元素类型）"
+        },
+        "forceAppend": {
+          "default": false,
+          "description": "元素过滤器匹配不到图表元素时，是否将新 spec 作为新的图表元素添加到图表\n（filterType 为 'chart' 时该配置失效）",
+          "type": "boolean"
+        },
+        "spec": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Partial<any>"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "需要应用的新 spec\n- 如果元素过滤器匹配到了某些图表元素，新 spec 将依次合并到这些元素\n- 如果元素过滤器没有匹配到任何图表元素，新 spec 可能会作为新的图表元素添加到图表（forceAppend 为 true 的情况）。\n\n有两种配置类型：\n- 直接指定新 spec\n- 使用回调的方式返回新 spec"
+        }
+      },
+      "required": [
+        "spec"
+      ],
+      "type": "object"
+    },
+    "IMediaQueryCondition": {
+      "description": "媒体查询条件，多个属性之间为“且”关系",
+      "properties": {
+        "maxHeight": {
+          "description": "最大图表高度",
+          "type": "number"
+        },
+        "maxWidth": {
+          "description": "最大图表宽度",
+          "type": "number"
+        },
+        "minHeight": {
+          "description": "最小图表高度",
+          "type": "number"
+        },
+        "minWidth": {
+          "description": "最小图表宽度",
+          "type": "number"
+        },
+        "onResize": {
+          "typeof": "function"
+        }
+      },
+      "type": "object"
+    },
+    "IMediaQueryItem": {
+      "description": "媒体查询配置（表示一项查询）",
+      "properties": {
+        "action": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IMediaQueryAction<any>"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMediaQueryAction<any>"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "命中媒体查询条件之后的动作"
+        },
+        "query": {
+          "$ref": "#/definitions/IMediaQueryCondition",
+          "description": "媒体查询条件"
+        }
+      },
+      "required": [
+        "action",
+        "query"
+      ],
+      "type": "object"
+    },
     "IMorphSeriesSpec": {
       "properties": {
         "enable": {
@@ -46944,6 +47266,14 @@
           ],
           "description": "图例配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "minAngle": {
           "default": 0,
           "description": "最小的扇区角度（0 ~ 360），用于防止某个值过小导致扇区太小影响交互。",
@@ -47471,6 +47801,14 @@
             }
           ],
           "description": "图例配置"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "minAngle": {
           "default": 0,
@@ -49117,6 +49455,9 @@
         "angle": {
           "type": "number"
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -49233,6 +49574,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -49492,6 +49836,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -50440,6 +50787,14 @@
           "description": "是否允许标记图形相互覆盖",
           "since": "1.6.0",
           "type": "boolean"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "name": {
           "description": "系列名称",
@@ -51651,6 +52006,14 @@
         "maxField": {
           "type": "string"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "minField": {
           "description": "数据字段配置",
           "type": "string"
@@ -52846,6 +53209,14 @@
         "maxField": {
           "type": "string"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "minField": {
           "description": "数据字段配置",
           "type": "string"
@@ -54028,6 +54399,14 @@
         },
         "maxField": {
           "type": "string"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "minField": {
           "description": "数据字段配置",
@@ -55757,6 +56136,14 @@
           ],
           "description": "图例配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -56833,6 +57220,14 @@
           ],
           "description": "link宽度，单位px"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "minLinkHeight": {
           "description": "数据不为零或空时边的最小大小\n - 这个配置可以用来避免数据太小的时候看不到太细的链接\n - 建议小于5px\n - 当同时指定 `minNodeHeight` 和 `minLinkHeight` 两个选项时，此选项应小于 `minNodeHeight`",
           "type": "number"
@@ -57905,6 +58300,14 @@
             }
           ],
           "description": "参考点配置"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "name": {
           "description": "系列名称",
@@ -59157,6 +59560,14 @@
             }
           ],
           "description": "图例配置"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "padding": {
           "$ref": "#/definitions/ILayoutPaddingSpec",
@@ -61098,6 +61509,14 @@
             }
           ],
           "description": "图例配置"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
         },
         "name": {
           "description": "系列名称",
@@ -63882,6 +64301,14 @@
           "description": "当节点在层次数据中的深度大于 maxDepth 时，节点将不会被显示",
           "type": "number"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "minChildrenVisibleArea": {
           "anyOf": [
             {
@@ -66652,6 +67079,14 @@
           ],
           "description": "参考点配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -67902,6 +68337,14 @@
           "description": "词云形状",
           "type": "string"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -68799,6 +69242,14 @@
           "description": "词云形状",
           "type": "string"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "name": {
           "description": "系列名称",
           "type": "string"
@@ -69497,9 +69948,22 @@
     "LockManager": {
       "type": "object"
     },
+    "Logger": {
+      "properties": {
+        "_level": {},
+        "_method": {},
+        "_onErrorHandler": {}
+      },
+      "required": [
+        "_level",
+        "_method",
+        "_onErrorHandler"
+      ],
+      "type": "object"
+    },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69507,14 +69971,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69522,14 +69986,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69537,14 +70001,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69552,14 +70016,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69567,14 +70031,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69582,14 +70046,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69597,14 +70061,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69612,14 +70076,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         },
         "size": {
@@ -69627,7 +70091,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12577",
+        "__@toStringTag@12605",
         "size"
       ],
       "type": "object"
@@ -69733,6 +70197,109 @@
         "title"
       ],
       "type": "object"
+    },
+    "MediaQueryActionFilter<any>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Partial<any>"
+        },
+        {
+          "typeof": "function"
+        }
+      ],
+      "description": "元素过滤器\n\n有两种配置类型：\n- 配置为元素 spec 的一部分，在过滤图表元素时基于此 spec 进行模糊匹配\n- 配置为函数回调，依次决定当前 filterType 类型下的每个元素实例是否被匹配"
+    },
+    "MediaQueryActionFilterType": {
+      "description": "元素过滤器类型",
+      "enum": [
+        "animationThreshold",
+        "area",
+        "autoFit",
+        "axes",
+        "background",
+        "bar",
+        "bar3d",
+        "boxPlot",
+        "brush",
+        "cartesianAxis",
+        "cartesianAxis-band",
+        "cartesianAxis-linear",
+        "cartesianAxis-log",
+        "cartesianAxis-symlog",
+        "cartesianAxis-time",
+        "cartesianCrosshair",
+        "chart",
+        "circlePacking",
+        "circularProgress",
+        "color",
+        "colorLegend",
+        "continuousLegend",
+        "correlation",
+        "crosshair",
+        "customMark",
+        "data",
+        "dataZoom",
+        "discreteLegend",
+        "dot",
+        "funnel",
+        "funnel3d",
+        "gauge",
+        "gaugePointer",
+        "geo",
+        "geoCoordinate",
+        "heatmap",
+        "height",
+        "hover",
+        "indicator",
+        "label",
+        "layout",
+        "legends",
+        "line",
+        "linearProgress",
+        "link",
+        "map",
+        "mapLabel",
+        "markArea",
+        "markLine",
+        "markPoint",
+        "media",
+        "padding",
+        "pie",
+        "pie3d",
+        "player",
+        "polarAxis",
+        "polarAxis-band",
+        "polarAxis-linear",
+        "polarCrosshair",
+        "poptip",
+        "radar",
+        "rangeArea",
+        "rangeColumn",
+        "rangeColumn3d",
+        "region",
+        "rose",
+        "sankey",
+        "scales",
+        "scatter",
+        "scrollBar",
+        "select",
+        "series",
+        "seriesStyle",
+        "sizeLegend",
+        "stackInverse",
+        "sunburst",
+        "theme",
+        "title",
+        "tooltip",
+        "totalLabel",
+        "treemap",
+        "type",
+        "waterfall",
+        "width",
+        "wordCloud",
+        "wordCloud3d"
+      ],
+      "type": "string"
     },
     "MediaSession": {
       "properties": {
@@ -70055,6 +70622,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -70148,6 +70718,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -70394,6 +70967,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -72628,6 +73204,9 @@
         "angle": {
           "type": "number"
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -72709,6 +73288,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -72922,6 +73504,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -74443,6 +75028,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -74530,6 +75118,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -74757,6 +75348,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -75164,6 +75758,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -75251,6 +75848,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "forceShowCap": {
           "type": "boolean"
@@ -75448,6 +76048,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -75579,6 +76182,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -75663,6 +76269,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -75853,6 +76462,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -76051,6 +76663,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -76112,6 +76727,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -76296,6 +76914,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -76489,6 +77110,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -76563,6 +77187,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -76755,6 +77382,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -76889,6 +77519,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -76947,6 +77580,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -77126,6 +77762,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -77274,6 +77913,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -77355,6 +77997,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -77569,6 +78214,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -77706,6 +78354,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -77777,6 +78428,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -77977,6 +78631,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -78358,6 +79015,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -78445,6 +79105,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -78635,6 +79298,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -79543,6 +80209,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -79604,6 +80273,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -79793,6 +80465,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -79924,6 +80599,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -79998,6 +80676,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -80182,6 +80863,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -80563,6 +81247,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -80634,6 +81321,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -80819,6 +81509,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -80959,6 +81652,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -81030,6 +81726,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -81211,6 +81910,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -81708,6 +82410,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -81766,6 +82471,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -81965,6 +82673,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -82099,6 +82810,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -82173,6 +82887,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "fontFamily": {
           "type": "string"
@@ -82393,6 +83110,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -82973,6 +83693,14 @@
           ],
           "description": "图例配置"
         },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
         "padding": {
           "$ref": "#/definitions/ILayoutPaddingSpec",
           "description": "图表整体 padding 设置"
@@ -83164,6 +83892,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -83235,6 +83966,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "fontFamily": {
           "type": "string"
@@ -83456,6 +84190,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -83646,6 +84383,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -83714,6 +84454,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -83891,6 +84634,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -84034,6 +84780,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -84092,6 +84841,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -84270,6 +85022,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -85329,6 +86084,9 @@
     "Partial<Record<string,false|IAnimationConfig|IAnimationConfig[]>>": {
       "type": "object"
     },
+    "Partial<any>": {
+      "type": "object"
+    },
     "Performance": {
       "properties": {
         "eventCounts": {
@@ -85724,34 +86482,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12577"
+        "__@toStringTag@12605"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12577"
+        "__@toStringTag@12605"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12577": {
+        "__@toStringTag@12605": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12577"
+        "__@toStringTag@12605"
       ],
       "type": "object"
     },
@@ -85931,6 +86689,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -86018,6 +86779,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "forceShowCap": {
           "type": "boolean"
@@ -86215,6 +86979,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -86253,6 +87020,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -86269,6 +87037,7 @@
         "endAngle",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "forceShowCap",
         "globalCompositeOperation",
         "globalZIndex",
@@ -86308,6 +87077,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -86419,6 +87189,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -86503,6 +87276,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -86694,6 +87470,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -86732,6 +87511,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -86752,6 +87532,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -86787,6 +87568,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -86898,6 +87680,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -86959,6 +87744,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -87144,6 +87932,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -87182,6 +87973,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -87196,6 +87988,7 @@
         "endAngle",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -87231,6 +88024,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -87342,6 +88136,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -87416,6 +88213,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -87608,6 +88408,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -87649,6 +88452,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -87664,6 +88468,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -87699,6 +88504,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -87828,6 +88634,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -87909,6 +88718,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -88123,6 +88935,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -88169,6 +88984,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -88185,6 +89001,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "flexDirection",
         "flexWrap",
         "globalCompositeOperation",
@@ -88223,6 +89040,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -88336,6 +89154,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -88407,6 +89228,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -88608,6 +89432,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -88649,6 +89476,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -88663,6 +89491,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -88700,6 +89529,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -88812,6 +89642,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -88899,6 +89732,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -89090,6 +89926,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -89128,6 +89967,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -89149,6 +89989,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -89184,6 +90025,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -89295,6 +90137,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -89356,6 +90201,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -89545,6 +90393,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -89583,6 +90434,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -89597,6 +90449,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -89631,6 +90484,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -89742,6 +90596,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -89816,6 +90673,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -90001,6 +90861,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -90039,6 +90902,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -90054,6 +90918,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -90088,6 +90953,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -90199,6 +91065,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -90270,6 +91139,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -90455,6 +91327,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -90502,6 +91377,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -90516,6 +91392,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -90551,6 +91428,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -90665,6 +91543,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -90736,6 +91617,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -90918,6 +91802,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -90965,6 +91852,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -90979,6 +91867,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -91013,6 +91902,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -91127,6 +92017,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -91191,6 +92084,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -91385,6 +92281,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -91444,6 +92343,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -91458,6 +92358,7 @@
         "ellipsis",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -91496,6 +92397,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "textAlign",
         "textBaseline",
@@ -91635,6 +92537,9 @@
         "backgroundFillOpacity": {
           "type": "number"
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundHeight": {
           "type": "number"
         },
@@ -91748,6 +92653,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -91965,6 +92873,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -92014,6 +92925,7 @@
         "background",
         "backgroundFill",
         "backgroundFillOpacity",
+        "backgroundFit",
         "backgroundHeight",
         "backgroundMode",
         "backgroundRadius",
@@ -92035,6 +92947,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -92074,6 +92987,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "textAlign",
         "textBaseline",
@@ -92188,6 +93102,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -92246,6 +93163,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -92445,6 +93365,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -92486,6 +93409,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -92499,6 +93423,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -92533,6 +93458,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "symbolType",
         "texture",
@@ -92645,6 +93571,9 @@
             }
           ]
         },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -92719,6 +93648,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "fontFamily": {
           "type": "string"
@@ -92940,6 +93872,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -93037,6 +93972,7 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -93053,6 +93989,7 @@
         "ellipsis",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "fontFamily",
         "fontSize",
         "fontStyle",
@@ -93098,6 +94035,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "suffixPosition",
         "text",

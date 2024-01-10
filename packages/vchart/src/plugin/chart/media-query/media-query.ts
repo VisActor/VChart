@@ -13,6 +13,7 @@ import { array, cloneDeepSpec } from '../../../util';
 import type { VChartRenderActionSource } from '../../../core/interface';
 import { BasePlugin } from '../../base/base-plugin';
 import { registerChartPlugin } from '../register';
+import type { IChartSpecInfo } from '../../../chart/interface';
 
 export class MediaQuery extends BasePlugin implements IChartPlugin {
   static readonly pluginType: 'chart' = 'chart';
@@ -25,6 +26,8 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
 
   /** 不带任何媒体查询的图表 spec */
   protected _baseChartSpec: any;
+  /** 不带任何媒体查询的图表 spec info */
+  protected _baseChartSpecInfo: IChartSpecInfo;
 
   /** 当前媒体信息 */
   protected _currentMediaInfo: Partial<IMediaInfo> = {};
@@ -43,6 +46,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     if (!chartSpec?.[MediaQuery.specKey]) {
       return;
     }
+
     const { globalInstance } = service;
     this._option = {
       globalInstance: service.globalInstance,
@@ -63,17 +67,29 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   }
 
   onBeforeResize(service: IChartPluginService, width: number, height: number) {
-    this.changeSize(width, height, true, false);
+    if (!this._initialized) {
+      return;
+    }
+
+    this._changeSize(width, height, true, false);
   }
 
   onAfterChartSpecTransform(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource) {
+    if (!this._initialized) {
+      return;
+    }
+
     if (actionSource === 'setCurrentTheme') {
       // 重新执行已生效的所有媒体查询
-      this.reInit(false, false);
+      this._reInit(false, false);
     }
   }
 
   onBeforeInitChart(service: IChartPluginService, chartSpec: any, actionSource: VChartRenderActionSource) {
+    if (!this._initialized) {
+      return;
+    }
+
     let resetMediaQuery: boolean;
     let checkMediaQuery: boolean;
 
@@ -104,12 +120,12 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     if (resetMediaQuery || checkMediaQuery) {
       // 触发媒体查询
       const { width, height } = this._option.globalInstance.getCurrentSize();
-      this.changeSize(width, height, false, false);
+      this._changeSize(width, height, false, false);
     }
   }
 
   /** 更新图表宽高信息，执行所有相关媒体查询，返回是否命中某个查询 */
-  changeSize(width: number, height: number, compile?: boolean, render?: boolean): boolean {
+  protected _changeSize(width: number, height: number, compile?: boolean, render?: boolean): boolean {
     if (this._currentMediaInfo.width === width && this._currentMediaInfo.height === height) {
       return false;
     }
@@ -125,7 +141,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     const changeToActive: IMediaQueryItem[] = []; // 将会生效的查询
     const changeToInactive: IMediaQueryItem[] = []; // 将会失效的查询
     this._spec.forEach(item => {
-      const { hasChanged, isActive } = this.check(item);
+      const { hasChanged, isActive } = this._check(item);
       if (hasChanged) {
         if (isActive) {
           changeToActive.push(item);
@@ -139,31 +155,35 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
       return false;
     }
     if (!this._baseChartSpec) {
-      this._baseChartSpec = cloneDeepSpec(this._option.globalInstance.getSpec());
+      this._baseChartSpec = cloneDeepSpec(this._option.globalInstance.getSpec(), ['data', MediaQuery.specKey]);
+      this._baseChartSpecInfo = this._option.globalInstance.getSpecInfo();
     }
     let chartSpec: any;
+    let chartSpecInfo: any;
     let hasChanged = false;
 
     // 处理将会失效的查询：重新执行一遍当前生效的查询
     if (changeToInactive.length > 0) {
-      chartSpec = cloneDeepSpec(this._baseChartSpec);
+      chartSpec = cloneDeepSpec(this._baseChartSpec, ['data', MediaQuery.specKey]);
+      chartSpecInfo = this._baseChartSpecInfo;
       Array.from(this.currentActiveItems).forEach(item => {
         if (changeToInactive.includes(item)) {
           this.currentActiveItems.delete(item);
           return;
         }
-        const result = this.apply(item, chartSpec);
+        const result = this._apply(item, chartSpec, chartSpecInfo);
         chartSpec = result.chartSpec;
       });
       hasChanged = true;
     } else {
       chartSpec = this._option.globalInstance.getSpec();
+      chartSpecInfo = this._option.globalInstance.getSpecInfo();
     }
 
     // 处理将会生效的查询
     changeToActive.forEach(item => {
       this.currentActiveItems.add(item);
-      const result = this.apply(item, chartSpec);
+      const result = this._apply(item, chartSpec, chartSpecInfo);
       chartSpec = result.chartSpec;
       hasChanged ||= result.hasChanged;
     });
@@ -175,7 +195,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   }
 
   /** 检查媒体查询的条件是否满足 */
-  check(item: IMediaQueryItem): IMediaQueryCheckResult {
+  protected _check(item: IMediaQueryItem): IMediaQueryCheckResult {
     const { globalInstance } = this._option;
     const isActive = checkMediaQuery(item.query, this._currentMediaInfo as IMediaInfo, globalInstance);
     return {
@@ -185,13 +205,12 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   }
 
   /** 执行一条媒体查询 */
-  apply(item: IMediaQueryItem, chartSpec: any): IMediaQueryActionResult {
-    const { globalInstance } = this._option;
+  protected _apply(item: IMediaQueryItem, chartSpec: any, chartSpecInfo: IChartSpecInfo): IMediaQueryActionResult {
     const { query, action } = item;
     let hasChanged = false;
     // 执行
     array(action).forEach(actionItem => {
-      const result = executeMediaQueryAction(actionItem, query, chartSpec, globalInstance);
+      const result = executeMediaQueryAction(actionItem, query, chartSpec, chartSpecInfo);
       chartSpec = result.chartSpec;
       hasChanged ||= result.hasChanged;
     });
@@ -199,13 +218,14 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
   }
 
   /** 重新初始化，并重新执行一遍当前生效的媒体查询 */
-  reInit(compile?: boolean, render?: boolean) {
+  protected _reInit(compile?: boolean, render?: boolean) {
     let chartSpec = this._option.globalInstance.getSpec();
-    this._baseChartSpec = cloneDeepSpec(chartSpec);
+    this._baseChartSpec = cloneDeepSpec(chartSpec, ['data', MediaQuery.specKey]);
+    this._baseChartSpecInfo = this._option.globalInstance.getSpecInfo();
 
     let hasChanged = false;
     this.currentActiveItems.forEach(item => {
-      const result = this.apply(item, chartSpec);
+      const result = this._apply(item, chartSpec, this._baseChartSpecInfo);
       chartSpec = result.chartSpec;
       hasChanged ||= result.hasChanged;
     });

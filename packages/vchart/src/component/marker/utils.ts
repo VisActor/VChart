@@ -1,9 +1,9 @@
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { DataView } from '@visactor/vdataset';
-import { isValid, isNumber, array, minInArray, maxInArray, isFunction, isArray } from '@visactor/vutils';
+import { isValid, isNumber, array, minInArray, maxInArray, isArray, normalizePadding } from '@visactor/vutils';
 import type { Datum, IPoint, StringOrNumber } from '../../typings';
-import { isPercent } from '../../util';
-import type { IDataPointCallback, IDataPos, MarkerPositionPoint } from './interface';
+import { isPercent, transformToGraphic } from '../../util';
+import type { IDataPos, IMarkerLabelSpec, MarkerPositionPoint } from './interface';
 import { AGGR_TYPE } from '../../constant/marker';
 import type { IRegion } from '../../region/interface';
 import type { OffsetPoint } from './interface';
@@ -29,7 +29,7 @@ function getXValue(
   regionWidth: number,
   regionStartLayoutStartPoint: IPoint
 ) {
-  const { relativeSeries, startRelativeSeries, endRelativeSeries } = refSeries;
+  const { relativeSeries } = refSeries;
   isNumber(datum.x) &&
     isNeedExtendDomain(xDomain, datum.x, autoRange) &&
     relativeSeries?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
@@ -37,21 +37,7 @@ function getXValue(
   if (isPercent(datum.x)) {
     x = convertPercentToValue(datum.x, regionWidth) + regionStartLayoutStartPoint.x;
   } else {
-    x = datum.x;
-    if (isFunction(datum.x)) {
-      const relativeSeriesData = relativeSeries.getData().getLatestData();
-      const startRelativeSeriesData = startRelativeSeries.getData().getLatestData();
-      const endRelativeSeriesData = endRelativeSeries.getData().getLatestData();
-      x = datum.x(
-        relativeSeriesData,
-        startRelativeSeriesData,
-        endRelativeSeriesData,
-        relativeSeries,
-        startRelativeSeries,
-        endRelativeSeries
-      );
-    }
-    x = relativeSeries.getXAxisHelper().dataToPosition([x]) + regionStartLayoutStartPoint.x;
+    x = relativeSeries.getXAxisHelper().dataToPosition([datum.x]) + regionStartLayoutStartPoint.x;
   }
 
   return x;
@@ -65,7 +51,7 @@ function getYValue(
   regionHeight: number,
   regionStartLayoutStartPoint: IPoint
 ) {
-  const { relativeSeries, startRelativeSeries, endRelativeSeries } = refSeries;
+  const { relativeSeries } = refSeries;
   isNumber(datum.y) &&
     isNeedExtendDomain(yDomain, datum.y, autoRange) &&
     relativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
@@ -74,21 +60,7 @@ function getYValue(
   if (isPercent(datum.y)) {
     y = convertPercentToValue(datum.y, regionHeight) + regionStartLayoutStartPoint.y;
   } else {
-    y = datum.y;
-    if (isFunction(datum.y)) {
-      const relativeSeriesData = relativeSeries.getData().getLatestData();
-      const startRelativeSeriesData = startRelativeSeries.getData().getLatestData();
-      const endRelativeSeriesData = endRelativeSeries.getData().getLatestData();
-      y = datum.y(
-        relativeSeriesData,
-        startRelativeSeriesData,
-        endRelativeSeriesData,
-        relativeSeries,
-        startRelativeSeries,
-        endRelativeSeries
-      );
-    }
-    y = relativeSeries.getYAxisHelper().dataToPosition([y]) + regionStartLayoutStartPoint.y;
+    y = relativeSeries.getYAxisHelper().dataToPosition([datum.y]) + regionStartLayoutStartPoint.y;
   }
 
   return y;
@@ -110,22 +82,22 @@ export function xyLayout(
   autoRange: boolean
 ) {
   const regionStart = startRelativeSeries.getRegion();
-  const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
+  const regionStartLayoutStartPoint = regionStart.getLayoutPositionExcludeIndent();
   const regionEnd = endRelativeSeries.getRegion();
-  const regionEndLayoutStartPoint = regionEnd.getLayoutStartPoint();
+  const regionEndLayoutStartPoint = regionEnd.getLayoutPositionExcludeIndent();
 
   const regionWidth = Math.abs(
     Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x) -
       Math.max(
-        regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
-        regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
+        regionStartLayoutStartPoint.x + regionStart.getLayoutRectExcludeIndent().width,
+        regionEndLayoutStartPoint.x + regionEnd.getLayoutRectExcludeIndent().width
       )
   );
   const regionHeight = Math.abs(
     Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y) -
       Math.max(
-        regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
-        regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
+        regionStartLayoutStartPoint.y + regionStart.getLayoutRectExcludeIndent().height,
+        regionEndLayoutStartPoint.y + regionEnd.getLayoutRectExcludeIndent().height
       )
   );
 
@@ -149,8 +121,8 @@ export function xyLayout(
     } else if (isValid(datum.x)) {
       const x = getXValue(datum, xDomain, autoRange, refSeries, regionWidth, regionStartLayoutStartPoint);
       const y = Math.max(
-        regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
-        regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
+        regionStartLayoutStartPoint.y + regionStart.getLayoutRectExcludeIndent().height,
+        regionEndLayoutStartPoint.y + regionEnd.getLayoutRectExcludeIndent().height
       );
       const y1 = Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y);
       lines.push([
@@ -167,8 +139,8 @@ export function xyLayout(
       const x = Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x);
       const y = getYValue(datum, yDomain, autoRange, refSeries, regionHeight, regionStartLayoutStartPoint);
       const x1 = Math.max(
-        regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
-        regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
+        regionStartLayoutStartPoint.x + regionStart.getLayoutRectExcludeIndent().width,
+        regionEndLayoutStartPoint.x + regionEnd.getLayoutRectExcludeIndent().width
       );
       lines.push([
         {
@@ -198,17 +170,17 @@ export function coordinateLayout(
   dataPoints.forEach(
     (
       datum: {
-        x: StringOrNumber[] | StringOrNumber | IDataPointCallback | null;
-        y: StringOrNumber[] | StringOrNumber | IDataPointCallback | null;
+        x: StringOrNumber[] | StringOrNumber | null;
+        y: StringOrNumber[] | StringOrNumber | null;
         getRefRelativeSeries?: () => ICartesianSeries;
       },
       index: number
     ) => {
       const refRelativeSeries = datum?.getRefRelativeSeries ? datum.getRefRelativeSeries() : relativeSeries;
       const regionStart = refRelativeSeries.getRegion();
-      const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
+      const regionStartLayoutStartPoint = regionStart.getLayoutPositionExcludeIndent();
 
-      const { width: regionWidth, height: regionHeight } = regionStart.getLayoutRect();
+      const { width: regionWidth, height: regionHeight } = regionStart.getLayoutRectExcludeIndent();
 
       let offsetX = 0;
       let offsetY = 0;
@@ -226,19 +198,8 @@ export function coordinateLayout(
 
       const xDomain = refRelativeSeries.getXAxisHelper().getScale(0).domain();
       const yDomain = refRelativeSeries.getYAxisHelper().getScale(0).domain();
-      const refRelativeSeriesData = refRelativeSeries.getData().getLatestData();
-      const xValue = array(datum.x).map(x => {
-        if (isFunction(x)) {
-          return x(refRelativeSeriesData, refRelativeSeries);
-        }
-        return x;
-      });
-      const yValue = array(datum.y).map(y => {
-        if (isFunction(y)) {
-          return y(refRelativeSeriesData, refRelativeSeries);
-        }
-        return y;
-      });
+      const xValue = array(datum.x);
+      const yValue = array(datum.y);
 
       xValue.length === 1 &&
         isNumber(xValue[0]) &&
@@ -261,8 +222,8 @@ export function coordinateLayout(
 export function positionLayout(positions: MarkerPositionPoint[], series: ISeries, regionRelative: boolean): IPoint[] {
   if (regionRelative) {
     const region = series.getRegion();
-    const { x: regionStartX, y: regionStartY } = region.getLayoutStartPoint();
-    const { width: regionWidth, height: regionHeight } = region.getLayoutRect();
+    const { x: regionStartX, y: regionStartY } = region.getLayoutPositionExcludeIndent();
+    const { width: regionWidth, height: regionHeight } = region.getLayoutRectExcludeIndent();
     return positions.map(position => {
       let { x, y } = position;
       if (isPercent(x)) {
@@ -303,18 +264,62 @@ export function computeClipRange(regions: IRegion[]) {
   let minY = Infinity;
   let maxY = -Infinity;
   regions.forEach((region: IRegion) => {
-    if (region.getLayoutStartPoint().x < minX) {
-      minX = region.getLayoutStartPoint().x;
+    const regionPos = region.getLayoutPositionExcludeIndent();
+    const regionRect = region.getLayoutRectExcludeIndent();
+    if (regionPos.x < minX) {
+      minX = regionPos.x;
     }
-    if (region.getLayoutStartPoint().x + region.getLayoutRect().width > maxX) {
-      maxX = region.getLayoutStartPoint().x + region.getLayoutRect().width;
+    if (regionPos.x + regionRect.width > maxX) {
+      maxX = regionPos.x + regionRect.width;
     }
-    if (region.getLayoutStartPoint().y < minY) {
-      minY = region.getLayoutStartPoint().y;
+    if (regionPos.y < minY) {
+      minY = regionPos.y;
     }
-    if (region.getLayoutStartPoint().y + region.getLayoutRect().height > maxY) {
-      maxY = region.getLayoutStartPoint().y + region.getLayoutRect().height;
+    if (regionPos.y + regionRect.height > maxY) {
+      maxY = regionPos.y + regionRect.height;
     }
   });
   return { minX, maxX, minY, maxY };
+}
+
+export function transformLabelAttributes(label: IMarkerLabelSpec) {
+  const { labelBackground = {}, style, shape, ...restLabel } = label;
+
+  if (label.visible !== false) {
+    const labelAttrs = restLabel as any;
+
+    if (shape?.visible) {
+      labelAttrs.shape = {
+        visible: true,
+        ...transformToGraphic(shape.style)
+      };
+    } else {
+      labelAttrs.shape = {
+        visible: false
+      };
+    }
+
+    if (labelBackground.visible !== false) {
+      labelAttrs.panel = {
+        visible: true,
+        ...transformToGraphic(labelBackground.style)
+      };
+      if (isValid(labelBackground.padding)) {
+        labelAttrs.padding = normalizePadding(labelBackground.padding);
+      }
+    } else {
+      labelAttrs.panel = {
+        visible: false
+      };
+      labelAttrs.padding = 0;
+    }
+
+    if (style) {
+      labelAttrs.textStyle = transformToGraphic(style);
+    }
+    return labelAttrs;
+  }
+  return {
+    visible: false
+  };
 }

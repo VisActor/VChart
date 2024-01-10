@@ -79,32 +79,33 @@ export abstract class BaseTooltipProcessor {
       targetDimensionInfo = undefined;
     } else if (targetDimensionInfo.length > 1) {
       // 只保留一个轴的dimension info
-      const dimensionAxisInfo =
-        targetDimensionInfo.filter(info => {
-          const axis = info.axis;
-          // 优先显示离散轴 tooltip
-          if (!isDiscrete(axis.getScale().type)) {
-            return false;
-          }
-          // 下面的逻辑用来判断当前的离散轴是不是维度轴
-          let firstSeries: ICartesianSeries | undefined;
-          for (const region of axis?.getRegions() ?? []) {
-            for (const series of region.getSeries()) {
-              if (series.coordinate === 'cartesian') {
-                firstSeries = series as ICartesianSeries;
-                break;
-              }
-            }
-            if (isValid(firstSeries)) {
+      const dimensionAxisInfo = targetDimensionInfo.filter(info => {
+        const axis = info.axis;
+        // 优先显示离散轴 tooltip
+        if (!isDiscrete(axis.getScale().type)) {
+          return false;
+        }
+        // 下面的逻辑用来判断当前的离散轴是不是维度轴
+        let firstSeries: ICartesianSeries | undefined;
+        for (const region of axis?.getRegions() ?? []) {
+          for (const series of region.getSeries()) {
+            if (series.coordinate === 'cartesian') {
+              firstSeries = series as ICartesianSeries;
               break;
             }
           }
-          if (isValid(firstSeries) && firstSeries.getDimensionField()[0] === firstSeries.fieldY[0]) {
-            return axis.getOrient() === 'left' || axis.getOrient() === 'right'; // 维度轴为Y轴时，选择只显示Y轴tooltip
+          if (isValid(firstSeries)) {
+            break;
           }
-          return axis.getOrient() === 'bottom' || axis.getOrient() === 'top'; // 维度轴为X轴时，选择只显示X轴tooltip
-        })[0] ?? targetDimensionInfo[0];
-      targetDimensionInfo = [dimensionAxisInfo];
+        }
+        if (isValid(firstSeries) && firstSeries.getDimensionField()[0] === firstSeries.fieldY[0]) {
+          // 维度轴为Y轴时，选择只显示Y轴tooltip
+          return axis.getOrient() === 'left' || axis.getOrient() === 'right';
+        }
+        // 维度轴为X轴时，选择只显示X轴tooltip
+        return axis.getOrient() === 'bottom' || axis.getOrient() === 'top';
+      });
+      targetDimensionInfo = dimensionAxisInfo.length ? dimensionAxisInfo : targetDimensionInfo.slice(0, 1);
     }
 
     return targetDimensionInfo;

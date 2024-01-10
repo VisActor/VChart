@@ -1,6 +1,83 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 19 Dec 2023 12:04:29 GMT and should not be manually modified.
+This log was last generated on Sat, 06 Jan 2024 05:10:05 GMT and should not be manually modified.
+
+## 1.8.6
+Sat, 06 Jan 2024 05:10:05 GMT
+
+### Updates
+
+- fix: optimize viusal effect for duplicated data in funnel charts, see #1921
+- fix: fix error of scatter when the shape is an array, close #1719
+
+
+
+## 1.8.5
+Wed, 03 Jan 2024 15:19:37 GMT
+
+### Updates
+
+- feat: add zAxis theme and set label space to 0, closed #149
+- fix: compute layer translate for crosshair
+- fix: optimize funnel clip animation without extensionMarks
+- fix: fix the hover state of multiple series, close #1899
+
+
+- fix: waterfall.label not work in #1897
+
+## 1.8.4
+Tue, 02 Jan 2024 11:27:39 GMT
+
+### Updates
+
+- fix: add media query spec interface to default chart spec
+- fix: fix the bug of extension mark when no valid animation, fix #1877
+
+
+
+## 1.8.3
+Fri, 29 Dec 2023 14:44:05 GMT
+
+### Updates
+
+- fix: chart option.animation not work
+- feat: add props `useSyncRender` to react-vchart, close #1685
+
+
+- fix: fix error in strict mode of react-vchart, fix #1669
+
+
+- feat: Supports the initialization parameter `disableTriggerEvent` to turn off the default interactive effect of the chart
+
+
+- fix: error in chart level modification of media query action
+- fix: dimension tooltip in the dual-dimension chart contains data of only one dimension, related #1841 
+- fix: fix bug in layout when band axis has no domain
+
+
+- fix: funnel clipIn animation has delay for marks which overflows the range of region in #1839
+- fix: when marker label's padding is an object, it should work
+- refactor: optimize the style configuration of marker
+- fix: undefined globalThis in tt miniprogram, see #1854
+
+## 1.8.2
+Fri, 22 Dec 2023 12:49:18 GMT
+
+### Updates
+
+- fix: chart option.animation not work
+- feat: Supports the initialization parameter `disableTriggerEvent` to turn off the default interactive effect of the chart
+
+
+- fix: error in chart level modification of media query action
+
+## 1.8.1
+Thu, 21 Dec 2023 08:30:03 GMT
+
+### Updates
+
+- fix: improve the stability of spec transformer and media query
+-  fix: `select.triggerOff: none` not work
 
 ## 1.8.0
 Tue, 19 Dec 2023 12:04:29 GMT

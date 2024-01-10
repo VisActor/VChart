@@ -158,8 +158,8 @@ export const zeroAlign = (targetAxis: CartesianAxis, currentAxis: CartesianAxis)
   if (!isContinuous(s1.type) || !isContinuous(s2.type)) {
     return;
   }
-  const domain1 = [...s1.domain()];
-  const domain2 = [...s2.domain()];
+  const domain1 = s1.domain().slice();
+  const domain2 = s2.domain().slice();
   if (!isValidAlignDomain(domain1) || !isValidAlignDomain(domain2)) {
     return;
   }

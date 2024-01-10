@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " feat: support separately configuring interactive for line/area mark in area chart, see #1592",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

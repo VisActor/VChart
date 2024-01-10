@@ -84,15 +84,15 @@ export declare class VChart implements IVChart {
     private _bindResizeEvent;
     private _unBindResizeEvent;
     getCurrentSize(): {
-        width: any;
-        height: any;
+        width: number;
+        height: number;
     };
     private _doResize;
     private _onResize;
     private _initDataSet;
     updateCustomConfigAndRerender(updateSpecResult: IUpdateSpecResult | (() => IUpdateSpecResult), sync?: boolean, option?: IVChartRenderOption): IVChart | Promise<IVChart>;
     protected _updateCustomConfigAndRecompile(updateSpecResult: IUpdateSpecResult, option?: IVChartRenderOption): boolean;
-    protected _reCompile(updateResult: IUpdateSpecResult): void;
+    protected _reCompile(updateResult: IUpdateSpecResult, morphConfig?: IMorphConfig): void;
     protected _beforeRender(option?: IVChartRenderOption): boolean;
     protected _afterRender(): boolean;
     renderSync(morphConfig?: IMorphConfig): IVChart;

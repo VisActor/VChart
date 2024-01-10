@@ -3,7 +3,7 @@ category: examples
 group: customMark
 title: pie and bar
 order: 40-5
-cover:
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/custom-mark/pie-bar.png
 option: pieChart#extensionMark
 ---
 

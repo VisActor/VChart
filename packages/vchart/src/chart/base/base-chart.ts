@@ -199,6 +199,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       getChart: () => this,
       globalScale: this._globalScale,
       onError: this._option?.onError,
+      disableTriggerEvent: this._option?.disableTriggerEvent === true,
       getSeriesData: this._chartData.getSeriesData.bind(this._chartData)
     };
 
@@ -209,7 +210,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._transformer = new this.transformerConstructor({
       type: this.type,
       seriesType: this.seriesType,
-      getTheme: this._option.getTheme
+      getTheme: this._option.getTheme,
+      animation: this._option.animation
     });
     // data
     this._chartData.parseData(this._spec.data);
@@ -312,11 +314,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     const { spec, ...others } = specInfo;
 
-    // 如果用户在 vchart 构造函数参数中关闭了 animation, 则已该配置为准
-    if (this._option.animation === false) {
-      spec.animation = false;
-    }
-
     let region: IRegion | undefined;
     if (isValid(spec.regionId)) {
       region = this.getRegionsInUserId(spec.regionId);
@@ -367,7 +364,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       getAllComponents: this.getComponents,
       getComponentByIndex: this.getComponentByIndex,
       getComponentByUserId: this.getComponentByUserId,
-      getComponentsByKey: this.getComponentsByKey
+      getComponentsByKey: this.getComponentsByKey,
+      getComponentsByType: this.getComponentsByType
     });
     if (!component) {
       return;
@@ -582,6 +580,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     return undefined;
   };
 
+  getComponentsByType = (type: string) => {
+    return this._components.filter(c => c.type === type);
+  };
+
   getModelById(id: number): IModel | undefined {
     const model = this._idMap.get(id);
     if (model && model instanceof BaseModel) {
@@ -592,15 +594,15 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   getModelByUserId(userId: StringOrNumber): IModel | undefined {
     // TODO: 考虑通过 map 结构优化获取方式 & 补充所有 model 的寻找方法
-    const series = this._series.find(s => s.userId === userId);
+    const series = this.getSeriesInUserId(userId);
     if (series) {
       return series;
     }
-    const region = this._regions.find(s => s.userId === userId);
+    const region = this.getRegionsInUserId(userId);
     if (region) {
       return region;
     }
-    const component = this._components.find(s => s.userId === userId);
+    const component = this.getComponentByUserId(userId);
     if (component) {
       return component;
     }
@@ -859,7 +861,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           componentCount: 0
         };
         componentCache[compSpecKey].componentCount++;
-        mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()], cmpSpec));
+        mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()] ?? {}, cmpSpec));
       } else {
         mergeUpdateResult(result, c.updateSpec(cmpSpec));
       }
@@ -1163,7 +1165,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
               });
             } else {
               if (datum.length > 1) {
-                const datumTemp = [...(datum as Datum[])];
+                const datumTemp = (datum as Datum[]).slice();
                 pickElements = elements.filter(e => {
                   if (datumTemp.length === 0) {
                     return false;
@@ -1216,7 +1218,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       isNil(value) || !dimensionInfo || dimensionInfo.every(d => isDiscrete(d.axis.getScale().type) && isNil(d.index));
     // tooltip
     if (opt.tooltip !== false) {
-      const tooltip = this._components.find(c => c.type === ComponentTypeEnum.tooltip) as unknown as ITooltip;
+      const tooltip = this.getComponentsByType(ComponentTypeEnum.tooltip)[0] as unknown as ITooltip;
+
       if (tooltip?.getVisible()) {
         if (isUnableValue) {
           (<any>tooltip).hideTooltip?.();
@@ -1238,9 +1241,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       }
     }
     if (opt.crosshair !== false) {
-      const crosshair = this._components.find(
-        c => c.type === ComponentTypeEnum.cartesianCrosshair
-      ) as unknown as ICrossHair;
+      const crosshair = this.getComponentsByType(ComponentTypeEnum.cartesianCrosshair)[0] as unknown as ICrossHair;
+
       if (crosshair && crosshair.clearAxisValue && crosshair.setAxisValue) {
         if (isUnableValue) {
           crosshair.clearAxisValue?.();

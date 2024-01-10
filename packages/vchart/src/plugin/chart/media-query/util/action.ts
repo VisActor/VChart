@@ -1,15 +1,15 @@
 import { setProperty } from '@visactor/vutils-extension';
-import type { IVChart } from '../../../../core';
 import { isArray, isFunction, isNil, mergeSpec } from '../../../../util';
 import type { IMediaQueryAction, IMediaQueryCondition, IMediaQueryActionResult } from '../interface';
 import { executeMediaQueryActionFilter } from './filter';
+import type { IChartSpecInfo } from '../../../../chart/interface';
 
 /** 执行媒体查询对应的动作 */
 export const executeMediaQueryAction = <T extends Record<string, unknown>>(
   action: IMediaQueryAction<T>,
   query: IMediaQueryCondition,
   chartSpec: any,
-  globalInstance: IVChart
+  chartSpecInfo: IChartSpecInfo
 ): IMediaQueryActionResult => {
   const { spec, filter, filterType, forceAppend } = action;
   const { isChart, modelType, specKey, type, modelInfo } = executeMediaQueryActionFilter<T>(
@@ -18,7 +18,7 @@ export const executeMediaQueryAction = <T extends Record<string, unknown>>(
     action,
     query,
     chartSpec,
-    globalInstance
+    chartSpecInfo
   );
   if (modelInfo.length === 0 && !forceAppend) {
     return {
@@ -31,7 +31,10 @@ export const executeMediaQueryAction = <T extends Record<string, unknown>>(
   const newSpec = isFunction(spec) ? spec(modelInfo, action, query) : spec;
   for (const { spec, specPath } of modelInfo) {
     if (isChart) {
-      return mergeSpec(targetSpec, newSpec);
+      return {
+        chartSpec: mergeSpec(targetSpec, newSpec),
+        hasChanged: true
+      };
     }
     const modelSpec = mergeSpec({}, spec, newSpec);
     setProperty(targetSpec, specPath, modelSpec);

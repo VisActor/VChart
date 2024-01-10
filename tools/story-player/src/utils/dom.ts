@@ -1,7 +1,7 @@
 import { isValid } from '@visactor/vutils';
 import { PLAYER_PREFIX } from '../constant';
 
-export const domDocument: Document | undefined = globalThis.document;
+export const domDocument: Document | undefined = globalThis?.document;
 
 export const createElement = <T extends HTMLElement = HTMLElement>(
   tag: keyof HTMLElementTagNameMap,

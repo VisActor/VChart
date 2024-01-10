@@ -25,10 +25,10 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
 
   protected _interactiveConfig(labelSpec: ILabelSpec) {
     const { interactive } = labelSpec;
-    if (interactive !== true) {
-      return { hover: false, select: false };
-    }
     const result = { hover: false, select: false, state: labelSpec.state };
+    if (interactive !== true) {
+      return result;
+    }
 
     const { hover, select } = this._option.getChart().getSpec();
     if (hover !== false || (hover as unknown as IHoverSpec).enable !== false) {

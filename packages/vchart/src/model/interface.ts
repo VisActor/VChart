@@ -141,6 +141,11 @@ export interface ILayoutModel extends IModel {
   getLayoutRect: () => ILayoutRect;
   setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) => void;
 
+  // 得到排除锁进后的布局起点
+  getLayoutPositionExcludeIndent: () => IPoint;
+  // 得到排除锁进后的尺寸
+  getLayoutRectExcludeIndent: () => ILayoutRect;
+
   getLastComputeOutBounds: () => IBoundsLike;
 
   getBoundsInRect: (rect: ILayoutRect, fullRect: ILayoutRect) => IBoundsLike;
@@ -159,6 +164,7 @@ export interface IModelOption extends ICompilableInitOption {
   specIndex?: number;
   specKey?: string;
   specPath?: Array<string | number>;
+  specInfoPath?: Array<string | number>;
 
   getTheme?: () => ITheme;
   getSpecInfo?: () => IChartSpecInfo;
@@ -174,6 +180,11 @@ export interface IModelOption extends ICompilableInitOption {
    * 错误消息回调函数
    */
   onError: (...args: any[]) => void;
+
+  /**
+   * 是否关闭交互效果
+   */
+  disableTriggerEvent?: boolean;
 }
 
 export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
@@ -183,6 +194,8 @@ export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
   spec: T;
   /** 该 spec 在图表 spec 上的路径 */
   specPath?: Array<string | number>;
+  /** 该 spec 在图表 spec info 上的路径 */
+  specInfoPath?: Array<string | number>;
   /** 该 spec 在父级的索引 */
   specIndex?: number;
   /** model 当前主题 */

@@ -2,21 +2,20 @@ import { DataView } from '@visactor/vdataset';
 import type {
   IMarkLine,
   IMarkLineSpec,
-  IMarkLineTheme,
   IMarkLineXYSpec,
   IMarkLineXYY1Spec,
   IMarkLineYXX1Spec,
   IStepMarkLineSpec
 } from './interface';
-import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 // eslint-disable-next-line no-duplicate-imports
 import { markerAggregation } from '../../../data/transforms/aggregation';
-import { computeClipRange, coordinateLayout, positionLayout, xyLayout } from '../utils';
+import { computeClipRange, coordinateLayout, positionLayout, transformLabelAttributes, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
+import type { MarkLineAttrs } from '@visactor/vrender-components';
 import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { Maybe } from '@visactor/vutils';
@@ -84,46 +83,44 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       startSymbol = {} as IMarkerSymbol,
       endSymbol = {} as IMarkerSymbol
     } = this._spec as IMarkLineSpec;
-    const { labelBackground = {} } = label;
-    const markLine = new MarkLineComponent({
+
+    const markLineAttrs: MarkLineAttrs = {
       zIndex: this.layoutZIndex,
       interactive: this._spec.interactive ?? false,
       points: [
-        {
-          x: 0,
-          y: 0
-        },
-        {
-          x: 0,
-          y: 0
-        }
+        { x: 0, y: 0 },
+        { x: 0, y: 0 }
       ],
       lineStyle: this._spec.line?.style as unknown as any,
-      startSymbol: {
+      clipInRange: this._spec.clip ?? false,
+      label: transformLabelAttributes(label)
+    };
+
+    if (startSymbol.visible) {
+      markLineAttrs.startSymbol = {
         ...startSymbol,
-        visible: startSymbol.visible,
+        visible: true,
         style: transformToGraphic(startSymbol.style)
-      },
-      endSymbol: {
+      };
+    } else {
+      markLineAttrs.startSymbol = {
+        visible: false
+      };
+    }
+
+    if (endSymbol.visible) {
+      markLineAttrs.endSymbol = {
         ...endSymbol,
-        visible: endSymbol.visible,
+        visible: true,
         style: transformToGraphic(endSymbol.style)
-      },
-      label: {
-        ...label,
-        padding: labelBackground.padding,
-        shape: {
-          ...transformToGraphic(label.shape),
-          visible: label.shape?.visible ?? false
-        },
-        panel: {
-          ...transformToGraphic(labelBackground.style),
-          visible: labelBackground.visible ?? true
-        },
-        textStyle: transformToGraphic(label.style)
-      },
-      clipInRange: this._spec.clip ?? false
-    });
+      };
+    } else {
+      markLineAttrs.endSymbol = {
+        visible: false
+      };
+    }
+
+    const markLine = new MarkLineComponent(markLineAttrs);
     return markLine as unknown as IGroup;
   }
 
@@ -185,16 +182,16 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       let expandDistanceValue: number;
       if (isPercent(expandDistance)) {
         const regionStart = startRelativeSeries.getRegion();
-        const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
+        const regionStartLayoutStartPoint = regionStart.getLayoutPositionExcludeIndent();
         const regionEnd = endRelativeSeries.getRegion();
-        const regionEndLayoutStartPoint = regionEnd.getLayoutStartPoint();
+        const regionEndLayoutStartPoint = regionEnd.getLayoutPositionExcludeIndent();
 
         if (connectDirection === 'bottom' || connectDirection === 'top') {
           const regionHeight = Math.abs(
             Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y) -
               Math.max(
-                regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
-                regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
+                regionStartLayoutStartPoint.y + regionStart.getLayoutRectExcludeIndent().height,
+                regionEndLayoutStartPoint.y + regionEnd.getLayoutRectExcludeIndent().height
               )
           );
           expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionHeight) / 100;
@@ -202,8 +199,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
           const regionWidth = Math.abs(
             Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x) -
               Math.max(
-                regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
-                regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
+                regionStartLayoutStartPoint.x + regionStart.getLayoutRectExcludeIndent().width,
+                regionEndLayoutStartPoint.x + regionEnd.getLayoutRectExcludeIndent().width
               )
           );
           expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionWidth) / 100;

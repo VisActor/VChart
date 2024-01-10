@@ -43,3 +43,46 @@ export interface IAxisLocationCfg {
   bandPosition?: number;
   datum?: Datum;
 }
+
+export interface ITickCalculationCfg {
+  /** tick步长 */
+  tickStep?: number;
+  /**
+   * 期望的连续轴tick数量
+   * The desired number of ticks draw on linear axis.
+   * @default 5
+   * @description 建议的tick数量，并不保证结果一定是配置值
+   * @since 1.4.0 后支持函数回调。
+   */
+  tickCount?: number | ((option: ITickCallbackOption) => number);
+  /**
+   * 强制设置tick数量
+   * The exact number of ticks draw on linear axis. Might lead to decimal step.
+   * @default 5
+   * @description 强制设置的tick数量，可能由于数据范围导致tick值为小数
+   */
+  forceTickCount?: number;
+  /**
+   * 连续轴 tick 生成算法：
+   * 'average': 尽可能均分；
+   * 'd3'：与 d3 默认逻辑一致，以 [1, 2, 5] 为基数生成；
+   * @default 'average'
+   * @since 1.3.0
+   */
+  tickMode?: 'average' | 'd3';
+  /**
+   * 连续轴，是否避免小数 tick。
+   * @default false
+   * @description 当配置了 tickStep 或 forceTickCount 时不生效。
+   * @since 1.3.0
+   */
+  noDecimals?: boolean;
+}
+
+export interface IBandAxisLayer extends Omit<ITickCalculationCfg, 'noDecimals' | 'tickMode'> {
+  /**
+   * 是否显示
+   * @default true
+   */
+  visible?: boolean;
+}

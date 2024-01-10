@@ -150,7 +150,7 @@ export const dimensionStatisticsOfSimpleData = (
       } else {
         if (dataFieldInKey && dataFieldInKey.lockStatisticsByDomain && !isNil(dataFieldInKey.domain)) {
           if (op === 'values') {
-            result[key][op] = [...dataFieldInKey.domain];
+            result[key][op] = dataFieldInKey.domain.slice();
             return;
           }
         } else if (op === 'allValid') {

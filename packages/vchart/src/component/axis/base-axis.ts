@@ -4,7 +4,6 @@ import type { ITickDataOpt } from '@visactor/vutils-extension';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import type { AxisItem } from '@visactor/vrender-components';
 import type {
   IOrientType,
   IPolarOrientType,
@@ -14,9 +13,7 @@ import type {
   CoordinateType
 } from '../../typings';
 import { BaseComponent } from '../base/base-component';
-import type { IPolarAxisCommonTheme } from './polar/interface';
-import type { ICartesianAxisCommonTheme } from './cartesian/interface';
-import type { CompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
 import { array, get, isArray, isBoolean, isFunction, isNil, isValid, maxInArray } from '@visactor/vutils';
@@ -35,7 +32,7 @@ import {
   registerAxis as registerVGrammarAxis,
   registerGrid as registerVGrammarGrid
 } from '@visactor/vgrammar-core';
-import { ComponentMark, registerComponentMark, type IComponentMark } from '../../mark/component';
+import { registerComponentMark, type IComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
 import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
@@ -66,9 +63,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     return this._scales;
   }
 
-  protected _tickData!: CompilableData;
-  getTickData() {
-    return this._tickData;
+  protected _tickData: CompilableData[] = [];
+  getTickData(index = 0) {
+    return this._tickData[index];
   }
 
   // 与系列的关联关系
@@ -100,16 +97,18 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected abstract getSeriesStatisticsField(s: ISeries): string[];
   protected abstract updateSeriesScale(): void;
   protected abstract collectData(depth: number): { min: number; max: number; values: any[] }[];
-  protected abstract _initData(): void;
   abstract transformScaleDomain(): void;
 
   protected _dataFieldText: string;
   protected _axisMark: IComponentMark;
   protected _gridMark: IComponentMark;
 
+  protected _coordinateType: CoordinateType;
+
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
     this._visible = spec.visible ?? true;
+    this._coordinateType = 'none';
   }
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {
@@ -199,12 +198,21 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
             get(this._option.getChart().getSpec(), 'animationUpdate')
         });
         // 因为坐标轴的更新动画中处理了 enter，所以需要将 enter 的参数传入
-        axisAnimateConfig.update[0].customParameters = {
-          enter: axisAnimateConfig.enter[0]
-        };
+        if (axisAnimateConfig.enter) {
+          axisAnimateConfig.update[0].customParameters = {
+            enter: axisAnimateConfig.enter[0]
+          };
+        }
         this._marks.forEach(m => m.setAnimationConfig(axisAnimateConfig));
       }
     }
+  }
+
+  // data
+  protected _initData() {
+    const tickData = this._initTickDataSet(this._tickTransformOption());
+    tickData.target.addListener('change', this._forceLayout.bind(this));
+    this._tickData = [new CompilableData(this._option, tickData)];
   }
 
   protected isSeriesDataEnable() {
@@ -271,9 +279,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
-    if (this._tickData && (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))) {
-      this._tickData.getDataView().reRunAllTransform();
-      this._tickData.updateData();
+    if (this._tickData && this._tickData.length && (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))) {
+      this._tickData.forEach(tickData => {
+        tickData.getDataView().reRunAllTransform();
+        tickData.updateData();
+      });
     }
   }
 
@@ -318,24 +328,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       : null;
   }
 
-  protected getLabelItems(length: number) {
-    return isArray(this._tickData.getLatestData())
-      ? [
-          this._tickData
-            .getLatestData()
-            .map((obj: Datum) => {
-              return {
-                id: obj.value,
-                label: obj.value,
-                value: length === 0 ? 0 : this.dataToPosition([obj.value]) / length,
-                rawValue: obj.value
-              };
-            })
-            .filter((entry: AxisItem) => entry.value >= 0 && entry.value <= 1)
-        ]
-      : [];
-  }
-
   protected _delegateAxisContainerEvent(component: IGroup) {
     component.addEventListener('*', ((event: any, type: string) =>
       this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
@@ -358,8 +350,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     const titleBackgroundSpec = spec.title.background ?? {};
     return {
       orient: this.getOrient(),
-      select: spec.select,
-      hover: spec.hover,
+      select: this._option.disableTriggerEvent === true ? false : spec.select,
+      hover: this._option.disableTriggerEvent === true ? false : spec.hover,
       line: transformAxisLineStyle(spec.domainLine),
       label: {
         style: isFunction(spec.label.style)
@@ -480,11 +472,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     };
   }
 
-  protected _initTickDataSet<T extends ITickDataOpt>(options: T) {
+  protected _initTickDataSet<T extends ITickDataOpt>(options: T, index: number = 0) {
     registerDataSetInstanceParser(this._option.dataSet, 'scale', scaleParser);
     registerDataSetInstanceTransform(this._option.dataSet, 'ticks', ticks);
-    const tickData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_ticks` })
-      .parse(this._scale, {
+    const tickData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_ticks_${index}` })
+      .parse(this._scales[index], {
         type: 'scale'
       })
       .transform(
@@ -497,7 +489,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     return tickData;
   }
 
-  protected _tickTransformOption(coordinateType: CoordinateType): ITickDataOpt {
+  protected _tickTransformOption(): ITickDataOpt {
     const tick = this._tick || {};
     const label = this._spec.label || {};
     const { tickCount, forceTickCount, tickStep, tickMode } = tick;
@@ -509,7 +501,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       tickStep,
       tickMode,
       axisOrientType: this._orient,
-      coordinateType: coordinateType,
+      coordinateType: this._coordinateType,
+
       labelStyle,
       labelFormatter,
       labelGap
@@ -517,7 +510,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   addTransformToTickData(options: ITransformOptions, execute?: boolean) {
-    this._tickData?.getDataView()?.transform(options, execute);
+    this._tickData.forEach(tickData => {
+      tickData?.getDataView()?.transform(options, execute);
+    });
   }
 
   dataToPosition(values: any[]): number {

@@ -1,5 +1,5 @@
-import type { ComponentTypeEnum, SimplifiedComponentTypeEnum } from '../../../../component/interface';
-import type { IVChart } from '../../../../core';
+import type { ComponentTypeEnum } from '../../../../component/interface';
+import type { IChartSpec, IVChart } from '../../../../core';
 import type { IModelSpecInfo } from '../../../../model/interface';
 import type { SeriesTypeEnum } from '../../../../series';
 import type { IMediaInfo } from './common';
@@ -18,8 +18,8 @@ export interface IMediaQueryCondition {
 export interface IMediaQueryAction<T extends Record<string, unknown> = any> {
     spec: Partial<T> | ((filteredModelInfo: IModelSpecInfo<T>[], action: IMediaQueryAction<T>, query: IMediaQueryCondition) => Partial<T>);
     filterType?: MediaQueryActionFilterType;
-    filter?: MediaQueryActionFilter<T>;
+    filter?: MediaQueryActionFilter<T> | Array<MediaQueryActionFilter<T>>;
     forceAppend?: boolean;
 }
-export type MediaQueryActionFilterType = 'region' | 'series' | 'chart' | `${SeriesTypeEnum}` | `${ComponentTypeEnum}` | `${SimplifiedComponentTypeEnum}`;
+export type MediaQueryActionFilterType = 'region' | 'series' | 'chart' | `${SeriesTypeEnum}` | `${ComponentTypeEnum}` | keyof IChartSpec;
 export type MediaQueryActionFilter<T extends Record<string, unknown> = any> = Partial<T> | ((modelInfo: IModelSpecInfo<T>, action: IMediaQueryAction<T>, query: IMediaQueryCondition) => boolean);

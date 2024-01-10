@@ -1,7 +1,8 @@
+import { isBrowserEnv } from '@visactor/vrender-core';
 import type { RenderMode } from '../typings/spec';
 
-export const isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
-export const domDocument = isBrowser ? globalThis.document : undefined;
+export const isBrowser = isBrowserEnv();
+export const domDocument = isBrowser && globalThis ? globalThis.document : undefined;
 
 // Taro 会模拟实现 DOM，所以还是加上 mode 的判断
 export function isTrueBrowser(mode: RenderMode): boolean {

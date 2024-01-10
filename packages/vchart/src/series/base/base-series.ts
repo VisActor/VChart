@@ -121,15 +121,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   };
 
   getLayoutStartPoint(): ILayoutPoint {
-    return this._region.getLayoutStartPoint();
+    return this._region.getLayoutPositionExcludeIndent();
   }
 
   private _layoutRect: ILayoutRect = { width: null, height: null };
 
   getLayoutRect: () => ILayoutRect = () => {
     return {
-      width: this._layoutRect.width ?? this._region.getLayoutRect().width,
-      height: this._layoutRect.height ?? this._region.getLayoutRect().height
+      width: this._layoutRect.width ?? this._region.getLayoutRectExcludeIndent().width,
+      height: this._layoutRect.height ?? this._region.getLayoutRectExcludeIndent().height
     };
   };
 
@@ -262,6 +262,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _markAttributeContext: ISeriesMarkAttributeContext;
+  getMarkAttributeContext() {
+    return this._markAttributeContext;
+  }
 
   constructor(spec: T, options: ISeriesOption) {
     super(spec, options);
@@ -284,10 +287,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // mark
     this.initRootMark();
     this.initMark();
-    this._initExtensionMark();
+
+    const hasAnimation = isAnimationEnabledForSeries(this);
+
+    this._initExtensionMark({ hasAnimation });
     this.initMarkStyle();
     this.initMarkState();
-    if (isAnimationEnabledForSeries(this)) {
+    if (hasAnimation) {
       this.initAnimation();
     }
     this.afterInitMark();
@@ -349,7 +355,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         onError: this._option?.onError
       });
     }
-    this._rawData?.target.addListener('change', this.rawDataUpdate.bind(this));
+    this._rawData?.target?.addListener('change', this.rawDataUpdate.bind(this));
     this._addDataIndexAndKey();
     // 初始化viewData
     if (this._rawData) {
@@ -668,15 +674,24 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         dataView: false
       }
     ) as IGroupMark;
+    this.setMarkStyle(
+      this._rootMark,
+      {
+        x: () => this._region.layout.indent.left,
+        y: () => this._region.layout.indent.right
+      },
+      'normal',
+      AttributeLevel.Base_Series
+    );
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 
-  protected _initExtensionMark() {
+  protected _initExtensionMark(options: { hasAnimation: boolean }) {
     if (!this._spec.extensionMark) {
       return;
     }
     this._spec.extensionMark?.forEach((m, i) => {
-      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i);
+      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, options);
     });
   }
 
@@ -684,7 +699,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     spec: IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec,
     parentMark: null | IGroupMark,
     namePrefix: string,
-    index: number
+    index: number,
+    options: { hasAnimation: boolean }
   ) {
     const mark = this._createMark(
       { type: spec.type, name: `${namePrefix}_${index}` },
@@ -701,14 +717,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return;
     }
 
-    // 自定义图元默认不添加动画
-    const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
-    mark.setAnimationConfig(config);
+    if (options.hasAnimation) {
+      // 自定义图元默认不添加动画
+      const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
+      mark.setAnimationConfig(config);
+    }
 
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;
       spec.children?.forEach((s, i) => {
-        this._createExtensionMark(s as any, mark, namePrefix, i);
+        this._createExtensionMark(s as any, mark, namePrefix, i, options);
       });
     } else if (!parentMark && (!isNil(spec.dataId) || !isNil(spec.dataIndex))) {
       const dataView = this._option.getSeriesData(spec.dataId, spec.dataIndex);
@@ -987,7 +1005,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // TODO: rawData transform clear;
     // this._dataSet=>// _rawData.tag = vchart
     // clear add transforms of rawData
-    const transformIndex = this._rawData.transformsArr.findIndex(t => t.type === 'addVChartProperty');
+    const transformIndex = this._rawData?.transformsArr?.findIndex(t => t.type === 'addVChartProperty');
     if (transformIndex >= 0) {
       this._rawData.transformsArr.splice(transformIndex, 1);
     }

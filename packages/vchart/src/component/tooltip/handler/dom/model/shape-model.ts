@@ -75,6 +75,13 @@ function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: an
     viewBox = `${bounds.x1} ${bounds.y1} ${bounds.width()} ${bounds.height()}`;
   }
 
+  // svg 不支持内描边，需要手动将描边空间预留在 viewBox 上
+  if (lineWidth !== '0px') {
+    const [x, y, w, h] = viewBox.split(' ').map(n => Number(n));
+    const lw = Number(lineWidth.slice(0, -2));
+    viewBox = `${x - lw / 2} ${y - lw / 2} ${w + lw} ${h + lw}`;
+  }
+
   if (!fill || isString(fill) || hollow) {
     fillString = hollow ? 'none' : fill ? valueToHtml(fill) : 'currentColor';
     return `

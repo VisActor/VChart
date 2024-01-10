@@ -2,12 +2,11 @@
 import { PREFIX } from '../../constant/base';
 import type { IElement } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
-import type { Maybe, Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
+import type { Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
 import type { ISymbolMark } from '../../mark/symbol';
-import type { IScatterSeriesSpec, IScatterSeriesTheme } from './interface';
+import type { IScatterSeriesSpec } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric } from '@visactor/vutils';
-import { mergeSpec } from '../../util/spec/merge-spec';
 import { AttributeLevel } from '../../constant';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -23,13 +22,13 @@ import {
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerScatterAnimation, type ScatterAppearPreset } from './animation';
-import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
+import { registerSymbolMark } from '../../mark/symbol';
 import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
-import type { ILabelSpec } from '../../component';
 import { ScatterSeriesSpecTransformer } from './scatter-transformer';
+import { getGroupAnimationParams } from '../util/utils';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -83,7 +82,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         return spec;
       }
 
-      if (spec.length > 2) {
+      if (defaultScaleType !== 'ordinal' && (spec as any[]).length > 2) {
         this._option?.onError(`${key} length is invalid, specify up to 2 ${key}s.`);
         return spec;
       }
@@ -230,11 +229,13 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
    * 初始化动画
    */
   initAnimation(): void {
+    const animationParams = getGroupAnimationParams(this);
     const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<ScatterAppearPreset>)?.preset;
     this._symbolMark.setAnimationConfig(
       animationConfig(
         Factory.getAnimationInKey('scatter')?.({}, appearPreset),
-        userAnimationConfig(SeriesMarkNameEnum.point, this._spec, this._markAttributeContext)
+        userAnimationConfig(SeriesMarkNameEnum.point, this._spec, this._markAttributeContext),
+        animationParams
       )
     );
   }

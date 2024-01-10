@@ -86,7 +86,7 @@ export interface LineLikeSeriesMixin extends ISeries {
 export class LineLikeSeriesMixin {
   addSamplingCompile(): void {
     if (this._spec.sampling) {
-      const { width, height } = this._region.getLayoutRect();
+      const { width, height } = this._region.getLayoutRectExcludeIndent();
       const samplingTrans = [];
       const fieldsY = this._fieldY;
       const fieldsX = this._fieldX;
@@ -108,7 +108,7 @@ export class LineLikeSeriesMixin {
       const overlapTrans = [];
       overlapTrans.push({
         type: 'markoverlap',
-        direction: this._direction === Direction.vertical ? 2 : 1,
+        direction: this._direction === Direction.horizontal && this.coordinate === 'cartesian' ? 2 : 1,
         delta: this._spec.pointDis,
         deltaMul: this._spec.pointDisMul,
         groupBy: this._seriesField

@@ -58,6 +58,10 @@ VChart.ThemeManager.setCurrentTheme('vScreenVolcanoBlue');
 
 该包主要包含以下主题 json 资源：
 
+- [light](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/light.json) Default Theme - light
+- [dark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/dark.json) Default Theme - dark
+- [semiDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-semi-theme/public/semiDesignLight.json) Semi Design - light
+- [semiDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-semi-theme/public/semiDesignDark.json) Semi Design - dark
 - [vScreenVolcanoBlue](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenVolcanoBlue.json) 大屏-火山蓝
 - [vScreenClean](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenClean.json) 大屏-清新蜡笔
 - [vScreenOutskirts](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenOutskirts.json) 大屏-郊外
@@ -68,71 +72,3 @@ VChart.ThemeManager.setCurrentTheme('vScreenVolcanoBlue');
 - [vScreenECommercePurple](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenECommercePurple.json) 大屏-电商紫
 - [vScreenRedBlue](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenRedBlue.json) 大屏-红蓝
 - [vScreenPartyRed](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenPartyRed.json) 大屏-党建红
-
-## Semi Design 主题包 @visactor/vchart-semi-theme
-
-VChart 是适合与 [Semi Design](https://github.com/DouyinFE/semi-design) 搭配使用的图表库。为了使 VChart 在 Semi 页面环境中获得更好的体验，我们推出了 vchart-semi-theme 包。这个包有以下特性：
-
-- 开箱即用：经过简单的配置，就可以使 VChart 样式自动融入 Semi 设计语言，也会自动适配用户通过 Semi DSM 自定义的主题包。
-- 响应式：vchart-semi-theme 支持监听页面上的亮暗模式变化以及主题切换，自动对页面上的 VChart 图表的主题进行热更新。
-
-### DEMO
-
-请访问 [codesandbox](https://vp4y9p.csb.app/) 进行预览。
-
-### 安装
-
-[@visactor/vchart-semi-theme](https://www.npmjs.com/package/@visactor/vchart-semi-theme)
-
-```bash
-# npm
-npm install @visactor/vchart-semi-theme
-
-# yarn
-yarn add @visactor/vchart-semi-theme
-```
-
-### 使用
-
-实现默认的功能，只需要在全局执行一次 `initVChartSemiTheme` 方法进行初始化。这个语句通常可以放在 react 项目的入口文件中。如以下示例：
-
-```javascript
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './app.jsx';
-import { initVChartSemiTheme } from '@visactor/vchart-semi-theme';
-
-// initialization
-initVChartSemiTheme();
-
-const dom = document.querySelector('#root');
-const root = createRoot(dom);
-root.render(<App />);
-```
-
-`initVChartSemiTheme` 方法支持传入一个对象作为 option，其类型声明为：
-
-```typescript
-interface IInitVChartSemiThemeOption {
-  /** 初始亮暗色模式 */
-  defaultMode?: 'light' | 'dark';
-  /** 是否监听亮暗色模式自动更改图表主题，默认为 true */
-  isWatchingMode?: boolean;
-  /** 是否监听主题变化自动更改图表主题，默认为 false（适用于 semi 官方主题切换接口：https://semi.design/dsm/install_switcher）*/
-  isWatchingThemeSwitch?: boolean;
-}
-```
-
-例如，如果要开启监听用户侧的主题切换，初始化语句可以改为这样：
-
-```javascript
-// initialization
-initVChartSemiTheme({
-  isWatchingThemeSwitch: true
-});
-```
-
-该包同时包含两个静态的主题 json 资源（静态资源只适用于默认的 Semi 主题），可以按需使用。
-
-- [semiDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-semi-theme/public/semiDesignLight.json) Semi Design - light
-- [semiDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-semi-theme/public/semiDesignDark.json) Semi Design - dark

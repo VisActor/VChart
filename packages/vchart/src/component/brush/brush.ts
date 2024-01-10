@@ -132,10 +132,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   protected _getBrushInteractiveAttr(region: IRegion) {
-    const seriesRegionStartX = region.getLayoutStartPoint().x;
-    const seriesRegionEndX = seriesRegionStartX + region.getLayoutRect().width;
-    const seriesRegionStartY = region.getLayoutStartPoint().y;
-    const seriesRegionEndY = seriesRegionStartY + region.getLayoutRect().height;
+    const regionLayoutPosition = region.getLayoutPositionExcludeIndent();
+    const regionLayoutRect = region.getLayoutRectExcludeIndent();
+    const seriesRegionStartX = regionLayoutPosition.x;
+    const seriesRegionEndX = seriesRegionStartX + regionLayoutRect.width;
+    const seriesRegionStartY = regionLayoutPosition.y;
+    const seriesRegionEndY = seriesRegionStartY + regionLayoutRect.height;
     return {
       interactiveRange: {
         minY: seriesRegionStartY,
@@ -171,7 +173,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       zIndex: this.layoutZIndex,
       brushStyle: transformToGraphic(this._spec?.style),
       ...interactiveAttr,
-      ...this._spec
+      ...this._spec,
+      disableTriggerEvent: this._option.disableTriggerEvent
     });
     brush.id = this._spec.id ?? `brush-${this.id}`;
     this.getContainer().add(brush as unknown as INode);
@@ -318,11 +321,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   private _reconfigLinkedItem(operateMask: IPolygon, region: IRegion) {
+    const regionLayoutPos = region.getLayoutPositionExcludeIndent();
     const seriesId = region.getSeries().map(s => s.id);
     this._linkedSeries.forEach((s: ISeries) => {
       if (!seriesId.includes(s.id)) {
-        const regionOffsetX = s.getRegion().getLayoutStartPoint().x - region.getLayoutStartPoint().x;
-        const regionOffsetY = s.getRegion().getLayoutStartPoint().y - region.getLayoutStartPoint().y;
+        const sRegionLayoutPos = s.getRegion().getLayoutPositionExcludeIndent();
+
+        const regionOffsetX = sRegionLayoutPos.x - regionLayoutPos.x;
+        const regionOffsetY = sRegionLayoutPos.y - regionLayoutPos.y;
 
         this._linkedItemMap[s.id].forEach((mark: IMark) => {
           const grammarMark = mark.getProduct();
@@ -402,7 +408,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     let itemBounds: { x: number; y: number }[] = [];
     if (item.type === 'symbol') {
       const { size: itemSize = 0 } = item?.attribute as ISymbolGraphicAttribute;
-      const size = array(itemSize)[0];
+      const size = array(itemSize)[0] / 2;
       itemBounds = [
         {
           x: x - size,
@@ -556,6 +562,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
     const brushVisible = this._spec.visible ?? true;
     if (brushVisible) {
       // 创建或更新marker组件
@@ -569,6 +578,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           this._updateBrushComponent(region, index);
         });
       }
+    }
+  }
+
+  clearGraphic(): void {
+    if (this._brushComponents) {
+      this._brushComponents.forEach(brush => {
+        (brush as any)._container.incrementalClearChild();
+      });
     }
   }
 

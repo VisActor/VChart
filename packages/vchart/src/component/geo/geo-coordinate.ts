@@ -82,8 +82,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
           spec,
           regionIndex: i,
           type: ComponentTypeEnum.geoCoordinate,
-          // 这里的 specPath 不是对应于真实 spec 的 path，而是 IChartSpecInfo 上的 path
-          specPath: ['region', i, 'geoCoordinate']
+          specInfoPath: ['region', i, 'geoCoordinate']
         } as any);
       }
     });
@@ -269,8 +268,8 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   }
 
   onLayoutEnd(ctx: IModelLayoutOption) {
-    this.setLayoutRect(this._regions[0].getLayoutRect());
-    this.setLayoutStartPosition(this._regions[0].getLayoutStartPoint());
+    this.setLayoutRect(this._regions[0].getLayoutRectExcludeIndent());
+    this.setLayoutStartPosition(this._regions[0].getLayoutPositionExcludeIndent());
     const { width, height } = this.getLayoutRect();
     const { translate, scale, center } = this.evaluateProjection([0, 0], [width, height]);
     translate && this._projection.translate(translate);

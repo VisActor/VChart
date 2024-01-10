@@ -32,12 +32,11 @@ export type IDataPosCallback = (
   endRelativeSeries: ICartesianSeries
 ) => StringOrNumber;
 
-export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
 export type IDataPointSpec = {
   /**
    * 数据字段配置
    */
-  [key: string]: IDataPos | IDataPointCallback;
+  [key: string]: IDataPos | IDataPosCallback;
   /**
    * 具体某个数据元素关联的series（仅在标注目标：数据元素下有效）
    */
@@ -81,8 +80,8 @@ export type MarkerPositionPoint = {
 };
 
 export type ICoordinateOption = {
-  x?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
-  y?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
+  x?: IOptionAggrField | (IDataPosCallback | StringOrNumber)[];
+  y?: IOptionAggrField | (IDataPosCallback | StringOrNumber)[];
   getRefRelativeSeries?: () => ICartesianSeries;
 } & IOptionSeries;
 

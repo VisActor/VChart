@@ -33,6 +33,7 @@ export interface IRenderOption {
     enableView3dTransform?: boolean;
     pluginList?: string[];
     optimize?: IOptimizeType;
+    enableHtmlAttribute?: boolean;
 }
 export type CompilerListenerParameters = {
     type: EventType;

@@ -4,10 +4,73 @@
     {
       "path": "storytelling",
       "title": {
-        "zh": "animation & storytelling",
-        "en": "动画 & 叙事"
+        "en": "animation & storytelling",
+        "zh": "动画 & 叙事"
       },
       "children": [
+        {
+          "path": "appear-animation-config",
+          "title": {
+            "zh": "入场动画配置",
+            "en": "Basic Appear Animation Config"
+          }
+        },
+        {
+          "path": "bar-oneByOne-group",
+          "title": {
+            "zh": "柱状图按分组依次入场动画",
+            "en": "Bar One-by-one Appear Animation (By Group)"
+          }
+        },
+        {
+          "path": "bar-oneByOne-series",
+          "title": {
+            "zh": "柱状图按系列依次入场动画",
+            "en": "Bar One-by-one Appear Animation (By Series)"
+          }
+        },
+        {
+          "path": "bar-oneByOne-rect",
+          "title": {
+            "zh": "柱状图按图元依次入场动画",
+            "en": "Bar One-by-one Appear Animation (By Graphic)"
+          }
+        },
+        {
+          "path": "pie-preset-animation",
+          "title": {
+            "zh": "饼图的三种内置入场动画",
+            "en": "Pie Appear Animation Presets"
+          }
+        },
+        {
+          "path": "bar-highlight-animation",
+          "title": {
+            "zh": "柱状图手风琴高亮动画",
+            "en": "Accordion highlight animation for bar charts"
+          }
+        },
+        {
+          "path": "area-streamlight",
+          "title": {
+            "zh": "面积图流光动画",
+            "en": "Stream light animation for area charts"
+          }
+        },
+        {
+          "path": "ring-carousel-animation",
+          "title": {
+            "zh": "环形图轮播动画",
+            "en": "Carousel animation for pie charts"
+          }
+        },
+        {
+          "path": "simple-animation-arrangement",
+          "title": {
+            "zh": "简单的动画编排示例",
+            "en": "Simple demo for animation arrangement"
+          }
+        },
         {
           "path": "dynamic-comparative-bar-chart",
           "title": {
@@ -169,6 +232,13 @@
           "title": {
             "zh": "点击维度项高亮所有相关点",
             "en": "Highlight All Related Points When Clicking the Dimension Item"
+          }
+        },
+        {
+          "path": "line-default-select",
+          "title": {
+            "zh": "Set Default Selected Dimension",
+            "en": "Set the default select dimension after render"
           }
         }
       ]
@@ -1531,6 +1601,20 @@
             "zh": "纵排轴标签",
             "en": "Axis label with vertical direction"
           }
+        },
+        {
+          "path": "multiple-layers-of-axis",
+          "title": {
+            "zh": "多层级坐标轴",
+            "en": "Multi-level axes"
+          }
+        },
+        {
+          "path": "multiple-layers-of-axis-1",
+          "title": {
+            "zh": "多层级坐标轴",
+            "en": "Multi-level axes"
+          }
         }
       ]
     },
@@ -2019,6 +2103,13 @@
           "title": {
             "zh": "柱状图标签",
             "en": "Bar Chart Labels"
+          }
+        },
+        {
+          "path": "bar-label-syncState",
+          "title": {
+            "zh": "柱状图标签状态配置",
+            "en": "Bar Chart Label State"
           }
         },
         {

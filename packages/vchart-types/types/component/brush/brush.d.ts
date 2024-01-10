@@ -76,6 +76,7 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
         reCompile: boolean;
     };
     onLayoutEnd(ctx: any): void;
+    clearGraphic(): void;
     clear(): void;
 }
 export declare const registerBrush: () => void;

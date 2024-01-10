@@ -18,9 +18,19 @@ The trigger mode of the crosshair, default is 'hover', triggered when the mouse 
 - `'click'`: Triggered when the mouse clicks.
 - `['hover', 'click']`: Triggered when the mouse hovers and clicks simultaneously.
 
-### triggerOff(string)
+### triggerOff(string | number)
 
-The trigger mode to hide the crosshair (currently only supports the same setting as trigger and `'none'`).
+The triggerOff options for hiding the crosshair currently support three settings:
+
+- `'none'`: Does not close the crosshair
+- Consistent with the trigger setting, i.e., when `trigger` is `hover`, triggerOff is also `hover`
+- `number`: Automatically closes the crosshair after a specified time, in milliseconds
+
+### lockAfterClick(boolean)
+
+Supported since version `1.9.0`
+
+Locks the `crosshair` after clicking, usually used in scenarios where `trigger` is `['hover', 'click']`
 
 ### labelZIndex(number) = 500
 

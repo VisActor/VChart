@@ -86,6 +86,9 @@ const ctx: IComponentOption = {
   getComponentsByKey: (key: string) => {
     return [];
   },
+  getComponentsByType: (type: string) => {
+    return [];
+  },
   getChartLayoutRect: () => {
     return { width: 0, height: 0, x: 0, y: 0 };
   },

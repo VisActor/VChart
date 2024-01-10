@@ -1,6 +1,6 @@
 {{ target: component-scrollbar }}
 
-## scrollbar(Array)
+## scrollBar(Array)
 
 Scrollbar configuration.
 

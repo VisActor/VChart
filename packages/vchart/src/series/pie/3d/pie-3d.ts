@@ -62,8 +62,8 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
     params3d.anchor3d = (datum: Datum) => {
       const anchor = [
         // TODO: label 布局依赖自身图元属性，这里无法获取到
-        this._center?.x ?? this._region.getLayoutRect().width / 2,
-        this._center?.y ?? this._region.getLayoutRect().height / 2
+        this._center?.x ?? this._region.getLayoutRectExcludeIndent().width / 2,
+        this._center?.y ?? this._region.getLayoutRectExcludeIndent().height / 2
       ];
       return anchor;
     };

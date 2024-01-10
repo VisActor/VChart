@@ -12,9 +12,8 @@ export type OffsetPoint = {
 export type IAggrType = 'sum' | 'average' | 'min' | 'max' | 'variance' | 'standardDeviation' | 'median';
 export type IDataPos = StringOrNumber | IAggrType;
 export type IDataPosCallback = (relativeSeriesData: Datum[], startRelativeSeriesData: Datum[], endRelativeSeriesData: Datum[], relativeSeries: ICartesianSeries, startRelativeSeries: ICartesianSeries, endRelativeSeries: ICartesianSeries) => StringOrNumber;
-export type IDataPointCallback = (relativeSeriesData: Datum[], relativeSeries: ICartesianSeries) => StringOrNumber;
 export type IDataPointSpec = {
-    [key: string]: IDataPos | IDataPointCallback;
+    [key: string]: IDataPos | IDataPosCallback;
     refRelativeSeriesIndex?: number;
     refRelativeSeriesId?: StringOrNumber;
     xFieldIndex?: number;
@@ -27,8 +26,8 @@ export type MarkerPositionPoint = {
     y: StringOrNumber;
 };
 export type ICoordinateOption = {
-    x?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
-    y?: IOptionAggrField | (IDataPointCallback | StringOrNumber)[];
+    x?: IOptionAggrField | (IDataPosCallback | StringOrNumber)[];
+    y?: IOptionAggrField | (IDataPosCallback | StringOrNumber)[];
     getRefRelativeSeries?: () => ICartesianSeries;
 } & IOptionSeries;
 export type IMarkerPositionsSpec = {

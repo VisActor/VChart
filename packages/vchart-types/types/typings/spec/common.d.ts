@@ -25,6 +25,7 @@ import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 import type { ICustomPath2D } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
+import type { IMediaQuerySpec } from '..';
 export type IChartPadding = ILayoutOrientPadding | number;
 export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
     dom?: string | HTMLElement;
@@ -38,6 +39,7 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
     poptip?: boolean;
     onError?: (...args: any[]) => void;
     theme?: string | ITheme;
+    disableTriggerEvent?: boolean;
 }
 export declare enum RenderModeEnum {
     'desktop-browser' = "desktop-browser",
@@ -79,6 +81,7 @@ export interface IChartSpec {
     theme?: Omit<ITheme, 'name'> | string;
     background?: IBackgroundSpec;
     stackInverse?: boolean;
+    media?: IMediaQuerySpec;
 }
 export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {
     image?: IRectMarkSpec['background'];

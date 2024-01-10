@@ -1,81 +1,73 @@
 import { _chatToVideoWasm } from '../chart-to-video';
-import {
-  chartAdvisorGPT,
-  dataProcessVChart,
-  dataProcessGPT,
-  estimateVideoTime,
-  getSchemaFromFieldInfo
-} from '../chart-generation/NLToChartPipe';
-import { SUPPORTED_CHART_LIST } from '../chart-generation/constants';
-import { GPTDataProcessResult, IGPTOptions, TimeType } from '../typings';
-import { patchUserInput } from '../chart-generation/utils';
-import { checkChartTypeAndCell, patchChartTypeAndCell, vizDataToSpec } from '../chart-generation/vizDataToSpec';
+import { generateChartWithGPT } from '../gpt/chart-generation/NLToChart';
+import { ILLMOptions, TimeType, Model, SimpleFieldInfo, DataItem } from '../typings';
 import type { FFmpeg } from '@ffmpeg/ffmpeg';
-import { chartAdvisorHandler } from '../chart-generation/chartAdvisorHandler';
+import { parseCSVDataWithGPT } from '../gpt/dataProcess';
+import { parseCSVData as parseCSVDataWithRule } from '../common/dataProcess';
+import { generateChartWithSkylark } from '../skylark/chart-generation';
 
 class VMind {
-  private _OPENAI_KEY: string | undefined = undefined;
   private _FPS = 30;
-  private _options: IGPTOptions | undefined;
+  private _options: ILLMOptions | undefined;
+  private _model: Model;
 
-  constructor(key: string, options?: IGPTOptions) {
-    this.setOpenAIKey(key);
-    this._options = options;
+  constructor(options?: ILLMOptions) {
+    this._options = { ...(options ?? {}) };
+    this._model = options.model ?? Model.GPT3_5;
   }
 
-  setOpenAIKey(key: string) {
-    this._OPENAI_KEY = key;
+  /**
+   * parse csv string and get the name, type of each field using rule-based method.
+   * @param csvString csv data user want to visualize
+   * @returns fieldInfo and raw dataset.
+   */
+  parseCSVData(csvString: string): { fieldInfo: SimpleFieldInfo[]; dataset: DataItem[] } {
+    //Parse CSV Data without LLM
+    //return dataset and fieldInfo
+    return parseCSVDataWithRule(csvString);
   }
 
-  async generateChart(csvFile: string, userInput: string) {
-    const dataView = dataProcessVChart(csvFile);
-    const userInputFinal = patchUserInput(userInput);
-
-    const dataProcessResJson: GPTDataProcessResult = await dataProcessGPT(
-      csvFile,
-      userInputFinal,
-      this._OPENAI_KEY,
-      this._options
-    );
-    const schema = getSchemaFromFieldInfo(dataProcessResJson);
-
-    const colors = dataProcessResJson.COLOR_PALETTE;
-    const parsedTime = dataProcessResJson.VIDEO_DURATION;
-    let chartType;
-    let cell;
-    let dataset = dataView.latestData;
-    try {
-      // throw 'test chartAdvisorHandler';
-      const resJson: any = await chartAdvisorGPT(
-        schema,
-        dataProcessResJson,
-        userInput,
-        this._OPENAI_KEY,
-        this._options
-      );
-
-      const chartTypeRes = resJson['CHART_TYPE'].toUpperCase();
-      const cellRes = resJson['FIELD_MAP'];
-      const patchResult = patchChartTypeAndCell(chartTypeRes, cellRes, dataset);
-      if (checkChartTypeAndCell(patchResult.chartTypeNew, patchResult.cellNew)) {
-        chartType = patchResult.chartTypeNew;
-        cell = patchResult.cellNew;
-      }
-    } catch (err) {
-      console.warn(err);
-      console.warn('LLM generation error, use rule generation.');
-      const advisorResult = chartAdvisorHandler(schema, dataset);
-      chartType = advisorResult.chartType;
-      cell = advisorResult.cell;
-      dataset = advisorResult.dataset;
+  /**
+   * call LLM to parse csv data. return fieldInfo and raw dataset.
+   * fieldInfo includes name, type, role, description of each field.
+   * NOTE: This will transfer your data to LLM.
+   * @param csvString csv data user want to visualize
+   * @param userPrompt
+   * @returns
+   */
+  parseCSVDataWithLLM(csvString: string, userPrompt: string) {
+    if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
+      return parseCSVDataWithGPT(csvString, userPrompt, this._options);
     }
-    const spec = vizDataToSpec(dataset, chartType, cell, colors, parsedTime ? parsedTime * 1000 : undefined);
-    spec.background = '#00000033';
-    console.info(spec);
-    return {
-      spec,
-      time: estimateVideoTime(chartType, spec, parsedTime ? parsedTime * 1000 : undefined)
-    };
+    console.error('Unsupported Model!');
+
+    return undefined;
+  }
+
+  /**
+   *
+   * @param userPrompt user's visualization intention (what aspect they want to show in the data)
+   * @param fieldInfo information about fields in the dataset. field name, type, etc. You can get fieldInfo using parseCSVData or parseCSVDataWithLLM
+   * @param dataset raw dataset used in the chart
+   * @param colorPalette color palette of the chart
+   * @param animationDuration duration of chart animation.
+   * @returns spec and time duration of the chart.
+   */
+  async generateChart(
+    userPrompt: string, //user's intent of visualization, usually aspect in data that they want to visualize
+    fieldInfo: SimpleFieldInfo[],
+    dataset: DataItem[],
+    colorPalette?: string[],
+    animationDuration?: number
+  ) {
+    if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
+      return generateChartWithGPT(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
+    }
+    if ([Model.SKYLARK, Model.SKYLARK2].includes(this._model)) {
+      return generateChartWithSkylark(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
+    }
+    console.error('unsupported model in chart generation!');
+    return { spec: undefined, time: undefined, dataSource: undefined, tokens: undefined } as any;
   }
 
   async exportVideo(

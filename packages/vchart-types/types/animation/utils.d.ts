@@ -10,7 +10,7 @@ export declare function animationConfig<Preset extends string>(defaultConfig?: M
     dataIndex: (datum: any) => number;
     dataCount: () => number;
 }): MarkAnimationSpec;
-export declare function userAnimationConfig<M extends string, Preset extends string>(markName: SeriesMarkNameEnum | string, spec: IAnimationSpec<M, Preset>, ctx: ISeriesMarkAttributeContext): Partial<Record<"none" | "normal" | "state" | "exit" | "update" | "appear" | "enter" | "disappear", boolean | IAnimationConfig | IStateAnimateSpec<string> | IAnimationConfig[]>>;
+export declare function userAnimationConfig<M extends string, Preset extends string>(markName: SeriesMarkNameEnum | string, spec: IAnimationSpec<M, Preset>, ctx: ISeriesMarkAttributeContext): Partial<Record<"none" | "normal" | "state" | "exit" | "update" | "appear" | "enter" | "disappear", boolean | IAnimationConfig | IAnimationConfig[] | IStateAnimateSpec<Preset>>>;
 export declare function shouldMarkDoMorph(spec: ISeriesSpec & IAnimationSpec<string, string>, markName: string): boolean;
 export declare function isTimeLineAnimation(animationConfig: IAnimationConfig): boolean;
 export declare function isChannelAnimation(animationConfig: IAnimationConfig): boolean;

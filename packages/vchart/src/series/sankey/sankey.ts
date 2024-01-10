@@ -1380,7 +1380,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
-    this._viewBox.set(0, 0, this._region.getLayoutRect().width, this._region.getLayoutRect().height);
+    this._viewBox.set(
+      0,
+      0,
+      this._region.getLayoutRectExcludeIndent().width,
+      this._region.getLayoutRectExcludeIndent().height
+    );
 
     // calculate the sankeyLayout
     this.getViewData().reRunAllTransform();

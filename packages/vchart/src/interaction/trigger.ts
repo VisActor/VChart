@@ -32,6 +32,7 @@ export class Trigger implements ITrigger {
   protected _fields: string[] | null = null;
   protected _marks: MarkSet = new MarkSet();
   protected _markReverse: MarkSet = new MarkSet();
+  private _isHovered?: boolean;
 
   constructor(spec: ITriggerSpec, option: ITriggerOption) {
     this._spec = spec;
@@ -42,7 +43,7 @@ export class Trigger implements ITrigger {
   }
 
   setStateKeys(fields: string[]): void {
-    this._fields = [...fields];
+    this._fields = fields.slice();
   }
 
   registerMark(mark: IMark): void {
@@ -131,9 +132,16 @@ export class Trigger implements ITrigger {
   }
 
   private onHover = (params: BaseEventParams) => {
+    /**
+     * 多个series的时候，trigger会有多个，每个trigger管理自己的marks
+     * 如果不加状态
+     * 会存在A系列触发hover，B系列触发unhover清空A系列高亮元素的情况
+     */
     if (this.filterEventMark(params)) {
+      this._isHovered = true;
       this.hoverItem(params);
-    } else {
+    } else if (this._isHovered) {
+      this._isHovered = false;
       this.unhoverItem();
     }
   };
@@ -212,11 +220,14 @@ export class Trigger implements ITrigger {
   }
 
   protected unselectItems(params: BaseEventParams): void {
-    this.interaction.removeEventElement(STATE_VALUE_ENUM.STATE_SELECTED, params.item);
-    this.event.emit('unselected', {
-      model: this._option.model,
-      value: params.item
-    });
+    const { triggerOff } = this._select;
+    if (triggerOff !== 'none') {
+      this.interaction.removeEventElement(STATE_VALUE_ENUM.STATE_SELECTED, params.item);
+      this.event.emit('unselected', {
+        model: this._option.model,
+        value: params.item
+      });
+    }
   }
 
   protected handleSingleEventSelect(params: BaseEventParams): void {

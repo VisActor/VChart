@@ -1,26 +1,28 @@
-export interface IGPTOptions {
-  url?: string;
-  /** gpt request header, which has higher priority */
-  headers?: HeadersInit;
-  method?: string;
-  model?: string;
+export interface ILLMOptions {
+  url?: string; //URL of your LLM service. For gpt, default is openAI API.
+  /** llm request header, which has higher priority */
+  headers?: HeadersInit; // this will be used directly as the header of the LLM request.
+  method?: 'POST' | 'GET'; //post or get
+  model?: Model;
   max_tokens?: number;
   temperature?: number;
+  showThoughts?: boolean;
+  customRequestFunc?: (prompt: string, userMessage: string, options: ILLMOptions | undefined) => Promise<LLMResponse>;
+  [key: string]: any;
 }
 
+export type SimpleFieldInfo = {
+  fieldName: string;
+  description?: string; //additional description of the field. This will help the model have a more comprehensive understanding of this field, improving the quality of chart generation.
+  type: DataType;
+  role: ROLE;
+};
 export type GPTDataProcessResult = {
-  DOUBLE_CHECK: string;
-  FIELD_INFO: {
-    fieldName: string;
-    description: string;
-    type: string;
-    role: string;
-  }[];
-  VIDEO_DURATION?: number;
-  COLOR_PALETTE?: string[];
-  REASON: string;
-  THOUGHT: string;
-  USEFUL_FIELDS: string[];
+  fieldInfo: SimpleFieldInfo[];
+  videoDuration?: number;
+  colorPalette?: string[];
+  thought: string;
+  usefulFields: string[];
   error?: boolean; //解析JSON出错
 };
 
@@ -31,6 +33,7 @@ export type Cell = {
   color?: string;
   size?: string;
   angle?: string;
+  radius?: string;
   time?: string;
   source?: string;
   target?: string;
@@ -71,7 +74,60 @@ export type TimeType = {
   frameArr: any[];
 };
 
+export enum DataType {
+  INT = 'int',
+  STRING = 'string',
+  FLOAT = 'float',
+  DATE = 'date'
+}
+
+export enum ROLE {
+  DIMENSION = 'dimension',
+  MEASURE = 'measure'
+}
+
+export enum LOCATION {
+  DIMENSION = 'dimension',
+  MEASURE = 'measure'
+}
+
+export type FieldInfo = {
+  id: string;
+  alias: string;
+  description: string;
+  visible: boolean;
+  type: DataType;
+  role: ROLE;
+  location: LOCATION;
+};
+
 export type VizSchema = {
   chartType?: string;
-  fields: any[];
+  fields: FieldInfo[];
+};
+
+//models that VMind support
+//more models is under developing
+export enum Model {
+  GPT3_5 = 'gpt-3.5-turbo',
+  GPT4 = 'gpt-4',
+  SKYLARK = 'skylark-pro',
+  SKYLARK2 = 'skylark2-pro-4k'
+}
+
+export type ChartGenerationProps = {
+  model: Model; //models to finish data generation task
+  userPrompt: string; //user's intent of visualization, usually aspect in data that they want to visualize
+  dataFields: FieldInfo[];
+};
+
+export type DataItem = Record<string, number | string>;
+
+export type LLMResponse = {
+  choices: {
+    index: number;
+    message: any;
+  }[];
+  usage: any;
+  [key: string]: any;
 };

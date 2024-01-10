@@ -1,5 +1,5 @@
 import { BaseSeriesProps, createSeries } from './BaseSeries';
-import { ICircularProgressSeriesSpec } from '@visactor/vchart';
+import type { ICircularProgressSeriesSpec } from '@visactor/vchart';
 
 export type CircularProgressProps = BaseSeriesProps & Omit<ICircularProgressSeriesSpec, 'type'>;
 

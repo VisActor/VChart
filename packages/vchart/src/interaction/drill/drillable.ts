@@ -63,8 +63,7 @@ export class Drillable implements IDrillable {
   private _hideTooltip() {
     const tooltip = (this as unknown as BaseSeries<null>)
       .getChart()
-      .getAllComponents()
-      .find(c => c.type === ComponentTypeEnum.tooltip) as Tooltip;
+      .getComponentsByType(ComponentTypeEnum.tooltip)[0] as Tooltip;
     tooltip && tooltip.hideTooltip();
   }
 

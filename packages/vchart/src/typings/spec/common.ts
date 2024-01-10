@@ -56,6 +56,7 @@ import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 import type { ICustomPath2D } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
+import type { IMediaQuerySpec } from '..';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -110,6 +111,13 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * @since 1.3.0
    */
   theme?: string | ITheme;
+
+  /**
+   * 是否关闭交互效果
+   * @since 1.9.0
+   * @default false
+   */
+  disableTriggerEvent?: boolean;
 }
 
 export enum RenderModeEnum {
@@ -216,6 +224,11 @@ export interface IChartSpec {
    * @since 1.4.0
    */
   stackInverse?: boolean;
+  /**
+   * 媒体查询配置
+   * @since 1.8.0
+   */
+  media?: IMediaQuerySpec;
 }
 
 export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {

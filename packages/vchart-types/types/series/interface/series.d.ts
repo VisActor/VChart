@@ -11,7 +11,7 @@ import type { IPolarAxisHelper } from '../../component/axis/polar/interface';
 import type { ISeriesSeriesInfo, ISeriesSpecInfo, ISeriesStackData } from './common';
 import type { ISeriesTooltipHelper } from './tooltip-helper';
 import type { IInvalidType, Datum, DirectionType, IGroup, StringOrNumber } from '../../typings';
-import type { StateValueType } from '../../compile/mark';
+import type { ISeriesMarkAttributeContext, StateValueType } from '../../compile/mark';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { IGroupMark } from '../../mark/group';
 import type { IGeoCoordinateHelper } from '../../component/geo/interface';
@@ -95,6 +95,7 @@ export interface ISeries extends IModel {
     initLabelMarkStyle?: (labelMark: ILabelMark) => void;
     getGroupFields: () => string[];
     getSpecInfo: () => ISeriesSpecInfo;
+    getMarkAttributeContext: () => ISeriesMarkAttributeContext;
 }
 export interface ICartesianSeries extends ISeries {
     readonly coordinate: 'cartesian';
@@ -127,6 +128,8 @@ export interface ICartesianSeries extends ISeries {
     dataToPositionX1: (datum: Datum) => number | null;
     dataToPositionY1: (datum: Datum) => number | null;
     valueToPosition: (value1: any, value2: any) => IPoint;
+    valueToPositionX: (value: StringOrNumber | StringOrNumber[], datum?: any) => any;
+    valueToPositionY: (value: StringOrNumber | StringOrNumber[], datum?: any) => any;
 }
 export interface IPolarSeries extends ISeries {
     readonly coordinate: 'polar';

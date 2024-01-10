@@ -143,7 +143,7 @@ export class ContinuousLegend<
 
   protected _initSelectedData(): void {
     if (this._spec.defaultSelected) {
-      this._selectedData = [...this._spec.defaultSelected];
+      this._selectedData = this._spec.defaultSelected.slice();
     } else {
       this._selectedData = this._legendData.getLatestData();
     }

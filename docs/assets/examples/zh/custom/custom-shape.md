@@ -3,7 +3,7 @@ category: examples
 group: customMark
 title: 自定义Shape
 order: 40-2
-cover:
+cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/custom-mark/custom-shape.png
 option: barChart#customMark
 ---
 
