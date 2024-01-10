@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: range column chart's `barMinHeight` property does not take effect, closed#1999",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
