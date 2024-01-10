@@ -25,6 +25,7 @@ import { ChartEvent } from '../../../constant';
 import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
 import type { ILayoutRect } from '../../../typings/layout';
+import type { Datum } from '../../../typings';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static specKey = 'legends';
@@ -75,7 +76,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
           options: {
             selected: () => this._selectedData,
             field: () => this._getSeriesLegendField(s),
-            data: () => this._getLegendItems().map((obj: LegendItemDatum) => obj.key)
+            data: () => this._getLegendDefaultData()
           },
           level: TransformLevel.legendFilter
         });
@@ -147,8 +148,16 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     if (this._spec.defaultSelected) {
       this._selectedData = [...this._spec.defaultSelected];
     } else {
-      this._selectedData = this._getLegendItems().map((obj: LegendItemDatum) => obj.label);
+      this._selectedData = this._getLegendDefaultData();
     }
+  }
+
+  private _getLegendDefaultData() {
+    if (isFunction(this._spec.data)) {
+      return this._getLegendItems().map((obj: LegendItemDatum) => obj.label);
+    }
+
+    return this._legendData.getLatestData().map((obj: Datum) => obj.key);
   }
 
   private _addDefaultTitleText(attrs: any) {
