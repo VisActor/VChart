@@ -67,7 +67,7 @@
 
 当 valueField 存在时，默认值[20,40]; 当 valueField 不存在时，默认值[10, 10]。
 
-自 1.7.0 版本支持'auto'配置。即如果配置为'auto', 则fontSizeRange不传入, 字体大小会随画布大小改变而改变。
+自 1.8.7 版本支持'auto'配置。即如果配置为'auto', 则fontSizeRange不传入, 字体大小会随画布大小改变而改变。
 
 #${prefix} maskShape(string)
 

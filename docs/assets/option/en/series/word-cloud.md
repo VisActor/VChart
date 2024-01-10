@@ -67,7 +67,7 @@ Font size range. If you need a fixed font size, configure the numbers in the arr
 
 When the valueField exists, the default value is [20,40]; when the valueField does not exist, the default value is [10, 10].
 
-'auto' configuration is supported since version 1.7.0. That is, if the configuration is 'auto', fontSizeRange is not passed in, and the font size will change as the canvas size changes.
+'auto' configuration is supported since version 1.8.7. That is, if the configuration is 'auto', fontSizeRange is not passed in, and the font size will change as the canvas size changes.
 
 #${prefix} maskShape(string)
 
