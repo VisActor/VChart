@@ -97,6 +97,11 @@
 
 标签文本 - 文本同文本前图元之间的间距。
 
+{{ if: !${noConfine} }}
+#${prefix} confine(boolean) = false
+自 1.4.0 版本开始, 是否自动调整 label 使其展示在 marker 可见区域内。
+{{ /if }}
+
 #${prefix} dx(number)
 
 文本水平方向的偏移。

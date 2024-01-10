@@ -21,6 +21,12 @@ export interface IItemContent extends IMarkerRef {
    */
   offsetY?: number;
   /**
+   * 是否自动调整 item content 使其展示在 marker 可见区域内。
+   * @default false
+   * @since 1.8.7
+   */
+  confine?: boolean;
+  /**
    * type为symbol时, symbol的样式
    */
   symbol?: {
