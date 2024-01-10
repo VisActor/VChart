@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(liquid): liquid chart. close#1158",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
