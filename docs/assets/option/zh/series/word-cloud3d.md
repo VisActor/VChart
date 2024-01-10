@@ -59,11 +59,13 @@
 
 字重范围，需要固定字重大小的话，数组里面的数就配置成一样的。
 
-#${prefix} fontSizeRange(Array)
+#${prefix} fontSizeRange(Array|string)
 
 字体大小范围，需要固定字体大小的话，数组里面的数就配置成一样的。
 
 当 valueField 存在时，默认值[20,40]; 当 valueField 不存在时，默认值[10, 10]。
+
+自 1.8.7 版本支持'auto'配置。即如果配置为'auto', 则fontSizeRange不传入, 字体大小会随画布大小改变而改变。
 
 #${prefix} maskShape(string)
 

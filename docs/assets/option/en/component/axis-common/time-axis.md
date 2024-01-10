@@ -1,6 +1,9 @@
 {{ target: component-time-axis }}
 
 <!-- ICartesianTimeAxisSpec -->
+{{ use: component-linear-axis(
+  prefix = ${prefix}
+) }}
 
 #${prefix} layers(array)
 Hierarchical configuration of axes. Currently only supports single layer/double layer, ie layers.length <= 2.
