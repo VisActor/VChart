@@ -35,209 +35,106 @@ const run = () => {
   ];
 
   const spec = {
-    type: 'bar',
+    type: 'liquid',
+    maskShape: 'pin',
+    background: '#111',
+    valueField: 'value',
     padding: {
-      top: 24,
-      right: 48,
-      bottom: 48,
-      left: 48
+      left: 100,
+      top: 100
+    },
+    // color: ['red'],
+    // region: [{
+    //   id: 'region',
+    //   style: {
+    //     fill: 'blue',
+    //     fillOpacity: 1
+    //   }
+    // }],
+    animationAppear: {
+      preset: 'wave',
+      // loop: true,
+      delay: 0,
+      delayAfter: 0
+    },
+    indicatorSmartInvert: true,
+    indicator: {
+      visible: true,
+      // trigger: 'hover',
+      limitRatio: 0.4,
+      title: {
+        visible: true,
+        autoFit: true,
+        style: {
+          // fontWeight: 'bolder',
+          fontFamily: 'Times New Roman',
+          fill: 'red',
+          text: '指标'
+          // dx: 20,
+          // dy: 20
+        }
+      },
+      content: [
+        {
+          visible: true,
+          style: {
+            // fontSize: 20,
+            fill: 'red',
+            // fontWeight: 'bolder',
+            // fontFamily: 'Times New Roman',
+            text: '0.2'
+            // dx: 20,
+            // dy: 20
+          }
+        },
+        {
+          visible: true,
+          style: {
+            fontSize: 18,
+            fill: 'orange',
+            fontFamily: 'Times New Roman'
+            // text: datum => {
+            //   const d = datum ?? data[0];
+            //   return d['value'] + '%';
+            // }
+          }
+        }
+      ]
     },
     data: [
       {
         id: 'id0',
-        values: data1
+        values: [
+          {
+            name: 'A',
+            value: 0.5
+          }
+        ]
       }
     ],
-    xField: 'date',
-    yField: 'workload',
-    axes: [
-      {
-        orient: 'bottom',
-        label: {
-          space: 8,
-          style: {
-            fill: '#505050',
-            fontFamily: 'PingFang SC',
-            angle: 0
-          },
-          type: 'rich',
-          formatMethod: text => {
-            return [
-              {
-                text: text,
-                fontWeight: 'bold',
-                fontSize: 12,
-                fill: '#3f51b5'
-              },
-              {
-                text: '🌞',
-                fill: '#3f51b5'
-              }
-            ];
-          }
-        },
-        tick: {
-          visible: false
-        },
-        title: {
-          visible: true,
-          space: 20,
-          style: {
-            fill: '#333',
-            fontFamily: 'PingFang SC',
-            fontSize: 14,
-            fontWeight: 'bold'
-          },
-          type: 'rich',
-          text: [
-            {
-              text: 'Date',
-              fontWeight: 'bold',
-              fontSize: 25,
-              fill: '#3f51b5'
-            },
-            {
-              text: '日期',
-              fontStyle: 'italic',
-              textDecoration: 'underline',
-              fill: '#3f51b5'
-            }
-          ]
-        }
-      },
-      {
-        orient: 'left',
-        label: {
-          space: 8,
-          style: {
-            fill: '#6F6F6F',
-            fontFamily: 'PingFang SC'
-          },
-          formatMethod: label => `${label}K`
-        },
-        grid: {
-          visible: true,
-          style: {
-            lineDash: [0]
-          }
-        },
-        tick: {
-          visible: false
-        },
-        title: {
-          visible: true,
-          space: 20,
-          text: 'value',
-          autoRotate: false,
-          style: {
-            fill: '#333',
-            fontFamily: 'PingFang SC',
-            fontSize: 14,
-            fontWeight: 'bold',
-            textBaseline: 'bottom',
-            angle: -90
-          }
-        }
-      }
-    ],
-    dataZoom: {
-      orient: 'bottom',
-      showDetail: true,
-      middleHandler: {
-        visible: true
-      },
-      backgroundChart: {
-        area: {
-          style: {
-            fill: '#EAEAEA',
-            fillOpacity: 0.5
-          }
-        },
-        line: {
-          style: {
-            stroke: '#EAEAEA',
-            lineWidth: 3
-          }
-        }
-      },
-      selectedBackgroundChart: {
-        area: {
-          style: {
-            fill: '#EAEAEA'
-          }
-        },
-        line: {
-          style: {
-            stroke: '#EAEAEA',
-            lineWidth: 1
-          }
-        }
-      },
-      background: {
-        style: {
-          fill: '#fff',
-          lineWidth: 1,
-          stroke: '#EAEAEA'
-        }
-      },
-      selectedBackground: {
-        style: {
-          fillOpacity: 0.1
-        }
-      }
-    },
-    crosshair: {
-      xField: {
-        visible: true,
-        label: {
-          visible: false
-        }
-        // line: {
-        //   width: '120%'
-        // }
-      },
-      yField: {
-        visible: false
-      }
-    },
-    tooltip: {
-      enterable: true,
-      renderMode: 'canvas',
-      mark: {
-        title: {
-          value: {
-            type: 'rich',
-            text: [
-              {
-                text: 'TOOLTIP',
-                fontWeight: 'bold',
-                fill: '#3f51b5'
-              },
-              {
-                text: '替代方案',
-                fontStyle: 'italic',
-                textDecoration: 'underline',
-                fill: '#3f51b5'
-              }
-            ]
-          }
-        }
-      }
-    },
-    bar: {
-      style: {
-        fill: '#00924F'
-      },
-      state: {
-        hover: {
-          fill: '#1664FF'
-        }
-      }
-    },
-    label: {
-      visible: true,
-      formatter: '{date}'
-    }
+    // outlineMargin: 40,
+    outlinePadding: 40
+    // liquidOutline: {
+    //   style: {
+    //     // fill: '#FFF',
+    //     stroke: 'red',
+    //     lineWdith: 2
+    //   }
+    // },
+    // liquidBackground: {
+    //   style: {
+    //     fill: 'red',
+    //     stroke: 'red',
+    //     lineWdith: 2
+    //   }
+    // },
+    // liquid: {
+    //   style: {
+    //     // fill: 'red',
+    //     stroke: 'red',
+    //     lineWdith: 2
+    //   }
+    // }
   };
 
   const percent_area_spec = {
@@ -307,7 +204,7 @@ const run = () => {
     }
   };
 
-  const cs = new VChart(percent_area_spec, {
+  const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });

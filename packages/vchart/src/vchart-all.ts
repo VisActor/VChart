@@ -31,6 +31,7 @@ import { registerSankeyChart } from './chart/sankey';
 import { registerRangeAreaChart } from './chart/range-area';
 import { registerHeatmapChart } from './chart/heatmap';
 import { registerCorrelationChart } from './chart/correlation';
+import { registerLiquidChart } from './chart/liquid';
 import {
   registerCartesianBandAxis,
   registerCartesianLinearAxis,
@@ -87,6 +88,7 @@ VChart.useRegisters([
   registerHeatmapChart,
   registerSequenceChart,
   registerCorrelationChart,
+  registerLiquidChart,
   registerCommonChart,
 
   // 3d charts
