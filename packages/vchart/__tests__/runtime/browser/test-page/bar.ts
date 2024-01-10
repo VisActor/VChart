@@ -34,280 +34,844 @@ const run = () => {
     { date: 'Day 10', workload: 8000 }
   ];
 
+  /**
+   * @author siji
+   * @desc 测试配置itemContent.confine后, mark point超出画布后是否会向内收缩
+   * @desc github issue: https://github.com/VisActor/VChart/issues/1573
+   */
   const spec = {
-    type: 'bar',
-    padding: {
-      top: 24,
-      right: 48,
-      bottom: 48,
-      left: 48
-    },
-    data: [
-      {
-        id: 'id0',
-        values: data1
-      }
-    ],
-    xField: 'date',
-    yField: 'workload',
+    type: 'line',
+    xField: 'year',
+    yField: 'population',
     axes: [
       {
         orient: 'bottom',
-        label: {
-          space: 8,
-          style: {
-            fill: '#505050',
-            fontFamily: 'PingFang SC',
-            angle: 0
-          },
-          type: 'rich',
-          formatMethod: text => {
-            return [
-              {
-                text: text,
-                fontWeight: 'bold',
-                fontSize: 12,
-                fill: '#3f51b5'
-              },
-              {
-                text: '🌞',
-                fill: '#3f51b5'
-              }
-            ];
+        type: 'linear',
+        min: 1868,
+        max: 2016
+      }
+    ],
+    markPoint: [
+      {
+        coordinate: {
+          year: '1878',
+          population: 100
+        },
+        itemContent: {
+          offsetY: -100,
+          type: 'richText',
+          autoRotate: false,
+          confine: true,
+          richText: {
+            style: {
+              width: 100,
+              height: 50,
+              dx: -20,
+              dy: 5,
+              textConfig: [
+                {
+                  text: '1878\n',
+                  fontWeight: 'bold',
+                  fontSize: 13,
+                  fill: '#E8346D',
+                  fontFamily: 'Times New Roman'
+                },
+                {
+                  text: 'population was 148',
+                  // fontWeight: 'bold',
+                  fontSize: 10,
+                  fill: '#E8346D',
+                  fontFamily: 'Times New Roman'
+                }
+              ]
+            }
           }
         },
-        tick: {
-          visible: false
-        },
-        title: {
-          visible: true,
-          space: 20,
-          style: {
-            fill: '#333',
-            fontFamily: 'PingFang SC',
-            fontSize: 14,
-            fontWeight: 'bold'
+        itemLine: {
+          // startSymbol: {
+          //   visible: false
+          // },
+          decorativeLine: {
+            visible: true
           },
-          type: 'rich',
-          text: [
-            {
-              text: 'Date',
-              fontWeight: 'bold',
-              fontSize: 25,
-              fill: '#3f51b5'
-            },
-            {
-              text: '日期',
-              fontStyle: 'italic',
-              textDecoration: 'underline',
-              fill: '#3f51b5'
+          startSymbol: {
+            size: 20,
+            style: {
+              stroke: '#E8346D'
             }
-          ]
+          },
+          line: {
+            style: {
+              stroke: '#E8346D'
+            }
+          }
         }
       },
       {
-        orient: 'left',
-        label: {
-          space: 8,
-          style: {
-            fill: '#6F6F6F',
-            fontFamily: 'PingFang SC'
-          },
-          formatMethod: label => `${label}K`
+        coordinate: {
+          year: '2016',
+          population: 899447
         },
-        grid: {
-          visible: true,
-          style: {
-            lineDash: [0]
+        itemContent: {
+          offsetY: 40,
+          // offsetX: -200,
+          type: 'richText',
+          autoRotate: false,
+          confine: true,
+          position: 'insideBottom',
+          richText: {
+            style: {
+              width: 100,
+              height: 50,
+              dx: 110,
+              dy: 10,
+              textConfig: [
+                {
+                  text: '2016\n',
+                  fontWeight: 'bold',
+                  fontSize: 13,
+                  fill: '#E8346D',
+                  fontFamily: 'Times New Roman'
+                },
+                {
+                  text: 'population was 899447',
+                  fontSize: 10,
+                  fill: '#E8346D',
+                  fontFamily: 'Times New Roman'
+                }
+              ]
+            }
           }
         },
-        tick: {
-          visible: false
-        },
-        title: {
-          visible: true,
-          space: 20,
-          text: 'value',
-          autoRotate: false,
-          style: {
-            fill: '#333',
-            fontFamily: 'PingFang SC',
-            fontSize: 14,
-            fontWeight: 'bold',
-            textBaseline: 'bottom',
-            angle: -90
+        itemLine: {
+          // type: 'type-do',
+          startSymbol: {
+            size: 24,
+            style: {
+              stroke: '#E8346D'
+            }
+          },
+          line: {
+            style: {
+              stroke: '#E8346D'
+            }
           }
         }
       }
     ],
-    dataZoom: {
-      orient: 'bottom',
-      showDetail: true,
-      middleHandler: {
-        visible: true
-      },
-      backgroundChart: {
-        area: {
-          style: {
-            fill: '#EAEAEA',
-            fillOpacity: 0.5
-          }
-        },
-        line: {
-          style: {
-            stroke: '#EAEAEA',
-            lineWidth: 3
-          }
-        }
-      },
-      selectedBackgroundChart: {
-        area: {
-          style: {
-            fill: '#EAEAEA'
-          }
-        },
-        line: {
-          style: {
-            stroke: '#EAEAEA',
-            lineWidth: 1
-          }
-        }
-      },
-      background: {
-        style: {
-          fill: '#fff',
-          lineWidth: 1,
-          stroke: '#EAEAEA'
-        }
-      },
-      selectedBackground: {
-        style: {
-          fillOpacity: 0.1
-        }
-      }
-    },
-    crosshair: {
-      xField: {
-        visible: true,
-        label: {
-          visible: false
-        }
-        // line: {
-        //   width: '120%'
-        // }
-      },
-      yField: {
+    point: {
+      style: {
         visible: false
       }
     },
-    tooltip: {
-      enterable: true,
-      renderMode: 'canvas',
-      mark: {
-        title: {
-          value: {
-            type: 'rich',
-            text: [
-              {
-                text: 'TOOLTIP',
-                fontWeight: 'bold',
-                fill: '#3f51b5'
-              },
-              {
-                text: '替代方案',
-                fontStyle: 'italic',
-                textDecoration: 'underline',
-                fill: '#3f51b5'
-              }
-            ]
-          }
-        }
-      }
-    },
-    bar: {
+    line: {
       style: {
-        fill: '#00924F'
-      },
-      state: {
-        hover: {
-          fill: '#1664FF'
-        }
+        lineWidth: 2
       }
-    },
-    label: {
-      visible: true,
-      formatter: '{date}'
-    }
-  };
-
-  const percent_area_spec = {
-    type: 'area',
-    data: {
-      values: [
-        { type: 'Nail polish', country: 'Africa', value: 4229 },
-        { type: 'Nail polish', country: 'EU', value: 4376 },
-        { type: 'Nail polish', country: 'China', value: 3054 },
-        { type: 'Nail polish', country: 'USA', value: 12814 },
-        { type: 'Eyebrow pencil', country: 'Africa', value: 3932 },
-        { type: 'Eyebrow pencil', country: 'EU', value: 3987 },
-        { type: 'Eyebrow pencil', country: 'China', value: 5067 },
-        { type: 'Eyebrow pencil', country: 'USA', value: 13012 },
-        { type: 'Rouge', country: 'Africa', value: 5221 },
-        { type: 'Rouge', country: 'EU', value: 3574 },
-        { type: 'Rouge', country: 'China', value: 7004 },
-        { type: 'Rouge', country: 'USA', value: 11624 },
-        { type: 'Lipstick', country: 'Africa', value: 9256 },
-        { type: 'Lipstick', country: 'EU', value: 4376 },
-        { type: 'Lipstick', country: 'China', value: 9054 },
-        { type: 'Lipstick', country: 'USA', value: 8814 },
-        { type: 'Eyeshadows', country: 'Africa', value: 3308 },
-        { type: 'Eyeshadows', country: 'EU', value: 4572 },
-        { type: 'Eyeshadows', country: 'China', value: 12043 },
-        { type: 'Eyeshadows', country: 'USA', value: 12998 },
-        { type: 'Eyeliner', country: 'Africa', value: 5432 },
-        { type: 'Eyeliner', country: 'EU', value: 3417 },
-        { type: 'Eyeliner', country: 'China', value: 15067 },
-        { type: 'Eyeliner', country: 'USA', value: 12321 },
-        { type: 'Foundation', country: 'Africa', value: 13701 },
-        { type: 'Foundation', country: 'EU', value: 5231 },
-        { type: 'Foundation', country: 'China', value: 10119 },
-        { type: 'Foundation', country: 'USA', value: 10342 },
-        { type: 'Lip gloss', country: 'Africa', value: 4008 },
-        { type: 'Lip gloss', country: 'EU', value: 4572 },
-        { type: 'Lip gloss', country: 'China', value: 12043 },
-        { type: 'Lip gloss', country: 'USA', value: 22998 },
-        { type: 'Mascara', country: 'Africa', value: 18712 },
-        { type: 'Mascara', country: 'EU', value: 6134 },
-        { type: 'Mascara', country: 'China', value: 10419 },
-        { type: 'Mascara', country: 'USA', value: 11261 }
-      ]
     },
     title: {
-      visible: true,
-      text: '100% stacked area chart of cosmetic products sales'
-    },
-    percent: true,
-    xField: 'type',
-    yField: 'value',
-    seriesField: 'country',
-    legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
-    axes: [
-      {
-        orient: 'left',
-        label: {
-          formatMethod(val) {
-            return `${(val * 100).toFixed(2)}%`;
-          }
-        }
+      text: 'Population History - Line Chart',
+      textStyle: {
+        lineWidth: 3,
+        fill: '#333',
+        fontSize: 20,
+        fontFamily: 'Times New Roman'
       }
-    ],
-    label: {
-      visible: true,
-      formatter: '{_percent_}'
+    },
+    data: {
+      id: 'data2',
+      values: [
+        {
+          census_year: true,
+          year: 2016,
+          source: 'CoE',
+          population: 899447
+        },
+        {
+          census_year: true,
+          year: 2014,
+          source: 'CoE',
+          population: 877926
+        },
+        {
+          year: 2013,
+          source: 'CoE 6',
+          population: 847712
+        },
+        {
+          census_year: true,
+          year: 2012,
+          source: 'CoE',
+          population: 817498
+        },
+        {
+          year: 2010,
+          source: 'CoE 6',
+          population: 797320
+        },
+        {
+          census_year: true,
+          year: 2009,
+          source: 'CoE',
+          population: 782439
+        },
+        {
+          census_year: true,
+          year: 2008,
+          source: 'CoE',
+          population: 752412
+        },
+        {
+          year: 2007,
+          source: 'CoE 6',
+          population: 741392
+        },
+        {
+          census_year: true,
+          year: 2005,
+          source: 'CoE',
+          population: 712391
+        },
+        {
+          year: 2004,
+          source: 'CoE 6',
+          population: 698631
+        },
+        {
+          year: 2003,
+          source: 'CoE 6',
+          population: 684871
+        },
+        {
+          year: 2002,
+          source: 'CoE 6',
+          population: 671110
+        },
+        {
+          year: 2000,
+          source: 'CoE 6',
+          population: 652817
+        },
+        {
+          census_year: true,
+          year: 1999,
+          source: 'CoE',
+          population: 648284
+        },
+        {
+          year: 1998,
+          source: 'CoE 6',
+          population: 637625
+        },
+        {
+          year: 1997,
+          source: 'CoE 6',
+          population: 626965
+        },
+        {
+          year: 1995,
+          source: 'CoE 6',
+          population: 619870
+        },
+        {
+          year: 1994,
+          source: 'CoE 6',
+          population: 623435
+        },
+        {
+          census_year: true,
+          year: 1993,
+          source: 'CoE',
+          population: 626999
+        },
+        {
+          census_year: true,
+          year: 1992,
+          source: 'CoE',
+          population: 618195
+        },
+        {
+          census_year: true,
+          year: 1990,
+          source: 'CoE',
+          population: 605538
+        },
+        {
+          census_year: true,
+          year: 1989,
+          source: 'CoE',
+          population: 583872
+        },
+        {
+          year: 1988,
+          source: 'CoE',
+          population: 580061
+        },
+        {
+          census_year: true,
+          year: 1987,
+          source: 'CoE',
+          population: 576249
+        },
+        {
+          year: 1985,
+          source: 'CoE 6',
+          population: 567699
+        },
+        {
+          year: 1984,
+          source: 'CoE 6',
+          population: 563892
+        },
+        {
+          census_year: true,
+          year: 1983,
+          source: 'CoE',
+          population: 560085
+        },
+        {
+          census_year: true,
+          year: 1982,
+          source: 'CoE 1',
+          population: 551314
+        },
+        {
+          census_year: true,
+          year: 1980,
+          source: 'CoE',
+          population: 505773
+        },
+        {
+          census_year: true,
+          year: 1979,
+          source: 'CoE',
+          population: 491359
+        },
+        {
+          census_year: true,
+          year: 1978,
+          source: 'CoE',
+          population: 478066
+        },
+        {
+          census_year: true,
+          year: 1977,
+          source: 'CoE',
+          population: 471474
+        },
+        {
+          census_year: true,
+          year: 1975,
+          source: 'CoE',
+          population: 451635
+        },
+        {
+          census_year: true,
+          year: 1974,
+          source: 'CoE',
+          population: 445691
+        },
+        {
+          census_year: true,
+          year: 1973,
+          source: 'CoE',
+          population: 442365
+        },
+        {
+          census_year: true,
+          year: 1972,
+          source: 'CoE',
+          population: 441530
+        },
+        {
+          census_year: true,
+          year: 1970,
+          source: 'CoE',
+          population: 429750
+        },
+        {
+          census_year: true,
+          year: 1969,
+          source: 'CoE',
+          population: 422418
+        },
+        {
+          census_year: true,
+          year: 1968,
+          source: 'CoE',
+          population: 410105
+        },
+        {
+          census_year: true,
+          year: 1967,
+          source: 'CoE',
+          population: 393593
+        },
+        {
+          census_year: true,
+          year: 1965,
+          source: 'CoE',
+          population: 371265
+        },
+        {
+          census_year: true,
+          year: 1964,
+          source: 'CoE 2',
+          population: 311804
+        },
+        {
+          census_year: true,
+          year: 1963,
+          source: 'CoE',
+          population: 303756
+        },
+        {
+          census_year: true,
+          year: 1962,
+          source: 'CoE',
+          population: 294967
+        },
+        {
+          census_year: true,
+          year: 1960,
+          source: 'CoE',
+          population: 269314
+        },
+        {
+          census_year: true,
+          year: 1959,
+          source: 'CoE',
+          population: 260733
+        },
+        {
+          census_year: true,
+          year: 1958,
+          source: 'CoE',
+          population: 252131
+        },
+        {
+          census_year: true,
+          year: 1957,
+          source: 'CoE',
+          population: 238353
+        },
+        {
+          census_year: true,
+          year: 1955,
+          source: 'CoE',
+          population: 209353
+        },
+        {
+          census_year: true,
+          year: 1954,
+          source: 'CoE',
+          population: 197836
+        },
+        {
+          census_year: true,
+          year: 1953,
+          source: 'CoE',
+          population: 183411
+        },
+        {
+          census_year: true,
+          year: 1952,
+          source: 'CoE',
+          population: 169196
+        },
+        {
+          census_year: true,
+          year: 1950,
+          source: 'CoE',
+          population: 148861
+        },
+        {
+          census_year: true,
+          year: 1949,
+          source: 'CoE',
+          population: 137469
+        },
+        {
+          census_year: true,
+          year: 1948,
+          source: 'CoE',
+          population: 126609
+        },
+        {
+          census_year: true,
+          year: 1947,
+          source: 'CoE',
+          population: 118541
+        },
+        {
+          census_year: true,
+          year: 1946,
+          source: 'CoE',
+          population: 114976
+        },
+        {
+          census_year: true,
+          year: 1945,
+          source: 'CoE',
+          population: 111745
+        },
+        {
+          census_year: true,
+          year: 1944,
+          source: 'CoE',
+          population: 108416
+        },
+        {
+          census_year: true,
+          year: 1943,
+          source: 'CoE',
+          population: 105536
+        },
+        {
+          census_year: true,
+          year: 1942,
+          source: 'CoE',
+          population: 96725
+        },
+        {
+          census_year: true,
+          year: 1940,
+          source: 'CoE',
+          population: 91723
+        },
+        {
+          census_year: true,
+          year: 1939,
+          source: 'CoE',
+          population: 90419
+        },
+        {
+          census_year: true,
+          year: 1938,
+          source: 'CoE',
+          population: 88887
+        },
+        {
+          census_year: true,
+          year: 1937,
+          source: 'CoE',
+          population: 87034
+        },
+        {
+          census_year: true,
+          year: 1936,
+          source: 'CoE',
+          population: 85470
+        },
+        {
+          census_year: true,
+          year: 1935,
+          source: 'CoE',
+          population: 82634
+        },
+        {
+          census_year: true,
+          year: 1934,
+          source: 'CoE',
+          population: 79773
+        },
+        {
+          census_year: true,
+          year: 1933,
+          source: 'CoE',
+          population: 79231
+        },
+        {
+          census_year: true,
+          year: 1932,
+          source: 'CoE',
+          population: 78387
+        },
+        {
+          census_year: true,
+          year: 1930,
+          source: 'CoE',
+          population: 77557
+        },
+        {
+          census_year: true,
+          year: 1929,
+          source: 'CoE',
+          population: 74298
+        },
+        {
+          census_year: true,
+          year: 1928,
+          source: 'CoE',
+          population: 69744
+        },
+        {
+          census_year: true,
+          year: 1927,
+          source: 'CoE',
+          population: 67083
+        },
+        {
+          census_year: true,
+          year: 1926,
+          source: 'CoE',
+          population: 65163
+        },
+        {
+          census_year: true,
+          year: 1925,
+          source: 'CoE',
+          population: 65378
+        },
+        {
+          census_year: true,
+          year: 1924,
+          source: 'CoE',
+          population: 63160
+        },
+        {
+          census_year: true,
+          year: 1923,
+          source: 'CoE*',
+          population: 60000
+        },
+        {
+          census_year: true,
+          year: 1922,
+          source: 'CoE*',
+          population: 60000
+        },
+        {
+          census_year: true,
+          year: 1920,
+          source: 'CoE',
+          population: 61045
+        },
+        {
+          census_year: true,
+          year: 1919,
+          source: 'CoE*',
+          population: 60000
+        },
+        {
+          census_year: true,
+          year: 1918,
+          source: 'CoE*',
+          population: 53000
+        },
+        {
+          census_year: true,
+          year: 1917,
+          source: 'CoE* 4',
+          population: 51000
+        },
+        {
+          census_year: true,
+          year: 1916,
+          source: 'CoE',
+          population: 53846
+        },
+        {
+          census_year: true,
+          year: 1915,
+          source: 'CoE',
+          population: 59339
+        },
+        {
+          census_year: true,
+          year: 1914,
+          source: 'CoE',
+          population: 72516
+        },
+        {
+          census_year: true,
+          year: 1913,
+          source: 'CoE',
+          population: 67243
+        },
+        {
+          census_year: true,
+          year: 1912,
+          source: 'CoE 5',
+          population: 53611
+        },
+        {
+          year: 1910,
+          source: 'CoE 6',
+          population: 23950
+        },
+        {
+          census_year: true,
+          year: 1909,
+          source: 'CoE*',
+          population: 23000
+        },
+        {
+          census_year: true,
+          year: 1908,
+          source: 'CoE',
+          population: 18500
+        },
+        {
+          year: 1907,
+          source: 'CoE 6',
+          population: 16294
+        },
+        {
+          census_year: true,
+          year: 1906,
+          source: 'CoE',
+          population: 14088
+        },
+        {
+          year: 1905,
+          source: 'CoE 6',
+          population: 11219
+        },
+        {
+          census_year: true,
+          year: 1904,
+          source: 'CoE',
+          population: 8350
+        },
+        {
+          census_year: true,
+          year: 1903,
+          source: 'CoE',
+          population: 6995
+        },
+        {
+          year: 1902,
+          source: 'CoE 6',
+          population: 4811
+        },
+        {
+          year: 1900,
+          source: 'CoE 6',
+          population: 2419
+        },
+        {
+          census_year: true,
+          year: 1899,
+          source: 'CoE',
+          population: 2212
+        },
+        {
+          year: 1898,
+          source: 'CoE 6',
+          population: 2212
+        },
+        {
+          census_year: true,
+          year: 1897,
+          source: 'CoE',
+          population: 2212
+        },
+        {
+          year: 1896,
+          source: 'CoE 6',
+          population: 1689
+        },
+        {
+          census_year: true,
+          year: 1895,
+          source: 'CoE',
+          population: 1165
+        },
+        {
+          year: 1894,
+          source: 'CoE 6',
+          population: 1010
+        },
+        {
+          year: 1893,
+          source: 'CoE 6',
+          population: 855
+        },
+        {
+          census_year: true,
+          year: 1892,
+          source: 'CoE',
+          population: 700
+        },
+        {
+          year: 1891,
+          source: 'CoE 6',
+          population: 630
+        },
+        {
+          year: 1890,
+          source: 'CoE 6',
+          population: 560
+        },
+        {
+          year: 1889,
+          source: 'CoE 6',
+          population: 490
+        },
+        {
+          year: 1888,
+          source: 'CoE 6',
+          population: 420
+        },
+        {
+          census_year: true,
+          year: 1887,
+          source: 'CoE*',
+          population: 350
+        },
+        {
+          year: 1886,
+          source: 'CoE',
+          population: 307
+        },
+        {
+          census_year: true,
+          year: 1885,
+          source: 'CoE',
+          population: 263
+        },
+        {
+          year: 1884,
+          source: 'CoE 6',
+          population: 247
+        },
+        {
+          year: 1883,
+          source: 'CoE 6',
+          population: 230
+        },
+        {
+          year: 1882,
+          source: 'CoE 6',
+          population: 214
+        },
+        {
+          year: 1881,
+          source: 'CoE 6',
+          population: 197
+        },
+        {
+          year: 1880,
+          source: 'CoE 6',
+          population: 181
+        },
+        {
+          year: 1879,
+          source: 'CoE 6',
+          population: 164
+        },
+        {
+          census_year: true,
+          year: 1878,
+          source: 'CoE',
+          population: 148
+        }
+      ].reverse()
     }
   };
 
-  const cs = new VChart(percent_area_spec, {
+  const cs = new VChart(spec, {
     dom: document.getElementById('chart') as HTMLElement,
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
