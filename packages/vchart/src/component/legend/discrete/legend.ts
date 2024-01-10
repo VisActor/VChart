@@ -2,11 +2,10 @@ import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isFunction, isNil, isValidNumber, isArray, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
-import type { IDiscreteLegendSpec, IDiscreteLegendTheme } from './interface';
+import type { IDiscreteLegendSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../../../series/interface';
 import type { IModelInitOption, IModelSpecInfo } from '../../../model/interface';
-import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
@@ -16,10 +15,10 @@ import { eachSeries } from '../../../util/model';
 import { getFieldAlias } from '../../../util/data';
 import { isDataDomainSpec } from '../../../util/type';
 // eslint-disable-next-line no-duplicate-imports
+import type { LegendItemDatum } from '@visactor/vrender-components';
 import { LegendEvent } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components';
-import type { ILegend } from '../interface';
 import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/transforms/legend-data/discrete/discrete';
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant';
@@ -33,6 +32,8 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
+
+  private _legendItems: LegendItemDatum[];
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const legendSpec = chartSpec[this.specKey];
@@ -76,7 +77,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
           options: {
             selected: () => this._selectedData,
             field: () => this._getSeriesLegendField(s),
-            data: () => this._legendData.getLatestData().map((obj: any) => obj.key)
+            data: () => this._getLegendItems().map((obj: LegendItemDatum) => obj.key)
           },
           level: TransformLevel.legendFilter
         });
@@ -148,7 +149,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     if (this._spec.defaultSelected) {
       this._selectedData = [...this._spec.defaultSelected];
     } else {
-      this._selectedData = this._legendData.getLatestData().map((d: any) => d.key);
+      this._selectedData = this._getLegendItems().map((obj: LegendItemDatum) => obj.label);
     }
   }
 
@@ -205,6 +206,9 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   }
 
   private _getLegendItems() {
+    if (this._legendItems) {
+      return this._legendItems;
+    }
     const originData = (this._legendData.getLatestData() || []).map((datum: any) => {
       const fillOpacity = datum.style('fillOpacity');
       const strokeOpacity = datum.style('strokeOpacity');
@@ -232,9 +236,16 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
         }
       };
     });
-    return isFunction(this._spec.data)
+    const legendItems = isFunction(this._spec.data)
       ? this._spec.data(originData, this._option.globalScale.getScale('color'), this._option.globalScale)
       : originData;
+    this._legendItems = legendItems;
+    return legendItems;
+  }
+
+  clear(): void {
+    super.clear();
+    this._legendItems = null;
   }
 }
 
