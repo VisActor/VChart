@@ -8,14 +8,21 @@ cover:
 option: commonChart
 ---
 
-# 双轴图元素高亮
+# 图例触发系列高亮
+
+通过配置`element-highlight-by-legend` 交互类型，图例触发图元的高亮(`highlight`)、失焦(`blur`)状态
 
 ## 关键配置
 
-- `type: 'common'` 声明为组合图类型
-- `axes` 的 `seriesIndex` 属性配置为轴需要关联的 `series` 序号
-- `axes` 的 `seriesId` 属性配置为轴需要关联的 `series` 的 `id` 的数组。
 - `interactions` 设置系列的交互
+- `bar.state.highlight` 设置柱图元`highlight`状态对应的样式
+- `bar.state.blur` 设置柱图元`blur`状态对应的样式
+- `line.state.highlight` 设置线图元`highlight`状态对应的样式
+- `line.state.blur` 设置线图元`blur`状态对应的样式
+- `point.state.highlight` 设置点图元`highlight`状态对应的样式
+- `point.state.blur` 设置点图元`blur`状态对应的样式
+- `label.syncState` 设置标签状态和扇区状态联动
+- `label.state.highlight` 设置标签`highlight`状态样式
 
 ## 代码演示
 

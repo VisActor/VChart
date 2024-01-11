@@ -1,23 +1,24 @@
 ---
 category: demo
 group: interaction
-title: 双轴图元素高亮
+title: Dual Axis Chart Element Activation
 keywords: commonChart
 order: 42-0
 cover:
 option: commonChart
 ---
 
-# 双轴图元素高亮
+# Dual Axis Chart Element Activation Style
 
-## 关键配置
+By configuring the `element-active` interaction type, the selected elements are set to an `active` state.
 
-- `type: 'common'` 声明为组合图类型
-- `axes` 的 `seriesIndex` 属性配置为轴需要关联的 `series` 序号
-- `axes` 的 `seriesId` 属性配置为轴需要关联的 `series` 的 `id` 的数组。
-- `interactions` 设置系列的交互
+## Key Configuration
 
-## 代码演示
+- `interactions` sets the series interactions
+- `line.state.active` sets the line chart element activation state style
+- `bar.state.active` sets the bar chart element activation state style
+
+## Code Demo
 
 ```javascript livedemo
 const spec = {
@@ -121,6 +122,8 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## 相关教程
+## Key Configuration
 
-TODO
+None
+
+## Related Tutorials

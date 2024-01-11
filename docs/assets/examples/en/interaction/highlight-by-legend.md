@@ -1,23 +1,30 @@
 ---
 category: demo
 group: interaction
-title: 图例触发系列高亮
+title: Legend Trigger Series Highlight
 keywords: commonChart
 order: 42-1
 cover:
 option: commonChart
 ---
 
-# 双轴图元素高亮
+# Legend Trigger Series Highlight
 
-## 关键配置
+By configuring the `element-highlight-by-legend` interaction type, the legend triggers the highlight and blur states of the graphic elements.
 
-- `type: 'common'` 声明为组合图类型
-- `axes` 的 `seriesIndex` 属性配置为轴需要关联的 `series` 序号
-- `axes` 的 `seriesId` 属性配置为轴需要关联的 `series` 的 `id` 的数组。
-- `interactions` 设置系列的交互
+## Key Configuration
 
-## 代码演示
+- `interactions` set the interaction of the series
+- `bar.state.highlight` set the style corresponding to the `highlight` state of the bar graphic element
+- `bar.state.blur` set the style corresponding to the `blur` state of the bar graphic element
+- `line.state.highlight` set the style corresponding to the `highlight` state of the line graphic element
+- `line.state.blur` set the style corresponding to the `blur` state of the line graphic element
+- `point.state.highlight` set the style corresponding to the `highlight` state of the point graphic element
+- `point.state.blur` set the style corresponding to the `blur` state of the point graphic element
+- `label.syncState` set the label state to synchronize with the sector state
+- `label.state.highlight` set the style of the label in the `highlight` state
+
+## Code Demo
 
 ```javascript livedemo
 const spec = {
@@ -151,6 +158,4 @@ vchart.renderAsync();
 window['vchart'] = vchart;
 ```
 
-## 相关教程
-
-TODO
+## Related Tutorials

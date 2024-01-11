@@ -1,21 +1,22 @@
 ---
 category: demo
 group: interaction
-title: 双轴图元素高亮
+title: 双轴图元素激活
 keywords: commonChart
 order: 42-0
 cover:
 option: commonChart
 ---
 
-# 双轴图元素高亮
+# 双轴图元素激活样式
+
+通过配置`element-active` 交互类型，将选中的元素设置为`active`激活状态
 
 ## 关键配置
 
-- `type: 'common'` 声明为组合图类型
-- `axes` 的 `seriesIndex` 属性配置为轴需要关联的 `series` 序号
-- `axes` 的 `seriesId` 属性配置为轴需要关联的 `series` 的 `id` 的数组。
 - `interactions` 设置系列的交互
+- `line.state.active` 设置线图元激活状态样式
+- `bar.state.active` 设置柱图元激活状态样式
 
 ## 代码演示
 
