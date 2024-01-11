@@ -2,18 +2,18 @@
 
 2024-01-11
 
-**🆕 新增功能**
-- **markPoint**: mark point support item content confine. fix [#1573](https://github.com/VisActor/VChart/issues/1573)
-- **@visactor/vchart**: support indent in region layout
-**🐛 功能修复**
-- **@visactor/vchart**: mark tooltip not work in rangeColumn chart, closes [#1959](https://github.com/VisActor/VChart/issues/1959)
-- **brush**: hover not effect when draw a small brush. fix[#1985](https://github.com/VisActor/VChart/issues/1985)
-- **@visactor/vchart**: fix the problem that indent.top cannot take effect normally
-- **@visactor/vchart**: the crosshair should only be triggered when the point is in some x-axis and y-axis, fix [#1954](https://github.com/VisActor/VChart/issues/1954)
-- **@visactor/vchart**: fixed the issue where legend filtering fails after customizing data for discrete legends, fixed [#1994](https://github.com/VisActor/VChart/issues/1994)
-- **@visactor/vchart**: range column chart's `barMinHeight` property does not take effect, closed[#1999](https://github.com/VisActor/VChart/issues/1999)
-- **@visactor/vchart**: tooltip value is stacked in stacked radar charts, related [#450](https://github.com/VisActor/VChart/issues/450)
-- **@visactor/vchart**: fix the onebyone symbol animation order, closes [#1932](https://github.com/VisActor/VChart/issues/1932)
+**🆕新增功能**
+- **markPoint**：标记点支持项目内容限制。修复 [#1573](https://github.com/VisActor/VChart/issues/1573)
+- **@visactor/vchart**：支持区域布局缩进
+**🐛功能修复**
+- **@visactor/vchart**：标记工具提示在 rangeColumn 图表中不起作用，关闭 [#1959](https://github.com/VisActor/VChart/issues/1959)
+- **brush**：绘制brush时图元hover无效。修复[#1985](https://github.com/VisActor/VChart/issues/1985)
+- **@visactor/vchart**：修复indent.top无法正常生效的问题
+- **@visactor/vchart**：只有当点位于某些 x 轴和 y 轴时才应触发十字准线，修复 [#1954](https://github.com/VisActor/VChart/issues/ 1954)
+- **@visactor/vchart**：修复了自定义离散图例数据后图例过滤失败的问题，已修复[#1994](https://github.com/VisActor/VChart/issues/1994)
+- **@visactor/vchart**：范围柱形图的 `barMinHeight` 属性不生效，已关闭[#1999](https://github.com/VisActor/VChart/issues/1999)
+- **@visactor/vchart**：工具提示值堆叠在堆叠雷达图中，相关[#450](https://github.com/VisActor/VChart/issues/450)
+- **@visactor/vchart**：修复 onebyone 符号动画顺序，关闭 [#1932](https://github.com/VisActor/VChart/issues/1932)
 
 [更多详情请查看 v1.8.7](https://github.com/VisActor/VChart/releases/tag/v1.8.7)
 
@@ -21,13 +21,13 @@
 
 2024-01-04
 
-**🆕 新增功能**
-- **@visactor/vchart**: add zAxis theme and set label space to 0, closed [#149](https://github.com/VisActor/VChart/issues/149)
-**🐛 功能修复**
-- **@visactor/vchart**: compute layer translate for crosshair
-- **@visactor/vchart**: optimize funnel clip animation without extensionMarks
-- **@visactor/vchart**: fix the hover state of multiple series, close [#1899](https://github.com/VisActor/VChart/issues/1899)
-- **@visactor/vchart**: waterfall.label not work in [#1897](https://github.com/VisActor/VChart/issues/1897)
+**🆕新增功能**
+- **@visactor/vchart**：添加 zAxis 主题并将标签空间设置为 0，关闭 [#149](https://github.com/VisActor/VChart/issues/149)
+**🐛功能修复**
+- **@visactor/vchart**：计算十字准线的层转置
+- **@visactor/vchart**：优化漏斗clip动画，无需扩展标记
+- **@visactor/vchart**：修复多个系列的hover状态，关闭 [#1899](https://github.com/VisActor/VChart/issues/1899)
+- **@visactor/vchart**：waterfall.label 在 [#1897](https://github.com/VisActor/VChart/issues/1897) 中不起作用
 
 
 
@@ -37,9 +37,9 @@
 
 2024-01-02
 
-**🐛 功能修复**
-- **@visactor/vchart**: add media query spec interface to default chart spec
-- **@visactor/vchart**: fix the bug of extension mark when no valid animation, fix [#1877](https://github.com/VisActor/VChart/issues/1877)
+**🐛功能修复**
+- **@visactor/vchart**：将媒体查询规范接口添加到默认图表规范
+- **@visactor/vchart**：修复无有效动画时扩展标记的 bug，修复 [#1877](https://github.com/VisActor/VChart/issues/1877)
 
 
 
@@ -49,20 +49,20 @@
 
 2024-01-02
 
-**🆕 新增功能**
-- **@visactor/vchart**: add props `useSyncRender` to react-vchart, close [#1685](https://github.com/VisActor/VChart/issues/1685)
-- **@visactor/vchart**: Supports the initialization parameter `disableTriggerEvent` to turn off the default interactive effect of the chart
-**🐛 功能修复**
-- **@visactor/vchart**: chart option.animation not work
-- **@visactor/vchart**: fix error in strict mode of react-vchart, fix [#1669](https://github.com/VisActor/VChart/issues/1669)
-- **@visactor/vchart**: error in chart level modification of media query action
-- **@visactor/vchart**: dimension tooltip in the dual-dimension chart contains data of only one dimension, related [#1841](https://github.com/VisActor/VChart/issues/1841)
-- **@visactor/vchart**: fix bug in layout when band axis has no domain
-- **@visactor/vchart**: funnel clipIn animation has delay for marks which overflows the range of region in [#1839](https://github.com/VisActor/VChart/issues/1839)
-- **@visactor/vchart**: when marker label's padding is an object, it should work
-- **@visactor/vchart**: undefined globalThis in tt miniprogram, see [#1854](https://github.com/VisActor/VChart/issues/1854)
-**🔨 功能重构**
-- **@visactor/vchart**: optimize the style configuration of marker
+**🆕新增功能**
+- **@visactor/vchart**：添加`useSyncRender`到react-vchart，关闭[#1685](https://github.com/VisActor/VChart/issues/1685)
+- **@visactor/vchart**：支持初始化参数`disableTriggerEvent`关闭图表默认交互效果
+**🐛功能修复**
+- **@visactor/vchart**：图表选项。动画不起作用
+- **@visactor/vchart**：修复react-vchart严格模式下的错误，修复[#1669](https://github.com/VisActor/VChart/issues/1669)
+- **@visactor/vchart**：媒体查询操作的图表级别修改错误
+- **@visactor/vchart**：二维图表中的维度工具提示仅包含一维数据，相关[#1841](https://github.com/VisActor/VChart/issues/1841)
+- **@visactor/vchart**：修复带轴没有域时布局中的错误
+- **@visactor/vchart**：漏斗 ClipIn 动画对于溢出 [#1839](https://github.com/VisActor/VChart/issues/1839) 中区域范围的标记有延迟
+- **@visactor/vchart**：当标记标签的填充是一个对象时，它应该起作用
+- **@visactor/vchart**：tt 小程序中未定义 globalThis，请参阅 [#1854](https://github.com/VisActor/VChart/issues/1854)
+**🔨功能重构**
+- **@visactor/vchart**：优化marker的样式配置
 
 
 
