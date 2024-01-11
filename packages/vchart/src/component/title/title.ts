@@ -56,6 +56,7 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
         {
           spec: titleSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: ComponentTypeEnum.title
         }
       ];
@@ -65,8 +66,8 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
       if (s.visible !== false) {
         specInfos.push({
           spec: s,
-          specIndex: i,
           specPath: [this.specKey, i],
+          specInfoPath: ['component', this.specKey, i],
           type: ComponentTypeEnum.title
         });
       }

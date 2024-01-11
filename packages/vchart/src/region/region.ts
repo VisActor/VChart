@@ -265,7 +265,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
       s =>
         (opt.name ? s?.name === opt.name : true) &&
         (opt.userId ? array(opt.userId).includes(s.userId) : true) &&
-        (isValid(opt.specIndex) && s.getSpecIndex ? array(opt.specIndex).includes(s.getSpecIndex()) : true) &&
+        (isValid(opt.specIndex) ? array(opt.specIndex).includes(s.getSpecIndex()) : true) &&
         (opt.id ? s.id === opt.id : true) &&
         (opt.type ? s.type === opt.type : true) &&
         (opt.coordinateType ? s.coordinate === opt.coordinateType : true) &&

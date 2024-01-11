@@ -43,6 +43,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         {
           spec: compSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: ComponentTypeEnum.scrollBar
         }
       ];
@@ -51,8 +52,8 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     compSpec.forEach((s, i: number) => {
       specInfos.push({
         spec: s,
-        specIndex: i,
         specPath: [this.specKey, i],
+        specInfoPath: ['component', this.specKey, i],
         type: ComponentTypeEnum.scrollBar
       });
     });

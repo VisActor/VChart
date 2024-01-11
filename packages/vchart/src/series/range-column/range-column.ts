@@ -228,7 +228,7 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
         AttributeLevel.Series
       );
     }
-    this._initBarBackgroundMarkStyle();
+    this._initBandBarBackgroundMarkStyle();
   }
 
   initAnimation() {

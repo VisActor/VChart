@@ -98,6 +98,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       {
         spec: brushSpec,
         specPath: [this.specKey],
+        specInfoPath: ['component', this.specKey, 0],
         type: ComponentTypeEnum.brush
       }
     ];

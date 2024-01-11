@@ -161,7 +161,7 @@ export interface IModelOption extends ICompilableInitOption {
   map: Map<StringOrNumber, IModel | IMark>;
   mode: RenderMode;
   globalInstance: VChart;
-  specIndex?: number;
+  regionIndex?: Array<number>;
   specKey?: string;
   specPath?: Array<string | number>;
   specInfoPath?: Array<string | number>;
@@ -196,10 +196,12 @@ export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
   specPath?: Array<string | number>;
   /** 该 spec 在图表 spec info 上的路径 */
   specInfoPath?: Array<string | number>;
-  /** 该 spec 在父级的索引 */
-  specIndex?: number;
   /** model 当前主题 */
   theme?: any;
+  /** model 对应的 region 索引 */
+  regionIndexes?: number[];
+  /** model 对应的 series 索引 */
+  seriesIndexes?: number[];
 }
 
 export interface IModelConstructor {
