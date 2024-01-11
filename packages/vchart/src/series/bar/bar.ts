@@ -1,4 +1,3 @@
-import { PREFIX } from './../../constant/index';
 /* eslint-disable no-duplicate-imports */
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
@@ -6,13 +5,13 @@ import { CartesianSeries } from '../cartesian/cartesian';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import { AttributeLevel } from '../../constant';
-import type { Maybe, Datum, DirectionType } from '../../typings';
+import type { Datum, DirectionType } from '../../typings';
 import { valueInScaleRange } from '../../util/scale';
 import { getRegionStackGroup } from '../../util/data';
 import { getActualNumValue } from '../../util/space';
 import { registerBarAnimation, type BarAppearPreset, type IBarAnimationParams } from './animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
-import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
+import type { IBarSeriesSpec } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { IRectMark } from '../../mark/rect';
 import type { IModelInitOption } from '../../model/interface';
@@ -20,7 +19,7 @@ import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { RectMark, registerRectMark } from '../../mark/rect';
+import { registerRectMark } from '../../mark/rect';
 import { array, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
@@ -31,15 +30,11 @@ import { DataView } from '@visactor/vdataset';
 import { addVChartProperty } from '../../data/transforms/add-property';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { registerSampleTransform } from '@visactor/vgrammar-core';
-import type { ILabelSpec } from '../../component';
 import { getGroupAnimationParams } from '../util/utils';
 import { BarSeriesSpecTransformer } from './bar-transformer';
+import { RECT_X, RECT_X1, RECT_Y, RECT_Y1 } from '../base/constant';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
-const RECT_X = `${PREFIX}_rect_x`;
-const RECT_X1 = `${PREFIX}_rect_x1`;
-const RECT_Y = `${PREFIX}_rect_y`;
-const RECT_Y1 = `${PREFIX}_rect_y1`;
 
 export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.bar;
@@ -203,9 +198,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   private _shouldDoPreCalculate() {
     const region = this.getRegion();
-    return (
-      this._stack && region.getSeries().filter(s => s.type === SeriesTypeEnum.bar && s.getSpec().barMinHeight).length
-    );
+    return this._stack && region.getSeries().filter(s => s.type === this.type && s.getSpec().barMinHeight).length;
   }
 
   private _calculateStackRectPosition(isVertical: boolean) {
@@ -225,19 +218,19 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     if (isVertical) {
       start = RECT_Y1;
       end = RECT_Y;
-      startMethod = 'dataToPositionY1';
-      endMethod = 'dataToPositionY';
+      startMethod = '_dataToPosY1';
+      endMethod = '_dataToPosY';
       axisHelper = '_yAxisHelper';
     } else {
       start = RECT_X1;
       end = RECT_X;
-      startMethod = 'dataToPositionX1';
-      endMethod = 'dataToPositionX';
+      startMethod = '_dataToPosX1';
+      endMethod = '_dataToPosX';
       axisHelper = '_xAxisHelper';
     }
 
     // only reCompute bar
-    const stackValueGroup = getRegionStackGroup(region, false, s => s.type === SeriesTypeEnum.bar);
+    const stackValueGroup = getRegionStackGroup(region, false, s => s.type === this.type);
 
     // 按照堆积逻辑 重新计算一次图形的堆积位置并设置到数据上
     for (const stackValue in stackValueGroup) {
@@ -259,12 +252,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     let endMethod: string;
     let axisHelper: string;
     if (isVertical) {
-      startMethod = 'dataToPositionY1';
-      endMethod = 'dataToPositionY';
+      startMethod = '_dataToPosY1';
+      endMethod = '_dataToPosY';
       axisHelper = '_yAxisHelper';
     } else {
-      startMethod = 'dataToPositionX1';
-      endMethod = 'dataToPositionX';
+      startMethod = '_dataToPosX1';
+      endMethod = '_dataToPosX';
       axisHelper = '_xAxisHelper';
     }
 
@@ -288,6 +281,26 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     return y1 + flag * height;
   }
 
+  // 用于 bar-like 的位置转换，考虑到 range-column 的方式差异，所以提取出这样的方式
+  protected _dataToPosX(datum: Datum) {
+    return this.dataToPositionX(datum);
+  }
+
+  // 用于 bar-like 的位置转换，考虑到 range-column 的方式差异，所以提取出这样的方式
+  protected _dataToPosX1(datum: Datum) {
+    return this.dataToPositionX1(datum);
+  }
+
+  // 用于 bar-like 的位置转换，考虑到 range-column 的方式差异，所以提取出这样的方式
+  protected _dataToPosY(datum: Datum) {
+    return this.dataToPositionY(datum);
+  }
+
+  // 用于 bar-like 的位置转换，考虑到 range-column 的方式差异，所以提取出这样的方式
+  protected _dataToPosY1(datum: Datum) {
+    return this.dataToPositionY1(datum);
+  }
+
   initBandRectMarkStyle() {
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
@@ -307,7 +320,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
               return this._calculateRectPosition(datum, false);
             }
 
-            return valueInScaleRange(this.dataToPositionX(datum), xScale);
+            return valueInScaleRange(this._dataToPosX(datum), xScale);
           },
           x1: (datum: Datum) => {
             if (this._shouldDoPreCalculate()) {
@@ -315,7 +328,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
               return datum[RECT_X1];
             }
 
-            return valueInScaleRange(this.dataToPositionX1(datum), xScale);
+            return valueInScaleRange(this._dataToPosX1(datum), xScale);
           },
           y: (datum: Datum) => this._getPosition(this.direction, datum),
           height: () => this._getBarWidth(this._yAxisHelper)
@@ -338,14 +351,14 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
               return this._calculateRectPosition(datum, true);
             }
 
-            return valueInScaleRange(this.dataToPositionY(datum), yScale);
+            return valueInScaleRange(this._dataToPosY(datum), yScale);
           },
           y1: (datum: Datum) => {
             if (this._shouldDoPreCalculate()) {
               this._calculateStackRectPosition(true);
               return datum[RECT_Y1];
             }
-            return valueInScaleRange(this.dataToPositionY1(datum), yScale);
+            return valueInScaleRange(this._dataToPosY1(datum), yScale);
           },
           width: () => {
             return this._getBarWidth(this._xAxisHelper);
@@ -582,7 +595,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     super.compile();
 
     if (this._spec.sampling) {
-      const { width, height } = this._region.getLayoutRect();
+      const { width, height } = this._region.getLayoutRectExcludeIndent();
       const samplingTrans = [];
       const fieldsY = this._fieldY;
       const fieldsX = this._fieldX;

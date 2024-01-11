@@ -231,7 +231,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   protected _layoutCrosshair(relativeX: number, relativeY: number) {
     // 找到所有的包含这个点的轴
     const { xAxisMap, yAxisMap } = this._findAllAxisContains(relativeX, relativeY);
-    if (xAxisMap && xAxisMap.size === 0 && yAxisMap && yAxisMap.size === 0) {
+    if ((xAxisMap && xAxisMap.size === 0) || (yAxisMap && yAxisMap.size === 0)) {
       if (this.enableRemain) {
         return;
       }

@@ -58,7 +58,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   private _needInitOutState: boolean = true;
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
 
-  private _needEnablePickable: boolean = false;
+  private _needDisablePickable: boolean = false;
 
   init() {
     const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec.inBrush);
@@ -132,10 +132,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   protected _getBrushInteractiveAttr(region: IRegion) {
-    const seriesRegionStartX = region.getLayoutStartPoint().x;
-    const seriesRegionEndX = seriesRegionStartX + region.getLayoutRect().width;
-    const seriesRegionStartY = region.getLayoutStartPoint().y;
-    const seriesRegionEndY = seriesRegionStartY + region.getLayoutRect().height;
+    const regionLayoutPosition = region.getLayoutPositionExcludeIndent();
+    const regionLayoutRect = region.getLayoutRectExcludeIndent();
+    const seriesRegionStartX = regionLayoutPosition.x;
+    const seriesRegionEndX = seriesRegionStartX + regionLayoutRect.width;
+    const seriesRegionStartY = regionLayoutPosition.y;
+    const seriesRegionEndY = seriesRegionStartY + regionLayoutRect.height;
     return {
       interactiveRange: {
         minY: seriesRegionStartY,
@@ -195,7 +197,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         this._initMarkBrushState(componentIndex, OUT_BRUSH_STATE);
       }
       this._needInitOutState = false;
-      this._needEnablePickable = true;
+      this._needDisablePickable = true;
 
       this._handleBrushChange(ChartEvent.brushChange, region, e);
     });
@@ -207,13 +209,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     brush.addEventListener(BrushEvent.brushClear, (e: any) => {
       this._initMarkBrushState(componentIndex, '');
       this._needInitOutState = true;
+      this._needDisablePickable = false;
       this._handleBrushChange(ChartEvent.brushChange, region, e);
       this._handleBrushChange(ChartEvent.brushClear, region, e);
     });
 
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
       this._needInitOutState = true;
-      this._needEnablePickable = false;
+      this._needDisablePickable = false;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
     });
 
@@ -313,17 +316,20 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           this._outOfBrushElementsMap[elementKey] = el;
           delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
-        graphicItem.setAttribute('pickable', !this._needEnablePickable);
+        graphicItem.setAttribute('pickable', !this._needDisablePickable);
       });
     });
   }
 
   private _reconfigLinkedItem(operateMask: IPolygon, region: IRegion) {
+    const regionLayoutPos = region.getLayoutPositionExcludeIndent();
     const seriesId = region.getSeries().map(s => s.id);
     this._linkedSeries.forEach((s: ISeries) => {
       if (!seriesId.includes(s.id)) {
-        const regionOffsetX = s.getRegion().getLayoutStartPoint().x - region.getLayoutStartPoint().x;
-        const regionOffsetY = s.getRegion().getLayoutStartPoint().y - region.getLayoutStartPoint().y;
+        const sRegionLayoutPos = s.getRegion().getLayoutPositionExcludeIndent();
+
+        const regionOffsetX = sRegionLayoutPos.x - regionLayoutPos.x;
+        const regionOffsetY = sRegionLayoutPos.y - regionLayoutPos.y;
 
         this._linkedItemMap[s.id].forEach((mark: IMark) => {
           const grammarMark = mark.getProduct();
@@ -360,7 +366,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
               el.addState(OUT_BRUSH_STATE);
               this._linkedOutOfBrushElementsMap[elementKey] = el;
             }
-            graphicItem.setAttribute('pickable', !this._needEnablePickable);
+            graphicItem.setAttribute('pickable', !this._needDisablePickable);
           });
         });
       }

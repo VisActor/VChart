@@ -4,12 +4,9 @@ import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
-import { RectMark, type IRectMark, registerRectMark } from '../../mark/rect';
-import { TextMark, type ITextMark, registerTextMark } from '../../mark/text';
-import { valueInScaleRange } from '../../util/scale';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { type IRectMark, registerRectMark } from '../../mark/rect';
+import { type ITextMark, registerTextMark } from '../../mark/text';
 import { setRectLabelPos } from '../util/label-mark';
-import { AttributeLevel } from '../../constant';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { RangeColumnSeriesTooltipHelper } from './tooltip-helper';
 import { registerFadeInOutAnimation } from '../../animation/config';
@@ -173,62 +170,28 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
     this._labelMark = labelMark;
   }
 
-  initBandRectMarkStyle() {
-    const xScale = this._xAxisHelper?.getScale?.(0);
-    const yScale = this._yAxisHelper?.getScale?.(0);
-    const { dataToPosition } = this.direction === Direction.horizontal ? this._xAxisHelper : this._yAxisHelper;
-    if (this.direction === Direction.horizontal) {
-      this.setMarkStyle(
-        this._barMark,
-        {
-          x: (datum: Datum) =>
-            valueInScaleRange(
-              dataToPosition(this.getDatumPositionValues(datum, this._spec.xField[0]), {
-                bandPosition: this._bandPosition
-              }),
-              xScale
-            ),
-          x1: (datum: Datum) =>
-            valueInScaleRange(
-              dataToPosition(this.getDatumPositionValues(datum, this._spec.xField[1]), {
-                bandPosition: this._bandPosition
-              }),
-              xScale
-            ),
-          y: (datum: Datum) => this._getPosition(this.direction, datum),
-          height: () => this._getBarWidth(this._yAxisHelper)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    } else {
-      this.setMarkStyle(
-        this._barMark,
-        {
-          x: (datum: Datum) => this._getPosition(this.direction, datum),
-          y: (datum: Datum) =>
-            valueInScaleRange(
-              dataToPosition(this.getDatumPositionValues(datum, this._spec.yField[0]), {
-                bandPosition: this._bandPosition
-              }),
-              yScale
-            ),
-          y1: (datum: Datum) =>
-            valueInScaleRange(
-              dataToPosition(this.getDatumPositionValues(datum, this._spec.yField[1]), {
-                bandPosition: this._bandPosition
-              }),
-              yScale
-            ),
-          width: () => {
-            return this._getBarWidth(this._xAxisHelper);
-          }
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    }
-    this._initBarBackgroundMarkStyle();
+  protected _dataToPosX(datum: Datum) {
+    return this._xAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this._spec.xField[0]), {
+      bandPosition: this._bandPosition
+    });
+  }
+
+  protected _dataToPosX1(datum: Datum) {
+    return this._xAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this._spec.xField[1]), {
+      bandPosition: this._bandPosition
+    });
+  }
+
+  protected _dataToPosY(datum: Datum) {
+    return this._yAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this._spec.yField[0]), {
+      bandPosition: this._bandPosition
+    });
+  }
+
+  protected _dataToPosY1(datum: Datum) {
+    return this._yAxisHelper.dataToPosition(this.getDatumPositionValues(datum, this._spec.yField[1]), {
+      bandPosition: this._bandPosition
+    });
   }
 
   initAnimation() {
@@ -266,6 +229,8 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
 
   protected initTooltip() {
     this._tooltipHelper = new RangeColumnSeriesTooltipHelper(this);
+    this._barMark && this._tooltipHelper.activeTriggerSet.mark.add(this._barMark);
+
     this._minLabelMark && this._tooltipHelper.ignoreTriggerSet.mark.add(this._minLabelMark);
     this._maxLabelMark && this._tooltipHelper.ignoreTriggerSet.mark.add(this._maxLabelMark);
     this._labelMark && this._tooltipHelper.ignoreTriggerSet.mark.add(this._labelMark);

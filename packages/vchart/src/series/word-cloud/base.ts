@@ -66,8 +66,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _fontWeightRange?: [number, number];
   protected _textField?: string;
 
-  protected _fontSizeRange?: [number, number] = [DEFAULT_MIN_FONT_SIZE, DEFAULT_MIN_FONT_SIZE];
-  setFontSizeRange(fontSizeRange: [number, number]) {
+  protected _fontSizeRange?: [number, number] | 'auto' = [DEFAULT_MIN_FONT_SIZE, DEFAULT_MIN_FONT_SIZE];
+  setFontSizeRange(fontSizeRange: [number, number] | 'auto') {
     if (isValid(fontSizeRange)) {
       this._fontSizeRange = fontSizeRange;
     } else {
@@ -166,7 +166,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
           angle: (datum: Datum) => datum.angle,
-          visible: (datum: Datum) => !datum.isFillingWord
+          visible: (datum: Datum) => !datum.isFillingWord && datum.visible
         },
         'normal',
         AttributeLevel.Series
@@ -195,7 +195,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
           angle: (datum: Datum) => datum.angle,
-          visible: (datum: Datum) => datum.isFillingWord
+          visible: (datum: Datum) => datum.isFillingWord && datum.visible
         },
         'normal',
         AttributeLevel.Series
@@ -270,7 +270,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   compile(): void {
     super.compile();
-    const { width, height } = this._region.getLayoutRect();
+    const { width, height } = this._region.getLayoutRectExcludeIndent();
     // 非正常尺寸下不进行布局
     if (!isValidNumber(width) || !isValidNumber(height) || !(height > 0 && width > 0)) {
       return;
@@ -347,7 +347,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   protected _wordCloudTransformOption(): Object {
-    const { width, height } = this._region.getLayoutRect();
+    const { width, height } = this._region.getLayoutRectExcludeIndent();
     const wordStyleSpec = this._spec.word?.style ?? {};
 
     return {
@@ -358,7 +358,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       dataIndexKey: DEFAULT_DATA_KEY,
       text: { field: this._textField },
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
-      fontSizeRange: this._fontSizeRange,
+      fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange,
       padding: this._fontPadding,
       rotate: { field: WORD_CLOUD_ANGLE },
       fontFamily: this._fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
@@ -380,7 +380,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   protected _wordCloudShapeTransformOption(): Object {
-    const { width, height } = this._region.getLayoutRect();
+    const { width, height } = this._region.getLayoutRectExcludeIndent();
     const wordStyleSpec = this._spec.word?.style ?? {};
     const wordCloudShapeConfig = this._wordCloudShapeConfig ?? {};
     const fillingRotateAngles = this._wordCloudShapeConfig.fillingRotateAngles;
@@ -393,7 +393,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
       text: { field: this._textField },
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
-      fontSizeRange: this._fontSizeRange,
+      fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange, // 如果配置为'auto', 则形状词云fontSizeRange不设默认值(对齐3.x效果)
       padding: this._fontPadding,
       rotateList: this._rotateAngles,
       fontFamily: this._fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
