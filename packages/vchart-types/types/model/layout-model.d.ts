@@ -23,6 +23,14 @@ export declare abstract class LayoutModel<T extends IModelSpec> extends BaseMode
     onLayoutEnd(ctx: any): void;
     afterSetLayoutStartPoint(_pos: ILayoutPoint): void;
     protected _forceLayout(): void;
+    getLayoutPositionExcludeIndent(): {
+        x: number;
+        y: number;
+    };
+    getLayoutRectExcludeIndent(): {
+        width: number;
+        height: number;
+    };
     getLayoutStartPoint(): IPoint;
     setLayoutStartPosition(pos: Partial<IPoint>): any;
     getLayoutRect(): ILayoutRect;

@@ -17,6 +17,8 @@ export declare abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSer
     protected _radiusField: string[];
     getRadiusField(): string[];
     setRadiusField(f: string | string[]): string[];
+    protected _specAngleField: string[];
+    protected _specRadiusField: string[];
     protected _innerRadiusField: string[];
     get innerRadiusField(): string[];
     setInnerRadiusField(f: string | string[]): string[];
