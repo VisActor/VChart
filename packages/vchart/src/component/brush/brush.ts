@@ -209,6 +209,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     brush.addEventListener(BrushEvent.brushClear, (e: any) => {
       this._initMarkBrushState(componentIndex, '');
       this._needInitOutState = true;
+      this._needEnablePickable = false;
       this._handleBrushChange(ChartEvent.brushChange, region, e);
       this._handleBrushChange(ChartEvent.brushClear, region, e);
     });
