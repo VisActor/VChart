@@ -1,3 +1,22 @@
+# v1.8.7
+
+2024-01-11
+
+**🆕 New feature**
+- **markPoint**: mark point support item content confine. fix [#1573](https://github.com/VisActor/VChart/issues/1573)
+- **@visactor/vchart**: support indent in region layout
+**🐛 Bug fix**
+- **@visactor/vchart**: mark tooltip not work in rangeColumn chart, closes [#1959](https://github.com/VisActor/VChart/issues/1959)
+- **brush**: hover not effect when draw a small brush. fix[#1985](https://github.com/VisActor/VChart/issues/1985)
+- **@visactor/vchart**: fix the problem that indent.top cannot take effect normally
+- **@visactor/vchart**: the crosshair should only be triggered when the point is in some x-axis and y-axis, fix [#1954](https://github.com/VisActor/VChart/issues/1954)
+- **@visactor/vchart**: fixed the issue where legend filtering fails after customizing data for discrete legends, fixed [#1994](https://github.com/VisActor/VChart/issues/1994)
+- **@visactor/vchart**: range column chart's `barMinHeight` property does not take effect, closed[#1999](https://github.com/VisActor/VChart/issues/1999)
+- **@visactor/vchart**: tooltip value is stacked in stacked radar charts, related [#450](https://github.com/VisActor/VChart/issues/450)
+- **@visactor/vchart**: fix the onebyone symbol animation order, closes [#1932](https://github.com/VisActor/VChart/issues/1932)
+
+[more detail about v1.8.7](https://github.com/VisActor/VChart/releases/tag/v1.8.7)
+
 # v1.8.5
 
 2024-01-04
