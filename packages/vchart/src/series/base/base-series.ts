@@ -803,6 +803,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       selectMarks.length &&
         res.push({
           type: 'element-select',
+          seriesId: this.id,
           regionId: this._region.id,
           selector: selectMarks.map(mark => `#${mark.getProductId()}`),
           trigger: finalSelectSpec.trigger as EventType,
