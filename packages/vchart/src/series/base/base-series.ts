@@ -766,7 +766,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     const hoverSpec = this._spec.hover;
     if (isBoolean(hoverSpec)) {
-      finalHoverSpec.enable = hoverSpec;
+      finalHoverSpec.enable = hoverSpec as boolean;
     } else if (isObject(hoverSpec)) {
       finalHoverSpec.enable = true;
       finalHoverSpec = mergeSpec(finalHoverSpec, hoverSpec);
@@ -774,7 +774,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     const selectSpec = this._spec.select;
     if (isBoolean(selectSpec)) {
-      finalSelectSpec.enable = selectSpec;
+      finalSelectSpec.enable = selectSpec as boolean;
     } else if (isObject(selectSpec)) {
       finalSelectSpec.enable = true;
       finalSelectSpec = mergeSpec(finalSelectSpec, selectSpec);
@@ -856,7 +856,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
           compiler.addInteraction({
             ...interaction,
             selector: selectors,
-            seriesId: this.id
+            seriesId: this.id,
+            regionId: this._region.id
           });
         }
       });

@@ -170,7 +170,7 @@ export class Compiler {
 
       this._interactions.forEach(interaction => {
         if (interaction.regionId) {
-          const spec = regionCombindInteractions[`${interaction.regionId}-${interaction.type}`];
+          const spec = regionCombindInteractions[`${interaction.regionId}-${interaction.type}-${interaction.id ?? ''}`];
           if (spec) {
             regionCombindInteractions[`${interaction.regionId}-${interaction.type}`] = {
               ...spec,
