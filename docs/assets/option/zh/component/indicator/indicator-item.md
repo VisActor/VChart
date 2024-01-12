@@ -28,6 +28,13 @@
 
 自适应文字宽度与可用空间的比例。
 
+#${prefix} fitStrategy(string) = 'default'
+
+自适应文字计算所采用的策略。可选项：
+
+- 'default': 默认的自适应策略，每个文本依据可用空间独立计算字号；
+- 'inscribed': 内切矩形计算策略，所有配置了 inscribed 策略的文本将会共同计算可用空间的内切矩形，避免与可用空间外元素产生遮挡。
+
 #${prefix} style(Object)
 
 文字样式
