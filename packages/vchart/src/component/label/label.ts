@@ -11,7 +11,7 @@ import type { ISeries } from '../../series/interface';
 import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
-import { labelRuleMap, textAttribute } from './util';
+import { defaultLabelConfig, textAttribute } from './util';
 import { registerComponentMark, type IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction, Maybe } from '@visactor/vutils';
@@ -292,9 +292,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         if (labelInfo) {
           const { labelSpec, labelMark } = labelInfo;
           const rule = labelMark.getRule();
-          const configFunc = labelRuleMap[rule] ?? labelRuleMap.point;
           const interactive = this._interactiveConfig(labelSpec);
-          const passiveLabelSpec = pickWithout(labelSpec, ['position', 'style', 'state', 'type']);
           /** arc label When setting the centerOffset of the spec, the label also needs to be offset accordingly, and the centerOffset is not in the labelSpec */
           const centerOffset = (this._spec as any)?.centerOffset ?? 0;
           const spec = mergeSpec(
@@ -307,9 +305,9 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
                   .map(cmp => cmp.getMarks()[0].getProductId())
               }
             },
-            configFunc(labelInfo),
+            defaultLabelConfig(rule, labelInfo),
             {
-              ...passiveLabelSpec,
+              ...pickWithout(labelSpec, ['position', 'style', 'state', 'type']),
               ...interactive,
               centerOffset
             }
