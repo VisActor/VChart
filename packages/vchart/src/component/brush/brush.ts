@@ -58,7 +58,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   private _needInitOutState: boolean = true;
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
 
-  private _needEnablePickable: boolean = false;
+  private _needDisablePickable: boolean = false;
 
   init() {
     const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec.inBrush);
@@ -198,7 +198,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         this._initMarkBrushState(componentIndex, OUT_BRUSH_STATE);
       }
       this._needInitOutState = false;
-      this._needEnablePickable = true;
+      this._needDisablePickable = true;
 
       this._handleBrushChange(ChartEvent.brushChange, region, e);
     });
@@ -210,13 +210,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     brush.addEventListener(BrushEvent.brushClear, (e: any) => {
       this._initMarkBrushState(componentIndex, '');
       this._needInitOutState = true;
+      this._needDisablePickable = false;
       this._handleBrushChange(ChartEvent.brushChange, region, e);
       this._handleBrushChange(ChartEvent.brushClear, region, e);
     });
 
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
       this._needInitOutState = true;
-      this._needEnablePickable = false;
+      this._needDisablePickable = false;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
     });
 
@@ -316,7 +317,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           this._outOfBrushElementsMap[elementKey] = el;
           delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
-        graphicItem.setAttribute('pickable', !this._needEnablePickable);
+        graphicItem.setAttribute('pickable', !this._needDisablePickable);
       });
     });
   }
@@ -366,7 +367,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
               el.addState(OUT_BRUSH_STATE);
               this._linkedOutOfBrushElementsMap[elementKey] = el;
             }
-            graphicItem.setAttribute('pickable', !this._needEnablePickable);
+            graphicItem.setAttribute('pickable', !this._needDisablePickable);
           });
         });
       }

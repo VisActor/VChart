@@ -2,6 +2,10 @@
 
 <!-- ICartesianTimeAxisSpec -->
 
+{{ use: component-linear-axis(
+  prefix = ${prefix}
+) }}
+
 #${prefix} layers(Array)
 轴的层级配置。目前仅支持单层 / 双层，即 layers.length <= 2。
 其中，`layer[0]` 为主轴，即离坐标轴线最近的轴。

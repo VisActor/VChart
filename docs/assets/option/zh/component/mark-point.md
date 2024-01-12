@@ -161,6 +161,9 @@
   prefix = '###'
 ) }}
 
+#### confine(boolean) = false
+自 1.8.7 版本开始, 是否自动调整 item content 使其展示在 marker 可见区域内。
+
 #### symbol(Object)
 
 ##### style(Object)
@@ -186,7 +189,8 @@
 标注内容类型为 text 时，text 的样式。
 
 {{ use: component-marker-label(
-  prefix = '####'
+  prefix = '####',
+  noConfine = true
 ) }}
 
 #### richText(Object)

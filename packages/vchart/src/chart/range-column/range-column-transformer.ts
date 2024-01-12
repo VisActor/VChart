@@ -9,8 +9,9 @@ export class RangeColumnChartSpecTransformer<
   protected _getDefaultSeriesSpec(spec: T): any {
     const series: any = {
       ...super._getDefaultSeriesSpec(spec),
-      barGapInGroup: spec.barGapInGroup,
-      barBackground: spec.barBackground
+      barGapInGroup: (spec as IRangeColumnChartSpec).barGapInGroup,
+      barBackground: (spec as IRangeColumnChartSpec).barBackground,
+      barMinHeight: (spec as IRangeColumnChartSpec).barMinHeight
     };
     series.bar = spec.bar;
     if (spec.direction === Direction.horizontal) {

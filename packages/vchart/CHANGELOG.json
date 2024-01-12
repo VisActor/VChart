@@ -2,6 +2,45 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.7",
+      "tag": "@visactor/vchart_v1.8.7",
+      "date": "Thu, 11 Jan 2024 09:36:17 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: mark tooltip not work in rangeColumn chart, closes #1959"
+          },
+          {
+            "comment": "fix(brush): hover not effect when draw a small brush. fix#1985"
+          },
+          {
+            "comment": "feat(markPoint): mark point support item content confine. fix #1573"
+          },
+          {
+            "comment": "feat: support indent in region layout\n\n"
+          },
+          {
+            "comment": "fix: fix the problem that indent.top cannot take effect normally\n\n"
+          },
+          {
+            "comment": "fix: the crosshair should only be triggered when the point is in some x-axis and y-axis, fix #1954\n\n"
+          },
+          {
+            "comment": "fix: fixed the issue where legend filtering fails after customizing data for discrete legends, fixed #1994"
+          },
+          {
+            "comment": "fix: range column chart's `barMinHeight` property does not take effect, closed#1999"
+          },
+          {
+            "comment": "fix: tooltip value is stacked in stacked radar charts, related #450"
+          },
+          {
+            "comment": "fix: fix the onebyone symbol animation order, closes #1932"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.6",
       "tag": "@visactor/vchart_v1.8.6",
       "date": "Sat, 06 Jan 2024 05:10:05 GMT",

@@ -42,6 +42,18 @@ $ rush vmind
 ```
 
 即可启动 vmind 开发页面
+需要设置你的大模型服务 url 和 api-key 才能正常使用，可在 packages/vmind/\_\_tests\_\_/browser/src/pages/DataInput.tsx 中修改调用大模型时的 headers
+你可以在 packages/vmind 文件夹中新建.env.local 文件，在其中写入：
+
+```bash
+VITE_SKYLARK_URL="Your service url of skylark model"
+VITE_GPT_URL="Your service url of gpt model"
+VITE_SKYLARK_KEY="Your api-key of skylark model"
+VITE_GPT_KEY="Your api-key of gpt model"
+VITE_PROXY_CONFIG="Your Vite proxy config for forwarding requests. Must be in JSON string format and is optional. Example: {"proxy": {"/v1": {"target": "https://api.openai.com/","changeOrigin": true},"/openapi": {"target": "https://api.openai.com/","changeOrigin": true}}}"
+```
+
+在启动开发环境时将会自动读取这些配置
 
 ### 项目结构
 

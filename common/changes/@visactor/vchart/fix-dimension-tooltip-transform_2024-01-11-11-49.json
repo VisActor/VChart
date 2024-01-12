@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix the onebyone symbol animation order, closes #1932",
+      "comment": "fix: calculate layer transform for dimension tooltip",
       "type": "none"
     }
   ],

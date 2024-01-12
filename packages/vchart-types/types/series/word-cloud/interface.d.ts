@@ -72,7 +72,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     colorList?: string[];
     rotateAngles?: number[];
     fontWeightRange?: [number, number];
-    fontSizeRange?: [number, number];
+    fontSizeRange?: [number, number] | 'auto';
     maskShape?: string | WordCloudShapeType;
     keepAspect?: boolean;
     random?: boolean;
