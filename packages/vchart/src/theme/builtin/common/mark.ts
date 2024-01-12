@@ -5,8 +5,6 @@ export const markByType: IGlobalMarkThemeByType = {
   text: {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
-      lineHeight: THEME_CONSTANTS.l4LineHeight,
-
       fontWeight: 'normal',
       fillOpacity: 1
     }
