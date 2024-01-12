@@ -39,6 +39,7 @@ export interface IIndicatorItemSpec {
   /**
    * 自适应文字策略
    * @default 'local'
+   * @since 1.9.0
    */
   fitStrategy?: 'default' | 'inscribed';
   /**

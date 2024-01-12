@@ -611,6 +611,13 @@
           }
         },
         {
+          "path": "pie-indicator-fitstrategy",
+          "title": {
+            "zh": "饼图指标卡自适应策略",
+            "en": "Pie Chart Indicator Fit Strategy"
+          }
+        },
+        {
           "path": "pie-label",
           "title": {
             "zh": "饼图标签布局",

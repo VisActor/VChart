@@ -98,6 +98,8 @@ const getSpec = () => {
     { type: 'others', value: '3.5', formula: 'Others', texture: 'bias-lr' }
   ];
   const spec = {
+    width: 1564,
+    height: 1044,
     type: 'pie',
     data: [
       {
@@ -135,7 +137,6 @@ const getSpec = () => {
     indicator: {
       visible: true,
       trigger: 'hover',
-      // limitRatio: 0.4,
       limitRatio: 0.5,
       title: {
         visible: true,
@@ -157,7 +158,6 @@ const getSpec = () => {
           autoFit: true,
           fitStrategy: 'inscribed',
           style: {
-            fontSize: 20,
             fill: 'orange',
             fontWeight: 'bolder',
             fontFamily: 'Times New Roman',
@@ -172,7 +172,6 @@ const getSpec = () => {
           autoFit: true,
           fitStrategy: 'inscribed',
           style: {
-            fontSize: 18,
             fill: 'orange',
             fontFamily: 'Times New Roman',
             text: datum => {
