@@ -38,11 +38,12 @@ Respone in the following format:
 
 Constraints:
 1. No user assistance.
-2. The selected chart type in CHART_TYPE must be in the list of supported charts.
-3. Just ignore the user's request about duration and style in their input.
-4. DO NOT change or translate the field names in FIELD_MAP.
-5. The keys in FIELD_MAP must be selected from the list of available visual channels.
-6. Wrap the reply content using \`\`\`, and the returned content must be directly parsed by JSON.parse() in JavaScript.
+2. Please select one chart type in CHART_TYPE at each time. Don't use "A or B", "[A, B]" in CHART_TYPE.
+3. The selected chart type in CHART_TYPE must be in the list of supported charts.
+4. Just ignore the user's request about duration and style in their input.
+5. DO NOT change or translate the field names in FIELD_MAP.
+6. The keys in FIELD_MAP must be selected from the list of available visual channels.
+7. Wrap the reply content using \`\`\`, and the returned content must be directly parsed by JSON.parse() in JavaScript.
 
 Here are some examples:
 
