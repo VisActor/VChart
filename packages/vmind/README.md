@@ -42,6 +42,18 @@ $ rush vmind
 ```
 
 You can start the vmind development page.
+You need to set your LLM service URL and API key to use it normally. You can modify the headers when calling the LLM in packages/vmind/\_\_tests\_\_/browser/src/pages/DataInput.tsx.
+You can create a new .env.local file in the packages/vmind folder and write in it:
+
+```bash
+VITE_SKYLARK_URL="Your service url of skylark model"
+VITE_GPT_URL="Your service url of gpt model"
+VITE_SKYLARK_KEY="Your api-key of skylark model"
+VITE_GPT_KEY="Your api-key of gpt model"
+VITE_PROXY_CONFIG="Your Vite proxy config for forwarding requests. Must be in JSON string format and is optional. Example: {"proxy": {"/v1": {"target": "https://api.openai.com/","changeOrigin": true},"/openapi": {"target": "https://api.openai.com/","changeOrigin": true}}}"
+```
+
+These configurations will be automatically loaded when starting the development environment.
 
 ### Project Structure
 

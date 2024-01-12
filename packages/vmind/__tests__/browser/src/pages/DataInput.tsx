@@ -136,7 +136,7 @@ export function DataInput(props: IPropsType) {
       >
         <div style={{ marginTop: 20, display: 'flex', justifyContent: 'center' }}>
           <Button size="small" style={{ width: 200 }} shape="round" type="primary" onClick={() => setVisible(true)}>
-            Set API and LLM URL
+            Set API-Key and LLM URL
           </Button>
         </div>
       </div>
