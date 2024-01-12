@@ -7,6 +7,7 @@ export interface IItemContent extends IMarkerRef {
     position?: IMarkPointItemPosition;
     offsetX?: number;
     offsetY?: number;
+    confine?: boolean;
     symbol?: {
         style?: ISymbolMarkSpec;
     };

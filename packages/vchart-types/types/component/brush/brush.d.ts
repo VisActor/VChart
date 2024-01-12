@@ -39,7 +39,7 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     };
     private _needInitOutState;
     private _cacheInteractiveRangeAttrs;
-    private _needEnablePickable;
+    private _needDisablePickable;
     init(): void;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     created(): void;

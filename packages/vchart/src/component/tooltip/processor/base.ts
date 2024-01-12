@@ -65,15 +65,17 @@ export abstract class BaseTooltipProcessor {
 
   protected _getDimensionInfo(params: BaseEventParams): IDimensionInfo[] {
     let targetDimensionInfo: IDimensionInfo[] | undefined;
-
     // 处理dimension info
-    const x = (params.event as any).viewX;
-    const y = (params.event as any).viewY;
     const chart = this.component.getChart();
-    const pos = { x, y };
+
+    // compute layer offset
+    const layer = chart.getCompiler().getStage().getLayer(undefined);
+    const point = { x: params.event.viewX, y: params.event.viewY };
+    layer.globalTransMatrix.transformPoint({ x: params.event.viewX, y: params.event.viewY }, point);
+
     targetDimensionInfo = [
-      ...(getCartesianDimensionInfo(chart, pos) ?? []),
-      ...(getPolarDimensionInfo(chart, pos) ?? [])
+      ...(getCartesianDimensionInfo(chart, point) ?? []),
+      ...(getPolarDimensionInfo(chart, point) ?? [])
     ];
     if (targetDimensionInfo.length === 0) {
       targetDimensionInfo = undefined;

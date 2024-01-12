@@ -678,7 +678,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       this._rootMark,
       {
         x: () => this._region.layout.indent.left,
-        y: () => this._region.layout.indent.right
+        y: () => this._region.layout.indent.top
       },
       'normal',
       AttributeLevel.Base_Series

@@ -125,7 +125,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
       : seriesData;
 
     let limitRect;
-    if (spec.clip) {
+    if (spec.clip || spec.itemContent?.confine) {
       const { minX, maxX, minY, maxY } = computeClipRange([relativeSeries.getRegion()]);
       limitRect = {
         x: minX,

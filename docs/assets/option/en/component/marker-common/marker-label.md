@@ -97,6 +97,11 @@ Style of the preceding graphic element.
 
 Label text - spacing between the text and the preceding graphic element.
 
+{{ if: !${noConfine} }}
+#${prefix} confine(boolean) = false
+Since version 1.4.0, whether to automatically adjust label so that it is displayed within the visible area of ​​​​the marker.
+{{ /if }}
+
 #${prefix}dx(number)
 
 The horizontal offset of the text.

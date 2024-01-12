@@ -17,6 +17,7 @@ export declare class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     protected _initLegendData(): DataView;
     protected _getSeriesLegendField(s: ISeries): string;
     protected _initSelectedData(): void;
+    private _getLegendDefaultData;
     private _addDefaultTitleText;
     protected _getLegendAttributes(rect: ILayoutRect): any;
     protected _getLegendConstructor(): typeof LegendComponent;

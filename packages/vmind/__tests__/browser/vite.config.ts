@@ -8,7 +8,7 @@ import pkg from '../../../vchart/package.json';
 //import css from 'vite-plugin-css';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const proxyConfig = JSON.parse(env.VITE_PROXY_CONFIG);
+  const proxyConfig = env.VITE_PROXY_CONFIG ? JSON.parse(env.VITE_PROXY_CONFIG) : undefined;
 
   return {
     // root: path.join(__dirname, 'src/site'),

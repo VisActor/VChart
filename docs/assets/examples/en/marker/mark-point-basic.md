@@ -56,6 +56,7 @@ const spec = {
         offsetY: -100,
         type: 'richText',
         autoRotate: false,
+        confine: true,
         richText: {
           style: {
             width: 100,
@@ -108,9 +109,10 @@ const spec = {
       },
       itemContent: {
         offsetY: 40,
-        offsetX: -200,
+        // offsetX: -200,
         type: 'richText',
         autoRotate: false,
+        confine: true,
         position: 'insideBottom',
         richText: {
           style: {
@@ -866,7 +868,7 @@ const spec = {
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
 
-// Just for the convenience of console debugging, do not copy
+// Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
 

@@ -14,7 +14,7 @@ import {
   mockUserInput6Eng,
   mockUserInput8
 } from '../constants';
-import VMind from '@visactor/vmind';
+import VMind, { Model } from '@visactor/vmind';
 const Option = Select.Option;
 const TextArea = Input.TextArea;
 type IPropsType = {
@@ -51,9 +51,18 @@ export function LeftInput(props: IPropsType) {
       Message.warning('Please input your openAI api key!');
       return;
     }
-    const vmind = new VMind(openAIKey!);
-
-    const { spec, time } = await vmind.generateChart(csv, describe);
+    const vmind = new VMind({
+      model: Model.GPT3_5, //目前支持 gpt-3.5, gpt-4, skylark pro 模型。在后续的图表生成中将调用指定的模型
+      headers: {
+        Authorization: `Bearer ${openAIKey}`
+      } //headers 将会被直接用作大模型请求中的 request header. 可以将模型 api key 放入 header 中
+    });
+    //传入 csv 字符串，获得 fieldInfo 和 dataset 用于图表生成
+    const { fieldInfo, dataset } = vmind.parseCSVData(csv);
+    //传入 csv 字符串，和用户的展示意图，调用大模型，获得 fieldInfo 和 dataset 用于图表生成。NOTE：这将会把明数据传给大模型
+    //const { fieldInfo, dataset } = await vmind.parseCSVDataWithLLM(csv, userInput);
+    //调用图表生成接口，获得 spec 和图表动画时长
+    const { spec, time } = await vmind.generateChart(describe, fieldInfo, dataset);
     props.onSpecGenerate(spec, time);
     setLoading(false);
   }, [describe, csv, openAIKey]);
