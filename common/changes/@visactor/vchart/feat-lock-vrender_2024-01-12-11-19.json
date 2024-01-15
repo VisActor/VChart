@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: upgrade @visactor/vrender-core to locked 0.17.14",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
