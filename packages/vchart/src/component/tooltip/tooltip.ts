@@ -410,8 +410,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     if (isValid(userSpec.renderMode)) {
       this._spec.renderMode = userSpec.renderMode;
-    } else if (isMiniAppLikeMode(this._option.mode)) {
-      // 小程序环境下，默认使用canvas渲染
+    } else if (isMiniAppLikeMode(this._option.mode) || !isTrueBrowser(this._option.mode)) {
+      // 小程序或非浏览器环境下，默认使用canvas渲染
       this._spec.renderMode = 'canvas';
     }
 
