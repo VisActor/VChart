@@ -21,8 +21,7 @@ import type { IGroupMark } from '../../mark/group';
 import { registerGroupMark } from '../../mark/group';
 import { getShapes } from './util';
 import { createSymbol } from '@visactor/vrender-core';
-// FIXME: 等待vrender升级后可引入
-// import { labelSmartInvert } from '@visactor/vrender-components';
+import { labelSmartInvert } from '@visactor/vrender-components';
 import { normalizeLayoutPaddingSpec } from '../../util';
 import type { DataView } from '@visactor/vdataset';
 import { LiquidSeriesTooltipHelper } from './tooltip-helper';
@@ -278,9 +277,8 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
               if (waveY1 < textY1 && waveY2 > textY2) {
                 const foregroundColor = text.attribute.fill;
                 const backgroundColor = waveItem.attribute.fill;
-                // FIXME: 等待vrender升级后可引入
-                // const invertColor = labelSmartInvert(foregroundColor,backgroundColor);
-                // text.setAttribute('fill', invertColor);
+                const invertColor = labelSmartInvert(foregroundColor, backgroundColor);
+                text.setAttribute('fill', invertColor);
               }
             });
         });
