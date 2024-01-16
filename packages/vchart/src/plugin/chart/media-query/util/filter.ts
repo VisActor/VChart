@@ -100,7 +100,7 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
     result.specKey = Factory.getComponentInKey(filterType)?.specKey as keyof IChartSpec;
 
     const { specKey } = result;
-    const infoList = array(chartSpecInfo[specKey] ?? []);
+    const infoList = array(chartSpecInfo.component?.[specKey] ?? []);
     array(chartSpec[specKey] ?? [])?.forEach((componentSpec, i) => {
       const specInfo = infoList[i];
       if (specInfo.type === filterType) {
@@ -120,7 +120,7 @@ export const executeMediaQueryActionFilterType = <T extends Record<string, unkno
       const specKey = filterType as keyof IChartSpec;
       result.specKey = specKey;
 
-      const infoList = array(chartSpecInfo[specKey] ?? []);
+      const infoList = array(chartSpecInfo.component?.[specKey] ?? []);
       array(chartSpec[specKey] ?? []).forEach((componentSpec, i) => {
         const specInfo = infoList[i];
         if (componentTypes.includes(specInfo.type as ComponentTypeEnum)) {
