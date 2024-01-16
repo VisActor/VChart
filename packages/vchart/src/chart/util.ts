@@ -43,8 +43,8 @@ export function calculateChartSize(
   if (container) {
     const { width: containerWidth, height: containerHeight } = getContainerSize(
       container,
-      DEFAULT_CHART_WIDTH,
-      DEFAULT_CHART_HEIGHT
+      defaultSize.width,
+      defaultSize.height
     );
     width = containerWidth;
     height = containerHeight;
@@ -57,8 +57,8 @@ export function calculateChartSize(
     }
     const { width: containerWidth, height: containerHeight } = getContainerSize(
       canvasNode as HTMLCanvasElement,
-      DEFAULT_CHART_WIDTH,
-      DEFAULT_CHART_HEIGHT
+      defaultSize.width,
+      defaultSize.height
     );
     width = containerWidth;
     height = containerHeight;
