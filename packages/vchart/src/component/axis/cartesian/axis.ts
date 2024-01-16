@@ -301,7 +301,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       getScale,
       getAxisType: () => this.type,
       getAxisId: () => this.id,
-      isInverse: () => this._inverse === true
+      isInverse: () => this._inverse === true,
+      getSpec: () => this._spec
     };
   }
 

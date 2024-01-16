@@ -12,10 +12,29 @@ import { getFirstSeries } from '../../../../util/model';
 
 const discreteXAxisGetDimensionField = (series: ICartesianSeries) => series.fieldX[0];
 const discreteYAxisGetDimensionField = (series: ICartesianSeries) => series.fieldY[0];
-const continuousXAxisGetDimensionField = (series: ICartesianSeries) => [series.fieldX[0], series.fieldX2];
-const continuousYAxisGetDimensionField = (series: ICartesianSeries) => [series.fieldY[0], series.fieldY2];
+const continuousXAxisGetDimensionField = (series: ICartesianSeries) => [
+  series.fieldX[0],
+  series.fieldX2 ?? series.fieldX[1]
+];
+const continuousYAxisGetDimensionField = (series: ICartesianSeries) => [
+  series.fieldY[0],
+  series.fieldY2 ?? series.fieldY[1]
+];
 
-export const getCartesianDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoint): IDimensionInfo[] | null => {
+const getDimensionFieldFunc = (isXAxis: boolean, isDiscreteAxis: boolean) =>
+  isXAxis
+    ? isDiscreteAxis
+      ? discreteXAxisGetDimensionField
+      : continuousXAxisGetDimensionField
+    : isDiscreteAxis
+    ? discreteYAxisGetDimensionField
+    : continuousYAxisGetDimensionField;
+
+export const getCartesianDimensionInfo = (
+  chart: IChart | undefined,
+  pos: ILayoutPoint,
+  isTooltip?: boolean
+): IDimensionInfo[] | null => {
   if (!chart) {
     return null;
   }
@@ -28,8 +47,13 @@ export const getCartesianDimensionInfo = (chart: IChart | undefined, pos: ILayou
   const xAxisList = getAxis(chart, (cmp: CartesianAxis) => isXAxis(cmp.getOrient()), pos) ?? [];
   const yAxisList = getAxis(chart, (cmp: CartesianAxis) => isYAxis(cmp.getOrient()), pos) ?? [];
 
+  /** 离散轴集合 */
   const bandAxisSet: Set<CartesianAxis> = new Set();
+  /** 连续轴集合 */
   const linearAxisSet: Set<CartesianAxis> = new Set();
+  /** 必须包含的轴的集合 */
+  const forceAxisSet: Set<CartesianAxis> = new Set();
+
   [xAxisList, yAxisList].forEach(axisList =>
     axisList.forEach(axis => {
       const isDiscreteAxis = isDiscrete(axis.getScale().type);
@@ -38,41 +62,54 @@ export const getCartesianDimensionInfo = (chart: IChart | undefined, pos: ILayou
       } else {
         linearAxisSet.add(axis);
       }
+      if (isTooltip && axis.getSpec().hasDimensionTooltip) {
+        forceAxisSet.add(axis);
+      }
     })
   );
 
   const targetAxisInfo: IDimensionInfo[] = [];
 
-  const addAxisDimensionInfo = (orient: 'x' | 'y', isDiscrete: boolean) => {
-    (orient === 'x' ? xAxisList : yAxisList).forEach(axis => {
-      if ((isDiscrete ? bandAxisSet : linearAxisSet).has(axis)) {
-        const info = getDimensionInfoByPosition(
-          axis,
-          orient === 'x' ? x : y,
-          orient,
-          orient === 'x'
-            ? isDiscrete
-              ? discreteXAxisGetDimensionField
-              : continuousXAxisGetDimensionField
-            : isDiscrete
-            ? discreteYAxisGetDimensionField
-            : continuousYAxisGetDimensionField
-        );
-        info && targetAxisInfo.push(info);
+  const addAxisDimensionInfo = (orient: 'x' | 'y') => {
+    const isXAxis = orient === 'x';
+    const posValue = isXAxis ? x : y;
+    const axisList = isXAxis ? xAxisList : yAxisList;
+    axisList.forEach(axis => {
+      if (forceAxisSet.size > 0) {
+        if (forceAxisSet.has(axis)) {
+          const info = getDimensionInfoByPosition(
+            axis,
+            posValue,
+            orient,
+            getDimensionFieldFunc(isXAxis, isDiscrete(axis.getScale().type))
+          );
+          info && targetAxisInfo.push(info);
+        }
+      } else {
+        const hasDiscreteAxis = bandAxisSet.size > 0;
+        if ((hasDiscreteAxis ? bandAxisSet : linearAxisSet).has(axis)) {
+          const info = getDimensionInfoByPosition(
+            axis,
+            posValue,
+            orient,
+            getDimensionFieldFunc(isXAxis, hasDiscreteAxis)
+          );
+          info && targetAxisInfo.push(info);
+        }
       }
     });
   };
 
   // 优先筛选 band 轴，其次按照 direction 判断
   if (chart.getSpec().direction === Direction.horizontal) {
-    addAxisDimensionInfo('y', bandAxisSet.size > 0);
+    addAxisDimensionInfo('y');
     if (targetAxisInfo.length === 0) {
-      addAxisDimensionInfo('x', bandAxisSet.size > 0);
+      addAxisDimensionInfo('x');
     }
   } else {
-    addAxisDimensionInfo('x', bandAxisSet.size > 0);
+    addAxisDimensionInfo('x');
     if (targetAxisInfo.length === 0) {
-      addAxisDimensionInfo('y', bandAxisSet.size > 0);
+      addAxisDimensionInfo('y');
     }
   }
 

@@ -11,6 +11,22 @@ import { getTooltipActualActiveType } from '../../utils/common';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension/interface';
 import type { TooltipHandlerParams } from '../../interface';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constants';
+import { TimeUtil } from '../../../axis/cartesian/util';
+
+const getTimeString = (value: any, timeFormat?: string, timeFormatMode?: 'local' | 'utc') => {
+  if (!timeFormat && !timeFormatMode) {
+    if (typeof value !== 'object') {
+      return value?.toString();
+    }
+    return value;
+  }
+
+  const timeUtil = TimeUtil.getInstance();
+  timeFormat = timeFormat || '%Y%m%d';
+  timeFormatMode = timeFormatMode || 'local';
+  const timeFormatter = timeFormatMode === 'local' ? timeUtil.timeFormat : timeUtil.timeUTCFormat;
+  return timeFormatter(timeFormat, value);
+};
 
 /**
  * 获得tooltip的实际显示内容
@@ -32,51 +48,47 @@ export const getShowContent = (
     return null;
   }
 
-  const patternTitle = getTooltipPatternValue(pattern.title, data, params);
-  const patternContent = array(getTooltipPatternValue(pattern.content, data, params));
-
-  const tooltipContent: Required<TooltipActualTitleContent> = {
-    title: {
-      value: patternTitle?.value?.toString(),
-      hasShape: false,
-      shapeType: undefined,
-      shapeHollow: undefined
-    },
+  const tooltipActualTitleContent: Required<TooltipActualTitleContent> = {
+    title: {},
     content: []
   };
 
-  const { maxLineCount = TOOLTIP_MAX_LINE_COUNT } = pattern;
-
   /** title */
-  const patternTitleVisible = getTooltipContentValue(patternTitle?.visible, data, params) !== false;
+  const patternTitle = getTooltipPatternValue(pattern.title, data, params);
+  const { visible, value, valueTimeFormat, valueTimeFormatMode, valueStyle, hasShape } = patternTitle ?? {};
+  const patternTitleVisible = getTooltipContentValue(visible, data, params) !== false;
+
   if (!patternTitle || !patternTitleVisible) {
-    tooltipContent.title = {
+    tooltipActualTitleContent.title = {
       hasShape: false,
       visible: false
     };
   } else {
     // 找到第一个可用的datum
     const datum = getFirstDatumFromTooltipData(data);
-    tooltipContent.title = {
-      value: getTooltipContentValue(patternTitle?.value, datum, params),
-      valueStyle: getTooltipContentValue(patternTitle?.valueStyle, datum, params),
-      hasShape: patternTitle.hasShape
+    tooltipActualTitleContent.title = {
+      value: getTimeString(getTooltipContentValue(value, datum, params), valueTimeFormat, valueTimeFormatMode),
+      valueStyle: getTooltipContentValue(valueStyle, datum, params),
+      hasShape
     };
   }
 
   /** content */
+  const patternContent = array(getTooltipPatternValue(pattern.content, data, params));
+  const { maxLineCount = TOOLTIP_MAX_LINE_COUNT } = pattern;
+
   if (pattern.activeType === 'mark') {
     for (const content of patternContent ?? []) {
       const oneLineData = getOneLineData((data as IDimensionData[])[0]?.datum[0], content, params);
       if (oneLineData.visible !== false) {
-        if (tooltipContent.content.length === maxLineCount - 1) {
-          tooltipContent.content.push({
+        if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
+          tooltipActualTitleContent.content.push({
             ...oneLineData,
             ...TOOLTIP_OTHERS_LINE
           });
           break;
-        } else if (tooltipContent.content.length < maxLineCount) {
-          tooltipContent.content.push(oneLineData);
+        } else if (tooltipActualTitleContent.content.length < maxLineCount) {
+          tooltipActualTitleContent.content.push(oneLineData);
         } else {
           break;
         }
@@ -98,47 +110,47 @@ export const getShowContent = (
             if (oneLineData.visible === false) {
               continue;
             }
-            if (tooltipContent.content.length === maxLineCount - 1) {
-              tooltipContent.content.push({
+            if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
+              tooltipActualTitleContent.content.push({
                 ...oneLineData,
                 ...TOOLTIP_OTHERS_LINE
               });
               break;
-            } else if (tooltipContent.content.length < maxLineCount) {
-              tooltipContent.content.push(oneLineData);
+            } else if (tooltipActualTitleContent.content.length < maxLineCount) {
+              tooltipActualTitleContent.content.push(oneLineData);
             } else {
               break;
             }
           }
-          if (tooltipContent.content.length >= maxLineCount) {
+          if (tooltipActualTitleContent.content.length >= maxLineCount) {
             break;
           }
         }
-        if (tooltipContent.content.length >= maxLineCount) {
+        if (tooltipActualTitleContent.content.length >= maxLineCount) {
           break;
         }
       }
-      if (tooltipContent.content.length >= maxLineCount) {
+      if (tooltipActualTitleContent.content.length >= maxLineCount) {
         break;
       }
     }
   }
 
-  if (tooltipContent.title) {
+  if (tooltipActualTitleContent.title) {
     // TODO：对 title shape 的支持目前还不完整，尚没有相关需求
-    if (tooltipContent.content.length > 0 && tooltipContent.content[0].shapeType) {
-      if (isNil(tooltipContent.title.shapeType)) {
-        tooltipContent.title.shapeType = tooltipContent.content[0].shapeType;
+    if (tooltipActualTitleContent.content.length > 0 && tooltipActualTitleContent.content[0].shapeType) {
+      if (isNil(tooltipActualTitleContent.title.shapeType)) {
+        tooltipActualTitleContent.title.shapeType = tooltipActualTitleContent.content[0].shapeType;
       }
-      if (isNil(tooltipContent.title.shapeColor)) {
-        tooltipContent.title.shapeColor = tooltipContent.content[0].shapeColor;
+      if (isNil(tooltipActualTitleContent.title.shapeColor)) {
+        tooltipActualTitleContent.title.shapeColor = tooltipActualTitleContent.content[0].shapeColor;
       }
     } else {
-      tooltipContent.title.hasShape = false;
+      tooltipActualTitleContent.title.hasShape = false;
     }
   }
 
-  return tooltipContent;
+  return tooltipActualTitleContent;
 };
 
 /**
@@ -152,8 +164,16 @@ export const getOneLineData = (
   config: IToolTipLinePattern,
   params: TooltipHandlerParams
 ): IToolTipLineActual => {
-  const key = getTooltipContentValue(config.key, datum, params);
-  const value = getTooltipContentValue(config.value, datum, params);
+  const key = getTimeString(
+    getTooltipContentValue(config.key, datum, params),
+    config.keyTimeFormat,
+    config.keyTimeFormatMode
+  );
+  const value = getTimeString(
+    getTooltipContentValue(config.value, datum, params),
+    config.valueTimeFormat,
+    config.valueTimeFormatMode
+  );
   const visible: boolean =
     getTooltipContentValue(config.visible, datum, params) !== false && (isValid(key) || isValid(value));
   const isKeyAdaptive = getTooltipContentValue(config.isKeyAdaptive, datum, params);

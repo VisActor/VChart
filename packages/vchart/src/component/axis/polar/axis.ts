@@ -335,7 +335,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       pointToCoord: this.pointToCoord.bind(this),
       center: this.getCenter.bind(this),
       getScale,
-      getAxisId: () => this.id
+      getAxisId: () => this.id,
+      getSpec: () => this._spec
     };
     return helper;
   }

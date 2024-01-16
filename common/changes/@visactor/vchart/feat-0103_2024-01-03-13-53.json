@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: axis supports `hasDimensionTooltip` for force specification of dimension tooltip, related #1678",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

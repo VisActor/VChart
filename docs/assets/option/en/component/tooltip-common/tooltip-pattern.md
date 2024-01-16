@@ -107,3 +107,15 @@ The type definition is as follows:
 ```
 
 The first parameter is the final tooltip title information calculated by VChart before displaying the tooltip, including the text and style of the title. Modify this object in the callback and return it.
+
+#${prefix} updateElement(Function)
+
+This is the callback used to update the tooltip dom element. It is only effective when `renderMode` is '`'html'`.
+
+In this callback, the first parameter will provide the calculated root node of the tooltip dom tree. This callback allows modification of the content of this dom node, but does not allow replacement. The modified tooltip dom will be displayed immediately and the built-in tooltip position calculation algorithm will be reapplied.
+
+The type definition is as follows:
+
+```ts
+(tooltipElement: HTMLElement, actualTooltip: IToolTipActual, params: TooltipHandlerParams) => void
+```

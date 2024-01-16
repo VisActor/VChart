@@ -1072,7 +1072,7 @@
         {
           "path": "gauge-track",
           "title": {
-            "zh": "带背景的仪表图",
+            "zh": "带底纹的仪表图",
             "en": "Gauge Chart with Track Mark"
           }
         }
@@ -1665,6 +1665,13 @@
           "title": {
             "zh": "可交互的 tooltip",
             "en": "Enterable Tooltip"
+          }
+        },
+        {
+          "path": "time-axis-tooltip",
+          "title": {
+            "zh": "时间轴的 dimension tooltip",
+            "en": "Dimension Tooltip On Time Axis"
           }
         }
       ]

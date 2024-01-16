@@ -74,7 +74,7 @@ export abstract class BaseTooltipProcessor {
     layer.globalTransMatrix.transformPoint({ x: params.event.viewX, y: params.event.viewY }, point);
 
     targetDimensionInfo = [
-      ...(getCartesianDimensionInfo(chart, point) ?? []),
+      ...(getCartesianDimensionInfo(chart, point, true) ?? []),
       ...(getPolarDimensionInfo(chart, point) ?? [])
     ];
     if (targetDimensionInfo.length === 0) {
@@ -83,6 +83,10 @@ export abstract class BaseTooltipProcessor {
       // 只保留一个轴的dimension info
       const dimensionAxisInfo = targetDimensionInfo.filter(info => {
         const axis = info.axis;
+        if (axis.getSpec().hasDimensionTooltip) {
+          return true;
+        }
+
         // 优先显示离散轴 tooltip
         if (!isDiscrete(axis.getScale().type)) {
           return false;

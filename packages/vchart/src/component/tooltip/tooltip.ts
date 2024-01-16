@@ -24,7 +24,7 @@ import { showTooltip } from './utils/show-tooltip';
 import { getTooltipActualActiveType, isEmptyPos } from './utils/common';
 import { isSameDimensionInfo } from '../../event/events/dimension/util/common';
 import { ChartEvent, Event_Bubble_Level, Event_Source_Type } from '../../constant';
-import type { DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
+import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
 // eslint-disable-next-line no-duplicate-imports
 import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
@@ -353,7 +353,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       ignore: {}
     };
     Object.keys(this._processor).forEach(activeType => {
-      const { tooltipInfo, ignore } = this._processor[activeType].getMouseEventData(params);
+      const { tooltipInfo, ignore } = (this._processor[activeType] as BaseTooltipProcessor).getMouseEventData(params);
       result.tooltipInfo[activeType] = tooltipInfo;
       result.ignore[activeType] = ignore;
     });
