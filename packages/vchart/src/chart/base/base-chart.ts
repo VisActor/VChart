@@ -137,7 +137,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._layoutTag = tag;
     if (this.getCompiler()?.getVGrammarView()) {
       this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && reLayout && this.getCompiler().renderAsync(morphConfig);
+      tag && reLayout && this.getCompiler().render(morphConfig);
     }
     return this._layoutTag;
   }
