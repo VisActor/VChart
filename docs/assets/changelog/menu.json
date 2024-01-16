@@ -2,10 +2,10 @@
   "menu": "changelog",
   "children": [
     {
-      "path": "changelog",
+      "path": "release",
       "title": {
-        "zh": "changelog",
-        "en": "版本记录"
+        "zh": "版本记录",
+        "en": "release"
       }
     }
   ]
