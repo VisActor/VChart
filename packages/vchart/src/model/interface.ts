@@ -161,7 +161,7 @@ export interface IModelOption extends ICompilableInitOption {
   map: Map<StringOrNumber, IModel | IMark>;
   mode: RenderMode;
   globalInstance: VChart;
-  regionIndex?: Array<number>;
+  regionIndexes?: Array<number>;
   specKey?: string;
   specPath?: Array<string | number>;
   specInfoPath?: Array<string | number>;
