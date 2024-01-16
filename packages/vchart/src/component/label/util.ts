@@ -4,7 +4,7 @@ import { Direction } from '../../typings/space';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
-import { isBoolean, isFunction, isString, substitute } from '@visactor/vutils';
+import { isBoolean, isFunction, isObject, isString, substitute } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
@@ -24,6 +24,15 @@ export const labelRuleMap = {
   arc3d: pieLabel,
   treemap: treemapLabel
 };
+
+export function defaultLabelConfig(rule: string, labelInfo: ILabelInfo) {
+  const { labelSpec } = labelInfo;
+  if (labelSpec.overlap && !isObject(labelSpec.overlap)) {
+    labelSpec.overlap = {};
+  }
+  const processor = labelRuleMap[rule] ?? labelRuleMap.point;
+  return processor(labelInfo);
+}
 
 export function textAttribute(
   labelInfo: ILabelInfo,

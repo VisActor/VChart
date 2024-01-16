@@ -22,6 +22,7 @@
 配置仪表图背景板系列。可选配`gauge`以及`circularProgress`系列。
 
 ##${prefix} gauge（gauge 系列版本）(Object)
+gauge 系列版本。
 
 ###${prefix} type('gauge')
 
@@ -36,6 +37,7 @@
 ) }}
 
 ##${prefix} gauge（circularProgress 系列版本）(Object)
+circularProgress 系列版本。
 
 ###${prefix} type('circularProgress')
 
