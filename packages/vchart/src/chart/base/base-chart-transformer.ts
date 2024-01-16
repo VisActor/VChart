@@ -256,15 +256,16 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
           label = cmp;
         } else if (cmp.type === ComponentTypeEnum.totalLabel) {
           totalLabel = cmp;
+        } else {
+          noAxisComponents.push(cmp);
         }
-        noAxisComponents.push(cmp);
       }
     }
 
     let hasInitAxis = false;
     // NOTE: 坐标轴组件需要在其他组件之前创建
     if (cartesianAxis) {
-      const infoList = cartesianAxis.getSpecInfo(chartSpec);
+      const infoList = cartesianAxis.getSpecInfo(chartSpec, chartSpecInfo);
       if (infoList?.length > 0) {
         hasInitAxis = true;
         infoList.forEach(info => {
@@ -275,7 +276,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
 
     if (polarAxis && !hasInitAxis) {
-      const infoList = polarAxis.getSpecInfo(chartSpec);
+      const infoList = polarAxis.getSpecInfo(chartSpec, chartSpecInfo);
       if (infoList?.length > 0) {
         hasInitAxis = true;
         infoList.forEach(info => {
@@ -286,7 +287,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
 
     if (geoCoordinate && !hasInitAxis) {
-      geoCoordinate.getSpecInfo(chartSpec)?.forEach(info => {
+      geoCoordinate.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
         results.push(callbackfn(geoCoordinate, info, chartSpecInfo));
       });
     }
@@ -303,7 +304,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
 
     noAxisComponents.forEach(C => {
-      C.getSpecInfo(chartSpec)?.forEach(info => {
+      C.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
         results.push(callbackfn(C, info, chartSpecInfo));
       });
     });

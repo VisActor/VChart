@@ -180,7 +180,8 @@ const specList = [
     barBackground: {
       fieldLevel: 2,
       style: {
-        lineWidth: 2
+        lineWidth: 2,
+        stroke: null
       }
     }
   }
