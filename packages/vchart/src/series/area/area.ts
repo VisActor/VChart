@@ -58,52 +58,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   protected _supportStack: boolean = true;
   protected _sortDataByAxis: boolean = false;
 
-  setAttrFromSpec(): void {
-    super.setAttrFromSpec();
-    const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
-    const isLineVisible = this._spec.line?.visible !== false && this._spec.line?.style?.visible !== false;
-    // merge line to area
-    const areaSpec = this._spec.area ?? {};
-    const lineSpec = this._spec.line ?? {};
-    areaSpec.interactive = Boolean(areaSpec.interactive || lineSpec.interactive);
-    areaSpec.support3d = Boolean(areaSpec.support3d || lineSpec.support3d);
-    areaSpec.zIndex =
-      isValid(areaSpec.zIndex) || isValid(lineSpec.zIndex)
-        ? Math.max(areaSpec.zIndex ?? 0, lineSpec.zIndex ?? 0)
-        : undefined;
-
-    // remove area stroke
-    if (areaSpec.style) {
-      delete areaSpec.style.stroke;
-    }
-    if (areaSpec.state) {
-      Object.keys(areaSpec.state).forEach(state => {
-        if ('style' in areaSpec.state[state]) {
-          delete areaSpec.state[state].style.stroke;
-        } else {
-          delete (<ConvertToMarkStyleSpec<IAreaMarkSpec>>areaSpec.state[state]).stroke;
-        }
-      });
-    }
-    // check which one is main
-    let mainSpec = areaSpec;
-    let subSpec = lineSpec;
-    const seriesMark = this._spec.seriesMark ?? 'area';
-    if (seriesMark === 'line' || (isLineVisible && !isAreaVisible)) {
-      mainSpec = lineSpec;
-      subSpec = areaSpec;
-    }
-    areaSpec.style = mergeSpec({}, subSpec.style, mainSpec.style);
-    areaSpec.state = mergeSpec({}, subSpec.state, mainSpec.state);
-    if (!isAreaVisible) {
-      areaSpec.style.fill = false;
-    }
-    if (!isLineVisible) {
-      areaSpec.style.stroke = false;
-    }
-    areaSpec.visible = !(!isAreaVisible && !isLineVisible);
-  }
-
   initMark(): void {
     const progressive = {
       progressiveStep: this._spec.progressiveStep,
