@@ -56,10 +56,10 @@
     "vite": "3.2.6"
   },
   "dependencies": {
-    "@visactor/vrender-core": "~0.17.13",
-    "@visactor/vrender-kits": "~0.17.13",
+    "@visactor/vrender-core": "0.17.14",
+    "@visactor/vrender-kits": "0.17.14",
     "@visactor/vchart": "workspace:1.8.7",
-    "@visactor/vrender": "~0.17.13",
+    "@visactor/vrender": "0.17.14",
     "@visactor/vutils": "~0.17.3"
   }
 }

@@ -165,7 +165,7 @@
 
 标签布局配置。
 
-###${prefix} textAlign(string)
+###${prefix} align(string)
 
 标签对齐方式。
 默认值为`'arc'`。

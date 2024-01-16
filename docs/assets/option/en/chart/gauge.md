@@ -22,6 +22,7 @@ Gauge Chart
 Configure the gauge chart background panel series. Optional for `gauge` and `circularProgress` series.
 
 ##${prefix} gauge（gauge series version）(Object)
+gauge series version。
 
 ###${prefix} type('gauge')
 
@@ -36,6 +37,7 @@ Specify the series type as `gauge`.
 ) }}
 
 ##${prefix} gauge（circularProgress series version）(Object)
+circularProgress series version。
 
 ###${prefix} type('circularProgress')
 
