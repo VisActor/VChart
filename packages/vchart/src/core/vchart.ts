@@ -780,17 +780,10 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   async updateData(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions): Promise<IVChart> {
-    if (isNil(this._dataSet)) {
-      return this as unknown as IVChart;
-    }
-    if (this._chart) {
-      this._chart.updateData(id, data, true, options);
+    return this.updateDataSync(id, data, options);
+  }
 
-      // after layout
-      this._compiler.render();
-      return this as unknown as IVChart;
-    }
-    this._spec.data = array(this._spec.data);
+  private _updateDataById(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions) {
     const preDV = this._spec.data.find((dv: any) => dv.name === id || dv.id === id);
     if (preDV) {
       if (preDV.id === id) {
@@ -808,7 +801,6 @@ export class VChart implements IVChart {
         this._spec.data.push(data);
       }
     }
-    return this as unknown as IVChart;
   }
 
   /**
@@ -827,15 +819,10 @@ export class VChart implements IVChart {
       this._compiler.render();
       return this as unknown as IVChart;
     }
+
+    this._spec.data = array(this._spec.data);
     list.forEach(({ id, data, options }) => {
-      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
-      if (preDV) {
-        preDV.parse(data, options);
-      } else {
-        const dataView = new DataView(this._dataSet, { name: id });
-        dataView.parse(data, options);
-        this._spec.data.push(dataView);
-      }
+      this._updateDataById(id, data, options);
     });
     return this as unknown as IVChart;
   }
@@ -847,24 +834,20 @@ export class VChart implements IVChart {
    * @param options 数据参数
    * @returns VChart 实例
    */
-  updateDataSync(id: StringOrNumber, data: DataView | Datum[], options?: IParserOptions) {
+  updateDataSync(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions) {
     if (isNil(this._dataSet)) {
       return this as unknown as IVChart;
     }
     if (this._chart) {
       this._chart.updateData(id, data, true, options);
+
       // after layout
       this._compiler.render();
       return this as unknown as IVChart;
     }
-    const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
-    if (preDV) {
-      preDV.parse(data, options);
-    } else {
-      const dataView = new DataView(this._dataSet, { name: id as string });
-      dataView.parse(data, options);
-      this._spec.data.push(dataView);
-    }
+    this._spec.data = array(this._spec.data);
+
+    this._updateDataById(id, data, options);
     return this as unknown as IVChart;
   }
 
