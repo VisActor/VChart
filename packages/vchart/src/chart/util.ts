@@ -26,7 +26,8 @@ export function setDefaultCrosshairForCartesianChart(spec: ICartesianChartSpec) 
 
 export function calculateChartSize(
   spec: { width?: number; height?: number },
-  option: Pick<IChartOption, 'canvas' | 'container' | 'mode' | 'modeParams'>
+  option: Pick<IChartOption, 'canvas' | 'container' | 'mode' | 'modeParams'>,
+  defaultSize: { width: number; height: number }
 ) {
   const { width: userWidth, height: userHeight } = spec;
   if (isValid(userWidth) && isValid(userHeight)) {
@@ -35,8 +36,8 @@ export function calculateChartSize(
       height: userHeight
     };
   }
-  let width = DEFAULT_CHART_WIDTH;
-  let height = DEFAULT_CHART_HEIGHT;
+  let width = defaultSize.width;
+  let height = defaultSize.height;
   const container = option.container;
   const canvas = option.canvas;
   if (container) {
