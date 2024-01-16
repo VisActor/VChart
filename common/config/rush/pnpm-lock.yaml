@@ -468,6 +468,7 @@ importers:
       react: ^18.0.0
       react-dom: ^18.0.0
       react-router-dom: 6.9.0
+      ts-pattern: ~4.1.4
       typescript: 4.9.5
       vite: 3.2.6
       vite-plugin-css: ~1.0.4
@@ -484,6 +485,7 @@ importers:
       js-yaml: 4.1.0
       json5: 2.2.3
       lodash: 4.17.21
+      ts-pattern: 4.1.4
     devDependencies:
       '@arco-design/web-react': 2.46.1_yok4whjnfjlfyjmdmcaku5uzjq
       '@ffmpeg/core': 0.11.0
@@ -21090,6 +21092,10 @@ packages:
       typescript: 4.9.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+
+  /ts-pattern/4.1.4:
+    resolution: {integrity: sha512-Mcw65oUd1w5ktKi5BRwrnz16Otwk9iv7P0dKgvbi+A1albCDgnixohSqNLuFwIp5dzxPmTPm0iDQ6p1ZJr9uGw==}
+    dev: false
 
   /tsconfig-paths/3.15.0:
     resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}
