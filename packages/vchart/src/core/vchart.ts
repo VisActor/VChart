@@ -540,12 +540,19 @@ export class VChart implements IVChart {
   }
 
   getCurrentSize() {
-    return calculateChartSize(this._spec, {
-      container: this._container,
-      canvas: this._canvas,
-      mode: this._option.mode || RenderModeEnum['desktop-browser'],
-      modeParams: this._option.modeParams
-    });
+    return calculateChartSize(
+      this._spec,
+      {
+        container: this._container,
+        canvas: this._canvas,
+        mode: this._option.mode || RenderModeEnum['desktop-browser'],
+        modeParams: this._option.modeParams
+      },
+      {
+        width: this._currentSize?.width ?? DEFAULT_CHART_WIDTH,
+        height: this._currentSize?.height ?? DEFAULT_CHART_HEIGHT
+      }
+    );
   }
 
   private _doResize() {
