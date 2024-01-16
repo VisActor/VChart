@@ -782,36 +782,30 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const res = [];
 
     if (finalHoverSpec.enable) {
-      const hoverMarks: IMark[] = mainMarks.filter(mark => !isEmpty(mark.stateStyle[STATE_VALUE_ENUM.STATE_HOVER]));
-
-      hoverMarks.length &&
-        res.push({
-          seriesId: this.id,
-          regionId: this._region.id,
-          selector: hoverMarks.map(mark => `#${mark.getProductId()}`),
-          type: 'element-highlight',
-          trigger: finalHoverSpec.trigger as EventType,
-          resetTrigger: finalHoverSpec.triggerOff as EventType,
-          blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
-          highlightState: STATE_VALUE_ENUM.STATE_HOVER
-        });
+      res.push({
+        seriesId: this.id,
+        regionId: this._region.id,
+        selector: mainMarks.map(mark => `#${mark.getProductId()}`),
+        type: 'element-highlight',
+        trigger: finalHoverSpec.trigger as EventType,
+        resetTrigger: finalHoverSpec.triggerOff as EventType,
+        blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
+        highlightState: STATE_VALUE_ENUM.STATE_HOVER
+      });
     }
 
     if (finalSelectSpec.enable) {
-      const selectMarks: IMark[] = mainMarks.filter(mark => !isEmpty(mark.stateStyle[STATE_VALUE_ENUM.STATE_SELECTED]));
-
-      selectMarks.length &&
-        res.push({
-          type: 'element-select',
-          seriesId: this.id,
-          regionId: this._region.id,
-          selector: selectMarks.map(mark => `#${mark.getProductId()}`),
-          trigger: finalSelectSpec.trigger as EventType,
-          resetTrigger: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
-          reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
-          state: STATE_VALUE_ENUM.STATE_SELECTED,
-          isMultiple: finalSelectSpec.mode === 'multiple'
-        });
+      res.push({
+        type: 'element-select',
+        seriesId: this.id,
+        regionId: this._region.id,
+        selector: mainMarks.map(mark => `#${mark.getProductId()}`),
+        trigger: finalSelectSpec.trigger as EventType,
+        resetTrigger: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
+        reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
+        state: STATE_VALUE_ENUM.STATE_SELECTED,
+        isMultiple: finalSelectSpec.mode === 'multiple'
+      });
     }
 
     return res;
