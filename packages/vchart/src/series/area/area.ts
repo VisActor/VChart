@@ -65,8 +65,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
     // merge line to area
     const areaSpec = this._spec.area ?? {};
     const lineSpec = this._spec.line ?? {};
-    areaSpec.interactive = areaSpec.interactive || lineSpec.interactive;
-    areaSpec.support3d = areaSpec.support3d || lineSpec.support3d;
+    areaSpec.interactive = Boolean(areaSpec.interactive || lineSpec.interactive);
+    areaSpec.support3d = Boolean(areaSpec.support3d || lineSpec.support3d);
     areaSpec.zIndex =
       isValid(areaSpec.zIndex) || isValid(lineSpec.zIndex)
         ? Math.max(areaSpec.zIndex ?? 0, lineSpec.zIndex ?? 0)
