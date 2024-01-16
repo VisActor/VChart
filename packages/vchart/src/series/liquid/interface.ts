@@ -60,6 +60,8 @@ export interface ILiquidSeriesSpec extends IAnimationSpec<LiquidMarks, LiquidApp
 }
 
 export interface ILiquidSeriesTheme {
+  outlineMargin?: ILiquidPaddingSpec;
+  outlinePadding?: ILiquidPaddingSpec;
   [SeriesMarkNameEnum.liquid]?: Partial<IMarkTheme<ILiquidMarkSpec>>;
   [SeriesMarkNameEnum.liquidBackground]?: IMarkSpec<IGroupMarkSpec>;
   [SeriesMarkNameEnum.liquidOutline]?: IMarkSpec<IGroupMarkSpec>;

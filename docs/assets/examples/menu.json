@@ -1289,6 +1289,43 @@
       ]
     },
     {
+      "path": "liquid-chart",
+      "title": {
+        "zh": "水波图",
+        "en": "liquid-chart"
+      },
+      "children": [
+        {
+          "path": "liquid-chart",
+          "title": {
+            "zh": "水波图",
+            "en": "Liquid Chart"
+          }
+        },
+        {
+          "path": "liquid-chart-shape",
+          "title": {
+            "zh": "水波图自定义形状",
+            "en": "Liquid Chart Shape"
+          }
+        },
+        {
+          "path": "liquid-chart-background",
+          "title": {
+            "zh": "水波图自定义背景颜色",
+            "en": "Liquid Chart Background"
+          }
+        },
+        {
+          "path": "liquid-chart-smart-invert",
+          "title": {
+            "zh": "水波图指标智能反色",
+            "en": "Liquid Chart Smart Invert"
+          }
+        }
+      ]
+    },
+    {
       "path": "combination",
       "title": {
         "zh": "combination",

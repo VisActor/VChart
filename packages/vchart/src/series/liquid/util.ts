@@ -1,7 +1,7 @@
 import type { LiquidShapeType } from './interface';
 
 export const getShapes = (shapesType: LiquidShapeType, size: number) => {
-  if (shapesType === 'pin') {
+  if (shapesType === 'drop') {
     return pin(0, 0, size / 2);
   }
   return shapesType;
