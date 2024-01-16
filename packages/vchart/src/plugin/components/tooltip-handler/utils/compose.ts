@@ -1,5 +1,4 @@
 import { isValid, isNil, array } from '@visactor/vutils';
-import type { TooltipActualTitleContent } from '../../tooltip';
 import type {
   IToolTipLinePattern,
   ITooltipPattern,
@@ -7,11 +6,11 @@ import type {
   IToolTipLineActual
 } from '../../../../typings/tooltip';
 import { getFirstDatumFromTooltipData, getTooltipContentValue, getTooltipPatternValue } from './common';
-import { getTooltipActualActiveType } from '../../utils/common';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension/interface';
-import type { TooltipHandlerParams } from '../../interface';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constants';
-import { TimeUtil } from '../../../axis/cartesian/util';
+import { getTooltipActualActiveType } from '../../../../component/tooltip/utils';
+import type { TooltipActualTitleContent, TooltipHandlerParams } from '../../../../component/tooltip';
+import { TimeUtil } from '../../../../component/axis/cartesian/util';
 
 const getTimeString = (value: any, timeFormat?: string, timeFormatMode?: 'local' | 'utc') => {
   if (!timeFormat && !timeFormatMode) {
