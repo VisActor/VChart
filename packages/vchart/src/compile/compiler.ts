@@ -46,6 +46,8 @@ export class Compiler {
   // 是否已经销毁
   isReleased: boolean = false;
 
+  isRunning: boolean = false;
+
   protected _width: number;
   protected _height: number;
 
@@ -170,11 +172,17 @@ export class Compiler {
   }
 
   render(morphConfig?: IMorphConfig): void {
+    if (this.isRunning) {
+      return;
+    }
+
     this.initView();
     if (!this._view) {
       return;
     }
+    this.isRunning = true;
     this._view?.run(morphConfig);
+    this.isRunning = false;
   }
 
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {
