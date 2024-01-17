@@ -8,8 +8,9 @@ The layout type of the current module. If it is set to `absolute`, the element w
 
 The currently supported layout types are as follows:
 
-- `'region'`: The drawing area of the chart, generally only the region module is of this type
-- `'region-relative'`: Modules related to the region position, such as axes, datazoom, etc.
+- `'region'`: The drawing area of the chart, generally only the region module is of this type.
+- `'region-relative'`: Modules related to the region position, such as axes, datazoom, etc. Multiple modules in the same direction will not overlap.
+- `'region-relative-overlap'`: Modules related to region position use overlapping layout. Multiple coordinate axes can be overlapped together through this configuration.
 - `'normal'`: Ordinary placeholders, such as legends, titles, etc.
 - `'normal-inline'`: Inline placeholder element, used for multiple legends to display scenes side by side, etc.
 - `'absolute'`: Absolute layout elements, such as tooltips, marklines, etc.
