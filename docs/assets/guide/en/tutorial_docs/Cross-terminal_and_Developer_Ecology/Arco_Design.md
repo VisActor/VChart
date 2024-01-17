@@ -1,4 +1,4 @@
-# Using VChart on the Arco Design page
+# Using VChart on the ArcoDesign page
 
 ## Introduction for Arco
 
@@ -23,11 +23,11 @@ Pragmatism=Empathy; Romantism=Imagination
 - On the product side, we can not only build basic functions pragmatically through the design system, but also use it to configure some romantic product pursuits.
 - Romanticism and pragmatism is not contradictory. The philosophy of design language is derived through the definition of romanticism and pragmatism, which runs through the entire design system. They are complementary to each other to influence the design direction.
 
-Currently, VChart provides specialized adaptation for Arco Design. More information about Arco Design can be found on the [website](https://arco.design/).
+Currently, VChart provides specialized adaptation for ArcoDesign. More information about ArcoDesign can be found on the [website](https://arco.design/).
 
 ## Installing and Using VChart
 
-Arco Design is currently mainly adapted to React projects. In React projects, you can use the following command to install react-vchart:
+ArcoDesign is currently mainly adapted to React projects. In React projects, you can use the following command to install react-vchart:
 
 ```bash
 # npm
@@ -38,16 +38,16 @@ yarn add @visactor/react-vchart
 
 The method of drawing charts and more detailed guidance can be found in [this tutorial](https://visactor.io/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/react).
 
-## Chart Theme Package for Arco Design
+## Chart Theme Package for ArcoDesign
 
 In order to provide a better experience for VChart in the Arco page environment, VisActor has launched an additional theme package called `@visactor/vchart-arco-theme`. This package has the following features:
 
-- Ready to use out of the box: With simple configuration, VChart styles can be automatically integrated into the Arco design language and also automatically adapted to theme packages customized by users based on Arco.
+- Ready to use out of the box: With simple configuration, VChart styles can be automatically integrated into the ArcoDesign language and also automatically adapted to theme packages customized by users based on Arco.
 - Responsive: `@visactor/vchart-arco-theme` supports listening for changes of light/dark mode and CSS variable update on the page, and automatically updates the theme of the charts on the page.
 
 ### DEMO
 
-For a complete demo, please visit the [codeSandBox page](https://vp4y9p.csb.app/).
+For a complete demo, please visit the [codeSandBox page](https://gr93cn-3000.csb.app/).
 
 ### Installation
 
@@ -92,11 +92,11 @@ interface IInitVChartArcoThemeOption {
 
 ### Token Mapping
 
-In terms of functional design of chart themes, VChart supports custom configuration of data palettes and semantic color palettes. Based on this feature, the combination of VChart and Arco Design has been implemented by `@visactor/vchart-arco-theme`.
+In terms of functional design of chart themes, VChart supports custom configuration of data palettes and semantic color palettes. Based on this feature, the combination of VChart and ArcoDesign has been implemented by `@visactor/vchart-arco-theme`.
 
 #### Data Palette
 
-Arco Design declared the corresponding token for the data palette for VChart. Users can configure the following tokens when customizing themes in DSM to customize the data palette for VChart. The data palette of charts will automatically apply these variables, and users do not need to intervene. This feature is implemented by `@visactor/vchart-arco-theme`.
+ArcoDesign declared the corresponding token for the data palette for VChart. Users can configure the following tokens when customizing themes in DSM to customize the data palette for VChart. The data palette of charts will automatically apply these variables, and users do not need to intervene. This feature is implemented by `@visactor/vchart-arco-theme`.
 
 <table>
   <tbody>
@@ -548,7 +548,7 @@ Arco Design declared the corresponding token for the data palette for VChart. Us
   </tbody>
 </table>
 
-The corresponding colors of these tokens form VChart's default 20 color palette in Arco Design.
+The corresponding colors of these tokens form VChart's default 20 color palette in ArcoDesign.
 
 As described in the [document](https://visactor.io/vchart/guide/tutorial_docs/Theme/Theme_Concept_and_Design_Rules), the VChart data palette can also be dynamic and progressive. In general, the color palette will be dynamically adjusted based on the range of data item quantities. When there are no more than 10 data groups, a 10 color palette should be used; When there are more than 10 data groups, a 20 color palette is used. If there are more than 20 data groups, the palette colors will be applied repeatedly, starting from the first one.
 
@@ -794,5 +794,5 @@ In addition to the tokens mentioned earlier, `@visactor/vchart-arco-theme` will 
 
 This package contains both static theme JSON resources (static resources only apply to the default Arco theme), which can be used on demand.
 
-- [arcoDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-arco-theme/public/arcoDesignLight.json) Arco Design - light
-- [arcoDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-arco-theme/public/arcoDesignDark.json) Arco Design - dark
+- [arcoDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-arco-theme/public/arcoDesignLight.json) ArcoDesign - light
+- [arcoDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-arco-theme/public/arcoDesignDark.json) ArcoDesign - dark
