@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "docs: add docs of layout type : region-relative-overlap\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}
