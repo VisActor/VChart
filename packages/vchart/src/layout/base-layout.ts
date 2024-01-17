@@ -58,13 +58,14 @@ export class Layout implements IBaseLayout {
     const regionItems = items.filter(x => x.layoutType === 'region');
     const relativeItems = items.filter(x => x.layoutType === 'region-relative');
     const relativeOverlapItems = items.filter(x => x.layoutType === 'region-relative-overlap');
+    const allRelatives = relativeItems.concat(relativeOverlapItems);
     // 有元素开启了自动缩进
     // TODO:目前只有普通占位布局下的 region-relative 元素支持
     // 主要考虑常规元素超出画布一般为用户个性设置，而且可以设置padding规避裁剪,不需要使用自动缩进
     this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems);
-    if (relativeItems.some(i => i.autoIndent)) {
+    if (allRelatives.some(i => i.autoIndent)) {
       // check auto indent
-      const { top, bottom, left, right } = this._checkAutoIndent(relativeItems, layoutTemp);
+      const { top, bottom, left, right } = this._checkAutoIndent(allRelatives, layoutTemp);
       // 如果出现了需要自动缩进的场景 则基于缩进再次布局
       if (top || bottom || left || right) {
         // set outer bounds to padding

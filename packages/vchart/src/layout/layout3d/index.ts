@@ -1,11 +1,12 @@
 import type { IChart } from '../../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { IRect } from '../../typings/space';
+import type { IOrientType, IRect } from '../../typings/space';
 import type { IBaseLayout, ILayoutItem } from '../interface';
 import { Layout } from '../base-layout';
 import { isXAxis, isYAxis } from '../../component/axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 import type { IAxis } from '../../component/axis';
+import type { ILayoutRect } from '../../typings/layout';
 
 interface IOffset {
   offsetLeft: number;
@@ -13,6 +14,11 @@ interface IOffset {
   offsetTop: number;
   offsetBottom: number;
 }
+
+type overlapInfo = {
+  items: ILayoutItem[];
+  rect: ILayoutRect;
+};
 
 export class Layout3d extends Layout implements IBaseLayout {
   static type = 'layout3d';
@@ -38,6 +44,7 @@ export class Layout3d extends Layout implements IBaseLayout {
     };
     const regionItems = items.filter(x => x.layoutType === 'region');
     const relativeItems = items.filter(x => x.layoutType === 'region-relative');
+    const relativeOverlapItems = items.filter(x => x.layoutType === 'region-relative-overlap');
     // 计算3d轴
     const absoluteItem = items.filter(x => x.layoutType === 'absolute');
     const zItems = absoluteItem.filter(i => {
@@ -64,10 +71,11 @@ export class Layout3d extends Layout implements IBaseLayout {
     // 有元素开启了自动缩进
     // TODO:目前只有普通占位布局下的 region-relative 元素支持
     // 主要考虑常规元素超出画布一般为用户个性设置，而且可以设置padding规避裁剪,不需要使用自动缩进
-    this.layoutRegionItems(regionItems, relativeItems, offsetWH);
-    if (relativeItems.some(i => i.autoIndent)) {
+    const allRelatives = relativeItems.concat(relativeOverlapItems);
+    this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, offsetWH);
+    if (allRelatives.some(i => i.autoIndent)) {
       // check auto indent
-      const { top, bottom, left, right } = this._checkAutoIndent(relativeItems);
+      const { top, bottom, left, right } = this._checkAutoIndent(allRelatives);
       // 如果出现了需要自动缩进的场景 则基于缩进再次布局
       if (top || bottom || left || right) {
         // set outer bounds to padding
@@ -76,7 +84,7 @@ export class Layout3d extends Layout implements IBaseLayout {
         this.leftCurrent = layoutTemp.leftCurrent + left;
         this.rightCurrent = layoutTemp._rightCurrent - right;
         // reLayout
-        this.layoutRegionItems(regionItems, relativeItems);
+        this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems);
       }
     }
 
@@ -139,10 +147,25 @@ export class Layout3d extends Layout implements IBaseLayout {
   protected layoutRegionItems(
     regionItems: ILayoutItem[],
     regionRelativeItems: ILayoutItem[],
+    regionRelativeOverlapItems: ILayoutItem[],
     extraOffset?: IOffset
   ): void {
     let regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
     let regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
+
+    // 允许重叠元素 ，目前允许重叠元素认为是紧贴region的。最后布局
+    const overlapItems: {
+      [key in IOrientType]: overlapInfo;
+    } = {
+      left: { items: [], rect: { width: 0, height: 0 } },
+      right: { items: [], rect: { width: 0, height: 0 } },
+      top: { items: [], rect: { width: 0, height: 0 } },
+      bottom: { items: [], rect: { width: 0, height: 0 } },
+      z: { items: [], rect: { width: 0, height: 0 } }
+    };
+    regionRelativeOverlapItems.forEach(i => {
+      overlapItems[i.layoutOrient].items.push(i);
+    });
 
     if (!extraOffset) {
       extraOffset = { offsetLeft: 0, offsetRight: 0, offsetTop: 0, offsetBottom: 0 };
@@ -168,6 +191,37 @@ export class Layout3d extends Layout implements IBaseLayout {
         }
       });
 
+    ['left', 'right'].forEach(orient => {
+      const info = overlapItems[orient];
+      // 得到 max rect
+      info.items.forEach((item: ILayoutItem) => {
+        const layoutRect = this.getItemComputeLayoutRect(item);
+        const rect = item.computeBoundsInRect(layoutRect);
+        info.rect.width = Math.max(rect.width, info.rect.width);
+        info.rect.height = Math.max(rect.height, info.rect.height);
+      });
+
+      // 统一设置rect和pos
+      info.items.forEach((item: ILayoutItem) => {
+        item.setLayoutRect(info.rect);
+        if (orient === 'left') {
+          item.setLayoutStartPosition({
+            x: this.leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft
+          });
+        } else {
+          item.setLayoutStartPosition({
+            x: this.rightCurrent + item.layoutOffsetX + item.layoutPaddingLeft
+          });
+        }
+      });
+
+      if (orient === 'left') {
+        this.leftCurrent += info.rect.width;
+      } else {
+        this.rightCurrent -= info.rect.width;
+      }
+    });
+
     regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
 
     regionRelativeItems
@@ -191,6 +245,38 @@ export class Layout3d extends Layout implements IBaseLayout {
           });
         }
       });
+
+    ['top', 'bottom'].forEach(orient => {
+      const info = overlapItems[orient];
+      // 得到 max rect
+      info.items.forEach((item: ILayoutItem) => {
+        const layoutRect = this.getItemComputeLayoutRect(item);
+        const rect = item.computeBoundsInRect(layoutRect);
+        info.rect.width = Math.max(rect.width, info.rect.width);
+        info.rect.height = Math.max(rect.height, info.rect.height);
+      });
+
+      // 统一设置rect和pos
+      info.items.forEach((item: ILayoutItem) => {
+        item.setLayoutRect(info.rect);
+        if (orient === 'top') {
+          item.setLayoutStartPosition({
+            x: this.topCurrent + item.layoutOffsetX + item.layoutPaddingLeft
+          });
+        } else {
+          item.setLayoutStartPosition({
+            x: this.bottomCurrent + item.layoutOffsetX + item.layoutPaddingLeft
+          });
+        }
+      });
+
+      if (orient === 'left') {
+        this.topCurrent += info.rect.height;
+      } else {
+        this.bottomCurrent -= info.rect.height;
+      }
+    });
+
     // 此时得到height
     regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
 
@@ -208,7 +294,7 @@ export class Layout3d extends Layout implements IBaseLayout {
     });
 
     // region-relative 特殊处理
-    regionRelativeItems.forEach(item => {
+    regionRelativeItems.concat(regionRelativeOverlapItems).forEach(item => {
       // 处理特殊元素的宽高
       if (['left', 'right'].includes(item.layoutOrient)) {
         // 用户有配置的话，已经处理过，不需要再次处理
