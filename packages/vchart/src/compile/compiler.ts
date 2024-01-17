@@ -24,6 +24,8 @@ import type { VChart } from '../core/vchart';
 import type { IColor, Stage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
+// eslint-disable-next-line no-duplicate-imports
+import { vglobal } from '@visactor/vrender-core';
 
 type EventListener = {
   type: string;
@@ -43,10 +45,9 @@ export class Compiler {
   protected _canvasListeners: Map<(...args: any[]) => any, EventListener> = new Map();
 
   isInited: boolean = false;
-  // 是否已经销毁
-  isReleased: boolean = false;
 
-  isRunning: boolean = false;
+  private _isRunning: boolean = false;
+  private _nextRafId: number;
 
   protected _width: number;
   protected _height: number;
@@ -90,9 +91,6 @@ export class Compiler {
   }
 
   initView() {
-    if (this.isReleased) {
-      return;
-    }
     this.isInited = true;
     if (this._view) {
       return;
@@ -171,8 +169,20 @@ export class Compiler {
     this.releaseGrammar(removeGraphicItems);
   }
 
-  render(morphConfig?: IMorphConfig): void {
-    if (this.isRunning) {
+  renderNextTick(morphConfig?: IMorphConfig): void {
+    if (!this._nextRafId) {
+      this._nextRafId = vglobal.getRequestAnimationFrame(() => {
+        this.render(morphConfig);
+      }) as unknown as number;
+    }
+  }
+
+  render(morphConfig?: IMorphConfig) {
+    if (this._nextRafId) {
+      vglobal.getCancelAnimationFrame(this._nextRafId);
+      this._nextRafId = null;
+    }
+    if (this._isRunning) {
       return;
     }
 
@@ -180,9 +190,9 @@ export class Compiler {
     if (!this._view) {
       return;
     }
-    this.isRunning = true;
+    this._isRunning = true;
     this._view?.run(morphConfig);
-    this.isRunning = false;
+    this._isRunning = false;
   }
 
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {
@@ -344,7 +354,6 @@ export class Compiler {
     this._view?.release();
     this._view = null;
     this.isInited = false;
-    this.isReleased = true;
   }
 
   /**
