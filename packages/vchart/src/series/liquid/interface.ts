@@ -1,5 +1,5 @@
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
-import type { ILiquidMarkSpec, IGroupMarkSpec } from '../../typings/visual';
+import type { ILiquidMarkSpec, IGroupMarkSpec, ILiquidOutlineSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { LiquidAppearPreset } from './animation';
@@ -65,5 +65,5 @@ export interface ILiquidSeriesTheme {
   outlinePadding?: ILiquidPaddingSpec;
   [SeriesMarkNameEnum.liquid]?: Partial<IMarkTheme<ILiquidMarkSpec>>;
   [SeriesMarkNameEnum.liquidBackground]?: IMarkSpec<IGroupMarkSpec>;
-  [SeriesMarkNameEnum.liquidOutline]?: IMarkSpec<ISymbolMark>;
+  [SeriesMarkNameEnum.liquidOutline]?: IMarkSpec<ILiquidOutlineSpec>;
 }

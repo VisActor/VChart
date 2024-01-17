@@ -406,6 +406,10 @@ export interface ILiquidMarkSpec extends ICommonSpec {
   wave?: number;
 }
 
+export interface ILiquidOutlineSpec extends ISymbolMarkSpec {
+  lineWidth: number;
+}
+
 export interface IOutlierMarkSpec {
   //异常点填充颜色
   fill?: string;
