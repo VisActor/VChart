@@ -475,6 +475,26 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     );
   }
 
+  // protected _seriesUpdateAfterScaleChange(updateInfo: { domain?: boolean; range?: boolean; type?: boolean }) {
+  //   const orient = this.getOrient();
+  //   eachSeries(
+  //     this._regions,
+  //     s => {
+  //       if (isXAxis(orient)) {
+  //         (s as ICartesianSeries).xAxisUpdated(updateInfo);
+  //       } else if (isYAxis(orient)) {
+  //         (s as ICartesianSeries).yAxisUpdated(updateInfo);
+  //       } else if (isZAxis(orient)) {
+  //         (s as ICartesianSeries).zAxisUpdated(updateInfo);
+  //       }
+  //     },
+  //     {
+  //       userId: this._seriesUserId,
+  //       specIndex: this._seriesIndex
+  //     }
+  //   );
+  // }
+
   _transformLayoutPosition = (pos: Partial<IPoint>) => {
     let { x, y } = pos;
     if (isValidNumber(x)) {

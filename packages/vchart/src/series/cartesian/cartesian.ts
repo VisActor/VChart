@@ -236,10 +236,16 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
 
   onXAxisHelperUpdate(): void {
     this.onMarkPositionUpdate();
+    if (this.direction === 'vertical' && this._sortDataByAxis === true) {
+      this._sortDataInAxisDomain();
+    }
   }
 
   onYAxisHelperUpdate(): void {
     this.onMarkPositionUpdate();
+    if (this.direction === 'horizontal' && this._sortDataByAxis === true) {
+      this._sortDataInAxisDomain();
+    }
   }
 
   onZAxisHelperUpdate(): void {
@@ -487,6 +493,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
         this._direction === Direction.horizontal ? this._fieldY[0] : this._fieldX[0],
         this.getViewData().latestData
       );
+      this._data?.updateData(true);
     }
   }
 
