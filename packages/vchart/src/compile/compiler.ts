@@ -172,6 +172,7 @@ export class Compiler {
   renderNextTick(morphConfig?: IMorphConfig): void {
     if (!this._nextRafId) {
       this._nextRafId = vglobal.getRequestAnimationFrame()(() => {
+        this._nextRafId = null;
         this.render(morphConfig);
       }) as unknown as number;
     }
