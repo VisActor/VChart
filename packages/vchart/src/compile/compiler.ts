@@ -171,7 +171,7 @@ export class Compiler {
 
   renderNextTick(morphConfig?: IMorphConfig): void {
     if (!this._nextRafId) {
-      this._nextRafId = vglobal.getRequestAnimationFrame(() => {
+      this._nextRafId = vglobal.getRequestAnimationFrame()(() => {
         this.render(morphConfig);
       }) as unknown as number;
     }
@@ -179,7 +179,7 @@ export class Compiler {
 
   render(morphConfig?: IMorphConfig) {
     if (this._nextRafId) {
-      vglobal.getCancelAnimationFrame(this._nextRafId);
+      vglobal.getCancelAnimationFrame()(this._nextRafId);
       this._nextRafId = null;
     }
     if (this._isRunning) {
