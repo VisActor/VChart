@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "docs: add docs of layout type : region-relative-overlap\n\n",
+      "comment": "feat: support new layout type region-relative-overlap\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }
