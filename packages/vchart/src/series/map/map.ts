@@ -249,7 +249,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
 
     if (vgrammarLabel) {
-      vgrammarLabel.evaluateSync(null, null);
+      (vgrammarLabel as any).evaluate(null, null);
     }
   }
 
@@ -270,7 +270,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
 
     if (vgrammarLabel) {
-      vgrammarLabel.evaluateSync(null, null);
+      (vgrammarLabel as any).evaluate(null, null);
     }
   }
 

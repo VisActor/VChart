@@ -53,6 +53,6 @@ export class StateManager extends SignalManager {
     if (noRender) {
       return Promise.resolve();
     }
-    return this.getCompiler().renderAsync();
+    return this.getCompiler().renderNextTick();
   }
 }

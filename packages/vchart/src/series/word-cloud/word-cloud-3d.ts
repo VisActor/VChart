@@ -38,32 +38,14 @@ export class WordCloud3dSeries<
       support3d: true,
       isSeriesMark: true
     }) as ITextMark;
-    if (this._isWordCloudShape) {
-      this._fillingWordMark = this._createMark(BaseWordCloudSeries.mark.fillingWord, {
-        groupKey: this._seriesField,
-        support3d: true,
-        isSeriesMark: true
-      }) as ITextMark;
-    }
   }
 
   initMarkStyle() {
     super.initMarkStyle();
     const wordMark = this._wordMark;
-    const fillingWordMark = this._fillingWordMark;
     if (wordMark) {
       this.setMarkStyle(
         wordMark,
-        {
-          z: (datum: Datum) => datum.z ?? 0
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    }
-    if (fillingWordMark) {
-      this.setMarkStyle(
-        fillingWordMark,
         {
           z: (datum: Datum) => datum.z ?? 0
         },
@@ -89,23 +71,6 @@ export class WordCloud3dSeries<
             };
           }),
           userAnimationConfig(SeriesMarkNameEnum.word, this._spec, this._markAttributeContext)
-        )
-      );
-    }
-    if (this._fillingWordMark) {
-      this._fillingWordMark.setAnimationConfig(
-        animationConfig(
-          Factory.getAnimationInKey('wordCloud3d')?.(() => {
-            const srView = this.getCompiler().getVGrammarView();
-            const width = srView.width() - padding.left || 0 - padding.right || 0;
-            const height = srView.height() - padding.top || 0 - padding.bottom || 0;
-            const r = Math.max(width, height) / 2;
-            return {
-              center: { x: r, y: r, z: this._spec.depth_3d ?? r },
-              r
-            };
-          }),
-          userAnimationConfig(SeriesMarkNameEnum.fillingWord, this._spec, this._markAttributeContext)
         )
       );
     }
