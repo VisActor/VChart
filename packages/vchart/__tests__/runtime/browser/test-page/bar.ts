@@ -36,7 +36,7 @@ const run = () => {
 
   /**
    * @author siji
-   * @desc test-测试配置itemContent.confine后, mark point超出画布后是否会向内收缩
+   * @desc 测试配置itemContent.confine后, mark point超出画布后是否会向内收缩
    * @desc github issue: https://github.com/VisActor/VChart/issues/1573
    */
   const spec = {
