@@ -4,6 +4,7 @@ import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { LiquidAppearPreset } from './animation';
 import type { SymbolType } from '@visactor/vrender-core';
+import type { ISymbolMark } from '../../mark/symbol';
 
 type LiquidMarks = 'liquid';
 
@@ -56,7 +57,7 @@ export interface ILiquidSeriesSpec extends IAnimationSpec<LiquidMarks, LiquidApp
   /**
    * 水波外轮廓配置
    */
-  [SeriesMarkNameEnum.liquidOutline]?: IMarkSpec<IGroupMarkSpec>;
+  [SeriesMarkNameEnum.liquidOutline]?: IMarkSpec<ISymbolMark>;
 }
 
 export interface ILiquidSeriesTheme {
@@ -64,5 +65,5 @@ export interface ILiquidSeriesTheme {
   outlinePadding?: ILiquidPaddingSpec;
   [SeriesMarkNameEnum.liquid]?: Partial<IMarkTheme<ILiquidMarkSpec>>;
   [SeriesMarkNameEnum.liquidBackground]?: IMarkSpec<IGroupMarkSpec>;
-  [SeriesMarkNameEnum.liquidOutline]?: IMarkSpec<IGroupMarkSpec>;
+  [SeriesMarkNameEnum.liquidOutline]?: IMarkSpec<ISymbolMark>;
 }

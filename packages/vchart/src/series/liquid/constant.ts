@@ -7,5 +7,5 @@ export const LiquidSeriesMark: SeriesMarkMap = {
   ...baseSeriesMark,
   [SeriesMarkNameEnum.liquid]: { name: SeriesMarkNameEnum.liquid, type: MarkTypeEnum.liquid },
   [SeriesMarkNameEnum.liquidBackground]: { name: SeriesMarkNameEnum.liquidBackground, type: MarkTypeEnum.group },
-  [SeriesMarkNameEnum.liquidOutline]: { name: SeriesMarkNameEnum.liquidOutline, type: MarkTypeEnum.group }
+  [SeriesMarkNameEnum.liquidOutline]: { name: SeriesMarkNameEnum.liquidOutline, type: MarkTypeEnum.symbol }
 };

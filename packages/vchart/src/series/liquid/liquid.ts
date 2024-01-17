@@ -25,6 +25,7 @@ import { labelSmartInvert } from '@visactor/vrender-components';
 import { normalizeLayoutPaddingSpec } from '../../util';
 import type { DataView } from '@visactor/vdataset';
 import { LiquidSeriesTooltipHelper } from './tooltip-helper';
+import type { ISymbolMark } from '../../mark/symbol';
 
 export type ILiquidMark = IMarkRaw<ILiquidMarkSpec>;
 export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> extends BaseSeries<T> {
@@ -36,7 +37,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
   readonly transformerConstructor = LineLikeSeriesSpecTransformer;
   private _liquidMark?: ILiquidMark;
   private _liquidBackgroundMark?: IGroupMark | null = null;
-  private _liquidOutlineMark?: IGroupMark | null = null;
+  private _liquidOutlineMark?: ISymbolMark | null = null;
   private _paddingSpec?: ILiquidPadding;
   private _marginSpec?: ILiquidPadding;
 
@@ -80,7 +81,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
     this._liquidOutlineMark = this._createMark(LiquidSeries.mark.liquidOutline, {
       isSeriesMark: true,
       skipBeforeLayouted: false
-    }) as IGroupMark;
+    }) as ISymbolMark;
     return this._liquidOutlineMark;
   }
 
@@ -115,7 +116,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
       right: paddingRight = 0
     } = this._paddingSpec;
 
-    const { width: regionWidth, height: regionHeight } = this._region.getLayoutRect();
+    const { width: regionWidth, height: regionHeight } = this._region.getLayoutRectExcludeIndent();
     if (!isOutline) {
       return {
         x: regionWidth / 2 + (marginLeft + paddingRight - (marginRight + paddingRight)) / 2,
@@ -135,26 +136,17 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
   }
 
   private _initLiquidOutlineMarkStyle() {
-    const groupMark = this._liquidOutlineMark;
-    groupMark.setZIndex(this.layoutZIndex);
-    groupMark.created();
+    const liquidOutlineMark = this._liquidOutlineMark;
+    liquidOutlineMark.setZIndex(this.layoutZIndex);
+    liquidOutlineMark.created();
     this.setMarkStyle(
-      groupMark,
+      liquidOutlineMark,
       {
-        width: () => this._region.getLayoutRect().width,
-        height: () => this._region.getLayoutRect().height,
         stroke: this.getColorAttribute(),
-        path: () => {
-          const { x, y, size } = this._getPosAndSizeFormRegion(true);
-          const symbolPath = createSymbol({
-            x,
-            y,
-            size,
-            symbolType: getShapes(this._spec.maskShape ?? 'circle', size),
-            fill: true
-          });
-          return [symbolPath];
-        }
+        x: () => this._getPosAndSizeFormRegion(true).x,
+        y: () => this._getPosAndSizeFormRegion(true).y,
+        size: () => this._getPosAndSizeFormRegion(true).size,
+        symbolType: () => getShapes(this._spec.maskShape ?? 'circle', this._getPosAndSizeFormRegion(true).size)
       },
       'normal',
       AttributeLevel.Series
@@ -163,15 +155,15 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
   }
 
   private _initLiquidBackgroundMarkStyle() {
-    const groupMark = this._liquidBackgroundMark;
-    groupMark.setZIndex(this.layoutZIndex);
-    groupMark.created();
+    const liquidBackgroundMark = this._liquidBackgroundMark;
+    liquidBackgroundMark.setZIndex(this.layoutZIndex);
+    liquidBackgroundMark.created();
     this.setMarkStyle(
-      groupMark,
+      liquidBackgroundMark,
       {
         clip: true,
-        width: () => this._region.getLayoutRect().width,
-        height: () => this._region.getLayoutRect().height,
+        width: () => this._region.getLayoutRectExcludeIndent().width,
+        height: () => this._region.getLayoutRectExcludeIndent().height,
         path: () => {
           const { x, y, size } = this._getPosAndSizeFormRegion();
           const symbolPath = createSymbol({
@@ -197,7 +189,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
         liquidMark,
         {
           dx: () => {
-            return this._region.getLayoutStartPoint().x + this._region.getLayoutRect().width / 2;
+            return this._region.getLayoutStartPoint().x + this._region.getLayoutRectExcludeIndent().width / 2;
           },
           y: () => {
             const { y: liquidBackY, size: liquidBackSize } = this._getPosAndSizeFormRegion();
