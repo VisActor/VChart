@@ -1,4 +1,5 @@
 import { Query } from '../../../common/vizCalculator';
+import { SimpleFieldInfo } from '../../../typings';
 import { ASTParserContext, ASTParserPipe } from './type';
 
 export const preprocessSQL = (sql: string) => {
@@ -46,3 +47,19 @@ export const execPipeline = (src: Partial<Query>, pipes: ASTParserPipe[], contex
     // console.log(result);
     return result;
   }, src);
+
+export const toFirstUpperCase = (name = '') => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+
+export const checkIsColumnNode = (node: any, columns: any, fieldInfo: SimpleFieldInfo[]) => {
+  if (node.type === 'column_ref') {
+    return true;
+  } else {
+    const columnNameList = columns
+      .map((c: any) => c.column)
+      .concat(columns.map((c: any) => c.alias))
+      .concat(fieldInfo.map(field => field.fieldName))
+      .filter(Boolean);
+    const columnName = node.column ?? node.value;
+    return columnNameList.includes(columnName);
+  }
+};

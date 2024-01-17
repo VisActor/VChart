@@ -1,7 +1,7 @@
-import { AggregateType, query } from '../../../common/vizCalculator/index';
+import { AggregateType, Query, query } from '../../../common/vizCalculator/index';
 import { DataItem, SimpleFieldInfo } from '../../../typings';
-import NodeSQLParser, { AST } from 'node-sql-parser';
-import { addQuotes, preprocessSQL } from './utils';
+import NodeSQLParser from 'node-sql-parser';
+import { preprocessSQL } from './utils';
 import { parseSqlAST } from './parseSqlAST';
 import { isArray } from 'lodash';
 import { SQLAst } from './type';
@@ -16,11 +16,14 @@ import { SQLAst } from './type';
 export const queryDataset = (userInput: string, fieldInfo: SimpleFieldInfo[], sourceDataset: DataItem[]) => {
   const querySQL = getQuerySQL(userInput, fieldInfo);
   const sqlString = preprocessSQL(querySQL);
+  console.log(sqlString);
   const parser = new NodeSQLParser.Parser();
   const ast = parser.astify(sqlString);
-  const query = parseSqlAST((isArray(ast) ? ast[0] : ast) as SQLAst);
+  const queryObject = parseSqlAST((isArray(ast) ? ast[0] : ast) as SQLAst, sourceDataset, fieldInfo);
   console.log(ast);
-  console.log(query);
+  console.log(queryObject);
+  const dataset = query(queryObject as Query);
+  console.log(dataset);
 };
 
 /**
@@ -29,13 +32,16 @@ export const queryDataset = (userInput: string, fieldInfo: SimpleFieldInfo[], so
  * @param fieldInfo
  */
 const getQuerySQL = (userInput: string, fieldInfo: SimpleFieldInfo[]) => {
+  return `SELECT 商品名称, SUM(销售额) AS 总销售额 FROM dataSource WHERE region = 'north' GROUP BY 商品名称
+HAVING COUNT(销售额) > 2 AND SUM(销售额)>100
+ORDER BY 总销售额 DESC, COUNT(商品名称) DESC`;
   return `
-SELECT DISTINCT customer_name, order_date, product_id
+SELECT distinct customer_name, MIN(order_date) AS first_order_date, MAX(order_date) AS latest_order_date, COUNT(DISTINCT product_id), AVG(total_amount)
 FROM orders
 WHERE product_id IN (101, 102) AND customer_name LIKE 'A%' AND customer_name NOT LIKE 'B%' AND order_date BETWEEN '2022-01-01' AND '2022-12-31' AND total_amount >= 500 AND order_status != 'Cancelled'
-GROUP BY customer_name, order_date, product_id
-HAVING COUNT(order_id) > 2
-ORDER BY product_id ASC, order_date DESC
+GROUP BY customer_name
+HAVING COUNT(order_id) > 2 AND SUM(product_id)>100
+ORDER BY latest_order_date DESC, COUNT(order_id) DESC
 LIMIT 10;`;
   return `SELECT DISTINCT customer_name, order_date, product_id
 FROM orders

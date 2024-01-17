@@ -37,6 +37,7 @@ import {
 } from '../constants/mockData';
 import VMind from '../../../../src/index';
 import { Model } from '../../../../src/index';
+import { queryDataset } from '../../../../src/gpt/dataProcess';
 
 const TextArea = Input.TextArea;
 const Option = Select.Option;
@@ -98,6 +99,7 @@ export function DataInput(props: IPropsType) {
   const [apiKey, setApiKey] = React.useState(ModelConfigMap[model].key);
 
   const [loading, setLoading] = useState<boolean>(false);
+
   const vmind = useMemo(() => {
     if (!url || !apiKey) {
       Message.error('Please set your LLM URL and API Key!!!');
@@ -115,15 +117,16 @@ export function DataInput(props: IPropsType) {
   }, [apiKey, cache, model, showThoughts, url]);
 
   const askGPT = useCallback(async () => {
-    setLoading(true);
+    //setLoading(true);
     const { fieldInfo, dataset } = vmind.parseCSVData(csv);
+    queryDataset(describe, fieldInfo, dataset);
     //const { fieldInfo, dataset } = await vmind.parseCSVDataWithLLM(csv, describe);
-    const startTime = new Date().getTime();
-    const { spec, time } = await vmind.generateChart(describe, fieldInfo, dataset);
-    const endTime = new Date().getTime();
-    const costTime = endTime - startTime;
-    props.onSpecGenerate(spec, time as any, costTime);
-    setLoading(false);
+    //const startTime = new Date().getTime();
+    //const { spec, time } = await vmind.generateChart(describe, fieldInfo, dataset);
+    //const endTime = new Date().getTime();
+    //const costTime = endTime - startTime;
+    //props.onSpecGenerate(spec, time as any, costTime);
+    //setLoading(false);
   }, [vmind, csv, describe, props]);
 
   return (
