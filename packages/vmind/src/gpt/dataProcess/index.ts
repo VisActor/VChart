@@ -37,3 +37,5 @@ export const parseCSVDataWithGPT = async (csvFile: string, userInput: string, op
     return { fieldInfo, dataset };
   }
 };
+
+export { queryDataset } from './queryDataset';

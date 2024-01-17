@@ -70,7 +70,6 @@
   "dependencies": {
     "@visactor/chart-advisor": "0.1.10",
     "@visactor/vrender-core": "0.17.14",
-    "@visactor/vrender-kits": "0.17.14",
     "@visactor/vdataset": "~0.17.3",
     "@visactor/vutils": "~0.17.3",
     "axios": "^1.4.0",
@@ -78,6 +77,8 @@
     "lodash": "4.17.21",
     "json5": "~2.2.3",
     "dayjs": "~1.11.10",
-    "js-yaml": "~4.1.0"
+    "js-yaml": "~4.1.0",
+    "ts-pattern": "~5.0.6",
+    "node-sql-parser": "~4.17.0"
   }
 }
