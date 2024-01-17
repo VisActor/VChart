@@ -1,5 +1,4 @@
-import { LabelMark, type ILabelMark, registerLabelMark } from '../../mark/label';
-import type { IComponentOption } from '../interface';
+import { type ILabelMark, registerLabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import { AttributeLevel, LayoutZIndex, STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant';
@@ -34,7 +33,7 @@ export class TotalLabel extends BaseLabelComponent {
 
   static getSpecInfo(chartSpec: any, chartSpecInfo?: IChartSpecInfo): Maybe<IModelSpecInfo[]> {
     const specInfo: IModelSpecInfo[] = [];
-    chartSpecInfo?.region?.forEach((regionInfo, i) => {
+    chartSpecInfo?.region?.forEach((regionInfo, regionIndex) => {
       regionInfo.seriesIndexes?.forEach(seriesIndex => {
         const { spec } = chartSpecInfo.series[seriesIndex];
         const labelSpec = spec[this.specKey];
@@ -43,8 +42,9 @@ export class TotalLabel extends BaseLabelComponent {
             spec: labelSpec,
             type: ComponentTypeEnum.totalLabel,
             specPath: ['series', seriesIndex, this.specKey],
-            // 这里的 specIndex 是 region 的 index，用于 region 定位
-            specIndex: i
+            specInfoPath: ['component', this.specKey, seriesIndex],
+            regionIndexes: [regionIndex],
+            seriesIndexes: [seriesIndex]
           });
         }
       });
@@ -113,7 +113,9 @@ export class TotalLabel extends BaseLabelComponent {
             return mergeSpec(
               {
                 textStyle: { pickable: this._spec.interactive === true },
-                position: totalLabelPosition(series, this._baseMark.type)
+                position: totalLabelPosition(series, this._baseMark.type),
+                x: series.getRegion().layout.indent.left,
+                y: series.getRegion().layout.indent.top
               },
               {
                 offset,
@@ -139,7 +141,7 @@ export class TotalLabel extends BaseLabelComponent {
             this._spec.formatMethod
           );
         })
-        .size(() => this._regions[0].getLayoutRect());
+        .size(() => this._regions[0].getLayoutRectExcludeIndent());
     });
   }
 

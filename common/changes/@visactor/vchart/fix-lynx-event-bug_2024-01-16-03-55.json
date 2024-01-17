@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: mark tooltip not work in rangeColumn chart, closes #1959",
+      "comment": "fix(scroll): event error in lynx env. fix#2041",
       "type": "none"
     }
   ],

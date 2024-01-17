@@ -60,6 +60,7 @@ export class MapLabelComponent extends BaseComponent<IMapLabelSpec> {
       {
         spec: labelSpec,
         specPath: [this.specKey],
+        specInfoPath: ['component', this.specKey, 0],
         type: ComponentTypeEnum.mapLabel
       }
     ];

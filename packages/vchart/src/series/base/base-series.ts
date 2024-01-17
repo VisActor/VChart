@@ -678,7 +678,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       this._rootMark,
       {
         x: () => this._region.layout.indent.left,
-        y: () => this._region.layout.indent.right
+        y: () => this._region.layout.indent.top
       },
       'normal',
       AttributeLevel.Base_Series
@@ -1178,7 +1178,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       const spec = this.getSpec() || ({} as T);
 
       m.setMorph(morph);
-      m.setMorphKey(spec.morph?.morphKey || `${this._specIndex}`);
+      m.setMorphKey(spec.morph?.morphKey || `${this.getSpecIndex()}`);
       m.setMorphElementKey(spec.morph?.morphElementKey ?? option.defaultMorphElementKey);
 
       if (!isNil(progressive)) {
@@ -1278,4 +1278,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
+
+  protected _getRelatedComponentSpecInfo(specKey: string) {
+    const specIndex = this.getSpecIndex();
+    const relatedComponent = this._option
+      .getSpecInfo()
+      .component[specKey]?.filter(componentInfo => componentInfo.seriesIndexes.includes(specIndex));
+    return relatedComponent ?? [];
+  }
 }

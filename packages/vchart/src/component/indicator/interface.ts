@@ -37,6 +37,12 @@ export interface IIndicatorItemSpec {
    */
   fitPercent?: number;
   /**
+   * 自适应文字策略
+   * @default 'local'
+   * @since 1.9.0
+   */
+  fitStrategy?: 'default' | 'inscribed';
+  /**
    * 文字样式
    */
   style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible' | 'text'> & {

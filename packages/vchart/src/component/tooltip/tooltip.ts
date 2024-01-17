@@ -1,30 +1,24 @@
-import type { IComponentOption } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
 import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
-import { DomTooltipHandler } from './handler/dom';
-import { CanvasTooltipHandler } from './handler/canvas';
 import type { Datum, IPoint, IShowTooltipOption } from '../../typings';
 import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode, domDocument } from '../../util/env';
 import type {
   ITooltip,
   ITooltipActiveTypeAsKeys,
   ITooltipSpec,
-  ITooltipTheme,
   TooltipHandlerParams,
   TotalMouseEventData
 } from './interface';
 import { TooltipResult } from './interface/common';
-import { TOOLTIP_EL_CLASS_NAME } from './handler/constants';
 import { showTooltip } from './utils/show-tooltip';
 import { getTooltipActualActiveType, isEmptyPos } from './utils/common';
 import { isSameDimensionInfo } from '../../event/events/dimension/util/common';
 import { ChartEvent, Event_Bubble_Level, Event_Source_Type } from '../../constant';
-import type { DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
+import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
 // eslint-disable-next-line no-duplicate-imports
 import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
@@ -37,6 +31,8 @@ import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
+import { TOOLTIP_EL_CLASS_NAME, TooltipHandlerType } from '../../plugin/components/tooltip-handler/constants';
+import { error } from '../../util';
 
 export type TooltipActualTitleContent = {
   title?: IToolTipLineActual;
@@ -73,6 +69,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         {
           spec: tooltipSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: ComponentTypeEnum.tooltip
         }
       ];
@@ -81,8 +78,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     tooltipSpec.forEach((s: any, i: number) => {
       specInfos.push({
         spec: s,
-        specIndex: i,
         specPath: [this.specKey, i],
+        specInfoPath: ['component', this.specKey, i],
         type: ComponentTypeEnum.tooltip
       });
     });
@@ -163,9 +160,16 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       this.tooltipHandler = userTooltipHandler;
     } else {
       // 构造内部默认 handler
-      const Handler = renderMode === 'canvas' ? CanvasTooltipHandler : DomTooltipHandler;
-      const id = `${this._spec.className}-${this._option.globalInstance.id ?? 0}-${this._option.specIndex ?? 0}`;
-      this.tooltipHandler = new Handler(id, this);
+      const type = renderMode === 'canvas' ? TooltipHandlerType.canvas : TooltipHandlerType.dom;
+      const handlerConstructor = Factory.getComponentPluginInType(type);
+      if (!handlerConstructor) {
+        error('Can not find tooltip handler: ' + type);
+      }
+      const handler = new handlerConstructor();
+      handler.name = `${this._spec.className}-${this._option.globalInstance.id ?? 0}-${this.getSpecIndex()}`;
+      this.pluginService?.load([handler]);
+
+      this.tooltipHandler = handler as unknown as ITooltipHandler;
     }
   }
 
@@ -352,7 +356,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       ignore: {}
     };
     Object.keys(this._processor).forEach(activeType => {
-      const { tooltipInfo, ignore } = this._processor[activeType].getMouseEventData(params);
+      const { tooltipInfo, ignore } = (this._processor[activeType] as BaseTooltipProcessor).getMouseEventData(params);
       result.tooltipInfo[activeType] = tooltipInfo;
       result.ignore[activeType] = ignore;
     });
@@ -406,8 +410,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     if (isValid(userSpec.renderMode)) {
       this._spec.renderMode = userSpec.renderMode;
-    } else if (isMiniAppLikeMode(this._option.mode)) {
-      // 小程序环境下，默认使用canvas渲染
+    } else if (isMiniAppLikeMode(this._option.mode) || !isTrueBrowser(this._option.mode)) {
+      // 小程序或非浏览器环境下，默认使用canvas渲染
       this._spec.renderMode = 'canvas';
     }
 

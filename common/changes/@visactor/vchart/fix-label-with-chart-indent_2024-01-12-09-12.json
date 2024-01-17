@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: label position incorrect with region indent",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

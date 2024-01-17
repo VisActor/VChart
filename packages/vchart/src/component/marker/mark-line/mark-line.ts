@@ -59,6 +59,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
         {
           spec: markLineSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: ComponentTypeEnum.markLine
         }
       ];
@@ -68,8 +69,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       if (m.visible !== false) {
         specInfos.push({
           spec: m,
-          specIndex: i,
           specPath: [this.specKey, i],
+          specInfoPath: ['component', this.specKey, i],
           type: ComponentTypeEnum.markLine
         });
       }

@@ -2,12 +2,13 @@ import type { Maybe } from '@visactor/vutils';
 import type { FontWeight, TextAlign } from '../../../../typings';
 import { mergeSpec } from '../../../../util/spec/merge-spec';
 import { normalizeLayoutPaddingSpec } from '../../../../util/space';
+// eslint-disable-next-line no-duplicate-imports
 import { isValid, isArray } from '@visactor/vutils';
-import type { ITooltipTheme } from '../../interface';
 import type { ITooltipTextStyle } from '../interface';
 import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from './interface';
 import type { TooltipAttributes } from '@visactor/vrender-components';
 import { calculateLineHeight } from '@visactor/vrender-core';
+import type { ITooltipTheme } from '../../../../component/tooltip';
 
 const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;

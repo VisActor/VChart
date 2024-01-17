@@ -53,8 +53,8 @@ export class ContinuousLegend<
         return [
           {
             spec: legendSpec,
-            specIndex: 0,
             specPath: [this.specKey],
+            specInfoPath: ['component', this.specKey, 0],
             type: legendSpec.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend
           }
         ];
@@ -66,8 +66,8 @@ export class ContinuousLegend<
       if (isContinuousLegend(s.type)) {
         specInfos.push({
           spec: s,
-          specIndex: i,
           specPath: [this.specKey, i],
+          specInfoPath: ['component', this.specKey, i],
           type: s.type === 'color' ? ComponentTypeEnum.colorLegend : ComponentTypeEnum.sizeLegend
         });
       }

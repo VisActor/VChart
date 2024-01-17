@@ -93,6 +93,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         {
           spec: axesSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: componentName
         }
       ];
@@ -113,8 +114,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       s.type = axisType;
       const info = {
         spec: s,
-        specIndex: i,
         specPath: [this.specKey, i],
+        specInfoPath: ['component', this.specKey, i],
         type: componentName
       };
       specInfos.push(info);
@@ -334,7 +335,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       pointToCoord: this.pointToCoord.bind(this),
       center: this.getCenter.bind(this),
       getScale,
-      getAxisId: () => this.id
+      getAxisId: () => this.id,
+      getSpec: () => this._spec
     };
     return helper;
   }

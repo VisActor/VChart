@@ -134,7 +134,7 @@ Guide line style.
 
 Label layout configuration.
 
-###${prefix} textAlign(string)
+###${prefix} align(string)
 
 Label alignment mode.
 The default value is `'arc'`.

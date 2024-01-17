@@ -20,7 +20,7 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
-    this._regions = options.getRegionsInIndex([options.specIndex]);
+    this._regions = options.getRegionsInIndex(options.regionIndexes);
   }
 
   protected _interactiveConfig(labelSpec: ILabelSpec) {

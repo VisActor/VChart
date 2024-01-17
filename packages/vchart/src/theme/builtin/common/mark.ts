@@ -5,8 +5,6 @@ export const markByType: IGlobalMarkThemeByType = {
   text: {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
-      lineHeight: THEME_CONSTANTS.l4LineHeight,
-
       fontWeight: 'normal',
       fillOpacity: 1
     }
@@ -71,7 +69,8 @@ export const markByName: IGlobalMarkThemeByName = {
   barBackground: {
     visible: false,
     style: {
-      fill: { type: 'palette', key: 'primaryFontColor', a: 0.06 }
+      fill: { type: 'palette', key: 'primaryFontColor', a: 0.06 },
+      stroke: 'transparent'
     }
   }
 };

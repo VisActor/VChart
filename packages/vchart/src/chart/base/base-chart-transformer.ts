@@ -8,6 +8,7 @@ import type { ISeriesConstructor } from '../../series';
 import type { IComponentConstructor } from '../../component/interface/common';
 import { ComponentTypeEnum } from '../../component/interface';
 import { setProperty } from '@visactor/vutils-extension';
+import { getRelatedRegionInfo, getRelatedSeriesInfo } from './util';
 
 export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpecTransformer {
   readonly type: string;
@@ -101,23 +102,45 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     this.forEachRegionInSpec(chartSpec, transform, currentChartSpecInfo);
     // 预处理 series
     this.forEachSeriesInSpec(chartSpec, transform, currentChartSpecInfo);
-    // 记录每个 region 包含哪些 series
-    let region: IRegionSpecInfo;
-    currentChartSpecInfo.series?.forEach(({ spec: { regionId, regionIndex } }, i) => {
-      if (isValid(regionId)) {
-        region = currentChartSpecInfo.region?.find(({ spec }) => spec.id === regionId);
-      } else if (isValid(regionIndex)) {
-        region = currentChartSpecInfo.region?.[regionIndex];
-      }
-      if (region || (region = currentChartSpecInfo.region?.[0])) {
+    // 记录每个 series 关联的 region
+    currentChartSpecInfo.series?.forEach((seriesSpecInfo, i) => {
+      const region = getRelatedRegionInfo(seriesSpecInfo, currentChartSpecInfo) ?? currentChartSpecInfo.region?.[0];
+      if (region) {
         if (!region.seriesIndexes) {
           region.seriesIndexes = [];
         }
         region.seriesIndexes.push(i);
+        seriesSpecInfo.regionIndexes = region.regionIndexes.slice();
       }
     });
     // 预处理 component
     this.forEachComponentInSpec(chartSpec, transform, currentChartSpecInfo);
+    // 记录每个 component 关联的 region、series
+    Object.values(currentChartSpecInfo.component ?? {}).forEach(specInfoList =>
+      specInfoList.forEach((componentSpecInfo, i) => {
+        if (!componentSpecInfo) {
+          return;
+        }
+        if (!componentSpecInfo.regionIndexes) {
+          const region =
+            getRelatedRegionInfo(componentSpecInfo, currentChartSpecInfo) ?? currentChartSpecInfo.region?.[0];
+          componentSpecInfo.regionIndexes = region?.regionIndexes.slice();
+        }
+        if (!componentSpecInfo.seriesIndexes) {
+          const seriesInfo = getRelatedSeriesInfo(componentSpecInfo, currentChartSpecInfo);
+          if (!seriesInfo) {
+            const seriesIndexSet = new Set<number>();
+            (componentSpecInfo.regionIndexes ?? []).forEach(regionIndex => {
+              const region = currentChartSpecInfo.region?.[regionIndex];
+              region?.seriesIndexes?.forEach(seriesIndex => seriesIndexSet.add(seriesIndex));
+            });
+            componentSpecInfo.seriesIndexes = Array.from(seriesIndexSet);
+          } else {
+            componentSpecInfo.seriesIndexes = seriesInfo.map(({ seriesIndexes }) => seriesIndexes[0]);
+          }
+        }
+      })
+    );
     return currentChartSpecInfo;
   }
 
@@ -174,9 +197,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         Factory.getRegionInType('region'),
         {
           spec,
-          specIndex: index,
           specPath: ['region', index],
-          type: 'region'
+          type: 'region',
+          regionIndexes: [index]
         },
         chartSpecInfo
       )
@@ -195,9 +218,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         Factory.getSeriesInType(spec.type),
         {
           spec,
-          specIndex: index,
           specPath: ['series', index],
-          type: spec.type
+          type: spec.type,
+          seriesIndexes: [index]
         },
         chartSpecInfo
       )
@@ -233,15 +256,16 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
           label = cmp;
         } else if (cmp.type === ComponentTypeEnum.totalLabel) {
           totalLabel = cmp;
+        } else {
+          noAxisComponents.push(cmp);
         }
-        noAxisComponents.push(cmp);
       }
     }
 
     let hasInitAxis = false;
     // NOTE: 坐标轴组件需要在其他组件之前创建
     if (cartesianAxis) {
-      const infoList = cartesianAxis.getSpecInfo(chartSpec);
+      const infoList = cartesianAxis.getSpecInfo(chartSpec, chartSpecInfo);
       if (infoList?.length > 0) {
         hasInitAxis = true;
         infoList.forEach(info => {
@@ -252,7 +276,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
 
     if (polarAxis && !hasInitAxis) {
-      const infoList = polarAxis.getSpecInfo(chartSpec);
+      const infoList = polarAxis.getSpecInfo(chartSpec, chartSpecInfo);
       if (infoList?.length > 0) {
         hasInitAxis = true;
         infoList.forEach(info => {
@@ -263,7 +287,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
 
     if (geoCoordinate && !hasInitAxis) {
-      geoCoordinate.getSpecInfo(chartSpec)?.forEach(info => {
+      geoCoordinate.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
         results.push(callbackfn(geoCoordinate, info, chartSpecInfo));
       });
     }
@@ -280,7 +304,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
 
     noAxisComponents.forEach(C => {
-      C.getSpecInfo(chartSpec)?.forEach(info => {
+      C.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
         results.push(callbackfn(C, info, chartSpecInfo));
       });
     });

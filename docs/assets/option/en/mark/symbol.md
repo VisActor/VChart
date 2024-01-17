@@ -34,7 +34,9 @@ Optional values:
 - `'triangleDown'`
 - `'triangleRight'`
 - `'triangleLeft'`
-- `'stroke'`
+- `'stroke'` Note that the `stroke` attribute must be set for this shape to take effect
 - `'star'`
 - `'wye'`
 - `'rect'`
+
+If you need to implement a custom shape, you can achieve this by passing an `svg` path string to customize the shape, for example: `shape: 'M-0.5,-0.5L0.5,0.5L-0.5,0.5C'`

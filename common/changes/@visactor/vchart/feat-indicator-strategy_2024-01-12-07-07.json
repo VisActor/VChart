@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: tooltip value is stacked in stacked radar charts, related #450",
+      "comment": "feat: support fitStrategy for indicator",
       "type": "none"
     }
   ],

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: different effect when configuring label.overlap:true in #1956",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

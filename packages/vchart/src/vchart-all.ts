@@ -59,6 +59,7 @@ import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
+import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin/components/tooltip-handler';
 
 VChart.useRegisters([
   // charts
@@ -134,7 +135,11 @@ VChart.useRegisters([
 
   // layout
   registerGridLayout,
-  registerLayout3d
+  registerLayout3d,
+
+  // plugin
+  registerDomTooltipHandler,
+  registerCanvasTooltipHandler
 ]);
 
 export { VChart };

@@ -122,6 +122,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         {
           spec: axesSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: componentName
         }
       ];
@@ -149,8 +150,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       spec.type = axisType;
       specInfos.push({
         spec,
-        specIndex: index,
         specPath: [this.specKey, index],
+        specInfoPath: ['component', this.specKey, index],
         type: componentName
       });
     });
@@ -300,7 +301,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       getScale,
       getAxisType: () => this.type,
       getAxisId: () => this.id,
-      isInverse: () => this._inverse === true
+      isInverse: () => this._inverse === true,
+      getSpec: () => this._spec
     };
   }
 

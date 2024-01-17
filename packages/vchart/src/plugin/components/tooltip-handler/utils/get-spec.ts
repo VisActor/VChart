@@ -1,4 +1,3 @@
-import type { ITooltipSpec, TooltipHandlerParams } from '../../interface';
 import type {
   IToolTipLinePattern,
   ITooltipPattern,
@@ -12,8 +11,9 @@ import type { ISeries } from '../../../../series/interface';
 import { mergeSpec } from '../../../../util/spec/merge-spec';
 import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
-import { getTooltipActualActiveType } from '../../utils/common';
 import { memoize, isValid, array, isFunction, isNil, cloneDeep } from '@visactor/vutils';
+import type { ITooltipSpec, TooltipHandlerParams } from '../../../../component/tooltip';
+import { getTooltipActualActiveType } from '../../../../component/tooltip/utils';
 
 export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,

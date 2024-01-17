@@ -473,6 +473,13 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._specYField;
   }
 
+  getDimensionContinuousField(): string[] {
+    if (this._direction === Direction.vertical) {
+      return [this.fieldX[0], this.fieldX2];
+    }
+    return [this.fieldY[0], this.fieldY2];
+  }
+
   getMeasureField(): string[] {
     if (this._direction === Direction.vertical) {
       return this._specYField;

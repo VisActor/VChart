@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix the onebyone symbol animation order, closes #1932",
+      "comment": "feat: upgrade @visactor/vrender-core to locked 0.17.14",
       "type": "none"
     }
   ],

@@ -22,8 +22,8 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     protected _rotateAngles?: number[];
     protected _fontWeightRange?: [number, number];
     protected _textField?: string;
-    protected _fontSizeRange?: [number, number];
-    setFontSizeRange(fontSizeRange: [number, number]): void;
+    protected _fontSizeRange?: [number, number] | 'auto';
+    setFontSizeRange(fontSizeRange: [number, number] | 'auto'): void;
     protected _maskShape?: string | WordCloudShapeType;
     protected _isWordCloudShape: boolean;
     protected _keepAspect?: boolean;

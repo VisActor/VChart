@@ -157,6 +157,9 @@ The x-direction offset of the mark content relative to the mark point.
 
 The y-direction offset of the mark content relative to the mark point.
 
+#### confine(boolean) = false
+Since version 1.8.7, whether to automatically adjust item content so that it is displayed within the visible area of ​​​​the marker.
+
 #### symbol(Object)
 
 ##### style(Object)
@@ -182,7 +185,8 @@ For mark content type 'image', the image style.
 For mark content type 'text', the text style.
 
 {{ use: component-marker-label(
-  prefix = '####'
+  prefix = '####',
+  noConfine = true
 ) }}
 
 #### richText(Object)

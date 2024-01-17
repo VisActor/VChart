@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: histogram chart supports bar background, related #1979",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

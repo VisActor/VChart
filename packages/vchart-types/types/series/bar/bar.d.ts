@@ -36,6 +36,10 @@ export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extend
     private _shouldDoPreCalculate;
     private _calculateStackRectPosition;
     private _calculateRectPosition;
+    protected _dataToPosX(datum: Datum): number;
+    protected _dataToPosX1(datum: Datum): number;
+    protected _dataToPosY(datum: Datum): number;
+    protected _dataToPosY1(datum: Datum): number;
     initBandRectMarkStyle(): void;
     protected _initBarBackgroundMarkStyle(): void;
     initLinearRectMarkStyle(): void;
