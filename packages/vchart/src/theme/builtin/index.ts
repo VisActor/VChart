@@ -74,6 +74,7 @@ export const themeExist = (name: any) => {
 
 /** 使新主题基于默认主题扩展，保证基础值 */
 export const getMergedTheme = (theme: Partial<ITheme>): ITheme => {
-  const baseTheme = getTheme(defaultThemeName);
+  const baseThemeName = theme.type ?? defaultThemeName;
+  const baseTheme = getTheme(baseThemeName);
   return mergeTheme({}, baseTheme, theme);
 };

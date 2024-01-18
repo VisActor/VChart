@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `area.interactive` in area series spec is not available, related #2030",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

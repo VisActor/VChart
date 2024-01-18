@@ -25,9 +25,9 @@ import type {
   IEventDispatcher
 } from '../event/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
-import type { IFields, Transform } from '@visactor/vdataset';
+import type { IFields, Transform, DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
+import { DataSet, dataViewParser } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
 import { createID } from '../util/id';
@@ -71,7 +71,7 @@ import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { ILegend } from '../component/legend/interface';
 import { getCanvasDataURL, URLToImage } from '../util/image';
-import { ChartEvent, VGRAMMAR_HOOK_EVENT } from '../constant';
+import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH, VGRAMMAR_HOOK_EVENT } from '../constant';
 // eslint-disable-next-line no-duplicate-imports
 import {
   isArray,
@@ -506,7 +506,7 @@ export class VChart implements IVChart {
   }
 
   private _bindVGrammarViewEvent() {
-    if (!this._compiler || this._compiler.isReleased) {
+    if (!this._compiler) {
       return;
     }
     this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
@@ -539,12 +539,19 @@ export class VChart implements IVChart {
   }
 
   getCurrentSize() {
-    return calculateChartSize(this._spec, {
-      container: this._container,
-      canvas: this._canvas,
-      mode: this._option.mode || RenderModeEnum['desktop-browser'],
-      modeParams: this._option.modeParams
-    });
+    return calculateChartSize(
+      this._spec,
+      {
+        container: this._container,
+        canvas: this._canvas,
+        mode: this._option.mode || RenderModeEnum['desktop-browser'],
+        modeParams: this._option.modeParams
+      },
+      {
+        width: this._currentSize?.width ?? DEFAULT_CHART_WIDTH,
+        height: this._currentSize?.height ?? DEFAULT_CHART_HEIGHT
+      }
+    );
   }
 
   private _doResize() {

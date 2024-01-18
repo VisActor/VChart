@@ -542,25 +542,28 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._nodesSeriesData.getDataView()?.target.addListener('change', this.nodesSeriesDataUpdate.bind(this));
     this._linksSeriesData.getDataView()?.target.addListener('change', this.linksSeriesDataUpdate.bind(this));
     const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
-    if (emphasisSpec.enable && emphasisSpec.effect === 'adjacency') {
-      if (emphasisSpec.trigger === 'hover') {
-        // 浮动事件
-        this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
-      } else {
-        // emphasisSpec.trigger === 'click'
-        // 点击事件
-        this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
+    // 没有关闭交互时，才增加这些交互事件
+    if (this._option.disableTriggerEvent !== true) {
+      if (emphasisSpec.enable && emphasisSpec.effect === 'adjacency') {
+        if (emphasisSpec.trigger === 'hover') {
+          // 浮动事件
+          this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
+        } else {
+          // emphasisSpec.trigger === 'click'
+          // 点击事件
+          this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
+        }
       }
-    }
 
-    if (emphasisSpec.enable && emphasisSpec.effect === 'related') {
-      if (emphasisSpec.trigger === 'hover') {
-        // 浮动事件
-        this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
-      } else {
-        // emphasisSpec.trigger === 'click'
-        // 点击事件
-        this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
+      if (emphasisSpec.enable && emphasisSpec.effect === 'related') {
+        if (emphasisSpec.trigger === 'hover') {
+          // 浮动事件
+          this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
+        } else {
+          // emphasisSpec.trigger === 'click'
+          // 点击事件
+          this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
+        }
       }
     }
   }

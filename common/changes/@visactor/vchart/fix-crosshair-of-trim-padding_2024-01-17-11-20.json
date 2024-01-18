@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: crosshair should show when `trimPadding` of axis is true, fix #2054\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

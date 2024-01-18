@@ -667,7 +667,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       return this._canvasRect;
     }
 
-    this._canvasRect = calculateChartSize(this._spec, this._option);
+    this._canvasRect = calculateChartSize(this._spec, this._option, {
+      width: DEFAULT_CHART_WIDTH,
+      height: DEFAULT_CHART_HEIGHT
+    });
 
     return this._canvasRect;
   }
