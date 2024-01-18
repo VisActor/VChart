@@ -25,7 +25,7 @@ export interface LinearAxisMixin {
   _tick: ITick | undefined;
   isSeriesDataEnable: any;
   computeDomain: any;
-  collectData: any;
+  collectData: (depth?: number) => { min: number; max: number; values: any[] }[];
   event: IEvent;
   _orient: IOrientType;
   _option: IComponentOption;
