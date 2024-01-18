@@ -24,11 +24,18 @@ export class BaseModelSpecTransformer<T extends IModelSpec, K> implements IBaseM
 
   /** 不建议重写该方法，最好重写对应子步骤 */
   transformSpec(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo): { spec: T; theme: K } {
-    this._transformSpec(spec, chartSpec, chartSpecInfo);
-    return this._initTheme(spec, chartSpec);
+    this._transformSpecBeforeMergingTheme(spec, chartSpec, chartSpecInfo);
+    const result = this._initTheme(spec, chartSpec);
+    this._transformSpecAfterMergingTheme(result.spec, chartSpec, chartSpecInfo);
+    return result;
   }
 
-  protected _transformSpec(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo) {
+  protected _transformSpecBeforeMergingTheme(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo) {
+    // do nothing
+    // change spec by default logic
+  }
+
+  protected _transformSpecAfterMergingTheme(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo) {
     // do nothing
     // change spec by default logic
   }

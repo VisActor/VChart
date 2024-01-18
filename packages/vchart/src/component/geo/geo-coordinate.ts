@@ -69,6 +69,8 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     return this._actualScale;
   }
 
+  private _initialScale = 1;
+
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     if (isNil(chartSpec)) {
       return null;
@@ -111,6 +113,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
     }
 
     this._actualScale = this._projectionSpec.zoom ?? 1;
+    this._initialScale = this._actualScale;
     this._longitudeField = this._spec.longitudeField;
     this._latitudeField = this._spec.latitudeField;
   }
@@ -288,7 +291,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
         }
       }
     });
-    this._actualScale = 1;
+    this._actualScale = this._initialScale;
 
     super.onLayoutEnd(ctx);
   }
@@ -375,7 +378,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
   private evaluateProjection(start: [number, number], size: [number, number]) {
     const evaluated = this._projection.evaluate(start, size, this.collectFeatures());
     let translate = evaluated.translate();
-    const scale = evaluated.scale() * (this._projectionSpec.zoom ?? 1);
+    const scale = evaluated.scale() * this._initialScale;
     const center = this._projectionSpec.center ?? evaluated.invert([size[0] / 2, size[1] / 2]);
     center && (translate = [size[0] / 2, size[1] / 2]);
     return { translate, scale, center };

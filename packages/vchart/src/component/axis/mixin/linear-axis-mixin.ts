@@ -1,10 +1,13 @@
-import { isValidNumber, isNil, isValid } from '@visactor/vutils';
+import { isValidNumber, isNil, isValid, isFunction } from '@visactor/vutils';
 import type { LinearScale } from '@visactor/vscale';
 import { maxInArr, minInArr } from '../../../util/array';
 import { getLinearAxisSpecDomain } from '../util';
 import type { IAxisLocationCfg, ITick } from '../interface';
 import { ChartEvent } from '../../../constant';
 import type { IEvent } from '../../../event/interface';
+import { isXAxis } from '../cartesian/util/common';
+import type { IOrientType } from '../../../typings/space';
+import type { IComponentOption } from '../../interface/common';
 
 export const e10 = Math.sqrt(50);
 export const e5 = Math.sqrt(10);
@@ -24,6 +27,8 @@ export interface LinearAxisMixin {
   computeDomain: any;
   collectData: any;
   event: IEvent;
+  _orient: IOrientType;
+  _option: IComponentOption;
 }
 
 export class LinearAxisMixin {
@@ -40,10 +45,29 @@ export class LinearAxisMixin {
   }
 
   setLinearScaleNice() {
-    let tickCount = this._spec.tick?.forceTickCount ?? this._spec.tick?.tickCount ?? DEFAULT_TICK_COUNT;
-    if (!isValidNumber(tickCount)) {
-      // tickCount 为函数通常是为了通过图表大小动态自适应 tick 数量
-      // 这里在计算 nice 的时候可以相对粗略预估，不用精确值
+    let tickCount: number = DEFAULT_TICK_COUNT;
+    const tick = this._spec.tick || {};
+
+    if (isValidNumber(tick.forceTickCount)) {
+      tickCount = tick.forceTickCount;
+    } else if (isFunction(tick.tickCount)) {
+      const range = this._scale.range();
+      let rangeSize = Math.abs(range[range.length - 1] - range[0]);
+
+      if (rangeSize === 1 && this._option) {
+        // TODO: need to be optimized, when the range is not updated, use the size of view
+        const isX = isXAxis(this._orient);
+        rangeSize = isX ? this._option.getChartViewRect().width : this._option.getChartViewRect().height;
+      }
+
+      // tickCount需要一致，不然会导致效果不一致, fix #2050
+      tickCount = tick.tickCount({
+        rangeSize,
+        labelStyle: this._spec.label && this._spec.label.style
+      });
+    } else if (isValidNumber(tick.tickCount)) {
+      tickCount = tick.tickCount;
+    } else {
       tickCount = DEFAULT_TICK_COUNT;
     }
     // 如果配置了精度优先，那么最低是 5

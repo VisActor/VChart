@@ -1,4 +1,4 @@
-import { isValid } from '@visactor/vutils';
+import { isNil, isValid } from '@visactor/vutils';
 import type { IChartSpecInfo } from '../../chart/interface';
 import { SeriesMarkNameEnum } from '../interface';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
@@ -27,13 +27,14 @@ export class AreaSeriesSpecTransformer<
     }
   }
 
-  protected _transformSpec(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo) {
-    super._transformSpec(spec, chartSpec, chartSpecInfo);
+  protected _transformSpecAfterMergingTheme(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo) {
+    super._transformSpecAfterMergingTheme(spec, chartSpec, chartSpecInfo);
 
     const { area = {}, line = {}, seriesMark = 'area' } = spec;
     const isAreaVisible = area.visible !== false && area.style?.visible !== false;
     const isLineVisible = line.visible !== false && line.style?.visible !== false;
     // merge line to area
+
     area.support3d = !!(area.support3d || line.support3d);
     area.zIndex =
       isValid(area.zIndex) || isValid(line.zIndex) ? Math.max(area.zIndex ?? 0, line.zIndex ?? 0) : undefined;
@@ -74,7 +75,7 @@ export class AreaSeriesSpecTransformer<
       line.style.strokePickable = false;
     }
 
-    area.interactive = area.interactive || line.interactive;
+    area.interactive = !!(area.interactive || (line.interactive ?? true));
     area.visible = !(!isAreaVisible && !isLineVisible);
 
     spec.area = area;
