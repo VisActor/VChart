@@ -24,31 +24,31 @@ In VChart, in most cases, we expect to use `flattened` data objects. The differe
 ]
 ```
 
-As you can see, the keys "Class 1" and "Class 2" in the non-flattened data have been expanded. The data above has been expanded into two pieces of data. This is a commonly used data processing method in visualization, called `flod`.
+As you can see, the keys "Class 1" and "Class 2" in the non-flattened data have been expanded. The data above has been expanded into two pieces of data. This is a commonly used data processing method in visualization, called `fold`.
 
 The main significance of flattened data is that it allows for a one-to-one correspondence between data and graphics. Taking the data above as an example, we use it to make a grouped bar chart.
 
 ```javascript livedemo
 const spec = {
-  type: "bar",
+  type: 'bar',
   data: [
     {
-      id: "barData",
+      id: 'barData',
       values: [
-        { date: "Monday", class: "class No.1", score: 20 },
-        { date: "Monday", class: "class No.2", score: 30 },
+        { date: 'Monday', class: 'class No.1', score: 20 },
+        { date: 'Monday', class: 'class No.2', score: 30 },
 
-        { date: "Tuesday", class: "class No.1", score: 25 },
-        { date: "Tuesday", class: "class No.2", score: 28 },
-      ],
-    },
+        { date: 'Tuesday', class: 'class No.1', score: 25 },
+        { date: 'Tuesday', class: 'class No.2', score: 28 }
+      ]
+    }
   ],
-  seriesField: "class",
-  xField: ["date", "class"],
-  yField: "score",
+  seriesField: 'class',
+  xField: ['date', 'class'],
+  yField: 'score',
   crosshair: {
-    xField: { visible: true },
-  },
+    xField: { visible: true }
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -68,47 +68,47 @@ Let's use this data to display a scatter plot.
 
 ```javascript livedemo
 const spec = {
-  type: "scatter",
+  type: 'scatter',
   data: [
     {
-      id: "scatterData",
+      id: 'scatterData',
       values: [
-        { date: "Monday", class: "class No.1", score: 20 },
-        { date: "Monday", class: "class No.2", score: 30 },
+        { date: 'Monday', class: 'class No.1', score: 20 },
+        { date: 'Monday', class: 'class No.2', score: 30 },
 
-        { date: "Tuesday", class: "class No.1", score: 25 },
-        { date: "Tuesday", class: "class No.2", score: 28 },
-      ],
-    },
+        { date: 'Tuesday', class: 'class No.1', score: 25 },
+        { date: 'Tuesday', class: 'class No.2', score: 28 }
+      ]
+    }
   ],
   shape: {
-    type: "ordinal",
-    domain: ["class No.1", "class No.2"],
-    range: ["circle", "rect"],
+    type: 'ordinal',
+    domain: ['class No.1', 'class No.2'],
+    range: ['circle', 'rect']
   },
-  shapeField: "class",
+  shapeField: 'class',
   size: {
-    type: "linear",
+    type: 'linear',
     domain: [20, 30],
-    range: [10, 50],
+    range: [10, 50]
   },
-  sizeField: "score",
-  seriesField: "date",
+  sizeField: 'score',
+  seriesField: 'date',
   point: {
     state: {
       superScore: {
-        filter: (datum) => datum.score >= 30,
+        filter: datum => datum.score >= 30,
         style: {
-          fill: "red",
-        },
-      },
-    },
+          fill: 'red'
+        }
+      }
+    }
   },
-  xField: "date",
-  yField: "score",
+  xField: 'date',
+  yField: 'score',
   crosshair: {
-    xField: { visible: true },
-  },
+    xField: { visible: true }
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -117,38 +117,38 @@ vchart.renderAsync();
 
 #### Data Flattening
 
-We provide a data flattening tool called `transform` and `flod`, which can help users convert non-flattened data into flattened data. In VChart, we offer various built-in data processing tools and support for adding custom data processing tools. For specific methods, please refer to [DataSet](./Dataset_and_Data_Processing).
+We provide a data flattening tool called `transform` and `fold`, which can help users convert non-flattened data into flattened data. In VChart, we offer various built-in data processing tools and support for adding custom data processing tools. For specific methods, please refer to [DataSet](./Dataset_and_Data_Processing).
 
-The usage example of `flod` is as follows:
+The usage example of `fold` is as follows:
 
 ```javascript livedemo
 const spec = {
-  type: "bar",
+  type: 'bar',
   data: [
     {
-      id: "barData",
+      id: 'barData',
       values: [
-        { date: "Monday", class No.1: 20, class No.2: 30 },
-        { date: "Tuesday", class No.1: 25, class No.2: 28 },
+        { date: 'Monday', 'class No.1': 20, 'class No.2': 30 },
+        { date: 'Tuesday', 'class No.1': 25, 'class No.2': 28 }
       ],
       transforms: [
         {
-          type: "fold",
+          type: 'fold',
           options: {
-            key: "class", // 转化后，原始数据的 key 放入这个配置对应的字段中作为值
-            value: "score", // 转化后，原始数据的 value 放入这个配置对应的字段中作为值
-            fields: ["class No.1", "class No.2"], // 需要转化的维度
-          },
-        },
-      ],
-    },
+            key: 'class', // 转化后，原始数据的 key 放入这个配置对应的字段中作为值
+            value: 'score', // 转化后，原始数据的 value 放入这个配置对应的字段中作为值
+            fields: ['class No.1', 'class No.2'] // 需要转化的维度
+          }
+        }
+      ]
+    }
   ],
-  seriesField: "class",
-  xField: ["date", "class"],
-  yField: "score",
+  seriesField: 'class',
+  xField: ['date', 'class'],
+  yField: 'score',
   crosshair: {
-    xField: { visible: true },
-  },
+    xField: { visible: true }
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -163,31 +163,31 @@ Here's how to use it:
 
 ```javascript livedemo
 const spec = {
-  type: "bar",
+  type: 'bar',
   data: [
     {
-      id: "barData",
+      id: 'barData',
       values: `date,class No.1,class No.2
 Monday,20,30
 Tuesday,25,28`,
       parser: {
-        type: "csv",
+        type: 'csv'
       },
       transforms: [
         {
-          type: "fold",
+          type: 'fold',
           options: {
-            key: "class",
-            value: "score",
-            fields: ["class No.1", "class No.2"],
-          },
-        },
-      ],
-    },
+            key: 'class',
+            value: 'score',
+            fields: ['class No.1', 'class No.2']
+          }
+        }
+      ]
+    }
   ],
-  seriesField: "class",
-  xField: ["date", "class"],
-  yField: "score",
+  seriesField: 'class',
+  xField: ['date', 'class'],
+  yField: 'score'
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -203,114 +203,114 @@ Currently, only standard tree-structured data objects are supported, as shown in
 ```javascript livedemo
 const data = [
   {
-    name: "Grandpa",
+    name: 'Grandpa',
     children: [
       {
-        name: "Uncle Leo",
+        name: 'Uncle Leo',
         value: 15,
         children: [
           {
-            name: "Cousin Jack",
-            value: 2,
+            name: 'Cousin Jack',
+            value: 2
           },
           {
-            name: "Cousin Mary",
+            name: 'Cousin Mary',
             value: 5,
             children: [
               {
-                name: "Jackson",
-                value: 2,
-              },
-            ],
+                name: 'Jackson',
+                value: 2
+              }
+            ]
           },
           {
-            name: "Cousin Ben",
-            value: 4,
-          },
-        ],
+            name: 'Cousin Ben',
+            value: 4
+          }
+        ]
       },
       {
-        name: "Father",
+        name: 'Father',
         value: 10,
         children: [
           {
-            name: "Me",
-            value: 5,
+            name: 'Me',
+            value: 5
           },
           {
-            name: "Brother Peter",
-            value: 1,
-          },
-        ],
-      },
-    ],
+            name: 'Brother Peter',
+            value: 1
+          }
+        ]
+      }
+    ]
   },
   {
-    name: "Nancy",
+    name: 'Nancy',
     children: [
       {
-        name: "Uncle Nike",
+        name: 'Uncle Nike',
         children: [
           {
-            name: "Cousin Betty",
-            value: 1,
+            name: 'Cousin Betty',
+            value: 1
           },
           {
-            name: "Cousin Jenny",
-            value: 2,
-          },
-        ],
-      },
-    ],
-  },
+            name: 'Cousin Jenny',
+            value: 2
+          }
+        ]
+      }
+    ]
+  }
 ];
 
 const spec = {
-  type: "sunburst",
+  type: 'sunburst',
   offsetX: 0,
   offsetY: 20,
-  categoryField: "name",
-  valueField: "value",
+  categoryField: 'name',
+  valueField: 'value',
   outerRadius: 0.75,
   innerRadius: 0,
   gap: 0,
   labelLayout: {
-    align: "start",
-    rotate: "radial",
-    offset: 60,
+    align: 'start',
+    rotate: 'radial',
+    offset: 60
   },
   drill: true,
   sunburst: {
     visible: true,
     style: {
-      fillOpacity: (datum) => {
+      fillOpacity: datum => {
         return datum.isLeaf ? 0.4 : 0.8;
-      },
-    },
+      }
+    }
   },
   label: {
     visible: true,
     style: {
-      fillOpacity: (datum) => {
+      fillOpacity: datum => {
         return datum.isLeaf ? 0.4 : 0.8;
-      },
-    },
+      }
+    }
   },
   tooltip: {
     mark: {
       title: {
-        value: (val) => {
-          return val?.datum?.map((data) => data.name).join(" / ");
-        },
-      },
-    },
+        value: val => {
+          return val?.datum?.map(data => data.name).join(' / ');
+        }
+      }
+    }
   },
   data: [
     {
-      id: "data",
-      values: data,
-    },
-  ],
+      id: 'data',
+      values: data
+    }
+  ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
