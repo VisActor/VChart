@@ -486,6 +486,11 @@ export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
   style?: ConvertToMarkStyleSpec<T>;
   /** 不同状态下的样式配置 */
   state?: Record<StateValue, IMarkStateSpec<T> | IMarkStateStyleSpec<T>>;
+  /**
+   * 状态排序方法，默认状态都是按照添加的顺序处理的，如果有特殊的需求，需要指定状态顺序，可以通过这个方法实现
+   * @since 1.9.0
+   */
+  stateSort?: (stateA: string, stateB: string) => number;
 
   /* 是否是3d视角的mark */
   support3d?: boolean;

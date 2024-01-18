@@ -229,6 +229,11 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     this._enableSegments = enable;
   }
 
+  protected _stateSort?: (stateA: string, stateB: string) => number;
+  setStateSortCallback(stateSort: (stateA: string, stateB: string) => number) {
+    this._stateSort = stateSort;
+  }
+
   protected declare _option: ICompilableMarkOption;
 
   constructor(option: ICompilableMarkOption, name: string, model: IModel) {
@@ -393,7 +398,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   }
 
   compileState() {
-    this.state.compileState(this._product);
+    this.state.compileState(this._product, this._stateSort);
   }
 
   compileAnimation() {

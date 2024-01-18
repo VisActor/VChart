@@ -214,7 +214,8 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       groupKey: this._seriesField,
       progressive,
       isSeriesMark: true,
-      customShape: this._spec.point?.customShape
+      customShape: this._spec.point?.customShape,
+      stateSort: this._spec.point?.stateSort
     }) as ISymbolMark;
   }
 

@@ -1139,7 +1139,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       progressive,
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false,
-      customShape
+      customShape,
+      stateSort
     } = option;
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
@@ -1191,6 +1192,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       if (customShape) {
         m.setCustomizedShapeCallback(customShape);
+      }
+
+      if (stateSort) {
+        m.setStateSortCallback(stateSort);
       }
 
       this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));

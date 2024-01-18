@@ -170,7 +170,8 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
       groupKey: this._seriesField,
       isSeriesMark: true,
       key: DEFAULT_DATA_INDEX,
-      customShape: this._spec.nodePoint?.customShape
+      customShape: this._spec.nodePoint?.customShape,
+      stateSort: this._spec.nodePoint?.stateSort
     }) as ISymbolMark;
     if (nodePointMark) {
       nodePointMark.setZIndex(LayoutZIndex.Node);
@@ -190,7 +191,8 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
       key: DEFAULT_DATA_INDEX,
       dataView: this._centerSeriesData.getDataView(),
       dataProductId: this._centerSeriesData.getProductId(),
-      customShape: this._spec.centerPoint?.customShape
+      customShape: this._spec.centerPoint?.customShape,
+      stateSort: this._spec.centerPoint?.stateSort
     }) as ISymbolMark;
     if (centerPointMark) {
       centerPointMark.setZIndex(LayoutZIndex.Node);
