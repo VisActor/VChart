@@ -283,8 +283,6 @@ export class LineLikeSeriesMixin {
     // 设置基础样式
     this._initSymbolMark(symbolMark);
 
-    this._trigger.registerMark(symbolMark);
-
     // setStyle to active point
     if (this._symbolActiveMark && this._symbolMark.stateStyle.dimension_hover) {
       // active point will show
