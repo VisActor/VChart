@@ -115,7 +115,10 @@ export const where: any = (query: Partial<Query>, context: ASTParserContext) => 
     return query;
   }
   const whereList: any = parseSQLExpr(where as Expr, query.select.columns, fieldInfo);
-  return { ...query, where: whereList.conditions ? whereList : { conditions: [whereList] } };
+  return {
+    ...query,
+    where: whereList.conditions ? whereList : { not: false, type: FilterNodeType.And, conditions: [whereList] }
+  };
 };
 
 export const groupBy: ASTParserPipe = (query: Partial<Query>, context: ASTParserContext) => {
@@ -170,9 +173,10 @@ export const having: any = (query: Partial<Query>, context: ASTParserContext) =>
   if (!having) {
     return query;
   }
+  const havingList: any = parseSQLExpr(having as unknown as Expr, query.select.columns, fieldInfo);
   return {
     ...query,
-    having: parseSQLExpr(having as unknown as Expr, query.select.columns, fieldInfo)
+    having: havingList.conditions ? havingList : { not: false, type: FilterNodeType.And, conditions: [havingList] }
   };
 };
 

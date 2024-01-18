@@ -33,7 +33,7 @@ export const queryDataset = (userInput: string, fieldInfo: SimpleFieldInfo[], so
  */
 const getQuerySQL = (userInput: string, fieldInfo: SimpleFieldInfo[]) => {
   return `SELECT 商品名称, SUM(销售额) AS 总销售额 FROM dataSource WHERE region = 'north' GROUP BY 商品名称
-HAVING COUNT(销售额) > 2 AND SUM(销售额)>100
+HAVING SUM(销售额)>100
 ORDER BY 总销售额 DESC, COUNT(商品名称) DESC`;
   return `
 SELECT distinct customer_name, MIN(order_date) AS first_order_date, MAX(order_date) AS latest_order_date, COUNT(DISTINCT product_id), AVG(total_amount)

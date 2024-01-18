@@ -1,9 +1,6 @@
-import type {
-  Query,
-  TableData,
-} from './types'
-import { of } from './pipe'
-import * as pipes from './pipes'
+import type { Query, TableData } from './types';
+import { of } from './pipe';
+import * as pipes from './pipes';
 
 /**
  * Simplified SQL-like query calculation based on analysis use cases
@@ -51,29 +48,17 @@ import * as pipes from './pipes'
  *     - If there is no `group by` and no aggregation functions in `select`, aggregation calculations cannot be used independently in `order by`
  */
 export const query = (query: Query): TableData => {
-  const {
-    from,
-    select,
-    where,
-    groupBy,
-    having,
-    orderBy,
-    limit,
-  } = query
+  const { from, select, where, groupBy, having, orderBy, limit } = query;
 
-  if (!from.length) return []
+  if (!from.length) return [];
 
   /**
    * According to the SQL execution definition, except for group by,
    * if there are aggregation functions in the select columns, they are also aggregated into one row
    */
-  const needGroup: boolean = Boolean(
-    groupBy?.length
-    || select.columns.some(column => (
-      'aggregate' in column
-      && column.aggregate
-    ))
-  )
+  const needGroup = Boolean(
+    groupBy?.length || select.columns.some(column => 'aggregate' in column && column.aggregate)
+  );
 
   if (needGroup) {
     return of(from).pipe(
@@ -83,8 +68,8 @@ export const query = (query: Query): TableData => {
       pipes.orderGroup({ orderBy, source: from }),
       pipes.selectGroup({ select, source: from }),
       pipes.distinct({ select }),
-      pipes.limit({ limit }),
-    )
+      pipes.limit({ limit })
+    );
   }
 
   return of(from).pipe(
@@ -92,7 +77,6 @@ export const query = (query: Query): TableData => {
     pipes.order({ orderBy, source: from }),
     pipes.select({ select, source: from }),
     pipes.distinct({ select }),
-    pipes.limit({ limit }),
-  )
-}
-
+    pipes.limit({ limit })
+  );
+};
