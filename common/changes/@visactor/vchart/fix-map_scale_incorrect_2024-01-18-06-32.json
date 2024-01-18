@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: map scale ratio not correct after updateSpec or resize",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

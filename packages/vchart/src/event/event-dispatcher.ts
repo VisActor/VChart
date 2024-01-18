@@ -290,13 +290,13 @@ export class EventDispatcher implements IEventDispatcher {
       const filter = handler.filter as EventFilter;
       if (!handler.query || this._filter(filter, type, params)) {
         const callback = handler.wrappedCallback || handler.callback;
-        let stopBubble = callback.call(null, this._prepareParams(filter, params));
-        if (handler.query?.consume) {
-          stopBubble = true;
+        const stopBubble = callback.call(null, this._prepareParams(filter, params));
+        const doStopBubble = stopBubble ?? handler.query?.consume;
+        if (doStopBubble) {
           (params as BaseEventParams).event?.stopPropagation();
           (params as BaseEventParams).event?.preventDefault();
         }
-        return stopBubble;
+        return !!doStopBubble;
       }
       return undefined;
     });

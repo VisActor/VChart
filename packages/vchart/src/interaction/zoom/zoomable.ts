@@ -227,17 +227,18 @@ export class Zoomable implements IZoomable {
   private _scrollEventDispatch(
     params: BaseEventParams,
     regionOrSeries: IRegion | ISeries,
-    callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void
+    callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => any
   ) {
+    let stopBubble: boolean | undefined = false;
     if (!this._isGestureListener && (!params.event || this._option.disableTriggerEvent)) {
-      return;
+      return stopBubble;
     }
     const event = this._isGestureListener ? params : params.event;
     this._zoomableTrigger.parserScrollEvent(event);
     // FIXME: event类型目前不全
     const { scrollX, scrollY, canvasX, canvasY } = event as any;
     if (isNil(scrollX) && isNil(scrollY)) {
-      return;
+      return stopBubble;
     }
     if (
       !pointInRect(
@@ -249,24 +250,26 @@ export class Zoomable implements IZoomable {
         false
       )
     ) {
-      return;
+      return stopBubble;
     }
     this._clickEnable = false;
 
     if (callback) {
-      callback({ scrollX, scrollY }, event as any);
+      stopBubble = callback({ scrollX, scrollY }, event as any);
     }
     this._eventObj.emit('scroll', {
       scrollX,
       scrollY,
       model: this
     } as unknown as ExtendEventParam);
+
+    return stopBubble;
   }
 
   private _bindScrollEventAsRegion(
     eventObj: IEvent,
     regionOrSeries: IRegion | ISeries,
-    callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => void,
+    callback?: (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => any,
     option?: ITriggerOption
   ) {
     const delayType = option?.delayType ?? 'throttle';
@@ -292,7 +295,7 @@ export class Zoomable implements IZoomable {
       ...scrollParams,
       delayMap[delayType]((params: any) => {
         // if (realTime) {
-        this._scrollEventDispatch(params, regionOrSeries, callback);
+        return this._scrollEventDispatch(params, regionOrSeries, callback);
         // }
       }, delayTime)
     );
