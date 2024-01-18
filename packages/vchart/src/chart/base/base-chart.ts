@@ -617,7 +617,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   getMarkById(id: number): IMark | undefined {
     const mark = this._idMap.get(id);
     if (mark && mark instanceof BaseMark) {
-      return mark;
+      return mark as IMark;
     }
     return undefined;
   }
