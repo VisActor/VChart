@@ -426,9 +426,21 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       if (canUseViewStatistics && this._viewDataStatistics.latestData?.[field]) {
         this._rawStatisticsCache[field] = this._viewDataStatistics.latestData[field];
       } else if (this._rawData) {
-        this._rawStatisticsCache[field] = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
-          { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
-        ])[field];
+        // 如果有设置统计信息，应当与设置值保持一致
+        const fieldInfo = this._rawData.getFields()?.[field];
+        if (fieldInfo && fieldInfo.lockStatisticsByDomain) {
+          this._rawStatisticsCache[field] = this._rawStatisticsCache[field] || {};
+          if (isNumeric) {
+            this._rawStatisticsCache[field].min = Math.min(fieldInfo.domain);
+            this._rawStatisticsCache[field].max = Math.min(fieldInfo.max);
+          } else {
+            this._rawStatisticsCache[field].values = fieldInfo.domain;
+          }
+        } else {
+          this._rawStatisticsCache[field] = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
+            { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
+          ])[field];
+        }
       }
     }
 
