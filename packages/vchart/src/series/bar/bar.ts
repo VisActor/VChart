@@ -76,18 +76,20 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         groupKey: this._seriesField,
         isSeriesMark: true,
         progressive,
-        customShape: this._spec.bar?.customShape
+        customShape: this._spec.bar?.customShape,
+        stateSort: this._spec.bar?.stateSort
       }
     ) as IRectMark;
   }
 
   protected _initBarBackgroundMark(progressive?: IMarkProgressiveConfig): void {
-    if (this._spec.barBackground?.visible) {
+    if (this._spec.barBackground && this._spec.barBackground.visible) {
       this._barBackgroundMark = this._createMark(BarSeries.mark.barBackground, {
         dataView: this._barBackgroundViewData.getDataView(),
         dataProductId: this._barBackgroundViewData.getProductId(),
         progressive,
-        customShape: this._spec.barBackground?.customShape
+        customShape: this._spec.barBackground.customShape,
+        stateSort: this._spec.barBackground.stateSort
       }) as IRectMark;
     }
   }

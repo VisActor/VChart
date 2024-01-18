@@ -172,7 +172,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
         groupKey: this._seriesField,
         skipBeforeLayouted: true,
         isSeriesMark: true,
-        customShape: this._spec.pie?.customShape
+        customShape: this._spec.pie?.customShape,
+        stateSort: this._spec.pie?.stateSort
       }
     ) as IArcMark;
   }

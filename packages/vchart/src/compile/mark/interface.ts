@@ -134,6 +134,8 @@ export interface ICompilableMark extends IGrammarItem {
 
   setCustomizedShapeCallback: (callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) => void;
 
+  setStateSortCallback: (stateSort: (stateA: string, stateB: string) => number) => void;
+
   /** 开始状态动画 */
   runAnimationByState: (animationState?: string) => IAnimateArranger;
   /** 停止状态动画*/

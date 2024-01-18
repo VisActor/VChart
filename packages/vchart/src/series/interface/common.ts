@@ -114,6 +114,11 @@ export interface ISeriesMarkInitOption {
   support3d?: boolean;
   /* customized shape of mark  */
   customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+  /**
+   * 状态排序方法，默认状态都是按照添加的顺序处理的，如果有特殊的需求，需要指定状态顺序，可以通过这个方法实现
+   * @since 1.9.0
+   */
+  stateSort?: (stateA: string, stateB: string) => number;
 }
 
 export interface ISeriesMarkInfo extends IModelMarkInfo {
