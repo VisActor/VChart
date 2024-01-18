@@ -1,4 +1,4 @@
-import { Query } from '../../../common/vizCalculator';
+import { Query } from '../../../calculator';
 import { SimpleFieldInfo } from '../../../typings';
 import { ASTParserContext, ASTParserPipe } from './type';
 

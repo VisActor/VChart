@@ -9,7 +9,7 @@ import {
   Query,
   WhereCondition,
   WhereFilterNode
-} from '../../../common/vizCalculator';
+} from '../../../calculator';
 import { ASTParserContext, ASTParserPipe, SQLAst } from './type';
 import { checkIsColumnNode, toFirstUpperCase } from './utils';
 import { SimpleFieldInfo } from '../../../typings';

@@ -1,10 +1,10 @@
-import { AggregateType, Query, query } from '../../../common/vizCalculator/index';
 import { DataItem, SimpleFieldInfo } from '../../../typings';
 import NodeSQLParser from 'node-sql-parser';
 import { preprocessSQL } from './utils';
 import { parseSqlAST } from './parseSqlAST';
 import { isArray } from 'lodash';
 import { SQLAst } from './type';
+import { Query, query } from '../../../calculator';
 
 /**
  * query the source dataset according to user's input and fieldInfo to get aggregated dataset
