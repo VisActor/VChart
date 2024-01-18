@@ -1,4 +1,4 @@
-import { AST, Select } from 'node-sql-parser';
+import { Select } from 'node-sql-parser';
 import { Query } from '../../../calculator';
 import { DataItem, SimpleFieldInfo } from '../../../typings';
 
@@ -9,4 +9,5 @@ export type ASTParserContext = {
   ast: SQLAst;
   dataSource: DataItem[];
   fieldInfo: SimpleFieldInfo[];
+  replaceMap: Map<string, string>;
 };

@@ -11,7 +11,7 @@ import {
   WhereFilterNode
 } from '../../../calculator';
 import { ASTParserContext, ASTParserPipe, SQLAst } from './type';
-import { checkIsColumnNode, toFirstUpperCase } from './utils';
+import { checkIsColumnNode, getOriginalString, toFirstUpperCase } from './utils';
 import { SimpleFieldInfo } from '../../../typings';
 
 export const from: ASTParserPipe = (query: Partial<Query>, context: ASTParserContext) => {
@@ -26,7 +26,8 @@ export const from: ASTParserPipe = (query: Partial<Query>, context: ASTParserCon
 const parseAggrFunc = (
   aggrFunc: AggrFunc,
   columns: any,
-  fieldInfo: SimpleFieldInfo[]
+  fieldInfo: SimpleFieldInfo[],
+  replaceMap: Map<string, string>
 ): { column?: ColumnConfig; type?: FilterNodeType; aggregate: Aggregation } => {
   const { name, args } = aggrFunc;
   const { distinct, expr } = args ?? ({} as any);
@@ -36,7 +37,8 @@ const parseAggrFunc = (
   if (expr && expr.type === 'aggr_func') {
     console.error('unsupported aggr func!');
   } else if (expr && checkIsColumnNode(expr, columns, fieldInfo)) {
-    result.column = expr.column ?? expr.value;
+    const columnName = expr.column ?? expr.value;
+    result.column = getOriginalString(columnName, replaceMap);
   }
   result.aggregate = {
     distinct: Boolean(distinct),
@@ -55,6 +57,7 @@ const parseSQLExpr = (
   astWhere: Expr | ColumnRef | Param | Value,
   columns: any,
   fieldInfo: SimpleFieldInfo[],
+  replaceMap: Map<string, string>,
   isNot?: boolean
 ): WhereCondition | FilterNode<WhereCondition> => {
   if (!astWhere) {
@@ -71,8 +74,8 @@ const parseSQLExpr = (
     if (['AND', 'OR'].includes(operator)) {
       result.type = operator === 'AND' ? FilterNodeType.And : FilterNodeType.Or;
       (result as FilterNode<WhereCondition>).conditions = [
-        parseSQLExpr(left, columns, fieldInfo),
-        parseSQLExpr(right, columns, fieldInfo)
+        parseSQLExpr(left, columns, fieldInfo, replaceMap),
+        parseSQLExpr(right, columns, fieldInfo, replaceMap)
       ];
     } else if (
       Object.values(FilterOperator)
@@ -82,15 +85,17 @@ const parseSQLExpr = (
       result.type = FilterNodeType.Condition;
       const columnNode = [left, right].find(n => checkIsColumnNode(n, columns, fieldInfo));
       if (columnNode) {
-        result.column = (columnNode as ColumnRef).column ?? (columnNode as any).value;
+        const columnName = (columnNode as ColumnRef).column ?? (columnNode as any).value;
+        result.column = getOriginalString(columnName, replaceMap);
       }
       const valueNode = [left, right].find(n => !checkIsColumnNode(n, columns, fieldInfo) && n.type !== 'aggr_func');
       if (valueNode) {
-        result.value = (valueNode as Value).value;
+        const valueName = (valueNode as Value).value;
+        result.value = getOriginalString(valueName, replaceMap);
       }
       const aggrNode: any = [left, right].find(n => n.type === 'aggr_func');
       if (aggrNode) {
-        const aggrFuncConfig: any = parseAggrFunc(aggrNode, columns, fieldInfo);
+        const aggrFuncConfig: any = parseAggrFunc(aggrNode, columns, fieldInfo, replaceMap);
         result.column = aggrFuncConfig.column;
         result.aggregate = aggrFuncConfig.aggregate;
       }
@@ -100,7 +105,7 @@ const parseSQLExpr = (
     }
   } else if (type === 'unary_expr') {
     const { expr, operator } = astWhere as any;
-    return parseSQLExpr(expr, columns, fieldInfo, operator === 'NOT');
+    return parseSQLExpr(expr, columns, fieldInfo, replaceMap, operator === 'NOT');
   } else {
     console.error('unsupported type in expr!');
   }
@@ -109,12 +114,12 @@ const parseSQLExpr = (
 };
 
 export const where: any = (query: Partial<Query>, context: ASTParserContext) => {
-  const { ast, fieldInfo } = context;
+  const { ast, fieldInfo, replaceMap } = context;
   const { where } = ast;
   if (!where) {
     return query;
   }
-  const whereList: any = parseSQLExpr(where as Expr, query.select.columns, fieldInfo);
+  const whereList: any = parseSQLExpr(where as Expr, query.select.columns, fieldInfo, replaceMap);
   return {
     ...query,
     where: whereList.conditions ? whereList : { not: false, type: FilterNodeType.And, conditions: [whereList] }
@@ -122,19 +127,19 @@ export const where: any = (query: Partial<Query>, context: ASTParserContext) => 
 };
 
 export const groupBy: ASTParserPipe = (query: Partial<Query>, context: ASTParserContext) => {
-  const { ast } = context;
+  const { ast, replaceMap } = context;
   const { groupby } = ast;
   if (!groupby) {
     return query;
   }
   return {
     ...query,
-    groupBy: (groupby ?? []).map((group: any) => group.column ?? group.value)
+    groupBy: (groupby ?? []).map((group: any) => getOriginalString(group.column ?? group.value, replaceMap))
   };
 };
 
 export const select: ASTParserPipe = (query: Partial<Query>, context: ASTParserContext) => {
-  const { ast, fieldInfo } = context;
+  const { ast, fieldInfo, replaceMap } = context;
   const { columns, distinct } = ast;
   if (!columns) {
     return query;
@@ -151,14 +156,14 @@ export const select: ASTParserPipe = (query: Partial<Query>, context: ASTParserC
         if (checkIsColumnNode(expr, columnAlias, fieldInfo)) {
           // If it is a column from data source, it can be check by fieldInfo
           // If it is a derived column, it can be check by columnAlias
-          result.column = expr.column ?? expr.value;
+          result.column = getOriginalString(expr.column ?? expr.value, replaceMap);
         } else if (expr.type === 'aggr_func') {
-          const aggrFuncConf: any = parseAggrFunc(expr, columnAlias, fieldInfo);
+          const aggrFuncConf: any = parseAggrFunc(expr, columnAlias, fieldInfo, replaceMap);
           result.column = aggrFuncConf.column;
           result.aggregate = aggrFuncConf.aggregate;
         }
         if (as) {
-          result.alias = as;
+          result.alias = getOriginalString(as, replaceMap);
         }
         return result;
       }),
@@ -168,12 +173,12 @@ export const select: ASTParserPipe = (query: Partial<Query>, context: ASTParserC
 };
 
 export const having: any = (query: Partial<Query>, context: ASTParserContext) => {
-  const { ast, fieldInfo } = context;
+  const { ast, fieldInfo, replaceMap } = context;
   const { having } = ast;
   if (!having) {
     return query;
   }
-  const havingList: any = parseSQLExpr(having as unknown as Expr, query.select.columns, fieldInfo);
+  const havingList: any = parseSQLExpr(having as unknown as Expr, query.select.columns, fieldInfo, replaceMap);
   return {
     ...query,
     having: havingList.conditions ? havingList : { not: false, type: FilterNodeType.And, conditions: [havingList] }
@@ -181,7 +186,7 @@ export const having: any = (query: Partial<Query>, context: ASTParserContext) =>
 };
 
 export const orderBy: any = (query: Partial<Query>, context: ASTParserContext) => {
-  const { ast, fieldInfo } = context;
+  const { ast, fieldInfo, replaceMap } = context;
   const { orderby } = ast;
   if (!orderby) {
     return query;
@@ -192,9 +197,10 @@ export const orderBy: any = (query: Partial<Query>, context: ASTParserContext) =
       const result: any = {};
       const { type, expr } = orderInfo;
       if (checkIsColumnNode(expr, query.select.columns, fieldInfo)) {
-        result.column = expr.column ?? expr.value;
+        const columnName = expr.column ?? expr.value;
+        result.column = getOriginalString(columnName, replaceMap);
       } else {
-        const orderConfig = parseAggrFunc(expr, query.select.columns, fieldInfo);
+        const orderConfig = parseAggrFunc(expr, query.select.columns, fieldInfo, replaceMap);
         result.column = orderConfig.column;
         result.aggregate = orderConfig.aggregate;
       }
