@@ -24,31 +24,31 @@
 ]
 ```
 
-可以看到非展平数据中的 "class No.1"、"class No.2" 两个数据中的 key 被展开。上方的一条数据被展开为 2 条数据。在可视化中这是一种常用的数据处理方式 `flod`。
+可以看到非展平数据中的 "class No.1"、"class No.2" 两个数据中的 key 被展开。上方的一条数据被展开为 2 条数据。在可视化中这是一种常用的数据处理方式 `fold`。
 
 展平数据最重要的意义在于，可以使数据与图形产生一对一的对应关系。以上面的数据举例，我们用它做一个分组柱图。
 
 ```javascript livedemo
 const spec = {
-  type: "bar",
+  type: 'bar',
   data: [
     {
-      id: "barData",
+      id: 'barData',
       values: [
-        { date: "Monday", class: "class No.1", score: 20 },
-        { date: "Monday", class: "class No.2", score: 30 },
+        { date: 'Monday', class: 'class No.1', score: 20 },
+        { date: 'Monday', class: 'class No.2', score: 30 },
 
-        { date: "Tuesday", class: "class No.1", score: 25 },
-        { date: "Tuesday", class: "class No.2", score: 28 },
-      ],
-    },
+        { date: 'Tuesday', class: 'class No.1', score: 25 },
+        { date: 'Tuesday', class: 'class No.2', score: 28 }
+      ]
+    }
   ],
-  seriesField: "class",
-  xField: ["date", "class"],
-  yField: "score",
+  seriesField: 'class',
+  xField: ['date', 'class'],
+  yField: 'score',
   crosshair: {
-    xField: { visible: true },
-  },
+    xField: { visible: true }
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -68,47 +68,47 @@ vchart.renderAsync();
 
 ```javascript livedemo
 const spec = {
-  type: "scatter",
+  type: 'scatter',
   data: [
     {
-      id: "scatterData",
+      id: 'scatterData',
       values: [
-        { date: "Monday", class: "class No.1", score: 20 },
-        { date: "Monday", class: "class No.2", score: 30 },
+        { date: 'Monday', class: 'class No.1', score: 20 },
+        { date: 'Monday', class: 'class No.2', score: 30 },
 
-        { date: "Tuesday", class: "class No.1", score: 25 },
-        { date: "Tuesday", class: "class", score: 28 },
-      ],
-    },
+        { date: 'Tuesday', class: 'class No.1', score: 25 },
+        { date: 'Tuesday', class: 'class', score: 28 }
+      ]
+    }
   ],
   shape: {
-    type: "ordinal",
-    domain: ["class No.1", "class No.2"],
-    range: ["circle", "rect"],
+    type: 'ordinal',
+    domain: ['class No.1', 'class No.2'],
+    range: ['circle', 'rect']
   },
-  shapeField: "class",
+  shapeField: 'class',
   size: {
-    type: "linear",
+    type: 'linear',
     domain: [20, 30],
-    range: [10, 50],
+    range: [10, 50]
   },
-  sizeField: "score",
-  seriesField: "date",
+  sizeField: 'score',
+  seriesField: 'date',
   point: {
     state: {
       superScore: {
-        filter: (datum) => datum.score >= 30,
+        filter: datum => datum.score >= 30,
         style: {
-          fill: "red",
-        },
-      },
-    },
+          fill: 'red'
+        }
+      }
+    }
   },
-  xField: "date",
-  yField: "score",
+  xField: 'date',
+  yField: 'score',
   crosshair: {
-    xField: { visible: true },
-  },
+    xField: { visible: true }
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -117,38 +117,38 @@ vchart.renderAsync();
 
 #### 数据展平
 
-我们提供了一个数据展平工具 `transform` `flod`，可以帮助用户将非展平数据展平。在 VChart 中，我们提供了多种内置的数据处理工具，并且支持用户传入更多自定义数据处理工具。具体方法请参考 [DataSet](./Dataset_and_Data_Processing)。
+我们提供了一个数据展平工具 `transform` `fold`，可以帮助用户将非展平数据展平。在 VChart 中，我们提供了多种内置的数据处理工具，并且支持用户传入更多自定义数据处理工具。具体方法请参考 [DataSet](./Dataset_and_Data_Processing)。
 
-`flod` 使用示例如下：
+`fold` 使用示例如下：
 
 ```javascript livedemo
 const spec = {
-  type: "bar",
+  type: 'bar',
   data: [
     {
-      id: "barData",
+      id: 'barData',
       values: [
-        { date: "Monday", class No.1: 20, class No.2: 30 },
-        { date: "Tuesday", class No.1: 25, class No.2: 28 },
+        { date: 'Monday', 'class No.1': 20, 'class No.2': 30 },
+        { date: 'Tuesday', 'class No.1': 25, 'class No.2': 28 }
       ],
       transforms: [
         {
-          type: "fold",
+          type: 'fold',
           options: {
-            key: "class", // 转化后，原始数据的 key 放入这个配置对应的字段中作为值
-            value: "score", // 转化后，原始数据的 value 放入这个配置对应的字段中作为值
-            fields: ["class No.1", "class No.2"], // 需要转化的维度
-          },
-        },
-      ],
-    },
+            key: 'class', // 转化后，原始数据的 key 放入这个配置对应的字段中作为值
+            value: 'score', // 转化后，原始数据的 value 放入这个配置对应的字段中作为值
+            fields: ['class No.1', 'class No.2'] // 需要转化的维度
+          }
+        }
+      ]
+    }
   ],
-  seriesField: "class",
-  xField: ["date", "class"],
-  yField: "score",
+  seriesField: 'class',
+  xField: ['date', 'class'],
+  yField: 'score',
   crosshair: {
-    xField: { visible: true },
-  },
+    xField: { visible: true }
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -163,31 +163,31 @@ vchart.renderAsync();
 
 ```javascript livedemo
 const spec = {
-  type: "bar",
+  type: 'bar',
   data: [
     {
-      id: "barData",
+      id: 'barData',
       values: `date,class No.1,class No.2
 Monday,20,30
 Tuesday,25,28`,
       parser: {
-        type: "csv",
+        type: 'csv'
       },
       transforms: [
         {
-          type: "fold",
+          type: 'fold',
           options: {
-            key: "class",
-            value: "score",
-            fields: ["class No.1", "class No.2"],
-          },
-        },
-      ],
-    },
+            key: 'class',
+            value: 'score',
+            fields: ['class No.1', 'class No.2']
+          }
+        }
+      ]
+    }
   ],
-  seriesField: "class",
-  xField: ["date", "class"],
-  yField: "score",
+  seriesField: 'class',
+  xField: ['date', 'class'],
+  yField: 'score'
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
@@ -203,114 +203,114 @@ vchart.renderAsync();
 ```javascript livedemo
 const data = [
   {
-    name: "Grandpa",
+    name: 'Grandpa',
     children: [
       {
-        name: "Uncle Leo",
+        name: 'Uncle Leo',
         value: 15,
         children: [
           {
-            name: "Cousin Jack",
-            value: 2,
+            name: 'Cousin Jack',
+            value: 2
           },
           {
-            name: "Cousin Mary",
+            name: 'Cousin Mary',
             value: 5,
             children: [
               {
-                name: "Jackson",
-                value: 2,
-              },
-            ],
+                name: 'Jackson',
+                value: 2
+              }
+            ]
           },
           {
-            name: "Cousin Ben",
-            value: 4,
-          },
-        ],
+            name: 'Cousin Ben',
+            value: 4
+          }
+        ]
       },
       {
-        name: "Father",
+        name: 'Father',
         value: 10,
         children: [
           {
-            name: "Me",
-            value: 5,
+            name: 'Me',
+            value: 5
           },
           {
-            name: "Brother Peter",
-            value: 1,
-          },
-        ],
-      },
-    ],
+            name: 'Brother Peter',
+            value: 1
+          }
+        ]
+      }
+    ]
   },
   {
-    name: "Nancy",
+    name: 'Nancy',
     children: [
       {
-        name: "Uncle Nike",
+        name: 'Uncle Nike',
         children: [
           {
-            name: "Cousin Betty",
-            value: 1,
+            name: 'Cousin Betty',
+            value: 1
           },
           {
-            name: "Cousin Jenny",
-            value: 2,
-          },
-        ],
-      },
-    ],
-  },
+            name: 'Cousin Jenny',
+            value: 2
+          }
+        ]
+      }
+    ]
+  }
 ];
 
 const spec = {
-  type: "sunburst",
+  type: 'sunburst',
   offsetX: 0,
   offsetY: 20,
-  categoryField: "name",
-  valueField: "value",
+  categoryField: 'name',
+  valueField: 'value',
   outerRadius: 0.75,
   innerRadius: 0,
   gap: 0,
   labelLayout: {
-    align: "start",
-    rotate: "radial",
-    offset: 60,
+    align: 'start',
+    rotate: 'radial',
+    offset: 60
   },
   drill: true,
   sunburst: {
     visible: true,
     style: {
-      fillOpacity: (datum) => {
+      fillOpacity: datum => {
         return datum.isLeaf ? 0.4 : 0.8;
-      },
-    },
+      }
+    }
   },
   label: {
     visible: true,
     style: {
-      fillOpacity: (datum) => {
+      fillOpacity: datum => {
         return datum.isLeaf ? 0.4 : 0.8;
-      },
-    },
+      }
+    }
   },
   tooltip: {
     mark: {
       title: {
-        value: (val) => {
-          return val?.datum?.map((data) => data.name).join(" / ");
-        },
-      },
-    },
+        value: val => {
+          return val?.datum?.map(data => data.name).join(' / ');
+        }
+      }
+    }
   },
   data: [
     {
-      id: "data",
-      values: data,
-    },
-  ],
+      id: 'data',
+      values: data
+    }
+  ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderAsync();
