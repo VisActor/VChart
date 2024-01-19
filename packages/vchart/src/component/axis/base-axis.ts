@@ -500,7 +500,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       forceTickCount,
       tickStep,
       tickMode,
-
       axisOrientType: this._orient,
       coordinateType: this._coordinateType,
 

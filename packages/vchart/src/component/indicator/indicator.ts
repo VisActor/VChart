@@ -280,6 +280,10 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     this._cacheAttrs = null;
     super.clear();
   }
+
+  getIndicatorComponent(): IndicatorComponents {
+    return this._indicatorComponent;
+  }
 }
 
 export const registerIndicator = () => {
