@@ -56,10 +56,18 @@ function adjustItemsToCenter(allItems: ILayoutItem[][], isVertical: boolean, con
   }
 }
 
-function layoutRightStartOrMiddleItems(items: ILayoutItem[], layout: Layout, limitHeight: number, isMiddle: boolean) {
+function layoutHorizontalStartOrMiddleItems(
+  items: ILayoutItem[],
+  layout: Layout,
+  limitHeight: number,
+  isMiddle: boolean,
+  align: 'left' | 'right'
+) {
   if (items.length) {
     let maxWidth = 0;
-    let preRight = layout.rightCurrent;
+    const isRight = align === 'right';
+    const xSign = isRight ? -1 : 1;
+    let preX = isRight ? layout.rightCurrent : layout.leftCurrent;
     let preTop = layout.topCurrent;
 
     const allItems: ILayoutItem[][] = [];
@@ -70,20 +78,21 @@ function layoutRightStartOrMiddleItems(items: ILayoutItem[], layout: Layout, lim
       item.setLayoutRect(rect);
       const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
       const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+      const itemOffsetX = isRight ? -rect.width - item.layoutPaddingRight : item.layoutPaddingLeft;
       item.setLayoutStartPosition({
-        x: preRight + item.layoutOffsetX - rect.width - item.layoutPaddingRight,
+        x: preX + item.layoutOffsetX + itemOffsetX,
         y: preTop + item.layoutOffsetY + item.layoutPaddingTop
       });
 
       maxWidth = Math.max(maxWidth, itemTotalWidth);
       preTop += itemTotalHeight;
       if (preTop > limitHeight && singleLineItems.length) {
-        preRight -= maxWidth;
+        preX += xSign * maxWidth;
         maxWidth = itemTotalWidth;
         preTop = layout.topCurrent + itemTotalHeight;
 
         item.setLayoutStartPosition({
-          x: preRight + item.layoutOffsetX - rect.width - item.layoutPaddingRight,
+          x: preX + item.layoutOffsetX + itemOffsetX,
           y: layout.topCurrent + item.layoutOffsetY + item.layoutPaddingTop
         });
         allItems.push(singleLineItems);
@@ -98,60 +107,23 @@ function layoutRightStartOrMiddleItems(items: ILayoutItem[], layout: Layout, lim
       adjustItemsToCenter(allItems, true, limitHeight);
     }
 
-    layout.rightCurrent = preRight - maxWidth;
+    layout.rightCurrent = preX + xSign * maxWidth;
   }
 }
 
-function layoutLeftStartOrMiddleItems(items: ILayoutItem[], layout: Layout, limitHeight: number, isMiddle: boolean) {
+function layoutVerticalStartOrMiddleItems(
+  items: ILayoutItem[],
+  layout: Layout,
+  limitWidth: number,
+  isMiddle: boolean,
+  align: 'top' | 'bottom'
+) {
   if (items.length) {
-    let maxWidth = 0;
-    let preLeft = layout.leftCurrent;
-    let preTop = layout.topCurrent;
-    const allItems: ILayoutItem[][] = [];
-    let singleLineItems: ILayoutItem[] = [];
-    items.forEach(item => {
-      const layoutRect = layout.getItemComputeLayoutRect(item);
-      const rect = item.computeBoundsInRect(layoutRect);
-      item.setLayoutRect(rect);
-      const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
-      const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
-      item.setLayoutStartPosition({
-        x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
-        y: preTop + item.layoutOffsetY + item.layoutPaddingTop
-      });
-
-      maxWidth = Math.max(maxWidth, itemTotalWidth);
-      preTop += itemTotalHeight;
-      if (preTop > limitHeight && singleLineItems.length) {
-        preLeft += maxWidth;
-        maxWidth = itemTotalWidth;
-        preTop = layout.topCurrent + itemTotalHeight;
-
-        item.setLayoutStartPosition({
-          x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
-          y: layout.topCurrent + item.layoutOffsetY + item.layoutPaddingTop
-        });
-        allItems.push(singleLineItems);
-        singleLineItems = [item];
-      } else {
-        singleLineItems.push(item);
-      }
-    });
-    allItems.push(singleLineItems);
-
-    if (isMiddle) {
-      adjustItemsToCenter(allItems, true, limitHeight);
-    }
-
-    layout.leftCurrent = preLeft + maxWidth;
-  }
-}
-
-function layoutTopStartOrMiddleItems(items: ILayoutItem[], layout: Layout, limitWidth: number, isMiddle: boolean) {
-  if (items.length) {
+    const isTop = align === 'top';
+    const ySign = isTop ? 1 : -1;
     let maxHeight = 0;
     let preLeft = layout.leftCurrent;
-    let preTop = layout.topCurrent;
+    let preY = isTop ? layout.topCurrent : layout.bottomCurrent;
     const allItems: ILayoutItem[][] = [];
     let singleLineItems: ILayoutItem[] = [];
     items.forEach(item => {
@@ -160,20 +132,21 @@ function layoutTopStartOrMiddleItems(items: ILayoutItem[], layout: Layout, limit
       item.setLayoutRect(rect);
       const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
       const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
+      const itemOffsetY = isTop ? item.layoutPaddingTop : -rect.height - item.layoutPaddingBottom;
       item.setLayoutStartPosition({
         x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
-        y: preTop + item.layoutOffsetY + item.layoutPaddingTop
+        y: preY + item.layoutOffsetY + itemOffsetY
       });
 
       maxHeight = Math.max(maxHeight, itemTotalHeight);
       preLeft += itemTotalWidth;
       if (preLeft > limitWidth && singleLineItems.length) {
         preLeft = layout.leftCurrent + itemTotalWidth;
-        preTop += maxHeight;
+        preY += ySign * maxHeight;
         maxHeight = itemTotalHeight;
         item.setLayoutStartPosition({
           x: layout.leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft,
-          y: preTop + item.layoutOffsetY + item.layoutPaddingTop
+          y: preY + item.layoutOffsetY + itemOffsetY
         });
         allItems.push(singleLineItems);
         singleLineItems = [item];
@@ -186,61 +159,18 @@ function layoutTopStartOrMiddleItems(items: ILayoutItem[], layout: Layout, limit
       adjustItemsToCenter(allItems, false, limitWidth);
     }
 
-    layout.topCurrent = preTop + maxHeight;
-  }
-}
-
-function layoutBottomStartOrMiddleItems(items: ILayoutItem[], layout: Layout, limitWidth: number, isMiddle: boolean) {
-  if (items.length) {
-    let maxHeight = 0;
-    let preLeft = layout.leftCurrent;
-    let preBottom = layout.bottomCurrent;
-    const allItems: ILayoutItem[][] = [];
-    let singleLineItems: ILayoutItem[] = [];
-    items.forEach(item => {
-      const layoutRect = layout.getItemComputeLayoutRect(item);
-      const rect = item.computeBoundsInRect(layoutRect);
-      item.setLayoutRect(rect);
-      const itemTotalHeight = rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
-      const itemTotalWidth = rect.width + item.layoutPaddingLeft + item.layoutPaddingRight;
-      item.setLayoutStartPosition({
-        x: preLeft + item.layoutOffsetX + item.layoutPaddingLeft,
-        y: preBottom + item.layoutOffsetY - rect.height - item.layoutPaddingBottom
-      });
-
-      maxHeight = Math.max(maxHeight, itemTotalHeight);
-      preLeft += itemTotalWidth;
-      if (preLeft > limitWidth && singleLineItems.length) {
-        allItems.push(singleLineItems);
-        preLeft = layout.leftCurrent + itemTotalWidth;
-        preBottom -= maxHeight;
-        maxHeight = itemTotalHeight;
-        item.setLayoutStartPosition({
-          x: layout.leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft,
-          y: preBottom + item.layoutOffsetY - rect.height - item.layoutPaddingBottom
-        });
-        singleLineItems = [item];
-      } else {
-        singleLineItems.push(item);
-      }
-    });
-    allItems.push(singleLineItems);
-    if (isMiddle) {
-      adjustItemsToCenter(allItems, false, limitWidth);
-    }
-
-    layout.bottomCurrent = preBottom - maxHeight;
+    layout.topCurrent = preLeft + ySign * maxHeight;
   }
 }
 
 export function layoutLeftInlineItems(items: ILayoutItem[], layout: Layout, limitHeight: number) {
   const { startItems, middleItems, endItems } = getPositionItems(items);
   if (startItems.length) {
-    layoutLeftStartOrMiddleItems(startItems, layout, limitHeight, false);
+    layoutHorizontalStartOrMiddleItems(startItems, layout, limitHeight, false, 'left');
   }
 
   if (middleItems.length) {
-    layoutLeftStartOrMiddleItems(middleItems, layout, limitHeight, true);
+    layoutHorizontalStartOrMiddleItems(middleItems, layout, limitHeight, true, 'left');
   }
 
   if (endItems.length) {
@@ -279,11 +209,11 @@ export function layoutRightInlineItems(items: ILayoutItem[], layout: Layout, lim
   const { startItems, middleItems, endItems } = getPositionItems(items);
 
   if (startItems.length) {
-    layoutRightStartOrMiddleItems(startItems, layout, limitHeight, false);
+    layoutHorizontalStartOrMiddleItems(startItems, layout, limitHeight, false, 'right');
   }
 
   if (middleItems.length) {
-    layoutRightStartOrMiddleItems(middleItems, layout, limitHeight, true);
+    layoutHorizontalStartOrMiddleItems(middleItems, layout, limitHeight, true, 'right');
   }
 
   if (endItems.length) {
@@ -321,11 +251,11 @@ export function layoutTopInlineItems(items: ILayoutItem[], layout: Layout, limit
   const { startItems, middleItems, endItems } = getPositionItems(items);
 
   if (startItems.length) {
-    layoutTopStartOrMiddleItems(startItems, layout, limitWidth, false);
+    layoutVerticalStartOrMiddleItems(startItems, layout, limitWidth, false, 'top');
   }
 
   if (middleItems.length) {
-    layoutTopStartOrMiddleItems(middleItems, layout, limitWidth, true);
+    layoutVerticalStartOrMiddleItems(middleItems, layout, limitWidth, true, 'top');
   }
 
   if (endItems.length) {
@@ -365,11 +295,11 @@ export function layoutBottomInlineItems(items: ILayoutItem[], layout: Layout, li
   const { startItems, middleItems, endItems } = getPositionItems(items);
 
   if (startItems.length) {
-    layoutBottomStartOrMiddleItems(startItems, layout, limitWidth, false);
+    layoutVerticalStartOrMiddleItems(startItems, layout, limitWidth, false, 'bottom');
   }
 
   if (middleItems.length) {
-    layoutBottomStartOrMiddleItems(middleItems, layout, limitWidth, true);
+    layoutVerticalStartOrMiddleItems(middleItems, layout, limitWidth, true, 'bottom');
   }
 
   if (endItems.length) {
