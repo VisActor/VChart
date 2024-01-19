@@ -29,6 +29,7 @@ export declare class GeoCoordinate extends BaseComponent<IGeoRegionSpec> impleme
     }>;
     private _actualScale;
     getZoom(): number;
+    private _initialScale;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     effect: IEffect;
     setAttrFromSpec(): void;

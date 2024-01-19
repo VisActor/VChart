@@ -106,7 +106,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _handleChartScroll: (params: {
         scrollX: number;
         scrollY: number;
-    }, e: BaseEventParams['event']) => void;
+    }, e: BaseEventParams['event']) => boolean;
     protected _handleChartDrag: (delta: [number, number], e: BaseEventParams['event']) => void;
     protected _handleChartMove: (value: number, rate: number) => void;
     protected _initCommonEvent(): void;

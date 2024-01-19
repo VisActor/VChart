@@ -1,6 +1,8 @@
 import type { LinearScale } from '@visactor/vscale';
 import type { IAxisLocationCfg, ITick } from '../interface';
 import type { IEvent } from '../../../event/interface';
+import type { IOrientType } from '../../../typings/space';
+import type { IComponentOption } from '../../interface/common';
 export declare const e10: number;
 export declare const e5: number;
 export declare const e2: number;
@@ -21,8 +23,14 @@ export interface LinearAxisMixin {
     _tick: ITick | undefined;
     isSeriesDataEnable: any;
     computeDomain: any;
-    collectData: any;
+    collectData: (depth?: number) => {
+        min: number;
+        max: number;
+        values: any[];
+    }[];
     event: IEvent;
+    _orient: IOrientType;
+    _option: IComponentOption;
 }
 export declare class LinearAxisMixin {
     protected _extend: {

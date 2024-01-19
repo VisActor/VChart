@@ -14,7 +14,8 @@ export declare class BaseModelSpecTransformer<T extends IModelSpec, K> implement
         spec: T;
         theme: K;
     };
-    protected _transformSpec(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo): void;
+    protected _transformSpecBeforeMergingTheme(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo): void;
+    protected _transformSpecAfterMergingTheme(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo): void;
     protected _mergeThemeToSpec(spec: T, chartSpec: any): {
         spec: T;
         theme: K;
