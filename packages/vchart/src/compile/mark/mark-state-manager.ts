@@ -269,11 +269,14 @@ export class MarkStateManager extends StateManager {
     return this.updateState({ markUpdateRank: this._stateMap.markUpdateRank }, noRender);
   }
 
-  compileState(product: IVGrammarMark) {
-    product.state({
-      callback: (datum: any, element: any) => {
-        return this.checkState(element, datum);
-      }
-    });
+  compileState(product: IVGrammarMark, stateSort?: (stateA: string, stateB: string) => number) {
+    product.state(
+      {
+        callback: (datum: any, element: any) => {
+          return this.checkState(element, datum);
+        }
+      },
+      stateSort
+    );
   }
 }

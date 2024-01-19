@@ -2317,6 +2317,13 @@
             "zh": "饼图扩展柱图",
             "en": "pie and bar"
           }
+        },
+        {
+          "path": "state-sort",
+          "title": {
+            "zh": "定制状态排序",
+            "en": "Custom State Sorting"
+          }
         }
       ]
     },
