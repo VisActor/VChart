@@ -22,7 +22,13 @@ export type ILayoutPercent = IPercent | number;
  * 绝对布局会只根据 chart 进行相对处理
  */
 
-export type ILayoutType = 'region-relative' | 'region' | 'normal' | 'absolute' | 'normal-inline';
+export type ILayoutType =
+  | 'region-relative' // 独立占位，不重合
+  | 'region-relative-overlap' // 允许重合放置
+  | 'region'
+  | 'normal'
+  | 'absolute'
+  | 'normal-inline';
 
 export type ILayoutOrientPadding = {
   left?: ILayoutNumber;

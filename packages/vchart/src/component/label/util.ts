@@ -2,9 +2,9 @@ import type { WaterfallSeries } from './../../series/waterfall/waterfall';
 import type { Datum } from '../../typings/common';
 import { Direction } from '../../typings/space';
 import type { ILabelInfo } from './label';
-import type { BaseLabelAttrs, LabelItem, Strategy } from '@visactor/vrender-components';
+import type { BaseLabelAttrs, LabelItem, OverlapAttrs, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
-import { isBoolean, isFunction, isString, substitute } from '@visactor/vutils';
+import { isBoolean, isFunction, isObject, isString, substitute } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
@@ -24,6 +24,15 @@ export const labelRuleMap = {
   arc3d: pieLabel,
   treemap: treemapLabel
 };
+
+export function defaultLabelConfig(rule: string, labelInfo: ILabelInfo) {
+  const { labelSpec } = labelInfo;
+  if (labelSpec.overlap && !isObject(labelSpec.overlap)) {
+    labelSpec.overlap = {};
+  }
+  const processor = labelRuleMap[rule] ?? labelRuleMap.point;
+  return processor(labelInfo);
+}
 
 export function textAttribute(
   labelInfo: ILabelInfo,
@@ -82,7 +91,7 @@ export function symbolLabel(labelInfo: ILabelInfo) {
     overlap = false;
   } else {
     overlap = {
-      strategy: labelSpec.overlap?.strategy ?? symbolLabelOverlapStrategy(),
+      strategy: (labelSpec.overlap as OverlapAttrs)?.strategy ?? symbolLabelOverlapStrategy(),
       avoidBaseMark: position !== 'center'
     };
   }
@@ -149,7 +158,7 @@ export function barLabel(labelInfo: ILabelInfo) {
     overlap = false;
   } else {
     overlap = {
-      strategy: labelSpec.overlap?.strategy ?? barLabelOverlapStrategy(series as ICartesianSeries)
+      strategy: (labelSpec.overlap as OverlapAttrs)?.strategy ?? barLabelOverlapStrategy(series as ICartesianSeries)
     };
   }
 

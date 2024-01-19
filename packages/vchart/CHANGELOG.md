@@ -1,6 +1,38 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 11 Jan 2024 09:36:17 GMT and should not be manually modified.
+This log was last generated on Fri, 19 Jan 2024 05:31:20 GMT and should not be manually modified.
+
+## 1.8.8
+Fri, 19 Jan 2024 05:31:20 GMT
+
+### Updates
+
+- feat: enhance scroll effect, closed #2037
+- feat: upgrade @visactor/vrender-core to locked 0.17.14
+- feat: sankey chart supports disableTriggerEvent configuration
+
+
+- fix: `area.interactive` in area series spec is not available, related #2030
+- fix: fix sortDataByAxis not work after datazoom changed axis
+
+
+- fix: crosshair should show when `trimPadding` of axis is true, fix #2054
+
+
+- fix: calculate layer transform for dimension tooltip
+- fix: fixed the issue where activePoint does not take effect when the visible configuration of line chart point is false
+
+
+- fix: different effect when configuring label.overlap:true in #1956
+- fix: label position incorrect with region indent
+- fix(scroll): event error in lynx env. fix#2041
+- fix: map scale ratio not correct after updateSpec or resize
+- feat: support new layout type region-relative-overlap
+
+
+- fix: fix the bug of nice when tickCount is a function, fix #2050
+
+
 
 ## 1.8.7
 Thu, 11 Jan 2024 09:36:17 GMT
@@ -609,7 +641,7 @@ Tue, 05 Sep 2023 11:24:47 GMT
 - feat: upgrade vdataset for clone source data when call updateData
 
 
-- fix: fix sortDataByAxis not work after updateData
+- fix: fix axis domain will in the wrong order after buildIn data filter
 
 
 - fix: fix the issue of legend does not update after updateData, fix #769

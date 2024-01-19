@@ -80,7 +80,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     update(ctx: IComponentOption): void;
     resize(ctx: IComponentOption): void;
     protected collectScale(): IBaseScale[];
-    protected collectData(depth?: number): {
+    protected collectData(depth?: number, rawData?: boolean): {
         min: number;
         max: number;
         values: any[];

@@ -14,7 +14,7 @@ export function isPcLikeMode(mode: RenderMode) {
 }
 
 export function isMobileLikeMode(mode: RenderMode) {
-  return mode === 'miniApp' || mode === 'mobile-browser';
+  return isMiniAppLikeMode(mode) || mode === 'mobile-browser';
 }
 
 export function isMiniAppLikeMode(mode: RenderMode) {

@@ -2,6 +2,57 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.8",
+      "tag": "@visactor/vchart_v1.8.8",
+      "date": "Fri, 19 Jan 2024 05:31:20 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: enhance scroll effect, closed #2037"
+          },
+          {
+            "comment": "feat: upgrade @visactor/vrender-core to locked 0.17.14"
+          },
+          {
+            "comment": "feat: sankey chart supports disableTriggerEvent configuration\n\n"
+          },
+          {
+            "comment": "fix: `area.interactive` in area series spec is not available, related #2030"
+          },
+          {
+            "comment": "fix: fix sortDataByAxis not work after datazoom changed axis\n\n"
+          },
+          {
+            "comment": "fix: crosshair should show when `trimPadding` of axis is true, fix #2054\n\n"
+          },
+          {
+            "comment": "fix: calculate layer transform for dimension tooltip"
+          },
+          {
+            "comment": "fix: fixed the issue where activePoint does not take effect when the visible configuration of line chart point is false\n\n"
+          },
+          {
+            "comment": "fix: different effect when configuring label.overlap:true in #1956"
+          },
+          {
+            "comment": "fix: label position incorrect with region indent"
+          },
+          {
+            "comment": "fix(scroll): event error in lynx env. fix#2041"
+          },
+          {
+            "comment": "fix: map scale ratio not correct after updateSpec or resize"
+          },
+          {
+            "comment": "feat: support new layout type region-relative-overlap\n\n"
+          },
+          {
+            "comment": "fix: fix the bug of nice when tickCount is a function, fix #2050\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.7",
       "tag": "@visactor/vchart_v1.8.7",
       "date": "Thu, 11 Jan 2024 09:36:17 GMT",
@@ -1094,7 +1145,7 @@
             "comment": "feat: upgrade vdataset for clone source data when call updateData\n\n"
           },
           {
-            "comment": "fix: fix sortDataByAxis not work after updateData\n\n"
+            "comment": "fix: fix axis domain will in the wrong order after buildIn data filter\n\n"
           },
           {
             "comment": "fix: fix the issue of legend does not update after updateData, fix #769"

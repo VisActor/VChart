@@ -18110,7 +18110,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18245,7 +18244,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18354,7 +18352,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -19720,6 +19717,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -30767,6 +30767,16 @@
                   "typeof": "function"
                 }
               ]
+            },
+            {
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "图例背景配置"
@@ -40468,7 +40478,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40585,7 +40594,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40672,7 +40680,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -41597,7 +41604,8 @@
         "normal",
         "normal-inline",
         "region",
-        "region-relative"
+        "region-relative",
+        "region-relative-overlap"
       ],
       "type": "string"
     },
@@ -64066,7 +64074,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -64086,7 +64093,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -64098,7 +64104,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -70109,7 +70114,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         },
         "size": {
@@ -70117,14 +70122,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12617",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         },
         "size": {
@@ -70132,14 +70137,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12617",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         },
         "size": {
@@ -70147,14 +70152,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12617",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         },
         "size": {
@@ -70162,14 +70167,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12617",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         },
         "size": {
@@ -70177,14 +70182,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12617",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         },
         "size": {
@@ -70192,14 +70197,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12617",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         },
         "size": {
@@ -70207,14 +70212,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12617",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         },
         "size": {
@@ -70222,14 +70227,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12617",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         },
         "size": {
@@ -70237,7 +70242,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12617",
         "size"
       ],
       "type": "object"
@@ -70759,6 +70764,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -73716,7 +73724,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73833,7 +73840,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73916,7 +73922,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -75190,6 +75195,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -75920,6 +75928,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -76339,6 +76350,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -76825,6 +76839,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77272,6 +77289,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77681,6 +77701,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78070,6 +78093,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -78516,6 +78542,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78845,7 +78874,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -78962,7 +78990,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79049,7 +79076,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79177,6 +79203,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -79514,7 +79543,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79631,7 +79659,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79719,7 +79746,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -80381,6 +80407,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -80766,6 +80795,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -81419,6 +81451,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -81819,6 +81854,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -82473,6 +82511,12 @@
         "renderStyle": {
           "type": "string"
         },
+        "supportsPointerEvents": {
+          "type": "boolean"
+        },
+        "supportsTouchEvents": {
+          "type": "boolean"
+        },
         "ticker": {
           "$ref": "#/definitions/ITicker"
         },
@@ -82577,6 +82621,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -82977,6 +83024,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -84064,6 +84114,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -84555,6 +84608,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -84947,6 +85003,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -86658,34 +86717,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12611"
+        "__@toStringTag@12617"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12611"
+        "__@toStringTag@12617"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12617": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12611"
+        "__@toStringTag@12617"
       ],
       "type": "object"
     },
@@ -86856,6 +86915,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -87361,6 +87423,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -87852,6 +87917,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -88303,6 +88371,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -88801,6 +88872,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -89326,6 +89400,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -89809,6 +89886,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -90309,6 +90389,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -90763,6 +90846,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -91232,6 +91318,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -91715,6 +91804,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -92184,6 +92276,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -92682,6 +92777,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -93274,6 +93372,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -93738,6 +93839,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"

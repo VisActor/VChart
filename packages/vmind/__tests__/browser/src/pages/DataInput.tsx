@@ -10,7 +10,8 @@ import {
   Message,
   Select,
   Radio,
-  Checkbox
+  Checkbox,
+  Modal
 } from '@arco-design/web-react';
 import {
   mockUserInput10,
@@ -81,6 +82,7 @@ const ModelConfigMap = {
   [Model.GPT3_5]: { url: globalVariables.VITE_GPT_URL, key: globalVariables.VITE_GPT_KEY },
   [Model.GPT4]: { url: globalVariables.VITE_GPT_URL, key: globalVariables.VITE_GPT_KEY }
 };
+const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 export function DataInput(props: IPropsType) {
   const defaultDataKey = Object.keys(demoDataList)[3];
@@ -91,21 +93,26 @@ export function DataInput(props: IPropsType) {
   const [model, setModel] = useState<Model>(Model.SKYLARK2);
   const [cache, setCache] = useState<boolean>(false);
   const [showThoughts, setShowThoughts] = useState<boolean>(false);
+  const [visible, setVisible] = React.useState(false);
+  const [url, setUrl] = React.useState(ModelConfigMap[model].url ?? OPENAI_API_URL);
+  const [apiKey, setApiKey] = React.useState(ModelConfigMap[model].key);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const vmind = useMemo(
-    () =>
-      new VMind({
-        url: ModelConfigMap[model].url ?? undefined,
-        model,
-        cache,
-        showThoughts: showThoughts,
-        headers: {
-          'api-key': ModelConfigMap[model].key
-        }
-      }),
-    [cache, model, showThoughts]
-  );
+  const vmind = useMemo(() => {
+    if (!url || !apiKey) {
+      Message.error('Please set your LLM URL and API Key!!!');
+      return null;
+    }
+    return new VMind({
+      url,
+      model,
+      cache,
+      showThoughts: showThoughts,
+      headers: {
+        'api-key': apiKey
+      }
+    });
+  }, [apiKey, cache, model, showThoughts, url]);
 
   const askGPT = useCallback(async () => {
     setLoading(true);
@@ -121,6 +128,18 @@ export function DataInput(props: IPropsType) {
 
   return (
     <div className="left-sider">
+      <div
+        style={{
+          width: '90%',
+          marginBottom: 10
+        }}
+      >
+        <div style={{ marginTop: 20, display: 'flex', justifyContent: 'center' }}>
+          <Button size="small" style={{ width: 200 }} shape="round" type="primary" onClick={() => setVisible(true)}>
+            Set API-Key and LLM URL
+          </Button>
+        </div>
+      </div>
       <div style={{ width: '90%', marginBottom: 20 }}>
         <p>
           <Avatar size={18} style={{ backgroundColor: '#3370ff' }}>
@@ -159,10 +178,10 @@ export function DataInput(props: IPropsType) {
           placeholder={describe}
           value={describe}
           onChange={v => setDescribe(v)}
-          style={{ minHeight: 160, marginTop: 20, background: 'transparent', border: '1px solid #eee' }}
+          style={{ minHeight: 80, marginTop: 20, background: 'transparent', border: '1px solid #eee' }}
         />
       </div>
-      <Divider style={{ marginTop: 60 }} />
+      <Divider style={{ marginTop: 30 }} />
       <div>
         <p>
           <Avatar size={18} style={{ backgroundColor: '#3370ff' }}>
@@ -242,7 +261,7 @@ export function DataInput(props: IPropsType) {
           Enable Cache
         </Checkbox>
       </div>
-      <div style={{ width: '90%', marginBottom: 10 }}>
+      <div style={{ width: '90%', marginBottom: 20 }}>
         <Checkbox checked={showThoughts} onChange={v => setShowThoughts(v)}>
           Show Thoughts
         </Checkbox>
@@ -258,12 +277,32 @@ export function DataInput(props: IPropsType) {
               askGPT();
             }
           }}
+          disabled={!url || !apiKey}
           shape="round"
           type="primary"
         >
           generate chart (preview)
         </Button>
       </div>
+      <Modal
+        title="Set API Key and URL"
+        visible={visible}
+        onOk={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
+        autoFocus={false}
+        focusLock={true}
+        okText={'OK'}
+        hideCancel
+      >
+        <div>
+          <p>LLM Service URL:</p>
+          <Input value={url} onChange={v => setUrl(v)}></Input>
+        </div>
+        <div>
+          <p>api key:</p>
+          <Input value={apiKey} onChange={v => setApiKey(v)}></Input>
+        </div>
+      </Modal>
     </div>
   );
 }

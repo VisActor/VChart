@@ -2,42 +2,30 @@ import type { IChart } from '../../chart/interface/chart';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IRect } from '../../typings/space';
 import type { IBaseLayout, ILayoutItem } from '../interface';
+import type { IOffset, LayoutSideType } from '../base-layout';
 import { Layout } from '../base-layout';
 import { isXAxis, isYAxis } from '../../component/axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 import type { IAxis } from '../../component/axis';
-
-interface IOffset {
-  offsetLeft: number;
-  offsetRight: number;
-  offsetTop: number;
-  offsetBottom: number;
-}
+import type { ILayoutRect } from '../../typings/layout';
 
 export class Layout3d extends Layout implements IBaseLayout {
   static type = 'layout3d';
 
   layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void {
-    this._chartLayoutRect = chartLayoutRect;
-    this._chartViewBox = chartViewBox;
-    this.leftCurrent = chartLayoutRect.x;
-    this.topCurrent = chartLayoutRect.y;
-    this.rightCurrent = chartLayoutRect.x + chartLayoutRect.width;
-    this.bottomCurrent = chartLayoutRect.height + chartLayoutRect.y;
+    // 布局初始化
+    this._layoutInit(_chart, items, chartLayoutRect, chartViewBox);
+    // 先布局 normal 类型的元素
+    this._layoutNormalItems(items);
 
-    // 越大越先处理，进行排序调整，利用原地排序特性，排序会受 level 和传进来的数组顺序共同影响
-    items.sort((a, b) => b.layoutLevel - a.layoutLevel);
-
-    this.layoutNormalItems(items.filter(x => x.layoutType === 'normal'));
-
-    const layoutTemp = {
-      leftCurrent: this.leftCurrent,
-      _topCurrent: this.topCurrent,
-      _rightCurrent: this.rightCurrent,
-      _bottomCurrent: this.bottomCurrent
+    // 开始布局 region 相关元素
+    // 为了锁紧先保存一下当前的布局空间
+    const layoutTemp: LayoutSideType = {
+      left: this.leftCurrent,
+      top: this.topCurrent,
+      right: this.rightCurrent,
+      bottom: this.bottomCurrent
     };
-    const regionItems = items.filter(x => x.layoutType === 'region');
-    const relativeItems = items.filter(x => x.layoutType === 'region-relative');
     // 计算3d轴
     const absoluteItem = items.filter(x => x.layoutType === 'absolute');
     const zItems = absoluteItem.filter(i => {
@@ -54,31 +42,15 @@ export class Layout3d extends Layout implements IBaseLayout {
     this.rightCurrent -= extraWH.width / 8;
     this.topCurrent += extraWH.height / 8;
     this.bottomCurrent -= extraWH.height / 8;
-    const offsetWH: IOffset = {
-      offsetBottom: 0,
-      offsetTop: 0,
-      offsetLeft: 0,
-      offsetRight: 0
-    };
 
+    const { regionItems, relativeItems, relativeOverlapItems, allRelatives, overlapItems } = this._groupItems(items);
     // 有元素开启了自动缩进
     // TODO:目前只有普通占位布局下的 region-relative 元素支持
     // 主要考虑常规元素超出画布一般为用户个性设置，而且可以设置padding规避裁剪,不需要使用自动缩进
-    this.layoutRegionItems(regionItems, relativeItems, offsetWH);
-    if (relativeItems.some(i => i.autoIndent)) {
-      // check auto indent
-      const { top, bottom, left, right } = this._checkAutoIndent(relativeItems);
-      // 如果出现了需要自动缩进的场景 则基于缩进再次布局
-      if (top || bottom || left || right) {
-        // set outer bounds to padding
-        this.topCurrent = layoutTemp._topCurrent + top;
-        this.bottomCurrent = layoutTemp._bottomCurrent - bottom;
-        this.leftCurrent = layoutTemp.leftCurrent + left;
-        this.rightCurrent = layoutTemp._rightCurrent - right;
-        // reLayout
-        this.layoutRegionItems(regionItems, relativeItems);
-      }
-    }
+    this.layoutRegionItems(regionItems, relativeItems, relativeOverlapItems, overlapItems);
+
+    // 缩进
+    this._processAutoIndent(regionItems, relativeItems, relativeOverlapItems, overlapItems, allRelatives, layoutTemp);
 
     // z轴以外的绝对定位
     const absoluteItemExceptZAxis = absoluteItem.filter(i => i.layoutOrient !== 'z');
@@ -127,110 +99,6 @@ export class Layout3d extends Layout implements IBaseLayout {
     zItems.forEach(item => {
       // 设置盒子
       item.absoluteLayoutInRect(zRect);
-    });
-  }
-
-  /**
-   *
-   * 1. 补全 region-relative rect 和部分 layoutStartPoint
-   * 2. 补全 region rect 和 layoutStartPoint
-   *
-   */
-  protected layoutRegionItems(
-    regionItems: ILayoutItem[],
-    regionRelativeItems: ILayoutItem[],
-    extraOffset?: IOffset
-  ): void {
-    let regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
-    let regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
-
-    if (!extraOffset) {
-      extraOffset = { offsetLeft: 0, offsetRight: 0, offsetTop: 0, offsetBottom: 0 };
-    }
-
-    regionRelativeItems
-      .filter(x => x.layoutOrient === 'left' || x.layoutOrient === 'right')
-      .forEach(item => {
-        const layoutRect = this.getItemComputeLayoutRect(item, extraOffset);
-        const rect = item.computeBoundsInRect(layoutRect);
-        item.setLayoutRect({ width: rect.width });
-        // 减少尺寸
-        if (item.layoutOrient === 'left') {
-          item.setLayoutStartPosition({
-            x: this.leftCurrent + item.layoutOffsetX + item.layoutPaddingLeft + extraOffset.offsetLeft
-          });
-          this.leftCurrent += rect.width + item.layoutPaddingLeft + item.layoutPaddingRight + extraOffset.offsetLeft;
-        } else if (item.layoutOrient === 'right') {
-          this.rightCurrent -= rect.width + item.layoutPaddingLeft + item.layoutPaddingRight + extraOffset.offsetRight;
-          item.setLayoutStartPosition({
-            x: this.rightCurrent + item.layoutOffsetX + item.layoutPaddingLeft
-          });
-        }
-      });
-
-    regionRelativeTotalWidth = this.rightCurrent - this.leftCurrent;
-
-    regionRelativeItems
-      .filter(x => x.layoutOrient === 'top' || x.layoutOrient === 'bottom')
-      .forEach(item => {
-        const layoutRect = this.getItemComputeLayoutRect(item, extraOffset);
-        const rect = item.computeBoundsInRect(layoutRect);
-        item.setLayoutRect({ height: rect.height });
-
-        // 减少尺寸
-        if (item.layoutOrient === 'top') {
-          item.setLayoutStartPosition({
-            y: this.topCurrent + item.layoutOffsetY + item.layoutPaddingTop + extraOffset.offsetTop
-          });
-          this.topCurrent += rect.height + item.layoutPaddingTop + item.layoutPaddingBottom;
-        } else if (item.layoutOrient === 'bottom') {
-          this.bottomCurrent -=
-            rect.height + item.layoutPaddingTop + item.layoutPaddingBottom + extraOffset.offsetBottom;
-          item.setLayoutStartPosition({
-            y: this.bottomCurrent + item.layoutOffsetY + item.layoutPaddingTop
-          });
-        }
-      });
-    // 此时得到height
-    regionRelativeTotalHeight = this.bottomCurrent - this.topCurrent;
-
-    // region 处理
-    regionItems.forEach(region => {
-      region.setLayoutRect({
-        width: regionRelativeTotalWidth,
-        height: regionRelativeTotalHeight
-      });
-
-      region.setLayoutStartPosition({
-        x: this.leftCurrent + region.layoutOffsetX + region.layoutPaddingLeft,
-        y: this.topCurrent + region.layoutOffsetY + region.layoutPaddingTop
-      });
-    });
-
-    // region-relative 特殊处理
-    regionRelativeItems.forEach(item => {
-      // 处理特殊元素的宽高
-      if (['left', 'right'].includes(item.layoutOrient)) {
-        // 用户有配置的话，已经处理过，不需要再次处理
-        const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
-
-        item.setLayoutRect({
-          height: relativeRegion.layoutExcludeIndent.height
-        });
-        item.setLayoutStartPosition({
-          y: relativeRegion.layoutExcludeIndent.y + item.layoutOffsetY + item.layoutPaddingTop
-        });
-      } else if (['top', 'bottom'].includes(item.layoutOrient)) {
-        const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
-
-        item.setLayoutRect({
-          width: relativeRegion.layoutExcludeIndent.width
-        });
-
-        item.setLayoutStartPosition({
-          x: relativeRegion.layoutExcludeIndent.x + item.layoutOffsetX + item.layoutPaddingLeft
-        });
-      }
     });
   }
 
