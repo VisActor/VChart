@@ -35,7 +35,9 @@ export const preprocessSQL = (sql: string, fieldInfo: SimpleFieldInfo[]) => {
     '+': `_PLUS_${generateRandomString(10)}_`,
     '-': `_MINUS_${generateRandomString(10)}_`,
     '*': `_MULTI_${generateRandomString(10)}_`,
-    '/': `_DIVIDE_${generateRandomString(10)}_`
+    '/': `_DIVIDE_${generateRandomString(10)}_`,
+    key: `_KEY_${generateRandomString(10)}_`,
+    KEY: `_KEY_${generateRandomString(10)}_`
   };
   let validSQL = noNewLine;
   fieldInfo.forEach(field => {

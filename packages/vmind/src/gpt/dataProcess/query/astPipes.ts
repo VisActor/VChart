@@ -6,6 +6,7 @@ import {
   FilterNodeType,
   FilterOperator,
   HavingCondition,
+  OrderType,
   Query,
   WhereCondition,
   WhereFilterNode
@@ -203,7 +204,7 @@ export const orderBy: any = (query: Partial<Query>, context: ASTParserContext) =
         result.aggregate = orderConfig.aggregate;
       }
       return {
-        type: toFirstUpperCase(type),
+        type: type ? toFirstUpperCase(type) : OrderType.Asc,
         ...result
       };
     })

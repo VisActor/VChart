@@ -65,13 +65,10 @@ export const funnelData = (spec: any, context: Context) => {
   return spec;
 };
 export const wordCloudData = (spec: any, context: Context) => {
-  const { dataset, cell } = context;
-  const { color, size } = cell;
+  const { dataset } = context;
   spec.data = {
     id: 'data',
-    values: dataset
-      .filter((d: any) => d[color!] && d[size!] && d[color!].length > 0 && d[size!].length > 0)
-      .slice(0, WORDCLOUD_NUM_LIMIT)
+    values: dataset.slice(0, WORDCLOUD_NUM_LIMIT)
   };
 
   return spec;

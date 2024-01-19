@@ -71,8 +71,8 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
     };
   }
   //饼图 必须有color字段和angle字段
-  if (chartType === 'PIE CHART') {
-    const cellNew = { ...cell };
+  if (chartType === 'PIE CHART' || chartType === 'ROSE CHART') {
+    const cellNew = { ...cell, color: cell.color ?? cell.category };
     if (!cellNew.color || !cellNew.angle) {
       const usedFields = Object.values(cell);
       const dataFields = Object.keys(dataset[0]);
