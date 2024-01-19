@@ -192,3 +192,35 @@ Response:
 }
 \`\`\`
 `;
+
+export const getQueryDatasetPrompt = (
+  showThoughts: boolean
+) => `You are an expert in data analysis. Here is a raw dataset named dataSource. User want to do data query and generate a chart with this dataset.
+Your task is:
+1. Detect the meaning of each field in the dataset. According to user's command and data field description, write one SQL statement to query the data user needs from the data set.
+2. If the fields in the current data set cannot meet user needs, please generate a new field and write it in SQL. You can aggregate fields when you think it's necessary.
+3. Write a description for each field in the SQL query result, describing its aggregation method and other information and fill it in the fieldInfo array.
+4. Response in JSON format without any additional descriptions
+
+Let's think step by step. ${showThoughts ? 'Fill your thoughts in {thoughts}.' : ''}
+
+Response in the following JSON format:
+\`\`\`
+{
+${
+  showThoughts ? 'thoughts: string; //Your thoughts\n' : ''
+}SQL: string; //your sql statement. Note that it's a string in a JSON object so it must be in one line without any \\n.
+fieldInfo: {
+  fieldName: string; //name of the field.
+  description?: string; //description of the field. If it is an aggregated field, please describe how it is generated in detail.
+}[]
+}
+\`\`\`
+
+Constraints:
+1. No user assistance.
+2. Make sure your SQL includes all useful fields.
+3. DO NOT change or translate the field names in your SQL statement.
+4. Wrap the response content with \`\`\`, and the content must be directly parsed by JSON.parse() in JavaScript.
+5. Response without any additional descriptions and other formats.
+`;

@@ -11,3 +11,9 @@ export type ASTParserContext = {
   fieldInfo: SimpleFieldInfo[];
   replaceMap: Map<string, string>;
 };
+
+export type DataQueryResponse = {
+  THOUGHT?: string;
+  SQL: string;
+  fieldInfo: { fieldName: string; description?: string }[];
+};

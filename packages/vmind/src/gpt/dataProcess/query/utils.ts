@@ -1,5 +1,6 @@
 import { Query } from '../../../calculator';
-import { SimpleFieldInfo } from '../../../typings';
+import { detectFieldType } from '../../../common/dataProcess/utils';
+import { DataItem, SimpleFieldInfo } from '../../../typings';
 import { ASTParserContext, ASTParserPipe } from './type';
 
 /**
@@ -108,3 +109,14 @@ export const checkIsColumnNode = (node: any, columns: any, fieldInfo: SimpleFiel
   //  return columnNameList.includes(columnName);
   //}
 };
+
+/**
+ * parse the respond field in data query to get field type and role
+ * @param fieldInfo
+ * @param responseFieldInfo
+ * @param dataset
+ */
+export const parseRespondField = (
+  responseFieldInfo: { fieldName: string; description?: string }[],
+  dataset: DataItem[]
+) => responseFieldInfo.map(field => ({ ...field, ...detectFieldType(dataset, field.fieldName) }));

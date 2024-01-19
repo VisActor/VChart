@@ -154,8 +154,6 @@ export const select: ASTParserPipe = (query: Partial<Query>, context: ASTParserC
         const result: any = {};
         const { as, expr } = column;
         if (checkIsColumnNode(expr, columnAlias, fieldInfo)) {
-          // If it is a column from data source, it can be check by fieldInfo
-          // If it is a derived column, it can be check by columnAlias
           result.column = getOriginalString(expr.column ?? expr.value, replaceMap);
         } else if (expr.type === 'aggr_func') {
           const aggrFuncConf: any = parseAggrFunc(expr, columnAlias, fieldInfo, replaceMap);

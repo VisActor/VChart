@@ -91,7 +91,7 @@ export function DataInput(props: IPropsType) {
   const [csv, setCsv] = useState<string>(demoDataList[defaultDataKey].csv);
   const [spec, setSpec] = useState<string>('');
   const [time, setTime] = useState<number>(1000);
-  const [model, setModel] = useState<Model>(Model.SKYLARK2);
+  const [model, setModel] = useState<Model>(Model.GPT3_5);
   const [cache, setCache] = useState<boolean>(false);
   const [showThoughts, setShowThoughts] = useState<boolean>(false);
   const [visible, setVisible] = React.useState(false);
@@ -119,14 +119,14 @@ export function DataInput(props: IPropsType) {
   const askGPT = useCallback(async () => {
     //setLoading(true);
     const { fieldInfo, dataset } = vmind.parseCSVData(csv);
-    queryDataset(describe, fieldInfo, dataset);
+    const { fieldInfo: fieldInfoQuery, dataset: datasetQuery } = await vmind?.dataQuery(describe, fieldInfo, dataset);
     //const { fieldInfo, dataset } = await vmind.parseCSVDataWithLLM(csv, describe);
-    //const startTime = new Date().getTime();
-    //const { spec, time } = await vmind.generateChart(describe, fieldInfo, dataset);
-    //const endTime = new Date().getTime();
-    //const costTime = endTime - startTime;
-    //props.onSpecGenerate(spec, time as any, costTime);
-    //setLoading(false);
+    const startTime = new Date().getTime();
+    const { spec, time } = await vmind.generateChart(describe, fieldInfoQuery, datasetQuery);
+    const endTime = new Date().getTime();
+    const costTime = endTime - startTime;
+    props.onSpecGenerate(spec, time as any, costTime);
+    setLoading(false);
   }, [vmind, csv, describe, props]);
 
   return (
