@@ -165,6 +165,10 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   private _handleEvent = throttle((params: any) => {
+    if (!this._option) {
+      return;
+    }
+
     const { event } = params as BaseEventParams;
     // compute layer offset
     const layer = this._option.getCompiler().getStage().getLayer(undefined);
