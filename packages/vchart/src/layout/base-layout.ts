@@ -362,10 +362,10 @@ export class Layout implements IBaseLayout {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
-          height: relativeRegion.layoutExcludeIndent.height
+          height: relativeRegion.getLayoutRect().height
         });
         item.setLayoutStartPosition({
-          y: relativeRegion.layoutExcludeIndent.y + item.layoutOffsetY + item.layoutPaddingTop
+          y: relativeRegion.getLayoutStartPoint().y + item.layoutOffsetY + item.layoutPaddingTop
         });
 
         if (item.layoutOrient === 'right') {
@@ -377,11 +377,11 @@ export class Layout implements IBaseLayout {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
-          width: relativeRegion.layoutExcludeIndent.width
+          width: relativeRegion.getLayoutRect().width
         });
 
         item.setLayoutStartPosition({
-          x: relativeRegion.layoutExcludeIndent.x + item.layoutOffsetX + item.layoutPaddingLeft
+          x: relativeRegion.getLayoutStartPoint().x + item.layoutOffsetX + item.layoutPaddingLeft
         });
 
         if (item.layoutOrient === 'bottom') {

@@ -132,8 +132,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   protected _getBrushInteractiveAttr(region: IRegion) {
-    const regionLayoutPosition = region.getLayoutPositionExcludeIndent();
-    const regionLayoutRect = region.getLayoutRectExcludeIndent();
+    const regionLayoutPosition = region.getLayoutStartPoint();
+    const regionLayoutRect = region.getLayoutRect();
     const seriesRegionStartX = regionLayoutPosition.x;
     const seriesRegionEndX = seriesRegionStartX + regionLayoutRect.width;
     const seriesRegionStartY = regionLayoutPosition.y;
@@ -322,11 +322,11 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   }
 
   private _reconfigLinkedItem(operateMask: IPolygon, region: IRegion) {
-    const regionLayoutPos = region.getLayoutPositionExcludeIndent();
+    const regionLayoutPos = region.getLayoutStartPoint();
     const seriesId = region.getSeries().map(s => s.id);
     this._linkedSeries.forEach((s: ISeries) => {
       if (!seriesId.includes(s.id)) {
-        const sRegionLayoutPos = s.getRegion().getLayoutPositionExcludeIndent();
+        const sRegionLayoutPos = s.getRegion().getLayoutStartPoint();
 
         const regionOffsetX = sRegionLayoutPos.x - regionLayoutPos.x;
         const regionOffsetY = sRegionLayoutPos.y - regionLayoutPos.y;
