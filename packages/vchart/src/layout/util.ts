@@ -107,7 +107,11 @@ function layoutLeftRightStartOrMiddleItems(
       adjustItemsToCenter(allItems, true, limitHeight);
     }
 
-    layout.rightCurrent = preX + xSign * maxWidth;
+    if (isRight) {
+      layout.rightCurrent = preX + xSign * maxWidth;
+    } else {
+      layout.leftCurrent = preX + xSign * maxWidth;
+    }
   }
 }
 
@@ -159,7 +163,11 @@ function layoutTopBottomStartOrMiddleItems(
       adjustItemsToCenter(allItems, false, limitWidth);
     }
 
-    layout.topCurrent = preLeft + ySign * maxHeight;
+    if (isTop) {
+      layout.topCurrent = preY + ySign * maxHeight;
+    } else {
+      layout.bottomCurrent = preY + ySign * maxHeight;
+    }
   }
 }
 
