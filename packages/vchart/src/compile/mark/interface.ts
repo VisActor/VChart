@@ -65,7 +65,7 @@ export interface ICompilableMark extends IGrammarItem {
   readonly stateStyle: IMarkStateStyle<any>;
   hasState: (state: string) => boolean;
   getState: (state: string) => any;
-  updateState: (newState: Record<string, unknown>) => Promise<void>;
+  updateState: (newState: Record<string, unknown>) => void;
   /** 更新group | enter中的静态样式 */
   updateStaticEncode: () => void;
   /** 更新 mark 样式 */

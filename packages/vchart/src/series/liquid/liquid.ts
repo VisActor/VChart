@@ -205,13 +205,16 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(liquidMark);
     }
   }
 
   protected initTooltip() {
     this._tooltipHelper = new LiquidSeriesTooltipHelper(this);
     this._liquidMark && this._tooltipHelper.activeTriggerSet.mark.add(this._liquidMark);
+  }
+
+  initInteraction(): void {
+    this._parseInteractionConfig(this._liquidMark ? [this._liquidMark] : []);
   }
 
   initAnimation() {
