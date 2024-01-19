@@ -137,7 +137,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._layoutTag = tag;
     if (this.getCompiler()?.getVGrammarView()) {
       this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && reLayout && this.getCompiler().renderAsync(morphConfig);
+      tag && reLayout && this.getCompiler().renderNextTick(morphConfig);
     }
     return this._layoutTag;
   }
@@ -617,7 +617,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   getMarkById(id: number): IMark | undefined {
     const mark = this._idMap.get(id);
     if (mark && mark instanceof BaseMark) {
-      return mark;
+      return mark as IMark;
     }
     return undefined;
   }
@@ -667,7 +667,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       return this._canvasRect;
     }
 
-    this._canvasRect = calculateChartSize(this._spec, this._option);
+    this._canvasRect = calculateChartSize(this._spec, this._option, {
+      width: DEFAULT_CHART_WIDTH,
+      height: DEFAULT_CHART_HEIGHT
+    });
 
     return this._canvasRect;
   }

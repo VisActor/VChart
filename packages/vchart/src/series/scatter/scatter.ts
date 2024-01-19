@@ -368,7 +368,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
 
     if (vgrammarLabel) {
-      vgrammarLabel.evaluateSync(null, null);
+      (vgrammarLabel as any).evaluate(null, null);
     }
   }
 
@@ -393,7 +393,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
 
     if (vgrammarLabel) {
-      vgrammarLabel.evaluateSync(null, null);
+      (vgrammarLabel as any).evaluate(null, null);
     }
   }
 

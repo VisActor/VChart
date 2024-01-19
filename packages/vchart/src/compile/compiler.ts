@@ -12,7 +12,7 @@ import type {
 } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { GrammarType } from './interface/compilable-item';
-import { toRenderMode, viewResizeSync } from './util';
+import { toRenderMode } from './util';
 import { isMobileLikeMode, isTrueBrowser } from '../util/env';
 import { isString } from '../util/type';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -24,6 +24,8 @@ import type { VChart } from '../core/vchart';
 import type { IColor, Stage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
+// eslint-disable-next-line no-duplicate-imports
+import { vglobal } from '@visactor/vrender-core';
 
 type EventListener = {
   type: string;
@@ -43,8 +45,9 @@ export class Compiler {
   protected _canvasListeners: Map<(...args: any[]) => any, EventListener> = new Map();
 
   isInited: boolean = false;
-  // 是否已经销毁
-  isReleased: boolean = false;
+
+  private _isRunning: boolean = false;
+  private _nextRafId: number;
 
   protected _width: number;
   protected _height: number;
@@ -88,9 +91,6 @@ export class Compiler {
   }
 
   initView() {
-    if (this.isReleased) {
-      return;
-    }
     this.isInited = true;
     if (this._view) {
       return;
@@ -169,24 +169,31 @@ export class Compiler {
     this.releaseGrammar(removeGraphicItems);
   }
 
-  async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
-    if (this.isReleased) {
-      return;
+  renderNextTick(morphConfig?: IMorphConfig): void {
+    if (!this._nextRafId) {
+      this._nextRafId = vglobal.getRequestAnimationFrame()(() => {
+        this._nextRafId = null;
+        this.render(morphConfig);
+      }) as unknown as number;
     }
-    this.initView();
-    if (!this._view) {
-      return Promise.reject('srView init fail');
-    }
-    await this._view?.runNextTick(morphConfig);
-    return this;
   }
 
-  renderSync(morphConfig?: IMorphConfig): void {
+  render(morphConfig?: IMorphConfig) {
+    if (this._nextRafId) {
+      vglobal.getCancelAnimationFrame()(this._nextRafId);
+      this._nextRafId = null;
+    }
+    if (this._isRunning) {
+      return;
+    }
+
     this.initView();
     if (!this._view) {
       return;
     }
-    this._view?.runSync(morphConfig);
+    this._isRunning = true;
+    this._view?.run(morphConfig);
+    this._isRunning = false;
   }
 
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {
@@ -197,29 +204,16 @@ export class Compiler {
     this._view.renderer.setViewBox(viewBox, reRender);
   }
 
-  async resize(width: number, height: number, reRender: boolean = true) {
+  resize(width: number, height: number, reRender: boolean = true) {
     if (!this._view) {
       return;
     }
     this._width = width;
     this._height = height;
 
-    await this._view.resize(width, height);
+    this._view.resize(width, height);
     if (reRender) {
-      await this.renderAsync({ morph: false });
-    }
-  }
-
-  resizeSync(width: number, height: number, reRender: boolean = true) {
-    if (!this._view) {
-      return;
-    }
-    this._width = width;
-    this._height = height;
-
-    viewResizeSync(this._view, width, height);
-    if (reRender) {
-      this.renderSync({ morph: false });
+      this.render({ morph: false });
     }
   }
 
@@ -361,7 +355,6 @@ export class Compiler {
     this._view?.release();
     this._view = null;
     this.isInited = false;
-    this.isReleased = true;
   }
 
   /**

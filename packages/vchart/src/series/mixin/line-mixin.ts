@@ -39,6 +39,7 @@ import type { ILabelMark } from '../../mark/label';
 import type { Functional } from '@visactor/vrender-components';
 import type { IRegion } from '../../region/interface';
 import type { SeriesData } from '../base/series-data';
+import { mergeSpec } from '../../util/spec';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;
@@ -273,7 +274,43 @@ export class LineLikeSeriesMixin {
   initSymbolMarkStyle() {
     const symbolMark = this._symbolMark;
     if (!symbolMark) {
+      this._initSymbolActiveMarkAlone();
       return symbolMark;
+    }
+    // 设置基础样式
+    this._initSymbolMark(symbolMark);
+
+    this._trigger.registerMark(symbolMark);
+
+    // setStyle to active point
+    if (this._symbolActiveMark && this._symbolMark.stateStyle.dimension_hover) {
+      // active point will show
+      this._symbolActiveMark.setVisible(true);
+      this.event.on(DimensionEventEnum.dimensionHover, this._dimensionTrigger.bind(this) as EventCallback<EventParams>);
+      // set style with referer
+      for (const state in this._symbolMark.stateStyle) {
+        this._symbolActiveMark.stateStyle[state] = {};
+        for (const key in this._symbolMark.stateStyle[state]) {
+          this._symbolActiveMark.stateStyle[state][key] = {
+            style: null,
+            level: AttributeLevel.Series,
+            referer: symbolMark
+          };
+        }
+      }
+      // make sure activeMark in state
+      this._symbolActiveMark.state.changeStateInfo({
+        stateValue: STATE_VALUE_ENUM.STATE_DIMENSION_HOVER,
+        filter: () => true
+      });
+    }
+
+    return symbolMark;
+  }
+
+  private _initSymbolMark(symbolMark: ISymbolMark) {
+    if (!symbolMark) {
+      return;
     }
     this.setMarkStyle(
       symbolMark,
@@ -308,32 +345,34 @@ export class LineLikeSeriesMixin {
       'normal',
       AttributeLevel.Series
     );
-    this._trigger.registerMark(symbolMark);
+  }
+
+  private _initSymbolActiveMarkAlone() {
+    const symbolMark = this._symbolActiveMark;
+    if (!symbolMark) {
+      return;
+    }
+    this._initSymbolMark(symbolMark);
+
+    // 这里应该不能讲trigger-mark改为activeMark，activeMark数据会变，并且目前不支持selected等操作改变它的数据
+    // this._trigger.registerMark(symbolMark);
 
     // setStyle to active point
-    if (this._symbolActiveMark && this._symbolMark.stateStyle.dimension_hover) {
+    if (symbolMark && this._spec[lineLikeSeriesMark.point.name]?.state?.dimension_hover) {
       // active point will show
-      this._symbolActiveMark.setVisible(true);
+      symbolMark.setVisible(true);
       this.event.on(DimensionEventEnum.dimensionHover, this._dimensionTrigger.bind(this) as EventCallback<EventParams>);
       // set style with referer
-      for (const state in this._symbolMark.stateStyle) {
-        this._symbolActiveMark.stateStyle[state] = {};
-        for (const key in this._symbolMark.stateStyle[state]) {
-          this._symbolActiveMark.stateStyle[state][key] = {
-            style: null,
-            level: AttributeLevel.Series,
-            referer: symbolMark
-          };
-        }
-      }
+      this.initMarkStyleWithSpec(
+        symbolMark,
+        mergeSpec({}, this._spec[lineLikeSeriesMark.point.name], { visible: true })
+      );
       // make sure activeMark in state
       this._symbolActiveMark.state.changeStateInfo({
         stateValue: STATE_VALUE_ENUM.STATE_DIMENSION_HOVER,
         filter: () => true
       });
     }
-
-    return symbolMark;
   }
 
   initLabelMarkStyle(labelMark?: ILabelMark) {

@@ -27,6 +27,7 @@ import type {
 } from './interface';
 import type { Datum, IPoint } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import type { IOrdinalScale } from '@visactor/vscale';
 import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
 import {
@@ -88,6 +89,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _padding?: IPadding;
   protected _defaultFontFamily: string;
 
+  protected _keyWordColorCallback: (datum: Datum) => string;
+  protected _fillingColorCallback: (datum: Datum) => string;
+
   /**
    * @override
    */
@@ -135,29 +139,23 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   protected _wordMark: ITextMark;
-  protected _fillingWordMark: ITextMark;
   initMark(): void {
     this._wordMark = this._createMark(BaseWordCloudSeries.mark.word, {
+      key: DEFAULT_DATA_KEY,
       defaultMorphElementKey: this._seriesField,
       groupKey: this._seriesField,
       isSeriesMark: true
     }) as ITextMark;
-    if (this._isWordCloudShape) {
-      this._fillingWordMark = this._createMark(BaseWordCloudSeries.mark.fillingWord) as ITextMark;
-    }
   }
 
   initMarkStyle() {
     const wordMark = this._wordMark;
-    const fillingWordMark = this._fillingWordMark;
     const wordSpec = this._spec.word ?? {};
     if (wordMark) {
       this.setMarkStyle(
         wordMark,
         {
-          fill: this._colorHexField
-            ? (datum: Datum) => datum[this._colorHexField]
-            : this.getWordColorAttribute(this._seriesField, false),
+          fill: this.getWordColor,
           text: (datum: Datum) => datum[this._textField],
           x: (datum: Datum) => datum.x,
           y: (datum: Datum) => datum.y,
@@ -166,7 +164,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
           fontStyle: (datum: Datum) => datum.fontStyle,
           fontWeight: (datum: Datum) => datum.fontWeight,
           angle: (datum: Datum) => datum.angle,
-          visible: (datum: Datum) => !datum.isFillingWord && datum.visible
+          visible: (datum: Datum) => datum.visible
         },
         'normal',
         AttributeLevel.Series
@@ -180,62 +178,31 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         AttributeLevel.User_Mark
       );
     }
-    if (fillingWordMark) {
-      this.setMarkStyle(
-        fillingWordMark,
-        {
-          fill: this._wordCloudShapeConfig.fillingColorHexField
-            ? (datum: Datum) => datum[this._wordCloudShapeConfig.fillingColorHexField]
-            : this.getWordColorAttribute(this._wordCloudShapeConfig.fillingSeriesField, true),
-          text: (datum: Datum) => datum[this._textField],
-          x: (datum: Datum) => datum.x,
-          y: (datum: Datum) => datum.y,
-          fontFamily: (datum: Datum) => datum.fontFamily,
-          fontSize: (datum: Datum) => datum.fontSize,
-          fontStyle: (datum: Datum) => datum.fontStyle,
-          fontWeight: (datum: Datum) => datum.fontWeight,
-          angle: (datum: Datum) => datum.angle,
-          visible: (datum: Datum) => datum.isFillingWord && datum.visible
-        },
-        'normal',
-        AttributeLevel.Series
-      );
 
-      this.setMarkStyle(
-        fillingWordMark,
-        {
-          fontFamily: wordSpec.style?.fontFamily ?? this._defaultFontFamily
-        },
-        'normal',
-        AttributeLevel.User_Mark
-      );
-    }
     this._trigger.registerMark(wordMark);
-    this._trigger.registerMark(fillingWordMark);
   }
 
   protected initTooltip() {
     super.initTooltip();
 
     this._wordMark && this._tooltipHelper.activeTriggerSet.mark.add(this._wordMark);
-    this._fillingWordMark && this._tooltipHelper.activeTriggerSet.mark.add(this._fillingWordMark);
   }
 
   initAnimation() {
-    [this._wordMark, this._fillingWordMark].forEach(mark => {
-      if (mark) {
-        const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<any>)?.preset;
-        const params = {
-          animationConfig: () => mark.getAnimationConfig()?.appear?.[0]
-        };
-        mark.setAnimationConfig(
-          animationConfig(
-            Factory.getAnimationInKey('wordCloud')(params, appearPreset),
-            userAnimationConfig(SeriesMarkNameEnum.word, this._spec, this._markAttributeContext)
-          )
-        );
-      }
-    });
+    const mark = this._wordMark;
+
+    if (mark) {
+      const appearPreset = (this._spec?.animationAppear as IStateAnimateSpec<any>)?.preset;
+      const params = {
+        animationConfig: () => mark.getAnimationConfig()?.appear?.[0]
+      };
+      mark.setAnimationConfig(
+        animationConfig(
+          Factory.getAnimationInKey('wordCloud')(params, appearPreset),
+          userAnimationConfig(SeriesMarkNameEnum.word, this._spec, this._markAttributeContext)
+        )
+      );
+    }
   }
 
   protected getWordOrdinalColorScale(field: string, isFillingWord: boolean) {
@@ -245,11 +212,12 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     return new ColorOrdinalScale().domain(colorDomain).range?.(colorRange);
   }
 
-  getWordColorAttribute(field: string, isFillingWord: boolean) {
+  protected initColorCallback(field: string, isFillingWord: boolean) {
     if (this._colorMode === 'ordinal') {
-      return {
-        scale: this.getWordOrdinalColorScale(field, isFillingWord),
-        field: this._seriesField ?? DEFAULT_DATA_SERIES_FIELD
+      const scale = this.getWordOrdinalColorScale(field, isFillingWord);
+
+      return (datum: Datum) => {
+        return scale.scale(datum[this._seriesField ?? DEFAULT_DATA_SERIES_FIELD]);
       };
     }
     // const valueScale = new LinearScale()
@@ -267,6 +235,26 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     // return (datum: Datum) => interpolate(valueScale.scale(datum[field]))
     return (datum: Datum) => colorList[0];
   }
+
+  getWordColor = (datum: Datum) => {
+    if (datum.isFillingWord) {
+      if (!this._fillingColorCallback) {
+        this._fillingColorCallback = this._wordCloudShapeConfig.fillingColorHexField
+          ? (datum: Datum) => datum[this._wordCloudShapeConfig.fillingColorHexField]
+          : this.initColorCallback(this._wordCloudShapeConfig.fillingSeriesField, true);
+      }
+
+      return this._fillingColorCallback(datum);
+    }
+
+    if (!this._keyWordColorCallback) {
+      this._keyWordColorCallback = this._colorHexField
+        ? datum => datum[this._colorHexField]
+        : this.initColorCallback(this._seriesField, false);
+    }
+
+    return this._keyWordColorCallback(datum);
+  };
 
   compile(): void {
     super.compile();
@@ -331,8 +319,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         type: 'wordcloud',
         ...this._wordCloudTransformOption()
       });
-      // 挂到mark的transform上
-      (this._wordMark as ICompilableMark).getProduct().transform(wordCloudTransforms);
     }
     // 形状词云 transform
     else {
@@ -342,8 +328,9 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         ...this._wordCloudShapeTransformOption()
       });
     }
-    // 把transform挂载到data的product上
-    this._data.getProduct().transform(wordCloudTransforms);
+
+    // 挂到mark的transform上
+    (this._wordMark as ICompilableMark).getProduct().transform(wordCloudTransforms);
   }
 
   protected _wordCloudTransformOption(): Object {
@@ -478,6 +465,17 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   }
 
   getActiveMarks(): IMark[] {
-    return [this._wordMark, this._fillingWordMark];
+    return [this._wordMark];
+  }
+
+  reInit() {
+    super.reInit();
+    if (this._keyWordColorCallback) {
+      this._keyWordColorCallback = null;
+    }
+
+    if (this._fillingColorCallback) {
+      this._fillingColorCallback = null;
+    }
   }
 }

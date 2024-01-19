@@ -25,9 +25,9 @@ import type {
   IEventDispatcher
 } from '../event/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
-import type { IFields, Transform } from '@visactor/vdataset';
+import type { IFields, Transform, DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
+import { DataSet, dataViewParser } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
 import { createID } from '../util/id';
@@ -74,7 +74,6 @@ import { getCanvasDataURL, URLToImage } from '../util/image';
 import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH, VGRAMMAR_HOOK_EVENT } from '../constant';
 // eslint-disable-next-line no-duplicate-imports
 import {
-  getContainerSize,
   isArray,
   isEmpty,
   Logger,
@@ -507,7 +506,7 @@ export class VChart implements IVChart {
   }
 
   private _bindVGrammarViewEvent() {
-    if (!this._compiler || this._compiler.isReleased) {
+    if (!this._compiler) {
       return;
     }
     this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
@@ -540,12 +539,19 @@ export class VChart implements IVChart {
   }
 
   getCurrentSize() {
-    return calculateChartSize(this._spec, {
-      container: this._container,
-      canvas: this._canvas,
-      mode: this._option.mode || RenderModeEnum['desktop-browser'],
-      modeParams: this._option.modeParams
-    });
+    return calculateChartSize(
+      this._spec,
+      {
+        container: this._container,
+        canvas: this._canvas,
+        mode: this._option.mode || RenderModeEnum['desktop-browser'],
+        modeParams: this._option.modeParams
+      },
+      {
+        width: this._currentSize?.width ?? DEFAULT_CHART_WIDTH,
+        height: this._currentSize?.height ?? DEFAULT_CHART_HEIGHT
+      }
+    );
   }
 
   private _doResize() {
@@ -640,7 +646,7 @@ export class VChart implements IVChart {
       if (updateResult.reSize) {
         const { width, height } = this.getCurrentSize();
         this._chart.onResize(width, height, false);
-        this._compiler.resizeSync(width, height, false);
+        this._compiler.resize(width, height, false);
       }
     }
   }
@@ -723,20 +729,13 @@ export class VChart implements IVChart {
       return self;
     }
     // 填充数据绘图
-    this._compiler?.renderSync(option.morphConfig);
+    this._compiler?.render(option.morphConfig);
     this._afterRender();
     return self;
   }
 
   protected async _renderAsync(option: IVChartRenderOption = {}) {
-    const self = this as unknown as IVChart;
-    if (!this._beforeRender(option)) {
-      return self;
-    }
-    // 填充数据绘图
-    await this._compiler?.renderAsync(option.morphConfig);
-    this._afterRender();
-    return self;
+    return this._renderSync(option);
   }
 
   private _updateAnimateState() {
@@ -788,17 +787,10 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   async updateData(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions): Promise<IVChart> {
-    if (isNil(this._dataSet)) {
-      return this as unknown as IVChart;
-    }
-    if (this._chart) {
-      this._chart.updateData(id, data, true, options);
+    return this.updateDataSync(id, data, options);
+  }
 
-      // after layout
-      await this._compiler.renderAsync();
-      return this as unknown as IVChart;
-    }
-    this._spec.data = array(this._spec.data);
+  private _updateDataById(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions) {
     const preDV = this._spec.data.find((dv: any) => dv.name === id || dv.id === id);
     if (preDV) {
       if (preDV.id === id) {
@@ -816,7 +808,6 @@ export class VChart implements IVChart {
         this._spec.data.push(data);
       }
     }
-    return this as unknown as IVChart;
   }
 
   /**
@@ -832,18 +823,13 @@ export class VChart implements IVChart {
         })
       );
       this._chart.updateGlobalScaleDomain();
-      await this._compiler.renderAsync();
+      this._compiler.render();
       return this as unknown as IVChart;
     }
+
+    this._spec.data = array(this._spec.data);
     list.forEach(({ id, data, options }) => {
-      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
-      if (preDV) {
-        preDV.parse(data, options);
-      } else {
-        const dataView = new DataView(this._dataSet, { name: id });
-        dataView.parse(data, options);
-        this._spec.data.push(dataView);
-      }
+      this._updateDataById(id, data, options);
     });
     return this as unknown as IVChart;
   }
@@ -855,24 +841,20 @@ export class VChart implements IVChart {
    * @param options 数据参数
    * @returns VChart 实例
    */
-  updateDataSync(id: StringOrNumber, data: DataView | Datum[], options?: IParserOptions) {
+  updateDataSync(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions) {
     if (isNil(this._dataSet)) {
       return this as unknown as IVChart;
     }
     if (this._chart) {
       this._chart.updateData(id, data, true, options);
+
       // after layout
-      this._compiler.renderSync();
+      this._compiler.render();
       return this as unknown as IVChart;
     }
-    const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
-    if (preDV) {
-      preDV.parse(data, options);
-    } else {
-      const dataView = new DataView(this._dataSet, { name: id as string });
-      dataView.parse(data, options);
-      this._spec.data.push(dataView);
-    }
+    this._spec.data = array(this._spec.data);
+
+    this._updateDataById(id, data, options);
     return this as unknown as IVChart;
   }
 
@@ -886,7 +868,7 @@ export class VChart implements IVChart {
     if (this._chart) {
       this._chart.updateFullData(data);
       if (reRender) {
-        this._compiler.renderSync();
+        this._compiler.render();
       }
       return this as unknown as IVChart;
     }
@@ -916,30 +898,7 @@ export class VChart implements IVChart {
    * @since 1.3.0
    */
   async updateFullData(data: IDataValues | IDataValues[], reRender: boolean = true) {
-    if (this._chart) {
-      this._chart.updateFullData(data);
-      if (reRender) {
-        await this._compiler.renderAsync();
-      }
-      return this as unknown as IVChart;
-    }
-    const list: IDataValues[] = array(data);
-    list.forEach(d => {
-      // only support update this attrs
-      const { id, values, parser, fields } = d;
-      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
-      if (preDV) {
-        preDV.setFields(cloneDeep(fields) as IFields);
-        preDV.parse(values, cloneDeep(parser) as IParserOptions);
-      } else {
-        // new data
-        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
-          onError: this._option?.onError
-        });
-        this._spec.data.push(dataView);
-      }
-    });
-    return this as unknown as IVChart;
+    return this.updateFullDataSync(data, reRender);
   }
 
   /**
@@ -1112,11 +1071,7 @@ export class VChart implements IVChart {
    * @returns VChart 当前实例
    */
   async resize(width: number, height: number) {
-    if (!this._beforeResize(width, height)) {
-      return this as unknown as IVChart;
-    }
-    await this._compiler.resize?.(width, height);
-    return this._afterResize();
+    return this.resizeSync(width, height);
   }
 
   /**
@@ -1129,7 +1084,7 @@ export class VChart implements IVChart {
     if (!this._beforeResize(width, height)) {
       return this as unknown as IVChart;
     }
-    this._compiler.resizeSync?.(width, height);
+    this._compiler.resize?.(width, height);
     return this._afterResize();
   }
 
@@ -1177,7 +1132,7 @@ export class VChart implements IVChart {
     this._chart.updateViewBox(viewBox, reLayout);
     if (reLayout) {
       // 重新布局
-      this._compiler.renderSync();
+      this._compiler.render();
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this._chart.onEvaluateEnd();
