@@ -122,7 +122,7 @@ function layoutLeftStartOrMiddleItems(items: ILayoutItem[], layout: Layout, limi
 
       maxWidth = Math.max(maxWidth, itemTotalWidth);
       preTop += itemTotalHeight;
-      if (preTop > limitHeight) {
+      if (preTop > limitHeight && singleLineItems.length) {
         preLeft += maxWidth;
         maxWidth = itemTotalWidth;
         preTop = layout.topCurrent + itemTotalHeight;
@@ -167,7 +167,7 @@ function layoutTopStartOrMiddleItems(items: ILayoutItem[], layout: Layout, limit
 
       maxHeight = Math.max(maxHeight, itemTotalHeight);
       preLeft += itemTotalWidth;
-      if (preLeft > limitWidth) {
+      if (preLeft > limitWidth && singleLineItems.length) {
         preLeft = layout.leftCurrent + itemTotalWidth;
         preTop += maxHeight;
         maxHeight = itemTotalHeight;
@@ -210,7 +210,7 @@ function layoutBottomStartOrMiddleItems(items: ILayoutItem[], layout: Layout, li
 
       maxHeight = Math.max(maxHeight, itemTotalHeight);
       preLeft += itemTotalWidth;
-      if (preLeft > limitWidth) {
+      if (preLeft > limitWidth && singleLineItems.length) {
         allItems.push(singleLineItems);
         preLeft = layout.leftCurrent + itemTotalWidth;
         preBottom -= maxHeight;
