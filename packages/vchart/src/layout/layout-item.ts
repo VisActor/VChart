@@ -95,29 +95,6 @@ export class LayoutItem implements ILayoutItem {
   layoutPaddingRight: ILayoutItem['layoutPaddingRight'] = 0;
   layoutPaddingBottom: ILayoutItem['layoutPaddingBottom'] = 0;
 
-  // 锁进 等同于 padding
-  protected _indent: IPadding = {
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0
-  };
-
-  get indent() {
-    return this._indent;
-  }
-
-  private _layoutExcludeIndent: IRect = {
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0
-  };
-
-  get layoutExcludeIndent() {
-    return this._layoutExcludeIndent;
-  }
-
   layoutOffsetX: ILayoutItem['layoutOffsetX'] = 0;
   layoutOffsetY: ILayoutItem['layoutOffsetY'] = 0;
 
@@ -160,9 +137,6 @@ export class LayoutItem implements ILayoutItem {
       this.layoutPaddingRight = paddingValue.right;
       this.layoutPaddingTop = paddingValue.top;
       this.layoutPaddingBottom = paddingValue.bottom;
-
-      const indent = normalizeLayoutPaddingSpec(spec.indent);
-      this._indent = calcPadding(indent, chartViewRect, chartViewRect);
 
       this._minHeight = isNil(spec.minHeight)
         ? this._minHeight ?? null
@@ -296,8 +270,6 @@ export class LayoutItem implements ILayoutItem {
     if (isValidNumber(pos.y)) {
       this._layoutStartPoint.y = pos.y;
     }
-    this._layoutExcludeIndent.x = this._layoutStartPoint.x + this._indent.left;
-    this._layoutExcludeIndent.y = this._layoutStartPoint.y + this._indent.top;
 
     this._model.afterSetLayoutStartPoint?.(this._layoutStartPoint);
   }
@@ -314,9 +286,6 @@ export class LayoutItem implements ILayoutItem {
     }
 
     this.setRectInSpec(this._layoutRect);
-
-    this._layoutExcludeIndent.width = Math.max(this._layoutRect.width - this._indent.left - this._indent.right, 1);
-    this._layoutExcludeIndent.height = Math.max(this._layoutRect.height - this._indent.top - this._indent.bottom, 1);
   }
 
   getLayout(): IRect {

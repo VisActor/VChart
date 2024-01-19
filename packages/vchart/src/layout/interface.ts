@@ -1,6 +1,6 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../typings/common';
-import type { IOrientType, IPadding, IRect } from '../typings/space';
+import type { IOrientType, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
 import type { ILayoutNumber, ILayoutPaddingSpec, ILayoutPoint, ILayoutRect, ILayoutType } from '../typings/layout';
 import type { ILayoutModel } from '../model/interface';
@@ -90,11 +90,6 @@ export interface ILayoutItem {
   layoutPaddingTop: number;
   layoutPaddingRight: number;
   layoutPaddingBottom: number;
-
-  // 锁进 概念上等同于 padding
-  indent: IPadding;
-  // 锁进后的布局属性
-  layoutExcludeIndent: IRect;
 
   layoutOffsetX: number;
   layoutOffsetY: number;
