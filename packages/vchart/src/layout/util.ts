@@ -56,16 +56,16 @@ function adjustItemsToCenter(allItems: ILayoutItem[][], isVertical: boolean, con
   }
 }
 
-function layoutHorizontalStartOrMiddleItems(
+function layoutLeftRightStartOrMiddleItems(
   items: ILayoutItem[],
   layout: Layout,
   limitHeight: number,
   isMiddle: boolean,
-  align: 'left' | 'right'
+  position: 'left' | 'right'
 ) {
   if (items.length) {
     let maxWidth = 0;
-    const isRight = align === 'right';
+    const isRight = position === 'right';
     const xSign = isRight ? -1 : 1;
     let preX = isRight ? layout.rightCurrent : layout.leftCurrent;
     let preTop = layout.topCurrent;
@@ -111,15 +111,15 @@ function layoutHorizontalStartOrMiddleItems(
   }
 }
 
-function layoutVerticalStartOrMiddleItems(
+function layoutTopBottomStartOrMiddleItems(
   items: ILayoutItem[],
   layout: Layout,
   limitWidth: number,
   isMiddle: boolean,
-  align: 'top' | 'bottom'
+  position: 'top' | 'bottom'
 ) {
   if (items.length) {
-    const isTop = align === 'top';
+    const isTop = position === 'top';
     const ySign = isTop ? 1 : -1;
     let maxHeight = 0;
     let preLeft = layout.leftCurrent;
@@ -166,11 +166,11 @@ function layoutVerticalStartOrMiddleItems(
 export function layoutLeftInlineItems(items: ILayoutItem[], layout: Layout, limitHeight: number) {
   const { startItems, middleItems, endItems } = getPositionItems(items);
   if (startItems.length) {
-    layoutHorizontalStartOrMiddleItems(startItems, layout, limitHeight, false, 'left');
+    layoutLeftRightStartOrMiddleItems(startItems, layout, limitHeight, false, 'left');
   }
 
   if (middleItems.length) {
-    layoutHorizontalStartOrMiddleItems(middleItems, layout, limitHeight, true, 'left');
+    layoutLeftRightStartOrMiddleItems(middleItems, layout, limitHeight, true, 'left');
   }
 
   if (endItems.length) {
@@ -209,11 +209,11 @@ export function layoutRightInlineItems(items: ILayoutItem[], layout: Layout, lim
   const { startItems, middleItems, endItems } = getPositionItems(items);
 
   if (startItems.length) {
-    layoutHorizontalStartOrMiddleItems(startItems, layout, limitHeight, false, 'right');
+    layoutLeftRightStartOrMiddleItems(startItems, layout, limitHeight, false, 'right');
   }
 
   if (middleItems.length) {
-    layoutHorizontalStartOrMiddleItems(middleItems, layout, limitHeight, true, 'right');
+    layoutLeftRightStartOrMiddleItems(middleItems, layout, limitHeight, true, 'right');
   }
 
   if (endItems.length) {
@@ -251,11 +251,11 @@ export function layoutTopInlineItems(items: ILayoutItem[], layout: Layout, limit
   const { startItems, middleItems, endItems } = getPositionItems(items);
 
   if (startItems.length) {
-    layoutVerticalStartOrMiddleItems(startItems, layout, limitWidth, false, 'top');
+    layoutTopBottomStartOrMiddleItems(startItems, layout, limitWidth, false, 'top');
   }
 
   if (middleItems.length) {
-    layoutVerticalStartOrMiddleItems(middleItems, layout, limitWidth, true, 'top');
+    layoutTopBottomStartOrMiddleItems(middleItems, layout, limitWidth, true, 'top');
   }
 
   if (endItems.length) {
@@ -295,11 +295,11 @@ export function layoutBottomInlineItems(items: ILayoutItem[], layout: Layout, li
   const { startItems, middleItems, endItems } = getPositionItems(items);
 
   if (startItems.length) {
-    layoutVerticalStartOrMiddleItems(startItems, layout, limitWidth, false, 'bottom');
+    layoutTopBottomStartOrMiddleItems(startItems, layout, limitWidth, false, 'bottom');
   }
 
   if (middleItems.length) {
-    layoutVerticalStartOrMiddleItems(middleItems, layout, limitWidth, true, 'bottom');
+    layoutTopBottomStartOrMiddleItems(middleItems, layout, limitWidth, true, 'bottom');
   }
 
   if (endItems.length) {
