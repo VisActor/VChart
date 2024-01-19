@@ -77,7 +77,7 @@ function layoutRightStartOrMiddleItems(items: ILayoutItem[], layout: Layout, lim
 
       maxWidth = Math.max(maxWidth, itemTotalWidth);
       preTop += itemTotalHeight;
-      if (preTop > limitHeight) {
+      if (preTop > limitHeight && singleLineItems.length) {
         preRight -= maxWidth;
         maxWidth = itemTotalWidth;
         preTop = layout.topCurrent + itemTotalHeight;
