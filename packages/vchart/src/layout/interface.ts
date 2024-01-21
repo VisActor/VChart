@@ -174,7 +174,7 @@ export interface ILayoutItemSpec {
    * 左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐
    * 右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐
    */
-  alignSelf?: 'start' | 'end' | 'center';
+  alignSelf?: 'start' | 'end' | 'middle';
 
   // 基础的布局配置
   /** 模块布局位置 */
