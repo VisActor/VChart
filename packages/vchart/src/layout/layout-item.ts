@@ -8,7 +8,7 @@ import { LayoutLevel, DEFAULT_LAYOUT_RECT_LEVEL, USER_LAYOUT_RECT_LEVEL } from '
 
 import type { ILayoutItem, ILayoutItemInitOption, ILayoutItemSpec } from './interface';
 import type { IChartLayoutOption } from '../chart/interface/common';
-import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
+import type { ILayoutAlignSelf, ILayoutPoint, ILayoutRect } from '../typings/layout';
 
 export class LayoutItem implements ILayoutItem {
   protected _spec: ILayoutItemSpec;
@@ -102,6 +102,8 @@ export class LayoutItem implements ILayoutItem {
 
   chartLayoutRect!: ILayoutRect;
 
+  alignSelf: ILayoutAlignSelf;
+
   protected _model: ILayoutModel;
 
   get model() {
@@ -119,6 +121,7 @@ export class LayoutItem implements ILayoutItem {
     this._option = option;
     this.layoutLevel = option.layoutLevel;
     this.layoutType = option.layoutType;
+    this.alignSelf = option.alignSelf;
     if (option.layoutOrient) {
       this.layoutOrient = option.layoutOrient;
     }
@@ -178,6 +181,10 @@ export class LayoutItem implements ILayoutItem {
       }
       if (!isNil(spec.offsetY)) {
         this.layoutOffsetY = calcLayoutNumber(spec.offsetY, chartViewRect.height, chartViewRect);
+      }
+
+      if (spec.alignSelf) {
+        this.alignSelf = spec.alignSelf;
       }
     }
   }

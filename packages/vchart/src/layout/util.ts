@@ -72,6 +72,7 @@ function layoutLeftRightStartOrMiddleItems(
 
     const allItems: ILayoutItem[][] = [];
     let singleLineItems: ILayoutItem[] = [];
+    const maxWidths: number[] = [];
     items.forEach(item => {
       const layoutRect = layout.getItemComputeLayoutRect(item);
       const rect = item.computeBoundsInRect(layoutRect);
@@ -84,9 +85,9 @@ function layoutLeftRightStartOrMiddleItems(
         y: preTop + item.layoutOffsetY + item.layoutPaddingTop
       });
 
-      maxWidth = Math.max(maxWidth, itemTotalWidth);
       preTop += itemTotalHeight;
       if (preTop > limitHeight && singleLineItems.length) {
+        maxWidths.push(maxWidth);
         preX += xSign * maxWidth;
         maxWidth = itemTotalWidth;
         preTop = layout.topCurrent + itemTotalHeight;
@@ -98,10 +99,33 @@ function layoutLeftRightStartOrMiddleItems(
         allItems.push(singleLineItems);
         singleLineItems = [item];
       } else {
+        maxWidth = Math.max(maxWidth, itemTotalWidth);
         singleLineItems.push(item);
       }
     });
+    maxWidths.push(maxWidth);
     allItems.push(singleLineItems);
+
+    allItems.forEach((lineItems: ILayoutItem[], index: number) => {
+      if (lineItems.length > 1) {
+        maxWidth = maxWidths[index];
+
+        lineItems.forEach(item => {
+          if (!item.alignSelf || item.alignSelf === 'start') {
+            return;
+          }
+
+          const pos = item.getLayoutStartPoint();
+          const ratio = item.alignSelf === 'center' ? 0.5 : 1;
+          const delta = maxWidth - (item.getLayoutRect().width + item.layoutPaddingLeft + item.layoutPaddingRight);
+
+          item.setLayoutStartPosition({
+            x: pos.x + xSign * delta * ratio,
+            y: pos.y
+          });
+        });
+      }
+    });
 
     if (isMiddle) {
       adjustItemsToCenter(allItems, true, limitHeight);
@@ -130,6 +154,8 @@ function layoutTopBottomStartOrMiddleItems(
     let preY = isTop ? layout.topCurrent : layout.bottomCurrent;
     const allItems: ILayoutItem[][] = [];
     let singleLineItems: ILayoutItem[] = [];
+    const maxHeights: number[] = [];
+
     items.forEach(item => {
       const layoutRect = layout.getItemComputeLayoutRect(item);
       const rect = item.computeBoundsInRect(layoutRect);
@@ -142,9 +168,9 @@ function layoutTopBottomStartOrMiddleItems(
         y: preY + item.layoutOffsetY + itemOffsetY
       });
 
-      maxHeight = Math.max(maxHeight, itemTotalHeight);
       preLeft += itemTotalWidth;
       if (preLeft > limitWidth && singleLineItems.length) {
+        maxHeights.push(maxHeight);
         preLeft = layout.leftCurrent + itemTotalWidth;
         preY += ySign * maxHeight;
         maxHeight = itemTotalHeight;
@@ -155,10 +181,34 @@ function layoutTopBottomStartOrMiddleItems(
         allItems.push(singleLineItems);
         singleLineItems = [item];
       } else {
+        maxHeight = Math.max(maxHeight, itemTotalHeight);
         singleLineItems.push(item);
       }
     });
+    maxHeights.push(maxHeight);
     allItems.push(singleLineItems);
+
+    allItems.forEach((lineItems: ILayoutItem[], index: number) => {
+      if (lineItems.length > 1) {
+        maxHeight = maxHeights[index];
+
+        lineItems.forEach(item => {
+          if (!item.alignSelf || item.alignSelf === 'start') {
+            return;
+          }
+
+          const pos = item.getLayoutStartPoint();
+          const ratio = item.alignSelf === 'center' ? 0.5 : 1;
+          const delta = maxHeight - (item.getLayoutRect().height + item.layoutPaddingTop + item.layoutPaddingBottom);
+
+          item.setLayoutStartPosition({
+            x: pos.x,
+            y: pos.y + ySign * delta * ratio
+          });
+        });
+      }
+    });
+
     if (isMiddle) {
       adjustItemsToCenter(allItems, false, limitWidth);
     }
