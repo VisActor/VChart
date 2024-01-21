@@ -100,10 +100,10 @@ const spec = {
         visible: true,
         text: 'Inner'
       },
-      orient: 'right',
+      orient: 'bottom',
       layoutType: 'normal-inline',
-      position: 'middle',
-      alignSelf: 'end',
+      position: 'start',
+      // alignSelf: 'end',
       maxHeight: 100,
       data: (data, colorScale, globalScale) => {
         return data.slice(0, 3);
@@ -111,14 +111,14 @@ const spec = {
     },
     {
       visible: true,
-      orient: 'right',
+      orient: 'bottom',
       layoutType: 'normal-inline',
-      position: 'middle',
-      alignSelf: 'end',
-      title: {
-        visible: true,
-        text: 'Outter'
-      },
+      position: 'start',
+      // alignSelf: 'end',
+      // title: {
+      //   visible: true,
+      //   text: 'Outter'
+      // },
       maxHeight: 100,
       data: (data, colorScale, globalScale) => {
         return data.slice(3);

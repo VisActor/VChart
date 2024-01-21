@@ -37,10 +37,10 @@ Starting from version 1.8.9,
 
 For elements with a layout type of 'normal-inline', set the alignment of inline elements as follows:
 
-- For elements at the top, 'start' - align to the top; 'end' - align to the bottom; 'middle' - align to the center
-- For elements at the bottom, 'start' - align to the bottom; 'end' - align to the top; 'middle' - align to the center
-- For elements on the left, 'start' - align to the left; 'end' - align to the right; 'middle' - align to the center
-- For elements on the right, 'start' - align to the right; 'end' - align to the left; 'middle' - align to the center
+- For elements at the top, 'start' - align to the top; 'end' - align to the bottom; 'middle' - align to the middle
+- For elements at the bottom, 'start' - align to the bottom; 'end' - align to the top; 'middle' - align to the middle
+- For elements on the left, 'start' - align to the left; 'end' - align to the right; 'middle' - align to the middle
+- For elements on the right, 'start' - align to the right; 'end' - align to the left; 'middle' - align to the middle
 
 #${prefix} padding(ILayoutNumber|Array|Object) = 0
 
