@@ -40,4 +40,4 @@ export type ILayoutOrientPadding = {
 /** 布局 padding的配置 */
 export type ILayoutPaddingSpec = ILayoutOrientPadding | ILayoutNumber | ILayoutNumber[];
 
-export type ILayoutAlignSelf = 'start' | 'end' | 'center';
+export type ILayoutAlignSelf = 'start' | 'end' | 'middle';

@@ -95,12 +95,12 @@ export interface ILayoutItem {
 
   /**
    * inline元素和其他同行元素的对齐方式
-   * 顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'center' - 居中对齐
-   * 底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'center' - 居中对齐
-   * 左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'center' - 居中对齐
-   * 右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'center' - 居中对齐
+   * 顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐
+   * 底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐
+   * 左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐
+   * 右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐
    */
-  alignSelf?: 'start' | 'end' | 'center';
+  alignSelf?: 'start' | 'end' | 'middle';
 
   layoutPaddingLeft: number;
   layoutPaddingTop: number;
@@ -169,10 +169,10 @@ export interface ILayoutItemSpec {
 
   /**
    * inline元素和其他同行元素的对齐方式
-   * 顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'center' - 居中对齐
-   * 底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'center' - 居中对齐
-   * 左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'center' - 居中对齐
-   * 右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'center' - 居中对齐
+   * 顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐
+   * 底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐
+   * 左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐
+   * 右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐
    */
   alignSelf?: 'start' | 'end' | 'center';
 

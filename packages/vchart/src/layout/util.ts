@@ -116,7 +116,7 @@ function layoutLeftRightStartOrMiddleItems(
           }
 
           const pos = item.getLayoutStartPoint();
-          const ratio = item.alignSelf === 'center' ? 0.5 : 1;
+          const ratio = item.alignSelf === 'middle' ? 0.5 : 1;
           const delta = maxWidth - (item.getLayoutRect().width + item.layoutPaddingLeft + item.layoutPaddingRight);
 
           item.setLayoutStartPosition({
@@ -198,7 +198,7 @@ function layoutTopBottomStartOrMiddleItems(
           }
 
           const pos = item.getLayoutStartPoint();
-          const ratio = item.alignSelf === 'center' ? 0.5 : 1;
+          const ratio = item.alignSelf === 'middle' ? 0.5 : 1;
           const delta = maxHeight - (item.getLayoutRect().height + item.layoutPaddingTop + item.layoutPaddingBottom);
 
           item.setLayoutStartPosition({
