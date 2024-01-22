@@ -121,7 +121,6 @@ export class LayoutItem implements ILayoutItem {
     this._option = option;
     this.layoutLevel = option.layoutLevel;
     this.layoutType = option.layoutType;
-    this.alignSelf = option.alignSelf;
     if (option.layoutOrient) {
       this.layoutOrient = option.layoutOrient;
     }
