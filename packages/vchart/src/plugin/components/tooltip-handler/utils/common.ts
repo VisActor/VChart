@@ -1,6 +1,13 @@
 import type { Datum } from '@visactor/vgrammar-core';
-import type { MaybeArray, TooltipContentProperty, TooltipData, TooltipPatternProperty } from '../../../../typings';
-import { isFunction, isObject, isString, isNil, isArray, isValid } from '@visactor/vutils';
+import type {
+  IToolTipLinePattern,
+  ITooltipPattern,
+  MaybeArray,
+  TooltipContentProperty,
+  TooltipData,
+  TooltipPatternProperty
+} from '../../../../typings';
+import { isFunction, isObject, isString, isNil, array } from '@visactor/vutils';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension';
 import type { IRichTextParagraphCharacter } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
@@ -48,31 +55,36 @@ export const getTooltipContentValue = <T>(
 };
 
 export const getTooltipPatternValue = <T>(
-  field?: MaybeArray<TooltipPatternProperty<T>>,
+  field?: TooltipPatternProperty<T>,
   data?: TooltipData,
   params?: TooltipHandlerParams
-): (typeof field extends Array<TooltipPatternProperty<T>> ? MaybeArray<T> : T) | undefined => {
+): T | undefined => {
   if (isNil(field)) {
     return field;
-  }
-  if (isArray(field)) {
-    const result: T[] = [];
-    field.forEach(item => {
-      if (isFunction(item)) {
-        const value = item(data, params);
-        if (isValid(value)) {
-          result.push(value);
-        }
-      } else {
-        result.push(item);
-      }
-    });
-    return result as any;
   }
   if (isFunction(field)) {
     return field(data, params);
   }
   return field;
+};
+
+export const getTooltipContentPattern = (
+  field?: ITooltipPattern['content'],
+  data?: TooltipData,
+  params?: TooltipHandlerParams
+): Array<IToolTipLinePattern> | undefined => {
+  if (isNil(field)) {
+    return field;
+  }
+  let result: IToolTipLinePattern[] = [];
+  array(field).forEach(patternItem => {
+    if (isFunction(patternItem)) {
+      result = result.concat(array(patternItem(data, params)));
+    } else {
+      result.push(patternItem as IToolTipLinePattern);
+    }
+  });
+  return result;
 };
 
 export function getFirstDatumFromTooltipData(data: TooltipData): Datum {

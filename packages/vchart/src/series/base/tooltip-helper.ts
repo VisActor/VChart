@@ -40,26 +40,20 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
       if (isValid(pattern)) {
         spec[activeType] = {
           ...pattern,
-          title: isValid(pattern.title)
-            ? isFunction(pattern.title)
-              ? pattern.title
-              : ({
-                  ...pattern.title,
-                  seriesId: this.series.id
-                } as IToolTipLinePattern)
-            : undefined,
-          content: isValid(pattern.content)
-            ? isFunction(pattern.content)
-              ? pattern.content
-              : array(pattern.content).map(line =>
-                  isFunction(line)
-                    ? line
-                    : ({
-                        ...line,
-                        seriesId: this.series.id
-                      } as IToolTipLinePattern)
-                )
-            : undefined
+          title: addExtraInfoToTooltipTitlePattern(
+            pattern.title,
+            {
+              seriesId: this.series.id
+            },
+            true
+          ),
+          content: addExtraInfoToTooltipContentPattern(
+            pattern.content,
+            {
+              seriesId: this.series.id
+            },
+            true
+          )
         };
       }
     });
@@ -192,3 +186,36 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     return null;
   }
 }
+
+const merge = <T, K>(source: K, extraInfo: T | ((source: K) => T), overwrite?: boolean) => {
+  const info = isFunction(extraInfo) ? extraInfo(source) : extraInfo;
+  return overwrite ? { ...source, ...info } : { ...info, ...source };
+};
+
+export const addExtraInfoToTooltipTitlePattern = <T>(
+  pattern: ITooltipPattern['title'],
+  extraInfo: T | ((line: IToolTipLinePattern) => T),
+  overwrite?: boolean
+): ITooltipPattern['title'] | undefined => {
+  const result = isValid(pattern)
+    ? isFunction(pattern)
+      ? (...args: any[]) => merge(pattern(...args), extraInfo, overwrite)
+      : merge(pattern, extraInfo, overwrite)
+    : undefined;
+  return result;
+};
+
+export const addExtraInfoToTooltipContentPattern = <T>(
+  pattern: ITooltipPattern['content'],
+  extraInfo: T | ((line: IToolTipLinePattern) => T),
+  overwrite?: boolean
+): ITooltipPattern['content'] | undefined => {
+  const result = isValid(pattern)
+    ? array(pattern).map(patternItem =>
+        isFunction(patternItem)
+          ? (...args: any[]) => array(patternItem(...args)).map(line => merge(line, extraInfo, overwrite))
+          : merge(patternItem as IToolTipLinePattern, extraInfo, overwrite)
+      )
+    : undefined;
+  return result;
+};

@@ -91,6 +91,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   private _alwaysShow: boolean = false;
 
   private _cacheInfo: TooltipInfo | undefined;
+  private _cacheParams: BaseEventParams | undefined;
 
   private _eventList: EventHandlerList = [];
 
@@ -247,6 +248,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
         ...params
       });
       this._cacheInfo = undefined;
+      this._cacheParams = undefined;
     }
   };
 
@@ -332,11 +334,12 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       success = !processor.showTooltip(this._cacheInfo as any, params, true);
     } else {
       const tooltipInfo = mouseEventData.tooltipInfo[activeType];
-      const isSameAsCache = this._isSameAsCacheInfo(tooltipInfo);
+      const isSameAsCache = this._isSameAsCache(tooltipInfo, params);
       success = !processor.showTooltip(tooltipInfo as any, params, isSameAsCache);
       if (success) {
         // 成功显示 tooltip，则更新缓存
         this._cacheInfo = tooltipInfo;
+        this._cacheParams = params;
       }
     }
     if (success) {
@@ -477,7 +480,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     return !this._hideTooltipByHandler(params);
   }
 
-  private _isSameAsCacheInfo(nextInfo?: TooltipInfo): boolean {
+  private _isSameAsCache(nextInfo?: TooltipInfo, nextParams?: BaseEventParams): boolean {
     if (nextInfo === this._cacheInfo) {
       return true;
     }
@@ -485,21 +488,40 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return false;
     }
 
+    // 判断 tooltip 信息是否一致
     if (isDimensionInfo(nextInfo)) {
       if (isMarkInfo(this._cacheInfo)) {
         return false;
       }
 
       const prevInfo = this._cacheInfo as DimensionTooltipInfo;
-      return prevInfo.length === nextInfo.length && nextInfo.every((info, i) => isSameDimensionInfo(info, prevInfo[i]));
-    }
-    if (isDimensionInfo(this._cacheInfo)) {
-      return false;
+      const isSameAsCacheInfo =
+        prevInfo.length === nextInfo.length && nextInfo.every((info, i) => isSameDimensionInfo(info, prevInfo[i]));
+      if (!isSameAsCacheInfo) {
+        return false;
+      }
+    } else {
+      if (isDimensionInfo(this._cacheInfo)) {
+        return false;
+      }
+
+      const prevInfo = this._cacheInfo as MarkTooltipInfo;
+      const isSameAsCacheInfo =
+        nextInfo?.datum === prevInfo.datum && nextInfo?.mark === prevInfo.mark && nextInfo?.series === prevInfo.series;
+      if (!isSameAsCacheInfo) {
+        return false;
+      }
     }
 
-    const prevInfo = this._cacheInfo as MarkTooltipInfo;
+    // 判断事件触发信息是否一致
+    const prevParams = this._cacheParams;
+    if (isNil(prevParams) || isNil(nextParams)) {
+      return false;
+    }
     return (
-      nextInfo?.datum === prevInfo.datum && nextInfo?.mark === prevInfo.mark && nextInfo?.series === prevInfo.series
+      prevParams.mark === nextParams.mark &&
+      prevParams.model === nextParams.model &&
+      prevParams.datum === nextParams.datum
     );
   }
 
