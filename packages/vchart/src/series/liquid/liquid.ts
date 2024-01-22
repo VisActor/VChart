@@ -116,7 +116,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
       right: paddingRight = 0
     } = this._paddingSpec;
 
-    const { width: regionWidth, height: regionHeight } = this._region.getLayoutRectExcludeIndent();
+    const { width: regionWidth, height: regionHeight } = this._region.getLayoutRect();
     if (!isOutline) {
       return {
         x: regionWidth / 2 + (marginLeft + paddingRight - (marginRight + paddingRight)) / 2,
@@ -162,8 +162,8 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
       liquidBackgroundMark,
       {
         clip: true,
-        width: () => this._region.getLayoutRectExcludeIndent().width,
-        height: () => this._region.getLayoutRectExcludeIndent().height,
+        width: () => this._region.getLayoutRect().width,
+        height: () => this._region.getLayoutRect().height,
         path: () => {
           const { x, y, size } = this._getPosAndSizeFormRegion();
           const symbolPath = createSymbol({
@@ -189,7 +189,7 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
         liquidMark,
         {
           dx: () => {
-            return this._region.getLayoutStartPoint().x + this._region.getLayoutRectExcludeIndent().width / 2;
+            return this._region.getLayoutStartPoint().x + this._region.getLayoutRect().width / 2;
           },
           y: () => {
             const { y: liquidBackY, size: liquidBackSize } = this._getPosAndSizeFormRegion();
