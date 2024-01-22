@@ -106,7 +106,7 @@ export const registerRadarAnimation = () => {
       disappear: preset === 'clipIn' ? undefined : radarPresetAnimation(params, preset, 'out'),
       update: [
         {
-          options: { excludeChannels: 'points' }
+          options: { excludeChannels: ['points', 'defined'] }
         },
         {
           channel: ['points'],

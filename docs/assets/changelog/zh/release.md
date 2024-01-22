@@ -1,3 +1,30 @@
+# v1.8.8
+
+2024-01-19
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 增强滚动效果，已关闭 [#2037](https://github.com/VisActor/VChart/issues/2037)
+- **@visactor/vchart**: 升级 @visactor/vrender-core 至锁定版本 0.17.14
+- **@visactor/vchart**: sankey 图表支持 disableTriggerEvent 配置
+- **@visactor/vchart**: 支持新的布局类型 region-relative-overlap
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: `area.interactive` 在 area series spec 中不可用，相关 [#2030](https://github.com/VisActor/VChart/issues/2030)
+- **@visactor/vchart**: 修复 datazoom 改变轴后 sortDataByAxis 不工作的问题
+- **@visactor/vchart**: 当轴的 `trimPadding` 为 true 时，应显示 crosshair，修复 [#2054](https://github.com/VisActor/VChart/issues/2054)
+- **@visactor/vchart**: 为 dimension tooltip 计算层转换
+- **@visactor/vchart**: 修复了线图点的可见配置为 false 时 activePoint 不生效的问题
+- **@visactor/vchart**: 在 [#1956](https://github.com/VisActor/VChart/issues/1956) 中配置 label.overlap:true 时的不同效果
+- **@visactor/vchart**: label 位置与 region indent 不正确
+- **scroll**: 在 lynx 环境中的事件错误。修复[#2041](https://github.com/VisActor/VChart/issues/2041)
+- **@visactor/vchart**: 在 updateSpec 或 resize 后，地图比例尺不正确
+- **@visactor/vchart**: 修复 tickCount 是函数时 nice 的 bug，修复 [#2050](https://github.com/VisActor/VChart/issues/2050)
+
+[更多详情请查看 v1.8.8](https://github.com/VisActor/VChart/releases/tag/v1.8.8)
+
 # v1.8.7
 
 2024-01-11

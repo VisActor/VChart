@@ -87,7 +87,7 @@ export interface LineLikeSeriesMixin extends ISeries {
 export class LineLikeSeriesMixin {
   addSamplingCompile(): void {
     if (this._spec.sampling) {
-      const { width, height } = this._region.getLayoutRectExcludeIndent();
+      const { width, height } = this._region.getLayoutRect();
       const samplingTrans = [];
       const fieldsY = this._fieldY;
       const fieldsX = this._fieldX;

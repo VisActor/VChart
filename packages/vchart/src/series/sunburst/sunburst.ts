@@ -385,11 +385,11 @@ export class SunburstSeries extends PolarSeries<any> {
   private _computeRadius(radius: number | number[]) {
     if (isArray(radius)) {
       return radius.map(r => {
-        const { width, height } = this.getRegion().getLayoutRectExcludeIndent();
+        const { width, height } = this.getRegion().getLayoutRect();
         return Math.min(width / 2, height / 2) * r;
       });
     }
-    const { width, height } = this.getRegion().getLayoutRectExcludeIndent();
+    const { width, height } = this.getRegion().getLayoutRect();
     return Math.min(width / 2, height / 2) * radius;
   }
 

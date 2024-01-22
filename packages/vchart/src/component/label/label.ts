@@ -304,8 +304,8 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
                   .filter(cmp => cmp.type === 'totalLabel')
                   .map(cmp => cmp.getMarks()[0].getProductId())
               },
-              x: labelInfos[0].series.getRegion().layout.indent.left,
-              y: labelInfos[0].series.getRegion().layout.indent.top
+              x: 0,
+              y: 0
             },
             defaultLabelConfig(rule, labelInfo),
             {
@@ -330,7 +330,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             : textAttribute(labelInfos[params.labelIndex], datum, labelSpec.formatMethod, labelSpec.formatter);
         }
       })
-      .size(() => labelInfos[0].series.getRegion().getLayoutRectExcludeIndent());
+      .size(() => labelInfos[0].series.getRegion().getLayoutRect());
   }
 
   compileMarks() {

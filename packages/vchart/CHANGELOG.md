@@ -1,6 +1,22 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 19 Jan 2024 05:31:20 GMT and should not be manually modified.
+This log was last generated on Mon, 22 Jan 2024 12:27:45 GMT and should not be manually modified.
+
+## 1.8.9
+Mon, 22 Jan 2024 12:27:45 GMT
+
+### Updates
+
+- feat: support supportsTouchEvents and supportsPointerEvents config
+- feat: support `alignSelf` of layout `normal-inline` elements, fix #2072 
+
+
+- feat: upgrade vrender
+- fix: fix bug of crosshair timer, fix #2088
+
+
+- fix: fix the bugs of axis's onZero property, fixed #2098,#2099
+- fix: update animation should exludes `defined` channel
 
 ## 1.8.8
 Fri, 19 Jan 2024 05:31:20 GMT

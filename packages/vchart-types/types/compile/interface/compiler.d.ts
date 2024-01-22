@@ -34,6 +34,8 @@ export interface IRenderOption {
     pluginList?: string[];
     optimize?: IOptimizeType;
     enableHtmlAttribute?: boolean;
+    supportsTouchEvents?: boolean;
+    supportsPointerEvents?: boolean;
 }
 export type CompilerListenerParameters = {
     type: EventType;
