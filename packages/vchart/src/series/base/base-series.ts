@@ -54,8 +54,7 @@ import type { IModelEvaluateOption, IModelRenderOption } from '../../model/inter
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
 import { addVChartProperty } from '../../data/transforms/add-property';
-import type { ITrigger } from '../../interaction/interface';
-import { Trigger } from '../../interaction/trigger';
+import type { ISelectSpec } from '../../interaction/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
@@ -66,7 +65,7 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
-import type { ISeriesMarkAttributeContext } from '../../compile/mark';
+import { STATE_VALUE_ENUM, type ISeriesMarkAttributeContext } from '../../compile/mark';
 import {
   array,
   isEqual,
@@ -76,12 +75,17 @@ import {
   isString,
   isFunction,
   isArray,
-  isValidNumber
+  isValidNumber,
+  get,
+  isObject,
+  isEmpty
 } from '@visactor/vutils';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
+import type { EventType } from '@visactor/vgrammar-core';
+import { getDefaultInteractionConfigByMode } from '../../interaction/config';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -95,14 +99,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   readonly transformerConstructor = BaseSeriesSpecTransformer as any;
 
   declare getSpecInfo: () => ISeriesSpecInfo;
-
-  protected _trigger!: ITrigger;
-  /**
-   * getTrigger
-   */
-  getTrigger() {
-    return this._trigger;
-  }
 
   protected declare _option: ISeriesOption;
 
@@ -282,8 +278,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // 调整统计数据的创建时机，需要等待group创建完成
     this.initStatisticalData();
     this.event.emit(ChartEvent.afterInitData, { model: this });
-    // trigger
-    this.initTrigger();
     // mark
     this.initRootMark();
     this.initMark();
@@ -296,6 +290,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (hasAnimation) {
       this.initAnimation();
     }
+    this.initInteraction();
     this.afterInitMark();
 
     // event
@@ -759,17 +754,115 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   /** stack end */
 
   /** mark */
-  initTrigger() {
-    const triggerSpec = {
-      hover: this._spec.hover,
-      select: this._spec.select
-    };
-    const triggerOptions = {
-      ...this._option,
-      model: this,
-      interaction: this._region.interaction
-    };
-    this._trigger = new Trigger(triggerSpec, triggerOptions);
+
+  protected _parseDefaultInteractionConfig(mainMarks?: IMark[]) {
+    if (!mainMarks?.length) {
+      return [];
+    }
+
+    const defaultConfig = getDefaultInteractionConfigByMode(this._option.mode);
+    let finalHoverSpec = { ...defaultConfig?.hover };
+    let finalSelectSpec: ISelectSpec = { ...defaultConfig?.select };
+
+    const hoverSpec = this._spec.hover;
+    if (isBoolean(hoverSpec)) {
+      finalHoverSpec.enable = hoverSpec as boolean;
+    } else if (isObject(hoverSpec)) {
+      finalHoverSpec.enable = true;
+      finalHoverSpec = mergeSpec(finalHoverSpec, hoverSpec);
+    }
+
+    const selectSpec = this._spec.select;
+    if (isBoolean(selectSpec)) {
+      finalSelectSpec.enable = selectSpec as boolean;
+    } else if (isObject(selectSpec)) {
+      finalSelectSpec.enable = true;
+      finalSelectSpec = mergeSpec(finalSelectSpec, selectSpec);
+    }
+    const res = [];
+
+    if (finalHoverSpec.enable) {
+      res.push({
+        seriesId: this.id,
+        regionId: this._region.id,
+        selector: mainMarks.map(mark => `#${mark.getProductId()}`),
+        type: 'element-highlight',
+        trigger: finalHoverSpec.trigger as EventType,
+        resetTrigger: finalHoverSpec.triggerOff as EventType,
+        blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
+        highlightState: STATE_VALUE_ENUM.STATE_HOVER
+      });
+    }
+
+    if (finalSelectSpec.enable) {
+      res.push({
+        type: 'element-select',
+        seriesId: this.id,
+        regionId: this._region.id,
+        selector: mainMarks.map(mark => `#${mark.getProductId()}`),
+        trigger: finalSelectSpec.trigger as EventType,
+        resetTrigger: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
+        reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
+        state: STATE_VALUE_ENUM.STATE_SELECTED,
+        isMultiple: finalSelectSpec.mode === 'multiple'
+      });
+    }
+
+    return res;
+  }
+
+  protected _parseInteractionConfig(mainMarks?: IMark[]) {
+    const compiler = this.getCompiler();
+    if (!compiler) {
+      return;
+    }
+
+    const { interactions } = this._spec;
+    const res = this._parseDefaultInteractionConfig(mainMarks);
+
+    if (res && res.length) {
+      res.forEach(interaction => {
+        compiler.addInteraction(interaction);
+      });
+    }
+
+    if (interactions && interactions.length) {
+      interactions.forEach(interaction => {
+        const selectors: string[] = [];
+        if (interaction.markIds) {
+          this.getMarks().filter(mark => {
+            if (interaction.markIds.includes(mark.getProductId())) {
+              selectors.push(`#${mark.getProductId()}`);
+            }
+          });
+        } else if (interaction.markNames) {
+          this.getMarks().forEach(mark => {
+            if (interaction.markNames.includes(mark.name)) {
+              selectors.push(`#${mark.getProductId()}`);
+            }
+          });
+        } else if (mainMarks?.length) {
+          mainMarks.forEach(mark => {
+            selectors.push(`#${mark.getProductId()}`);
+          });
+        }
+
+        if (selectors.length) {
+          compiler.addInteraction({
+            ...interaction,
+            selector: selectors,
+            seriesId: this.id,
+            regionId: this._region.id
+          });
+        }
+      });
+    }
+  }
+
+  initInteraction() {
+    const marks = this.getMarksWithoutRoot();
+
+    this._parseInteractionConfig(marks);
   }
 
   initAnimation() {
@@ -882,14 +975,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** event */
   protected initEvent() {
-    this._trigger.init();
     this._data?.getDataView()?.target.addListener('change', this.viewDataUpdate.bind(this));
     this._viewDataStatistics?.target.addListener('change', this.viewDataStatisticsUpdate.bind(this));
   }
 
   protected _releaseEvent(): void {
     super._releaseEvent();
-    this._trigger.release();
+    this.getCompiler().removeInteraction(this.id);
   }
 
   /** event end */

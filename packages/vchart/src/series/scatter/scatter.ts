@@ -291,8 +291,6 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         AttributeLevel.User_Mark
       );
     }
-
-    this._trigger.registerMark(symbolMark);
   }
 
   protected initTooltip() {

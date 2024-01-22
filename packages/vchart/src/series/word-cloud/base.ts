@@ -178,8 +178,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         AttributeLevel.User_Mark
       );
     }
-
-    this._trigger.registerMark(wordMark);
   }
 
   protected initTooltip() {

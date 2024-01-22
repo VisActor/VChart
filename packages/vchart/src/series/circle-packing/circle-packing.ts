@@ -190,7 +190,6 @@ export class CirclePackingSeries<
     }) as IArcMark;
 
     this._circlePackingMark = circlePacking;
-    this._trigger.registerMark(circlePacking);
   }
 
   private _initCirclePackingMarkStyle() {
@@ -225,7 +224,6 @@ export class CirclePackingSeries<
     }) as IArcMark;
 
     this._labelMark = labelMark;
-    this._trigger.registerMark(labelMark);
   }
 
   private _initLabelMarkStyle() {

@@ -2349,6 +2349,71 @@
           }
         }
       ]
+    },
+    {
+      "path": "interaction",
+      "title": {
+        "zh": "交互",
+        "en": "interaction"
+      },
+      "children": [
+        {
+          "path": "element-active",
+          "title": {
+            "zh": "双轴图元素激活",
+            "en": "Dual Axis Chart Element Activation"
+          }
+        },
+        {
+          "path": "area-chart-element-highlight",
+          "title": {
+            "zh": "面积图高亮",
+            "en": "Area Chart Element Highlight"
+          }
+        },
+        {
+          "path": "pie-chart-multiple-select",
+          "title": {
+            "zh": "饼图多选交互",
+            "en": "Pie Chart Multiple Select"
+          }
+        },
+        {
+          "path": "line-chart-element-highlight-by-group",
+          "title": {
+            "zh": "图元按组高亮",
+            "en": "Element Highlight by Group"
+          }
+        },
+        {
+          "path": "highlight-by-legend",
+          "title": {
+            "zh": "图例触发系列高亮",
+            "en": "Legend Trigger Series Highlight"
+          }
+        },
+        {
+          "path": "combination-chart-highlight-by-key",
+          "title": {
+            "zh": "组合图联合高亮",
+            "en": "ombination Chart Highlight by Key"
+          }
+        },
+        {
+          "path": "pie-chart-active-by-legend",
+          "title": {
+            "zh": "图例激活饼图",
+            "en": "Legend Trigger Pie Chart Sector Activation"
+          }
+        },
+        {
+          "path": "rose-chart-highlight-by-name",
+          "title": {
+            "zh": "轴标签触发高亮",
+            "en": "Axis Label Trigger Highlight"
+          }
+        }
+      ]
     }
   ]
 }

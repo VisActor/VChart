@@ -106,7 +106,6 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         // forceShowCap 是内部属性，不在接口中暴露
         forceShowCap: true
       });
-      this._trigger.registerMark(segmentMark);
     }
   }
 
@@ -131,7 +130,6 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
         cornerRadius: this._spec.cornerRadius,
         zIndex: 100
       });
-      this._trigger.registerMark(trackMark);
     }
   }
 

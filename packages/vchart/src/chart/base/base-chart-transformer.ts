@@ -180,7 +180,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
       seriesField: chartSpec.seriesField,
 
-      morph: chartSpec.morph
+      morph: chartSpec.morph,
+
+      interactions: chartSpec.interactions
     };
     return series;
   }

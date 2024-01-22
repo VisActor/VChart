@@ -57,6 +57,7 @@ import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerPoptip } from './component/poptip';
 import { registerLiquidChart } from './chart';
 import { registerCanvasTooltipHandler } from './plugin/components/tooltip-handler';
+import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
 
 VChart.useRegisters([
   // charts
@@ -123,7 +124,11 @@ VChart.useRegisters([
   registerGridLayout,
 
   // plugin
-  registerCanvasTooltipHandler
+  registerCanvasTooltipHandler,
+
+  // vgrammar interactions,
+  registerElementHighlight,
+  registerElementSelect
 ]);
 
 // load env code

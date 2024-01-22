@@ -462,7 +462,6 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     super.afterInitMark();
     this.setFieldX(this._fieldX);
     this.setFieldY(this._fieldY);
-    this._trigger.setStateKeys([...this._fieldX, ...this._fieldY]);
     this._buildScaleConfig();
   }
 

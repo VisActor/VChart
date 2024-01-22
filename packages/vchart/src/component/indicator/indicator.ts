@@ -116,25 +116,31 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       return;
     }
 
+    const view = this.getCompiler()?.getVGrammarView();
+
+    if (!view) {
+      return;
+    }
+
     if (this._spec.trigger === 'hover') {
-      this.event.on('hovered', params => {
-        if (!params.model || this.isRelativeModel(params.model)) {
-          this.updateDatum(params.value[0]);
+      view.addEventListener('element-highlight:start', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
+          this.updateDatum(params.elements[0].getDatum());
         }
       });
-      this.event.on('unhovered', params => {
-        if (!params.model || this.isRelativeModel(params.model)) {
+      view.addEventListener('element-highlight:reset', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
           this.updateDatum(null);
         }
       });
     } else {
-      this.event.on('selected', params => {
-        if (!params.model || this.isRelativeModel(params.model)) {
-          this.updateDatum(params.value[0]);
+      view.addEventListener('element-select:start', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
+          this.updateDatum(params.elements[0].getDatum());
         }
       });
-      this.event.on('unselected', params => {
-        if (!params.model || this.isRelativeModel(params.model)) {
+      view.addEventListener('element-select:reset', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
           this.updateDatum(null);
         }
       });
@@ -268,8 +274,8 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     return Math.min(width / 2, height / 2);
   }
 
-  private isRelativeModel(model: IModel) {
-    return eachSeries(this._regions, s => model === s) || this._regions.includes(model as IRegion);
+  private isRelativeModel(regionId: number) {
+    return this._regions.some(region => region.id === regionId);
   }
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {

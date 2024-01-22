@@ -501,7 +501,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     return this.state.updateState(newState, noRender);
   }
 
-  updateLayoutState(noRender?: boolean, recursion?: boolean): Promise<void> {
+  updateLayoutState(noRender?: boolean, recursion?: boolean): void {
     if (recursion && this.getMarks().length > 0) {
       this.getMarks().forEach(m => m.state.updateLayoutState(true));
     }

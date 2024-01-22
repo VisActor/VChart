@@ -155,7 +155,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
         'normal',
         AttributeLevel.Built_In
       );
-      this._trigger.registerMark(areaMark);
 
       // change stroke to area stoke = [lineStroke,false,false,false]
       Object.keys(areaMark.stateStyle).forEach(state => {

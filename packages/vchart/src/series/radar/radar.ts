@@ -137,7 +137,6 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
       this.event.on(ChartEvent.viewDataStatisticsUpdate, { filter: param => param.model === this }, () => {
         this.encodeDefined(areaMark, 'defined');
       });
-      this._trigger.registerMark(areaMark);
     }
   }
 

@@ -1,5 +1,5 @@
 import { ChartEvent } from './../constant/event';
-import type { IElement, IView } from '@visactor/vgrammar-core';
+import type { IElement, InteractionSpec, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { View } from '@visactor/vgrammar-core';
 import type {
@@ -60,6 +60,8 @@ export class Compiler {
     [GrammarType.data]: {},
     [GrammarType.mark]: {}
   };
+
+  protected _interactions: (InteractionSpec & { seriesId?: number; regionId?: number })[];
   getModel() {
     return this._model;
   }
@@ -150,6 +152,35 @@ export class Compiler {
     }
   }
 
+  compileInteractions() {
+    this._view.removeAllInteractions();
+    if (this._interactions?.length) {
+      const regionCombindInteractions = {};
+
+      this._interactions.forEach(interaction => {
+        if (interaction.regionId) {
+          const interactionId = `${interaction.regionId}-${interaction.type}-${interaction.id ?? ''}`;
+          const spec = regionCombindInteractions[interactionId];
+          if (spec) {
+            regionCombindInteractions[interactionId] = {
+              ...spec,
+              ...interaction,
+              selector: [...spec.selector, ...(interaction as any).selector]
+            };
+          } else {
+            regionCombindInteractions[interactionId] = interaction;
+          }
+        } else {
+          this._view.interaction(interaction.type, interaction);
+        }
+      });
+
+      Object.keys(regionCombindInteractions).forEach(key => {
+        this._view.interaction(regionCombindInteractions[key].type, regionCombindInteractions[key]);
+      });
+    }
+  }
+
   compile(ctx: { chart: IChart; vChart: VChart }, option: any) {
     const { chart } = ctx;
     this._compileChart = chart;
@@ -161,6 +192,8 @@ export class Compiler {
     chart.compile();
     chart.afterCompile();
     this.updateDepend();
+
+    this.compileInteractions();
   }
 
   clear(ctx: { chart: IChart; vChart: VChart }, removeGraphicItems: boolean = false) {
@@ -413,6 +446,22 @@ export class Compiler {
     if (!reserveVGrammarModel) {
       this._view?.removeGrammar(product);
     }
+  }
+
+  addInteraction(interaction: InteractionSpec & { seriesId?: number; regionId?: number }) {
+    if (!this._interactions) {
+      this._interactions = [];
+    }
+
+    this._interactions.push(interaction);
+  }
+
+  removeInteraction(seriesId: number) {
+    if (!this._interactions) {
+      return;
+    }
+
+    this._interactions = this._interactions.filter(entry => entry.seriesId !== seriesId);
   }
 
   /** 更新语法元素间的依赖关系，返回是否全部成功更新 */

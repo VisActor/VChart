@@ -254,7 +254,6 @@ export class TreemapSeries extends CartesianSeries<any> {
           }
         } as TransformSpec
       ]);
-      this._trigger.registerMark(nonLeafMark);
       this._nonLeafMark = nonLeafMark;
     }
 
@@ -273,7 +272,6 @@ export class TreemapSeries extends CartesianSeries<any> {
         } as TransformSpec
       ]);
       this._leafMark = leafMark;
-      this._trigger.registerMark(leafMark);
     }
   }
 

@@ -262,7 +262,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Mark
     );
-    this._trigger.registerMark(nodeMark);
   }
 
   protected _initLinkMarkStyle() {
@@ -297,7 +296,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
-    this._trigger.registerMark(linkMark);
   }
 
   protected _initLabelMarkStyle() {
@@ -489,7 +487,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     this._labelMark.setZIndex(this._labelLayoutZIndex);
-    this._trigger.registerMark(this._labelMark);
   }
 
   private _createText(datum: Datum) {

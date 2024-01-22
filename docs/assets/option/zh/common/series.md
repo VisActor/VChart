@@ -154,3 +154,7 @@ morph 动画配置。
   seriesType = ${seriesType},
   seriesMarks = ${seriesMarks}
 ) }}
+
+{{ use: common-interaction(
+  prefix = ${prefix}
+) }}

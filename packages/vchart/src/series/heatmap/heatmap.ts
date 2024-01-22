@@ -107,8 +107,6 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       'normal',
       AttributeLevel.Series
     );
-
-    this._trigger.registerMark(this._cellMark);
   }
 
   initCellBackgroundMarkStyle() {
@@ -145,6 +143,10 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       scale: this._option.globalScale.getScale('color') ?? this._getDefaultColorScale(),
       field: this.getFieldValue[0]
     };
+  }
+
+  initInteraction(): void {
+    this._parseInteractionConfig(this._cellMark ? [this._cellMark] : []);
   }
 
   initAnimation() {
