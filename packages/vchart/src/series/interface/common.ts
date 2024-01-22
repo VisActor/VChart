@@ -119,6 +119,11 @@ export interface ISeriesMarkInitOption {
    * @since 1.9.0
    */
   stateSort?: (stateA: string, stateB: string) => number;
+  /**
+   * use component in extension mark
+   * @since 1.9.0
+   */
+  componentType?: string;
 }
 
 export interface ISeriesMarkInfo extends IModelMarkInfo {
