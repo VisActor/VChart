@@ -4,23 +4,24 @@ import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/i
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
-import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined } from '../../../util';
-import type { IOrientType } from '../../../typings/space';
+import {
+  isArray,
+  isValid,
+  isValidNumber,
+  mergeSpec,
+  eachSeries,
+  isNil,
+  isUndefined,
+  calcLayoutNumber
+} from '../../../util';
+import type { IOrientType, IRect } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../../typings/space';
 import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { Factory } from '../../../core/factory';
-import {
-  autoAxisType,
-  isXAxis,
-  getOrient,
-  isZAxis,
-  isYAxis,
-  getCartesianAxisInfo,
-  transformInverse
-} from './util/common';
+import { isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo, transformInverse } from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
@@ -101,6 +102,14 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     height: number;
     _lastComputeOutBounds: IBoundsLike;
   } = { width: 0, height: 0, _lastComputeOutBounds: { x1: 0, x2: 0, y1: 0, y2: 0 } };
+
+  // 内padding
+  protected _innerOffset: { top: number; bottom: number; left: number; right: number } = {
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
+  };
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
@@ -222,22 +231,22 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   protected updateScaleRange() {
     let isScaleChange = false;
     const { width, height } = this.getLayoutRect();
+    const { left, right, top, bottom } = this._innerOffset;
     let newRange: number[] = [];
     if (isXAxis(this.getOrient())) {
       if (isValidNumber(width)) {
-        newRange = this._inverse ? [width, 0] : [0, width];
+        newRange = this._inverse ? [width - right, left] : [left, width - right];
       }
     } else if (isZAxis(this.getOrient())) {
       if (isValidNumber(width)) {
-        newRange = this._inverse ? [width, 0] : [0, width];
+        newRange = this._inverse ? [width - right, left] : [left, width - right];
         this._scale.range(newRange);
       }
     } else {
       if (isValidNumber(height)) {
-        newRange = this._inverse ? [0, height] : [height, 0];
+        newRange = this._inverse ? [top, height - bottom] : [height - bottom, top];
       }
     }
-
     const [start, end] = this._scale.range();
     if (newRange[0] !== start || newRange[1] !== end) {
       isScaleChange = true;
@@ -276,6 +285,17 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._tick = this._spec.tick;
     const chartSpec = this._option.getChart()?.getSpec() as ICartesianChartSpec;
     this._inverse = transformInverse(this._spec, chartSpec?.direction === Direction.horizontal);
+  }
+
+  onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
+    super.onLayoutStart(layoutRect, viewRect, ctx);
+    // 计算innerOffset
+    if (this._spec.innerOffset) {
+      this._innerOffset.left = calcLayoutNumber(this._spec.innerOffset.left, viewRect.width, viewRect);
+      this._innerOffset.right = calcLayoutNumber(this._spec.innerOffset.right, viewRect.width, viewRect);
+      this._innerOffset.top = calcLayoutNumber(this._spec.innerOffset.top, viewRect.height, viewRect);
+      this._innerOffset.bottom = calcLayoutNumber(this._spec.innerOffset.bottom, viewRect.height, viewRect);
+    }
   }
 
   protected getSeriesStatisticsField(s: ICartesianSeries) {
