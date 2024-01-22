@@ -281,10 +281,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // mark
     this.initRootMark();
     this.initMark();
-
     const hasAnimation = isAnimationEnabledForSeries(this);
 
     this._initExtensionMark({ hasAnimation });
+
     this.initMarkStyle();
     this.initMarkState();
     if (hasAnimation) {
@@ -684,10 +684,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 
-  protected _initExtensionMark(options: { hasAnimation: boolean }) {
+  protected _initExtensionMark(options: { hasAnimation: boolean; depend?: IMark[] }) {
     if (!this._spec.extensionMark) {
       return;
     }
+    const mainMarks = this.getMarksWithoutRoot();
+
+    options.depend = mainMarks;
+
     this._spec.extensionMark?.forEach((m, i) => {
       this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, options);
     });
@@ -698,7 +702,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     parentMark: null | IGroupMark,
     namePrefix: string,
     index: number,
-    options: { hasAnimation: boolean }
+    options: { hasAnimation: boolean; depend?: IMark[] }
   ) {
     const mark = this._createMark(
       { type: spec.type, name: `${namePrefix}_${index}` },
@@ -708,7 +712,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         markSpec: spec,
         parent: parentMark,
         dataView: false,
-        customShape: spec?.customShape
+        customShape: spec?.customShape,
+        componentType: spec.componentType,
+        depend: options.depend
       }
     ) as IGroupMark;
     if (!mark) {
@@ -1241,7 +1247,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       key: key ?? this._getDataIdKey(),
       support3d,
       seriesId: this.id,
-      attributeContext: this._markAttributeContext
+      attributeContext: this._markAttributeContext,
+      componentType: option.componentType
     });
     if (isValid(m)) {
       this._marks.addMark(m, { name: markInfo.name });
