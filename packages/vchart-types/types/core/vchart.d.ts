@@ -124,6 +124,9 @@ export declare class VChart implements IVChart {
     } | ((model: IModel) => boolean), spec: unknown, forceMerge?: boolean, morphConfig?: IMorphConfig): IVChart;
     protected _updateModelSpec(model: IModel, spec: unknown, sync?: boolean, forceMerge?: boolean, morphConfig?: IMorphConfig): IVChart | Promise<IVChart>;
     resize(width: number, height: number): Promise<IVChart>;
+    resizeSync(width: number, height: number): IVChart;
+    protected _beforeResize(width: number, height: number): boolean;
+    protected _afterResize(): IVChart;
     updateViewBox(viewBox: IBoundsLike, reRender?: boolean, reLayout?: boolean): IVChart;
     on(eType: EventType, handler: EventCallback<EventParams>): void;
     on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;

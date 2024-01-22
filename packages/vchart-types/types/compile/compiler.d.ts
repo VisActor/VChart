@@ -42,7 +42,8 @@ export declare class Compiler {
     renderAsync(morphConfig?: IMorphConfig): Promise<any>;
     renderSync(morphConfig?: IMorphConfig): void;
     updateViewBox(viewBox: IBoundsLike, reRender?: boolean): void;
-    resize(width: number, height: number, reRender?: boolean): this | Promise<any>;
+    resize(width: number, height: number, reRender?: boolean): Promise<void>;
+    resizeSync(width: number, height: number, reRender?: boolean): void;
     setBackground(color: IColor): void;
     setSize(width: number, height: number): void;
     setViewBox(viewBox: IBoundsLike, reRender?: boolean): void;
