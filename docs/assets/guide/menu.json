@@ -590,7 +590,14 @@
               "path": "Semi_Design",
               "title": {
                 "zh": "适用于 Semi Design 的主题",
-                "en": "Theme for Semi Design"
+                "en": "Themes for Semi Design"
+              }
+            },
+            {
+              "path": "Arco_Design",
+              "title": {
+                "zh": "适用于 Arco Design 的主题",
+                "en": "Themes for Arco Design"
               }
             }
           ]
@@ -732,6 +739,13 @@
               "title": {
                 "zh": "Semi Design",
                 "en": "Semi Design"
+              }
+            },
+            {
+              "path": "Arco_Design",
+              "title": {
+                "zh": "Arco Design",
+                "en": "Arco Design"
               }
             },
             {

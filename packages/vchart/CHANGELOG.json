@@ -1094,7 +1094,7 @@
             "comment": "feat: upgrade vdataset for clone source data when call updateData\n\n"
           },
           {
-            "comment": "fix: fix sortDataByAxis not work after updateData\n\n"
+            "comment": "fix: fix axis domain will in the wrong order after buildIn data filter\n\n"
           },
           {
             "comment": "fix: fix the issue of legend does not update after updateData, fix #769"

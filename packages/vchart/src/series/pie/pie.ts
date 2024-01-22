@@ -65,8 +65,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _center!: IPoint | null;
   public get center(): IPoint {
     return {
-      x: this._spec?.centerX ?? this._region.getLayoutRectExcludeIndent().width / 2,
-      y: this._spec?.centerY ?? this._region.getLayoutRectExcludeIndent().height / 2
+      x: this._spec?.centerX ?? this._region.getLayoutRect().width / 2,
+      y: this._spec?.centerY ?? this._region.getLayoutRect().height / 2
     };
   }
   protected _centerOffset!: number;
@@ -86,8 +86,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     // center
     this._markAttributeContext.getCenter = () => {
       return {
-        x: () => this._center?.x ?? this._region.getLayoutRectExcludeIndent().width / 2,
-        y: () => this._center?.y ?? this._region.getLayoutRectExcludeIndent().height / 2
+        x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
+        y: () => this._center?.y ?? this._region.getLayoutRect().height / 2
       };
     };
 
@@ -192,8 +192,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       this.setMarkStyle(
         pieMark,
         {
-          x: () => this._center?.x ?? this._region.getLayoutRectExcludeIndent().width / 2,
-          y: () => this._center?.y ?? this._region.getLayoutRectExcludeIndent().height / 2,
+          x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
+          y: () => this._center?.y ?? this._region.getLayoutRect().height / 2,
           fill: this.getColorAttribute(),
           outerRadius: isSpecValueWithScale(this._outerRadius)
             ? this._outerRadius
@@ -300,7 +300,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   }
 
   protected computeLayoutRadius() {
-    const { width, height } = this._region.getLayoutRectExcludeIndent();
+    const { width, height } = this._region.getLayoutRect();
     return Math.min(width / 2, height / 2);
   }
 

@@ -96,7 +96,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected abstract axisHelper(): any;
   protected abstract getSeriesStatisticsField(s: ISeries): string[];
   protected abstract updateSeriesScale(): void;
-  protected abstract collectData(depth: number): { min: number; max: number; values: any[] }[];
+  protected abstract collectData(depth: number, rawData?: boolean): { min: number; max: number; values: any[] }[];
   abstract transformScaleDomain(): void;
 
   protected _dataFieldText: string;
@@ -272,9 +272,27 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         this.updateScaleDomain();
       });
     }
+
+    eachSeries(
+      this._regions,
+      s => {
+        s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
+          // 只清除，不更新，在需要时，更新一次。避免多系列下多次更新
+          this._clearRawDomain();
+        });
+      },
+      {
+        userId: this._seriesUserId,
+        specIndex: this._seriesIndex
+      }
+    );
   }
 
   protected updateScaleDomain() {
+    // 留给各个类型的 axis 来 override
+  }
+
+  protected _clearRawDomain() {
     // 留给各个类型的 axis 来 override
   }
 

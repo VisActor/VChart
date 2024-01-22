@@ -169,6 +169,9 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
       if (!isEqual(attrs, this._cacheAttrs)) {
         this._cacheAttrs = attrs;
         this._playerComponent.setAttributes(attrs);
+        // FIXME: player 组件没有重写 setAttributes 方法，因此不能正常更新样式。以下两句模拟执行了 setAttributes 方法，但是应在 vrender-component 的后续版本中实现 setAttributes 方法
+        this._playerComponent._initAttributes();
+        this._playerComponent.render();
       }
     } else {
       if (attrs.type === 'discrete') {
