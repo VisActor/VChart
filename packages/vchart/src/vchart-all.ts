@@ -150,8 +150,8 @@ VChart.useRegisters([
   // plugin
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  // vgrammar interactions,
 
+  // vgrammar interactions,
   registerElementActive,
   registerElementHighlight,
   registerElementSelect,
