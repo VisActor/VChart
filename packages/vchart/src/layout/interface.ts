@@ -2,7 +2,14 @@ import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../typings/common';
 import type { IOrientType, IRect } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
-import type { ILayoutNumber, ILayoutPaddingSpec, ILayoutPoint, ILayoutRect, ILayoutType } from '../typings/layout';
+import type {
+  ILayoutAlignSelf,
+  ILayoutNumber,
+  ILayoutPaddingSpec,
+  ILayoutPoint,
+  ILayoutRect,
+  ILayoutType
+} from '../typings/layout';
 import type { ILayoutModel } from '../model/interface';
 
 export interface IBaseLayout {
@@ -86,6 +93,15 @@ export interface ILayoutItem {
   /** 是否自动缩进 */
   autoIndent: boolean;
 
+  /**
+   * inline元素和其他同行元素的对齐方式
+   * 顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐
+   * 底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐
+   * 左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐
+   * 右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐
+   */
+  alignSelf?: 'start' | 'end' | 'middle';
+
   layoutPaddingLeft: number;
   layoutPaddingTop: number;
   layoutPaddingRight: number;
@@ -150,6 +166,15 @@ export interface ILayoutItemSpec {
    * 比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。
    */
   layoutLevel?: number;
+
+  /**
+   * inline元素和其他同行元素的对齐方式
+   * 顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐
+   * 底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐
+   * 左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐
+   * 右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐
+   */
+  alignSelf?: 'start' | 'end' | 'middle';
 
   // 基础的布局配置
   /** 模块布局位置 */

@@ -31,6 +31,17 @@
 
 {{ /if }}
 
+#${prefix} alignSelf('start' | 'end' | 'middle') = 'start'
+
+从 1.8.9 版本开始支持，
+
+对于布局类型为`normal-inline`的元素，设置行内元素的对齐方式:
+
+- 顶部的元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐
+- 底部的元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐
+- 左侧的元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐
+- 右侧的元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐
+
 #${prefix} padding(ILayoutNumber|Array|Object) = 0
 
 模块的布局间距配置（上下左右四个方向），支持非对象配置、数组配置与对象配置。
