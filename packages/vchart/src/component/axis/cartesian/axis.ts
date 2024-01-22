@@ -3,7 +3,7 @@ import type { IBounds, IBoundsLike, Maybe } from '@visactor/vutils';
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
-import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianAxisCommonTheme } from './interface';
+import type { ICartesianAxisCommonSpec, IAxisHelper } from './interface';
 import { isArray, isValid, isValidNumber, mergeSpec, eachSeries, isNil, isUndefined } from '../../../util';
 import type { IOrientType } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
@@ -12,15 +12,7 @@ import type { IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import { Factory } from '../../../core/factory';
-import {
-  autoAxisType,
-  isXAxis,
-  getOrient,
-  isZAxis,
-  isYAxis,
-  getCartesianAxisInfo,
-  transformInverse
-} from './util/common';
+import { isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo, transformInverse } from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
 import pluginMap from '../../../plugin/components';
@@ -775,14 +767,14 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
       // 判断坐标轴是否可用
       const isValidAxis = (item: any) => {
-        return (
-          (isX ? !isXAxis(item.orient) : isXAxis(item.orient)) &&
+        return (isX ? !isXAxis(item.getOrient()) : isXAxis(item.getOrient())) &&
           isContinuous(item.getScale().type) &&
-          item
-            .getTickData()
-            .getLatestData()
-            ?.find((d: any) => d.value === 0)
-        );
+          item.getTickData()
+          ? item
+              .getTickData()
+              .getLatestData()
+              ?.find((d: any) => d.value === 0)
+          : item.getScale().ticks().includes(0);
       };
       const relativeAxes = axesComponents.filter(item => isValidAxis(item));
       if (relativeAxes.length) {
