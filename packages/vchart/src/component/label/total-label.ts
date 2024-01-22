@@ -114,8 +114,8 @@ export class TotalLabel extends BaseLabelComponent {
               {
                 textStyle: { pickable: this._spec.interactive === true },
                 position: totalLabelPosition(series, this._baseMark.type),
-                x: series.getRegion().layout.indent.left,
-                y: series.getRegion().layout.indent.top
+                x: 0,
+                y: 0
               },
               {
                 offset,
@@ -141,7 +141,7 @@ export class TotalLabel extends BaseLabelComponent {
             this._spec.formatMethod
           );
         })
-        .size(() => this._regions[0].getLayoutRectExcludeIndent());
+        .size(() => this._regions[0].getLayoutRect());
     });
   }
 

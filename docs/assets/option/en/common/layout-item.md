@@ -8,8 +8,9 @@ The layout type of the current module. If it is set to `absolute`, the element w
 
 The currently supported layout types are as follows:
 
-- `'region'`: The drawing area of the chart, generally only the region module is of this type
-- `'region-relative'`: Modules related to the region position, such as axes, datazoom, etc.
+- `'region'`: The drawing area of the chart, generally only the region module is of this type.
+- `'region-relative'`: Modules related to the region position, such as axes, datazoom, etc. Multiple modules in the same direction will not overlap.
+- `'region-relative-overlap'`: Supported since `1.8.8` version, Modules related to region position use overlapping layout. Multiple coordinate axes can be overlapped together through this configuration.
 - `'normal'`: Ordinary placeholders, such as legends, titles, etc.
 - `'normal-inline'`: Inline placeholder element, used for multiple legends to display scenes side by side, etc.
 - `'absolute'`: Absolute layout elements, such as tooltips, marklines, etc.
@@ -29,6 +30,17 @@ Module layout position. Available positions:
 - 'bottom'
 
 {{ /if }}
+
+#${prefix} alignSelf('start' | 'end' | 'middle') = 'start'
+
+Starting from version 1.8.9,
+
+For elements with a layout type of 'normal-inline', set the alignment of inline elements as follows:
+
+- For elements at the top, 'start' - align to the top; 'end' - align to the bottom; 'middle' - align to the middle
+- For elements at the bottom, 'start' - align to the bottom; 'end' - align to the top; 'middle' - align to the middle
+- For elements on the left, 'start' - align to the left; 'end' - align to the right; 'middle' - align to the middle
+- For elements on the right, 'start' - align to the right; 'end' - align to the left; 'middle' - align to the middle
 
 #${prefix} padding(ILayoutNumber|Array|Object) = 0
 

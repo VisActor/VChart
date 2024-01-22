@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: update animation should exludes `defined` channel",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

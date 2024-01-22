@@ -208,7 +208,7 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   }
 
   protected _computeLayoutRadius() {
-    const { width, height } = this._region.getLayoutRectExcludeIndent();
+    const { width, height } = this._region.getLayoutRect();
     return Math.min(width / 2, height / 2);
   }
 

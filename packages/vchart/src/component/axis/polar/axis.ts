@@ -191,7 +191,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   _transformLayoutPosition = (pos: Partial<IPoint>) => {
     const region = this.getRegions()?.[0];
-    return region ? region.getLayoutPositionExcludeIndent() : pos;
+    return region ? region.getLayoutStartPoint() : pos;
   };
 
   onLayoutEnd(ctx: any): void {
@@ -256,7 +256,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return true;
   }
 
-  protected collectData(depth: number) {
+  protected collectData(depth: number, rawData?: boolean) {
     const data: { min: number; max: number; values: any[] }[] = [];
     eachSeries(
       this._regions,
@@ -275,8 +275,12 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         const seriesData = s.getViewDataStatistics?.();
         if (field) {
           field.forEach(f => {
-            if (seriesData?.latestData?.[f]) {
-              data.push(seriesData.latestData[f]);
+            if (rawData) {
+              data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
+            } else {
+              if (seriesData?.latestData?.[f]) {
+                data.push(seriesData.latestData[f]);
+              }
             }
           });
         }
@@ -571,7 +575,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   private getRefLayoutRect() {
-    return this.getRegions()[0].getLayoutRectExcludeIndent();
+    return this.getRegions()[0].getLayoutRect();
   }
 
   private getRefSeriesRadius() {

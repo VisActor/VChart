@@ -396,7 +396,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return scales;
   }
 
-  protected collectData(depth?: number) {
+  protected collectData(depth?: number, rawData?: boolean) {
     const data: { min: number; max: number; values: any[] }[] = [];
     eachSeries(
       this._regions,
@@ -422,8 +422,12 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         const seriesData = s.getViewDataStatistics?.();
         if (field) {
           field.forEach(f => {
-            if (seriesData?.latestData?.[f]) {
-              data.push(seriesData.latestData[f]);
+            if (rawData) {
+              data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
+            } else {
+              if (seriesData?.latestData?.[f]) {
+                data.push(seriesData.latestData[f]);
+              }
             }
           });
         }
@@ -458,6 +462,26 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       }
     );
   }
+
+  // protected _seriesUpdateAfterScaleChange(updateInfo: { domain?: boolean; range?: boolean; type?: boolean }) {
+  //   const orient = this.getOrient();
+  //   eachSeries(
+  //     this._regions,
+  //     s => {
+  //       if (isXAxis(orient)) {
+  //         (s as ICartesianSeries).xAxisUpdated(updateInfo);
+  //       } else if (isYAxis(orient)) {
+  //         (s as ICartesianSeries).yAxisUpdated(updateInfo);
+  //       } else if (isZAxis(orient)) {
+  //         (s as ICartesianSeries).zAxisUpdated(updateInfo);
+  //       }
+  //     },
+  //     {
+  //       userId: this._seriesUserId,
+  //       specIndex: this._seriesIndex
+  //     }
+  //   );
+  // }
 
   _transformLayoutPosition = (pos: Partial<IPoint>) => {
     let { x, y } = pos;
@@ -604,13 +628,13 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (!ignoreGrid) {
       const regions = this.getRegions();
       let { x: minX, y: minY } = regions[0].getLayoutStartPoint();
-      let maxX = minX + regions[0].getLayoutRectExcludeIndent().width;
-      let maxY = minY + regions[0].getLayoutRectExcludeIndent().height;
+      let maxX = minX + regions[0].getLayoutRect().width;
+      let maxY = minY + regions[0].getLayoutRect().height;
 
       for (let index = 1; index < regions.length; index++) {
         const region = regions[index];
-        const { x, y } = region.getLayoutPositionExcludeIndent();
-        const { width, height } = region.getLayoutRectExcludeIndent();
+        const { x, y } = region.getLayoutStartPoint();
+        const { width, height } = region.getLayoutRect();
 
         minX = Math.min(minX, x);
         maxX = Math.max(maxX, width + x);

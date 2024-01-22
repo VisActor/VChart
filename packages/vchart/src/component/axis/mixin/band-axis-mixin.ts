@@ -23,7 +23,7 @@ export interface BandAxisMixin {
   _defaultBandOuterPadding: number;
   event: IEvent;
   isSeriesDataEnable: () => boolean;
-  collectData: (depth: number) => { min: number; max: number; values: any[] }[];
+  collectData: (depth: number, rawData?: boolean) => { min: number; max: number; values: any[] }[];
   computeDomain: (data: { min: number; max: number; values: any[] }[]) => StringOrNumber[];
   transformScaleDomain: () => void;
   _initTickDataSet: (options: any, index?: number) => any;
@@ -57,6 +57,7 @@ export class BandAxisMixin {
       this._tickData = [new CompilableData(this._option, tickData)];
     }
   }
+  protected _rawDomainIndex: { [key: string | number | symbol]: number }[] = [];
 
   dataToPosition(values: any[], cfg: IAxisLocationCfg = {}): number {
     if (values.length === 0 || this._scales.length === 0) {
@@ -134,7 +135,9 @@ export class BandAxisMixin {
     if (!this.isSeriesDataEnable()) {
       return;
     }
-
+    if (!this._rawDomainIndex?.length && this._scales.length) {
+      this._updateRawDomain();
+    }
     const userDomain = this._spec.domain;
     for (let i = 0; i < this._scales.length; i++) {
       if (userDomain && userDomain.length && i === 0) {
@@ -143,7 +146,7 @@ export class BandAxisMixin {
       } else {
         const data = this.collectData(i);
         const domain = this.computeDomain(data);
-        this._scales[i].domain(domain);
+        this._scales[i].domain(domain.sort((a, b) => this._rawDomainIndex[i][a] - this._rawDomainIndex[i][b]));
       }
     }
     this.transformScaleDomain();
@@ -185,5 +188,27 @@ export class BandAxisMixin {
     });
 
     return labelItems.reverse();
+  }
+
+  protected _updateRawDomain() {
+    // 默认值设置了无效？
+    this._rawDomainIndex = [];
+
+    const userDomain = this._spec.domain;
+    for (let i = 0; i < this._scales.length; i++) {
+      if (userDomain && userDomain.length && i === 0) {
+        // 当数字映射字段存在分组时，只作用于第一个分组的domain，如 xField: ['x', 'type']
+        this._scales[i].domain(userDomain);
+      } else {
+        const data = this.collectData(i, true);
+        const domain = this.computeDomain(data);
+        this._rawDomainIndex[i] = {};
+        domain.forEach((d, _i) => (this._rawDomainIndex[i][d] = _i));
+      }
+    }
+  }
+
+  protected _clearRawDomain() {
+    this._rawDomainIndex = [];
   }
 }
