@@ -2,6 +2,33 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.9",
+      "tag": "@visactor/vchart_v1.8.9",
+      "date": "Mon, 22 Jan 2024 12:27:45 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support supportsTouchEvents and supportsPointerEvents config"
+          },
+          {
+            "comment": "feat: support `alignSelf` of layout `normal-inline` elements, fix #2072 \n\n"
+          },
+          {
+            "comment": "feat: upgrade vrender"
+          },
+          {
+            "comment": "fix: fix bug of crosshair timer, fix #2088\n\n"
+          },
+          {
+            "comment": "fix: fix the bugs of axis's onZero property, fixed #2098,#2099"
+          },
+          {
+            "comment": "fix: update animation should exludes `defined` channel"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.8",
       "tag": "@visactor/vchart_v1.8.8",
       "date": "Fri, 19 Jan 2024 05:31:20 GMT",

@@ -21,3 +21,4 @@ export type ILayoutOrientPadding = {
     bottom?: ILayoutNumber;
 };
 export type ILayoutPaddingSpec = ILayoutOrientPadding | ILayoutNumber | ILayoutNumber[];
+export type ILayoutAlignSelf = 'start' | 'end' | 'middle';

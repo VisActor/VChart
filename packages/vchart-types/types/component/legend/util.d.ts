@@ -21,6 +21,6 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
     maxWidth?: number;
     minWidth?: number;
     space?: number;
-    align?: "center" | "start" | "end";
+    align?: "start" | "end" | "center";
 };
 export declare function getLayout(spec: ILegendCommonSpec): "vertical" | "horizontal";
