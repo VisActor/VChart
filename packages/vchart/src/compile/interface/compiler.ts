@@ -112,12 +112,12 @@ export interface IRenderOption {
    */
   enableHtmlAttribute?: boolean;
   /**
-   * @since 1.8.8
+   * @since 1.8.9
    * 是否支持touch事件
    */
   supportsTouchEvents?: boolean;
   /**
-   * @since 1.8.8
+   * @since 1.8.9
    * 是否支持pointer事件
    */
   supportsPointerEvents?: boolean;
