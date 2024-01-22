@@ -770,8 +770,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         return (
           (isX ? !isXAxis(item.getOrient()) : isXAxis(item.getOrient())) &&
           isContinuous(item.getScale().type) &&
-          item.getScale().domain()[0] <= 0 &&
-          item.getScale().domain()[1] >= 0
+          item.getScale().ticks().includes(0) // 只有显示的刻度包含 0 的时候展示
         );
       };
       const relativeAxes = axesComponents.filter(item => isValidAxis(item));
