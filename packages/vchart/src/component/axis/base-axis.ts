@@ -97,7 +97,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected abstract getSeriesStatisticsField(s: ISeries): string[];
   protected abstract updateSeriesScale(): void;
   protected abstract collectData(depth: number, rawData?: boolean): { min: number; max: number; values: any[] }[];
-  protected abstract _initData(): void;
   abstract transformScaleDomain(): void;
 
   protected _dataFieldText: string;
