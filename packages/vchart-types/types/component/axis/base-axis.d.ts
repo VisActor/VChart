@@ -39,7 +39,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected abstract axisHelper(): any;
     protected abstract getSeriesStatisticsField(s: ISeries): string[];
     protected abstract updateSeriesScale(): void;
-    protected abstract collectData(depth: number): {
+    protected abstract collectData(depth: number, rawData?: boolean): {
         min: number;
         max: number;
         values: any[];
@@ -61,6 +61,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     };
     protected initEvent(): void;
     protected updateScaleDomain(): void;
+    protected _clearRawDomain(): void;
     protected computeData(updateType?: 'domain' | 'range' | 'force'): void;
     protected initScales(): void;
     _compareSpec(spec: T, prevSpec: T): {

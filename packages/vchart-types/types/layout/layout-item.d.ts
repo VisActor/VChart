@@ -1,5 +1,5 @@
 import type { ILayoutModel } from './../model/interface';
-import type { IPadding, IRect, IPoint } from '../typings';
+import type { IRect, IPoint } from '../typings';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ILayoutItem, ILayoutItemInitOption, ILayoutItemSpec } from './interface';
 import type { IChartLayoutOption } from '../chart/interface/common';
@@ -39,10 +39,6 @@ export declare class LayoutItem implements ILayoutItem {
     layoutPaddingTop: ILayoutItem['layoutPaddingTop'];
     layoutPaddingRight: ILayoutItem['layoutPaddingRight'];
     layoutPaddingBottom: ILayoutItem['layoutPaddingBottom'];
-    protected _indent: IPadding;
-    get indent(): IPadding;
-    private _layoutExcludeIndent;
-    get layoutExcludeIndent(): IRect;
     layoutOffsetX: ILayoutItem['layoutOffsetX'];
     layoutOffsetY: ILayoutItem['layoutOffsetY'];
     layoutLevel: ILayoutItem['layoutLevel'];

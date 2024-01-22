@@ -13,7 +13,7 @@ export type IPercentOffset = {
     offset?: number;
 };
 export type ILayoutPercent = IPercent | number;
-export type ILayoutType = 'region-relative' | 'region' | 'normal' | 'absolute' | 'normal-inline';
+export type ILayoutType = 'region-relative' | 'region-relative-overlap' | 'region' | 'normal' | 'absolute' | 'normal-inline';
 export type ILayoutOrientPadding = {
     left?: ILayoutNumber;
     right?: ILayoutNumber;

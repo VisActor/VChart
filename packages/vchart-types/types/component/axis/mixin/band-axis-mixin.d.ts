@@ -11,7 +11,7 @@ export interface BandAxisMixin {
     _defaultBandOuterPadding: number;
     event: IEvent;
     isSeriesDataEnable: () => boolean;
-    collectData: (depth: number) => {
+    collectData: (depth: number, rawData?: boolean) => {
         min: number;
         max: number;
         values: any[];
@@ -24,6 +24,9 @@ export interface BandAxisMixin {
     transformScaleDomain: () => void;
 }
 export declare class BandAxisMixin {
+    protected _rawDomainIndex: {
+        [key: string | number | symbol]: number;
+    }[];
     dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
     valueToPosition(value: any): number;
     updateGroupScaleRange(): void;
@@ -38,4 +41,6 @@ export declare class BandAxisMixin {
         values: any[];
     }[]): StringOrNumber[];
     protected updateScaleDomain(): void;
+    protected _updateRawDomain(): void;
+    protected _clearRawDomain(): void;
 }

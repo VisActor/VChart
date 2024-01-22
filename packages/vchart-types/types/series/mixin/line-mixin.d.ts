@@ -56,6 +56,8 @@ export declare class LineLikeSeriesMixin {
     protected _dimensionTrigger(params: DimensionEventParams): void;
     initSymbolMark(progressive?: IMarkProgressiveConfig, isSeriesMark?: boolean): ISymbolMark;
     initSymbolMarkStyle(): ISymbolMark;
+    private _initSymbolMark;
+    private _initSymbolActiveMarkAlone;
     initLabelMarkStyle(labelMark?: ILabelMark): void;
     initLineLabelMarkStyle(labelMark?: ILabelMark): void;
     encodeDefined(mark: IMark, attr: string): void;

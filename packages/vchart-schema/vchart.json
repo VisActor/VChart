@@ -18110,7 +18110,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18160,11 +18159,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -18245,7 +18239,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18354,7 +18347,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -19720,6 +19712,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -24271,38 +24266,256 @@
     "ICartesianAxisSpec": {
       "anyOf": [
         {
-          "$ref": "#/definitions/ICartesianLinearAxisSpec"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         },
         {
-          "$ref": "#/definitions/ICartesianBandAxisSpec"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBandAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBandAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBandAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         },
         {
           "$ref": "#/definitions/ICartesianTimeAxisSpec"
         },
         {
-          "$ref": "#/definitions/ICartesianLogAxisSpec"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         },
         {
-          "$ref": "#/definitions/ICartesianSymlogAxisSpec"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         }
       ],
       "description": "spec"
-    },
-    "ICartesianBandAxisSpec": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/ICommonAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/IBandAxisSpec"
-        },
-        {
-          "typeof": "function"
-        }
-      ]
     },
     "ICartesianCrosshairSpec": {
       "properties": {
@@ -24328,11 +24541,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "labelZIndex": {
           "description": "crosshair 文本的显示层级",
@@ -24529,41 +24737,6 @@
         },
         {
           "$ref": "#/definitions/AxisLabelOverlap"
-        }
-      ]
-    },
-    "ICartesianLinearAxisSpec": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/ICommonAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/ILinearAxisSpec"
-        },
-        {
-          "typeof": "function"
-        }
-      ]
-    },
-    "ICartesianLogAxisSpec": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/ICommonAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/ILinearAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "typeof": "function"
         }
       ]
     },
@@ -24765,25 +24938,6 @@
         "type"
       ],
       "type": "object"
-    },
-    "ICartesianSymlogAxisSpec": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/ICommonAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/ILinearAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "typeof": "function"
-        }
-      ]
     },
     "ICartesianTimeAxisSpec": {
       "allOf": [
@@ -26873,11 +27027,6 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "inverse": {
           "default": false,
           "description": "是否开启反向坐标轴。",
@@ -27540,11 +27689,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -28238,11 +28382,6 @@
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "default": true,
@@ -29438,11 +29577,6 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "labelZIndex": {
           "description": "crosshair 文本的显示层级",
           "type": "number"
@@ -30223,11 +30357,6 @@
           "since": "1.7.0",
           "type": "boolean"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
           "type": "number"
@@ -30767,6 +30896,16 @@
                   "typeof": "function"
                 }
               ]
+            },
+            {
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "图例背景配置"
@@ -30963,11 +31102,6 @@
         },
         "html": {
           "typeof": "function"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -39913,11 +40047,6 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
           "type": "number"
@@ -40127,11 +40256,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -40468,7 +40592,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40513,11 +40636,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -40585,7 +40703,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40672,7 +40789,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -41460,11 +41576,6 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
           "type": "number"
@@ -41597,7 +41708,8 @@
         "normal",
         "normal-inline",
         "region",
-        "region-relative"
+        "region-relative",
+        "region-relative-overlap"
       ],
       "type": "string"
     },
@@ -45888,11 +46000,6 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "interactive": {
           "default": false,
           "description": "marker组件是否可交互",
@@ -48474,11 +48581,6 @@
           "description": "组件高度",
           "type": "number"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "interval": {
           "default": 1000,
           "description": "该配置与totalDuration互斥, 若配置播放间隔, 则会重新计算总时长.",
@@ -48688,11 +48790,6 @@
         "height": {
           "description": "组件高度",
           "type": "number"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -48993,11 +49090,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "labelZIndex": {
           "description": "crosshair 文本的显示层级",
@@ -55652,11 +55744,6 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
           "type": "number"
@@ -59091,11 +59178,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "innerPadding": {
           "anyOf": [
@@ -63161,11 +63243,6 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "innerPadding": {
           "anyOf": [
             {
@@ -63483,11 +63560,6 @@
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -64066,7 +64138,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -64086,7 +64157,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -64098,7 +64168,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -70109,7 +70178,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         },
         "size": {
@@ -70117,14 +70186,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12626",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         },
         "size": {
@@ -70132,14 +70201,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12626",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         },
         "size": {
@@ -70147,14 +70216,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12626",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         },
         "size": {
@@ -70162,14 +70231,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12626",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         },
         "size": {
@@ -70177,14 +70246,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12626",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         },
         "size": {
@@ -70192,14 +70261,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12626",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         },
         "size": {
@@ -70207,14 +70276,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12626",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         },
         "size": {
@@ -70222,14 +70291,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12626",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         },
         "size": {
@@ -70237,7 +70306,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12626",
         "size"
       ],
       "type": "object"
@@ -70759,6 +70828,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -71642,11 +71714,6 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "label": {
           "$ref": "#/definitions/ICartesianLabel",
           "description": "轴标签配置"
@@ -71700,8 +71767,14 @@
           "description": "模块的布局位置偏移：Y"
         },
         "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "轴位置"
+          "enum": [
+            "bottom",
+            "left",
+            "right",
+            "top",
+            "z"
+          ],
+          "type": "string"
         },
         "padding": {
           "$ref": "#/definitions/ILayoutPaddingSpec",
@@ -72272,11 +72345,6 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "inverse": {
           "default": false,
           "description": "是否开启反向坐标轴。",
@@ -72456,11 +72524,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -73716,7 +73779,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73761,11 +73823,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -73833,7 +73890,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73916,7 +73972,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -75190,6 +75245,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -75920,6 +75978,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -76339,6 +76400,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -76825,6 +76889,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77272,6 +77339,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77681,6 +77751,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78070,6 +78143,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -78516,6 +78592,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78845,7 +78924,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -78890,11 +78968,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -78962,7 +79035,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79049,7 +79121,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79177,6 +79248,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -79514,7 +79588,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79559,11 +79632,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -79631,7 +79699,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79719,7 +79786,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -80381,6 +80447,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -80766,6 +80835,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -81419,6 +81491,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -81819,6 +81894,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -82473,6 +82551,12 @@
         "renderStyle": {
           "type": "string"
         },
+        "supportsPointerEvents": {
+          "type": "boolean"
+        },
+        "supportsTouchEvents": {
+          "type": "boolean"
+        },
         "ticker": {
           "$ref": "#/definitions/ITicker"
         },
@@ -82577,6 +82661,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -82977,6 +83064,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -84064,6 +84154,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -84555,6 +84648,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -84947,6 +85043,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -86658,34 +86757,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12611"
+        "__@toStringTag@12626"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12611"
+        "__@toStringTag@12626"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12626": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12611"
+        "__@toStringTag@12626"
       ],
       "type": "object"
     },
@@ -86856,6 +86955,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -87361,6 +87463,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -87852,6 +87957,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -88303,6 +88411,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -88801,6 +88912,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -89326,6 +89440,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -89809,6 +89926,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -90309,6 +90429,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -90763,6 +90886,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -91232,6 +91358,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -91715,6 +91844,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -92184,6 +92316,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -92682,6 +92817,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -93274,6 +93412,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -93738,6 +93879,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
