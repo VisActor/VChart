@@ -291,26 +291,24 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
     super.onLayoutStart(layoutRect, viewRect, ctx);
     // 计算innerOffset
-    if (!isZAxis(this.getOrient())) {
+    if (!isZAxis(this.getOrient()) && (this._spec as ICartesianVertical | ICartesianHorizontal).innerOffset) {
       const spec = this._spec as ICartesianVertical | ICartesianHorizontal;
-      if (spec.innerOffset) {
-        if (isYAxis(this.getOrient())) {
-          ['top', 'bottom'].forEach(orient => {
-            this._innerOffset[orient] = calcLayoutNumber(
-              (spec as ICartesianVertical).innerOffset[orient],
-              viewRect.height,
-              viewRect
-            );
-          });
-        } else {
-          ['left', 'right'].forEach(orient => {
-            this._innerOffset[orient] = calcLayoutNumber(
-              (spec as ICartesianHorizontal).innerOffset[orient],
-              viewRect.width,
-              viewRect
-            );
-          });
-        }
+      if (isYAxis(this.getOrient())) {
+        ['top', 'bottom'].forEach(orient => {
+          this._innerOffset[orient] = calcLayoutNumber(
+            (spec as ICartesianVertical).innerOffset[orient],
+            viewRect.height,
+            viewRect
+          );
+        });
+      } else {
+        ['left', 'right'].forEach(orient => {
+          this._innerOffset[orient] = calcLayoutNumber(
+            (spec as ICartesianHorizontal).innerOffset[orient],
+            viewRect.width,
+            viewRect
+          );
+        });
       }
     }
   }
