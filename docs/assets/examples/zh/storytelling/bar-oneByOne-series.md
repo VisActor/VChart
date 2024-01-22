@@ -4,7 +4,7 @@ group: storytelling
 title: 柱状图按系列依次入场动画
 keywords: animation,bar,barChart,comparison
 order: 42-0
-cover: /vchart/preview/bar-oneByOne-rect_1.8.3.gif
+cover: /vchart/preview/bar-oneByOne-series_1.8.3.gif
 option: barChart#animationAppear
 ---
 

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: support `alignSelf` of layout `normal-inline` elements, fix #2072 \n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

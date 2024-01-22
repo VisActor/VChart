@@ -184,15 +184,16 @@ export class Layout implements IBaseLayout {
     const rightItems = normalItems.filter(item => item.layoutOrient === 'right');
     const topItems = normalItems.filter(item => item.layoutOrient === 'top');
     const bottomItems = normalItems.filter(item => item.layoutOrient === 'bottom');
+
     const limitWidth = this._chartLayoutRect.width + this._chartLayoutRect.x;
     const limitHeight = this._chartLayoutRect.height + this._chartLayoutRect.y;
 
     // 同 normal，按照 left、top、right、bottom 的顺序进行布局
     // 各个方向上再按照 position 进行分组布局，顺序为 start middle end
-    layoutLeftInlineItems(leftItems, this, limitHeight);
-    layoutTopInlineItems(topItems, this, limitWidth);
-    layoutRightInlineItems(rightItems, this, limitHeight);
-    layoutBottomInlineItems(bottomItems, this, limitWidth);
+    leftItems.length && layoutLeftInlineItems(leftItems, this, limitHeight);
+    topItems.length && layoutTopInlineItems(topItems, this, limitWidth);
+    rightItems.length && layoutRightInlineItems(rightItems, this, limitHeight);
+    bottomItems.length && layoutBottomInlineItems(bottomItems, this, limitWidth);
   }
 
   protected _layoutRelativeOverlap(orient: IOrientType, info: overlapInfo) {
@@ -362,10 +363,10 @@ export class Layout implements IBaseLayout {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
-          height: relativeRegion.layoutExcludeIndent.height
+          height: relativeRegion.getLayoutRect().height
         });
         item.setLayoutStartPosition({
-          y: relativeRegion.layoutExcludeIndent.y + item.layoutOffsetY + item.layoutPaddingTop
+          y: relativeRegion.getLayoutStartPoint().y + item.layoutOffsetY + item.layoutPaddingTop
         });
 
         if (item.layoutOrient === 'right') {
@@ -377,11 +378,11 @@ export class Layout implements IBaseLayout {
         const relativeRegion = this.filterRegionsWithID(regionItems, item.layoutBindRegionID[0]);
 
         item.setLayoutRect({
-          width: relativeRegion.layoutExcludeIndent.width
+          width: relativeRegion.getLayoutRect().width
         });
 
         item.setLayoutStartPosition({
-          x: relativeRegion.layoutExcludeIndent.x + item.layoutOffsetX + item.layoutPaddingLeft
+          x: relativeRegion.getLayoutStartPoint().x + item.layoutOffsetX + item.layoutPaddingLeft
         });
 
         if (item.layoutOrient === 'bottom') {

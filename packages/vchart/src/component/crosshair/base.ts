@@ -165,6 +165,10 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   private _handleEvent = throttle((params: any) => {
+    if (!this._option) {
+      return;
+    }
+
     const { event } = params as BaseEventParams;
     // compute layer offset
     const layer = this._option.getCompiler().getStage().getLayer(undefined);
@@ -236,11 +240,11 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       }
       const regions = axis.getRegions();
       regions.forEach(r => {
-        const { x: regionStartX, y: regionStartY } = r.getLayoutPositionExcludeIndent();
+        const { x: regionStartX, y: regionStartY } = r.getLayoutStartPoint();
         x1 = Math.min(x1, regionStartX - sx);
         y1 = Math.min(y1, regionStartY - sy);
-        x2 = Math.max(x2, regionStartX + r.getLayoutRectExcludeIndent().width - sx);
-        y2 = Math.max(y2, regionStartY + r.getLayoutRectExcludeIndent().height - sy);
+        x2 = Math.max(x2, regionStartX + r.getLayoutRect().width - sx);
+        y2 = Math.max(y2, regionStartY + r.getLayoutRect().height - sy);
       });
       map.set(idx, { x1, y1, x2, y2, axis: axis as unknown as T });
     });
@@ -254,8 +258,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
   onLayoutEnd(ctx: IModelLayoutOption): void {
     const region = this._regions[0];
-    this.setLayoutRect(region.getLayoutRectExcludeIndent());
-    this.setLayoutStartPosition(region.getLayoutPositionExcludeIndent());
+    this.setLayoutRect(region.getLayoutRect());
+    this.setLayoutStartPosition(region.getLayoutStartPoint());
 
     super.onLayoutEnd(ctx);
   }

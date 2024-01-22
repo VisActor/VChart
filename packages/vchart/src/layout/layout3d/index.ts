@@ -7,7 +7,6 @@ import { Layout } from '../base-layout';
 import { isXAxis, isYAxis } from '../../component/axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 import type { IAxis } from '../../component/axis';
-import type { ILayoutRect } from '../../typings/layout';
 
 export class Layout3d extends Layout implements IBaseLayout {
   static type = 'layout3d';
