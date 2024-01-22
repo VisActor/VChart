@@ -767,11 +767,14 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
       // 判断坐标轴是否可用
       const isValidAxis = (item: any) => {
-        return (
-          (isX ? !isXAxis(item.getOrient()) : isXAxis(item.getOrient())) &&
+        return (isX ? !isXAxis(item.getOrient()) : isXAxis(item.getOrient())) &&
           isContinuous(item.getScale().type) &&
-          item.getScale().ticks().includes(0) // 只有显示的刻度包含 0 的时候展示
-        );
+          item.getTickData()
+          ? item
+              .getTickData()
+              .getLatestData()
+              ?.find((d: any) => d.value === 0)
+          : item.getScale().ticks().includes(0);
       };
       const relativeAxes = axesComponents.filter(item => isValidAxis(item));
       if (relativeAxes.length) {
