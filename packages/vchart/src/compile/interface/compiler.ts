@@ -111,6 +111,16 @@ export interface IRenderOption {
    * @since 1.8.3
    */
   enableHtmlAttribute?: boolean;
+  /**
+   * @since 1.8.8
+   * 是否支持touch事件
+   */
+  supportsTouchEvents?: boolean;
+  /**
+   * @since 1.8.8
+   * 是否支持pointer事件
+   */
+  supportsPointerEvents?: boolean;
 }
 
 export type CompilerListenerParameters = {
