@@ -15,6 +15,7 @@ export declare const labelRuleMap: {
     arc3d: typeof pieLabel;
     treemap: typeof treemapLabel;
 };
+export declare function defaultLabelConfig(rule: string, labelInfo: ILabelInfo): any;
 export declare function textAttribute(labelInfo: ILabelInfo, datum: Datum, formatMethod?: ILabelSpec['formatMethod'], formatter?: ILabelSpec['formatter']): any;
 export declare function symbolLabel(labelInfo: ILabelInfo): {
     position: string | ((datum: Datum) => any);

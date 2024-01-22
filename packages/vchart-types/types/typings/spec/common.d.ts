@@ -3,7 +3,7 @@ import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
 import type { DataSet, DataView, ISimplifyOptions, IFieldsOptions, IFilterOptions, IFoldOptions, IDsvParserOptions } from '@visactor/vdataset';
 import type { IRegionSpec } from '../../region/interface';
-import type { IHoverSpec, ISelectSpec, ITriggerSpec } from '../../interaction/interface';
+import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { ITooltipSpec } from '../../component/tooltip/interface';
 import type { ILayoutSpec } from '../../layout/interface';
@@ -136,7 +136,7 @@ export interface IHierarchyDataValues extends Omit<IDataValues, 'values'> {
     values: IHierarchyNodeData;
 }
 export type IHierarchyData = DataView | IHierarchyDataValues;
-export interface ISeriesSpec extends ITriggerSpec {
+export interface ISeriesSpec extends IInteractionSpec {
     type: SeriesType;
     name?: string;
     id?: StringOrNumber;
@@ -174,6 +174,7 @@ export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
     visible?: boolean;
     style?: ConvertToMarkStyleSpec<T>;
     state?: Record<StateValue, IMarkStateSpec<T> | IMarkStateStyleSpec<T>>;
+    stateSort?: (stateA: string, stateB: string) => number;
     support3d?: boolean;
     customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
 } & IMarkProgressiveConfig;

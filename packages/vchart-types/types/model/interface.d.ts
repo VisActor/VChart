@@ -89,8 +89,6 @@ export interface ILayoutModel extends IModel {
     setLayoutStartPosition: (pos: Partial<IPoint>) => void;
     getLayoutRect: () => ILayoutRect;
     setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) => void;
-    getLayoutPositionExcludeIndent: () => IPoint;
-    getLayoutRectExcludeIndent: () => ILayoutRect;
     getLastComputeOutBounds: () => IBoundsLike;
     getBoundsInRect: (rect: ILayoutRect, fullRect: ILayoutRect) => IBoundsLike;
     afterSetLayoutStartPoint: (pos: ILayoutPoint) => void;
@@ -102,7 +100,7 @@ export interface IModelOption extends ICompilableInitOption {
     map: Map<StringOrNumber, IModel | IMark>;
     mode: RenderMode;
     globalInstance: VChart;
-    specIndex?: number;
+    regionIndexes?: Array<number>;
     specKey?: string;
     specPath?: Array<string | number>;
     specInfoPath?: Array<string | number>;
@@ -122,8 +120,9 @@ export interface IModelSpecInfo<T extends Record<string, unknown> = any> {
     spec: T;
     specPath?: Array<string | number>;
     specInfoPath?: Array<string | number>;
-    specIndex?: number;
     theme?: any;
+    regionIndexes?: number[];
+    seriesIndexes?: number[];
 }
 export interface IModelConstructor {
     readonly transformerConstructor: new (option: IBaseModelSpecTransformerOption) => IBaseModelSpecTransformer;

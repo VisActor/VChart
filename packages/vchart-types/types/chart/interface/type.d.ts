@@ -31,5 +31,6 @@ export declare enum ChartTypeEnum {
     sunburst = "sunburst",
     circlePacking = "circlePacking",
     heatmap = "heatmap",
-    correlation = "correlation"
+    correlation = "correlation",
+    liquid = "liquid"
 }

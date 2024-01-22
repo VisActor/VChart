@@ -8558,6 +8558,58 @@
     "EventTarget": {
       "type": "object"
     },
+    "EventType": {
+      "enum": [
+        "click",
+        "dblclick",
+        "drag",
+        "dragend",
+        "dragenter",
+        "dragleave",
+        "dragover",
+        "dragstart",
+        "drop",
+        "mousedown",
+        "mouseenter",
+        "mouseleave",
+        "mousemove",
+        "mouseout",
+        "mouseover",
+        "mouseup",
+        "mouseupoutside",
+        "pan",
+        "panend",
+        "panstart",
+        "pinch",
+        "pinchend",
+        "pinchstart",
+        "pointerdown",
+        "pointerenter",
+        "pointerleave",
+        "pointermove",
+        "pointerout",
+        "pointerover",
+        "pointertap",
+        "pointerup",
+        "pointerupoutside",
+        "press",
+        "pressend",
+        "pressup",
+        "resize",
+        "rightdown",
+        "rightup",
+        "rightupoutside",
+        "swipe",
+        "tap",
+        "touchcancel",
+        "touchend",
+        "touchendoutside",
+        "touchmove",
+        "touchstart",
+        "wheel"
+      ],
+      "type": "string"
+    },
     "External": {
       "type": "object"
     },
@@ -18083,6 +18135,9 @@
           "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
+        "stateSort": {
+          "typeof": "function"
+        },
         "style": {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_2",
           "description": "默认样式设置"
@@ -18104,13 +18159,21 @@
     },
     "IArcLabelSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "anyOf": [
             {
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18245,7 +18308,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18354,7 +18416,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18374,6 +18435,12 @@
         },
         "support3d": {
           "description": "是否支持3D",
+          "type": "boolean"
+        },
+        "syncState": {
+          "default": false,
+          "description": "是否同步数据图元的状态变化",
+          "since": "1.9.0",
           "type": "boolean"
         },
         "textType": {
@@ -18902,6 +18969,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -19725,6 +19798,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -19931,6 +20007,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -20251,6 +20333,38 @@
         }
       ]
     },
+    "IBandAxisLayer": {
+      "properties": {
+        "forceTickCount": {
+          "default": 5,
+          "description": "强制设置的tick数量，可能由于数据范围导致tick值为小数",
+          "type": "number"
+        },
+        "tickCount": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 5,
+          "description": "建议的tick数量，并不保证结果一定是配置值",
+          "since": "1.4.0 后支持函数回调。"
+        },
+        "tickStep": {
+          "description": "tick步长",
+          "type": "number"
+        },
+        "visible": {
+          "default": true,
+          "description": "是否显示",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
     "IBandAxisSpec": {
       "properties": {
         "bandPadding": {
@@ -20278,6 +20392,14 @@
             "$ref": "#/definitions/StringOrNumber"
           },
           "since": "1.1.0",
+          "type": "array"
+        },
+        "layers": {
+          "description": "每一层轴的配置\nlayer[0] 为离坐标轴线最近的轴，当且仅当 `showAllGroupLayers` 配置开启生效。",
+          "items": {
+            "$ref": "#/definitions/IBandAxisLayer"
+          },
+          "since": "1.9.0",
           "type": "array"
         },
         "paddingInner": {
@@ -20309,6 +20431,12 @@
           ],
           "default": 0.3,
           "description": "band 轴的外边距\n** 因为有可能存在多层 scale( xField 设置成了数组，即分组场景），所以支持了数组类型，用于多层 scale 的 paddingOuter 配置**"
+        },
+        "showAllGroupLayers": {
+          "default": false,
+          "description": "当存在多层分组场景时，是否展示所有的分组轴",
+          "since": "1.9.0",
+          "type": "boolean"
         },
         "trimPadding": {
           "default": false,
@@ -20430,7 +20558,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -20587,6 +20725,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -21146,6 +21290,16 @@
       },
       "type": "object"
     },
+    "IBarBackgroundSpec": {
+      "properties": {
+        "fieldLevel": {
+          "description": "决定柱状背景图元是否显示在组的层级上，以及显示在哪个层级上。\n例如：在分组柱状图中，xField 为 `['A', 'B', 'C']`，如果配置为 0，则以 'A' 划分的每个组对应一个整体的 barBackground；如果配置为 1，则以 'B' 划分的每个组对应一个整体的 barBackground；如果配置为 2，则每个柱条对应一个 barBackground。",
+          "since": "1.9.0",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
     "IBarChartSpec": {
       "properties": {
         "activePoint": {
@@ -21257,7 +21411,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -21414,6 +21578,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -22042,7 +22212,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -22141,6 +22321,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -22326,7 +22512,14 @@
           "$ref": "#/definitions/Partial<IMarkTheme<IRectMarkSpec>>"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Partial<IMarkTheme<IRectMarkSpec>>"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -22344,6 +22537,23 @@
         },
         "label": {
           "$ref": "#/definitions/Partial<ILabelSpec>"
+        }
+      },
+      "type": "object"
+    },
+    "IBaseInteractionSpec": {
+      "properties": {
+        "markIds": {
+          "items": {
+            "$ref": "#/definitions/StringOrNumber"
+          },
+          "type": "array"
+        },
+        "markNames": {
+          "items": {
+            "$ref": "#/definitions/StringOrNumber"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -22762,6 +22972,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -23654,6 +23870,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -24306,6 +24528,15 @@
     },
     "ICartesianCrosshairSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -24349,6 +24580,11 @@
         "left": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "lockAfterClick": {
+          "description": "点击后锁定，只有点击才可以更新位置或者解锁",
+          "since": "1.9.0",
+          "type": "boolean"
         },
         "maxHeight": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -24486,6 +24722,9 @@
                 "none"
               ],
               "type": "string"
+            },
+            {
+              "type": "number"
             }
           ],
           "description": "隐藏crosshair的触发方式（目前仅支持和trigger一致的设置以及none）"
@@ -24626,6 +24865,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -25260,6 +25505,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -25609,6 +25860,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -26021,6 +26278,12 @@
         "innerRadius": {
           "description": "扇区内半径",
           "type": "number"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -26459,6 +26722,12 @@
           "description": "扇区内半径",
           "type": "number"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -26774,6 +27043,15 @@
     },
     "ICommonAxisSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "default": false,
           "description": "是否开启动画，默认关闭",
@@ -27522,6 +27800,15 @@
     },
     "IComponentSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -28207,6 +28494,15 @@
     },
     "IContinuousLegendTheme": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "background": {
           "typeof": "function"
         },
@@ -28613,6 +28909,12 @@
             "string",
             "number"
           ]
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -29039,6 +29341,12 @@
             "number"
           ]
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -29407,6 +29715,15 @@
     },
     "ICrosshairTheme": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bandField": {
           "$ref": "#/definitions/Partial<ICrosshairCategoryFieldSpec>",
           "description": "band 轴 crosshair 的公共配置",
@@ -29463,6 +29780,11 @@
           "$ref": "#/definitions/Partial<ICrosshairValueFieldSpec>",
           "description": "linear 轴 crosshair 的公共配置",
           "since": "1.3.0"
+        },
+        "lockAfterClick": {
+          "description": "点击后锁定，只有点击才可以更新位置或者解锁",
+          "since": "1.9.0",
+          "type": "boolean"
         },
         "maxHeight": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -29600,6 +29922,9 @@
                 "none"
               ],
               "type": "string"
+            },
+            {
+              "type": "number"
             }
           ],
           "description": "隐藏crosshair的触发方式（目前仅支持和trigger一致的设置以及none）"
@@ -29810,6 +30135,9 @@
         "state": {
           "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
+        },
+        "stateSort": {
+          "typeof": "function"
         },
         "style": {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
@@ -30115,6 +30443,15 @@
     "IDataZoomSpec": {
       "description": "spec",
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "auto": {
           "description": "是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失",
           "since": "1.4.0",
@@ -30650,6 +30987,15 @@
           ],
           "type": "string"
         },
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "allowAllCanceled": {
           "type": "boolean"
         },
@@ -30755,6 +31101,16 @@
                 },
                 {
                   "$ref": "#/definitions/HTMLImageElement"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 }
               ]
             },
@@ -31652,6 +32008,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -31899,6 +32261,86 @@
       },
       "type": "object"
     },
+    "IElementActiveByLegend": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/IBaseInteractionSpec"
+        },
+        {
+          "$ref": "#/definitions/Pick<ElementActiveByLegendSpec,\"type\"|\"state\"|\"filterType\">"
+        }
+      ]
+    },
+    "IElementActiveSpec": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/IBaseInteractionSpec"
+        },
+        {
+          "$ref": "#/definitions/Pick<ElementActiveSpec,\"type\"|\"state\"|\"trigger\"|\"triggerOff\">"
+        }
+      ]
+    },
+    "IElementHighlightByGroup": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/IBaseInteractionSpec"
+        },
+        {
+          "$ref": "#/definitions/Pick<ElementHighlightByGroupSpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">"
+        }
+      ]
+    },
+    "IElementHighlightByKeySpec": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/IBaseInteractionSpec"
+        },
+        {
+          "$ref": "#/definitions/Pick<ElementHighlightByKeySpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">"
+        }
+      ]
+    },
+    "IElementHighlightByLegend": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/IBaseInteractionSpec"
+        },
+        {
+          "$ref": "#/definitions/Pick<ElementHighlightByLegendSpec,\"type\"|\"blurState\"|\"highlightState\"|\"filterType\">"
+        }
+      ]
+    },
+    "IElementHighlightByName": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/IBaseInteractionSpec"
+        },
+        {
+          "$ref": "#/definitions/Pick<ElementHighlightByNameSpec,\"type\"|\"blurState\"|\"highlightState\"|\"graphicName\"|\"parseData\">"
+        }
+      ]
+    },
+    "IElementHighlightSpec": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/IBaseInteractionSpec"
+        },
+        {
+          "$ref": "#/definitions/Pick<ElementHighlightSpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">"
+        }
+      ]
+    },
+    "IElementSelectSpec": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/IBaseInteractionSpec"
+        },
+        {
+          "$ref": "#/definitions/Pick<ElementSelectSpec,\"type\"|\"state\"|\"trigger\"|\"triggerOff\"|\"isMultiple\"|\"reverseState\">"
+        }
+      ]
+    },
     "IExtensionGroupMarkSpec": {
       "properties": {
         "children": {
@@ -31947,6 +32389,9 @@
         "state": {
           "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IGroupMarkSpec>|IMarkStateSpec<IGroupMarkSpec>>",
           "description": "不同状态下的样式配置"
+        },
+        "stateSort": {
+          "typeof": "function"
         },
         "style": {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IGroupMarkSpec>_1",
@@ -32014,6 +32459,9 @@
         "state": {
           "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
+        },
+        "stateSort": {
+          "typeof": "function"
         },
         "style": {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
@@ -32394,6 +32842,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -32917,6 +33371,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -33216,6 +33676,9 @@
           "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
+        "stateSort": {
+          "typeof": "function"
+        },
         "style": {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
           "description": "默认样式设置"
@@ -33306,6 +33769,9 @@
         "state": {
           "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>",
           "description": "不同状态下的样式配置"
+        },
+        "stateSort": {
+          "typeof": "function"
         },
         "style": {
           "$ref": "#/definitions/ITextMarkSpec",
@@ -33482,6 +33948,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -33938,6 +34410,12 @@
         "innerRadius": {
           "description": "扇区内半径",
           "type": "number"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -34413,6 +34891,12 @@
           "description": "扇区内半径",
           "type": "number"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -34857,6 +35341,12 @@
         "innerRadius": {
           "description": "扇区内半径",
           "type": "number"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -37264,6 +37754,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -37930,6 +38426,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -38290,7 +38792,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -38447,6 +38959,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -39090,7 +39608,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -39247,6 +39775,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -39800,6 +40334,16 @@
           "description": "自适应文字宽度与可用空间的比例",
           "type": "number"
         },
+        "fitStrategy": {
+          "default": "'local'",
+          "description": "自适应文字策略",
+          "enum": [
+            "default",
+            "inscribed"
+          ],
+          "since": "1.9.0",
+          "type": "string"
+        },
         "space": {
           "description": "title.space: title 和 content 之间的间距\ncontentItem.space: content 之间的间距\n兼容gap",
           "type": "number"
@@ -39848,6 +40392,16 @@
           "description": "自适应文字宽度与可用空间的比例",
           "type": "number"
         },
+        "fitStrategy": {
+          "default": "'local'",
+          "description": "自适应文字策略",
+          "enum": [
+            "default",
+            "inscribed"
+          ],
+          "since": "1.9.0",
+          "type": "string"
+        },
         "space": {
           "description": "title.space: title 和 content 之间的间距\ncontentItem.space: content 之间的间距\n兼容gap",
           "type": "number"
@@ -39870,6 +40424,15 @@
     },
     "IIndicatorSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -40095,6 +40658,15 @@
     },
     "IIndicatorTheme": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -40308,6 +40880,34 @@
       },
       "type": "object"
     },
+    "IInteractionItemSpec": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IElementActiveSpec"
+        },
+        {
+          "$ref": "#/definitions/IElementSelectSpec"
+        },
+        {
+          "$ref": "#/definitions/IElementHighlightSpec"
+        },
+        {
+          "$ref": "#/definitions/IElementHighlightByKeySpec"
+        },
+        {
+          "$ref": "#/definitions/IElementHighlightByGroup"
+        },
+        {
+          "$ref": "#/definitions/IElementActiveByLegend"
+        },
+        {
+          "$ref": "#/definitions/IElementHighlightByLegend"
+        },
+        {
+          "$ref": "#/definitions/IElementHighlightByName"
+        }
+      ]
+    },
     "IInvalidType": {
       "enum": [
         "break",
@@ -40462,13 +41062,21 @@
     },
     "ILabelSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "anyOf": [
             {
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40585,7 +41193,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40672,7 +41279,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40687,6 +41293,12 @@
         },
         "support3d": {
           "description": "是否支持3D",
+          "type": "boolean"
+        },
+        "syncState": {
+          "default": false,
+          "description": "是否同步数据图元的状态变化",
+          "since": "1.9.0",
           "type": "boolean"
         },
         "textType": {
@@ -41444,6 +42056,15 @@
     },
     "ILayoutItemSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -41597,7 +42218,8 @@
         "normal",
         "normal-inline",
         "region",
-        "region-relative"
+        "region-relative",
+        "region-relative-overlap"
       ],
       "type": "string"
     },
@@ -41827,6 +42449,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -42817,6 +43445,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -43346,6 +43980,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -43715,6 +44355,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -43945,6 +44591,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -44110,6 +44762,228 @@
         },
         "link": {
           "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
+        }
+      },
+      "type": "object"
+    },
+    "ILiquidMarkSpec": {
+      "properties": {
+        "alpha": {
+          "type": "number"
+        },
+        "anchor": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "anchor3d": {
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "angle": {
+          "type": "number"
+        },
+        "beta": {
+          "type": "number"
+        },
+        "boundsMode": {
+          "enum": [
+            "accurate",
+            "imprecise"
+          ],
+          "type": "string"
+        },
+        "cursor": {
+          "$ref": "#/definitions/Cursor_1"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/IBorder",
+          "description": "内边框"
+        },
+        "lineDash": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "lineDashOffset": {
+          "type": "number"
+        },
+        "lineWidth": {
+          "type": "number"
+        },
+        "opacity": {
+          "type": "number"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/IBorder",
+          "description": "外边框"
+        },
+        "pickMode": {
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式",
+          "enum": [
+            "accurate",
+            "custom",
+            "imprecise"
+          ],
+          "type": "string"
+        },
+        "pickStrokeBuffer": {
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3",
+          "type": "number"
+        },
+        "scaleCenter": {
+          "description": "图形缩放中心",
+          "items": [
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
+          "type": "array"
+        },
+        "scaleX": {
+          "type": "number"
+        },
+        "scaleY": {
+          "type": "number"
+        },
+        "stroke": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IColorKey"
+            },
+            {
+              "$ref": "#/definitions/IGradientLinear"
+            },
+            {
+              "$ref": "#/definitions/IGradientRadial"
+            },
+            {
+              "$ref": "#/definitions/IGradientConical"
+            },
+            {
+              "items": {
+                "type": [
+                  "number",
+                  "boolean"
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "strokeOpacity": {
+          "type": "number"
+        },
+        "texture": {
+          "description": "纹理的类型",
+          "type": "string"
+        },
+        "textureColor": {
+          "description": "纹理的颜色",
+          "type": "string"
+        },
+        "texturePadding": {
+          "description": "纹理之间空隙的大小",
+          "type": "number"
+        },
+        "textureSize": {
+          "description": "纹理单元的大小",
+          "type": "number"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "wave": {
+          "description": "波浪的变化状态，范围为 [0, 1]",
+          "type": "number"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        },
+        "zIndex": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "ILiquidPaddingSpec": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "description": "布局 padding的配置"
+    },
+    "ILiquidSeriesTheme": {
+      "properties": {
+        "liquid": {
+          "$ref": "#/definitions/Partial<IMarkTheme<ILiquidMarkSpec>>"
+        },
+        "liquidBackground": {
+          "$ref": "#/definitions/IMarkSpec<IGroupMarkSpec>"
+        },
+        "liquidOutline": {
+          "$ref": "#/definitions/IMarkSpec<ILiquidOutlineSpec>"
+        },
+        "outlineMargin": {
+          "$ref": "#/definitions/ILiquidPaddingSpec"
+        },
+        "outlinePadding": {
+          "$ref": "#/definitions/ILiquidPaddingSpec"
         }
       },
       "type": "object"
@@ -44384,6 +45258,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -44776,6 +45656,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -45722,6 +46608,17 @@
       ],
       "description": "markSpec"
     },
+    "IMarkSpec<IGroupMarkSpec>": {
+      "allOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "typeof": "function"
+        }
+      ],
+      "description": "markSpec"
+    },
     "IMarkSpec<ILineMarkSpec>": {
       "allOf": [
         {
@@ -45734,6 +46631,17 @@
       "description": "markSpec"
     },
     "IMarkSpec<ILinkPathMarkSpec>": {
+      "allOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "typeof": "function"
+        }
+      ],
+      "description": "markSpec"
+    },
+    "IMarkSpec<ILiquidOutlineSpec>": {
       "allOf": [
         {
           "typeof": "function"
@@ -45861,6 +46769,15 @@
     },
     "IMarkerSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "autoRange": {
           "default": false,
           "description": "marker组件是否自动拓展轴范围",
@@ -47303,6 +48220,12 @@
           "description": "饼图扇区内半径",
           "type": "number"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -47839,6 +48762,12 @@
           "description": "饼图扇区内半径",
           "type": "number"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -48248,6 +49177,12 @@
           "description": "饼图扇区内半径",
           "type": "number"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -48429,6 +49364,15 @@
     },
     "IPlayer": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "alternate": {
           "default": false,
           "description": "下一次播放时更换方向",
@@ -48659,6 +49603,15 @@
     },
     "IPlayerTheme": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -48967,6 +49920,15 @@
     },
     "IPolarCrosshairSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -49014,6 +49976,11 @@
         "left": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "lockAfterClick": {
+          "description": "点击后锁定，只有点击才可以更新位置或者解锁",
+          "since": "1.9.0",
+          "type": "boolean"
         },
         "maxHeight": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -49151,6 +50118,9 @@
                 "none"
               ],
               "type": "string"
+            },
+            {
+              "type": "number"
             }
           ],
           "description": "隐藏crosshair的触发方式（目前仅支持和trigger一致的设置以及none）"
@@ -50822,6 +51792,12 @@
           "description": "扇区内半径",
           "type": "number"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -51284,6 +52260,12 @@
         "innerRadius": {
           "description": "扇区内半径",
           "type": "number"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -51776,6 +52758,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -52500,6 +53488,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -52825,7 +53819,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -52982,6 +53986,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -53619,7 +54629,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -53718,6 +54738,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -54016,7 +55042,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -54173,6 +55209,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -54810,7 +55852,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -54909,6 +55961,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -55630,6 +56688,15 @@
     },
     "IRegionSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -56193,6 +57260,12 @@
           "description": "扇区内半径",
           "type": "number"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -56599,6 +57672,12 @@
         "innerRadius": {
           "description": "扇区内半径",
           "type": "number"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -57248,6 +58327,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -57673,6 +58758,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -58089,6 +59180,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -58787,6 +59884,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -59016,6 +60119,15 @@
     },
     "IScrollBarSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "auto": {
           "description": "是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失",
           "since": "1.4.0",
@@ -59866,6 +60978,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -60044,6 +61162,9 @@
         },
         "link": {
           "$ref": "#/definitions/ILinkSeriesTheme"
+        },
+        "liquid": {
+          "$ref": "#/definitions/ILiquidSeriesTheme"
         },
         "map": {
           "$ref": "#/definitions/IMapSeriesTheme"
@@ -61559,6 +62680,12 @@
           "default": 0,
           "description": "最内层"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -61981,6 +63108,12 @@
           ],
           "default": 0,
           "description": "最内层"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -63142,6 +64275,15 @@
           "description": "文字水平对齐方式\n'left' | 'center' | 'right'",
           "type": "string"
         },
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -63468,6 +64610,15 @@
     },
     "ITitleTheme": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -63591,6 +64742,18 @@
           "$ref": "#/definitions/TooltipContentProperty<ITooltipTextTheme<string>>",
           "description": "key 样式（只在 content 上需要配置）"
         },
+        "keyTimeFormat": {
+          "description": "如果配置了该值，则 key 字段的最终值会自动格式化为时间字符串",
+          "since": "1.9.0",
+          "type": "string"
+        },
+        "keyTimeFormatMode": {
+          "enum": [
+            "local",
+            "utc"
+          ],
+          "type": "string"
+        },
         "seriesId": {
           "description": "该 pattern 属于哪个系列id（用户不需要设置）",
           "type": "number"
@@ -63634,6 +64797,18 @@
         "valueStyle": {
           "$ref": "#/definitions/TooltipContentProperty<ITooltipTextTheme<string>>",
           "description": "value 样式"
+        },
+        "valueTimeFormat": {
+          "description": "如果配置了该值，则 value 字段的最终值会自动格式化为时间字符串",
+          "since": "1.9.0",
+          "type": "string"
+        },
+        "valueTimeFormatMode": {
+          "enum": [
+            "local",
+            "utc"
+          ],
+          "type": "string"
         },
         "visible": {
           "$ref": "#/definitions/TooltipContentProperty<boolean>",
@@ -64066,7 +65241,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -64086,7 +65260,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -64098,7 +65271,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -64368,6 +65540,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -64831,6 +66009,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -66718,7 +67902,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -66875,6 +68069,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -67532,7 +68732,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -67631,6 +68841,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -67845,7 +69061,14 @@
           "$ref": "#/definitions/Partial<IMarkTheme<IRectMarkSpec>>"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Partial<IMarkTheme<IRectMarkSpec>>"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -68417,6 +69640,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -68872,6 +70101,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -69340,6 +70575,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -69789,6 +71030,12 @@
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -70109,7 +71356,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         },
         "size": {
@@ -70117,14 +71364,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12732",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         },
         "size": {
@@ -70132,14 +71379,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12732",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         },
         "size": {
@@ -70147,14 +71394,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12732",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         },
         "size": {
@@ -70162,14 +71409,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12732",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         },
         "size": {
@@ -70177,14 +71424,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12732",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         },
         "size": {
@@ -70192,14 +71439,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12732",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         },
         "size": {
@@ -70207,14 +71454,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12732",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         },
         "size": {
@@ -70222,14 +71469,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12732",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         },
         "size": {
@@ -70237,7 +71484,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12611",
+        "__@toStringTag@12732",
         "size"
       ],
       "type": "object"
@@ -70403,6 +71650,7 @@
         "line",
         "linearProgress",
         "link",
+        "liquid",
         "map",
         "mapLabel",
         "markArea",
@@ -70759,6 +72007,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -71252,7 +72503,17 @@
           "description": "图元配置"
         },
         "barBackground": {
-          "$ref": "#/definitions/IMarkSpec<IRectMarkSpec>",
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBarBackgroundSpec"
+            }
+          ],
           "description": "柱状背景图元",
           "since": "1.6.0"
         },
@@ -71351,6 +72612,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -71524,6 +72791,15 @@
     },
     "Omit<ICartesianAxisCommonSpec,\"inverse\">": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "default": false,
           "description": "是否开启动画，默认关闭",
@@ -71629,6 +72905,11 @@
         "grid": {
           "$ref": "#/definitions/IGrid",
           "description": "网格线配置"
+        },
+        "hasDimensionTooltip": {
+          "description": "是否在此轴上指定显示 dimension tooltip\n（离散轴默认不需要配置）",
+          "since": "1.9.0",
+          "type": "boolean"
         },
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -72005,6 +73286,12 @@
           "description": "扇区内半径",
           "type": "number"
         },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
+        },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
           "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
@@ -72173,6 +73460,15 @@
     },
     "Omit<ICommonAxisSpec,\"center\">": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "default": false,
           "description": "是否开启动画，默认关闭",
@@ -72438,6 +73734,15 @@
     },
     "Omit<IComponentSpec,\"orient\">": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -72760,6 +74065,12 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户自定义的 series id"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -73085,6 +74396,12 @@
         "innerRadius": {
           "description": "扇区内半径",
           "type": "number"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -73710,13 +75027,21 @@
     },
     "Omit<ILabelSpec,\"position\">": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "anyOf": [
             {
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73833,7 +75158,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73916,7 +75240,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73931,6 +75254,12 @@
         },
         "support3d": {
           "description": "是否支持3D",
+          "type": "boolean"
+        },
+        "syncState": {
+          "default": false,
+          "description": "是否同步数据图元的状态变化",
+          "since": "1.9.0",
           "type": "boolean"
         },
         "textType": {
@@ -73994,6 +75323,9 @@
         "progressiveThreshold": {
           "description": "开启分片渲染的阀值，对应的是单系列data的长度",
           "type": "number"
+        },
+        "stateSort": {
+          "typeof": "function"
         },
         "style": {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_2",
@@ -74203,6 +75535,12 @@
           "default": 0,
           "description": "饼图扇区内半径",
           "type": "number"
+        },
+        "interactions": {
+          "items": {
+            "$ref": "#/definitions/IInteractionItemSpec"
+          },
+          "type": "array"
         },
         "invalidType": {
           "$ref": "#/definitions/IInvalidType",
@@ -75190,6 +76528,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -75920,6 +77261,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -76339,6 +77683,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -76825,6 +78172,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77272,6 +78622,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77681,6 +79034,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78070,6 +79426,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -78516,6 +79875,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78839,13 +80201,21 @@
     },
     "Partial<ILabelSpec>": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "anyOf": [
             {
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -78962,7 +80332,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79049,7 +80418,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79064,6 +80432,12 @@
         },
         "support3d": {
           "description": "是否支持3D",
+          "type": "boolean"
+        },
+        "syncState": {
+          "default": false,
+          "description": "是否同步数据图元的状态变化",
+          "since": "1.9.0",
           "type": "boolean"
         },
         "textType": {
@@ -79177,6 +80551,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -79508,13 +80885,21 @@
     },
     "Partial<ILineLikeLabelSpec>": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "anyOf": [
             {
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79631,7 +81016,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79719,7 +81103,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79734,6 +81117,12 @@
         },
         "support3d": {
           "description": "是否支持3D",
+          "type": "boolean"
+        },
+        "syncState": {
+          "default": false,
+          "description": "是否同步数据图元的状态变化",
+          "since": "1.9.0",
           "type": "boolean"
         },
         "textType": {
@@ -79854,6 +81243,27 @@
         },
         "style": {
           "$ref": "#/definitions/ILineMarkSpec",
+          "description": "默认样式设置"
+        },
+        "visible": {
+          "description": "mark 层 是否显示配置",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<IMarkTheme<ILiquidMarkSpec>>": {
+      "properties": {
+        "interactive": {
+          "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "state": {
+          "$ref": "#/definitions/Record<string,ILiquidMarkSpec>",
+          "description": "不同状态下的样式配置"
+        },
+        "style": {
+          "$ref": "#/definitions/ILiquidMarkSpec",
           "description": "默认样式设置"
         },
         "visible": {
@@ -80381,6 +81791,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -80766,6 +82179,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -81419,6 +82835,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -81819,6 +83238,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -82473,6 +83895,12 @@
         "renderStyle": {
           "type": "string"
         },
+        "supportsPointerEvents": {
+          "type": "boolean"
+        },
+        "supportsTouchEvents": {
+          "type": "boolean"
+        },
         "ticker": {
           "$ref": "#/definitions/ITicker"
         },
@@ -82577,6 +84005,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -82977,6 +84408,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -84064,6 +85498,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -84555,6 +85992,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -84947,6 +86387,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -86048,6 +87491,9 @@
         "link": {
           "$ref": "#/definitions/ColorScheme"
         },
+        "liquid": {
+          "$ref": "#/definitions/ColorScheme"
+        },
         "map": {
           "$ref": "#/definitions/ColorScheme"
         },
@@ -86415,6 +87861,492 @@
     "Permissions": {
       "type": "object"
     },
+    "Pick<ElementActiveByLegendSpec,\"type\"|\"state\"|\"filterType\">": {
+      "properties": {
+        "filterType": {
+          "enum": [
+            "groupKey",
+            "key"
+          ],
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "type": {
+          "const": "element-active-by-legend",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "Pick<ElementActiveSpec,\"type\"|\"state\"|\"trigger\"|\"triggerOff\">": {
+      "properties": {
+        "state": {
+          "type": "string"
+        },
+        "trigger": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/EventType"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "click",
+                "dblclick",
+                "drag",
+                "dragend",
+                "dragenter",
+                "dragleave",
+                "dragover",
+                "dragstart",
+                "drop",
+                "mousedown",
+                "mouseenter",
+                "mouseleave",
+                "mousemove",
+                "mouseout",
+                "mouseover",
+                "mouseup",
+                "mouseupoutside",
+                "pan",
+                "panend",
+                "panstart",
+                "pinch",
+                "pinchend",
+                "pinchstart",
+                "pointerdown",
+                "pointerenter",
+                "pointerleave",
+                "pointermove",
+                "pointerout",
+                "pointerover",
+                "pointertap",
+                "pointerup",
+                "pointerupoutside",
+                "press",
+                "pressend",
+                "pressup",
+                "resize",
+                "rightdown",
+                "rightup",
+                "rightupoutside",
+                "swipe",
+                "tap",
+                "touchcancel",
+                "touchend",
+                "touchendoutside",
+                "touchmove",
+                "touchstart",
+                "wheel"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "triggerOff": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/EventType"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "click",
+                "dblclick",
+                "drag",
+                "dragend",
+                "dragenter",
+                "dragleave",
+                "dragover",
+                "dragstart",
+                "drop",
+                "mousedown",
+                "mouseenter",
+                "mouseleave",
+                "mousemove",
+                "mouseout",
+                "mouseover",
+                "mouseup",
+                "mouseupoutside",
+                "pan",
+                "panend",
+                "panstart",
+                "pinch",
+                "pinchend",
+                "pinchstart",
+                "pointerdown",
+                "pointerenter",
+                "pointerleave",
+                "pointermove",
+                "pointerout",
+                "pointerover",
+                "pointertap",
+                "pointerup",
+                "pointerupoutside",
+                "press",
+                "pressend",
+                "pressup",
+                "resize",
+                "rightdown",
+                "rightup",
+                "rightupoutside",
+                "swipe",
+                "tap",
+                "touchcancel",
+                "touchend",
+                "touchendoutside",
+                "touchmove",
+                "touchstart",
+                "wheel"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "type": {
+          "const": "element-active",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "Pick<ElementHighlightByGroupSpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">": {
+      "properties": {
+        "blurState": {
+          "type": "string"
+        },
+        "highlightState": {
+          "type": "string"
+        },
+        "trigger": {
+          "$ref": "#/definitions/EventType"
+        },
+        "triggerOff": {
+          "$ref": "#/definitions/EventType"
+        },
+        "type": {
+          "const": "element-highlight-by-group",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "Pick<ElementHighlightByKeySpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">": {
+      "properties": {
+        "blurState": {
+          "type": "string"
+        },
+        "highlightState": {
+          "type": "string"
+        },
+        "trigger": {
+          "$ref": "#/definitions/EventType"
+        },
+        "triggerOff": {
+          "$ref": "#/definitions/EventType"
+        },
+        "type": {
+          "const": "element-highlight-by-key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "Pick<ElementHighlightByLegendSpec,\"type\"|\"blurState\"|\"highlightState\"|\"filterType\">": {
+      "properties": {
+        "blurState": {
+          "type": "string"
+        },
+        "filterType": {
+          "enum": [
+            "groupKey",
+            "key"
+          ],
+          "type": "string"
+        },
+        "highlightState": {
+          "type": "string"
+        },
+        "type": {
+          "const": "element-highlight-by-legend",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "Pick<ElementHighlightByNameSpec,\"type\"|\"blurState\"|\"highlightState\"|\"graphicName\"|\"parseData\">": {
+      "properties": {
+        "blurState": {
+          "type": "string"
+        },
+        "graphicName": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "highlightState": {
+          "type": "string"
+        },
+        "parseData": {
+          "typeof": "function"
+        },
+        "type": {
+          "const": "element-highlight-by-name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "Pick<ElementHighlightSpec,\"type\"|\"trigger\"|\"triggerOff\"|\"blurState\"|\"highlightState\">": {
+      "properties": {
+        "blurState": {
+          "type": "string"
+        },
+        "highlightState": {
+          "type": "string"
+        },
+        "trigger": {
+          "$ref": "#/definitions/EventType"
+        },
+        "triggerOff": {
+          "$ref": "#/definitions/EventType"
+        },
+        "type": {
+          "const": "element-highlight",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "Pick<ElementSelectSpec,\"type\"|\"state\"|\"trigger\"|\"triggerOff\"|\"isMultiple\"|\"reverseState\">": {
+      "properties": {
+        "isMultiple": {
+          "type": "boolean"
+        },
+        "reverseState": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "trigger": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/EventType"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "click",
+                "dblclick",
+                "drag",
+                "dragend",
+                "dragenter",
+                "dragleave",
+                "dragover",
+                "dragstart",
+                "drop",
+                "mousedown",
+                "mouseenter",
+                "mouseleave",
+                "mousemove",
+                "mouseout",
+                "mouseover",
+                "mouseup",
+                "mouseupoutside",
+                "pan",
+                "panend",
+                "panstart",
+                "pinch",
+                "pinchend",
+                "pinchstart",
+                "pointerdown",
+                "pointerenter",
+                "pointerleave",
+                "pointermove",
+                "pointerout",
+                "pointerover",
+                "pointertap",
+                "pointerup",
+                "pointerupoutside",
+                "press",
+                "pressend",
+                "pressup",
+                "resize",
+                "rightdown",
+                "rightup",
+                "rightupoutside",
+                "swipe",
+                "tap",
+                "touchcancel",
+                "touchend",
+                "touchendoutside",
+                "touchmove",
+                "touchstart",
+                "wheel"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "triggerOff": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/EventType"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "click",
+                "dblclick",
+                "drag",
+                "dragend",
+                "dragenter",
+                "dragleave",
+                "dragover",
+                "dragstart",
+                "drop",
+                "empty",
+                "mousedown",
+                "mouseenter",
+                "mouseleave",
+                "mousemove",
+                "mouseout",
+                "mouseover",
+                "mouseup",
+                "mouseupoutside",
+                "pan",
+                "panend",
+                "panstart",
+                "pinch",
+                "pinchend",
+                "pinchstart",
+                "pointerdown",
+                "pointerenter",
+                "pointerleave",
+                "pointermove",
+                "pointerout",
+                "pointerover",
+                "pointertap",
+                "pointerup",
+                "pointerupoutside",
+                "press",
+                "pressend",
+                "pressup",
+                "resize",
+                "rightdown",
+                "rightup",
+                "rightupoutside",
+                "swipe",
+                "tap",
+                "touchcancel",
+                "touchend",
+                "touchendoutside",
+                "touchmove",
+                "touchstart",
+                "view:click",
+                "view:dblclick",
+                "view:drag",
+                "view:dragend",
+                "view:dragenter",
+                "view:dragleave",
+                "view:dragover",
+                "view:dragstart",
+                "view:drop",
+                "view:mousedown",
+                "view:mouseenter",
+                "view:mouseleave",
+                "view:mousemove",
+                "view:mouseout",
+                "view:mouseover",
+                "view:mouseup",
+                "view:mouseupoutside",
+                "view:pan",
+                "view:panend",
+                "view:panstart",
+                "view:pinch",
+                "view:pinchend",
+                "view:pinchstart",
+                "view:pointerdown",
+                "view:pointerenter",
+                "view:pointerleave",
+                "view:pointerout",
+                "view:pointerover",
+                "view:pointertap",
+                "view:pointerup",
+                "view:pointerupoutside",
+                "view:press",
+                "view:pressend",
+                "view:pressup",
+                "view:rightdown",
+                "view:rightup",
+                "view:rightupoutside",
+                "view:swipe",
+                "view:tap",
+                "view:touchcancel",
+                "view:touchend",
+                "view:touchendoutside",
+                "view:touchmove",
+                "view:touchstart",
+                "view:wheel",
+                "wheel"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "type": {
+          "const": "element-select",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
     "Pick<IRectMarkSpec,\"fillOpacity\"|\"fill\"|\"cornerRadius\">": {
       "properties": {
         "cornerRadius": {
@@ -86658,34 +88590,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12611"
+        "__@toStringTag@12732"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12611"
+        "__@toStringTag@12732"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12611": {
+        "__@toStringTag@12732": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12611"
+        "__@toStringTag@12732"
       ],
       "type": "object"
     },
@@ -86720,6 +88652,9 @@
       "type": "object"
     },
     "Record<string,ILineMarkSpec>": {
+      "type": "object"
+    },
+    "Record<string,ILiquidMarkSpec>": {
       "type": "object"
     },
     "Record<string,IPathMarkSpec>": {
@@ -86856,6 +88791,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -87361,6 +89299,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -87852,6 +89793,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -88303,6 +90247,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -88801,6 +90748,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -89326,6 +91276,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -89809,6 +91762,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -90309,6 +92265,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -90763,6 +92722,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -91232,6 +93194,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -91715,6 +93680,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -92184,6 +94152,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -92682,6 +94653,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -93274,6 +95248,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -93738,6 +95715,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"

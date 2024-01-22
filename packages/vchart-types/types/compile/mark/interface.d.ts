@@ -34,10 +34,10 @@ export interface ICompilableMark extends IGrammarItem {
     readonly stateStyle: IMarkStateStyle<any>;
     hasState: (state: string) => boolean;
     getState: (state: string) => any;
-    updateState: (newState: Record<string, unknown>) => Promise<void>;
+    updateState: (newState: Record<string, unknown>) => void;
     updateStaticEncode: () => void;
     compileEncode: () => void;
-    updateLayoutState: (noRender?: boolean, recursion?: boolean) => Promise<void>;
+    updateLayoutState: (noRender?: boolean, recursion?: boolean) => void;
     updateMarkState: (key: string) => void;
     setTransform: (transform: TransformSpec[] | Nil) => void;
     getInteractive: () => boolean;
@@ -68,6 +68,7 @@ export interface ICompilableMark extends IGrammarItem {
     setSkipBeforeLayouted: (skip: boolean) => void;
     getSkipBeforeLayouted: () => boolean;
     setCustomizedShapeCallback: (callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) => void;
+    setStateSortCallback: (stateSort: (stateA: string, stateB: string) => number) => void;
     runAnimationByState: (animationState?: string) => IAnimateArranger;
     stopAnimationByState: (animationState?: string) => IAnimate;
     pauseAnimationByState: (animationState: string) => IAnimate;

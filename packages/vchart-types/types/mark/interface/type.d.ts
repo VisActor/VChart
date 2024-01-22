@@ -19,6 +19,7 @@ export declare enum MarkTypeEnum {
     progressArc = "progressArc",
     cell = "cell",
     ripple = "ripple",
+    liquid = "liquid",
     component = "component",
     label = "label"
 }

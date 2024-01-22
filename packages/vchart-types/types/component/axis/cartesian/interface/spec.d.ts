@@ -19,6 +19,7 @@ export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
     mode?: '2d' | '3d';
     depth?: number;
     unit?: ICartesianAxisUnit;
+    hasDimensionTooltip?: boolean;
 };
 export interface ILinearAxisSync {
     axisId: StringOrNumber;

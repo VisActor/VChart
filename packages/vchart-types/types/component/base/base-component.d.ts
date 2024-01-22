@@ -1,7 +1,6 @@
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import type { IRegion } from '../../region/interface';
 import type { IComponent, IComponentOption } from '../interface';
-import type { BaseEventParams } from '../../event/interface';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IGroupMark } from '@visactor/vgrammar-core';
@@ -31,10 +30,6 @@ export declare class BaseComponent<T extends IComponentSpec = IComponentSpec> ex
     onRender(ctx: IModelRenderOption): void;
     getVRenderComponents(): IGraphic<Partial<import("@visactor/vrender-core").IGraphicAttribute>>[];
     protected callPlugin(cb: (plugin: IComponentPlugin) => void): void;
-    protected eventPos(markEventParams: BaseEventParams): {
-        x: number;
-        y: number;
-    };
     protected getContainer(): IGroup;
     _compareSpec(spec: T, prevSpec: T): {
         change: boolean;

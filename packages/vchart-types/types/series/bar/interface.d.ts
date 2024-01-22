@@ -13,7 +13,7 @@ export interface IBarSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<Bar
     xField?: string | string[];
     yField?: string | string[];
     [SeriesMarkNameEnum.bar]?: IMarkSpec<IRectMarkSpec>;
-    [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec>;
+    [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec> & IBarBackgroundSpec;
     [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position'> & {
         position?: Functional<'outside' | 'top' | 'bottom' | 'left' | 'right' | 'inside' | 'inside-top' | 'inside-bottom' | 'inside-right' | 'inside-left' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'>;
     };
@@ -23,9 +23,12 @@ export interface IBarSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<Bar
     barGapInGroup?: number | string | (number | string)[];
     barMinHeight?: number;
 }
+export interface IBarBackgroundSpec {
+    fieldLevel?: number;
+}
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {
     [SeriesMarkNameEnum.bar]?: Partial<IMarkTheme<IRectMarkSpec>>;
-    [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec>;
+    [SeriesMarkNameEnum.barBackground]?: Partial<IMarkTheme<IRectMarkSpec>> & IBarBackgroundSpec;
     barWidth?: number;
     barMinWidth?: number;
     barMaxWidth?: number;
