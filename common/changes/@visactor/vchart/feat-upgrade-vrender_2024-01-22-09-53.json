@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: upgrade vrender",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
