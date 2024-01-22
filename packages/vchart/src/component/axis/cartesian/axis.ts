@@ -1,9 +1,10 @@
+import type { ICartesianHorizontal } from './interface/spec';
 import type { IBounds, IBoundsLike, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
-import type { ICartesianAxisCommonSpec, IAxisHelper } from './interface';
+import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianVertical } from './interface';
 import {
   isArray,
   isValid,
@@ -290,11 +291,27 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void {
     super.onLayoutStart(layoutRect, viewRect, ctx);
     // 计算innerOffset
-    if (this._spec.innerOffset) {
-      this._innerOffset.left = calcLayoutNumber(this._spec.innerOffset.left, viewRect.width, viewRect);
-      this._innerOffset.right = calcLayoutNumber(this._spec.innerOffset.right, viewRect.width, viewRect);
-      this._innerOffset.top = calcLayoutNumber(this._spec.innerOffset.top, viewRect.height, viewRect);
-      this._innerOffset.bottom = calcLayoutNumber(this._spec.innerOffset.bottom, viewRect.height, viewRect);
+    if (!isZAxis(this.getOrient())) {
+      const spec = this._spec as ICartesianVertical | ICartesianHorizontal;
+      if (spec.innerOffset) {
+        if (isYAxis(this.getOrient())) {
+          ['top', 'bottom'].forEach(orient => {
+            this._innerOffset[orient] = calcLayoutNumber(
+              (spec as ICartesianVertical).innerOffset[orient],
+              viewRect.height,
+              viewRect
+            );
+          });
+        } else {
+          ['left', 'right'].forEach(orient => {
+            this._innerOffset[orient] = calcLayoutNumber(
+              (spec as ICartesianHorizontal).innerOffset[orient],
+              viewRect.width,
+              viewRect
+            );
+          });
+        }
+      }
     }
   }
 
