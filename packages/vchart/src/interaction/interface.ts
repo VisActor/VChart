@@ -74,18 +74,18 @@ interface IBaseInteractionSpec {
 }
 
 export type IElementActiveSpec = IBaseInteractionSpec &
-  Pick<ElementActiveSpec, 'type' | 'trigger' | 'resetTrigger' | 'state'>;
+  Pick<ElementActiveSpec, 'type' | 'trigger' | 'triggerOff' | 'state'>;
 
 export type IElementSelectSpec = IBaseInteractionSpec &
-  Pick<ElementSelectSpec, 'type' | 'trigger' | 'resetTrigger' | 'state' | 'isMultiple' | 'reverseState'>;
+  Pick<ElementSelectSpec, 'type' | 'trigger' | 'triggerOff' | 'state' | 'isMultiple' | 'reverseState'>;
 export type IElementHighlightSpec = IBaseInteractionSpec &
-  Pick<ElementHighlightSpec, 'type' | 'blurState' | 'highlightState' | 'resetTrigger' | 'trigger'>;
+  Pick<ElementHighlightSpec, 'type' | 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'>;
 
 export type IElementHighlightByKeySpec = IBaseInteractionSpec &
-  Pick<ElementHighlightByKeySpec, 'type' | 'blurState' | 'highlightState' | 'resetTrigger' | 'trigger'>;
+  Pick<ElementHighlightByKeySpec, 'type' | 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'>;
 
 export type IElementHighlightByGroup = IBaseInteractionSpec &
-  Pick<ElementHighlightByGroupSpec, 'type' | 'blurState' | 'highlightState' | 'resetTrigger' | 'trigger'>;
+  Pick<ElementHighlightByGroupSpec, 'type' | 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'>;
 
 export type IElementActiveByLegend = IBaseInteractionSpec &
   Pick<ElementActiveByLegendSpec, 'type' | 'filterType' | 'state'>;
