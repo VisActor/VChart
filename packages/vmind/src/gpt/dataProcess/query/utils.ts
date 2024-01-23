@@ -79,7 +79,7 @@ export const preprocessSQL = (sql: string, fieldInfo: SimpleFieldInfo[]) => {
     });
     validSQL = validSQL.replace(new RegExp(fieldName, 'g'), validFieldName);
     if (fieldName !== validFieldName) {
-      reservedReplaceMap.set(fieldName, validFieldName);
+      reservedReplaceMap.set(validFieldName, fieldName);
     }
   });
   const { validStr, replaceMap } = replaceNonASCIICharacters(validSQL);
