@@ -7,24 +7,42 @@ import { ChartAdvisorPromptEnglish } from './prompts';
 import { chartAdvisorHandler } from '../../common/chartAdvisor';
 import { estimateVideoTime } from '../../common/vizDataToSpec/utils';
 import { getSchemaFromFieldInfo } from '../../common/schema';
+import { queryDatasetWithGPT } from '../dataProcess/query/queryDataset';
 
 export const generateChartWithGPT = async (
   userPrompt: string, //user's intent of visualization, usually aspect in data that they want to visualize
-  fieldInfo: SimpleFieldInfo[],
+  propsFieldInfo: SimpleFieldInfo[],
   propsDataset: DataItem[],
   options: ILLMOptions,
+  enableDataQuery = true,
   colorPalette?: string[],
   animationDuration?: number
 ) => {
-  const userInputFinal = patchUserInput(userPrompt);
-  const schema = getSchemaFromFieldInfo(fieldInfo);
   const colors = colorPalette;
   let chartType;
   let cell;
   let dataset: DataItem[] = propsDataset;
+  let fieldInfo: SimpleFieldInfo[] = propsFieldInfo;
   let chartSource: string = options.model;
   try {
-    // throw 'test chartAdvisorHandler';
+    if (enableDataQuery) {
+      const { dataset: queryDataset, fieldInfo: fieldInfoNew } = await queryDatasetWithGPT(
+        userPrompt,
+        fieldInfo,
+        propsDataset,
+        options
+      );
+      dataset = queryDataset;
+      fieldInfo = fieldInfoNew;
+    }
+  } catch (err) {
+    console.warn('data query error!');
+    console.warn(err);
+  }
+
+  const schema = getSchemaFromFieldInfo(fieldInfo);
+  try {
+    const userInputFinal = patchUserInput(userPrompt);
     const resJson: any = await chartAdvisorGPT(schema, userInputFinal, options);
 
     const chartTypeRes = resJson['CHART_TYPE'].toUpperCase();
@@ -78,7 +96,6 @@ export const chartAdvisorGPT = async (
     //usefulFields.includes(field.fieldName)
   );
   const chartAdvisorMessage = `User Input: ${userInput}\nData field description: ${JSON.stringify(schema.fields)}`;
-  //console.log(chartAdvisorMessage);
 
   const requestFunc = options.customRequestFunc?.chartAdvisor ?? requestGPT;
 
@@ -86,7 +103,6 @@ export const chartAdvisorGPT = async (
 
   const advisorResJson: GPTChartAdvisorResult = parseGPTResponse(advisorRes) as unknown as GPTChartAdvisorResult;
 
-  //console.log(advisorResJson);
   if (advisorResJson.error) {
     throw Error('Network Error!');
   }

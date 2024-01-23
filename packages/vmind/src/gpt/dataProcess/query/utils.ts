@@ -171,7 +171,6 @@ export const addQuotes = (sqlString: string) => {
 export const execPipeline = (src: Partial<Query>, pipes: ASTParserPipe[], context: ASTParserContext) =>
   pipes.reduce((pre: Partial<Query>, pipe: ASTParserPipe) => {
     const result = pipe(pre, context);
-    // console.log(result);
     return result;
   }, src);
 

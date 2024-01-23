@@ -119,10 +119,10 @@ export function DataInput(props: IPropsType) {
   const askGPT = useCallback(async () => {
     //setLoading(true);
     const { fieldInfo, dataset } = vmind.parseCSVData(csv);
-    const { fieldInfo: fieldInfoQuery, dataset: datasetQuery } = await vmind?.dataQuery(describe, fieldInfo, dataset);
+    //const { fieldInfo: fieldInfoQuery, dataset: datasetQuery } = await vmind?.dataQuery(describe, fieldInfo, dataset);
     //const { fieldInfo, dataset } = await vmind.parseCSVDataWithLLM(csv, describe);
     const startTime = new Date().getTime();
-    const { spec, time } = await vmind.generateChart(describe, fieldInfoQuery, datasetQuery);
+    const { spec, time } = await vmind.generateChart(describe, fieldInfo, dataset);
     const endTime = new Date().getTime();
     const costTime = endTime - startTime;
     props.onSpecGenerate(spec, time as any, costTime);

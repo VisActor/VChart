@@ -26,16 +26,11 @@ export const queryDatasetWithGPT = async (
   const { sql, fieldInfo: responseFieldInfo } = await getQuerySQL(patchedInput, validFieldInfo, options);
   const { validStr, replaceMap: preprocessReplaceMap } = preprocessSQL(sql, fieldInfo);
   const replaceMap = mergeMap(preprocessReplaceMap, operatorReplaceMap);
-  console.log(validStr, replaceMap, responseFieldInfo);
   const parser = new NodeSQLParser.Parser();
   const ast = parser.astify(validStr);
   const queryObject = parseSqlAST((isArray(ast) ? ast[0] : ast) as SQLAst, sourceDataset, fieldInfo, replaceMap);
-  console.log(ast);
-  console.log(queryObject);
   const dataset = query(queryObject as Query);
-  console.log(dataset);
   const fieldInfoNew = parseRespondField(responseFieldInfo, dataset, replaceMap);
-  console.log(fieldInfoNew);
   return { dataset, fieldInfo: fieldInfoNew };
 };
 
@@ -52,6 +47,5 @@ const getQuerySQL = async (userInput: string, fieldInfo: SimpleFieldInfo[], opti
   const dataProcessRes = await requestFunc(QueryDatasetPrompt, queryDatasetMessage, options);
 
   const dataQueryResponse: DataQueryResponse = parseGPTResponse(dataProcessRes);
-  console.log(dataQueryResponse);
   return dataQueryResponse;
 };

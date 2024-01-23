@@ -58,11 +58,20 @@ class VMind {
     userPrompt: string, //user's intent of visualization, usually aspect in data that they want to visualize
     fieldInfo: SimpleFieldInfo[],
     dataset: DataItem[],
+    enableDataQuery = true,
     colorPalette?: string[],
     animationDuration?: number
   ) {
     if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
-      return generateChartWithGPT(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
+      return generateChartWithGPT(
+        userPrompt,
+        fieldInfo,
+        dataset,
+        this._options,
+        enableDataQuery,
+        colorPalette,
+        animationDuration
+      );
     }
     if ([Model.SKYLARK, Model.SKYLARK2].includes(this._model)) {
       return generateChartWithSkylark(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
