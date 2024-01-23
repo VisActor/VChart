@@ -2,20 +2,9 @@ import type { ITextMarkSpec, IMarkSpec, ISeriesSpec } from '../../typings';
 import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { WordcloudAppearPreset } from './animation';
+import type { shapes } from '@visactor/vgrammar-wordcloud';
 
-// TODO: 从 vgrammar 导出
-export enum WordCloudShapeEnum {
-  triangleForward = 'triangleForward', // 右箭头
-  triangle = 'triangle', // 三角形
-  diamond = 'diamond', // 菱形
-  square = 'square', // 方形
-  star = 'star', // 星形
-  cardioid = 'cardioid', // 心形
-  circle = 'circle', // 圆形
-  pentagon = 'pentagon' // 五角形
-}
-
-export type WordCloudShapeType = keyof typeof WordCloudShapeEnum;
+export type WordCloudShapeType = keyof typeof shapes;
 
 export type EllipsisType = {
   /**
