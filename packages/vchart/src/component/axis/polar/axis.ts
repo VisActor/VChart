@@ -435,9 +435,9 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       if (latestData && !isArray(latestData)) {
         // the ticks data of scale has not be calculated
         this.computeData('force');
+      } else {
+        return latestData || [];
       }
-
-      return this._tickData.getLatestData() || [];
     }
 
     return (this._scale as BandScale | LinearScale).ticks();
