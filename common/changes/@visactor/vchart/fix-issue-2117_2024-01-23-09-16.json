@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fixed polar coordinate relative axis tickValues acquisition error problem, fixed#2117",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
