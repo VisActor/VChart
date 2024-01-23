@@ -1,6 +1,6 @@
 import { DataItem, ILLMOptions, SimpleFieldInfo } from '../../../typings';
 import NodeSQLParser from 'node-sql-parser';
-import { parseRespondField, preprocessSQL } from './utils';
+import { mergeMap, parseRespondField, patchQueryInput, preprocessSQL, replaceOperator } from './utils';
 import { parseSqlAST } from './parseSqlAST';
 import { isArray } from 'lodash';
 import { DataQueryResponse, SQLAst } from './type';
@@ -21,8 +21,11 @@ export const queryDatasetWithGPT = async (
   sourceDataset: DataItem[],
   options: ILLMOptions
 ) => {
-  const { sql, fieldInfo: responseFieldInfo } = await getQuerySQL(userInput, fieldInfo, options);
-  const { validStr, replaceMap } = preprocessSQL(sql, fieldInfo);
+  const { validFieldInfo, replaceMap: operatorReplaceMap } = replaceOperator(fieldInfo);
+  const patchedInput = patchQueryInput(userInput);
+  const { sql, fieldInfo: responseFieldInfo } = await getQuerySQL(patchedInput, validFieldInfo, options);
+  const { validStr, replaceMap: preprocessReplaceMap } = preprocessSQL(sql, fieldInfo);
+  const replaceMap = mergeMap(preprocessReplaceMap, operatorReplaceMap);
   console.log(validStr, replaceMap, responseFieldInfo);
   const parser = new NodeSQLParser.Parser();
   const ast = parser.astify(validStr);
@@ -31,7 +34,7 @@ export const queryDatasetWithGPT = async (
   console.log(queryObject);
   const dataset = query(queryObject as Query);
   console.log(dataset);
-  const fieldInfoNew = parseRespondField(responseFieldInfo, dataset);
+  const fieldInfoNew = parseRespondField(responseFieldInfo, dataset, replaceMap);
   console.log(fieldInfoNew);
   return { dataset, fieldInfo: fieldInfoNew };
 };

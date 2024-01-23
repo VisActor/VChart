@@ -1,3 +1,4 @@
+import { isString } from 'lodash';
 import { Query } from '../../../calculator';
 import { detectFieldType } from '../../../common/dataProcess/utils';
 import { DataItem, SimpleFieldInfo } from '../../../typings';
@@ -22,6 +23,36 @@ const swapMap = (map: Map<string, string>) => {
   });
   return swappedMap;
 };
+
+/**
+ * replace operator and reserved words inside the field name in the sql str
+ * @param fieldInfo
+ */
+export const replaceOperator = (fieldInfo: SimpleFieldInfo[]) => {
+  const operatorMap = {
+    '+': `_PLUS_`,
+    '-': `_DASH_`,
+    '*': `_ASTERISK_`,
+    '/': `_SLASH_`
+  };
+  const replaceMap = new Map<string, string>();
+  const validFieldInfo = fieldInfo.map((field: SimpleFieldInfo) => {
+    const { fieldName } = field;
+    let validFieldName = fieldName;
+    Object.keys(operatorMap).forEach(operator => {
+      validFieldName = validFieldName.split(operator).join(operatorMap[operator]);
+      if (validFieldName !== fieldName) {
+        replaceMap.set(validFieldName, fieldName);
+      }
+    });
+    return {
+      ...field,
+      fieldName: validFieldName
+    };
+  });
+  return { validFieldInfo, replaceMap };
+};
+
 /**
  * replace invalid characters in sql str and get the replace map
  * @param sql
@@ -30,37 +61,32 @@ const swapMap = (map: Map<string, string>) => {
 export const preprocessSQL = (sql: string, fieldInfo: SimpleFieldInfo[]) => {
   //replace \n to space
   const noNewLine = sql.replace('\n', ' ');
-  //replace operator and reserved words inside the field name in the sql str
-  const operatorMap = {
-    '+': `_PLUS_${generateRandomString(10)}_`,
-    '-': `_MINUS_${generateRandomString(10)}_`,
-    '*': `_MULTI_${generateRandomString(10)}_`,
-    '/': `_DIVIDE_${generateRandomString(10)}_`,
+  //replace reserved words inside the field name in the sql str
+  const reservedMap = {
     KEY: `_KEY_${generateRandomString(10)}_`
   };
   let validSQL = noNewLine;
-  const operatorReplaceMap: Map<string, string> = new Map();
+  const reservedReplaceMap: Map<string, string> = new Map();
 
   fieldInfo.forEach(field => {
     const { fieldName } = field;
     let validFieldName = fieldName;
-    Object.keys(operatorMap).forEach(operator => {
-      if (validFieldName.toUpperCase().includes(operator)) {
-        const validOperator = operatorMap[operator];
-        validFieldName = validFieldName.toUpperCase().replace(operator, validOperator);
+    Object.keys(reservedMap).forEach(reserveWord => {
+      if (validFieldName.toUpperCase().includes(reserveWord)) {
+        const validWord = reservedMap[reserveWord];
+        validFieldName = validFieldName.toUpperCase().replace(new RegExp(reserveWord, 'g'), validWord);
       }
     });
     validSQL = validSQL.replace(new RegExp(fieldName, 'g'), validFieldName);
     if (fieldName !== validFieldName) {
-      operatorReplaceMap.set(fieldName, validFieldName);
+      reservedReplaceMap.set(fieldName, validFieldName);
     }
   });
   const { validStr, replaceMap } = replaceNonASCIICharacters(validSQL);
   // merge the two replace map
-  [...operatorReplaceMap.keys()].forEach(key => {
-    replaceMap.set(operatorReplaceMap.get(key), key);
-  });
-  return { validStr, replaceMap };
+  const mergedMap = mergeMap(replaceMap, reservedReplaceMap);
+
+  return { validStr, replaceMap: mergedMap };
 };
 
 /**
@@ -94,13 +120,16 @@ export const replaceNonASCIICharacters = (str: string) => {
  * @returns
  */
 export const getOriginalString = (str: string, replaceMap: Map<string, string>) => {
+  if (!isString(str)) {
+    return str;
+  }
   if (replaceMap.has(str)) {
     return replaceMap.get(str);
   } else {
     //Some string may be linked by ASCII characters as non-ASCII characters.Traversing the replaceMap and replaced it to the original character
     const replaceKeys = [...replaceMap.keys()];
     return replaceKeys.reduce((prev, cur) => {
-      return prev.replace(cur, replaceMap.get(cur));
+      return prev.replace(new RegExp(cur, 'g'), replaceMap.get(cur));
     }, str);
   }
 };
@@ -172,5 +201,29 @@ export const checkIsColumnNode = (node: any, columns: any, fieldInfo: SimpleFiel
  */
 export const parseRespondField = (
   responseFieldInfo: { fieldName: string; description?: string }[],
-  dataset: DataItem[]
-) => responseFieldInfo.map(field => ({ ...field, ...detectFieldType(dataset, field.fieldName) }));
+  dataset: DataItem[],
+  replaceMap: Map<string, string>
+) =>
+  responseFieldInfo.map(field => ({
+    ...field,
+    ...detectFieldType(dataset, field.fieldName),
+    fieldName: getOriginalString(field.fieldName, replaceMap)
+  }));
+
+/**
+ * merge two maps
+ * @param map1
+ * @param map2
+ * @returns
+ */
+export const mergeMap = (map1: Map<string, string>, map2: Map<string, string>) => {
+  // merge map2 into map1
+  map2.forEach((value, key) => {
+    map1.set(key, value);
+  });
+  return map1;
+};
+
+export const patchQueryInput = (userInput: string) => {
+  return userInput + " Don't use JOIN and subquery in sql. Don't use Rank() in SQL.";
+};

@@ -680,7 +680,7 @@ export const cartesianBar = (spec: any, context: Context) => {
     spec.seriesField = cell.color;
   } else {
     //没有分配颜色字段，从剩下的字段里选择一个离散字段分配到颜色上
-    const dataFields = Object.keys(dataset[0]);
+    const dataFields = Object.keys(dataset[0] ?? {});
     const remainedFields = dataFields.filter(f => !spec.xField.includes(f) && spec.yField !== f);
     const colorField = remainedFields.find(f => {
       const fieldType = detectAxesType(spec.data.values, f);

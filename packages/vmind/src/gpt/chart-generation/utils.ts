@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import { CARTESIAN_CHART_LIST, detectAxesType } from '../../common/vizDataToSpec/utils';
 
 export const patchUserInput = (userInput: string) => {
@@ -59,6 +60,26 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
           x: y[0],
           y: y[1],
           color: typeof x === 'string' ? x : x[0]
+        }
+      };
+    }
+  }
+  if (chartType === 'BOX PLOT') {
+    if (typeof y === 'string' && y.split(',').length > 1) {
+      return {
+        chartTypeNew: 'BOX PLOT',
+        cellNew: {
+          ...cell,
+          y: y.split(',').map(str => str.trim())
+        }
+      };
+    } else if (isNil(y) || y.length === 0) {
+      const { lower_whisker, min, q1, median, q3, upper_whisker, max } = cell;
+      return {
+        chartTypeNew: 'BOX PLOT',
+        cellNew: {
+          ...cell,
+          y: [lower_whisker, min, q1, median, q3, upper_whisker, max].filter(Boolean)
         }
       };
     }
