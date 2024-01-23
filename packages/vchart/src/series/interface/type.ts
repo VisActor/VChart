@@ -35,7 +35,7 @@ export enum SeriesTypeEnum {
   correlation = 'correlation'
 }
 
-export enum SeriesMarkNameEnum {
+export const enum SeriesMarkNameEnum {
   label = 'label',
   point = 'point',
   line = 'line',
@@ -92,5 +92,3 @@ export enum SeriesMarkNameEnum {
   lineLabel = 'lineLabel',
   areaLabel = 'areaLabel'
 }
-
-export const seriesMarkNameSet = new Set<string>(Object.values(SeriesMarkNameEnum));

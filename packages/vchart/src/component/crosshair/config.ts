@@ -24,7 +24,7 @@ export function getDefaultCrosshairTriggerEventByMode(mode: RenderMode) {
   return null;
 }
 
-export enum LayoutType {
+export const enum LayoutType {
   ALL = 0b0011,
   HORIZONTAL = 0b0010,
   VERTICAL = 0b0001,
