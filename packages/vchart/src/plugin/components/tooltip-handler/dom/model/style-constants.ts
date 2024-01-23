@@ -8,16 +8,9 @@ export const defaultContainerStyle: Partial<CSSStyleDeclaration> = {
   boxSizing: 'border-box'
 };
 
-export const defaultContentContainerStyle: Partial<CSSStyleDeclaration> = {
-  display: 'flex',
-  whiteSpace: 'nowrap'
-};
-
 export const defaultContentColumnStyle: Partial<CSSStyleDeclaration> = {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-around',
-  fontSize: '0'
+  display: 'inline-block',
+  verticalAlign: 'top'
 };
 
 export const defaultKeyStyle: Partial<CSSStyleDeclaration> = {

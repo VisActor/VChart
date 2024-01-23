@@ -1,8 +1,8 @@
-import { defaultContentContainerStyle } from './style-constants';
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ContentColumnModel } from './content-column-model';
-import type { Maybe } from '@visactor/vutils';
+import { isValid, type Maybe } from '@visactor/vutils';
 import { mergeSpec } from '../../../../../util/spec/merge-spec';
+import { getPixelPropertyStr, getScrollbarWidth, pixelPropertyStrToNumber } from '../utils';
 
 export class ContentModel extends BaseTooltipModel {
   shapeBox: Maybe<ContentColumnModel>;
@@ -46,7 +46,7 @@ export class ContentModel extends BaseTooltipModel {
   }
 
   setStyle(style?: Partial<CSSStyleDeclaration>): void {
-    super.setStyle(mergeSpec({}, defaultContentContainerStyle, style));
+    super.setStyle(mergeSpec(this._getContentContainerStyle(), style));
     Object.values(this.children).forEach(c => {
       c.setStyle();
     });
@@ -56,6 +56,34 @@ export class ContentModel extends BaseTooltipModel {
     Object.values(this.children).forEach(c => {
       c.setContent();
     });
+  }
+
+  protected _getContentContainerStyle(): Partial<CSSStyleDeclaration> {
+    const defaultStyle = {
+      whiteSpace: 'nowrap',
+      lineHeight: '0px'
+    };
+
+    const { panelDomHeight, panel: panelAttribute, maxContentHeight } = this._option.getTooltipAttributes();
+    if (isValid(maxContentHeight) && panelDomHeight < panelAttribute.height) {
+      const { shapeColumn = {}, keyColumn = {}, valueColumn = {}, panel = {} } = this._option.getTooltipStyle();
+      const width = [
+        shapeColumn.width,
+        shapeColumn.marginRight,
+        keyColumn.width,
+        keyColumn.marginRight,
+        valueColumn.width,
+        valueColumn.marginRight,
+        panel.paddingRight
+      ].reduce((sum, cur) => sum + <number>pixelPropertyStrToNumber(cur), 0);
+      return {
+        ...defaultStyle,
+        width: `${width + getScrollbarWidth(this._option.getContainer())}px`,
+        maxHeight: getPixelPropertyStr(maxContentHeight),
+        overflow: 'auto'
+      };
+    }
+    return defaultStyle;
   }
 
   release(): void {

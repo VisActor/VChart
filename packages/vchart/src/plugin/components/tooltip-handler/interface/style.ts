@@ -1,3 +1,4 @@
+import type { TooltipAttributes } from '@visactor/vrender-components';
 import type { ITextAttribute, IFillStyle, RichTextWordBreak } from '@visactor/vrender-core';
 
 export interface ITooltipTextStyle extends Partial<ITextAttribute & IFillStyle> {
@@ -11,4 +12,11 @@ export interface ITooltipTextStyle extends Partial<ITextAttribute & IFillStyle> 
   wordBreak?: RichTextWordBreak;
   /** 是否开启自动宽度 */
   autoWidth?: boolean;
+}
+
+export interface ITooltipAttributes extends TooltipAttributes {
+  /** dom tooltip 的高度。由于 canvas tooltip 不支持滚动条，dom tooltip 单独计算高度 */
+  panelDomHeight?: number;
+  /** dom tooltip 内容区的最大高度，canvas tooltip 不支持 */
+  maxContentHeight?: number;
 }

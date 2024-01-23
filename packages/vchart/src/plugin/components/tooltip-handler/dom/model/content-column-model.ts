@@ -13,7 +13,7 @@ import type { IShapeSvgOption } from './shape-model';
 import { ShapeModel } from './shape-model';
 import { TextModel } from './text-model';
 import { TOOLTIP_EMPTY_STRING } from '../../constants';
-import { getPixelPropertyStr } from '../util';
+import { getPixelPropertyStr } from '../utils';
 import type { IToolTipLineActual } from '../../../../../typings';
 import { mergeSpec } from '../../../../../util/spec/merge-spec';
 
@@ -86,10 +86,11 @@ export class ContentColumnModel extends BaseTooltipModel {
     const contentAttributes = this._option.getTooltipAttributes()?.content ?? [];
     renderContent.forEach((line, i) => {
       let childStyle: any = {};
+      const { height, spaceRow = 0 } = contentAttributes[i];
       if (this.className === 'key-box') {
         const { key, isKeyAdaptive } = line;
         childStyle = mergeSpec({}, isKeyAdaptive ? defaultAdaptiveKeyStyle : defaultKeyStyle, {
-          height: getPixelPropertyStr(contentAttributes[i].height),
+          height: getPixelPropertyStr(height),
           ...defaultLabelStyle,
           ...tooltipStyle.keyColumn.common,
           ...tooltipStyle.keyColumn.items?.[i]
@@ -103,7 +104,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'value-box') {
         childStyle = mergeSpec({}, defaultValueStyle, {
-          height: getPixelPropertyStr(contentAttributes[i].height),
+          height: getPixelPropertyStr(height),
           ...defaultLabelStyle,
           ...tooltipStyle.valueColumn.common,
           ...tooltipStyle.valueColumn.items?.[i]
@@ -111,7 +112,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         (this.children[i] as TextModel).setStyle(childStyle);
       } else if (this.className === 'shape-box') {
         childStyle = mergeSpec({}, defaultShapeStyle, {
-          height: getPixelPropertyStr(contentAttributes[i].height + contentAttributes[i].spaceRow),
+          height: getPixelPropertyStr(height + (i < renderContent.length - 1 ? spaceRow : 0)),
           ...tooltipStyle.shapeColumn.common,
           ...tooltipStyle.shapeColumn.items?.[i]
         });
