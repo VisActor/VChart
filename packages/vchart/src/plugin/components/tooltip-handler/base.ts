@@ -40,7 +40,7 @@ import {
 import type { IElement } from '@visactor/vgrammar-core';
 import type { ILayoutModel, IModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
-import type { IContainerSize, TooltipAttributes } from '@visactor/vrender-components';
+import type { IContainerSize } from '@visactor/vrender-components';
 import { getTooltipAttributes } from './utils/attribute';
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { IChartOption } from '../../../chart/interface';
@@ -54,6 +54,7 @@ import type {
 import { TooltipResult } from '../../../component/tooltip';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
+import type { ITooltipAttributes } from './interface';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -93,7 +94,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   }
 
   protected _component: Tooltip;
-  protected _attributes?: TooltipAttributes | null = null;
+  protected _attributes?: ITooltipAttributes | null = null;
 
   protected _chartContainer: Maybe<HTMLElement>;
   protected _compiler: Compiler;

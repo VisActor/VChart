@@ -1,5 +1,4 @@
 import type {
-  TooltipAttributes,
   TooltipPanelAttrs,
   TooltipRowAttrs,
   TooltipRowStyleAttrs,
@@ -7,7 +6,7 @@ import type {
   TooltipTextAttrs
 } from '@visactor/vrender-components';
 import type { IPadding, IToolTipActual } from '../../../../typings';
-import type { ITooltipTextStyle } from '../interface';
+import type { ITooltipAttributes, ITooltipTextStyle } from '../interface';
 import { isValid, maxInArray, normalizePadding } from '@visactor/vutils';
 import { mergeSpec } from '../../../../util/spec/merge-spec';
 import { normalizeLayoutPaddingSpec } from '../../../../util/space';
@@ -75,9 +74,9 @@ export const getTooltipAttributes = (
   actualTooltip: IToolTipActual,
   spec: ITooltipSpec,
   globalTheme: ITheme
-): TooltipAttributes => {
+): ITooltipAttributes => {
   const { style = {}, enterable, transitionDuration } = spec;
-  const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow } = style;
+  const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow, maxContentHeight } = style;
   const padding = normalizePadding(panel.padding);
   const paddingSpec = normalizeLayoutPaddingSpec(panel.padding) as IPadding;
 
@@ -90,7 +89,7 @@ export const getTooltipAttributes = (
     spacing: shape?.spacing ?? 6
   };
 
-  const attributes: TooltipAttributes = {
+  const attributes: ITooltipAttributes = {
     panel: getPanelAttributes(panel),
     padding,
 
@@ -111,14 +110,18 @@ export const getTooltipAttributes = (
     keyWidth: 0,
     valueWidth: 0,
 
+    maxContentHeight,
+
     enterable,
     transitionDuration
   };
 
   const { title = {}, content = [] } = actualTooltip;
 
-  let containerWidth = paddingSpec.left + paddingSpec.right;
-  let containerHeight = paddingSpec.top + paddingSpec.bottom;
+  let panelWidth = paddingSpec.left + paddingSpec.right;
+  let panelHeight = paddingSpec.top + paddingSpec.bottom;
+  /** dom tooltip 的高度。由于 canvas tooltip 不支持滚动条，dom tooltip 单独计算高度 */
+  let panelDomHeight = paddingSpec.top + paddingSpec.bottom;
 
   // calculate content
   let contentMaxWidth = 0;
@@ -138,6 +141,7 @@ export const getTooltipAttributes = (
     const valueWidths: number[] = [];
     const shapeWidths: number[] = [];
 
+    let contentHeight = 0;
     attributes.content = filteredContent.map((item, i) => {
       let itemHeight = 0;
       const {
@@ -217,13 +221,15 @@ export const getTooltipAttributes = (
       }
 
       itemAttrs.height = itemHeight;
-      containerHeight += itemHeight;
+      contentHeight += itemHeight;
       if (i < filteredContent.length - 1) {
-        containerHeight += itemAttrs.spaceRow;
+        contentHeight += itemAttrs.spaceRow;
       }
 
       return itemAttrs;
     });
+    panelHeight += contentHeight;
+    panelDomHeight += Math.min(contentHeight, maxContentHeight ?? Infinity);
 
     maxKeyWidth = keyWidths.length ? maxInArray(keyWidths) : 0; // name 需要对齐
     maxAdaptiveKeyWidth = adaptiveKeyWidths.length ? maxInArray(adaptiveKeyWidths) : 0;
@@ -242,6 +248,7 @@ export const getTooltipAttributes = (
   // calculate title
   let titleMaxWidth = 0;
   let titleMaxHeight = 0;
+  let titleHeightWithSpace = 0;
   const {
     visible: actualTitleVisible = true,
     value: actualTitleValue = '',
@@ -272,15 +279,17 @@ export const getTooltipAttributes = (
     titleMaxWidth = attributes.title.value.width;
     titleMaxHeight = attributes.title.value.height;
 
-    containerHeight += titleMaxHeight + (hasContent ? attributes.title.spaceRow : 0);
+    titleHeightWithSpace = titleMaxHeight + (hasContent ? attributes.title.spaceRow : 0);
   }
+  panelHeight += titleHeightWithSpace;
+  panelDomHeight += titleHeightWithSpace;
   attributes.title.width = titleMaxWidth;
   attributes.title.height = titleMaxHeight;
 
   if (isAutoWidthMode()) {
-    containerWidth += contentMaxWidth ? contentMaxWidth : titleMaxWidth;
+    panelWidth += contentMaxWidth ? contentMaxWidth : titleMaxWidth;
   } else {
-    containerWidth += Math.max(titleMaxWidth, contentMaxWidth);
+    panelWidth += Math.max(titleMaxWidth, contentMaxWidth);
   }
 
   // 处理 content 的自动宽度模式
@@ -290,7 +299,7 @@ export const getTooltipAttributes = (
       // 最后一列默认自适应宽度
       if (value && (value.autoWidth ?? true)) {
         value.width =
-          containerWidth -
+          panelWidth -
           paddingSpec.left -
           paddingSpec.right -
           maxShapeWidth -
@@ -306,8 +315,9 @@ export const getTooltipAttributes = (
     });
   }
 
-  attributes.panel.width = containerWidth;
-  attributes.panel.height = containerHeight;
+  attributes.panel.width = panelWidth;
+  attributes.panel.height = panelHeight;
+  attributes.panelDomHeight = panelDomHeight;
 
   return attributes;
 };

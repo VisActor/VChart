@@ -1,44 +1,18 @@
 import type { Maybe } from '@visactor/vutils';
-import type { FontWeight, TextAlign } from '../../../../typings';
-import { mergeSpec } from '../../../../util/spec/merge-spec';
-import { normalizeLayoutPaddingSpec } from '../../../../util/space';
-// eslint-disable-next-line no-duplicate-imports
-import { isValid, isArray } from '@visactor/vutils';
-import type { ITooltipTextStyle } from '../interface';
-import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from './interface';
-import type { TooltipAttributes } from '@visactor/vrender-components';
+import type { FontWeight, TextAlign } from '../../../../../typings';
+import { mergeSpec } from '../../../../../util/spec/merge-spec';
+import { normalizeLayoutPaddingSpec } from '../../../../../util/space';
+import type { ITooltipAttributes, ITooltipTextStyle } from '../../interface';
+import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from '../interface';
 import { calculateLineHeight } from '@visactor/vrender-core';
-import type { ITooltipTheme } from '../../../../component/tooltip';
+import type { ITooltipTheme } from '../../../../../component/tooltip';
+import { getPixelPropertyStr } from './common';
 
 const DEFAULT_SHAPE_SPACING = 8;
 const DEFAULT_KEY_SPACING = 26;
 const DEFAULT_VALUE_SPACING = 0;
 
-export const getPixelPropertyStr = (num?: number | number[], defaultStr?: string) => {
-  if (isValid(num)) {
-    if (isArray(num)) {
-      return num.map(n => `${n}px`).join(' ');
-    }
-    return `${num}px`;
-  }
-  return defaultStr ?? 'initial';
-};
-
-export const pixelPropertyStrToNumber = (str: string): number | number[] => {
-  const strArr = str.split(' ');
-  const numArr = strArr.map(n => {
-    if (!Number.isNaN(n)) {
-      return Number.parseFloat(n);
-    }
-    return Number.parseFloat(n.substring(0, n.length - 2));
-  });
-  if (numArr.length === 1) {
-    return numArr[0];
-  }
-  return numArr;
-};
-
-export function getDomStyles(attributes?: Maybe<TooltipAttributes>): IDomTooltipStyle {
+export function getDomStyles(attributes?: Maybe<ITooltipAttributes>): IDomTooltipStyle {
   const {
     panel = {},
     title: titleAttribute,
@@ -49,7 +23,8 @@ export function getDomStyles(attributes?: Maybe<TooltipAttributes>): IDomTooltip
     keyWidth,
     valueWidth,
     enterable,
-    transitionDuration
+    transitionDuration,
+    panelDomHeight = 0
   } = attributes ?? {};
 
   const {
@@ -63,8 +38,7 @@ export function getDomStyles(attributes?: Maybe<TooltipAttributes>): IDomTooltip
     cornerRadius,
     stroke: strokeColor,
     lineWidth = 0,
-    width = 0,
-    height = 0
+    width = 0
   } = panel;
 
   const { value: title = {} } = titleStyle;
@@ -78,7 +52,7 @@ export function getDomStyles(attributes?: Maybe<TooltipAttributes>): IDomTooltip
   const styles: IDomTooltipStyle = {
     panel: {
       width: getPixelPropertyStr(width + lineWidth * 2),
-      minHeight: getPixelPropertyStr(height + lineWidth * 2),
+      minHeight: getPixelPropertyStr(panelDomHeight + lineWidth * 2),
       paddingBottom: getPixelPropertyStr(bottom as number),
       paddingLeft: getPixelPropertyStr(left as number),
       paddingRight: getPixelPropertyStr(right as number),
@@ -105,8 +79,7 @@ export function getDomStyles(attributes?: Maybe<TooltipAttributes>): IDomTooltip
       common: shapeStyle,
       items: [],
       width: getPixelPropertyStr(shape.size),
-      marginRight: getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING),
-      marginBottom: getPixelPropertyStr(-(contentAttribute?.[contentAttribute?.length - 1]?.spaceRow ?? 0))
+      marginRight: getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING)
     },
     keyColumn: {
       common: keyStyle,

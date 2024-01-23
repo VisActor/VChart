@@ -5,7 +5,7 @@ import { Symbol } from '@visactor/vrender-core';
 import { isObject, isString } from '@visactor/vutils';
 import type { ShapeType } from '../../../../../typings';
 import { BaseTooltipModel } from './base-tooltip-model';
-import { pixelPropertyStrToNumber } from '../util';
+import { pixelPropertyStrToNumber } from '../utils';
 
 export interface IShapeSvgOption {
   hasShape?: boolean;

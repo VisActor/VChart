@@ -13,8 +13,8 @@ export class TooltipModel extends BaseTooltipModel {
   private _classList: string[];
   private _id: string;
 
-  constructor(parent: BaseTooltipModel | HTMLElement, option: ITooltipModelOption, classList: string[], id: string) {
-    super(parent, option, 0);
+  constructor(option: ITooltipModelOption, classList: string[], id: string) {
+    super(option.getContainer(), option, 0);
     this._classList = classList;
     this._id = id;
   }
