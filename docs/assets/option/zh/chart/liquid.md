@@ -4,6 +4,12 @@
 
 水波图。 
 自从`1.9.0`版本。
+注意: 在业务中使用时, 请额外引入registerLiquidChart并注册。
+示例:
+```ts
+import { registerLiquidChart } from '@visactor/vchart';
+registerLiquidChart();
+```
 
 {{ use: common-chart-spec(
     prefix = '#',

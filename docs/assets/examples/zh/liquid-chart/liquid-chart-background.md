@@ -19,6 +19,15 @@ option: liquidChart
 ## 代码演示
 
 ```javascript livedemo
+/** --在业务中使用时请添加以下代码-- */
+// 在业务中使用时, 请额外引入registerLiquidChart并执行
+// import { registerLiquidChart } from '@visactor/vchart';
+// registerLiquidChart();
+/** --在业务中使用时请添加以上代码-- */
+
+/** --在业务中使用时请删除以下代码-- */
+VCHART_MODULE.registerLiquidChart();
+/** --在业务中使用时请删除以上代码-- */
 const spec = {
   type: 'liquid',
   valueField: 'value',

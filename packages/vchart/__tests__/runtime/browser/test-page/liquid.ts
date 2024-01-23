@@ -1,6 +1,8 @@
 import { isMobile } from 'react-device-detect';
 import { default as VChart } from '../../../../src/index';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
+import { registerLiquidChart } from '@visactor/vchart';
+registerLiquidChart();
 
 const run = () => {
   const data1 = [
@@ -37,6 +39,8 @@ const run = () => {
   const spec = {
     type: 'liquid',
     valueField: 'value',
+    width: 500,
+    height: 500,
     data: {
       id: 'data2',
       values: [

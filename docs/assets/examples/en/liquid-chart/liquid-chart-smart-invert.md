@@ -19,6 +19,16 @@ The font color of the liquid chart indicator supports smart inversion (when the 
 ## Demo Source
 
 ```javascript livedemo
+/** --Please add the following code when using it in your code -- */
+// When using it in your code, please introduce registerLiquidChart and execute it
+// import { registerLiquidChart } from '@visactor/vchart';
+// registerLiquidChart();
+/** --Please add the above code when using it in your code-- */
+
+/** --Please delete the following code when using it in your code -- */
+VCHART_MODULE.registerLiquidChart();
+/** --Please delete the above code when using it in your code-- */
+
 const spec = {
   type: 'liquid',
   valueField: 'value',
