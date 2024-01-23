@@ -271,6 +271,20 @@ const chart = new VChart(spec, {
 
 ## 方法
 
+
+### renderSync
+
+**同步**渲染图表。
+
+```ts
+/**
+ * **同步**渲染图表。
+ * @param morphConfig 图表 morph 动画配置，可选
+ * @returns VChart 实例
+ */
+renderSync: (morphConfig?: IMorphConfig) => IVChart;
+```
+
 ### renderAsync
 
 1.9.0 版本以后不推荐使用，后续会废弃异步渲染/异步更新相关 API
@@ -287,18 +301,6 @@ const chart = new VChart(spec, {
 renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
 ```
 
-### renderSync
-
-**同步**渲染图表。
-
-```ts
-/**
- * **同步**渲染图表。
- * @param morphConfig 图表 morph 动画配置，可选
- * @returns VChart 实例
- */
-renderSync: (morphConfig?: IMorphConfig) => IVChart;
-```
 
 ### updateData
 

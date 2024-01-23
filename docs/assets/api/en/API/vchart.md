@@ -272,20 +272,6 @@ Read-only property, id of VChart instance, internally generated.
 
 ## method
 
-### renderAsync
-
-**asynchronous**Render the chart.
-
-```ts
-/**
- * **Asynchronously** render the chart.
- * @async
- * @param morphConfig chart morph animation configuration, optional
- * @returns VChart instance
- */
-renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
-```
-
 ### renderSync
 
 **synchronization**Render the chart.
@@ -297,6 +283,22 @@ renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
  * @returns VChart instance
  */
 renderSync: (morphConfig?: IMorphConfig) => IVChart;
+```
+
+### renderAsync
+
+Not recommended for use after version 1.9.0, asynchronous rendering/asynchronous update related APIs will be deprecated in the future.
+
+**asynchronous**Render the chart.
+
+```ts
+/**
+ * **Asynchronously** render the chart.
+ * @async
+ * @param morphConfig chart morph animation configuration, optional
+ * @returns VChart instance
+ */
+renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
 ```
 
 ### updateData
