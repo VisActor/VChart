@@ -68,7 +68,7 @@ const spec = {
   tooltip: {
     mark: {
       title: {
-        value: datum => datum['year'] + '年'
+        value: datum => `Y${datum['year']}`
       },
       content: [
         {
@@ -84,7 +84,7 @@ const spec = {
     },
     dimension: {
       title: {
-        value: datum => datum['year'] + '年'
+        value: datum => `Y${datum['year']} (mouse scrolling available)`
       },
       content: [
         {
@@ -97,6 +97,10 @@ const spec = {
           value: datum => Math.round((datum['value'] / aggregation[datum['year']]) * 10000) / 100 + '%'
         }
       ]
+    },
+    enterable: true,
+    style: {
+      maxContentHeight: 120
     }
   }
 };
