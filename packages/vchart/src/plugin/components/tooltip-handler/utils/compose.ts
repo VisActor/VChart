@@ -5,7 +5,12 @@ import type {
   TooltipData,
   IToolTipLineActual
 } from '../../../../typings/tooltip';
-import { getFirstDatumFromTooltipData, getTooltipContentValue, getTooltipPatternValue } from './common';
+import {
+  getFirstDatumFromTooltipData,
+  getTooltipContentPattern,
+  getTooltipContentValue,
+  getTooltipPatternValue
+} from './common';
 import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension/interface';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constants';
 import { getTooltipActualActiveType } from '../../../../component/tooltip/utils';
@@ -73,7 +78,7 @@ export const getShowContent = (
   }
 
   /** content */
-  const patternContent = array(getTooltipPatternValue(pattern.content, data, params));
+  const patternContent = getTooltipContentPattern(pattern.content, data, params);
   const { maxLineCount = TOOLTIP_MAX_LINE_COUNT } = pattern;
 
   if (pattern.activeType === 'mark') {

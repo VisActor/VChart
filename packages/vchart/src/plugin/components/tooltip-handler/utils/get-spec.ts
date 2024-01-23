@@ -4,7 +4,6 @@ import type {
   ITooltipShapePattern,
   MaybeArray,
   TooltipActiveType,
-  TooltipData,
   TooltipPatternProperty
 } from '../../../../typings';
 import type { ISeries } from '../../../../series/interface';
@@ -12,8 +11,12 @@ import { mergeSpec } from '../../../../util/spec/merge-spec';
 import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
 import { memoize, isValid, array, isFunction, isNil, cloneDeep } from '@visactor/vutils';
-import type { ITooltipSpec, TooltipHandlerParams } from '../../../../component/tooltip';
+import type { ITooltipSpec } from '../../../../component/tooltip';
 import { getTooltipActualActiveType } from '../../../../component/tooltip/utils';
+import {
+  addExtraInfoToTooltipContentPattern,
+  addExtraInfoToTooltipTitlePattern
+} from '../../../../series/base/tooltip-helper';
 
 export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,
@@ -76,62 +79,34 @@ export const getTooltipSpecForShow = (
   const defaultPatternTitle = defaultPattern.title as IToolTipLinePattern | undefined;
   const titleShape: ITooltipShapePattern = getShapePattern(undefined, userPattern, undefined, defaultPatternTitle);
   if (isValid(userPattern.title)) {
-    // 排除是回调的情况
-    if (!isFunction(userPattern.title)) {
-      userPattern.title = {
-        ...defaultPattern.title,
-        ...titleShape, // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
-        ...userPattern.title
-      };
-    } else {
-      const userPatternTitle = userPattern.title;
-      userPattern.title = (data?: TooltipData, params?: TooltipHandlerParams) => {
-        const userResult = userPatternTitle(data, params) ?? {};
-        return {
-          ...titleShape, // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
-          ...userResult
-        };
-      };
-    }
+    userPattern.title = addExtraInfoToTooltipTitlePattern(userPattern.title, {
+      ...defaultPatternTitle,
+      ...titleShape // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+    });
   } else {
-    userPattern.title = {
-      ...defaultPattern.title,
-      ...titleShape
-    };
+    userPattern.title = addExtraInfoToTooltipTitlePattern(
+      defaultPatternTitle,
+      titleShape, // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+      true
+    );
   }
 
   // 组装 content
   const defaultPatternContent = array(defaultPattern.content) as IToolTipLinePattern[];
   if (isValid(userPattern.content)) {
     const shapePatternMap = getShapePatternMapOfEachSeries(defaultPatternContent);
-    // 排除是回调的情况
-    if (!isFunction(userPattern.content)) {
-      const newPatternContent: IToolTipLinePattern[] = [];
-      array(userPattern.content).forEach(userLine => {
-        newPatternContent.push({
-          ...getShapePattern(userLine as IToolTipLinePattern, userPattern, shapePatternMap), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
-          ...userLine
-        });
-      });
-      userPattern.content = newPatternContent;
-    } else {
-      const userPatternContent = userPattern.content;
-      userPattern.content = (data?: TooltipData, params?: TooltipHandlerParams) => {
-        const newPatternContent: IToolTipLinePattern[] = [];
-        array(userPatternContent(data, params) ?? []).forEach(userLine => {
-          newPatternContent.push({
-            ...getShapePattern(userLine as IToolTipLinePattern, userPattern, shapePatternMap), // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
-            ...userLine
-          });
-        });
-        return newPatternContent;
-      };
-    }
+    userPattern.content = addExtraInfoToTooltipContentPattern(
+      userPattern.content,
+      // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+      userLine => getShapePattern(userLine, userPattern, shapePatternMap)
+    );
   } else {
-    userPattern.content = defaultPatternContent.map(line => ({
-      ...line,
-      ...getShapePattern(undefined, userPattern, undefined, line)
-    }));
+    userPattern.content = addExtraInfoToTooltipContentPattern(
+      defaultPatternContent,
+      // shape默认回调实现较复杂，如果用户没有配置则填补默认逻辑
+      line => getShapePattern(undefined, userPattern, undefined, line),
+      true
+    );
   }
 
   finalSpec[activeType] = {

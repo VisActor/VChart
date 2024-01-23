@@ -5,6 +5,7 @@ import type { ITooltipModelOption } from './interface';
 import { TitleModel } from './title-model';
 import { defaultContainerStyle } from './style-constants';
 import { mergeSpec } from '../../../../../util/spec/merge-spec';
+import { DEFAULT_TOOLTIP_Z_INDEX } from '../constant';
 
 export class TooltipModel extends BaseTooltipModel {
   title: TitleModel | null = null;
@@ -68,7 +69,7 @@ export class TooltipModel extends BaseTooltipModel {
         pointerEvents: 'none',
         padding: '12px',
         position: 'absolute',
-        zIndex: '99999999999999',
+        zIndex: DEFAULT_TOOLTIP_Z_INDEX,
         fontFamily: 'sans-serif',
         fontSize: '11px',
         borderRadius: '3px',
