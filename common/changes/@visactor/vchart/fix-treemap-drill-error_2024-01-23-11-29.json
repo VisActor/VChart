@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " fix: treemap drill error when turn off the animation",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
