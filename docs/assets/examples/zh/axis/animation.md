@@ -1199,34 +1199,33 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync().then(() => {
-  const view = vchart.getCompiler().getVGrammarView();
-  const time = view.mark('text', view.rootMark).encode({
-    text: '',
-    fontSize: 40,
-    zIndex: 1000,
-    x: 700,
-    y: 460,
-    fill: 'grey',
-    fontWeight: 'bold'
-  });
-  years.forEach((year, index) => {
-    setTimeout(() => {
-      time
-        .encode({
-          text: year
-        })
-        .animation({
-          enter: {
-            type: 'fadeIn',
-            duration
-          }
-        });
-      asiaData[year].sort((pre, next) => next.max - pre.max);
+vchart.renderSync();
+const view = vchart.getCompiler().getVGrammarView();
+const time = view.mark('text', view.rootMark).encode({
+  text: '',
+  fontSize: 40,
+  zIndex: 1000,
+  x: 700,
+  y: 460,
+  fill: 'grey',
+  fontWeight: 'bold'
+});
+years.forEach((year, index) => {
+  setTimeout(() => {
+    time
+      .encode({
+        text: year
+      })
+      .animation({
+        enter: {
+          type: 'fadeIn',
+          duration
+        }
+      });
+    asiaData[year].sort((pre, next) => next.max - pre.max);
 
-      vchart.updateData('data0', asiaData[year]);
-    }, duration * (index + 1));
-  });
+    vchart.updateData('data0', asiaData[year]);
+  }, duration * (index + 1));
 });
 
 // Just for the convenience of console debugging, DO NOT COPY!

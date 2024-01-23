@@ -20,38 +20,38 @@ option: liquidChart
 
 ```javascript livedemo
 const spec = {
-    type: 'liquid',
-    valueField: 'value',
-    data: {
-      id: 'data',
-      values: [
-        {
-          value: 0.3
-        }
-      ]
-    },
-    indicator: {
+  type: 'liquid',
+  valueField: 'value',
+  data: {
+    id: 'data',
+    values: [
+      {
+        value: 0.3
+      }
+    ]
+  },
+  indicator: {
+    visible: true,
+    title: {
       visible: true,
-      title: {
+      style: {
+        text: '进度'
+      }
+    },
+    content: [
+      {
         visible: true,
         style: {
-          text: '进度'
+          fill: 'black',
+          text: '30%'
         }
-      },
-      content: [
-        {
-          visible: true,
-          style: {
-            fill: 'black',
-            text: '30%'
-          }
-        }
-      ]
-    },
-  };
+      }
+    ]
+  }
+};
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

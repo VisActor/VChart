@@ -112,11 +112,11 @@ function createOrUpdateChart(chartProps: LineChartProps) {
       dom: container,
     });
 
-    chart.renderAsync();
+    chart.renderSync();
     return true;
   } else if (chart) {
     chart.updateSpec(parseSpec(chartProps));
-    chart.renderAsync();
+    chart.renderSync();
 
     return true;
   }
@@ -201,11 +201,11 @@ export default defineComponent({
           dom: container,
         });
 
-        chart.renderAsync();
+        chart.renderSync();
         return true;
       } else if (chart) {
         chart.updateSpec(parseSpec(chartProps));
-        chart.renderAsync();
+        chart.renderSync();
 
         return true;
       }

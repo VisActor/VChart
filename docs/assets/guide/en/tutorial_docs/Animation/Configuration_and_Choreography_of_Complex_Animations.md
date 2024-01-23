@@ -99,7 +99,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 In the above example, we are using the `duration`/`delay`/`easing`/`oneByOne` configuration introduced in our previous chapter ([Animation Types](./Animation_Types)) to achieve simple animation effects.
@@ -222,7 +222,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 #### Scaling Animations
@@ -330,7 +330,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 #### Move-in and Move-out Animations
@@ -440,7 +440,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 #### Rotation Animations
@@ -543,7 +543,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 In addition, depending on the characteristics of different graphic elements, VChart also provides some exclusive graphic animation types.
@@ -682,7 +682,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## Custom animation

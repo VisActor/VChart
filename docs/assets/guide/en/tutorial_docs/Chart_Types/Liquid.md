@@ -13,7 +13,7 @@ A liquid chart consists of liquid mark（`liquid`），liquidBackground mark（`
 
 The data fields and data maps of the liquid chart are configured as follows:
 
-- `liquidChart.type`: Chart type, the type of liquid chart 
+- `liquidChart.type`: Chart type, the type of liquid chart
 - `liquidChart.data`: Data source for graphing
 - `liquidChart.valueField` The attribute is declared as a value field configuration, used to represent the height of the water wave
 
@@ -23,42 +23,42 @@ The data fields and data maps of the liquid chart are configured as follows:
 
 ```javascript livedemo
 const spec = {
-    type: 'liquid',
-    valueField: 'value',
-    maskShape: 'drop',
-    outlineMargin: 10,
-    outlinePadding: 10,
-    indicatorSmartInvert: true,
-    data: {
-      id: 'data',
-      values: [
-        {
-          value: 0.8
-        }
-      ]
-    },
-    indicator: {
+  type: 'liquid',
+  valueField: 'value',
+  maskShape: 'drop',
+  outlineMargin: 10,
+  outlinePadding: 10,
+  indicatorSmartInvert: true,
+  data: {
+    id: 'data',
+    values: [
+      {
+        value: 0.8
+      }
+    ]
+  },
+  indicator: {
+    visible: true,
+    title: {
       visible: true,
-      title: {
+      style: {
+        text: '进度'
+      }
+    },
+    content: [
+      {
         visible: true,
         style: {
-          text: '进度'
+          fill: 'black',
+          text: '80%'
         }
-      },
-      content: [
-        {
-          visible: true,
-          style: {
-            fill: 'black',
-            text: '80%'
-          }
-        }
-      ]
-    },
-  };
+      }
+    ]
+  }
+};
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
@@ -83,9 +83,7 @@ A set of progress data is defined as follows:
 ```ts
 data: [
   {
-    values: [
-     { value: 0.5 }
-    ]
+    values: [{ value: 0.5 }]
   }
 ];
 ```

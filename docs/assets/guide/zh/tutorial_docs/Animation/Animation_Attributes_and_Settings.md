@@ -6,31 +6,29 @@
 
 ### 动画时长
 
-在VChart中，动画时长是指图表动画从开始到结束所需要的时间，单位为毫秒。我们可以使用`animationAppear.duration`属性为图表的入场动画设置时长，默认值为1000（1秒）。例如，我们想要设置一个柱状图的动画时长为1.5秒，代码如下：
+在 VChart 中，动画时长是指图表动画从开始到结束所需要的时间，单位为毫秒。我们可以使用`animationAppear.duration`属性为图表的入场动画设置时长，默认值为 1000（1 秒）。例如，我们想要设置一个柱状图的动画时长为 1.5 秒，代码如下：
 
 ```json
 {
   "animationAppear": {
     "duration": 1500
-  },
+  }
 }
 ```
 
-
 ### 动画延迟开始的时长
 
-有时我们希望图表出现后，再经过段时间才开始播放动画。这时我们可以使用`animationAppear.delay`属性设置动画延迟开始的时长，单位同样为毫秒，默认值为0。例如，我们希望柱状图在页面加载完成后2秒开始播放动画，则可以设置如下：
+有时我们希望图表出现后，再经过段时间才开始播放动画。这时我们可以使用`animationAppear.delay`属性设置动画延迟开始的时长，单位同样为毫秒，默认值为 0。例如，我们希望柱状图在页面加载完成后 2 秒开始播放动画，则可以设置如下：
 
 ```json
 {
   "animationAppear": {
     "duration": 1500,
     "delay": 2000
-  },
+  }
   // ...其他图表配置信息
 }
 ```
-
 
 ```javascript livedemo
 const spec = {
@@ -50,22 +48,21 @@ const spec = {
   xField: 'month',
   yField: 'sales',
   animationAppear: {
-      duration: 1500,
-      delay: 2000
+    duration: 1500,
+    delay: 2000
   }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
 
-
 ### 动画缓动效果
 
-缓动效果是描述动画“变速度”的过程。设置合适的缓动效果可以让图表动画更具生动感。VChart内置了众多缓动效果类型，我们可以通过`animation.easing`属性来选择。默认值为`cubicOut`。以下可选的内置缓动效果类型，可以参考[缓动demo](../../../demo/combination/easing-visualization)
+缓动效果是描述动画“变速度”的过程。设置合适的缓动效果可以让图表动画更具生动感。VChart 内置了众多缓动效果类型，我们可以通过`animation.easing`属性来选择。默认值为`cubicOut`。以下可选的内置缓动效果类型，可以参考[缓动 demo](../../../demo/combination/easing-visualization)
 
 - linear
 - quadIn
@@ -98,7 +95,7 @@ window['vchart'] = vchart;
 {
   "animationAppear": {
     "easing": "bounceOut"
-  },
+  }
   // ...其他图表配置信息
 }
 ```
@@ -121,12 +118,12 @@ const spec = {
   xField: 'month',
   yField: 'sales',
   animationAppear: {
-      "easing": "bounceOut"
+    easing: 'bounceOut'
   }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -139,14 +136,12 @@ window['vchart'] = vchart;
 ```json
 {
   "animationAppear": {
-
     "easing": "bounceOut",
     "oneByOne": 30
-  },
+  }
   // ...其他图表配置信息
 }
 ```
-
 
 ```javascript livedemo
 const spec = {
@@ -166,22 +161,22 @@ const spec = {
   xField: 'month',
   yField: 'sales',
   animationAppear: {
-      "easing": "bounceOut",
-      "oneByOne": 1000
+    easing: 'bounceOut',
+    oneByOne: 1000
   }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
 
-
 如果想要关闭动画，可以直接配置 `spec.animation: false`，或在创建图表实例时进行配置：
+
 ```js
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID, animation: false });
 ```
 
-我们已经掌握了如何在VChart中为图表设置动时长、延迟时长、缓动效果和依次执行等属性。在实际应用中，我们可以根据具体需求灵活组合这些属性，为用户呈现更优雅、生动的图表动画效果。
+我们已经掌握了如何在 VChart 中为图表设置动时长、延迟时长、缓动效果和依次执行等属性。在实际应用中，我们可以根据具体需求灵活组合这些属性，为用户呈现更优雅、生动的图表动画效果。

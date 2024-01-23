@@ -309,13 +309,13 @@ const getSpec = () => ({
   ]
 });
 
-const vChart = new VChart(getSpec(), { dom: CONTAINER_ID });
-await vChart.renderAsync();
+const vchart = new VChart(getSpec(), { dom: CONTAINER_ID });
+vchart.renderSync();
 
-vChart.getCanvas().style.outline = '1px solid orange';
+vchart.getCanvas().style.outline = '1px solid orange';
 
 setTimeout(() => {
-  vChart.updateSpec(
+  vchart.updateSpec(
     {
       width: 300,
       height: 199

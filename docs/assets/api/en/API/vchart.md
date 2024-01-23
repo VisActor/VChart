@@ -331,11 +331,11 @@ const spec = {
   valueField: 'value'
 };
 
-const vChart = new VChart(spec, { dom: CONTAINER_ID });
-await vChart.renderAsync();
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
 
 setTimeout(() => {
-  vChart.updateData('pie', [
+  vchart.updateData('pie', [
     { type: '1', value: 200 },
     { type: '2', value: 200 },
     { type: '3', value: 100 }
@@ -538,11 +538,11 @@ const spec = {
   }
 };
 
-const vChart = new VChart(spec);
-vChart.renderAsync();
+const vchart = new VChart(spec);
+vchart.renderSync();
 // listen to click event
-vChart.on('click', { level: 'mark' }, ctx => {
-  vChart.updateState({
+vchart.on('click', { level: 'mark' }, ctx => {
+  vchart.updateState({
     // The name should correspond to the above configuration
     custom_unSelected: {
       filter: datum => {
@@ -585,11 +585,11 @@ Set a set of data to the selected state, or you can directly set null to unselec
    ]
  */
 // select data with type === 'A'
-vChart.setSelected({ type: 'A' });
+vchart.setSelected({ type: 'A' });
 // selected data {x: 'US' , y: 10, type: 'A'}
-vChart.setSelected({ x: 'US', y: 10, type: 'A' });
+vchart.setSelected({ x: 'US', y: 10, type: 'A' });
 // cancel the current selected data
-vChart.setSelected(null);
+vchart.setSelected(null);
 ```
 
 ### setHovered
@@ -625,11 +625,11 @@ Set a data to `hover` Status, you can also directly set null to cancel `hover` S
    ]
  */
 // select data with type === 'A'
-vChart.setHovered({ type: 'A' });
+vchart.setHovered({ type: 'A' });
 // selected data {x: 'US' , y: 10, type: 'A'}
-vChart.setHovered({ x: 'US', y: 10, type: 'A' });
+vchart.setHovered({ x: 'US', y: 10, type: 'A' });
 // cancel the current selected data
-vChart.setHovered(null);
+vchart.setHovered(null);
 ```
 
 ### getCurrentTheme

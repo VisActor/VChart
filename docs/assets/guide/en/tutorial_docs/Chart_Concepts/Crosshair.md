@@ -162,7 +162,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### Polar Coordinate System
@@ -287,7 +287,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### Multi-region Association
@@ -614,7 +614,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 With the examples above, users should be able to grasp the configuration and usage methods of crosshair in VChart. In practical applications, you can further customize the crosshair style, labels, and other according to the requirements, enhancing the expressiveness of the chart.

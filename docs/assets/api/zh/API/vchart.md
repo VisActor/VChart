@@ -273,6 +273,8 @@ const chart = new VChart(spec, {
 
 ### renderAsync
 
+1.9.0 版本以后不推荐使用，后续会废弃异步渲染/异步更新相关 API
+
 **异步**渲染图表。
 
 ```ts
@@ -330,11 +332,11 @@ const spec = {
   valueField: 'value'
 };
 
-const vChart = new VChart(spec, { dom: CONTAINER_ID });
-await vChart.renderAsync();
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
 
 setTimeout(() => {
-  vChart.updateData('pie', [
+  vchart.updateData('pie', [
     { type: '1', value: 200 },
     { type: '2', value: 200 },
     { type: '3', value: 100 }
@@ -541,11 +543,11 @@ const spec = {
   }
 };
 
-const vChart = new VChart(spec);
-vChart.renderAsync();
+const vchart = new VChart(spec);
+vchart.renderSync();
 // 监听点击事件
-vChart.on('click', { level: 'mark' }, ctx => {
-  vChart.updateState({
+vchart.on('click', { level: 'mark' }, ctx => {
+  vchart.updateState({
     // 名称与上方配置要对应
     custom_unSelected: {
       filter: datum => {
@@ -588,11 +590,11 @@ vChart.on('click', { level: 'mark' }, ctx => {
    ]
  */
 // 选定 type === 'A' 的数据
-vChart.setSelected({ type: 'A' });
+vchart.setSelected({ type: 'A' });
 // 选定数据  {x: 'US' , y: 10, type: 'A'}
-vChart.setSelected({ x: 'US', y: 10, type: 'A' });
+vchart.setSelected({ x: 'US', y: 10, type: 'A' });
 // 取消当前的选中数据
-vChart.setSelected(null);
+vchart.setSelected(null);
 ```
 
 ### setHovered
@@ -628,11 +630,11 @@ vChart.setSelected(null);
    ]
  */
 // 选定 type === 'A' 的数据
-vChart.setHovered({ type: 'A' });
+vchart.setHovered({ type: 'A' });
 // 选定数据  {x: 'US' , y: 10, type: 'A'}
-vChart.setHovered({ x: 'US', y: 10, type: 'A' });
+vchart.setHovered({ x: 'US', y: 10, type: 'A' });
 // 取消当前的选中数据
-vChart.setHovered(null);
+vchart.setHovered(null);
 ```
 
 ### getCurrentTheme

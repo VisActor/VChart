@@ -20,38 +20,38 @@ Liquid charts usually display data by filling a circle with dynamic water waves,
 
 ```javascript livedemo
 const spec = {
-    type: 'liquid',
-    valueField: 'value',
-    data: {
-      id: 'data',
-      values: [
-        {
-          value: 0.3
-        }
-      ]
-    },
-    indicator: {
+  type: 'liquid',
+  valueField: 'value',
+  data: {
+    id: 'data',
+    values: [
+      {
+        value: 0.3
+      }
+    ]
+  },
+  indicator: {
+    visible: true,
+    title: {
       visible: true,
-      title: {
+      style: {
+        text: 'progress'
+      }
+    },
+    content: [
+      {
         visible: true,
         style: {
-          text: 'progress'
+          fill: 'black',
+          text: '30%'
         }
-      },
-      content: [
-        {
-          visible: true,
-          style: {
-            fill: 'black',
-            text: '30%'
-          }
-        }
-      ]
-    },
-  };
+      }
+    ]
+  }
+};
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

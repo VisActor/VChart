@@ -20,47 +20,47 @@ The font color of the liquid chart indicator supports smart inversion (when the 
 
 ```javascript livedemo
 const spec = {
-    type: 'liquid',
-    valueField: 'value',
-    data: {
-      id: 'data',
-      values: [
-        {
-          value: 0.8
-        }
-      ]
-    },
-    maskShape: 'drop', // drop shape
-    // maskShape: 'circle',
-    // maskShape: 'star',
-    indicatorSmartInvert: true,
-    indicator: {
+  type: 'liquid',
+  valueField: 'value',
+  data: {
+    id: 'data',
+    values: [
+      {
+        value: 0.8
+      }
+    ]
+  },
+  maskShape: 'drop', // drop shape
+  // maskShape: 'circle',
+  // maskShape: 'star',
+  indicatorSmartInvert: true,
+  indicator: {
+    visible: true,
+    title: {
       visible: true,
-      title: {
+      style: {
+        text: 'progress'
+      }
+    },
+    content: [
+      {
         visible: true,
         style: {
-          text: 'progress'
+          fill: 'black',
+          text: '80%'
         }
-      },
-      content: [
-        {
-          visible: true,
-          style: {
-            fill: 'black',
-            text: '80%'
-          }
-        }
-      ]
-    },
-    liquidBackground: {
-      style: {
-        fill: 'blue'
       }
+    ]
+  },
+  liquidBackground: {
+    style: {
+      fill: 'blue'
     }
-  };
+  }
+};
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

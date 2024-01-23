@@ -46,13 +46,12 @@ const specs = [pieSpec, barSpec];
 
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID });
 
-vchart.renderAsync().then(() => {
-  let count = 1;
-  setInterval(() => {
-    vchart.updateSpec(specs[count % 2]);
-    count++;
-  }, 2000);
-});
+vchart.renderSync();
+let count = 1;
+setInterval(() => {
+  vchart.updateSpec(specs[count % 2]);
+  count++;
+}, 2000);
 ```
 
 ## Related Tutorials

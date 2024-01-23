@@ -23,42 +23,42 @@
 
 ```javascript livedemo
 const spec = {
-    type: 'liquid',
-    valueField: 'value',
-    maskShape: 'drop',
-    outlineMargin: 10,
-    outlinePadding: 10,
-    indicatorSmartInvert: true,
-    data: {
-      id: 'data',
-      values: [
-        {
-          value: 0.8
-        }
-      ]
-    },
-    indicator: {
+  type: 'liquid',
+  valueField: 'value',
+  maskShape: 'drop',
+  outlineMargin: 10,
+  outlinePadding: 10,
+  indicatorSmartInvert: true,
+  data: {
+    id: 'data',
+    values: [
+      {
+        value: 0.8
+      }
+    ]
+  },
+  indicator: {
+    visible: true,
+    title: {
       visible: true,
-      title: {
+      style: {
+        text: '进度'
+      }
+    },
+    content: [
+      {
         visible: true,
         style: {
-          text: '进度'
+          fill: 'black',
+          text: '80%'
         }
-      },
-      content: [
-        {
-          visible: true,
-          style: {
-            fill: 'black',
-            text: '80%'
-          }
-        }
-      ]
-    },
-  };
+      }
+    ]
+  }
+};
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
@@ -68,8 +68,8 @@ window['vchart'] = vchart;
 
 - `valueField` 属性声明为值字段配置
 - `maskShape` 属性声明为轮廓形状
-- `outlineMargin` 属性声明为外轮廓与region边界之间的padding
-- `outlinePadding` 属性声明为内轮廓与外轮廓之间的padding
+- `outlineMargin` 属性声明为外轮廓与 region 边界之间的 padding
+- `outlinePadding` 属性声明为内轮廓与外轮廓之间的 padding
 - `indicatorSmartInvert` 属性声明为是否开启指标值智能反色
 
 ## 水波图
@@ -83,9 +83,7 @@ window['vchart'] = vchart;
 ```ts
 data: [
   {
-    values: [
-     { value: 0.5 }
-    ]
+    values: [{ value: 0.5 }]
   }
 ];
 ```

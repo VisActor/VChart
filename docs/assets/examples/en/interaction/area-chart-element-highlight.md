@@ -17,7 +17,8 @@ By configuring the `element-highlight` interaction type, selected elements are h
 - `interactions` set the interaction for the series
 - `area.state.highlight` set the highlight state style
 - `area.state.blur` set the blur state style
-```
+
+````
 ## Code Demo
 
 ```javascript livedemo
@@ -104,11 +105,11 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
-```
+````
 
 ## Key Configuration
 

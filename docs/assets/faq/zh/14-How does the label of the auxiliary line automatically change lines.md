@@ -1,10 +1,12 @@
-# 辅助线的label如何自动换行？
+# 辅助线的 label 如何自动换行？
 
 ## 问题描述
-辅助线的label里面的文字如果太长的话可以自动换行吗？
+
+辅助线的 label 里面的文字如果太长的话可以自动换行吗？
 [markline new line](/vchart/faq/14-0.png)
 
 ## 解决方案
+
 你可以通过在`markLine.label.text`中设置数组来实现换行的效果。
 
 ## 代码示例
@@ -49,7 +51,7 @@ const spec = {
       label: {
         visible: true,
         position: 'end',
-        text: ['Safe fat intake',  '65g/day'],
+        text: ['Safe fat intake', '65g/day'],
         style: {
           textAlign: 'left',
           textBaseline: 'top',
@@ -119,15 +121,14 @@ const spec = {
   }
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 window['vchart'] = vchart;
-
 ```
 
 ## 相关文档
 
-- [标注demo](https://www.visactor.io/vchart/demo/marker/mark-line-basic?keyword=marker)
+- [标注 demo](https://www.visactor.io/vchart/demo/marker/mark-line-basic?keyword=marker)
 - [标注教程](https://www.visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/marker)
-- [相关api](https://www.visactor.io/vchart/option/barChart#markLine.label.text)
+- [相关 api](https://www.visactor.io/vchart/option/barChart#markLine.label.text)
 - [github](https://github.com/VisActor/VChart)

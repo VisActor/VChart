@@ -22,7 +22,7 @@
 - `scatterChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/scatterChart#tooltip)
 - 更多组件配置见[VChart scatterChart 配置](../../../option/scatterChart)
 
-作为 3d 图表，3d 散点图需要开启 3d 视图，需要在 vChart 的初始化参数中配置 3d 视角:
+作为 3d 图表，3d 散点图需要开启 3d 视图，需要在 vchart 的初始化参数中配置 3d 视角:
 
 - `options3d.enable`: 启用 3d 视角
 - `options3d.enableView3dTransform`: 支持 3d 的自由变换
@@ -146,7 +146,7 @@ const vchart = new VChart(spec, {
     center: { x: 500, y: 250 }
   }
 });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;

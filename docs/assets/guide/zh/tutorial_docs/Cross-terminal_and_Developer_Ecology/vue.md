@@ -1,10 +1,14 @@
-# 如何在Vue中使用VChart
-在Vue 3.x 中使用VChart，分两种情况:
-1. 组合式API，具体可以参考[在线demo](https://codesandbox.io/s/viscator-vchart-vue-demo-gmcpq6?file=/src/components/LineChart.vue)
-2. 选项式API，具体可以参考[在线demo](https://codesandbox.io/s/viscator-vchart-vue-demo-gmcpq6?file=/src/components/BarChart.vue)
+# 如何在 Vue 中使用 VChart
+
+在 Vue 3.x 中使用 VChart，分两种情况:
+
+1. 组合式 API，具体可以参考[在线 demo](https://codesandbox.io/s/viscator-vchart-vue-demo-gmcpq6?file=/src/components/LineChart.vue)
+2. 选项式 API，具体可以参考[在线 demo](https://codesandbox.io/s/viscator-vchart-vue-demo-gmcpq6?file=/src/components/BarChart.vue)
 
 ## 代码示例
-### 组合式API
+
+### 组合式 API
+
 ```javascript
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, onUpdated } from "vue";
@@ -97,11 +101,11 @@ function createOrUpdateChart(chartProps: LineChartProps) {
       dom: container,
     });
 
-    chart.renderAsync();
+    chart.renderSync();
     return true;
   } else if (chart) {
     chart.updateSpec(parseSpec(chartProps));
-    chart.renderAsync();
+    chart.renderSync();
 
     return true;
   }
@@ -137,7 +141,8 @@ onBeforeUnmount(() => {
 </style>
 ```
 
-### 选项式API
+### 选项式 API
+
 ```javascript
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -185,11 +190,11 @@ export default defineComponent({
           dom: container,
         });
 
-        chart.renderAsync();
+        chart.renderSync();
         return true;
       } else if (chart) {
         chart.updateSpec(parseSpec(chartProps));
-        chart.renderAsync();
+        chart.renderSync();
 
         return true;
       }
@@ -238,6 +243,7 @@ export default defineComponent({
 ```
 
 ## 结果展示
+
 - 在线效果参考：[https://codesandbox.io/s/viscator-vchart-vue-demo-gmcpq6](https://codesandbox.io/s/viscator-vchart-vue-demo-gmcpq6)
 
 ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vue-demo.gif)

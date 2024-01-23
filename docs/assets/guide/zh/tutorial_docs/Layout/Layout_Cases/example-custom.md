@@ -39,7 +39,7 @@ for (let i = 0; i < 12; i++) {
   spec.series.push(series);
 }
 
-const vChart = new VChart(spec, {
+const vchart = new VChart(spec, {
   dom: CONTAINER_ID,
   layout: (chart, item, chartLayoutRect, chartViewBox) => {
     /**
@@ -65,5 +65,5 @@ const vChart = new VChart(spec, {
     });
   }
 });
-vChart.renderAsync();
+vchart.renderSync();
 ```
