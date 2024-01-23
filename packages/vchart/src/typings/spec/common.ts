@@ -646,6 +646,11 @@ export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBu
    * 关联的数据id
    */
   dataId?: StringOrNumber;
+  /**
+   * specify the component type
+   * @support since 1.9.0
+   */
+  componentType?: string;
 }
 export interface ICustomMarkGroupSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
   children?: ICustomMarkSpec<EnableMarkType>[];
@@ -661,6 +666,11 @@ export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, MarkTypeEn
    * 关联的数据id
    */
   dataId?: StringOrNumber;
+  /**
+   * specify the component type
+   * @support since 1.9.0
+   */
+  componentType?: string;
 }
 
 export interface IExtensionGroupMarkSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
