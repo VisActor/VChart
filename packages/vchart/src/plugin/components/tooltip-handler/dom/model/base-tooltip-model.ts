@@ -125,7 +125,7 @@ export class BaseTooltipModel {
       // 按照自身 childIndex 插入对应位置
       let nextChildIndex = Number.MAX_VALUE;
       for (let i = 0; i < parentEl.children.length; i++) {
-        const childModel = Object.values(this.parent.children).find(c => c.product === parentEl.children[i])!;
+        const childModel = Object.values(this.parent.children).find(c => c.product === parentEl.children[i]);
         if (childModel.childIndex > this.childIndex && childModel.childIndex < nextChildIndex) {
           nextChildIndex = childModel.childIndex;
           ptr = i;

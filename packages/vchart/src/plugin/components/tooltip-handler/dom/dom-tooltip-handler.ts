@@ -9,6 +9,7 @@ import { domDocument } from '../../../../util/env';
 import type { ITooltipSpec, TooltipHandlerParams } from '../../../../component/tooltip';
 import type { IComponentPluginService } from '../../interface';
 import { registerComponentPlugin } from '../../register';
+import { DEFAULT_TOOLTIP_Z_INDEX } from './constant';
 
 /**
  * The tooltip handler class.
@@ -58,6 +59,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       if (!this._container) {
         this._container = domDocument.createElement('div');
         this._container.style.position = 'relative';
+        this._container.style.zIndex = DEFAULT_TOOLTIP_Z_INDEX;
         this._container.classList.add(TOOLTIP_CONTAINER_EL_CLASS_NAME);
         parentElement.appendChild(this._container);
       }
