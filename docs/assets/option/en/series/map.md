@@ -18,7 +18,7 @@ The name of the map data registered through the `registerMap` interface, for exa
 
 ```ts
 // 注册了名为 `china` 的地图数据
-vChart.registerMap('china', chinaGeojson);
+vchart.registerMap('china', chinaGeojson);
 // 可以在 spec 中配置 map: 'china' 来使用该地图数据
 {
   type: 'map',

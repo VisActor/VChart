@@ -18,7 +18,6 @@ option: barChart#scrollbar
 - `roamScroll.rate` 属性声明为滚动速率，范围`[0, 1]`
 - `roamScroll.reverse` 属性声明为滚动方向与滚动条移动方向是否相反
 
-
 ## 代码演示
 
 ```javascript livedemo
@@ -137,11 +136,12 @@ const spec = {
   ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
+
 ## 相关教程
 
 [scrollBar](link)

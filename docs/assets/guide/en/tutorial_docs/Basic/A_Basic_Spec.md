@@ -20,39 +20,39 @@ In VChart spec, we first need to specify the type of chart. For bar charts, we n
 
 The currently supported chart types in VChart are as follows:
 
-| Chart Type             | Description  |
-| -------------------- | ------------- |
+| Chart Type           | Description           |
+| -------------------- | --------------------- |
 | `'common'`           | Combined chart        |
-| `'area'`             | Area chart        |
-| `'line'`             | Line chart        |
-| `'bar'`              | Bar chart        |
-| `'bar3d'`            | 3D bar chart     |
-| `'histogram'`        | Histogram        |
-| `'histogram3d'`      | 3D histogram     |
-| `'rangeColumn'`      | Range column chart       |
-| `'rangeColumn3d'`    | 3D range column chart    |
-| `'rangeArea'`        | Range area chart    |
-| `'map'`              | Map          |
-| `'pie'`              | Pie chart          |
-| `'pie3d'`            | 3D pie chart       |
-| `'radar'`            | Radar chart        |
-| `'rose'`             | Rose chart        |
-| `'scatter'`          | Scatter chart        |
+| `'area'`             | Area chart            |
+| `'line'`             | Line chart            |
+| `'bar'`              | Bar chart             |
+| `'bar3d'`            | 3D bar chart          |
+| `'histogram'`        | Histogram             |
+| `'histogram3d'`      | 3D histogram          |
+| `'rangeColumn'`      | Range column chart    |
+| `'rangeColumn3d'`    | 3D range column chart |
+| `'rangeArea'`        | Range area chart      |
+| `'map'`              | Map                   |
+| `'pie'`              | Pie chart             |
+| `'pie3d'`            | 3D pie chart          |
+| `'radar'`            | Radar chart           |
+| `'rose'`             | Rose chart            |
+| `'scatter'`          | Scatter chart         |
 | `'sequence'`         | Sequence chart        |
-| `'circularProgress'` | Circular progress bar    |
-| `'linearProgress'`   | Linear progress bar    |
-| `'wordCloud'`        | Word cloud          |
-| `'wordCloud3d'`      | 3D word cloud       |
-| `'funnel'`           | Funnel chart       |
-| `'funnel3d'`         | 3D funnel chart    |
-| `'waterfall'`        | Waterfall chart        |
-| `'boxPlot'`          | Box plot        |
-| `'gauge'`            | Gauge        |
-| `'sankey'`           | Sankey chart      |
-| `'treemap'`          | Treemap       |
-| `'sunburst'`         | Sunburst       |
-| `'circlePacking'`    | Circle Packing |
-| `'heatmap'`          | Heatmap        |
+| `'circularProgress'` | Circular progress bar |
+| `'linearProgress'`   | Linear progress bar   |
+| `'wordCloud'`        | Word cloud            |
+| `'wordCloud3d'`      | 3D word cloud         |
+| `'funnel'`           | Funnel chart          |
+| `'funnel3d'`         | 3D funnel chart       |
+| `'waterfall'`        | Waterfall chart       |
+| `'boxPlot'`          | Box plot              |
+| `'gauge'`            | Gauge                 |
+| `'sankey'`           | Sankey chart          |
+| `'treemap'`          | Treemap               |
+| `'sunburst'`         | Sunburst              |
+| `'circlePacking'`    | Circle Packing        |
+| `'heatmap'`          | Heatmap               |
 
 ## 2. Data Source
 
@@ -141,21 +141,21 @@ We can add labels to the `'bar'` graphic elements. Since the labels are not disp
 
 VChart also supports configuring various components of the chart, such as axes, legends, crosshair, tooltip, etc. VChart currently supports the following components:
 
-| Component Type Property  | Component Description |
-| ------------- | ------------ |
-| `'axes'`      | Axes       |
-| `'legends'`   | Legends         |
-| `'tooltip'`   | Tooltip       |
-| `'crosshair'` | Crosshair    |
-| `'brush'`     | Box selection interaction component |
-| `'scrollbar'` | Scrollbar       |
-| `'dataZoom'`  | Data filtering slider |
-| `'player'`    | Player       |
-| `'markLine'`  | Mark line       |
-| `'markArea'`  | Mark area     |
-| `'markPoint'` | Mark point       |
-| `'indicator'` | Indicator card       |
-| `'title'`     | Title         |
+| Component Type Property | Component Description               |
+| ----------------------- | ----------------------------------- |
+| `'axes'`                | Axes                                |
+| `'legends'`             | Legends                             |
+| `'tooltip'`             | Tooltip                             |
+| `'crosshair'`           | Crosshair                           |
+| `'brush'`               | Box selection interaction component |
+| `'scrollbar'`           | Scrollbar                           |
+| `'dataZoom'`            | Data filtering slider               |
+| `'player'`              | Player                              |
+| `'markLine'`            | Mark line                           |
+| `'markArea'`            | Mark area                           |
+| `'markPoint'`           | Mark point                          |
+| `'indicator'`           | Indicator card                      |
+| `'title'`               | Title                               |
 
 In this tutorial, we will introduce how to configure legends and crosshair.
 
@@ -255,7 +255,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 Through this tutorial, you have already learned the composition of a basic spec configuration. In the

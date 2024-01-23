@@ -99,7 +99,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 上面的例子，就是在利用我们上一章（[动画类型](./Animation_Types)）中介绍的`duration`/`delay`/`easing`/`oneByOne`配置来实现简单的动画效果。
@@ -222,7 +222,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 #### 缩放动画
@@ -330,7 +330,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 #### 移入移出动画
@@ -440,7 +440,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 #### 旋转动画
@@ -543,7 +543,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 此外，根据不同图元的特性，VChart 还提供了一些专属图元动画类型。
@@ -691,7 +691,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## 自定义动画

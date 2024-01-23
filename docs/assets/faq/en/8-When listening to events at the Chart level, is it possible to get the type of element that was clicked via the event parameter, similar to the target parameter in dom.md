@@ -1,9 +1,11 @@
 # When listening to events at the Chart level, is it possible to get the type of element that was clicked via the event parameter, similar to the target parameter in dom?
 
 ## Question Description
+
 Is it possible to listen to the whole chart or canvas and then determine if the click is on axis/legend/item based on the parameters returned, such as type?
 
 ## Solution
+
 This can be done. The VChart instance provides event registration and unregistration, you can listen to different event types via chart.on(event: string, callback: (params: EventParams)=> void): void and get the context information via the callback function. If you want to distinguish the different events you are triggering on axis/legend/item, you can do so by event filtering and passing `{ level: 'model' | 'mark', type: 'axis' }`, where `'model'` denotes the model type of the chart's constituent elements and `'mark'` denotes the chart's item elements.
 For example: `vchart.on('pointerdown', { level: 'model', type: 'axis' }, (params) => {})`. When I click on the axis, I can get the specific parameters.
 More event types and parameters can be found at: https://www.visactor.io/vchart/api/API/event.
@@ -116,19 +118,18 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
-vchart.on('pointerdown', { level: 'model', type: 'axis' }, (params) => {
-  console.log('params', params)
+vchart.on('pointerdown', { level: 'model', type: 'axis' }, params => {
+  console.log('params', params);
 });
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
-
 ```
 
-
 ## Quote
+
 - [Event Tutorial](https://www.visactor.io/vchart/guide/event)
 - [Related api](https://www.visactor.io/vchart/api/event)
 - [github](https://github.com/VisActor/VChart)

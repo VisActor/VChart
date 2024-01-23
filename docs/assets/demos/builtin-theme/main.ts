@@ -37,7 +37,7 @@ export function init(theme?: string) {
         theme
       }
     );
-    chartInstance.renderAsync();
+    chartInstance.renderSync();
 
     chartInstanceList.push(chartInstance);
     cardList.push(card);

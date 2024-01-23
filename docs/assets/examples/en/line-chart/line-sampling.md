@@ -9,12 +9,13 @@ option: lineChart
 ---
 
 # line chart sampling
+
 Line charts, area charts, and bar charts consume a lot of redundant calculations when the amount of data is much larger than the pixel width (height) of the chart drawing area; the data sampling function provides a downsampling strategy for these situations. After using data sampling, while effectively optimizing the chart loading efficiency, the trend of the data can also be displayed as much as possible.
 
 ## Key option
 
 - The `sampling` attribute declares the sampling algorithm
-Optional values:
+  Optional values:
   - `'lttb'`: Using the Largest-Triangle-Three-Bucket algorithm, the trend, shape and extreme value of the sampled line can be guaranteed to the greatest extent.
   - `'min'`: Get the minimum value of filter points
   - `'max'`: Take the maximum value of filter points
@@ -22,6 +23,7 @@ Optional values:
   - `'average'`: Take the average of the filtered points
 
 ## Demo source
+
 ```javascript livedemo
 const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/overlap-data.json');
 const data = await response.json();
@@ -50,7 +52,7 @@ const spec = {
       dataIndex: 0,
       xField: 'x',
       yField: 'y',
-       point: {
+      point: {
         style: {
           fill: '#1664FF'
         }
@@ -88,7 +90,7 @@ const spec = {
       yField: 'y',
       sampling: 'average',
       samplingFactor: 0.1,
-       point: {
+      point: {
         style: {
           fill: '#FFC400'
         }
@@ -98,7 +100,7 @@ const spec = {
           stroke: '#FFC400'
         }
       }
-    },
+    }
   ],
   axes: [
     { orient: 'left', seriesIndex: [0, 1, 2, 3, 4, 5] },
@@ -112,14 +114,11 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
-
 ```
-
-
 
 ## Related Tutorials
 

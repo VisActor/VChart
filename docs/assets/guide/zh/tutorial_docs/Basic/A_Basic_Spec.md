@@ -254,7 +254,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 通过本教程，您已经了解了一份基础的 spec 配置组成，后面你可以尝试更改数据和对应的配置项，探索 VChart 的强大功能和灵活性，编绘出绚丽多彩的图表。祝您编码愉快！

@@ -141,20 +141,19 @@ export default App;
 
 通过调整配置，我们得到了一个更符合在实际项目中的柱状图。
 
-
 ## 统一图表标签 `<VChart />`
 
- `<VChart />` 接收的一个完整的**spec**作为图表定义，其**spec**的数据结构完全等同于VChart中的定义，因此开发者可以将任何对于VChart合法的spec送入React-VChart中进行图表渲染。
+`<VChart />` 接收的一个完整的**spec**作为图表定义，其**spec**的数据结构完全等同于 VChart 中的定义，因此开发者可以将任何对于 VChart 合法的 spec 送入 React-VChart 中进行图表渲染。
 
 ### Props
 
-如果你已经有了spec图表描述信息，使用统一图表标签是比较快捷的方式，只需要引入`VChart`组件即可：
+如果你已经有了 spec 图表描述信息，使用统一图表标签是比较快捷的方式，只需要引入`VChart`组件即可：
 
 ```typescript
 import { VChart } from '@visactor/react-vchart';
 ```
 
-`VChart`组件即封装的React组件，其props定义如下：
+`VChart`组件即封装的 React 组件，其 props 定义如下：
 
 ```typescript
 interface VChartProps extends EventsProps {
@@ -164,17 +163,17 @@ interface VChartProps extends EventsProps {
   options?: ChartOptions;
   /** 图表渲染完成事件 */
   onReady?: (instance: VChart, isInitial: boolean) => void;
-   /** throw error when chart run into an error */
+  /** throw error when chart run into an error */
   onError?: (err: Error) => void;
-  /** 
+  /**
    * 切换到同步渲染
    *
    * @since 1.8.3
    **/
   useSyncRender?: boolean;
-  /** 
-   * props更新的时候，跳过所有函数的检查，即所有的函数都认为没有更新 
-   * 
+  /**
+   * props更新的时候，跳过所有函数的检查，即所有的函数都认为没有更新
+   *
    * @since 1.6.5
    **/
   skipFunctionDiff?: boolean;
@@ -185,15 +184,15 @@ interface VChartProps extends EventsProps {
 
 `onReady`是一个内置的回调事件，会在图表渲染或更新时触发，其入参分别代表图表实例对象，以及是否初次渲染。
 
- 举例来说，开发者可以在初次渲染时，将需要触发的回调事件注册在图表实例上以实现图表交互功能。
+举例来说，开发者可以在初次渲染时，将需要触发的回调事件注册在图表实例上以实现图表交互功能。
 
 ## 语法化标签
 
-语法化标签是指React-VChart将图表的图表容器以及各个组件都封装为React组件导出给开发者，开发者可以通过更加语义化、更接近原生React声明的方式来定义图表。需要说明的是语法化标签的定义内容，在多数场景下都是可以和图表描述spec进行相互转化的，本文主要的内容也是解释语法化标签与spec的关系。
+语法化标签是指 React-VChart 将图表的图表容器以及各个组件都封装为 React 组件导出给开发者，开发者可以通过更加语义化、更接近原生 React 声明的方式来定义图表。需要说明的是语法化标签的定义内容，在多数场景下都是可以和图表描述 spec 进行相互转化的，本文主要的内容也是解释语法化标签与 spec 的关系。
 
 ### 标签的分类
 
-目前React-VChart共导出了三种类型的组件标签，分别是图表标签、组件标签、系列标签
+目前 React-VChart 共导出了三种类型的组件标签，分别是图表标签、组件标签、系列标签
 
 #### 图表标签
 
@@ -216,13 +215,13 @@ import {
   CircularProgressChart,
   LinearProgressChart,
   RangeColumnChart,
-  CommonChart,
+  CommonChart
 } from '@visactor/react-vchart';
 ```
 
-一般情况下使用这些标签直接决定了图表类型。而其中比较特殊的是CommonChart，这是一个通用图表类型标签，可以用来实现组合图、双轴图等图表类型。更多组合图说明可参考：[组合图]()
+一般情况下使用这些标签直接决定了图表类型。而其中比较特殊的是 CommonChart，这是一个通用图表类型标签，可以用来实现组合图、双轴图等图表类型。更多组合图说明可参考：[组合图]()
 
-这些图表标签的Props定义为：
+这些图表标签的 Props 定义为：
 
 ```typescript
 interface ChartComponent extends EventsProps {
@@ -245,7 +244,7 @@ interface ChartComponent extends EventsProps {
 
 #### 组件标签
 
-组件标签是指VChart图表内部的可视化组件，包括以下这些：
+组件标签是指 VChart 图表内部的可视化组件，包括以下这些：
 
 ```typescript
 import {
@@ -270,12 +269,12 @@ import {
   Tooltip,
   // 自定义图元系列
   Mark,
-  // 
-  Region,
+  //
+  Region
 } from '@visactor/react-vchart';
 ```
 
-这些组件并不会真实的存在于DOM结构中，这样的写法只是为了更清晰的展示图表的结构组成。其中这些组件的配置项完全对齐VChart中对应组件的定义，区别在于原本的数据结构定义在此时可以作为props参数进行配置。
+这些组件并不会真实的存在于 DOM 结构中，这样的写法只是为了更清晰的展示图表的结构组成。其中这些组件的配置项完全对齐 VChart 中对应组件的定义，区别在于原本的数据结构定义在此时可以作为 props 参数进行配置。
 
 #### 系列组件
 
@@ -298,60 +297,60 @@ import {
   Funnel,
   LinearProgress,
   RangeColumn,
-  BoxPlot,
+  BoxPlot
 } from '@visactor/react-vchart';
 ```
 
 ### 语法化标签的使用
 
-首先明确语法化标签props定义的基本原则：语法标签的props与spec里对应组件的api定义是基本对等的，此外语法标签上新增了更多回调入口用于方便的进行事件挂载。
+首先明确语法化标签 props 定义的基本原则：语法标签的 props 与 spec 里对应组件的 api 定义是基本对等的，此外语法标签上新增了更多回调入口用于方便的进行事件挂载。
 
-举例说明，现有折线图spec定义如下：
+举例说明，现有折线图 spec 定义如下：
 
 ```json
 {
-  type: 'line',
-  data: [
+  "type": "line",
+  "data": [
     {
-      id: 'lineData',
-      values: [
-        { State: 'WY', 年龄段: '小于5岁', 人口数量: 25635 },
-        { State: 'WY', 年龄段: '5至13岁', 人口数量: 1890 },
-        { State: 'WY', 年龄段: '14至17岁', 人口数量: 9314 },
-        { State: 'DC', 年龄段: '小于5岁', 人口数量: 30352 },
-        { State: 'DC', 年龄段: '5至13岁', 人口数量: 20439 },
-        { State: 'DC', 年龄段: '14至17岁', 人口数量: 10225 },
-        { State: 'VT', 年龄段: '小于5岁', 人口数量: 38253 },
-        { State: 'VT', 年龄段: '5至13岁', 人口数量: 42538 },
-        { State: 'VT', 年龄段: '14至17岁', 人口数量: 15757 },
-        { State: 'ND', 年龄段: '小于5岁', 人口数量: 51896 },
-        { State: 'ND', 年龄段: '5至13岁', 人口数量: 67358 },
-        { State: 'ND', 年龄段: '14至17岁', 人口数量: 18794 },
-        { State: 'AK', 年龄段: '小于5岁', 人口数量: 72083 },
-        { State: 'AK', 年龄段: '5至13岁', 人口数量: 85640 },
-        { State: 'AK', 年龄段: '14至17岁', 人口数量: 22153 }
+      "id": "lineData",
+      "values": [
+        { "State": "WY", "年龄段": "小于5岁", "人口数量": 25635 },
+        { "State": "WY", "年龄段": "5至13岁", "人口数量": 1890 },
+        { "State": "WY", "年龄段": "14至17岁", "人口数量": 9314 },
+        { "State": "DC", "年龄段": "小于5岁", "人口数量": 30352 },
+        { "State": "DC", "年龄段": "5至13岁", "人口数量": 20439 },
+        { "State": "DC", "年龄段": "14至17岁", "人口数量": 10225 },
+        { "State": "VT", "年龄段": "小于5岁", "人口数量": 38253 },
+        { "State": "VT", "年龄段": "5至13岁", "人口数量": 42538 },
+        { "State": "VT", "年龄段": "14至17岁", "人口数量": 15757 },
+        { "State": "ND", "年龄段": "小于5岁", "人口数量": 51896 },
+        { "State": "ND", "年龄段": "5至13岁", "人口数量": 67358 },
+        { "State": "ND", "年龄段": "14至17岁", "人口数量": 18794 },
+        { "State": "AK", "年龄段": "小于5岁", "人口数量": 72083 },
+        { "State": "AK", "年龄段": "5至13岁", "人口数量": 85640 },
+        { "State": "AK", "年龄段": "14至17岁", "人口数量": 22153 }
       ]
     }
   ],
-  xField: 'State',
-  yField: '人口数量',
-  seriesField: '年龄段',
-  legends: {
-    visible: true,
-    orient: 'top'
+  "xField": "State",
+  "yField": "人口数量",
+  "seriesField": "年龄段",
+  "legends": {
+    "visible": true,
+    "orient": "top"
   },
-  axes: [
+  "axes": [
     {
-      type: 'band',
-      orient: 'bottom',
+      "type": "band",
+      "orient": "bottom"
     },
     {
-      type: 'linear',
-      orient: 'left',
-      label: {
-        style: {
-          fill: '#aaa',
-          fontSize: 14
+      "type": "linear",
+      "orient": "left",
+      "label": {
+        "style": {
+          "fill": "#aaa",
+          "fontSize": 14
         }
       }
     }
@@ -387,28 +386,23 @@ function MyChart(props) {
         { State: 'AK', 年龄段: '14至17岁', 人口数量: 22153 }
       ]
     }
-  ]
+  ];
 
   return (
     <BarChart
       data={barData}
-      onClick={(ev) => { console.log('chart click', ev) }}
+      onClick={ev => {
+        console.log('chart click', ev);
+      }}
     >
-      <Bar
-        xField="State"
-        yField="人口数量"
-      />
-      <Axis
-        orient="bottom"
-        type="band"
-      />
-      <Axis
-        orient="left"
-        type="linear"
-      />
+      <Bar xField="State" yField="人口数量" />
+      <Axis orient="bottom" type="band" />
+      <Axis orient="left" type="linear" />
       <Legend
         visible={true}
-        onLegendItemClick={(ev) => { console.log('legend click', ev) }}
+        onLegendItemClick={ev => {
+          console.log('legend click', ev);
+        }}
       />
     </BarChart>
   );
@@ -419,17 +413,16 @@ export default MyChart;
 
 ### 语法化标签未覆盖的组件
 
-如果在使用React-VChart时涉及到语法化标签未覆盖的组件，可以使用统一图表标签作为兜底方案。
+如果在使用 React-VChart 时涉及到语法化标签未覆盖的组件，可以使用统一图表标签作为兜底方案。
 
 ## 按需加载
 
-React-VChart本身代码都支持按需加载，当需要VChart按需加载的时候，建议使用 `<VChartSimple />` 标签，
+React-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的时候，建议使用 `<VChartSimple />` 标签，
 
-
-`<VChartSimole />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart/esm/core` 引用 `VChart` 构造类，并传入给 `<VChartSimole />`;
+`<VChartSimole />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart/esm/core` 引用 `VChart` 构造类，并传入给 `<VChartSimple />`;
 VChart 按需引用参考[相关文档](../Basic/How_to_Import_VChart.md#按需引入)
 
-```typescript
+````typescript
 interface VChartSimpleProps extends EventsProps {
   /** 图表定义 */
   spec: any;
@@ -439,19 +432,19 @@ interface VChartSimpleProps extends EventsProps {
   onReady?: (instance: VChart, isInitial: boolean) => void;
    /** throw error when chart run into an error */
   onError?: (err: Error) => void;
-  /** 
+  /**
    * 切换到同步渲染
    *
    * @since 1.8.3
    **/
   useSyncRender?: boolean;
-  /** 
-   * props更新的时候，跳过所有函数的检查，即所有的函数都认为没有更新 
-   * 
+  /**
+   * props更新的时候，跳过所有函数的检查，即所有的函数都认为没有更新
+   *
    * @since 1.6.5
    **/
   skipFunctionDiff?: boolean;
-  /** 
+  /**
    * VChart构造类
    *
    * @since 1.8.3
@@ -515,13 +508,13 @@ interface EventsProps {
   onClick?: (e: any) => void | boolean;
   onDblClick?: (e: any) => void | boolean;
 }
-```
+````
 
 ### 组件标签的事件
 
-除了场景树事件，图表组件还支持了自定义事件，自定义事件可以在语义化的组件标签上进行监听，也可以在最外层的 Chart上进行监听
+除了场景树事件，图表组件还支持了自定义事件，自定义事件可以在语义化的组件标签上进行监听，也可以在最外层的 Chart 上进行监听
 
-* `<Legend />`自定义事件
+- `<Legend />`自定义事件
 
 ```typescript
 interface LegendEventsProps {
@@ -536,7 +529,7 @@ interface LegendEventsProps {
 }
 ```
 
-* `<Brush />` 自定义事件
+- `<Brush />` 自定义事件
 
 ```typescript
 interface BrushEventsProps {
@@ -551,7 +544,7 @@ interface BrushEventsProps {
 }
 ```
 
-* `<DataZoom />` 自定义事件
+- `<DataZoom />` 自定义事件
 
 ```typescript
 interface DataZoomEventsProps {
@@ -560,7 +553,7 @@ interface DataZoomEventsProps {
 }
 ```
 
-* `<Player />` 自定义事件
+- `<Player />` 自定义事件
 
 ```typescript
 interface PlayerEventsProps {
@@ -571,17 +564,14 @@ interface PlayerEventsProps {
   onPlayerForward?: (e: any) => void | boolean;
   onPlayerBackward?: (e: any) => void | boolean;
 }
-
 ```
 
-* `<ScrollBar />` 自定义事件
-
+- `<ScrollBar />` 自定义事件
 
 ```typescript
 interface ScrollBarEventsProps {
   onScrollBarChange?: (e: any) => void | boolean;
 }
-
 ```
 
 ### 系列组件的事件
@@ -590,30 +580,26 @@ interface ScrollBarEventsProps {
 
 ### 其他事件
 
-除了上述事件，下列事件都可以在Chart进行监听
+除了上述事件，下列事件都可以在 Chart 进行监听
 
-* 自定义维度事件
-
+- 自定义维度事件
 
 ```typescript
 interface DimensionEventsProps {
   onDimensionHover?: (e: any) => void | boolean;
   onDimensionClick?: (e: any) => void | boolean;
 }
-
 ```
 
-* 层次数据图表事件
+- 层次数据图表事件
 
 ```typescript
 interface HierarchyEventsProps {
   onDrill?: (e: any) => void | boolean;
 }
-
 ```
 
-* 生命周期相关事件
-
+- 生命周期相关事件
 
 ```typescript
 interface ScrollBarEventsProps {
@@ -624,7 +610,6 @@ interface ScrollBarEventsProps {
   onLayoutStart?: (e: any) => void | boolean;
   onLayoutEnd?: (e: any) => void | boolean;
 }
-
 ```
 
 ### 事件使用示例
@@ -645,29 +630,29 @@ function MyChart(props) {
         { month: 'Friday', sales: 38 }
       ]
     }
-  ]
+  ];
 
   return (
     <BarChart
       data={barData}
-      onClick={(ev) => { console.log('图表被点击', ev) }}
+      onClick={ev => {
+        console.log('图表被点击', ev);
+      }}
     >
       <Bar
         xField="month"
         yField="sales"
-        onClick={(ev) => { console.log('柱形被点击', ev) }}
+        onClick={ev => {
+          console.log('柱形被点击', ev);
+        }}
       />
-      <Axis
-        orient="bottom"
-        type="band"
-      />
-      <Axis
-        orient="left"
-        type="linear"
-      />
+      <Axis orient="bottom" type="band" />
+      <Axis orient="left" type="linear" />
       <Legend
         visible={true}
-        onLegendItemClick={(ev) => { console.log('图例项被点击', ev) }}
+        onLegendItemClick={ev => {
+          console.log('图例项被点击', ev);
+        }}
       />
     </BarChart>
   );
@@ -678,11 +663,11 @@ export default MyChart;
 
 ## 主题样式
 
-如果在VChart中使用自定义主题，可以通过两种方式实现，分别是在spec中定义theme，以及通过`ThemeManager`注册主题。因为在React-VChart中，并不需要引用VChart的npm包。因此React-VChart中透出了VChart基类，命名为`VChartCore`，方便开发者在VChart的基类上通过静态方法注册自定义主题。
+如果在 VChart 中使用自定义主题，可以通过两种方式实现，分别是在 spec 中定义 theme，以及通过`ThemeManager`注册主题。因为在 React-VChart 中，并不需要引用 VChart 的 npm 包。因此 React-VChart 中透出了 VChart 基类，命名为`VChartCore`，方便开发者在 VChart 的基类上通过静态方法注册自定义主题。
 
-VChart的主题配置请参考[VChart主题](https://visactor.io/vchart/guide/tutorial_docs/Theme/Theme)。
+VChart 的主题配置请参考[VChart 主题](https://visactor.io/vchart/guide/tutorial_docs/Theme/Theme)。
 
-注意，对于按需使用VChart的情况，建议直接调用VChart API使用主题
+注意，对于按需使用 VChart 的情况，建议直接调用 VChart API 使用主题
 
 ## 示例
 
@@ -692,7 +677,20 @@ import { VChartCore, BarChart, Bar, Axis, Legend } from '@visactor/react-vchart'
 
 const theme = {
   colorScheme: {
-    default: ['#5383F4', '#7BCF8E', '#FF9D2C', '#FFDB26', '#7568D9', '#80D8FB', '#1857A3', '#CAB0E8', '#FF8867', '#B9E493', '#2CB4A8', '#B9E4E3'],
+    default: [
+      '#5383F4',
+      '#7BCF8E',
+      '#FF9D2C',
+      '#FFDB26',
+      '#7568D9',
+      '#80D8FB',
+      '#1857A3',
+      '#CAB0E8',
+      '#FF8867',
+      '#B9E493',
+      '#2CB4A8',
+      '#B9E4E3'
+    ]
   },
   series: {
     bar: {
@@ -714,7 +712,7 @@ const theme = {
   markByName: {
     bar: {
       style: {
-        cornerRadius: 15,
+        cornerRadius: 15
       }
     }
   }
@@ -727,31 +725,25 @@ VChartCore.ThemeManager.setCurrentTheme('userTheme');
 
 function MyChart(props) {
   const data = [
-    { type: 'oxygen', value: '46.60'},
-    { type: 'silicon', value: '27.72'},
-    { type: 'aluminum', value: '8.13'},
-    { type: 'iron', value: '5'},
-    { type: 'calcium', value: '3.63'},
-    { type: 'sodium', value: '2.83'},
-    { type: 'potassium', value: '2.59'},
+    { type: 'oxygen', value: '46.60' },
+    { type: 'silicon', value: '27.72' },
+    { type: 'aluminum', value: '8.13' },
+    { type: 'iron', value: '5' },
+    { type: 'calcium', value: '3.63' },
+    { type: 'sodium', value: '2.83' },
+    { type: 'potassium', value: '2.59' },
     { type: 'others', value: '3.5' }
   ];
 
   return (
     <BarChart data={[{ id: 'id0', values: data }]}>
-      <Bar
-        xField="type"
-        yField="value"
-        seriesField="type"
-      />
+      <Bar xField="type" yField="value" seriesField="type" />
     </BarChart>
   );
 }
 
 export default MyChart;
 ```
-
-
 
 ## 典型场景
 
@@ -805,7 +797,6 @@ export function PieChart() {
 ```
 
 关键点在于通过`ref`获取到 vchart 实例，调用[`updateState`API](../../../api/API/vchart) 更新自定义状态对应的的 filter；
-
 
 ## 总结
 

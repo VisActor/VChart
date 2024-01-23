@@ -114,7 +114,7 @@ const { spec, time } = await(vmind.generateChart(csvData, describe)); //图表�
 // 创建 vchart 实例
 const vchart = new VChart(spec, { dom: 'chart' });
 // 绘制
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 生成的图表如下：

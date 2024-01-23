@@ -55,7 +55,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 例子中指定图表类型 `type` 后，图表的系列就被固定为 `bar` 。然后通过 `data` 配置数据，通过 `seriesField` 配置数据的分类，通过 `xField` 和 `yField` 配置数据的位置。
@@ -106,7 +106,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 在上面的例子中，通过 `series` 配置了两个系列，一个是 `bar` 系列，一个是 `line` 系列。通过 `dataId` 来指定数据，通过 `xField` 和 `yField` 来配置数据的位置，通过 `seriesField` 来配置数据的分类。

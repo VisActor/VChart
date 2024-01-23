@@ -1,9 +1,11 @@
 # How to set the color and transparency of individual words inside the word cloud based on their values?
 
 ## Question Description
+
 I am trying to determine the range of word opacity according to the value. For example, the higher the value, the higher the transparency. Additionally, I would like to set color values based on numerical values. How can I configure them in VChart?
 
 ## Solution
+
 You can build the mapping between the datum and the text color transparency `word.style.fillOpacity` or text font color `word.style.fill` by way of a callback function.
 [wordcloud fill](/vchart/faq/9-0.png)
 
@@ -23,21 +25,21 @@ const spec = {
   },
   word: {
     style: {
-      fill: (datum) => {
-        if(datum['sum_count'] > 100) {
-          return 'red'
+      fill: datum => {
+        if (datum['sum_count'] > 100) {
+          return 'red';
         } else {
-          return 'blue'
+          return 'blue';
         }
       },
-      fillOpacity: (datum) => {
-        return datum['sum_count'] / 100
+      fillOpacity: datum => {
+        return datum['sum_count'] / 100;
       }
     }
   }
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

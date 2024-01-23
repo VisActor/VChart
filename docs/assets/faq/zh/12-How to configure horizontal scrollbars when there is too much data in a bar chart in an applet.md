@@ -1,10 +1,12 @@
 # 在小程序中，柱图数据过多时，如何配置横向滚动条？
 
 ## 问题描述
-在飞书小程序中使用VChart时，柱图数据过多时，如何配置横向滚动条？
+
+在飞书小程序中使用 VChart 时，柱图数据过多时，如何配置横向滚动条？
 
 ## 解决方案
-同PC端，配置scrollBar即可，通常而言，你还需要配置表示scrollBar位置的属性`scrollBar.orient`以及表示当前视窗范围的属性`scrollBar.start`和`scrollBar.end`。
+
+同 PC 端，配置 scrollBar 即可，通常而言，你还需要配置表示 scrollBar 位置的属性`scrollBar.orient`以及表示当前视窗范围的属性`scrollBar.start`和`scrollBar.end`。
 [mini program scrollbar](/vchart/faq/12-0.png)
 
 ## 代码示例
@@ -46,15 +48,14 @@ const spec = {
   ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 window['vchart'] = vchart;
-
 ```
 
 ## 相关文档
 
 - [滚动条 Demo](https://www.visactor.io/vchart/demo/scrollbar/basic-scrollbar-bar-chart)
 - [滚动条教程](https://www.visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Scrollbar)
-- [相关api](https://www.visactor.io/vchart/option/commonChart#scrollbar)
+- [相关 api](https://www.visactor.io/vchart/option/commonChart#scrollbar)
 - [github](https://github.com/VisActor/VChart)

@@ -159,7 +159,7 @@ Card({
                 chartInstance.on(event.type, { source: event.element }, event.handler);
               });
             }
-            chartInstance.renderAsync();
+            chartInstance.renderSync();
           },
           fail: res => {
             console.log('res:', res);

@@ -1,10 +1,12 @@
 # How to customize the font size of words in Word Cloud Chart?
 
 ## Question Description
+
 How to customize the text size in the word cloud, I want the text with more weight to be displayed larger. For example, in the example below, I want the largest text size to be 40px. How do I do that?
 [wordcloud fontsize](/vchart/faq/10-0.png)
 
 ## Solution
+
 You can set `wordCloudChart.fontSizeRange` to configure the font size range, which indicates the text size corresponding to the minimum and maximum values of the data respectively, in the example you gave, you can configure `wordCloudChart.fontSizeRange: [5, 40]` to achieve the desired effect.
 
 ## Code Example
@@ -21,13 +23,12 @@ const spec = {
     name: 'baseData',
     values: dataWordCloud
   },
-  fontSizeRange: [5, 40],
+  fontSizeRange: [5, 40]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 window['vchart'] = vchart;
-
 ```
 
 ## Quote

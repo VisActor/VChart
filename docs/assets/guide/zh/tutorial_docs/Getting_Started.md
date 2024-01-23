@@ -86,7 +86,7 @@ const spec = {
 // 创建 vchart 实例
 const vchart = new VChart(spec, { dom: 'chart' });
 // 绘制
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 至此，你已经成功绘制出了一个简单的柱状图！
@@ -111,7 +111,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 希望这篇教程对你学习如何使用 VChart 有所帮助。现在，你可以尝试绘制不同类型的图表，并通过深入了解 VChart 的各种配置选项，定制出更加丰富多样的图表效果。勇敢开始你的 VChart 之旅吧！

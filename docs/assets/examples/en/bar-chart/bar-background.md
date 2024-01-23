@@ -148,7 +148,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-await vchart.renderAsync();
+vchart.renderSync();
 
 let ptr = 0;
 const specList = [

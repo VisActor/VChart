@@ -10,7 +10,7 @@ option: areaChart
 
 # Area chart style
 
-You can configure the style related to the *area* graphic element through the *area.style* property, and configure the title style through *title.textStyle*.
+You can configure the style related to the **area** graphic element through the **area.style** property, and configure the title style through **title.textStyle**.
 This example shows the gradient fill of the area and the multi-line text configuration of the title.
 
 ## Key option
@@ -130,7 +130,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, do not copy
 window['vchart'] = vchart;

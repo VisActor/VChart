@@ -1,5 +1,7 @@
 # 时序图
+
 [\[配置项\]](../../../option/sequenceChart)
+
 ## 简介
 
 在社交媒体、行为监测等场景中，往往需要在线性时间的演进中, 以节点和边的形式展示不同用户不同时间的不同行为, 并且为了更好地从中发现用户的行为偏好, 还需要以柱状图的形式展示行为统计信息。基于线性时间映射的时序图可以展示这种场景下的数据。
@@ -1082,7 +1084,7 @@ const spec = {
   ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -4292,7 +4294,7 @@ const spec = {
   ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;

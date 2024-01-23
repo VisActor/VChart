@@ -16,7 +16,8 @@ option: liquidChart
 
 - `maskShape` 属性声明为轮廓形状.
 
-可选值: 
+可选值:
+
 - `'drop'`
 - `'circle'`
 - `'cross'`
@@ -41,41 +42,41 @@ option: liquidChart
 
 ```javascript livedemo
 const spec = {
-    type: 'liquid',
-    valueField: 'value',
-    data: {
-      id: 'data',
-      values: [
-        {
-          value: 0.4
-        }
-      ]
-    },
-    maskShape: 'drop', // 水滴
-    // maskShape: 'circle',
-    // maskShape: 'star',
-    indicator: {
+  type: 'liquid',
+  valueField: 'value',
+  data: {
+    id: 'data',
+    values: [
+      {
+        value: 0.4
+      }
+    ]
+  },
+  maskShape: 'drop', // 水滴
+  // maskShape: 'circle',
+  // maskShape: 'star',
+  indicator: {
+    visible: true,
+    title: {
       visible: true,
-      title: {
+      style: {
+        text: '进度'
+      }
+    },
+    content: [
+      {
         visible: true,
         style: {
-          text: '进度'
+          fill: 'black',
+          text: '40%'
         }
-      },
-      content: [
-        {
-          visible: true,
-          style: {
-            fill: 'black',
-            text: '40%'
-          }
-        }
-      ]
-    },
-  };
+      }
+    ]
+  }
+};
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
