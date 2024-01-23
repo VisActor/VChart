@@ -78,3 +78,7 @@ export const parseGPTResponse = (GPTRes: LLMResponse) => {
   const resJson: GPTDataProcessResult = parseGPTJson(content, '```');
   return resJson;
 };
+
+export const replaceAll = (originStr: string, replaceStr: string, newStr: string) => {
+  return originStr.split(replaceStr).join(newStr);
+};

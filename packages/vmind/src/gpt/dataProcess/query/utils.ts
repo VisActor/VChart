@@ -30,28 +30,35 @@ const swapMap = (map: Map<string, string>) => {
 export const preprocessSQL = (sql: string, fieldInfo: SimpleFieldInfo[]) => {
   //replace \n to space
   const noNewLine = sql.replace('\n', ' ');
-  //replace operator inside the field name in the sql str
+  //replace operator and reserved words inside the field name in the sql str
   const operatorMap = {
     '+': `_PLUS_${generateRandomString(10)}_`,
     '-': `_MINUS_${generateRandomString(10)}_`,
     '*': `_MULTI_${generateRandomString(10)}_`,
     '/': `_DIVIDE_${generateRandomString(10)}_`,
-    key: `_KEY_${generateRandomString(10)}_`,
     KEY: `_KEY_${generateRandomString(10)}_`
   };
   let validSQL = noNewLine;
+  const operatorReplaceMap: Map<string, string> = new Map();
+
   fieldInfo.forEach(field => {
     const { fieldName } = field;
     let validFieldName = fieldName;
     Object.keys(operatorMap).forEach(operator => {
-      const validOperator = operatorMap[operator];
-      validFieldName = validFieldName.replace(operator, validOperator);
+      if (validFieldName.toUpperCase().includes(operator)) {
+        const validOperator = operatorMap[operator];
+        validFieldName = validFieldName.toUpperCase().replace(operator, validOperator);
+      }
     });
-    validSQL = validSQL.replace(fieldName, validFieldName);
+    validSQL = validSQL.replace(new RegExp(fieldName, 'g'), validFieldName);
+    if (fieldName !== validFieldName) {
+      operatorReplaceMap.set(fieldName, validFieldName);
+    }
   });
   const { validStr, replaceMap } = replaceNonASCIICharacters(validSQL);
-  Object.keys(operatorMap).forEach(key => {
-    replaceMap.set(operatorMap[key], key);
+  // merge the two replace map
+  [...operatorReplaceMap.keys()].forEach(key => {
+    replaceMap.set(operatorReplaceMap.get(key), key);
   });
   return { validStr, replaceMap };
 };

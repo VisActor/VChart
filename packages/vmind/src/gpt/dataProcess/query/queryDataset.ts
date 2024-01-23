@@ -21,8 +21,8 @@ export const queryDatasetWithGPT = async (
   sourceDataset: DataItem[],
   options: ILLMOptions
 ) => {
-  const { SQL, fieldInfo: responseFieldInfo } = await getQuerySQL(userInput, fieldInfo, options);
-  const { validStr, replaceMap } = preprocessSQL(SQL, fieldInfo);
+  const { sql, fieldInfo: responseFieldInfo } = await getQuerySQL(userInput, fieldInfo, options);
+  const { validStr, replaceMap } = preprocessSQL(sql, fieldInfo);
   console.log(validStr, replaceMap, responseFieldInfo);
   const parser = new NodeSQLParser.Parser();
   const ast = parser.astify(validStr);
