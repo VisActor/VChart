@@ -1710,6 +1710,13 @@
             "zh": "时间轴的 dimension tooltip",
             "en": "Dimension Tooltip On Time Axis"
           }
+        },
+        {
+          "path": "area-mark-tooltip",
+          "title": {
+            "zh": "在 area 图元上实现 mark tooltip",
+            "en": "Mark Tooltip On Area Marks"
+          }
         }
       ]
     },
