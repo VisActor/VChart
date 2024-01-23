@@ -89,8 +89,6 @@ export interface ILayoutModel extends IModel {
     setLayoutStartPosition: (pos: Partial<IPoint>) => void;
     getLayoutRect: () => ILayoutRect;
     setLayoutRect: (rect: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>) => void;
-    getLayoutPositionExcludeIndent: () => IPoint;
-    getLayoutRectExcludeIndent: () => ILayoutRect;
     getLastComputeOutBounds: () => IBoundsLike;
     getBoundsInRect: (rect: ILayoutRect, fullRect: ILayoutRect) => IBoundsLike;
     afterSetLayoutStartPoint: (pos: ILayoutPoint) => void;
