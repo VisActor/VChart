@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: star shapes on dom tooltip do not display correctly, related #1905",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
