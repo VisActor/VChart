@@ -73,6 +73,8 @@ export interface ILabelSpec extends IComponentSpec {
   syncState?: boolean;
 }
 
+export type IMultiLabelSpec<T extends Omit<ILabelSpec, 'position'>> = T | T[];
+
 type LabelStateStyle<T> = {
   hover?: T;
   hover_reverse?: T;

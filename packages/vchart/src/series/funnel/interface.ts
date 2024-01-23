@@ -13,6 +13,7 @@ import type {
 } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import { ILabelSpec } from '../../component';
 
 type FunnelMarks = 'funnel';
 
@@ -96,7 +97,7 @@ export interface IFunnelSeriesSpec extends ISeriesSpec, IAnimationSpec<FunnelMar
   [SeriesMarkNameEnum.transformLabel]?: IFunnelLabelSpec;
 }
 
-interface IFunnelLabelSpec extends IMarkSpec<ITextMarkSpec> {
+interface IFunnelLabelSpec extends Omit<ILabelSpec, 'position' | 'offset'> {
   /**
    * 标签文字样式
    */
@@ -104,7 +105,7 @@ interface IFunnelLabelSpec extends IMarkSpec<ITextMarkSpec> {
   formatMethod?: (text: string | string[], datum?: Datum) => string | string[];
 }
 
-export interface IFunnelOuterLabelSpec extends IFunnelLabelSpec {
+export interface IFunnelOuterLabelSpec extends IMarkSpec<ITextMarkSpec> {
   /**
    * 标签布局方式
    * @default 'left' | 'bottom'

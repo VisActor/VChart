@@ -1,5 +1,5 @@
 import type { IMarkTheme, IMarkSpec } from '../../typings';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
 import type { ISymbolMarkSpec, IRippleMarkSpec } from '../../typings';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec } from '../polar/interface';
@@ -70,19 +70,21 @@ export interface ICorrelationSeriesSpec
   /** 节点图元属性 **/
   [SeriesMarkNameEnum.nodePoint]?: IMarkSpec<ISymbolMarkSpec>;
   /** 标签配置 */
-  [SeriesMarkNameEnum.label]?: ILabelSpec & {
-    /** 标签位置 */
-    position?:
-      | 'top'
-      | 'bottom'
-      | 'left'
-      | 'right'
-      | 'top-right'
-      | 'top-left'
-      | 'bottom-right'
-      | 'bottom-left'
-      | 'center';
-  };
+  [SeriesMarkNameEnum.label]?: IMultiLabelSpec<
+    ILabelSpec & {
+      /** 标签位置 */
+      position?:
+        | 'top'
+        | 'bottom'
+        | 'left'
+        | 'right'
+        | 'top-right'
+        | 'top-left'
+        | 'bottom-right'
+        | 'bottom-left'
+        | 'center';
+    }
+  >;
 }
 
 export interface ICorrelationSeriesTheme {
