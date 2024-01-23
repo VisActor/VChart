@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: sequence chart region bind error. fix#2115",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
