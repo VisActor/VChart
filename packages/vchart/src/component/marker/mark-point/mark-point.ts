@@ -16,6 +16,7 @@ import { Factory } from '../../../core/factory';
 import type { IGroup } from '@visactor/vrender-core';
 import type { IPoint } from '../../../typings';
 import type { IModelSpecInfo } from '../../../model/interface';
+import { markerFilter } from '../../../data/transforms/marker-filter';
 
 export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {
   static type = ComponentTypeEnum.markPoint;
@@ -118,7 +119,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
 
     const seriesData = this._relativeSeries.getViewData().latestData;
     const dataPoints = data
-      ? data.latestData[0].latestData
+      ? data.latestData[0] && data.latestData[0].latestData
         ? data.latestData[0].latestData
         : data.latestData
       : seriesData;
@@ -164,6 +165,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
     }
 
     registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
+    registerDataSetInstanceTransform(this._option.dataSet, 'markerFilter', markerFilter);
 
     let options;
     if (isXYProcess) {
@@ -178,6 +180,11 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
     });
     data.transform({
       type: 'markerAggregation',
+      options
+    });
+
+    data.transform({
+      type: 'markerFilter',
       options
     });
 

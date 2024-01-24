@@ -34,6 +34,7 @@ import { Factory } from '../../../core/factory';
 import { isPercent } from '../../../util';
 import type { IPoint } from '../../../typings';
 import type { IModelSpecInfo } from '../../../model/interface';
+import { markerFilter } from '../../../data/transforms/marker-filter';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
@@ -151,7 +152,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
     }
 
     const seriesData = this._relativeSeries.getViewData().latestData;
-    const dataPoints = data.latestData[0].latestData || data.latestData;
+    const dataPoints =
+      data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
 
     let limitRect;
     if (spec.clip || spec.label?.confine) {
@@ -287,6 +289,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
 
     registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
     registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);
+    registerDataSetInstanceTransform(this._option.dataSet, 'markerFilter', markerFilter);
 
     this._isXYLayout = doXProcess || doXYY1Process || doYProcess || doYXX1Process || doXYProcess;
 
@@ -355,6 +358,11 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
         options
       });
     }
+
+    data.transform({
+      type: 'markerFilter',
+      options
+    });
 
     data.target.on('change', () => {
       this._markerLayout();
