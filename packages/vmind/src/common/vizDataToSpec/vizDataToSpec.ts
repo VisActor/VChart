@@ -162,6 +162,5 @@ export const pipelineMap: { [chartType: string]: any } = {
 export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>
   pipes.reduce((pre: any, pipe: Pipe) => {
     const result = pipe(pre, context);
-    // console.log(result);
     return result;
   }, src);

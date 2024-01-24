@@ -74,12 +74,12 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
         }
       };
     } else if (isNil(y) || y.length === 0) {
-      const { lower_whisker, min, q1, median, q3, upper_whisker, max } = cell;
+      const { lower_whisker, min, lower, q1, median, q3, upper_whisker, max, upper } = cell;
       return {
         chartTypeNew: 'BOX PLOT',
         cellNew: {
           ...cell,
-          y: [lower_whisker, min, q1, median, q3, upper_whisker, max].filter(Boolean)
+          y: [lower_whisker, min, lower, q1, median, q3, upper_whisker, max, upper].filter(Boolean)
         }
       };
     }

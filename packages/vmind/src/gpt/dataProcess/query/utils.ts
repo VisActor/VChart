@@ -224,5 +224,8 @@ export const mergeMap = (map1: Map<string, string>, map2: Map<string, string>) =
 };
 
 export const patchQueryInput = (userInput: string) => {
-  return userInput + " Don't use JOIN and subquery in sql. Don't use Rank() in SQL.";
+  return (
+    userInput +
+    " Don't use JOIN and subquery in sql. Don't use Rank() and PERCENTILE_CONT in SQL. Don't use CASE WHEN in SQL."
+  );
 };

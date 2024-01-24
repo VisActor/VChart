@@ -86,19 +86,19 @@ const testPerformance = (model: Model, vmind: any) => {
 
 const dataList = Object.keys(demoDataList);
 
-//const gptKey = process.env.VITE_GPT_KEY;
-//const gptURL = process.env.VITE_GPT_JEST_URL;
-//if (gptKey && gptURL) {
-//  const vmind = new VMind({
-//    url: gptURL,
-//    model: Model.GPT3_5,
-//    cache: false,
-//    headers: {
-//      'api-key': gptKey
-//    }
-//  });
-//  testPerformance(Model.GPT3_5, vmind);
-//}
+const gptKey = process.env.VITE_GPT_KEY;
+const gptURL = process.env.VITE_GPT_JEST_URL;
+if (gptKey && gptURL) {
+  const vmind = new VMind({
+    url: gptURL,
+    model: Model.GPT3_5,
+    cache: false,
+    headers: {
+      'api-key': gptKey
+    }
+  });
+  testPerformance(Model.GPT3_5, vmind);
+}
 
 //const skylarkKey = process.env.VITE_SKYLARK_KEY;
 //const skylarkURL = process.env.VITE_SKYLARK_JEST_URL;
@@ -118,18 +118,18 @@ const dataList = Object.keys(demoDataList);
 const skylark2Key = process.env.VITE_SKYLARK_KEY;
 const skylark2URL = process.env.VITE_SKYLARK_JEST_URL;
 
-if (skylark2Key && skylark2URL) {
-  const vmind = new VMind({
-    url: skylark2URL,
-    model: Model.SKYLARK2,
-    cache: false,
-    showThoughts: false,
-    headers: {
-      'api-key': skylark2Key
-    }
-  });
-  testPerformance(Model.SKYLARK2, vmind);
-}
+//if (skylark2Key && skylark2URL) {
+//  const vmind = new VMind({
+//    url: skylark2URL,
+//    model: Model.SKYLARK2,
+//    cache: false,
+//    showThoughts: false,
+//    headers: {
+//      'api-key': skylark2Key
+//    }
+//  });
+//  testPerformance(Model.SKYLARK2, vmind);
+//}
 
 afterAll(() => {
   log('---------------VMind performance test---------------');
