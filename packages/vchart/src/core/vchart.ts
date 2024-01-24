@@ -1857,8 +1857,6 @@ export class VChart implements IVChart {
   }
 }
 
-export { registerLiquidChart } from '../chart/liquid/liquid';
-
 export const registerVChartCore = () => {
   // install region module
   Factory.registerRegion('region', Region);
