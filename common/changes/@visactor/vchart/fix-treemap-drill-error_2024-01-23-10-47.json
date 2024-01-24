@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: treemap drill event error",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
