@@ -193,10 +193,12 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
       options
     });
 
-    data.transform({
-      type: 'markerFilter',
-      options
-    });
+    if (options) {
+      data.transform({
+        type: 'markerFilter',
+        options: this._getAllRelativeSeries()
+      });
+    }
 
     data.target.on('change', () => {
       this._markerLayout();
