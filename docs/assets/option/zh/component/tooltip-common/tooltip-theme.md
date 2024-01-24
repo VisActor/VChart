@@ -105,3 +105,7 @@
 #${prefix} spaceRow(number)
 
 **可选** 配置 tooltip 内容行间距。
+
+#${prefix} maxContentHeight(number)
+
+**可选** 设置最大内容区高度，内容区若超过该高度将显示局部滚动条（适用于 dom tooltip）。自 1.9.0 版本开始支持。

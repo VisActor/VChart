@@ -1,6 +1,6 @@
 import type { IToolTipActual } from '../../../../typings/tooltip';
 import { BaseTooltipHandler } from '../base';
-import { getDomStyles } from './util';
+import { getDomStyles } from './utils';
 import type { IDomTooltipStyle } from './interface';
 import { TooltipModel } from './model/tooltip-model';
 import { TOOLTIP_CONTAINER_EL_CLASS_NAME, TooltipHandlerType } from '../constants';
@@ -64,12 +64,12 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         parentElement.appendChild(this._container);
       }
       this.model = new TooltipModel(
-        this._container,
         {
           valueToHtml: this._option.sanitize,
           getTooltipStyle: () => this._domStyle,
           getTooltipActual: () => this._tooltipActual,
-          getTooltipAttributes: () => this._attributes
+          getTooltipAttributes: () => this._attributes,
+          getContainer: () => this._container
         },
         [tooltipSpec.className],
         this.name
