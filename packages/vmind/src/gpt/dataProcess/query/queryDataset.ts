@@ -24,6 +24,7 @@ export const queryDatasetWithGPT = async (
   const { validFieldInfo, replaceMap: operatorReplaceMap } = replaceOperator(fieldInfo);
   const patchedInput = patchQueryInput(userInput);
   const { sql, fieldInfo: responseFieldInfo } = await getQuerySQL(patchedInput, validFieldInfo, options);
+  console.log(sql);
   const { validStr, replaceMap: preprocessReplaceMap } = preprocessSQL(sql, fieldInfo);
   const replaceMap = mergeMap(preprocessReplaceMap, operatorReplaceMap);
   const parser = new NodeSQLParser.Parser();
@@ -31,7 +32,10 @@ export const queryDatasetWithGPT = async (
   const queryObject = parseSqlAST((isArray(ast) ? ast[0] : ast) as SQLAst, sourceDataset, fieldInfo, replaceMap);
   const dataset = query(queryObject as Query);
   const fieldInfoNew = parseRespondField(responseFieldInfo, dataset, replaceMap);
-  return { dataset, fieldInfo: fieldInfoNew };
+  return {
+    dataset: dataset.length === 0 ? sourceDataset : dataset,
+    fieldInfo: dataset.length === 0 ? fieldInfo : fieldInfoNew
+  };
 };
 
 /**
@@ -45,7 +49,7 @@ const getQuerySQL = async (userInput: string, fieldInfo: SimpleFieldInfo[], opti
   const requestFunc = options.customRequestFunc?.dataQuery ?? requestGPT;
   const QueryDatasetPrompt = getQueryDatasetPrompt(options.showThoughts);
   const dataProcessRes = await requestFunc(QueryDatasetPrompt, queryDatasetMessage, options);
-
+  console.log(dataProcessRes.choices[0]);
   const dataQueryResponse: DataQueryResponse = parseGPTResponse(dataProcessRes);
   return dataQueryResponse;
 };

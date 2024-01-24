@@ -195,23 +195,22 @@ Response:
 
 export const getQueryDatasetPrompt = (
   showThoughts: boolean
-) => `You are an expert in data analysis. Here is a raw dataset named dataSource. User want to do data query and generate a chart with this dataset. You need to generate a SQL query using available keyword list.
+) => `You are an expert in data analysis. Here is a raw dataset named dataSource. User want to do data query and generate a chart with this dataset. You need to generate a SQL query using available SQL keyword list. Return the JSON object only.
 
-Available keyword list: [SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, DISTINCT, LIMIT, MAX, MIN, SUM, COUNT, AVG].
+Available SQL keyword list: [SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY, DISTINCT, LIMIT, MAX(), MIN(), SUM(), COUNT(), AVG()].
 
-Your task is:
-1. Detect the meaning of each field in the dataset. According to user's command and data field description, write one simple SQL to query the data user needs from the data set. You can only use the keywords in the available list to form your SQL. Your SQL must follow the constraints below. Fill your SQL in sql.
-2. Prefer to use original fields from data in your SQL. You can aggregate fields when you think it's necessary. Available aggregation method: [MAX, MIN, SUM, COUNT, AVG]. Only derive new fields by these aggregation method.
-3. Write a description for each field in the SQL query result, describing its aggregation method and other information and fill it in the fieldInfo array.
+#Your task is:
+1. Detect the meaning of each field in the dataset. According to user's command and data field description, write one simple SQL to query the data user needs from the data set. You can only use the SQL keywords in the available list to form your SQL. Your SQL must follow the constraints below.
+2. Prefer to use original fields from data in your SQL. You can aggregate fields when you think it's necessary. Available aggregation method: [MAX(), MIN(), SUM(), COUNT(), AVG()]. Only derive new fields by these aggregation method.
+3. Write a description for each field in the SQL query, describing its aggregation method and other information.
 4. Response in JSON format without any additional words. Your JSON object must contain sql and fieldInfo.
 
-SQL Constraints:
-1. A dimension field must be placed in the GROUP BY statement of the SQL.
+#SQL Constraints:
+1. A dimension field must be placed in the "GROUP BY" statement of the SQL.
 2. Make sure your SQL includes all useful fields.
-3. Make your SQL as simple as possible.
-4. Query only from one table. Avoid to use JOIN and subquery in SQL. Avoid to use RANK(), PARTITION, PERCENTILE_CONT in SQL.
-5. Please don't change or translate the field names in your SQL statement.
-6. Avoid to use conditional expression (such as IF, CASE WHEN...THEN...ELSE..., etc.) in your SQL statement.
+3. Make your SQL as simple as possible. If the keywords can't satisfy user's command, simply write a SQL to select relevant columns and group the data using dimensions. Don't use variables. Don't use keywords outside the available list. Avoid to use self-join and subquery in SQL. Avoid to use RANK(), PARTITION, PERCENTILE_CONT in SQL.
+4. Please don't change or translate the field names in your SQL statement.
+5. Avoid to use conditional expression (such as IF, CASE WHEN...THEN...ELSE..., etc.) in your SQL statement.
 
 Let's think step by step. Make your SQL as simple as possible.
 
@@ -226,29 +225,39 @@ fieldInfo: {
 }
 \`\`\`
 
-Here is an example:
-User's Command: 展示各品牌市场占有率
-Data field description: [{"fieldName":"品牌名称","type":"string","role":"dimension"},{"fieldName":"市场份额","type":"float","role":"measure"},{"fieldName":"平均价格","type":"int","role":"measure"},{"fieldName":"净利润","type":"int","role":"measure"}]
+#Example:
 
-Response:
+User's Command: Show me the change of the GDP rankings of each country.
+Data field description: [{"fieldName":"country","type":"string","role":"dimension"},{"fieldName":"continent","type":"string","role":"dimension"},{"fieldName":"GDP","type":"float","role":"measure"},{"fieldName":"year","type":"int","role":"measure"}]
+
+User want to show the change of rankings of the GDP of each country, but there is no field related to GDP ranking in dataSource. To make the SQL simple, we simply select relevant fields from dataSource, use aggregation method to aggregate the data and group the data by dimensions. we can't use RANK() or FIND_IN_SET because they are not in the available SQL keyword list, and we also can't use self-join or subquery, so we can't get the GDP ranking directly. In the end we choose to group the data by country and year, then aggregate the GDP using SUM() to get the total gdp of each country in each year, then order the data by total GDP and year.
+So the SQL should be: SELECT country, year, SUM(GDP) AS total_GDP FROM dataSource GROUP BY country, year ORDER BY year, total_GDP DESC
+This is a simple SQL as it does not contain subqueries and keywords outside the available list. So it's a valid SQL.
+
+So your response should be:
 \`\`\`
 {
-  "sql": "SELECT \`品牌名称\`, SUM(\`市场份额\`) AS \`市场份额\` FROM \`dataSource\` GROUP BY \`品牌名称\`",
+  "sql": "SELECT country, year, SUM(GDP) AS total_GDP FROM dataSource GROUP BY country, year ORDER BY year, total_GDP DESC",
   "fieldInfo": [
     {
-      "fieldName": "品牌名称",
-      "description": "The name of the brand."
+      "fieldName": "country",
+      "description": "The name of the country."
     },
     {
-      "fieldName": "市场份额",
-      "description": "The market share of the brand. It is generated by summing up the market share field."
+      "fieldName": "year",
+      "description": "The year of the GDP data."
+    },
+    {
+      "fieldName": "total_GDP",
+      "description": "An aggregated field representing the total GDP of each country in each year. It is generated by summing up the GDP values for each country in each year."
     }
   ]
 }
 \`\`\`
 
-Constraints:
-1. No user assistance.
-2. Write your SQL statement in one line without any \\n.
-3. Response the JSON object directly without any other contents. Make sure it can be directly parsed by JSON.parse() in JavaScript.
+You only need to return the JSON in your response directly to the user.
+
+#Constraints:
+1. Write your SQL statement in one line without any \\n.
+2. Response the JSON object directly without any other contents. Make sure it can be directly parsed by JSON.parse() in JavaScript.
 `;

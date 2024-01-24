@@ -55,7 +55,8 @@ export const parseGPTJson = (JsonStr: string, prefix?: string) => {
   //解析GPT返回的JSON格式
   if (prefix) {
     //被某些字符包裹
-    const splittedStr = JsonStr.split(prefix)[1];
+    const splitArr = JsonStr.split(prefix);
+    const splittedStr = splitArr[splitArr.length - 2];
     const res = parseNoPrefixStr(splittedStr);
     if (!res.error) {
       return res;
