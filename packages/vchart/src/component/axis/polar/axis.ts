@@ -435,9 +435,9 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       if (latestData && !isArray(latestData)) {
         // the ticks data of scale has not be calculated
         this.computeData('force');
+      } else {
+        return latestData || [];
       }
-
-      return this._tickData.getLatestData() || [];
     }
 
     return (this._scale as BandScale | LinearScale).ticks();
@@ -485,7 +485,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items: items.length ? [items] : []
+      items: items.length ? [items] : [],
+      orient: 'angle'
     };
     if (this._spec.grid.visible) {
       attrs.grid = {
@@ -527,7 +528,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items: items.length ? [items] : []
+      items: items.length ? [items] : [],
+      orient: 'radius'
     };
     if (this._spec.grid?.visible) {
       attrs.grid = {
