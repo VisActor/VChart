@@ -24,7 +24,6 @@ export const queryDatasetWithGPT = async (
   const { validFieldInfo, replaceMap: operatorReplaceMap } = replaceOperator(fieldInfo);
   const patchedInput = patchQueryInput(userInput);
   const { sql, fieldInfo: responseFieldInfo } = await getQuerySQL(patchedInput, validFieldInfo, options);
-  console.log(sql);
   const { validStr, replaceMap: preprocessReplaceMap } = preprocessSQL(sql, fieldInfo);
   const replaceMap = mergeMap(preprocessReplaceMap, operatorReplaceMap);
   const parser = new NodeSQLParser.Parser();

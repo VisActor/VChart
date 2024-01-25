@@ -75,7 +75,6 @@ export const parseGPTResponse = (GPTRes: LLMResponse) => {
   }
   const choices = GPTRes.choices;
   const content = choices[0].message.content;
-  console.log(content);
   const resJson: GPTDataProcessResult = parseGPTJson(content, '```');
   return resJson;
 };
