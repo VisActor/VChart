@@ -11,7 +11,7 @@ import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { IAxis, ITick } from '../interface';
-import type { ICartesianTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
+import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
 import type { DataSet } from '@visactor/vdataset';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic } from '@visactor/vrender-core';
@@ -77,8 +77,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     setAttrFromSpec(): void;
     onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
     protected getSeriesStatisticsField(s: ICartesianSeries): string[];
-    protected _tickTransformOption(coordinateType: CoordinateType): ICartesianTickDataOpt;
-    protected _initData(): void;
+    protected _tickTransformOption(): ICartesianTickDataOpt;
     protected axisHelper(): IAxisHelper;
     afterCompile(): void;
     onLayoutEnd(ctx: any): void;
@@ -102,7 +101,9 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     updateLayoutAttribute(): void;
     private _getTitleLimit;
     private _getUpdateAttribute;
+    protected getLabelItems(length: number): any[];
     protected initEvent(): void;
+    protected _getNormalizedValue(values: any[], length: number): number;
     private _fixAxisOnZero;
     protected _layoutCacheProcessing(rect: ILayoutRect): ILayoutRect;
     _clearLayoutCache(): void;

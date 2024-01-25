@@ -1,10 +1,9 @@
 import type { ITickDataOpt } from '@visactor/vutils-extension';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
-import type { AxisItem } from '@visactor/vrender-components';
 import type { IOrientType, IPolarOrientType, StringOrNumber, CoordinateType } from '../../typings';
 import { BaseComponent } from '../base/base-component';
-import type { CompilableData } from '../../compile/data';
+import { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
 import type { ISeries } from '../../series/interface';
@@ -19,8 +18,8 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     getScale(): IBaseScale;
     protected _scales: IBaseScale[];
     getScales(): IBaseScale[];
-    protected _tickData: CompilableData;
-    getTickData(): CompilableData;
+    protected _tickData: CompilableData[];
+    getTickData(index?: number): CompilableData;
     protected _seriesUserId?: StringOrNumber[];
     protected _seriesIndex?: number[];
     protected _regionUserId?: StringOrNumber[];
@@ -44,15 +43,16 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         max: number;
         values: any[];
     }[];
-    protected abstract _initData(): void;
     abstract transformScaleDomain(): void;
     protected _dataFieldText: string;
     protected _axisMark: IComponentMark;
     protected _gridMark: IComponentMark;
+    protected _coordinateType: CoordinateType;
     constructor(spec: T, options: IComponentOption);
     protected _getNeedClearVRenderComponents(): IGraphic[];
     getVRenderComponents(): any[];
     created(): void;
+    protected _initData(): void;
     protected isSeriesDataEnable(): boolean;
     protected setSeriesAndRegionsFromSpec(): void;
     getBindSeriesFilter(): {
@@ -72,7 +72,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         reCompile: boolean;
     };
     protected getLabelFormatMethod(): (value: any, datum: any, index: number) => any;
-    protected getLabelItems(length: number): any[];
     protected _delegateAxisContainerEvent(component: IGroup): void;
     protected _getAxisAttributes(): {
         orient: IOrientType | IPolarOrientType;
@@ -99,7 +98,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
             alignWithLabel: boolean;
             style: any;
             state: {};
-            dataFilter: (data: AxisItem[]) => AxisItem[];
+            dataFilter: (data: import("@visactor/vrender-components").AxisItem[]) => import("@visactor/vrender-components").AxisItem[];
         };
         subTick: {
             visible: boolean;
@@ -143,8 +142,8 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
             style: any;
         };
     };
-    protected _initTickDataSet<T extends ITickDataOpt>(options: T): DataView;
-    protected _tickTransformOption(coordinateType: CoordinateType): ITickDataOpt;
+    protected _initTickDataSet<T extends ITickDataOpt>(options: T, index?: number): DataView;
+    protected _tickTransformOption(): ITickDataOpt;
     addTransformToTickData(options: ITransformOptions, execute?: boolean): void;
     dataToPosition(values: any[]): number;
 }

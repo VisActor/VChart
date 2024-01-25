@@ -25,8 +25,6 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     getData(): CompilableData;
     protected _layout?: ILayoutItem;
     get layout(): ILayoutItem;
-    protected _specIndex: number;
-    getSpecIndex(): number;
     readonly specKey: string;
     protected _option: IModelOption;
     getOption(): IModelOption;
@@ -79,4 +77,5 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     protected _getDataIdKey(): string | ((datum: Datum) => string) | undefined;
     getColorScheme(): import("..").IThemeColorScheme;
     getSpecInfo(): IModelSpecInfo<any>;
+    getSpecIndex(): number;
 }
