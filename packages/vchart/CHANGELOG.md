@@ -1,6 +1,25 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 22 Jan 2024 12:27:45 GMT and should not be manually modified.
+This log was last generated on Thu, 25 Jan 2024 09:18:19 GMT and should not be manually modified.
+
+## 1.8.10
+Thu, 25 Jan 2024 09:18:19 GMT
+
+### Updates
+
+- feat: support innerOffset in vchart cartesian axis
+
+
+- fix: fix issue of continous color scale, close #2131
+
+
+- fix: dont return min,max of empty data, fix #1711
+- fix: fixed polar coordinate relative axis tickValues acquisition error problem, fixed#2117
+- fix: fix the issue mark line is not filter by legend, close #2127
+- fix: sequence chart region bind error. fix#2115
+- fix: star shapes on dom tooltip do not display correctly, related #1905
+- fix: treemap drill event error
+-  fix: treemap drill error when turn off the animation
 
 ## 1.8.9
 Mon, 22 Jan 2024 12:27:45 GMT

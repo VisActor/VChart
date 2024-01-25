@@ -2,6 +2,42 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.10",
+      "tag": "@visactor/vchart_v1.8.10",
+      "date": "Thu, 25 Jan 2024 09:18:19 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support innerOffset in vchart cartesian axis\n\n"
+          },
+          {
+            "comment": "fix: fix issue of continous color scale, close #2131\n\n"
+          },
+          {
+            "comment": "fix: dont return min,max of empty data, fix #1711"
+          },
+          {
+            "comment": "fix: fixed polar coordinate relative axis tickValues acquisition error problem, fixed#2117"
+          },
+          {
+            "comment": "fix: fix the issue mark line is not filter by legend, close #2127"
+          },
+          {
+            "comment": "fix: sequence chart region bind error. fix#2115"
+          },
+          {
+            "comment": "fix: star shapes on dom tooltip do not display correctly, related #1905"
+          },
+          {
+            "comment": "fix: treemap drill event error"
+          },
+          {
+            "comment": " fix: treemap drill error when turn off the animation"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.9",
       "tag": "@visactor/vchart_v1.8.9",
       "date": "Mon, 22 Jan 2024 12:27:45 GMT",

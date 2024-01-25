@@ -1,5 +1,5 @@
 export type ChartType = keyof typeof ChartTypeEnum | string;
-export declare enum ChartTypeEnum {
+export declare const enum ChartTypeEnum {
     common = "common",
     area = "area",
     line = "line",

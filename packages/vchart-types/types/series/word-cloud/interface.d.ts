@@ -2,17 +2,8 @@ import type { ITextMarkSpec, IMarkSpec, ISeriesSpec } from '../../typings';
 import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { WordcloudAppearPreset } from './animation';
-export declare enum WordCloudShapeEnum {
-    triangleForward = "triangleForward",
-    triangle = "triangle",
-    diamond = "diamond",
-    square = "square",
-    star = "star",
-    cardioid = "cardioid",
-    circle = "circle",
-    pentagon = "pentagon"
-}
-export type WordCloudShapeType = keyof typeof WordCloudShapeEnum;
+import type { shapes } from '@visactor/vgrammar-wordcloud';
+export type WordCloudShapeType = keyof typeof shapes;
 export type EllipsisType = {
     string?: string;
     limitLength?: number;
