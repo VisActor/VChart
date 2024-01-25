@@ -7,8 +7,8 @@ export function getDefaultInteractionConfigByMode(mode: RenderMode) {
     return {
       hover: {
         enable: true,
-        trigger: 'pointerover',
-        triggerOff: 'pointerout'
+        trigger: 'pointermove',
+        triggerOff: 'view:pointerleave'
       },
       select: {
         enable: true,
@@ -21,8 +21,8 @@ export function getDefaultInteractionConfigByMode(mode: RenderMode) {
     return {
       hover: {
         enable: true,
-        trigger: ['pointerdown', 'pointerover'],
-        triggerOff: 'pointerout'
+        trigger: ['pointerdown', 'pointermove'],
+        triggerOff: 'view:pointerleave'
       },
       select: {
         enable: true,
