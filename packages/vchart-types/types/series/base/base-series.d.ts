@@ -7,12 +7,12 @@ import { BaseModel } from '../../model/base-model';
 import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo } from '../interface';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
-import type { ITrigger } from '../../interaction/interface';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import { SeriesData } from './series-data';
 import type { IGroupMark } from '../../mark/group';
-import type { ISeriesMarkAttributeContext } from '../../compile/mark';
+import { STATE_VALUE_ENUM, type ISeriesMarkAttributeContext } from '../../compile/mark';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
+import type { EventType } from '@visactor/vgrammar-core';
 export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
     readonly specKey: string;
     readonly type: string;
@@ -23,8 +23,6 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     static readonly transformerConstructor: typeof BaseSeriesSpecTransformer;
     readonly transformerConstructor: any;
     getSpecInfo: () => ISeriesSpecInfo;
-    protected _trigger: ITrigger;
-    getTrigger(): ITrigger;
     protected _option: ISeriesOption;
     readonly coordinate: CoordinateType;
     protected _region: IRegion;
@@ -125,11 +123,38 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     initRootMark(): void;
     protected _initExtensionMark(options: {
         hasAnimation: boolean;
+        depend?: IMark[];
     }): void;
     private _createExtensionMark;
     protected _updateExtensionMarkSpec(lastSpec?: any): void;
     getStackData(): ISeriesStackData;
-    initTrigger(): void;
+    protected _parseDefaultInteractionConfig(mainMarks?: IMark[]): ({
+        seriesId: number;
+        regionId: number;
+        selector: string[];
+        type: string;
+        trigger: EventType;
+        resetTrigger: EventType;
+        blurState: STATE_VALUE_ENUM;
+        highlightState: STATE_VALUE_ENUM;
+        reverseState?: undefined;
+        state?: undefined;
+        isMultiple?: undefined;
+    } | {
+        type: string;
+        seriesId: number;
+        regionId: number;
+        selector: string[];
+        trigger: EventType;
+        resetTrigger: EventType;
+        reverseState: STATE_VALUE_ENUM;
+        state: STATE_VALUE_ENUM;
+        isMultiple: boolean;
+        blurState?: undefined;
+        highlightState?: undefined;
+    })[];
+    protected _parseInteractionConfig(mainMarks?: IMark[]): void;
+    initInteraction(): void;
     initAnimation(): void;
     initMarkState(): void;
     initSeriesStyleState(): void;
@@ -198,4 +223,5 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     getMarkInfoList(): import("../../model/interface").IModelMarkInfo[];
     protected _getInvalidConnectType(): "none" | "zero" | "connect";
     protected _getInvalidDefined: (datum: Datum) => boolean;
+    protected _getRelatedComponentSpecInfo(specKey: string): import("../../model/interface").IModelSpecInfo<any>[];
 }

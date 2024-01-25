@@ -53,7 +53,7 @@ export declare class Zoomable implements IZoomable {
     private _gestureController;
     private _isGestureListener;
     initZoomable(evt: IEvent, mode?: RenderMode): void;
-    private _getTriggerEvent;
+    private _getZoomTriggerEvent;
     private _zoomEventDispatch;
     private _getRegionOrSeriesLayout;
     private _bindZoomEventAsRegion;

@@ -89,7 +89,6 @@ export interface ILayoutItemSpec {
     alignSelf?: 'start' | 'end' | 'middle';
     orient?: IOrientType;
     padding?: ILayoutPaddingSpec;
-    indent?: ILayoutPaddingSpec;
     noOuterPadding?: boolean;
     width?: ILayoutNumber;
     maxWidth?: ILayoutNumber;

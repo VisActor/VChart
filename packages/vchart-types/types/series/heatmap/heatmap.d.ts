@@ -29,6 +29,7 @@ export declare class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeries
         scale: any;
         field: any;
     };
+    initInteraction(): void;
     initAnimation(): void;
     protected getCellSize(axisHelper: IAxisHelper): number;
     protected initTooltip(): void;

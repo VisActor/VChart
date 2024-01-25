@@ -21,6 +21,6 @@ export declare class MarkStateManager extends StateManager {
     checkItemsState(state: IStateInfo, item: any): boolean | undefined;
     checkFieldsState(state: IStateInfo, datum: Datum | Datum[], item: any, isMultiMark: boolean): boolean;
     checkLinearFieldState(domain: StringOrNumber[], key: string, datum: any, item: any, isMultiMark: boolean): boolean;
-    updateLayoutState(noRender?: boolean): Promise<void>;
-    compileState(product: IVGrammarMark): void;
+    updateLayoutState(noRender?: boolean): void;
+    compileState(product: IVGrammarMark, stateSort?: (stateA: string, stateB: string) => number): void;
 }

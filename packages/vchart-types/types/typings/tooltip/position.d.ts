@@ -5,7 +5,7 @@ export interface ITooltipPositionPattern {
     top?: number | ITooltipPositionCallback;
     bottom?: number | ITooltipPositionCallback;
 }
-export declare enum TooltipFixedPosition {
+export declare const enum TooltipFixedPosition {
     top = "top",
     bottom = "bottom",
     left = "left",
@@ -20,7 +20,7 @@ export declare enum TooltipFixedPosition {
     rb = "rb",
     inside = "inside"
 }
-export declare enum TooltipPositionMode {
+export declare const enum TooltipPositionMode {
     pointer = "pointer",
     mark = "mark"
 }

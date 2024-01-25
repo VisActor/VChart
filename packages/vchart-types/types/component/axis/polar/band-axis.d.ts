@@ -27,6 +27,7 @@ export declare class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxis
         center: () => import("../../../typings").IPoint;
         getScale: (depth: number) => import("@visactor/vscale").IBaseScale;
         getAxisId: () => number;
+        getSpec: () => T;
     };
     protected initScales(): void;
     transformScaleDomain(): void;

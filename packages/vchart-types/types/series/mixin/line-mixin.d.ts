@@ -1,5 +1,4 @@
 import type { ISeriesOption } from '../interface/common';
-import type { ITrigger } from '../../interaction/interface';
 import type { ISeries } from '../interface/series';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import type { ILineMark } from '../../mark/line';
@@ -28,7 +27,6 @@ export interface LineLikeSeriesMixin extends ISeries {
     _option: ISeriesOption;
     _seriesField: string;
     _theme: Maybe<ILineLikeSeriesTheme>;
-    _trigger: ITrigger;
     _tooltipHelper: ISeriesTooltipHelper;
     _invalidType: IInvalidType;
     _region: IRegion;

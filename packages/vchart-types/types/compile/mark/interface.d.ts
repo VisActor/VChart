@@ -34,10 +34,10 @@ export interface ICompilableMark extends IGrammarItem {
     readonly stateStyle: IMarkStateStyle<any>;
     hasState: (state: string) => boolean;
     getState: (state: string) => any;
-    updateState: (newState: Record<string, unknown>) => Promise<void>;
+    updateState: (newState: Record<string, unknown>) => void;
     updateStaticEncode: () => void;
     compileEncode: () => void;
-    updateLayoutState: (noRender?: boolean, recursion?: boolean) => Promise<void>;
+    updateLayoutState: (noRender?: boolean, recursion?: boolean) => void;
     updateMarkState: (key: string) => void;
     setTransform: (transform: TransformSpec[] | Nil) => void;
     getInteractive: () => boolean;
@@ -68,6 +68,7 @@ export interface ICompilableMark extends IGrammarItem {
     setSkipBeforeLayouted: (skip: boolean) => void;
     getSkipBeforeLayouted: () => boolean;
     setCustomizedShapeCallback: (callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D) => void;
+    setStateSortCallback: (stateSort: (stateA: string, stateB: string) => number) => void;
     runAnimationByState: (animationState?: string) => IAnimateArranger;
     stopAnimationByState: (animationState?: string) => IAnimate;
     pauseAnimationByState: (animationState: string) => IAnimate;
@@ -131,15 +132,6 @@ export type STATE_CUSTOM = string;
 export type StateValueNot = STATE_HOVER_REVERSE | STATE_CUSTOM;
 export type StateValue = STATE_NORMAL | STATE_HOVER | STATE_CUSTOM;
 export type StateValueType = StateValue | StateValueNot;
-export declare enum STATE_LEVEL {
-    NORMAL = 0,
-    DIMENSION_SELECTED = 1,
-    RELATIONAL_SELECTED = 2,
-    SELECTED = 3,
-    DIMENSION_HOVER = 4,
-    RELATIONAL_HOVER = 5,
-    HOVER = 6
-}
 export interface IAttributeOpt {
     element: IElement;
     mark: IElement['mark'];

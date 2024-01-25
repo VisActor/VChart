@@ -18,6 +18,7 @@ export declare class LinearProgressSeries<T extends ILinearProgressSeriesSpec = 
     private _initTrackMarkStyle;
     private _initProgressGroupMark;
     private _initProgressGroupMarkStyle;
+    initInteraction(): void;
     initAnimation(): void;
     protected initTooltip(): void;
     getActiveMarks(): IMark[];
