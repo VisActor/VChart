@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(scroll): event error in lynx env. fix#2041",
+      "comment": "fix: sequence chart region bind error. fix#2115",
       "type": "none"
     }
   ],

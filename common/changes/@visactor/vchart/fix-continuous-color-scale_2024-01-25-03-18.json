@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix: fix the bug of nice when tickCount is a function, fix #2050\n\n",
+      "comment": "fix: fix issue of continous color scale, close #2131\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

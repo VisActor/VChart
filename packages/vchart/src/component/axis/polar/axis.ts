@@ -500,7 +500,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items
+      items: items.length ? [items] : [],
+      orient: 'angle'
     };
     if (this._spec.grid.visible) {
       attrs.grid = {
@@ -532,7 +533,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items
+      items: items.length ? [items] : [],
+      orient: 'radius'
     };
     if (this._spec.grid?.visible) {
       attrs.grid = {

@@ -90,12 +90,12 @@ export class Zoomable implements IZoomable {
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
       this._clickEnable = true;
-      this._zoomableTrigger = new (this._getTriggerEvent('trigger') as any)();
+      this._zoomableTrigger = new (this._getZoomTriggerEvent('trigger') as any)();
     }
   }
 
   // event
-  private _getTriggerEvent(type: string): EventType {
+  private _getZoomTriggerEvent(type: string): EventType {
     return getDefaultTriggerEventByMode(this._renderMode)[type];
   }
 
@@ -163,11 +163,11 @@ export class Zoomable implements IZoomable {
 
     const event = this._isGestureListener ? this._gestureController : eventObj;
     const zoomParams = this._isGestureListener
-      ? [this._getTriggerEvent('zoom')]
-      : [this._getTriggerEvent('zoom'), { level: Event_Bubble_Level.chart, consume: true }];
+      ? [this._getZoomTriggerEvent('zoom')]
+      : [this._getZoomTriggerEvent('zoom'), { level: Event_Bubble_Level.chart, consume: true }];
     const zoomEndParams: [string] | [string, EventQuery] = this._isGestureListener
-      ? [this._getTriggerEvent('zoomEnd')]
-      : [this._getTriggerEvent('zoomEnd'), { level: Event_Bubble_Level.chart, consume: false }];
+      ? [this._getZoomTriggerEvent('zoomEnd')]
+      : [this._getZoomTriggerEvent('zoomEnd'), { level: Event_Bubble_Level.chart, consume: false }];
 
     // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
     (event as any).on(
@@ -277,11 +277,11 @@ export class Zoomable implements IZoomable {
 
     const event = this._isGestureListener ? this._gestureController : eventObj;
     const scrollParams = this._isGestureListener
-      ? [this._getTriggerEvent('scroll')]
-      : [this._getTriggerEvent('scroll'), { level: Event_Bubble_Level.chart, consume: true }];
+      ? [this._getZoomTriggerEvent('scroll')]
+      : [this._getZoomTriggerEvent('scroll'), { level: Event_Bubble_Level.chart, consume: true }];
     const scrollEndParams = this._isGestureListener
-      ? [this._getTriggerEvent('scrollEnd')]
-      : [this._getTriggerEvent('scrollEnd'), { level: Event_Bubble_Level.chart, consume: false }];
+      ? [this._getZoomTriggerEvent('scrollEnd')]
+      : [this._getZoomTriggerEvent('scrollEnd'), { level: Event_Bubble_Level.chart, consume: false }];
 
     // pc端没有scrollEnd事件，所以漫游模式下scroll仅支持realTime
     (event as any).on(
@@ -341,7 +341,7 @@ export class Zoomable implements IZoomable {
     callback?: (delta: [number, number], e: BaseEventParams['event']) => void,
     option?: ITriggerOption
   ) {
-    eventObj.on(this._getTriggerEvent('start'), { level: Event_Bubble_Level.chart }, (params: any) => {
+    eventObj.on(this._getZoomTriggerEvent('start'), { level: Event_Bubble_Level.chart }, (params: any) => {
       if (!params.event) {
         return;
       }
@@ -376,7 +376,7 @@ export class Zoomable implements IZoomable {
     }
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       s.event.on(
-        this._getTriggerEvent('start'),
+        this._getZoomTriggerEvent('start'),
         { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
         params => {
           this._handleDrag(params, callback, option);
@@ -400,7 +400,7 @@ export class Zoomable implements IZoomable {
           r.getSeries().forEach(s => {
             if (filter(s)) {
               s.event.on(
-                this._getTriggerEvent('start'),
+                this._getZoomTriggerEvent('start'),
                 { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
                 params => {
                   this._handleDrag(params, callback);
@@ -440,8 +440,8 @@ export class Zoomable implements IZoomable {
     const delayType = option?.delayType ?? 'throttle';
     const delayTime = option?.delayTime ?? 0;
     const realTime = option?.realTime ?? true;
-    const move = this._getTriggerEvent('move');
-    const end = this._getTriggerEvent('end');
+    const move = this._getZoomTriggerEvent('move');
+    const end = this._getZoomTriggerEvent('end');
     const event = params.event;
     let moveX = event.canvasX;
     let moveY = event.canvasY;

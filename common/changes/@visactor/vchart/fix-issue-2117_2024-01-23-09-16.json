@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: calculate layer transform for dimension tooltip",
+      "comment": "fix: fixed polar coordinate relative axis tickValues acquisition error problem, fixed#2117",
       "type": "none"
     }
   ],

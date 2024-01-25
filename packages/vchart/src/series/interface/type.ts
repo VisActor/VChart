@@ -36,7 +36,7 @@ export enum SeriesTypeEnum {
   liquid = 'liquid'
 }
 
-export enum SeriesMarkNameEnum {
+export const enum SeriesMarkNameEnum {
   label = 'label',
   point = 'point',
   line = 'line',
@@ -96,5 +96,3 @@ export enum SeriesMarkNameEnum {
   liquidBackground = 'liquidBackground',
   liquidOutline = 'liquidOutline'
 }
-
-export const seriesMarkNameSet = new Set<string>(Object.values(SeriesMarkNameEnum));

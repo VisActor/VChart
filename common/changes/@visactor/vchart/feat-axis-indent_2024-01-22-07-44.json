@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix: fixed the issue where activePoint does not take effect when the visible configuration of line chart point is false\n\n",
+      "comment": "feat: support innerOffset in vchart cartesian axis\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

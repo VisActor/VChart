@@ -18,6 +18,7 @@ import type { IGroup } from '@visactor/vrender-core';
 import { Factory } from '../../../core/factory';
 import type { IPoint } from '../../../typings';
 import type { IModelSpecInfo } from '../../../model/interface';
+import { markerFilter } from '../../../data/transforms/marker-filter';
 
 export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
   static type = ComponentTypeEnum.markArea;
@@ -124,7 +125,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
 
     const seriesData = this._relativeSeries.getViewData().latestData;
     const dataPoints = data
-      ? data.latestData[0].latestData
+      ? data.latestData[0] && data.latestData[0].latestData
         ? data.latestData[0].latestData
         : data.latestData
       : seriesData;
@@ -183,6 +184,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
 
     const seriesData = relativeSeries.getViewData();
     registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
+    registerDataSetInstanceTransform(this._option.dataSet, 'markerFilter', markerFilter);
     const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     data.parse([seriesData], {
       type: 'dataview'
@@ -191,6 +193,13 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
       type: 'markerAggregation',
       options
     });
+
+    if (options) {
+      data.transform({
+        type: 'markerFilter',
+        options: this._getAllRelativeSeries()
+      });
+    }
 
     data.target.on('change', () => {
       this._markerLayout();
