@@ -262,12 +262,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     eachSeries(
       this._regions,
       s => {
-        const viewData = s.getViewData();
-
-        if (!viewData || !viewData.latestData || !viewData.latestData.length) {
-          return;
-        }
-
         let field: string | string[];
         if (depth > 0) {
           field = s.getGroups()?.fields?.[depth];
@@ -279,17 +273,22 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         if (!depth) {
           this._dataFieldText = s.getFieldAlias(field[0]);
         }
-        const seriesData = s.getViewDataStatistics?.();
+
         if (field) {
-          field.forEach(f => {
-            if (rawData) {
+          const viewData = s.getViewData();
+          if (rawData) {
+            field.forEach(f => {
               data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
-            } else {
+            });
+          } else if (viewData && viewData.latestData && viewData.latestData.length) {
+            const seriesData = s.getViewDataStatistics?.();
+
+            field.forEach(f => {
               if (seriesData?.latestData?.[f]) {
                 data.push(seriesData.latestData[f]);
               }
-            }
-          });
+            });
+          }
         }
       },
       {
