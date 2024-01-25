@@ -195,7 +195,7 @@ Response:
 
 export const getQueryDatasetPrompt = (
   showThoughts: boolean
-) => `You are an expert in data analysis. Here is a raw dataset named dataSource. User will tell you his command and data field description of DataSource. You need to generate a standard SQL query to select useful fields from dataSource according to the template following the Steps and Description. Return the JSON object only.
+) => `You are an expert in data analysis. Here is a raw dataset named dataSource. User will tell you his command and column information of DataSource. You need to generate a standard SQL query to select useful fields from dataSource according to the template following the Steps and Description. Return the JSON object only.
 # Note
 1. You are running on a simple SQL engine, so the advanced features, such as RANK() OVER, TOP, JOIN, UNION, etc., are not supported. Please follow the SQL template and Description strictly.
 2. Don't guess the specific data content in your SQL. Don't use conditional statement.
@@ -209,7 +209,7 @@ SELECT xxx FROM xxx (WHERE xxx) GROUP BY xxx (HAVING xxx) (ORDER BY xxx) (LIMIT 
 # Steps
 1. Just use user's command to select useful fields directly. Ignore other parts of user's command.
 2. Select useful dimension fields from dataSource. Use the original dimension field without any process.
-3. Aggregate the measure fields. Supported aggregation function: MAX(), MIN(), SUM(), COUNT(), AVG(). Note: you must aggregate the original measure field without any process. Don't use conditional statement.
+3. Aggregate the measure fields. Supported aggregation function: MAX(), MIN(), SUM(), COUNT(), AVG(). Note: don't aggregate measures using functions that are not supported such as PERCENTILE_CONT(). Don't use conditional statement.
 4. Group the data using dimension fields and fill it in GROUP BY.
 5. You can also use WHERE, HAVING, ORDER BY, LIMIT in your SQL if necessary.
 
@@ -239,7 +239,7 @@ fieldInfo: {
 #Examples:
 
 User's Command: 帮我展示个人在不同方面的绩效，他是否是六边形战士
-Data field description: [{"fieldName":"key","type":"string","role":"dimension"},{"fieldName":"value","type":"int","role":"measure"}]
+Column Information: [{"fieldName":"key","type":"string","role":"dimension"},{"fieldName":"value","type":"int","role":"measure"}]
 
 Response:
 \`\`\`
@@ -261,7 +261,7 @@ Response:
 ----------------------------------
 
 User's Command: Show me the change of the GDP rankings of each country.
-Data field description: [{"fieldName":"country","type":"string","role":"dimension"},{"fieldName":"continent","type":"string","role":"dimension"},{"fieldName":"GDP","type":"float","role":"measure"},{"fieldName":"year","type":"int","role":"measure"}]
+Column Information: [{"fieldName":"country","type":"string","role":"dimension"},{"fieldName":"continent","type":"string","role":"dimension"},{"fieldName":"GDP","type":"float","role":"measure"},{"fieldName":"year","type":"int","role":"measure"}]
 
 Response:
 \`\`\`
@@ -286,7 +286,7 @@ Response:
 ----------------------------------
 
 User's Command: 请使用[柱状图]展示[2022年GDP排名前五的中国城市及其2022年的GDP].
-Data field description: [{"fieldName":"城市","type":"string","role":"dimension"},{"fieldName":"2022年GDP（亿元）","type":"int","role":"measure"}]
+Column Information: [{"fieldName":"城市","type":"string","role":"dimension"},{"fieldName":"2022年GDP（亿元）","type":"int","role":"measure"}]
 
 Response:
 \`\`\`
@@ -307,7 +307,7 @@ Response:
 ----------------------------------
 
 User's Command: 展示男女早餐饭量不同
-Data field description: [{"fieldName":"时间","type":"string","role":"dimension"},{"fieldName":"男_DASH_早餐","type":"int","role":"measure"},{"fieldName":"女_DASH_早餐","type":"int","role":"measure"}]
+Column Information: [{"fieldName":"时间","type":"string","role":"dimension"},{"fieldName":"男_DASH_早餐","type":"int","role":"measure"},{"fieldName":"女_DASH_早餐","type":"int","role":"measure"}]
 
 Response:
 \`\`\`

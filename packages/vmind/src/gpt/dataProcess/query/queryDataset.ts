@@ -47,7 +47,7 @@ export const queryDatasetWithGPT = async (
  * @param fieldInfo
  */
 const getQuerySQL = async (userInput: string, fieldInfo: SimpleFieldInfo[], options: ILLMOptions) => {
-  const queryDatasetMessage = `User's Command: ${userInput}\nData field description: ${JSON.stringify(fieldInfo)}`;
+  const queryDatasetMessage = `User's Command: ${userInput}\nColumn Information: ${JSON.stringify(fieldInfo)}`;
 
   const requestFunc = options.customRequestFunc?.dataQuery ?? requestGPT;
   const QueryDatasetPrompt = getQueryDatasetPrompt(options.showThoughts);
