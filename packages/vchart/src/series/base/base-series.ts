@@ -802,7 +802,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         selector: mainMarks.map(mark => `#${mark.getProductId()}`),
         type: 'element-highlight',
         trigger: finalHoverSpec.trigger as EventType,
-        resetTrigger: finalHoverSpec.triggerOff as EventType,
+        triggerOff: finalHoverSpec.triggerOff as EventType,
         blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
         highlightState: STATE_VALUE_ENUM.STATE_HOVER
       });
@@ -815,7 +815,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         regionId: this._region.id,
         selector: mainMarks.map(mark => `#${mark.getProductId()}`),
         trigger: finalSelectSpec.trigger as EventType,
-        resetTrigger: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
+        triggerOff: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
         reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
         state: STATE_VALUE_ENUM.STATE_SELECTED,
         isMultiple: finalSelectSpec.mode === 'multiple'
