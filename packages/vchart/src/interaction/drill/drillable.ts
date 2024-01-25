@@ -54,7 +54,7 @@ export class Drillable implements IDrillable {
   private _drillParams: DrillParams;
   private _drillInfo: DrillInfo;
 
-  private _getTriggerEvent(type: string): EventType {
+  private _getDrillTriggerEvent(type: string): EventType {
     const { mode } = this._drillParams;
 
     return getDefaultTriggerEventByMode(mode)?.[type];
@@ -90,8 +90,8 @@ export class Drillable implements IDrillable {
   bindDrillEvent() {
     const { event, getRawData, drillField } = this._drillParams;
     const keyField = drillField();
-    if (this._getTriggerEvent('start')) {
-      event.on(this._getTriggerEvent('start'), e => {
+    if (this._getDrillTriggerEvent('start')) {
+      event.on(this._getDrillTriggerEvent('start'), e => {
         if (isNil(e.datum) || isNil(e.datum?.[keyField])) {
           this.drillUp();
           return;

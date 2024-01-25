@@ -1,6 +1,6 @@
 export type MarkType = keyof typeof MarkTypeEnum | string;
 
-export enum MarkTypeEnum {
+export const enum MarkTypeEnum {
   group = 'group',
 
   symbol = 'symbol',

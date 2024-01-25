@@ -840,6 +840,16 @@ Get the legend data according to the legend component id, which comes from the s
   getLegendDataById: (id: string) => StringOrNumber[];
 ```
 
+Legend data type：
+
+```ts
+type LegendDatum = {
+  key: string; // legend item group
+  shapeType?: string; // legend symbol shape
+  style?: (channel: string) => any; // Legend style function, receives the visual channel name and returns the visual channel style, e.g. 'fill'
+};
+```
+
 ### getLegendDataByIndex
 
 Get legend data according to the legend component index.
@@ -851,6 +861,16 @@ Get legend data according to the legend component index.
    * @returns
    */
   getLegendDataByIndex: (index?: number) => StringOrNumber[];
+```
+
+Legend data type：
+
+```ts
+type LegendDatum = {
+  key: string; // legend item group
+  shapeType?: string; // legend symbol shape
+  style?: (channel: string) => any; // Legend style function, receives the visual channel name and returns the visual channel style, e.g. 'fill'
+};
 ```
 
 ### getLegendSelectedDataById

@@ -1,3 +1,24 @@
+# v1.8.9
+
+2024-01-23
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: support supportsTouchEvents and supportsPointerEvents config
+- **@visactor/vchart**: support `alignSelf` of layout `normal-inline` elements, fix [#2072](https://github.com/VisActor/VChart/issues/2072)
+- **@visactor/vchart**: upgrade vrender
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: fix bug of crosshair timer, fix [#2088](https://github.com/VisActor/VChart/issues/2088)
+- **@visactor/vchart**: fix the bugs of axis's onZero property, fixed [#2098](https://github.com/VisActor/VChart/issues/2098),[#2099](https://github.com/VisActor/VChart/issues/2099)
+- **@visactor/vchart**: update animation should exludes `defined` channel
+
+
+
+[更多详情请查看 v1.8.9](https://github.com/VisActor/VChart/releases/tag/v1.8.9)
+
 # v1.8.8
 
 2024-01-19

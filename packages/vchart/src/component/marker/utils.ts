@@ -108,7 +108,8 @@ export function xyLayout(
   };
 
   const lines: IPoint[][] = [];
-  const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+  const dataPoints =
+    data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
   const xDomain = relativeSeries.getXAxisHelper().getScale(0).domain();
   const yDomain = relativeSeries.getYAxisHelper().getScale(0).domain();
   dataPoints.forEach((datum: IPoint) => {
@@ -165,7 +166,8 @@ export function coordinateLayout(
   coordinatesOffset: OffsetPoint[] | OffsetPoint
 ) {
   const points: IPoint[] = [];
-  const dataPoints = data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
+  const dataPoints =
+    data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
   const isArrayCoordinatesOffset = isArray(coordinatesOffset);
   dataPoints.forEach(
     (
