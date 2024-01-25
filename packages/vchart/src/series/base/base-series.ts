@@ -76,7 +76,9 @@ import {
   isString,
   isFunction,
   isArray,
-  isValidNumber
+  isValidNumber,
+  minInArray,
+  maxInArray
 } from '@visactor/vutils';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
@@ -121,15 +123,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   };
 
   getLayoutStartPoint(): ILayoutPoint {
-    return this._region.getLayoutPositionExcludeIndent();
+    return this._region.getLayoutStartPoint();
   }
 
   private _layoutRect: ILayoutRect = { width: null, height: null };
 
   getLayoutRect: () => ILayoutRect = () => {
     return {
-      width: this._layoutRect.width ?? this._region.getLayoutRectExcludeIndent().width,
-      height: this._layoutRect.height ?? this._region.getLayoutRectExcludeIndent().height
+      width: this._layoutRect.width ?? this._region.getLayoutRect().width,
+      height: this._layoutRect.height ?? this._region.getLayoutRect().height
     };
   };
 
@@ -426,10 +428,27 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       if (canUseViewStatistics && this._viewDataStatistics.latestData?.[field]) {
         this._rawStatisticsCache[field] = this._viewDataStatistics.latestData[field];
       } else if (this._rawData) {
-        this._rawStatisticsCache[field] = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
-          { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
-        ])[field];
+        // 如果有设置统计信息，应当与设置值保持一致
+        const fieldInfo = this._rawData.getFields()?.[field];
+        if (fieldInfo && fieldInfo.lockStatisticsByDomain && fieldInfo.domain) {
+          this._rawStatisticsCache[field] = {};
+          if (isNumeric) {
+            this._rawStatisticsCache[field].min = minInArray(fieldInfo.domain);
+            this._rawStatisticsCache[field].max = maxInArray(fieldInfo.domain);
+          } else {
+            this._rawStatisticsCache[field].values = fieldInfo.domain;
+          }
+        } else {
+          this._rawStatisticsCache[field] = dimensionStatisticsOfSimpleData(this._rawData.latestData, [
+            { key: field, operations: isNumeric ? ['min', 'max'] : ['values'] }
+          ])[field];
+        }
       }
+    }
+
+    if (isNumeric && (isNil(this._rawStatisticsCache[field].min) || isNil(this._rawStatisticsCache[field].max))) {
+      this._rawStatisticsCache[field].min = minInArray(this._rawStatisticsCache[field].values);
+      this._rawStatisticsCache[field].max = maxInArray(this._rawStatisticsCache[field].values);
     }
 
     return this._rawStatisticsCache[field];
@@ -674,15 +693,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         dataView: false
       }
     ) as IGroupMark;
-    this.setMarkStyle(
-      this._rootMark,
-      {
-        x: () => this._region.layout.indent.left,
-        y: () => this._region.layout.indent.top
-      },
-      'normal',
-      AttributeLevel.Base_Series
-    );
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 

@@ -1,3 +1,75 @@
+# v1.8.10
+
+2024-01-25
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: support innerOffset in vchart cartesian axis
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: fix issue of continous color scale, close [#2131](https://github.com/VisActor/VChart/issues/2131)
+- **@visactor/vchart**: dont return min,max of empty data, fix [#1711](https://github.com/VisActor/VChart/issues/1711)
+- **@visactor/vchart**: fixed polar coordinate relative axis tickValues acquisition error problem, fixed[#2117](https://github.com/VisActor/VChart/issues/2117)
+- **@visactor/vchart**: fix the issue mark line is not filter by legend, close [#2127](https://github.com/VisActor/VChart/issues/2127)
+- **@visactor/vchart**: sequence chart region bind error. fix[#2115](https://github.com/VisActor/VChart/issues/2115)
+- **@visactor/vchart**: star shapes on dom tooltip do not display correctly, related [#1905](https://github.com/VisActor/VChart/issues/1905)
+- **@visactor/vchart**: treemap drill event error
+- **@visactor/vchart**: treemap drill error when turn off the animation
+
+
+
+[更多详情请查看 v1.8.10](https://github.com/VisActor/VChart/releases/tag/v1.8.10)
+
+# v1.8.9
+
+2024-01-23
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: support supportsTouchEvents and supportsPointerEvents config
+- **@visactor/vchart**: support `alignSelf` of layout `normal-inline` elements, fix [#2072](https://github.com/VisActor/VChart/issues/2072)
+- **@visactor/vchart**: upgrade vrender
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: fix bug of crosshair timer, fix [#2088](https://github.com/VisActor/VChart/issues/2088)
+- **@visactor/vchart**: fix the bugs of axis's onZero property, fixed [#2098](https://github.com/VisActor/VChart/issues/2098),[#2099](https://github.com/VisActor/VChart/issues/2099)
+- **@visactor/vchart**: update animation should exludes `defined` channel
+
+
+
+[更多详情请查看 v1.8.9](https://github.com/VisActor/VChart/releases/tag/v1.8.9)
+
+# v1.8.8
+
+2024-01-19
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 增强滚动效果，已关闭 [#2037](https://github.com/VisActor/VChart/issues/2037)
+- **@visactor/vchart**: 升级 @visactor/vrender-core 至锁定版本 0.17.14
+- **@visactor/vchart**: sankey 图表支持 disableTriggerEvent 配置
+- **@visactor/vchart**: 支持新的布局类型 region-relative-overlap
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: `area.interactive` 在 area series spec 中不可用，相关 [#2030](https://github.com/VisActor/VChart/issues/2030)
+- **@visactor/vchart**: 修复 datazoom 改变轴后 sortDataByAxis 不工作的问题
+- **@visactor/vchart**: 当轴的 `trimPadding` 为 true 时，应显示 crosshair，修复 [#2054](https://github.com/VisActor/VChart/issues/2054)
+- **@visactor/vchart**: 为 dimension tooltip 计算层转换
+- **@visactor/vchart**: 修复了线图点的可见配置为 false 时 activePoint 不生效的问题
+- **@visactor/vchart**: 在 [#1956](https://github.com/VisActor/VChart/issues/1956) 中配置 label.overlap:true 时的不同效果
+- **@visactor/vchart**: label 位置与 region indent 不正确
+- **scroll**: 在 lynx 环境中的事件错误。修复[#2041](https://github.com/VisActor/VChart/issues/2041)
+- **@visactor/vchart**: 在 updateSpec 或 resize 后，地图比例尺不正确
+- **@visactor/vchart**: 修复 tickCount 是函数时 nice 的 bug，修复 [#2050](https://github.com/VisActor/VChart/issues/2050)
+
+[更多详情请查看 v1.8.8](https://github.com/VisActor/VChart/releases/tag/v1.8.8)
+
 # v1.8.7
 
 2024-01-11

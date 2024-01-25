@@ -72,7 +72,23 @@ export function animationConfig<Preset extends string>(
     // 开始处理用户配置的动画逻辑
     let stateConfig: IAnimationConfig[];
     if (isArray(userStateConfig)) {
-      stateConfig = userStateConfig;
+      stateConfig = userStateConfig.map((userConfig, i) => {
+        let singleConfig: IAnimationConfig = userConfig;
+        // not merge default config when user animation config is array
+        if (isChannelAnimation(singleConfig)) {
+          // `type` and `channel` is conflict, and `type` has a higher priority.
+          // here if user configured `channel`, we should remove `type` which will come from default animation config
+          delete (singleConfig as IAnimationTypeConfig).type;
+        }
+        if (singleConfig.oneByOne) {
+          singleConfig = produceOneByOne(
+            singleConfig as IAnimationTypeConfig,
+            params?.dataIndex ?? defaultDataIndex,
+            params?.dataCount
+          );
+        }
+        return singleConfig;
+      });
     } else {
       stateConfig = defaultStateConfig.map((stateConfig, i) => {
         let singleConfig: IAnimationConfig = mergeSpec({}, defaultStateConfig[i], userStateConfig) as IAnimationConfig;

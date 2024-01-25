@@ -1,4 +1,4 @@
-# Theme for Semi Design
+# Themes for Semi Design
 
 ## What is Semi
 

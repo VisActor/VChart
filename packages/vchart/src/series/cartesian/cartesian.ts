@@ -487,6 +487,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
         this._direction === Direction.horizontal ? this._fieldY[0] : this._fieldX[0],
         this.getViewData().latestData
       );
+      this._data?.updateData(true);
     }
   }
 

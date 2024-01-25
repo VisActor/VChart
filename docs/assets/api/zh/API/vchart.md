@@ -842,7 +842,17 @@ hideTooltip: () => boolean;
    * @param id 组件 id
    * @returns
    */
-  getLegendDataById: (id: string) => StringOrNumber[];
+  getLegendDataById: (id: string) => Datum[];
+```
+
+图例数据类型：
+
+```ts
+type LegendDatum = {
+  key: string; // 图例项分组
+  shapeType?: string; // 图例 symbol 形状
+  style?: (channel: string) => any; // 图例样式函数，接收视觉通道名称并返回视觉通道样式，例如 'fill'
+};
 ```
 
 ### getLegendDataByIndex
@@ -855,7 +865,17 @@ hideTooltip: () => boolean;
    * @param index 图例索引，默认为 0
    * @returns
    */
-  getLegendDataByIndex: (index?: number) => StringOrNumber[];
+  getLegendDataByIndex: (index?: number) => Datum[];
+```
+
+图例数据类型：
+
+```ts
+type LegendDatum = {
+  key: string; // 图例项分组
+  shapeType?: string; // 图例 symbol 形状
+  style?: (channel: string) => any; // 图例样式函数，接收视觉通道名称并返回视觉通道样式，例如 'fill'
+};
 ```
 
 ### getLegendSelectedDataById

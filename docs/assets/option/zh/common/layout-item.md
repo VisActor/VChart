@@ -9,7 +9,8 @@
 目前支持的布局类型如下：
 
 - `'region'`: 图表的绘图区域，一般只有 region 模块为这个类型
-- `'region-relative'`: 与 region 位置相关的模块，比如轴，datazoom 等
+- `'region-relative'`: 与 region 位置相关的模块，比如轴，datazoom 等，多个同方向的模块不会重叠
+- `'region-relative-overlap'`: 自 `1.8.8` 版本开始支持，与 region 位置相关的模块使用重叠布局，可以通过这个配置将多个坐标轴重叠在一起
 - `'normal'`: 普通占位元素，比如图例，标题等
 - `'normal-inline'`: 行内占位元素，用于多个图例并排展示场景等
 - `'absolute'`: 绝对布局元素，比如 tooltip，markline 等
@@ -29,6 +30,17 @@
 - 'bottom'
 
 {{ /if }}
+
+#${prefix} alignSelf('start' | 'end' | 'middle') = 'start'
+
+从 1.8.9 版本开始支持，
+
+对于布局类型为`normal-inline`的元素，设置行内元素的对齐方式:
+
+- 顶部的元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐
+- 底部的元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐
+- 左侧的元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐
+- 右侧的元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐
 
 #${prefix} padding(ILayoutNumber|Array|Object) = 0
 

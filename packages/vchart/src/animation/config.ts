@@ -124,7 +124,7 @@ export const registerLineAnimation = () => {
       update: [
         {
           type: 'update',
-          options: { excludeChannels: 'points' }
+          options: { excludeChannels: ['points', 'defined'] }
         },
         {
           channel: ['points'],

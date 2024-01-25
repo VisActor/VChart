@@ -34,6 +34,7 @@ import { Factory } from '../../../core/factory';
 import { isPercent } from '../../../util';
 import type { IPoint } from '../../../typings';
 import type { IModelSpecInfo } from '../../../model/interface';
+import { markerFilter } from '../../../data/transforms/marker-filter';
 
 export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
   static type = ComponentTypeEnum.markLine;
@@ -151,7 +152,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
     }
 
     const seriesData = this._relativeSeries.getViewData().latestData;
-    const dataPoints = data.latestData[0].latestData || data.latestData;
+    const dataPoints =
+      data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
 
     let limitRect;
     if (spec.clip || spec.label?.confine) {
@@ -182,16 +184,16 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       let expandDistanceValue: number;
       if (isPercent(expandDistance)) {
         const regionStart = startRelativeSeries.getRegion();
-        const regionStartLayoutStartPoint = regionStart.getLayoutPositionExcludeIndent();
+        const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
         const regionEnd = endRelativeSeries.getRegion();
-        const regionEndLayoutStartPoint = regionEnd.getLayoutPositionExcludeIndent();
+        const regionEndLayoutStartPoint = regionEnd.getLayoutStartPoint();
 
         if (connectDirection === 'bottom' || connectDirection === 'top') {
           const regionHeight = Math.abs(
             Math.min(regionStartLayoutStartPoint.y, regionEndLayoutStartPoint.y) -
               Math.max(
-                regionStartLayoutStartPoint.y + regionStart.getLayoutRectExcludeIndent().height,
-                regionEndLayoutStartPoint.y + regionEnd.getLayoutRectExcludeIndent().height
+                regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
+                regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
               )
           );
           expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionHeight) / 100;
@@ -199,8 +201,8 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
           const regionWidth = Math.abs(
             Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x) -
               Math.max(
-                regionStartLayoutStartPoint.x + regionStart.getLayoutRectExcludeIndent().width,
-                regionEndLayoutStartPoint.x + regionEnd.getLayoutRectExcludeIndent().width
+                regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
+                regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
               )
           );
           expandDistanceValue = (Number(expandDistance.substring(0, expandDistance.length - 1)) * regionWidth) / 100;
@@ -287,6 +289,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
 
     registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
     registerDataSetInstanceTransform(this._option.dataSet, 'markerRegression', markerRegression);
+    registerDataSetInstanceTransform(this._option.dataSet, 'markerFilter', markerFilter);
 
     this._isXYLayout = doXProcess || doXYY1Process || doYProcess || doYXX1Process || doXYProcess;
 
@@ -353,6 +356,13 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       data.transform({
         type: 'markerRegression',
         options
+      });
+    }
+
+    if (needAggr || needRegr) {
+      data.transform({
+        type: 'markerFilter',
+        options: this._getAllRelativeSeries()
       });
     }
 

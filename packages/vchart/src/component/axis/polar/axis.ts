@@ -185,7 +185,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
 
   _transformLayoutPosition = (pos: Partial<IPoint>) => {
     const region = this.getRegions()?.[0];
-    return region ? region.getLayoutPositionExcludeIndent() : pos;
+    return region ? region.getLayoutStartPoint() : pos;
   };
 
   onLayoutEnd(ctx: any): void {
@@ -257,7 +257,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return true;
   }
 
-  protected collectData(depth: number) {
+  protected collectData(depth: number, rawData?: boolean) {
     const data: { min: number; max: number; values: any[] }[] = [];
     eachSeries(
       this._regions,
@@ -273,13 +273,22 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         if (!depth) {
           this._dataFieldText = s.getFieldAlias(field[0]);
         }
-        const seriesData = s.getViewDataStatistics?.();
+
         if (field) {
-          field.forEach(f => {
-            if (seriesData?.latestData?.[f]) {
-              data.push(seriesData.latestData[f]);
-            }
-          });
+          const viewData = s.getViewData();
+          if (rawData) {
+            field.forEach(f => {
+              data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
+            });
+          } else if (viewData && viewData.latestData && viewData.latestData.length) {
+            const seriesData = s.getViewDataStatistics?.();
+
+            field.forEach(f => {
+              if (seriesData?.latestData?.[f]) {
+                data.push(seriesData.latestData[f]);
+              }
+            });
+          }
         }
       },
       {
@@ -431,9 +440,9 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       if (latestData && !isArray(latestData)) {
         // the ticks data of scale has not be calculated
         this.computeData('force');
+      } else {
+        return latestData || [];
       }
-
-      return this._tickData.getLatestData() || [];
     }
 
     return (this._scale as BandScale | LinearScale).ticks();
@@ -481,7 +490,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items: items.length ? [items] : []
+      items: items.length ? [items] : [],
+      orient: 'angle'
     };
     if (this._spec.grid.visible) {
       attrs.grid = {
@@ -523,7 +533,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items: items.length ? [items] : []
+      items: items.length ? [items] : [],
+      orient: 'radius'
     };
     if (this._spec.grid?.visible) {
       attrs.grid = {
@@ -566,7 +577,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   private getRefLayoutRect() {
-    return this.getRegions()[0].getLayoutRectExcludeIndent();
+    return this.getRegions()[0].getLayoutRect();
   }
 
   private getRefSeriesRadius() {

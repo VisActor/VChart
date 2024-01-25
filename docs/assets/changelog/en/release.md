@@ -1,3 +1,75 @@
+# v1.8.10
+
+2024-01-25
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support innerOffset in vchart cartesian axis
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix issue of continous color scale, close [#2131](https://github.com/VisActor/VChart/issues/2131)
+- **@visactor/vchart**: dont return min,max of empty data, fix [#1711](https://github.com/VisActor/VChart/issues/1711)
+- **@visactor/vchart**: fixed polar coordinate relative axis tickValues acquisition error problem, fixed[#2117](https://github.com/VisActor/VChart/issues/2117)
+- **@visactor/vchart**: fix the issue mark line is not filter by legend, close [#2127](https://github.com/VisActor/VChart/issues/2127)
+- **@visactor/vchart**: sequence chart region bind error. fix[#2115](https://github.com/VisActor/VChart/issues/2115)
+- **@visactor/vchart**: star shapes on dom tooltip do not display correctly, related [#1905](https://github.com/VisActor/VChart/issues/1905)
+- **@visactor/vchart**: treemap drill event error
+- **@visactor/vchart**: treemap drill error when turn off the animation
+
+
+
+[more detail about v1.8.10](https://github.com/VisActor/VChart/releases/tag/v1.8.10)
+
+# v1.8.9
+
+2024-01-23
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support supportsTouchEvents and supportsPointerEvents config
+- **@visactor/vchart**: support `alignSelf` of layout `normal-inline` elements, fix [#2072](https://github.com/VisActor/VChart/issues/2072)
+- **@visactor/vchart**: upgrade vrender
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix bug of crosshair timer, fix [#2088](https://github.com/VisActor/VChart/issues/2088)
+- **@visactor/vchart**: fix the bugs of axis's onZero property, fixed [#2098](https://github.com/VisActor/VChart/issues/2098),[#2099](https://github.com/VisActor/VChart/issues/2099)
+- **@visactor/vchart**: update animation should exludes `defined` channel
+
+
+
+[more detail about v1.8.9](https://github.com/VisActor/VChart/releases/tag/v1.8.9)
+
+# v1.8.8
+
+2024-01-19
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: enhance scroll effect, closed [#2037](https://github.com/VisActor/VChart/issues/2037)
+- **@visactor/vchart**: upgrade @visactor/vrender-core to locked 0.17.14
+- **@visactor/vchart**: sankey chart supports disableTriggerEvent configuration
+- **@visactor/vchart**: support new layout type region-relative-overlap
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: `area.interactive` in area series spec is not available, related [#2030](https://github.com/VisActor/VChart/issues/2030)
+- **@visactor/vchart**: fix sortDataByAxis not work after datazoom changed axis
+- **@visactor/vchart**: crosshair should show when `trimPadding` of axis is true, fix [#2054](https://github.com/VisActor/VChart/issues/2054)
+- **@visactor/vchart**: calculate layer transform for dimension tooltip
+- **@visactor/vchart**: fixed the issue where activePoint does not take effect when the visible configuration of line chart point is false
+- **@visactor/vchart**: different effect when configuring label.overlap:true in [#1956](https://github.com/VisActor/VChart/issues/1956)
+- **@visactor/vchart**: label position incorrect with region indent
+- **scroll**: event error in lynx env. fix[#2041](https://github.com/VisActor/VChart/issues/2041)
+- **@visactor/vchart**: map scale ratio not correct after updateSpec or resize
+- **@visactor/vchart**: fix the bug of nice when tickCount is a function, fix [#2050](https://github.com/VisActor/VChart/issues/2050)
+
+[more detail about v1.8.8](https://github.com/VisActor/VChart/releases/tag/v1.8.8)
+
 # v1.8.7
 
 2024-01-11

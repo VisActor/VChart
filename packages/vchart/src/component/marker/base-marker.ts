@@ -46,7 +46,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     this._initDataView();
   }
 
-  private _getAllRelativeSeries() {
+  protected _getAllRelativeSeries() {
     return {
       getRelativeSeries: () => this._relativeSeries,
       getStartRelativeSeries: () => this._startRelativeSeries,

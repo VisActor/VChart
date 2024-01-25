@@ -18,7 +18,7 @@ import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { mixin, clamp, isNil, merge, isEqual, isValid, array, minInArray, maxInArray } from '@visactor/vutils';
+import { mixin, clamp, isNil, merge, isEqual, isValid, array, minInArray, maxInArray, abs } from '@visactor/vutils';
 import { IFilterMode } from './constant';
 import type {
   IDataFilterComponent,
@@ -741,7 +741,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
     const { zoomDelta, zoomX, zoomY } = params;
     const { x, y } = this._regions[0].getLayoutStartPoint();
-    const { width, height } = this._regions[0].getLayoutRectExcludeIndent();
+    const { width, height } = this._regions[0].getLayoutRect();
 
     const delta = Math.abs(this._start - this._end);
     const zoomRate = (this._spec.roamZoom as IRoamZoomSpec)?.rate ?? 1;
@@ -770,15 +770,20 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _handleChartScroll = (params: { scrollX: number; scrollY: number }, e: BaseEventParams['event']) => {
     if (!this._activeRoam) {
-      return;
+      return false;
     }
     const { scrollX, scrollY } = params;
     let value = this._isHorizontal ? scrollX : scrollY;
+    // 判断这次是否应该要滚动，最少
+    const active = this._isHorizontal ? abs(scrollX / scrollY) >= 0.5 : abs(scrollY / scrollX) >= 0.5;
     if (!this._scrollAttr.reverse) {
       value = -value;
     }
 
-    this._handleChartMove(value, this._scrollAttr.rate ?? 1);
+    if (active) {
+      this._handleChartMove(value, this._scrollAttr.rate ?? 1);
+    }
+    return active;
   };
 
   protected _handleChartDrag = (delta: [number, number], e: BaseEventParams['event']) => {

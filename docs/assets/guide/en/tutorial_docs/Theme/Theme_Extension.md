@@ -58,10 +58,12 @@ VChart.ThemeManager.setCurrentTheme('vScreenVolcanoBlue');
 
 该包主要包含以下主题 json 资源：
 
-- [light](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/light.json) Default Theme - light
-- [dark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/dark.json) Default Theme - dark
-- [semiDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-semi-theme/public/semiDesignLight.json) Semi Design - light
-- [semiDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-semi-theme/public/semiDesignDark.json) Semi Design - dark
+- [light](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/light.json)
+- [dark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/dark.json)
+- [mobileLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/mobileLight.json) light theme for mobile devices
+- [mobileDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/mobileDark.json) dark theme for mobile devices
+- [legacyLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/legacyLight.json) legacy light theme for simply legend style
+- [legacyDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/legacyDark.json) legacy dark theme for simply legend style
 - [vScreenVolcanoBlue](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenVolcanoBlue.json) 大屏-火山蓝
 - [vScreenClean](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenClean.json) 大屏-清新蜡笔
 - [vScreenOutskirts](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenOutskirts.json) 大屏-郊外
@@ -72,3 +74,7 @@ VChart.ThemeManager.setCurrentTheme('vScreenVolcanoBlue');
 - [vScreenECommercePurple](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenECommercePurple.json) 大屏-电商紫
 - [vScreenRedBlue](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenRedBlue.json) 大屏-红蓝
 - [vScreenPartyRed](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenPartyRed.json) 大屏-党建红
+- [semiDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/semiDesignLight.json) Semi Design - light
+- [semiDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/semiDesignDark.json) Semi Design - dark
+- [arcoDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/arcoDesignLight.json) Arco Design - light
+- [arcoDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/arcoDesignDark.json) Arco Design - dark

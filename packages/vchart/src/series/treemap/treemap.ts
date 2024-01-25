@@ -97,7 +97,7 @@ export class TreemapSeries extends CartesianSeries<any> {
       (this as unknown as IDrillable).initDrillable({
         event: this.event,
         mode: this._option.mode,
-        drillField: () => this._spec.drillField ?? DEFAULT_DATA_KEY,
+        drillField: () => this._spec.drillField ?? this._categoryField ?? DEFAULT_DATA_KEY,
         getRawData: () => this.getRawData()
       });
     }

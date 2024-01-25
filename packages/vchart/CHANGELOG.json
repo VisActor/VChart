@@ -2,6 +2,120 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.10",
+      "tag": "@visactor/vchart_v1.8.10",
+      "date": "Thu, 25 Jan 2024 09:18:19 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support innerOffset in vchart cartesian axis\n\n"
+          },
+          {
+            "comment": "fix: fix issue of continous color scale, close #2131\n\n"
+          },
+          {
+            "comment": "fix: dont return min,max of empty data, fix #1711"
+          },
+          {
+            "comment": "fix: fixed polar coordinate relative axis tickValues acquisition error problem, fixed#2117"
+          },
+          {
+            "comment": "fix: fix the issue mark line is not filter by legend, close #2127"
+          },
+          {
+            "comment": "fix: sequence chart region bind error. fix#2115"
+          },
+          {
+            "comment": "fix: star shapes on dom tooltip do not display correctly, related #1905"
+          },
+          {
+            "comment": "fix: treemap drill event error"
+          },
+          {
+            "comment": " fix: treemap drill error when turn off the animation"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.8.9",
+      "tag": "@visactor/vchart_v1.8.9",
+      "date": "Mon, 22 Jan 2024 12:27:45 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support supportsTouchEvents and supportsPointerEvents config"
+          },
+          {
+            "comment": "feat: support `alignSelf` of layout `normal-inline` elements, fix #2072 \n\n"
+          },
+          {
+            "comment": "feat: upgrade vrender"
+          },
+          {
+            "comment": "fix: fix bug of crosshair timer, fix #2088\n\n"
+          },
+          {
+            "comment": "fix: fix the bugs of axis's onZero property, fixed #2098,#2099"
+          },
+          {
+            "comment": "fix: update animation should exludes `defined` channel"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.8.8",
+      "tag": "@visactor/vchart_v1.8.8",
+      "date": "Fri, 19 Jan 2024 05:31:20 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: enhance scroll effect, closed #2037"
+          },
+          {
+            "comment": "feat: upgrade @visactor/vrender-core to locked 0.17.14"
+          },
+          {
+            "comment": "feat: sankey chart supports disableTriggerEvent configuration\n\n"
+          },
+          {
+            "comment": "fix: `area.interactive` in area series spec is not available, related #2030"
+          },
+          {
+            "comment": "fix: fix sortDataByAxis not work after datazoom changed axis\n\n"
+          },
+          {
+            "comment": "fix: crosshair should show when `trimPadding` of axis is true, fix #2054\n\n"
+          },
+          {
+            "comment": "fix: calculate layer transform for dimension tooltip"
+          },
+          {
+            "comment": "fix: fixed the issue where activePoint does not take effect when the visible configuration of line chart point is false\n\n"
+          },
+          {
+            "comment": "fix: different effect when configuring label.overlap:true in #1956"
+          },
+          {
+            "comment": "fix: label position incorrect with region indent"
+          },
+          {
+            "comment": "fix(scroll): event error in lynx env. fix#2041"
+          },
+          {
+            "comment": "fix: map scale ratio not correct after updateSpec or resize"
+          },
+          {
+            "comment": "feat: support new layout type region-relative-overlap\n\n"
+          },
+          {
+            "comment": "fix: fix the bug of nice when tickCount is a function, fix #2050\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.7",
       "tag": "@visactor/vchart_v1.8.7",
       "date": "Thu, 11 Jan 2024 09:36:17 GMT",
@@ -1094,7 +1208,7 @@
             "comment": "feat: upgrade vdataset for clone source data when call updateData\n\n"
           },
           {
-            "comment": "fix: fix sortDataByAxis not work after updateData\n\n"
+            "comment": "fix: fix axis domain will in the wrong order after buildIn data filter\n\n"
           },
           {
             "comment": "fix: fix the issue of legend does not update after updateData, fix #769"

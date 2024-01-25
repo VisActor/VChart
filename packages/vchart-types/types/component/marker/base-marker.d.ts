@@ -18,7 +18,11 @@ export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComp
     protected _layoutOffsetY: number;
     private _firstSeries;
     created(): void;
-    private _getAllRelativeSeries;
+    protected _getAllRelativeSeries(): {
+        getRelativeSeries: () => ICartesianSeries;
+        getStartRelativeSeries: () => ICartesianSeries;
+        getEndRelativeSeries: () => ICartesianSeries;
+    };
     private _getFieldInfoFromSpec;
     protected _processSpecX(specX: IDataPos | IDataPosCallback): {
         getRelativeSeries: () => ICartesianSeries;
