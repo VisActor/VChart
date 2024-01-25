@@ -6,13 +6,13 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { RangeColumnAppearPreset } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from '../interface/type';
-export declare enum PositionEnum {
+export declare const enum PositionEnum {
     middle = "middle",
     start = "start",
     end = "end",
     bothEnd = "bothEnd"
 }
-export declare enum minMaxPositionEnum {
+export declare const enum minMaxPositionEnum {
     middle = "middle",
     start = "start",
     end = "end"

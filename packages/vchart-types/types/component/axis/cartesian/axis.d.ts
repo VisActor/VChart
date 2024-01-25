@@ -3,7 +3,7 @@ import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/i
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper } from './interface';
-import type { IOrientType } from '../../../typings/space';
+import type { IOrientType, IRect } from '../../../typings/space';
 import type { IBaseScale } from '@visactor/vscale';
 import type { StringOrNumber } from '../../../typings/common';
 import type { IPoint } from '../../../typings/coordinate';
@@ -50,6 +50,12 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
         height: number;
         _lastComputeOutBounds: IBoundsLike;
     };
+    protected _innerOffset: {
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
+    };
     constructor(spec: T, options: IComponentOption);
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     static createComponent(specInfo: IModelSpecInfo, options: IComponentOption): IAxis;
@@ -69,6 +75,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected updateScaleRange(): boolean;
     init(option: IModelInitOption): void;
     setAttrFromSpec(): void;
+    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
     protected getSeriesStatisticsField(s: ICartesianSeries): string[];
     protected _tickTransformOption(coordinateType: CoordinateType): ICartesianTickDataOpt;
     protected _initData(): void;

@@ -12,7 +12,7 @@ export interface IPadding {
     left?: number;
     right?: number;
 }
-export declare enum Direction {
+export declare const enum Direction {
     vertical = "vertical",
     horizontal = "horizontal"
 }

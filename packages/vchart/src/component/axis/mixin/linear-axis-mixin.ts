@@ -117,11 +117,18 @@ export class LinearAxisMixin {
 
   computeLinearDomain(data: { min: number; max: number; values: any[] }[]): number[] {
     const domain: number[] = [];
-    data.forEach(d => {
-      const { min, max } = d;
-      domain[0] = domain[0] === undefined ? min : Math.min(domain[0] as number, min as number);
-      domain[1] = domain[1] === undefined ? max : Math.max(domain[1] as number, max as number);
-    });
+
+    if (data.length) {
+      data.forEach(d => {
+        const { min, max } = d;
+        domain[0] = domain[0] === undefined ? min : Math.min(domain[0] as number, min as number);
+        domain[1] = domain[1] === undefined ? max : Math.max(domain[1] as number, max as number);
+      });
+    } else {
+      // default value for linear axis
+      domain[0] = 0;
+      domain[1] = 0;
+    }
     this.expandDomain(domain);
     this.includeZero(domain);
     this.setDomainMinMax(domain);
