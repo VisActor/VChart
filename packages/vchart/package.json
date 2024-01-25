@@ -118,12 +118,12 @@
     "@size-limit/file": "9.0.0"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.17.3",
-    "@visactor/vdataset": "~0.17.3",
-    "@visactor/vscale": "~0.17.3",
-    "@visactor/vrender-core": "0.17.17",
-    "@visactor/vrender-kits": "0.17.17",
-    "@visactor/vrender-components": "0.17.17",
+    "@visactor/vutils": "~0.17.4",
+    "@visactor/vdataset": "~0.17.4",
+    "@visactor/vscale": "~0.17.4",
+    "@visactor/vrender-core": "0.17.19",
+    "@visactor/vrender-kits": "0.17.19",
+    "@visactor/vrender-components": "0.17.19",
     "@visactor/vgrammar-core": "0.11.4",
     "@visactor/vgrammar-projection": "0.11.4",
     "@visactor/vgrammar-wordcloud": "0.11.4",
