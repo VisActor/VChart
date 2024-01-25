@@ -44,12 +44,12 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   /** 获取当前 model 对应在图表 spec 上的路径 */
   getSpecPath() {
-    return this._option.specPath;
+    return this._option?.specPath;
   }
 
   /** 获取当前 model 对应在图表 specInfo 上的路径 */
   getSpecInfoPath() {
-    return this._option.specInfoPath ?? this._option.specPath;
+    return this._option?.specInfoPath ?? this._option?.specPath;
   }
 
   readonly type: string = 'null';
