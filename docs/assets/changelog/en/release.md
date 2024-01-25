@@ -1,3 +1,27 @@
+# v1.8.10
+
+2024-01-25
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support innerOffset in vchart cartesian axis
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix issue of continous color scale, close [#2131](https://github.com/VisActor/VChart/issues/2131)
+- **@visactor/vchart**: dont return min,max of empty data, fix [#1711](https://github.com/VisActor/VChart/issues/1711)
+- **@visactor/vchart**: fixed polar coordinate relative axis tickValues acquisition error problem, fixed[#2117](https://github.com/VisActor/VChart/issues/2117)
+- **@visactor/vchart**: fix the issue mark line is not filter by legend, close [#2127](https://github.com/VisActor/VChart/issues/2127)
+- **@visactor/vchart**: sequence chart region bind error. fix[#2115](https://github.com/VisActor/VChart/issues/2115)
+- **@visactor/vchart**: star shapes on dom tooltip do not display correctly, related [#1905](https://github.com/VisActor/VChart/issues/1905)
+- **@visactor/vchart**: treemap drill event error
+- **@visactor/vchart**: treemap drill error when turn off the animation
+
+
+
+[more detail about v1.8.10](https://github.com/VisActor/VChart/releases/tag/v1.8.10)
+
 # v1.8.9
 
 2024-01-23
