@@ -28,9 +28,15 @@ export const queryDatasetWithGPT = async (
   const { validStr, replaceMap: preprocessReplaceMap } = preprocessSQL(sql, fieldInfo);
   const replaceMap = mergeMap(preprocessReplaceMap, operatorReplaceMap);
   const parser = new NodeSQLParser.Parser();
+
   const ast = parser.astify(validStr);
+  console.log(ast);
   const queryObject = parseSqlAST((isArray(ast) ? ast[0] : ast) as SQLAst, sourceDataset, fieldInfo, replaceMap);
+  console.log(queryObject);
+
   const dataset = query(queryObject as Query);
+  console.log(dataset);
+
   const fieldInfoNew = parseRespondField(responseFieldInfo, dataset, replaceMap);
   return {
     dataset: dataset.length === 0 ? sourceDataset : dataset,

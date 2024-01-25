@@ -46,7 +46,6 @@ export const parseGPTJson = (JsonStr: string, prefix?: string) => {
     try {
       return JSON5.parse(str);
     } catch (err) {
-      console.info(err);
       return {
         error: true
       };
