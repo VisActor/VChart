@@ -6,7 +6,10 @@ export declare function setDefaultCrosshairForCartesianChart(spec: ICartesianCha
 export declare function calculateChartSize(spec: {
     width?: number;
     height?: number;
-}, option: Pick<IChartOption, 'canvas' | 'container' | 'mode' | 'modeParams'>): {
+}, option: Pick<IChartOption, 'canvas' | 'container' | 'mode' | 'modeParams'>, defaultSize: {
+    width: number;
+    height: number;
+}): {
     width: number;
     height: number;
 };

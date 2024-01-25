@@ -8,7 +8,7 @@ export interface ITooltipPositionPattern {
 }
 
 /** tooltip显示在鼠标所在图形的固定位置，只对mark tooltip有效 */
-export enum TooltipFixedPosition {
+export const enum TooltipFixedPosition {
   /** tooltip显示在上侧 */
   top = 'top',
   /** tooltip显示在下侧 */
@@ -61,7 +61,7 @@ export enum TooltipFixedPosition {
   inside = 'inside'
 }
 
-export enum TooltipPositionMode {
+export const enum TooltipPositionMode {
   /** tooltip固定在鼠标指针附近 */
   pointer = 'pointer',
   /** tooltip固定在图元附近 */

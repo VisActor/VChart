@@ -1,5 +1,4 @@
 import { Factory } from './../core/factory';
-import { ShapeTypeEnum } from '../typings';
 import type { ISymbolMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IMarkRaw, IMarkStyle } from './interface';
@@ -14,7 +13,7 @@ export class BaseSymbolMark<T extends ISymbolMarkSpec> extends BaseMark<T> {
     const defaultStyle: IMarkStyle<ISymbolMarkSpec> = {
       ...super._getDefaultStyle(),
       size: 1,
-      symbolType: ShapeTypeEnum.circle,
+      symbolType: 'circle',
       fill: undefined,
       lineWidth: 0
     };

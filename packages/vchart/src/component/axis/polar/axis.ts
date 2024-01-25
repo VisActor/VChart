@@ -272,17 +272,22 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         if (!depth) {
           this._dataFieldText = s.getFieldAlias(field[0]);
         }
-        const seriesData = s.getViewDataStatistics?.();
+
         if (field) {
-          field.forEach(f => {
-            if (rawData) {
+          const viewData = s.getViewData();
+          if (rawData) {
+            field.forEach(f => {
               data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
-            } else {
+            });
+          } else if (viewData && viewData.latestData && viewData.latestData.length) {
+            const seriesData = s.getViewDataStatistics?.();
+
+            field.forEach(f => {
               if (seriesData?.latestData?.[f]) {
                 data.push(seriesData.latestData[f]);
               }
-            }
-          });
+            });
+          }
         }
       },
       {
@@ -500,7 +505,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items
+      items: items.length ? [items] : [],
+      orient: 'angle'
     };
     if (this._spec.grid.visible) {
       attrs.grid = {
@@ -532,7 +538,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       title: {
         text: this._spec.title.text || this._dataFieldText
       },
-      items
+      items: items.length ? [items] : [],
+      orient: 'radius'
     };
     if (this._spec.grid?.visible) {
       attrs.grid = {

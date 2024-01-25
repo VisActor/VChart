@@ -33,7 +33,7 @@ export declare enum SeriesTypeEnum {
     heatmap = "heatmap",
     correlation = "correlation"
 }
-export declare enum SeriesMarkNameEnum {
+export declare const enum SeriesMarkNameEnum {
     label = "label",
     point = "point",
     line = "line",
@@ -90,4 +90,3 @@ export declare enum SeriesMarkNameEnum {
     lineLabel = "lineLabel",
     areaLabel = "areaLabel"
 }
-export declare const seriesMarkNameSet: Set<string>;

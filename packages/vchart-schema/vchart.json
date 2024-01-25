@@ -18104,13 +18104,21 @@
     },
     "IArcLabelSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "anyOf": [
             {
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18160,11 +18168,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -18245,7 +18248,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18354,7 +18356,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -19720,6 +19721,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -24271,41 +24275,268 @@
     "ICartesianAxisSpec": {
       "anyOf": [
         {
-          "$ref": "#/definitions/ICartesianLinearAxisSpec"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         },
         {
-          "$ref": "#/definitions/ICartesianBandAxisSpec"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBandAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBandAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/IBandAxisSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         },
         {
           "$ref": "#/definitions/ICartesianTimeAxisSpec"
         },
         {
-          "$ref": "#/definitions/ICartesianLogAxisSpec"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         },
         {
-          "$ref": "#/definitions/ICartesianSymlogAxisSpec"
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ICommonAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/ILinearAxisSpec"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
         }
       ],
       "description": "spec"
     },
-    "ICartesianBandAxisSpec": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/ICommonAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/IBandAxisSpec"
-        },
-        {
-          "typeof": "function"
-        }
-      ]
-    },
     "ICartesianCrosshairSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -24328,11 +24559,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "labelZIndex": {
           "description": "crosshair 文本的显示层级",
@@ -24529,41 +24755,6 @@
         },
         {
           "$ref": "#/definitions/AxisLabelOverlap"
-        }
-      ]
-    },
-    "ICartesianLinearAxisSpec": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/ICommonAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/ILinearAxisSpec"
-        },
-        {
-          "typeof": "function"
-        }
-      ]
-    },
-    "ICartesianLogAxisSpec": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/ICommonAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/ILinearAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "typeof": "function"
         }
       ]
     },
@@ -24765,25 +24956,6 @@
         "type"
       ],
       "type": "object"
-    },
-    "ICartesianSymlogAxisSpec": {
-      "allOf": [
-        {
-          "$ref": "#/definitions/ICommonAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/ILinearAxisSpec"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "typeof": "function"
-        }
-      ]
     },
     "ICartesianTimeAxisSpec": {
       "allOf": [
@@ -26774,6 +26946,15 @@
     },
     "ICommonAxisSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "default": false,
           "description": "是否开启动画，默认关闭",
@@ -26872,11 +27053,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "inverse": {
           "default": false,
@@ -27522,6 +27698,15 @@
     },
     "IComponentSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -27540,11 +27725,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -28207,6 +28387,15 @@
     },
     "IContinuousLegendTheme": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "background": {
           "typeof": "function"
         },
@@ -28238,11 +28427,6 @@
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "default": true,
@@ -29407,6 +29591,15 @@
     },
     "ICrosshairTheme": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bandField": {
           "$ref": "#/definitions/Partial<ICrosshairCategoryFieldSpec>",
           "description": "band 轴 crosshair 的公共配置",
@@ -29437,11 +29630,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "labelZIndex": {
           "description": "crosshair 文本的显示层级",
@@ -30115,6 +30303,15 @@
     "IDataZoomSpec": {
       "description": "spec",
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "auto": {
           "description": "是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失",
           "since": "1.4.0",
@@ -30222,11 +30419,6 @@
           "description": "是否忽略轴上配置的固定 bandSize\n如果置为 true，则 datazoom 可以任意改变轴的 bandSize。\n但如果轴上配置了 bandSize 范围，则第一次渲染会保持 bandSize 在配置范围内。\n该配置仅在 auto 设为 true 时生效。",
           "since": "1.7.0",
           "type": "boolean"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -30650,6 +30842,15 @@
           ],
           "type": "string"
         },
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "allowAllCanceled": {
           "type": "boolean"
         },
@@ -30755,6 +30956,16 @@
                 },
                 {
                   "$ref": "#/definitions/HTMLImageElement"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
                 }
               ]
             },
@@ -30963,11 +31174,6 @@
         },
         "html": {
           "typeof": "function"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -39870,6 +40076,15 @@
     },
     "IIndicatorSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -39912,11 +40127,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -40095,6 +40305,15 @@
     },
     "IIndicatorTheme": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -40127,11 +40346,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -40462,13 +40676,21 @@
     },
     "ILabelSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "anyOf": [
             {
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40513,11 +40735,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -40585,7 +40802,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40672,7 +40888,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -41444,6 +41659,15 @@
     },
     "ILayoutItemSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -41459,11 +41683,6 @@
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -41597,7 +41816,8 @@
         "normal",
         "normal-inline",
         "region",
-        "region-relative"
+        "region-relative",
+        "region-relative-overlap"
       ],
       "type": "string"
     },
@@ -45861,6 +46081,15 @@
     },
     "IMarkerSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "autoRange": {
           "default": false,
           "description": "marker组件是否自动拓展轴范围",
@@ -45887,11 +46116,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "default": false,
@@ -48429,6 +48653,15 @@
     },
     "IPlayer": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "alternate": {
           "default": false,
           "description": "下一次播放时更换方向",
@@ -48473,11 +48706,6 @@
         "height": {
           "description": "组件高度",
           "type": "number"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interval": {
           "default": 1000,
@@ -48659,6 +48887,15 @@
     },
     "IPlayerTheme": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -48688,11 +48925,6 @@
         "height": {
           "description": "组件高度",
           "type": "number"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -48967,6 +49199,15 @@
     },
     "IPolarCrosshairSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -48993,11 +49234,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "labelZIndex": {
           "description": "crosshair 文本的显示层级",
@@ -55630,6 +55866,15 @@
     },
     "IRegionSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -55651,11 +55896,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -59016,6 +59256,15 @@
     },
     "IScrollBarSpec": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "auto": {
           "description": "是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失",
           "since": "1.4.0",
@@ -59091,11 +59340,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "innerPadding": {
           "anyOf": [
@@ -63142,6 +63386,15 @@
           "description": "文字水平对齐方式\n'left' | 'center' | 'right'",
           "type": "string"
         },
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -63160,11 +63413,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "innerPadding": {
           "anyOf": [
@@ -63468,6 +63716,15 @@
     },
     "ITitleTheme": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -63483,11 +63740,6 @@
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -64066,7 +64318,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -64086,7 +64337,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -64098,7 +64348,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -70764,6 +71013,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -71524,6 +71776,15 @@
     },
     "Omit<ICartesianAxisCommonSpec,\"inverse\">": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "default": false,
           "description": "是否开启动画，默认关闭",
@@ -71642,11 +71903,6 @@
         "id": {
           "$ref": "#/definitions/StringOrNumber"
         },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
-        },
         "label": {
           "$ref": "#/definitions/ICartesianLabel",
           "description": "轴标签配置"
@@ -71700,8 +71956,14 @@
           "description": "模块的布局位置偏移：Y"
         },
         "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "轴位置"
+          "enum": [
+            "bottom",
+            "left",
+            "right",
+            "top",
+            "z"
+          ],
+          "type": "string"
         },
         "padding": {
           "$ref": "#/definitions/ILayoutPaddingSpec",
@@ -72173,6 +72435,15 @@
     },
     "Omit<ICommonAxisSpec,\"center\">": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "default": false,
           "description": "是否开启动画，默认关闭",
@@ -72271,11 +72542,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "inverse": {
           "default": false,
@@ -72438,6 +72704,15 @@
     },
     "Omit<IComponentSpec,\"orient\">": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "bottom": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -72456,11 +72731,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "layoutLevel": {
           "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
@@ -73710,13 +73980,21 @@
     },
     "Omit<ILabelSpec,\"position\">": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "anyOf": [
             {
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73761,11 +74039,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -73833,7 +74106,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73916,7 +74188,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -75190,6 +75461,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -75920,6 +76194,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -76339,6 +76616,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -76825,6 +77105,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77272,6 +77555,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -77681,6 +77967,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78070,6 +78359,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -78516,6 +78808,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -78839,13 +79134,21 @@
     },
     "Partial<ILabelSpec>": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "anyOf": [
             {
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -78890,11 +79193,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -78962,7 +79260,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79049,7 +79346,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79177,6 +79473,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -79508,13 +79807,21 @@
     },
     "Partial<ILineLikeLabelSpec>": {
       "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
         "animation": {
           "anyOf": [
             {
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79559,11 +79866,6 @@
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
-        },
-        "indent": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局锁进",
-          "since": "1.8.6"
         },
         "interactive": {
           "description": "是否支持交互。@default false",
@@ -79631,7 +79933,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79719,7 +80020,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -80381,6 +80681,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -80766,6 +81069,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -81419,6 +81725,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -81819,6 +82128,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -82473,6 +82785,12 @@
         "renderStyle": {
           "type": "string"
         },
+        "supportsPointerEvents": {
+          "type": "boolean"
+        },
+        "supportsTouchEvents": {
+          "type": "boolean"
+        },
         "ticker": {
           "$ref": "#/definitions/ITicker"
         },
@@ -82577,6 +82895,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -82977,6 +83298,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -84064,6 +84388,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -84555,6 +84882,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -84947,6 +85277,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -86861,6 +87194,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -87361,6 +87697,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -87852,6 +88191,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -88303,6 +88645,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -88801,6 +89146,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -89326,6 +89674,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -89809,6 +90160,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -90309,6 +90663,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -90763,6 +91120,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -91232,6 +91592,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -91715,6 +92078,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -92184,6 +92550,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -92682,6 +93051,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -93274,6 +93646,9 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
@@ -93738,6 +94113,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"

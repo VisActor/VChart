@@ -1,4 +1,4 @@
-export declare enum IFilterMode {
+export declare const enum IFilterMode {
     filter = "filter",
     axis = "axis"
 }

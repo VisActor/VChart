@@ -19,7 +19,6 @@ export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> ext
     protected _areaMark: IAreaMark;
     protected _supportStack: boolean;
     protected _sortDataByAxis: boolean;
-    setAttrFromSpec(): void;
     initMark(): void;
     initMarkStyle(): void;
     initAnimation(): void;

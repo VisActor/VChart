@@ -1,4 +1,4 @@
-import type { IOrientType, IRectMarkSpec, StringOrNumber } from '../../../../typings';
+import type { ILayoutNumber, IOrientType, IRectMarkSpec, StringOrNumber } from '../../../../typings';
 import type { IBandAxisSpec, ILinearAxisSpec, IGrid, ICommonAxisSpec } from '../../interface';
 import type {
   ICartesianDomainLine,
@@ -17,9 +17,33 @@ export type ICartesianAxisSpec =
   | ICartesianLogAxisSpec
   | ICartesianSymlogAxisSpec;
 
+export type ICartesianVertical = {
+  orient: 'left' | 'right';
+  /**
+   * 内padding/留白
+   * @since 1.8.10
+   */
+  innerOffset?: {
+    top?: ILayoutNumber;
+    bottom?: ILayoutNumber;
+  };
+};
+export type ICartesianHorizontal = {
+  orient: 'top' | 'bottom';
+  /**
+   * 内padding/留白
+   * @since 1.8.10
+   */
+  innerOffset?: {
+    left?: ILayoutNumber;
+    right?: ILayoutNumber;
+  };
+};
+export type ICartesianZ = {
+  orient: 'z';
+};
+
 export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
-  /** 轴位置 */
-  orient: IOrientType;
   /**
    * 网格线配置
    */
@@ -82,7 +106,7 @@ export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
    * @since 1.9.0
    */
   hasDimensionTooltip?: boolean;
-};
+} & (ICartesianVertical | ICartesianHorizontal | ICartesianZ);
 
 export interface ILinearAxisSync {
   /**

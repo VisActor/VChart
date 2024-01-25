@@ -726,6 +726,13 @@
                   }
                 },
                 {
+                  "path": "tt",
+                  "title": {
+                    "zh": "字节小程序",
+                    "en": "Byte Mini Program"
+                  }
+                },
+                {
                   "path": "wx",
                   "title": {
                     "zh": "微信小程序",

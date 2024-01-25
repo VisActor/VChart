@@ -7,14 +7,14 @@ import type { RangeColumnAppearPreset } from './animation';
 import type { ILabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from '../interface/type';
 
-export enum PositionEnum {
+export const enum PositionEnum {
   middle = 'middle',
   start = 'start',
   end = 'end',
   bothEnd = 'bothEnd'
 }
 
-export enum minMaxPositionEnum {
+export const enum minMaxPositionEnum {
   middle = 'middle',
   start = 'start',
   end = 'end'

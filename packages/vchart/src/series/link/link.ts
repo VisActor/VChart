@@ -7,7 +7,6 @@ import type { IRuleMark } from '../../mark/rule';
 import type { IMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { ShapeTypeEnum } from '../../typings/shape';
 import type { ISymbolMark } from '../../mark/symbol';
 import type { IDotSeriesSpec } from '../dot/interface';
 import type { IGroupMark } from '../../mark/group';
@@ -197,7 +196,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
           fillOpacity: this.dataToOpacity.bind(this),
           size: arrowSize,
           symbolType: (datum: Datum) => {
-            return this.isPositionYFromHigher(datum) ? ShapeTypeEnum.triangleDown : ShapeTypeEnum.triangleUp;
+            return this.isPositionYFromHigher(datum) ? 'triangleDown' : 'triangleUp';
           }
         },
         'normal',

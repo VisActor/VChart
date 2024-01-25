@@ -131,15 +131,6 @@ export type STATE_CUSTOM = string;
 export type StateValueNot = STATE_HOVER_REVERSE | STATE_CUSTOM;
 export type StateValue = STATE_NORMAL | STATE_HOVER | STATE_CUSTOM;
 export type StateValueType = StateValue | StateValueNot;
-export declare enum STATE_LEVEL {
-    NORMAL = 0,
-    DIMENSION_SELECTED = 1,
-    RELATIONAL_SELECTED = 2,
-    SELECTED = 3,
-    DIMENSION_HOVER = 4,
-    RELATIONAL_HOVER = 5,
-    HOVER = 6
-}
 export interface IAttributeOpt {
     element: IElement;
     mark: IElement['mark'];

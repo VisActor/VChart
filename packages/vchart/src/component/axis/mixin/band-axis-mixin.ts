@@ -118,6 +118,10 @@ export class BandAxisMixin {
     }
   }
   computeBandDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[] {
+    if (!data.length) {
+      return [];
+    }
+
     // 性能优化 9.13
     if (data.length === 1) {
       return data[0].values;

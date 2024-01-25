@@ -1,6 +1,73 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 11 Jan 2024 09:36:17 GMT and should not be manually modified.
+This log was last generated on Thu, 25 Jan 2024 09:18:19 GMT and should not be manually modified.
+
+## 1.8.10
+Thu, 25 Jan 2024 09:18:19 GMT
+
+### Updates
+
+- feat: support innerOffset in vchart cartesian axis
+
+
+- fix: fix issue of continous color scale, close #2131
+
+
+- fix: dont return min,max of empty data, fix #1711
+- fix: fixed polar coordinate relative axis tickValues acquisition error problem, fixed#2117
+- fix: fix the issue mark line is not filter by legend, close #2127
+- fix: sequence chart region bind error. fix#2115
+- fix: star shapes on dom tooltip do not display correctly, related #1905
+- fix: treemap drill event error
+-  fix: treemap drill error when turn off the animation
+
+## 1.8.9
+Mon, 22 Jan 2024 12:27:45 GMT
+
+### Updates
+
+- feat: support supportsTouchEvents and supportsPointerEvents config
+- feat: support `alignSelf` of layout `normal-inline` elements, fix #2072 
+
+
+- feat: upgrade vrender
+- fix: fix bug of crosshair timer, fix #2088
+
+
+- fix: fix the bugs of axis's onZero property, fixed #2098,#2099
+- fix: update animation should exludes `defined` channel
+
+## 1.8.8
+Fri, 19 Jan 2024 05:31:20 GMT
+
+### Updates
+
+- feat: enhance scroll effect, closed #2037
+- feat: upgrade @visactor/vrender-core to locked 0.17.14
+- feat: sankey chart supports disableTriggerEvent configuration
+
+
+- fix: `area.interactive` in area series spec is not available, related #2030
+- fix: fix sortDataByAxis not work after datazoom changed axis
+
+
+- fix: crosshair should show when `trimPadding` of axis is true, fix #2054
+
+
+- fix: calculate layer transform for dimension tooltip
+- fix: fixed the issue where activePoint does not take effect when the visible configuration of line chart point is false
+
+
+- fix: different effect when configuring label.overlap:true in #1956
+- fix: label position incorrect with region indent
+- fix(scroll): event error in lynx env. fix#2041
+- fix: map scale ratio not correct after updateSpec or resize
+- feat: support new layout type region-relative-overlap
+
+
+- fix: fix the bug of nice when tickCount is a function, fix #2050
+
+
 
 ## 1.8.7
 Thu, 11 Jan 2024 09:36:17 GMT
@@ -73,7 +140,7 @@ Fri, 29 Dec 2023 14:44:05 GMT
 
 
 - fix: error in chart level modification of media query action
-- fix: dimension tooltip in the dual-dimension chart contains data of only one dimension, related #1841
+- fix: dimension tooltip in the dual-dimension chart contains data of only one dimension, related #1841 
 - fix: fix bug in layout when band axis has no domain
 
 
@@ -155,7 +222,7 @@ Wed, 06 Dec 2023 07:34:11 GMT
 - fix: clear old encode when update, fix #1630
 
 
-- fix: fix the problem that track mark has multiple elements in gauge series, related #1643
+- fix: fix the problem that track mark has multiple elements in gauge series, related #1643 
 - fix: fix the problem that gaugePointer series doesn't support custom `innerRadius`, related #1644
 - refactor: unify `getVRenderComponents` method in Component model
 - fix: fix the type error of markArea
@@ -178,7 +245,7 @@ Wed, 29 Nov 2023 19:03:36 GMT
 - fix: clear old encode when update, fix #1630
 
 
-- fix: fix the problem that track mark has multiple elements in gauge series, related #1643
+- fix: fix the problem that track mark has multiple elements in gauge series, related #1643 
 - fix: fix the problem that gaugePointer series doesn't support custom `innerRadius`, related #1644
 - refactor: unify `getVRenderComponents` method in Component model
 
@@ -483,7 +550,7 @@ Mon, 25 Sep 2023 10:49:42 GMT
 - feat: support `label.confine` for markLine and markPoint to auto adjust label's position, relate https://github.com/VisActor/VChart/issues/699
 - fix: `offsetX` and `offsetY` can not work in mark component
 - feat: support `minAngle` for pie chart, relate #738
-- feat: disable label animation as default in map series
+- feat: disable label animation as default in map series 
 - fix: sankey chart support color config'
 - feat: increase chart stacking capabilities, provide stackValue to support independent stacking of multiple series
 
@@ -600,7 +667,7 @@ Tue, 05 Sep 2023 11:24:47 GMT
 
 ### Patches
 
-- fix: fix the issue of `seriesIndex` not work in discrete legend, see #732
+- fix: fix the issue of `seriesIndex` not work in discrete legend, see #732 
 
 ### Updates
 
@@ -760,7 +827,7 @@ Thu, 10 Aug 2023 05:23:25 GMT
 - feat: dimension tooltip supports linear axis
 
 
-- feat: filling full data to map mark data in #420
+- feat: filling full data to map mark data in #420 
 - feat(background): support background of chart & series
 - feat(onError): support configuration of onerror in chart instance initoption
 - feat: supplement sync methods in vchart instance
@@ -934,11 +1001,11 @@ Wed, 26 Jul 2023 03:18:52 GMT
 - fix(label): pickable shoule be false if label component is configured `interactive: false`
 - fix the layoutOffsetX|Y not work in normal items
 - fix: line mark has a different easing in update animation causes strange animation effect
-- fix: `channel` config not work in animation
+- fix: `channel` config not work in animation 
 - No longer requires to hold down the Ctrl key for zoom interaction & fix zoomLimit bug
 - fix: default tooltip handler needs to adapt to the scale property
 - fix(vchart): export IRegionSpec from VChart
-- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series
+- fix(waterfall-position): fix the mistake of compute totalPosition in waterfall-series 
 - fix: compact window variable for non-browser env
 - fix: compact window variable for non-browser env
 

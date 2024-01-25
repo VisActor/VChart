@@ -76,9 +76,9 @@ import {
   isFunction,
   isArray,
   isValidNumber,
-  get,
   isObject,
-  isEmpty
+  minInArray,
+  maxInArray
 } from '@visactor/vutils';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
@@ -426,8 +426,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         if (fieldInfo && fieldInfo.lockStatisticsByDomain && fieldInfo.domain) {
           this._rawStatisticsCache[field] = {};
           if (isNumeric) {
-            this._rawStatisticsCache[field].min = Math.min(fieldInfo.domain);
-            this._rawStatisticsCache[field].max = Math.max(fieldInfo.domain);
+            this._rawStatisticsCache[field].min = minInArray(fieldInfo.domain);
+            this._rawStatisticsCache[field].max = maxInArray(fieldInfo.domain);
           } else {
             this._rawStatisticsCache[field].values = fieldInfo.domain;
           }
@@ -437,6 +437,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
           ])[field];
         }
       }
+    }
+
+    if (isNumeric && (isNil(this._rawStatisticsCache[field].min) || isNil(this._rawStatisticsCache[field].max))) {
+      this._rawStatisticsCache[field].min = minInArray(this._rawStatisticsCache[field].values);
+      this._rawStatisticsCache[field].max = maxInArray(this._rawStatisticsCache[field].values);
     }
 
     return this._rawStatisticsCache[field];
