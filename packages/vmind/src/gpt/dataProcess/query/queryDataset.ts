@@ -30,12 +30,9 @@ export const queryDatasetWithGPT = async (
   const parser = new NodeSQLParser.Parser();
 
   const ast = parser.astify(validStr);
-  console.log(ast);
   const queryObject = parseSqlAST((isArray(ast) ? ast[0] : ast) as SQLAst, sourceDataset, fieldInfo, replaceMap);
-  console.log(queryObject);
 
   const dataset = query(queryObject as Query);
-  console.log(dataset);
 
   const fieldInfoNew = parseRespondField(responseFieldInfo, dataset, replaceMap);
   return {
@@ -55,7 +52,6 @@ const getQuerySQL = async (userInput: string, fieldInfo: SimpleFieldInfo[], opti
   const requestFunc = options.customRequestFunc?.dataQuery ?? requestGPT;
   const QueryDatasetPrompt = getQueryDatasetPrompt(options.showThoughts);
   const dataProcessRes = await requestFunc(QueryDatasetPrompt, queryDatasetMessage, options);
-  console.log(dataProcessRes.choices[0]);
   const dataQueryResponse: DataQueryResponse = parseGPTResponse(dataProcessRes);
   return dataQueryResponse;
 };
