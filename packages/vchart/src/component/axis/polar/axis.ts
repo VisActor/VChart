@@ -262,6 +262,12 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     eachSeries(
       this._regions,
       s => {
+        const viewData = s.getViewData();
+
+        if (!viewData || !viewData.latestData || !viewData.latestData.length) {
+          return;
+        }
+
         let field: string | string[];
         if (depth > 0) {
           field = s.getGroups()?.fields?.[depth];
