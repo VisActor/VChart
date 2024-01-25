@@ -10,7 +10,7 @@ export declare function getDefaultCrosshairTriggerEventByMode(mode: RenderMode):
     hoverOut: string;
     clickOut: string;
 };
-export declare enum LayoutType {
+export declare const enum LayoutType {
     ALL = 3,
     HORIZONTAL = 2,
     VERTICAL = 1,

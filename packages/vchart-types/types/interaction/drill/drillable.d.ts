@@ -17,7 +17,7 @@ export interface IDrillable {
 export declare class Drillable implements IDrillable {
     private _drillParams;
     private _drillInfo;
-    private _getTriggerEvent;
+    private _getDrillTriggerEvent;
     private _hideTooltip;
     initDrillable(params: DrillParams): void;
     initDrillableData(dataSet: DataSet): void;
