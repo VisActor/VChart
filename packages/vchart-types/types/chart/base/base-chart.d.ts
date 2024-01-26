@@ -96,6 +96,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     getComponentByIndex: (key: string, index: number) => IComponent;
     getComponentsByKey: (key: string) => IComponent[];
     getComponentByUserId: (userId: StringOrNumber) => IComponent;
+    getComponentsByType: (type: string) => IComponent[];
     getModelById(id: number): IModel | undefined;
     getModelByUserId(userId: StringOrNumber): IModel | undefined;
     getAllMarks(): IMark[];

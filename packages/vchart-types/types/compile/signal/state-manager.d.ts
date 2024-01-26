@@ -8,5 +8,5 @@ export declare class StateManager extends SignalManager {
     constructor(option: IStateManagerOption);
     initStateMap(state?: StateValueMap): void;
     compile(stateMap?: StateValueMap): void;
-    updateState(newState: Partial<StateValueMap>, noRender?: boolean): Promise<any>;
+    updateState(newState: Partial<StateValueMap>, noRender?: boolean): void;
 }

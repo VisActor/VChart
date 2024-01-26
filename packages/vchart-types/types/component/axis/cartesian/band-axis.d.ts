@@ -27,6 +27,7 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
         getAxisType: () => ComponentTypeEnum;
         getAxisId: () => number;
         isInverse: () => boolean;
+        getSpec: () => T;
     };
     transformScaleDomain(): void;
     updateFixedWholeLength(): void;

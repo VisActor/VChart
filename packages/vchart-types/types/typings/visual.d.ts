@@ -164,6 +164,12 @@ export interface IRippleMarkSpec extends ICommonSpec {
     ripple?: number;
     size?: number;
 }
+export interface ILiquidMarkSpec extends ICommonSpec {
+    wave?: number;
+}
+export interface ILiquidOutlineSpec extends ISymbolMarkSpec {
+    lineWidth: number;
+}
 export interface IOutlierMarkSpec {
     fill?: string;
     size?: number;

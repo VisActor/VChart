@@ -21,9 +21,6 @@ export declare abstract class BaseLabelComponent<T = any> extends BaseComponent<
             selected?: Partial<import("../..").ITextMarkSpec>;
             selected_reverse?: Partial<import("../..").ITextMarkSpec>;
         };
-    } | {
-        hover: boolean;
-        select: boolean;
     };
     _compareSpec(spec: T, prevSpec: T): {
         change: boolean;

@@ -6,8 +6,8 @@ import type { DimensionIndexOption, IChart, IChartConstructor, IChartSpecInfo } 
 import type { IComponentConstructor } from '../component/interface';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
-import type { Transform } from '@visactor/vdataset';
-import { DataSet, DataView } from '@visactor/vdataset';
+import type { Transform, DataView } from '@visactor/vdataset';
+import { DataSet } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
@@ -102,12 +102,13 @@ export declare class VChart implements IVChart {
     private _updateAnimateState;
     release(): void;
     updateData(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions): Promise<IVChart>;
+    private _updateDataById;
     updateDataInBatches(list: {
         id: string;
         data: Datum[];
         options?: IParserOptions;
     }[]): Promise<IVChart>;
-    updateDataSync(id: StringOrNumber, data: DataView | Datum[], options?: IParserOptions): IVChart;
+    updateDataSync(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions): IVChart;
     updateFullDataSync(data: IDataValues | IDataValues[], reRender?: boolean): IVChart;
     updateFullData(data: IDataValues | IDataValues[], reRender?: boolean): Promise<IVChart>;
     updateSpec(spec: ISpec, forceMerge?: boolean, morphConfig?: IMorphConfig): Promise<IVChart>;
@@ -124,6 +125,9 @@ export declare class VChart implements IVChart {
     } | ((model: IModel) => boolean), spec: unknown, forceMerge?: boolean, morphConfig?: IMorphConfig): IVChart;
     protected _updateModelSpec(model: IModel, spec: unknown, sync?: boolean, forceMerge?: boolean, morphConfig?: IMorphConfig): IVChart | Promise<IVChart>;
     resize(width: number, height: number): Promise<IVChart>;
+    resizeSync(width: number, height: number): IVChart;
+    protected _beforeResize(width: number, height: number): boolean;
+    protected _afterResize(): IVChart;
     updateViewBox(viewBox: IBoundsLike, reRender?: boolean, reLayout?: boolean): IVChart;
     on(eType: EventType, handler: EventCallback<EventParams>): void;
     on(eType: EventType, query: EventQuery, handler: EventCallback<EventParams>): void;

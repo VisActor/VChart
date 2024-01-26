@@ -41,6 +41,7 @@ export interface ITooltipTheme<ColorType = string> {
     keyLabel?: Omit<ITooltipTextTheme<ColorType>, 'autoWidth'>;
     valueLabel?: ITooltipTextTheme<ColorType>;
     spaceRow?: number;
+    maxContentHeight?: number;
     offset?: {
         x?: number;
         y?: number;

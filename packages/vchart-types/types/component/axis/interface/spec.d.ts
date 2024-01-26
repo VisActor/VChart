@@ -2,7 +2,7 @@ import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components'
 import type { IAnimationSpec } from '../../../animation/spec';
 import type { Datum, IPadding, IRectMarkSpec, IRuleMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
-import type { AxisType, IAxisItem, ITickCallbackOption, StyleCallback } from './common';
+import type { AxisType, IAxisItem, IBandAxisLayer, ITickCalculationCfg, StyleCallback } from './common';
 import type { IRichTextCharacter } from '@visactor/vrender-core';
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
     type?: AxisType;
@@ -38,6 +38,8 @@ export interface IBandAxisSpec {
     paddingOuter?: number | number[];
     domain?: StringOrNumber[];
     bandPosition?: number;
+    showAllGroupLayers?: boolean;
+    layers?: IBandAxisLayer[];
 }
 export interface IGrid extends IAxisItem<IRuleMarkSpec> {
     alternateColor?: string | string[];
@@ -45,15 +47,10 @@ export interface IGrid extends IAxisItem<IRuleMarkSpec> {
     style?: IRuleMarkSpec | StyleCallback<IRuleMarkSpec | undefined>;
     zIndex?: number;
 }
-export interface ITick extends IAxisItem<IRuleMarkSpec> {
+export interface ITick extends IAxisItem<IRuleMarkSpec>, ITickCalculationCfg {
     tickSize?: number;
     inside?: boolean;
     alignWithLabel?: boolean;
-    tickStep?: number;
-    tickCount?: number | ((option: ITickCallbackOption) => number);
-    forceTickCount?: number;
-    tickMode?: 'average' | 'd3';
-    noDecimals?: boolean;
     style?: IRuleMarkSpec | StyleCallback<IRuleMarkSpec | undefined>;
     state?: AxisItemStateStyle<IRuleMarkSpec>;
     dataFilter?: (data: AxisItem[]) => AxisItem[];

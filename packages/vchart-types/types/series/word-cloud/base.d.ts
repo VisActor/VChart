@@ -34,18 +34,17 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
     protected _padding?: IPadding;
     protected _defaultFontFamily: string;
+    protected _keyWordColorCallback: (datum: Datum) => string;
+    protected _fillingColorCallback: (datum: Datum) => string;
     setAttrFromSpec(): void;
     protected _wordMark: ITextMark;
-    protected _fillingWordMark: ITextMark;
     initMark(): void;
     initMarkStyle(): void;
     protected initTooltip(): void;
     initAnimation(): void;
     protected getWordOrdinalColorScale(field: string, isFillingWord: boolean): any;
-    getWordColorAttribute(field: string, isFillingWord: boolean): ((datum: Datum) => any) | {
-        scale: any;
-        field: string;
-    };
+    protected initColorCallback(field: string, isFillingWord: boolean): (datum: Datum) => any;
+    getWordColor: (datum: Datum) => string;
     compile(): void;
     protected _wordCloudTransformOption(): Object;
     protected _wordCloudShapeTransformOption(): Object;
@@ -63,4 +62,5 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     getStackValueField(): string;
     onLayoutEnd(ctx: any): void;
     getActiveMarks(): IMark[];
+    reInit(): void;
 }

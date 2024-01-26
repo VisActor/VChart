@@ -35,6 +35,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     private startAngleScale;
     private endAngleScale;
     initMarkStyle(): void;
+    initInteraction(): void;
     protected initTooltip(): void;
     initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void;
     initLabelMarkStyle(textMark: ITextMark): void;
