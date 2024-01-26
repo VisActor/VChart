@@ -57,7 +57,7 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     const series = this._option && this._option.getAllSeries();
     const depend: IMark[] = [];
 
-    series &&
+    if (series && series.length) {
       series.forEach(s => {
         const marks = s && s.getMarksWithoutRoot();
 
@@ -67,6 +67,7 @@ export class CustomMark<T = any> extends BaseComponent<any> {
           });
         }
       });
+    }
 
     this._spec.forEach((m, i) => {
       this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, { depend });
