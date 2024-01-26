@@ -19,7 +19,7 @@
     "build:schema": "schema src/typings/spec/chart.ts ISpec --useTypeOfKeyword --ignoreErrors --required > ../vchart-schema/vchart.json",
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir ../vchart-types/types",
     "build": "bundle --clean && npm run build:schema && npm run build:types && npm run build:es5",
-    "build:ci": "bundle --clean",
+    "build:ci": "bundle --clean -f umd --ignorePostTasks --ignoreUmdEntries",
     "build:umd": "bundle -f umd",
     "analyze": "npm run analyze-full && npm run analyze-line && npm run analyze-simple",
     "analyze-full": "BUNDLE_ANALYZE='full' bundle -f umd ",
