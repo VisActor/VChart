@@ -32,12 +32,7 @@ export const queryDatasetWithGPT = async (
   const queryObject = parseSqlAST((isArray(ast) ? ast[0] : ast) as SQLAst, sourceDataset, fieldInfo, replaceMap);
 
   const dataset = query(queryObject as Query);
-  console.log(validStr);
-  console.log(ast);
 
-  console.log(queryObject);
-
-  console.log(dataset);
   const fieldInfoNew = parseRespondField(responseFieldInfo, dataset, replaceMap);
   return {
     dataset: dataset.length === 0 ? sourceDataset : dataset,
