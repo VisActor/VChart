@@ -48,8 +48,11 @@ jobs:
           release_version: ${{ steps.semver_parser.outputs.full }}
           write_next_bump: true
 
-      - name: Update version
+      - name: Generate changelog by rush version
         run: node common/scripts/install-run-rush.js version --bump
+
+      - name: Update version
+        run: node common/scripts/apply-release-version.js 'none'  ${{ steps.semver_parser.outputs.main }}
 
       - name: Build vutils-extension && vchart
         env:
