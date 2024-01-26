@@ -7,12 +7,12 @@ import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import { LayoutLevel, LayoutZIndex, PREFIX } from '../../constant';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
 import type { IGroupMark } from '../../mark/group';
-import type { MarkTypeEnum } from '../../mark/interface';
+import type { IMark, MarkTypeEnum } from '../../mark/interface';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
-import { ImageMark, registerImageMark } from '../../mark/image';
+import { registerImageMark } from '../../mark/image';
 import type { IGraphic } from '@visactor/vrender-core';
 
 // TODO: 规范范型
@@ -54,8 +54,22 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     if (!this._spec) {
       return;
     }
+    const series = this._option && this._option.getAllSeries();
+    const depend: IMark[] = [];
+
+    series &&
+      series.forEach(s => {
+        const marks = s && s.getMarksWithoutRoot();
+
+        if (marks && marks.length) {
+          marks.forEach(mark => {
+            depend.push(mark);
+          });
+        }
+      });
+
     this._spec.forEach((m, i) => {
-      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i);
+      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, { depend });
     });
   }
 
@@ -63,7 +77,8 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     spec: ICustomMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | ICustomMarkGroupSpec,
     parentMark: null | IGroupMark,
     namePrefix: string,
-    index: number
+    index: number,
+    options: { hasAnimation?: boolean; depend?: IMark[] }
   ) {
     const mark = this._createMark(
       {
@@ -80,6 +95,10 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     if (!mark) {
       return;
     }
+
+    if (options.depend && options.depend.length) {
+      mark.setDepend(...options.depend);
+    }
     if (isNil(parentMark)) {
       this._marks.addMark(mark);
     } else if (parentMark) {
@@ -90,7 +109,7 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;
       spec.children?.forEach((s, i) => {
-        this._createExtensionMark(s as any, mark, namePrefix, i);
+        this._createExtensionMark(s as any, mark, namePrefix, i, options);
       });
     }
 
