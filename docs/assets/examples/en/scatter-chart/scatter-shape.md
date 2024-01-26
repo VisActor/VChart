@@ -3,7 +3,7 @@ category: examples
 group: scatter chart
 title: Scatter Chart with Various Shapes
 order: 9-1
-cover:
+cover: /vchart/preview/scatter-chart-scatter-shape_1.9.0.gif
 option: scatterChart
 ---
 

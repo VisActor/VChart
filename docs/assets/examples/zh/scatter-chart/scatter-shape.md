@@ -3,7 +3,7 @@ category: examples
 group: scatter chart
 title: 各种形状的散点图
 order: 9-1
-cover:
+cover: /vchart/preview/scatter-chart-scatter-shape_1.9.0.png
 option: scatterChart
 ---
 

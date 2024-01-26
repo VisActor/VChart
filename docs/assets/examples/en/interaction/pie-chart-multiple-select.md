@@ -4,7 +4,7 @@ group: interaction
 title: Pie Chart Multiple Select
 keywords: pieChart,comparison,composition,proportion,circle
 order: 42-2
-cover:
+cover: /vchart/preview/interaction-pie-chart-multiple-select_1.9.0.gif
 option: pieChart
 ---
 
