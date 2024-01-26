@@ -32,7 +32,7 @@ export interface IPolarAxis extends IAxis {
   // 为了与直角坐标系轴对齐，这里也通过 orient 来区别 angle/radius 轴
   getOrient: () => IPolarOrientType;
   getScale: () => IBaseScale;
-  tickValues: () => number[];
+  // tickValues: () => number[];
   getCenter: () => IPoint;
   getOuterRadius: () => number;
   getInnerRadius: () => number;
