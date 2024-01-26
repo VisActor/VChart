@@ -283,7 +283,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
       endAngle: 0,
       innerRadius: 0,
       visible: false,
-      sides: (series.angleAxisHelper.getScale(0) as BandScale).ticks().length,
+      sides: (series.angleAxisHelper.getScale(0) as BandScale).domain().length,
       label: { visible: false, text: '', offset: 0 }
     } as ICrosshairInfo;
 
