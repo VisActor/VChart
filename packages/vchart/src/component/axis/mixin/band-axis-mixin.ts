@@ -1,15 +1,23 @@
 import type { BandScale } from '@visactor/vscale';
-import { isArray } from '@visactor/vutils';
-import type { StringOrNumber } from '../../../typings';
+import type { Dict } from '@visactor/vutils';
+import { array, isArray } from '@visactor/vutils';
+import type { Datum, IOrientType, IPolarOrientType, StringOrNumber } from '../../../typings';
 import type { IEvent } from '../../../event/interface';
 import { ChartEvent } from '../../../constant/event';
 import type { IModel } from '../../../model/interface';
 import type { IAxisLocationCfg } from '../interface';
+import { CompilableData } from '../../../compile/data/compilable-data';
+import type { AxisItem } from '@visactor/vrender-components';
+import { getAxisItem } from '../util';
 
 export interface BandAxisMixin {
+  _orient: IOrientType | IPolarOrientType;
+  _option: any;
   _scale: BandScale;
   _scales: BandScale[];
   _spec: any;
+  _tick: any;
+  _tickData: CompilableData[];
   _defaultBandPosition: number;
   _defaultBandInnerPadding: number;
   _defaultBandOuterPadding: number;
@@ -18,9 +26,37 @@ export interface BandAxisMixin {
   collectData: (depth: number, rawData?: boolean) => { min: number; max: number; values: any[] }[];
   computeDomain: (data: { min: number; max: number; values: any[] }[]) => StringOrNumber[];
   transformScaleDomain: () => void;
+  _initTickDataSet: (options: any, index?: number) => any;
+  _tickTransformOption: () => any;
+  _forceLayout: () => void;
+  _getNormalizedValue: (values: any[], length: number) => number;
 }
 
 export class BandAxisMixin {
+  protected _initData() {
+    if (this._spec.showAllGroupLayers && this._scales.length > 1) {
+      // 显示所有分组层级
+      for (let layer = 0; layer < this._scales.length; layer++) {
+        const layers = this._spec.layers ?? [];
+        const layerConfig = layers[this._scales.length - 1 - layer] || {};
+        if (layerConfig.visible !== false && layerConfig.tickCount !== 0 && layerConfig.forceTickCount !== 0) {
+          const tickData = this._initTickDataSet(
+            {
+              ...this._tickTransformOption(),
+              ...layerConfig
+            },
+            layer
+          );
+          tickData.target.addListener('change', this._forceLayout.bind(this));
+          this._tickData.push(new CompilableData(this._option, tickData));
+        }
+      }
+    } else {
+      const tickData = this._initTickDataSet(this._tickTransformOption());
+      tickData.target.addListener('change', this._forceLayout.bind(this));
+      this._tickData = [new CompilableData(this._option, tickData)];
+    }
+  }
   protected _rawDomainIndex: { [key: string | number | symbol]: number }[] = [];
 
   dataToPosition(values: any[], cfg: IAxisLocationCfg = {}): number {
@@ -120,6 +156,42 @@ export class BandAxisMixin {
     this.transformScaleDomain();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as unknown as IModel });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as unknown as IModel, value: 'domain' });
+  }
+
+  protected getLabelItems(length: number) {
+    const labelItems: Dict<any>[][] = [];
+    let preData: any[] = [];
+    this._tickData.forEach((eachTickData, index) => {
+      const latestData = eachTickData.getLatestData();
+      if (latestData && latestData.length) {
+        if (preData && preData.length) {
+          const currentLabelItems: any[] = [];
+          const curData: any[] = [];
+          preData.forEach(value => {
+            latestData.forEach((obj: Datum) => {
+              const values = array(value).concat(obj.value);
+              curData.push(values);
+              const axisItem = getAxisItem(obj.value, this._getNormalizedValue(values, length));
+
+              currentLabelItems.push(axisItem);
+            });
+          });
+          labelItems.push(currentLabelItems.filter((entry: AxisItem) => entry.value >= 0 && entry.value <= 1));
+          preData = curData;
+        } else {
+          labelItems.push(
+            latestData
+              .map((obj: Datum) => {
+                preData.push(obj.value);
+                return getAxisItem(obj.value, this._getNormalizedValue([obj.value], length));
+              })
+              .filter((entry: AxisItem) => entry.value >= 0 && entry.value <= 1)
+          );
+        }
+      }
+    });
+
+    return labelItems.reverse();
   }
 
   protected _updateRawDomain() {

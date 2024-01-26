@@ -41,20 +41,6 @@ describe('IBarChartSpec validation', () => {
     // validate is a type guard for MyData - type is inferred from schema type
     validate = ajv.compile(Schema);
   });
-  it('should throw errors when `xField` is not declare', () => {
-    const spec = {
-      type: 'bar',
-      data: {
-        values: []
-      },
-      yField: 'y'
-    };
-
-    const result = validate(spec);
-
-    expect(result).toBeFalsy();
-    expect(validate.errors.length).toBeGreaterThan(0);
-  });
 
   it('should throw errors when use property that version is not match', () => {
     const spec = {

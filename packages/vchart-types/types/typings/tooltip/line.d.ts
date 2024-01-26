@@ -8,6 +8,10 @@ export interface IToolTipLinePattern extends ITooltipShapePattern, ITooltipLabel
     visible?: TooltipContentProperty<boolean>;
     isKeyAdaptive?: TooltipContentProperty<boolean>;
     spaceRow?: TooltipContentProperty<number>;
+    keyTimeFormat?: string;
+    keyTimeFormatMode?: 'utc' | 'local';
+    valueTimeFormat?: string;
+    valueTimeFormatMode?: 'utc' | 'local';
 }
 export interface IToolTipLineActual extends ITooltipShapeActual, ITooltipLabelActual {
     key?: string;

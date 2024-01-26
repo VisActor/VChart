@@ -63,6 +63,7 @@ export interface IChart extends ICompilable {
     getComponentByIndex: (key: string, index: number) => IComponent | undefined;
     getComponentByUserId: (userId: StringOrNumber) => IComponent | undefined;
     getComponentsByKey: (key: string) => IComponent[];
+    getComponentsByType: (type: string) => IComponent[];
     getAllComponents: () => IComponent[];
     getModelById: (id: number) => IModel | undefined;
     getModelByUserId: (userId: StringOrNumber) => IModel | undefined;

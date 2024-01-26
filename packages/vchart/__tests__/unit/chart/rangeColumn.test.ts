@@ -91,18 +91,6 @@ describe('rangeColumn chart test', () => {
     expect(series.fieldY).toEqual(['min', 'max']);
     expect(series.getSpec().animation).toBeFalsy();
 
-    // trigger config
-    const trigger = series.getTrigger();
-    expect(trigger.hover).toEqual({
-      enable: true,
-      trigger: 'pointermove',
-      triggerOff: 'pointerleave'
-    });
-    expect(trigger.select).toEqual({
-      enable: true,
-      trigger: 'pointertap'
-    });
-
     // mark
     expect(series.getMarks().length).toEqual(4);
 

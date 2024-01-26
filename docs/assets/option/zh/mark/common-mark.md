@@ -86,3 +86,17 @@ interface ICustomPath2D {
   closePath: () => void;
 }
 ```
+
+#${prefix} stateSort(Function)
+
+** 自 1.9.0 版本支持 **
+
+状态排序方法，默认状态都是按照添加的顺序处理的，如果有特殊的需求，需要指定状态顺序，可以通过这个方法实现
+
+具体类型定义如下：
+
+```typescript
+{
+  stateSort?: (stateA: string, stateB: string) => number;
+}
+```

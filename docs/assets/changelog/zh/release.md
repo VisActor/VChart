@@ -1,3 +1,61 @@
+# v1.9.0
+
+2024-01-26
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**：轴支持 `hasDimensionTooltip` 以强制指定DimensionTooltip，相关 [#1678](https://github.com/VisActor/VChart/issues/1678)
+- **@visactor/vchart**：crosshiar支持定时关闭，修复 [#1676](https://github.com/VisActor/VChart/issues/1676)
+- **@visactor/vchart**：条形图中的 `barBackground` 支持 `fieldLevel` 配置，指定 `barBackground` 是在group级别展示还是特定的层级展示，相关 [#1601](https://github.com/VisActor/VChart/issues/1601)
+- **@visactor/vchart**：直方图图表支持条形背景，相关 [#1979](https://github.com/VisActor/VChart/issues/1979)
+- **@visactor/vchart**：支持指标的 `fitStrategy`
+- **liquid**：新增水波图。关闭[#1158](https://github.com/VisActor/VChart/issues/1158)
+- **@visactor/vchart**：类目轴支持多层轴标签展示
+- **@visactor/vchart**：面积图，支持分别配置线、面积是否支持交互响应，参见 [#1592](https://github.com/VisActor/VChart/issues/1592)
+- **@visactor/vchart**：支持mark状态的 `stateSort`，修复 [#2003](https://github.com/VisActor/VChart/issues/2003)
+- **@visactor/vchart**：支持在 extensionMark 中自定义 vrender 组件
+- **@visactor/vchart**：Tooltip支持html类型和canvas类型的按需引用，相关 [#1397](https://github.com/VisActor/VChart/issues/1397)
+
+**🐛 功能修复**
+
+- **@visactor/vchart**：修复当悬停和单击都配置时，Crosshair触发的 bug，修复 [#1574](https://github.com/VisActor/VChart/issues/1574)
+- **@visactor/vchart**：Tooltip支持内容区域滚动，相关 [#2001](https://github.com/VisActor/VChart/issues/2001)
+- **@visactor/vchart**：在默认主题中移除标签行高，相关 [#1983](https://github.com/VisActor/VChart/issues/1983)
+- **@visactor/vchart**：修复某些情况下Tooltip回调可能无效的问题，相关 [#1943](https://github.com/VisActor/VChart/issues/1943)
+
+**🔨 功能重构**
+
+- **@visactor/vchart**：在 react-vchart 中弃用 `useSyncRender`，统一使用同步渲染
+
+
+
+[更多详情请查看 v1.9.0](https://github.com/VisActor/VChart/releases/tag/v1.9.0)
+
+# v1.8.10
+
+2024-01-25
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 支持 vchart 笛卡尔坐标轴的 innerOffset
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 修复连续颜色比例尺的问题，关闭 [#2131](https://github.com/VisActor/VChart/issues/2131)
+- **@visactor/vchart**: 不返回空数据的最小值和最大值，修复 [#1711](https://github.com/VisActor/VChart/issues/1711)
+- **@visactor/vchart**: 修复极坐标相对轴刻度值获取错误的问题，已修复[#2117](https://github.com/VisActor/VChart/issues/2117)
+- **@visactor/vchart**: 修复标记线未按图例过滤的问题，关闭 [#2127](https://github.com/VisActor/VChart/issues/2127)
+- **@visactor/vchart**: 序列图区域绑定错误，修复[#2115](https://github.com/VisActor/VChart/issues/2115)
+- **@visactor/vchart**: DOM 提示框上的星形图标显示不正确，相关 [#1905](https://github.com/VisActor/VChart/issues/1905)
+- **@visactor/vchart**: 旋转树图的事件错误
+- **@visactor/vchart**: 关闭动画时旋转树图的事件错误
+
+
+
+[更多详情请查看 v1.8.10](https://github.com/VisActor/VChart/releases/tag/v1.8.10)
+
 # v1.8.9
 
 2024-01-23
@@ -5,15 +63,15 @@
 
 **🆕 新增功能**
 
-- **@visactor/vchart**: support supportsTouchEvents and supportsPointerEvents config
-- **@visactor/vchart**: support `alignSelf` of layout `normal-inline` elements, fix [#2072](https://github.com/VisActor/VChart/issues/2072)
-- **@visactor/vchart**: upgrade vrender
+- **@visactor/vchart**：`option` 支持 `supportsTouchEvents` 和 `supportsPointerEvents` 配置，修复 [#2036](https://github.com/VisActor/VChart/issues/2036)
+- **@visactor/vchart**：布局类型为 `normal-inline` 元素支持 `alignSelf` 配置，修复 [#2072](https://github.com/VisActor/VChart/issues/2072)
+- **@visactor/vchart**：升级 vrender
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: fix bug of crosshair timer, fix [#2088](https://github.com/VisActor/VChart/issues/2088)
-- **@visactor/vchart**: fix the bugs of axis's onZero property, fixed [#2098](https://github.com/VisActor/VChart/issues/2098),[#2099](https://github.com/VisActor/VChart/issues/2099)
-- **@visactor/vchart**: update animation should exludes `defined` channel
+- **@visactor/vchart**：修复Crosshair定时器的 bug，修复 [#2088](https://github.com/VisActor/VChart/issues/2088)
+- **@visactor/vchart**：修复轴的 onZero 属性的 bug，已修复 [#2098](https://github.com/VisActor/VChart/issues/2098)，[#2099](https://github.com/VisActor/VChart/issues/2099)
+- **@visactor/vchart**：更新线图动画应排除 `defined` 通道的问题
 
 
 

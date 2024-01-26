@@ -95,7 +95,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 #### 组合图表
@@ -160,7 +160,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 如前所述，region 是空间信息元素，可以结合布局利用多个不同定位的 region 对画布进行空间划分；同时，组件也可以指定与 region 关联的关系，当一个组件关联了多个 region 时，会默认收集所有 region 下子图的数据维度进行展示，如下示例所示：
@@ -263,7 +263,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### 视图层图元素

@@ -1,3 +1,61 @@
+# v1.9.0
+
+2024-01-26
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: axis supports `hasDimensionTooltip` for force specification of dimension tooltip, related [#1678](https://github.com/VisActor/VChart/issues/1678)
+- **@visactor/vchart**: `triggerOff` of crosshair support number to close crosshair by setTimeout, fix [#1676](https://github.com/VisActor/VChart/issues/1676)
+- **@visactor/vchart**: the `barBackground` mark in the bar chart supports `fieldLevel` config to indicate whether the `barBackground` mark is displayed at the group level and at which level it is displayed, related [#1601](https://github.com/VisActor/VChart/issues/1601)
+- **@visactor/vchart**: histogram chart supports bar background, related [#1979](https://github.com/VisActor/VChart/issues/1979)
+- **@visactor/vchart**: support fitStrategy for indicator
+- **liquid**: liquid chart. close[#1158](https://github.com/VisActor/VChart/issues/1158)
+- **@visactor/vchart**: band type axis supports multi-layer axis label display
+- **@visactor/vchart**: support separately configuring interactive for line/area mark in area chart, see [#1592](https://github.com/VisActor/VChart/issues/1592)
+- **@visactor/vchart**: support `stateSort` of mark, fix [#2003](https://github.com/VisActor/VChart/issues/2003)
+- **@visactor/vchart**: support customized vrender component in extensionMark
+- **@visactor/vchart**: split tooltip handler into plugins for on-demand importing, related [#1397](https://github.com/VisActor/VChart/issues/1397)
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix the bug of crosshair trigger when hover and click are both configed, fix [#1574](https://github.com/VisActor/VChart/issues/1574)
+- **@visactor/vchart**: tooltip supports content area scrolling, related [#2001](https://github.com/VisActor/VChart/issues/2001)
+- **@visactor/vchart**: remove label line height in default themes, related [#1983](https://github.com/VisActor/VChart/issues/1983)
+- **@visactor/vchart**: fix the issue where tooltip content callbacks may not be effective in certain situations, related [#1943](https://github.com/VisActor/VChart/issues/1943)
+
+**🔨 Refactor**
+
+- **@visactor/vchart**: deprecated `useSyncRender` in react-vchart
+
+
+
+[more detail about v1.9.0](https://github.com/VisActor/VChart/releases/tag/v1.9.0)
+
+# v1.8.10
+
+2024-01-25
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support innerOffset in vchart cartesian axis
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: fix issue of continous color scale, close [#2131](https://github.com/VisActor/VChart/issues/2131)
+- **@visactor/vchart**: dont return min,max of empty data, fix [#1711](https://github.com/VisActor/VChart/issues/1711)
+- **@visactor/vchart**: fixed polar coordinate relative axis tickValues acquisition error problem, fixed[#2117](https://github.com/VisActor/VChart/issues/2117)
+- **@visactor/vchart**: fix the issue mark line is not filter by legend, close [#2127](https://github.com/VisActor/VChart/issues/2127)
+- **@visactor/vchart**: sequence chart region bind error. fix[#2115](https://github.com/VisActor/VChart/issues/2115)
+- **@visactor/vchart**: star shapes on dom tooltip do not display correctly, related [#1905](https://github.com/VisActor/VChart/issues/1905)
+- **@visactor/vchart**: treemap drill event error
+- **@visactor/vchart**: treemap drill error when turn off the animation
+
+
+
+[more detail about v1.8.10](https://github.com/VisActor/VChart/releases/tag/v1.8.10)
+
 # v1.8.9
 
 2024-01-23

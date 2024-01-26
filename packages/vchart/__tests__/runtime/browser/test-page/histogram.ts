@@ -16,6 +16,12 @@ const run = () => {
         lineWidth: 1
       }
     },
+    barBackground: {
+      visible: true,
+      style: {
+        visible: datum => datum.from === 32
+      }
+    },
     title: {
       text: 'Profit',
       textStyle: {
@@ -106,6 +112,7 @@ const run = () => {
     mode: isMobile ? 'mobile-browser' : 'desktop-browser'
   });
   cs1.renderAsync();
+  window['vchart'] = cs1;
 
   const cs2 = new VChart(
     {
@@ -121,6 +128,13 @@ const run = () => {
         style: {
           stroke: 'white',
           lineWidth: 1
+        }
+      },
+      barBackground: {
+        visible: true,
+        style: {
+          visible: datum => datum.age0 === 60,
+          lineWidth: 2
         }
       },
       title: {
@@ -428,5 +442,6 @@ const run = () => {
     }
   );
   cs2.renderAsync();
+  window['vchart2'] = cs2;
 };
 run();

@@ -234,7 +234,7 @@ fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/tutorials/col-
       s.data.values = dataJson[s.data.id];
     });
     const vchart = new VChart(spec, { dom: CONTAINER_ID });
-    vchart.renderAsync();
+    vchart.renderSync();
 
     // Just for the convenience of console debugging, do not copy
     window['vchart'] = vchart;

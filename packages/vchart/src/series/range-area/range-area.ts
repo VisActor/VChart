@@ -25,7 +25,8 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
-      customShape: this._spec.area?.customShape
+      customShape: this._spec.area?.customShape,
+      stateSort: this._spec.area?.stateSort
     }) as IAreaMark;
   }
 
@@ -111,7 +112,6 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
         'normal',
         AttributeLevel.Built_In
       );
-      this._trigger.registerMark(areaMark);
     }
   }
 

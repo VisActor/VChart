@@ -30,7 +30,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 处理 bar 图元上点击事件并跳转到相应的百度页面
 vchart.on('click', { level: 'mark', type: 'bar' }, e => {

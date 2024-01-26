@@ -65,11 +65,10 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync().then(() => {
-  setInterval(() => {
-    vchart.updateData('id0', randomDataValues());
-  }, 2000);
-});
+vchart.renderSync();
+setInterval(() => {
+  vchart.updateData('id0', randomDataValues());
+}, 2000);
 ```
 
 ### New Element Animation
@@ -172,13 +171,12 @@ const specs = [pieSpec, barSpec];
 
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID });
 
-vchart.renderAsync().then(() => {
-  let count = 1;
-  setInterval(() => {
-    vchart.updateSpec(specs[count % 2]);
-    count++;
-  }, 2000);
-});
+vchart.renderSync();
+let count = 1;
+setInterval(() => {
+  vchart.updateSpec(specs[count % 2]);
+  count++;
+}, 2000);
 ```
 
 ### One-to-Many Animation
@@ -269,13 +267,12 @@ const specs = [barSpec, scatterSpec];
 
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID });
 
-vchart.renderAsync().then(() => {
-  let count = 1;
-  setInterval(() => {
-    vchart.updateSpec(specs[count % 2]);
-    count++;
-  }, 3000);
-});
+vchart.renderSync();
+let count = 1;
+setInterval(() => {
+  vchart.updateSpec(specs[count % 2]);
+  count++;
+}, 3000);
 ```
 
 ### Many-to-One Animation

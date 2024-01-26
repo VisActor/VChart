@@ -31,10 +31,7 @@ export interface IChartSpecTransformerOption {
 export interface IChartSpecInfo {
     region?: IRegionSpecInfo[];
     series?: ISeriesSpecInfo[];
-    axes?: IModelSpecInfo | IModelSpecInfo[];
-    legends?: IModelSpecInfo | IModelSpecInfo[];
-    crosshair?: IModelSpecInfo | IModelSpecInfo[];
-    [key: string]: IModelSpecInfo | IModelSpecInfo[];
+    component?: Record<string, Array<IModelSpecInfo>>;
 }
 export interface IChartCreatedOption {
 }

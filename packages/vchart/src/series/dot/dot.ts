@@ -247,7 +247,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(gridBackgroundMark);
       // this._tooltipHelper?.activeTriggerSet.mark.add(gridMark);
     }
 
@@ -265,7 +264,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(gridMark);
       // this._tooltipHelper?.activeTriggerSet.mark.add(gridMark);
     }
 
@@ -282,7 +280,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(dotMark);
     }
 
     const titleMark = this._titleMark;
@@ -300,7 +297,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(titleMark);
       // this._tooltipHelper?.activeTriggerSet.mark.add(titleMark);
     }
 
@@ -319,7 +315,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(subTitleMark);
       // this._tooltipHelper?.activeTriggerSet.mark.add(subTitleMark);
     }
 
@@ -335,7 +330,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(symbolMark);
       // this._tooltipHelper?.activeTriggerSet.mark.add(symbolMark);
     }
   }

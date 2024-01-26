@@ -25,9 +25,9 @@ import type {
   IEventDispatcher
 } from '../event/interface';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
-import type { IFields, Transform } from '@visactor/vdataset';
+import type { IFields, Transform, DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
+import { DataSet, dataViewParser } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
 import { createID } from '../util/id';
@@ -74,7 +74,6 @@ import { getCanvasDataURL, URLToImage } from '../util/image';
 import { ChartEvent, DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH, VGRAMMAR_HOOK_EVENT } from '../constant';
 // eslint-disable-next-line no-duplicate-imports
 import {
-  getContainerSize,
   isArray,
   isEmpty,
   Logger,
@@ -507,7 +506,7 @@ export class VChart implements IVChart {
   }
 
   private _bindVGrammarViewEvent() {
-    if (!this._compiler || this._compiler.isReleased) {
+    if (!this._compiler) {
       return;
     }
     this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
@@ -559,7 +558,7 @@ export class VChart implements IVChart {
     const { width, height } = this.getCurrentSize();
     if (this._currentSize.width !== width || this._currentSize.height !== height) {
       this._currentSize = { width, height };
-      this.resize(width, height);
+      this.resizeSync(width, height);
     }
   }
 
@@ -647,7 +646,7 @@ export class VChart implements IVChart {
       if (updateResult.reSize) {
         const { width, height } = this.getCurrentSize();
         this._chart.onResize(width, height, false);
-        this._compiler.resize?.(width, height, false);
+        this._compiler.resize(width, height, false);
       }
     }
   }
@@ -730,20 +729,13 @@ export class VChart implements IVChart {
       return self;
     }
     // 填充数据绘图
-    this._compiler?.renderSync(option.morphConfig);
+    this._compiler?.render(option.morphConfig);
     this._afterRender();
     return self;
   }
 
   protected async _renderAsync(option: IVChartRenderOption = {}) {
-    const self = this as unknown as IVChart;
-    if (!this._beforeRender(option)) {
-      return self;
-    }
-    // 填充数据绘图
-    await this._compiler?.renderAsync(option.morphConfig);
-    this._afterRender();
-    return self;
+    return this._renderSync(option);
   }
 
   private _updateAnimateState() {
@@ -795,17 +787,10 @@ export class VChart implements IVChart {
    * @returns VChart 实例
    */
   async updateData(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions): Promise<IVChart> {
-    if (isNil(this._dataSet)) {
-      return this as unknown as IVChart;
-    }
-    if (this._chart) {
-      this._chart.updateData(id, data, true, options);
+    return this.updateDataSync(id, data, options);
+  }
 
-      // after layout
-      await this._compiler.renderAsync();
-      return this as unknown as IVChart;
-    }
-    this._spec.data = array(this._spec.data);
+  private _updateDataById(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions) {
     const preDV = this._spec.data.find((dv: any) => dv.name === id || dv.id === id);
     if (preDV) {
       if (preDV.id === id) {
@@ -823,7 +808,6 @@ export class VChart implements IVChart {
         this._spec.data.push(data);
       }
     }
-    return this as unknown as IVChart;
   }
 
   /**
@@ -839,18 +823,13 @@ export class VChart implements IVChart {
         })
       );
       this._chart.updateGlobalScaleDomain();
-      await this._compiler.renderAsync();
+      this._compiler.render();
       return this as unknown as IVChart;
     }
+
+    this._spec.data = array(this._spec.data);
     list.forEach(({ id, data, options }) => {
-      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
-      if (preDV) {
-        preDV.parse(data, options);
-      } else {
-        const dataView = new DataView(this._dataSet, { name: id });
-        dataView.parse(data, options);
-        this._spec.data.push(dataView);
-      }
+      this._updateDataById(id, data, options);
     });
     return this as unknown as IVChart;
   }
@@ -862,24 +841,20 @@ export class VChart implements IVChart {
    * @param options 数据参数
    * @returns VChart 实例
    */
-  updateDataSync(id: StringOrNumber, data: DataView | Datum[], options?: IParserOptions) {
+  updateDataSync(id: StringOrNumber, data: DataView | Datum[] | string, options?: IParserOptions) {
     if (isNil(this._dataSet)) {
       return this as unknown as IVChart;
     }
     if (this._chart) {
       this._chart.updateData(id, data, true, options);
+
       // after layout
-      this._compiler.renderSync();
+      this._compiler.render();
       return this as unknown as IVChart;
     }
-    const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
-    if (preDV) {
-      preDV.parse(data, options);
-    } else {
-      const dataView = new DataView(this._dataSet, { name: id as string });
-      dataView.parse(data, options);
-      this._spec.data.push(dataView);
-    }
+    this._spec.data = array(this._spec.data);
+
+    this._updateDataById(id, data, options);
     return this as unknown as IVChart;
   }
 
@@ -893,7 +868,7 @@ export class VChart implements IVChart {
     if (this._chart) {
       this._chart.updateFullData(data);
       if (reRender) {
-        this._compiler.renderSync();
+        this._compiler.render();
       }
       return this as unknown as IVChart;
     }
@@ -923,30 +898,7 @@ export class VChart implements IVChart {
    * @since 1.3.0
    */
   async updateFullData(data: IDataValues | IDataValues[], reRender: boolean = true) {
-    if (this._chart) {
-      this._chart.updateFullData(data);
-      if (reRender) {
-        await this._compiler.renderAsync();
-      }
-      return this as unknown as IVChart;
-    }
-    const list: IDataValues[] = array(data);
-    list.forEach(d => {
-      // only support update this attrs
-      const { id, values, parser, fields } = d;
-      const preDV = (this._spec.data as DataView[]).find(dv => dv.name === id);
-      if (preDV) {
-        preDV.setFields(cloneDeep(fields) as IFields);
-        preDV.parse(values, cloneDeep(parser) as IParserOptions);
-      } else {
-        // new data
-        const dataView = dataToDataView(d, <DataSet>this._dataSet, this._spec.data, {
-          onError: this._option?.onError
-        });
-        this._spec.data.push(dataView);
-      }
-    });
-    return this as unknown as IVChart;
+    return this.updateFullDataSync(data, reRender);
   }
 
   /**
@@ -1119,13 +1071,31 @@ export class VChart implements IVChart {
    * @returns VChart 当前实例
    */
   async resize(width: number, height: number) {
-    if (!this._chart || !this._compiler) {
+    return this.resizeSync(width, height);
+  }
+
+  /**
+   * **同步方法**，图表尺寸更新方法
+   * @param width 宽度
+   * @param height 高度
+   * @returns VChart 当前实例
+   */
+  resizeSync(width: number, height: number) {
+    if (!this._beforeResize(width, height)) {
       return this as unknown as IVChart;
+    }
+    this._compiler.resize?.(width, height);
+    return this._afterResize();
+  }
+
+  protected _beforeResize(width: number, height: number): boolean {
+    if (!this._chart || !this._compiler) {
+      return false;
     }
     // 如果宽高未变化，不需要重新执行 resize，防止当图表初始化时会执行一次多余的 resize
     const chartCanvasRect = this._chart.getCanvasRect();
     if (chartCanvasRect && chartCanvasRect.width === width && chartCanvasRect.height === height) {
-      return this as unknown as IVChart;
+      return false;
     }
 
     // 插件生命周期
@@ -1135,13 +1105,14 @@ export class VChart implements IVChart {
     this._chart.onResize(width, height, false);
     this._option.performanceHook?.afterResizeWithUpdate?.();
 
-    await this._compiler.resize?.(width, height);
+    return true;
+  }
 
-    if (this._isReleased) {
-      return this as unknown as IVChart;
+  protected _afterResize() {
+    if (!this._isReleased) {
+      // emit resize event
+      this._event.emit(ChartEvent.afterResize, { chart: this._chart });
     }
-    // emit resize event
-    this._event.emit(ChartEvent.afterResize, { chart: this._chart });
     return this as unknown as IVChart;
   }
 
@@ -1161,7 +1132,7 @@ export class VChart implements IVChart {
     this._chart.updateViewBox(viewBox, reLayout);
     if (reLayout) {
       // 重新布局
-      this._compiler.renderSync();
+      this._compiler.render();
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this._chart.onEvaluateEnd();
@@ -1390,7 +1361,7 @@ export class VChart implements IVChart {
 
   // Tooltip 相关方法
   private _getTooltipComponent(): Tooltip | undefined {
-    const tooltip = this._chart?.getAllComponents().find(c => c.type === ComponentTypeEnum.tooltip) as Tooltip;
+    const tooltip = this._chart?.getComponentsByType(ComponentTypeEnum.tooltip)[0] as unknown as Tooltip;
     return tooltip;
   }
 
@@ -1467,11 +1438,9 @@ export class VChart implements IVChart {
    * @returns
    */
   getLegendDataByIndex(index: number = 0) {
-    const legends = this._chart
-      ?.getAllComponents()
-      .filter(c => c.type === ComponentTypeEnum.discreteLegend) as ILegend[];
+    const legends = this._chart?.getComponentsByType(ComponentTypeEnum.discreteLegend) as unknown as ILegend[];
 
-    if (legends[index]) {
+    if (legends && legends[index]) {
       return legends[index].getLegendData();
     }
 
@@ -1497,11 +1466,9 @@ export class VChart implements IVChart {
    * @returns
    */
   getLegendSelectedDataByIndex(index: number = 0) {
-    const legends = this._chart
-      ?.getAllComponents()
-      .filter(c => c.type === ComponentTypeEnum.discreteLegend) as ILegend[];
+    const legends = this._chart?.getComponentsByType(ComponentTypeEnum.discreteLegend) as unknown as ILegend[];
 
-    if (legends[index]) {
+    if (legends && legends[index]) {
       return legends[index].getSelectedData();
     }
 
@@ -1526,11 +1493,9 @@ export class VChart implements IVChart {
    * @returns
    */
   setLegendSelectedDataByIndex(index: number = 0, selectedData: StringOrNumber[]) {
-    const legends = this._chart
-      ?.getAllComponents()
-      .filter(c => c.type === ComponentTypeEnum.discreteLegend) as ILegend[];
+    const legends = this._chart?.getComponentsByType(ComponentTypeEnum.discreteLegend) as unknown as ILegend[];
 
-    if (legends[index]) {
+    if (legends && legends[index]) {
       legends[index].setSelectedData(selectedData);
     }
   }

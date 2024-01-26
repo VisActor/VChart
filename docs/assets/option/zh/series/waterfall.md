@@ -44,6 +44,14 @@ barBackground 图元样式配置。该图元默认不显示。
 
 自 1.6.0 版本开始支持。
 
+##${prefix} fieldLevel(number)
+
+决定柱状背景图元是否显示在组的层级上，以及显示在哪个层级上。自 `1.9.0` 版本开始支持。
+
+例如：在分组柱状图中，`xField` 为 `['A', 'B', 'C']`，如果配置为 0，则以 `'A'` 划分的每个组对应一个整体的 barBackground；如果配置为 1，则以 `'B'` 划分的每个组对应一个整体的 barBackground；如果配置为 2，则每个柱条对应一个 barBackground。
+
+默认值为每个柱条对应一个 barBackground。
+
 {{ use: common-mark(
   prefix = '#' + ${prefix}
 ) }}

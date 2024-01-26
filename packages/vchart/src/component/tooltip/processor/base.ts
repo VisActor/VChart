@@ -8,7 +8,7 @@ import type { Tooltip } from '../tooltip';
 import type { MouseEventData, TooltipInfo } from './interface';
 import { ChartEvent } from '../../../constant';
 import type { TooltipEventParams } from '../interface/event';
-import type { IDimensionInfo } from '../../../event/events/dimension';
+import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension';
 import { getPolarDimensionInfo } from '../../../event/events/dimension/util/polar';
 import { getCartesianDimensionInfo } from '../../../event/events/dimension/util/cartesian';
 import { isDiscrete } from '@visactor/vscale';
@@ -74,7 +74,7 @@ export abstract class BaseTooltipProcessor {
     layer.globalTransMatrix.transformPoint({ x: params.event.viewX, y: params.event.viewY }, point);
 
     targetDimensionInfo = [
-      ...(getCartesianDimensionInfo(chart, point) ?? []),
+      ...(getCartesianDimensionInfo(chart, point, true) ?? []),
       ...(getPolarDimensionInfo(chart, point) ?? [])
     ];
     if (targetDimensionInfo.length === 0) {
@@ -83,6 +83,10 @@ export abstract class BaseTooltipProcessor {
       // 只保留一个轴的dimension info
       const dimensionAxisInfo = targetDimensionInfo.filter(info => {
         const axis = info.axis;
+        if (axis.getSpec().hasDimensionTooltip) {
+          return true;
+        }
+
         // 优先显示离散轴 tooltip
         if (!isDiscrete(axis.getScale().type)) {
           return false;
@@ -108,6 +112,20 @@ export abstract class BaseTooltipProcessor {
         return axis.getOrient() === 'bottom' || axis.getOrient() === 'top';
       });
       targetDimensionInfo = dimensionAxisInfo.length ? dimensionAxisInfo : targetDimensionInfo.slice(0, 1);
+
+      // datum 去重，保证每个系列的每个数据项只对应于一行 tooltip 内容项
+      if (targetDimensionInfo.length > 1) {
+        const dimensionDataKeySet = new Set<string>();
+        targetDimensionInfo.forEach(info => {
+          info.data = info.data.filter(({ key }: IDimensionData) => {
+            if (dimensionDataKeySet.has(key)) {
+              return false;
+            }
+            dimensionDataKeySet.add(key);
+            return true;
+          });
+        });
+      }
     }
 
     return targetDimensionInfo;

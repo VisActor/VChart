@@ -182,7 +182,6 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(linkMark);
     }
 
     const arrowMark = this._arrowMark;
@@ -203,13 +202,11 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
         'normal',
         AttributeLevel.Series
       );
-      this._trigger.registerMark(arrowMark);
     }
   }
 
   afterInitMark(): void {
     super.afterInitMark();
-    this._trigger.setStateKeys([this._seriesField as string, this._fromField]);
   }
 
   /** 以下函数用于定位link和arrow */
@@ -329,6 +326,19 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
       scale: this._option.globalScale.getScale('color') ?? this._getDefaultColorScale(),
       field: this._dotTypeField ?? this._seriesField ?? DEFAULT_DATA_SERIES_FIELD
     };
+  }
+
+  initInteraction(): void {
+    const marks: IMark[] = [];
+
+    if (this._linkMark) {
+      marks.push(this._linkMark);
+    }
+
+    if (this._arrowMark) {
+      marks.push(this._arrowMark);
+    }
+    this._parseInteractionConfig(marks);
   }
 
   protected initTooltip() {

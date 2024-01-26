@@ -105,3 +105,7 @@ Configure tooltip background frame style.
 #${prefix} spaceRow(number)
 
 **Optional** Configure tooltip content row spacing.
+
+#${prefix} maxContentHeight(number)
+
+**Optional** Configure the maximum height of the content area, and if the content area exceeds this height, a local scrollbar will be displayed (applicable to dom tooltip). Supported since version 1.9.0.

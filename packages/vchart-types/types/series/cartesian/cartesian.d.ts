@@ -76,9 +76,14 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     protected _axisPosition(helper: IAxisHelper, value: StringOrNumber | StringOrNumber[], datum?: any): number;
     valueToPositionX(value: StringOrNumber | StringOrNumber[], datum?: any): number;
     valueToPositionY(value: StringOrNumber | StringOrNumber[], datum?: any): number;
+    protected _dataToPosition(datum: Datum, axisHelper: IAxisHelper, field: string[], scaleDepth: number | undefined, getEncoder: () => (datum: Datum) => number, setEncoder: (encoder: (datum: Datum) => number) => void): number;
     protected _positionXEncoder?: (datum: Datum) => number;
+    protected _getPositionXEncoder: () => (datum: Datum) => number;
+    protected _setPositionXEncoder: (encoder: (datum: Datum) => number) => void;
     dataToPositionX(datum: Datum): number;
     protected _positionYEncoder?: (datum: Datum) => number;
+    protected _getPositionYEncoder: () => (datum: Datum) => number;
+    protected _setPositionYEncoder: (encoder: (datum: Datum) => number) => void;
     dataToPositionY(datum: Datum): number;
     dataToPositionZ(datum: Datum): number;
     dataToPositionX1(datum: Datum): number;
@@ -90,6 +95,7 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     getRegionRectRight(): number;
     afterInitMark(): void;
     getDimensionField(): string[];
+    getDimensionContinuousField(): string[];
     getMeasureField(): string[];
     viewDataUpdate(d: DataView): void;
     _sortDataInAxisDomain(): void;

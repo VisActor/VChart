@@ -1,5 +1,7 @@
 # Circle Packing
+
 [\[配置项\]](../../../option/circlePackingChart)
+
 ## 简介
 
 Circle Packing 是一种基于圆形的数据可视化图表，它通过使用嵌套的圆形来表示具有层次结构的数据。在这种图表中，较小的圆嵌套在较大的圆中，每个圆形的大小和位置通常反映数据的相对数值和层次关系。圆形的大小和颜色等属性也可以用来提供其他信息。Circle Packing 图表通常用于数据挖掘、生态系统和社交媒体分析等领域中进行可视化分析，但也可以用于其他类型的数据可视化任务。
@@ -238,7 +240,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window.vchart = vchart;
@@ -475,7 +477,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window.vchart = vchart;
@@ -689,7 +691,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window.vchart = vchart;

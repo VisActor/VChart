@@ -131,7 +131,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 vchart.on('dimensionHover', {}, params => {
   console.log(params);
 });

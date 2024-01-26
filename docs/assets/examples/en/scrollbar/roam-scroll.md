@@ -18,7 +18,6 @@ option: barChart#scrollbar
 - The `roamScroll.rate` property is declared as the scroll rate, the range is `[0, 1]`
 - The `roamScroll.reverse` property declares whether the scrolling direction is opposite to the scroll bar moving direction
 
-
 ## Demo source
 
 ```javascript livedemo
@@ -137,11 +136,12 @@ const spec = {
   ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
+
 ## Related Tutorials
 
 [scrollBar](link)

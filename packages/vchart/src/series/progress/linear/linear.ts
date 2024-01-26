@@ -64,7 +64,8 @@ export class LinearProgressSeries<
     this._progressMark = this._createMark(LinearProgressSeries.mark.progress, {
       isSeriesMark: true,
       parent: this._progressGroupMark,
-      customShape: this._spec.progress?.customShape
+      customShape: this._spec.progress?.customShape,
+      stateSort: this._spec.progress?.stateSort
     }) as IRectMark;
     return this._progressMark;
   }
@@ -121,14 +122,14 @@ export class LinearProgressSeries<
           AttributeLevel.Series
         );
       }
-      this._trigger.registerMark(progressMark);
     }
   }
 
   private _initTrackMark() {
     this._trackMark = this._createMark(LinearProgressSeries.mark.track, {
       parent: this._progressGroupMark,
-      customShape: this._spec.track?.customShape
+      customShape: this._spec.track?.customShape,
+      stateSort: this._spec.track?.stateSort
     }) as IRectMark;
     return this._trackMark;
   }
@@ -173,7 +174,6 @@ export class LinearProgressSeries<
           AttributeLevel.Series
         );
       }
-      this._trigger.registerMark(trackMark);
     }
   }
 
@@ -240,6 +240,19 @@ export class LinearProgressSeries<
       AttributeLevel.Series
     );
     this._progressGroupMark.setInteractive(false);
+  }
+
+  initInteraction(): void {
+    const marks: IMark[] = [];
+
+    if (this._trackMark) {
+      marks.push(this._trackMark);
+    }
+
+    if (this._progressMark) {
+      marks.push(this._progressMark);
+    }
+    this._parseInteractionConfig(marks);
   }
 
   initAnimation() {

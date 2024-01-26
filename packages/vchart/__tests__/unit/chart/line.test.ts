@@ -74,20 +74,6 @@ describe('line chart test', () => {
     expect(series.fieldY).toEqual(['y']);
     expect(series.getSpec().animation).toBeFalsy();
 
-    // trigger config
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const trigger = series._trigger;
-    expect(trigger.hover).toEqual({
-      enable: true,
-      trigger: 'pointermove',
-      triggerOff: 'pointerleave'
-    });
-    expect(trigger.select).toEqual({
-      enable: true,
-      trigger: 'pointertap'
-    });
-
     // mark
     expect(series.getMarks().length).toEqual(3);
 
@@ -146,19 +132,5 @@ describe('line chart test', () => {
     expect(transformSpec.select).toBe(false);
 
     expect(chart.getAllSeries().length).toEqual(1);
-    const series: LineSeries = chart.getAllSeries()[0] as LineSeries;
-    // trigger config
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const trigger = series._trigger;
-    expect(trigger.hover).toEqual({
-      enable: true,
-      trigger: ['pointerdown', 'pointermove'],
-      triggerOff: 'pointerleave'
-    });
-    expect(trigger.select).toEqual({
-      enable: false,
-      trigger: 'tap'
-    });
   });
 });

@@ -38,6 +38,7 @@ export type {
   ITreemapChartSpec,
   IWaterfallChartSpec,
   ICorrelationChartSpec,
+  ILiquidChartSpec,
   IWordCloud3dChartSpec,
   IWordCloudChartSpec,
   IPolarChartSpec,

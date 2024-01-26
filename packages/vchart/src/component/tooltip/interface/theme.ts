@@ -74,6 +74,11 @@ export interface ITooltipTheme<ColorType = string> {
   valueLabel?: ITooltipTextTheme<ColorType>;
   /** 内容项行间距 */
   spaceRow?: number;
+  /**
+   * 最大内容区高度，内容区若超过该高度将显示局部滚动条（适用于 dom tooltip）
+   * @since 1.9.0
+   */
+  maxContentHeight?: number;
   /** 偏移量 */
   offset?: {
     x?: number;

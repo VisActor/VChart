@@ -42,6 +42,10 @@
 
 例如，`formatter: 'type={type},value={value},percent={_percent_}'`
 
+#${prefix} syncState(boolean) = false
+
+是否同步数据图元的状态变化，自`1.9.0`版本开始支持，用法可以参考 [demo](/vchart/examples/label/bar-label-syncState)
+
 {{ if: !${noOffset} }}
 
 {{ var: offsetNumber = ${defaultOffset} !== undefined ? ${defaultOffset} : 0 }}

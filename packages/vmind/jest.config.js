@@ -5,10 +5,11 @@ module.exports = {
   preset: 'ts-jest',
   runner: 'jest-electron/runner',
   testEnvironment: 'jest-electron/environment',
-  testRegex: '/__tests__/.*\\.test\\.(js|ts)$',
+  testMatch: ['<rootDir>/src/**/*.test.(js|ts)'],
   silent: true,
   globals: {
     'ts-jest': {
+      isolatedModules: true,
       resolveJsonModule: true,
       esModuleInterop: true,
       experimentalDecorators: true,

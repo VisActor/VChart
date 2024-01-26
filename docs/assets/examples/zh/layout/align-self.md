@@ -3,7 +3,7 @@ category: examples
 group: layout
 title: 行内元素对齐配置
 order: 37-3
-cover:
+cover: /vchart/preview/layout-align-self_1.9.0.png
 option: pieChart#layout
 ---
 
@@ -128,7 +128,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

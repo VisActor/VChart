@@ -114,7 +114,7 @@ Next, we create a `VChart` Example, pass in the ID of the spec and DOM container
 // create vchart instance
 const vchart = new VChart(spec, { dom: 'chart' });
 // rendering
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 The resulting chart is as follows:

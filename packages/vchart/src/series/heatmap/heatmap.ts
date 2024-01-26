@@ -59,12 +59,14 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       defaultMorphElementKey: this.getDimensionField()[0],
       isSeriesMark: true,
       progressive,
-      customShape: this._spec.cell?.customShape
+      customShape: this._spec.cell?.customShape,
+      stateSort: this._spec.cell?.stateSort
     }) as ICellMark;
 
     this._backgroundMark = this._createMark(HeatmapSeries.mark.cellBackground, {
       progressive,
-      customShape: this._spec.cellBackground?.customShape
+      customShape: this._spec.cellBackground?.customShape,
+      stateSort: this._spec.cellBackground?.stateSort
     }) as ICellMark;
   }
 
@@ -105,8 +107,6 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       'normal',
       AttributeLevel.Series
     );
-
-    this._trigger.registerMark(this._cellMark);
   }
 
   initCellBackgroundMarkStyle() {
@@ -143,6 +143,10 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
       scale: this._option.globalScale.getScale('color') ?? this._getDefaultColorScale(),
       field: this.getFieldValue[0]
     };
+  }
+
+  initInteraction(): void {
+    this._parseInteractionConfig(this._cellMark ? [this._cellMark] : []);
   }
 
   initAnimation() {

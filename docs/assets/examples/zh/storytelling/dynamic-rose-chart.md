@@ -171,16 +171,15 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync().then(() => {
-  for (let i = 1; i < month.length; i++) {
-    setTimeout(() => {
-      curIndex++;
-      const newData = monthData[month[curIndex]];
-      data.push(...newData);
-      vchart.updateData('id0', data);
-    }, i * 1000);
-  }
-});
+vchart.renderSync();
+for (let i = 1; i < month.length; i++) {
+  setTimeout(() => {
+    curIndex++;
+    const newData = monthData[month[curIndex]];
+    data.push(...newData);
+    vchart.updateData('id0', data);
+  }, i * 1000);
+}
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

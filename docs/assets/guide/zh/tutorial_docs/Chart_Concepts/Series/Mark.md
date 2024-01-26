@@ -62,7 +62,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### 图元的自定义状态
@@ -102,7 +102,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## 图元的样式配置
@@ -215,7 +215,7 @@ const spec = {
 // sizeScale.domain() === [-50,200];
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 scale 的具体用法，可以参照文档 [scale](../../../../option/barChart#scales)。
@@ -255,7 +255,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## 渐变色配置
@@ -472,7 +472,7 @@ const spec = {
   }
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

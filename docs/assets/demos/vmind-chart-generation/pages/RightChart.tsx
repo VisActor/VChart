@@ -94,7 +94,7 @@ export function RightChart(props: IPropsType) {
     } else {
       cs.updateSpec(props.spec);
     }
-    cs.renderAsync();
+    cs.renderSync();
   }, [props.spec, props.time]);
 
   return (

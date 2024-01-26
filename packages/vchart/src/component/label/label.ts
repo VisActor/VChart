@@ -84,8 +84,8 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         specInfo.push({
           spec: chartSpec,
           type: ComponentTypeEnum.label,
-          specInfoPath: ['region', i, 'markLabel'],
-          specIndex: i // 这里的 specIndex 是 region 的 index，用于 region 定位
+          specInfoPath: ['component', this.specKey, i],
+          regionIndexes: [i]
         });
       }
     });
@@ -282,7 +282,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
     target: IVGrammarMark | IVGrammarMark[],
     labelInfos: ILabelInfo[]
   ) {
-    const dependCmp = this._option.getAllComponents().filter(cmp => cmp.type === 'totalLabel');
+    const dependCmp = this._option.getComponentsByType('totalLabel');
     component
       .target(target)
       .configure({ interactive: false })
@@ -299,13 +299,8 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
             {
               textStyle: { pickable: labelSpec.interactive === true, ...labelSpec.style },
               overlap: {
-                avoidMarks: this._option
-                  .getAllComponents()
-                  .filter(cmp => cmp.type === 'totalLabel')
-                  .map(cmp => cmp.getMarks()[0].getProductId())
-              },
-              x: 0,
-              y: 0
+                avoidMarks: dependCmp.map(cmp => cmp.getMarks()[0].getProductId())
+              }
             },
             defaultLabelConfig(rule, labelInfo),
             {

@@ -86,7 +86,7 @@ const spec = {
 // Create a vchart instance
 const vchart = new VChart(spec, { dom: 'chart' });
 // Draw the chart
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 At this point, you have successfully drawn a simple bar chart!
@@ -111,7 +111,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 I hope this tutorial has helped you learn how to use VChart. Now, you can try drawing different types of charts and customize more diverse chart effects by delving into the various configuration options available in VChart. Embark on your VChart journey with confidence!
