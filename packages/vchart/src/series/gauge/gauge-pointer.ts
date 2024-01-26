@@ -99,7 +99,6 @@ export class GaugePointerSeries<
           angle: (datum: Datum) => this._getPointerAngle(datum) - Math.PI / 2
         });
       }
-      this._trigger.registerMark(pointerMark);
     }
   }
 
@@ -183,6 +182,10 @@ export class GaugePointerSeries<
         zIndex: 300
       });
     }
+  }
+
+  initInteraction(): void {
+    this._parseInteractionConfig(this._pointerMark ? [this._pointerMark] : []);
   }
 
   initAnimation() {

@@ -2,7 +2,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import type { IPolarAxis, IPolarAxisCommonSpec } from './interface';
 import type { IComponentOption } from '../../interface';
 import { ComponentTypeEnum } from '../../interface/type';
-import type { IPolarTickDataOpt, CoordinateType } from '@visactor/vutils-extension';
+import type { IPolarTickDataOpt } from '@visactor/vutils-extension';
 import type { IPolarSeries } from '../../../series/interface';
 import type { IPoint, IPolarOrientType, IPolarPoint, StringOrNumber, ILayoutType } from '../../../typings';
 import type { Maybe } from '@visactor/vutils';
@@ -34,14 +34,14 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     private _gridStyle;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     static createComponent(specInfo: IModelSpecInfo, options: IComponentOption): IPolarAxis;
+    constructor(spec: T, options: IComponentOption);
     effect: IEffect;
     setAttrFromSpec(): void;
     _transformLayoutPosition: (pos: Partial<IPoint>) => Partial<IPoint>;
     onLayoutEnd(ctx: any): void;
     onRender(ctx: any): void;
     changeRegions(): void;
-    protected _initData(): void;
-    protected _tickTransformOption(coordinateType: CoordinateType): IPolarTickDataOpt;
+    protected _tickTransformOption(): IPolarTickDataOpt;
     afterCompile(): void;
     protected updateScaleRange(): boolean;
     protected collectData(depth: number, rawData?: boolean): {
@@ -65,6 +65,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
         center: () => IPoint;
         getScale: (depth: number) => IBaseScale;
         getAxisId: () => number;
+        getSpec: () => T;
     };
     positionToData(position: IPoint): number;
     coordToPoint(point: IPolarPoint): IPoint;
@@ -74,6 +75,9 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     getInnerRadius(): number;
     tickValues(): number[];
     updateLayoutAttribute(): void;
+    protected _getNormalizedValue(values: any[], length: number): number;
+    protected getLabelItems(length: number): any[];
+    protected _getStartValue(): number;
     private _layoutAngleAxis;
     private _layoutRadiusAxis;
     protected _getRelatedAngleAxis(): IPolarAxis | undefined;

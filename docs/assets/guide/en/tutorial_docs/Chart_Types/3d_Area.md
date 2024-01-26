@@ -25,7 +25,7 @@ Axes, tooltips, and other components that assist in chart display are optional c
 - `areaChart.tooltip`: Tooltip, default is displayed during interaction. For detailed configuration, see [VChart Tooltip Component Configuration](../../../option/areaChart#tooltip)
 - For more component configurations, see [VChart areaChart Configuration](../../../option/areaChart)
 
-As a 3d chart, the 3d area chart requires enabling the 3d view. Configure the 3d view in the vChart initialization parameters:
+As a 3d chart, the 3d area chart requires enabling the 3d view. Configure the 3d view in the vchart initialization parameters:
 
 - `options3d.enable`: Enable the 3d view
 - `options3d.enableView3dTransform`: Support for 3d free transform
@@ -133,7 +133,7 @@ const vchart = new VChart(spec, {
     center: { x: 500, y: 250 }
   }
 });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;

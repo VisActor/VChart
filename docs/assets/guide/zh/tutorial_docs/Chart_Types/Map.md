@@ -42,8 +42,8 @@ VChart.registerMap('world', geojson, {
   type: 'geojson'
 });
 
-const vChart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
-await vChart.renderAsync();
+const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
+vchart.renderSync();
 ```
 
 ## 地图特性
@@ -127,8 +127,8 @@ VChart.registerMap('south-america', topojson, {
   object: 'south-america'
 });
 
-const vChart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
-await vChart.renderAsync();
+const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
+vchart.renderSync();
 ```
 
 2. 图元映射数据
@@ -225,8 +225,8 @@ VChart.registerMap('south-america', topojson, {
   object: 'south-america'
 });
 
-const vChart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
-await vChart.renderAsync();
+const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
+vchart.renderSync();
 ```
 
 ### 自定义投影
@@ -268,8 +268,8 @@ VChart.registerMap('world', geojson, {
   type: 'geojson'
 });
 
-const vChart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
-await vChart.renderAsync();
+const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
+vchart.renderSync();
 ```
 
 ### 交互
@@ -333,6 +333,6 @@ VChart.registerMap('world', geojson, {
   type: 'geojson'
 });
 
-const vChart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
-await vChart.renderAsync();
+const vchart = new VChart(spec, { dom: CONTAINER_ID, animation: false });
+vchart.renderSync();
 ```

@@ -1998,7 +1998,7 @@ as well as an estimated number of hand-rolled cigarettes, per adult (ages 15+) p
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

@@ -1,13 +1,16 @@
 # Common Animation Cases
 
 ## Bar Chart Carousel Animation
+
 Below is a demo of a carousel animation for a bar chart. The configuration defines the normal-state animation (`animationNormal`) for the bar chart element (`bar`). The key features of the content are explained below:
+
 - `startTime`: The animation starts running at 350 milliseconds.
 - `oneByOne`: The execution time interval for each bar is 200 milliseconds.
 - `loop`: Animation loop playback is enabled.
-Next, we will introduce the contents of the TimeLine array in detail. This array contains two time slices, which are used to control the animation effects of the bar chart appearing on the screen and disappearing off the screen:
+  Next, we will introduce the contents of the TimeLine array in detail. This array contains two time slices, which are used to control the animation effects of the bar chart appearing on the screen and disappearing off the screen:
 
 First time slice:
+
 - `delay`: Animation delay time is 1000 milliseconds.
 - `effects`: Animation effect configuration
   - `type`: Animation effect type is "growHeightOut" (bar height gradually decreases to disappear)
@@ -27,30 +30,30 @@ First time slice:
 
 ```javascript livedemo
 const spec = {
-  background: "black",
+  background: 'black',
   height: 300,
 
-  color: ["#4D96FF", "#6BCB77", "#FFD93D", "#FF6B6B", "#53E0FF"],
-  type: "bar",
+  color: ['#4D96FF', '#6BCB77', '#FFD93D', '#FF6B6B', '#53E0FF'],
+  type: 'bar',
   data: {
-    id: "data2",
+    id: 'data2',
     values: [
       { x: 0, y: 90 },
       { x: 1, y: 115 },
       { x: 2, y: 130 },
       { x: 3, y: 125 },
-      { x: 4, y: 200 },
-    ],
+      { x: 4, y: 200 }
+    ]
   },
-  xField: "x",
-  yField: "y",
-  seriesField: "x",
+  xField: 'x',
+  yField: 'y',
+  seriesField: 'x',
   bar: {
     style: {
       fillOpacity: 0,
       cornerRadiusTopLeft: 4,
-      cornerRadiusTopRight: 4,
-    },
+      cornerRadiusTopRight: 4
+    }
   },
   animationAppear: {
     bar: [
@@ -60,24 +63,24 @@ const spec = {
           {
             effects: {
               channel: {
-                fillOpacity: { from: 0, to: 1 },
-              },
+                fillOpacity: { from: 0, to: 1 }
+              }
             },
-            duration: 0,
+            duration: 0
           },
           {
             effects: {
-              type: "growHeightIn",
-              easing: "bounceOut",
+              type: 'growHeightIn',
+              easing: 'bounceOut',
               options: {
-                orient: "negative",
-              },
+                orient: 'negative'
+              }
             },
-            duration: 1500,
-          },
-        ],
-      },
-    ],
+            duration: 1500
+          }
+        ]
+      }
+    ]
   },
   animationNormal: {
     bar: [
@@ -89,97 +92,99 @@ const spec = {
           {
             delay: 1000,
             effects: {
-              type: "growHeightOut",
-              easing: "bounceOut",
+              type: 'growHeightOut',
+              easing: 'bounceOut',
               options: {
-                orient: "negative",
-              },
+                orient: 'negative'
+              }
             },
-            duration: 300,
+            duration: 300
           },
           {
             delay: 1000,
             effects: {
-              type: "growHeightIn",
-              easing: "bounceOut",
+              type: 'growHeightIn',
+              easing: 'bounceOut',
               options: {
-                orient: "negative",
-              },
+                orient: 'negative'
+              }
             },
-            duration: 1200,
-          },
-        ],
-      },
-    ],
+            duration: 1200
+          }
+        ]
+      }
+    ]
   },
   tooltip: {
-    visible: false,
-  },
+    visible: false
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
+
 ## Pie Chart Carousel Animation
 
 Below is a demo of a carousel animation for a pie chart. We have configured the normal-state animation (`animationNormal`) for the `pie` chart element. We have defined two timelines:
+
 - The first timeline (TimeLineA) starts running 100 milliseconds after the chart enters the scene and does not loop.
   - TimeLineA defines a time slice for executing a transparency-reducing animation with a duration of 500 milliseconds.
 - The second timeline (TimeLineB) starts running 800 milliseconds later and is executed in a loop. The `oneByOne` attribute is set to true, indicating that the animation of each element starts after the previous element's animation is completed.
-TimeLineB defines 3 time slices:
+  TimeLineB defines 3 time slices:
   - Transparency recovers and the outer radius of the element expands by 10 px for emphasis, with an animation duration of 500 milliseconds;
   - The element properties remain unchanged for 500 milliseconds;
   - The element attributes are restored with a duration of 500 milliseconds.
 
 ```javascript livedemo
 const spec = {
-  type: "pie",
-  background: "black",
-  color: ["#4D96FF", "#6BCB77", "#FFD93D", "#FF6B6B"],
+  type: 'pie',
+  background: 'black',
+  color: ['#4D96FF', '#6BCB77', '#FFD93D', '#FF6B6B'],
   data: [
     {
-      name: "data1",
+      name: 'data1',
       values: [
         {
           value: 300,
-          name: "A",
-          radius: 100,
+          name: 'A',
+          radius: 100
         },
         {
           value: 120,
-          name: "B",
-          radius: 95,
+          name: 'B',
+          radius: 95
         },
         {
           value: 100,
-          name: "C",
-          radius: 90,
+          name: 'C',
+          radius: 90
         },
         {
           value: 80,
-          name: "D",
-          radius: 85,
-        },
-      ],
-    },
+          name: 'D',
+          radius: 85
+        }
+      ]
+    }
   ],
-  valueField: "value",
-  categoryField: "name",
-  seriesField: "name",
+  valueField: 'value',
+  categoryField: 'name',
+  seriesField: 'name',
   radius: 0.8,
   innerRadius: 0.5,
   startAngle: -90,
   endAngle: 250,
   pie: {
     style: {
-      outerRadius: datum=> {
+      outerRadius: datum => {
         return datum.radius;
       },
       innerRadius: datum => {
         return 60;
       },
-      cornerRadius: 2,
-    },
+      cornerRadius: 2
+    }
   },
   animationNormal: {
     pie: [
@@ -190,12 +195,12 @@ const spec = {
           {
             effects: {
               channel: {
-                fillOpacity: { to: 0.3 },
-              },
+                fillOpacity: { to: 0.3 }
+              }
             },
-            duration: 500,
-          },
-        ],
+            duration: 500
+          }
+        ]
       },
       {
         loop: true,
@@ -206,39 +211,39 @@ const spec = {
             effects: {
               channel: {
                 fillOpacity: { to: 1 },
-                outerRadius: { to: datum => datum.radius + 10 },
-              },
+                outerRadius: { to: datum => datum.radius + 10 }
+              }
             },
-            duration: 500,
+            duration: 500
           },
           {
             effects: {
               channel: {
                 fillOpacity: { to: 1 },
-                outerRadius: { to: datum => datum.radius + 10 },
+                outerRadius: { to: datum => datum.radius + 10 }
               },
-              easing: "linear",
+              easing: 'linear'
             },
-            duration: 500,
+            duration: 500
           },
           {
             effects: {
               channel: {
                 fillOpacity: { to: 0.3 },
-                outerRadius: { to: datum=> datum.radius },
-              },
+                outerRadius: { to: datum => datum.radius }
+              }
             },
-            duration: 500,
-          },
-        ],
-      },
-    ],
+            duration: 500
+          }
+        ]
+      }
+    ]
   },
   tooltip: {
-    visible: false,
+    visible: false
   },
   indicator: {
-    id: "indicator",
+    id: 'indicator',
     visible: true,
     fixed: true,
     content: [
@@ -246,22 +251,24 @@ const spec = {
         visible: true,
         style: {
           fontSize: 20,
-          text: "Number",
-          fill: "white",
+          text: 'Number',
+          fill: 'white',
           fillOpacity: 0.8,
-          fontWeight: 600,
-        },
-      },
-    ],
-  },
+          fontWeight: 600
+        }
+      }
+    ]
+  }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## Top 10 Bar Chart Animation
+
 Below is a demo of a dynamic ranking bar chart animation. In this example, we have configured the update animation for the `bar` chart element. This configuration defines two animation effects, which are:
+
 1. Update animation (for all attributes except the element position visual channels `x`, `y`), with a duration of 2000 ms and a linear easing function `linear`;
 2. The change of position visual channels `x`, `y` has a duration of 300 ms, also using the linear easing function `linear`.
 
@@ -465,9 +472,8 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
-

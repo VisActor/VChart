@@ -8,6 +8,7 @@ import type { Transform, Parser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
 import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { IChartPluginConstructor } from '../plugin/chart/interface';
+import type { IComponentPluginConstructor } from '../plugin/components/interface';
 export declare class Factory {
     private static _charts;
     private static _series;
@@ -17,6 +18,7 @@ export declare class Factory {
     private static _animations;
     private static _implements;
     private static _chartPlugin;
+    private static _componentPlugin;
     static transforms: {
         [key: string]: Transform;
     };
@@ -36,6 +38,7 @@ export declare class Factory {
     static registerAnimation(key: string, animation: (params?: any, preset?: any) => MarkAnimationSpec): void;
     static registerImplement(key: string, implement: (...args: any) => void): void;
     static registerChartPlugin(key: string, plugin: IChartPluginConstructor): void;
+    static registerComponentPlugin(key: string, plugin: IComponentPluginConstructor): void;
     static createChart(chartType: string, spec: any, options: IChartOption): IChart | null;
     static createChartSpecTransformer(chartType: string, option: IChartSpecTransformerOption): IChartSpecTransformer | null;
     static createRegion(regionType: string, spec: any, options: IModelOption): IRegion | null;
@@ -57,4 +60,6 @@ export declare class Factory {
     static getImplementInKey(key: string): (...args: any) => void;
     static getSeriesMarkMap(seriesType: string): Partial<Record<SeriesMarkNameEnum, ISeriesMarkInfo>>;
     static getChartPlugins(): IChartPluginConstructor[];
+    static getComponentPlugins(): IComponentPluginConstructor[];
+    static getComponentPluginInType(type: string): IComponentPluginConstructor;
 }

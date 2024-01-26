@@ -1,6 +1,32 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 25 Jan 2024 09:18:19 GMT and should not be manually modified.
+This log was last generated on Fri, 26 Jan 2024 02:20:43 GMT and should not be manually modified.
+
+## 1.9.0
+Fri, 26 Jan 2024 02:20:43 GMT
+
+### Updates
+
+- feat: axis supports `hasDimensionTooltip` for force specification of dimension tooltip, related #1678
+- feat: `triggerOff` of crosshair support number to close crosshair by setTimeout, fix #1676
+- fix: fix the bug of crosshair trigger when hover and click are both configed, fix #1574
+- feat: the `barBackground` mark in the bar chart supports `fieldLevel` config to indicate whether the `barBackground` mark is displayed at the group level and at which level it is displayed, related #1601
+- feat: histogram chart supports bar background, related #1979
+- feat: support fitStrategy for indicator
+- feat(liquid): liquid chart. close#1158
+- feat: band type axis supports multi-layer axis label display
+-  feat: support separately configuring interactive for line/area mark in area chart, see #1592
+- feat: support `stateSort` of mark, fix #2003
+- feat: support customized vrender component in extensionMark
+
+
+- feat: split tooltip handler into plugins for on-demand importing, related #1397
+- fix: tooltip supports content area scrolling, related #2001
+- fix: remove label line height in default themes, related #1983
+- fix: fix the issue where tooltip content callbacks may not be effective in certain situations, related #1943
+- refactor: deprecated `useSyncRender` in react-vchart
+
+
 
 ## 1.8.10
 Thu, 25 Jan 2024 09:18:19 GMT

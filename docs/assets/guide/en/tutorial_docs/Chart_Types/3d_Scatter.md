@@ -21,7 +21,7 @@ Scatter plots are composed of point entities, coordinate axes, prompt informatio
 
 -`scatterChart.tooltip`: prompt information, displayed by default during interaction. For detailed configuration, please refer to [VChart Prompt Information Component Configuration](../../../option/line/axes/lineChart#tooltip)
 
-As a 3D chart, a 3D line chart needs to have a 3D view enabled, and the 3D perspective needs to be configured in the initialization parameters of vChart:
+As a 3D chart, a 3D line chart needs to have a 3D view enabled, and the 3D perspective needs to be configured in the initialization parameters of vchart:
 
 - `options3d.enable`: Enable 3D perspective
 - `options3d.enableView3dTransform`: Supports 3D free transformation
@@ -145,7 +145,7 @@ const vchart = new VChart(spec, {
     center: { x: 500, y: 250 }
   }
 });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;

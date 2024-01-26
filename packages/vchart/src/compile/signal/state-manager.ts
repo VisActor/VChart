@@ -44,15 +44,15 @@ export class StateManager extends SignalManager {
   /** 更新 state 并默认触发重渲染 */
   updateState(newState: Partial<StateValueMap>, noRender?: boolean) {
     if (!newState) {
-      return Promise.resolve();
+      return;
     }
     merge(this._stateMap, newState);
 
     this.compile(newState);
 
     if (noRender) {
-      return Promise.resolve();
+      return;
     }
-    return this.getCompiler().renderAsync();
+    return this.getCompiler().renderNextTick();
   }
 }

@@ -67,6 +67,8 @@ export interface ISeriesMarkInitOption {
     progressive?: IMarkProgressiveConfig;
     support3d?: boolean;
     customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
+    stateSort?: (stateA: string, stateB: string) => number;
+    componentType?: string;
 }
 export interface ISeriesMarkInfo extends IModelMarkInfo {
     name: SeriesMarkNameEnum | string;
@@ -76,5 +78,4 @@ export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec> extends IM
     type: string | SeriesTypeEnum;
     spec: T;
     markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
-    totalLabel?: IModelSpecInfo;
 }

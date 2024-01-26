@@ -66,7 +66,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       largeThreshold: this._spec.largeThreshold
     };
 
-    const isAreaVisible = this._spec.area?.visible !== false && this._spec.area?.style?.visible !== false;
+    const areaSpec = this._spec.area || {};
+    const isAreaVisible = areaSpec.visible !== false && areaSpec.style?.visible !== false;
 
     const seriesMark = this._spec.seriesMark ?? 'area';
     // area
@@ -75,7 +76,8 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       defaultMorphElementKey: this.getDimensionField()[0],
       progressive,
       isSeriesMark: isAreaVisible && seriesMark !== 'point',
-      customShape: this._spec.area?.customShape
+      customShape: areaSpec.customShape,
+      stateSort: areaSpec.stateSort
     }) as IAreaMark;
     this.initSymbolMark(progressive, seriesMark === 'point');
   }
@@ -153,7 +155,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
         'normal',
         AttributeLevel.Built_In
       );
-      this._trigger.registerMark(areaMark);
 
       // change stroke to area stoke = [lineStroke,false,false,false]
       Object.keys(areaMark.stateStyle).forEach(state => {

@@ -60,7 +60,8 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
-      customShape: this._spec.rose?.customShape
+      customShape: this._spec.rose?.customShape,
+      stateSort: this._spec.rose?.stateSort
     }) as IArcMark;
   }
 
@@ -112,7 +113,6 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
             : stackStart;
         }
       });
-      this._trigger.registerMark(roseMark);
     }
   }
 

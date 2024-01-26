@@ -1,9 +1,11 @@
 # How do I configure the default scroll position for chart scrollbars?
 
 ## Question Description
+
 What do I do when I need to configure where the scrollbar scrolls by default? Sometimes I want the scrollbar to start and end at a point that I specify, rather than a default range.
 
 ## Solution
+
 You need to configure the parameters `scrollBar.start` and `scrollBar.end`, which represent the start and end points of the scroll bar, and take the values [0, 1], which represent the percentage layout range where the position is located.
 In addition to this, you can configure the start and end points with `scrollBar.startValue` and `scrollBar.endValue`, which represent the data values of the start and end points, respectively.
 
@@ -49,10 +51,9 @@ const spec = {
   ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 window['vchart'] = vchart;
-
 ```
 
 ## Quote

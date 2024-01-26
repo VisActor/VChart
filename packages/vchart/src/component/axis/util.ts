@@ -96,3 +96,12 @@ export const getPolarAxisTheme = (orient: IPolarOrientType, type: AxisType, char
 
 export const isDiscreteAxis = (axisType: AxisType) =>
   axisType === 'band' || axisType === 'ordinal' || axisType === 'point';
+
+export function getAxisItem(value: any, normalizedValue: number) {
+  return {
+    id: value,
+    label: value,
+    value: normalizedValue,
+    rawValue: value
+  };
+}

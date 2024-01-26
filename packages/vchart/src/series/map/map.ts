@@ -166,7 +166,6 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
         'normal',
         AttributeLevel.Built_In
       );
-      this._trigger.registerMark(pathMark);
     }
   }
 
@@ -228,7 +227,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     super.release();
     this._areaCache.clear();
     this._nameMap = {};
-    this._trigger = this._mapViewData = null as any;
+    this._mapViewData = null as any;
   }
 
   handleZoom(e: ZoomEventParam) {
@@ -249,7 +248,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
 
     if (vgrammarLabel) {
-      vgrammarLabel.evaluateSync(null, null);
+      (vgrammarLabel as any).evaluate(null, null);
     }
   }
 
@@ -270,7 +269,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
 
     if (vgrammarLabel) {
-      vgrammarLabel.evaluateSync(null, null);
+      (vgrammarLabel as any).evaluate(null, null);
     }
   }
 

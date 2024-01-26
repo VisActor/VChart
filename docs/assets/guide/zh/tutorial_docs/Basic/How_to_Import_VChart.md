@@ -63,7 +63,7 @@
   };
 
   const vchart = new VChart.default(spec, { dom: 'chart' });
-  vchart.renderAsync();
+  vchart.renderSync();
 </script>
 ```
 
@@ -123,7 +123,7 @@ const vchart = new VChart(spec, {
 });
 
 // 调用渲染方法绘制图表
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## 按需引入

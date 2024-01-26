@@ -25,6 +25,7 @@ import type { ICorrelationSeriesTheme } from '../correlation/interface';
 import { SeriesTypeEnum } from './type';
 import type { SeriesMarkMap } from './common';
 import type { IRangeAreaSeriesTheme } from '../range-area/interface';
+import type { ILiquidSeriesTheme } from '../liquid/interface';
 export interface ISeriesTheme {
     [SeriesTypeEnum.bar]?: IBarSeriesTheme;
     [SeriesTypeForThemeEnum.bar_vertical]?: IBarSeriesTheme;
@@ -76,6 +77,7 @@ export interface ISeriesTheme {
     [SeriesTypeEnum.circlePacking]?: ICirclePackingSeriesTheme;
     [SeriesTypeEnum.heatmap]?: IHeatmapSeriesTheme;
     [SeriesTypeEnum.correlation]?: ICorrelationSeriesTheme;
+    [SeriesTypeEnum.liquid]?: ILiquidSeriesTheme;
 }
 export declare enum SeriesTypeForThemeEnum {
     area_horizontal = "area_horizontal",

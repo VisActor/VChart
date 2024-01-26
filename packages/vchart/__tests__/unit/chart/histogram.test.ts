@@ -87,18 +87,6 @@ describe('histogram chart test', () => {
     expect(series.type).toEqual('bar');
     expect(series.getSpec().animation).toBeFalsy();
 
-    // trigger config
-    const trigger = (series as any)._trigger;
-    expect(trigger._hover).toEqual({
-      enable: true,
-      trigger: 'pointermove',
-      triggerOff: 'pointerleave'
-    });
-    expect(trigger._select).toEqual({
-      enable: true,
-      trigger: 'pointertap'
-    });
-
     // mark
     expect(series.getMarks().length).toEqual(2);
 

@@ -27,3 +27,9 @@ export declare function isValidPolarAxis(spec: any): boolean;
 export declare const getCartesianAxisTheme: (orient: IOrientType, type: AxisType, chartTheme: ITheme) => any;
 export declare const getPolarAxisTheme: (orient: IPolarOrientType, type: AxisType, chartTheme: ITheme) => any;
 export declare const isDiscreteAxis: (axisType: AxisType) => boolean;
+export declare function getAxisItem(value: any, normalizedValue: number): {
+    id: any;
+    label: any;
+    value: number;
+    rawValue: any;
+};

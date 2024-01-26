@@ -10,8 +10,8 @@ option: lineChart#axes
 
 # symlog 轴
 
-Symlog轴是一种用于绘制图表的坐标轴类型，它可以在对数轴和线性轴之间取得平衡，同时保留对数轴的优点和线性轴的优点。
-Symlog轴的特点是对称的，即正值和负值的刻度线对称分布在轴的两侧，这有助于更好地显示数据的正负关系。Symlog轴的刻度线通常是按照对数轴的方式分布的，但是在接近0的区域，刻度线会转换为线性轴的方式分布，以更好地显示数据的绝对值。
+Symlog 轴是一种用于绘制图表的坐标轴类型，它可以在对数轴和线性轴之间取得平衡，同时保留对数轴的优点和线性轴的优点。
+Symlog 轴的特点是对称的，即正值和负值的刻度线对称分布在轴的两侧，这有助于更好地显示数据的正负关系。Symlog 轴的刻度线通常是按照对数轴的方式分布的，但是在接近 0 的区域，刻度线会转换为线性轴的方式分布，以更好地显示数据的绝对值。
 
 ## 关键配置
 
@@ -22,139 +22,139 @@ Symlog轴的特点是对称的，即正值和负值的刻度线对称分布在�
 ## 代码演示
 
 ```javascript livedemo
-  const symexp = (c) => {
-    return (x) => {
-      return Math.sign(x) * Math.expm1(Math.abs(x)) * c;
-    };
+const symexp = c => {
+  return x => {
+    return Math.sign(x) * Math.expm1(Math.abs(x)) * c;
   };
-  const scale = symexp(10);
-  // console.log('symlog', symlog(1))
-  const data= [];
-  for (let i = -5; i < 6; i++) {
-    data.push({
-      x: scale(i),
-      y: i
-    });
-  }
-  const spec = {
-    type: 'common',
-    layout: {
-      type: 'grid',
-      col: 2,
-      row: 6,
-      rowHeight: [
-        {
-          index: 0,
-          size: 30
-        },
-        {
-          index: 3,
-          size: 20
-        }
-      ],
-      elements: [
-        {
-          modelId: 'title',
-          col: 1,
-          row: 0
-        },
-        {
-          modelId: 'line-region-A',
-          col: 1,
-          row: 1
-        },
-        {
-          modelId: 'axis-left-A',
-          col: 0,
-          row: 1
-        },
-        {
-          modelId: 'axis-bottom-A',
-          col: 1,
-          row: 2
-        },
-        {
-          modelId: 'line-region-B',
-          col: 1,
-          row: 4
-        },
-        {
-          modelId: 'axis-left-B',
-          col: 0,
-          row: 4
-        },
-        {
-          modelId: 'axis-bottom-B',
-          col: 1,
-          row: 5
-        }
-      ]
-    },
-    region: [
+};
+const scale = symexp(10);
+// console.log('symlog', symlog(1))
+const data = [];
+for (let i = -5; i < 6; i++) {
+  data.push({
+    x: scale(i),
+    y: i
+  });
+}
+const spec = {
+  type: 'common',
+  layout: {
+    type: 'grid',
+    col: 2,
+    row: 6,
+    rowHeight: [
       {
-        id: 'line-region-A'
+        index: 0,
+        size: 30
       },
       {
-        id: 'line-region-B'
+        index: 3,
+        size: 20
       }
     ],
-    series: [
+    elements: [
       {
-        regionId: 'line-region-A',
-        type: 'line',
-        xField: 'x',
-        yField: 'y',
-        data: {
-          id: 'line-A',
-          values: data
-        }
+        modelId: 'title',
+        col: 1,
+        row: 0
       },
       {
-        regionId: 'line-region-B',
-        type: 'line',
-        xField: 'x',
-        yField: 'y',
-        data: {
-          id: 'line-B',
-          values: data
-        }
-      }
-    ],
-    title: {
-      text: 'the example shows difference of linear axis and symlog axis',
-      id: 'title'
-    },
-    axes: [
-      {
-        id: 'axis-left-A',
-        regionId: 'line-region-A',
-        orient: 'left',
-        type: 'linear'
-      },
-
-      {
-        id: 'axis-bottom-A',
-        regionId: 'line-region-A',
-        orient: 'bottom',
-        type: 'linear',
+        modelId: 'line-region-A',
+        col: 1,
+        row: 1
       },
       {
-        id: 'axis-left-B',
-        regionId: 'line-region-B',
-        orient: 'left',
-        type: 'linear'
+        modelId: 'axis-left-A',
+        col: 0,
+        row: 1
       },
-
       {
-        id: 'axis-bottom-B',
-        regionId: 'line-region-B',
-        orient: 'bottom',
-        type: 'symlog'
+        modelId: 'axis-bottom-A',
+        col: 1,
+        row: 2
+      },
+      {
+        modelId: 'line-region-B',
+        col: 1,
+        row: 4
+      },
+      {
+        modelId: 'axis-left-B',
+        col: 0,
+        row: 4
+      },
+      {
+        modelId: 'axis-bottom-B',
+        col: 1,
+        row: 5
       }
     ]
-  };
+  },
+  region: [
+    {
+      id: 'line-region-A'
+    },
+    {
+      id: 'line-region-B'
+    }
+  ],
+  series: [
+    {
+      regionId: 'line-region-A',
+      type: 'line',
+      xField: 'x',
+      yField: 'y',
+      data: {
+        id: 'line-A',
+        values: data
+      }
+    },
+    {
+      regionId: 'line-region-B',
+      type: 'line',
+      xField: 'x',
+      yField: 'y',
+      data: {
+        id: 'line-B',
+        values: data
+      }
+    }
+  ],
+  title: {
+    text: 'the example shows difference of linear axis and symlog axis',
+    id: 'title'
+  },
+  axes: [
+    {
+      id: 'axis-left-A',
+      regionId: 'line-region-A',
+      orient: 'left',
+      type: 'linear'
+    },
+
+    {
+      id: 'axis-bottom-A',
+      regionId: 'line-region-A',
+      orient: 'bottom',
+      type: 'linear'
+    },
+    {
+      id: 'axis-left-B',
+      regionId: 'line-region-B',
+      orient: 'left',
+      type: 'linear'
+    },
+
+    {
+      id: 'axis-bottom-B',
+      regionId: 'line-region-B',
+      orient: 'bottom',
+      type: 'symlog'
+    }
+  ]
+};
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

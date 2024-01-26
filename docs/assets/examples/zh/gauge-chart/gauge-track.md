@@ -1,14 +1,14 @@
 ---
 category: examples
 group: gauge
-title: 带背景的仪表图
+title: 带底纹的仪表图
 keywords: gauge,comparison,circle
 order: 15-8
 cover: /vchart/preview/gauge-track_1.7.2.png
 option: gaugeChart
 ---
 
-# 带背景的仪表图
+# 带底纹的仪表图
 
 ## 关键配置
 
@@ -117,7 +117,8 @@ const spec = {
             range: ['#E33232', '#FFC528', '#07A35A']
           }
         }
-      }
+      },
+      animation: false
     }
   ],
   startAngle: -200,
@@ -191,7 +192,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

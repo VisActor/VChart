@@ -17,8 +17,6 @@ export const funnel: IFunnelSeriesTheme = {
   outerLabel: {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
-      lineHeight: THEME_CONSTANTS.l4LineHeight,
-
       fill: { type: 'palette', key: 'secondaryFontColor' }
     },
     line: {
@@ -30,8 +28,6 @@ export const funnel: IFunnelSeriesTheme = {
   transformLabel: {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
-      lineHeight: THEME_CONSTANTS.l4LineHeight,
-
       fill: { type: 'palette', key: 'secondaryFontColor' },
       textBaseline: 'middle'
     }

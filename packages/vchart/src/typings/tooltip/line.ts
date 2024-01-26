@@ -21,6 +21,18 @@ export interface IToolTipLinePattern extends ITooltipShapePattern, ITooltipLabel
    * @since 1.4.0
    */
   spaceRow?: TooltipContentProperty<number>;
+  /**
+   * 如果配置了该值，则 key 字段的最终值会自动格式化为时间字符串
+   * @since 1.9.0
+   */
+  keyTimeFormat?: string;
+  keyTimeFormatMode?: 'utc' | 'local';
+  /**
+   * 如果配置了该值，则 value 字段的最终值会自动格式化为时间字符串
+   * @since 1.9.0
+   */
+  valueTimeFormat?: string;
+  valueTimeFormatMode?: 'utc' | 'local';
 }
 
 export interface IToolTipLineActual extends ITooltipShapeActual, ITooltipLabelActual {

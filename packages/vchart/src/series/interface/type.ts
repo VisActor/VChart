@@ -32,7 +32,8 @@ export enum SeriesTypeEnum {
   circlePacking = 'circlePacking',
   waterfall = 'waterfall',
   heatmap = 'heatmap',
-  correlation = 'correlation'
+  correlation = 'correlation',
+  liquid = 'liquid'
 }
 
 export const enum SeriesMarkNameEnum {
@@ -90,5 +91,8 @@ export const enum SeriesMarkNameEnum {
   centerLabel = 'centerLabel',
   barBackground = 'barBackground',
   lineLabel = 'lineLabel',
-  areaLabel = 'areaLabel'
+  areaLabel = 'areaLabel',
+  liquid = 'liquid',
+  liquidBackground = 'liquidBackground',
+  liquidOutline = 'liquidOutline'
 }

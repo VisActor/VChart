@@ -28,6 +28,7 @@ import { sankey } from './sankey';
 import { rose } from './rose';
 import { boxPlot } from './box-plot';
 import { correlation } from './correlation';
+import { liquid } from './liquid';
 
 export const series: ISeriesTheme = {
   scatter,
@@ -58,5 +59,6 @@ export const series: ISeriesTheme = {
   sankey,
   rose,
   boxPlot,
-  correlation
+  correlation,
+  liquid
 };

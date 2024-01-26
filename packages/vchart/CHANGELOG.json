@@ -2,6 +2,63 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.9.0",
+      "tag": "@visactor/vchart_v1.9.0",
+      "date": "Fri, 26 Jan 2024 02:20:43 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: axis supports `hasDimensionTooltip` for force specification of dimension tooltip, related #1678"
+          },
+          {
+            "comment": "feat: `triggerOff` of crosshair support number to close crosshair by setTimeout, fix #1676"
+          },
+          {
+            "comment": "fix: fix the bug of crosshair trigger when hover and click are both configed, fix #1574"
+          },
+          {
+            "comment": "feat: the `barBackground` mark in the bar chart supports `fieldLevel` config to indicate whether the `barBackground` mark is displayed at the group level and at which level it is displayed, related #1601"
+          },
+          {
+            "comment": "feat: histogram chart supports bar background, related #1979"
+          },
+          {
+            "comment": "feat: support fitStrategy for indicator"
+          },
+          {
+            "comment": "feat(liquid): liquid chart. close#1158"
+          },
+          {
+            "comment": "feat: band type axis supports multi-layer axis label display"
+          },
+          {
+            "comment": " feat: support separately configuring interactive for line/area mark in area chart, see #1592"
+          },
+          {
+            "comment": "feat: support `stateSort` of mark, fix #2003"
+          },
+          {
+            "comment": "feat: support customized vrender component in extensionMark\n\n"
+          },
+          {
+            "comment": "feat: split tooltip handler into plugins for on-demand importing, related #1397"
+          },
+          {
+            "comment": "fix: tooltip supports content area scrolling, related #2001"
+          },
+          {
+            "comment": "fix: remove label line height in default themes, related #1983"
+          },
+          {
+            "comment": "fix: fix the issue where tooltip content callbacks may not be effective in certain situations, related #1943"
+          },
+          {
+            "comment": "refactor: deprecated `useSyncRender` in react-vchart\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.10",
       "tag": "@visactor/vchart_v1.8.10",
       "date": "Thu, 25 Jan 2024 09:18:19 GMT",

@@ -119,15 +119,14 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync().then(() => {
-  setInterval(function () {
-    for (let j = 0; j < 5; j++) {
-      data.shift();
-      data.push(generateData(++i));
-    }
-    vchart.updateData('id0', data);
-  }, duration);
-});
+vchart.renderSync();
+setInterval(function () {
+  for (let j = 0; j < 5; j++) {
+    data.shift();
+    data.push(generateData(++i));
+  }
+  vchart.updateData('id0', data);
+}, duration);
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

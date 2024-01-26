@@ -1,5 +1,7 @@
 # 玫瑰图
+
 [\[配置项\]](../../../option/roseChart)
+
 ## 简介
 
 玫瑰图是在极坐标系下绘制的统计图表，数据中的每个类别被分成相等的部分，每个部分从中心向外延伸的距离取决于它所代表的值。玫瑰图适合展示循环数据（月份、季节等），曾被英国统计学家弗洛伦斯·南丁格尔用来展示克里米亚战争期间士兵的死亡人数。
@@ -162,7 +164,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -341,7 +343,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;

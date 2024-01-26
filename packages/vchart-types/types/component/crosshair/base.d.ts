@@ -39,7 +39,10 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     trigger: CrossHairTrigger;
     enable: boolean;
     showDefault: boolean;
-    triggerOff: CrossHairTrigger | 'none';
+    triggerOff: 'none' | number;
+    private _timer?;
+    private _clickLock?;
+    private _hasActive?;
     get enableRemain(): boolean;
     private _limitBounds;
     constructor(spec: T, options: IComponentOption);
@@ -62,7 +65,10 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     private _registerEvent;
     private _eventOff;
     updateLayoutAttribute(): void;
-    private _handleEvent;
+    private _handleIn;
+    private _handleClickInEvent;
+    private _handleHoverInEvent;
+    private _handleOutEvent;
     private _getTriggerEvent;
     protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value'): IAxisInfo<T>;
     changeRegions(regions: IRegion[]): void;
@@ -73,4 +79,6 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     protected _parseCrosshairSpec(): void;
     protected _parseField(field: ICrosshairCategoryFieldSpec, fieldName: string): any;
     protected _filterAxisByPoint<T>(axisMap: IAxisInfo<T>, relativeX: number, relativeY: number): IAxisInfo<T>;
+    protected clearEvent(): void;
+    clear(): void;
 }

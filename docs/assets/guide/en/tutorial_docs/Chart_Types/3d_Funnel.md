@@ -27,7 +27,7 @@ Tooltip information and other components that assist in chart presentation are o
 - `funnelChart.tooltip`: Tooltip information, displayed by default during interaction, for detailed configuration see [VChart Tooltip Component Configuration](../../../option/funnelChart#tooltip)
 - For more component configurations, see [VChart funnelChart Configuration](../../../option/funnelChart)
 
-As a 3D chart, a 3D scatter plot requires enabling the 3D view, which needs to be configured in the initialization parameters of vChart:
+As a 3D chart, a 3D scatter plot requires enabling the 3D view, which needs to be configured in the initialization parameters of vchart:
 
 - `options3d.enable`: Enable 3D view
 
@@ -97,7 +97,7 @@ const vchart = new VChart(spec, {
     enable: true
   }
 });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 For other configurations, refer to [Funnel Chart](../../../option/funnelChart)

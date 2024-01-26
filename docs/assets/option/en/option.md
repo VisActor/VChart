@@ -56,4 +56,6 @@
 
 {{import: chart-correlation}}
 
+{{import: chart-liquid}}
+
 {{import: chart-common}}
