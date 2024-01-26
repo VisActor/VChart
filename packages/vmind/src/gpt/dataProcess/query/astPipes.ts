@@ -14,6 +14,7 @@ import {
 import { ASTParserContext, ASTParserPipe, SQLAst } from './type';
 import { checkIsColumnNode, getOriginalString, toFirstUpperCase } from './utils';
 import { SimpleFieldInfo } from '../../../typings';
+import { isArray } from 'lodash';
 
 export const from: ASTParserPipe = (query: Partial<Query>, context: ASTParserContext) => {
   const { dataSource, fieldInfo } = context;
@@ -92,7 +93,11 @@ const parseSQLExpr = (
       const valueNode = [left, right].find(n => !checkIsColumnNode(n, columns, fieldInfo) && n.type !== 'aggr_func');
       if (valueNode) {
         const valueName = (valueNode as Value).value;
-        result.value = getOriginalString(valueName, replaceMap);
+        if (!isArray(valueName)) {
+          result.value = getOriginalString(valueName, replaceMap);
+        } else {
+          result.value = valueName.map(v => getOriginalString(v.value, replaceMap));
+        }
       }
       const aggrNode: any = [left, right].find(n => n.type === 'aggr_func');
       if (aggrNode) {
