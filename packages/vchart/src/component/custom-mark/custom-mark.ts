@@ -37,8 +37,8 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     return [
       {
         spec,
-        specIndex: 0,
         specPath: [this.specKey],
+        specInfoPath: ['component', this.specKey, 0],
         type: ComponentTypeEnum.customMark
       }
     ];
@@ -73,7 +73,8 @@ export class CustomMark<T = any> extends BaseComponent<any> {
       {
         // 避免二次dataflow
         skipBeforeLayouted: true,
-        attributeContext: this._getMarkAttributeContext()
+        attributeContext: this._getMarkAttributeContext(),
+        componentType: spec.componentType
       }
     ) as IGroupMark;
     if (!mark) {

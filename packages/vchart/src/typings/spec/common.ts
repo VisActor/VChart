@@ -11,7 +11,7 @@ import type {
   IDsvParserOptions
 } from '@visactor/vdataset';
 import type { IRegionSpec } from '../../region/interface';
-import type { IHoverSpec, ISelectSpec, ITriggerSpec } from '../../interaction/interface';
+import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { ITooltipSpec } from '../../component/tooltip/interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -341,7 +341,7 @@ export interface IHierarchyDataValues extends Omit<IDataValues, 'values'> {
 export type IHierarchyData = DataView | IHierarchyDataValues;
 
 /** series */
-export interface ISeriesSpec extends ITriggerSpec {
+export interface ISeriesSpec extends IInteractionSpec {
   /** 系列类型 */
   type: SeriesType;
 
@@ -486,6 +486,11 @@ export type IMarkSpec<T extends ICommonSpec = ICommonSpec> = {
   style?: ConvertToMarkStyleSpec<T>;
   /** 不同状态下的样式配置 */
   state?: Record<StateValue, IMarkStateSpec<T> | IMarkStateStyleSpec<T>>;
+  /**
+   * 状态排序方法，默认状态都是按照添加的顺序处理的，如果有特殊的需求，需要指定状态顺序，可以通过这个方法实现
+   * @since 1.9.0
+   */
+  stateSort?: (stateA: string, stateB: string) => number;
 
   /* 是否是3d视角的mark */
   support3d?: boolean;
@@ -641,6 +646,11 @@ export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBu
    * 关联的数据id
    */
   dataId?: StringOrNumber;
+  /**
+   * specify the component type
+   * @support since 1.9.0
+   */
+  componentType?: string;
 }
 export interface ICustomMarkGroupSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
   children?: ICustomMarkSpec<EnableMarkType>[];
@@ -656,6 +666,11 @@ export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, MarkTypeEn
    * 关联的数据id
    */
   dataId?: StringOrNumber;
+  /**
+   * specify the component type
+   * @support since 1.9.0
+   */
+  componentType?: string;
 }
 
 export interface IExtensionGroupMarkSpec extends ICustomMarkSpec<MarkTypeEnum.group> {

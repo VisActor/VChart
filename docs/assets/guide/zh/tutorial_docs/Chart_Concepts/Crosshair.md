@@ -162,7 +162,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### 极坐标系
@@ -287,7 +287,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### 多 region 关联
@@ -614,7 +614,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 通过以上示例，用户应能握 VChart 中十字准星配置及使用方法。在实际应用中，还可以根据需求对十字准星样式、标签等进行定制，进一步提升图表的表现力。

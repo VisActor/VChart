@@ -86,3 +86,19 @@ interface ICustomPath2D {
   closePath: () => void;
 }
 ```
+
+
+#${prefix} stateSort(Function)
+
+** Supported since version 1.9.0 **
+
+State sorting method, by default, states are processed in the order they are added. If there are specific requirements and the state order needs to be specified, this method can be used to achieve that.
+
+The specific type definition is as follows:
+
+```typescript
+{
+  stateSort?: (stateA: string, stateB: string) => number;
+}
+```
+

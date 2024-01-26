@@ -27,7 +27,7 @@
 - `funnelChart.tooltip`: 提示信息，默认交互时显示，详细配置见[VChart 提示信息组件配置](../../../option/funnelChart#tooltip)
 - 更多组件配置见[VChart funnelChart 配置](../../../option/funnelChart)
 
-作为 3d 图表，3d 散点图需要开启 3d 视图，需要在 vChart 的初始化参数中配置 3d 视角:
+作为 3d 图表，3d 散点图需要开启 3d 视图，需要在 vchart 的初始化参数中配置 3d 视角:
 
 - `options3d.enable`: 启用 3d 视角
 
@@ -97,7 +97,7 @@ const vchart = new VChart(spec, {
     enable: true
   }
 });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 其他配置参考[漏斗图]()

@@ -388,6 +388,13 @@
               }
             },
             {
+              "path": "Liquid",
+              "title": {
+                "zh": "水波图",
+                "en": "Liquid Chart"
+              }
+            },
+            {
               "path": "3d_Line",
               "title": {
                 "zh": "3d 折线图",

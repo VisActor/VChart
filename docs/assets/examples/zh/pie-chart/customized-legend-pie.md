@@ -138,35 +138,34 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync().then(() => {
-  const firstType = spec.data[0].values[0].type;
+vchart.renderSync();
+const firstType = spec.data[0].values[0].type;
 
-  if (firstType) {
+if (firstType) {
+  vchart.updateState({
+    cutomizedLegendHover: {
+      filter: datum => datum.type === firstType
+    }
+  });
+}
+
+vchart.on('legendItemHover', e => {
+  const activeId = e && e.value && e.value.data && e.value.data.id;
+
+  if (activeId) {
     vchart.updateState({
       cutomizedLegendHover: {
-        filter: datum => datum.type === firstType
+        filter: datum => datum.type === activeId
       }
     });
   }
+});
 
-  vchart.on('legendItemHover', e => {
-    const activeId = e && e.value && e.value.data && e.value.data.id;
-
-    if (activeId) {
-      vchart.updateState({
-        cutomizedLegendHover: {
-          filter: datum => datum.type === activeId
-        }
-      });
+vchart.on('legendItemUnHover', e => {
+  vchart.updateState({
+    cutomizedLegendHover: {
+      filter: datum => false
     }
-  });
-
-  vchart.on('legendItemUnHover', e => {
-    vchart.updateState({
-      cutomizedLegendHover: {
-        filter: datum => false
-      }
-    });
   });
 });
 

@@ -65,6 +65,12 @@ export interface ILabelSpec extends IComponentSpec {
   centerOffset?: number;
   /** 是否支持3D */
   support3d?: boolean;
+  /**
+   * 是否同步数据图元的状态变化
+   * @default false
+   * @since 1.9.0
+   */
+  syncState?: boolean;
 }
 
 type LabelStateStyle<T> = {

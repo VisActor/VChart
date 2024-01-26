@@ -16,6 +16,7 @@ export declare class CircularProgressSeries<T extends ICircularProgressSeriesSpe
     initMarkStyle(): void;
     private _initProgressMark;
     private _initProgressMarkStyle;
+    initInteraction(): void;
     protected initTooltip(): void;
     private _initTrackMark;
     private _initTrackMarkStyle;

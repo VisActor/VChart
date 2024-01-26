@@ -55,6 +55,9 @@ import { registerCustomMark } from './component/custom-mark';
 import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerPoptip } from './component/poptip';
+import { registerCanvasTooltipHandler } from './plugin/components/tooltip-handler';
+
+import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
 
 VChart.useRegisters([
   // charts
@@ -82,6 +85,8 @@ VChart.useRegisters([
   registerSankeyChart,
   registerHeatmapChart,
   registerCorrelationChart,
+  // 优化vchart-all体积, 默认不注册
+  // registerLiquidChart,
   registerCommonChart,
 
   // components
@@ -117,7 +122,14 @@ VChart.useRegisters([
   registerPoptip,
 
   // layout
-  registerGridLayout
+  registerGridLayout,
+
+  // plugin
+  registerCanvasTooltipHandler,
+
+  // vgrammar interactions,
+  registerElementHighlight,
+  registerElementSelect
 ]);
 
 // load env code

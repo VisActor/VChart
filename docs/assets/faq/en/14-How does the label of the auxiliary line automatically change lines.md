@@ -1,14 +1,15 @@
 # How does the label of the auxiliary line automatically change lines?
 
 ## Question Description
+
 Can the text inside the label of the auxiliary line be automatically changed if it is too long?
 
 ## Solution
+
 You can achieve the line break effect by setting array values in `markLine.label.text`.
 [markline new line](/vchart/faq/14-0.png)
 
 ## Code Example
-
 
 ```javascript livedemo
 const spec = {
@@ -50,7 +51,7 @@ const spec = {
       label: {
         visible: true,
         position: 'end',
-        text: ['Safe fat intake',  '65g/day'],
+        text: ['Safe fat intake', '65g/day'],
         style: {
           textAlign: 'left',
           textBaseline: 'top',
@@ -120,16 +121,14 @@ const spec = {
   }
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 window['vchart'] = vchart;
-
 ```
-
 
 ## Quote
 
-- [Marker  Demo](https://www.visactor.io/vchart/demo/marker/mark-line-basic?keyword=marker)
+- [Marker Demo](https://www.visactor.io/vchart/demo/marker/mark-line-basic?keyword=marker)
 - [Marker Tutorial](https://www.visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/marker)
 - [Related api](https://www.visactor.io/vchart/option/barChart#markLine.label.text)
 - [github](https://github.com/VisActor/VChart)

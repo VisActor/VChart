@@ -355,9 +355,8 @@ const update = () => {
   vchart.updateData('galaxy', getGalaxyData(time));
 };
 
-vchart.renderAsync().then(() => {
-  setInterval(update, 50);
-});
+vchart.renderSync();
+setInterval(update, 50);
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

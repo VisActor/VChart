@@ -1,9 +1,11 @@
 # How to configure horizontal scrollbars when there is too much data in a bar chart in an applet?
 
 ## Question Description
+
 How to configure horizontal scrollbars when there is too much data in a bar chart in the lark mini app?
 
 ## Solution
+
 Just like the PC side, just configure the `scrollBar`. Generally speaking, you also need to configure the `scrollBar.orient` property that represents the position of the scrollBar and the `scrollBar.start` and `scrollBar.end` properties that represent the scope of the current window.
 [mini program scrollbar](/vchart/faq/12-0.png)
 
@@ -46,12 +48,10 @@ const spec = {
   ]
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 window['vchart'] = vchart;
-
 ```
-
 
 ## Quote
 

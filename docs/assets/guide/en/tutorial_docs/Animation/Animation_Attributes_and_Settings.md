@@ -12,10 +12,9 @@ In VChart, the animation duration refers to the time it takes for the chart anim
 {
   "animationAppear": {
     "duration": 1500
-  },
+  }
 }
 ```
-
 
 ### Animation Delay Duration
 
@@ -26,7 +25,7 @@ Sometimes we want the chart to appear and then start playing the animation after
   "animationAppear": {
     "duration": 1500,
     "delay": 2000
-  },
+  }
   // ...other chart configuration information
 }
 ```
@@ -49,13 +48,13 @@ const spec = {
   xField: 'month',
   yField: 'sales',
   animationAppear: {
-      duration: 1500,
-      delay: 2000
+    duration: 1500,
+    delay: 2000
   }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -97,7 +96,7 @@ For example, if you want the bar chart animation to use the `bounceOut` easing e
 {
   "animationAppear": {
     "easing": "bounceOut"
-  },
+  }
   // ...other chart configuration information
 }
 ```
@@ -120,12 +119,12 @@ const spec = {
   xField: 'month',
   yField: 'sales',
   animationAppear: {
-      "easing": "bounceOut"
+    easing: 'bounceOut'
   }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -140,7 +139,7 @@ In charts composed of multiple graphic elements, we sometimes want these element
   "animationAppear": {
     "easing": "bounceOut",
     "oneByOne": 30
-  },
+  }
   // ...other chart configuration information
 }
 ```
@@ -163,19 +162,20 @@ const spec = {
   xField: 'month',
   yField: 'sales',
   animationAppear: {
-      "easing": "bounceOut",
-      "oneByOne": 1000
+    easing: 'bounceOut',
+    oneByOne: 1000
   }
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
 ```
 
 If you want to disable animations, you can directly configure `spec.animation: false`, or configure it when creating the chart instance:
+
 ```js
 const vchart = new VChart(specs[0], { dom: CONTAINER_ID, animation: false });
 ```

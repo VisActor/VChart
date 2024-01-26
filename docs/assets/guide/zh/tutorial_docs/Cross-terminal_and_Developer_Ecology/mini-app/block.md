@@ -136,7 +136,7 @@ onReady(){
             renderCanvas: 'line_draw_canvas'
           }
         );
-        chartInstance.renderAsync();
+        chartInstance.renderSync();
       })
     .exec();
 }
@@ -268,7 +268,7 @@ methods: {
             // 实例注册该自定义函数
             chartInstance.registerFunction('labelFormat', labelFormat);
 
-            chartInstance.renderAsync();
+            chartInstance.renderSync();
           })
           .exec();
       });

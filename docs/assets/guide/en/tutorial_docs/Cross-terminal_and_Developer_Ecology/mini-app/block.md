@@ -136,7 +136,7 @@ onReady(){
             renderCanvas: 'line_draw_canvas'
           }
         );
-        chartInstance.renderAsync();
+        chartInstance.renderSync();
       })
     .exec();
 }
@@ -268,7 +268,7 @@ methods: {
              //Instance registers the custom function
              chartInstance.registerFunction('labelFormat', labelFormat);
 
-             chartInstance.renderAsync();
+             chartInstance.renderSync();
            })
            .exec();
        });

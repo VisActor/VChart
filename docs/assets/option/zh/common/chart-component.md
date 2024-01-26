@@ -75,7 +75,11 @@
 
 <!-- scrollbar -->
 
+{{ if: !${noScrollbar} }}
+
 {{ use: component-scrollbar() }}
+
+{{ /if }}
 
 <!-- dataZoom -->
 

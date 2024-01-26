@@ -1,10 +1,14 @@
 # How to use VChart in Vue
+
 Using VChart in Vue 3.x, there are two cases:
+
 1. Combined API, please refer to [online demo](https://codesandbox.io/s/viscator-vchart-vue-demo-gmcpq6?file=/src/components/LineChart.vue)
 2. Optional API, for details, please refer to [online demo](https://codesandbox.io/s/viscator-vchart-vue-demo-gmcpq6?file=/src/components/BarChart.vue)
 
 ## Code Sources
+
 ### Composite API
+
 ```javascript
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, onUpdated } from "vue";
@@ -97,11 +101,11 @@ function createOrUpdateChart(chartProps: LineChartProps) {
       dom: container,
     });
 
-    chart.renderAsync();
+    chart.renderSync();
     return true;
   } else if (chart) {
     chart.updateSpec(parseSpec(chartProps));
-    chart.renderAsync();
+    chart.renderSync();
 
     return true;
   }
@@ -136,7 +140,9 @@ onBeforeUnmount(() => {
 }
 </style>
 ```
+
 ### Optional API
+
 ```javascript
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -184,11 +190,11 @@ export default defineComponent({
           dom: container,
         });
 
-        chart.renderAsync();
+        chart.renderSync();
         return true;
       } else if (chart) {
         chart.updateSpec(parseSpec(chartProps));
-        chart.renderAsync();
+        chart.renderSync();
 
         return true;
       }
@@ -235,7 +241,9 @@ export default defineComponent({
 }
 </style>
 ```
+
 ## Results
+
 - Online effect reference: [https://codesandbox.io/s/viscator-vchart-vue-demo-gmcpq6](https://codesandbox.io/s/viscator-vchart-vue-demo-gmcpq6)
 
 ! [] (https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vue-demo.gif)

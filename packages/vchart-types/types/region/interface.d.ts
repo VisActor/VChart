@@ -63,7 +63,4 @@ export interface IGeoRegionSpec extends IRegionSpec {
 export interface IRegionSpecInfo<T extends IRegionSpec = IRegionSpec> extends IModelSpecInfo {
     type: 'region';
     spec: T;
-    seriesIndexes?: number[];
-    markLabel?: IModelSpecInfo;
-    geoCoordinate?: IModelSpecInfo;
 }

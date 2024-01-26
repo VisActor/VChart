@@ -58,45 +58,44 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync().then(() => {
-  const legendSelected = vchart.getLegendSelectedDataByIndex();
-  const chartDiv = document.getElementById(CONTAINER_ID);
-  const checkboxContainer = document.createElement('div');
-  checkboxContainer.style.textAlign = 'center';
-  const checkbox = document.createElement('input');
-  const checkboxLabel = document.createElement('label');
+vchart.renderSync();
+const legendSelected = vchart.getLegendSelectedDataByIndex();
+const chartDiv = document.getElementById(CONTAINER_ID);
+const checkboxContainer = document.createElement('div');
+checkboxContainer.style.textAlign = 'center';
+const checkbox = document.createElement('input');
+const checkboxLabel = document.createElement('label');
 
-  checkboxContainer.setAttribute('id', 'checkboxContainer');
+checkboxContainer.setAttribute('id', 'checkboxContainer');
 
-  checkbox.setAttribute('type', 'checkbox');
-  checkbox.setAttribute('id', 'checkbox');
-  checkbox.style.verticalAlign = 'middle';
+checkbox.setAttribute('type', 'checkbox');
+checkbox.setAttribute('id', 'checkbox');
+checkbox.style.verticalAlign = 'middle';
 
-  checkbox.checked = false;
+checkbox.checked = false;
 
-  checkboxLabel.innerText = ' Hide Role A';
-  checkboxLabel.style.verticalAlign = 'middle';
+checkboxLabel.innerText = ' Hide Role A';
+checkboxLabel.style.verticalAlign = 'middle';
 
-  checkboxContainer.appendChild(checkbox);
-  checkboxContainer.appendChild(checkboxLabel);
-  chartDiv?.prepend(checkboxContainer);
+checkboxContainer.appendChild(checkbox);
+checkboxContainer.appendChild(checkboxLabel);
+chartDiv?.prepend(checkboxContainer);
 
-  checkbox.addEventListener('change', event => {
-    if (event.currentTarget.checked) {
-      vchart.setLegendSelectedDataByIndex(
-        0,
-        legendSelected.filter(val => val !== 'Role A')
-      );
-    } else {
-      vchart.setLegendSelectedDataByIndex(0, legendSelected);
-    }
-  });
-
-  window.customRelease = () => {
-    const checkboxDom = document.getElementById('checkboxContainer');
-    checkboxDom && checkboxDom.remove();
-  };
+checkbox.addEventListener('change', event => {
+  if (event.currentTarget.checked) {
+    vchart.setLegendSelectedDataByIndex(
+      0,
+      legendSelected.filter(val => val !== 'Role A')
+    );
+  } else {
+    vchart.setLegendSelectedDataByIndex(0, legendSelected);
+  }
 });
+
+window.customRelease = () => {
+  const checkboxDom = document.getElementById('checkboxContainer');
+  checkboxDom && checkboxDom.remove();
+};
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

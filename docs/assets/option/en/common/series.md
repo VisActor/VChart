@@ -154,3 +154,7 @@ Data matching field, configurable for multiple data primitives.
   seriesType = ${seriesType},
   seriesMarks = ${seriesMarks},
 ) }}
+
+{{ use: common-interaction(
+  prefix = ${prefix}
+) }}

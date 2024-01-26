@@ -61,6 +61,7 @@ export interface BaseChartProps
    * use sync render
    *
    * @since 1.8.3
+   * @deprecated 1.9.0
    **/
   useSyncRender?: boolean;
 }
@@ -90,7 +91,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const prevSpec = useRef(pickWithout(props, notSpecKeys));
   const eventsBinded = React.useRef<BaseChartProps>(null);
   const skipFunctionDiff = !!props.skipFunctionDiff;
-  const useSyncRender = !!props.useSyncRender;
 
   const parseSpec = (props: Props) => {
     if (hasSpec && props.spec) {
@@ -134,13 +134,8 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
   const renderChart = () => {
     if (chartContext.current.chart) {
-      if (useSyncRender) {
-        chartContext.current.chart.renderSync();
-        handleChartRender();
-      } else {
-        // eslint-disable-next-line promise/catch-or-return
-        chartContext.current.chart.renderAsync().then(handleChartRender);
-      }
+      chartContext.current.chart.renderSync();
+      handleChartRender();
     }
   };
 
@@ -160,18 +155,11 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
         eventsBinded.current = props;
-        if (useSyncRender) {
-          chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
-            morph: false,
-            enableExitAnimation: false
-          });
-          handleChartRender();
-        } else {
-          // eslint-disable-next-line promise/catch-or-return
-          chartContext.current.chart
-            .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
-            .then(handleChartRender);
-        }
+        chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
+          morph: false,
+          enableExitAnimation: false
+        });
+        handleChartRender();
       }
       return;
     }
@@ -184,18 +172,11 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     ) {
       prevSpec.current = newSpec;
 
-      if (useSyncRender) {
-        chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
-          morph: false,
-          enableExitAnimation: false
-        });
-        handleChartRender();
-      } else {
-        // eslint-disable-next-line promise/catch-or-return
-        chartContext.current.chart
-          .updateSpec(parseSpec(props), undefined, { morph: false, enableExitAnimation: false }) // morph临时关掉
-          .then(handleChartRender);
-      }
+      chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
+        morph: false,
+        enableExitAnimation: false
+      });
+      handleChartRender();
     }
     chartContext.current = {
       ...chartContext.current,

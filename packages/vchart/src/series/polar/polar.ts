@@ -205,7 +205,6 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
 
   afterInitMark(): void {
     super.afterInitMark();
-    this._trigger.setStateKeys([...this._angleField, ...this._radiusField]);
   }
 
   protected _computeLayoutRadius() {

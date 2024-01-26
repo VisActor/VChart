@@ -37,3 +37,13 @@ export interface IAxisLocationCfg {
     bandPosition?: number;
     datum?: Datum;
 }
+export interface ITickCalculationCfg {
+    tickStep?: number;
+    tickCount?: number | ((option: ITickCallbackOption) => number);
+    forceTickCount?: number;
+    tickMode?: 'average' | 'd3';
+    noDecimals?: boolean;
+}
+export interface IBandAxisLayer extends Omit<ITickCalculationCfg, 'noDecimals' | 'tickMode'> {
+    visible?: boolean;
+}

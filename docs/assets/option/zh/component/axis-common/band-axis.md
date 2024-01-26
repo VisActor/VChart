@@ -62,3 +62,39 @@
 **仅当轴为离散轴时生效**，是否根据组宽自动计算 region 宽度或高度。自 `1.4.0` 版本开始支持。
 
 该配置仅当 `bandSize` 或 `maxBandSize` 已经配置时生效。
+
+#${prefix} showAllGroupLayers(boolean)=false
+
+自 `1.9.0` 版本支持，**仅当轴为离散轴时生效**。当存在多层分组场景时，是否展示所有的分组轴，默认关闭。
+
+#${prefix} layers(object[])
+
+自 `1.9.0` 版本支持，**当且仅当 `showAllGroupLayers` 配置开启生效**，用于每一层轴的相关配置，layer[0] 为离坐标轴线最近的轴，具体的配置如下:
+
+##${prefix} visible(boolean)=true
+
+是否显示。
+
+##${prefix} tickStep(number)
+
+tick 步长。
+
+##${prefix} tickStep(number)
+
+tick 步长。
+
+##${prefix} tickCount(number|function) = 5
+
+建议的 tick 数量，并不保证结果一定是配置值。
+`1.4.0` 版本后， **在连续轴中**，`tickCount` 支持配置为一个函数，通常用以动态配置 tick 数量。函数定义如下：
+
+```ts
+tickCount?: (option: {
+  axisLength?: number;  // 坐标轴占据的画布大小。直角坐标系中为轴的宽度或高度，极坐标系中半径轴的长度。
+  labelStyle?: ITextGraphicAttribute; // 轴标签的样式
+}) => number;
+```
+
+##${prefix} forceTickCount(number)
+
+强制设置的 tick 数量，可以保证 tick 的数量于设置的数值匹配，但是可能由于数据范围导致 tick 值为小数。

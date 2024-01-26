@@ -611,6 +611,13 @@
           }
         },
         {
+          "path": "pie-indicator-fitstrategy",
+          "title": {
+            "zh": "饼图指标卡自适应策略",
+            "en": "Pie Chart Indicator Fit Strategy"
+          }
+        },
+        {
           "path": "pie-label",
           "title": {
             "zh": "饼图标签布局",
@@ -1065,7 +1072,7 @@
         {
           "path": "gauge-track",
           "title": {
-            "zh": "带背景的仪表图",
+            "zh": "带底纹的仪表图",
             "en": "Gauge Chart with Track Mark"
           }
         }
@@ -1284,6 +1291,43 @@
           "title": {
             "zh": "散点相关性图",
             "en": "Correlation Chart"
+          }
+        }
+      ]
+    },
+    {
+      "path": "liquid-chart",
+      "title": {
+        "zh": "水波图",
+        "en": "liquid-chart"
+      },
+      "children": [
+        {
+          "path": "liquid-chart",
+          "title": {
+            "zh": "水波图",
+            "en": "Liquid Chart"
+          }
+        },
+        {
+          "path": "liquid-chart-shape",
+          "title": {
+            "zh": "水波图自定义形状",
+            "en": "Liquid Chart Shape"
+          }
+        },
+        {
+          "path": "liquid-chart-background",
+          "title": {
+            "zh": "水波图自定义背景颜色",
+            "en": "Liquid Chart Background"
+          }
+        },
+        {
+          "path": "liquid-chart-smart-invert",
+          "title": {
+            "zh": "水波图指标智能反色",
+            "en": "Liquid Chart Smart Invert"
           }
         }
       ]
@@ -1601,6 +1645,20 @@
             "zh": "纵排轴标签",
             "en": "Axis label with vertical direction"
           }
+        },
+        {
+          "path": "multiple-layers-of-axis",
+          "title": {
+            "zh": "多层级坐标轴",
+            "en": "Multi-level axes"
+          }
+        },
+        {
+          "path": "multiple-layers-of-axis-1",
+          "title": {
+            "zh": "多层级坐标轴",
+            "en": "Multi-level axes"
+          }
         }
       ]
     },
@@ -1644,6 +1702,20 @@
           "title": {
             "zh": "可交互的 tooltip",
             "en": "Enterable Tooltip"
+          }
+        },
+        {
+          "path": "time-axis-tooltip",
+          "title": {
+            "zh": "时间轴的 dimension tooltip",
+            "en": "Dimension Tooltip On Time Axis"
+          }
+        },
+        {
+          "path": "area-mark-tooltip",
+          "title": {
+            "zh": "在 area 图元上实现 mark tooltip",
+            "en": "Mark Tooltip On Area Marks"
           }
         }
       ]
@@ -2092,6 +2164,13 @@
           }
         },
         {
+          "path": "bar-label-syncState",
+          "title": {
+            "zh": "柱状图标签状态配置",
+            "en": "Bar Chart Label State"
+          }
+        },
+        {
           "path": "line-label",
           "title": {
             "zh": "折线图标签",
@@ -2252,6 +2331,13 @@
             "zh": "饼图扩展柱图",
             "en": "pie and bar"
           }
+        },
+        {
+          "path": "state-sort",
+          "title": {
+            "zh": "定制状态排序",
+            "en": "Custom State Sorting"
+          }
         }
       ]
     },
@@ -2274,6 +2360,71 @@
           "title": {
             "zh": "带纹理的饼图",
             "en": "Pie Chart with Texture"
+          }
+        }
+      ]
+    },
+    {
+      "path": "interaction",
+      "title": {
+        "zh": "交互",
+        "en": "interaction"
+      },
+      "children": [
+        {
+          "path": "element-active",
+          "title": {
+            "zh": "双轴图元素激活",
+            "en": "Dual Axis Chart Element Activation"
+          }
+        },
+        {
+          "path": "area-chart-element-highlight",
+          "title": {
+            "zh": "面积图高亮",
+            "en": "Area Chart Element Highlight"
+          }
+        },
+        {
+          "path": "pie-chart-multiple-select",
+          "title": {
+            "zh": "饼图多选交互",
+            "en": "Pie Chart Multiple Select"
+          }
+        },
+        {
+          "path": "line-chart-element-highlight-by-group",
+          "title": {
+            "zh": "图元按组高亮",
+            "en": "Element Highlight by Group"
+          }
+        },
+        {
+          "path": "highlight-by-legend",
+          "title": {
+            "zh": "图例触发系列高亮",
+            "en": "Legend Trigger Series Highlight"
+          }
+        },
+        {
+          "path": "combination-chart-highlight-by-key",
+          "title": {
+            "zh": "组合图联合高亮",
+            "en": "ombination Chart Highlight by Key"
+          }
+        },
+        {
+          "path": "pie-chart-active-by-legend",
+          "title": {
+            "zh": "图例激活饼图",
+            "en": "Legend Trigger Pie Chart Sector Activation"
+          }
+        },
+        {
+          "path": "rose-chart-highlight-by-name",
+          "title": {
+            "zh": "轴标签触发高亮",
+            "en": "Axis Label Trigger Highlight"
           }
         }
       ]

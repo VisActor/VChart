@@ -26,17 +26,21 @@ const spec = {
   xField: 'Miles_per_Gallon',
   yField: 'Horsepower',
   seriesField: 'Origin',
-  data: [{
-    id: 'data',
-    values: data.filter(d => d['Horsepower'] && d['Miles_per_Gallon'])
-  }],
-  dataZoom: [{
-    orient: 'bottom',
-    start: 0,
-    end: 0.4,
-    zoomLock: true,
-    filterMode: 'axis'
-  }],
+  data: [
+    {
+      id: 'data',
+      values: data.filter(d => d['Horsepower'] && d['Miles_per_Gallon'])
+    }
+  ],
+  dataZoom: [
+    {
+      orient: 'bottom',
+      start: 0,
+      end: 0.4,
+      zoomLock: true,
+      filterMode: 'axis'
+    }
+  ],
   axes: [
     {
       title: {
@@ -57,14 +61,13 @@ const spec = {
     }
   ],
   legends: [{}]
-}
+};
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
-
 
 ## 相关教程
 

@@ -18,6 +18,7 @@ import { fields, filter, simplify, fold, csvParser, dsvParser, tsvParser } from 
 import type { ILayoutConstructor } from '../layout/interface';
 import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { IChartPluginConstructor } from '../plugin/chart/interface';
+import type { IComponentPluginConstructor } from '../plugin/components/interface';
 
 export class Factory {
   private static _charts: { [key: string]: IChartConstructor } = {};
@@ -28,6 +29,7 @@ export class Factory {
   private static _animations: { [key: string]: (params?: any, preset?: any) => MarkAnimationSpec } = {};
   private static _implements: { [key: string]: (...args: any) => void } = {};
   private static _chartPlugin: { [key: string]: IChartPluginConstructor } = {};
+  private static _componentPlugin: { [key: string]: IComponentPluginConstructor } = {};
 
   static transforms: { [key: string]: Transform } = {
     // buildIn transforms
@@ -73,6 +75,9 @@ export class Factory {
   }
   static registerChartPlugin(key: string, plugin: IChartPluginConstructor) {
     Factory._chartPlugin[key] = plugin;
+  }
+  static registerComponentPlugin(key: string, plugin: IComponentPluginConstructor) {
+    Factory._componentPlugin[key] = plugin;
   }
 
   static createChart(chartType: string, spec: any, options: IChartOption): IChart | null {
@@ -196,5 +201,13 @@ export class Factory {
 
   static getChartPlugins() {
     return Object.values(Factory._chartPlugin);
+  }
+
+  static getComponentPlugins() {
+    return Object.values(Factory._componentPlugin);
+  }
+
+  static getComponentPluginInType(type: string) {
+    return Factory._componentPlugin[type];
   }
 }

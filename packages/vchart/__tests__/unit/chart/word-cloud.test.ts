@@ -96,20 +96,6 @@ describe('wordCloud chart test', () => {
     expect(series.type).toEqual('wordCloud');
     expect(series.getSpec().animation).toBeFalsy();
 
-    // trigger config
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const trigger = series._trigger;
-    expect(trigger.hover).toEqual({
-      enable: true,
-      trigger: 'pointermove',
-      triggerOff: 'pointerleave'
-    });
-    expect(trigger.select).toEqual({
-      enable: true,
-      trigger: 'pointertap'
-    });
-
     // mark
     expect(series.getMarks().length).toEqual(2);
 

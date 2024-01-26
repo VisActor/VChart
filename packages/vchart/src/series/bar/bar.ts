@@ -20,7 +20,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerRectMark } from '../../mark/rect';
-import { array, isValid, last } from '@visactor/vutils';
+import { array, isNil, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
 import { Factory } from '../../core/factory';
@@ -32,6 +32,7 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { registerSampleTransform } from '@visactor/vgrammar-core';
 import { getGroupAnimationParams } from '../util/utils';
 import { BarSeriesSpecTransformer } from './bar-transformer';
+import { ComponentTypeEnum } from '../../component/interface';
 import { RECT_X, RECT_X1, RECT_Y, RECT_Y1 } from '../base/constant';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
@@ -75,18 +76,20 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         groupKey: this._seriesField,
         isSeriesMark: true,
         progressive,
-        customShape: this._spec.bar?.customShape
+        customShape: this._spec.bar?.customShape,
+        stateSort: this._spec.bar?.stateSort
       }
     ) as IRectMark;
   }
 
   protected _initBarBackgroundMark(progressive?: IMarkProgressiveConfig): void {
-    if (this._spec.barBackground?.visible) {
+    if (this._spec.barBackground && this._spec.barBackground.visible) {
       this._barBackgroundMark = this._createMark(BarSeries.mark.barBackground, {
         dataView: this._barBackgroundViewData.getDataView(),
         dataProductId: this._barBackgroundViewData.getProductId(),
         progressive,
-        customShape: this._spec.barBackground?.customShape
+        customShape: this._spec.barBackground.customShape,
+        stateSort: this._spec.barBackground.stateSort
       }) as IRectMark;
     }
   }
@@ -101,8 +104,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
-
-      this._trigger.registerMark(this._barMark);
     }
   }
 
@@ -128,62 +129,123 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _statisticViewData(): void {
     super._statisticViewData();
 
-    if (!this._spec.barBackground?.visible) {
+    const spec = this._spec.barBackground ?? {};
+    if (!spec.visible) {
       return;
     }
 
-    /**
-     * @description 准备 barBackground 数据
-     */
-    const dimensionItems = ([data]: DataView[], op: string) => {
-      let dataCollect: any[] = [{}];
-      const fields = this.getDimensionField();
-      // 将维度轴的所有层级 field 的对应数据做笛卡尔积
-      for (let i = 0; i < fields.length; i++) {
-        const field = fields[i];
-        const values = data.latestData[field]?.values;
-        if (!values?.length) {
-          continue;
-        }
-        const newDataCollect: any[] = [];
-        for (let j = 0; j < values.length; j++) {
-          for (let k = 0; k < dataCollect.length; k++) {
-            newDataCollect.push({
-              ...dataCollect[k],
-              [field]: values[j]
-            });
-          }
-        }
-        dataCollect = newDataCollect;
-      }
-      return dataCollect;
-    };
+    const hasBandAxis = this._getRelatedComponentSpecInfo('axes').some(
+      axisInfo => axisInfo.type === ComponentTypeEnum.cartesianBandAxis
+    );
 
+    let barBackgroundData: DataView;
     registerDataSetInstanceTransform(this._option.dataSet, 'addVChartProperty', addVChartProperty);
-    registerDataSetInstanceTransform(this._option.dataSet, 'dimensionItems', dimensionItems);
 
-    const barBackgroundData = new DataView(this._option.dataSet)
-      .parse([this._viewDataStatistics], {
-        type: 'dataview'
-      })
-      .transform(
-        {
-          type: 'dimensionItems'
-        },
-        false
-      )
-      .transform(
-        {
-          type: 'addVChartProperty',
-          options: {
-            beforeCall: initKeyMap.bind(this),
-            call: addDataKey
+    if (hasBandAxis) {
+      type DimensionItemsConfig = { scaleDepth?: number };
+
+      /**
+       * @description 准备 barBackground 数据（离散轴）
+       */
+      const dimensionItems = ([data]: DataView[], { scaleDepth }: DimensionItemsConfig) => {
+        let dataCollect: Datum[] = [{}];
+        const fields = this.getDimensionField();
+        // 将维度轴的所有层级 field 的对应数据做笛卡尔积
+        const depth = isNil(scaleDepth) ? fields.length : Math.min(fields.length, scaleDepth);
+        for (let i = 0; i < depth; i++) {
+          const field = fields[i];
+          const values = data.latestData[field]?.values;
+          if (!values?.length) {
+            continue;
           }
-        },
-        false
-      );
+          const newDataCollect: Datum[] = [];
+          for (let j = 0; j < values.length; j++) {
+            for (let k = 0; k < dataCollect.length; k++) {
+              newDataCollect.push({
+                ...dataCollect[k],
+                [field]: values[j]
+              });
+            }
+          }
+          dataCollect = newDataCollect;
+        }
+        return dataCollect;
+      };
 
-    this._viewDataStatistics?.target.addListener('change', barBackgroundData.reRunAllTransform);
+      registerDataSetInstanceTransform(this._option.dataSet, 'dimensionItems', dimensionItems);
+
+      barBackgroundData = new DataView(this._option.dataSet)
+        .parse([this._viewDataStatistics], {
+          type: 'dataview'
+        })
+        .transform(
+          {
+            type: 'dimensionItems',
+            options: {
+              scaleDepth: isNil(spec.fieldLevel) ? undefined : spec.fieldLevel + 1
+            } as DimensionItemsConfig
+          },
+          false
+        )
+        .transform(
+          {
+            type: 'addVChartProperty',
+            options: {
+              beforeCall: initKeyMap.bind(this),
+              call: addDataKey
+            }
+          },
+          false
+        );
+
+      this._viewDataStatistics?.target.addListener('change', barBackgroundData.reRunAllTransform);
+    } else {
+      /**
+       * @description 准备 barBackground 数据（连续轴）
+       */
+      const dimensionItems = ([data]: DataView[]) => {
+        const dataCollect: Datum[] = [];
+        const [field0, field1] = this.getDimensionContinuousField();
+        const map: Record<string, Datum> = {};
+        viewData.latestData.forEach((datum: Datum) => {
+          const key = `${datum[field0]}-${datum[field1]}`;
+          if (!map[key]) {
+            map[key] = {
+              [field0]: datum[field0],
+              [field1]: datum[field1]
+            };
+            dataCollect.push(map[key]);
+          }
+        });
+        return dataCollect;
+      };
+
+      registerDataSetInstanceTransform(this._option.dataSet, 'dimensionItems', dimensionItems);
+
+      const viewData = this.getViewData();
+      barBackgroundData = new DataView(this._option.dataSet)
+        .parse([viewData], {
+          type: 'dataview'
+        })
+        .transform(
+          {
+            type: 'dimensionItems'
+          },
+          false
+        )
+        .transform(
+          {
+            type: 'addVChartProperty',
+            options: {
+              beforeCall: initKeyMap.bind(this),
+              call: addDataKey
+            }
+          },
+          false
+        );
+
+      viewData?.target.addListener('change', barBackgroundData.reRunAllTransform);
+    }
     this._barBackgroundViewData = new SeriesData(this._option, barBackgroundData);
   }
 
@@ -368,16 +430,18 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         AttributeLevel.Series
       );
     }
-    this._initBarBackgroundMarkStyle();
+    this._initBandBarBackgroundMarkStyle();
   }
 
-  protected _initBarBackgroundMarkStyle() {
+  protected _initBandBarBackgroundMarkStyle() {
     if (!this._barBackgroundMark) {
       return;
     }
 
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
+    const spec = this._spec.barBackground ?? {};
+    const scaleDepth = isNil(spec.fieldLevel) ? undefined : spec.fieldLevel + 1;
 
     // guess the direction which the user want
     if (this.direction === Direction.horizontal) {
@@ -394,8 +458,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             const max = Math.max(range[0], range[range.length - 1]);
             return max;
           },
-          y: (datum: Datum) => this._getPosition(this.direction, datum),
-          height: () => this._getBarWidth(this._yAxisHelper)
+          y: (datum: Datum) => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
+          height: () => this._getBarWidth(this._yAxisHelper, scaleDepth)
         },
         'normal',
         AttributeLevel.Series
@@ -404,7 +468,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         this._barBackgroundMark,
         {
-          x: (datum: Datum) => this._getPosition(this.direction, datum),
+          x: (datum: Datum) => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
           y: () => {
             const range = yScale.range();
             const min = Math.min(range[0], range[range.length - 1]);
@@ -416,7 +480,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             return max;
           },
           width: () => {
-            return this._getBarWidth(this._xAxisHelper);
+            return this._getBarWidth(this._xAxisHelper, scaleDepth);
           }
         },
         'normal',
@@ -489,6 +553,54 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         AttributeLevel.Series
       );
     }
+    this._initLinearBarBackgroundMarkStyle();
+  }
+
+  protected _initLinearBarBackgroundMarkStyle() {
+    const xScale = this._xAxisHelper?.getScale?.(0);
+    const yScale = this._yAxisHelper?.getScale?.(0);
+
+    if (this.direction === Direction.vertical) {
+      this.setMarkStyle(
+        this._barBackgroundMark,
+        {
+          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
+          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
+          y: () => {
+            const range = yScale.range();
+            const min = Math.min(range[0], range[range.length - 1]);
+            return min;
+          },
+          y1: () => {
+            const range = yScale.range();
+            const max = Math.max(range[0], range[range.length - 1]);
+            return max;
+          }
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    } else {
+      this.setMarkStyle(
+        this._barBackgroundMark,
+        {
+          x: () => {
+            const range = xScale.range();
+            const min = Math.min(range[0], range[range.length - 1]);
+            return min;
+          },
+          x1: () => {
+            const range = xScale.range();
+            const max = Math.max(range[0], range[range.length - 1]);
+            return max;
+          },
+          y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
+          y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale)
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
   }
 
   initAnimation() {
@@ -515,9 +627,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     );
   }
 
-  protected _getBarWidth(axisHelper: IAxisHelper) {
-    const hasBarWidth = this._spec.barWidth !== undefined;
-    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
+  protected _getBarWidth(axisHelper: IAxisHelper, scaleDepth?: number) {
+    const depthFromSpec = this._groups ? this._groups.fields.length : 1;
+    const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
+
+    const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
+    const hasBarWidth = this._spec.barWidth !== undefined && depth === depthFromSpec;
 
     if (hasBarWidth) {
       return getActualNumValue(this._spec.barWidth, bandWidth);
@@ -534,23 +649,34 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     return width;
   }
 
-  protected _getPosition(direction: DirectionType, datum: Datum) {
+  protected _getPosition(direction: DirectionType, datum: Datum, scaleDepth?: number, mark?: SeriesMarkNameEnum) {
     let axisHelper;
     let sizeAttribute;
     let dataToPosition;
     if (direction === Direction.horizontal) {
       axisHelper = this.getYAxisHelper();
       sizeAttribute = 'height';
-      dataToPosition = this.dataToPositionY.bind(this);
+      dataToPosition =
+        mark === SeriesMarkNameEnum.barBackground
+          ? this.dataToBarBackgroundPositionY.bind(this)
+          : this.dataToPositionY.bind(this);
     } else {
       axisHelper = this.getXAxisHelper();
       sizeAttribute = 'width';
-      dataToPosition = this.dataToPositionX.bind(this);
+      dataToPosition =
+        mark === SeriesMarkNameEnum.barBackground
+          ? this.dataToBarBackgroundPositionX.bind(this)
+          : this.dataToPositionX.bind(this);
     }
     const scale = axisHelper.getScale(0);
-    const size = this._barMark.getAttribute(sizeAttribute, datum) as number;
-    const bandWidth = axisHelper.getBandwidth?.(this._groups ? this._groups.fields.length - 1 : 0) ?? DefaultBandWidth;
-    if (this._groups?.fields?.length > 1 && isValid(this._spec.barGapInGroup)) {
+
+    const depthFromSpec = this._groups ? this._groups.fields.length : 1;
+    const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
+
+    const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
+    const size = depth === depthFromSpec ? (this._barMark.getAttribute(sizeAttribute, datum) as number) : bandWidth;
+
+    if (depth > 1 && isValid(this._spec.barGapInGroup)) {
       // 自里向外计算，沿着第一层分组的中心点进行位置调整
       const groupFields = this._groups.fields;
       const barInGroup = array(this._spec.barGapInGroup);
@@ -577,8 +703,43 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     }
 
     const continuous = isContinuous(scale.type || 'band');
-    const pos = dataToPosition(datum);
+    const pos = dataToPosition(datum, depth);
+
     return pos + (bandWidth - size) * 0.5 + (continuous ? -bandWidth / 2 : 0);
+  }
+
+  protected _barBackgroundPositionXEncoder?: (datum: Datum) => number;
+  protected _getBarBackgroundPositionXEncoder = () => this._barBackgroundPositionXEncoder?.bind(this);
+  protected _setBarBackgroundPositionXEncoder = (encoder: (datum: Datum) => number) => {
+    this._barBackgroundPositionXEncoder = encoder.bind(this);
+  };
+
+  dataToBarBackgroundPositionX(datum: Datum, scaleDepth?: number): number {
+    return this._dataToPosition(
+      datum,
+      this._xAxisHelper,
+      this.fieldX,
+      scaleDepth,
+      this._getBarBackgroundPositionXEncoder,
+      this._setBarBackgroundPositionXEncoder
+    );
+  }
+
+  protected _barBackgroundPositionYEncoder?: (datum: Datum) => number;
+  protected _getBarBackgroundPositionYEncoder = () => this._barBackgroundPositionYEncoder?.bind(this);
+  protected _setBarBackgroundPositionYEncoder = (encoder: (datum: Datum) => number) => {
+    this._barBackgroundPositionYEncoder = encoder.bind(this);
+  };
+
+  dataToBarBackgroundPositionY(datum: Datum, scaleDepth?: number): number {
+    return this._dataToPosition(
+      datum,
+      this._yAxisHelper,
+      this.fieldY,
+      scaleDepth,
+      this._getBarBackgroundPositionYEncoder,
+      this._setBarBackgroundPositionYEncoder
+    );
   }
 
   onLayoutEnd(ctx: any): void {

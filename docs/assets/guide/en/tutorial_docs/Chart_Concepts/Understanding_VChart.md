@@ -95,7 +95,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 #### Combined Chart
@@ -160,7 +160,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 As mentioned earlier, the region is a spatial information element that, in conjunction with the layout, can be used to divide the space of the canvas using multiple regions with different locations. At the same time, components can also specify the association with the region. When a component is associated with multiple regions, it will collect the data dimensions of all the sub-charts under the region for display, as shown in the following example.
@@ -263,7 +263,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### View Layer Graphic Elements

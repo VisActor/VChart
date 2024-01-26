@@ -214,7 +214,8 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       groupKey: this._seriesField,
       progressive,
       isSeriesMark: true,
-      customShape: this._spec.point?.customShape
+      customShape: this._spec.point?.customShape,
+      stateSort: this._spec.point?.stateSort
     }) as ISymbolMark;
   }
 
@@ -290,8 +291,6 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         AttributeLevel.User_Mark
       );
     }
-
-    this._trigger.registerMark(symbolMark);
   }
 
   protected initTooltip() {
@@ -368,7 +367,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
 
     if (vgrammarLabel) {
-      vgrammarLabel.evaluateSync(null, null);
+      (vgrammarLabel as any).evaluate(null, null);
     }
   }
 
@@ -393,7 +392,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
 
     if (vgrammarLabel) {
-      vgrammarLabel.evaluateSync(null, null);
+      (vgrammarLabel as any).evaluate(null, null);
     }
   }
 

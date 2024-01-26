@@ -63,7 +63,7 @@ After getting the VChart file from [cdn](./How_to_Get_VChart#cdn-获取), you ca
   };
 
   const vchart = new VChart.default(spec, { dom: 'chart' });
-  vchart.renderAsync();
+  vchart.renderSync();
 </script>
 ```
 
@@ -123,7 +123,7 @@ const vchart = new VChart(spec, {
 });
 
 // Call the rendering method to draw the chart
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## Import on demand

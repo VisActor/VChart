@@ -18,4 +18,5 @@ export declare class BaseChartSpecTransformer<T extends IChartSpec> implements I
     forEachRegionInSpec<K>(chartSpec: T, callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo): K[];
     forEachSeriesInSpec<K>(chartSpec: T, callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo): K[];
     forEachComponentInSpec<K>(chartSpec: T, callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo): K[];
+    transformSeriesSpec(spec: T): void;
 }

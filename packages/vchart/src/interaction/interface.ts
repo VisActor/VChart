@@ -1,9 +1,20 @@
-import type { IElement } from '@visactor/vgrammar-core';
+import type {
+  ElementActiveByLegendSpec,
+  ElementActiveSpec,
+  ElementHighlightByGroupSpec,
+  ElementHighlightByKeySpec,
+  ElementHighlightByLegendSpec,
+  ElementHighlightByNameSpec,
+  ElementHighlightSpec,
+  ElementSelectSpec,
+  IElement
+} from '@visactor/vgrammar-core';
 import type { IMark } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { BaseEventParams, IEventDispatcher, EventType } from '../event/interface';
 import type { IModel } from '../model/interface';
 import type { StateValue } from '../compile/mark';
+import type { StringOrNumber } from '../typings/common';
 
 export interface IInteraction {
   registerMark: (state: StateValue, mark: IMark) => void;
@@ -49,10 +60,58 @@ export type ISelectSpec = {
   enable?: boolean;
   mode?: 'single' | 'multiple';
   trigger?: Trigger;
-  triggerOff?: Trigger;
+  triggerOff?: Trigger | number;
 };
 
 export interface ITriggerSpec {
   hover?: IHoverSpec | boolean;
   select?: ISelectSpec | boolean;
+}
+
+interface IBaseInteractionSpec {
+  markIds?: StringOrNumber[];
+  markNames?: StringOrNumber[];
+}
+
+export type IElementActiveSpec = IBaseInteractionSpec &
+  Pick<ElementActiveSpec, 'type' | 'trigger' | 'triggerOff' | 'state'>;
+
+export type IElementSelectSpec = IBaseInteractionSpec &
+  Pick<ElementSelectSpec, 'type' | 'trigger' | 'triggerOff' | 'state' | 'isMultiple' | 'reverseState'>;
+export type IElementHighlightSpec = IBaseInteractionSpec &
+  Pick<ElementHighlightSpec, 'type' | 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'>;
+
+export type IElementHighlightByKeySpec = IBaseInteractionSpec &
+  Pick<ElementHighlightByKeySpec, 'type' | 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'>;
+
+export type IElementHighlightByGroup = IBaseInteractionSpec &
+  Pick<ElementHighlightByGroupSpec, 'type' | 'blurState' | 'highlightState' | 'triggerOff' | 'trigger'>;
+
+export type IElementActiveByLegend = IBaseInteractionSpec &
+  Pick<ElementActiveByLegendSpec, 'type' | 'filterType' | 'state'>;
+
+export type IElementHighlightByLegend = IBaseInteractionSpec &
+  Pick<ElementHighlightByLegendSpec, 'type' | 'filterType' | 'blurState' | 'highlightState'>;
+
+export type IElementHighlightByName = IBaseInteractionSpec &
+  Pick<ElementHighlightByNameSpec, 'type' | 'blurState' | 'highlightState' | 'graphicName' | 'parseData'>;
+
+export interface ICustomInteraction extends IBaseInteractionSpec {
+  type: string;
+}
+
+export type IInteractionItemSpec =
+  | IElementActiveSpec
+  | IElementSelectSpec
+  | IElementHighlightSpec
+  | IElementHighlightByKeySpec
+  | IElementHighlightByGroup
+  | IElementActiveByLegend
+  | IElementHighlightByLegend
+  | IElementHighlightByName;
+
+export interface IInteractionSpec {
+  hover?: IHoverSpec | boolean;
+  select?: ISelectSpec | boolean;
+  interactions?: IInteractionItemSpec[];
 }

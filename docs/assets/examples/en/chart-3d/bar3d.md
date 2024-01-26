@@ -65,7 +65,7 @@ const vchart = new VChart(spec, {
     enable: true
   }
 });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, do not copy
 window['vchart'] = vchart;

@@ -26,6 +26,7 @@ export interface ILabelSpec extends IComponentSpec {
     labelLayout?: 'series' | 'region';
     centerOffset?: number;
     support3d?: boolean;
+    syncState?: boolean;
 }
 type LabelStateStyle<T> = {
     hover?: T;

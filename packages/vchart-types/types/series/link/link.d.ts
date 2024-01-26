@@ -44,6 +44,7 @@ export declare class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> ext
         scale: any;
         field: string;
     };
+    initInteraction(): void;
     protected initTooltip(): void;
     protected onMarkTreePositionUpdate(marks: IMark[]): void;
     getDotInfoData(): import("../../compile/mark/mark-data").MarkData;

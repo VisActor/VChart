@@ -43,7 +43,7 @@ VChart 中目前支持五种类型的坐标轴：
 3.  时间轴（type: 'time'），适用于表示时间序列数据，具体的使用可以查看 [SequenceChart 时序图 demo](../../../demo/sequence-chart/social-media-event)；
     需要注意的是，直方图不支持离散轴，因为直方图用于统计数据间内的频率分布，主轴必须以值区间的形式传入，离散轴不支持该功能。
 4.  log 轴（type: 'log'），log 轴的特点是刻度之间的间隔是根据对数函数（通常是以 10 为底）计算的。这意味着数据的每个对数单位（大小单位）具有相同的物理长度，例如从 1 到 10、10 到 100、100 到 1000 等。对于数据的指数增长或指数下降情况，log 轴能够更好地显示数据的相对变化，具体的使用可以查看 [log 轴 demo](../../../demo/axis/log-axis)
-5. symlog 轴（type: 'symlog'）, 与log轴不同的是，symlog可以支持负数的情况，具体的使用可以查看 [symlog 轴 demo](../../../demo/axis/symlog-axis)
+5.  symlog 轴（type: 'symlog'）, 与 log 轴不同的是，symlog 可以支持负数的情况，具体的使用可以查看 [symlog 轴 demo](../../../demo/axis/symlog-axis)
 
 ### 直角坐标系下的坐标轴配置
 
@@ -250,7 +250,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
@@ -376,7 +376,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
@@ -450,7 +450,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### 轴与系列绑定
@@ -575,7 +575,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### 多轴同步
@@ -669,7 +669,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 #### 两个轴的 tick 保持比例对齐
@@ -740,7 +740,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## 示例
@@ -1706,7 +1706,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### 斑马线配置
@@ -2169,7 +2169,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### 坐标轴交互
@@ -2325,5 +2325,5 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```

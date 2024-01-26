@@ -55,7 +55,7 @@ const addOrUpdateMark = (view: IView, id: string, props: Props) => {
   }
 
   mark.parse(others);
-  view.runAsync();
+  view.run();
 };
 
 const removeMark = (view: IView, id: string) => {

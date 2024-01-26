@@ -31,6 +31,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     tooltipHandler?: ITooltipHandler;
     private _alwaysShow;
     private _cacheInfo;
+    private _cacheParams;
     private _eventList;
     protected _processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor>;
     protected _isTooltipShown: boolean;
@@ -59,7 +60,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     setAttrFromSpec(): void;
     showTooltip(datum: Datum, options: IShowTooltipOption): false | "none" | TooltipActiveType;
     hideTooltip(): boolean;
-    private _isSameAsCacheInfo;
+    private _isSameAsCache;
     private _isPointerInChart;
     private _isPointerOnTooltip;
     getVisible(): boolean;

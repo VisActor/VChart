@@ -75,6 +75,8 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     setCustomizedShapeCallback(callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D): void;
     protected _enableSegments: boolean;
     setEnableSegments(enable: boolean): void;
+    protected _stateSort?: (stateA: string, stateB: string) => number;
+    setStateSortCallback(stateSort: (stateA: string, stateB: string) => number): void;
     protected _option: ICompilableMarkOption;
     constructor(option: ICompilableMarkOption, name: string, model: IModel);
     protected _product: Maybe<IMark>;
@@ -102,8 +104,8 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     protected compileCommonAttributeCallback(key: string, state: string): MarkFunctionCallback<any>;
     protected compileTransform(): void;
     protected _lookupGrammar(id: string): IMark;
-    updateState(newState: Record<string, unknown>, noRender?: boolean): Promise<any>;
-    updateLayoutState(noRender?: boolean, recursion?: boolean): Promise<void>;
+    updateState(newState: Record<string, unknown>, noRender?: boolean): void;
+    updateLayoutState(noRender?: boolean, recursion?: boolean): void;
     updateMarkState(key: string): void;
     getMarks(): ICompilableMark[];
     runAnimationByState(state?: string): import("@visactor/vgrammar-core").IAnimateArranger;
