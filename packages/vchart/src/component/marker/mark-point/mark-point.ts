@@ -41,6 +41,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
         {
           spec: markPointSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: ComponentTypeEnum.markPoint
         }
       ];
@@ -50,8 +51,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
       if (m.visible !== false) {
         specInfos.push({
           spec: m,
-          specIndex: i,
           specPath: [this.specKey, i],
+          specInfoPath: ['component', this.specKey, i],
           type: ComponentTypeEnum.markPoint
         });
       }

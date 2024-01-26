@@ -35,7 +35,7 @@ export interface IBarSeriesSpec
    * 柱状背景图元
    * @since 1.6.0
    */
-  [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec>;
+  [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec> & IBarBackgroundSpec;
   /** 标签配置*/
   [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position'> & {
     /**
@@ -95,13 +95,22 @@ export interface IBarSeriesSpec
   barMinHeight?: number;
 }
 
+export interface IBarBackgroundSpec {
+  /**
+   * 决定柱状背景图元是否显示在组的层级上，以及显示在哪个层级上。
+   * 例如：在分组柱状图中，xField 为 `['A', 'B', 'C']`，如果配置为 0，则以 'A' 划分的每个组对应一个整体的 barBackground；如果配置为 1，则以 'B' 划分的每个组对应一个整体的 barBackground；如果配置为 2，则每个柱条对应一个 barBackground。
+   * @since 1.9.0
+   */
+  fieldLevel?: number;
+}
+
 export interface IBarSeriesTheme extends ICartesianSeriesTheme {
   [SeriesMarkNameEnum.bar]?: Partial<IMarkTheme<IRectMarkSpec>>;
   /**
    * 柱状背景图元
    * @since 1.6.0
    */
-  [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec>;
+  [SeriesMarkNameEnum.barBackground]?: Partial<IMarkTheme<IRectMarkSpec>> & IBarBackgroundSpec;
   /**
    * 柱体宽度
    */

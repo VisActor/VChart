@@ -34,7 +34,7 @@ export class AreaSeriesSpecTransformer<
     const isAreaVisible = area.visible !== false && area.style?.visible !== false;
     const isLineVisible = line.visible !== false && line.style?.visible !== false;
     // merge line to area
-    area.interactive = !!(area.interactive || (line.interactive ?? true));
+
     area.support3d = !!(area.support3d || line.support3d);
     area.zIndex =
       isValid(area.zIndex) || isValid(line.zIndex) ? Math.max(area.zIndex ?? 0, line.zIndex ?? 0) : undefined;
@@ -67,6 +67,15 @@ export class AreaSeriesSpecTransformer<
     if (!isLineVisible) {
       area.style.stroke = false;
     }
+
+    if (area.interactive === false) {
+      area.style.fillPickable = false;
+    }
+    if (line.interactive === false) {
+      line.style.strokePickable = false;
+    }
+
+    area.interactive = !!(area.interactive || (line.interactive ?? true));
     area.visible = !(!isAreaVisible && !isLineVisible);
 
     spec.area = area;

@@ -55,7 +55,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 After specifying the chart type `type` in the example, the chart series is fixed to `bar`. Then configure the data through `data`, configure the classification of the data through `seriesField`, and configure the position of the data through `xField` and `yField`.
@@ -106,7 +106,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 In the above example, two series are configured through `series`, one is a `bar` series and the other is a `line` series. Specify the data using `dataId`, configure the position of the data using `xField` and `yField`, and configure the classification of the data using `seriesField`.

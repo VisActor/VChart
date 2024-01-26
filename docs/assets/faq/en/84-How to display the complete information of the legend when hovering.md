@@ -89,7 +89,7 @@ vchart.on('legendItemUnHover', e => {
   });
 });
 
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

@@ -255,10 +255,10 @@ export class SunburstSeries extends PolarSeries<any> {
     // SunburstMark
     const sunburstMark = this._createMark(SunburstSeries.mark.sunburst, {
       isSeriesMark: true,
-      customShape: this._spec.sunburst?.customShape
+      customShape: this._spec.sunburst?.customShape,
+      stateSort: this._spec.sunburst?.stateSort
     }) as IArcMark;
     this._sunburstMark = sunburstMark;
-    this._trigger.registerMark(this._sunburstMark);
   }
 
   private _initArcMarkStyle() {
@@ -290,8 +290,6 @@ export class SunburstSeries extends PolarSeries<any> {
       isSeriesMark: false
     }) as ITextMark;
     this._labelMark = labelMark;
-
-    this._trigger.registerMark(labelMark);
   }
 
   private _initLabelMarkStyle() {

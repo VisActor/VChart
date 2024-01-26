@@ -9,6 +9,7 @@ option: lineChart
 ---
 
 # line chart overlap
+
 In a line chart, when data points are too densely packed, prevent the data points from overlapping to ensure a clearer representation of the trend and value of each line.
 
 ## Key option
@@ -34,22 +35,22 @@ data.forEach(d => {
   });
 });
 const spec = {
-    type: 'line',
-    xField: 'x',
-    yField: 'y',
-    seriesField: 'type',
-    markOverlap: true,
-    stack: true,
-    data: [
-      {
-        name: 'line',
-        values: dataSeries
-      }
-    ]
-  };
+  type: 'line',
+  xField: 'x',
+  yField: 'y',
+  seriesField: 'type',
+  markOverlap: true,
+  stack: true,
+  data: [
+    {
+      name: 'line',
+      values: dataSeries
+    }
+  ]
+};
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

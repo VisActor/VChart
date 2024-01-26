@@ -61,6 +61,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         {
           spec: indicatorSpec,
           specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
           type: ComponentTypeEnum.indicator
         }
       ];
@@ -71,8 +72,8 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       if (s && s.visible !== false) {
         specInfos.push({
           spec: s,
-          specIndex: i,
           specPath: [this.specKey, i],
+          specInfoPath: ['component', this.specKey, i],
           type: ComponentTypeEnum.indicator
         });
       }
@@ -115,25 +116,31 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
       return;
     }
 
+    const view = this.getCompiler()?.getVGrammarView();
+
+    if (!view) {
+      return;
+    }
+
     if (this._spec.trigger === 'hover') {
-      this.event.on('hovered', params => {
-        if (!params.model || this.isRelativeModel(params.model)) {
-          this.updateDatum(params.value[0]);
+      view.addEventListener('element-highlight:start', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
+          this.updateDatum(params.elements[0].getDatum());
         }
       });
-      this.event.on('unhovered', params => {
-        if (!params.model || this.isRelativeModel(params.model)) {
+      view.addEventListener('element-highlight:reset', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
           this.updateDatum(null);
         }
       });
     } else {
-      this.event.on('selected', params => {
-        if (!params.model || this.isRelativeModel(params.model)) {
-          this.updateDatum(params.value[0]);
+      view.addEventListener('element-select:start', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
+          this.updateDatum(params.elements[0].getDatum());
         }
       });
-      this.event.on('unselected', params => {
-        if (!params.model || this.isRelativeModel(params.model)) {
+      view.addEventListener('element-select:reset', (params: any) => {
+        if (this.isRelativeModel(params.options.regionId)) {
           this.updateDatum(null);
         }
       });
@@ -186,6 +193,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         autoLimit: contentSpec.autoLimit,
         autoFit: contentSpec.autoFit,
         fitPercent: contentSpec.fitPercent,
+        fitStrategy: contentSpec.fitStrategy,
         style: {
           ...transformToGraphic(contentSpec.style),
           text: this._createText(contentSpec.field, contentSpec.style.text)
@@ -211,6 +219,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         autoLimit: this._spec.title.autoLimit,
         autoFit: this._spec.title.autoFit,
         fitPercent: this._spec.title.fitPercent,
+        fitStrategy: this._spec.title.fitStrategy,
         style: {
           ...transformToGraphic(this._spec.title.style),
           text: this._createText(this._spec.title.field, this._spec.title.style.text)
@@ -265,8 +274,8 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     return Math.min(width / 2, height / 2);
   }
 
-  private isRelativeModel(model: IModel) {
-    return eachSeries(this._regions, s => model === s) || this._regions.includes(model as IRegion);
+  private isRelativeModel(regionId: number) {
+    return this._regions.some(region => region.id === regionId);
   }
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {
@@ -276,6 +285,10 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
   clear(): void {
     this._cacheAttrs = null;
     super.clear();
+  }
+
+  getIndicatorComponent(): IndicatorComponents {
+    return this._indicatorComponent;
   }
 }
 

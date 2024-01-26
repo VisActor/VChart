@@ -44,12 +44,12 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
 
   /** 获取当前 model 对应在图表 spec 上的路径 */
   getSpecPath() {
-    return this._option.specPath;
+    return this._option?.specPath;
   }
 
   /** 获取当前 model 对应在图表 specInfo 上的路径 */
   getSpecInfoPath() {
-    return this._option.specInfoPath ?? this._option.specPath;
+    return this._option?.specInfoPath ?? this._option?.specPath;
   }
 
   readonly type: string = 'null';
@@ -75,11 +75,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   protected _layout?: ILayoutItem = null;
   get layout() {
     return this._layout;
-  }
-
-  protected _specIndex: number = 0;
-  getSpecIndex() {
-    return this._specIndex;
   }
 
   readonly specKey: string = '';
@@ -122,7 +117,6 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     this.id = createID();
     this.userId = spec.id;
     this._spec = spec;
-    this._specIndex = option.specIndex ?? 0;
     this.effect = {};
     this.event = new Event(option.eventDispatcher, option.mode);
     option.map?.set(this.id, this);
@@ -176,7 +170,7 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     this._spec = undefined;
     this.getMarks().forEach(m => m.release());
     this._data?.release();
-    this._data = this._specIndex = null;
+    this._data = null;
     this._marks.clear();
     super.release();
   }
@@ -300,5 +294,17 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
   getSpecInfo() {
     const specInfo = this._option.getSpecInfo?.() ?? {};
     return getProperty<IModelSpecInfo>(specInfo, this.getSpecInfoPath());
+  }
+
+  getSpecIndex() {
+    const path = this.getSpecPath();
+    if (!path?.length) {
+      return 0;
+    }
+    const index = Number(path[path.length - 1]);
+    if (isNaN(index)) {
+      return 0;
+    }
+    return index;
   }
 }

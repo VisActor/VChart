@@ -27,7 +27,7 @@ The coordinate axis, prompt information, and other components used as auxiliary 
 
 -For more component configurations, see [VChart lineChart Configuration](../../../option/lineChart)
 
-As a 3D chart, a 3D line chart needs to have a 3D view enabled, and the 3D perspective needs to be configured in the initialization parameters of vChart:
+As a 3D chart, a 3D line chart needs to have a 3D view enabled, and the 3D perspective needs to be configured in the initialization parameters of vchart:
 
 - `options3d.enable`: Enable 3D perspective
 - `options3d.enableView3dTransform`: Supports 3D free transformation
@@ -2016,7 +2016,7 @@ const vchart = new VChart(spec, {
   }
 });
 
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;

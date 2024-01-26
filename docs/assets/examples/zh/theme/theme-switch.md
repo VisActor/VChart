@@ -213,7 +213,7 @@ VChart.ThemeManager.registerTheme('user', newTheme);
 VChart.ThemeManager.setCurrentTheme('user');
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 切换主题
 setInterval(() => {

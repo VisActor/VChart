@@ -192,7 +192,8 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     super.initMark();
     const leaderLine = this._createMark(WaterfallSeries.mark.leaderLine, {
       key: 'index',
-      customShape: this._spec.leaderLine?.customShape
+      customShape: this._spec.leaderLine?.customShape,
+      stateSort: this._spec.leaderLine?.stateSort
     }) as IRuleMark;
     if (leaderLine) {
       this._leaderLineMark = leaderLine;

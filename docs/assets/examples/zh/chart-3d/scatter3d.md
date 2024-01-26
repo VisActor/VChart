@@ -168,7 +168,7 @@ const vchart = new VChart(spec, {
     center: { x: 500, y: 250 }
   }
 });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window.vchart = vchart;

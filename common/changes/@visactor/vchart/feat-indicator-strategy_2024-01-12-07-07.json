@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support fitStrategy for indicator",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

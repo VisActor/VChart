@@ -1,5 +1,5 @@
 import { ChartEvent } from './../constant/event';
-import type { IElement, IView } from '@visactor/vgrammar-core';
+import type { IElement, InteractionSpec, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
 import { View } from '@visactor/vgrammar-core';
 import type {
@@ -24,6 +24,8 @@ import type { VChart } from '../core/vchart';
 import type { IColor, Stage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
+// eslint-disable-next-line no-duplicate-imports
+import { vglobal } from '@visactor/vrender-core';
 
 type EventListener = {
   type: string;
@@ -43,8 +45,9 @@ export class Compiler {
   protected _canvasListeners: Map<(...args: any[]) => any, EventListener> = new Map();
 
   isInited: boolean = false;
-  // 是否已经销毁
-  isReleased: boolean = false;
+
+  private _isRunning: boolean = false;
+  private _nextRafId: number;
 
   protected _width: number;
   protected _height: number;
@@ -57,6 +60,8 @@ export class Compiler {
     [GrammarType.data]: {},
     [GrammarType.mark]: {}
   };
+
+  protected _interactions: (InteractionSpec & { seriesId?: number; regionId?: number })[];
   getModel() {
     return this._model;
   }
@@ -88,9 +93,6 @@ export class Compiler {
   }
 
   initView() {
-    if (this.isReleased) {
-      return;
-    }
     this.isInited = true;
     if (this._view) {
       return;
@@ -150,6 +152,35 @@ export class Compiler {
     }
   }
 
+  compileInteractions() {
+    this._view.removeAllInteractions();
+    if (this._interactions?.length) {
+      const regionCombindInteractions = {};
+
+      this._interactions.forEach(interaction => {
+        if (interaction.regionId) {
+          const interactionId = `${interaction.regionId}-${interaction.type}-${interaction.id ?? ''}`;
+          const spec = regionCombindInteractions[interactionId];
+          if (spec) {
+            regionCombindInteractions[interactionId] = {
+              ...spec,
+              ...interaction,
+              selector: [...spec.selector, ...(interaction as any).selector]
+            };
+          } else {
+            regionCombindInteractions[interactionId] = interaction;
+          }
+        } else {
+          this._view.interaction(interaction.type, interaction);
+        }
+      });
+
+      Object.keys(regionCombindInteractions).forEach(key => {
+        this._view.interaction(regionCombindInteractions[key].type, regionCombindInteractions[key]);
+      });
+    }
+  }
+
   compile(ctx: { chart: IChart; vChart: VChart }, option: any) {
     const { chart } = ctx;
     this._compileChart = chart;
@@ -161,6 +192,8 @@ export class Compiler {
     chart.compile();
     chart.afterCompile();
     this.updateDepend();
+
+    this.compileInteractions();
   }
 
   clear(ctx: { chart: IChart; vChart: VChart }, removeGraphicItems: boolean = false) {
@@ -169,24 +202,31 @@ export class Compiler {
     this.releaseGrammar(removeGraphicItems);
   }
 
-  async renderAsync(morphConfig?: IMorphConfig): Promise<any> {
-    if (this.isReleased) {
-      return;
+  renderNextTick(morphConfig?: IMorphConfig): void {
+    if (!this._nextRafId) {
+      this._nextRafId = vglobal.getRequestAnimationFrame()(() => {
+        this._nextRafId = null;
+        this.render(morphConfig);
+      }) as unknown as number;
     }
-    this.initView();
-    if (!this._view) {
-      return Promise.reject('srView init fail');
-    }
-    await this._view?.runNextTick(morphConfig);
-    return this;
   }
 
-  renderSync(morphConfig?: IMorphConfig): void {
+  render(morphConfig?: IMorphConfig) {
+    if (this._nextRafId) {
+      vglobal.getCancelAnimationFrame()(this._nextRafId);
+      this._nextRafId = null;
+    }
+    if (this._isRunning) {
+      return;
+    }
+
     this.initView();
     if (!this._view) {
       return;
     }
-    this._view?.runSync(morphConfig);
+    this._isRunning = true;
+    this._view?.run(morphConfig);
+    this._isRunning = false;
   }
 
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {
@@ -199,13 +239,15 @@ export class Compiler {
 
   resize(width: number, height: number, reRender: boolean = true) {
     if (!this._view) {
-      return Promise.reject();
+      return;
     }
     this._width = width;
     this._height = height;
 
     this._view.resize(width, height);
-    return reRender ? this.renderAsync({ morph: false }) : this;
+    if (reRender) {
+      this.render({ morph: false });
+    }
   }
 
   setBackground(color: IColor) {
@@ -346,7 +388,6 @@ export class Compiler {
     this._view?.release();
     this._view = null;
     this.isInited = false;
-    this.isReleased = true;
   }
 
   /**
@@ -405,6 +446,22 @@ export class Compiler {
     if (!reserveVGrammarModel) {
       this._view?.removeGrammar(product);
     }
+  }
+
+  addInteraction(interaction: InteractionSpec & { seriesId?: number; regionId?: number }) {
+    if (!this._interactions) {
+      this._interactions = [];
+    }
+
+    this._interactions.push(interaction);
+  }
+
+  removeInteraction(seriesId: number) {
+    if (!this._interactions) {
+      return;
+    }
+
+    this._interactions = this._interactions.filter(entry => entry.seriesId !== seriesId);
   }
 
   /** 更新语法元素间的依赖关系，返回是否全部成功更新 */

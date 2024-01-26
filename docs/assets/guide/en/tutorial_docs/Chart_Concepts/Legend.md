@@ -137,37 +137,36 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync().then(() => {
-  const legendSelected = vchart.getLegendSelectedDataByIndex();
-  const chartDiv = document.getElementById(CONTAINER_ID);
-  const checkboxContainer = document.createElement('div');
-  checkboxContainer.style.textAlign = 'center';
-  const checkbox = document.createElement('input');
-  const checkboxLabel = document.createElement('label');
+vchart.renderSync();
+const legendSelected = vchart.getLegendSelectedDataByIndex();
+const chartDiv = document.getElementById(CONTAINER_ID);
+const checkboxContainer = document.createElement('div');
+checkboxContainer.style.textAlign = 'center';
+const checkbox = document.createElement('input');
+const checkboxLabel = document.createElement('label');
 
-  checkbox.setAttribute('type', 'checkbox');
-  checkbox.setAttribute('id', 'checkbox');
-  checkbox.style.verticalAlign = 'middle';
+checkbox.setAttribute('type', 'checkbox');
+checkbox.setAttribute('id', 'checkbox');
+checkbox.style.verticalAlign = 'middle';
 
-  checkbox.checked = false;
+checkbox.checked = false;
 
-  checkboxLabel.innerText = ' 隐藏绿水灵';
-  checkboxLabel.style.verticalAlign = 'middle';
+checkboxLabel.innerText = ' 隐藏绿水灵';
+checkboxLabel.style.verticalAlign = 'middle';
 
-  checkboxContainer.appendChild(checkbox);
-  checkboxContainer.appendChild(checkboxLabel);
-  chartDiv?.prepend(checkboxContainer);
+checkboxContainer.appendChild(checkbox);
+checkboxContainer.appendChild(checkboxLabel);
+chartDiv?.prepend(checkboxContainer);
 
-  checkbox.addEventListener('change', event => {
-    if (event.currentTarget.checked) {
-      vchart.setLegendSelectedDataByIndex(
-        0,
-        legendSelected.filter(val => val !== '绿水灵')
-      );
-    } else {
-      vchart.setLegendSelectedDataByIndex(0, legendSelected);
-    }
-  });
+checkbox.addEventListener('change', event => {
+  if (event.currentTarget.checked) {
+    vchart.setLegendSelectedDataByIndex(
+      0,
+      legendSelected.filter(val => val !== '绿水灵')
+    );
+  } else {
+    vchart.setLegendSelectedDataByIndex(0, legendSelected);
+  }
 });
 ```
 
@@ -284,7 +283,7 @@ vchart.on('legendItemUnHover', e => {
   });
 });
 
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### Customizing Legend Item Data
@@ -366,7 +365,7 @@ vchart.on('legendItemUnHover', e => {
   });
 });
 
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 For more examples of `legend`, please refer to [Legend](../../../example).

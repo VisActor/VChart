@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: tooltip supports content area scrolling, related #2001",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

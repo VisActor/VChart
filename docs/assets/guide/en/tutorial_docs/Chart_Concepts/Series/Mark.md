@@ -62,7 +62,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ### Custom States of Graphic Elements
@@ -102,7 +102,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## Style Configuration of Graphic Elements
@@ -215,7 +215,7 @@ const spec = {
 // sizeScale.domain() === [-50,200];
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 For the specific usage of scales, please refer to the documentation [scale](../../../../option/barChart#scales).
@@ -255,7 +255,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## Gradient configuration
@@ -472,7 +472,7 @@ const spec = {
   }
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

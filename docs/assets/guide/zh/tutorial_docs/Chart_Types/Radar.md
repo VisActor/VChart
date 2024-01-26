@@ -1,5 +1,7 @@
 # 雷达图
+
 [\[配置项\]](../../../option/radarChart)
+
 ## 简介
 
 雷达图是一种用于显示多维数据的图表。通过将各维度的值映射到相应的角度轴上，数据点在各维度的分布可视化为一条封闭的图形，形似“雷达”。
@@ -67,7 +69,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -168,7 +170,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -407,7 +409,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
@@ -656,7 +658,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;

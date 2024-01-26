@@ -1,5 +1,7 @@
 # 面积图
+
 [\[配置项\]](../../../option/areaChart)
+
 ## 简介
 
 面积图以图形方式显示定量数据。 它基于折线图。 通常用颜色，纹理和阴影线强调轴和线之间的区域。 通常，一个面积图会比较两个或多个数量。面积图适用于想要体现在连续自变量下，一组或多组数据的趋势变化以及相互之间的对比，同时也能够观察到数据总量的变化趋势。
@@ -74,7 +76,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -184,7 +186,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -260,7 +262,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -333,7 +335,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -407,7 +409,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;

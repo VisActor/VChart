@@ -58,6 +58,17 @@ import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
+import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin/components/tooltip-handler';
+import {
+  registerElementActive,
+  registerElementHighlight,
+  registerElementSelect,
+  registerElementActiveByLegend,
+  registerElementHighlightByLegend,
+  registerElementHighlightByName,
+  registerElementHighlightByGroup,
+  registerElementHighlightByKey
+} from '@visactor/vgrammar-core';
 
 VChart.useRegisters([
   // charts
@@ -87,6 +98,8 @@ VChart.useRegisters([
   registerHeatmapChart,
   registerSequenceChart,
   registerCorrelationChart,
+  // 优化vchart-all体积, 默认不注册
+  // registerLiquidChart,
   registerCommonChart,
 
   // 3d charts
@@ -132,7 +145,23 @@ VChart.useRegisters([
 
   // layout
   registerGridLayout,
-  registerLayout3d
+  registerLayout3d,
+
+  // plugin
+  registerDomTooltipHandler,
+  registerCanvasTooltipHandler,
+
+  // vgrammar interactions,
+  registerElementActive,
+  registerElementHighlight,
+  registerElementSelect,
+
+  registerElementActiveByLegend,
+  registerElementHighlightByLegend,
+
+  registerElementHighlightByName,
+  registerElementHighlightByGroup,
+  registerElementHighlightByKey
 ]);
 
 export { VChart };

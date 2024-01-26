@@ -17,8 +17,6 @@ export const funnel3d: IFunnel3dSeriesTheme = {
   outerLabel: {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
-      lineHeight: THEME_CONSTANTS.l4LineHeight,
-
       fill: '#707070'
     },
     line: {
@@ -30,8 +28,6 @@ export const funnel3d: IFunnel3dSeriesTheme = {
   transformLabel: {
     style: {
       fontSize: THEME_CONSTANTS.l4FontSize,
-      lineHeight: THEME_CONSTANTS.l4LineHeight,
-
       fill: '#707070',
       textBaseline: 'middle'
     }

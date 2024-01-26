@@ -21,7 +21,7 @@
 
     const vchart = new VChart(json, { dom: CONTAINER_ID });
 
-    vchart.renderAsync();
+    vchart.renderSync();
   }
 ```
 
@@ -58,7 +58,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 ```
 
 ## 实例注册函数
@@ -76,9 +76,9 @@ vchart.renderAsync();
     const vchart = new VChart(json, { dom: CONTAINER_ID });
 
     // Instance registration function
-    vChart.registerFunction("labelFormat",this.labelFormat);
+    vchart.registerFunction("labelFormat",this.labelFormat);
 
-    vchart.renderAsync();
+    vchart.renderSync();
   }
 ```
 
@@ -116,5 +116,5 @@ const vchart = new VChart(spec, { dom: CONTAINER_ID });
 // Instance registration function
 vchart.registerFunction('labelFormat', labelFormat);
 
-vchart.renderAsync();
+vchart.renderSync();
 ```

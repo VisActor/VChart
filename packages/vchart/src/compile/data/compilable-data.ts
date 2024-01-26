@@ -43,10 +43,10 @@ export class CompilableData extends GrammarItem implements ICompilableData {
       product.values(data);
       if (!noRender) {
         // 将实际的 dataflow 推迟到下一次异步操作，以避免同步的数据更新内容被忽略
-        return this.getCompiler().renderAsync();
+        return this.getCompiler().renderNextTick();
       }
     }
-    return Promise.resolve();
+    return;
   }
 
   protected _compileProduct() {

@@ -54,8 +54,7 @@ import type { IModelEvaluateOption, IModelRenderOption } from '../../model/inter
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
 import { addVChartProperty } from '../../data/transforms/add-property';
-import type { ITrigger } from '../../interaction/interface';
-import { Trigger } from '../../interaction/trigger';
+import type { ISelectSpec } from '../../interaction/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
@@ -66,7 +65,7 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
-import type { ISeriesMarkAttributeContext } from '../../compile/mark';
+import { STATE_VALUE_ENUM, type ISeriesMarkAttributeContext } from '../../compile/mark';
 import {
   array,
   isEqual,
@@ -77,6 +76,7 @@ import {
   isFunction,
   isArray,
   isValidNumber,
+  isObject,
   minInArray,
   maxInArray
 } from '@visactor/vutils';
@@ -84,6 +84,8 @@ import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { baseSeriesMark } from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
+import type { EventType } from '@visactor/vgrammar-core';
+import { getDefaultInteractionConfigByMode } from '../../interaction/config';
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -97,14 +99,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   readonly transformerConstructor = BaseSeriesSpecTransformer as any;
 
   declare getSpecInfo: () => ISeriesSpecInfo;
-
-  protected _trigger!: ITrigger;
-  /**
-   * getTrigger
-   */
-  getTrigger() {
-    return this._trigger;
-  }
 
   protected declare _option: ISeriesOption;
 
@@ -284,20 +278,19 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     // 调整统计数据的创建时机，需要等待group创建完成
     this.initStatisticalData();
     this.event.emit(ChartEvent.afterInitData, { model: this });
-    // trigger
-    this.initTrigger();
     // mark
     this.initRootMark();
     this.initMark();
-
     const hasAnimation = isAnimationEnabledForSeries(this);
 
     this._initExtensionMark({ hasAnimation });
+
     this.initMarkStyle();
     this.initMarkState();
     if (hasAnimation) {
       this.initAnimation();
     }
+    this.initInteraction();
     this.afterInitMark();
 
     // event
@@ -696,10 +689,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 
-  protected _initExtensionMark(options: { hasAnimation: boolean }) {
+  protected _initExtensionMark(options: { hasAnimation: boolean; depend?: IMark[] }) {
     if (!this._spec.extensionMark) {
       return;
     }
+    const mainMarks = this.getMarksWithoutRoot();
+
+    options.depend = mainMarks;
+
     this._spec.extensionMark?.forEach((m, i) => {
       this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, options);
     });
@@ -710,7 +707,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     parentMark: null | IGroupMark,
     namePrefix: string,
     index: number,
-    options: { hasAnimation: boolean }
+    options: { hasAnimation: boolean; depend?: IMark[] }
   ) {
     const mark = this._createMark(
       { type: spec.type, name: `${namePrefix}_${index}` },
@@ -720,7 +717,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         markSpec: spec,
         parent: parentMark,
         dataView: false,
-        customShape: spec?.customShape
+        customShape: spec?.customShape,
+        componentType: spec.componentType,
+        depend: options.depend
       }
     ) as IGroupMark;
     if (!mark) {
@@ -769,17 +768,115 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   /** stack end */
 
   /** mark */
-  initTrigger() {
-    const triggerSpec = {
-      hover: this._spec.hover,
-      select: this._spec.select
-    };
-    const triggerOptions = {
-      ...this._option,
-      model: this,
-      interaction: this._region.interaction
-    };
-    this._trigger = new Trigger(triggerSpec, triggerOptions);
+
+  protected _parseDefaultInteractionConfig(mainMarks?: IMark[]) {
+    if (!mainMarks?.length) {
+      return [];
+    }
+
+    const defaultConfig = getDefaultInteractionConfigByMode(this._option.mode);
+    let finalHoverSpec = { ...defaultConfig?.hover };
+    let finalSelectSpec: ISelectSpec = { ...defaultConfig?.select };
+
+    const hoverSpec = this._spec.hover;
+    if (isBoolean(hoverSpec)) {
+      finalHoverSpec.enable = hoverSpec as boolean;
+    } else if (isObject(hoverSpec)) {
+      finalHoverSpec.enable = true;
+      finalHoverSpec = mergeSpec(finalHoverSpec, hoverSpec);
+    }
+
+    const selectSpec = this._spec.select;
+    if (isBoolean(selectSpec)) {
+      finalSelectSpec.enable = selectSpec as boolean;
+    } else if (isObject(selectSpec)) {
+      finalSelectSpec.enable = true;
+      finalSelectSpec = mergeSpec(finalSelectSpec, selectSpec);
+    }
+    const res = [];
+
+    if (finalHoverSpec.enable) {
+      res.push({
+        seriesId: this.id,
+        regionId: this._region.id,
+        selector: mainMarks.map(mark => `#${mark.getProductId()}`),
+        type: 'element-highlight',
+        trigger: finalHoverSpec.trigger as EventType,
+        triggerOff: finalHoverSpec.triggerOff as EventType,
+        blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
+        highlightState: STATE_VALUE_ENUM.STATE_HOVER
+      });
+    }
+
+    if (finalSelectSpec.enable) {
+      res.push({
+        type: 'element-select',
+        seriesId: this.id,
+        regionId: this._region.id,
+        selector: mainMarks.map(mark => `#${mark.getProductId()}`),
+        trigger: finalSelectSpec.trigger as EventType,
+        triggerOff: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
+        reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
+        state: STATE_VALUE_ENUM.STATE_SELECTED,
+        isMultiple: finalSelectSpec.mode === 'multiple'
+      });
+    }
+
+    return res;
+  }
+
+  protected _parseInteractionConfig(mainMarks?: IMark[]) {
+    const compiler = this.getCompiler();
+    if (!compiler) {
+      return;
+    }
+
+    const { interactions } = this._spec;
+    const res = this._parseDefaultInteractionConfig(mainMarks);
+
+    if (res && res.length) {
+      res.forEach(interaction => {
+        compiler.addInteraction(interaction);
+      });
+    }
+
+    if (interactions && interactions.length) {
+      interactions.forEach(interaction => {
+        const selectors: string[] = [];
+        if (interaction.markIds) {
+          this.getMarks().filter(mark => {
+            if (interaction.markIds.includes(mark.getProductId())) {
+              selectors.push(`#${mark.getProductId()}`);
+            }
+          });
+        } else if (interaction.markNames) {
+          this.getMarks().forEach(mark => {
+            if (interaction.markNames.includes(mark.name)) {
+              selectors.push(`#${mark.getProductId()}`);
+            }
+          });
+        } else if (mainMarks?.length) {
+          mainMarks.forEach(mark => {
+            selectors.push(`#${mark.getProductId()}`);
+          });
+        }
+
+        if (selectors.length) {
+          compiler.addInteraction({
+            ...interaction,
+            selector: selectors,
+            seriesId: this.id,
+            regionId: this._region.id
+          });
+        }
+      });
+    }
+  }
+
+  initInteraction() {
+    const marks = this.getMarksWithoutRoot();
+
+    this._parseInteractionConfig(marks);
   }
 
   initAnimation() {
@@ -892,14 +989,13 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** event */
   protected initEvent() {
-    this._trigger.init();
     this._data?.getDataView()?.target.addListener('change', this.viewDataUpdate.bind(this));
     this._viewDataStatistics?.target.addListener('change', this.viewDataStatisticsUpdate.bind(this));
   }
 
   protected _releaseEvent(): void {
     super._releaseEvent();
-    this._trigger.release();
+    this.getCompiler().removeInteraction(this.id);
   }
 
   /** event end */
@@ -1149,13 +1245,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       progressive,
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false,
-      customShape
+      customShape,
+      stateSort
     } = option;
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
       seriesId: this.id,
-      attributeContext: this._markAttributeContext
+      attributeContext: this._markAttributeContext,
+      componentType: option.componentType
     });
     if (isValid(m)) {
       this._marks.addMark(m, { name: markInfo.name });
@@ -1188,7 +1286,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       const spec = this.getSpec() || ({} as T);
 
       m.setMorph(morph);
-      m.setMorphKey(spec.morph?.morphKey || `${this._specIndex}`);
+      m.setMorphKey(spec.morph?.morphKey || `${this.getSpecIndex()}`);
       m.setMorphElementKey(spec.morph?.morphElementKey ?? option.defaultMorphElementKey);
 
       if (!isNil(progressive)) {
@@ -1201,6 +1299,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       if (customShape) {
         m.setCustomizedShapeCallback(customShape);
+      }
+
+      if (stateSort) {
+        m.setStateSortCallback(stateSort);
       }
 
       this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));
@@ -1288,4 +1390,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
+
+  protected _getRelatedComponentSpecInfo(specKey: string) {
+    const specIndex = this.getSpecIndex();
+    const relatedComponent = this._option
+      .getSpecInfo()
+      .component[specKey]?.filter(componentInfo => componentInfo.seriesIndexes.includes(specIndex));
+    return relatedComponent ?? [];
+  }
 }

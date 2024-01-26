@@ -5,6 +5,7 @@
 进度图是一种用于表达任务或活动的进度和状态的可视化图表。它通常以直观易懂的方式展示一个任务在完成过程中的百分比。为了满足不同场景下的可视化需求，VChart 向用户提供条形进度图和环形进度图两种图表形式。
 
 ## 条形进度图
+
 [\[配置项\]](../../../option/linearProgressChart)
 
 条形进度图是一种长条形的进度图，通常包括一个背景框和一个内部填充块，用来表示任务的进度和状态。在操作过程中，填充块会随着任务的完成而逐渐增加，直到到达百分之百的进度，以此来向用户展示任务的进度和完成情况。
@@ -49,7 +50,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window.vchart = vchart;
@@ -109,7 +110,7 @@ const spec = {
   }
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window.vchart = vchart;
@@ -139,7 +140,7 @@ const spec = {
   bandWidth: 50
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window.vchart = vchart;
@@ -199,7 +200,7 @@ const spec = {
   }
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window.vchart = vchart;
@@ -256,13 +257,14 @@ const spec = {
   }
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window.vchart = vchart;
 ```
 
 ## 环形进度图
+
 [\[配置项\]](../../../option/circularProgressChart)
 
 环形进度图是一种圆形的进度图，通常包括一个背景圆环和一个内部填充弧形块，用来表示任务的进度和状态。在操作过程中，填充弧形块会随着任务的完成而逐渐增加，直到到达百分之百的进度，以此来向用户展示任务的进度和完成情况。
@@ -308,7 +310,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window.vchart = vchart;
@@ -434,7 +436,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window['vchart'] = vchart;
@@ -468,7 +470,7 @@ const spec = {
 };
 
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync();
+vchart.renderSync();
 
 // 只为了方便控制台调试用，不要拷贝
 window.vchart = vchart;

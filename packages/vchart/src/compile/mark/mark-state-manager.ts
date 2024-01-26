@@ -264,16 +264,19 @@ export class MarkStateManager extends StateManager {
     return datum_v < domain[0] || datum_v > domain[domain.length - 1];
   }
 
-  updateLayoutState(noRender?: boolean): Promise<void> {
+  updateLayoutState(noRender?: boolean): void {
     (this._stateMap.markUpdateRank as number)++;
     return this.updateState({ markUpdateRank: this._stateMap.markUpdateRank }, noRender);
   }
 
-  compileState(product: IVGrammarMark) {
-    product.state({
-      callback: (datum: any, element: any) => {
-        return this.checkState(element, datum);
-      }
-    });
+  compileState(product: IVGrammarMark, stateSort?: (stateA: string, stateB: string) => number) {
+    (product as any).state(
+      {
+        callback: (datum: any, element: any) => {
+          return this.checkState(element, datum);
+        }
+      },
+      stateSort
+    );
   }
 }

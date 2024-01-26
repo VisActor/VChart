@@ -86,13 +86,6 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     }
   }
 
-  protected eventPos(markEventParams: BaseEventParams) {
-    return {
-      x: (markEventParams.event as any).viewX - this.getLayoutStartPoint().x,
-      y: (markEventParams.event as any).viewY - this.getLayoutStartPoint().y
-    };
-  }
-
   protected getContainer() {
     if (!this._container) {
       this._container = this._option?.globalInstance.getStage().find(node => node.name === 'root', true);

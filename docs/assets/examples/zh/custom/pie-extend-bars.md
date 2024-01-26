@@ -244,9 +244,8 @@ const drawJoint = instance => {
   });
 };
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderAsync().then(() => {
-  drawJoint(vchart);
-});
+vchart.renderSync();
+drawJoint(vchart);
 vchart.on('animationFinished', () => {
   drawJoint(vchart);
 });
