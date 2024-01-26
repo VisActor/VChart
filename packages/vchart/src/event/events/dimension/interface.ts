@@ -24,6 +24,8 @@ export interface IDimensionData {
   datum: Datum[];
   /** 图元所在的系列实例 */
   series: ISeries;
+  /** 该数据项的 hash 值 */
+  key?: string;
 }
 
 export type DimensionEventParams = BaseEventParams & {
