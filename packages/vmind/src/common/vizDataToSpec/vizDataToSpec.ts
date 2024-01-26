@@ -94,7 +94,7 @@ export const checkChartTypeAndCell = (chartType: string, cell: any, fieldInfo: S
       checkChannel(cell, 'y', 2);
       break;
     default:
-      console.warn('Unchecked Chart Type', chartType);
+      //console.warn('Unchecked Chart Type', chartType);
       break;
   }
   return true;
@@ -162,6 +162,5 @@ export const pipelineMap: { [chartType: string]: any } = {
 export const execPipeline = (src: any, pipes: Pipe[], context: Context) =>
   pipes.reduce((pre: any, pipe: Pipe) => {
     const result = pipe(pre, context);
-    // console.log(result);
     return result;
   }, src);

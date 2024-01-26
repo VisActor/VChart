@@ -1,6 +1,7 @@
 import { DataSet, DataView, csvParser, fold } from '@visactor/vdataset';
-import { DataItem, SimpleFieldInfo } from '../../typings';
+import { DataItem, DataType, SimpleFieldInfo } from '../../typings';
 import { getFieldInfoFromDataset } from './utils';
+import { isNil } from 'lodash';
 
 export const parseCSVWithVChart = (csvString: string) => {
   //Parse csv string to VChart Dataview so it can be directly used in VChart spec
@@ -24,10 +25,27 @@ export const getDataset = (csvString: string): { dataset: DataItem[]; columns: s
   return { dataset, columns };
 };
 
+/**
+ * convert number string to number in dataset
+ */
+const convertNumberField = (dataset: DataItem[], fieldInfo: SimpleFieldInfo[]) => {
+  const numberFields = fieldInfo
+    .filter(field => [DataType.INT, DataType.FLOAT].includes(field.type))
+    .map(field => field.fieldName);
+  dataset.forEach(d => {
+    numberFields.forEach(numberField => {
+      if (!isNil(d[numberField])) {
+        d[numberField] = Number(d[numberField]);
+      }
+    });
+  });
+  return dataset;
+};
+
 export const parseCSVData = (csvString: string): { fieldInfo: SimpleFieldInfo[]; dataset: DataItem[] } => {
   //parse the CSV string to get information about the fields(fieldInfo) and dataset object
   const { dataset, columns } = getDataset(csvString);
   const fieldInfo = getFieldInfoFromDataset(dataset, columns);
-
+  convertNumberField(dataset, fieldInfo);
   return { fieldInfo, dataset };
 };

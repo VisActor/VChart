@@ -5,6 +5,7 @@ import type { FFmpeg } from '@ffmpeg/ffmpeg';
 import { parseCSVDataWithGPT } from '../gpt/dataProcess';
 import { parseCSVData as parseCSVDataWithRule } from '../common/dataProcess';
 import { generateChartWithSkylark } from '../skylark/chart-generation';
+import { queryDatasetWithGPT } from '../gpt/dataProcess/query/queryDataset';
 
 class VMind {
   private _FPS = 30;
@@ -57,17 +58,42 @@ class VMind {
     userPrompt: string, //user's intent of visualization, usually aspect in data that they want to visualize
     fieldInfo: SimpleFieldInfo[],
     dataset: DataItem[],
+    enableDataQuery = true,
     colorPalette?: string[],
     animationDuration?: number
   ) {
     if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
-      return generateChartWithGPT(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
+      return generateChartWithGPT(
+        userPrompt,
+        fieldInfo,
+        dataset,
+        this._options,
+        enableDataQuery,
+        colorPalette,
+        animationDuration
+      );
     }
     if ([Model.SKYLARK, Model.SKYLARK2].includes(this._model)) {
       return generateChartWithSkylark(userPrompt, fieldInfo, dataset, this._options, colorPalette, animationDuration);
     }
     console.error('unsupported model in chart generation!');
     return { spec: undefined, time: undefined, dataSource: undefined, tokens: undefined } as any;
+  }
+
+  async dataQuery(
+    userPrompt: string, //user's intent of visualization, usually aspect in data that they want to visualize
+    fieldInfo: SimpleFieldInfo[],
+    dataset: DataItem[]
+  ) {
+    if ([Model.GPT3_5, Model.GPT4].includes(this._model)) {
+      return queryDatasetWithGPT(userPrompt, fieldInfo, dataset, this._options);
+    }
+    if ([Model.SKYLARK, Model.SKYLARK2].includes(this._model)) {
+      return { fieldInfo: [], dataset };
+    }
+    console.error('unsupported model in data query!');
+
+    return { fieldInfo: [], dataset };
   }
 
   async exportVideo(
