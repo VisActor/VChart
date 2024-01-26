@@ -290,7 +290,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     if (hasAnimation) {
       this.initAnimation();
     }
-    this.initInteraction();
+
+    if (!this._option.disableTriggerEvent) {
+      this.initInteraction();
+    }
     this.afterInitMark();
 
     // event
