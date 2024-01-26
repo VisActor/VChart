@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: in the case of multiple band axes in a chart, the same datum corresponds to multiple rows of dimension tooltip content, related #2148",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
