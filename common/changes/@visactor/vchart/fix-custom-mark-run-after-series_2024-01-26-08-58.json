@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: custom mark should run after all the series marks, fix #2156\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
