@@ -4,7 +4,7 @@ group: interaction
 title: 图例激活饼图扇区
 keywords: pieChart,comparison,composition,proportion,circle
 order: 42-4
-cover:
+cover: /vchart/preview/interaction-pie-chart-active-by-legend_1.9.0.gif
 option: pieChart
 ---
 

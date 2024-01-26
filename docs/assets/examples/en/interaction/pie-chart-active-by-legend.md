@@ -4,7 +4,7 @@ group: interaction
 title: Legend Trigger Pie Chart Sector Activation
 keywords: pieChart,comparison,composition,proportion,circle
 order: 42-4
-cover:
+cover: /vchart/preview/interaction-pie-chart-active-by-legend_1.9.0.gif
 option: pieChart
 ---
 

@@ -3,7 +3,7 @@ category: examples
 group: layout
 title: 行内元素对齐配置
 order: 37-3
-cover:
+cover: /vchart/preview/layout-align-self_1.9.0.png
 option: pieChart#layout
 ---
 

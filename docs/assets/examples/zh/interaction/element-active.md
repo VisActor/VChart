@@ -4,7 +4,7 @@ group: interaction
 title: 双轴图元素激活
 keywords: commonChart
 order: 42-0
-cover:
+cover: /vchart/preview/interaction-element-active_1.9.0.gif
 option: commonChart
 ---
 

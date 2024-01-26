@@ -4,7 +4,7 @@ group: interaction
 title: 轴标签触发高亮
 keywords: roseChart,comparison,composition,circle
 order: 42-7
-cover:
+cover: /vchart/preview/interaction-rose-chart-highlight-by-name_1.9.0.gif
 option: roseChart,comparison,composition,circle
 ---
 

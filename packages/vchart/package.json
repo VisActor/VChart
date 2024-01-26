@@ -25,7 +25,7 @@
     "analyze-full": "BUNDLE_ANALYZE='full' bundle -f umd ",
     "analyze-simple": "BUNDLE_ANALYZE='simple' bundle -f umd",
     "dev": "bundle --clean -f es -w",
-    "build-cjs": "bundle --clean -f cjs",
+    "build-cjs": "bundle --clean -f cjs --ignorePostTasks",
     "compile": "tsc --noEmit",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser",
     "clear": "rm -rf build && rm -rf esm && rm -rf cjs",

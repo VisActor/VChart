@@ -3,7 +3,7 @@ category: examples
 group: customMark
 title: 定制状态排序
 order: 40-0
-cover:
+cover: /vchart/preview/custom-state-sort_1.9.0.gif
 option: lineChart#customMark
 ---
 

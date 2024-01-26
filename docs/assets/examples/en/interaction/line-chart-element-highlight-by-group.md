@@ -4,7 +4,7 @@ group: interaction
 title: Element Highlight by Group
 keywords: lineChart,comparison,trend,line,composition
 order: 42-3
-cover:
+cover: /vchart/preview/interaction-line-chart-element-highlight-by-group_1.9.0.gif
 option: lineChart
 ---
 
