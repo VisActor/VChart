@@ -15,7 +15,7 @@ export declare class CompilableData extends GrammarItem implements ICompilableDa
     getLatestData(): any;
     constructor(option: GrammarItemInitOption, dataView?: DataView);
     release(): void;
-    updateData(noRender?: boolean): Promise<any>;
+    updateData(noRender?: boolean): void;
     protected _compileProduct(): void;
     protected _initProduct(data: any[]): void;
     generateProductId(): string;

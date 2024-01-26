@@ -1,4 +1,4 @@
-import type { IView } from '@visactor/vgrammar-core';
+import type { InteractionSpec, IView } from '@visactor/vgrammar-core';
 import type { CompilerListenerParameters, CompilerModel, IGrammarItem, IRenderContainer, IRenderOption } from './interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
@@ -17,12 +17,17 @@ export declare class Compiler {
     protected _windowListeners: Map<(...args: any[]) => any, EventListener>;
     protected _canvasListeners: Map<(...args: any[]) => any, EventListener>;
     isInited: boolean;
-    isReleased: boolean;
+    private _isRunning;
+    private _nextRafId;
     protected _width: number;
     protected _height: number;
     protected _container: IRenderContainer;
     protected _option: IRenderOption;
     protected _model: CompilerModel;
+    protected _interactions: (InteractionSpec & {
+        seriesId?: number;
+        regionId?: number;
+    })[];
     getModel(): CompilerModel;
     private _compileChart;
     constructor(container: IRenderContainer, option: IRenderOption);
@@ -31,6 +36,7 @@ export declare class Compiler {
     getStage(): Stage | undefined;
     initView(): void;
     private _setCanvasStyle;
+    compileInteractions(): void;
     compile(ctx: {
         chart: IChart;
         vChart: VChart;
@@ -39,10 +45,10 @@ export declare class Compiler {
         chart: IChart;
         vChart: VChart;
     }, removeGraphicItems?: boolean): void;
-    renderAsync(morphConfig?: IMorphConfig): Promise<any>;
-    renderSync(morphConfig?: IMorphConfig): void;
+    renderNextTick(morphConfig?: IMorphConfig): void;
+    render(morphConfig?: IMorphConfig): void;
     updateViewBox(viewBox: IBoundsLike, reRender?: boolean): void;
-    resize(width: number, height: number, reRender?: boolean): this | Promise<any>;
+    resize(width: number, height: number, reRender?: boolean): void;
     setBackground(color: IColor): void;
     setSize(width: number, height: number): void;
     setViewBox(viewBox: IBoundsLike, reRender?: boolean): void;
@@ -54,6 +60,11 @@ export declare class Compiler {
     protected _releaseModel(): void;
     addGrammarItem(grammarItem: IGrammarItem): void;
     removeGrammarItem(grammarItem: IGrammarItem, reserveVGrammarModel?: boolean): void;
+    addInteraction(interaction: InteractionSpec & {
+        seriesId?: number;
+        regionId?: number;
+    }): void;
+    removeInteraction(seriesId: number): void;
     updateDepend(items?: IGrammarItem[]): boolean;
     private _getGlobalThis;
 }

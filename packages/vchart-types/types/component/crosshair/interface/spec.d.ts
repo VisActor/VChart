@@ -11,7 +11,8 @@ export interface ICrossHair extends IComponent {
 export type CrossHairTrigger = 'click' | 'hover' | ['click', 'hover'];
 export interface ICommonCrosshairSpec extends IComponentSpec {
     trigger?: CrossHairTrigger;
-    triggerOff?: CrossHairTrigger | 'none';
+    triggerOff?: CrossHairTrigger | 'none' | number;
+    lockAfterClick?: boolean;
     labelZIndex?: number;
     gridZIndex?: number;
 }

@@ -10,6 +10,7 @@ export interface IIndicatorItemSpec {
     autoLimit?: boolean;
     autoFit?: boolean;
     fitPercent?: number;
+    fitStrategy?: 'default' | 'inscribed';
     style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible' | 'text'> & {
         type?: 'text' | 'rich' | 'html';
         text?: string | string[] | number | number[] | IRichTextCharacter[];

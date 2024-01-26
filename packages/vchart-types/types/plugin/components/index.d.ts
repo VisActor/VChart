@@ -1,4 +1,4 @@
-import { AxisSyncPlugin } from './axis-sync-plugin/';
+import { AxisSyncPlugin } from './axis-sync';
 declare const _default: {
     AxisSyncPlugin: typeof AxisSyncPlugin;
 };

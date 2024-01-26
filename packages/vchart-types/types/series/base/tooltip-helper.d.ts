@@ -1,5 +1,5 @@
 import type { TooltipHandlerParams } from '../../component/tooltip/interface';
-import type { ITooltipPattern, ShapeType, TooltipActiveType } from '../../typings';
+import type { IToolTipLinePattern, ITooltipPattern, ShapeType, TooltipActiveType } from '../../typings';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
 import { BaseTooltipHelper } from '../../model/tooltip-helper';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
@@ -26,4 +26,6 @@ export declare class BaseSeriesTooltipHelper extends BaseTooltipHelper implement
     titleValueCallback: (datum: Datum, params?: TooltipHandlerParams) => string | undefined;
     getDefaultTooltipPattern(activeType: TooltipActiveType, dimensionInfo?: IDimensionInfo[]): ITooltipPattern | null;
 }
+export declare const addExtraInfoToTooltipTitlePattern: <T>(pattern: ITooltipPattern['title'], extraInfo: T | ((line: IToolTipLinePattern) => T), overwrite?: boolean) => ITooltipPattern['title'] | undefined;
+export declare const addExtraInfoToTooltipContentPattern: <T>(pattern: ITooltipPattern['content'], extraInfo: T | ((line: IToolTipLinePattern) => T), overwrite?: boolean) => ITooltipPattern['content'] | undefined;
 export {};
