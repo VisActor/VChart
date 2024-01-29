@@ -9,7 +9,13 @@ import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark'
 import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
-import type { IRepeatType, TextAlignType, TextBaselineType, IRichTextCharacter } from '@visactor/vrender-core';
+import type {
+  IRepeatType,
+  TextAlignType,
+  TextBaselineType,
+  IRichTextAttribute,
+  IGraphicStyle
+} from '@visactor/vrender-core';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
@@ -98,7 +104,6 @@ export type ConvertToMarkStyleSpec<T extends Record<string, any>> = {
 /**
  * border
  */
-
 export interface IBorder {
   distance: number | string;
   stroke?: string | IGradient;
@@ -183,6 +188,12 @@ export interface ICommonSpec {
    * 内边框
    */
   innerBorder?: IBorder;
+  /**
+   * @experimental
+   * @since 1.9.1
+   * html 浮层
+   */
+  html?: IMarkHtmlSpec;
 
   [key: string]: any;
 }
@@ -200,12 +211,7 @@ export interface IFillMarkSpec extends ICommonSpec {
   background?: string | HTMLImageElement | HTMLCanvasElement | null;
 }
 
-// export interface IFillImageMarkSpec {
-//   fillImage?: string;
-//   repeatX?: RepeatXYType;
-//   repeatY?: RepeatXYType;
-//   imageOrigin?: ImageOriginType;
-// }
+export type IMarkHtmlSpec = Partial<IGraphicStyle['html']>;
 
 export interface ISymbolMarkSpec extends IFillMarkSpec {
   dx?: number;
@@ -246,15 +252,9 @@ export interface IRuleMarkSpec extends ILineMarkSpec {
 
 export interface ITextMarkSpec extends IFillMarkSpec {
   /**
-   * 文字类型
-   * 可选，'html', 'rich', 'text'
-   * @default 'text'
-   */
-  type?: 'html' | 'rich' | 'text';
-  /**
    * 文字内容
    */
-  text?: StringOrNumber | string[] | IRichTextCharacter[] | Function;
+  text?: string | number | string[] | number[];
   /**
    * x 方向偏移
    */
@@ -304,8 +304,6 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    * @since 1.7.3
    */
   suffixPosition?: 'start' | 'end' | 'middle';
-  // TODO: 这些不是常规的文字mark属性，待确认需求背景
-  lineBreak?: string;
   /**
    * 下划线
    */
@@ -329,6 +327,10 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    */
   direction?: 'horizontal' | 'vertical';
 }
+
+export type IRichTextMarkSpec = IRichTextAttribute & IFillMarkSpec;
+
+export type IComposedTextMarkSpec = ITextMarkSpec | IRichTextMarkSpec;
 
 export type IPositionedTextMarkSpec = Omit<ITextMarkSpec, 'align' | 'textAlign' | 'baseline' | 'textBaseline'>;
 

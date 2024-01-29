@@ -2,6 +2,7 @@ import type { IComponent } from '../../interface';
 import type { ITextGraphicAttribute, IRichTextCharacter, RichTextWordBreak } from '@visactor/vrender-core';
 import type { IOrientType, IPadding, StringOrNumber } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
+import { ITextTypeConfig } from '../../../mark/interface';
 
 export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
   /**
@@ -20,9 +21,8 @@ export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
   text?: string | number | string[] | number[] | IRichTextCharacter[];
   /**
    * 主标题文本类型（默认类型为text）
-   * text, rich, html
    */
-  textType?: string;
+  textType?: ITextTypeConfig;
   /**
    * 副标题文本内容
    * - 支持富文本配置

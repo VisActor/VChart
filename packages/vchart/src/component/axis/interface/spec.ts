@@ -2,6 +2,7 @@ import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components'
 import type { IAnimationSpec } from '../../../animation/spec';
 import type {
   Datum,
+  IComponentFormatMethod,
   IPadding,
   IRectMarkSpec,
   IRuleMarkSpec,
@@ -261,7 +262,7 @@ export interface ILabel extends IAxisItem<ITextMarkSpec> {
    * @param datum 图形数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: Datum) => string | string[] | IRichTextCharacter[];
+  formatMethod?: IComponentFormatMethod<[text: string | string[], datum?: Datum]>;
   /** 标签同 tick 之间的间距 */
   space?: number;
   /**

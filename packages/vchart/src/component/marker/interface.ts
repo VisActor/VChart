@@ -1,10 +1,17 @@
 import type { IPadding } from '@visactor/vutils';
 import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
-import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
+import type {
+  IComponentFormatMethod,
+  IComposedTextMarkSpec,
+  IRectMarkSpec,
+  ISymbolMarkSpec,
+  StringOrNumber
+} from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
 import type { IOptionAggrField, IOptionSeries } from '../../data/transforms/aggregation';
+import { ITextTypeConfig } from '../../mark/interface';
 
 export type OffsetPoint = {
   /**
@@ -127,29 +134,29 @@ export type IMarkerLabelWithoutRefSpec = {
      */
     style?: Omit<IRectMarkSpec, 'visible'>;
   };
+  /** @deprecated 统一使用 'textType' */
+  type?: ITextTypeConfig;
   /**
-   * 文本类型：text, rich, html
+   * 文本类型：text, rich
+   * @since 1.9.1
    */
-  type?: 'text' | 'rich' | 'html';
+  textType?: ITextTypeConfig;
   /**
    * 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
-   * 支持富文本内容, 如textConfig, html, 设置富文本时要配置type类型为'rich'或'html'
+   * 支持富文本内容 textConfig，设置富文本时要配置 type 类型为 'rich'
    */
-  text?: string | string[] | number | number[] | IRichTextCharacter[];
+  text?: string | number | StringOrNumber[] | IRichTextCharacter[];
   /**
    * label文本 - 文本格式化
    * @param markData 组成标注的数据
    * @param seriesData 标注关联的数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (
-    markData: Datum[],
-    seriesData: Datum[]
-  ) => string | string[] | number | number[] | IRichTextCharacter[];
+  formatMethod?: IComponentFormatMethod<[markData: Datum[], seriesData: Datum[]]>;
   /**
    * label文本 - 文本样式
    */
-  style?: Omit<ITextMarkSpec, 'visible'>;
+  style?: Omit<IComposedTextMarkSpec, 'visible'>;
 
   /**
    * label文本 - 文本前 mark 图元
