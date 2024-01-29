@@ -84,6 +84,11 @@ const spec = {
 };
 
 // 创建 vchart 实例
+
+/**
+ * 说明：cdn 方式引入的时候，VChart 的引用方式需要注意：
+ * const vchart = new VChart.default(spec, { dom: 'chart' });
+ */
 const vchart = new VChart(spec, { dom: 'chart' });
 // 绘制
 vchart.renderSync();
@@ -110,6 +115,10 @@ const spec = {
   yField: 'sales'
 };
 
+/**
+ * 说明：cdn 方式引入的时候，VChart 的引用方式需要注意：
+ * const vchart = new VChart.default(spec, { dom: 'chart' });
+ */
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderSync();
 ```
