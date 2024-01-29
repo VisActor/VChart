@@ -1,11 +1,11 @@
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
-import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
+import type { IFormatMethod, IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { ISymbolMarkSpec, IRuleMarkSpec, ITextMarkSpec, ConvertToMarkStyleSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface/type';
 
 interface ISequenceLabel {
   visible?: boolean;
-  formatMethod?: (text: string | string[], datum?: any) => string | string[];
+  formatMethod?: IFormatMethod<[text: string | string[], datum?: any]>;
   style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible'>;
 }
 

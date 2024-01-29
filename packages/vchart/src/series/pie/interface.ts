@@ -203,7 +203,8 @@ export interface IArcLabelSpec extends ILabelSpec {
    * @default 6
    */
   layoutArcGap?: number;
-
+  /** 中心点偏移距离 */
+  centerOffset?: number;
   /** 标签文字样式 */
   style?: ITextMarkSpec;
   /** 标签引导线样式 */

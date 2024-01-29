@@ -1,20 +1,29 @@
 import { Factory } from './../core/factory';
-import type { ITextMarkSpec } from '../typings/visual';
+import type { IComposedTextMarkSpec, ITextMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IMarkRaw, IMarkStyle } from './interface';
+import type { IMarkOption, IMarkRaw, IMarkStyle, ITextTypeConfig } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
-import { GrammarMarkType, registerRichTextGraphic, registerTextGraphic } from '@visactor/vgrammar-core';
-import type { IGroupMark } from '@visactor/vgrammar-core';
+import { registerRichTextGraphic, registerTextGraphic } from '@visactor/vgrammar-core';
+import { IMarkSpec } from '../typings';
 
-export type ITextMark = IMarkRaw<ITextMarkSpec>;
+// export type ITextMark = IMarkRaw<ITextMarkSpec>;
+export type ITextMark = IMarkRaw<IComposedTextMarkSpec>;
 
-export class TextMark extends BaseMark<ITextMarkSpec> implements ITextMark {
+export type ITextSpec<T> = IMarkSpec<T> & { textType?: ITextTypeConfig };
+
+export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMark {
   static readonly type = MarkTypeEnum.text;
   readonly type = TextMark.type;
 
+  protected _textType?: 'text' | 'rich';
+
+  constructor(name: string, option: IMarkOption) {
+    super(name, option);
+  }
+
   protected _getDefaultStyle() {
-    const defaultStyle: IMarkStyle<ITextMarkSpec> = {
+    const defaultStyle: IMarkStyle<IComposedTextMarkSpec> = {
       ...super._getDefaultStyle(),
       // TODO: 删除后会有显示问题，待排查
       angle: 0,
@@ -25,19 +34,18 @@ export class TextMark extends BaseMark<ITextMarkSpec> implements ITextMark {
     return defaultStyle;
   }
 
-  protected _initProduct(group?: string | IGroupMark) {
-    const view = this.getVGrammarView();
-
-    // 声明语法元素
-    const id = this.getProductId();
-
-    if (this.getStyle('textType') === 'rich') {
-      this._product = view.mark(GrammarMarkType.richtext as GrammarMarkType, group ?? view.rootMark).id(id);
-    } else {
-      this._product = view.mark(GrammarMarkType.text as GrammarMarkType, group ?? view.rootMark).id(id);
+  initStyleWithSpec(spec: ITextSpec<IComposedTextMarkSpec>, key?: string) {
+    super.initStyleWithSpec(spec, key);
+    if (spec.textType) {
+      this._textType = spec.textType;
     }
+  }
 
-    this._compiledProductId = id;
+  compileEncode() {
+    super.compileEncode();
+    if (this._textType === 'rich') {
+      this._product.encodeState('group', { textType: this._textType });
+    }
   }
 }
 

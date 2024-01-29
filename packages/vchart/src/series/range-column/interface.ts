@@ -1,6 +1,6 @@
 import type { IBarSeriesSpec } from '../bar/interface';
 import type { ICartesianSeriesTheme } from '../cartesian/interface';
-import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
+import type { IFormatMethod, IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IPositionedTextMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { RangeColumnAppearPreset } from './animation';
@@ -60,7 +60,7 @@ export interface IRangeColumnSeriesSpec
        * @param datum 文本对应的数据记录
        * @returns 格式化后的文本
        */
-      formatMethod?: (text: string | string[], datum?: any) => string | string[];
+      formatMethod?: IFormatMethod<[text: string | string[], datum?: any]>;
     };
     /** 最大值标签 */
     [SeriesMarkNameEnum.maxLabel]?: IMarkSpec<IPositionedTextMarkSpec> & {
@@ -76,7 +76,7 @@ export interface IRangeColumnSeriesSpec
        * @param datum 文本对应的数据记录
        * @returns 格式化后的文本
        */
-      formatMethod?: (text: string | string[], datum?: any) => string | string[];
+      formatMethod?: IFormatMethod<[text: string | string[], datum?: any]>;
     };
   };
 }

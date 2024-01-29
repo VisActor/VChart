@@ -54,7 +54,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
 import type { IMediaQuerySpec } from '..';
 
@@ -679,3 +679,35 @@ export interface IExtensionGroupMarkSpec extends ICustomMarkSpec<MarkTypeEnum.gr
    */
   children?: ICustomMarkSpec<EnableMarkType>[];
 }
+
+/** 纯文本类型的 formatMethod */
+export type ITextFormatMethod<T extends any[]> = (...args: T) => string | number | string[] | number[];
+
+export type IRichTextFormatMethodInComponent<T extends any[]> = (...args: T) => IRichTextCharacter[];
+export type IRichTextFormatMethod<T extends any[]> = (...args: T) =>
+  | IRichTextCharacter[]
+  | {
+      type: 'rich';
+      text: IRichTextCharacter[];
+    };
+
+// html 暂时作为图元属性对外使用，暂不支持 format 为 html 的能力
+export type IHTmlFormatMethodInComponent<T extends any[]> = (...args: T) => string;
+export type IHtmlTextFormatMethod<T extends any[]> = (...args: T) =>
+  | string
+  | {
+      type: 'html';
+      text: string;
+    };
+/**
+ * 常规 text.formatMethod 支持返回文字字符串，或统一的对象配置
+ * （这里特指由 vgrammar 代理的 text 图元）
+ */
+export type IFormatMethod<T extends any[]> = (
+  ...args: T
+) => ReturnType<ITextFormatMethod<T>> | ReturnType<IRichTextFormatMethod<T>>;
+
+/**
+ * 组件 text.formatMethod 支持返回文字字符串，或 richtext.textConfig 配置。
+ */
+export type IComponentFormatMethod<T extends any[]> = ITextFormatMethod<T> | IRichTextFormatMethodInComponent<T>;
