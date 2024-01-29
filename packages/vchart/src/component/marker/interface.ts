@@ -143,9 +143,9 @@ export type IMarkerLabelWithoutRefSpec = {
   textType?: ITextTypeConfig;
   /**
    * 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
-   * 支持富文本内容 textConfig，设置富文本时要配置 type 类型为 'rich'
+   * 支持富文本内容 textConfig，设置富文本时要配置 textType 类型为 'rich'
    */
-  text?: string | number | StringOrNumber[] | IRichTextCharacter[];
+  text?: string | string[] | number | number[] | IRichTextCharacter[];
   /**
    * label文本 - 文本格式化
    * @param markData 组成标注的数据
