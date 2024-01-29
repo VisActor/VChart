@@ -4,7 +4,7 @@ group: waterfall
 title: 分解瀑布图
 keywords: waterfall,comparison,distribution,rectangle
 order: 18-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/collect-waterfall.png
+cover: /vchart/preview/waterfall-collect-waterfall_1.9.0.png
 option: waterfallChart
 ---
 

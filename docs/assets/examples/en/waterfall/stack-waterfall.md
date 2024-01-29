@@ -4,7 +4,7 @@ group: waterfall
 title: Stacked Waterfall Chart
 keywords: waterfall, comparison, distribution, rectangle
 order: 18-3
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/waterfall/stack-waterfall.png
+cover: /vchart/preview/waterfall-stack-waterfall_1.9.0.png
 option: waterfallChart
 ---
 
