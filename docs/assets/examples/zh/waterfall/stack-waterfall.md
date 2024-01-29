@@ -24,19 +24,19 @@ const spec = {
   data: {
     id: 'id0',
     values: [
-      { x: 'First quarter', y: 10954, type: 'primary industry' },
-      { x: 'First quarter', y: 106187, type: 'Secondary industry' },
-      { x: 'First quarter', y: 153037, type: 'tertiary industry' },
-      { x: 'Second quarter', y: 18183, type: 'Primary industry' },
-      { x: 'Second quarter', y: 122450, type: 'Secondary industry' },
-      { x: 'second quarter', y: 151831, type: 'tertiary industry' },
+      { x: 'First Quarter', y: 10954, type: 'Primary Industry' },
+      { x: 'First Quarter', y: 106187, type: 'Secondary Industry' },
+      { x: 'First Quarter', y: 153037, type: 'Tertiary Industry' },
+      { x: 'Second Quarter', y: 18183, type: 'Primary Industry' },
+      { x: 'Second Quarter', y: 122450, type: 'Secondary Industry' },
+      { x: 'Second Quarter', y: 151831, type: 'Tertiary Industry' },
       { x: 'Third Quarter', y: 25642, type: 'Primary Industry' },
       { x: 'Third Quarter', y: 121553, type: 'Secondary Industry' },
-      { x: 'third quarter', y: 160432, type: 'tertiary industry' },
-      { x: 'fourth quarter', y: 33497, type: 'primary industry' },
+      { x: 'Third Quarter', y: 160432, type: 'Tertiary Industry' },
+      { x: 'Fourth Quarter', y: 33497, type: 'Primary Industry' },
       { x: 'Fourth Quarter', y: 132601, type: 'Secondary Industry' },
-      { x: 'fourth quarter', y: 169411, type: 'tertiary industry' },
-      { x: 'full year', total: true }
+      { x: 'Fourth Quarter', y: 169411, type: 'Tertiary Industry' },
+      { x: 'Full year', total: true }
     ]
   },
   legends: { visible: true, orient: 'bottom' },
