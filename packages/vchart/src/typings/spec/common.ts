@@ -691,14 +691,6 @@ export type IRichTextFormatMethod<T extends any[]> = (...args: T) =>
       text: IRichTextCharacter[];
     };
 
-// html 暂时作为图元属性对外使用，暂不支持 format 为 html 的能力
-export type IHTmlFormatMethodInComponent<T extends any[]> = (...args: T) => string;
-export type IHtmlTextFormatMethod<T extends any[]> = (...args: T) =>
-  | string
-  | {
-      type: 'html';
-      text: string;
-    };
 /**
  * 常规 text.formatMethod 支持返回文字字符串，或统一的对象配置
  * （这里特指由 vgrammar 代理的 text 图元）
@@ -706,8 +698,3 @@ export type IHtmlTextFormatMethod<T extends any[]> = (...args: T) =>
 export type IFormatMethod<T extends any[]> = (
   ...args: T
 ) => ReturnType<ITextFormatMethod<T>> | ReturnType<IRichTextFormatMethod<T>>;
-
-/**
- * 组件 text.formatMethod 支持返回文字字符串，或 richtext.textConfig 配置。
- */
-export type IComponentFormatMethod<T extends any[]> = ITextFormatMethod<T> | IRichTextFormatMethodInComponent<T>;

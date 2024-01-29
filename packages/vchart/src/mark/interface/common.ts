@@ -150,5 +150,3 @@ export interface IMarkOverlap {
    */
   markOverlap?: boolean;
 }
-
-export type ITextTypeConfig = 'text' | 'rich';

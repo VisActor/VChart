@@ -1,7 +1,7 @@
 import { Factory } from './../core/factory';
 import type { IComposedTextMarkSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IMarkOption, IMarkRaw, IMarkStyle, ITextTypeConfig } from './interface';
+import type { IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
 import { registerRichTextGraphic, registerTextGraphic } from '@visactor/vgrammar-core';
@@ -9,7 +9,7 @@ import { IMarkSpec } from '../typings/spec/common';
 
 export type ITextMark = IMarkRaw<IComposedTextMarkSpec>;
 
-export type ITextSpec<T> = IMarkSpec<T> & { textType?: ITextTypeConfig };
+export type ITextSpec<T> = IMarkSpec<T> & { textType?: 'rich' | 'text' };
 
 export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMark {
   static readonly type = MarkTypeEnum.text;
