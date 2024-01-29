@@ -1,8 +1,8 @@
+import { Datum, IRichTextFormatMethodInComponent, ITextFormatMethod } from '../../typings';
 import type { IPercent } from '../../typings/layout';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
 
 export interface IIndicatorItemSpec {
   /**
@@ -45,15 +45,27 @@ export interface IIndicatorItemSpec {
   /**
    * 文字样式
    */
-  style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible' | 'text'> & {
-    /** 文本类型：text, rich, html */
-    type?: 'text' | 'rich' | 'html';
-    /**
-     * 文本内容
-     * 支持富文本内容, 如textConfig, html
-     */
-    text?: string | string[] | number | number[] | IRichTextCharacter[];
-  };
+  style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible' | 'text'> &
+    (
+      | {
+          /** 文本类型 */
+          type?: 'text';
+          /**
+           * 文本内容
+           */
+          text: ITextFormatMethod<[activeDatum: Datum]> | ReturnType<ITextFormatMethod<[activeDatum: Datum]>>;
+        }
+      | {
+          /** 富文本类型*/
+          type: 'rich';
+          /**
+           * 富文本内容
+           */
+          text:
+            | IRichTextFormatMethodInComponent<[activeDatum: Datum]>
+            | ReturnType<IRichTextFormatMethodInComponent<[activeDatum: Datum]>>;
+        }
+    );
 }
 
 export type IIndicator = IComponent;
@@ -106,11 +118,11 @@ export interface IIndicatorSpec extends IComponentSpec {
   content?: IIndicatorItemSpec[] | IIndicatorItemSpec;
 }
 
-export interface IIndicatorItemTheme extends IIndicatorItemSpec {
+export interface IIndicatorItemTheme extends Omit<IIndicatorItemSpec, 'style'> {
   style?: Omit<ITextMarkSpec, 'visible'>;
 }
 
-export interface IIndicatorTheme extends IIndicatorSpec {
+export interface IIndicatorTheme extends Omit<IIndicatorSpec, 'content' | 'title'> {
   /**
    * 指标卡标题文字配置
    */

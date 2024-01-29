@@ -1,10 +1,9 @@
 import type { IComponent } from '../../interface';
 import type { ITextGraphicAttribute, IRichTextCharacter, RichTextWordBreak } from '@visactor/vrender-core';
-import type { IOrientType, IPadding, StringOrNumber } from '../../../typings';
+import type { IOrientType, IPadding } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
-import { ITextTypeConfig } from '../../../mark/interface';
 
-export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
+interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
   /**
    * 是否显示标题
    */
@@ -14,25 +13,6 @@ export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
    * @default 'top'
    */
   orient?: IOrientType;
-  /**
-   * 主标题文本内容
-   * - 支持富文本配置
-   */
-  text?: string | number | string[] | number[] | IRichTextCharacter[];
-  /**
-   * 主标题文本类型（默认类型为text）
-   */
-  textType?: ITextTypeConfig;
-  /**
-   * 副标题文本内容
-   * - 支持富文本配置
-   */
-  subtext?: string | number | string[] | number[] | IRichTextCharacter[];
-  /**
-   * 副标题文本类型（默认类型为text）
-   * text, rich, html
-   */
-  subtextType?: string;
   /**
    * 标题左上角x坐标像素值
    */
@@ -163,6 +143,51 @@ export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
   } & Partial<ITextGraphicAttribute>;
 }
 
-export type Text = StringOrNumber;
+export type ITitleTextSpec =
+  | {
+      /**
+       * 主标题文本类型
+       */
+      textType?: 'text';
+      /**
+       * 主标题文本配置
+       */
+      text: string | number | string[] | number[];
+    }
+  | {
+      /**
+       * 主标题文本类型（默认类型为text）
+       */
+      textType: 'rich';
+      /**
+       * 主标题富文本内容
+       */
+      text: IRichTextCharacter[];
+    };
+
+export type ISubTitleTextSpec =
+  | {
+      /**
+       * 副标题文本类型
+       */
+      subtextType?: 'text';
+      /**
+       * 副标题文本内容
+       */
+      subtext: string | number | string[] | number[];
+    }
+  | {
+      /**
+       * 副标题文本类型
+       */
+      subtextType: 'rich';
+
+      /**
+       * 副标题富文本内容
+       */
+      subtext?: IRichTextCharacter[];
+    };
+
+export type ITitleSpec = ITitleSpecWithoutText & ITitleTextSpec & ISubTitleTextSpec;
 
 export type ITitle = IComponent;

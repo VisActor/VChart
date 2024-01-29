@@ -1,5 +1,14 @@
 import type { IPoint, IPolarOrientType } from '../../../../typings';
-import type { IBandAxisSpec, IDomainLine, ILinearAxisSpec, ITitle, ILabel, ICommonAxisSpec } from '../../interface';
+import type {
+  IBandAxisSpec,
+  IDomainLine,
+  ILinearAxisSpec,
+  ITitle,
+  ILabel,
+  ICommonAxisSpec,
+  ILabelType,
+  ITitleType
+} from '../../interface';
 import type { IPolarGrid } from './common';
 
 /** spec */
@@ -36,11 +45,11 @@ export type IPolarAxisCommonSpec = Omit<ICommonAxisSpec, 'center'> & {
   /**
    * 轴标签配置
    */
-  label?: ILabel;
+  label?: ILabel & ILabelType;
   /**
    * 轴标题配置
    */
-  title?: ITitle;
+  title?: ITitle & ITitleType;
   /**
    * 内半径（比例值，取值范围 0~1）
    */

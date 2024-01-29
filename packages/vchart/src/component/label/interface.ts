@@ -2,21 +2,20 @@ import type { BaseLabelAttrs } from '@visactor/vrender-components';
 import type {
   ConvertToMarkStyleSpec,
   Datum,
-  IComponentFormatMethod,
   IComposedTextMarkSpec,
-  IFormatMethod,
+  IRichTextFormatMethodInComponent,
+  ITextFormatMethod,
   ITextMarkSpec
 } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { ILabelMark } from '../../mark/label';
 import type { ISeries } from '../../series';
-import { ITextTypeConfig } from '../../mark/interface';
 
 export interface ILabelFormatMethodContext {
   series?: ISeries;
 }
 
-export interface ILabelSpec extends IComponentSpec {
+export interface ILabelSpecWithoutType extends IComponentSpec {
   /** 默认不显示标签 */
   visible?: boolean;
   /**
@@ -24,15 +23,6 @@ export interface ILabelSpec extends IComponentSpec {
    * @default false
    */
   interactive?: boolean;
-  /**
-   * 文本类型：text, rich,
-   * @since 1.7.0
-   */
-  textType?: ITextTypeConfig;
-  /**
-   * 格式化函数
-   */
-  formatMethod?: IComponentFormatMethod<[text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext]>;
   /**
    * 字符串模版
    * 用{}包裹变量名的字符串模版, 变量名取自数据属性值
@@ -79,6 +69,34 @@ export interface ILabelSpec extends IComponentSpec {
    */
   syncState?: boolean;
 }
+
+export type ILabelTypeSpec =
+  | {
+      /**
+       * 文本类型：text, rich,
+       * @since 1.7.0
+       */
+      textType?: 'text';
+      /**
+       * 格式化函数
+       */
+      formatMethod?: ITextFormatMethod<[text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext]>;
+    }
+  | {
+      /**
+       * 文本类型：text, rich,
+       * @since 1.7.0
+       */
+      textType: 'rich';
+      /**
+       * 格式化函数
+       */
+      formatMethod?: IRichTextFormatMethodInComponent<
+        [text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext]
+      >;
+    };
+
+export type ILabelSpec = ILabelSpecWithoutType & ILabelTypeSpec;
 
 type LabelStateStyle<T> = {
   hover?: T;
