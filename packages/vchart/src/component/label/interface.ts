@@ -25,13 +25,12 @@ export interface ILabelSpec extends IComponentSpec {
    */
   interactive?: boolean;
   /**
-   * @experimental
    * 文本类型：text, rich,
+   * @since 1.7.0
    */
   textType?: ITextTypeConfig;
   /**
    * 格式化函数
-   * @experimental 支持返回值为富文本 或 html 内容, 如textConfig, html string
    */
   formatMethod?: IComponentFormatMethod<[text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext]>;
   /**
