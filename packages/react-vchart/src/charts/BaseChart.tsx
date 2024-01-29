@@ -134,7 +134,9 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
   const renderChart = () => {
     if (chartContext.current.chart) {
-      chartContext.current.chart.renderSync();
+      chartContext.current.chart.renderSync({
+        reuse: false
+      });
       handleChartRender();
     }
   };
