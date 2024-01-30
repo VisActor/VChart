@@ -174,13 +174,13 @@ export type ISubTitleTextSpec =
       /**
        * 副标题文本内容
        */
-      subtext: string | number | string[] | number[];
+      subtext?: string | number | string[] | number[];
     }
   | {
       /**
        * 副标题文本类型
        */
-      subtextType: 'rich';
+      subtextType?: 'rich';
 
       /**
        * 副标题富文本内容

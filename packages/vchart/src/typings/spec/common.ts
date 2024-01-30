@@ -45,7 +45,7 @@ import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
 import type { IMorphSeriesSpec } from '../../animation/spec';
 import type { IPlayer } from '../../component/player';
-import type { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
+import { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
 import type { IDataZoomSpec, IScrollBarSpec } from '../../component/data-zoom';
 import type { ICrosshairSpec } from '../../component/crosshair/interface';
 import type { ITheme } from '../../theme';
@@ -56,7 +56,7 @@ import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
-import type { IMediaQuerySpec } from '..';
+import type { IComposedTextMarkSpec, IMediaQuerySpec } from '..';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -613,13 +613,13 @@ export interface IPerformanceHook {
   afterVRenderDraw?: () => void;
 }
 
-export type IBuildinMarkSpec = {
+export type IBuiltInMarkSpec = {
   [MarkTypeEnum.group]: IGroupMarkSpec;
 
   [MarkTypeEnum.symbol]: ISymbolMarkSpec;
   [MarkTypeEnum.rule]: IRuleMarkSpec;
   [MarkTypeEnum.line]: ILineMarkSpec;
-  [MarkTypeEnum.text]: ITextMarkSpec;
+  [MarkTypeEnum.text]: IComposedTextMarkSpec;
   [MarkTypeEnum.rect]: IRectMarkSpec;
   [MarkTypeEnum.rect3d]: IRect3dMarkSpec;
   [MarkTypeEnum.image]: IImageMarkSpec;
@@ -634,8 +634,9 @@ export type IBuildinMarkSpec = {
   [MarkTypeEnum.progressArc]: IProgressArcMarkSpec;
   [MarkTypeEnum.ripple]: IRippleMarkSpec;
 };
-export type EnableMarkType = keyof IBuildinMarkSpec;
-export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {
+export type EnableMarkType = keyof IBuiltInMarkSpec;
+
+export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuiltInMarkSpec[T]> {
   type: T;
   /**
    * 关联的数据索引
