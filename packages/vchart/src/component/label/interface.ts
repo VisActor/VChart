@@ -1,12 +1,5 @@
 import type { BaseLabelAttrs } from '@visactor/vrender-components';
-import type {
-  ConvertToMarkStyleSpec,
-  Datum,
-  IComposedTextMarkSpec,
-  IRichTextFormatMethodInComponent,
-  ITextFormatMethod,
-  ITextMarkSpec
-} from '../../typings';
+import type { ConvertToMarkStyleSpec, Datum, IComposedTextMarkSpec, IFormatMethod, ITextMarkSpec } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { ILabelMark } from '../../mark/label';
 import type { ISeries } from '../../series';
@@ -15,7 +8,7 @@ export interface ILabelFormatMethodContext {
   series?: ISeries;
 }
 
-export interface ILabelSpecWithoutType extends IComponentSpec {
+export interface ILabelSpec extends IComponentSpec {
   /** 默认不显示标签 */
   visible?: boolean;
   /**
@@ -23,6 +16,17 @@ export interface ILabelSpecWithoutType extends IComponentSpec {
    * @default false
    */
   interactive?: boolean;
+  /**
+   * 文本类型：text, rich,
+   * @since 1.7.0
+   * @deprecated
+   */
+  textType?: 'text' | 'rich';
+  /**
+   * 格式化函数
+   * @since 1.9.1 支持返回结构 `{type:'rich', text: [{text:'some text', fill:'black', fontSize: 20}]}
+   */
+  formatMethod?: IFormatMethod<[text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext]>;
   /**
    * 字符串模版
    * 用{}包裹变量名的字符串模版, 变量名取自数据属性值
@@ -70,34 +74,6 @@ export interface ILabelSpecWithoutType extends IComponentSpec {
   syncState?: boolean;
 }
 
-export type ILabelTypeSpec =
-  | {
-      /**
-       * 文本类型：text, rich,
-       * @since 1.7.0
-       */
-      textType?: 'text';
-      /**
-       * 格式化函数
-       */
-      formatMethod?: ITextFormatMethod<[text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext]>;
-    }
-  | {
-      /**
-       * 文本类型：text, rich,
-       * @since 1.7.0
-       */
-      textType: 'rich';
-      /**
-       * 格式化函数
-       */
-      formatMethod?: IRichTextFormatMethodInComponent<
-        [text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext]
-      >;
-    };
-
-export type ILabelSpec = ILabelSpecWithoutType & ILabelTypeSpec;
-
 type LabelStateStyle<T> = {
   hover?: T;
   hover_reverse?: T;
@@ -107,7 +83,7 @@ type LabelStateStyle<T> = {
 
 export type ITotalLabelSpec = Pick<
   ILabelSpec,
-  'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state'
+  'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType'
 >;
 
 export interface ITotalLabelTheme

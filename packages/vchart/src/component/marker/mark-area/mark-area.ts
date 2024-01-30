@@ -152,8 +152,9 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
         label: {
           ...this._markerComponent.attribute?.label,
           text: this._spec.label.formatMethod
-            ? this._spec.label.formatMethod(dataPoints, seriesData)
-            : (this._markerComponent.attribute?.label?.text as any) // FIXME: 富文本类型问题
+            ? // type error here will be fixed in components
+              (this._spec.label.formatMethod(dataPoints, seriesData) as any)
+            : this._markerComponent.attribute?.label?.text
         },
         limitRect,
         dx: this._layoutOffsetX,

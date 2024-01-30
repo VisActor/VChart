@@ -1,4 +1,4 @@
-import { Datum, IRichTextFormatMethodInComponent, ITextFormatMethod } from '../../typings';
+import { Datum, IFormatMethod } from '../../typings';
 import type { IPercent } from '../../typings/layout';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponentSpec } from '../base/interface';
@@ -45,27 +45,17 @@ export interface IIndicatorItemSpec {
   /**
    * 文字样式
    */
-  style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible' | 'text'> &
-    (
-      | {
-          /** 文本类型 */
-          type?: 'text';
-          /**
-           * 文本内容
-           */
-          text: ITextFormatMethod<[activeDatum: Datum]> | ReturnType<ITextFormatMethod<[activeDatum: Datum]>>;
-        }
-      | {
-          /** 富文本类型*/
-          type: 'rich';
-          /**
-           * 富文本内容
-           */
-          text:
-            | IRichTextFormatMethodInComponent<[activeDatum: Datum]>
-            | ReturnType<IRichTextFormatMethodInComponent<[activeDatum: Datum]>>;
-        }
-    );
+  style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible' | 'text'> & {
+    /**
+     * 文本类型
+     * @deprecated
+     * */
+    type?: 'text' | 'rich';
+    text?:
+      | IFormatMethod<[activeDatum: Datum]>
+      | ITextMarkSpec['text']
+      | ReturnType<IFormatMethod<[activeDatum: Datum]>>;
+  };
 }
 
 export type IIndicator = IComponent;

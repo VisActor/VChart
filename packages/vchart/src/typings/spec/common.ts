@@ -682,15 +682,16 @@ export interface IExtensionGroupMarkSpec extends ICustomMarkSpec<MarkTypeEnum.gr
 }
 
 /** 纯文本类型的 formatMethod */
-export type ITextFormatMethod<T extends any[]> = (...args: T) => string | number | string[] | number[];
+export type ITextFormatMethod<T extends any[]> = (
+  ...args: T
+) => ITextMarkSpec['text'] | { type: 'text'; text: ITextMarkSpec['text'] };
 
-export type IRichTextFormatMethodInComponent<T extends any[]> = (...args: T) => IRichTextCharacter[];
 export type IRichTextFormatMethod<T extends any[]> = (...args: T) =>
-  | IRichTextCharacter[]
   | {
       type: 'rich';
       text: IRichTextCharacter[];
-    };
+    }
+  | IRichTextCharacter[];
 
 /**
  * 常规 text.formatMethod 支持返回文字字符串，或统一的对象配置

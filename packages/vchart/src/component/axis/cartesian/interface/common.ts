@@ -6,10 +6,8 @@ import type {
   ICommonAxisSpec,
   IDomainLine,
   ILabel,
-  ILabelType,
   ITickCalculationCfg,
-  ITitle,
-  ITitleType
+  ITitle
 } from '../../interface';
 import type { ITextMarkSpec, StringOrNumber } from '../../../../typings';
 
@@ -48,53 +46,51 @@ export type ICartesianDomainLineSpec = {
 };
 export type ICartesianDomainLine = IDomainLine & ICartesianDomainLineSpec;
 
-export type ICartesianTitle = ITitle &
-  ITitleType & {
-    /**
-     * 标题是否根据轴方向自动渲染，生效于左右纵轴。
-     * 默认为 true，表现为左轴标题整体旋转 -90 度，右轴标题整体旋转为 90 度。
-     * **如果需要单独在 `textStyle` 中配置文本的 angle 的话，建议将该属性设置为 false。**
-     * @default true
-     */
-    autoRotate?: boolean;
-    /**
-     * 标题朝向，默认朝外(坐标线包围盒外部)
-     * @default false
-     */
-    inside?: boolean;
-  };
+export type ICartesianTitle = ITitle & {
+  /**
+   * 标题是否根据轴方向自动渲染，生效于左右纵轴。
+   * 默认为 true，表现为左轴标题整体旋转 -90 度，右轴标题整体旋转为 90 度。
+   * **如果需要单独在 `textStyle` 中配置文本的 angle 的话，建议将该属性设置为 false。**
+   * @default true
+   */
+  autoRotate?: boolean;
+  /**
+   * 标题朝向，默认朝外(坐标线包围盒外部)
+   * @default false
+   */
+  inside?: boolean;
+};
 
-export type ICartesianLabel = ILabel &
-  ILabelType & {
-    /**
-     * If labels at the beginning or end of the axis should be aligned flush with the scale range.
-     * 坐标轴首尾文字向内收缩
-     * @default false
-     */
-    flush?: boolean;
-    // /**
-    //  * 第一个坐标轴文字是否显示。默认根据标签重叠策略自动判定。
-    //  * @default null
-    //  */
-    // firstVisible?: boolean | null;
-    /**
-     * `sampling` 开启时生效。
-     * 最后一个坐标轴文字是否显示。默认根据标签重叠策略自动判定。
-     * @default null
-     */
-    lastVisible?: boolean | null;
-    /**
-     * label 相对于容器整体的对齐方式
-     * - `top`：整体向上对齐（垂直方向）
-     * - `middle`：整体居中对齐（垂直方向）
-     * - `bottom`：整体向下对齐（垂直方向）
-     * - `left`：整体向左对齐（水平方向）
-     * - `center`：整体居中对齐（水平方向）
-     * - `right`：整体向右对齐（水平方向）
-     * @since 1.3.0
-     */
-    containerAlign?: 'left' | 'right' | 'center' | 'top' | 'bottom' | 'middle';
-  } & AxisLabelOverlap;
+export type ICartesianLabel = ILabel & {
+  /**
+   * If labels at the beginning or end of the axis should be aligned flush with the scale range.
+   * 坐标轴首尾文字向内收缩
+   * @default false
+   */
+  flush?: boolean;
+  // /**
+  //  * 第一个坐标轴文字是否显示。默认根据标签重叠策略自动判定。
+  //  * @default null
+  //  */
+  // firstVisible?: boolean | null;
+  /**
+   * `sampling` 开启时生效。
+   * 最后一个坐标轴文字是否显示。默认根据标签重叠策略自动判定。
+   * @default null
+   */
+  lastVisible?: boolean | null;
+  /**
+   * label 相对于容器整体的对齐方式
+   * - `top`：整体向上对齐（垂直方向）
+   * - `middle`：整体居中对齐（垂直方向）
+   * - `bottom`：整体向下对齐（垂直方向）
+   * - `left`：整体向左对齐（水平方向）
+   * - `center`：整体居中对齐（水平方向）
+   * - `right`：整体向右对齐（水平方向）
+   * @since 1.3.0
+   */
+  containerAlign?: 'left' | 'right' | 'center' | 'top' | 'bottom' | 'middle';
+} & AxisLabelOverlap;
 
 export interface ILinearAxis extends IAxis {
   readonly zero: boolean;
