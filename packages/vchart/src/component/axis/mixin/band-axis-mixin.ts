@@ -161,32 +161,54 @@ export class BandAxisMixin {
   protected getLabelItems(length: number) {
     const labelItems: Dict<any>[][] = [];
     let preData: any[] = [];
-    this._tickData.forEach((eachTickData, index) => {
-      const latestData = eachTickData.getLatestData();
-      if (latestData && latestData.length) {
+
+    this._scales.forEach((scale, index) => {
+      // 通过名称查找对应的 tickData
+      const tickData = this._tickData.find(child => {
+        const dataViewName = child.getDataView().name as string;
+        const splitName = dataViewName.split('_');
+
+        return splitName[splitName.length - 1] === `${index}`;
+      });
+
+      // 因为多层级标签会依赖上一层标签的分组值定位，所以如果上一层标签没有内容，那么就直接获取 bandScale 的 domain()
+      const isTickDataHaveData = tickData?.getLatestData()?.length;
+      const ticks: string[] = isTickDataHaveData
+        ? tickData.getLatestData().map((obj: Datum) => obj.value)
+        : scale.domain();
+      if (ticks && ticks.length) {
         if (preData && preData.length) {
           const currentLabelItems: any[] = [];
           const curData: any[] = [];
           preData.forEach(value => {
-            latestData.forEach((obj: Datum) => {
-              const values = array(value).concat(obj.value);
+            ticks.forEach(tick => {
+              const values = array(value).concat(tick);
               curData.push(values);
-              const axisItem = getAxisItem(obj.value, this._getNormalizedValue(values, length));
 
-              currentLabelItems.push(axisItem);
+              if (isTickDataHaveData) {
+                const axisItem = getAxisItem(tick, this._getNormalizedValue(values, length));
+                currentLabelItems.push(axisItem);
+              }
             });
           });
-          labelItems.push(currentLabelItems.filter((entry: AxisItem) => entry.value >= 0 && entry.value <= 1));
+          if (isTickDataHaveData) {
+            labelItems.push(currentLabelItems.filter((entry: AxisItem) => entry.value >= 0 && entry.value <= 1));
+          }
           preData = curData;
         } else {
-          labelItems.push(
-            latestData
-              .map((obj: Datum) => {
-                preData.push(obj.value);
-                return getAxisItem(obj.value, this._getNormalizedValue([obj.value], length));
-              })
-              .filter((entry: AxisItem) => entry.value >= 0 && entry.value <= 1)
-          );
+          ticks.forEach(tick => {
+            preData.push(tick);
+          });
+          if (isTickDataHaveData) {
+            labelItems.push(
+              tickData
+                .getLatestData()
+                .map((obj: Datum) => {
+                  return getAxisItem(obj.value, this._getNormalizedValue([obj.value], length));
+                })
+                .filter((entry: AxisItem) => entry.value >= 0 && entry.value <= 1)
+            );
+          }
         }
       }
     });
