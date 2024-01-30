@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: bilateral bar background error. fix#2177",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
