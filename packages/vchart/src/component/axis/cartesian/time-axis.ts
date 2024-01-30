@@ -119,8 +119,7 @@ export class CartesianTimeAxis<
   protected getLabelItems(length: number) {
     const items = [];
 
-    const tickData = this.getTickData();
-    const tickLatestData = tickData.getLatestData();
+    const tickLatestData = this.getTickData()?.getLatestData();
     if (tickLatestData && tickLatestData.length) {
       items.push(
         tickLatestData.map((obj: Datum) => {
