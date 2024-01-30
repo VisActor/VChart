@@ -7,7 +7,7 @@ import { MarkTypeEnum } from './interface';
 import { registerRichTextGraphic, registerTextGraphic } from '@visactor/vgrammar-core';
 import { IMarkSpec } from '../typings/spec/common';
 
-export type ITextMark = IMarkRaw<IComposedTextMarkSpec>;
+export type ITextMark = IMarkRaw<IComposedTextMarkSpec> & { getTextType: () => 'text' | 'rich' };
 
 export type ITextSpec<T> = IMarkSpec<T> & { textType?: 'rich' | 'text' };
 
@@ -15,7 +15,10 @@ export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMa
   static readonly type = MarkTypeEnum.text;
   readonly type = TextMark.type;
 
-  protected _textType?: 'text' | 'rich';
+  protected _textType: 'text' | 'rich' = 'text';
+  getTextType() {
+    return this._textType;
+  }
 
   constructor(name: string, option: IMarkOption) {
     super(name, option);
