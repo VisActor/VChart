@@ -29,7 +29,7 @@ ArcoDesign 是一套设计系统的简称。
 
 ## 安装和使用 VChart
 
-Semi Design 目前主要适配 React 工程。可以使用以下命令安装 react-vchart：
+Arco Design 目前主要适配 React 工程。可以使用以下命令安装 react-vchart：
 
 ```bash
 # 使用 npm 安装
@@ -84,11 +84,15 @@ root.render(<App />);
 `initVChartArcoTheme` 方法支持传入一个对象作为 option，其类型声明为：
 
 ```typescript
-interface IInitVChartSemiThemeOption {
+interface IInitVChartArcoThemeOption {
   /** 初始亮暗色模式 */
   defaultMode?: 'light' | 'dark';
   /** 是否监听亮暗色模式自动更改图表主题，默认为 true */
   isWatchingMode?: boolean;
+  /** arco css 变量前缀，例如：原始变量名为 --color-data-1，配置为 "arco" 后变为 --arco-color-data-1 */
+  prefix?: string;
+  /** 指定 ThemeManager，一般不用指定，如果遇到多版本 vchart 共存时需要指定 */
+  themeManager?: typeof ThemeManager;
 }
 ```
 
