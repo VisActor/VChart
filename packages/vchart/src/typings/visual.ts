@@ -328,7 +328,8 @@ export interface ITextMarkSpec extends IFillMarkSpec {
   direction?: 'horizontal' | 'vertical';
 }
 
-export type IRichTextMarkSpec = IRichTextAttribute & IFillMarkSpec;
+export type IRichTextMarkSpec = IRichTextAttribute &
+  IFillMarkSpec & { type: 'rich'; text: IRichTextAttribute['textConfig'] };
 
 export type IComposedTextMarkSpec = ITextMarkSpec | IRichTextMarkSpec;
 
