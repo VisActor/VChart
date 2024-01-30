@@ -285,7 +285,7 @@ export function computeClipRange(regions: IRegion[]) {
 }
 
 export function transformLabelAttributes(label: IMarkerLabelSpec) {
-  const { labelBackground = {}, style, shape, type, ...restLabel } = label;
+  const { labelBackground = {}, style, shape, ...restLabel } = label;
 
   if (label.visible !== false) {
     const labelAttrs = restLabel as any;

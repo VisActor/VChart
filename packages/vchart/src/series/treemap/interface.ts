@@ -5,6 +5,7 @@ import type { ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { TreemapAppearPreset, TreemapMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import { ILabelSpec } from '../../component';
 
 export interface ITreemapSeriesSpec
   extends Omit<ISeriesSpec, 'data'>,
@@ -101,11 +102,11 @@ export interface ITreemapSeriesSpec
   /**
    * 叶子节点标签样式配置，默认不显示
    */
-  [SeriesMarkNameEnum.label]?: IMarkSpec<ITextMarkSpec>;
+  [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position' | 'overlap'>;
   /**
    * 非叶子节点标签样式配置，默认不显示
    */
-  [SeriesMarkNameEnum.nonLeafLabel]?: IMarkSpec<ITextMarkSpec> & {
+  [SeriesMarkNameEnum.nonLeafLabel]?: Omit<ILabelSpec, 'position' | 'overlap'> & {
     position?: TreemapOptions['labelPosition'];
     padding?: TreemapOptions['labelPadding'];
   };
