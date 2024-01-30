@@ -74,6 +74,8 @@ interface IInitVChartSemiThemeOption {
   isWatchingMode?: boolean;
   /** Whether to listen for theme switching and automatically change the chart theme. The default setting is false (applicable to the official theme switching interface of Semi: https://semi.design/dsm/install_switcher) */
   isWatchingThemeSwitch?: boolean;
+  /** Specify a ThemeManager, usually not specified. If multiple versions of vchart coexist, it needs to be specified */
+  themeManager?: typeof ThemeManager;
 }
 ```
 
