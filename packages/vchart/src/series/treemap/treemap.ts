@@ -4,7 +4,7 @@ import { AttributeLevel, DEFAULT_DATA_KEY, VGRAMMAR_HOOK_EVENT } from '../../con
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IRectMark } from '../../mark/rect';
-import type { Datum, IRectMarkSpec, ITextMarkSpec } from '../../typings';
+import type { Datum, IComposedTextMarkSpec, IRectMarkSpec } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
@@ -323,7 +323,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     }
     this._labelMark = labelMark;
     labelMark.setRule('treemap');
-    this.setMarkStyle<ITextMarkSpec>(
+    this.setMarkStyle(
       labelMark,
       {
         x: datum => (datum.x0 + datum.x1) / 2,
@@ -338,6 +338,18 @@ export class TreemapSeries extends CartesianSeries<any> {
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
+    if (labelMark.getTextType() === 'rich') {
+      this.setMarkStyle<IComposedTextMarkSpec>(
+        labelMark,
+        {
+          maxWidth: datum => Math.abs(datum.x0 - datum.x1),
+          maxHeight: datum => Math.abs(datum.y0 - datum.y1),
+          ellipsis: true
+        },
+        STATE_VALUE_ENUM.STATE_NORMAL,
+        AttributeLevel.Series
+      );
+    }
   }
 
   protected initNonLeafLabelMarkStyle(labelMark: ILabelMark) {
@@ -346,7 +358,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     }
     this._nonLeafLabelMark = labelMark;
     labelMark.setRule('treemap');
-    this.setMarkStyle<ITextMarkSpec>(
+    this.setMarkStyle(
       labelMark,
       {
         x: datum => {
@@ -371,6 +383,18 @@ export class TreemapSeries extends CartesianSeries<any> {
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
+    if (labelMark.getTextType() === 'rich') {
+      this.setMarkStyle<IComposedTextMarkSpec>(
+        labelMark,
+        {
+          maxWidth: datum => Math.abs(datum.x0 - datum.x1),
+          maxHeight: datum => Math.abs(datum.y0 - datum.y1),
+          ellipsis: true
+        },
+        STATE_VALUE_ENUM.STATE_NORMAL,
+        AttributeLevel.Series
+      );
+    }
   }
 
   initAnimation(): void {
