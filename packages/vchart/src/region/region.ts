@@ -336,6 +336,10 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   }
 
   initInteraction() {
+    if (this._option.disableTriggerEvent) {
+      return;
+    }
+
     // 注册所有支持反选状态mark
     this._series.forEach(s => {
       s.getMarksWithoutRoot().forEach(m => {

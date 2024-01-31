@@ -4,7 +4,7 @@ group: interaction
 title: 图例触发系列高亮
 keywords: commonChart
 order: 42-1
-cover:
+cover: /vchart/preview/interaction-highlight-by-legend_1.9.0.gif
 option: commonChart
 ---
 

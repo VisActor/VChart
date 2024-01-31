@@ -119,7 +119,7 @@ async function bootstrap() {
     taskList.push(taker.parallel(subBuildTasks));
   }
 
-  if (Array.isArray(config.umdEntries) && config.umdEntries.length > 0) {
+  if (!args.ignoreUmdEntries && Array.isArray(config.umdEntries) && config.umdEntries.length > 0) {
     const subBuildTasks: string[] = [];
     config.umdEntries.forEach(entry => {
       const taskName = `Build ${entry}`;

@@ -4,7 +4,7 @@ group: interaction
 title: Dual Axis Chart Element Activation
 keywords: commonChart
 order: 42-0
-cover:
+cover: /vchart/preview/interaction-element-active_1.9.0.gif
 option: commonChart
 ---
 

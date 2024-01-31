@@ -433,22 +433,6 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return this.computeLayoutInnerRadius();
   }
 
-  tickValues(): number[] {
-    const tickData = this.getTickData();
-    if (tickData) {
-      const latestData = tickData.getLatestData();
-
-      if (latestData && !isArray(latestData)) {
-        // the ticks data of scale has not be calculated
-        this.computeData('force');
-      } else {
-        return latestData || [];
-      }
-    }
-
-    return (this._scale as BandScale | LinearScale).ticks();
-  }
-
   updateLayoutAttribute(): void {
     if (this._visible) {
       if (this.getOrient() === 'radius') {
@@ -547,7 +531,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
         type: this._spec.grid?.smooth ? 'circle' : 'polygon',
         center,
         closed: true,
-        sides: this._getRelatedAngleAxis()?.tickValues().length,
+        sides: this._getRelatedAngleAxis()?.getScale().domain().length,
         startAngle: this._startAngle,
         endAngle: this._endAngle,
         ...commonAttrs

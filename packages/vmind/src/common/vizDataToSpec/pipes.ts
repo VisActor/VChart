@@ -65,13 +65,10 @@ export const funnelData = (spec: any, context: Context) => {
   return spec;
 };
 export const wordCloudData = (spec: any, context: Context) => {
-  const { dataset, cell } = context;
-  const { color, size } = cell;
+  const { dataset } = context;
   spec.data = {
     id: 'data',
-    values: dataset
-      .filter((d: any) => d[color!] && d[size!] && d[color!].length > 0 && d[size!].length > 0)
-      .slice(0, WORDCLOUD_NUM_LIMIT)
+    values: dataset.slice(0, WORDCLOUD_NUM_LIMIT)
   };
 
   return spec;
@@ -529,12 +526,11 @@ export const wordCloudDisplayConf = (spec: any, context: Context) => {
 
 export const radarField = (spec: any, context: Context) => {
   const { cell } = context;
-  if (cell.x && cell.y) {
-    spec.categoryField = cell.x;
-    spec.valueField = cell.y;
-  } else if (cell.angle && cell.size) {
-    spec.categoryField = cell.angle;
-    spec.valueField = cell.size;
+  if (cell.x || cell.angle) {
+    spec.categoryField = cell.x ?? cell.angle;
+  }
+  if (cell.y || cell.value) {
+    spec.valueField = cell.y ?? cell.value;
   }
   if (cell.color) {
     spec.seriesField = cell.color;
@@ -683,7 +679,7 @@ export const cartesianBar = (spec: any, context: Context) => {
     spec.seriesField = cell.color;
   } else {
     //没有分配颜色字段，从剩下的字段里选择一个离散字段分配到颜色上
-    const dataFields = Object.keys(dataset[0]);
+    const dataFields = Object.keys(dataset[0] ?? {});
     const remainedFields = dataFields.filter(f => !spec.xField.includes(f) && spec.yField !== f);
     const colorField = remainedFields.find(f => {
       const fieldType = detectAxesType(spec.data.values, f);

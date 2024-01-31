@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import { CARTESIAN_CHART_LIST, detectAxesType } from '../../common/vizDataToSpec/utils';
 
 export const patchUserInput = (userInput: string) => {
@@ -63,6 +64,54 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
       };
     }
   }
+  if (chartType === 'BOX PLOT') {
+    if (typeof y === 'string' && y.split(',').length > 1) {
+      return {
+        chartTypeNew: 'BOX PLOT',
+        cellNew: {
+          ...cell,
+          y: y.split(',').map(str => str.trim())
+        }
+      };
+    } else if (isNil(y) || y.length === 0) {
+      const {
+        lower_whisker,
+        lowerWhisker,
+        lowerBox,
+        min,
+        lower,
+        q1,
+        median,
+        q3,
+        upperBox,
+        upper_whisker,
+        upperWhisker,
+        max,
+        upper
+      } = cell;
+      return {
+        chartTypeNew: 'BOX PLOT',
+        cellNew: {
+          ...cell,
+          y: [
+            lower_whisker,
+            lowerWhisker,
+            min,
+            lower,
+            q1,
+            lowerBox,
+            median,
+            upperBox,
+            q3,
+            upper_whisker,
+            max,
+            upper,
+            upperWhisker
+          ].filter(Boolean)
+        }
+      };
+    }
+  }
   //双轴图 订正yLeft和yRight
   if (chartType === 'DUAL AXIS CHART' && cell.yLeft && cell.yRight) {
     return {
@@ -71,8 +120,8 @@ export const patchChartTypeAndCell = (chartTypeOutter: string, cell: any, datase
     };
   }
   //饼图 必须有color字段和angle字段
-  if (chartType === 'PIE CHART') {
-    const cellNew = { ...cell };
+  if (chartType === 'PIE CHART' || chartType === 'ROSE CHART') {
+    const cellNew = { ...cell, color: cell.color ?? cell.category };
     if (!cellNew.color || !cellNew.angle) {
       const usedFields = Object.values(cell);
       const dataFields = Object.keys(dataset[0]);

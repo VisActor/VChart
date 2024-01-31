@@ -7,9 +7,15 @@ export interface ILLMOptions {
   max_tokens?: number;
   temperature?: number;
   showThoughts?: boolean;
-  customRequestFunc?: (prompt: string, userMessage: string, options: ILLMOptions | undefined) => Promise<LLMResponse>;
+  customRequestFunc?: {
+    chartAdvisor: requestFunc;
+    dataProcess: requestFunc;
+    dataQuery: requestFunc;
+  };
   [key: string]: any;
 }
+
+type requestFunc = (prompt: string, userMessage: string, options: ILLMOptions | undefined) => Promise<LLMResponse>;
 
 export type SimpleFieldInfo = {
   fieldName: string;

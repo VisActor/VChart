@@ -4,7 +4,7 @@ group: interaction
 title: Combination Chart Highlight by Key
 keywords: commonChart
 order: 42-4
-cover:
+cover: /vchart/preview/interaction-combination-chart-highlight-by-key_1.9.0.gif
 option: commonChart
 ---
 

@@ -8,7 +8,7 @@ import type { Tooltip } from '../tooltip';
 import type { MouseEventData, TooltipInfo } from './interface';
 import { ChartEvent } from '../../../constant';
 import type { TooltipEventParams } from '../interface/event';
-import type { IDimensionInfo } from '../../../event/events/dimension';
+import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension';
 import { getPolarDimensionInfo } from '../../../event/events/dimension/util/polar';
 import { getCartesianDimensionInfo } from '../../../event/events/dimension/util/cartesian';
 import { isDiscrete } from '@visactor/vscale';
@@ -112,6 +112,20 @@ export abstract class BaseTooltipProcessor {
         return axis.getOrient() === 'bottom' || axis.getOrient() === 'top';
       });
       targetDimensionInfo = dimensionAxisInfo.length ? dimensionAxisInfo : targetDimensionInfo.slice(0, 1);
+
+      // datum 去重，保证每个系列的每个数据项只对应于一行 tooltip 内容项
+      if (targetDimensionInfo.length > 1) {
+        const dimensionDataKeySet = new Set<string>();
+        targetDimensionInfo.forEach(info => {
+          info.data = info.data.filter(({ key }: IDimensionData) => {
+            if (dimensionDataKeySet.has(key)) {
+              return false;
+            }
+            dimensionDataKeySet.add(key);
+            return true;
+          });
+        });
+      }
     }
 
     return targetDimensionInfo;

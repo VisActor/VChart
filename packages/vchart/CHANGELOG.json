@@ -2,6 +2,30 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.9.1",
+      "tag": "@visactor/vchart_v1.9.1",
+      "date": "Wed, 31 Jan 2024 07:58:20 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: custom mark should run after all the series marks, fix #2156\n\n"
+          },
+          {
+            "comment": "fix: interactions should be closed by `option.disableTriggerEvent`\n\n"
+          },
+          {
+            "comment": "fix: in the case of multiple band axes in a chart, the same datum corresponds to multiple rows of dimension tooltip content, related #2148"
+          },
+          {
+            "comment": "fix: fix error of vchart in strict-mode\n\n"
+          },
+          {
+            "comment": "fix: fix the zero-align of axes, fix #2167"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.9.0",
       "tag": "@visactor/vchart_v1.9.0",
       "date": "Fri, 26 Jan 2024 02:20:43 GMT",

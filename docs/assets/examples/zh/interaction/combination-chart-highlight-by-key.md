@@ -4,7 +4,7 @@ group: interaction
 title: 组合图联合高亮
 keywords: commonChart
 order: 42-4
-cover:
+cover: /vchart/preview/interaction-combination-chart-highlight-by-key_1.9.0.gif
 option: commonChart
 ---
 

@@ -15,6 +15,7 @@ export interface IDimensionInfo {
 export interface IDimensionData {
     datum: Datum[];
     series: ISeries;
+    key?: string;
 }
 export type DimensionEventParams = BaseEventParams & {
     action: 'enter' | 'leave' | 'move' | 'click';

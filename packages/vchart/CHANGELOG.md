@@ -1,6 +1,23 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 26 Jan 2024 02:20:43 GMT and should not be manually modified.
+This log was last generated on Wed, 31 Jan 2024 07:58:20 GMT and should not be manually modified.
+
+## 1.9.1
+Wed, 31 Jan 2024 07:58:20 GMT
+
+### Updates
+
+- fix: custom mark should run after all the series marks, fix #2156
+
+
+- fix: interactions should be closed by `option.disableTriggerEvent`
+
+
+- fix: in the case of multiple band axes in a chart, the same datum corresponds to multiple rows of dimension tooltip content, related #2148
+- fix: fix error of vchart in strict-mode
+
+
+- fix: fix the zero-align of axes, fix #2167
 
 ## 1.9.0
 Fri, 26 Jan 2024 02:20:43 GMT

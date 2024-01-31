@@ -13,7 +13,7 @@ export const parseCSVDataWithGPT = async (csvFile: string, userInput: string, op
   const topNCSVFile = readTopNLine(csvFile, DATA_TOP_N);
   const dataProcessMessage = `CSV file content:\n${topNCSVFile}\nUser Input: ${userInput}`;
 
-  const requestFunc = options.customRequestFunc ?? requestGPT;
+  const requestFunc = options.customRequestFunc?.dataProcess ?? requestGPT;
 
   const dataProcessRes = await requestFunc(DataProcessPromptEnglish, dataProcessMessage, options);
 

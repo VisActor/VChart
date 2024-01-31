@@ -84,6 +84,10 @@ const spec = {
 };
 
 // Create a vchart instance
+/**
+ * Note: When using the CDN approach for importing, pay attention to the way VChart is referenced:
+ * const vchart = new VChart.default(spec, { dom: 'chart' });
+ */
 const vchart = new VChart(spec, { dom: 'chart' });
 // Draw the chart
 vchart.renderSync();
@@ -109,7 +113,10 @@ const spec = {
   xField: 'month',
   yField: 'sales'
 };
-
+/**
+ * Note: When using the CDN approach for importing, pay attention to the way VChart is referenced:
+ * const vchart = new VChart.default(spec, { dom: 'chart' });
+ */
 const vchart = new VChart(spec, { dom: CONTAINER_ID });
 vchart.renderSync();
 ```

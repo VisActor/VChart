@@ -4,7 +4,7 @@ group: interaction
 title: Area Chart Element Highlight
 keywords: areaChart,comparison,trend,area
 order: 42-1
-cover:
+cover: /vchart/preview/interaction-area-chart-element-highlight_1.9.0.gif
 option: areachart
 ---
 
@@ -97,6 +97,7 @@ const spec = {
       }
     }
   },
+  hover: false,
   interactions: [
     {
       type: 'element-highlight'

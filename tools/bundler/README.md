@@ -28,6 +28,7 @@ bundle -f es -w dev --env __DEV__=true --env __ID__="'my_id'"
 -w, --watch 监听文件变化重新构建
 -s, --sourcemap 是否生成 sourcemap
 --ignorePostTasks, 不执行 postTasks
+--ignoreUmdEntries，不执行额外的umd
 ```
 
 # 配置文件

@@ -776,6 +776,13 @@
             "zh": "堆叠散点图",
             "en": "Stacked Scatter Plot"
           }
+        },
+        {
+          "path": "scatter-shape",
+          "title": {
+            "zh": "各种形状的散点图",
+            "en": "Scatter Chart of different shape"
+          }
         }
       ]
     },
