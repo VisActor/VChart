@@ -73,7 +73,6 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     getCenter(): IPoint;
     getOuterRadius(): number;
     getInnerRadius(): number;
-    tickValues(): number[];
     updateLayoutAttribute(): void;
     protected _getNormalizedValue(values: any[], length: number): number;
     protected getLabelItems(length: number): any[];
