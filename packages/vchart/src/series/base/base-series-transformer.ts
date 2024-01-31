@@ -85,13 +85,18 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
 
   protected _getDefaultSpecFromChart(chartSpec: any): any {
     const spec = (super._getDefaultSpecFromChart(chartSpec) as any) ?? {};
-    const { outerRadius, innerRadius } = chartSpec;
+    const { outerRadius, innerRadius, direction } = chartSpec;
     if (isValid(outerRadius)) {
       spec.outerRadius = outerRadius;
     }
     if (isValid(innerRadius)) {
       spec.innerRadius = innerRadius;
     }
+
+    if (isValid(direction)) {
+      spec.direction = direction;
+    }
+
     return Object.keys(spec).length > 0 ? spec : undefined;
   }
 }
