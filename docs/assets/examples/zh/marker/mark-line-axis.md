@@ -41,7 +41,7 @@ const spec = {
       label: {
         text: 'National holiday',
         position: 'insideEndBottom',
-        reY: 10,
+        refY: 10,
         labelBackground: {
           padding: 5,
           style: {
