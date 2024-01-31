@@ -51,9 +51,13 @@ export class AxisSyncPlugin
       return;
     }
     // because of if the to axes bind in same region, the region will update them both in the data update.
-    axis.event.on(ChartEvent.scaleDomainUpdate, { filter: ({ model }) => model.id === axis.id }, () => {
-      zeroAlign(targetAxis, axis);
-    });
+    axis.event.on(
+      ChartEvent.scaleDomainUpdate,
+      { filter: ({ model }) => model.id === axis.id || model.id === targetAxis.id },
+      () => {
+        zeroAlign(targetAxis, axis);
+      }
+    );
   }
 
   onDidCompile(service: IComponentPluginService, axis: CartesianAxis) {

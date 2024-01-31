@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the zero-align of axes, fix #2167",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
