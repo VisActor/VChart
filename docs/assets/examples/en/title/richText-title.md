@@ -14,7 +14,8 @@ Titles support rich text, which can be used to configure more complex text style
 
 ## Key Configuration
 
-- `textStyle(subtextStyle).character` property specifies the rich text configuration. You can declare text content, text size, text styles, etc. Text content supports escape characters, such as line breaks `\n`.
+- `textType` property specifies text type is 'rich'.
+- `text` property specifies the rich text configuration. You can declare text content, text size, text styles, etc. Text content supports escape characters, such as line breaks `\n`.
 
 ## Demo source
 
@@ -68,58 +69,56 @@ const spec = {
     align: 'left',
     verticalAlign: 'top',
     orient: 'top',
-    textStyle: {
-      character: [
-        {
-          text: 'Chinese Character Test',
-          fontSize: 30,
-          textAlign: 'center',
-          textDecoration: 'underline',
-          stroke: '#0f51b5'
-        }
-      ]
-    },
-    subtextStyle: {
-      character: [
-        {
-          text: 'Mapbox',
-          fontWeight: 'bold',
-          fontSize: 30,
-          fill: '#3f51b5'
-        },
-        {
-          text: 'was established in 2010 with the goal of providing an alternative solution',
-          fill: '#000'
-        },
-        {
-          text: 'alternative solution',
-          fontStyle: 'italic',
-          fill: '#3f51b5'
-        },
-        {
-          text: ' to Google Maps. At that time, Google Map',
-          fill: '#000'
-        },
-        {
-          text: 'Map',
-          textDecoration: 'line-through',
-          fill: '#000'
-        },
-        {
-          text: '[1]',
-          script: 'super',
-          fill: '#000'
-        },
-        {
-          text: 'almost monopolized the online mapping business. However, within Google Maps, there was hardly any possibility for customization, and there were no tools available for map creators to create maps according to their own vision',
-          fill: '#000'
-        },
-        {
-          text: '.\n',
-          fill: '#30ff05'
-        }
-      ]
-    }
+    textType: 'rich',
+    text: [
+      {
+        text: 'Chinese Character Test',
+        fontSize: 30,
+        textAlign: 'center',
+        textDecoration: 'underline',
+        stroke: '#0f51b5'
+      }
+    ],
+    subtextType: 'rich',
+    subtext: [
+      {
+        text: 'Mapbox',
+        fontWeight: 'bold',
+        fontSize: 30,
+        fill: '#3f51b5'
+      },
+      {
+        text: 'was established in 2010 with the goal of providing an alternative solution',
+        fill: '#000'
+      },
+      {
+        text: 'alternative solution',
+        fontStyle: 'italic',
+        fill: '#3f51b5'
+      },
+      {
+        text: ' to Google Maps. At that time, Google Map',
+        fill: '#000'
+      },
+      {
+        text: 'Map',
+        textDecoration: 'line-through',
+        fill: '#000'
+      },
+      {
+        text: '[1]',
+        script: 'super',
+        fill: '#000'
+      },
+      {
+        text: 'almost monopolized the online mapping business. However, within Google Maps, there was hardly any possibility for customization, and there were no tools available for map creators to create maps according to their own vision',
+        fill: '#000'
+      },
+      {
+        text: '.\n',
+        fill: '#30ff05'
+      }
+    ]
   }
 };
 

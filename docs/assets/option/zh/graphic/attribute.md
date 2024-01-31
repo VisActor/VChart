@@ -100,3 +100,30 @@ y 方向缩放比例。
 #${prefix} pickStrokeBuffer(number) = 0
 
 自 `1.7.3` 版本开始支持，用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽。
+
+#${prefix} html(object)
+自 `1.9.1` 版本开始支持，用于配置图元的 html 浮层。
+
+##${prefix} dom(string|HTMLElement)
+dom 字符串或节点。
+
+##${prefix} container(string|HTMLElement)
+挂载的 HTML 容器。
+
+##${prefix} width(number)
+节点的宽度。
+
+##${prefix} height(number)
+节点的高度。
+
+##${prefix} style(string|object)
+节点的样式。支持样式字符串或对象。
+
+##${prefix} visible(boolean) = true
+是否显示节点。
+
+##${prefix} anchorType(string) = 'boundsLeftTop'
+节点布局对齐方式，支持：
+
+- `boundsLeftTop`
+- `position`
