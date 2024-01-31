@@ -1,3 +1,20 @@
+# v1.9.1
+
+2024-01-31
+
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: custom mark should run after all the series marks, fix [#2156](https://github.com/VisActor/VChart/issues/2156)
+- **@visactor/vchart**: interactions should be closed by `option.disableTriggerEvent`
+- **@visactor/vchart**: in the case of multiple band axes in a chart, the same datum corresponds to multiple rows of dimension tooltip content, related [#2148](https://github.com/VisActor/VChart/issues/2148)
+- **@visactor/vchart**: fix error of vchart in strict-mode
+- **@visactor/vchart**: fix the zero-align of axes, fix [#2167](https://github.com/VisActor/VChart/issues/2167)
+
+
+
+[more detail about v1.9.1](https://github.com/VisActor/VChart/releases/tag/v1.9.1)
+
 # v1.9.0
 
 2024-01-26
