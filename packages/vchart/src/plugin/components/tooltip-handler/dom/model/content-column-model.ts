@@ -84,39 +84,65 @@ export class ContentColumnModel extends BaseTooltipModel {
 
     const renderContent = this._option.getTooltipActual()?.content ?? [];
     const contentAttributes = this._option.getTooltipAttributes()?.content ?? [];
+
+    const getKeyItemStyle = (line: IToolTipLineActual, i: number): Partial<CSSStyleDeclaration> => {
+      const { key, isKeyAdaptive } = line;
+      const { height } = contentAttributes[i];
+      const { keyColumn } = tooltipStyle;
+      const style: Partial<CSSStyleDeclaration> = mergeSpec(
+        {},
+        isKeyAdaptive ? defaultAdaptiveKeyStyle : defaultKeyStyle,
+        {
+          height: getPixelPropertyStr(height),
+          ...defaultLabelStyle,
+          ...keyColumn.common,
+          ...keyColumn.items?.[i]
+        } as Partial<CSSStyleDeclaration>
+      );
+      const hasContent = (isString(key) && key?.trim?.() !== '') || isNumber(key);
+      if (!hasContent && !style.visibility) {
+        style.visibility = 'hidden';
+      } else {
+        style.visibility = 'visible';
+      }
+      return style;
+    };
+
+    const getValueItemStyle = (line: IToolTipLineActual, i: number): Partial<CSSStyleDeclaration> => {
+      const { height } = contentAttributes[i];
+      const { valueColumn } = tooltipStyle;
+      const style: Partial<CSSStyleDeclaration> = mergeSpec({}, defaultValueStyle, {
+        height: getPixelPropertyStr(height),
+        ...defaultLabelStyle,
+        ...valueColumn.common,
+        ...valueColumn.items?.[i]
+      } as Partial<CSSStyleDeclaration>);
+      return style;
+    };
+
+    const getShapeItemStyle = (line: IToolTipLineActual, i: number): Partial<CSSStyleDeclaration> => {
+      const { height } = contentAttributes[i];
+      const { shapeColumn } = tooltipStyle;
+      const keyStyle = getKeyItemStyle(line, i);
+      const paddingTop = `calc((${keyStyle.lineHeight ?? keyStyle.fontSize ?? '18px'} - ${
+        shapeColumn.width ?? '8px'
+      }) / 2)`; // shape 和 key 的第一行文字对齐
+      const style: Partial<CSSStyleDeclaration> = mergeSpec({}, defaultShapeStyle, {
+        height: `calc(${getPixelPropertyStr(height)} - ${paddingTop})`,
+        paddingTop,
+        ...shapeColumn.common,
+        ...shapeColumn.items?.[i]
+      } as Partial<CSSStyleDeclaration>);
+      return style;
+    };
+
     renderContent.forEach((line, i) => {
-      let childStyle: any = {};
-      const { height, spaceRow = 0 } = contentAttributes[i];
       if (this.className === 'key-box') {
-        const { key, isKeyAdaptive } = line;
-        childStyle = mergeSpec({}, isKeyAdaptive ? defaultAdaptiveKeyStyle : defaultKeyStyle, {
-          height: getPixelPropertyStr(height),
-          ...defaultLabelStyle,
-          ...tooltipStyle.keyColumn.common,
-          ...tooltipStyle.keyColumn.items?.[i]
-        } as Partial<CSSStyleDeclaration>);
-        const hasContent = (isString(key) && key?.trim?.() !== '') || isNumber(key);
-        if (!hasContent && !childStyle.visibility) {
-          childStyle.visibility = 'hidden';
-        } else {
-          childStyle.visibility = 'visible';
-        }
-        (this.children[i] as TextModel).setStyle(childStyle);
+        (this.children[i] as TextModel).setStyle(getKeyItemStyle(line, i));
       } else if (this.className === 'value-box') {
-        childStyle = mergeSpec({}, defaultValueStyle, {
-          height: getPixelPropertyStr(height),
-          ...defaultLabelStyle,
-          ...tooltipStyle.valueColumn.common,
-          ...tooltipStyle.valueColumn.items?.[i]
-        } as Partial<CSSStyleDeclaration>);
-        (this.children[i] as TextModel).setStyle(childStyle);
+        (this.children[i] as TextModel).setStyle(getValueItemStyle(line, i));
       } else if (this.className === 'shape-box') {
-        childStyle = mergeSpec({}, defaultShapeStyle, {
-          height: getPixelPropertyStr(height + (i < renderContent.length - 1 ? spaceRow : 0)),
-          ...tooltipStyle.shapeColumn.common,
-          ...tooltipStyle.shapeColumn.items?.[i]
-        });
-        (this.children[i] as ShapeModel)?.setStyle(childStyle, this._getShapeSvgOption(line, i));
+        (this.children[i] as ShapeModel)?.setStyle(getShapeItemStyle(line, i), this._getShapeSvgOption(line, i));
       }
     });
   }
@@ -186,7 +212,6 @@ export class ContentColumnModel extends BaseTooltipModel {
       stroke: line.shapeStroke,
       lineWidth: line.shapeLineWidth,
       hollow: line.shapeHollow,
-      marginTop: `calc((${keyColumn.lineHeight ?? keyColumn.fontSize ?? '18px'} - ${shapeColumn.width ?? '8px'}) / 2)`,
       index
     } as IShapeSvgOption;
   }
