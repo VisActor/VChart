@@ -40,7 +40,7 @@ function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildN
 
   let nextVersion = nextVersionStr ? nextVersionStr : `${curVersion.major}.${curVersion.minor}.${curVersion.patch}`;
 
-  if (preReleaseName) {
+  if (preReleaseName && preReleaseName !== 'none') {
     nextVersion = `${nextVersion}-${preReleaseName}`;
   }
 

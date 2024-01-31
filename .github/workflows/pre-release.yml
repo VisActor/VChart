@@ -42,7 +42,7 @@ jobs:
           semver_pattern: '^pre-release/(.*)$' # ^v?(.*)$ by default
 
       - name: Apply prereleaseName
-        run: node common/scripts/apply-prerelease-version.js ${{ steps.semver_parser.outputs.pre_release_name }} ${{ steps.semver_parser.outputs.main }}
+        run: node common/scripts/apply-release-version.js ${{ steps.semver_parser.outputs.pre_release_name }} ${{ steps.semver_parser.outputs.main }}
 
       - name: Build packages
         env:
