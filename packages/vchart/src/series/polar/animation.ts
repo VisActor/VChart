@@ -4,6 +4,7 @@ import type { IPointLike } from '@visactor/vutils';
 import { ACustomAnimate, TagPointsUpdate } from '@visactor/vrender-core';
 import { Point, isFunction, isValidNumber } from '@visactor/vutils';
 import type { IPolarAxisHelper } from '../../component/axis';
+import { normalizeAngle } from '../../util';
 
 export class PolarPointUpdate extends ACustomAnimate<{ x: number; y: number }> {
   declare valid: boolean;
@@ -127,14 +128,20 @@ export class PolarTagPointsUpdate extends TagPointsUpdate {
   private polarPointInterpolation(pointA: IPointLike, pointB: IPointLike, ratio: number): IPointLike {
     const polarPointA0 = this._pointToCoord(pointA);
     const polarPointA1 = this._pointToCoord({ x: pointA.x1, y: pointA.y1 });
+    // normalize angle
+    const angleA0 = normalizeAngle(polarPointA0.angle);
+    const angleA1 = normalizeAngle(polarPointA1.angle);
 
     const polarPointB0 = this._pointToCoord(pointB);
     const polarPointB1 = this._pointToCoord({ x: pointB.x1, y: pointB.y1 });
+    // normalize angle
+    const angleB0 = normalizeAngle(polarPointB0.angle);
+    const angleB1 = normalizeAngle(polarPointB1.angle);
 
-    const angle0 = polarPointA0.angle + (polarPointB0.angle - polarPointA0.angle) * ratio;
+    const angle0 = angleA0 + (angleB0 - angleA0) * ratio;
     const radius0 = polarPointA0.radius + (polarPointB0.radius - polarPointA0.radius) * ratio;
 
-    const angle1 = polarPointA1.angle + (polarPointB1.angle - polarPointA1.angle) * ratio;
+    const angle1 = angleA1 + (angleB1 - angleA1) * ratio;
     const radius1 = polarPointA1.radius + (polarPointB1.radius - polarPointA1.radius) * ratio;
 
     const { x, y } = this._coordToPoint({ angle: angle0, radius: radius0 });
