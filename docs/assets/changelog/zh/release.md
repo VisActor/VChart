@@ -1,3 +1,20 @@
+# v1.9.1
+
+2024-01-31
+
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: 自定义拓展mark运行顺序需要在所有系列mark的最后，修复[#2156](https://github.com/VisActor/VChart/issues/2156)
+- **@visactor/vchart**: 通过`interactions`配置的交互能够通过配置 `option.disableTriggerEvent`关闭
+- **@visactor/vchart**: 当图表有多个类目轴的时候，相同的数据在维度tooltip中只能展示一条，相关issue[#2148](https://github.com/VisActor/VChart/issues/2148)
+- **@visactor/react-vchart**: 修复react-vchart在react的 `strict-mode` 报错的问题
+- **@visactor/vchart**: 修复双轴图，0值没有对齐的问题，[#2167](https://github.com/VisActor/VChart/issues/2167)
+
+
+
+[更多详情请查看 v1.9.1](https://github.com/VisActor/VChart/releases/tag/v1.9.1)
+
 # v1.9.0
 
 2024-01-26
