@@ -157,7 +157,7 @@ Block({
                   freeCanvasIdx: 2
                 },
                 // Please ensure that dpr can be updated to the object in real time when it changes
-                dpr: this.dpr,
+                dpr: tt.getSystemInfoSync().pixelRatio,
                 renderCanvas: `${item.id}_draw_canvas`
               }
             );
