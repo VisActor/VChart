@@ -34,35 +34,15 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
     const userCurveType = this.getSpec().area?.style?.curveType ?? this.getSpec().line?.style?.curveType;
     const curveType =
       userCurveType === DEFAULT_SMOOTH_INTERPOLATE
-        ? this._direction === Direction.vertical
-          ? 'monotoneX'
-          : 'monotoneY'
+        ? this._direction === Direction.horizontal
+          ? 'monotoneY'
+          : 'monotoneX'
         : userCurveType;
 
     // area
     const areaMark = this._areaMark;
     if (areaMark) {
-      if (this._direction === Direction.vertical) {
-        this.setMarkStyle(
-          this._areaMark,
-          {
-            x: this.dataToPositionX.bind(this),
-            y1: (datum: Datum) => {
-              if (!this._yAxisHelper) {
-                return Number.NaN;
-              }
-              const { dataToPosition } = this._yAxisHelper;
-
-              return dataToPosition(this.getDatumPositionValues(datum, this._spec.yField[1]), {
-                bandPosition: this._bandPosition
-              });
-            },
-            y: this.dataToPositionY.bind(this)
-          },
-          'normal',
-          AttributeLevel.Series
-        );
-      } else {
+      if (this._direction === Direction.horizontal) {
         this.setMarkStyle(
           this._areaMark,
           {
@@ -79,6 +59,26 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
             },
             y: this.dataToPositionY.bind(this),
             orient: this._direction
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      } else {
+        this.setMarkStyle(
+          this._areaMark,
+          {
+            x: this.dataToPositionX.bind(this),
+            y1: (datum: Datum) => {
+              if (!this._yAxisHelper) {
+                return Number.NaN;
+              }
+              const { dataToPosition } = this._yAxisHelper;
+
+              return dataToPosition(this.getDatumPositionValues(datum, this._spec.yField[1]), {
+                bandPosition: this._bandPosition
+              });
+            },
+            y: this.dataToPositionY.bind(this)
           },
           'normal',
           AttributeLevel.Series

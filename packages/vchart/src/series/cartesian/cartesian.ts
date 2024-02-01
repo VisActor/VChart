@@ -198,39 +198,39 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
 
   getStackValueField() {
     // TODO: hack
-    if (this.direction === Direction.vertical) {
-      return array(this._spec.yField)[0];
+    if (this.direction === Direction.horizontal) {
+      return array(this._spec.xField)[0];
     }
-    return array(this._spec.xField)[0];
+    return array(this._spec.yField)[0];
   }
 
   setValueFieldToStack(): void {
-    if (this.direction === Direction.vertical) {
-      this.setFieldY(STACK_FIELD_END);
-      this.setFieldY2(STACK_FIELD_START);
-    } else {
+    if (this.direction === Direction.horizontal) {
       this.setFieldX(STACK_FIELD_END);
       this.setFieldX2(STACK_FIELD_START);
+    } else {
+      this.setFieldY(STACK_FIELD_END);
+      this.setFieldY2(STACK_FIELD_START);
     }
   }
 
   setValueFieldToPercent(): void {
-    if (this.direction === Direction.vertical) {
-      this.setFieldY(STACK_FIELD_END_PERCENT);
-      this.setFieldY2(STACK_FIELD_START_PERCENT);
-    } else {
+    if (this.direction === Direction.horizontal) {
       this.setFieldX(STACK_FIELD_END_PERCENT);
       this.setFieldX2(STACK_FIELD_START_PERCENT);
+    } else {
+      this.setFieldY(STACK_FIELD_END_PERCENT);
+      this.setFieldY2(STACK_FIELD_START_PERCENT);
     }
   }
 
   setValueFieldToStackOffsetSilhouette(): void {
-    if (this.direction === Direction.vertical) {
-      this.setFieldY(STACK_FIELD_END_OffsetSilhouette);
-      this.setFieldY2(STACK_FIELD_START_OffsetSilhouette);
-    } else {
+    if (this.direction === Direction.horizontal) {
       this.setFieldX(STACK_FIELD_END_OffsetSilhouette);
       this.setFieldX2(STACK_FIELD_START_OffsetSilhouette);
+    } else {
+      this.setFieldY(STACK_FIELD_END_OffsetSilhouette);
+      this.setFieldY2(STACK_FIELD_START_OffsetSilhouette);
     }
   }
 
@@ -466,24 +466,24 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
   }
 
   getDimensionField(): string[] {
-    if (this._direction === Direction.vertical) {
-      return this._specXField;
-    }
-    return this._specYField;
-  }
-
-  getDimensionContinuousField(): string[] {
-    if (this._direction === Direction.vertical) {
-      return [this.fieldX[0], this.fieldX2];
-    }
-    return [this.fieldY[0], this.fieldY2];
-  }
-
-  getMeasureField(): string[] {
-    if (this._direction === Direction.vertical) {
+    if (this._direction === Direction.horizontal) {
       return this._specYField;
     }
     return this._specXField;
+  }
+
+  getDimensionContinuousField(): string[] {
+    if (this._direction === Direction.horizontal) {
+      return [this.fieldY[0], this.fieldY2];
+    }
+    return [this.fieldX[0], this.fieldX2];
+  }
+
+  getMeasureField(): string[] {
+    if (this._direction === Direction.horizontal) {
+      return this._specXField;
+    }
+    return this._specYField;
   }
 
   viewDataUpdate(d: DataView): void {

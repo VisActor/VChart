@@ -93,9 +93,9 @@ export class LineLikeSeriesMixin {
 
       samplingTrans.push({
         type: 'sampling',
-        size: this._direction === Direction.vertical ? width : height,
+        size: this._direction === Direction.horizontal ? height : width,
         factor: this._spec.samplingFactor,
-        yfield: this._direction === Direction.vertical ? fieldsY[0] : fieldsX[0],
+        yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
         groupBy: this._seriesField,
         mode: this._spec.sampling
       });
@@ -176,9 +176,9 @@ export class LineLikeSeriesMixin {
         const userCurveType = areaCurveType ?? this.getSpec().line?.style?.curveType;
         const curveType =
           userCurveType === DEFAULT_SMOOTH_INTERPOLATE
-            ? direction === Direction.vertical
-              ? 'monotoneX'
-              : 'monotoneY'
+            ? direction === Direction.horizontal
+              ? 'monotoneY'
+              : 'monotoneX'
             : userCurveType;
 
         this.setMarkStyle(

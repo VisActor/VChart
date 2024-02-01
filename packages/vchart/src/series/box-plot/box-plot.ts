@@ -153,24 +153,23 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       };
 
       const boxPlotMarkStyles =
-        this._direction === Direction.vertical
+        this._direction === Direction.horizontal
           ? {
-              x: this.dataToPositionX.bind(this),
-              ...commonBoxplotStyles,
-              boxWidth: () => this._boxWidth ?? this._getMarkWidth(),
-              ruleWidth: () => this._shaftWidth ?? this._getMarkWidth(),
-              q1q3Width: () => this._boxWidth ?? this._getMarkWidth(),
-              minMaxWidth: () => this._shaftWidth ?? this._getMarkWidth()
-            }
-          : {
               y: this.dataToPositionY.bind(this),
               ...commonBoxplotStyles,
               boxHeight: () => this._boxWidth ?? this._getMarkWidth(),
               ruleHeight: () => this._shaftWidth ?? this._getMarkWidth(),
               q1q3Height: () => this._boxWidth ?? this._getMarkWidth(),
               minMaxHeight: () => this._shaftWidth ?? this._getMarkWidth()
+            }
+          : {
+              x: this.dataToPositionX.bind(this),
+              ...commonBoxplotStyles,
+              boxWidth: () => this._boxWidth ?? this._getMarkWidth(),
+              ruleWidth: () => this._shaftWidth ?? this._getMarkWidth(),
+              q1q3Width: () => this._boxWidth ?? this._getMarkWidth(),
+              minMaxWidth: () => this._shaftWidth ?? this._getMarkWidth()
             };
-
       this.setMarkStyle(boxPlotMark, boxPlotMarkStyles, STATE_VALUE_ENUM.STATE_NORMAL, AttributeLevel.Series);
     }
 
@@ -191,7 +190,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   initBoxPlotMarkStyle(): void {
     const boxPlotMark = this._boxPlotMark;
-    const axisHelper = this._direction === Direction.vertical ? this._yAxisHelper : this._xAxisHelper;
+    const axisHelper = this._direction === Direction.horizontal ? this._xAxisHelper : this._yAxisHelper;
     if (boxPlotMark && axisHelper) {
       const { dataToPosition } = axisHelper;
       const scale = axisHelper?.getScale?.(0);
@@ -243,10 +242,10 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       const { dataToPosition } = axisHelper;
       const scale = axisHelper?.getScale?.(0);
       const outlierMarkPositionChannel =
-        this._direction === Direction.vertical
+        this._direction === Direction.horizontal
           ? {
-              x: this.dataToPositionX.bind(this),
-              y: (datum: Datum) =>
+              y: this.dataToPositionY.bind(this),
+              x: (datum: Datum) =>
                 valueInScaleRange(
                   dataToPosition(this.getDatumPositionValues(datum, BOX_PLOT_OUTLIER_VALUE_FIELD), {
                     bandPosition: this._bandPosition
@@ -255,8 +254,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
                 )
             }
           : {
-              y: this.dataToPositionY.bind(this),
-              x: (datum: Datum) =>
+              x: this.dataToPositionX.bind(this),
+              y: (datum: Datum) =>
                 valueInScaleRange(
                   dataToPosition(this.getDatumPositionValues(datum, BOX_PLOT_OUTLIER_VALUE_FIELD), {
                     bandPosition: this._bandPosition
@@ -285,7 +284,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     outlierDataView.transform({
       type: 'foldOutlierData',
       options: {
-        dimensionField: this._direction === Direction.vertical ? this._fieldX : this._fieldY,
+        dimensionField: this._direction === Direction.horizontal ? this._fieldY : this._fieldX,
         outliersField: this._outliersField
       }
     });
@@ -315,8 +314,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
       return this._autoBoxWidth;
     }
     //获取自适应的图元宽度
-    const bandAxisHelper = this._direction === Direction.vertical ? this._xAxisHelper : this._yAxisHelper;
-    const xField = this._direction === Direction.vertical ? this._fieldX : this._fieldY;
+    const bandAxisHelper = this._direction === Direction.horizontal ? this._yAxisHelper : this._xAxisHelper;
+    const xField = this._direction === Direction.horizontal ? this._fieldY : this._fieldX;
 
     const innerBandWidth = bandAxisHelper.getBandwidth(xField.length - 1);
     const autoBoxWidth = innerBandWidth / xField.length;

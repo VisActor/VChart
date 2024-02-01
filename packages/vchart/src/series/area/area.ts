@@ -89,29 +89,15 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
       this.getSpec().line?.style?.curveType) as InterpolateType;
     const curveType =
       userCurveType === DEFAULT_SMOOTH_INTERPOLATE
-        ? this._direction === Direction.vertical
-          ? 'monotoneX'
-          : 'monotoneY'
+        ? this._direction === Direction.horizontal
+          ? 'monotoneY'
+          : 'monotoneX'
         : userCurveType;
 
     // area
     const areaMark = this._areaMark;
     if (areaMark) {
-      if (this._direction === Direction.vertical) {
-        this.setMarkStyle(
-          this._areaMark,
-          {
-            x: this.dataToPositionX.bind(this),
-            y1: (datum: Datum) => {
-              return valueInScaleRange(this.dataToPositionY1(datum), this._yAxisHelper?.getScale?.(0));
-            },
-            y: this.dataToPositionY.bind(this),
-            z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
-          },
-          'normal',
-          AttributeLevel.Series
-        );
-      } else {
+      if (this._direction === Direction.horizontal) {
         this.setMarkStyle(
           this._areaMark,
           {
@@ -122,6 +108,20 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
             y: this.dataToPositionY.bind(this),
             z: this._fieldZ ? this.dataToPositionZ.bind(this) : null,
             orient: this._direction
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      } else {
+        this.setMarkStyle(
+          this._areaMark,
+          {
+            x: this.dataToPositionX.bind(this),
+            y1: (datum: Datum) => {
+              return valueInScaleRange(this.dataToPositionY1(datum), this._yAxisHelper?.getScale?.(0));
+            },
+            y: this.dataToPositionY.bind(this),
+            z: this._fieldZ ? this.dataToPositionZ.bind(this) : null
           },
           'normal',
           AttributeLevel.Series

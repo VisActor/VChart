@@ -493,36 +493,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
 
-    if (this.direction === Direction.vertical) {
-      this.setMarkStyle(
-        this._barMark,
-        {
-          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
-          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
-          y: (datum: Datum, ctx, opt, dataView) => {
-            if (this._shouldDoPreCalculate()) {
-              this._calculateStackRectPosition(true);
-              return datum[RECT_Y];
-            }
-
-            if (this._spec.barMinHeight) {
-              return this._calculateRectPosition(datum, true);
-            }
-
-            return valueInScaleRange(this.dataToPositionY(datum), yScale);
-          },
-          y1: (datum: Datum) => {
-            if (this._shouldDoPreCalculate()) {
-              this._calculateStackRectPosition(true);
-              return datum[RECT_Y1];
-            }
-            return valueInScaleRange(this.dataToPositionY1(datum), yScale);
-          }
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    } else {
+    if (this.direction === Direction.horizontal) {
       this.setMarkStyle(
         this._barMark,
         {
@@ -552,6 +523,35 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         'normal',
         AttributeLevel.Series
       );
+    } else {
+      this.setMarkStyle(
+        this._barMark,
+        {
+          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
+          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
+          y: (datum: Datum, ctx, opt, dataView) => {
+            if (this._shouldDoPreCalculate()) {
+              this._calculateStackRectPosition(true);
+              return datum[RECT_Y];
+            }
+
+            if (this._spec.barMinHeight) {
+              return this._calculateRectPosition(datum, true);
+            }
+
+            return valueInScaleRange(this.dataToPositionY(datum), yScale);
+          },
+          y1: (datum: Datum) => {
+            if (this._shouldDoPreCalculate()) {
+              this._calculateStackRectPosition(true);
+              return datum[RECT_Y1];
+            }
+            return valueInScaleRange(this.dataToPositionY1(datum), yScale);
+          }
+        },
+        'normal',
+        AttributeLevel.Series
+      );
     }
     this._initLinearBarBackgroundMarkStyle();
   }
@@ -560,27 +560,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
 
-    if (this.direction === Direction.vertical) {
-      this.setMarkStyle(
-        this._barBackgroundMark,
-        {
-          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
-          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
-          y: () => {
-            const range = yScale.range();
-            const min = Math.min(range[0], range[range.length - 1]);
-            return min;
-          },
-          y1: () => {
-            const range = yScale.range();
-            const max = Math.max(range[0], range[range.length - 1]);
-            return max;
-          }
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    } else {
+    if (this.direction === Direction.horizontal) {
       this.setMarkStyle(
         this._barBackgroundMark,
         {
@@ -596,6 +576,26 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           },
           y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
           y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale)
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    } else {
+      this.setMarkStyle(
+        this._barBackgroundMark,
+        {
+          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
+          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
+          y: () => {
+            const range = yScale.range();
+            const min = Math.min(range[0], range[range.length - 1]);
+            return min;
+          },
+          y1: () => {
+            const range = yScale.range();
+            const max = Math.max(range[0], range[range.length - 1]);
+            return max;
+          }
         },
         'normal',
         AttributeLevel.Series
@@ -763,9 +763,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
       samplingTrans.push({
         type: 'sampling',
-        size: this._direction === Direction.vertical ? width : height,
+        size: this._direction === Direction.horizontal ? height : width,
         factor: this._spec.samplingFactor,
-        yfield: this._direction === Direction.vertical ? fieldsY[0] : fieldsX[0],
+        yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
         groupBy: this._seriesField,
         mode: this._spec.sampling
       });
