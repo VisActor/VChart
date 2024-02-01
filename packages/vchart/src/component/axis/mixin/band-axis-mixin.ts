@@ -33,6 +33,7 @@ export interface BandAxisMixin {
 }
 
 export class BandAxisMixin {
+  private _tickDataMap: Dict<any>;
   protected _initData() {
     if (this._spec.showAllGroupLayers && this._scales.length > 1) {
       // 显示所有分组层级
@@ -48,13 +49,23 @@ export class BandAxisMixin {
             layer
           );
           tickData.target.addListener('change', this._forceLayout.bind(this));
-          this._tickData.push(new CompilableData(this._option, tickData));
+          const compilableData = new CompilableData(this._option, tickData);
+          this._tickData.push(compilableData);
+
+          if (!this._tickDataMap) {
+            this._tickDataMap = {};
+          }
+          this._tickDataMap[layer] = compilableData;
         }
       }
     } else {
       const tickData = this._initTickDataSet(this._tickTransformOption());
       tickData.target.addListener('change', this._forceLayout.bind(this));
-      this._tickData = [new CompilableData(this._option, tickData)];
+      const compilableData = new CompilableData(this._option, tickData);
+      this._tickData = [compilableData];
+      this._tickDataMap = {
+        0: compilableData
+      };
     }
   }
   protected _rawDomainIndex: { [key: string | number | symbol]: number }[] = [];
@@ -163,13 +174,7 @@ export class BandAxisMixin {
     let preData: any[] = [];
 
     this._scales.forEach((scale, index) => {
-      // 通过名称查找对应的 tickData
-      const tickData = this._tickData.find(child => {
-        const dataViewName = child.getDataView().name as string;
-        const splitName = dataViewName.split('_');
-
-        return splitName[splitName.length - 1] === `${index}`;
-      });
+      const tickData = this._tickDataMap[index];
 
       // 因为多层级标签会依赖上一层标签的分组值定位，所以如果上一层标签没有内容，那么就直接获取 bandScale 的 domain()
       const isTickDataHaveData = tickData?.getLatestData()?.length;
