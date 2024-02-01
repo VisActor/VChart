@@ -450,8 +450,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   }
 
   protected getLabelItems(length: number) {
-    const tickData = this.getTickData();
-    const tickLatestData = tickData.getLatestData();
+    const tickLatestData = this.getTickData()?.getLatestData();
     if (tickLatestData && tickLatestData.length) {
       return [
         tickLatestData.map((obj: Datum) => {

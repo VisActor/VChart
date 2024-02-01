@@ -589,7 +589,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this.setLayoutRect(rect);
     const isChanged = this.updateScaleRange();
     // 防止一直没有计算latestData
-    if (isChanged || !isArray(this.getTickData().getLatestData())) {
+    if (isChanged || !isArray(this.getTickData()?.getLatestData())) {
       this.computeData('range');
     }
     const context = { skipLayout: false };
@@ -784,8 +784,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   protected getLabelItems(length: number) {
-    const tickData = this.getTickData();
-    const tickLatestData = tickData.getLatestData();
+    const tickLatestData = this.getTickData()?.getLatestData();
     if (tickLatestData && tickLatestData.length) {
       return [
         tickLatestData

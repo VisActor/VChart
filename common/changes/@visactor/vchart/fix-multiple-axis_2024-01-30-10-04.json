@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fixed the problem that multi-layer axis labels are not displayed after closing  tail labels, fixed#2179",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
