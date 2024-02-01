@@ -155,25 +155,27 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
     super._handleChange(start, end, updateComponent);
-    if (updateComponent && this._component) {
-      this._component.setAttribute('range', [start, end]);
-    }
+    if (this._shouldChange) {
+      if (updateComponent && this._component) {
+        this._component.setAttribute('range', [start, end]);
+      }
 
-    this._start = start;
-    this._end = end;
-    const hasChange = this._handleStateChange(this._statePointToData(start), this._statePointToData(end));
-    if (hasChange) {
-      this.event.emit(ChartEvent.scrollBarChange, {
-        model: this,
-        value: {
-          filterData: this._filterMode !== IFilterMode.axis,
-          start: this._start,
-          end: this._end,
-          startValue: this._startValue,
-          endValue: this._endValue,
-          newDomain: this._newDomain
-        }
-      });
+      this._start = start;
+      this._end = end;
+      const hasChange = this._handleStateChange(this._statePointToData(start), this._statePointToData(end));
+      if (hasChange) {
+        this.event.emit(ChartEvent.scrollBarChange, {
+          model: this,
+          value: {
+            filterData: this._filterMode !== IFilterMode.axis,
+            start: this._start,
+            end: this._end,
+            startValue: this._startValue,
+            endValue: this._endValue,
+            newDomain: this._newDomain
+          }
+        });
+      }
     }
   }
 

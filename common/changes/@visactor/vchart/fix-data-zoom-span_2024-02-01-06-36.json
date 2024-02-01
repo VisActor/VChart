@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(datazom): min and max span not effect. fix#2195",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
