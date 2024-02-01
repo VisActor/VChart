@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix(react-vchart): fix the error when `onClick` of `<VChart />` is null, close #2186\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
