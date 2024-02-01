@@ -5,11 +5,11 @@
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: custom mark should run after all the series marks, fix [#2156](https://github.com/VisActor/VChart/issues/2156)
-- **@visactor/vchart**: interactions should be closed by `option.disableTriggerEvent`
-- **@visactor/vchart**: in the case of multiple band axes in a chart, the same datum corresponds to multiple rows of dimension tooltip content, related [#2148](https://github.com/VisActor/VChart/issues/2148)
-- **@visactor/vchart**: fix error of vchart in strict-mode
-- **@visactor/vchart**: fix the zero-align of axes, fix [#2167](https://github.com/VisActor/VChart/issues/2167)
+- **@visactor/vchart**: 自定义拓展mark运行顺序需要在所有系列mark的最后，修复[#2156](https://github.com/VisActor/VChart/issues/2156)
+- **@visactor/vchart**: 通过`interactions`配置的交互能够通过配置 `option.disableTriggerEvent`关闭
+- **@visactor/vchart**: 当图表有多个类目轴的时候，相同的数据在维度tooltip中只能展示一条，相关issue[#2148](https://github.com/VisActor/VChart/issues/2148)
+- **@visactor/react-vchart**: 修复react-vchart在react的 `strict-mode` 报错的问题
+- **@visactor/vchart**: 修复双轴图，0值没有对齐的问题，[#2167](https://github.com/VisActor/VChart/issues/2167)
 
 
 
