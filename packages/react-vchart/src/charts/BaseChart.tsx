@@ -7,7 +7,6 @@ import { isEqual, pickWithout } from '@visactor/vutils';
 import ViewContext from '../context/view';
 import { toArray } from '../util';
 import { REACT_PRIVATE_PROPS } from '../constants';
-import { IMarkElement } from '../components';
 import {
   bindEventsToChart,
   EventsProps,
@@ -71,6 +70,8 @@ type Props = React.PropsWithChildren<BaseChartProps>;
 const notSpecKeys = [
   ...REACT_PRIVATE_PROPS,
   ...CHART_EVENTS_KEYS,
+  'vchartConstrouctor',
+  'useSyncRender',
   'skipFunctionDiff',
   'onError',
   'onReady',
@@ -79,16 +80,39 @@ const notSpecKeys = [
   'options'
 ];
 
+const parseSpecFromChildren = (props: Props) => {
+  const specFromChildren: Omit<ISpec, 'type' | 'data' | 'width' | 'height'> = {};
+
+  toArray(props.children).map(child => {
+    const parseSpec = child && (child as any).type && (child as any).type.parseSpec;
+
+    if (parseSpec && (child as any).props) {
+      const specResult = parseSpec((child as any).props);
+
+      if (specResult.isSingle) {
+        specFromChildren[specResult.specName] = specResult.spec;
+      } else {
+        if (!specFromChildren[specResult.specName]) {
+          specFromChildren[specResult.specName] = [];
+        }
+
+        specFromChildren[specResult.specName].push(specResult.spec);
+      }
+    }
+  });
+
+  return specFromChildren;
+};
+
 const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const [updateId, setUpdateId] = useState<number>(0);
-  const chartContext = useRef<ChartContextType>({
-    specFromChildren: {}
-  });
+  const chartContext = useRef<ChartContextType>({});
   useImperativeHandle(ref, () => chartContext.current?.chart);
   const hasSpec = !!props.spec;
   const [view, setView] = useState<IView>(null);
   const isUnmount = useRef<boolean>(false);
   const prevSpec = useRef(pickWithout(props, notSpecKeys));
+  const specFromChildren = useRef<Omit<ISpec, 'type' | 'data' | 'width' | 'height'>>(null);
   const eventsBinded = React.useRef<BaseChartProps>(null);
   const skipFunctionDiff = !!props.skipFunctionDiff;
 
@@ -99,8 +123,8 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     return {
       ...prevSpec.current,
-      ...chartContext.current?.specFromChildren
-    };
+      ...specFromChildren.current
+    } as ISpec;
   };
 
   const createChart = (props: Props) => {
@@ -142,14 +166,16 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   };
 
   useEffect(() => {
+    const newSpecFromChildren = hasSpec ? null : parseSpecFromChildren(props);
+
     if (!chartContext.current?.chart) {
+      if (!hasSpec) {
+        specFromChildren.current = newSpecFromChildren;
+      }
+
       createChart(props);
       renderChart();
       bindEventsToChart(chartContext.current.chart, props, null, CHART_EVENTS);
-      chartContext.current = {
-        ...chartContext.current,
-        isChildrenUpdated: false
-      };
       eventsBinded.current = props;
       return;
     }
@@ -170,9 +196,10 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (
       !isEqual(newSpec, prevSpec.current, { skipFunction: skipFunctionDiff }) ||
-      chartContext.current.isChildrenUpdated
+      !isEqual(newSpecFromChildren, specFromChildren.current)
     ) {
       prevSpec.current = newSpec;
+      specFromChildren.current = newSpecFromChildren;
 
       chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
         morph: false,
@@ -180,19 +207,15 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       });
       handleChartRender();
     }
-    chartContext.current = {
-      ...chartContext.current,
-      isChildrenUpdated: false
-    };
   }, [props]);
 
   useEffect(() => {
     return () => {
       if (chartContext) {
-        if (chartContext.current.chart) {
+        if (chartContext.current && chartContext.current.chart) {
           chartContext.current.chart.release();
+          chartContext.current.chart = null;
         }
-        chartContext.current = null;
       }
       isUnmount.current = true;
     };
@@ -202,10 +225,19 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     <RootChartContext.Provider value={chartContext.current}>
       <ViewContext.Provider value={view}>
         {toArray(props.children).map((child, index) => {
+          if (typeof child === 'string') {
+            return;
+          }
+
+          const componentName =
+            child && (child as any).type && ((child as any).type.displayName || (child as any).type.name);
+          const childId = `${componentName}-${index}`;
+
           return (
-            <React.Fragment key={(child as any)?.props?.id ?? (child as any)?.id ?? `child-${index}`}>
-              {React.cloneElement(child as IMarkElement, {
-                updateId: updateId
+            <React.Fragment key={childId}>
+              {React.cloneElement(child as React.ReactElement<any, React.JSXElementConstructor<any>>, {
+                updateId: updateId,
+                componentId: childId
               })}
             </React.Fragment>
           );
