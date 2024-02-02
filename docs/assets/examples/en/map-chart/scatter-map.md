@@ -4,7 +4,7 @@ group: map chart
 title: Scatter Map
 keywords: map,space,polygon,scatter,distribution,comparison
 order: 11-1
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/map-chart/scatter-map.png
+cover: /vchart/preview/scatter-map_1.9.1.png
 option: mapChart
 ---
 
@@ -86,7 +86,3 @@ None
 ## Related Tutorials
 
 [Map](link)
-
-```
-
-```

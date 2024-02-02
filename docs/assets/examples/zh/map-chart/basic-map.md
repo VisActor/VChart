@@ -4,7 +4,7 @@ group: map chart
 title: 基础地图
 keywords: map,space,polygon
 order: 11-0
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/map-chart/basic-map.png
+cover: /vchart/preview/basic-map_1.9.1.png
 option: mapChart
 ---
 
