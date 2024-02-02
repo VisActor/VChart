@@ -132,7 +132,8 @@ onReady(){
               tooltipCanvasId: 'line_tooltip_canvas',
               freeCanvasIdx: 1
             },
-            dpr: this.dpr,
+            // 需要保证 dpr 在发生变化时能够实时更新到对象上
+            dpr: tt.getSystemInfoSync().pixelRatio,
             renderCanvas: 'line_draw_canvas'
           }
         );
