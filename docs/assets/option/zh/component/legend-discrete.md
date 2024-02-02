@@ -44,7 +44,7 @@
 
 ### maxCol(number)
 
-仅当 `orient` 为 `'left'` | `'right'` 时生效，表示图例项的最大行数，超出最大行数的图例项会被隐藏。
+仅当 `orient` 为 `'left'` | `'right'` 时生效，表示图例项的最大列数，超出最大列数的图例项会被隐藏。
 
 ### maxHeight(number)
 
@@ -52,7 +52,7 @@
 
 ### maxRow(number)
 
-仅当 `orient` 为 `'top'` | `'bottom'` 时生效，表示图例项的最大列数，超出最大列数的图例项会被隐藏。
+仅当 `orient` 为 `'top'` | `'bottom'` 时生效，表示图例项的最大行数，超出最大行数的图例项会被隐藏。
 
 ### item(Object)
 
