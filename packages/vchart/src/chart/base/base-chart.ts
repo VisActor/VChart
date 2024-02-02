@@ -37,7 +37,9 @@ import type { IRegion } from '../../region/interface';
 import { ComponentTypeEnum } from '../../component/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponent, IComponentConstructor } from '../../component/interface';
-import { MarkTypeEnum, type IMark } from '../../mark/interface';
+import type { IMark } from '../../mark/interface';
+// eslint-disable-next-line no-duplicate-imports
+import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
 import type { DataView } from '@visactor/vdataset';
 import type { DataSet } from '@visactor/vdataset/es/data-set';

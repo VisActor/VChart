@@ -3,7 +3,9 @@ import { AreaSeries } from '../area/area';
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface/type';
-import { AreaMark, registerAreaMark, type IAreaMark } from '../../mark/area';
+import type { IAreaMark } from '../../mark/area';
+// eslint-disable-next-line no-duplicate-imports
+import { registerAreaMark } from '../../mark/area';
 import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';
 import type { Datum } from '../../typings';

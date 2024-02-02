@@ -16,23 +16,39 @@ import { BaseComponent } from '../base/base-component';
 import { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
-import { array, get, isArray, isBoolean, isFunction, isNil, isValid, maxInArray } from '@visactor/vutils';
 import { eachSeries, getSeries } from '../../util/model';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ISeries } from '../../series/interface';
 import { ChartEvent, LayoutZIndex } from '../../constant';
 import { animationConfig } from '../../animation/utils';
+import type { LooseFunction } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { degreeToRadian, pickWithout, type LooseFunction, isEqual } from '@visactor/vutils';
+import {
+  degreeToRadian,
+  pickWithout,
+  isEqual,
+  array,
+  get,
+  isArray,
+  isBoolean,
+  isFunction,
+  isNil,
+  isValid,
+  maxInArray
+} from '@visactor/vutils';
 import { DEFAULT_TITLE_STYLE, transformAxisLineStyle } from './util';
 import { transformAxisLabelStateStyle, transformStateStyle, transformToGraphic } from '../../util/style';
-import { DataView, type ITransformOptions } from '@visactor/vdataset';
+import type { ITransformOptions } from '@visactor/vdataset';
+// eslint-disable-next-line no-duplicate-imports
+import { DataView } from '@visactor/vdataset';
 import {
   GridEnum,
   registerAxis as registerVGrammarAxis,
   registerGrid as registerVGrammarGrid
 } from '@visactor/vgrammar-core';
-import { registerComponentMark, type IComponentMark } from '../../mark/component';
+import type { IComponentMark } from '../../mark/component';
+// eslint-disable-next-line no-duplicate-imports
+import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
 import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';

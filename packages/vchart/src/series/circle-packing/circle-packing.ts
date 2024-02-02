@@ -29,11 +29,12 @@ import { addVChartProperty } from '../../data/transforms/add-property';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerScaleInOutAnimation } from '../../animation/config';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { registerCirclePackingAnimation, type CirclePackingAppearPreset } from './animation';
+import type { CirclePackingAppearPreset } from './animation';
+import { registerCirclePackingAnimation } from './animation';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { ArcMark, registerArcMark } from '../../mark/arc';
-import { TextMark, registerTextMark } from '../../mark/text';
+import { registerArcMark } from '../../mark/arc';
+import { registerTextMark } from '../../mark/text';
 import { circlePackingSeriesMark } from './constant';
 
 export class CirclePackingSeries<
