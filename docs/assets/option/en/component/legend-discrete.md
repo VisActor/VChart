@@ -44,7 +44,7 @@ The overall maximum width of the legend, which determines whether horizontally l
 
 ### maxCol(number)
 
-Effective only when `orient` is `'left'` | `'right'`, indicates the maximum number of rows for the legend item, the legend item beyond the maximum number of rows will be hidden.
+Effective only when `orient` is `'left'` | `'right'`, indicates the maximum number of columns for the legend item, the legend item beyond the maximum number of columns will be hidden.
 
 ### maxHeight(number)
 
@@ -52,7 +52,7 @@ The maximum height of the legend as a whole, which determines whether vertically
 
 ### maxRow(number)
 
-Effective only when `orient` is `'top'` | `'bottom'`, indicates the maximum number of columns for the legend item, the legend item beyond the maximum number of columns will be hidden.
+Effective only when `orient` is `'top'` | `'bottom'`, indicates the maximum number of rows for the legend item, the legend item beyond the maximum number of rows will be hidden.
 
 ### item(Object)
 
