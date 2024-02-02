@@ -128,7 +128,7 @@ export class ContentColumnModel extends BaseTooltipModel {
         shapeColumn.width ?? '8px'
       }) / 2)`; // shape 和 key 的第一行文字对齐
       const style: Partial<CSSStyleDeclaration> = mergeSpec({}, defaultShapeStyle, {
-        height: `calc(${getPixelPropertyStr(height)} - ${paddingTop})`,
+        height: getPixelPropertyStr(height),
         paddingTop,
         ...shapeColumn.common,
         ...shapeColumn.items?.[i]
