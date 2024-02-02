@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: bar label issue when position is 'inside-bottom' or 'inside-top'",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
