@@ -1,5 +1,7 @@
 import { AttributeLevel } from '../../constant';
-import { type ITextMark, registerTextMark } from '../../mark/text';
+import type { ITextMark } from '../../mark/text';
+// eslint-disable-next-line no-duplicate-imports
+import { registerTextMark } from '../../mark/text';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IWordCloud3dSeriesSpec } from './interface';
 import type { Datum } from '../../typings';

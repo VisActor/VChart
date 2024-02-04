@@ -1,4 +1,6 @@
-import { type Maybe, array } from '@visactor/vutils';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
+import { array } from '@visactor/vutils';
 import type { IGlobalMarkThemeByName, IGlobalMarkThemeByType, ITheme } from '../../theme';
 import { transformColorSchemeToStandardStruct } from '../../theme/color-scheme/util';
 import type { IThemeColorScheme } from '../../theme/color-scheme/interface';

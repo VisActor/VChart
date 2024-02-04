@@ -1,6 +1,8 @@
 import { BarSeriesSpecTransformer } from '../bar/bar-transformer';
 import { SeriesMarkNameEnum } from '../interface';
-import { PositionEnum, type IRangeColumnSeriesSpec, type IRangeColumnSeriesTheme } from './interface';
+import type { IRangeColumnSeriesSpec, IRangeColumnSeriesTheme } from './interface';
+// eslint-disable-next-line no-duplicate-imports
+import { PositionEnum } from './interface';
 
 export class RangeColumnSeriesSpecTransformer<
   T extends IRangeColumnSeriesSpec = IRangeColumnSeriesSpec,

@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-imports */
-import { array, degreeToRadian, isValid } from '@visactor/vutils';
+import { degreeToRadian, isValid } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import {
   AttributeLevel,
@@ -18,7 +18,7 @@ import {
   ChartEvent,
   DEFAULT_DATA_KEY
 } from '../../constant';
-import type { Maybe, IPoint, Datum, StateValueType } from '../../typings';
+import type { IPoint, Datum, StateValueType } from '../../typings';
 import { normalizeStartEndAngle, polarToCartesian } from '../../util/math';
 import { isSpecValueWithScale } from '../../util/scale';
 import { field } from '../../util/object';
@@ -35,16 +35,16 @@ import type { IPieOpt } from '../../data/transforms/pie';
 // eslint-disable-next-line no-duplicate-imports
 import { pie } from '../../data/transforms/pie';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import { registerPieAnimation, type IPieAnimationParams, type PieAppearPreset } from './animation/animation';
+import type { IPieAnimationParams, PieAppearPreset } from './animation/animation';
+import { registerPieAnimation } from './animation/animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { AnimationStateEnum } from '../../animation/interface';
-import type { IArcLabelSpec, IBasePieSeriesSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
+import type { IBasePieSeriesSpec, IPieSeriesSpec } from './interface';
 import { SeriesData } from '../base/series-data';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import { centerOffsetConfig } from './animation/centerOffset';
-import { ArcMark, registerArcMark } from '../../mark/arc';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { registerArcMark } from '../../mark/arc';
 import { pieSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { isNil } from '@visactor/vutils';

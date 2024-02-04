@@ -5,6 +5,7 @@ import { markerAggregation } from '../../../data/transforms/aggregation';
 import { computeClipRange, coordinateLayout, positionLayout, transformLabelAttributes, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { MarkPointAttrs } from '@visactor/vrender-components';
+// eslint-disable-next-line no-duplicate-imports
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -146,7 +147,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
             ...textStyle,
             text: this._spec.itemContent.text?.formatMethod
               ? this._spec.itemContent.text.formatMethod(dataPoints, seriesData)
-              : textStyle.text
+              : (textStyle.text as any) // FIXME: 富文本类型问题
           }
         },
         limitRect,

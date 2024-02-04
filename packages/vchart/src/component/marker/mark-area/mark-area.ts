@@ -7,6 +7,7 @@ import { markerAggregation } from '../../../data/transforms/aggregation';
 import { computeClipRange, coordinateLayout, positionLayout, xyLayout, transformLabelAttributes } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { MarkAreaAttrs } from '@visactor/vrender-components';
+// eslint-disable-next-line no-duplicate-imports
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -152,7 +153,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
           ...this._markerComponent.attribute?.label,
           text: this._spec.label.formatMethod
             ? this._spec.label.formatMethod(dataPoints, seriesData)
-            : this._markerComponent.attribute?.label?.text
+            : (this._markerComponent.attribute?.label?.text as any) // FIXME: 富文本类型问题
         },
         limitRect,
         dx: this._layoutOffsetX,

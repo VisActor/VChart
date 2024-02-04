@@ -8,7 +8,7 @@ import { BaseComponent } from '../base/base-component';
 // eslint-disable-next-line no-duplicate-imports
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
-import type { ITitle, ITitleSpec, ITitleTheme } from './interface';
+import type { ITitle, ITitleSpec } from './interface';
 import { Title as TitleComponents } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { TitleAttrs } from '@visactor/vrender-components';
@@ -151,7 +151,7 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
     // 当 width 小于 0 时，设置为 0，负数场景容易引起不可预知的问题
     const realWidth = Math.max(0, this._spec.width ?? this.getLayoutRect().width);
     return {
-      ...pickWithout(this._spec, ['padding']),
+      ...(pickWithout(this._spec, ['padding']) as any),
       textType: this._spec.textType ?? 'text',
       text: this._spec.text ?? '',
       subtextType: this._spec.subtextType ?? 'text',

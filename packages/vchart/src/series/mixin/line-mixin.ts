@@ -2,7 +2,6 @@ import { PREFIX } from '../../constant/base';
 import type { ISeriesOption } from '../interface/common';
 import { DataView } from '@visactor/vdataset';
 import { ChartEvent } from '../../constant/event';
-import type { ITrigger } from '../../interaction/interface';
 import type { ISeries } from '../interface/series';
 import { AttributeLevel } from '../../constant';
 
@@ -29,9 +28,11 @@ import { Direction } from '../../typings/space';
 import { DEFAULT_CLOSE_STROKE_JOIN } from '../../typings/line-stroke';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
-import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
+import type { ILabelSpec } from '../../component/label';
 import { shouldMarkDoMorph } from '../../animation/utils';
-import { DimensionEventEnum, type DimensionEventParams } from '../../event/events/dimension';
+import type { DimensionEventParams } from '../../event/events/dimension';
+// eslint-disable-next-line no-duplicate-imports
+import { DimensionEventEnum } from '../../event/events/dimension';
 import type { EventCallback, EventParams } from '../../event/interface';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { lineLikeSeriesMark } from './constant';

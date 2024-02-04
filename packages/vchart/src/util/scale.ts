@@ -2,9 +2,10 @@
  * @description Scale 相关的工具函数
  */
 import { isString, isValid } from '@visactor/vutils';
-import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../scale/interface';
-import { type IBaseScale, BandScale, LinearScale, OrdinalScale, PointScale, ThresholdScale } from '@visactor/vscale';
+import type { IBaseScale } from '@visactor/vscale';
+// eslint-disable-next-line no-duplicate-imports
+import { BandScale, LinearScale, OrdinalScale, PointScale, ThresholdScale } from '@visactor/vscale';
 import type { IVisual, IVisualSpecBase } from '../typings/visual';
 import { ColorOrdinalScale } from '../scale/color-ordinal-scale';
 

@@ -1,5 +1,6 @@
-import type { IModelOption } from '../../model/interface';
-import { Direction, type IOrientType } from '../../typings';
+import type { IOrientType } from '../../typings';
+// eslint-disable-next-line no-duplicate-imports
+import { Direction } from '../../typings';
 import { array, isNil, mergeSpec } from '../../util';
 import type { DataView } from '@visactor/vdataset';
 import type { ComponentTypeEnum } from '../interface';

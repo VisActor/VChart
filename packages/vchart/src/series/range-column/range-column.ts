@@ -4,8 +4,12 @@ import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { Direction } from '../../typings/space';
-import { type IRectMark, registerRectMark } from '../../mark/rect';
-import { type ITextMark, registerTextMark } from '../../mark/text';
+import type { IRectMark } from '../../mark/rect';
+// eslint-disable-next-line no-duplicate-imports
+import { registerRectMark } from '../../mark/rect';
+import type { ITextMark } from '../../mark/text';
+// eslint-disable-next-line no-duplicate-imports
+import { registerTextMark } from '../../mark/text';
 import { setRectLabelPos } from '../util/label-mark';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { RangeColumnSeriesTooltipHelper } from './tooltip-helper';
@@ -15,7 +19,9 @@ import type { IRangeColumnSeriesSpec } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { PositionEnum } from './interface';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { registerRangeColumnAnimation, type RangeColumnAppearPreset } from './animation';
+import type { RangeColumnAppearPreset } from './animation';
+// eslint-disable-next-line no-duplicate-imports
+import { registerRangeColumnAnimation } from './animation';
 import { rangeColumnSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { getGroupAnimationParams } from '../util/utils';
