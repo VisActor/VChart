@@ -9,7 +9,8 @@ import {
   STACK_FIELD_END_OffsetSilhouette,
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT,
-  STACK_FIELD_START_OffsetSilhouette
+  STACK_FIELD_START_OffsetSilhouette,
+  PREFIX
 } from '../../constant';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { DirectionType } from '../../typings/space';
@@ -194,6 +195,16 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
 
   getStackGroupFields(): string[] {
     return this.getGroupFields();
+  }
+
+  getStackValue() {
+    return (
+      this._spec.stackValue ??
+      `${PREFIX}_series_${this.type}_${(this.direction === Direction.horizontal
+        ? this.getXAxisHelper()
+        : this.getYAxisHelper()
+      ).getAxisId()}`
+    );
   }
 
   getStackValueField() {
