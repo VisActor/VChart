@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: charts should not stack toggle when series has same type but differernt axes, fix 2210\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
