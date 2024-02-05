@@ -191,7 +191,7 @@ export interface ICommonSpec {
   innerBorder?: IBorder;
   /**
    * @experimental
-   * @since 1.9.1
+   * @since 1.10.0
    * html 浮层
    */
   html?: IMarkHtmlSpec;

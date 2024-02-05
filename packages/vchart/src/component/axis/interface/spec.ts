@@ -257,7 +257,7 @@ export interface ISubTick extends IAxisItem<IRuleMarkSpec> {
 export interface ILabel extends IAxisItem<ITextMarkSpec> {
   /**
    * 文本类型
-   * @deprecated 1.9.1 版本后，在 formatMethod 中返回 { type: 'rich', text: xxx}
+   * @deprecated 1.10.0 版本后，在 formatMethod 中返回 { type: 'rich', text: xxx}
    * */
   type?: 'text' | 'rich';
   /**
@@ -314,7 +314,7 @@ export interface IDomainLine extends IAxisItem<IRuleMarkSpec> {
 export interface ITitle extends IAxisItem<ITextMarkSpec> {
   /**
    * 文本类型
-   * @deprecated 1.9.1 版本后，在 formatMethod 中返回 { type: 'rich', text: xxx}
+   * @deprecated 1.10.0 版本后，在 formatMethod 中返回 { type: 'rich', text: xxx}
    * */
   type?: 'text' | 'rich';
   /**
