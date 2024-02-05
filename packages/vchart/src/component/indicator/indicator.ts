@@ -221,7 +221,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         fitStrategy: this._spec.title.fitStrategy,
         style: {
           ...transformToGraphic(this._spec.title.style),
-          text: this._createText(this._spec.title.field, this._spec.title.style.text)
+          text: this._createText(this._spec.title.field, this._spec.title.style.text as any) // FIXME: type
         }
       },
       content: contentComponentSpec
