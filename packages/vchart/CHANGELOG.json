@@ -2,6 +2,21 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.8.11",
+      "tag": "@visactor/vchart_v1.8.11",
+      "date": "Mon, 05 Feb 2024 03:02:25 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: charts should not stack toggle when series has same type but differernt axes, fix 2210\n\n"
+          },
+          {
+            "comment": "fix: fix the zero-align of axes, fix #2167"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.8.10",
       "tag": "@visactor/vchart_v1.8.10",
       "date": "Thu, 25 Jan 2024 09:18:19 GMT",

@@ -1,6 +1,16 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 25 Jan 2024 09:18:19 GMT and should not be manually modified.
+This log was last generated on Mon, 05 Feb 2024 03:02:25 GMT and should not be manually modified.
+
+## 1.8.11
+Mon, 05 Feb 2024 03:02:25 GMT
+
+### Updates
+
+- fix: charts should not stack toggle when series has same type but differernt axes, fix 2210
+
+
+- fix: fix the zero-align of axes, fix #2167
 
 ## 1.8.10
 Thu, 25 Jan 2024 09:18:19 GMT
