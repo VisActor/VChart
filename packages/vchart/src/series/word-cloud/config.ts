@@ -21,5 +21,6 @@ export const SHAPE_TYPE = [
   'star',
   'cardioid',
   'circle',
-  'pentagon'
+  'pentagon',
+  'rect'
 ];
