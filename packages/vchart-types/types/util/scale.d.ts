@@ -1,5 +1,6 @@
 import type { IGlobalScale } from '../scale/interface';
-import { type IBaseScale, BandScale, LinearScale, OrdinalScale, PointScale, ThresholdScale } from '@visactor/vscale';
+import type { IBaseScale } from '@visactor/vscale';
+import { BandScale, LinearScale, OrdinalScale, PointScale, ThresholdScale } from '@visactor/vscale';
 import type { IVisual } from '../typings/visual';
 import { ColorOrdinalScale } from '../scale/color-ordinal-scale';
 declare const defaultScaleMap: {
