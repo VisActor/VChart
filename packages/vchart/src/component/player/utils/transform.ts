@@ -54,7 +54,8 @@ const transformToAttrs = (spec: IPlayer) => {
     direction: spec.direction,
     interval: spec.interval,
     visible: spec.visible,
-    orient: spec.orient,
+    // 不配置默认值的话, set attr时会将undefined代入配置, 导致vrender默认配置失效
+    orient: spec.orient ?? 'bottom',
     slider: {
       ...spec.slider,
       trackStyle: trackStyle,
