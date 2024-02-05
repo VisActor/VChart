@@ -1,4 +1,4 @@
-import { type IOrientType } from '../../typings';
+import type { IOrientType } from '../../typings';
 import type { ComponentTypeEnum } from '../interface';
 import type { ITheme } from '../../theme';
 export interface IDataFilterWithNewDomainOption {

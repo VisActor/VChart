@@ -1,4 +1,4 @@
-import { type IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike } from '@visactor/vutils';
 import type { IPadding } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
 import type { ILayoutNumber, ILayoutRect, IPercent, IPercentOffset, ILayoutPaddingSpec, ILayoutOrientPadding } from '../typings/layout';

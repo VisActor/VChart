@@ -7,7 +7,7 @@ import type { ITextMark } from '../../mark/text';
 import type { DirectionType, IInvalidType, InterpolateType, ILineMarkSpec, ISymbolMarkSpec, Maybe, Datum, IMarkTheme, ILayoutRect } from '../../typings';
 import type { ISeriesMarkInfo, ISeriesMarkInitOption, ISeriesTooltipHelper } from '../interface';
 import type { ILabelSpec } from '../../component/label';
-import { type DimensionEventParams } from '../../event/events/dimension';
+import type { DimensionEventParams } from '../../event/events/dimension';
 import type { ILabelMark } from '../../mark/label';
 import type { Functional } from '@visactor/vrender-components';
 import type { IRegion } from '../../region/interface';
