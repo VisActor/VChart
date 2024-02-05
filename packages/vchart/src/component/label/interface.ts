@@ -24,7 +24,7 @@ export interface ILabelSpec extends IComponentSpec {
   textType?: 'text' | 'rich';
   /**
    * 格式化函数
-   * @since 1.9.1 支持返回结构 `{type:'rich', text: [{text:'some text', fill:'black', fontSize: 20}]}
+   * @since 1.10.0 支持返回结构 `{type:'rich', text: [{text:'some text', fill:'black', fontSize: 20}]}
    */
   formatMethod?: IFormatMethod<[text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext]>;
   /**

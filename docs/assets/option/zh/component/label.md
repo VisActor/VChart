@@ -31,7 +31,7 @@
   formatMethod?: (text: string | string[], datum?: any) => string | string[] | number |  number[]
 ```
 
-自`1.9.1`后，支持返回富文本配置，例如：
+自`1.10.0`后，支持返回富文本配置，例如：
 
 ```ts
 formatMethod: text => {

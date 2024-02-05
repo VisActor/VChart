@@ -31,7 +31,7 @@ The data label content formatting function, defined as follows:
   formatMethod?: (text: string | string[], datum?: any) => string | string[] | number |  number[]
 ```
 
-Since version `1.9.1`, `formatMethod` supports return richText structure like:
+Since version `1.10.0`, `formatMethod` supports return richText structure like:
 
 ```ts
 formatMethod: text => {

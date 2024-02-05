@@ -103,7 +103,7 @@ Can be configured with fixed coordinates, such as [100, 100], or percentage coor
 Supported since version `1.7.3`, it is used to expand the picking range of strokes. 0 is the default line width, positive numbers widen the width, and negative numbers widen the width.
 
 #${prefix} html(object)
-Starting from version `1.9.1`, it supports configuring the HTML overlay of the graph element.
+Starting from version `1.10.0`, it supports configuring the HTML overlay of the graph element.
 
 ##${prefix} dom(string|HTMLElement)
 
