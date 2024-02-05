@@ -457,6 +457,10 @@ export class VChart implements IVChart {
       this._option?.onError('compiler is not initialized');
       return;
     }
+    if (this._chart) {
+      this._option?.onError('chart is already initialized');
+      return;
+    }
 
     // 放到这里而不是放到chart内的考虑
     // 用户spec更新，也许会有core上图表实例的内容存在

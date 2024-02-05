@@ -198,13 +198,10 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
   }
 
   getStackValue() {
-    return (
-      this._spec.stackValue ??
-      `${PREFIX}_series_${this.type}_${(this.direction === Direction.horizontal
-        ? this.getXAxisHelper()
-        : this.getYAxisHelper()
-      ).getAxisId()}`
-    );
+    const axisId = (
+      this.direction === Direction.horizontal ? this.getXAxisHelper() : this.getYAxisHelper()
+    )?.getAxisId();
+    return this._spec.stackValue ?? `${PREFIX}_series_${this.type}_${axisId}`;
   }
 
   getStackValueField() {
