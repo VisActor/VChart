@@ -57,7 +57,7 @@
     "react-dom": "^18.0.0",
     "react-router-dom": "6.9.0",
     "@visactor/vchart": "workspace:1.9.1",
-    "@visactor/vrender-core": "0.17.22",
+    "@visactor/vrender-core": "0.17.23",
     "@visactor/vutils-extension": "workspace:1.9.1",
     "@rollup/plugin-dynamic-import-vars": "~2.1.0",
     "@ffmpeg/core": "^0.11.0",
@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "@visactor/chart-advisor": "0.1.10",
-    "@visactor/vrender-core": "0.17.22",
+    "@visactor/vrender-core": "0.17.23",
     "@visactor/vdataset": "~0.17.4",
     "@visactor/vutils": "~0.17.4",
     "axios": "^1.4.0",
