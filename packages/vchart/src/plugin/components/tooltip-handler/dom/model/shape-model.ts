@@ -67,7 +67,6 @@ function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: an
 
   const { symbolType, fill, stroke, hollow = false } = option;
   const size = option.size ? valueToHtml(option.size) : '8px';
-  const marginTop = option.marginTop ? valueToHtml(option.marginTop) : '0px';
   const lineWidth = option.lineWidth ? valueToHtml(option.lineWidth) + 'px' : '0px';
   let fillString: string = 'currentColor';
   const getStroke = () => (stroke ? valueToHtml(stroke) : fillString);
@@ -96,7 +95,7 @@ function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: an
     fillString = hollow ? 'none' : fill ? valueToHtml(fill) : 'currentColor';
     return `
     <svg width="${size}" height="${size}" viewBox="${viewBox}"
-      style="display: inline-block; vertical-align: middle; margin-top: ${marginTop};">
+      style="display: block;">
       <path
         d="${path}"
         style="fill: ${fillString}; stroke: ${getStroke()}; stroke-width: ${lineWidth}"
@@ -125,7 +124,7 @@ function getSvgHtml(option: IShapeSvgOption | undefined, valueToHtml: (value: an
     }
     return `
     <svg width="${size}" height="${size}" viewBox="-0.5 -0.5 1 1"
-      style="display: inline-block; vertical-align: middle; margin-top: ${marginTop};">
+      style="display: block;">
       ${gradient}
       <path
         d="${path}"

@@ -21,7 +21,8 @@ import {
 } from '../../constant/scatter';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { registerScatterAnimation, type ScatterAppearPreset } from './animation';
+import type { ScatterAppearPreset } from './animation';
+import { registerScatterAnimation } from './animation';
 import { registerSymbolMark } from '../../mark/symbol';
 import { scatterSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';

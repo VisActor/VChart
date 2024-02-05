@@ -2,7 +2,7 @@ import { BarSeries } from '../bar/bar';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
-import { type ITextMark } from '../../mark/text';
+import type { ITextMark } from '../../mark/text';
 import type { Datum } from '../../typings';
 import type { IRangeColumnSeriesSpec } from './interface';
 export declare const DefaultBandWidth = 6;

@@ -1,5 +1,7 @@
 import { DataView } from '@visactor/vdataset';
-import { ThemeManager, type ITheme } from '../../theme';
+import type { ITheme } from '../../theme';
+// eslint-disable-next-line no-duplicate-imports
+import { ThemeManager } from '../../theme';
 import { isObject, isString } from '@visactor/vutils';
 
 export function isDataView(obj: any): obj is DataView {

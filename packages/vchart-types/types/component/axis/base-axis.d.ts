@@ -7,8 +7,9 @@ import { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
 import type { ISeries } from '../../series/interface';
-import { DataView, type ITransformOptions } from '@visactor/vdataset';
-import { type IComponentMark } from '../../mark/component';
+import type { ITransformOptions } from '@visactor/vdataset';
+import { DataView } from '@visactor/vdataset';
+import type { IComponentMark } from '../../mark/component';
 export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> extends BaseComponent<T> implements IAxis {
     static specKey: string;
     specKey: string;

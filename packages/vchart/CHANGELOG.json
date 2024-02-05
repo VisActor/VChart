@@ -2,6 +2,45 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.9.2",
+      "tag": "@visactor/vchart_v1.9.2",
+      "date": "Mon, 05 Feb 2024 09:28:49 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "chore: add react-lynx doc"
+          },
+          {
+            "comment": "fix: bar label issue when position is 'inside-bottom' or 'inside-top'"
+          },
+          {
+            "comment": "fix(block-vchart): in block-vchart demo, the `dpr` acquisition method is wrong and needs to be obtained in real time"
+          },
+          {
+            "comment": "fix: series can read `direction` from chart spec, releated to #2181\n\n"
+          },
+          {
+            "comment": "fix(datazom): min and max span not effect. fix#2195"
+          },
+          {
+            "comment": "fix: fixed the problem that multi-layer axis labels are not displayed after closing  tail labels, fixed#2179"
+          },
+          {
+            "comment": "fix: fix polar animation interpolation"
+          },
+          {
+            "comment": "fix(react-vchart): fix the error when `onClick` of `<VChart />` is null, close #2186\n\n"
+          },
+          {
+            "comment": "fix: charts should not stack toggle when series has same type but differernt axes, fix 2210\n\n"
+          },
+          {
+            "comment": "fix: there is some offset in the position of the dom tooltip shape, related #2188"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.9.1",
       "tag": "@visactor/vchart_v1.9.1",
       "date": "Wed, 31 Jan 2024 07:58:20 GMT",

@@ -134,22 +134,13 @@ export function barLabel(labelInfo: ILabelInfo) {
 
   let position = originPosition as BaseLabelAttrs['position'];
 
-  if (isString(originPosition) && position !== 'inside') {
+  if (isString(originPosition) && originPosition === 'outside') {
     position = (data: Datum) => {
       const { data: datum } = data;
       const dataField = series.getMeasureField()[0];
-      if (originPosition === 'outside') {
-        const positionMap = { vertical: ['top', 'bottom'], horizontal: ['right', 'left'] };
-        const index = (datum?.[dataField] >= 0 && isInverse) || (datum?.[dataField] < 0 && !isInverse) ? 1 : 0;
-        return positionMap[direction][index];
-      }
-      if (originPosition === 'inside-bottom') {
-        return (series as ICartesianSeries).direction === 'horizontal' ? 'inside-left' : 'inside-bottom';
-      }
-      if (originPosition === 'inside-top') {
-        return (series as ICartesianSeries).direction === 'horizontal' ? 'inside-right' : 'inside-top';
-      }
-      return originPosition;
+      const positionMap = { vertical: ['top', 'bottom'], horizontal: ['right', 'left'] };
+      const index = (datum?.[dataField] >= 0 && isInverse) || (datum?.[dataField] < 0 && !isInverse) ? 1 : 0;
+      return positionMap[direction][index];
     };
   }
   // encode overlap config
@@ -256,47 +247,47 @@ export function stackLabel(labelInfo: ILabelInfo) {
         const datum = label.data;
         const attribute = textAttribute(labelInfo, datum, labelSpec.formatMethod);
         const x = (datum: any) => {
-          if (series.direction === Direction.vertical) {
-            return series.totalPositionX(datum, 'index', 0.5);
+          if (series.direction === Direction.horizontal) {
+            if (pos === 'middle') {
+              return (series.totalPositionX(datum, 'end') + series.totalPositionY(datum, 'start')) * 0.5;
+            } else if (pos === 'max') {
+              return series.totalPositionX(datum, datum.end >= datum.start ? 'end' : 'start') + offset;
+            } else if (pos === 'min') {
+              return series.totalPositionX(datum, datum.end >= datum.start ? 'start' : 'end') - offset;
+            }
+            return series.totalPositionX(datum, 'end') + (datum.end >= datum.start ? offset : -offset);
           }
-          if (pos === 'middle') {
-            return (series.totalPositionX(datum, 'end') + series.totalPositionY(datum, 'start')) * 0.5;
-          } else if (pos === 'max') {
-            return series.totalPositionX(datum, datum.end >= datum.start ? 'end' : 'start') + offset;
-          } else if (pos === 'min') {
-            return series.totalPositionX(datum, datum.end >= datum.start ? 'start' : 'end') - offset;
-          }
-          return series.totalPositionX(datum, 'end') + (datum.end >= datum.start ? offset : -offset);
+          return series.totalPositionX(datum, 'index', 0.5);
         };
         const y = (datum: any) => {
-          if (series.direction === Direction.vertical) {
-            if (pos === 'middle') {
-              return (series.totalPositionY(datum, 'end') + series.totalPositionY(datum, 'start')) * 0.5;
-            } else if (pos === 'max') {
-              return series.totalPositionY(datum, datum.end >= datum.start ? 'end' : 'start') - offset;
-            } else if (pos === 'min') {
-              return series.totalPositionY(datum, datum.end >= datum.start ? 'start' : 'end') + offset;
-            }
-            return series.totalPositionY(datum, 'end') + (datum.end >= datum.start ? -offset : offset);
+          if (series.direction === Direction.horizontal) {
+            return series.totalPositionY(datum, 'index', 0.5);
           }
-          return series.totalPositionY(datum, 'index', 0.5);
+          if (pos === 'middle') {
+            return (series.totalPositionY(datum, 'end') + series.totalPositionY(datum, 'start')) * 0.5;
+          } else if (pos === 'max') {
+            return series.totalPositionY(datum, datum.end >= datum.start ? 'end' : 'start') - offset;
+          } else if (pos === 'min') {
+            return series.totalPositionY(datum, datum.end >= datum.start ? 'start' : 'end') + offset;
+          }
+          return series.totalPositionY(datum, 'end') + (datum.end >= datum.start ? -offset : offset);
         };
         attribute.x = x(datum);
         attribute.y = y(datum);
-        if (series.direction === Direction.vertical) {
-          attribute.textBaseline =
-            pos === 'middle'
-              ? pos
-              : (pos === 'withChange' && datum.end - datum.start >= 0) || pos === 'max'
-              ? 'bottom'
-              : 'top';
-        } else {
+        if (series.direction === Direction.horizontal) {
           attribute.textAlign =
             pos === 'middle'
               ? 'center'
               : (pos === 'withChange' && datum.end - datum.start >= 0) || pos === 'max'
               ? 'left'
               : 'right';
+        } else {
+          attribute.textBaseline =
+            pos === 'middle'
+              ? pos
+              : (pos === 'withChange' && datum.end - datum.start >= 0) || pos === 'max'
+              ? 'bottom'
+              : 'top';
         }
         return createText({ ...attribute, id: label.id });
       });

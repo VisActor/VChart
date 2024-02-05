@@ -59,6 +59,7 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     }[];
     getGroupFields(): string[];
     getStackGroupFields(): string[];
+    getStackValue(): StringOrNumber;
     getStackValueField(): string;
     setValueFieldToStack(): void;
     setValueFieldToPercent(): void;

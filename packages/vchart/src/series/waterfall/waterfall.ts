@@ -11,9 +11,10 @@ import {
 import { waterfall, waterfallFillTotal } from '../../data/transforms/waterfall';
 import { BarSeries } from '../bar/bar';
 import { valueInScaleRange } from '../../util/scale';
-import { registerWaterfallAnimation, type WaterfallAppearPreset } from './animation';
+import type { WaterfallAppearPreset } from './animation';
+import { registerWaterfallAnimation } from './animation';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import type { IWaterfallSeriesSpec, IWaterfallSeriesTheme } from './interface';
+import type { IWaterfallSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import { registerFadeInOutAnimation } from '../../animation/config';
@@ -24,7 +25,7 @@ import { dataViewFromDataView } from '../../data/initialize';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
 import type { IModelEvaluateOption } from '../../model/interface';
-import type { Datum, Maybe } from '../../typings';
+import type { Datum } from '../../typings';
 import { Direction } from '../../typings/space';
 import type { IBarAnimationParams } from '../bar/animation';
 import { registerRuleMark } from '../../mark/rule';
@@ -227,25 +228,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
 
   totalPositionX(datum: Datum, field: string, pos: number = 0.5) {
     const { dataToPosition, getBandwidth } = this._xAxisHelper;
-    if (this._direction === Direction.vertical) {
-      return (
-        dataToPosition([datum[field]], {
-          bandPosition: this._bandPosition
-        }) +
-        getBandwidth(0) * 0.5 -
-        (this._barMark.getAttribute('width', datum) as number) * (0.5 - pos)
-      );
-    }
-    return valueInScaleRange(
-      dataToPosition([datum[field]], {
-        bandPosition: this._bandPosition
-      })
-    );
-  }
-
-  totalPositionY(datum: Datum, field: string, pos: number = 0.5) {
-    const { dataToPosition, getBandwidth } = this._yAxisHelper;
-    if (this._direction === Direction.vertical) {
+    if (this._direction === Direction.horizontal) {
       return valueInScaleRange(
         dataToPosition([datum[field]], {
           bandPosition: this._bandPosition
@@ -257,32 +240,32 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
         bandPosition: this._bandPosition
       }) +
       getBandwidth(0) * 0.5 -
-      (this._barMark.getAttribute('height', datum) as number) * (0.5 - pos)
+      (this._barMark.getAttribute('width', datum) as number) * (0.5 - pos)
+    );
+  }
+
+  totalPositionY(datum: Datum, field: string, pos: number = 0.5) {
+    const { dataToPosition, getBandwidth } = this._yAxisHelper;
+    if (this._direction === Direction.horizontal) {
+      return (
+        dataToPosition([datum[field]], {
+          bandPosition: this._bandPosition
+        }) +
+        getBandwidth(0) * 0.5 -
+        (this._barMark.getAttribute('height', datum) as number) * (0.5 - pos)
+      );
+    }
+    return valueInScaleRange(
+      dataToPosition([datum[field]], {
+        bandPosition: this._bandPosition
+      })
     );
   }
 
   initMarkStyle(): void {
     super.initMarkStyle();
     if (this._leaderLineMark) {
-      if (this._direction === Direction.vertical) {
-        this.setMarkStyle(
-          this._leaderLineMark,
-          {
-            visible: (datum: Datum) => !isNil(datum.lastIndex),
-            x: (datum: Datum) => {
-              if (!datum.lastIndex) {
-                return 0;
-              }
-              return this.totalPositionX(datum, 'lastIndex', 1);
-            },
-            x1: (datum: Datum) => this.totalPositionX(datum, 'index', 0),
-            y: (datum: Datum) => this.totalPositionY(datum, 'lastEnd', 0),
-            y1: (datum: Datum) => this.totalPositionY(datum, datum.isTotal ? 'end' : 'start', 0)
-          },
-          'normal',
-          AttributeLevel.Series
-        );
-      } else {
+      if (this._direction === Direction.horizontal) {
         this.setMarkStyle(
           this._leaderLineMark,
           {
@@ -296,6 +279,24 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
               return this.totalPositionY(datum, 'lastIndex', 1);
             },
             y1: (datum: Datum) => this.totalPositionY(datum, 'index', 0)
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      } else {
+        this.setMarkStyle(
+          this._leaderLineMark,
+          {
+            visible: (datum: Datum) => !isNil(datum.lastIndex),
+            x: (datum: Datum) => {
+              if (!datum.lastIndex) {
+                return 0;
+              }
+              return this.totalPositionX(datum, 'lastIndex', 1);
+            },
+            x1: (datum: Datum) => this.totalPositionX(datum, 'index', 0),
+            y: (datum: Datum) => this.totalPositionY(datum, 'lastEnd', 0),
+            y1: (datum: Datum) => this.totalPositionY(datum, datum.isTotal ? 'end' : 'start', 0)
           },
           'normal',
           AttributeLevel.Series

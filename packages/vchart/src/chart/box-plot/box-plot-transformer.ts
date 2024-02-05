@@ -20,7 +20,7 @@ export class BoxPlotChartSpecTransformer<
       outliersField: spec.outliersField,
       outliersStyle: spec.outliersStyle
     };
-    seriesSpec[seriesSpec.direction === Direction.vertical ? 'yField' : 'xField'] = dataFields;
+    seriesSpec[seriesSpec.direction === Direction.horizontal ? 'xField' : 'yField'] = dataFields;
 
     return seriesSpec;
   }

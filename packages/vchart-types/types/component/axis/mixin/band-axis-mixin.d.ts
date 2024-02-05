@@ -34,6 +34,7 @@ export interface BandAxisMixin {
     _getNormalizedValue: (values: any[], length: number) => number;
 }
 export declare class BandAxisMixin {
+    private _tickDataMap;
     protected _initData(): void;
     protected _rawDomainIndex: {
         [key: string | number | symbol]: number;

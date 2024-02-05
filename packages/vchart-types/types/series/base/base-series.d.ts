@@ -10,7 +10,8 @@ import type { AddVChartPropertyContext } from '../../data/transforms/add-propert
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import { SeriesData } from './series-data';
 import type { IGroupMark } from '../../mark/group';
-import { STATE_VALUE_ENUM, type ISeriesMarkAttributeContext } from '../../compile/mark';
+import type { ISeriesMarkAttributeContext } from '../../compile/mark';
+import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
 import type { EventType } from '@visactor/vgrammar-core';
 export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {

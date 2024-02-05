@@ -87,6 +87,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _minSpan!: number;
   // 最大窗口范围
   protected _maxSpan!: number;
+  protected _shouldChange: boolean = true;
 
   protected _field!: string | undefined;
   protected _stateField: string = 'x';
@@ -164,7 +165,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
     const zoomLock = this._spec?.zoomLock ?? false;
     if (zoomLock || end - start < this._minSpan || end - start > this._maxSpan) {
-      return;
+      this._shouldChange = false;
     }
   }
 
