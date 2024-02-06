@@ -4,7 +4,7 @@ import type { ILineMarkSpec, ISymbolMarkSpec } from '../../../../typings';
 import type { IMarkerLabelSpec, IMarkerRef, IMarkerSymbol } from '../../interface';
 export interface IItemContent extends IMarkerRef {
     type?: 'symbol' | 'text' | 'image' | 'richText';
-    position?: IMarkPointItemPosition;
+    position?: keyof typeof IMarkPointItemPosition;
     offsetX?: number;
     offsetY?: number;
     confine?: boolean;

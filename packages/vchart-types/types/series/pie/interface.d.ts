@@ -57,14 +57,15 @@ export interface IArcLabelLayoutSpec {
     strategy?: ArcLabelStrategyType;
     tangentConstraint?: boolean;
 }
-export interface IArcLabelSpec extends ILabelSpec {
+export type IArcLabelSpec = Omit<ILabelSpec, 'position'> & {
     position?: 'outside' | 'inside';
     showRule?: 'all' | 'max' | 'min' | 'minAndMax' | 'headAndTail';
     coverEnable?: boolean;
     rotate?: boolean;
     spaceWidth?: number;
     layoutArcGap?: number;
+    centerOffset?: number;
     style?: ITextMarkSpec;
     line?: IArcLabelLineSpec;
     layout?: IArcLabelLayoutSpec;
-}
+};

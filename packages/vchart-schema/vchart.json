@@ -102,22 +102,6 @@
     }
   ],
   "definitions": {
-    "ArcLabelAlignType": {
-      "enum": [
-        "arc",
-        "edge",
-        "labelLine"
-      ],
-      "type": "string"
-    },
-    "ArcLabelStrategyType": {
-      "enum": [
-        "none",
-        "priority",
-        "vertical"
-      ],
-      "type": "string"
-    },
     "Attr": {
       "properties": {
         "ATTRIBUTE_NODE": {
@@ -805,6 +789,10 @@
         "height": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -952,6 +940,10 @@
         "height": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -1095,6 +1087,10 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -1240,6 +1236,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -1384,6 +1384,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -1516,6 +1520,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -1645,6 +1653,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -1766,6 +1778,10 @@
         },
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -1908,6 +1924,10 @@
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -2017,6 +2037,19 @@
       },
       "type": "object"
     },
+    "ConvertToMarkStyleSpec<IComposedTextMarkSpec>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRichTextMarkSpec>",
+          "description": "style格式转换"
+        }
+      ],
+      "description": "style格式转换"
+    },
     "ConvertToMarkStyleSpec<IGroupMarkSpec>": {
       "description": "style格式转换",
       "properties": {
@@ -2059,6 +2092,10 @@
         },
         "height": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -2187,6 +2224,10 @@
         "height": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -2310,6 +2351,10 @@
         },
         "height": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "image": {
           "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
@@ -2447,6 +2492,10 @@
         "height": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "image": {
           "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
         },
@@ -2582,6 +2631,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -2714,137 +2767,9 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
-        "innerBorder": {
-          "$ref": "#/definitions/VisualType<IBorder>",
-          "description": "内边框"
-        },
-        "lineCap": {
-          "$ref": "#/definitions/VisualType<LineStrokeCap>"
-        },
-        "lineDash": {
-          "$ref": "#/definitions/VisualType<number[]>"
-        },
-        "lineDashOffset": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "lineJoin": {
-          "$ref": "#/definitions/VisualType<LineStrokeJoin>"
-        },
-        "lineWidth": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "miterLimit": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "opacity": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "outerBorder": {
-          "$ref": "#/definitions/VisualType<IBorder>",
-          "description": "外边框"
-        },
-        "pickMode": {
-          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
-          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
-        },
-        "pickStrokeBuffer": {
-          "$ref": "#/definitions/VisualType<number>",
-          "default": 0,
-          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
-          "since": "1.7.3"
-        },
-        "scaleCenter": {
-          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
-          "description": "图形缩放中心",
-          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
-        },
-        "scaleX": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "scaleY": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "stroke": {
-          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
-        },
-        "strokeBoundsBuffer": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "strokeOpacity": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "texture": {
-          "$ref": "#/definitions/VisualType<string>",
-          "description": "纹理的类型"
-        },
-        "textureColor": {
-          "$ref": "#/definitions/VisualType<string>",
-          "description": "纹理的颜色"
-        },
-        "texturePadding": {
-          "$ref": "#/definitions/VisualType<number>",
-          "description": "纹理之间空隙的大小"
-        },
-        "textureSize": {
-          "$ref": "#/definitions/VisualType<number>",
-          "description": "纹理单元的大小"
-        },
-        "visible": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "x": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "y": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "z": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "zIndex": {
-          "$ref": "#/definitions/VisualType<number>"
-        }
-      },
-      "type": "object"
-    },
-    "ConvertToMarkStyleSpec<ILineMarkSpec>_2": {
-      "description": "style格式转换",
-      "properties": {
-        "alpha": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "anchor": {
-          "$ref": "#/definitions/VisualType<[number,number]>"
-        },
-        "anchor3d": {
-          "$ref": "#/definitions/VisualType<[number,number]>"
-        },
-        "angle": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "background": {
-          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
-        },
-        "beta": {
-          "$ref": "#/definitions/VisualType<number>"
-        },
-        "boundsMode": {
-          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">"
-        },
-        "cursor": {
-          "$ref": "#/definitions/VisualType<Cursor>"
-        },
-        "curveType": {
-          "$ref": "#/definitions/VisualType<InterpolateType>"
-        },
-        "defined": {
-          "$ref": "#/definitions/VisualType<boolean>"
-        },
-        "fill": {
-          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
-        },
-        "fillOpacity": {
-          "$ref": "#/definitions/VisualType<number>"
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -2984,6 +2909,10 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -3141,6 +3070,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -3284,6 +3217,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -3403,6 +3340,10 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -3528,6 +3469,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -3648,6 +3593,10 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -3783,6 +3732,10 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -3936,6 +3889,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -4074,6 +4031,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -4194,6 +4155,10 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -4318,6 +4283,10 @@
         },
         "height": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -4452,6 +4421,10 @@
         "height": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -4585,6 +4558,10 @@
         "height": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -4714,6 +4691,10 @@
         },
         "height": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -4845,6 +4826,10 @@
         "height": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -4935,6 +4920,534 @@
       },
       "type": "object"
     },
+    "ConvertToMarkStyleSpec<IRichTextMarkSpec>": {
+      "description": "style格式转换",
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>"
+        },
+        "ellipsis": {
+          "$ref": "#/definitions/VisualType<string|boolean>"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "height": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框"
+        },
+        "layoutDirection": {
+          "$ref": "#/definitions/VisualType<RichTextLayoutDirectionType>"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "maxHeight": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "maxWidth": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "singleLine": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "text": {
+          "$ref": "#/definitions/VisualType<IRichTextCharacter[]>"
+        },
+        "textAlign": {
+          "$ref": "#/definitions/VisualType<RichTextGlobalAlignType>"
+        },
+        "textBaseline": {
+          "$ref": "#/definitions/VisualType<RichTextGlobalBaselineType>"
+        },
+        "textConfig": {
+          "$ref": "#/definitions/VisualType<IRichTextCharacter[]>"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "type": {
+          "$ref": "#/definitions/VisualType<\"rich\">"
+        },
+        "verticalDirection": {
+          "$ref": "#/definitions/VisualType<RichTextVerticalDirection>"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "width": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/VisualType<RichTextWordBreak>"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>"
+        }
+      },
+      "required": [
+        "ellipsis",
+        "height",
+        "layoutDirection",
+        "maxHeight",
+        "maxWidth",
+        "singleLine",
+        "text",
+        "textAlign",
+        "textBaseline",
+        "textConfig",
+        "type",
+        "verticalDirection",
+        "width",
+        "wordBreak"
+      ],
+      "type": "object"
+    },
+    "ConvertToMarkStyleSpec<IRichTextMarkSpec>_1": {
+      "description": "style格式转换",
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>"
+        },
+        "ellipsis": {
+          "$ref": "#/definitions/VisualType<string|boolean>"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "height": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框"
+        },
+        "layoutDirection": {
+          "$ref": "#/definitions/VisualType<RichTextLayoutDirectionType>"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "maxHeight": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "maxWidth": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "singleLine": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "text": {
+          "$ref": "#/definitions/VisualType<IRichTextCharacter[]>"
+        },
+        "textAlign": {
+          "$ref": "#/definitions/VisualType<RichTextGlobalAlignType>"
+        },
+        "textBaseline": {
+          "$ref": "#/definitions/VisualType<RichTextGlobalBaselineType>"
+        },
+        "textConfig": {
+          "$ref": "#/definitions/VisualType<IRichTextCharacter[]>"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "type": {
+          "$ref": "#/definitions/VisualType<\"rich\">"
+        },
+        "verticalDirection": {
+          "$ref": "#/definitions/VisualType<RichTextVerticalDirection>"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "width": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/VisualType<RichTextWordBreak>"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>"
+        }
+      },
+      "required": [
+        "ellipsis",
+        "height",
+        "layoutDirection",
+        "maxHeight",
+        "maxWidth",
+        "singleLine",
+        "text",
+        "textAlign",
+        "textBaseline",
+        "textConfig",
+        "type",
+        "verticalDirection",
+        "width",
+        "wordBreak"
+      ],
+      "type": "object"
+    },
+    "ConvertToMarkStyleSpec<IRichTextMarkSpec>_2": {
+      "description": "style格式转换",
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>"
+        },
+        "ellipsis": {
+          "$ref": "#/definitions/VisualType<string|boolean>"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "height": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框"
+        },
+        "layoutDirection": {
+          "$ref": "#/definitions/VisualType<RichTextLayoutDirectionType>"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "maxHeight": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "maxWidth": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "singleLine": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "text": {
+          "$ref": "#/definitions/VisualType<IRichTextCharacter[]>"
+        },
+        "textAlign": {
+          "$ref": "#/definitions/VisualType<RichTextGlobalAlignType>"
+        },
+        "textBaseline": {
+          "$ref": "#/definitions/VisualType<RichTextGlobalBaselineType>"
+        },
+        "textConfig": {
+          "$ref": "#/definitions/VisualType<IRichTextCharacter[]>"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "type": {
+          "$ref": "#/definitions/VisualType<\"rich\">"
+        },
+        "verticalDirection": {
+          "$ref": "#/definitions/VisualType<RichTextVerticalDirection>"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
+        "width": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/VisualType<RichTextWordBreak>"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>"
+        }
+      },
+      "required": [
+        "ellipsis",
+        "height",
+        "layoutDirection",
+        "maxHeight",
+        "maxWidth",
+        "singleLine",
+        "text",
+        "textAlign",
+        "textBaseline",
+        "textConfig",
+        "type",
+        "verticalDirection",
+        "width",
+        "wordBreak"
+      ],
+      "type": "object"
+    },
     "ConvertToMarkStyleSpec<IRippleMarkSpec>": {
       "description": "style格式转换",
       "properties": {
@@ -4958,6 +5471,10 @@
         },
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -5071,6 +5588,10 @@
         },
         "cursor": {
           "$ref": "#/definitions/VisualType<Cursor>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -5199,6 +5720,10 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -5338,6 +5863,10 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
@@ -5437,7 +5966,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5449,6 +5978,10 @@
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_2",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRichTextMarkSpec>_2",
           "description": "style格式转换"
         },
         {
@@ -5514,7 +6047,7 @@
       ],
       "description": "style格式转换"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
@@ -5526,6 +6059,10 @@
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRichTextMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5625,6 +6162,10 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -5756,6 +6297,10 @@
         },
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -5915,12 +6460,13 @@
           "$ref": "#/definitions/VisualType<FontWeight>",
           "description": "字重"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
-        },
-        "lineBreak": {
-          "$ref": "#/definitions/VisualType<string>"
         },
         "lineDash": {
           "$ref": "#/definitions/VisualType<number[]>"
@@ -5989,7 +6535,7 @@
           "since": "1.7.3"
         },
         "text": {
-          "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
+          "$ref": "#/definitions/VisualType<string|number|string[]|number[]>",
           "description": "文字内容"
         },
         "textAlign": {
@@ -6015,11 +6561,6 @@
         "textureSize": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "纹理单元的大小"
-        },
-        "type": {
-          "$ref": "#/definitions/VisualType<\"text\"|\"html\"|\"rich\">",
-          "default": "'text'",
-          "description": "文字类型\n可选，'html', 'rich', 'text'"
         },
         "underline": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -6109,12 +6650,13 @@
           "$ref": "#/definitions/VisualType<FontWeight>",
           "description": "字重"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
-        },
-        "lineBreak": {
-          "$ref": "#/definitions/VisualType<string>"
         },
         "lineDash": {
           "$ref": "#/definitions/VisualType<number[]>"
@@ -6183,7 +6725,7 @@
           "since": "1.7.3"
         },
         "text": {
-          "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
+          "$ref": "#/definitions/VisualType<string|number|string[]|number[]>",
           "description": "文字内容"
         },
         "textAlign": {
@@ -6209,11 +6751,6 @@
         "textureSize": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "纹理单元的大小"
-        },
-        "type": {
-          "$ref": "#/definitions/VisualType<\"text\"|\"html\"|\"rich\">",
-          "default": "'text'",
-          "description": "文字类型\n可选，'html', 'rich', 'text'"
         },
         "underline": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -6303,12 +6840,13 @@
           "$ref": "#/definitions/VisualType<FontWeight>",
           "description": "字重"
         },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
           "description": "内边框"
-        },
-        "lineBreak": {
-          "$ref": "#/definitions/VisualType<string>"
         },
         "lineDash": {
           "$ref": "#/definitions/VisualType<number[]>"
@@ -6377,7 +6915,7 @@
           "since": "1.7.3"
         },
         "text": {
-          "$ref": "#/definitions/VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>",
+          "$ref": "#/definitions/VisualType<string|number|string[]|number[]>",
           "description": "文字内容"
         },
         "textAlign": {
@@ -6403,11 +6941,6 @@
         "textureSize": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "纹理单元的大小"
-        },
-        "type": {
-          "$ref": "#/definitions/VisualType<\"text\"|\"html\"|\"rich\">",
-          "default": "'text'",
-          "description": "文字类型\n可选，'html', 'rich', 'text'"
         },
         "underline": {
           "$ref": "#/definitions/VisualType<boolean>",
@@ -8663,29 +9196,6 @@
         "lighter",
         "normal"
       ]
-    },
-    "Function": {
-      "properties": {
-        "arguments": {},
-        "caller": {
-          "$ref": "#/definitions/Function"
-        },
-        "length": {
-          "type": "number"
-        },
-        "name": {
-          "type": "string"
-        },
-        "prototype": {}
-      },
-      "required": [
-        "arguments",
-        "caller",
-        "length",
-        "name",
-        "prototype"
-      ],
-      "type": "object"
     },
     "Functional<\"center\"|\"left\"|\"right\"|\"bottom\"|\"top\"|\"top-right\"|\"top-left\"|\"bottom-right\"|\"bottom-left\">": {
       "anyOf": [
@@ -17917,6 +18427,10 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
@@ -18063,402 +18577,15 @@
       },
       "type": "object"
     },
-    "IArcLabelLayoutSpec": {
-      "properties": {
-        "align": {
-          "$ref": "#/definitions/ArcLabelAlignType"
-        },
-        "strategy": {
-          "$ref": "#/definitions/ArcLabelStrategyType",
-          "default": "'priority'",
-          "description": "标签布局策略"
-        },
-        "tangentConstraint": {
-          "default": true,
-          "description": "是否启用切线约束",
-          "type": "boolean"
-        },
-        "textAlign": {
-          "$ref": "#/definitions/ArcLabelAlignType",
-          "default": "'arc'",
-          "description": "标签对齐方式"
-        }
-      },
-      "type": "object"
-    },
-    "IArcLabelLineSpec": {
-      "properties": {
-        "customShape": {
-          "typeof": "function"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "用户id"
-        },
-        "interactive": {
-          "description": "是否响应交互",
-          "type": "boolean"
-        },
-        "large": {
-          "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
-          "type": "boolean"
-        },
-        "largeThreshold": {
-          "description": "开启大数据渲染优化的阀值，对应的是data的长度;推荐 largeThreshold < progressiveThreshold",
-          "type": "number"
-        },
-        "line1MinLength": {
-          "default": 20,
-          "description": "引导线 line1 部分最小长度",
-          "type": "number"
-        },
-        "line2MinLength": {
-          "default": 10,
-          "description": "引导线 line2 部分最小长度",
-          "type": "number"
-        },
-        "progressiveStep": {
-          "description": "分片长度",
-          "type": "number"
-        },
-        "progressiveThreshold": {
-          "description": "开启分片渲染的阀值，对应的是单系列data的长度",
-          "type": "number"
-        },
-        "smooth": {
-          "default": false,
-          "description": "引导线是否光滑",
-          "since": "1.4.0",
-          "type": "boolean"
-        },
-        "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>",
-          "description": "不同状态下的样式配置"
-        },
-        "stateSort": {
-          "typeof": "function"
-        },
-        "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>_2",
-          "description": "默认样式设置"
-        },
-        "support3d": {
-          "type": "boolean"
-        },
-        "visible": {
-          "default": true,
-          "description": "是否显示引导线",
-          "type": "boolean"
-        },
-        "zIndex": {
-          "description": "与其他mark元素的层级",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "IArcLabelSpec": {
-      "properties": {
-        "alignSelf": {
-          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
-          "enum": [
-            "end",
-            "middle",
-            "start"
-          ],
-          "type": "string"
+      "allOf": [
+        {
+          "$ref": "#/definitions/Omit<ILabelSpec,\"position\">"
         },
-        "animation": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/ILabelAnimation"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
-          "description": "动画配置"
-        },
-        "bottom": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "center": {
-          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
-          "type": "boolean"
-        },
-        "centerOffset": {
-          "description": "中心点偏移距离",
-          "type": "number"
-        },
-        "clip": {
-          "description": "模块是否裁剪超出布局区域外的绘图内容",
-          "type": "boolean"
-        },
-        "coverEnable": {
-          "default": false,
-          "description": "是否允许标签重叠",
-          "type": "boolean"
-        },
-        "customLayoutFunc": {
+        {
           "typeof": "function"
-        },
-        "customOverlapFunc": {
-          "typeof": "function"
-        },
-        "dataFilter": {
-          "typeof": "function"
-        },
-        "formatMethod": {
-          "typeof": "function"
-        },
-        "formatter": {
-          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
-          "since": "1.7.0",
-          "type": "string"
-        },
-        "height": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：高度"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber"
-        },
-        "interactive": {
-          "description": "是否支持交互。@default false",
-          "type": "boolean"
-        },
-        "labelLayout": {
-          "description": "标签布局",
-          "enum": [
-            "region",
-            "series"
-          ],
-          "type": "string"
-        },
-        "layout": {
-          "$ref": "#/definitions/IArcLabelLayoutSpec",
-          "description": "标签布局配置"
-        },
-        "layoutArcGap": {
-          "default": 6,
-          "description": "扇区间标签的间隔",
-          "type": "number"
-        },
-        "layoutLevel": {
-          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
-          "type": "number"
-        },
-        "layoutType": {
-          "$ref": "#/definitions/ILayoutType",
-          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
-        },
-        "left": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "line": {
-          "$ref": "#/definitions/IArcLabelLineSpec",
-          "description": "标签引导线样式"
-        },
-        "maxHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大高度"
-        },
-        "maxWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最大宽度"
-        },
-        "minHeight": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小高度"
-        },
-        "minWidth": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局最小宽度"
-        },
-        "noOuterPadding": {
-          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
-          "type": "boolean"
-        },
-        "offset": {
-          "description": "标签与其对应数据图元的间距",
-          "type": "number"
-        },
-        "offsetX": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：X"
-        },
-        "offsetY": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局位置偏移：Y"
-        },
-        "orient": {
-          "$ref": "#/definitions/IOrientType",
-          "description": "模块布局位置"
-        },
-        "overlap": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/OverlapAttrs"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
-          "description": "标签防重叠配置"
-        },
-        "padding": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "模块的布局间距"
-        },
-        "position": {
-          "default": "'outside'",
-          "description": "标签布局方式",
-          "enum": [
-            "inside",
-            "outside"
-          ],
-          "type": "string"
-        },
-        "regionId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的region id"
-        },
-        "regionIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "default": 0,
-          "description": "组件关联的region索引"
-        },
-        "right": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "rotate": {
-          "default": true,
-          "description": "是否允许标签旋转",
-          "type": "boolean"
-        },
-        "seriesId": {
-          "anyOf": [
-            {
-              "items": {
-                "$ref": "#/definitions/StringOrNumber"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "组件关联的系列id"
-        },
-        "seriesIndex": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "组件关联的系列索引"
-        },
-        "showRule": {
-          "default": "'all'",
-          "description": "标签内容显示规则",
-          "enum": [
-            "all",
-            "headAndTail",
-            "max",
-            "min",
-            "minAndMax"
-          ],
-          "type": "string"
-        },
-        "smartInvert": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/SmartInvertAttrs"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
-          "description": "标签智能反色配置"
-        },
-        "spaceWidth": {
-          "default": 5,
-          "description": "文字与引导线间隔宽度",
-          "type": "number"
-        },
-        "state": {
-          "typeof": "function"
-        },
-        "style": {
-          "$ref": "#/definitions/ITextMarkSpec",
-          "description": "标签文字样式"
-        },
-        "support3d": {
-          "description": "是否支持3D",
-          "type": "boolean"
-        },
-        "syncState": {
-          "default": false,
-          "description": "是否同步数据图元的状态变化",
-          "since": "1.9.0",
-          "type": "boolean"
-        },
-        "textType": {
-          "type": "string"
-        },
-        "top": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
-        },
-        "visible": {
-          "description": "默认不显示标签",
-          "type": "boolean"
-        },
-        "width": {
-          "$ref": "#/definitions/ILayoutNumber",
-          "description": "模块的布局大小：宽度"
-        },
-        "zIndex": {
-          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
-          "type": "number"
         }
-      },
-      "type": "object"
+      ]
     },
     "IArcMarkSpec": {
       "properties": {
@@ -18589,6 +18716,10 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
@@ -18893,7 +19024,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -19631,6 +19762,10 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
@@ -20649,7 +20784,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -21502,7 +21637,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -22896,7 +23031,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -23565,6 +23700,10 @@
         },
         "cursor": {
           "$ref": "#/definitions/Cursor_1"
+        },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
@@ -25265,7 +25404,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -25581,7 +25720,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -26357,7 +26496,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -27540,7 +27679,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -28970,7 +29109,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -30228,7 +30367,7 @@
       ],
       "type": "string"
     },
-    "ICustomMarkSpec<keyofIBuildinMarkSpec>": {
+    "ICustomMarkSpec<keyofIBuiltInMarkSpec>": {
       "properties": {
         "componentType": {
           "description": "specify the component type",
@@ -30271,14 +30410,14 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -31863,7 +32002,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "reversed": {
           "type": "boolean"
         },
@@ -32479,7 +32617,7 @@
         "children": {
           "description": "支持子节点",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -32598,14 +32736,14 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -32892,7 +33030,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -33420,7 +33558,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -33771,27 +33909,86 @@
     },
     "IFunnelLabelSpec": {
       "properties": {
-        "customShape": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
+        "animation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "动画配置"
+        },
+        "bottom": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "center": {
+          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
+          "type": "boolean"
+        },
+        "clip": {
+          "description": "模块是否裁剪超出布局区域外的绘图内容",
+          "type": "boolean"
+        },
+        "customLayoutFunc": {
+          "typeof": "function"
+        },
+        "customOverlapFunc": {
+          "typeof": "function"
+        },
+        "dataFilter": {
           "typeof": "function"
         },
         "formatMethod": {
           "typeof": "function"
         },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值",
+          "since": "1.7.0",
+          "type": "string"
+        },
+        "height": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：高度"
+        },
         "id": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "用户id"
+          "$ref": "#/definitions/StringOrNumber"
         },
         "interactive": {
-          "description": "是否响应交互",
+          "default": false,
+          "description": "是否支持交互。",
           "type": "boolean"
         },
-        "large": {
-          "description": "是否开启大数据渲染模式，开启后会降低渲染的精度",
-          "type": "boolean"
+        "labelLayout": {
+          "description": "标签布局",
+          "enum": [
+            "region",
+            "series"
+          ],
+          "type": "string"
         },
-        "largeThreshold": {
-          "description": "开启大数据渲染优化的阀值，对应的是data的长度;推荐 largeThreshold < progressiveThreshold",
+        "layoutLevel": {
+          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
           "type": "number"
+        },
+        "layoutType": {
+          "$ref": "#/definitions/ILayoutType",
+          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
+        },
+        "left": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "limit": {
           "anyOf": [
@@ -33805,34 +34002,175 @@
           ],
           "description": "标签文字样式"
         },
-        "progressiveStep": {
-          "description": "分片长度",
+        "maxHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大高度"
+        },
+        "maxWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大宽度"
+        },
+        "minHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小高度"
+        },
+        "minWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小宽度"
+        },
+        "noOuterPadding": {
+          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
+          "type": "boolean"
+        },
+        "offset": {
+          "description": "标签与其对应数据图元的间距",
           "type": "number"
         },
-        "progressiveThreshold": {
-          "description": "开启分片渲染的阀值，对应的是单系列data的长度",
-          "type": "number"
+        "offsetX": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：X"
+        },
+        "offsetY": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：Y"
+        },
+        "orient": {
+          "$ref": "#/definitions/IOrientType",
+          "description": "模块布局位置"
+        },
+        "overlap": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/OverlapAttrs"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "标签防重叠配置"
+        },
+        "padding": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局间距"
+        },
+        "regionId": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/StringOrNumber"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "组件关联的region id"
+        },
+        "regionIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 0,
+          "description": "组件关联的region索引"
+        },
+        "right": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "seriesId": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/StringOrNumber"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "组件关联的系列id"
+        },
+        "seriesIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "组件关联的系列索引"
+        },
+        "smartInvert": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SmartInvertAttrs"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "标签智能反色配置"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>",
-          "description": "不同状态下的样式配置"
-        },
-        "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
-          "description": "默认样式设置"
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IComposedTextMarkSpec>",
+          "description": "标签样式配置"
         },
         "support3d": {
+          "description": "是否支持3D",
           "type": "boolean"
+        },
+        "syncState": {
+          "default": false,
+          "description": "是否同步数据图元的状态变化",
+          "since": "1.9.0",
+          "type": "boolean"
+        },
+        "textType": {
+          "description": "文本类型：text, rich,",
+          "enum": [
+            "rich",
+            "text"
+          ],
+          "since": "1.7.0",
+          "type": "string"
+        },
+        "top": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "visible": {
-          "description": "mark 层 是否显示配置",
+          "description": "默认不显示标签",
           "type": "boolean"
         },
+        "width": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：宽度"
+        },
         "zIndex": {
-          "description": "与其他mark元素的层级",
+          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
           "type": "number"
         }
       },
@@ -33867,18 +34205,6 @@
           "description": "开启大数据渲染优化的阀值，对应的是data的长度;推荐 largeThreshold < progressiveThreshold",
           "type": "number"
         },
-        "limit": {
-          "anyOf": [
-            {
-              "const": "shapeSize",
-              "type": "string"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "标签文字样式"
-        },
         "line": {
           "$ref": "#/definitions/IMarkSpec<IRuleMarkSpec>",
           "description": "标签引导线样式"
@@ -33908,7 +34234,7 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IComposedTextMarkSpec>|IMarkStateSpec<IComposedTextMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
@@ -33920,6 +34246,13 @@
         },
         "support3d": {
           "type": "boolean"
+        },
+        "textType": {
+          "enum": [
+            "rich",
+            "text"
+          ],
+          "type": "string"
         },
         "visible": {
           "description": "mark 层 是否显示配置",
@@ -34465,7 +34798,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -38386,7 +38719,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -39592,7 +39925,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -40408,7 +40741,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -41112,7 +41445,6 @@
         },
         "style": {
           "additionalProperties": false,
-          "description": "文字样式",
           "patternProperties": {
             "^[a-zA-Z0-9]+$": {}
           },
@@ -41641,8 +41973,16 @@
           "type": "number"
         },
         "position": {
-          "$ref": "#/definitions/IMarkPointItemPosition",
-          "description": "标注内容相对于定位点的位置"
+          "description": "标注内容相对于定位点的位置",
+          "enum": [
+            "bottom",
+            "insideBottom",
+            "insideMiddle",
+            "insideTop",
+            "middle",
+            "top"
+          ],
+          "type": "string"
         },
         "refAngle": {
           "description": "label or symbol 相对默认角度的偏移 （label跟随line的角度做自动旋转时，默认按照line的平行向量作为初始角度）",
@@ -41664,7 +42004,7 @@
         },
         "text": {
           "$ref": "#/definitions/IMarkerLabelSpec",
-          "description": "type为text时, text的样式\n'text'类型的ItemContent新增三种子类型：'text','rich','html'。配置在textStyle.type上。"
+          "description": "type为text时, text的样式\n'text'类型的ItemContent新增三种子类型：'text','rich'。配置在textStyle.type上。"
         },
         "type": {
           "description": "标注类型",
@@ -41715,9 +42055,8 @@
           "description": "文本样式设置"
         },
         "type": {
-          "description": "文本类型：text, rich, html",
+          "description": "文本类型",
           "enum": [
-            "html",
             "rich",
             "text"
           ],
@@ -41784,10 +42123,6 @@
           "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
           "type": "boolean"
         },
-        "centerOffset": {
-          "description": "中心点偏移距离",
-          "type": "number"
-        },
         "clip": {
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
@@ -41805,7 +42140,7 @@
           "typeof": "function"
         },
         "formatter": {
-          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值",
           "since": "1.7.0",
           "type": "string"
         },
@@ -41817,7 +42152,8 @@
           "$ref": "#/definitions/StringOrNumber"
         },
         "interactive": {
-          "description": "是否支持交互。@default false",
+          "default": false,
+          "description": "是否支持交互。",
           "type": "boolean"
         },
         "labelLayout": {
@@ -41977,7 +42313,7 @@
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IComposedTextMarkSpec>",
           "description": "标签样式配置"
         },
         "support3d": {
@@ -41991,6 +42327,12 @@
           "type": "boolean"
         },
         "textType": {
+          "description": "文本类型：text, rich,",
+          "enum": [
+            "rich",
+            "text"
+          ],
+          "since": "1.7.0",
           "type": "string"
         },
         "top": {
@@ -43065,7 +43407,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -43846,6 +44188,10 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
@@ -44594,7 +44940,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -45500,6 +45846,10 @@
         "cursor": {
           "$ref": "#/definitions/Cursor_1"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
@@ -45874,7 +46224,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -45958,17 +46308,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "allOf": [
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            }
-          ],
+          "$ref": "#/definitions/Omit<ILabelSpec,\"position\">",
           "description": "标签配置"
         },
         "layout": {
@@ -46356,17 +46696,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "allOf": [
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            }
-          ],
+          "$ref": "#/definitions/Omit<ILabelSpec,\"position\">",
           "description": "标签配置"
         },
         "map": {
@@ -47183,17 +47513,6 @@
         "y"
       ],
       "type": "object"
-    },
-    "IMarkPointItemPosition": {
-      "enum": [
-        "bottom",
-        "insideBottom",
-        "insideMiddle",
-        "insideTop",
-        "middle",
-        "top"
-      ],
-      "type": "string"
     },
     "IMarkPointSpec": {
       "anyOf": [
@@ -48464,6 +48783,10 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
@@ -48820,7 +49143,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -49362,7 +49685,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -50939,6 +51262,10 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
@@ -51496,7 +51823,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -51793,6 +52119,10 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
@@ -52085,6 +52415,10 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
@@ -52406,7 +52740,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -53377,7 +53711,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -54605,7 +54939,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -55828,7 +56162,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -56975,6 +57309,10 @@
         "height": {
           "type": "number"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
@@ -57232,6 +57570,10 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
@@ -57872,7 +58214,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -58636,6 +58978,10 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
@@ -58940,7 +59286,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -59797,7 +60143,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -61383,7 +61729,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -63257,7 +63603,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -64123,6 +64469,10 @@
         "fillOpacity": {
           "type": "number"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
@@ -64410,12 +64760,13 @@
           "$ref": "#/definitions/FontWeight",
           "description": "字重"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
-        },
-        "lineBreak": {
-          "type": "string"
         },
         "lineDash": {
           "items": {
@@ -64547,9 +64898,6 @@
         "text": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Function"
-            },
-            {
               "items": {
                 "type": "string"
               },
@@ -64557,7 +64905,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IRichTextCharacter"
+                "type": "number"
               },
               "type": "array"
             },
@@ -64593,16 +64941,6 @@
         "textureSize": {
           "description": "纹理单元的大小",
           "type": "number"
-        },
-        "type": {
-          "default": "'text'",
-          "description": "文字类型\n可选，'html', 'rich', 'text'",
-          "enum": [
-            "html",
-            "rich",
-            "text"
-          ],
-          "type": "string"
         },
         "underline": {
           "description": "下划线",
@@ -64934,20 +65272,31 @@
             },
             {
               "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
                 "$ref": "#/definitions/IRichTextCharacter"
               },
               "type": "array"
             },
             {
-              "type": "string"
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
             }
           ],
-          "description": "文本内容\n支持富文本内容, 如textConfig, html"
+          "description": "轴b内容格式化函数"
         },
         "type": {
-          "description": "文本类型：text, rich, html",
+          "description": "文本类型",
           "enum": [
-            "html",
             "rich",
             "text"
           ],
@@ -64960,6 +65309,62 @@
       "type": "object"
     },
     "ITitleSpec": {
+      "anyOf": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ITitleSpecWithoutText"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ITitleSpecWithoutText"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ITitleSpecWithoutText"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ITitleSpecWithoutText"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        }
+      ]
+    },
+    "ITitleSpecWithoutText": {
       "properties": {
         "align": {
           "description": "文字水平对齐方式\n'left' | 'center' | 'right'",
@@ -65126,35 +65531,6 @@
           ],
           "description": "组件关联的系列索引"
         },
-        "subtext": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/IRichTextCharacter"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "副标题文本内容\n- 支持富文本配置"
-        },
         "subtextStyle": {
           "allOf": [
             {
@@ -65166,39 +65542,6 @@
           ],
           "description": "副标题样式"
         },
-        "subtextType": {
-          "description": "副标题文本类型（默认类型为text）\ntext, rich, html",
-          "type": "string"
-        },
-        "text": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/IRichTextCharacter"
-              },
-              "type": "array"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "description": "主标题文本内容\n- 支持富文本配置"
-        },
         "textStyle": {
           "allOf": [
             {
@@ -65209,10 +65552,6 @@
             }
           ],
           "description": "主标题样式"
-        },
-        "textType": {
-          "description": "主标题文本类型（默认类型为text）\ntext, rich, html",
-          "type": "string"
         },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
@@ -65472,7 +65811,7 @@
         },
         "value": {
           "$ref": "#/definitions/TooltipContentProperty<string|TooltipRichTextAttrs>",
-          "description": "tooltip value 值内容\n支持富文本配置\n - type 文本类型：text, rich, html\n - text 文本内容：string | string[] | number | number[] | IRichTextCharacter[];"
+          "description": "tooltip value 值内容\n支持富文本配置\n - type 文本类型：text, rich\n - text 文本内容：string | string[] | number | number[] | IRichTextCharacter[];"
         },
         "valueStyle": {
           "$ref": "#/definitions/TooltipContentProperty<ITooltipTextTheme<string>>",
@@ -65897,7 +66236,8 @@
           "typeof": "function"
         },
         "interactive": {
-          "description": "是否支持交互。@default false",
+          "default": false,
+          "description": "是否支持交互。",
           "type": "boolean"
         },
         "offset": {
@@ -65908,8 +66248,17 @@
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IComposedTextMarkSpec>",
           "description": "标签样式配置"
+        },
+        "textType": {
+          "description": "文本类型：text, rich,",
+          "enum": [
+            "rich",
+            "text"
+          ],
+          "since": "1.7.0",
+          "type": "string"
         },
         "visible": {
           "description": "默认不显示标签",
@@ -65932,7 +66281,8 @@
           "description": "动画配置"
         },
         "interactive": {
-          "description": "是否支持交互。@default false",
+          "default": false,
+          "description": "是否支持交互。",
           "type": "boolean"
         },
         "offset": {
@@ -66133,7 +66483,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -66238,7 +66588,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "$ref": "#/definitions/IMarkSpec<ITextMarkSpec>",
+          "$ref": "#/definitions/Omit<ILabelSpec,\"position\"|\"overlap\">",
           "description": "叶子节点标签样式配置，默认不显示"
         },
         "layout": {
@@ -66357,10 +66707,7 @@
         "nonLeafLabel": {
           "allOf": [
             {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\"|\"overlap\">"
             },
             {
               "typeof": "function"
@@ -66707,7 +67054,7 @@
           "description": "null，undefined等非法数据点连接方式。"
         },
         "label": {
-          "$ref": "#/definitions/IMarkSpec<ITextMarkSpec>",
+          "$ref": "#/definitions/Omit<ILabelSpec,\"position\"|\"overlap\">",
           "description": "叶子节点标签样式配置，默认不显示"
         },
         "leaf": {
@@ -66793,10 +67140,7 @@
         "nonLeafLabel": {
           "allOf": [
             {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
+              "$ref": "#/definitions/Omit<ILabelSpec,\"position\"|\"overlap\">"
             },
             {
               "typeof": "function"
@@ -67327,7 +67671,7 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,\"text\"|\"html\"|\"rich\">": {
+    "IVisualSpecStyle<unknown,\"rich\">": {
       "properties": {
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
@@ -67340,11 +67684,7 @@
         "range": {
           "description": "will set to scale.range, it means output of scale",
           "items": {
-            "enum": [
-              "html",
-              "rich",
-              "text"
-            ],
+            "const": "rich",
             "type": "string"
           },
           "type": "array"
@@ -67620,60 +67960,6 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,Function|string[]|StringOrNumber|IRichTextCharacter[]>": {
-      "properties": {
-        "domain": {
-          "description": "will set to scale.domain, it means input of scale",
-          "items": {},
-          "type": "array"
-        },
-        "field": {
-          "type": "string"
-        },
-        "range": {
-          "description": "will set to scale.range, it means output of scale",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/Function"
-              },
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "items": {
-                  "$ref": "#/definitions/IRichTextCharacter"
-                },
-                "type": "array"
-              },
-              {
-                "type": [
-                  "string",
-                  "number"
-                ]
-              }
-            ]
-          },
-          "type": "array"
-        },
-        "specified": {
-          "typeof": "function"
-        },
-        "type": {
-          "$ref": "#/definitions/ScaleType",
-          "description": "type of scale"
-        }
-      },
-      "required": [
-        "domain",
-        "range",
-        "type"
-      ],
-      "type": "object"
-    },
     "IVisualSpecStyle<unknown,IBorder>": {
       "properties": {
         "domain": {
@@ -67755,6 +68041,41 @@
           "description": "will set to scale.range, it means output of scale",
           "items": {
             "$ref": "#/definitions/IRepeatType"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,IRichTextCharacter[]>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "items": {
+              "$ref": "#/definitions/IRichTextCharacter"
+            },
+            "type": "array"
           },
           "type": "array"
         },
@@ -67869,6 +68190,38 @@
       ],
       "type": "object"
     },
+    "IVisualSpecStyle<unknown,Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
     "IVisualSpecStyle<unknown,PopTipAttributes>": {
       "properties": {
         "domain": {
@@ -67883,6 +68236,166 @@
           "description": "will set to scale.range, it means output of scale",
           "items": {
             "$ref": "#/definitions/PopTipAttributes"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,RichTextGlobalAlignType>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "$ref": "#/definitions/RichTextGlobalAlignType"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,RichTextGlobalBaselineType>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "$ref": "#/definitions/RichTextGlobalBaselineType"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,RichTextLayoutDirectionType>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "$ref": "#/definitions/RichTextLayoutDirectionType"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,RichTextVerticalDirection>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "$ref": "#/definitions/RichTextVerticalDirection"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,RichTextWordBreak>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "$ref": "#/definitions/RichTextWordBreak"
           },
           "type": "array"
         },
@@ -68380,6 +68893,41 @@
       ],
       "type": "object"
     },
+    "IVisualSpecStyle<unknown,string|boolean>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "type": [
+              "string",
+              "boolean"
+            ]
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
     "IVisualSpecStyle<unknown,string|false|IColorKey|IGradient|(number|boolean)[]>": {
       "properties": {
         "domain": {
@@ -68457,6 +69005,57 @@
             "type": [
               "string",
               "number"
+            ]
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,string|number|string[]|number[]>": {
+      "properties": {
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": [
+                  "string",
+                  "number"
+                ]
+              }
             ]
           },
           "type": "array"
@@ -68683,7 +69282,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -70187,7 +70786,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -71125,7 +71724,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -72041,7 +72640,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         },
         "size": {
@@ -72049,14 +72648,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12792",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         },
         "size": {
@@ -72064,14 +72663,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12792",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         },
         "size": {
@@ -72079,14 +72678,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12792",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         },
         "size": {
@@ -72094,14 +72693,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12792",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         },
         "size": {
@@ -72109,14 +72708,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12792",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         },
         "size": {
@@ -72124,14 +72723,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12792",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         },
         "size": {
@@ -72139,14 +72738,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12792",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         },
         "size": {
@@ -72154,14 +72753,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12792",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         },
         "size": {
@@ -72169,7 +72768,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12792",
         "size"
       ],
       "type": "object"
@@ -72979,7 +73578,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "reversed": {
           "type": "boolean"
         },
@@ -75624,7 +76222,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -75777,10 +76374,6 @@
           "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
           "type": "boolean"
         },
-        "centerOffset": {
-          "description": "中心点偏移距离",
-          "type": "number"
-        },
         "clip": {
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
@@ -75798,7 +76391,7 @@
           "typeof": "function"
         },
         "formatter": {
-          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值",
           "since": "1.7.0",
           "type": "string"
         },
@@ -75810,7 +76403,8 @@
           "$ref": "#/definitions/StringOrNumber"
         },
         "interactive": {
-          "description": "是否支持交互。@default false",
+          "default": false,
+          "description": "是否支持交互。",
           "type": "boolean"
         },
         "labelLayout": {
@@ -75966,7 +76560,7 @@
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IComposedTextMarkSpec>",
           "description": "标签样式配置"
         },
         "support3d": {
@@ -75980,6 +76574,258 @@
           "type": "boolean"
         },
         "textType": {
+          "description": "文本类型：text, rich,",
+          "enum": [
+            "rich",
+            "text"
+          ],
+          "since": "1.7.0",
+          "type": "string"
+        },
+        "top": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "visible": {
+          "description": "默认不显示标签",
+          "type": "boolean"
+        },
+        "width": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：宽度"
+        },
+        "zIndex": {
+          "description": "模块的展示层级，当2个模块重叠时，层级较大的展示在上方",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Omit<ILabelSpec,\"position\"|\"overlap\">": {
+      "properties": {
+        "alignSelf": {
+          "description": "inline元素和其他同行元素的对齐方式\n顶部的inline元素，'start' - 顶部对齐；'end' - '底部对齐'; 'middle' - 居中对齐\n底部的inline元素，'start' - 底部对齐；'end' - '顶部对齐'; 'middle' - 居中对齐\n左侧的inline元素，'start' - 左侧对齐；'end' - '右侧对齐'; 'middle' - 居中对齐\n右侧的inline元素，'start' - 右侧对齐；'end' - '左侧对齐'; 'middle' - 居中对齐",
+          "enum": [
+            "end",
+            "middle",
+            "start"
+          ],
+          "type": "string"
+        },
+        "animation": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILabelAnimation"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "动画配置"
+        },
+        "bottom": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表底部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "center": {
+          "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
+          "type": "boolean"
+        },
+        "clip": {
+          "description": "模块是否裁剪超出布局区域外的绘图内容",
+          "type": "boolean"
+        },
+        "customLayoutFunc": {
+          "typeof": "function"
+        },
+        "customOverlapFunc": {
+          "typeof": "function"
+        },
+        "dataFilter": {
+          "typeof": "function"
+        },
+        "formatMethod": {
+          "typeof": "function"
+        },
+        "formatter": {
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值",
+          "since": "1.7.0",
+          "type": "string"
+        },
+        "height": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局大小：高度"
+        },
+        "id": {
+          "$ref": "#/definitions/StringOrNumber"
+        },
+        "interactive": {
+          "default": false,
+          "description": "是否支持交互。",
+          "type": "boolean"
+        },
+        "labelLayout": {
+          "description": "标签布局",
+          "enum": [
+            "region",
+            "series"
+          ],
+          "type": "string"
+        },
+        "layoutLevel": {
+          "description": "布局顺序等级，等级越大的，越优先布局\n比如顶部同时有标题和图例的场景，期望标题先放在顶部，然后放置图例。",
+          "type": "number"
+        },
+        "layoutType": {
+          "$ref": "#/definitions/ILayoutType",
+          "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
+        },
+        "left": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "maxHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大高度"
+        },
+        "maxWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最大宽度"
+        },
+        "minHeight": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小高度"
+        },
+        "minWidth": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局最小宽度"
+        },
+        "noOuterPadding": {
+          "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
+          "type": "boolean"
+        },
+        "offset": {
+          "description": "标签与其对应数据图元的间距",
+          "type": "number"
+        },
+        "offsetX": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：X"
+        },
+        "offsetY": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块的布局位置偏移：Y"
+        },
+        "orient": {
+          "$ref": "#/definitions/IOrientType",
+          "description": "模块布局位置"
+        },
+        "padding": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "模块的布局间距"
+        },
+        "regionId": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/StringOrNumber"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "组件关联的region id"
+        },
+        "regionIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "default": 0,
+          "description": "组件关联的region索引"
+        },
+        "right": {
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "seriesId": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/StringOrNumber"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ],
+          "description": "组件关联的系列id"
+        },
+        "seriesIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "组件关联的系列索引"
+        },
+        "smartInvert": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SmartInvertAttrs"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "标签智能反色配置"
+        },
+        "state": {
+          "typeof": "function"
+        },
+        "style": {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IComposedTextMarkSpec>",
+          "description": "标签样式配置"
+        },
+        "support3d": {
+          "description": "是否支持3D",
+          "type": "boolean"
+        },
+        "syncState": {
+          "default": false,
+          "description": "是否同步数据图元的状态变化",
+          "since": "1.9.0",
+          "type": "boolean"
+        },
+        "textType": {
+          "description": "文本类型：text, rich,",
+          "enum": [
+            "rich",
+            "text"
+          ],
+          "since": "1.7.0",
           "type": "string"
         },
         "top": {
@@ -77523,7 +78369,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -78248,7 +79093,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -78686,7 +79530,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -79167,7 +80010,6 @@
         "radius": {
           "type": "number"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -79663,7 +80505,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80069,7 +80910,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80547,7 +81387,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80985,7 +81824,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -81141,10 +81979,6 @@
           "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
           "type": "boolean"
         },
-        "centerOffset": {
-          "description": "中心点偏移距离",
-          "type": "number"
-        },
         "clip": {
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
@@ -81162,7 +81996,7 @@
           "typeof": "function"
         },
         "formatter": {
-          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值",
           "since": "1.7.0",
           "type": "string"
         },
@@ -81174,7 +82008,8 @@
           "$ref": "#/definitions/StringOrNumber"
         },
         "interactive": {
-          "description": "是否支持交互。@default false",
+          "default": false,
+          "description": "是否支持交互。",
           "type": "boolean"
         },
         "labelLayout": {
@@ -81334,7 +82169,7 @@
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IComposedTextMarkSpec>",
           "description": "标签样式配置"
         },
         "support3d": {
@@ -81348,6 +82183,12 @@
           "type": "boolean"
         },
         "textType": {
+          "description": "文本类型：text, rich,",
+          "enum": [
+            "rich",
+            "text"
+          ],
+          "since": "1.7.0",
           "type": "string"
         },
         "top": {
@@ -81690,7 +82531,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -81843,10 +82683,6 @@
           "description": "模块绝对布局下，元素将放置在图表的正中间。注意仅在 layoutType === 'absolute' 时生效，同时将忽略 padding 属性",
           "type": "boolean"
         },
-        "centerOffset": {
-          "description": "中心点偏移距离",
-          "type": "number"
-        },
         "clip": {
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
@@ -81864,7 +82700,7 @@
           "typeof": "function"
         },
         "formatter": {
-          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值\n在饼图中支持配置百分比, {_percent_}\neg: 'type={type},value={value},percent={_percent_}'",
+          "description": "字符串模版\n用{}包裹变量名的字符串模版, 变量名取自数据属性值",
           "since": "1.7.0",
           "type": "string"
         },
@@ -81876,7 +82712,8 @@
           "$ref": "#/definitions/StringOrNumber"
         },
         "interactive": {
-          "description": "是否支持交互。@default false",
+          "default": false,
+          "description": "是否支持交互。",
           "type": "boolean"
         },
         "labelLayout": {
@@ -82037,7 +82874,7 @@
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IComposedTextMarkSpec>",
           "description": "标签样式配置"
         },
         "support3d": {
@@ -82051,6 +82888,12 @@
           "type": "boolean"
         },
         "textType": {
+          "description": "文本类型：text, rich,",
+          "enum": [
+            "rich",
+            "text"
+          ],
+          "since": "1.7.0",
           "type": "string"
         },
         "top": {
@@ -82921,7 +83764,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -83346,7 +84188,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -83571,6 +84412,10 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
@@ -84017,7 +84862,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -84445,7 +85289,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -84682,6 +85525,10 @@
         },
         "height": {
           "type": "number"
+        },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
@@ -85222,7 +86069,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -85703,7 +86549,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -86014,12 +86859,13 @@
           "$ref": "#/definitions/FontWeight",
           "description": "字重"
         },
+        "html": {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "since": "1.10.0\nhtml 浮层"
+        },
         "innerBorder": {
           "$ref": "#/definitions/IBorder",
           "description": "内边框"
-        },
-        "lineBreak": {
-          "type": "string"
         },
         "lineDash": {
           "items": {
@@ -86151,9 +86997,6 @@
         "text": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Function"
-            },
-            {
               "items": {
                 "type": "string"
               },
@@ -86161,7 +87004,7 @@
             },
             {
               "items": {
-                "$ref": "#/definitions/IRichTextCharacter"
+                "type": "number"
               },
               "type": "array"
             },
@@ -86197,16 +87040,6 @@
         "textureSize": {
           "description": "纹理单元的大小",
           "type": "number"
-        },
-        "type": {
-          "default": "'text'",
-          "description": "文字类型\n可选，'html', 'rich', 'text'",
-          "enum": [
-            "html",
-            "rich",
-            "text"
-          ],
-          "type": "string"
         },
         "underline": {
           "description": "下划线",
@@ -86307,7 +87140,7 @@
         "customMark": {
           "description": "自定义mark",
           "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuiltInMarkSpec>"
           },
           "type": "array"
         },
@@ -86808,7 +87641,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -87286,7 +88118,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -87696,7 +88527,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -88844,6 +89674,57 @@
     "Partial<any>": {
       "type": "object"
     },
+    "Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>": {
+      "properties": {
+        "anchorType": {
+          "enum": [
+            "boundsLeftTop",
+            "position"
+          ],
+          "type": "string"
+        },
+        "container": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "dom": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "height": {
+          "type": "number"
+        },
+        "style": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Record<string,any>"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
     "Performance": {
       "properties": {
         "eventCounts": {
@@ -89725,50 +90606,47 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12741"
+        "__@toStringTag@12792"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12741"
+        "__@toStringTag@12792"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12792": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12741"
+        "__@toStringTag@12792"
       ],
+      "type": "object"
+    },
+    "Record<string,ConvertToMarkStyleSpec<IComposedTextMarkSpec>|IMarkStateSpec<IComposedTextMarkSpec>>": {
       "type": "object"
     },
     "Record<string,ConvertToMarkStyleSpec<IGroupMarkSpec>|IMarkStateSpec<IGroupMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<ILineMarkSpec>|IMarkStateSpec<ILineMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
-      "type": "object"
-    },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
-      "type": "object"
-    },
-    "Record<string,ConvertToMarkStyleSpec<ITextMarkSpec>|IMarkStateSpec<ITextMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|IComposedTextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IProgressArcMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
     "Record<string,IArc3dMarkSpec>": {
@@ -90170,7 +91048,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -90339,7 +91216,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -90687,7 +91563,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -90859,7 +91734,6 @@
         "pickable",
         "points",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -91181,7 +92055,6 @@
         "radius": {
           "type": "number"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -91344,7 +92217,6 @@
         "pickable",
         "postMatrix",
         "radius",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -91689,7 +92561,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -91854,7 +92725,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -92245,7 +93115,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -92419,7 +93288,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -92765,7 +93633,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -92935,7 +93802,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "repeatX",
         "repeatY",
         "scaleCenter",
@@ -93288,7 +94154,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -93461,7 +94326,6 @@
         "pickable",
         "points",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -93790,7 +94654,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -93950,7 +94813,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -94287,7 +95149,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -94448,7 +95309,6 @@
         "pickable",
         "points",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -94782,7 +95642,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -94952,7 +95811,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -95286,7 +96144,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -95455,7 +96312,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -95791,7 +96647,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -95978,7 +96833,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -96409,7 +97263,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -96596,7 +97449,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "repeatX",
         "repeatY",
         "scaleCenter",
@@ -96916,7 +97768,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -97097,7 +97948,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -97469,7 +98319,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -97703,7 +98552,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleIn3d",
         "scaleX",
@@ -101577,7 +102425,7 @@
         }
       ]
     },
-    "VisualType<\"text\"|\"html\"|\"rich\">": {
+    "VisualType<\"rich\">": {
       "anyOf": [
         {
           "$ref": "#/definitions/IVisualScale"
@@ -101586,14 +102434,10 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,\"text\"|\"html\"|\"rich\">"
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,\"rich\">"
         },
         {
-          "enum": [
-            "html",
-            "rich",
-            "text"
-          ],
+          "const": "rich",
           "type": "string"
         }
       ]
@@ -101782,40 +102626,6 @@
         }
       ]
     },
-    "VisualType<Function|string[]|StringOrNumber|IRichTextCharacter[]>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/Function"
-        },
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "$ref": "#/definitions/IVisualScale"
-        },
-        {
-          "items": {
-            "$ref": "#/definitions/IRichTextCharacter"
-          },
-          "type": "array"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,Function|string[]|StringOrNumber|IRichTextCharacter[]>"
-        },
-        {
-          "type": [
-            "string",
-            "number"
-          ]
-        }
-      ]
-    },
     "VisualType<IBorder>": {
       "anyOf": [
         {
@@ -101869,6 +102679,25 @@
             "repeat"
           ],
           "type": "string"
+        }
+      ]
+    },
+    "VisualType<IRichTextCharacter[]>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/IRichTextCharacter"
+          },
+          "type": "array"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,IRichTextCharacter[]>"
         }
       ]
     },
@@ -101948,6 +102777,22 @@
         }
       ]
     },
+    "VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>"
+        }
+      ]
+    },
     "VisualType<PopTipAttributes>": {
       "anyOf": [
         {
@@ -101961,6 +102806,109 @@
         },
         {
           "$ref": "#/definitions/IVisualSpecStyle<unknown,PopTipAttributes>"
+        }
+      ]
+    },
+    "VisualType<RichTextGlobalAlignType>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,RichTextGlobalAlignType>"
+        },
+        {
+          "enum": [
+            "center",
+            "left",
+            "right"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "VisualType<RichTextGlobalBaselineType>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,RichTextGlobalBaselineType>"
+        },
+        {
+          "enum": [
+            "bottom",
+            "middle",
+            "top"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "VisualType<RichTextLayoutDirectionType>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,RichTextLayoutDirectionType>"
+        },
+        {
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "VisualType<RichTextVerticalDirection>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,RichTextVerticalDirection>"
+        },
+        {
+          "enum": [
+            "bottom",
+            "middle",
+            "top"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "VisualType<RichTextWordBreak>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,RichTextWordBreak>"
+        },
+        {
+          "enum": [
+            "break-all",
+            "break-word"
+          ],
+          "type": "string"
         }
       ]
     },
@@ -102246,6 +103194,25 @@
         }
       ]
     },
+    "VisualType<string|boolean>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,string|boolean>"
+        },
+        {
+          "type": [
+            "string",
+            "boolean"
+          ]
+        }
+      ]
+    },
     "VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>": {
       "anyOf": [
         {
@@ -102297,6 +103264,37 @@
         },
         {
           "$ref": "#/definitions/IVisualSpecStyle<unknown,string|number>"
+        },
+        {
+          "type": [
+            "string",
+            "number"
+          ]
+        }
+      ]
+    },
+    "VisualType<string|number|string[]|number[]>": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,string|number|string[]|number[]>"
         },
         {
           "type": [

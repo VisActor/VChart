@@ -1,10 +1,10 @@
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec } from '../../../typings/visual';
 import type { DiscreteLegendAttrs, LegendItemDatum, LegendItem } from '@visactor/vrender-components';
 import type { ILegendCommonSpec, NoVisibleMarkStyle } from '../interface';
-import type { StringOrNumber } from '../../../typings';
+import type { IFormatMethod, StringOrNumber } from '../../../typings';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGlobalScale } from '../../../scale/interface';
-export type formatterCallback = (text: StringOrNumber, item: LegendItemDatum, index: number) => any;
+export type formatterCallback = IFormatMethod<[text: StringOrNumber, item: LegendItemDatum, index: number]>;
 export type LegendItemStyleValue<T> = T | ((item: LegendItemDatum, isSelected: boolean, index: number, allItems: LegendItemDatum[]) => T);
 export type LegendItemStyle<T> = {
     style?: T;

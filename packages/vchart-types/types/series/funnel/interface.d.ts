@@ -1,6 +1,8 @@
-import type { Datum, IMarkSpec, IMarkTheme, ISeriesSpec, IOrientType, IPathMarkSpec, IPolygonMarkSpec, IRuleMarkSpec, ITextMarkSpec, IPyramid3dMarkSpec, IPercent } from '../../typings';
+import type { Datum, IMarkSpec, IMarkTheme, ISeriesSpec, IOrientType, IPathMarkSpec, IPolygonMarkSpec, IRuleMarkSpec, ITextMarkSpec, IPyramid3dMarkSpec, IPercent, IComposedTextMarkSpec, IFormatMethod } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import { ILabelSpec } from '../../component';
+import { ITextSpec } from '../../mark/text';
 type FunnelMarks = 'funnel';
 export type FunnelAppearPreset = 'clipIn' | 'fadeIn';
 export interface IFunnelSeriesSpec extends ISeriesSpec, IAnimationSpec<FunnelMarks, FunnelAppearPreset> {
@@ -25,11 +27,11 @@ export interface IFunnelSeriesSpec extends ISeriesSpec, IAnimationSpec<FunnelMar
     [SeriesMarkNameEnum.outerLabel]?: IFunnelOuterLabelSpec;
     [SeriesMarkNameEnum.transformLabel]?: IFunnelLabelSpec;
 }
-interface IFunnelLabelSpec extends IMarkSpec<ITextMarkSpec> {
+interface IFunnelLabelSpec extends Omit<ILabelSpec, 'position'> {
     limit?: 'shapeSize' | number;
-    formatMethod?: (text: string | string[], datum?: Datum) => string | string[];
 }
-export interface IFunnelOuterLabelSpec extends IFunnelLabelSpec {
+export interface IFunnelOuterLabelSpec extends ITextSpec<IComposedTextMarkSpec> {
+    formatMethod?: IFormatMethod<[text: string | string[], datum?: Datum]>;
     position?: 'left' | 'right' | 'top' | 'bottom';
     spaceWidth?: number;
     alignLabel?: boolean;

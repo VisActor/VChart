@@ -6,10 +6,10 @@ import type { ScaleType } from './scale';
 import type { ShapeType } from './shape';
 import type { IPoint } from './coordinate';
 import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark';
-import type { Datum, StringOrNumber } from './common';
+import type { Datum } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
-import type { IRepeatType, TextAlignType, TextBaselineType, IRichTextCharacter } from '@visactor/vrender-core';
+import type { IRepeatType, TextAlignType, TextBaselineType, IRichTextAttribute, IGraphicStyle } from '@visactor/vrender-core';
 export interface IVisualSpecBase<D, T> {
     type: ScaleType;
     domain: D[];
@@ -80,6 +80,7 @@ export interface ICommonSpec {
     texturePadding?: number;
     outerBorder?: IBorder;
     innerBorder?: IBorder;
+    html?: IMarkHtmlSpec;
     [key: string]: any;
 }
 export interface IFillMarkSpec extends ICommonSpec {
@@ -87,6 +88,7 @@ export interface IFillMarkSpec extends ICommonSpec {
     fillOpacity?: number;
     background?: string | HTMLImageElement | HTMLCanvasElement | null;
 }
+export type IMarkHtmlSpec = Partial<IGraphicStyle['html']>;
 export interface ISymbolMarkSpec extends IFillMarkSpec {
     dx?: number;
     dy?: number;
@@ -116,8 +118,7 @@ export interface IRuleMarkSpec extends ILineMarkSpec {
     y1?: number;
 }
 export interface ITextMarkSpec extends IFillMarkSpec {
-    type?: 'html' | 'rich' | 'text';
-    text?: StringOrNumber | string[] | IRichTextCharacter[] | Function;
+    text?: string | number | string[] | number[];
     dx?: number;
     dy?: number;
     fontSize?: number;
@@ -129,13 +130,17 @@ export interface ITextMarkSpec extends IFillMarkSpec {
     maxLineWidth?: number;
     ellipsis?: string;
     suffixPosition?: 'start' | 'end' | 'middle';
-    lineBreak?: string;
     underline?: boolean;
     lineThrough?: boolean;
     lineHeight?: number | string;
     poptip?: PopTipAttributes;
     direction?: 'horizontal' | 'vertical';
 }
+export type IRichTextMarkSpec = IRichTextAttribute & IFillMarkSpec & {
+    type: 'rich';
+    text: IRichTextAttribute['textConfig'];
+};
+export type IComposedTextMarkSpec = ITextMarkSpec | IRichTextMarkSpec;
 export type IPositionedTextMarkSpec = Omit<ITextMarkSpec, 'align' | 'textAlign' | 'baseline' | 'textBaseline'>;
 export interface IRectMarkSpec extends IFillMarkSpec {
     cornerRadius?: number | number[];

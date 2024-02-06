@@ -1,9 +1,8 @@
 import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
 import type { IAnimationSpec } from '../../../animation/spec';
-import type { Datum, IPadding, IRectMarkSpec, IRuleMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../typings';
+import type { Datum, IFormatMethod, IPadding, IRectMarkSpec, IRichTextFormatMethod, IRuleMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, IBandAxisLayer, ITickCalculationCfg, StyleCallback } from './common';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
     type?: AxisType;
     visible?: boolean;
@@ -62,8 +61,8 @@ export interface ISubTick extends IAxisItem<IRuleMarkSpec> {
     state?: AxisItemStateStyle<IRuleMarkSpec>;
 }
 export interface ILabel extends IAxisItem<ITextMarkSpec> {
-    type?: 'text' | 'rich' | 'html';
-    formatMethod?: (text: string | string[], datum?: Datum) => string | string[] | IRichTextCharacter[];
+    type?: 'text' | 'rich';
+    formatMethod?: IFormatMethod<[text: string | string[], datum?: Datum]>;
     space?: number;
     inside?: boolean;
     minGap?: number;
@@ -75,6 +74,8 @@ export interface IDomainLine extends IAxisItem<IRuleMarkSpec> {
     state?: AxisItemStateStyle<IRuleMarkSpec>;
 }
 export interface ITitle extends IAxisItem<ITextMarkSpec> {
+    type?: 'text' | 'rich';
+    text?: ITextMarkSpec['text'] | ReturnType<IRichTextFormatMethod<[]>>;
     position?: 'start' | 'middle' | 'end';
     space?: number;
     padding?: IPadding | number | number[];
@@ -85,8 +86,6 @@ export interface ITitle extends IAxisItem<ITextMarkSpec> {
         space?: number;
         state?: AxisItemStateStyle<Partial<ISymbolMarkSpec>>;
     };
-    type?: 'text' | 'rich' | 'html';
-    text?: string | string[] | IRichTextCharacter[];
     angle?: number;
     state?: AxisItemStateStyle<Partial<ITextMarkSpec>>;
 }
