@@ -102,22 +102,28 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
     if (isXYLayout) {
       lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
       // 格式为 [[{x, y}], [{x, y}]]
-      // 顺序为左小角开始逆时针绘制
-      points = [
-        {
-          x: lines[0][0].x,
-          y: lines[1][0].y
-        },
-        lines[0][0],
-        {
-          x: lines[1][0].x,
-          y: lines[0][0].y
-        },
-        lines[1][0]
-      ];
+      // 顺序为左下角开始逆时针绘制
+      const [start, end] = lines;
+      if (start && start.length && end && end.length) {
+        points = [
+          {
+            x: start[0].x,
+            y: end[0].y
+          },
+          start[0],
+          {
+            x: end[0].x,
+            y: start[0].y
+          },
+          end[0]
+        ];
+      }
     } else if (isXLayout || isYLayout) {
       lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
-      points = [...lines[0], lines[1][1], lines[1][0]];
+      const [start, end] = lines;
+      if (start && start.length && end && end.length) {
+        points = [...start, end[1], end[0]];
+      }
     } else if (isCoordinateLayout) {
       points = coordinateLayout(data, relativeSeries, autoRange, spec.coordinatesOffset);
     } else if (isPositionLayout) {
