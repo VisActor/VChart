@@ -8,8 +8,6 @@ import { isBoolean, isFunction, isObject, isString, substitute } from '@visactor
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
-import { ARC_RATIO } from '../../constant';
-import { STACK_FIELD_END_PERCENT } from '../../constant';
 
 export const labelRuleMap = {
   rect: barLabel,
