@@ -56,11 +56,6 @@ export function textAttribute(
   }
 
   if (formatter) {
-    if (series.type === 'pie') {
-      datum._percent_ = (datum[ARC_RATIO] * 100).toFixed(2) + '%';
-    } else if (datum[STACK_FIELD_END_PERCENT]) {
-      datum._percent_ = (datum[STACK_FIELD_END_PERCENT] * 100).toFixed(2) + '%';
-    }
     textAttribute.text = substitute(formatter, datum);
   }
   return textAttribute;
