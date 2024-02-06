@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: supply pie percent data as `data._percent_`",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
