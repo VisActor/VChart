@@ -222,7 +222,7 @@ export class CirclePackingSeries<
     }
     const labelMark = this._createMark(CirclePackingSeries.mark.label, {
       isSeriesMark: false
-    }) as IArcMark;
+    }) as ITextMark;
 
     this._labelMark = labelMark;
   }
