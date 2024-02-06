@@ -244,3 +244,54 @@ export function vectorAngle(v1: IPoint, v2: IPoint) {
 export function distance(p1: IPoint, p2: IPoint = { x: 0, y: 0 }) {
   return PointService.distancePP(p1, p2);
 }
+
+/**
+ * 最大余额法计算百分比
+ **/
+export function getPercentValue(valueList: number[], idx: number, precision = 2) {
+  if (!valueList[idx]) {
+    return 0;
+  }
+
+  const sum = valueList.reduce((a, c) => {
+    return (a += isNaN(c) ? 0 : c);
+  }, 0);
+  if (sum === 0) {
+    return 0;
+  }
+
+  const digits = Math.pow(10, precision);
+  const votesPerQuota = valueList.map(val => {
+    return ((isNaN(val) ? 0 : val) / sum) * digits * 100;
+  });
+
+  const targetSeats = digits * 100;
+  const seats = votesPerQuota.map(votes => {
+    return Math.floor(votes);
+  });
+
+  let currentSum = seats.reduce((a, c) => {
+    return a + c;
+  }, 0);
+
+  const remainder = votesPerQuota.map((votes, idx) => {
+    return votes - seats[idx];
+  });
+
+  while (currentSum < targetSeats) {
+    let max = Number.NEGATIVE_INFINITY;
+    let maxId = null;
+    for (let i = 0; i < remainder.length; i++) {
+      if (remainder[i] > max) {
+        max = remainder[i];
+        maxId = i;
+      }
+    }
+
+    ++seats[maxId];
+    remainder[maxId] = 0;
+    ++currentSum;
+  }
+
+  return seats[idx] / digits;
+}

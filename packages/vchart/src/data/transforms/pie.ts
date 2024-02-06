@@ -1,7 +1,7 @@
 import type { DataView } from '@visactor/vdataset';
 import type { Datum } from '../../typings';
 import { couldBeValidNumber } from '../../util/type';
-import { computeQuadrant } from '../../util/math';
+import { computeQuadrant, getPercentValue } from '../../util/math';
 import { ARC_TRANSFORM_VALUE } from '../../constant/polar';
 
 export interface IPieOpt {
@@ -64,12 +64,13 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
     data[index][ARC_TRANSFORM_VALUE] = angleFieldValue;
   }
 
+  const valueList = data.map(d => Number(d[angleField]));
   const angleRange = endAngle - startAngle;
   let lastAngle = startAngle;
   let restAngle = angleRange;
   let largeThanMinAngleTotal = 0;
 
-  data.forEach(d => {
+  data.forEach((d, i) => {
     const angleFieldValue = d[ARC_TRANSFORM_VALUE];
     const ratio = total ? angleFieldValue / total : 0;
     let radian = ratio * angleRange;
@@ -86,6 +87,7 @@ export const pie = (originData: Array<DataView>, op: IPieOpt) => {
 
     d[asRatio] = ratio;
     d[asK] = max ? angleFieldValue / max : 0;
+    d._percent_ = getPercentValue(valueList, i);
     appendArcInfo(d, dStartAngle, radian);
 
     lastAngle = dEndAngle;
