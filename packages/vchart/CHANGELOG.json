@@ -2,6 +2,30 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.9.3",
+      "tag": "@visactor/vchart_v1.9.3",
+      "date": "Wed, 07 Feb 2024 11:02:59 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: supply pie percent data as `data._percent_`"
+          },
+          {
+            "comment": "fix: axis zero not work beacause of collect data. fix#2226"
+          },
+          {
+            "comment": "fix: marker area xy layout needs to deal with the problem of empty coordinate points"
+          },
+          {
+            "comment": "fix(player): default attr leades to layout error. fix#241"
+          },
+          {
+            "comment": "fix: wordcloud support rect shape. fix#2220"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.9.2",
       "tag": "@visactor/vchart_v1.9.2",
       "date": "Mon, 05 Feb 2024 09:28:49 GMT",
