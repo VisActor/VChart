@@ -18,6 +18,7 @@ Note: Built-in shapes include:
 - `'cardioid'`: heart
 - `'circle'`: circle
 - `'pentagon'`: pentagon
+- `'rect'`: Rect (supported since 1.9.3)
 
 {{ use: common-chart-spec(
     prefix = '#',
