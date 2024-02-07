@@ -1,3 +1,21 @@
+# v1.9.3
+
+2024-02-07
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: supply pie percent data as `data._percent_`
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: axis zero not work beacause of collect data. fix[#2226](https://github.com/VisActor/VChart/issues/2226)
+- **@visactor/vchart**: marker area xy layout needs to deal with the problem of empty coordinate points
+- **player**: default attr leades to layout error. fix[#241](https://github.com/VisActor/VChart/issues/241)
+- **@visactor/vchart**: wordcloud support rect shape. fix[#2220](https://github.com/VisActor/VChart/issues/2220)
+
+[更多详情请查看 v1.9.3](https://github.com/VisActor/VChart/releases/tag/v1.9.3)
+
 # v1.9.2
 
 2024-02-05
