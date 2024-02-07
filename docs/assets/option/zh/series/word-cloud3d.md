@@ -81,6 +81,7 @@
 - `'cardioid'`: 心形
 - `'circle'`: 圆形
 - `'pentagon'`: 五角形
+- `rect`: 矩形（自1.9.3版本支持）
 
 #${prefix} random(boolean)
 

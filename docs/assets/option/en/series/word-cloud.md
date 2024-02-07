@@ -83,6 +83,7 @@ Built-in string optional values:
 - `'cardioid'`: Heart shape
 - `'circle'`: Circle
 - `'pentagon'`: Pentagon
+- `'rect'`: Rect (supported since 1.9.3)
 
 #${prefix} random(boolean)
 
