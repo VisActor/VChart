@@ -357,8 +357,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected getLabelFormatMethod() {
-    return this._spec.label.formatMethod
-      ? (value: any, datum: any, index: number) => this._spec.label.formatMethod(datum.rawValue, datum)
+    const formatterImpl = Factory.getFormatter();
+    const { formatMethod, formatter } = this._spec.label;
+    return formatMethod
+      ? (value: any, datum: any, index: number) => formatMethod(datum.rawValue, datum)
+      : formatter && formatterImpl
+      ? (value: any, datum: any, index: number) => formatterImpl(formatter, datum.rawValue, datum)
       : null;
   }
 

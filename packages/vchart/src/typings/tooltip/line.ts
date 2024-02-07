@@ -6,12 +6,25 @@ import type { TooltipRichTextAttrs } from '@visactor/vrender-components';
 export interface IToolTipLinePattern extends ITooltipShapePattern, ITooltipLabelPattern {
   /** tooltip key 值内容 */
   key?: TooltipContentProperty<string>;
+  /**
+   * 格式化模板
+   * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+   * @since 0.18.0
+   */
+  keyFormatter?: string;
   /** tooltip value 值内容
    *  支持富文本配置
    *   - type 文本类型：text, rich
    *   - text 文本内容：string | string[] | number | number[] | IRichTextCharacter[];
    */
   value?: TooltipContentProperty<string | TooltipRichTextAttrs>;
+  /**
+   * 格式化模板
+   * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+   * @since 0.18.0
+   */
+  valueFormatter?: string;
+
   /** 该行是否可见 */
   visible?: TooltipContentProperty<boolean>;
   /** key 列是否适应内容 */
@@ -40,6 +53,8 @@ export interface IToolTipLineActual extends ITooltipShapeActual, ITooltipLabelAc
   key?: string;
   /** tooltip value 值内容 */
   value?: string | TooltipRichTextAttrs;
+
+  valueFormatter?: string;
   /** 该行是否可见 */
   visible?: boolean;
   /** key 列是否适应内容 */

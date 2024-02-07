@@ -290,7 +290,6 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     | IMarkAnimateSpec<string>;
 }
 
-// TODO: 补充 IAnimationSpec 动画类型 @hefeifei
 export interface IWordCloudSeriesSpec extends IWordCloudSeriesBaseSpec {
   type: 'wordCloud';
 }

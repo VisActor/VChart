@@ -184,6 +184,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       maxHeight: rect.height
     };
     this._addDefaultTitleText(attrs);
+    this._addLegendItemFormatMethods(attrs);
     return attrs;
   }
 
@@ -244,6 +245,23 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       ? this._spec.data(originData, this._option.globalScale.getScale('color'), this._option.globalScale)
       : originData;
     return legendItems;
+  }
+
+  private _addLegendItemFormatMethods(attrs: any) {
+    const { formatMethod: labelFormatMethod, formatter: labelFormatter } = this._spec.item?.label ?? {};
+    const { formatMethod: valueFormatMethod, formatter: valueFormatter } = this._spec.item?.value ?? {};
+
+    const formatter = Factory.getFormatter();
+    if (labelFormatter && !labelFormatMethod && formatter) {
+      attrs.item.label.formatMethod = (value: string, datum: any) => {
+        return formatter(labelFormatter, value, datum);
+      };
+    }
+    if (valueFormatter && !valueFormatMethod && formatter) {
+      attrs.item.value.formatMethod = (value: string, datum: any) => {
+        return formatter(valueFormatter, value, datum);
+      };
+    }
   }
 }
 

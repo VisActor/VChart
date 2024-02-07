@@ -384,6 +384,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       backgroundChart = {},
       selectedBackgroundChart = {}
     } = this._spec as T;
+    const formatter = Factory.getFormatter();
     return {
       backgroundStyle: transformToGraphic(this._spec.background?.style) as unknown as IRectGraphicAttribute,
       startHandlerStyle: transformToGraphic(this._spec.startHandler?.style) as unknown as ISymbolGraphicAttribute,
@@ -400,12 +401,22 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       endHandlerStyle: transformToGraphic(this._spec.endHandler?.style) as unknown as ISymbolGraphicAttribute,
       startTextStyle: {
         padding: startText.padding,
-        formatMethod: startText.formatMethod,
+        formatMethod: startText.formatMethod
+          ? (text: any) => startText.formatMethod(text)
+          : startText.formatter && formatter
+          ? (text: any) => {
+              return formatter(startText.formatter, text, { label: text });
+            }
+          : undefined,
         textStyle: transformToGraphic(startText.style)
       } as unknown,
       endTextStyle: {
         padding: endText.padding,
-        formatMethod: endText.formatMethod,
+        formatMethod: endText.formatMethod
+          ? (text: any) => endText.formatMethod(text)
+          : endText.formatter && formatter
+          ? (text: any) => formatter(endText.formatter, text, { label: text })
+          : undefined,
         textStyle: transformToGraphic(endText.style)
       } as unknown,
       selectedBackgroundStyle: transformToGraphic(

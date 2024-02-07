@@ -1,4 +1,4 @@
-import { isValid, isNil } from '@visactor/vutils';
+import { isValid, isNil, TimeUtil } from '@visactor/vutils';
 import type {
   IToolTipLinePattern,
   ITooltipPattern,
@@ -15,7 +15,6 @@ import type { IDimensionData, IDimensionInfo } from '../../../../event/events/di
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constants';
 import { getTooltipActualActiveType } from '../../../../component/tooltip/utils';
 import type { TooltipActualTitleContent, TooltipHandlerParams } from '../../../../component/tooltip';
-import { TimeUtil } from '../../../../component/axis/cartesian/util';
 
 const getTimeString = (value: any, timeFormat?: string, timeFormatMode?: 'local' | 'utc') => {
   if (!timeFormat && !timeFormatMode) {
@@ -59,7 +58,8 @@ export const getShowContent = (
 
   /** title */
   const patternTitle = getTooltipPatternValue(pattern.title, data, params);
-  const { visible, value, valueTimeFormat, valueTimeFormatMode, valueStyle, hasShape } = patternTitle ?? {};
+  const { visible, value, valueTimeFormat, valueTimeFormatMode, valueStyle, hasShape, valueFormatter } =
+    patternTitle ?? {};
   const patternTitleVisible = getTooltipContentValue(visible, data, params) !== false;
 
   if (!patternTitle || !patternTitleVisible) {
@@ -71,7 +71,11 @@ export const getShowContent = (
     // 找到第一个可用的datum
     const datum = getFirstDatumFromTooltipData(data);
     tooltipActualTitleContent.title = {
-      value: getTimeString(getTooltipContentValue(value, datum, params), valueTimeFormat, valueTimeFormatMode),
+      value: getTimeString(
+        getTooltipContentValue(value, datum, params, valueFormatter),
+        valueTimeFormat,
+        valueTimeFormatMode
+      ),
       valueStyle: getTooltipContentValue(valueStyle, datum, params),
       hasShape
     };
@@ -169,12 +173,12 @@ export const getOneLineData = (
   params: TooltipHandlerParams
 ): IToolTipLineActual => {
   const key = getTimeString(
-    getTooltipContentValue(config.key, datum, params),
+    getTooltipContentValue(config.key, datum, params, config.keyFormatter),
     config.keyTimeFormat,
     config.keyTimeFormatMode
   );
   const value = getTimeString(
-    getTooltipContentValue(config.value, datum, params),
+    getTooltipContentValue(config.value, datum, params, config.valueFormatter),
     config.valueTimeFormat,
     config.valueTimeFormatMode
   );

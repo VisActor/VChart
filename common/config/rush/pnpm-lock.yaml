@@ -1,5 +1,10 @@
 lockfileVersion: 5.4
 
+overrides:
+  '@visactor/vutils': 0.18.0-alpha.2
+  '@visactor/vdataset': 0.18.0-alpha.2
+  '@visactor/vscale': 0.18.0-alpha.2
+
 importers:
 
   .:

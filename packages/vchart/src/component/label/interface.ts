@@ -30,10 +30,10 @@ export interface ILabelSpec extends IComponentSpec {
   /**
    * 字符串模版
    * 用{}包裹变量名的字符串模版, 变量名取自数据属性值
-   * @experimental
+   * eg: 'type={type},value={value}'
    * @since 1.7.0
    */
-  formatter?: string;
+  formatter?: string | string[];
   /** 标签与其对应数据图元的间距 */
   offset?: number;
   /** 标签位置 */

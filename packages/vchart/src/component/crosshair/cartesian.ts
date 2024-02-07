@@ -441,10 +441,26 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       xCrossHairInfo.topPos = xRegion.y1;
       xCrossHairInfo.height = xRegion.y2 - xRegion.y1;
       xCrossHairInfo.x = x + this.getLayoutStartPoint().x;
-      if (this._xHair?.label?.formatMethod) {
-        const { top, bottom } = xCrossHairInfo;
-        bottom.visible && (bottom.text = this._xHair.label.formatMethod(bottom.text, 'bottom') as string);
-        top.visible && (top.text = this._xHair.label.formatMethod(top.text, 'top') as string);
+
+      if (this._xHair && this._xHair.label) {
+        if (this._xHair.label.formatMethod) {
+          const { top, bottom } = xCrossHairInfo;
+          bottom.visible && (bottom.text = this._xHair.label.formatMethod(bottom.text, 'bottom') as string);
+          top.visible && (top.text = this._xHair.label.formatMethod(top.text, 'top') as string);
+        } else if (this._xHair.label.formatter && Factory.getFormatter()) {
+          const { top, bottom } = xCrossHairInfo;
+          const formatter = Factory.getFormatter();
+          bottom.visible &&
+            (bottom.text = formatter(this._xHair.label.formatter, bottom.text, {
+              label: bottom.text,
+              position: 'bottom'
+            }) as string);
+          top.visible &&
+            (top.text = formatter(this._xHair.label.formatter, top.text, {
+              label: top.text,
+              position: 'top'
+            }) as string);
+        }
       }
     }
 
@@ -456,10 +472,26 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       yCrossHairInfo.bottomPos = yRegion.y2;
       yCrossHairInfo.width = yRegion.x2 - yRegion.x1;
       yCrossHairInfo.y = y + this.getLayoutStartPoint().y;
-      if (this._yHair?.label?.formatMethod) {
-        const { left, right } = yCrossHairInfo;
-        left.visible && (left.text = this._yHair.label.formatMethod(left.text, 'left') as string);
-        right.visible && (right.text = this._yHair.label.formatMethod(right.text, 'right') as string);
+      if (this._yHair && this._yHair.label) {
+        if (this._yHair.label.formatMethod) {
+          const { left, right } = yCrossHairInfo;
+          left.visible && (left.text = this._yHair.label.formatMethod(left.text, 'left') as string);
+          right.visible && (right.text = this._yHair.label.formatMethod(right.text, 'right') as string);
+        } else if (this._yHair?.label?.formatter && Factory.getFormatter()) {
+          const { left, right } = yCrossHairInfo;
+
+          const formatter = Factory.getFormatter();
+          left.visible &&
+            (left.text = formatter(this._yHair.label.formatter, left.text, {
+              label: left.text,
+              position: 'bottom'
+            }));
+          right.visible &&
+            (right.text = formatter(this._yHair.label.formatter, right.text, {
+              label: right.text,
+              position: 'top'
+            }));
+        }
       }
     }
 

@@ -8,6 +8,9 @@ import { isBoolean, isFunction, isObject, isString, substitute } from '@visactor
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
+import { ARC_RATIO } from '../../constant';
+import { STACK_FIELD_END_PERCENT } from '../../constant';
+import { Factory } from '../../core';
 
 export const labelRuleMap = {
   rect: barLabel,
@@ -51,11 +54,21 @@ export function textAttribute(
 
   if (formatMethod) {
     textAttribute.text = formatMethod(textAttribute.text, datum, { series });
+  } else {
+    // 这个逻辑太扯了
+    if (formatter) {
+      if (series.type === 'pie') {
+        datum._percent_ = (datum[ARC_RATIO] * 100).toFixed(2) + '%';
+      } else if (datum[STACK_FIELD_END_PERCENT]) {
+        datum._percent_ = (datum[STACK_FIELD_END_PERCENT] * 100).toFixed(2) + '%';
+      }
+      const formatterImpl = Factory.getFormatter();
+      if (isFunction(formatterImpl)) {
+        textAttribute.text = formatterImpl(formatter, textAttribute.text, datum);
+      }
+    }
   }
 
-  if (formatter) {
-    textAttribute.text = substitute(formatter, datum);
-  }
   return textAttribute;
 }
 

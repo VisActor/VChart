@@ -30,6 +30,11 @@ export class Factory {
   private static _implements: { [key: string]: (...args: any) => void } = {};
   private static _chartPlugin: { [key: string]: IChartPluginConstructor } = {};
   private static _componentPlugin: { [key: string]: IComponentPluginConstructor } = {};
+  private static _formatter: (
+    formatter: string | string[],
+    text: string | number | string[] | number[],
+    datum: any
+  ) => any;
 
   static transforms: { [key: string]: Transform } = {
     // buildIn transforms
@@ -209,5 +214,13 @@ export class Factory {
 
   static getComponentPluginInType(type: string) {
     return Factory._componentPlugin[type];
+  }
+
+  static registerFormatter(func: typeof Factory['_formatter']) {
+    this._formatter = func;
+  }
+
+  static getFormatter() {
+    return this._formatter;
   }
 }

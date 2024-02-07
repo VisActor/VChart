@@ -325,18 +325,30 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     if (this.enableRemain && !angleCrossHairInfo.visible && isValid(this._cacheAngleCrossHairInfo)) {
       angleCrossHairInfo = this._cacheAngleCrossHairInfo;
     } else {
-      if (this._angleHair?.label?.formatMethod && angleCrossHairInfo.label.visible) {
-        const { label } = angleCrossHairInfo;
-        label.text = this._angleHair.label.formatMethod(label.text, 'angle') as string;
+      if (angleCrossHairInfo.label.visible) {
+        if (this._angleHair && this._angleHair.label) {
+          const { label } = angleCrossHairInfo;
+          if (this._angleHair.label.formatMethod) {
+            label.text = this._angleHair.label.formatMethod(label.text, 'angle') as string;
+          } else if (this._angleHair.label.formatter && Factory.getFormatter()) {
+            label.text = Factory.getFormatter()(this._angleHair.label.formatter, label.text, { label: label.text });
+          }
+        }
       }
     }
 
     if (this.enableRemain && !radiusCrossHairInfo.visible && isValid(this._cacheRadiusCrossHairInfo)) {
       radiusCrossHairInfo = this._cacheRadiusCrossHairInfo;
     } else {
-      if (this._radiusHair?.label?.formatMethod && radiusCrossHairInfo.label.visible) {
-        const { label } = radiusCrossHairInfo;
-        label.text = this._radiusHair.label.formatMethod(label.text, 'radius') as string;
+      if (radiusCrossHairInfo.label.visible) {
+        if (this._radiusHair && this._radiusHair.label) {
+          const { label } = radiusCrossHairInfo;
+          if (this._radiusHair.label.formatMethod) {
+            label.text = this._radiusHair.label.formatMethod(label.text, 'radius') as string;
+          } else if (this._angleHair.label.formatter && Factory.getFormatter()) {
+            label.text = Factory.getFormatter()(this._radiusHair.label.formatter, label.text, { label: label.text });
+          }
+        }
       }
     }
 

@@ -1,8 +1,7 @@
 import type { IEffect } from '../../../model/interface';
 import { DataView } from '@visactor/vdataset';
 import { isXAxis } from './util/common';
-import { TimeUtil } from './util/time';
-import { isArray } from '@visactor/vutils';
+import { isArray, TimeUtil } from '@visactor/vutils';
 import { eachSeries } from '../../../util/model';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import type { ICartesianSeries } from '../../../series/interface';

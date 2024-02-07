@@ -71,6 +71,12 @@ export type IItem = {
      * 格式化文本函数
      */
     formatMethod?: formatterCallback;
+    /**
+     * 格式化模板
+     * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+     * @since 1.10.0
+     */
+    formatter?: string;
   } & LegendItemStyle<LegendItemStyleValue<NoVisibleMarkStyle<ITextMarkSpec>>>;
   /**
    * 图例项 value 配置
@@ -87,6 +93,12 @@ export type IItem = {
      * 格式化文本函数
      */
     formatMethod?: formatterCallback;
+    /**
+     * 格式化模板
+     * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+     * @since 1.10.0
+     */
+    formatter?: string | string[];
   } & LegendItemStyle<LegendItemStyleValue<NoVisibleMarkStyle<ITextMarkSpec>>>;
   /**
    * 聚焦按钮配置

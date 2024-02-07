@@ -267,6 +267,12 @@ export interface ILabel extends IAxisItem<ITextMarkSpec> {
    * @returns 格式化后的文本
    */
   formatMethod?: IFormatMethod<[text: string | string[], datum?: Datum]>;
+  /**
+   * 格式化模板
+   * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+   * @since 1.10.0
+   */
+  formatter?: string | string[];
   /** 标签同 tick 之间的间距 */
   space?: number;
   /**
