@@ -9,10 +9,10 @@
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: axis zero not work beacause of collect data. fix[#2226](https://github.com/VisActor/VChart/issues/2226)
-- **@visactor/vchart**: marker area xy layout needs to deal with the problem of empty coordinate points
-- **player**: default attr leades to layout error. fix[#241](https://github.com/VisActor/VChart/issues/241)
-- **@visactor/vchart**: wordcloud support rect shape. fix[#2220](https://github.com/VisActor/VChart/issues/2220)
+- **@visactor/vchart**: 由于收集数据导致轴零不工作。修复[#2226](https://github.com/VisActor/VChart/issues/2226)
+- **@visactor/vchart**: 标记区域xy布局需要处理空坐标点的问题
+- **player**: 默认属性导致布局错误。修复[#241](https://github.com/VisActor/VChart/issues/241)
+- **@visactor/vchart**: 词云支持矩形形状。修复[#2220](https://github.com/VisActor/VChart/issues/2220)
 
 [更多详情请查看 v1.9.3](https://github.com/VisActor/VChart/releases/tag/v1.9.3)
 
@@ -23,15 +23,15 @@
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: bar label issue when position is 'inside-bottom' or 'inside-top'
-- **@visactor/vchart**: in block-vchart demo, the `dpr` acquisition method is wrong and needs to be obtained in real time
-- **@visactor/vchart**: series can read `direction` from chart spec, releated to [#2181](https://github.com/VisActor/VChart/issues/2181)
-- **@visactor/vchart**: dataZoom min and max span does not effect, related [#2195](https://github.com/VisActor/VChart/issues/2195)
-- **@visactor/vchart**: fix the problem that multi-layer axis labels are not displayed after closing  tail labels, related [#2179](https://github.com/VisActor/VChart/issues/2179)
-- **@visactor/vchart**: fix polar animation interpolation
-- **@visactor/react-vchart**: fix the error when `onClick` of `<VChart />` is null, close [#2186](https://github.com/VisActor/VChart/issues/2186)
-- **@visactor/vchart**: charts should not stack toggle when series has same type but differernt axes, related [#2210](https://github.com/VisActor/VChart/issues/2210)
-- **@visactor/vchart**: there is some offset in the position of the dom tooltip shape, related [#2188](https://github.com/VisActor/VChart/issues/2188)
+- **@visactor/vchart**: 当位置为'inside-bottom'或'inside-top'时，条形图标签存在问题
+- **@visactor/vchart**: 在block-vchart演示中，`dpr`获取方法错误，需要实时获取
+- **@visactor/vchart**: 系列可以从图表规格中读取`direction`，相关[#2181](https://github.com/VisActor/VChart/issues/2181)
+- **@visactor/vchart**: dataZoom的最小和最大范围无效，相关[#2195](https://github.com/VisActor/VChart/issues/2195)
+- **@visactor/vchart**: 修复关闭尾部标签后，多层轴标签不显示的问题，相关[#2179](https://github.com/VisActor/VChart/issues/2179)
+- **@visactor/vchart**: 修复极地动画插值问题
+- **@visactor/react-vchart**: 修复当`<VChart />`的`onClick`为null时的错误，关闭[#2186](https://github.com/VisActor/VChart/issues/2186)
+- **@visactor/vchart**: 当系列类型相同但轴不同时，图表不应切换堆叠，相关[#2210](https://github.com/VisActor/VChart/issues/2210)
+- **@visactor/vchart**: DOM工具提示形状的位置存在一些偏移，相关[#2188](https://github.com/VisActor/VChart/issues/2188)
 
 **🔧 项目配置**
 
