@@ -106,8 +106,8 @@ export class FormatterPlugin extends BasePlugin implements IChartPlugin {
           return typeof value !== 'undefined' ? value : match;
         } else {
           const parts = key.split(':');
-          const value = datum[parts[0].trim()];
-          const valueFormatter = parts[1];
+          const value = datum[parts.shift()];
+          const valueFormatter = parts.join(':');
           return this._formatSingleText(value, valueFormatter);
         }
       });
