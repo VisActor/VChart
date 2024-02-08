@@ -59,6 +59,7 @@ import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerLayout3d } from './layout/layout3d';
 import { registerPoptip } from './component/poptip';
 import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin';
+import { registerFormatPlugin } from './plugin/chart/formatter';
 import {
   registerElementActive,
   registerElementHighlight,
@@ -150,6 +151,7 @@ VChart.useRegisters([
   // plugin
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
+  registerFormatPlugin,
 
   // vgrammar interactions,
   registerElementActive,
