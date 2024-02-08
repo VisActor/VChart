@@ -48,10 +48,10 @@ export const getTooltipContentValue = <T>(
   formatter?: string
 ): T | undefined => {
   let value: T;
-  if (isNil(field)) {
-    value = field;
-  } else if (isFunction(field)) {
+  if (isFunction(field)) {
     value = field(datum, params);
+  } else {
+    value = field;
   }
 
   if (formatter && Factory.getFormatter()) {
