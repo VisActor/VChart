@@ -9,7 +9,8 @@ import {
   STACK_FIELD_TOTAL,
   STACK_FIELD_TOTAL_PERCENT,
   STACK_FIELD_TOTAL_TOP,
-  STACK_FIELD_START
+  STACK_FIELD_START,
+  STACK_FIELD_KEY
 } from '../constant';
 import { toValidNumber } from './type';
 import { max, sum } from './math';
@@ -74,6 +75,7 @@ export interface IStackCacheNode {
   nodes: {
     [key: string]: IStackCacheNode;
   };
+  key: string;
 }
 export interface IStackCacheRoot {
   nodes: {
@@ -157,6 +159,7 @@ export function stack(stackCache: IStackCacheNode, stackInverse: boolean, hasPer
         negativeStart += v[STACK_FIELD_END];
         v[STACK_FIELD_END] = negativeStart;
       }
+      v[STACK_FIELD_KEY] = stackCache.key;
     }
     if (hasPercent) {
       // normalize
@@ -181,7 +184,8 @@ export function stackGroup(
   stackData: ISeriesStackDataMeta,
   stackCache: IStackCacheNode,
   valueField: string,
-  setInitialValue: boolean
+  setInitialValue: boolean,
+  stackKey?: string
 ) {
   if ('values' in stackData) {
     // 初值
@@ -191,12 +195,14 @@ export function stackGroup(
     return;
   }
   for (const key in stackData.nodes) {
+    const newStackKey = stackKey ? `${stackKey}_${key}` : key;
     !stackCache.nodes[key] &&
       (stackCache.nodes[key] = {
         values: [],
         series: [],
-        nodes: {}
+        nodes: {},
+        key: newStackKey
       });
-    stackGroup(s, stackData.nodes[key], stackCache.nodes[key], valueField, setInitialValue);
+    stackGroup(s, stackData.nodes[key], stackCache.nodes[key], valueField, setInitialValue, newStackKey);
   }
 }

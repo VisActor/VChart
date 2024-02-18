@@ -4,7 +4,7 @@ group: bar chart
 title: Percentage Stacked Bar Chart
 keywords: barChart,comparison,distribution,rectangle,composition,proportion
 order: 2-10
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/stack-percentage-bar.png
+cover: /vchart/preview/stack-percentage-bar_1.10.0.png
 option: barChart
 ---
 
@@ -113,6 +113,7 @@ const spec = {
   seriesField: 'Age',
   direction: 'horizontal',
   stack: true,
+  stackCornerRadius: 1000,
   percent: true,
   legends: {
     visible: true

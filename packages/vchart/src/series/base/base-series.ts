@@ -44,7 +44,10 @@ import type {
   ISeriesTooltipHelper,
   SeriesMarkMap,
   ISeriesMarkInfo,
-  ISeriesSpecInfo
+  ISeriesSpecInfo,
+  ISeriesStackDataLeaf,
+  ISeriesStackDataNode,
+  ISeriesStackDataMeta
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
@@ -1250,6 +1253,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       progressive,
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false,
+      clip,
       customShape,
       stateSort
     } = option;
@@ -1308,6 +1312,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       if (stateSort) {
         m.setStateSortCallback(stateSort);
+      }
+
+      if (clip) {
+        m.setClip(clip);
       }
 
       this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));
@@ -1402,5 +1410,20 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       .getSpecInfo()
       .component[specKey]?.filter(componentInfo => componentInfo.seriesIndexes.includes(specIndex));
     return relatedComponent ?? [];
+  }
+
+  protected _forEachStackGroup(callback: (node: ISeriesStackDataLeaf) => void, node?: ISeriesStackDataMeta) {
+    node = node ?? this._viewStackData?.latestData;
+    if (!node) {
+      return;
+    }
+
+    if ((node as ISeriesStackDataLeaf).values?.length) {
+      callback(node as ISeriesStackDataLeaf);
+    } else if ((node as ISeriesStackDataNode).nodes) {
+      Object.values((node as ISeriesStackDataNode).nodes).forEach(n => {
+        this._forEachStackGroup(callback, n);
+      });
+    }
   }
 }

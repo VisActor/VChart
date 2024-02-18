@@ -1,10 +1,17 @@
 /* eslint-disable no-duplicate-imports */
+import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
-import { AttributeLevel } from '../../constant';
+import {
+  AttributeLevel,
+  STACK_FIELD_END,
+  STACK_FIELD_END_PERCENT,
+  STACK_FIELD_START,
+  STACK_FIELD_START_PERCENT
+} from '../../constant';
 import type { Datum, DirectionType } from '../../typings';
 import { valueInScaleRange } from '../../util/scale';
 import { getRegionStackGroup } from '../../util/data';
@@ -35,6 +42,7 @@ import { getGroupAnimationParams } from '../util/utils';
 import { BarSeriesSpecTransformer } from './bar-transformer';
 import { ComponentTypeEnum } from '../../component/interface';
 import { RECT_X, RECT_X1, RECT_Y, RECT_Y1 } from '../base/constant';
+import { createRect } from '@visactor/vrender-core';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -344,25 +352,69 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     return y1 + flag * height;
   }
 
-  // 用于 bar-like 的位置转换，考虑到 range-column 的方式差异，所以提取出这样的方式
+  // 用于 bar-like 的位置转换，range-column 会重写这个方法
   protected _dataToPosX(datum: Datum) {
     return this.dataToPositionX(datum);
   }
 
-  // 用于 bar-like 的位置转换，考虑到 range-column 的方式差异，所以提取出这样的方式
+  // 用于 bar-like 的位置转换，range-column 会重写这个方法
   protected _dataToPosX1(datum: Datum) {
     return this.dataToPositionX1(datum);
   }
 
-  // 用于 bar-like 的位置转换，考虑到 range-column 的方式差异，所以提取出这样的方式
+  // 用于 bar-like 的位置转换，range-column 会重写这个方法
   protected _dataToPosY(datum: Datum) {
     return this.dataToPositionY(datum);
   }
 
-  // 用于 bar-like 的位置转换，考虑到 range-column 的方式差异，所以提取出这样的方式
+  // 用于 bar-like 的位置转换，range-column 会重写这个方法
   protected _dataToPosY1(datum: Datum) {
     return this.dataToPositionY1(datum);
   }
+
+  protected _getBarXStart = (datum: Datum, scale: IBaseScale) => {
+    if (this._shouldDoPreCalculate()) {
+      this._calculateStackRectPosition(false);
+      return datum[RECT_X];
+    }
+
+    if (this._spec.barMinHeight) {
+      return this._calculateRectPosition(datum, false);
+    }
+
+    return valueInScaleRange(this._dataToPosX(datum), scale);
+  };
+
+  protected _getBarXEnd = (datum: Datum, scale: IBaseScale) => {
+    if (this._shouldDoPreCalculate()) {
+      this._calculateStackRectPosition(false);
+      return datum[RECT_X1];
+    }
+
+    return valueInScaleRange(this._dataToPosX1(datum), scale);
+  };
+
+  protected _getBarYStart = (datum: Datum, scale: IBaseScale) => {
+    if (this._shouldDoPreCalculate()) {
+      this._calculateStackRectPosition(true);
+      return datum[RECT_Y];
+    }
+
+    if (this._spec.barMinHeight) {
+      return this._calculateRectPosition(datum, true);
+    }
+
+    return valueInScaleRange(this._dataToPosY(datum), scale);
+  };
+
+  protected _getBarYEnd = (datum: Datum, scale: IBaseScale) => {
+    if (this._shouldDoPreCalculate()) {
+      this._calculateStackRectPosition(true);
+      return datum[RECT_Y1];
+    }
+
+    return valueInScaleRange(this._dataToPosY1(datum), scale);
+  };
 
   initBandRectMarkStyle() {
     const xScale = this._xAxisHelper?.getScale?.(0);
@@ -373,27 +425,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         this._barMark,
         {
-          x: (datum: Datum) => {
-            if (this._shouldDoPreCalculate()) {
-              this._calculateStackRectPosition(false);
-              return datum[RECT_X];
-            }
-
-            if (this._spec.barMinHeight) {
-              return this._calculateRectPosition(datum, false);
-            }
-
-            return valueInScaleRange(this._dataToPosX(datum), xScale);
-          },
-          x1: (datum: Datum) => {
-            if (this._shouldDoPreCalculate()) {
-              this._calculateStackRectPosition(false);
-              return datum[RECT_X1];
-            }
-
-            return valueInScaleRange(this._dataToPosX1(datum), xScale);
-          },
-          y: (datum: Datum) => this._getPosition(this.direction, datum),
+          x: datum => this._getBarXStart(datum, xScale),
+          x1: datum => this._getBarXEnd(datum, xScale),
+          y: datum => this._getPosition(this.direction, datum),
           height: () => this._getBarWidth(this._yAxisHelper)
         },
         'normal',
@@ -403,36 +437,140 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         this._barMark,
         {
-          x: (datum: Datum) => this._getPosition(this.direction, datum),
-          y: (datum: Datum, ctx, opt, dataView) => {
-            if (this._shouldDoPreCalculate()) {
-              this._calculateStackRectPosition(true);
-              return datum[RECT_Y];
-            }
-
-            if (this._spec.barMinHeight) {
-              return this._calculateRectPosition(datum, true);
-            }
-
-            return valueInScaleRange(this._dataToPosY(datum), yScale);
-          },
-          y1: (datum: Datum) => {
-            if (this._shouldDoPreCalculate()) {
-              this._calculateStackRectPosition(true);
-              return datum[RECT_Y1];
-            }
-            return valueInScaleRange(this._dataToPosY1(datum), yScale);
-          },
-          width: () => {
-            return this._getBarWidth(this._xAxisHelper);
-          }
+          y: datum => this._getBarYStart(datum, yScale),
+          y1: datum => this._getBarYEnd(datum, yScale),
+          x: datum => this._getPosition(this.direction, datum),
+          width: () => this._getBarWidth(this._xAxisHelper)
         },
         'normal',
         AttributeLevel.Series
       );
     }
+
+    this._initStackBarMarkStyle();
+
     this._initBandBarBackgroundMarkStyle();
   }
+
+  protected _initStackBarMarkStyle() {
+    if (!this._spec.stackCornerRadius) {
+      return;
+    }
+
+    const xScale = this._xAxisHelper?.getScale?.(0);
+    const yScale = this._yAxisHelper?.getScale?.(0);
+
+    this._barMark.setClip(() => {
+      const rectPaths: any[] = [];
+      this._forEachStackGroup(node => {
+        let min = Infinity;
+        let max = -Infinity;
+        let hasPercent = false;
+        let minPercent = Infinity;
+        let maxPercent = -Infinity;
+        node.values.forEach(datum => {
+          const start = datum[STACK_FIELD_START];
+          const end = datum[STACK_FIELD_END];
+          const startPercent = datum[STACK_FIELD_START_PERCENT];
+          const endPercent = datum[STACK_FIELD_END_PERCENT];
+          min = Math.min(min, start, end);
+          max = Math.max(max, start, end);
+          if (isValid(startPercent) && isValid(endPercent)) {
+            hasPercent = true;
+            minPercent = Math.min(minPercent, startPercent, endPercent);
+            maxPercent = Math.max(maxPercent, startPercent, endPercent);
+          }
+        });
+        const mockDatum = {
+          ...node.values[0],
+          [STACK_FIELD_START]: min,
+          [STACK_FIELD_END]: max,
+          ...(hasPercent
+            ? {
+                [STACK_FIELD_START_PERCENT]: minPercent,
+                [STACK_FIELD_END_PERCENT]: maxPercent
+              }
+            : undefined)
+        };
+        rectPaths.push(
+          createRect({
+            ...(this.direction === Direction.horizontal
+              ? {
+                  x: this._getBarXStart(mockDatum, xScale),
+                  x1: this._getBarXEnd(mockDatum, xScale),
+                  y: this._getPosition(this.direction, mockDatum),
+                  height: this._getBarWidth(this._yAxisHelper)
+                }
+              : {
+                  y: this._getBarYStart(mockDatum, yScale),
+                  y1: this._getBarYEnd(mockDatum, yScale),
+                  x: this._getPosition(this.direction, mockDatum),
+                  width: this._getBarWidth(this._xAxisHelper)
+                }),
+            cornerRadius: this._spec.stackCornerRadius,
+            fill: true
+          })
+        );
+      });
+      return rectPaths;
+    });
+  }
+
+  initLinearRectMarkStyle() {
+    const xScale = this._xAxisHelper?.getScale?.(0);
+    const yScale = this._yAxisHelper?.getScale?.(0);
+
+    if (this.direction === Direction.horizontal) {
+      this.setMarkStyle(
+        this._barMark,
+        {
+          x: datum => this._getBarXStart(datum, xScale),
+          x1: datum => this._getBarXEnd(datum, xScale),
+          y: datum => valueInScaleRange(this.dataToPositionY(datum), yScale),
+          y1: datum => valueInScaleRange(this.dataToPositionY1(datum), yScale)
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    } else {
+      this.setMarkStyle(
+        this._barMark,
+        {
+          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
+          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
+          y: datum => this._getBarYStart(datum, yScale),
+          y1: datum => this._getBarYEnd(datum, yScale)
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+    this._initLinearBarBackgroundMarkStyle();
+  }
+
+  protected _getBarBackgroundXStart = (scale: IBaseScale) => {
+    const range = scale.range();
+    const min = Math.min(range[0], range[range.length - 1]);
+    return min;
+  };
+
+  protected _getBarBackgroundXEnd = (scale: IBaseScale) => {
+    const range = scale.range();
+    const max = Math.max(range[0], range[range.length - 1]);
+    return max;
+  };
+
+  protected _getBarBackgroundYStart = (scale: IBaseScale) => {
+    const range = scale.range();
+    const min = Math.min(range[0], range[range.length - 1]);
+    return min;
+  };
+
+  protected _getBarBackgroundYEnd = (scale: IBaseScale) => {
+    const range = scale.range();
+    const max = Math.max(range[0], range[range.length - 1]);
+    return max;
+  };
 
   protected _initBandBarBackgroundMarkStyle() {
     if (!this._barBackgroundMark) {
@@ -449,17 +587,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         this._barBackgroundMark,
         {
-          x: () => {
-            const range = xScale.range();
-            const min = Math.min(range[0], range[range.length - 1]);
-            return min;
-          },
-          x1: () => {
-            const range = xScale.range();
-            const max = Math.max(range[0], range[range.length - 1]);
-            return max;
-          },
-          y: (datum: Datum) => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
+          x: () => this._getBarBackgroundXStart(xScale),
+          x1: () => this._getBarBackgroundXEnd(xScale),
+          y: datum => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
           height: () => this._getBarWidth(this._yAxisHelper, scaleDepth)
         },
         'normal',
@@ -469,92 +599,15 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         this._barBackgroundMark,
         {
-          x: (datum: Datum) => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
-          y: () => {
-            const range = yScale.range();
-            const min = Math.min(range[0], range[range.length - 1]);
-            return min;
-          },
-          y1: () => {
-            const range = yScale.range();
-            const max = Math.max(range[0], range[range.length - 1]);
-            return max;
-          },
-          width: () => {
-            return this._getBarWidth(this._xAxisHelper, scaleDepth);
-          }
+          x: datum => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
+          y: () => this._getBarBackgroundYStart(yScale),
+          y1: () => this._getBarBackgroundYEnd(yScale),
+          width: () => this._getBarWidth(this._xAxisHelper, scaleDepth)
         },
         'normal',
         AttributeLevel.Series
       );
     }
-  }
-
-  initLinearRectMarkStyle() {
-    const xScale = this._xAxisHelper?.getScale?.(0);
-    const yScale = this._yAxisHelper?.getScale?.(0);
-
-    if (this.direction === Direction.horizontal) {
-      this.setMarkStyle(
-        this._barMark,
-        {
-          x: (datum: Datum) => {
-            if (this._shouldDoPreCalculate()) {
-              this._calculateStackRectPosition(false);
-
-              return datum[RECT_X];
-            }
-
-            if (this._spec.barMinHeight) {
-              return this._calculateRectPosition(datum, false);
-            }
-
-            return valueInScaleRange(this.dataToPositionX(datum), xScale);
-          },
-          x1: (datum: Datum) => {
-            if (this._shouldDoPreCalculate()) {
-              this._calculateStackRectPosition(false);
-              return datum[RECT_X1];
-            }
-            return valueInScaleRange(this.dataToPositionX1(datum), xScale);
-          },
-          y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
-          y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale)
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    } else {
-      this.setMarkStyle(
-        this._barMark,
-        {
-          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
-          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
-          y: (datum: Datum, ctx, opt, dataView) => {
-            if (this._shouldDoPreCalculate()) {
-              this._calculateStackRectPosition(true);
-              return datum[RECT_Y];
-            }
-
-            if (this._spec.barMinHeight) {
-              return this._calculateRectPosition(datum, true);
-            }
-
-            return valueInScaleRange(this.dataToPositionY(datum), yScale);
-          },
-          y1: (datum: Datum) => {
-            if (this._shouldDoPreCalculate()) {
-              this._calculateStackRectPosition(true);
-              return datum[RECT_Y1];
-            }
-            return valueInScaleRange(this.dataToPositionY1(datum), yScale);
-          }
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-    }
-    this._initLinearBarBackgroundMarkStyle();
   }
 
   protected _initLinearBarBackgroundMarkStyle() {
@@ -565,18 +618,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         this._barBackgroundMark,
         {
-          x: () => {
-            const range = xScale.range();
-            const min = Math.min(range[0], range[range.length - 1]);
-            return min;
-          },
-          x1: () => {
-            const range = xScale.range();
-            const max = Math.max(range[0], range[range.length - 1]);
-            return max;
-          },
-          y: (datum: Datum) => valueInScaleRange(this.dataToPositionY(datum), yScale),
-          y1: (datum: Datum) => valueInScaleRange(this.dataToPositionY1(datum), yScale)
+          x: () => this._getBarBackgroundXStart(xScale),
+          x1: () => this._getBarBackgroundXEnd(xScale),
+          y: datum => valueInScaleRange(this.dataToPositionY(datum), yScale),
+          y1: datum => valueInScaleRange(this.dataToPositionY1(datum), yScale)
         },
         'normal',
         AttributeLevel.Series
@@ -585,18 +630,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       this.setMarkStyle(
         this._barBackgroundMark,
         {
-          x: (datum: Datum) => valueInScaleRange(this.dataToPositionX(datum), xScale),
-          x1: (datum: Datum) => valueInScaleRange(this.dataToPositionX1(datum), xScale),
-          y: () => {
-            const range = yScale.range();
-            const min = Math.min(range[0], range[range.length - 1]);
-            return min;
-          },
-          y1: () => {
-            const range = yScale.range();
-            const max = Math.max(range[0], range[range.length - 1]);
-            return max;
-          }
+          x: datum => valueInScaleRange(this.dataToPositionX(datum), xScale),
+          x1: datum => valueInScaleRange(this.dataToPositionX1(datum), xScale),
+          y: () => this._getBarBackgroundYStart(yScale),
+          y1: () => this._getBarBackgroundYEnd(yScale)
         },
         'normal',
         AttributeLevel.Series

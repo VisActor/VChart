@@ -93,6 +93,12 @@ export interface IBarSeriesSpec
    * @since 1.4.0
    */
   barMinHeight?: number;
+
+  /**
+   * 堆叠柱整体的圆角
+   * @since 1.10.0
+   */
+  stackCornerRadius?: number | number[];
 }
 
 export interface IBarBackgroundSpec {
