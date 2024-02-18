@@ -1,13 +1,15 @@
-import { registerCellMark } from './../../mark/cell';
 /* eslint-disable no-duplicate-imports */
+import { registerCellMark } from './../../mark/cell';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
-import type { Maybe, Datum } from '../../typings';
-import { registerHeatmapAnimation, type HeatmapAppearPreset } from './animation';
+import type { Datum } from '../../typings';
+import type { HeatmapAppearPreset } from './animation';
+import { registerHeatmapAnimation } from './animation';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
-import type { IHeatmapSeriesSpec, IHeatmapSeriesTheme } from './interface';
+import type { IHeatmapSeriesSpec } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
-import { registerTextMark, type ITextMark } from '../../mark/text';
+import type { ITextMark } from '../../mark/text';
+import { registerTextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';

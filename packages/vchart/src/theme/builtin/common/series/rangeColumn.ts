@@ -1,4 +1,6 @@
-import { minMaxPositionEnum, type IRangeColumnSeriesTheme } from '../../../../series/range-column/interface';
+import type { IRangeColumnSeriesTheme } from '../../../../series/range-column/interface';
+// eslint-disable-next-line no-duplicate-imports
+import { minMaxPositionEnum } from '../../../../series/range-column/interface';
 
 export const rangeColumn: IRangeColumnSeriesTheme = {
   label: {

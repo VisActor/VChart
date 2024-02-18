@@ -65,7 +65,9 @@ import { getDataScheme } from '../../theme/color-scheme/util';
 import { SeriesData } from './series-data';
 import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IGroupMark } from '../../mark/group';
-import { STATE_VALUE_ENUM, type ISeriesMarkAttributeContext } from '../../compile/mark';
+import type { ISeriesMarkAttributeContext } from '../../compile/mark';
+// eslint-disable-next-line no-duplicate-imports
+import { STATE_VALUE_ENUM } from '../../compile/mark';
 import {
   array,
   isEqual,

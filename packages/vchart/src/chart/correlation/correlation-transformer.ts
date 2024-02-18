@@ -1,4 +1,6 @@
-import { SeriesTypeEnum, type ICorrelationSeriesSpec } from '../../series';
+import type { ICorrelationSeriesSpec } from '../../series';
+// eslint-disable-next-line no-duplicate-imports
+import { SeriesTypeEnum } from '../../series';
 import { BaseChartSpecTransformer } from '../base';
 import type { ICorrelationChartSpec } from './interface';
 

@@ -8,8 +8,6 @@ import { isBoolean, isFunction, isObject, isString, substitute } from '@visactor
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
-import { ARC_RATIO } from '../../constant';
-import { STACK_FIELD_END_PERCENT } from '../../constant';
 
 export const labelRuleMap = {
   rect: barLabel,
@@ -56,11 +54,6 @@ export function textAttribute(
   }
 
   if (formatter) {
-    if (series.type === 'pie') {
-      datum._percent_ = (datum[ARC_RATIO] * 100).toFixed(2) + '%';
-    } else if (datum[STACK_FIELD_END_PERCENT]) {
-      datum._percent_ = (datum[STACK_FIELD_END_PERCENT] * 100).toFixed(2) + '%';
-    }
     textAttribute.text = substitute(formatter, datum);
   }
   return textAttribute;
@@ -134,22 +127,13 @@ export function barLabel(labelInfo: ILabelInfo) {
 
   let position = originPosition as BaseLabelAttrs['position'];
 
-  if (isString(originPosition) && position !== 'inside') {
+  if (isString(originPosition) && originPosition === 'outside') {
     position = (data: Datum) => {
       const { data: datum } = data;
       const dataField = series.getMeasureField()[0];
-      if (originPosition === 'outside') {
-        const positionMap = { vertical: ['top', 'bottom'], horizontal: ['right', 'left'] };
-        const index = (datum?.[dataField] >= 0 && isInverse) || (datum?.[dataField] < 0 && !isInverse) ? 1 : 0;
-        return positionMap[direction][index];
-      }
-      if (originPosition === 'inside-bottom') {
-        return (series as ICartesianSeries).direction === 'horizontal' ? 'inside-left' : 'inside-bottom';
-      }
-      if (originPosition === 'inside-top') {
-        return (series as ICartesianSeries).direction === 'horizontal' ? 'inside-right' : 'inside-top';
-      }
-      return originPosition;
+      const positionMap = { vertical: ['top', 'bottom'], horizontal: ['right', 'left'] };
+      const index = (datum?.[dataField] >= 0 && isInverse) || (datum?.[dataField] < 0 && !isInverse) ? 1 : 0;
+      return positionMap[direction][index];
     };
   }
   // encode overlap config

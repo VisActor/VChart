@@ -38,5 +38,6 @@ export const defaultValueStyle: Partial<CSSStyleDeclaration> = {
 };
 
 export const defaultShapeStyle: Partial<CSSStyleDeclaration> = {
-  lineHeight: 'normal'
+  lineHeight: 'normal',
+  boxSizing: 'border-box'
 };

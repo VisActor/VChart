@@ -8,8 +8,8 @@
 
 ### 词云 和 形状词云:
 
-在 VChart 中，"词云" 和 "形状词云"有着不同的布局算法逻辑，所以对应配置也会略有不同，不同配置在`wordCloudChart.wordCloudConfig` 和 `wordCloudChart.wordCloudShapeConfig`中有所体现。  
-那么如何知道自己配置的是"词云" 还是 "形状词云"呢？  
+在 VChart 中，"词云" 和 "形状词云"有着不同的布局算法逻辑，所以对应配置也会略有不同，不同配置在`wordCloudChart.wordCloudConfig` 和 `wordCloudChart.wordCloudShapeConfig`中有所体现。
+那么如何知道自己配置的是"词云" 还是 "形状词云"呢？
 当`wordCloudChart.maskShape`为配置或配置为内置形状时，视作"词云"，否则为"形状词云"。
 
 ## 图表构成
@@ -33,7 +33,9 @@
 ## 快速上手
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
+
 const spec = {
   type: 'wordCloud',
   nameField: 'challenge_name',
@@ -95,7 +97,9 @@ data: [
 可以通过`wordCloudConfig.drawOutOfBound`属性声明超出画布的超长文本处理方式；`clip`: 绘制超长文本，超出画布的部分裁剪掉; `hidden`: 不绘制超长文本
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
+
 const spec = {
   type: 'wordCloud',
   width: 500,
@@ -187,7 +191,9 @@ window['vchart'] = vchart;
 `wordCloudConfig.zoomToFit` 属性声明为词云的自适应缩放配置; `shrink`: 开启时, 当单词放置不下时会对画布进行整体缩放以放置尽量多的单词, 可通过`fontSizeLimitMin`来设置最小字号，默认为 0，即放下所有单词
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
+
 const spec = {
   type: 'wordCloud',
   nameField: 'challenge_name',
@@ -217,7 +223,9 @@ window['vchart'] = vchart;
 `word.formatMethod` 属性声明为文字的自定义格式函数, 该配置可以修改词云文字的显示内容，不会修改原始数据，不会影响 tooltip 等原生交互与事件
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
+
 const spec = {
   type: 'wordCloud',
   nameField: 'challenge_name',
@@ -245,7 +253,8 @@ window['vchart'] = vchart;
 如果希望文字在布局时自带随机角度，可以通过`wordCloudChart.rotateAngles`进行配置，该数组中可以添加可选的随机角度。
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
 
 const spec = {
   type: 'wordCloud',
@@ -274,7 +283,8 @@ window['vchart'] = vchart;
 - `'default'`: 基于像素布局
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
 
 const spec = {
   type: 'wordCloud',
@@ -314,7 +324,8 @@ window['vchart'] = vchart;
 通过`wordCloudChart.maskShape`可以配置词云的形状，支持图片 url 形式。
 
 ```javascript livedemo
-const dataWordCloudShape = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud-shape.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud-shape.json');
+const dataWordCloudShape = await response.json();
 
 const spec = {
   type: 'wordCloud',

@@ -77,7 +77,13 @@ export function getDomStyles(attributes?: Maybe<ITooltipAttributes>): IDomToolti
     content: {},
     shapeColumn: {
       common: shapeStyle,
-      items: [],
+      items: contentAttribute?.map(
+        ({ spaceRow }, i) =>
+          ({
+            marginTop: '0px',
+            marginBottom: i < contentAttribute.length - 1 ? getPixelPropertyStr(spaceRow) : '0px'
+          } as IShapeStyle)
+      ),
       width: getPixelPropertyStr(shape.size),
       marginRight: getPixelPropertyStr(shape.spacing ?? DEFAULT_SHAPE_SPACING)
     },

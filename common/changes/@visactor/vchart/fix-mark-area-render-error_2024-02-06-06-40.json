@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fixed the problem that multi-layer axis labels are not displayed after closing  tail labels, fixed#2179",
+      "comment": "fix: marker area xy layout needs to deal with the problem of empty coordinate points",
       "type": "none"
     }
   ],

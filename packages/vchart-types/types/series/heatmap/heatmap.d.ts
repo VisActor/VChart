@@ -1,7 +1,7 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { IHeatmapSeriesSpec } from './interface';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
-import { type ITextMark } from '../../mark/text';
+import type { ITextMark } from '../../mark/text';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { ICellMark } from '../../mark/cell';

@@ -1,6 +1,8 @@
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ContentColumnModel } from './content-column-model';
-import { isValid, type Maybe } from '@visactor/vutils';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
+import { isValid } from '@visactor/vutils';
 import { mergeSpec } from '../../../../../util/spec/merge-spec';
 import { getPixelPropertyStr, getScrollbarWidth, pixelPropertyStrToNumber } from '../utils';
 

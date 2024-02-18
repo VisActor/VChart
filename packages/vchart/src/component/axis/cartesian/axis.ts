@@ -449,13 +449,15 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
           field = s.getGroups()?.fields?.[depth];
         } else {
           if (isXAxis(this.getOrient())) {
-            field = (s as ICartesianSeries).fieldX2
+            field = (s as ICartesianSeries).getSpec().x2Field
               ? [...(s as ICartesianSeries).fieldX, (s as ICartesianSeries).fieldX2]
               : (s as ICartesianSeries).fieldX;
           } else if (isZAxis(this.getOrient())) {
             field = (s as ICartesianSeries).fieldZ;
           } else {
-            field = (s as ICartesianSeries).fieldY;
+            field = (s as ICartesianSeries).getSpec().y2Field
+              ? [...(s as ICartesianSeries).fieldY, (s as ICartesianSeries).fieldY2]
+              : (s as ICartesianSeries).fieldY;
           }
         }
         field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];

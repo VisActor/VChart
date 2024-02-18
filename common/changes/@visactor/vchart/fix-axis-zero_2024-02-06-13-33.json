@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: axis zero not work beacause of collect data. fix#2226",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

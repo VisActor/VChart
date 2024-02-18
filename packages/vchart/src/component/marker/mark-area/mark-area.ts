@@ -7,6 +7,7 @@ import { markerAggregation } from '../../../data/transforms/aggregation';
 import { computeClipRange, coordinateLayout, positionLayout, xyLayout, transformLabelAttributes } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { MarkAreaAttrs } from '@visactor/vrender-components';
+// eslint-disable-next-line no-duplicate-imports
 import { MarkArea as MarkAreaComponent } from '@visactor/vrender-components';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -101,22 +102,28 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
     if (isXYLayout) {
       lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
       // 格式为 [[{x, y}], [{x, y}]]
-      // 顺序为左小角开始逆时针绘制
-      points = [
-        {
-          x: lines[0][0].x,
-          y: lines[1][0].y
-        },
-        lines[0][0],
-        {
-          x: lines[1][0].x,
-          y: lines[0][0].y
-        },
-        lines[1][0]
-      ];
+      // 顺序为左下角开始逆时针绘制
+      const [start, end] = lines;
+      if (start && start.length && end && end.length) {
+        points = [
+          {
+            x: start[0].x,
+            y: end[0].y
+          },
+          start[0],
+          {
+            x: end[0].x,
+            y: start[0].y
+          },
+          end[0]
+        ];
+      }
     } else if (isXLayout || isYLayout) {
       lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
-      points = [...lines[0], lines[1][1], lines[1][0]];
+      const [start, end] = lines;
+      if (start && start.length && end && end.length) {
+        points = [...start, end[1], end[0]];
+      }
     } else if (isCoordinateLayout) {
       points = coordinateLayout(data, relativeSeries, autoRange, spec.coordinatesOffset);
     } else if (isPositionLayout) {
@@ -152,7 +159,7 @@ export class MarkArea extends BaseMarker<IMarkAreaSpec> implements IMarkArea {
           ...this._markerComponent.attribute?.label,
           text: this._spec.label.formatMethod
             ? this._spec.label.formatMethod(dataPoints, seriesData)
-            : this._markerComponent.attribute?.label?.text
+            : (this._markerComponent.attribute?.label?.text as any) // FIXME: 富文本类型问题
         },
         limitRect,
         dx: this._layoutOffsetX,

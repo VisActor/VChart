@@ -34,6 +34,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _end: number;
     protected _minSpan: number;
     protected _maxSpan: number;
+    protected _shouldChange: boolean;
     protected _field: string | undefined;
     protected _stateField: string;
     protected _valueField?: string;

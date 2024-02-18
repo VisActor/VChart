@@ -7,7 +7,9 @@ import { BaseMark } from './base/base-mark';
 import type { IMark, IMarkRaw, IMarkStyle, MarkType } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerGroupGraphic, type IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
+import type { IGroupMark as IVGrammarGroupMark } from '@visactor/vgrammar-core';
+// eslint-disable-next-line no-duplicate-imports
+import { registerGroupGraphic } from '@visactor/vgrammar-core';
 import type { IMarkCompileOption } from '../compile/mark';
 
 export interface IGroupMark extends IMarkRaw<IGroupMarkSpec> {

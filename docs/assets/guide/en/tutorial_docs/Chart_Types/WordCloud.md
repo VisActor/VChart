@@ -8,8 +8,8 @@ A word cloud, also known as a tag cloud or text cloud, is a visualization method
 
 ### Word Cloud and Shape Word Cloud:
 
-In VChart, "Word Cloud" and "Shape Word Cloud" have different layout algorithm logic, so the corresponding configurations are slightly different, with differences between `wordCloudChart.wordCloudConfig` and `wordCloudChart.wordCloudShapeConfig` configurations.  
-So how do you know if you've configured a "Word Cloud" or a "Shape Word Cloud"?  
+In VChart, "Word Cloud" and "Shape Word Cloud" have different layout algorithm logic, so the corresponding configurations are slightly different, with differences between `wordCloudChart.wordCloudConfig` and `wordCloudChart.wordCloudShapeConfig` configurations.
+So how do you know if you've configured a "Word Cloud" or a "Shape Word Cloud"?
 When `wordCloudChart.maskShape` is configured or set to a built-in shape, it is considered as "Word Cloud", otherwise it is "Shape Word Cloud".
 
 ## Chart Components
@@ -33,7 +33,9 @@ Tooltips and other components are optional, with default effects and functionali
 ## Quick Start
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
+
 const spec = {
   type: 'wordCloud',
   nameField: 'challenge_name',
@@ -94,7 +96,9 @@ data: [
 When there is ultra-long text in the data, the part of the text exceeding the canvas will be clipped, and the entire text will not be displayed. It can be handled by the` wordCloudConfig.drawOutOfBound` property declaration for ultra-long text processing out of the canvas; `clip`: Draw ultra-long text, clip the part out of the canvas; `hidden`: Do not draw ultra-long text
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
+
 const spec = {
   type: 'wordCloud',
   width: 500,
@@ -186,7 +190,9 @@ window['vchart'] = vchart;
 `wordCloudConfig.zoomToFit` property declaration for adaptive zoom configuration of the word cloud; `shrink`: When enabled, the entire canvas will be scaled down to fit as many words as possible when there is not enough space for words. The minimum font size can be set by `fontSizeLimitMin`, default is 0, i.e., fitting all words
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
+
 const spec = {
   type: 'wordCloud',
   nameField: 'challenge_name',
@@ -216,7 +222,9 @@ Custom functions can be used to modify the text display content.
 `word.formatMethod` property declaration for custom text formatting function, this configuration can modify the display content of word cloud text, without modifying the original data, and without affecting tooltips and other built-in interactions and events
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
+
 const spec = {
   type: 'wordCloud',
   nameField: 'challenge_name',
@@ -244,7 +252,8 @@ window['vchart'] = vchart;
 If you want the text to have a random angle during layout, you can configure `wordCloudChart.rotateAngles`, this array can include optional random angles.
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
 
 const spec = {
   type: 'wordCloud',
@@ -273,7 +282,8 @@ There are three layout modes available in VChart, configurable with `wordCloudCh
 - `'default'`: Pixel-based layout
 
 ```javascript livedemo
-const dataWordCloud = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud.json');
+const dataWordCloud = await response.json();
 
 const spec = {
   type: 'wordCloud',
@@ -313,7 +323,8 @@ Same as [Word Cloud](../WordCloud#Word_Cloud_Features)
 The shape of the word cloud can be configured through `wordCloudChart.maskShape`, which supports image URL format.
 
 ```javascript livedemo
-const dataWordCloudShape = await fetch('http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud-shape.json');
+const response = await fetch('https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/data-wordcloud-shape.json');
+const dataWordCloudShape = await response.json();
 
 const spec = {
   type: 'wordCloud',

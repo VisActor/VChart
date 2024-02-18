@@ -1,6 +1,8 @@
-import { isArray, type IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
+import { isArray } from '@visactor/vutils';
 import { isNumber, isNil, isString, isFunction, couldBeValidNumber, isObject } from './type';
-import type { IPadding, IRect } from '../typings/space';
+import type { IPadding } from '../typings/space';
 import type { IPoint } from '../typings/coordinate';
 import type {
   ILayoutNumber,

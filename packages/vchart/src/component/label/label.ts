@@ -12,7 +12,9 @@ import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgram
 // eslint-disable-next-line no-duplicate-imports
 import { registerLabel as registerVGrammarLabel } from '@visactor/vgrammar-core';
 import { defaultLabelConfig, textAttribute } from './util';
-import { registerComponentMark, type IComponentMark } from '../../mark/component';
+import type { IComponentMark } from '../../mark/component';
+// eslint-disable-next-line no-duplicate-imports
+import { registerComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { LooseFunction, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -20,7 +22,9 @@ import { isArray, isFunction, pickWithout } from '@visactor/vutils';
 import type { IGroup, IText } from '@visactor/vrender-core';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
-import { type ILabelMark, registerLabelMark } from '../../mark/label';
+import type { ILabelMark } from '../../mark/label';
+// eslint-disable-next-line no-duplicate-imports
+import { registerLabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { IChartSpec } from '../../typings';

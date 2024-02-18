@@ -16,6 +16,7 @@ import { markerAggregation } from '../../../data/transforms/aggregation';
 import { computeClipRange, coordinateLayout, positionLayout, transformLabelAttributes, xyLayout } from '../utils';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { MarkLineAttrs } from '@visactor/vrender-components';
+// eslint-disable-next-line no-duplicate-imports
 import { MarkLine as MarkLineComponent } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { Maybe } from '@visactor/vutils';
@@ -259,7 +260,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
     } else {
       this._markerComponent?.setAttributes({
         points: points,
-        label: labelAttrs,
+        label: labelAttrs as any, // FIXME: 富文本类型问题
         limitRect,
         dx: this._layoutOffsetX,
         dy: this._layoutOffsetY

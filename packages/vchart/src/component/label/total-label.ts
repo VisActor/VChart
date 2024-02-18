@@ -1,10 +1,12 @@
-import { type ILabelMark, registerLabelMark } from '../../mark/label';
+import type { ILabelMark } from '../../mark/label';
+// eslint-disable-next-line no-duplicate-imports
+import { registerLabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import { AttributeLevel, LayoutZIndex, STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP } from '../../constant';
-import type { MarkType } from '../../mark/interface';
+import type { IMark, MarkType } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkTypeEnum, type IMark } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar-core';

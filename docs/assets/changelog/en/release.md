@@ -1,3 +1,26 @@
+# v1.9.2
+
+2024-02-05
+
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: bar label issue when position is 'inside-bottom' or 'inside-top'
+- **@visactor/vchart**: in block-vchart demo, the `dpr` acquisition method is wrong and needs to be obtained in real time
+- **@visactor/vchart**: series can read `direction` from chart spec, releated to [#2181](https://github.com/VisActor/VChart/issues/2181)
+- **@visactor/vchart**: dataZoom min and max span does not effect, related [#2195](https://github.com/VisActor/VChart/issues/2195)
+- **@visactor/vchart**: fix the problem that multi-layer axis labels are not displayed after closing  tail labels, related [#2179](https://github.com/VisActor/VChart/issues/2179)
+- **@visactor/vchart**: fix polar animation interpolation
+- **@visactor/react-vchart**: fix the error when `onClick` of `<VChart />` is null, close [#2186](https://github.com/VisActor/VChart/issues/2186)
+- **@visactor/vchart**: charts should not stack toggle when series has same type but differernt axes, related [#2210](https://github.com/VisActor/VChart/issues/2210)
+- **@visactor/vchart**: there is some offset in the position of the dom tooltip shape, related [#2188](https://github.com/VisActor/VChart/issues/2188)
+
+**🔧 Configuration releated**
+
+- **@visactor/vchart**: add react-lynx doc
+
+[more detail about v1.9.2](https://github.com/VisActor/VChart/releases/tag/v1.9.2)
+
 # v1.9.1
 
 2024-01-31

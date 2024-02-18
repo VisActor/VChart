@@ -670,6 +670,13 @@
               }
             },
             {
+              "path": "react-lynx",
+              "title": {
+                "zh": "React Lynx VChart",
+                "en": "React Lynx VChart"
+              }
+            },
+            {
               "path": "taro",
               "title": {
                 "zh": "Taro VChart",

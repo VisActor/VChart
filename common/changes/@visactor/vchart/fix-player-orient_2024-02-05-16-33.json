@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(datazom): min and max span not effect. fix#2195",
+      "comment": "fix(player): default attr leades to layout error. fix#241",
       "type": "none"
     }
   ],

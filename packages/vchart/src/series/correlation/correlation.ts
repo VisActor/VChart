@@ -12,24 +12,24 @@ import type { ICorrelationOpt } from '../../data/transforms/correlation';
 import type { IBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { Bounds, isValid } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
 import { registerSymbolMark } from '../../mark/symbol';
 import { SeriesData } from '../base/series-data';
-import type { Maybe, Datum, ISymbolMarkSpec, IRippleMarkSpec, AdaptiveSpec } from '../../typings';
-// eslint-disable-next-line no-duplicate-imports
-import type { ICorrelationSeriesTheme } from './interface';
+import type { Datum, ISymbolMarkSpec, IRippleMarkSpec, AdaptiveSpec } from '../../typings';
 import { AttributeLevel, DEFAULT_DATA_INDEX, LayoutZIndex } from '../../constant';
 import { DataView, DataSet, dataViewParser } from '@visactor/vdataset';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import type { IRippleMark } from '../../mark/ripple';
-import { registerRippleMark } from '../../mark/ripple';
 // eslint-disable-next-line no-duplicate-imports
-import { RippleMark } from '../../mark/ripple';
+import { registerRippleMark } from '../../mark/ripple';
 import type { ILabelMark } from '../../mark/label';
 // eslint-disable-next-line no-duplicate-imports
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { Factory } from '../../core/factory';
-import { registerCorrelationAnimation, type CorrelationAppearPreset } from './animation';
+import type { CorrelationAppearPreset } from './animation';
+// eslint-disable-next-line no-duplicate-imports
+import { registerCorrelationAnimation } from './animation';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { IMark } from '../../mark/interface';
 import { CorrelationSeriesSpecTransformer } from './correlation-transformer';

@@ -1,6 +1,6 @@
 import { BaseTooltipModel } from './base-tooltip-model';
 import { ContentColumnModel } from './content-column-model';
-import { type Maybe } from '@visactor/vutils';
+import type { Maybe } from '@visactor/vutils';
 export declare class ContentModel extends BaseTooltipModel {
     shapeBox: Maybe<ContentColumnModel>;
     keyBox: Maybe<ContentColumnModel>;

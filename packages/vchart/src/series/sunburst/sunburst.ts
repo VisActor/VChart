@@ -8,7 +8,8 @@ import type { ITextMark } from '../../mark/text';
 import type { IArcMark } from '../../mark/arc';
 import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
 
-import { registerSunburstAnimation, type ISunburstAnimationParams, type SunburstAppearPreset } from './animation';
+import type { ISunburstAnimationParams, SunburstAppearPreset } from './animation';
+import { registerSunburstAnimation } from './animation';
 import type { ISunburstSeriesSpec, LabelAutoVisibleType } from './interface';
 import type { ISunburstOpt } from '../../data/transforms/sunburst';
 
@@ -33,8 +34,8 @@ import { SunburstTooltipHelper } from './tooltip-helper';
 import type { animationInfo } from './animation/interface';
 import type { IDrillable } from '../../interaction/drill/drillable';
 import { Drillable } from '../../interaction/drill/drillable';
-import { ArcMark, registerArcMark } from '../../mark/arc';
-import { TextMark, registerTextMark } from '../../mark/text';
+import { registerArcMark } from '../../mark/arc';
+import { registerTextMark } from '../../mark/text';
 import { sunburstSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 

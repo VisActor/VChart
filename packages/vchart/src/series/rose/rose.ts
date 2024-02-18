@@ -1,16 +1,17 @@
 /* eslint-disable no-duplicate-imports */
 import type { IArcMark } from '../../mark/arc';
-import type { Maybe, Datum } from '../../typings';
+import type { Datum } from '../../typings';
 import { valueInScaleRange } from '../../util/scale';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { registerRoseAnimation, type IRoseAnimationParams, type RoseAppearPreset } from './animation';
-import type { IRoseSeriesSpec, IRoseSeriesTheme } from './interface';
+import type { IRoseAnimationParams, RoseAppearPreset } from './animation';
+import { registerRoseAnimation } from './animation';
+import type { IRoseSeriesSpec } from './interface';
 import { RoseLikeSeries } from '../polar/rose-like';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import type { ITextMark } from '../../mark/text';
-import { ArcMark, registerArcMark } from '../../mark/arc';
+import { registerArcMark } from '../../mark/arc';
 import { roseSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
