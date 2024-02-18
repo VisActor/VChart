@@ -28467,6 +28467,9 @@
         "scalePoint": {
           "typeof": "function"
         },
+        "setClearMatrix": {
+          "typeof": "function"
+        },
         "setCommonStyle": {
           "typeof": "function"
         },
@@ -28611,6 +28614,7 @@
         "save",
         "scale",
         "scalePoint",
+        "setClearMatrix",
         "setCommonStyle",
         "setLineDash",
         "setStrokeStyle",
@@ -31863,7 +31867,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "reversed": {
           "type": "boolean"
         },
@@ -42123,9 +42126,6 @@
         "combineSubLayer": {
           "typeof": "function"
         },
-        "combineTo": {
-          "typeof": "function"
-        },
         "containNode": {
           "typeof": "function"
         },
@@ -42601,7 +42601,6 @@
         "clearUpdateShapeTag",
         "clone",
         "combineSubLayer",
-        "combineTo",
         "containNode",
         "containsPoint",
         "count",
@@ -47789,6 +47788,37 @@
       ],
       "type": "object"
     },
+    "IMatrixLike": {
+      "properties": {
+        "a": {
+          "type": "number"
+        },
+        "b": {
+          "type": "number"
+        },
+        "c": {
+          "type": "number"
+        },
+        "d": {
+          "type": "number"
+        },
+        "e": {
+          "type": "number"
+        },
+        "f": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f"
+      ],
+      "type": "object"
+    },
     "IMediaQueryAction<any>": {
       "description": "命中媒体查询条件之后的动作",
       "properties": {
@@ -51496,7 +51526,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -57562,12 +57591,6 @@
         "context": {
           "$ref": "#/definitions/IContext2d"
         },
-        "height": {
-          "type": "number"
-        },
-        "keepMatrix": {
-          "type": "boolean"
-        },
         "layer": {
           "$ref": "#/definitions/ILayer"
         },
@@ -57580,28 +57603,22 @@
         "stage": {
           "$ref": "#/definitions/IStage"
         },
+        "transMatrix": {
+          "$ref": "#/definitions/IMatrixLike"
+        },
         "updateBounds": {
           "type": "boolean"
         },
-        "width": {
-          "type": "number"
-        },
-        "x": {
-          "type": "number"
-        },
-        "y": {
-          "type": "number"
+        "viewBox": {
+          "$ref": "#/definitions/IBounds"
         }
       },
       "required": [
-        "height",
         "layer",
         "renderService",
         "stage",
         "updateBounds",
-        "width",
-        "x",
-        "y"
+        "viewBox"
       ],
       "type": "object"
     },
@@ -62797,6 +62814,9 @@
         "parent": {
           "$ref": "#/definitions/IStage"
         },
+        "pauseRender": {
+          "typeof": "function"
+        },
         "pick": {
           "typeof": "function"
         },
@@ -62863,6 +62883,9 @@
           "typeof": "function"
         },
         "resizeWindow": {
+          "typeof": "function"
+        },
+        "resumeRender": {
           "typeof": "function"
         },
         "set3dOptions": {
@@ -63013,6 +63036,7 @@
         "once",
         "params",
         "parent",
+        "pauseRender",
         "pick",
         "pluginService",
         "release",
@@ -63030,6 +63054,7 @@
         "resize",
         "resizeView",
         "resizeWindow",
+        "resumeRender",
         "set3dOptions",
         "setAfterRender",
         "setAllDescendantsProps",
@@ -69918,6 +69943,15 @@
         "getTopLeft": {
           "typeof": "function"
         },
+        "getViewBox": {
+          "typeof": "function"
+        },
+        "getViewBoxTransform": {
+          "typeof": "function"
+        },
+        "hasSubView": {
+          "typeof": "function"
+        },
         "height": {
           "type": "number"
         },
@@ -69942,6 +69976,9 @@
         "onVisibleChange": {
           "typeof": "function"
         },
+        "pointTransform": {
+          "typeof": "function"
+        },
         "release": {
           "typeof": "function"
         },
@@ -69962,6 +69999,12 @@
           "typeof": "function"
         },
         "setDpr": {
+          "typeof": "function"
+        },
+        "setViewBox": {
+          "typeof": "function"
+        },
+        "setViewBoxTransform": {
           "typeof": "function"
         },
         "setWindowHandler": {
@@ -70003,6 +70046,9 @@
         "getImageBuffer",
         "getNativeHandler",
         "getTopLeft",
+        "getViewBox",
+        "getViewBoxTransform",
+        "hasSubView",
         "height",
         "hooks",
         "isVisible",
@@ -70011,11 +70057,14 @@
         "minHeight",
         "minWidth",
         "onVisibleChange",
+        "pointTransform",
         "release",
         "removeEventListener",
         "resizable",
         "resize",
         "setDpr",
+        "setViewBox",
+        "setViewBoxTransform",
         "setWindowHandler",
         "style",
         "title",
@@ -72979,7 +73028,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "reversed": {
           "type": "boolean"
         },
@@ -75624,7 +75672,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -77523,7 +77570,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -78248,7 +78294,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -78686,7 +78731,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -79167,7 +79211,6 @@
         "radius": {
           "type": "number"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -79663,7 +79706,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80069,7 +80111,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80547,7 +80588,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80985,7 +81025,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -81690,7 +81729,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -82921,7 +82959,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -83346,7 +83383,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -84017,7 +84053,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -84445,7 +84480,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -84909,9 +84943,6 @@
         "poptip": {
           "type": "boolean"
         },
-        "renderKeepMatrix": {
-          "type": "boolean"
-        },
         "renderStyle": {
           "type": "string"
         },
@@ -85222,7 +85253,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -85703,7 +85733,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -86808,7 +86837,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -87286,7 +87314,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -87696,7 +87723,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -90170,7 +90196,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -90339,7 +90364,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -90687,7 +90711,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -90859,7 +90882,6 @@
         "pickable",
         "points",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -91181,7 +91203,6 @@
         "radius": {
           "type": "number"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -91344,7 +91365,6 @@
         "pickable",
         "postMatrix",
         "radius",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -91689,7 +91709,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -91854,7 +91873,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -92245,7 +92263,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -92419,7 +92436,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -92765,7 +92781,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -92935,7 +92950,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "repeatX",
         "repeatY",
         "scaleCenter",
@@ -93288,7 +93302,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -93461,7 +93474,6 @@
         "pickable",
         "points",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -93790,7 +93802,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -93950,7 +93961,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -94287,7 +94297,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -94448,7 +94457,6 @@
         "pickable",
         "points",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -94782,7 +94790,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -94952,7 +94959,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -95286,7 +95292,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -95455,7 +95460,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -95791,7 +95795,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -95978,7 +95981,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -96409,7 +96411,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -96596,7 +96597,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "repeatX",
         "repeatY",
         "scaleCenter",
@@ -96916,7 +96916,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -97097,7 +97096,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -97469,7 +97467,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -97703,7 +97700,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleIn3d",
         "scaleX",
