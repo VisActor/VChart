@@ -14,7 +14,7 @@ import type { GrammarMarkType } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { isNil, isValid } from '@visactor/vutils';
+import { isBoolean, isNil, isValid } from '@visactor/vutils';
 import { LayoutZIndex, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
@@ -451,7 +451,7 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       skipTheme: this.getSkipTheme(),
       support3d: this.getSupport3d(),
       enableSegments: !!this._enableSegments,
-      clip: !!this._clip,
+      clip: this._clip ? true : this._clip === false ? false : undefined,
       clipPath: this._clip || undefined
     };
 
