@@ -94,7 +94,7 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
    * 自定义domain
    * @since 1.10.0
    */
-  customeDomain?: any[];
+  customDomain?: any[];
 
   /**
    * 自定义datazoom更新回调
