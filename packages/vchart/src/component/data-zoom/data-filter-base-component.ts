@@ -387,8 +387,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   protected _computeDomainOfStateScale(isContinuous?: boolean) {
-    if (this._spec.customDomain) {
-      return this._spec.customDomain;
+    if ((this._spec as IDataZoomSpec).customDomain) {
+      return (this._spec as IDataZoomSpec).customDomain;
     }
 
     const domain = this._data.getLatestData().map((d: any) => d[this._stateField]);
