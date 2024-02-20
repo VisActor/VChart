@@ -24,8 +24,6 @@ VChart 默认主题的预设可以分为以下几部分：
 
 ### 数据色板
 
-<img style="max-width: 600px" src="/vchart/guide/theme/0.png" alt="color scheme">
-
 数据色板是在图表中用于区分数据组的离散色板，也通常用于区分图例项。如以下两个图表中不同数据组的色板，在颜色队列中按顺序取色：
 
 <div style="display: flex; max-width: 800px">
@@ -39,11 +37,1563 @@ VChart 默认主题的预设可以分为以下几部分：
 
 如以上规则，数据组不超过 10 个时，采用 10 色的色板；数据组超过 10 个时，采用 20 色的色板。如果数据组超过 20 个，则会重复应用色板颜色，从第 1 个开始。
 
+默认数据色板的具体色值如下表所示：
+
+<table>
+  <tbody>
+    <tr>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0">序号</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; min-width: 250px">基础 10 色色板（N ≤ 10）</div></td>
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; min-width: 250px">完整 20 色色板（10 < N ≤ 20）</div></td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">1</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #1664FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#1664FF</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #1664FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#1664FF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-0</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #4080FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#4080FF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-1</code></div>
+          </div>
+        </div>
+      </td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #1664FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#1664FF</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #1664FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#1664FF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-0</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #4080FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#4080FF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-1</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">2</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #1AC6FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#1AC6FF</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #1AC6FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#1AC6FF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-2</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #55C5FD;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#55C5FD</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-3</code></div>
+          </div>
+        </div>
+      </td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #B2CFFF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#B2CFFF</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #B2CFFF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#B2CFFF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-1</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #BEDAFF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#BEDAFF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-2</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">3</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #FF8A00;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FF8A00</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #FF8A00;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FF8A00</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-4</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #FF7D00;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FF7D00</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-5</code></div>
+          </div>
+        </div>
+      </td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #1AC6FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#1AC6FF</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #1AC6FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#1AC6FF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-2</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #55C5FD;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#55C5FD</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-3</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">4</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #3CC780;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#3CC780</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #3CC780;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#3CC780</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-6</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #4CD263;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#4CD263</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-7</code></div>
+          </div>
+        </div>
+      </td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #94EFFF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#94EFFF</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #94EFFF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#94EFFF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-3</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #9CDCFC;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#9CDCFC</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-4</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">5</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #7442D4;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#7442D4</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #7442D4;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#7442D4</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-8</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #A871E3;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#A871E3</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-9</code></div>
+          </div>
+        </div>
+      </td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #FF8A00;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FF8A00</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #FF8A00;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FF8A00</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-4</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #FF7D00;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FF7D00</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-5</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">6</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #FFC400;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FFC400</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #FFC400;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FFC400</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-10</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #F7BA1E;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#F7BA1E</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-11</code></div>
+          </div>
+        </div>
+      </td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #FFCE7A;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FFCE7A</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #FFCE7A;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FFCE7A</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-5</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #FFCF8B;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FFCF8B</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-6</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">7</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #304D77;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#304D77</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #304D77;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#304D77</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-12</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #9FDB1D;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#9FDB1D</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-13</code></div>
+          </div>
+        </div>
+      </td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #3CC780;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#3CC780</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #3CC780;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#3CC780</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-6</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #4CD263;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#4CD263</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-7</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">8</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #B48DEB;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#B48DEB</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #B48DEB;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#B48DEB</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-14</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #F979B7;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#F979B7</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-15</code></div>
+          </div>
+        </div>
+      </td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #B9EDCD;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#B9EDCD</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #B9EDCD;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#B9EDCD</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-7</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #AFF0B5;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#AFF0B5</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-8</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">9</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #009488;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#009488</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #009488;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#009488</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-16</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #0FC6C2;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#0FC6C2</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-17</code></div>
+          </div>
+        </div>
+      </td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #7442D4;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#7442D4</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #7442D4;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#7442D4</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-8</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #A871E3;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#A871E3</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-9</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">10</div></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #FF7DDA;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FF7DDA</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #FF7DDA;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FF7DDA</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-18</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #E865DF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#E865DF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-19</code></div>
+          </div>
+        </div>
+      </td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #DDC5FA;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#DDC5FA</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #DDC5FA;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#DDC5FA</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-9</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #DDBEF6;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#DDBEF6</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-10</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">11</div></td>
+      <td rowspan="1" colspan="1"></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #FFC400;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FFC400</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #FFC400;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FFC400</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-10</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #F7BA1E;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#F7BA1E</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-11</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">12</div></td>
+      <td rowspan="1" colspan="1"></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #FAE878;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FAE878</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #FAE878;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FAE878</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-11</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #FADC6D;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FADC6D</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-12</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">13</div></td>
+      <td rowspan="1" colspan="1"></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #304D77;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#304D77</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #304D77;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#304D77</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-12</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #9FDB1D;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#9FDB1D</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-13</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">14</div></td>
+      <td rowspan="1" colspan="1"></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #8B959E;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#8B959E</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #8B959E;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#8B959E</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-13</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #C9E968;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#C9E968</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-14</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">15</div></td>
+      <td rowspan="1" colspan="1"></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #B48DEB;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#B48DEB</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #B48DEB;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#B48DEB</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-14</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #F979B7;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#F979B7</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-15</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">16</div></td>
+      <td rowspan="1" colspan="1"></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #EFE3FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#EFE3FF</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #EFE3FF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#EFE3FF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-15</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #FB9DC7;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FB9DC7</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-16</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">17</div></td>
+      <td rowspan="1" colspan="1"></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #009488;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#009488</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #009488;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#009488</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-16</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #0FC6C2;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#0FC6C2</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-17</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">18</div></td>
+      <td rowspan="1" colspan="1"></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #59BAA8;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#59BAA8</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #59BAA8;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#59BAA8</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-17</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #86E8DD;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#86E8DD</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-18</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">19</div></td>
+      <td rowspan="1" colspan="1"></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #FF7DDA;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FF7DDA</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #FF7DDA;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FF7DDA</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-18</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #E865DF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#E865DF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-19</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr style="background: none; vertical-align: top">
+      <td rowspan="1" colspan="1"><div style="margin: 14px 0; text-align: center">20</div></td>
+      <td rowspan="1" colspan="1"></td>
+      <td rowspan="1" colspan="1">
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">默认</div>
+            <div
+              style="
+                background: #FFCFEE;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FFCFEE</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">semiDesign</div>
+            <div
+              style="
+                background: #FFCFEE;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#FFCFEE</code></div>
+            <div style="margin: 5px">CSS变量：<code>--semi-color-data-19</code></div>
+          </div>
+        </div>
+        <div style="margin: 14px 0; display: flex">
+          <div style="width: 100%; font-size: 12px">
+            <div style="margin: 5px; font-weight: bold">arcoDesign</div>
+            <div
+              style="
+                background: #F7BAEF;
+                border-radius: 5px;
+                height: 30px;
+                margin: 5px;
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.1);
+              "
+            ></div>
+            <div style="margin: 5px">色值：<code>#F7BAEF</code></div>
+            <div style="margin: 5px">CSS变量：<code>--color-data-20</code></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 ### 语义色板
 
-VChart 默认主题定义了一套语义色板，用于描述可以复用的颜色。语义色板的形式为从 token 到色值的映射表。
+VChart 主题允许为常用的颜色定义 token，以便在图表主题中随处使用，也就是语义色板。语义色板的形式为从 token 到色值的映射表。
 
-默认主题预设了一套 token，并根据这套 token 实现了亮色主题和暗色主题。下表以 1.6.3 版本为准：
+为了用于描述可以复用的颜色，VChart 默认主题定义了一套语义色板，并且预设了一套 token，根据这套 token 实现了亮色主题和暗色主题。下表以 1.6.3 版本为准：
 
 <table>
   <tbody>
@@ -62,7 +1612,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于图表背景、图元描边。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #ffffff;
@@ -75,7 +1625,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#ffffff</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #202226;
@@ -181,7 +1731,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于图表边框（图表内暂时没有实际应用，仅有指导意义）。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #e3e5e8;
@@ -194,7 +1744,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#e3e5e8</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #404349;
@@ -285,7 +1835,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于浮层、滑块等带高度属性的图元阴影。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: rgba(33, 37, 44, 0.1);
@@ -298,7 +1848,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>rgba(33,37,44,0.1)</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: rgba(0, 0, 0, 0.1);
@@ -395,7 +1945,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于元素在鼠标 hover 状态的背景颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #f1f2f5;
@@ -408,7 +1958,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#f1f2f5</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #404349;
@@ -499,7 +2049,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于滑块类组件背景条的填充颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #f1f3f4;
@@ -512,7 +2062,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#f1f3f4</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #404349;
@@ -618,7 +2168,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于滑块类组件滑块的填充颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #ffffff;
@@ -631,7 +2181,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#ffffff</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #202226;
@@ -727,7 +2277,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于滑块类组件已选范围的填充颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #0040ff;
@@ -740,7 +2290,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#0040ff</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #4284ff;
@@ -841,7 +2391,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于浮层的背景区域颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #ffffff;
@@ -854,7 +2404,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#ffffff</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #404349;
@@ -950,7 +2500,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">颜色和背景色差异最大的字色，用于最显要的信息展示。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #21252c;
@@ -963,7 +2513,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#21252c</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #fdfdfd;
@@ -1089,7 +2639,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">颜色和背景色差异较小的字色，用于次要的信息展示。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #606773;
@@ -1102,7 +2652,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#606773</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #888c93;
@@ -1208,7 +2758,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">颜色和背景色差异更小的字色，用于更次要的信息展示。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #89909d;
@@ -1221,7 +2771,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#89909d</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #bbbdc3;
@@ -1317,7 +2867,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于轴标签字色，默认与第三字色颜色相同。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #89909d;
@@ -1330,7 +2880,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#89909d</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #bbbdc3;
@@ -1421,7 +2971,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于禁用状态字色或非激活态字色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #bcc1cb;
@@ -1434,7 +2984,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#bcc1cb</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #55595f;
@@ -1525,7 +3075,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于轴标签上的高亮标记字色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #ffffff;
@@ -1538,7 +3088,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#ffffff</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #202226;
@@ -1629,7 +3179,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于轴网格线颜色以及同级的颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #f1f2f5;
@@ -1642,7 +3192,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#f1f2f5</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #404349;
@@ -1738,7 +3288,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于轴线颜色以及同级的颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #d9dde4;
@@ -1751,7 +3301,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#d9dde4</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #4b4f54;
@@ -1842,7 +3392,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于缩略轴滑块描边颜色以及同级的颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #aeb5be;
@@ -1855,7 +3405,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#aeb5be</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #888c93;
@@ -1945,7 +3495,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于缩略轴预览图表的颜色以及同级的颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #c9ced8;
@@ -1958,7 +3508,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#c9ced8</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #55595f;
@@ -2054,7 +3604,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于播放器控制器的填充颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #0040ff;
@@ -2067,7 +3617,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#0040ff</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #0040ff;
@@ -2163,7 +3713,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于滚动条滑块的填充颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: rgba(0, 0, 0, 0.3);
@@ -2176,7 +3726,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>rgba(0,0,0,0.3)</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: rgba(255, 255, 255, 0.3);
@@ -2263,7 +3813,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于轴标签上的高亮标记背景色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #21252c;
@@ -2276,7 +3826,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#21252c</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #fdfdfd;
@@ -2367,7 +3917,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于普通标注标签的背景颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #f1f2f5;
@@ -2380,7 +3930,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#f1f2f5</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #404349;
@@ -2476,7 +4026,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">用于普通标注线的颜色。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #606773;
@@ -2489,7 +4039,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#606773</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #888c93;
@@ -2590,7 +4140,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">危险、错误、失败、盈利、上升、女性。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #e33232;
@@ -2603,7 +4153,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#e33232</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #eb4b4b;
@@ -2688,7 +4238,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">预警、警示。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #ffc528;
@@ -2701,7 +4251,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#ffc528</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #f0bd30;
@@ -2786,7 +4336,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">安全、正确、成功、亏损、下降。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #07a35a;
@@ -2799,7 +4349,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#07a35a</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #14b267;
@@ -2884,7 +4434,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
         <div style="margin: 14px 0">正常、寒冷、男性。</div>
         <div style="margin: 14px 0; display: flex">
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">light</div>
+            <div style="margin: 5px; font-weight: bold">默认 light</div>
             <div
               style="
                 background: #3073f2;
@@ -2897,7 +4447,7 @@ VChart 默认主题定义了一套语义色板，用于描述可以复用的颜�
             <div style="margin: 5px">色值：<code>#3073f2</code></div>
           </div>
           <div style="width: 50%; font-size: 12px">
-            <div style="margin: 5px; font-weight: bold">dark</div>
+            <div style="margin: 5px; font-weight: bold">默认 dark</div>
             <div
               style="
                 background: #4284ff;
