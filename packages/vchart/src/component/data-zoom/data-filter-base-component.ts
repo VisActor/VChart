@@ -57,12 +57,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _cacheRect?: ILayoutRect;
   protected _cacheVisibility?: boolean = undefined;
 
-  get orient() {
-    return this._orient;
-  }
-
   // 数据
   protected _stateScale: IBaseScale;
+
   protected _relatedAxisComponent!: IComponent;
   protected _originalStateFields: Record<number, string | number>;
 
@@ -115,6 +112,20 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     reverse: true
   };
 
+  get orient() {
+    return this._orient;
+  }
+  get isHorizontal() {
+    return this._isHorizontal;
+  }
+  get stateScale() {
+    return this._stateScale;
+  }
+
+  get relatedAxisComponent() {
+    return this._relatedAxisComponent;
+  }
+
   /**
    * 外部可以通过此方法强制改变datazoom的start和end，达到聚焦定位的效果
    * @param start datazoom起点所在的相对位置
@@ -164,7 +175,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
     const zoomLock = this._spec?.zoomLock ?? false;
-    if (zoomLock || end - start < this._minSpan || end - start > this._maxSpan) {
+    if (zoomLock) {
       this._shouldChange = false;
     }
   }
@@ -376,6 +387,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   protected _computeDomainOfStateScale(isContinuous?: boolean) {
+    if (this._spec.customDomain) {
+      return this._spec.customDomain;
+    }
+
     const domain = this._data.getLatestData().map((d: any) => d[this._stateField]);
 
     if (isContinuous) {
@@ -535,14 +550,20 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _statePointToData(state: number) {
     const scale = this._stateScale;
+    const domain = scale.domain();
+
+    if (isContinuous(scale.type)) {
+      return domain[0] + (domain[1] - domain[0]) * state;
+    }
     let range = scale.range();
 
     if (this._isReverse()) {
       range = range.slice().reverse();
     }
     const posInRange: number = range[0] + (range[1] - range[0]) * state;
-
-    return scale.invert(posInRange);
+    const bandSize = (scale as BandScale).bandwidth();
+    const domainIndex = Math.min(Math.max(0, Math.floor(posInRange / bandSize)), domain.length - 1);
+    return domain[domainIndex];
   }
 
   protected _dataToStatePoint(data: number | string) {
@@ -629,10 +650,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           .domain(domain.length ? [minInArray(domainNum), maxInArray(domainNum)] : [0, 1], true)
           .range(defaultRange);
       } else {
-        this._stateScale.domain(domain, true).range(defaultRange);
+        this._stateScale.domain(domain, true).range(defaultRange).padding(0);
       }
     } else {
-      this._stateScale = new BandScale();
+      this._stateScale = new BandScale().padding(0);
       this._stateScale.domain(this._computeDomainOfStateScale(), true).range(defaultRange);
     }
   }

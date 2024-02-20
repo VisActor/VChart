@@ -1,6 +1,16 @@
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isArray, isBoolean, isNil, isNumber, isValid, maxInArray, minInArray, uniqArray } from '@visactor/vutils';
+import {
+  isArray,
+  isBoolean,
+  isFunction,
+  isNil,
+  isNumber,
+  isValid,
+  maxInArray,
+  minInArray,
+  uniqArray
+} from '@visactor/vutils';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -48,6 +58,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _middleHandlerSize!: number;
   protected _startHandlerSize!: number;
   protected _endHandlerSize!: number;
+  // stateScale: any;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const compSpec = chartSpec[this.specKey];
@@ -152,18 +163,28 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const defaultSize = this._isHorizontal
       ? this.getLayoutRect().width - handlerSize
       : this.getLayoutRect().height - handlerSize;
-    const defaultRange = (this._relatedAxisComponent as CartesianAxis<any>)?.getScale().range() ?? [0, defaultSize];
+
+    const defaultRange = (this._relatedAxisComponent as CartesianAxis<any>)?.getScale().range() ?? [
+      this._startHandlerSize / 2,
+      defaultSize - this._endHandlerSize / 2
+    ];
 
     if (this._isHorizontal) {
-      stateScaleRange = this._visible ? [0, this._computeWidth() - handlerSize] : defaultRange;
+      stateScaleRange = this._visible
+        ? [this._startHandlerSize / 2, this._computeWidth() - this._endHandlerSize / 2]
+        : defaultRange;
       this._stateScale.range(stateScaleRange);
       this._valueScale.range([this._computeHeight() - this._middleHandlerSize, 0]);
     } else if (this.layoutOrient === 'left') {
-      stateScaleRange = this._visible ? [0, this._computeHeight() - handlerSize] : defaultRange;
+      stateScaleRange = this._visible
+        ? [this._startHandlerSize / 2, this._computeHeight() - this._endHandlerSize / 2]
+        : defaultRange;
       this._stateScale.range(stateScaleRange);
       this._valueScale.range([this._computeWidth() - this._middleHandlerSize, 0]);
     } else {
-      stateScaleRange = this._visible ? [0, this._computeHeight() - handlerSize] : defaultRange;
+      stateScaleRange = this._visible
+        ? [this._startHandlerSize / 2, this._computeHeight() - this._endHandlerSize / 2]
+        : defaultRange;
       this._stateScale.range(stateScaleRange);
       this._valueScale.range([0, this._computeWidth() - this._middleHandlerSize]);
     }
@@ -338,6 +359,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean, tag?: string) {
     super._handleChange(start, end, updateComponent);
+
     if (this._shouldChange) {
       if (updateComponent && this._component) {
         this._component.setStartAndEnd(start, end);
@@ -345,7 +367,11 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
       this._start = start;
       this._end = end;
-      const hasChange = this._handleStateChange(this._statePointToData(start), this._statePointToData(end), tag);
+      const startValue = this._statePointToData(start);
+      const endValue = this._statePointToData(end);
+      const hasChange = isFunction(this._spec.updateDataAfterChange)
+        ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
+        : this._handleStateChange(startValue, endValue, tag);
       if (hasChange) {
         this.event.emit(ChartEvent.dataZoomChange, {
           model: this,

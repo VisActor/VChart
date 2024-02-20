@@ -28,13 +28,21 @@ export const dataFilterWithNewDomain = (data: Array<any>, op: IDataFilterWithNew
     return [];
   }
 
+  const domainMap = {};
+  newDomain.forEach(d => {
+    if (!domainMap[d]) {
+      domainMap[d] = 1;
+    }
+  });
+
   let filter = null;
   if (isContinuous()) {
     filter = (d: any) => d[datumField] >= newDomain[0] && d[datumField] <= newDomain[1];
   } else {
     filter = (d: any) => {
       // 这里d[f] + ''的原因是：数据是number类型的，但轴声明为band轴，domain会强制将number => string，所以filter的时候要将data中的number => string
-      return newDomain.indexOf(d[datumField] + '') >= 0 || newDomain.indexOf(d[datumField]) >= 0;
+      return domainMap[d[datumField] + ''] || domainMap[d[datumField]];
+      // newDomain.indexOf(d[datumField] + '') >= 0 || newDomain.indexOf(d[datumField]) >= 0;
     };
   }
 

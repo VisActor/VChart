@@ -30,6 +30,24 @@ interface IBrushDataBindSpec {
    * 刷取联动的seriesId
    */
   brushLinkSeriesId?: string | string[]; // 默认无系列
+  /**
+   * 刷取关联的dataZoom id, 只有当前操作的region/series与dataZoom关联同一个axis时生效
+   * @since 1.10.0
+   */
+  dataZoomId?: string | string[];
+  /**
+   * 刷取关联的dataZoom index, 只有当前操作的region/series与dataZoom关联同一个axis时生效
+   * @since 1.10.0
+   */
+  dataZoomIndex?: number | number[];
+  /**
+   * 更新dataZoom范围时, 范围拓展
+   * @since 1.10.0
+   * 原因:
+   * 1) 轴的zero、nice、min、max等配置可能导致轴范围与dataZoom范围不一致）
+   * 2) 散点图按照散点中心定位, 如果严格按照中心范围更新，会出现散点超出画布的现象
+   */
+  dataZoomRangeExpand?: number;
 }
 
 export interface IBrushTheme {

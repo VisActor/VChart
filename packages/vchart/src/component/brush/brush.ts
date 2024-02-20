@@ -1,6 +1,6 @@
 import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
 import { BaseComponent } from '../base/base-component';
-import type { IComponentOption } from '../interface';
+import type { IComponent, IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
@@ -25,6 +25,9 @@ import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle }
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
+import type { DataZoom } from '../data-zoom';
+import { isHorizontal } from '../player/utils/orient';
+import type { IAxis } from '../axis/interface/common';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -59,6 +62,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
 
   private _needDisablePickable: boolean = false;
+
+  private _relatedDataZooms: DataZoom[] = [];
 
   init() {
     const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec.inBrush);
@@ -111,6 +116,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     this.initEvent();
     this._bindRegions();
     this._bindLinkedSeries();
+    this._bindDataZoom();
     this._initNeedOperatedItem();
   }
 
@@ -118,7 +124,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     const data = [];
     for (const brushName in elementsMap) {
       for (const elementKey in elementsMap[brushName]) {
-        data.push(elementsMap[brushName][elementKey].data[0]);
+        data.push({
+          ...elementsMap[brushName][elementKey].data[0],
+          getSeries: (elementsMap[brushName][elementKey] as any).getSeries // 将series info写入element, 更新dataZoom范围时需要使用
+        });
       }
     }
     return data;
@@ -219,10 +228,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._needInitOutState = true;
       this._needDisablePickable = false;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
+      const { operateMask } = e.detail as any;
+      this._setDataZoomState(operateMask, region);
     });
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
+      const { operateMask } = e.detail as any;
+      this._setDataZoomState(operateMask, region);
     });
   }
 
@@ -291,6 +304,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       }
       const elements = grammarMark.elements;
       elements.forEach((el: IElement) => {
+        (el as any).getSeries = (mark as any).getSeries;
         const graphicItem = el.getGraphicItem();
         const elementKey = mark.id + '_' + el.key;
         // 判断逻辑:
@@ -457,6 +471,44 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return brushMask.globalAABBBounds.intersects(item.globalAABBBounds);
   }
 
+  private _setDataZoomState(operateMask: IPolygon, region: IRegion) {
+    // step1: 找到横向 & 纵向 datazoom
+    const hDataZooms: DataZoom[] = this._relatedDataZooms.filter((d: DataZoom) => d.isHorizontal);
+    const vDataZooms: DataZoom[] = this._relatedDataZooms.filter((d: DataZoom) => !d.isHorizontal);
+
+    // step2: 拿到brush bounds, 计算dataZoom新范围
+    const { x1, x2, y1, y2 } = operateMask.AABBBounds;
+
+    // step3: 拿到brushData, 计算dataZoom新范围
+    const inBrushDataXValue = this._extendDataInBrush(this._inBrushElementsMap).map(
+      item => item[array(item.getSeries().getSpec().xField)[0]]
+    );
+    const inBrushDataYValue = this._extendDataInBrush(this._inBrushElementsMap).map(
+      item => item[array(item.getSeries().getSpec().yField)[0]]
+    );
+
+    const range = this._spec.dataZoomRangeExpand ?? 0.05;
+    hDataZooms.forEach((hd: DataZoom) => {
+      const startValue = !hd.relatedAxisComponent
+        ? (hd.relatedAxisComponent as IAxis).getScale().invert(x1 - region.getLayoutStartPoint().x)
+        : Math.min(...inBrushDataXValue) - range;
+      const endValue = !hd.relatedAxisComponent
+        ? (hd.relatedAxisComponent as IAxis).getScale().invert(x2 - region.getLayoutStartPoint().x)
+        : Math.max(...inBrushDataXValue) + range;
+      hd.setStartAndEnd(startValue, endValue, ['value', 'value']);
+    });
+
+    vDataZooms.forEach((vd: DataZoom) => {
+      const startValue = !vd.relatedAxisComponent
+        ? (vd.relatedAxisComponent as IAxis).getScale().invert(y1 - region.getLayoutStartPoint().y)
+        : Math.min(...inBrushDataYValue) - range;
+      const endValue = !vd.relatedAxisComponent
+        ? (vd.relatedAxisComponent as IAxis).getScale().invert(y2 - region.getLayoutStartPoint().y)
+        : Math.max(...inBrushDataYValue) + range;
+      vd.setStartAndEnd(startValue, endValue, ['value', 'value']);
+    });
+  }
+
   protected _bindRegions() {
     if (isValid(this._spec.regionId) && isValid(this._spec.regionIndex)) {
       this._relativeRegions = this._option.getAllRegions();
@@ -477,6 +529,19 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     );
   }
 
+  private _bindDataZoom() {
+    if (this._spec.dataZoomId) {
+      array(this._spec.dataZoomId).forEach((dataZoomId: string) => {
+        this._relatedDataZooms.push(this._option.getComponentByUserId(dataZoomId) as DataZoom);
+      });
+    }
+    if (this._spec.dataZoomIndex) {
+      array(this._spec.dataZoomIndex).forEach((dataZoomIndex: number) => {
+        this._relatedDataZooms.push(this._option.getComponentByIndex('dataZoom', dataZoomIndex) as DataZoom);
+      });
+    }
+  }
+
   private _initNeedOperatedItem() {
     const seriesUserId = this._spec.seriesId;
     const seriesIndex = this._spec.seriesIndex;
@@ -488,7 +553,13 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           (seriesIndex && array(seriesIndex).includes(s.getSpecIndex())) ||
           (!seriesIndex && !seriesUserId)
         ) {
-          allMarks.push(...s.getMarksWithoutRoot());
+          // series系列info 写入mark, 便于进一步写入element
+          allMarks.push(
+            ...s.getMarksWithoutRoot().map(mark => {
+              (mark as any).getSeries = () => s;
+              return mark;
+            })
+          );
         }
         this._itemMap[r.id] = allMarks;
       });
