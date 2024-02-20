@@ -51,6 +51,8 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
     };
     brushSelect?: boolean;
     ignoreBandSize?: boolean;
+    customDomain?: any[];
+    updateDataAfterChange?: (start: number, end: number, startValue: any, endValue: any) => void;
 }
 export type IDataZoomCommonTheme = IComponentSpec & IDataZoomStyle & {
     orient?: IDataZoomSpec['orient'];
