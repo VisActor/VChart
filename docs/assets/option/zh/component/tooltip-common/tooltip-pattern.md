@@ -108,14 +108,6 @@ tooltip 标题的回调，在最终显示 tooltip 前调用，可以在这个回
 
 其中第一个参数是 VChart 在显示 tooltip 前计算得出的最终 tooltip 标题信息，包含标题的文本和样式。在回调中对此对象进行修改并返回即可。
 
-#${prefix} updateElement(Function)
+#${prefix} maxLineCount(number)
 
-更新 tooltip dom 元素的回调，仅当 `renderMode` 为 `'html'` 时生效。
-
-在这个回调中，第一个参数会给出计算好的 tooltip dom 树根节点。这个回调允许对这个 dom 节点的内容进行修改，但是不允许替换。修改过后的 tooltip dom 将马上展示，并重新应用内置的 tooltip 位置计算算法。
-
-其类型定义如下：
-
-```ts
-(tooltipElement: HTMLElement, actualTooltip: IToolTipActual, params: TooltipHandlerParams) => void
-```
+定义 tooltip 内容的最大显示行数，超过的内容将用“其他”表示。
