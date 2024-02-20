@@ -5,18 +5,63 @@ import bigData from './data/datazoom-big-data.json';
 import bigData2 from './data/datazoom-big-data-2.json';
 import { createButton } from '../../../util/dom';
 import { truncate } from 'fs';
+import { spec } from 'node:test/reporters';
 
 const spec = {
   ...bigData,
   dataZoom: [
     {
       ...bigData.dataZoom[0],
-      realTime: true,
-      maxSpan: 0.05
+      // realTime: false,
+      backgroundChart: {
+        area: {
+          visible: false,
+          style: {
+            visible: false
+          }
+        },
+        line: {
+          visible: false,
+          style: {
+            visible: false
+          }
+        }
+      },
+      selectedBackgroundChart: {
+        area: {
+          visible: false,
+          style: {
+            visible: false
+          }
+        },
+        line: {
+          visible: false,
+          style: {
+            visible: false
+          }
+        }
+      }
+      // realTime: false,
+      // showDetail: true,
+      // maxSpan: 0.05
       // filterMode: 'axis'
       // showDetail: true
       // showDetail: false
-      // domain:
+      // pre
+    }
+  ],
+  data: [
+    {
+      id: bigData.data[0].id,
+      values: bigData.data[0].values.slice(0, 10000)
+    },
+    {
+      id: bigData.data[1].id,
+      values: bigData.data[1].values.slice(0, 10000)
+    },
+    {
+      id: bigData.data[2].id,
+      values: bigData.data[2].values
     }
   ]
 };
