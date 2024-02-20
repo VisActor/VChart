@@ -80,6 +80,18 @@ If or not the mouse can enter the tooltip float, default is false, can be set to
 
 **Optional** tooltip Updated anti-dithering interval in ms.**_(only works on default handler)_**
 
+##${prefix} updateElement(Function)
+
+This is the callback used to update the tooltip dom element. It is only effective when `renderMode` is '`'html'`.
+
+In this callback, the first parameter will provide the calculated root node of the tooltip dom tree. This callback allows modification of the content of this dom node, but does not allow replacement. The modified tooltip dom will be displayed immediately and the built-in tooltip position calculation algorithm will be reapplied.
+
+The type definition is as follows:
+
+```ts
+(tooltipElement: HTMLElement, actualTooltip: IToolTipActual, params: TooltipHandlerParams) => void
+```
+
 ##${prefix} style(Object)
 
 **Optional** Configure tooltip styles. **_(only works with default handler)_**
