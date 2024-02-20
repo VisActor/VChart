@@ -80,6 +80,18 @@ tooltip 渲染方式，桌面端默认为`html`，小程序端默认为`canvas`�
 
 **可选** tooltip 更新的防抖动时间间隔，单位是 ms。**_（只作用于默认 handler）_**
 
+##${prefix} updateElement(Function)
+
+更新 tooltip dom 元素的回调，仅当 `renderMode` 为 `'html'` 时生效。
+
+在这个回调中，第一个参数会给出计算好的 tooltip dom 树根节点。这个回调允许对这个 dom 节点的内容进行修改，但是不允许替换。修改过后的 tooltip dom 将马上展示，并重新应用内置的 tooltip 位置计算算法。
+
+其类型定义如下：
+
+```ts
+(tooltipElement: HTMLElement, actualTooltip: IToolTipActual, params: TooltipHandlerParams) => void
+```
+
 ##${prefix} style(Object)
 
 **可选** 配置 tooltip 样式。**_（只作用于默认 handler）_**
