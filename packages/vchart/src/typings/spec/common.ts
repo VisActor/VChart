@@ -614,25 +614,24 @@ export interface IPerformanceHook {
 }
 
 export type IBuildinMarkSpec = {
-  [MarkTypeEnum.group]: IGroupMarkSpec;
-
-  [MarkTypeEnum.symbol]: ISymbolMarkSpec;
-  [MarkTypeEnum.rule]: IRuleMarkSpec;
-  [MarkTypeEnum.line]: ILineMarkSpec;
-  [MarkTypeEnum.text]: ITextMarkSpec;
-  [MarkTypeEnum.rect]: IRectMarkSpec;
-  [MarkTypeEnum.rect3d]: IRect3dMarkSpec;
-  [MarkTypeEnum.image]: IImageMarkSpec;
-  [MarkTypeEnum.path]: IPathMarkSpec;
-  [MarkTypeEnum.area]: IAreaMarkSpec;
-  [MarkTypeEnum.arc]: IArcMarkSpec;
-  [MarkTypeEnum.arc3d]: IArc3dMarkSpec;
-  [MarkTypeEnum.polygon]: IPolygonMarkSpec;
-  [MarkTypeEnum.pyramid3d]: IPyramid3dMarkSpec;
-  [MarkTypeEnum.boxPlot]: IBoxPlotMarkSpec;
-  [MarkTypeEnum.linkPath]: ILinkPathMarkSpec;
-  [MarkTypeEnum.progressArc]: IProgressArcMarkSpec;
-  [MarkTypeEnum.ripple]: IRippleMarkSpec;
+  group: IGroupMarkSpec;
+  symbol: ISymbolMarkSpec;
+  rule: IRuleMarkSpec;
+  line: ILineMarkSpec;
+  text: ITextMarkSpec;
+  rect: IRectMarkSpec;
+  rect3d: IRect3dMarkSpec;
+  image: IImageMarkSpec;
+  path: IPathMarkSpec;
+  area: IAreaMarkSpec;
+  arc: IArcMarkSpec;
+  arc3d: IArc3dMarkSpec;
+  polygon: IPolygonMarkSpec;
+  pyramid3d: IPyramid3dMarkSpec;
+  boxPlot: IBoxPlotMarkSpec;
+  linkPath: ILinkPathMarkSpec;
+  progressArc: IProgressArcMarkSpec;
+  ripple: IRippleMarkSpec;
 };
 export type EnableMarkType = keyof IBuildinMarkSpec;
 export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {
