@@ -6,6 +6,7 @@ export interface IStatisticsOption {
     fields: {
         key: string;
         operations: StatisticOperations;
+        filter?: (fv: any) => boolean;
         customize?: {
             max: number;
             min: number;
@@ -17,6 +18,7 @@ export declare const dimensionStatistics: (data: Array<DataView>, op: IStatistic
 export declare const dimensionStatisticsOfSimpleData: (latestData: Datum[], fields: {
     key: string;
     operations: StatisticOperations;
+    filter?: (fv: any) => boolean;
     customize?: {
         max: number;
         min: number;

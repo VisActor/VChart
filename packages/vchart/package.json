@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.9.2",
+  "version": "1.9.4-alpha.0",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -131,7 +131,7 @@
     "@visactor/vgrammar-hierarchy": "0.11.12",
     "@visactor/vgrammar-sankey": "0.11.12",
     "@visactor/vgrammar-util": "0.11.12",
-    "@visactor/vutils-extension": "workspace:1.9.2"
+    "@visactor/vutils-extension": "workspace:1.9.4-alpha.0"
   },
   "publishConfig": {
     "access": "public",
