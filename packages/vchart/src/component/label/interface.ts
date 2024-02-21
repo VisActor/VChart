@@ -94,5 +94,5 @@ export interface ITotalLabelTheme
 
 // 内部处理转换后的标签配置
 export type TransformedLabelSpec = ILabelSpec & {
-  getStyleHandler: (series: ISeries) => (mark?: ILabelMark) => void;
+  getStyleHandler: (series: ISeries) => (mark?: ILabelMark, spec?: any) => void;
 };

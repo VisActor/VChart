@@ -106,6 +106,7 @@ interface IFunnelLabelSpec extends Omit<ILabelSpec, 'position' | 'offset'> {
 }
 
 export interface IFunnelOuterLabelSpec extends IMarkSpec<ITextMarkSpec> {
+  formatMethod?: (text: string | string[], datum?: Datum) => string | string[];
   /**
    * 标签布局方式
    * @default 'left' | 'bottom'

@@ -128,13 +128,10 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
       return;
     }
     this.setMarkStyle(textMark, {
-      visible: this._spec?.label?.visible,
       text: (datum: Datum) => {
         return datum[this.getDimensionField()[0]];
       },
-      fill: this._spec.label?.style?.fill || this.getColorAttribute(),
-      angle: this._spec.label?.style?.angle,
-      limit: this._spec.label?.style?.limit,
+      fill: this.getColorAttribute(),
       z: 0
     });
   }
