@@ -24118,6 +24118,41 @@
           "default": "'rect'",
           "description": "框选类型"
         },
+        "dataZoomId": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "刷取关联的dataZoom id, 只有当前操作的region/series与dataZoom关联同一个axis时生效",
+          "since": "1.10.0"
+        },
+        "dataZoomIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "刷取关联的dataZoom index, 只有当前操作的region/series与dataZoom关联同一个axis时生效",
+          "since": "1.10.0"
+        },
+        "dataZoomRangeExpand": {
+          "description": "更新dataZoom范围时, 范围拓展",
+          "since": "1.10.0\n原因:\n1) 轴的zero、nice、min、max等配置可能导致轴范围与dataZoom范围不一致）\n2) 散点图按照散点中心定位, 如果严格按照中心范围更新，会出现散点超出画布的现象",
+          "type": "number"
+        },
         "delayTime": {
           "default": 10,
           "description": "事件触发延迟时长",
@@ -30637,6 +30672,12 @@
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
         },
+        "customDomain": {
+          "description": "自定义domain",
+          "items": {},
+          "since": "1.10.0",
+          "type": "array"
+        },
         "delayTime": {
           "default": 30,
           "description": "事件触发延迟时长",
@@ -30928,9 +30969,17 @@
             "number"
           ]
         },
+        "tolerance": {
+          "description": "背景图表采样速率",
+          "since": "1.10.0",
+          "type": "number"
+        },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "updateDataAfterChange": {
+          "typeof": "function"
         },
         "valueField": {
           "description": "背景趋势线对应的字段",
@@ -31498,6 +31547,9 @@
           "$ref": "#/definitions/ILayoutType",
           "description": "当前模块的布局类型，配置为 absolute 的话，当前元素会以图表左上角为原点进行绝对布局"
         },
+        "lazyload": {
+          "type": "boolean"
+        },
         "left": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
@@ -31863,7 +31915,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "reversed": {
           "type": "boolean"
         },
@@ -48347,7 +48398,7 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/Omit<Omit<PagerAttributes,\"total\">&{space?:number;animation?:boolean;animationDuration?:number;animationEasing?:EasingType;position?:\"end\"|\"start\"|\"middle\";},\"textStyle\"|\"handler\">"
+          "$ref": "#/definitions/Omit<LegendPagerAttributes|LegendScrollbarAttributes,\"textStyle\"|\"handler\">"
         }
       ]
     },
@@ -51496,7 +51547,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -72041,7 +72091,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         },
         "size": {
@@ -72049,14 +72099,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12769",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         },
         "size": {
@@ -72064,14 +72114,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12769",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         },
         "size": {
@@ -72079,14 +72129,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12769",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         },
         "size": {
@@ -72094,14 +72144,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12769",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         },
         "size": {
@@ -72109,14 +72159,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12769",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         },
         "size": {
@@ -72124,14 +72174,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12769",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         },
         "size": {
@@ -72139,14 +72189,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12769",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         },
         "size": {
@@ -72154,14 +72204,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12769",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         },
         "size": {
@@ -72169,7 +72219,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12769",
         "size"
       ],
       "type": "object"
@@ -72905,6 +72955,9 @@
         "keepDirIn3d": {
           "type": "boolean"
         },
+        "lazyload": {
+          "type": "boolean"
+        },
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
         },
@@ -72979,7 +73032,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "reversed": {
           "type": "boolean"
         },
@@ -75624,7 +75676,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -77059,6 +77110,13 @@
     },
     "Omit<LegendItem,\"label\"|\"background\"|\"width\"|\"height\"|\"maxWidth\"|\"shape\"|\"value\"|\"focusIconStyle\">": {
       "properties": {
+        "align": {
+          "enum": [
+            "left",
+            "right"
+          ],
+          "type": "string"
+        },
         "focus": {
           "type": "boolean"
         },
@@ -77077,66 +77135,7 @@
       },
       "type": "object"
     },
-    "Omit<LegendTitle,\"style\"|\"background\"|\"textStyle\">": {
-      "properties": {
-        "align": {
-          "enum": [
-            "center",
-            "end",
-            "start"
-          ],
-          "type": "string"
-        },
-        "maxWidth": {
-          "type": "number"
-        },
-        "minWidth": {
-          "type": "number"
-        },
-        "padding": {
-          "$ref": "#/definitions/Padding"
-        },
-        "shape": {
-          "typeof": "function"
-        },
-        "space": {
-          "type": "number"
-        },
-        "text": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ]
-        },
-        "visible": {
-          "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
-    "Omit<Omit<PagerAttributes,\"total\">&{space?:number;animation?:boolean;animationDuration?:number;animationEasing?:EasingType;position?:\"end\"|\"start\"|\"middle\";},\"textStyle\"|\"handler\">": {
+    "Omit<LegendPagerAttributes|LegendScrollbarAttributes,\"textStyle\"|\"handler\">": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -77512,18 +77511,9 @@
         "pickable": {
           "type": "boolean"
         },
-        "position": {
-          "enum": [
-            "end",
-            "middle",
-            "start"
-          ],
-          "type": "string"
-        },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -77645,6 +77635,65 @@
         },
         "zIndex": {
           "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Omit<LegendTitle,\"style\"|\"background\"|\"textStyle\">": {
+      "properties": {
+        "align": {
+          "enum": [
+            "center",
+            "end",
+            "start"
+          ],
+          "type": "string"
+        },
+        "maxWidth": {
+          "type": "number"
+        },
+        "minWidth": {
+          "type": "number"
+        },
+        "padding": {
+          "$ref": "#/definitions/Padding"
+        },
+        "shape": {
+          "typeof": "function"
+        },
+        "space": {
+          "type": "number"
+        },
+        "text": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ]
+        },
+        "visible": {
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -78248,7 +78297,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -78686,7 +78734,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -79167,7 +79214,6 @@
         "radius": {
           "type": "number"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -79663,7 +79709,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80069,7 +80114,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80547,7 +80591,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80985,7 +81028,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -81690,7 +81732,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -82921,7 +82962,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -83346,7 +83386,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -84017,7 +84056,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -84445,7 +84483,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -85222,7 +85259,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -85703,7 +85739,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -86808,7 +86843,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -87286,7 +87320,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -87696,7 +87729,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -89725,34 +89757,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12741"
+        "__@toStringTag@12769"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12741"
+        "__@toStringTag@12769"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12769": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12741"
+        "__@toStringTag@12769"
       ],
       "type": "object"
     },
@@ -90170,7 +90202,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -90339,7 +90370,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -90687,7 +90717,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -90859,7 +90888,6 @@
         "pickable",
         "points",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -91181,7 +91209,6 @@
         "radius": {
           "type": "number"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -91344,7 +91371,6 @@
         "pickable",
         "postMatrix",
         "radius",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -91689,7 +91715,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -91854,7 +91879,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -92245,7 +92269,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -92419,7 +92442,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -92765,7 +92787,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -92935,7 +92956,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "repeatX",
         "repeatY",
         "scaleCenter",
@@ -93288,7 +93308,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -93461,7 +93480,6 @@
         "pickable",
         "points",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -93790,7 +93808,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -93950,7 +93967,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -94287,7 +94303,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -94448,7 +94463,6 @@
         "pickable",
         "points",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -94782,7 +94796,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -94952,7 +94965,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -95286,7 +95298,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -95455,7 +95466,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -95791,7 +95801,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -95978,7 +95987,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -96409,7 +96417,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -96596,7 +96603,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "repeatX",
         "repeatY",
         "scaleCenter",
@@ -96916,7 +96922,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -97097,7 +97102,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -97469,7 +97473,6 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
-        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -97703,7 +97706,6 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
-        "renderStyle",
         "scaleCenter",
         "scaleIn3d",
         "scaleX",
