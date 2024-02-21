@@ -17,7 +17,12 @@ export function preprocessTheme(
   if (!obj) {
     return obj;
   }
-
+  if (!colorScheme) {
+    colorScheme = obj.colorScheme;
+  }
+  if (!tokenMap) {
+    tokenMap = obj.tokenMap;
+  }
   const newObj = {};
   Object.keys(obj).forEach(key => {
     const value = obj[key];

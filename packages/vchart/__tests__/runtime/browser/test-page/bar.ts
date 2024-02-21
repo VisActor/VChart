@@ -113,6 +113,7 @@ const run = () => {
     console.timeEnd('renderTime');
   });
   window['vchart'] = cs;
+  window['VChart'] = VChart;
   console.log(cs);
 };
 run();

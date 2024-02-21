@@ -54,7 +54,7 @@ describe('treemap chart test', () => {
     const transformer = new TreemapChart.transformerConstructor({
       type: 'treemap',
       seriesType: 'treemap',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true)
     });
     const info = transformer.initChartSpec(spec as any);
     const chart = new TreemapChart(
@@ -74,7 +74,7 @@ describe('treemap chart test', () => {
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme(),
+        getTheme: () => ThemeManager.getCurrentTheme(true),
         onError: () => {},
         getSpecInfo: () => info
       } as any

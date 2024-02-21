@@ -56,7 +56,7 @@ describe('data fields test', () => {
     const transformer = new LineChart.transformerConstructor({
       type: 'line',
       seriesType: 'line',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true)
     });
     const info = transformer.initChartSpec(spec as any);
     const chart = new LineChart(spec, {
@@ -74,7 +74,7 @@ describe('data fields test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(),
+      getTheme: () => ThemeManager.getCurrentTheme(true),
       getSpecInfo: () => info
     } as any);
     chart.created();
@@ -136,7 +136,7 @@ describe('data fields test', () => {
     const transformer = new LineChart.transformerConstructor({
       type: 'line',
       seriesType: 'line',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true)
     });
     const info = transformer.initChartSpec(spec as any);
     const chart = new LineChart(spec, {
@@ -154,7 +154,7 @@ describe('data fields test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(),
+      getTheme: () => ThemeManager.getCurrentTheme(true),
       getSpecInfo: () => info
     } as any);
     chart.created();

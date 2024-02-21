@@ -21,13 +21,7 @@ export const themes: Map<string, ITheme> = new Map(Object.keys(builtinThemes).ma
 
 /** 全局已将 token 转换的主题 map (包含用户新注册的主题) */
 const transformedThemes: Map<string, ITheme> = new Map(
-  Object.keys(builtinThemes).map(
-    key =>
-      [key, preprocessTheme(builtinThemes[key], builtinThemes[key].colorScheme, builtinThemes[key].tokenMap)] as [
-        string,
-        ITheme
-      ]
-  )
+  Object.keys(builtinThemes).map(key => [key, preprocessTheme(builtinThemes[key])] as [string, ITheme])
 );
 
 /** 主题 map 中的元素是否 merge 过默认主题 (非默认主题的其他内置主题没有 merge 过默认主题) */
@@ -43,7 +37,7 @@ export const registerTheme = (name: string, theme: Partial<ITheme>) => {
   // 所有主题基于默认主题扩展，保证基础值
   const mergedTheme = getMergedTheme(theme);
   themes.set(name, mergedTheme);
-  transformedThemes.set(name, preprocessTheme(mergedTheme, mergedTheme.colorScheme, mergedTheme.tokenMap));
+  transformedThemes.set(name, preprocessTheme(mergedTheme));
   hasThemeMerged.set(name, true);
 };
 /**

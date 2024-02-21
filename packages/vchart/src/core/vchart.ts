@@ -1265,7 +1265,7 @@ export class VChart implements IVChart {
           getThemeObject(optionTheme),
           getThemeObject(specTheme)
         );
-        this._currentTheme = preprocessTheme(finalTheme, finalTheme.colorScheme, finalTheme.tokenMap);
+        this._currentTheme = preprocessTheme(finalTheme);
       }
     } else {
       this._currentTheme = getThemeObject(this._currentThemeName, true);
