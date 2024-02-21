@@ -23,6 +23,7 @@ export enum AttributeLevel {
   Built_In = 99
 }
 
+export const STACK_FIELD_KEY = `${PREFIX}_STACK_KEY`;
 export const STACK_FIELD_START = `${PREFIX}_STACK_START`;
 export const STACK_FIELD_END = `${PREFIX}_STACK_END`;
 export const STACK_FIELD_START_PERCENT = `${PREFIX}_STACK_START_PERCENT`;

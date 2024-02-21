@@ -33,3 +33,7 @@
 #${prefix} barMinHeight(number)
 
 自 `1.4.0` 版本开始支持，用于配置柱条最小高度，可用于防止某数据项的值过小的视觉调整。
+
+#${prefix} stackCornerRadius(number|number[])
+
+自 `1.10.0` 版本开始支持，用于配置堆叠柱整体的圆角。

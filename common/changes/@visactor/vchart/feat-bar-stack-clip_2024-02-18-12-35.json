@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: stacked bar chart supports the config `stackCornerRadius` to configure the corner radius of stacked bar groups, releated #2185",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
