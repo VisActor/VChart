@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(dataZoom): add sampler for preview chart",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
