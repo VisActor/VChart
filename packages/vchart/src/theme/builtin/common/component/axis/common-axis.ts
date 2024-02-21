@@ -5,7 +5,7 @@ export const commonAxis: IAxisCommonTheme = {
   domainLine: {
     visible: true,
     style: {
-      lineWidth: 10,
+      lineWidth: 1,
       stroke: { type: 'palette', key: 'axisDomainColor' },
       strokeOpacity: 1
     }
