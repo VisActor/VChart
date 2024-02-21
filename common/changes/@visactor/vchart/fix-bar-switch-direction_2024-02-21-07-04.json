@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: rect graphics will be reused when animation is true, and switch direction, the channels must be cleared, fix #2241\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
