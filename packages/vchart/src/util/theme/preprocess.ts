@@ -6,7 +6,7 @@ import type { TokenMap } from '../../theme/token';
 // eslint-disable-next-line no-duplicate-imports
 import { isTokenKey, queryToken } from '../../theme/token';
 
-const IGNORE_KEYS = ['animationThreshold', 'colorScheme', 'fontFamily', 'name', 'padding'];
+const IGNORE_KEYS = ['animationThreshold', 'colorScheme', 'name', 'padding'];
 
 export function preprocessTheme(
   obj: any,
