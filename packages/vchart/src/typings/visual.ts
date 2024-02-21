@@ -10,6 +10,7 @@ import type { Datum, StringOrNumber } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
 import type { IRepeatType, TextAlignType, TextBaselineType, IRichTextCharacter } from '@visactor/vrender-core';
+import type { ITokenKey } from '../theme/token';
 
 // 基础的visual 对应 scale 的属性
 export interface IVisualSpecBase<D, T> {
@@ -266,7 +267,7 @@ export interface ITextMarkSpec extends IFillMarkSpec {
   /**
    * 字号
    */
-  fontSize?: number;
+  fontSize?: number | ITokenKey;
   /**
    * 文字对齐方式
    */
@@ -318,7 +319,7 @@ export interface ITextMarkSpec extends IFillMarkSpec {
    * 行高（1.3.1 版本新增字符串类型表示比例值，如"150%"）
    * @since 1.3.1
    */
-  lineHeight?: number | string;
+  lineHeight?: number | string | ITokenKey;
   /**
    * poptip 相关配置
    */

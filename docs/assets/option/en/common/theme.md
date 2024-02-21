@@ -298,7 +298,7 @@ It means that there are 3 types that can be matched to the color palette.
           stroke: { type: 'palette', key: 'axisDomainColor' }, // semantic color value
           strokeOpacity: 1
         }
-      }, }
+      },
       grid: {
         visible: true,
         style: {
@@ -307,7 +307,7 @@ It means that there are 3 types that can be matched to the color palette.
           strokeOpacity: 1,
           lineDash: []
         }
-      }, }
+      },
       subGrid: {
         visible: false,
         style: {
@@ -316,7 +316,7 @@ It means that there are 3 types that can be matched to the color palette.
           strokeOpacity: 1,
           lineDash: [4, 4]
         }
-      }, }
+      },
       tick: {
         visible: true,
         tickSize: THEME_CONSTANTS.AXIS_TICK_SIZE,
@@ -325,7 +325,7 @@ It means that there are 3 types that can be matched to the color palette.
           stroke: { type: 'palette', key: 'axisDomainColor' }, // semantic color value
           strokeOpacity: 1
         }
-      }, }
+      },
       subTick: {
         visible: false,
         tickSize: THEME_CONSTANTS.AXIS_TICK_SIZE / 2,
@@ -334,7 +334,7 @@ It means that there are 3 types that can be matched to the color palette.
           stroke: { type: 'palette', key: 'axisDomainColor' }, // semantic color value
           strokeOpacity: 1
         }
-      }, }
+      },
       label: {
         visible: true,
         space: 10.
@@ -345,9 +345,9 @@ It means that there are 3 types that can be matched to the color palette.
           fillOpacity: 1
         }
       }
-    }].
+    }];
   }
-  ``
+  ```
 
   The configuration of semantic colors referenced through the `IColorKey` structure appears several times in the example. The type definition of `IColorKey` is:
 

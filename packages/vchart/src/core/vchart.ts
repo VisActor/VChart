@@ -36,7 +36,7 @@ import { isTrueBrowser } from '../util/env';
 import { warn } from '../util/debug';
 import { mergeSpec, mergeSpecWithFilter } from '../util/spec/merge-spec';
 import { specTransform } from '../util/spec/transform';
-import { getThemeObject } from '../util/spec/common';
+import { getThemeObject } from '../util/theme/common';
 import { Factory } from './factory';
 import { Event } from '../event/event';
 import { EventDispatcher } from '../event/event-dispatcher';
@@ -382,7 +382,7 @@ export class VChart implements IVChart {
     // TODO: 如果通过 updateSpec 更新主题字体的验证
     // 设置全局字体
     this.getStage()?.setTheme({
-      text: { fontFamily: this._currentTheme?.fontFamily }
+      text: { fontFamily: this._currentTheme?.fontFamily as string }
     });
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
@@ -1265,7 +1265,7 @@ export class VChart implements IVChart {
           getThemeObject(optionTheme),
           getThemeObject(specTheme)
         );
-        this._currentTheme = preprocessTheme(finalTheme, finalTheme.colorScheme);
+        this._currentTheme = preprocessTheme(finalTheme, finalTheme.colorScheme, finalTheme.tokenMap);
       }
     } else {
       this._currentTheme = getThemeObject(this._currentThemeName, true);

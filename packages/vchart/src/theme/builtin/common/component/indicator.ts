@@ -1,5 +1,4 @@
 import type { IIndicatorTheme } from '../../../../component/indicator/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const indicator: IIndicatorTheme = {
   title: {
@@ -7,7 +6,7 @@ export const indicator: IIndicatorTheme = {
     autoLimit: false,
     autoFit: false,
     style: {
-      fontSize: THEME_CONSTANTS.l1FontSize,
+      fontSize: { type: 'token', key: 'l1FontSize' },
       fill: { type: 'palette', key: 'primaryFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1,
@@ -18,7 +17,7 @@ export const indicator: IIndicatorTheme = {
   content: {
     visible: true,
     style: {
-      fontSize: THEME_CONSTANTS.l2FontSize,
+      fontSize: { type: 'token', key: 'l2FontSize' },
       fill: { type: 'palette', key: 'tertiaryFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1,
