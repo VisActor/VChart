@@ -1,6 +1,17 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 05 Feb 2024 09:28:49 GMT and should not be manually modified.
+This log was last generated on Wed, 07 Feb 2024 11:02:59 GMT and should not be manually modified.
+
+## 1.9.3
+Wed, 07 Feb 2024 11:02:59 GMT
+
+### Updates
+
+- feat: supply pie percent data as `data._percent_`
+- fix: axis zero not work beacause of collect data. fix#2226
+- fix: marker area xy layout needs to deal with the problem of empty coordinate points
+- fix(player): default attr leades to layout error. fix#241
+- fix: wordcloud support rect shape. fix#2220
 
 ## 1.9.2
 Mon, 05 Feb 2024 09:28:49 GMT
