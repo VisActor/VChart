@@ -64,6 +64,8 @@ Optional values:
 - 'filter'
 - 'axis'
 
+When `filterMode` is set to `filter`, it means filtering multiple data, which will affect the scale calculation of the axis; when `filterMode` is set to `axis`, it only affects the coordinate corresponding range of the corresponding axis and does not filter the data.
+
 #${prefix} start(number) = 0
 
 Start configuration (percentage): Range [0, 1].

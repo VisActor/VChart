@@ -12,21 +12,24 @@ const spec = {
   dataZoom: [
     {
       ...bigData.dataZoom[0],
-      // realTime: false,
-      backgroundChart: {
-        area: {
-          visible: false,
-          style: {
-            visible: false
-          }
-        },
-        line: {
-          visible: false,
-          style: {
-            visible: false
-          }
-        }
-      },
+      showDetail: true,
+      tolerance: 6,
+      realTime: false,
+      // backgroundChart: {
+      //   area: {
+      //     visible: false,
+      //     style: {
+      //       visible: false,
+      //       fill: 'red'
+      //     }
+      //   },
+      //   line: {
+      //     visible: false,
+      //     style: {
+      //       visible: false
+      //     }
+      //   }
+      // },
       selectedBackgroundChart: {
         area: {
           visible: false,
@@ -47,23 +50,22 @@ const spec = {
       // filterMode: 'axis'
       // showDetail: true
       // showDetail: false
-      // pre
-    }
-  ],
-  data: [
-    {
-      id: bigData.data[0].id,
-      values: bigData.data[0].values.slice(0, 10000)
-    },
-    {
-      id: bigData.data[1].id,
-      values: bigData.data[1].values.slice(0, 10000)
-    },
-    {
-      id: bigData.data[2].id,
-      values: bigData.data[2].values
     }
   ]
+  // data: [
+  //   {
+  //     id: bigData.data[0].id,
+  //     values: bigData.data[0].values.slice(0, 3000)
+  //   },
+  //   {
+  //     id: bigData.data[1].id,
+  //     values: bigData.data[1].values.slice(0, 3000)
+  //   },
+  //   {
+  //     id: bigData.data[2].id,
+  //     values: bigData.data[2].values
+  //   }
+  // ]
 };
 
 const run = () => {

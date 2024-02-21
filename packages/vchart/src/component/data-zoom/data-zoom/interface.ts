@@ -97,8 +97,15 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
   customDomain?: any[];
   /**
    * 自定义datazoom更新回调
+   * @since 1.10.0
    */
   updateDataAfterChange?: (start: number, end: number, startValue: any, endValue: any) => void;
+
+  /**
+   * 背景图表采样速率
+   * @since 1.10.0
+   */
+  tolerance?: number;
 }
 
 export type IDataZoomCommonTheme = IComponentSpec &

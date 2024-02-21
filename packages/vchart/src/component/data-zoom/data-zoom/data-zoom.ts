@@ -323,6 +323,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,
       previewPointsY: isNeedPreview && this._dataToPositionY,
+      tolerance: this._spec.tolerance,
       ...(this._getComponentAttrs() as any)
     } as DataZoomAttributes;
   }
