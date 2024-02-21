@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: wordcloud support rect shape. fix#2220",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -83,11 +83,14 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       if (!isValidPolarAxis(axesSpec)) {
         return null;
       }
-      const { axisType, componentName } = getPolarAxisInfo(axesSpec);
-      axesSpec.center = chartSpec.center;
-      axesSpec.startAngle = chartSpec.startAngle ?? POLAR_START_ANGLE;
-      axesSpec.endAngle =
-        chartSpec.endAngle ?? (isValid(chartSpec.startAngle) ? chartSpec.startAngle + 360 : POLAR_END_ANGLE);
+      const { axisType, componentName, startAngle, endAngle, center, outerRadius } = getPolarAxisInfo(
+        axesSpec,
+        chartSpec
+      );
+      axesSpec.center = center;
+      axesSpec.startAngle = startAngle;
+      axesSpec.endAngle = endAngle;
+      axesSpec.outerRadius = outerRadius;
       axesSpec.type = axisType;
       return [
         {
@@ -105,12 +108,11 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       if (!isValidPolarAxis(s)) {
         return;
       }
-      const { axisType, componentName } = getPolarAxisInfo(s);
-      s.center = chartSpec.center;
-      s.startAngle = chartSpec.startAngle ?? POLAR_START_ANGLE;
-      s.endAngle = chartSpec.endAngle ?? (isValid(chartSpec.startAngle) ? chartSpec.startAngle + 360 : POLAR_END_ANGLE);
-      // 优先使用outerRadius, 但要兼容s.radius, spec.radius
-      s.outerRadius = s.radius ?? chartSpec.outerRadius ?? chartSpec.radius ?? POLAR_DEFAULT_RADIUS;
+      const { axisType, componentName, startAngle, endAngle, center, outerRadius } = getPolarAxisInfo(s, chartSpec);
+      s.center = center;
+      s.startAngle = startAngle;
+      s.endAngle = endAngle;
+      s.outerRadius = outerRadius;
       s.type = axisType;
       const info = {
         spec: s,
@@ -181,11 +183,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     this._tick = this._spec.tick;
     this._orient = this._spec.orient === 'angle' ? 'angle' : 'radius';
     this._center = this._spec.center;
-    const chartSpec = this.getChart().getSpec() as any;
-    const startAngle = this._spec.startAngle ?? chartSpec.startAngle;
-    const endAngle = this._spec.endAngle ?? chartSpec.endAngle;
-    this._startAngle = degreeToRadian(startAngle ?? POLAR_START_ANGLE);
-    this._endAngle = degreeToRadian(endAngle ?? (isValid(startAngle) ? startAngle + 360 : POLAR_END_ANGLE));
+    this._startAngle = degreeToRadian(this._spec.startAngle);
+    this._endAngle = degreeToRadian(this._spec.endAngle);
     this._inverse = this._spec.inverse;
   }
 
