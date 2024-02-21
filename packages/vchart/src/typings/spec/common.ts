@@ -443,7 +443,7 @@ export interface ISeriesSpec extends IInteractionSpec {
   /**
    * 扩展mark
    */
-  extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec)[];
+  extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[];
 
   /**
    * series background
@@ -633,6 +633,7 @@ export type IBuildinMarkSpec = {
   progressArc: IProgressArcMarkSpec;
   ripple: IRippleMarkSpec;
 };
+
 export type EnableMarkType = keyof IBuildinMarkSpec;
 export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {
   type: T;
@@ -655,7 +656,7 @@ export interface ICustomMarkGroupSpec extends ICustomMarkSpec<MarkTypeEnum.group
   children?: ICustomMarkSpec<EnableMarkType>[];
 }
 
-export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, MarkTypeEnum.group>> extends ICustomMarkSpec<T> {
+export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, 'group'>> extends ICustomMarkSpec<T> {
   /**
    * 关联的数据索引
    * @default 与系列使用同一份数据
