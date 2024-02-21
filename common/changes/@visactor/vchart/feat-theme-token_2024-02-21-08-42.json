@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: theme supports custom tokens, related #2255",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
