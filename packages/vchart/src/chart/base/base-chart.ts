@@ -42,7 +42,7 @@ import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
 import type { DataView } from '@visactor/vdataset';
-import type { DataSet } from '@visactor/vdataset/es/data-set';
+import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
 import {
