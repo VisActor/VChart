@@ -13,7 +13,7 @@ const spec = {
     {
       ...bigData.dataZoom[0],
       showDetail: true,
-      tolerance: 6,
+      // tolerance: 10,
       realTime: false,
       // backgroundChart: {
       //   area: {
@@ -51,21 +51,21 @@ const spec = {
       // showDetail: true
       // showDetail: false
     }
+  ],
+  data: [
+    {
+      id: bigData.data[0].id,
+      values: bigData.data[0].values.slice(0, 10000)
+    },
+    {
+      id: bigData.data[1].id,
+      values: bigData.data[1].values.slice(0, 10000)
+    },
+    {
+      id: bigData.data[2].id,
+      values: bigData.data[2].values
+    }
   ]
-  // data: [
-  //   {
-  //     id: bigData.data[0].id,
-  //     values: bigData.data[0].values.slice(0, 3000)
-  //   },
-  //   {
-  //     id: bigData.data[1].id,
-  //     values: bigData.data[1].values.slice(0, 3000)
-  //   },
-  //   {
-  //     id: bigData.data[2].id,
-  //     values: bigData.data[2].values
-  //   }
-  // ]
 };
 
 const run = () => {
