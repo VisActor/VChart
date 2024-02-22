@@ -62,7 +62,7 @@ describe('wordCloud chart test', () => {
     const transformer = new WordCloudChart.transformerConstructor({
       type: 'wordCloud',
       seriesType: 'wordCloud',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true)
     });
     const info = transformer.initChartSpec(spec);
     const chart = new WordCloudChart(spec, {
@@ -80,7 +80,7 @@ describe('wordCloud chart test', () => {
       mode: 'desktop-browser',
       getCompiler: getTestCompiler,
       globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-      getTheme: () => ThemeManager.getCurrentTheme(),
+      getTheme: () => ThemeManager.getCurrentTheme(true),
       getSpecInfo: () => info
     } as any);
     chart.created();

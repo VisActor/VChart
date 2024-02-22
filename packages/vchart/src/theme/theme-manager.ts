@@ -61,8 +61,8 @@ export class ThemeManager {
   }
 
   /** 获取当前主题（只能获取用户通过`setCurrentTheme`方法设置过的主题，默认值为默认主题） */
-  static getCurrentTheme(): ITheme {
-    return ThemeManager.getTheme(ThemeManager._currentThemeName);
+  static getCurrentTheme(transformed: boolean = false): ITheme {
+    return ThemeManager.getTheme(ThemeManager._currentThemeName, transformed);
   }
 
   /** 获取当前主题名称（只能获取用户通过`setCurrentTheme`方法设置过的主题，默认值为默认主题） */

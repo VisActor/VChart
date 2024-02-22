@@ -1,5 +1,4 @@
 import type { IFunnel3dSeriesTheme } from '../../../../series/funnel/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const funnel3d: IFunnel3dSeriesTheme = {
   transform3d: {
@@ -16,7 +15,7 @@ export const funnel3d: IFunnel3dSeriesTheme = {
   },
   outerLabel: {
     style: {
-      fontSize: THEME_CONSTANTS.l4FontSize,
+      fontSize: { type: 'token', key: 'l4FontSize' },
       fill: '#707070'
     },
     line: {
@@ -27,7 +26,7 @@ export const funnel3d: IFunnel3dSeriesTheme = {
   },
   transformLabel: {
     style: {
-      fontSize: THEME_CONSTANTS.l4FontSize,
+      fontSize: { type: 'token', key: 'l4FontSize' },
       fill: '#707070',
       textBaseline: 'middle'
     }

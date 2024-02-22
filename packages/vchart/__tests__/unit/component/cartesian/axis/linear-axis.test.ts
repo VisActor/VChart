@@ -96,7 +96,7 @@ const ctx: IComponentOption = {
     return { width: 500, height: 500 } as any;
   },
   globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-  getTheme: () => ThemeManager.getCurrentTheme(),
+  getTheme: () => ThemeManager.getCurrentTheme(true),
   getComponentByUserId: function (user_id: string | number): IComponent | undefined {
     throw new Error('Function not implemented.');
   },
@@ -130,7 +130,7 @@ test('config linearAxis.nice default [true] ', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme()
+    getTheme: () => ThemeManager.getCurrentTheme(true)
   });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
@@ -156,7 +156,7 @@ test('config linearAxis.nice default [true] ', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme()
+    getTheme: () => ThemeManager.getCurrentTheme(true)
   });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
@@ -182,7 +182,7 @@ test('nice === false  ', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme()
+    getTheme: () => ThemeManager.getCurrentTheme(true)
   });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
@@ -209,7 +209,7 @@ test('zero === false && nice === false  ', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme()
+    getTheme: () => ThemeManager.getCurrentTheme(true)
   });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
@@ -238,7 +238,7 @@ test('zero === true && range is specific  ', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme()
+    getTheme: () => ThemeManager.getCurrentTheme(true)
   });
   config = transformer.transformSpec(config, {}).spec;
 
@@ -337,7 +337,7 @@ test('expand', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme()
+    getTheme: () => ThemeManager.getCurrentTheme(true)
   });
   config = transformer.transformSpec(config, {}).spec;
 
@@ -413,7 +413,7 @@ test('extend', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme()
+    getTheme: () => ThemeManager.getCurrentTheme(true)
   });
   config = transformer.transformSpec(config, {}).spec;
 
@@ -467,7 +467,7 @@ test('niceDomain should work when domain is 0, and user does not set min or max'
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme()
+    getTheme: () => ThemeManager.getCurrentTheme(true)
   });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
@@ -498,7 +498,7 @@ test('niceDomain should not work when user set min or max', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme()
+    getTheme: () => ThemeManager.getCurrentTheme(true)
   });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(
@@ -532,7 +532,7 @@ test('dynamic tickCount', () => {
   });
   const transformer = new CartesianAxis.transformerConstructor({
     type: 'cartesianAxis-linear',
-    getTheme: () => ThemeManager.getCurrentTheme()
+    getTheme: () => ThemeManager.getCurrentTheme(true)
   });
   spec = transformer.transformSpec(spec, {}).spec;
   const linearAxis = CartesianAxis.createComponent(

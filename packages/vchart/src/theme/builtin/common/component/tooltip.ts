@@ -1,6 +1,5 @@
 import type { ITooltipTheme } from '../../../../component/tooltip/interface';
 import type { IColorKey } from '../../../color-scheme';
-import { THEME_CONSTANTS } from '../constants';
 
 export const tooltip: ITooltipTheme<string | IColorKey> = {
   offset: {
@@ -30,8 +29,8 @@ export const tooltip: ITooltipTheme<string | IColorKey> = {
   },
   spaceRow: 6,
   titleLabel: {
-    fontSize: THEME_CONSTANTS.l4FontSize,
-    lineHeight: THEME_CONSTANTS.l4LineHeight,
+    fontSize: { type: 'token', key: 'l4FontSize' },
+    lineHeight: { type: 'token', key: 'l4LineHeight' },
 
     fontColor: { type: 'palette', key: 'primaryFontColor' },
     fontWeight: 'bold',
@@ -44,8 +43,8 @@ export const tooltip: ITooltipTheme<string | IColorKey> = {
     spacing: 6
   },
   keyLabel: {
-    fontSize: THEME_CONSTANTS.l4FontSize,
-    lineHeight: THEME_CONSTANTS.l4LineHeight,
+    fontSize: { type: 'token', key: 'l4FontSize' },
+    lineHeight: { type: 'token', key: 'l4LineHeight' },
 
     fontColor: { type: 'palette', key: 'secondaryFontColor' },
     textAlign: 'left',
@@ -53,8 +52,8 @@ export const tooltip: ITooltipTheme<string | IColorKey> = {
     spacing: 26
   },
   valueLabel: {
-    fontSize: THEME_CONSTANTS.l4FontSize,
-    lineHeight: THEME_CONSTANTS.l4LineHeight,
+    fontSize: { type: 'token', key: 'l4FontSize' },
+    lineHeight: { type: 'token', key: 'l4LineHeight' },
 
     fontColor: { type: 'palette', key: 'primaryFontColor' },
     fontWeight: 'bold',
