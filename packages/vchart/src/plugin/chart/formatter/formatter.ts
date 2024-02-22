@@ -32,10 +32,12 @@ export class FormatterPlugin extends BasePlugin implements IChartPlugin {
 
   protected _formatter = this._format;
 
-  private _timeFormat = this._timeModeFormat.local;
-  private _numericFormat = NumberUtil.getInstance().format;
-  private _numericFormatter = NumberUtil.getInstance().formatter;
-  private _numericFormatCache = new Map<string, any>();
+  private _timeFormatter = this._timeModeFormat.local;
+  private _numericFormatter = NumberUtil.getInstance().format;
+
+  // used for optimize performance，avoiding repeatedly parsing same format template string,
+  private _numericSpecifier = NumberUtil.getInstance().formatter;
+  private _numericFormatterCache = new Map<string, any>();
   private _isNumericFormatterCache = new Map<string, boolean>();
 
   constructor() {
@@ -55,15 +57,15 @@ export class FormatterPlugin extends BasePlugin implements IChartPlugin {
     } else {
       this._formatter = this._format.bind(this);
       if (isFunction(timeFormatter)) {
-        this._timeFormat = timeFormatter;
+        this._timeFormatter = timeFormatter;
       } else if (timeMode && this._timeModeFormat[timeMode]) {
-        this._timeFormat = this._timeModeFormat[timeMode];
+        this._timeFormatter = this._timeModeFormat[timeMode];
       }
 
       if (numericFormatter) {
-        this._numericFormat = numericFormatter;
-        this._numericFormatter = null;
-        this._numericFormatCache = null;
+        this._numericFormatter = numericFormatter;
+        this._numericSpecifier = null;
+        this._numericFormatterCache = null;
       }
     }
     Factory.registerFormatter(this._formatter);
@@ -119,21 +121,21 @@ export class FormatterPlugin extends BasePlugin implements IChartPlugin {
 
   protected _formatSingleText(text: string | number, formatter: string): string | number {
     const isNumeric = numberSpecifierReg.test(formatter);
-    if (isNumeric && this._numericFormat) {
+    if (isNumeric && this._numericFormatter) {
       // 内置的 formatter 逻辑，可以进行缓存性能优化
       let numericFormat;
-      if (this._numericFormatCache && this._numericFormatter) {
-        if (this._numericFormatCache.get(formatter)) {
-          numericFormat = this._numericFormatCache.get(formatter);
+      if (this._numericFormatterCache && this._numericSpecifier) {
+        if (this._numericFormatterCache.get(formatter)) {
+          numericFormat = this._numericFormatterCache.get(formatter);
         } else {
-          numericFormat = this._numericFormatter(formatter) as any;
-          this._numericFormatCache.set(formatter, numericFormat);
+          numericFormat = this._numericSpecifier(formatter) as any;
+          this._numericFormatterCache.set(formatter, numericFormat);
         }
         return numericFormat(Number(text));
       }
-      return this._numericFormat(formatter, Number(text));
-    } else if (formatter.includes('%') && this._timeFormat) {
-      return this._timeFormat(formatter, text);
+      return this._numericFormatter(formatter, Number(text));
+    } else if (formatter.includes('%') && this._timeFormatter) {
+      return this._timeFormatter(formatter, text);
     } else {
       return text;
     }
@@ -141,10 +143,10 @@ export class FormatterPlugin extends BasePlugin implements IChartPlugin {
 
   dispose() {
     this._format = null;
-    this._timeFormat = null;
-    this._numericFormat = null;
+    this._timeFormatter = null;
     this._numericFormatter = null;
-    this._numericFormatCache = null;
+    this._numericSpecifier = null;
+    this._numericFormatterCache = null;
     this._isNumericFormatterCache = null;
   }
 }
