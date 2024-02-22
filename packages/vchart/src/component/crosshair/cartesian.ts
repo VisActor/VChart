@@ -480,14 +480,14 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
         } else if (this._yHair?.label?.formatter && Factory.getFormatter()) {
           const { left, right } = yCrossHairInfo;
 
-          const formatter = Factory.getFormatter();
+          const formatterImpl = Factory.getFormatter();
           left.visible &&
-            (left.text = formatter(this._yHair.label.formatter, left.text, {
+            (left.text = formatterImpl(this._yHair.label.formatter, left.text, {
               label: left.text,
               position: 'bottom'
             }));
           right.visible &&
-            (right.text = formatter(this._yHair.label.formatter, right.text, {
+            (right.text = formatterImpl(this._yHair.label.formatter, right.text, {
               label: right.text,
               position: 'top'
             }));

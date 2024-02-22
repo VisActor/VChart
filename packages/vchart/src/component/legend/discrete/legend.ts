@@ -251,15 +251,15 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     const { formatMethod: labelFormatMethod, formatter: labelFormatter } = this._spec.item?.label ?? {};
     const { formatMethod: valueFormatMethod, formatter: valueFormatter } = this._spec.item?.value ?? {};
 
-    const formatter = Factory.getFormatter();
-    if (labelFormatter && !labelFormatMethod && formatter) {
+    const formatterImpl = Factory.getFormatter();
+    if (labelFormatter && !labelFormatMethod && formatterImpl) {
       attrs.item.label.formatMethod = (value: string, datum: any) => {
-        return formatter(labelFormatter, value, datum);
+        return formatterImpl(labelFormatter, value, datum);
       };
     }
-    if (valueFormatter && !valueFormatMethod && formatter) {
+    if (valueFormatter && !valueFormatMethod && formatterImpl) {
       attrs.item.value.formatMethod = (value: string, datum: any) => {
-        return formatter(valueFormatter, value, datum);
+        return formatterImpl(valueFormatter, value, datum);
       };
     }
   }
