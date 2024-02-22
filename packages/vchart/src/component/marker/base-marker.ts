@@ -36,7 +36,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
   protected _layoutOffsetX: number = 0;
   protected _layoutOffsetY: number = 0;
 
-  private _firstSeries: ICartesianSeries;
+  private getFirstSeries: ICartesianSeries;
 
   created() {
     super.created();
@@ -201,16 +201,16 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
 
   clear(): void {
     super.clear();
-    this._firstSeries = null;
+    this.getFirstSeries = null;
   }
 
   private _getFirstSeries(): ICartesianSeries {
-    if (this._firstSeries) {
-      return this._firstSeries;
+    if (this.getFirstSeries) {
+      return this.getFirstSeries;
     }
     const firstSeries = getFirstSeries(this._regions) as ICartesianSeries;
     if (firstSeries) {
-      this._firstSeries = firstSeries;
+      this.getFirstSeries = firstSeries;
       return firstSeries;
     }
     this._option?.onError('need at least one series');

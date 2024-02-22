@@ -1,7 +1,7 @@
 import type { ITheme } from '../../theme';
 import { getOrient } from '../axis/cartesian/util/common';
 import { getCartesianAxisTheme, getPolarAxisTheme } from '../axis/util';
-import { getCartesianCrosshairTheme, getPolarCrosshairTheme } from '../crosshair/util';
+import { getCartesianCrosshairTheme, getPolarCrosshairTheme } from '../crosshair/utils';
 import { getDataFilterTheme } from '../data-zoom/util';
 import { ComponentTypeEnum } from '../interface/type';
 import { getLayout } from '../legend/util';

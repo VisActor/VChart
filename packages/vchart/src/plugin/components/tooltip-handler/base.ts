@@ -20,7 +20,12 @@ import type {
 import type { TooltipFixedPosition } from '../../../typings/tooltip';
 import type { BaseEventParams } from '../../../event/interface';
 import { getTooltipPatternValue, getScale } from './utils/common';
-import { getActualTooltipPositionValue, getHorizontalPositionType, getVerticalPositionType } from './utils/position';
+import {
+  getActualTooltipPositionValue,
+  getCartesianCrosshairRect,
+  getHorizontalPositionType,
+  getVerticalPositionType
+} from './utils/position';
 import { getShowContent } from './utils/compose';
 import { getTooltipSpecForShow } from './utils/get-spec';
 import type { ISeries } from '../../../series/interface';
@@ -55,6 +60,7 @@ import { TooltipResult } from '../../../component/tooltip';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
 import type { ITooltipAttributes } from './interface';
+import { layoutByValue } from '../../../component/crosshair/utils/cartesian';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -407,6 +413,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     tooltipBoxSize: IContainerSize | undefined
   ): ITooltipPositionActual => {
     const event = params.event as MouseEvent;
+    const firstDimensionInfo = params.dimensionInfo?.[0];
 
     const invalidPosition = {
       x: Infinity,
@@ -423,7 +430,8 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     const { activeType, data } = actualTooltip;
     const pattern = tooltipSpec[activeType];
     const position = getTooltipPatternValue(pattern.position, data, params);
-    const positionMode = getTooltipPatternValue(pattern.positionMode, data, params);
+    const positionMode =
+      getTooltipPatternValue(pattern.positionMode, data, params) ?? (activeType === 'mark' ? 'mark' : 'pointer');
     const tooltipParentElement = this._getParentElement(tooltipSpec);
     const { width: tooltipBoxWidth = 0, height: tooltipBoxHeight = 0 } = tooltipBoxSize ?? {};
 
@@ -475,18 +483,40 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       top = getActualTooltipPositionValue(posTop, event);
       right = getActualTooltipPositionValue(posRight, event);
       bottom = getActualTooltipPositionValue(posBottom, event);
-    } else if (isValid(position) && positionMode !== 'pointer' && actualTooltip.activeType === 'mark') {
-      isFixedPosition = true;
-      const element = params.item as IElement;
-      const model = params.model as IModel;
-      const bounds = element?.getBounds() as AABBBounds;
-      const startPoint = (<ILayoutModel>(<unknown>model))?.getLayoutStartPoint();
-      if (bounds && startPoint) {
-        let { x1, y1, x2, y2 } = bounds;
-        x1 += startPoint.x;
-        x2 += startPoint.x;
-        y1 += startPoint.y;
-        y2 += startPoint.y;
+    } else if (isValid(position)) {
+      let x1: number;
+      let y1: number;
+      let x2: number;
+      let y2: number;
+      const model = params.model as ILayoutModel;
+      const startPoint = model?.getLayoutStartPoint();
+
+      if (positionMode === 'mark') {
+        isFixedPosition = true;
+        const element = params.item as IElement;
+        const bounds = element?.getBounds() as AABBBounds;
+        if (bounds && startPoint) {
+          x1 = bounds.x1 + startPoint.x;
+          x2 = bounds.x2 + startPoint.x;
+          y1 = bounds.y1 + startPoint.y;
+          y2 = bounds.y2 + startPoint.y;
+        }
+      } else if (positionMode === 'crosshair' && firstDimensionInfo?.axis?.getCoordinateType() === 'cartesian') {
+        isFixedPosition = true;
+        const rect = getCartesianCrosshairRect(params.dimensionInfo, this._component.getFirstSeries(), startPoint);
+        if (rect) {
+          const {
+            start: { x: rectX1, y: rectY1 },
+            end: { x: rectX2, y: rectY2 }
+          } = rect;
+          x1 = rectX1;
+          x2 = rectX2;
+          y1 = rectY1;
+          y2 = rectY2;
+        }
+      }
+
+      if (isFixedPosition) {
         switch (getHorizontalPositionType(position)) {
           case 'left':
             left = x1 - tooltipBoxWidth * tooltipSizeScale - offsetX;
@@ -496,6 +526,12 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
             break;
           case 'middle':
             left = (x1 + x2) / 2 - (tooltipBoxWidth * tooltipSizeScale) / 2;
+            break;
+          case 'middleLeft':
+            left = (x1 + x2) / 2 - tooltipBoxWidth * tooltipSizeScale - offsetX;
+            break;
+          case 'middleRight':
+            left = (x1 + x2) / 2 + offsetX;
             break;
         }
         switch (getVerticalPositionType(position)) {
@@ -507,6 +543,12 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
             break;
           case 'middle':
             top = (y1 + y2) / 2 - (tooltipBoxHeight * tooltipSizeScale) / 2;
+            break;
+          case 'middleTop':
+            top = (y1 + y2) / 2 - tooltipBoxHeight * tooltipSizeScale - offsetY;
+            break;
+          case 'middleBottom':
+            top = (y1 + y2) / 2 + offsetY;
             break;
         }
       }
@@ -528,9 +570,11 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
           x = x0 - (tooltipBoxWidth * tooltipSizeScale) / 2;
           break;
         case 'left':
+        case 'middleLeft':
           x = x0 - tooltipBoxWidth * tooltipSizeScale - offsetX;
           break;
         case 'right':
+        case 'middleRight':
           x = x0 + offsetX;
           break;
       }
@@ -546,9 +590,11 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
           y = y0 - (tooltipBoxHeight * tooltipSizeScale) / 2;
           break;
         case 'top':
+        case 'middleTop':
           y = y0 - tooltipBoxHeight * tooltipSizeScale - offsetY;
           break;
         case 'bottom':
+        case 'middleBottom':
           y = y0 + offsetY;
           break;
       }
@@ -657,6 +703,8 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     // 处理左右
     switch (getHorizontalPositionType(position as TooltipFixedPosition, 'right')) {
       case 'middle':
+      case 'middleLeft':
+      case 'middleRight':
         if (isLeftOut()) {
           detectLeftFirst();
           detectRightLast();
@@ -677,6 +725,8 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     // 处理上下
     switch (getVerticalPositionType(position as TooltipFixedPosition, 'bottom')) {
       case 'middle':
+      case 'middleTop':
+      case 'middleBottom':
         if (isTopOut()) {
           detectTopFirst();
           detectBottomLast();

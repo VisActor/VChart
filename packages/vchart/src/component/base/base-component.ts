@@ -167,4 +167,18 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
   getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike {
     return { x1: 0, x2: 0, y1: 0, y2: 0 };
   }
+
+  getFirstSeries<T>(): T | null {
+    for (let i = 0; i < this._regions.length; i++) {
+      const r = this._regions[i];
+      const series = r.getSeries();
+      for (let j = 0; j < series.length; j++) {
+        const s = series[j];
+        if (s) {
+          return s as unknown as T;
+        }
+      }
+    }
+    return null;
+  }
 }

@@ -78,7 +78,7 @@ export const getPolarDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoi
         }
 
         const data = getDimensionData(value, axis, 'polar', getDimensionField);
-        targetAxisInfo.push({ index, value, axis, data });
+        targetAxisInfo.push({ index, value, position: angleScale.scale(value), axis, data });
       }
     });
   }
@@ -125,7 +125,7 @@ export const getPolarDimensionInfo = (chart: IChart | undefined, pos: ILayoutPoi
         }
 
         const data = getDimensionData(value, axis, 'polar', getDimensionField);
-        targetAxisInfo.push({ index, value, axis, data });
+        targetAxisInfo.push({ index, value, position: radiusScale.scale(value), axis, data });
       }
     });
   }

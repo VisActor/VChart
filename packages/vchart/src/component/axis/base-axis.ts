@@ -122,6 +122,9 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected _gridMark: IComponentMark;
 
   protected _coordinateType: CoordinateType;
+  getCoordinateType() {
+    return this._coordinateType;
+  }
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
