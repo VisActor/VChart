@@ -10,7 +10,7 @@ import type { IComponent, IComponentConstructor } from '../../component/interfac
 import type { IMark } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
 import type { DataView } from '@visactor/vdataset';
-import type { DataSet } from '@visactor/vdataset/es/data-set';
+import type { DataSet } from '@visactor/vdataset';
 import { Stack } from '../stack';
 import type { IParserOptions } from '@visactor/vdataset/es/parser';
 import type { IBoundsLike } from '@visactor/vutils';
