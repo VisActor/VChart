@@ -4,7 +4,7 @@ import type { IArcMarkSpec, ITextMarkSpec, IArc3dMarkSpec, ILineMarkSpec } from 
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
 
 export type PieMarks = 'pie' | 'label' | 'labelLine';
 
@@ -75,7 +75,7 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
   /** 扇区样式 */
   [SeriesMarkNameEnum.pie]?: IMarkSpec<IArcMarkSpec>;
   /** 标签配置 */
-  [SeriesMarkNameEnum.label]?: IArcLabelSpec;
+  [SeriesMarkNameEnum.label]?: IMultiLabelSpec<IArcLabelSpec>;
 }
 
 export interface IPieSeriesTheme extends IPolarSeriesTheme {

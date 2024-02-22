@@ -73,6 +73,8 @@ export interface ILabelSpec extends IComponentSpec {
   syncState?: boolean;
 }
 
+export type IMultiLabelSpec<T extends Omit<ILabelSpec, 'position'>> = T | T[];
+
 type LabelStateStyle<T> = {
   hover?: T;
   hover_reverse?: T;
@@ -92,5 +94,5 @@ export interface ITotalLabelTheme
 
 // 内部处理转换后的标签配置
 export type TransformedLabelSpec = ILabelSpec & {
-  getStyleHandler: (series: ISeries) => (mark?: ILabelMark) => void;
+  getStyleHandler: (series: ISeries) => (mark?: ILabelMark, spec?: any) => void;
 };

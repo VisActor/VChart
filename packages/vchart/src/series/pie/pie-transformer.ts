@@ -1,7 +1,8 @@
+import { isArray } from '@visactor/vutils';
 import { mergeSpec } from '../../util';
 import { BaseSeriesSpecTransformer } from '../base';
 import { SeriesMarkNameEnum } from '../interface';
-import type { IBasePieSeriesSpec, IPieSeriesTheme } from './interface';
+import type { IArcLabelSpec, IBasePieSeriesSpec, IPieSeriesTheme } from './interface';
 
 export class PieSeriesSpecTransformer<
   T extends IBasePieSeriesSpec = IBasePieSeriesSpec,
@@ -21,10 +22,19 @@ export class PieSeriesSpecTransformer<
       // this._originalSpec + specFromChart + this._theme = this._spec
       // 动态处理 label 样式，对于展示在内部的 label 默认使用 innerLabel 样式
       newSpec = mergeSpec({}, this._theme, specFromChart, spec) as any;
-      if (newSpec.label.position === 'inside') {
-        newSpec.label = mergeSpec({}, this._theme.innerLabel, newSpec.label);
+
+      const getMergedLabelSpec = (position: IArcLabelSpec['position'], label: IArcLabelSpec) => {
+        if (position === 'inside') {
+          return mergeSpec({}, this._theme.innerLabel, label);
+        } else {
+          return mergeSpec({}, this._theme.outerLabel, label);
+        }
+      };
+
+      if (isArray(newSpec.label)) {
+        newSpec.label = newSpec.label.map(label => getMergedLabelSpec(label.position, label));
       } else {
-        newSpec.label = mergeSpec({}, this._theme.outerLabel, newSpec.label);
+        newSpec.label = getMergedLabelSpec(newSpec.label.position, newSpec.label);
       }
     }
 

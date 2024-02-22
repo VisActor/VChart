@@ -7,6 +7,7 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { AreaAppearPreset } from './animation';
 import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { ILabelSpec } from '../../component';
+import { IMultiLabelSpec } from '../../component/label';
 export interface IAreaSeriesSpec
   extends ICartesianSeriesSpec,
     IAnimationSpec<string, AreaAppearPreset>,
@@ -40,7 +41,7 @@ export interface IAreaSeriesSpec
   /**
    * 标签配置
    */
-  [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+  [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILineLikeLabelSpec>;
   /**
    * 面积图元标签配置
    * @since 1.7.0
