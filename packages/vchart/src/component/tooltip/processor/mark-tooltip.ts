@@ -14,7 +14,7 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
     const { datum, series, dimensionInfo } = info;
     const tooltipData = [{ datum: [datum], series }];
     const newParams: TooltipHandlerParams = {
-      ...params,
+      ...(params as any),
       dimensionInfo: this._preprocessDimensionInfo(dimensionInfo),
       changePositionOnly
     };

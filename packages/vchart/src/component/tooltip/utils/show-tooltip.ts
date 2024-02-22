@@ -366,6 +366,7 @@ export function showTooltip(
     ];
     const mockParams: TooltipHandlerParams = {
       changePositionOnly: false,
+      action: 'enter',
       dimensionInfo: mockDimensionInfo,
       chart: componentOptions.globalInstance.getChart() ?? undefined,
       datum: undefined,
