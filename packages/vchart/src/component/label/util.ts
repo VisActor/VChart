@@ -4,13 +4,11 @@ import { Direction } from '../../typings/space';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, OverlapAttrs, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
-import { isBoolean, isFunction, isObject, isString, substitute } from '@visactor/vutils';
+import { isBoolean, isFunction, isObject, isString } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
-import { ARC_RATIO } from '../../constant';
-import { STACK_FIELD_END_PERCENT } from '../../constant';
-import { Factory } from '../../core';
+import { getFormatFunction } from '../util';
 
 export const labelRuleMap = {
   rect: barLabel,
@@ -52,21 +50,9 @@ export function textAttribute(
     textAttribute[key] = attr;
   }
 
-  if (formatMethod) {
-    textAttribute.text = formatMethod(textAttribute.text, datum, { series });
-  } else {
-    // 这个逻辑太扯了
-    if (formatter) {
-      if (series.type === 'pie') {
-        datum._percent_ = (datum[ARC_RATIO] * 100).toFixed(2) + '%';
-      } else if (datum[STACK_FIELD_END_PERCENT]) {
-        datum._percent_ = (datum[STACK_FIELD_END_PERCENT] * 100).toFixed(2) + '%';
-      }
-      const formatterImpl = Factory.getFormatter();
-      if (isFunction(formatterImpl)) {
-        textAttribute.text = formatterImpl(formatter, textAttribute.text, datum);
-      }
-    }
+  const { formatFunc, args } = getFormatFunction(formatMethod, formatter, textAttribute.text, datum);
+  if (formatFunc) {
+    textAttribute.text = formatFunc(...args, { series });
   }
 
   return textAttribute;

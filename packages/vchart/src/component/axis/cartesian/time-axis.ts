@@ -93,7 +93,7 @@ export class CartesianTimeAxis<
     }
   }
 
-  protected getLabelFormatMethod(): any {
+  protected _getLabelFormatMethod(): any {
     const timeUtil = TimeUtil.getInstance();
     const timeFormat1 = this._spec.layers?.[1]?.timeFormat || '%Y%m%d';
     const timeFormatMode1 = this._spec.layers?.[1]?.timeFormatMode || 'local';

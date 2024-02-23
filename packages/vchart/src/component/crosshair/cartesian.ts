@@ -21,6 +21,7 @@ import { isXAxis } from '../axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
+import { getFormatFunction } from '../util';
 
 interface ICrosshairInfoX {
   height: number;
@@ -443,23 +444,12 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       xCrossHairInfo.x = x + this.getLayoutStartPoint().x;
 
       if (this._xHair && this._xHair.label) {
-        if (this._xHair.label.formatMethod) {
-          const { top, bottom } = xCrossHairInfo;
-          bottom.visible && (bottom.text = this._xHair.label.formatMethod(bottom.text, 'bottom') as string);
-          top.visible && (top.text = this._xHair.label.formatMethod(top.text, 'top') as string);
-        } else if (this._xHair.label.formatter && Factory.getFormatter()) {
-          const { top, bottom } = xCrossHairInfo;
-          const formatter = Factory.getFormatter();
-          bottom.visible &&
-            (bottom.text = formatter(this._xHair.label.formatter, bottom.text, {
-              label: bottom.text,
-              position: 'bottom'
-            }) as string);
-          top.visible &&
-            (top.text = formatter(this._xHair.label.formatter, top.text, {
-              label: top.text,
-              position: 'top'
-            }) as string);
+        const { top, bottom } = xCrossHairInfo;
+        if (top.visible) {
+          this._setFormattedCrosshairLabel(top, 'top', this._xHair.label);
+        }
+        if (bottom.visible) {
+          this._setFormattedCrosshairLabel(bottom, 'bottom', this._xHair.label);
         }
       }
     }
@@ -473,24 +463,12 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       yCrossHairInfo.width = yRegion.x2 - yRegion.x1;
       yCrossHairInfo.y = y + this.getLayoutStartPoint().y;
       if (this._yHair && this._yHair.label) {
-        if (this._yHair.label.formatMethod) {
-          const { left, right } = yCrossHairInfo;
-          left.visible && (left.text = this._yHair.label.formatMethod(left.text, 'left') as string);
-          right.visible && (right.text = this._yHair.label.formatMethod(right.text, 'right') as string);
-        } else if (this._yHair?.label?.formatter && Factory.getFormatter()) {
-          const { left, right } = yCrossHairInfo;
-
-          const formatterImpl = Factory.getFormatter();
-          left.visible &&
-            (left.text = formatterImpl(this._yHair.label.formatter, left.text, {
-              label: left.text,
-              position: 'bottom'
-            }));
-          right.visible &&
-            (right.text = formatterImpl(this._yHair.label.formatter, right.text, {
-              label: right.text,
-              position: 'top'
-            }));
+        const { left, right } = yCrossHairInfo;
+        if (left.visible) {
+          this._setFormattedCrosshairLabel(left, 'left', this._yHair.label);
+        }
+        if (right.visible) {
+          this._setFormattedCrosshairLabel(right, 'right', this._yHair.label);
         }
       }
     }
@@ -507,6 +485,16 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
       if (this.enableRemain) {
         this._cacheYCrossHairInfo = { ...yCrossHairInfo, _isCache: true };
       }
+    }
+  }
+  private _setFormattedCrosshairLabel(labelInfo: ICrosshairInfoX['top'], position: string, labelSpec: IHair['label']) {
+    const { formatMethod, formatter } = labelSpec;
+    const { formatFunc, args } = getFormatFunction(formatMethod, formatter, labelInfo.text, {
+      label: labelInfo.text,
+      position
+    });
+    if (formatFunc) {
+      labelInfo.text = formatFunc(...args);
     }
   }
 

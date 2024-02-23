@@ -31,9 +31,9 @@ export class Factory {
   private static _chartPlugin: { [key: string]: IChartPluginConstructor } = {};
   private static _componentPlugin: { [key: string]: IComponentPluginConstructor } = {};
   private static _formatter: (
-    formatter: string | string[],
     text: string | number | string[] | number[],
-    datum: any
+    datum: any,
+    formatter: string | string[]
   ) => any;
 
   static transforms: { [key: string]: Transform } = {

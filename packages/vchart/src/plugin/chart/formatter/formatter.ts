@@ -71,11 +71,7 @@ export class FormatterPlugin extends BasePlugin implements IChartPlugin {
     Factory.registerFormatter(this._formatter);
   }
 
-  format(text: string | number | string[] | number[], datum: any, formatter: string | string[]) {
-    return this._formatter(formatter, text, datum);
-  }
-
-  protected _format(formatter: string | string[], text: string | number | string[] | number[], datum: any) {
+  protected _format(text: string | number | string[] | number[], datum: any, formatter: string | string[]) {
     if (isArray(text)) {
       return text.map((t, i) => {
         const f = isArray(formatter) ? formatter[i] : formatter;

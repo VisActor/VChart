@@ -17,7 +17,7 @@ import type { TooltipRichTextAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRichTextCharacter } from '@visactor/vrender-core';
 import type { TooltipHandlerParams } from '../../../../component/tooltip';
-import { Factory } from '../../../../core';
+import { getFormatFunction } from '../../../../component/util';
 
 interface IGradientColor {
   [key: string]: any;
@@ -54,8 +54,11 @@ export const getTooltipContentValue = <T>(
     value = field;
   }
 
-  if (formatter && Factory.getFormatter()) {
-    value = Factory.getFormatter()(formatter, field as string, datum);
+  if (formatter) {
+    const { formatFunc, args } = getFormatFunction(undefined, formatter, field as string, datum);
+    if (formatFunc && args) {
+      value = formatFunc(...args);
+    }
   }
 
   return value;
