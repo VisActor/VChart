@@ -5,10 +5,9 @@ import { LayoutLevel, LayoutZIndex } from '../../constant';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IRegion } from '../../region/interface';
-import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec, IIndicatorTheme } from './interface';
+import type { IIndicator, IIndicatorItemSpec, IIndicatorSpec } from './interface';
 import type { Maybe } from '../../typings';
 import { mergeSpec } from '../../util/spec/merge-spec';
-import { eachSeries } from '../../util/model';
 import { transformToGraphic } from '../../util/style';
 import { getActualNumValue } from '../../util/space';
 import { isEqual, isValid, isFunction, array, isArray } from '@visactor/vutils';
@@ -222,7 +221,7 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
         fitStrategy: this._spec.title.fitStrategy,
         style: {
           ...transformToGraphic(this._spec.title.style),
-          text: this._createText(this._spec.title.field, this._spec.title.style.text)
+          text: this._createText(this._spec.title.field, this._spec.title.style.text as any) // FIXME: type
         }
       },
       content: contentComponentSpec

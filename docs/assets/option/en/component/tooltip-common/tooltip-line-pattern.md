@@ -54,7 +54,7 @@ It can also be configured as rich text configuration, the type is:
 {
     /**
      * Main title text type (default type is text)
-     * text, rich, html
+     * text, rich
      */
     type?: string;
     /**

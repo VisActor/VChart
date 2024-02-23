@@ -54,7 +54,7 @@ tooltip 当前行 value 列的内容。
 {
     /**
      * 主标题文本类型（默认类型为text）
-     * text, rich, html
+     * text, rich
      */
     type?: string;
     /**

@@ -260,7 +260,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
     } else {
       this._markerComponent?.setAttributes({
         points: points,
-        label: labelAttrs as any, // FIXME: 富文本类型问题
+        label: labelAttrs as MarkLineComponent['attribute']['label'],
         limitRect,
         dx: this._layoutOffsetX,
         dy: this._layoutOffsetY

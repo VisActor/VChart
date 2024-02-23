@@ -318,7 +318,7 @@ export class SunburstSeries extends PolarSeries<any> {
         textAlign: d => d.label?.textAlign,
         angle: d => d.label?.angle ?? 0,
         fontSize: 10,
-        text: d => d.name
+        text: (d: Datum) => d.name
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series

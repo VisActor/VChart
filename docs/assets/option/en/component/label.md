@@ -16,7 +16,6 @@ Optional:
 
 - 'text'
 - 'rich'
-- 'html'
 
 #${prefix} formatMethod(Function)
 
@@ -24,12 +23,37 @@ The data label content formatting function, defined as follows:
 
 ```ts
   /**
-   * 轴标签内容格式化函数
-   * @param text 原始标签文本值
-   * @param datum 图形数据
-   * @returns 格式化后的文本
+   * label format method
+   * @param text origin text
+   * @param datum graphic data
+   * @returns formatted text
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[] | IRichTextCharacter[];
+  formatMethod?: (text: string | string[], datum?: any) => string | string[] | number |  number[]
+```
+
+Since version `1.10.0`, `formatMethod` supports return richText structure like:
+
+```ts
+formatMethod: text => {
+  return {
+    type: 'rich',
+    text: [
+      {
+        text,
+        fontSize: 14,
+        fontWeight: 'bold',
+        fill: 'red'
+      },
+      {
+        text: 'Rich Text',
+        fontSize: 10,
+        lineThrough: true,
+        underline: true,
+        fill: 'green'
+      }
+    ]
+  };
+};
 ```
 
 #${prefix} formatter(string)
