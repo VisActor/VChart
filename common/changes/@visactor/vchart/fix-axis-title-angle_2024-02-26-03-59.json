@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of axis title'angle does not work, fixed#2270",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
