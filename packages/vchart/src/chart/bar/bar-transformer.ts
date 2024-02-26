@@ -35,7 +35,7 @@ export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> ex
     const bandAxis: ICartesianBandAxisSpec =
       spec.axes.find(axis => axis.type === 'band') ??
       spec.axes.find(axis => (isHorizontal ? ['left', 'right'] : ['top', 'bottom']).includes(axis.orient));
-    if (bandAxis) {
+    if (bandAxis && !bandAxis.bandSize && !bandAxis.maxBandSize && !bandAxis.minBandSize) {
       // 将 autoBandSize 应用在轴上
       if (!!spec.autoBandSize) {
         const extend = isObject(spec.autoBandSize) ? spec.autoBandSize.extend ?? 0 : 0;
