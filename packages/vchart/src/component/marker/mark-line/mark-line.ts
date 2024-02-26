@@ -361,12 +361,10 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
       });
     }
 
-    if (needAggr || needRegr) {
-      data.transform({
-        type: 'markerFilter',
-        options: this._getAllRelativeSeries()
-      });
-    }
+    data.transform({
+      type: 'markerFilter',
+      options: this._getAllRelativeSeries()
+    });
 
     data.target.on('change', () => {
       this._markerLayout();

@@ -140,7 +140,7 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
       const attribute = this._markerComponent.attribute ?? {};
       const textStyle = attribute.itemContent?.textStyle ?? {};
       this._markerComponent.setAttributes({
-        position: point,
+        position: point === undefined ? { x: null, y: null } : point, // setAttrs时merge时undefined会被忽略, 所以这里做转换
         itemContent: {
           ...attribute.itemContent,
           textStyle: {
@@ -185,12 +185,11 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
       options
     });
 
-    if (options) {
-      data.transform({
-        type: 'markerFilter',
-        options: this._getAllRelativeSeries()
-      });
-    }
+    data.transform({
+      type: 'markerFilter',
+      options: this._getAllRelativeSeries()
+    });
+
     data.target.on('change', () => {
       this._markerLayout();
     });
