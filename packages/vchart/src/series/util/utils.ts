@@ -1,7 +1,7 @@
 import type { IAxisHelper as CartesianHelper } from '../../component/axis/cartesian/interface/common';
 import { SeriesTypeEnum } from '../interface/type';
 import type { Datum } from '../../typings';
-import { isContinuous } from '@visactor/vscale';
+import { IOrdinalScale, isContinuous } from '@visactor/vscale';
 import type { IPolarAxisHelper } from '../../component/axis';
 import type { ICartesianSeries, ISeries } from '..';
 
@@ -18,8 +18,7 @@ export function sortDataInAxisHelper(axisHelper: CartesianHelper | IPolarAxisHel
     });
   } else {
     dataList.sort((datumA: Datum, datumB: Datum) => {
-      // @ts-ignore TODO: vscale support api to get index
-      return (scale._index.get(datumA[field]) - scale._index.get(datumB[field])) * (isRevert ? -1 : 1);
+      return ((scale as IOrdinalScale).index(datumA[field]) - scale.index(datumB[field])) * (isRevert ? -1 : 1);
     });
   }
 }
