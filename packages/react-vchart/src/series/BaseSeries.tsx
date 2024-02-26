@@ -32,7 +32,7 @@ export const createSeries = <T extends BaseSeriesProps>(componentName: string, m
     const context = React.useContext(RootChartContext);
 
     const id = props.id ?? props.componentId;
-    const bindedEvents = React.useRef<Record<string, boolean>>({});
+    const bindedEvents = React.useRef<Record<string, (e: any) => void>>({});
 
     const handleEvent = (e: any) => {
       const markIds = markNames.map(markName => `${id}-${markName}`);
@@ -46,25 +46,26 @@ export const createSeries = <T extends BaseSeriesProps>(componentName: string, m
         return;
       }
 
-      if (bindedEvents) {
-        Object.keys(bindedEvents).forEach(eventKey => {
-          if (!events[eventKey]) {
-            context.chart.off(REACT_TO_VCHART_EVENTS[eventKey], handleEvent);
+      if (bindedEvents.current) {
+        Object.keys(bindedEvents.current).forEach(eventKey => {
+          if (!events[eventKey] || bindedEvents.current[eventKey] !== events[eventKey]) {
+            context.chart.off(REACT_TO_VCHART_EVENTS[eventKey], bindedEvents.current[eventKey]);
+            bindedEvents.current[eventKey] = null;
           }
-          bindedEvents.current[eventKey] = false;
         });
       }
 
-      Object.keys(events).forEach(eventKey => {
-        if (!bindedEvents?.[eventKey]) {
-          context.chart.on(REACT_TO_VCHART_EVENTS[eventKey], handleEvent);
+      events &&
+        Object.keys(events).forEach(eventKey => {
+          if (!bindedEvents.current?.[eventKey]) {
+            context.chart.on(REACT_TO_VCHART_EVENTS[eventKey], handleEvent);
 
-          if (!bindedEvents) {
-            bindedEvents.current = {};
+            if (!bindedEvents.current) {
+              bindedEvents.current = {};
+            }
+            bindedEvents.current[eventKey] = handleEvent;
           }
-          bindedEvents.current[eventKey] = true;
-        }
-      });
+        });
     };
 
     const removeMarkEvent = () => {
