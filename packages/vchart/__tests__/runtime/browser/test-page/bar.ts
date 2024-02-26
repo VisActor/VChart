@@ -516,6 +516,10 @@ const run = () => {
         ]
       }
     ],
+    barWidth: 10,
+    autoBandSize: {
+      extend: 10
+    },
     xField: ['date', 'stack'],
     yField: 'value',
     seriesField: 'group',

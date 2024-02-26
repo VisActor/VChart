@@ -67,24 +67,21 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
 
   updateFixedWholeLength() {
     if (this._scale) {
-      if (this._spec.bandSize) {
-        this._scale.bandwidth(this._spec.bandSize);
+      const { bandSize, maxBandSize, minBandSize } = this._getOuterBandSizeFromSpec();
+      if (bandSize) {
+        this._scale.bandwidth(bandSize);
       }
-      if (this._spec.maxBandSize) {
-        this._scale.maxBandwidth(this._spec.maxBandSize);
+      if (maxBandSize) {
+        this._scale.maxBandwidth(maxBandSize);
       }
-      if (this._spec.minBandSize) {
-        this._scale.minBandwidth(this._spec.minBandSize);
+      if (minBandSize) {
+        this._scale.minBandwidth(minBandSize);
       }
       // 更改 region 最大大小
-      if (
-        this._scale.isBandwidthFixed() &&
-        this._spec.autoRegionSize &&
-        (this._spec.bandSize || this._spec.maxBandSize)
-      ) {
+      if (this._scale.isBandwidthFixed() && this._spec.autoRegionSize && (bandSize || maxBandSize)) {
         const rangeSize = scaleWholeRangeSize(
           this._scale.domain().length,
-          this._spec.bandSize ?? this._spec.maxBandSize,
+          bandSize ?? maxBandSize,
           this._scale.paddingInner(),
           this._scale.paddingOuter()
         );
@@ -95,6 +92,36 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
         }
       }
     }
+  }
+
+  /** 获取最外层 scale 的实际 bandSize 配置 */
+  protected _getOuterBandSizeFromSpec() {
+    let { bandSize, maxBandSize, minBandSize, bandSizeLevel = 0 } = this._spec;
+    const { bandSizeExtend = 0 } = this._spec;
+    bandSizeLevel = Math.min(bandSizeLevel, this._scales.length - 1);
+
+    for (let i = bandSizeLevel; i > 0; i--) {
+      const scale = this._scales[i];
+      const domain = scale.domain();
+      const paddingInner = scale.paddingInner();
+      const paddingOuter = scale.paddingOuter();
+      const extend = i === bandSizeLevel ? bandSizeExtend : 0;
+      if (bandSize) {
+        bandSize = scaleWholeRangeSize(domain.length, bandSize, paddingInner, paddingOuter) + extend;
+      }
+      if (maxBandSize) {
+        maxBandSize = scaleWholeRangeSize(domain.length, maxBandSize, paddingInner, paddingOuter) + extend;
+      }
+      if (minBandSize) {
+        minBandSize = scaleWholeRangeSize(domain.length, minBandSize, paddingInner, paddingOuter) + extend;
+      }
+    }
+
+    return {
+      bandSize,
+      maxBandSize,
+      minBandSize
+    };
   }
 }
 
