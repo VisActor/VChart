@@ -48,10 +48,8 @@ export const createSeries = <T extends BaseSeriesProps>(componentName: string, m
 
       if (bindedEvents.current) {
         Object.keys(bindedEvents.current).forEach(eventKey => {
-          if (!events[eventKey] || bindedEvents.current[eventKey] !== events[eventKey]) {
-            context.chart.off(REACT_TO_VCHART_EVENTS[eventKey], bindedEvents.current[eventKey]);
-            bindedEvents.current[eventKey] = null;
-          }
+          context.chart.off(REACT_TO_VCHART_EVENTS[eventKey], bindedEvents.current[eventKey]);
+          bindedEvents.current[eventKey] = null;
         });
       }
 
