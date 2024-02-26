@@ -499,7 +499,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._specYField;
   }
 
-  initEvent() {
+  protected initEvent() {
     super.initEvent();
     // 通过轴事件来进行排序。轴的domain数据变化在系列的统计数据完成后
     if (this.sortDataByAxis) {
