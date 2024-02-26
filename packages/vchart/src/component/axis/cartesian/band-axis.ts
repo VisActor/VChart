@@ -100,6 +100,7 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
     const { bandSizeExtend = 0 } = this._spec;
     bandSizeLevel = Math.min(bandSizeLevel, this._scales.length - 1);
 
+    // 由内而外计算最外层 scale 的 bandSize
     for (let i = bandSizeLevel; i > 0; i--) {
       const scale = this._scales[i];
       const domain = scale.domain();
