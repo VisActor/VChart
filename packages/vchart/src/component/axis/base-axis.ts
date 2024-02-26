@@ -521,17 +521,17 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     }
 
     if (spec.background && spec.background.visible) {
-      axisAttrs.background = {
+      axisAttrs.panel = {
         visible: true
       };
       if (spec.background.style) {
-        axisAttrs.background.style = transformToGraphic(spec.background.style);
+        axisAttrs.panel.style = transformToGraphic(spec.background.style);
       }
       if (spec.background.state) {
-        axisAttrs.background.state = transformStateStyle(spec.background.state);
+        axisAttrs.panel.state = transformStateStyle(spec.background.state);
       }
     } else {
-      axisAttrs.background = {
+      axisAttrs.panel = {
         visible: false
       };
     }
