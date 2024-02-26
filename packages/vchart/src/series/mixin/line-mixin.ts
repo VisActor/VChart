@@ -224,6 +224,7 @@ export class LineLikeSeriesMixin {
 
   protected _dimensionTrigger(params: DimensionEventParams) {
     const elements = this._getEventElement(params);
+
     switch (params.action) {
       case 'enter':
         this._symbolActiveMark.getDataView().parse(elements);
@@ -258,7 +259,7 @@ export class LineLikeSeriesMixin {
       const activeData = new DataView(this._option.dataSet, { name: `${PREFIX}_series_${this.id}_active_point` });
       activeData.parse([]);
       this._symbolActiveMark = this._createMark(
-        { name: `active_point`, type: MarkTypeEnum.symbol },
+        { name: `active_point_${this.id}`, type: MarkTypeEnum.symbol },
         {
           morph: false,
           groupKey: this._seriesField,
