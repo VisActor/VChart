@@ -118,9 +118,9 @@
     "@size-limit/file": "9.0.0"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.17.5",
-    "@visactor/vdataset": "~0.17.5",
-    "@visactor/vscale": "~0.17.5",
+    "@visactor/vutils": "~0.18.1",
+    "@visactor/vdataset": "~0.18.1",
+    "@visactor/vscale": "~0.18.1",
     "@visactor/vrender-core": "0.17.24",
     "@visactor/vrender-kits": "0.17.24",
     "@visactor/vrender-components": "0.17.24",

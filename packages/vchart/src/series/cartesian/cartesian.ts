@@ -10,7 +10,8 @@ import {
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT,
   STACK_FIELD_START_OffsetSilhouette,
-  PREFIX
+  PREFIX,
+  ChartEvent
 } from '../../constant';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { DirectionType } from '../../typings/space';
@@ -498,10 +499,22 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._specYField;
   }
 
-  viewDataUpdate(d: DataView): void {
-    super.viewDataUpdate(d);
+  protected initEvent() {
+    super.initEvent();
+    // 通过轴事件来进行排序。轴的domain数据变化在系列的统计数据完成后
     if (this.sortDataByAxis) {
-      this._sortDataInAxisDomain();
+      this.event.on(
+        ChartEvent.scaleDomainUpdate,
+        {
+          filter: param =>
+            param.model.id ===
+            (this._direction === Direction.horizontal ? this._yAxisHelper : this._xAxisHelper)?.getAxisId()
+        },
+        () => {
+          // 只能排序，不能修改数据，此时已经在数据流的统计流程之后
+          this._sortDataInAxisDomain();
+        }
+      );
     }
   }
 
