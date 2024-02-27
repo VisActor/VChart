@@ -1,17 +1,15 @@
 /* eslint-disable no-duplicate-imports */
 import type { BandScale } from '@visactor/vscale';
 import type { IArcMark } from '../../../mark/arc';
-import type { Maybe, Datum } from '../../../typings';
+import type { Datum } from '../../../typings';
 import { isValidNumber } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
-import type { ICircularProgressSeriesSpec, ICircularProgressSeriesTheme } from './interface';
+import type { ICircularProgressSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IStateAnimateSpec } from '../../../animation/spec';
-import type { IProgressArcMark } from '../../../mark/progress-arc';
-import { ArcMark, registerArcMark } from '../../../mark/arc';
-import { ProgressArcMark, registerProgressArcMark } from '../../../mark/progress-arc';
+import { registerArcMark } from '../../../mark/arc';
 import { circularProgressSeriesMark } from './constant';
 import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../constant';
 import { Factory } from '../../../core/factory';
@@ -27,8 +25,8 @@ export class CircularProgressSeries<
 
   static readonly mark: SeriesMarkMap = circularProgressSeriesMark;
 
-  private _progressMark: IProgressArcMark | null = null;
-  private _trackMark: IProgressArcMark | null = null;
+  private _progressMark: IArcMark | null = null;
+  private _trackMark: IArcMark | null = null;
 
   getStackGroupFields(): string[] {
     return this.getGroupFields();
@@ -205,7 +203,6 @@ export class CircularProgressSeries<
 }
 
 export const registerCircularProgressSeries = () => {
-  registerProgressArcMark();
   registerArcMark();
   registerProgressLikeAnimation();
   registerFadeInOutAnimation();

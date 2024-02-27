@@ -29,7 +29,6 @@ import type {
   ILinkPathMarkSpec,
   IPathMarkSpec,
   IPolygonMarkSpec,
-  IProgressArcMarkSpec,
   IPyramid3dMarkSpec,
   IRect3dMarkSpec,
   IRectMarkSpec,
@@ -45,7 +44,7 @@ import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
 import type { IMorphSeriesSpec } from '../../animation/spec';
 import type { IPlayer } from '../../component/player';
-import { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
+import type { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
 import type { IDataZoomSpec, IScrollBarSpec } from '../../component/data-zoom';
 import type { ICrosshairSpec } from '../../component/crosshair/interface';
 import type { ITheme } from '../../theme';
@@ -630,7 +629,6 @@ export type IBuildinMarkSpec = {
   pyramid3d: IPyramid3dMarkSpec;
   boxPlot: IBoxPlotMarkSpec;
   linkPath: ILinkPathMarkSpec;
-  progressArc: IProgressArcMarkSpec;
   ripple: IRippleMarkSpec;
 };
 

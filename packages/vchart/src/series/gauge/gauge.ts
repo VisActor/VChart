@@ -1,23 +1,20 @@
 import type { SeriesMarkMap } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IGaugeSeriesSpec, IGaugeSeriesTheme } from './interface';
+import type { IGaugeSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../polar/progress-like/progress-like';
-import type { IProgressArcMark } from '../../mark/progress-arc';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { SEGMENT_FIELD_END, SEGMENT_FIELD_START } from '../../constant';
 import type { Datum } from '@visactor/vgrammar-core';
-import type { Maybe } from '../../typings';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-// eslint-disable-next-line no-duplicate-imports
-import { ProgressArcMark, registerProgressArcMark } from '../../mark/progress-arc';
 import { gaugeSeriesMark } from './constant';
 import { degreeToRadian, isValid } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { registerProgressLikeAnimation } from '../polar/progress-like';
 import type { IMark } from '../../mark/interface';
 import { GaugeSeriesSpecTransformer } from './gauge-transformer';
+import { registerArcMark, type IArcMark } from '../../mark/arc';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
@@ -27,8 +24,8 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   static readonly transformerConstructor = GaugeSeriesSpecTransformer as any;
   readonly transformerConstructor = GaugeSeriesSpecTransformer;
 
-  private _segmentMark: IProgressArcMark | null = null;
-  private _trackMark: IProgressArcMark | null = null;
+  private _segmentMark: IArcMark | null = null;
+  private _trackMark: IArcMark | null = null;
 
   protected _stack: boolean = false;
   protected _padAngle: number = 0;
@@ -73,11 +70,11 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
     this._trackMark = this._createMark(GaugeSeries.mark.track, {
       parent: this._arcGroupMark,
       dataView: false
-    }) as IProgressArcMark;
+    }) as IArcMark;
     this._segmentMark = this._createMark(GaugeSeries.mark.segment, {
       parent: this._arcGroupMark,
       isSeriesMark: true
-    }) as IProgressArcMark;
+    }) as IArcMark;
   }
 
   initMarkStyle(): void {
@@ -181,7 +178,7 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 }
 
 export const registerGaugeSeries = () => {
-  registerProgressArcMark();
+  registerArcMark();
   registerProgressLikeAnimation();
   Factory.registerSeries(GaugeSeries.type, GaugeSeries);
 };
