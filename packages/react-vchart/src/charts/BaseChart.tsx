@@ -147,6 +147,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       dom: props.container
     });
     chartContext.current = { ...chartContext.current, chart: cs };
+    isUnmount.current = false;
   };
 
   const handleChartRender = () => {
@@ -187,7 +188,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
       createChart(props);
       renderChart();
-      bindEventsToChart(chartContext.current.chart, props, null, CHART_EVENTS);
       eventsBinded.current = props;
       return;
     }
@@ -229,6 +229,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
           chartContext.current.chart = null;
         }
       }
+      eventsBinded.current = null;
       isUnmount.current = true;
     };
   }, []);
