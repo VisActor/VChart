@@ -272,7 +272,8 @@ export type EventParamsDefinition = {
   swipe: BaseEventParams;
 
   // VChart 内置的扩展组合事件
-  dimension: DimensionEventParams;
+  dimensionHover: DimensionEventParams;
+  dimensionClick: DimensionEventParams;
   tooltipShow: TooltipEventParams;
   tooltipHide: TooltipEventParams;
   tooltipRelease: TooltipEventParams;
