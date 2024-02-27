@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fixed the issue of `ChartEvent` being triggered multiple times, fixed#2276",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
