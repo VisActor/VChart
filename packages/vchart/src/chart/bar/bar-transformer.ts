@@ -1,4 +1,4 @@
-import { isNumber, isObject } from '@visactor/vutils';
+import { isArray, isNumber, isObject } from '@visactor/vutils';
 import type { IBarSeriesSpec } from '../../series';
 import { CartesianChartSpecTransformer } from '../cartesian';
 import { setDefaultCrosshairForCartesianChart } from '../util';
@@ -58,7 +58,7 @@ export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> ex
           bandAxis.bandSizeLevel = Number.MAX_VALUE; // 影响最底层的 scale
           bandAxis.bandSizeExtend = {
             extend,
-            gap: isNumber(barGapInGroup) ? barGapInGroup : undefined
+            gap: isArray(barGapInGroup) ? barGapInGroup[barGapInGroup.length - 1] : barGapInGroup
           };
         }
       }

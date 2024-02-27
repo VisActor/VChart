@@ -159,8 +159,8 @@ export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
      * @since 1.10.0
      */
     bandSizeExtend?: {
-      /** 两个 band 之间的 gap，单位为 px */
-      gap?: number;
+      /** 两个 band 之间的 gap，单位为 px 或者百分比 */
+      gap?: number | string;
       /** 当前层级 range 的总体扩增值，单位为 px */
       extend?: number;
     };

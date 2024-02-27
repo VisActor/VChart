@@ -2,7 +2,7 @@ import { BandScale, scaleWholeRangeSize } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import type { ICartesianBandAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface';
-import { isNil, isValid, mixin } from '@visactor/vutils';
+import { isNil, isString, isValid, mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
 import { Factory } from '../../../core/factory';
@@ -112,8 +112,9 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
         if (isNil(gap) || i < bandSizeLevel) {
           return scaleWholeRangeSize(domain.length, b, paddingInner, paddingOuter) + extendValue;
         }
+        const gapValue = isString(gap) ? b * (Number(gap.substring(0, gap.length - 1)) / 100) : gap;
         // 这里使组间距恰好等于柱间距
-        return ((b + gap) * domain.length) / (this._scales[i - 1].paddingInner() + 1) + extendValue;
+        return ((b + gapValue) * domain.length) / (this._scales[i - 1].paddingInner() + 1) + extendValue;
       };
 
       if (isValid(bandSize)) {
