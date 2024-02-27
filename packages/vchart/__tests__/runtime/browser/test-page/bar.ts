@@ -516,11 +516,9 @@ const run = () => {
         ]
       }
     ],
-    barWidth: 10,
-    barGapInGroup: 20,
+    barMaxWidth: 10,
+    barGapInGroup: 10,
     autoBandSize: {
-      barMinWidth: 10,
-      barGapInGroup: 20
       //extend: 10
     },
     xField: ['date', 'stack'],

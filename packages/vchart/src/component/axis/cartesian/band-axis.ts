@@ -104,34 +104,26 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
     for (let i = bandSizeLevel; i > 0; i--) {
       const scale = this._scales[i];
       const domain = scale.domain();
-      const n = domain.length;
-      const pi = scale.paddingInner();
-      const po = scale.paddingOuter();
+      const paddingInner = scale.paddingInner();
+      const paddingOuter = scale.paddingOuter();
 
-      const extendValue = i === bandSizeLevel ? extend : 0;
+      const getOuterBandSize = (b: number) => {
+        const extendValue = i === bandSizeLevel ? extend : 0;
+        if (isNil(gap) || i < bandSizeLevel) {
+          return scaleWholeRangeSize(domain.length, b, paddingInner, paddingOuter) + extendValue;
+        }
+        // 这里使组间距恰好等于柱间距
+        return ((b + gap) * domain.length) / (this._scales[i - 1].paddingInner() + 1) + extendValue;
+      };
 
-      if (isNil(gap) || i < bandSizeLevel) {
-        if (isValid(bandSize)) {
-          bandSize = scaleWholeRangeSize(n, bandSize, pi, po) + extendValue;
-        }
-        if (isValid(maxBandSize)) {
-          maxBandSize = scaleWholeRangeSize(n, maxBandSize, pi, po) + extendValue;
-        }
-        if (isValid(minBandSize)) {
-          minBandSize = scaleWholeRangeSize(n, minBandSize, pi, po) + extendValue;
-        }
-      } else {
-        // 使组间距恰好等于柱间距
-        const pi0 = this._scales[i - 1].paddingInner();
-        if (isValid(bandSize)) {
-          bandSize = ((bandSize + gap) * n) / (pi0 + 1) + extendValue;
-        }
-        if (isValid(maxBandSize)) {
-          maxBandSize = ((maxBandSize + gap) * n) / (pi0 + 1) + extendValue;
-        }
-        if (isValid(minBandSize)) {
-          minBandSize = ((minBandSize + gap) * n) / (pi0 + 1) + extendValue;
-        }
+      if (isValid(bandSize)) {
+        bandSize = getOuterBandSize(bandSize);
+      }
+      if (isValid(maxBandSize)) {
+        maxBandSize = getOuterBandSize(maxBandSize);
+      }
+      if (isValid(minBandSize)) {
+        minBandSize = getOuterBandSize(minBandSize);
       }
     }
 
