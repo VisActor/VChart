@@ -1,7 +1,6 @@
-import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
+import { CustomEvent, type IGraphic, type IGroup, type INode } from '@visactor/vrender-core';
 import type { IRegion } from '../../region/interface';
 import type { IComponent, IComponentOption } from '../interface';
-import type { BaseEventParams } from '../../event/interface';
 import { ComponentPluginService } from '../../plugin/components/plugin-service';
 import type { IComponentPluginService, IComponentPlugin } from '../../plugin/components/interface';
 import type { IBoundsLike } from '@visactor/vutils';
@@ -145,21 +144,24 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     });
   }
 
-  // 代理组件事件
+  // 代理组件本身的事件（非内部图形），如坐标轴整体的点击等
   protected _delegateEvent = (component: IGraphic, event: any, type: string, item: any = null, datum: Datum = null) => {
-    this.event.emit(
-      type,
-      {
-        model: this,
-        node: component,
-        event,
-        item: item,
-        datum: datum,
-        source: Event_Source_Type.chart,
-        chart: this._option?.globalInstance?.getChart()
-      },
-      'model'
-    );
+    // 组件这里只代理基础的事件，自定义事件不需要代理
+    if (!(event instanceof CustomEvent)) {
+      this.event.emit(
+        type,
+        {
+          model: this,
+          node: component,
+          event,
+          item: item,
+          datum: datum,
+          source: Event_Source_Type.chart,
+          chart: this._option?.globalInstance?.getChart()
+        },
+        'model'
+      );
+    }
   };
 
   getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike {
