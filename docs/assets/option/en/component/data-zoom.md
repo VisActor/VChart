@@ -228,6 +228,26 @@ If set to true, the data zoom can arbitrarily change the bandSize of the axis. B
 
 This configuration only takes effect when `auto` is set to true.
 
+### customDomain(array)
+
+Supports custom domain, used to unify dataZoom domain and associated axis domain. Supported since version 1.10.0.
+
+### updateDataAfterChange(Function)
+Customize the callback when datazoom is updated. Supported since version 1.10.0.
+
+```ts
+/**
+ * @params start dataZoom starting point
+ * @params start dataZoom end point
+ * @params startValue dataZoom starting point data value
+ * @params endValue dataZoom end data value
+ */
+(start: number, end: number, startValue: any, endValue: any) => void
+```
+
+### tolerance(number)
+Background graph node compression rate. If not configured, the number of nodes will be limited to 10,000 by default. Supported since version 1.10.0.
+
 {{ use: component-data-filter-base(
   prefix = '##'
 ) }}

@@ -186,6 +186,8 @@ Optional values:
 - `'insideEndTop'`: the inner upper part of the line end point
 - `'insideEndBottom'`: the inner lower part of the line end point
 
+refrence: https://echarts.apache.org/examples/zh/editor.html?c=line-markline&reset=1&edit=1
+
 {{ use: component-marker-label(
    prefix = '###'
 ) }}

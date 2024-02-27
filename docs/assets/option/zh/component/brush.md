@@ -90,6 +90,21 @@
 
 The size threshold of the brush selection box. Supported since version `1.2.0`.
 
+### dataZoomId(string|string[])
+
+刷取关联的dataZoom id, 只有当前操作的region/series与dataZoom关联同一个axis时生效。自0.10.0版本生效。
+
+### dataZoomIndex(number|number[])
+
+刷取关联的dataZoom index, 只有当前操作的region/series与dataZoom关联同一个axis时生效。自0.10.0版本生效。
+
+### dataZoomRangeExpand(number)
+更新dataZoom范围时, 对范围进行拓展。
+可能需要配置dataZoomRangeExpand的情况:
+1. 缩放连续轴时: 轴的zero、nice、min、max等配置可能导致轴范围与dataZoom范围不一致（这个问题最好通过DataZoom.customDomain解决）
+2. 缩放连续轴时: 散点图按照散点中心定位, 如果严格按照中心范围更新，会出现散点超出画布的现象
+3. 缩放离散轴时: 不希望严格按照筛选的数据范围缩放, 而是希望缩放后两端仍有空间
+
 ### style(Object)
 
 选框样式配置。

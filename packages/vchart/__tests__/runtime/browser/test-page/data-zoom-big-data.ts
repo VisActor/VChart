@@ -2,10 +2,6 @@ import { isMobile } from 'react-device-detect';
 // eslint-disable-next-line no-duplicate-imports
 import { default as VChart } from '../../../../src/index';
 import bigData from './data/datazoom-big-data.json';
-import bigData2 from './data/datazoom-big-data-2.json';
-import { createButton } from '../../../util/dom';
-import { truncate } from 'fs';
-import { spec } from 'node:test/reporters';
 
 const spec = {
   ...bigData,
@@ -51,21 +47,21 @@ const spec = {
       // showDetail: true
       // showDetail: false
     }
-  ],
-  data: [
-    {
-      id: bigData.data[0].id,
-      values: bigData.data[0].values.slice(0, 10000)
-    },
-    {
-      id: bigData.data[1].id,
-      values: bigData.data[1].values.slice(0, 10000)
-    },
-    {
-      id: bigData.data[2].id,
-      values: bigData.data[2].values
-    }
   ]
+  // data: [
+  //     {
+  //       id: bigData.data[0].id,
+  //       values: bigData.data[0].values.slice(0, 10000)
+  //     },
+  //     {
+  //       id: bigData.data[1].id,
+  //       values: bigData.data[1].values.slice(0, 10000)
+  //     },
+  //     {
+  //       id: bigData.data[2].id,
+  //       values: bigData.data[2].values
+  //     }
+  //   ]
 };
 
 const run = () => {

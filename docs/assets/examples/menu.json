@@ -1891,6 +1891,13 @@
             "zh": "缩略轴支持窗口最大最小值配置",
             "en": "datazoom supports config maximum and minimum range"
           }
+        },
+        {
+          "path": "data-zoom-big-data",
+          "title": {
+            "zh": "大数据量场景缩略轴使用",
+            "en": "datazoom supports big data"
+          }
         }
       ]
     },
@@ -1987,6 +1994,13 @@
           "title": {
             "zh": "横向选择框选",
             "en": "Horizontal Selection Box"
+          }
+        },
+        {
+          "path": "brush-datazoom",
+          "title": {
+            "zh": "框选控制缩放",
+            "en": "Selection Control Scale"
           }
         }
       ]

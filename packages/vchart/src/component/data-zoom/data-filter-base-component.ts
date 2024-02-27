@@ -11,7 +11,7 @@ import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, String
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
+import type { IBandLikeScale, IBaseScale, LinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
@@ -126,6 +126,15 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return this._relatedAxisComponent;
   }
 
+  get state() {
+    return {
+      start: this._start,
+      end: this._end,
+      startValue: this._startValue,
+      endValue: this._endValue
+    };
+  }
+
   /**
    * 外部可以通过此方法强制改变datazoom的start和end，达到聚焦定位的效果
    * @param start datazoom起点所在的相对位置
@@ -139,8 +148,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   ) {
     const [startMode = 'percent', endMode = 'percent'] = rangeMode;
 
-    const startPercent = (startMode === 'percent' ? start : this._dataToStatePoint(start)) as number;
-    const endPercent = (endMode === 'percent' ? end : this._dataToStatePoint(end)) as number;
+    const startPercent = (startMode === 'percent' ? start : this.dataToStatePoint(start)) as number;
+    const endPercent = (endMode === 'percent' ? end : this.dataToStatePoint(end)) as number;
 
     this._handleChange(startPercent, endPercent, true);
   }
@@ -553,6 +562,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const domain = scale.domain();
 
     if (isContinuous(scale.type)) {
+      if (this._isReverse()) {
+        return domain[0] + (domain[1] - domain[0]) * (1 - state);
+      }
       return domain[0] + (domain[1] - domain[0]) * state;
     }
     let range = scale.range();
@@ -566,7 +578,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return domain[domainIndex];
   }
 
-  protected _dataToStatePoint(data: number | string) {
+  dataToStatePoint(data: number | string) {
     const scale = this._stateScale;
     const pos = scale.scale(data);
     let range = scale.range();
@@ -594,16 +606,16 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       // 只有mode与配置相符时，才会生效
       // 比如rangeMode为['value', 'percent'],那么start为dataValue, end为[0, 1]
       if (this._modeCheck('start', startMode) && this._modeCheck('end', endMode)) {
-        start = startMode === 'percent' ? this._spec.start : this._dataToStatePoint(this._spec.startValue);
-        end = endMode === 'percent' ? this._spec.end : this._dataToStatePoint(this._spec.endValue);
+        start = startMode === 'percent' ? this._spec.start : this.dataToStatePoint(this._spec.startValue);
+        end = endMode === 'percent' ? this._spec.end : this.dataToStatePoint(this._spec.endValue);
       }
     } else {
       start = this._spec.start
         ? this._spec.start
         : this._spec.startValue
-        ? this._dataToStatePoint(this._spec.startValue)
+        ? this.dataToStatePoint(this._spec.startValue)
         : 0;
-      end = this._spec.end ? this._spec.end : this._spec.endValue ? this._dataToStatePoint(this._spec.endValue) : 1;
+      end = this._spec.end ? this._spec.end : this._spec.endValue ? this.dataToStatePoint(this._spec.endValue) : 1;
     }
     this._startValue = this._statePointToData(start);
     this._endValue = this._statePointToData(end);

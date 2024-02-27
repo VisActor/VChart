@@ -186,6 +186,8 @@ x 轴上的参考线。可以配置参考线在 x 轴上的值，或者聚合计
 - `'insideEndTop'`: 线终点内侧上部
 - `'insideEndBottom'`: 线终点内侧下部
 
+可参考: https://echarts.apache.org/examples/zh/editor.html?c=line-markline&reset=1&edit=1
+
 {{ use: component-marker-label(
   prefix = '###'
 ) }}

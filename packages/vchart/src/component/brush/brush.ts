@@ -9,14 +9,7 @@ import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
 import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type {
-  IGraphic,
-  IGroup,
-  INode,
-  IPolygon,
-  IRectGraphicAttribute,
-  ISymbolGraphicAttribute
-} from '@visactor/vrender-core';
+import type { IGraphic, IGroup, INode, IPolygon, ISymbolGraphicAttribute } from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
@@ -26,8 +19,8 @@ import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle }
 import { isEqual } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import type { DataZoom } from '../data-zoom';
-import { isHorizontal } from '../player/utils/orient';
 import type { IAxis } from '../axis/interface/common';
+import { isContinuous } from '@visactor/vscale';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -210,10 +203,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._needDisablePickable = true;
 
       this._handleBrushChange(ChartEvent.brushChange, region, e);
+      this._emitEvent(ChartEvent.brushChange, region);
     });
 
     brush.addEventListener(BrushEvent.moving, (e: any) => {
       this._handleBrushChange(ChartEvent.brushChange, region, e);
+      this._emitEvent(ChartEvent.brushChange, region);
     });
 
     brush.addEventListener(BrushEvent.brushClear, (e: any) => {
@@ -222,20 +217,24 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._needDisablePickable = false;
       this._handleBrushChange(ChartEvent.brushChange, region, e);
       this._handleBrushChange(ChartEvent.brushClear, region, e);
+      this._emitEvent(ChartEvent.brushChange, region);
+      this._emitEvent(ChartEvent.brushClear, region);
     });
 
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
       this._needInitOutState = true;
       this._needDisablePickable = false;
-      this._handleBrushChange(ChartEvent.brushEnd, region, e);
       const { operateMask } = e.detail as any;
+      this._handleBrushChange(ChartEvent.brushEnd, region, e);
       this._setDataZoomState(operateMask, region);
+      this._emitEvent(ChartEvent.brushEnd, region);
     });
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
-      this._handleBrushChange(ChartEvent.brushEnd, region, e);
       const { operateMask } = e.detail as any;
+      this._handleBrushChange(ChartEvent.brushEnd, region, e);
       this._setDataZoomState(operateMask, region);
+      this._emitEvent(ChartEvent.brushEnd, region);
     });
   }
 
@@ -243,8 +242,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     const { operateMask } = e.detail as any;
     this._reconfigItem(operateMask, region);
     this._reconfigLinkedItem(operateMask, region);
-
-    this._emitEvent(eventType, region);
   }
 
   private _emitEvent(eventType: string, region: IRegion) {
@@ -270,7 +267,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         // 被链接的系列中：在选框内的 vgrammar elements
         linkedInBrushElementsMap: this._linkedInBrushElementsMap,
         // 被链接的系列中：在选框外的 vgrammar elements
-        linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap
+        linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap,
+        // 关联的dataZoom
+        releatedDataZoom: this._relatedDataZooms ?? []
       }
     });
   }
@@ -471,6 +470,16 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return brushMask.globalAABBBounds.intersects(item.globalAABBBounds);
   }
 
+  private _findValueInDataZoom(dataZoom: DataZoom, dataValue: any[], type: 'min' | 'max') {
+    const stateScale = dataZoom.stateScale;
+    if (isContinuous(stateScale.type)) {
+      return Math[type](...dataValue);
+    }
+    const domain = stateScale.domain();
+    const dataIndex = dataValue.map(d => d.indexOf(domain));
+    return domain[Math[type](...dataIndex)];
+  }
+
   private _setDataZoomState(operateMask: IPolygon, region: IRegion) {
     // step1: 找到横向 & 纵向 datazoom
     const hDataZooms: DataZoom[] = this._relatedDataZooms.filter((d: DataZoom) => d.isHorizontal);
@@ -487,25 +496,41 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       item => item[array(item.getSeries().getSpec().yField)[0]]
     );
 
-    const range = this._spec.dataZoomRangeExpand ?? 0.05;
+    // step4: 得到新范围的起点和终点值
+    const range = this._spec.dataZoomRangeExpand ?? 0;
     hDataZooms.forEach((hd: DataZoom) => {
-      const startValue = !hd.relatedAxisComponent
-        ? (hd.relatedAxisComponent as IAxis).getScale().invert(x1 - region.getLayoutStartPoint().x)
-        : Math.min(...inBrushDataXValue) - range;
-      const endValue = !hd.relatedAxisComponent
-        ? (hd.relatedAxisComponent as IAxis).getScale().invert(x2 - region.getLayoutStartPoint().x)
-        : Math.max(...inBrushDataXValue) + range;
-      hd.setStartAndEnd(startValue, endValue, ['value', 'value']);
+      const startValue =
+        hd.relatedAxisComponent && inBrushDataXValue.length > 0
+          ? (hd.relatedAxisComponent as IAxis).getScale().invert(x1 - region.getLayoutStartPoint().x)
+          : this._findValueInDataZoom(hd, inBrushDataXValue, 'min');
+      const endValue =
+        hd.relatedAxisComponent && inBrushDataXValue.length > 0
+          ? (hd.relatedAxisComponent as IAxis).getScale().invert(x2 - region.getLayoutStartPoint().x)
+          : this._findValueInDataZoom(hd, inBrushDataXValue, 'max');
+
+      const startPercent = hd.dataToStatePoint(startValue);
+      const endPercent = hd.dataToStatePoint(endValue);
+      hd.setStartAndEnd(Math.min(Math.max(0, startPercent - range), 1), Math.min(Math.max(0, endPercent + range), 1), [
+        'percent',
+        'percent'
+      ]);
     });
 
     vDataZooms.forEach((vd: DataZoom) => {
-      const startValue = !vd.relatedAxisComponent
-        ? (vd.relatedAxisComponent as IAxis).getScale().invert(y1 - region.getLayoutStartPoint().y)
-        : Math.min(...inBrushDataYValue) - range;
-      const endValue = !vd.relatedAxisComponent
-        ? (vd.relatedAxisComponent as IAxis).getScale().invert(y2 - region.getLayoutStartPoint().y)
-        : Math.max(...inBrushDataYValue) + range;
-      vd.setStartAndEnd(startValue, endValue, ['value', 'value']);
+      const startValue =
+        vd.relatedAxisComponent && inBrushDataYValue.length > 0
+          ? (vd.relatedAxisComponent as IAxis).getScale().invert(y1 - region.getLayoutStartPoint().y)
+          : this._findValueInDataZoom(vd, inBrushDataYValue, 'min');
+      const endValue =
+        vd.relatedAxisComponent && inBrushDataYValue.length > 0
+          ? (vd.relatedAxisComponent as IAxis).getScale().invert(y2 - region.getLayoutStartPoint().y)
+          : this._findValueInDataZoom(vd, inBrushDataYValue, 'max');
+      const startPercent = vd.dataToStatePoint(startValue);
+      const endPercent = vd.dataToStatePoint(endValue);
+      vd.setStartAndEnd(Math.min(Math.max(0, startPercent - range), 1), Math.min(Math.max(0, endPercent + range), 1), [
+        'percent',
+        'percent'
+      ]);
     });
   }
 

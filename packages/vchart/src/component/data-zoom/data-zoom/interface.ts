@@ -100,9 +100,8 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
    * @since 1.10.0
    */
   updateDataAfterChange?: (start: number, end: number, startValue: any, endValue: any) => void;
-
   /**
-   * 背景图表采样速率
+   * 背景图表采样速率, 如果不配置则默认将节点限制在10000个
    * @since 1.10.0
    */
   tolerance?: number;

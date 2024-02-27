@@ -137,6 +137,11 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   /** LifeCycle API**/
   onLayoutEnd(ctx: any): void {
     this._updateScaleRange();
+    // 初始时reverse判断并不准确，导致start和end颠倒, 保险起见在layoutend之后触发该逻辑
+    // FIXME: 牺牲了一定性能，有待优化
+    if (this._isReverse()) {
+      this.effect.onZoomChange();
+    }
     if (this._cacheVisibility !== false) {
       super.onLayoutEnd(ctx);
     }
