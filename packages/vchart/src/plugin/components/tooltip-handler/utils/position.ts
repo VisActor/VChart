@@ -1,4 +1,4 @@
-import { TooltipFixedPosition } from '../../../../typings/tooltip/position';
+import type { TooltipFixedPosition } from '../../../../typings/tooltip/position';
 import { isFunction, isNumber, isValid } from '@visactor/vutils';
 
 export const getActualTooltipPositionValue = (
@@ -26,19 +26,19 @@ export type TooltipVerticalPositionType = 'top' | 'bottom' | 'middle';
 
 export const positionType: Record<TooltipFixedPosition, [TooltipHorizontalPositionType, TooltipVerticalPositionType]> =
   {
-    [TooltipFixedPosition.left]: ['left', 'middle'],
-    [TooltipFixedPosition.right]: ['right', 'middle'],
-    [TooltipFixedPosition.inside]: ['middle', 'middle'],
-    [TooltipFixedPosition.top]: ['middle', 'top'],
-    [TooltipFixedPosition.lt]: ['left', 'top'],
-    [TooltipFixedPosition.tl]: ['left', 'top'],
-    [TooltipFixedPosition.rt]: ['right', 'top'],
-    [TooltipFixedPosition.tr]: ['right', 'top'],
-    [TooltipFixedPosition.bottom]: ['middle', 'bottom'],
-    [TooltipFixedPosition.bl]: ['left', 'bottom'],
-    [TooltipFixedPosition.lb]: ['left', 'bottom'],
-    [TooltipFixedPosition.br]: ['right', 'bottom'],
-    [TooltipFixedPosition.rb]: ['right', 'bottom']
+    left: ['left', 'middle'],
+    right: ['right', 'middle'],
+    inside: ['middle', 'middle'],
+    top: ['middle', 'top'],
+    lt: ['left', 'top'],
+    tl: ['left', 'top'],
+    rt: ['right', 'top'],
+    tr: ['right', 'top'],
+    bottom: ['middle', 'bottom'],
+    bl: ['left', 'bottom'],
+    lb: ['left', 'bottom'],
+    br: ['right', 'bottom'],
+    rb: ['right', 'bottom']
   };
 
 export const getHorizontalPositionType = (

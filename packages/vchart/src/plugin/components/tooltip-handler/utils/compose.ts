@@ -1,4 +1,4 @@
-import { isValid, isNil, array } from '@visactor/vutils';
+import { isValid, isNil } from '@visactor/vutils';
 import type {
   IToolTipLinePattern,
   ITooltipPattern,
