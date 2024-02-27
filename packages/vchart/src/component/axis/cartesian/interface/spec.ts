@@ -155,10 +155,15 @@ export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
     bandSizeLevel?: number;
 
     /**
-     * 在当前 scale 层级设置 bandSize 后，当前层级 range 的总体扩增值，单位为 px
+     * 在当前 scale 层级设置 bandSize 后，当前层级 range 的扩增值
      * @since 1.10.0
      */
-    bandSizeExtend?: number;
+    bandSizeExtend?: {
+      /** 两个 band 之间的 gap，单位为 px */
+      gap?: number;
+      /** 当前层级 range 的总体扩增值，单位为 px */
+      extend?: number;
+    };
 
     /**
      * 是否根据组宽自动计算 region 宽度或高度，仅当 `bandSize` 或 `maxBandSize` 配置时生效

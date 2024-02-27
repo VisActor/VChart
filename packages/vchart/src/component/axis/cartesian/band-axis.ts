@@ -2,7 +2,7 @@ import { BandScale, scaleWholeRangeSize } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import type { ICartesianBandAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface';
-import { mixin } from '@visactor/vutils';
+import { isNil, isValid, mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
 import { Factory } from '../../../core/factory';
@@ -97,24 +97,41 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
   /** 获取最外层 scale 的实际 bandSize 配置 */
   protected _getOuterBandSizeFromSpec() {
     let { bandSize, maxBandSize, minBandSize, bandSizeLevel = 0 } = this._spec;
-    const { bandSizeExtend = 0 } = this._spec;
+    const { gap, extend = 0 } = this._spec.bandSizeExtend ?? {};
     bandSizeLevel = Math.min(bandSizeLevel, this._scales.length - 1);
 
     // 由内而外计算最外层 scale 的 bandSize
     for (let i = bandSizeLevel; i > 0; i--) {
       const scale = this._scales[i];
       const domain = scale.domain();
-      const paddingInner = scale.paddingInner();
-      const paddingOuter = scale.paddingOuter();
-      const extend = i === bandSizeLevel ? bandSizeExtend : 0;
-      if (bandSize) {
-        bandSize = scaleWholeRangeSize(domain.length, bandSize, paddingInner, paddingOuter) + extend;
-      }
-      if (maxBandSize) {
-        maxBandSize = scaleWholeRangeSize(domain.length, maxBandSize, paddingInner, paddingOuter) + extend;
-      }
-      if (minBandSize) {
-        minBandSize = scaleWholeRangeSize(domain.length, minBandSize, paddingInner, paddingOuter) + extend;
+      const n = domain.length;
+      const pi = scale.paddingInner();
+      const po = scale.paddingOuter();
+
+      const extendValue = i === bandSizeLevel ? extend : 0;
+
+      if (isNil(gap) || i < bandSizeLevel) {
+        if (isValid(bandSize)) {
+          bandSize = scaleWholeRangeSize(n, bandSize, pi, po) + extendValue;
+        }
+        if (isValid(maxBandSize)) {
+          maxBandSize = scaleWholeRangeSize(n, maxBandSize, pi, po) + extendValue;
+        }
+        if (isValid(minBandSize)) {
+          minBandSize = scaleWholeRangeSize(n, minBandSize, pi, po) + extendValue;
+        }
+      } else {
+        // 使组间距恰好等于柱间距
+        const pi0 = this._scales[i - 1].paddingInner();
+        if (isValid(bandSize)) {
+          bandSize = ((bandSize + gap) * n) / (pi0 + 1) + extendValue;
+        }
+        if (isValid(maxBandSize)) {
+          maxBandSize = ((maxBandSize + gap) * n) / (pi0 + 1) + extendValue;
+        }
+        if (isValid(minBandSize)) {
+          minBandSize = ((minBandSize + gap) * n) / (pi0 + 1) + extendValue;
+        }
       }
     }
 

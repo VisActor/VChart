@@ -37,24 +37,27 @@ export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> ex
       spec.axes.find(axis => (isHorizontal ? ['left', 'right'] : ['top', 'bottom']).includes(axis.orient));
     if (bandAxis && !bandAxis.bandSize && !bandAxis.maxBandSize && !bandAxis.minBandSize) {
       // 将 autoBandSize 应用在轴上
-      if (!!spec.autoBandSize) {
-        const extend = isObject(spec.autoBandSize) ? spec.autoBandSize.extend ?? 0 : 0;
+      if (spec.autoBandSize) {
+        const { barWidth, barMaxWidth, barMinWidth, barGapInGroup, extend = 0 } = spec.autoBandSize;
         let hasBarWidth = false;
-        if (isNumber(spec.barWidth)) {
-          bandAxis.bandSize = spec.barWidth;
+        if (isNumber(barWidth)) {
+          bandAxis.bandSize = barWidth;
           hasBarWidth = true;
         }
-        if (isNumber(spec.barMaxWidth)) {
-          bandAxis.maxBandSize = spec.barMaxWidth;
+        if (isNumber(barMaxWidth)) {
+          bandAxis.maxBandSize = barMaxWidth;
           hasBarWidth = true;
         }
-        if (isNumber(spec.barMinWidth)) {
-          bandAxis.minBandSize = spec.barMinWidth;
+        if (isNumber(barMinWidth)) {
+          bandAxis.minBandSize = barMinWidth;
           hasBarWidth = true;
         }
         if (hasBarWidth) {
           bandAxis.bandSizeLevel = Number.MAX_VALUE; // 影响最底层的 scale
-          bandAxis.bandSizeExtend = extend;
+          bandAxis.bandSizeExtend = {
+            extend,
+            gap: barGapInGroup
+          };
         }
       }
     }
