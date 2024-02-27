@@ -385,19 +385,12 @@ describe('VChart', () => {
       vchart.renderSync();
     });
 
-    afterEach(() => {
+    afterAll(() => {
       removeDom(container);
       vchart.release();
     });
 
     it('should fire pointerdown event', () => {
-      const stage = vchart.getStage();
-      window['stage'] = stage;
-
-      vchart.on('pointerdown', e => {
-        console.log(e);
-      });
-
       const axisEventSpy = jest.fn();
       vchart.on('pointerdown', { type: 'axis', level: 'model' }, axisEventSpy);
       vchart.on('pointerdown', { id: 'axis-bottom', level: 'model' }, axisEventSpy);
@@ -417,6 +410,16 @@ describe('VChart', () => {
       // @ts-ignore
       legend?.event.emit('pointerdown', { model: legend });
       expect(legendEventSpy).toBeCalledTimes(2);
+    });
+
+    it('should fire legendItemClick event only once', () => {
+      const legendItemClickSpy = jest.fn();
+      vchart.on('legendItemClick', legendItemClickSpy);
+      vchart.on('legendItemClick', { level: 'model' }, legendItemClickSpy);
+
+      const legend = vchart.getComponents().find(com => com.type === 'discreteLegend');
+      legend?.getVRenderComponents()[0]._dispatchEvent('legendItemClick', {});
+      expect(legendItemClickSpy).toBeCalledTimes(2);
     });
   });
 
