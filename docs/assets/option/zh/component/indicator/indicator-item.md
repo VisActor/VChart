@@ -47,7 +47,6 @@
 
 - 'text'
 - 'rich'
-- 'html'
 
 ##${prefix} text(string | number | Array)
 

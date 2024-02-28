@@ -1,5 +1,4 @@
 import type { IWaterfallSeriesTheme } from '../../../../series/waterfall/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const waterfall: IWaterfallSeriesTheme = {
   seriesFieldName: {
@@ -20,7 +19,7 @@ export const waterfall: IWaterfallSeriesTheme = {
     position: 'withChange',
     style: {
       fill: 'black',
-      fontSize: THEME_CONSTANTS.l4FontSize
+      fontSize: { type: 'token', key: 'l4FontSize' }
     }
   },
   label: {

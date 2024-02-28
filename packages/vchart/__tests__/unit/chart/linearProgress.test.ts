@@ -41,7 +41,7 @@ describe('linearProgress chart test', () => {
     const transformer = new LinearProgressChart.transformerConstructor({
       type: 'linearProgress',
       seriesType: 'linearProgress',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true)
     });
     const info = transformer.initChartSpec(spec as any);
     const chart = new LinearProgressChart(
@@ -58,7 +58,7 @@ describe('linearProgress chart test', () => {
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme(),
+        getTheme: () => ThemeManager.getCurrentTheme(true),
         animation: false,
         getSpecInfo: () => info
       } as any

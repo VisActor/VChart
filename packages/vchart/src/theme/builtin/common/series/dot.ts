@@ -1,5 +1,4 @@
 import type { IDotSeriesTheme } from '../../../../series/dot/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const dot: IDotSeriesTheme = {
   dot: {
@@ -17,16 +16,16 @@ export const dot: IDotSeriesTheme = {
     style: {
       textAlign: 'left',
       textBaseline: 'middle',
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' }
     }
   },
   subTitle: {
     style: {
       textAlign: 'left',
       textBaseline: 'top',
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' }
     }
   }
 };

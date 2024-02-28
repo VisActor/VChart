@@ -1,5 +1,4 @@
 import type { IMarkAreaTheme } from '../../../../component/marker/mark-area/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const markArea: IMarkAreaTheme = {
   area: {
@@ -9,7 +8,7 @@ export const markArea: IMarkAreaTheme = {
   },
   label: {
     style: {
-      fontSize: THEME_CONSTANTS.l4FontSize,
+      fontSize: { type: 'token', key: 'l4FontSize' },
       fontWeight: 'normal',
       fontStyle: 'normal',
       fill: { type: 'palette', key: 'primaryFontColor' }

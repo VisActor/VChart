@@ -46,7 +46,7 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
     }
   }
 
-  initLabelMarkStyle(textMark: ITextMark): void {
+  initLabelMarkStyle(textMark: ITextMark, spec: any = {}): void {
     if (!textMark) {
       return;
     }
@@ -69,7 +69,7 @@ export class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> extends 
     };
     params3d.angle = (datum: Datum) => {
       const angle = datum[ARC_MIDDLE_ANGLE];
-      return this._spec.label?.position === 'inside' ? radianToDegree(angle) : 0;
+      return spec.position === 'inside' ? radianToDegree(angle) : 0;
     };
     this.setMarkStyle(textMark, { ...params3d, z: 100 }, undefined, AttributeLevel.Mark);
   }

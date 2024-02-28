@@ -11,6 +11,6 @@ export interface IMarkAreaTheme {
     /**
      * label整体 - 相对line的位置
      */
-    position?: IMarkAreaLabelPosition;
+    position?: keyof typeof IMarkAreaLabelPosition;
   } & IMarkerLabelWithoutRefSpec;
 }

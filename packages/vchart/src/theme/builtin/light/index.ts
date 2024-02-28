@@ -9,15 +9,16 @@ import type { ITheme } from '../../interface';
 import { colorScheme } from './color-scheme';
 import { series } from '../common/series';
 import { markByName, markByType } from '../common/mark';
-import { THEME_CONSTANTS } from '../common/constants';
 import { component } from '../common/component';
+import { tokenMap } from '../../token';
 
 export const lightTheme: ITheme = {
   name: 'light',
   background: { type: 'palette', key: 'backgroundColor' },
   padding: 20,
-  fontFamily: THEME_CONSTANTS.defaultFontFamily,
+  fontFamily: { type: 'token', key: 'defaultFontFamily' },
   colorScheme,
+  tokenMap,
   mark: markByType,
   markByName,
   series,

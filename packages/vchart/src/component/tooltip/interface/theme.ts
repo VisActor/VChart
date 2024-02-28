@@ -1,12 +1,13 @@
 import type { RichTextWordBreak } from '@visactor/vrender-core';
 import type { StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
 import type { Padding } from '@visactor/vrender-components/es/core/type';
+import type { ITokenKey } from '../../../theme/token';
 
 export interface ITooltipTextTheme<ColorType = string> {
   /** 字体 */
   fontFamily?: string;
   /** 字体大小 */
-  fontSize?: number;
+  fontSize?: number | ITokenKey;
   /** 字体颜色 */
   fill?: ColorType;
   /** @deprecated 字体颜色（兼容旧版本） */
@@ -18,7 +19,7 @@ export interface ITooltipTextTheme<ColorType = string> {
   /** 字体基线 */
   textBaseline?: TextBaseLine;
   /** 行高 */
-  lineHeight?: number | string;
+  lineHeight?: number | string | ITokenKey;
   /** 与相邻元素的水平间距 */
   spacing?: number;
   /** 是否支持换行 */

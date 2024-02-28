@@ -1,6 +1,7 @@
-import type { IThemeConstants } from '../../interface';
+import type { BuiltinTokenMap } from './interface';
 
-export const THEME_CONSTANTS: IThemeConstants = {
+/** 标准色板 */
+export const tokenMap: BuiltinTokenMap = {
   defaultFontFamily:
     // eslint-disable-next-line max-len
     'PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol',
@@ -22,9 +23,5 @@ export const THEME_CONSTANTS: IThemeConstants = {
   l5LineHeight: '130%',
 
   l6FontSize: 10,
-  l6LineHeight: '120%',
-
-  axisTickSize: 4,
-
-  areaOpacity: 0.2
+  l6LineHeight: '120%'
 };

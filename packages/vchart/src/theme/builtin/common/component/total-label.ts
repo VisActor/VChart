@@ -1,5 +1,4 @@
 import type { ITotalLabelTheme } from '../../../../component/label';
-import { THEME_CONSTANTS } from '../constants';
 
 export const totalLabel: ITotalLabelTheme = {
   visible: false,
@@ -11,7 +10,7 @@ export const totalLabel: ITotalLabelTheme = {
   smartInvert: false,
   animation: false,
   style: {
-    fontSize: THEME_CONSTANTS.l4FontSize,
+    fontSize: { type: 'token', key: 'l4FontSize' },
     fill: { type: 'palette', key: 'primaryFontColor' }
   }
 };

@@ -1,5 +1,4 @@
 import type { IDiscreteLegendTheme } from '../../../../../component/legend';
-import { THEME_CONSTANTS } from '../../constants';
 
 export const discreteLegend: IDiscreteLegendTheme = {
   orient: 'bottom',
@@ -9,8 +8,8 @@ export const discreteLegend: IDiscreteLegendTheme = {
     visible: false,
     padding: 0,
     textStyle: {
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' },
 
       fill: { type: 'palette', key: 'primaryFontColor' },
       fontWeight: 'normal'
@@ -50,8 +49,8 @@ export const discreteLegend: IDiscreteLegendTheme = {
       space: 6,
       style: {
         fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' },
-        fontSize: THEME_CONSTANTS.l5FontSize,
-        lineHeight: THEME_CONSTANTS.l5LineHeight,
+        fontSize: { type: 'token', key: 'l5FontSize' },
+        lineHeight: { type: 'token', key: 'l5LineHeight' },
 
         opacity: 1 // 覆盖 vrender-components 里的默认值
       },

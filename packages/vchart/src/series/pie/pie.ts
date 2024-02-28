@@ -245,9 +245,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       text: (datum: Datum) => {
         return datum[this.getDimensionField()[0]];
       },
-      fill: this._spec.label?.style?.fill || this.getColorAttribute(),
-      angle: this._spec.label?.style?.angle,
-      limit: this._spec.label?.style?.limit,
+      fill: this.getColorAttribute(),
       z: this.dataToPositionZ.bind(this)
     });
   }

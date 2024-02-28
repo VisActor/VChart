@@ -1,17 +1,16 @@
 import type { IPoptipTheme } from '../../../../component/poptip/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const poptip: IPoptipTheme = {
   visible: true,
   position: 'auto',
   padding: 8,
   titleStyle: {
-    fontSize: THEME_CONSTANTS.l5FontSize,
+    fontSize: { type: 'token', key: 'l5FontSize' },
     fontWeight: 'bold',
     fill: { type: 'palette', key: 'primaryFontColor' }
   },
   contentStyle: {
-    fontSize: THEME_CONSTANTS.l5FontSize,
+    fontSize: { type: 'token', key: 'l5FontSize' },
     fill: { type: 'palette', key: 'primaryFontColor' }
   },
   panel: {

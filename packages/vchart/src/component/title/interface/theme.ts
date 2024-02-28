@@ -1,5 +1,6 @@
 import type { ILayoutItemSpec } from '../../../layout/interface';
 import type { IColorKey } from '../../../theme/color-scheme/interface';
+import type { ITokenKey } from '../../../theme/token';
 import type { StringOrNumber } from '../../../typings';
 import type { TextAlign, TextBaseLine } from '../../../typings/visual';
 export interface ITitleTextTheme {
@@ -10,7 +11,7 @@ export interface ITitleTextTheme {
   /** 字体 */
   fontFamily?: string;
   /** 字体大小 */
-  fontSize?: number;
+  fontSize?: number | ITokenKey;
   /** 字体颜色 */
   fill?: string | IColorKey;
   /** 字重 */

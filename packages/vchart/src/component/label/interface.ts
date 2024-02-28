@@ -1,7 +1,6 @@
 import type { BaseLabelAttrs } from '@visactor/vrender-components';
-import type { ConvertToMarkStyleSpec, Datum, ITextMarkSpec } from '../../typings';
+import type { ConvertToMarkStyleSpec, Datum, IComposedTextMarkSpec, IFormatMethod, ITextMarkSpec } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
 import type { ILabelMark } from '../../mark/label';
 import type { ISeries } from '../../series';
 
@@ -12,23 +11,27 @@ export interface ILabelFormatMethodContext {
 export interface ILabelSpec extends IComponentSpec {
   /** 默认不显示标签 */
   visible?: boolean;
-  /** 是否支持交互。@default false */
-  interactive?: boolean;
-  // 文本类型：text, rich, html (区分于图元类型)
-  textType?: string;
-  /** 格式化函数
-   *  支持返回值为富文本内容, 如textConfig, html
+  /**
+   * 是否支持交互。
+   * @default false
    */
-  formatMethod?: (
-    text: string | string[],
-    datum?: Datum,
-    ctx?: ILabelFormatMethodContext
-  ) => string | string[] | IRichTextCharacter[];
-  /** 字符串模版
-   *  用{}包裹变量名的字符串模版, 变量名取自数据属性值
-   *  在饼图中支持配置百分比, {_percent_}
-   *  eg: 'type={type},value={value},percent={_percent_}'
-   *  @since 1.7.0
+  interactive?: boolean;
+  /**
+   * 文本类型：text, rich,
+   * @since 1.7.0
+   * @deprecated
+   */
+  textType?: 'text' | 'rich';
+  /**
+   * 格式化函数
+   * @since 1.10.0 支持返回结构 `{type:'rich', text: [{text:'some text', fill:'black', fontSize: 20}]}
+   */
+  formatMethod?: IFormatMethod<[text: string | string[], datum?: Datum, ctx?: ILabelFormatMethodContext]>;
+  /**
+   * 字符串模版
+   * 用{}包裹变量名的字符串模版, 变量名取自数据属性值
+   * @experimental
+   * @since 1.7.0
    */
   formatter?: string;
   /** 标签与其对应数据图元的间距 */
@@ -36,9 +39,9 @@ export interface ILabelSpec extends IComponentSpec {
   /** 标签位置 */
   position?: string;
   /** 标签样式配置 */
-  style?: ConvertToMarkStyleSpec<ITextMarkSpec>;
+  style?: ConvertToMarkStyleSpec<IComposedTextMarkSpec>;
   /** 交互样式配置 */
-  state?: LabelStateStyle<Partial<ITextMarkSpec>>;
+  state?: LabelStateStyle<Partial<IComposedTextMarkSpec>>;
   /** 标签防重叠配置 */
   overlap?: BaseLabelAttrs['overlap'];
   /** 标签智能反色配置 */
@@ -61,8 +64,6 @@ export interface ILabelSpec extends IComponentSpec {
   customOverlapFunc?: BaseLabelAttrs['customOverlapFunc'];
   /** 标签布局 */
   labelLayout?: 'series' | 'region';
-  /** 中心点偏移距离 */
-  centerOffset?: number;
   /** 是否支持3D */
   support3d?: boolean;
   /**
@@ -73,6 +74,8 @@ export interface ILabelSpec extends IComponentSpec {
   syncState?: boolean;
 }
 
+export type IMultiLabelSpec<T extends Omit<ILabelSpec, 'position'>> = T | T[];
+
 type LabelStateStyle<T> = {
   hover?: T;
   hover_reverse?: T;
@@ -82,7 +85,7 @@ type LabelStateStyle<T> = {
 
 export type ITotalLabelSpec = Pick<
   ILabelSpec,
-  'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state'
+  'visible' | 'formatMethod' | 'interactive' | 'offset' | 'style' | 'state' | 'textType'
 >;
 
 export interface ITotalLabelTheme
@@ -92,5 +95,5 @@ export interface ITotalLabelTheme
 
 // 内部处理转换后的标签配置
 export type TransformedLabelSpec = ILabelSpec & {
-  getStyleHandler: (series: ISeries) => (mark?: ILabelMark) => void;
+  getStyleHandler: (series: ISeries) => (mark?: ILabelMark, spec?: any) => void;
 };

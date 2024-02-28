@@ -21,7 +21,6 @@
 
 - 'text'
 - 'rich'
-- 'html'
 
 ### subtext(string|number|Array)
 
@@ -36,7 +35,6 @@
 
 - 'text'
 - 'rich'
-- 'html'
 
 ### orient(string) = 'top'
 

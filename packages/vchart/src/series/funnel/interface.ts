@@ -9,10 +9,13 @@ import type {
   IRuleMarkSpec,
   ITextMarkSpec,
   IPyramid3dMarkSpec,
-  IPercent
+  IPercent,
+  IComposedTextMarkSpec,
+  IFormatMethod
 } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import { ILabelSpec } from '../../component';
 
 type FunnelMarks = 'funnel';
 
@@ -96,15 +99,15 @@ export interface IFunnelSeriesSpec extends ISeriesSpec, IAnimationSpec<FunnelMar
   [SeriesMarkNameEnum.transformLabel]?: IFunnelLabelSpec;
 }
 
-interface IFunnelLabelSpec extends IMarkSpec<ITextMarkSpec> {
+interface IFunnelLabelSpec extends Omit<ILabelSpec, 'position' | 'offset'> {
   /**
    * 标签文字样式
    */
   limit?: 'shapeSize' | number;
-  formatMethod?: (text: string | string[], datum?: Datum) => string | string[];
 }
 
-export interface IFunnelOuterLabelSpec extends IFunnelLabelSpec {
+export interface IFunnelOuterLabelSpec extends IMarkSpec<IComposedTextMarkSpec> {
+  formatMethod?: IFormatMethod<[text: string | string[], datum?: Datum]>;
   /**
    * 标签布局方式
    * @default 'left' | 'bottom'

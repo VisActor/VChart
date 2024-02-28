@@ -14,7 +14,7 @@ import type { GrammarMarkType } from '@visactor/vgrammar-core';
 import type { DataView } from '@visactor/vdataset';
 import { GrammarItem } from '../grammar-item';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
-import { array, isNil, isValid } from '@visactor/vutils';
+import { isBoolean, isNil, isValid } from '@visactor/vutils';
 import { LayoutZIndex, PREFIX, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
@@ -27,7 +27,8 @@ import type {
   ICompilableMarkOption,
   StateValueType,
   IMarkCompileOption,
-  IAttributeOpt
+  IAttributeOpt,
+  MarkClip
 } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from './interface';
@@ -227,6 +228,15 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
   protected _enableSegments: boolean;
   setEnableSegments(enable: boolean) {
     this._enableSegments = enable;
+  }
+
+  /** 裁剪配置 */
+  protected _clip: MarkClip;
+  getClip() {
+    return this._clip;
+  }
+  setClip(clip: MarkClip) {
+    this._clip = clip;
   }
 
   protected _stateSort?: (stateA: string, stateB: string) => number;
@@ -440,7 +450,9 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
       },
       skipTheme: this.getSkipTheme(),
       support3d: this.getSupport3d(),
-      enableSegments: !!this._enableSegments
+      enableSegments: !!this._enableSegments,
+      clip: this._clip ? true : this._clip === false ? false : undefined,
+      clipPath: this._clip || undefined
     };
 
     if (this._progressiveConfig) {

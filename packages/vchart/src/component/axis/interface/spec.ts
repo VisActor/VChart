@@ -1,9 +1,12 @@
+import { ITextFormatMethod } from './../../../typings/spec/common';
 import type { AxisItem, AxisItemStateStyle } from '@visactor/vrender-components';
 import type { IAnimationSpec } from '../../../animation/spec';
 import type {
   Datum,
+  IFormatMethod,
   IPadding,
   IRectMarkSpec,
+  IRichTextFormatMethod,
   IRuleMarkSpec,
   ISymbolMarkSpec,
   ITextMarkSpec,
@@ -11,7 +14,6 @@ import type {
 } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 import type { AxisType, IAxisItem, IBandAxisLayer, ITickCalculationCfg, StyleCallback } from './common';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
 
 export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center'>, IAnimationSpec<string, string> {
   /**
@@ -253,15 +255,18 @@ export interface ISubTick extends IAxisItem<IRuleMarkSpec> {
 
 // 轴标签配置
 export interface ILabel extends IAxisItem<ITextMarkSpec> {
-  /** 文本类型：text, rich, html */
-  type?: 'text' | 'rich' | 'html';
+  /**
+   * 文本类型
+   * @deprecated 1.10.0 版本后，在 formatMethod 中返回 { type: 'rich', text: xxx}
+   * */
+  type?: 'text' | 'rich';
   /**
    * 轴标签内容格式化函数
    * @param text 原始标签文本值
    * @param datum 图形数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: Datum) => string | string[] | IRichTextCharacter[];
+  formatMethod?: IFormatMethod<[text: string | string[], datum?: Datum]>;
   /** 标签同 tick 之间的间距 */
   space?: number;
   /**
@@ -308,6 +313,18 @@ export interface IDomainLine extends IAxisItem<IRuleMarkSpec> {
 // 轴标题配置
 export interface ITitle extends IAxisItem<ITextMarkSpec> {
   /**
+   * 文本类型
+   * @deprecated 1.10.0 版本后，在 formatMethod 中返回 { type: 'rich', text: xxx}
+   * */
+  type?: 'text' | 'rich';
+  /**
+   * 轴b内容格式化函数
+   * @param text 原始标签文本值
+   * @param datum 图形数据
+   * @returns 格式化后的文本
+   */
+  text?: ITextMarkSpec['text'] | ReturnType<IRichTextFormatMethod<[]>>;
+  /**
    * 标题的显示位置，直角坐标系默认 'middle'；
    * 极坐标系的圆弧轴如果配置了内半径，则默认 'middle'，否则 'end'
    */
@@ -343,13 +360,6 @@ export interface ITitle extends IAxisItem<ITextMarkSpec> {
      */
     state?: AxisItemStateStyle<Partial<ISymbolMarkSpec>>;
   };
-  /** 文本类型：text, rich, html */
-  type?: 'text' | 'rich' | 'html';
-  /**
-   * 文本内容
-   * 支持富文本内容, 如textConfig, html
-   */
-  text?: string | string[] | IRichTextCharacter[];
   /**
    * 标题整体的旋转角度（如果标题配置了 background、shape 等属性的话，需要使用该属性进行整体的配置旋转）。
    */

@@ -14,6 +14,7 @@ import type { MarkTypeEnum } from '../mark/interface';
 import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';
 import type { IGradientColor } from '@visactor/vrender-core';
 import type { IComponentTheme } from '../component/interface';
+import type { ITokenKey, TokenMap } from './token';
 
 export interface ITheme {
   /**
@@ -37,7 +38,12 @@ export interface ITheme {
   /** 图表内边距 */
   padding?: ILayoutPaddingSpec;
   /** 图表字体配置 */
-  fontFamily?: string;
+  fontFamily?: string | ITokenKey;
+  /**
+   * 用户自定义的语义化 token，可以在主题中以 ITokenKey 的形式引用并作为常量赋值
+   * @since 1.10.0
+   */
+  tokenMap?: TokenMap;
 
   /**
    * 第 3 种配置：色板
@@ -93,47 +99,4 @@ export interface IGlobalMarkThemeByName {
   label?: Partial<IMarkTheme<ITextMarkSpec>>;
 
   [markName: string]: Partial<IMarkTheme<any>>;
-}
-
-export interface IThemeConstants {
-  /** 默认字体 */
-  defaultFontFamily: string;
-  /** 默认字号 */
-  defaultFontSize: number;
-
-  /** 1级字阶字号，用于：环形图中间数值 / 展示型数值 */
-  l1FontSize: number;
-  /** 1级字阶行高 */
-  l1LineHeight: number | string;
-
-  /** 2级字阶字号，用于：展示型文字 / 指标卡数值 */
-  l2FontSize: number;
-  /** 2级字阶行高 */
-  l2LineHeight: number | string;
-
-  /** 3级字阶字号，用于：图表标题 */
-  l3FontSize: number;
-  /** 3级字阶行高 */
-  l3LineHeight: number | string;
-
-  /** 4级字阶字号，用于：数据标签、tooltip */
-  l4FontSize: number;
-  /** 4级字阶行高 */
-  l4LineHeight: number | string;
-
-  /** 5级字阶字号，用于：坐标轴标题、轴标签、图例文字 */
-  l5FontSize: number;
-  /** 5级字阶行高 */
-  l5LineHeight: number | string;
-
-  /** 6级字阶字号，用于：地图标签 */
-  l6FontSize: number;
-  /** 6级字阶行高 */
-  l6LineHeight: number | string;
-
-  /** 轴 tick 长度 */
-  axisTickSize: number;
-
-  /** 面积图元透明度 */
-  areaOpacity: number;
 }

@@ -8,7 +8,7 @@ import type { ISeriesTheme } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeriesMarkInfo } from '../../series/interface/common';
 import { seriesMarkInfoMap } from '../../series/interface/theme';
-import { mergeSpec } from './merge-spec';
+import { mergeSpec } from '../spec/merge-spec';
 
 export function mergeTheme(target: Maybe<ITheme>, ...sources: Maybe<ITheme>[]): Maybe<ITheme> {
   return mergeSpec(transformThemeToMerge(target), ...sources.map(transformThemeToMerge));
@@ -36,6 +36,7 @@ function transformThemeToMerge(theme?: Maybe<ITheme>): Maybe<ITheme> {
 
   return Object.assign({}, theme, {
     colorScheme,
+    tokenMap: theme.tokenMap ?? {},
     series: Object.assign({}, theme.series, newSeriesTheme)
   });
 }

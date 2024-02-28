@@ -1,3 +1,4 @@
+import type { IBarSeriesSpec } from '../../series';
 import { CartesianChartSpecTransformer } from '../cartesian';
 import { setDefaultCrosshairForCartesianChart } from '../util';
 import type { IBarChartSpec } from './interface';
@@ -13,8 +14,9 @@ export class BarChartSpecTransformer<T extends IBarChartSpec = IBarChartSpec> ex
       barMinHeight: spec.barMinHeight,
       sampling: spec.sampling,
       samplingFactor: spec.samplingFactor,
-      barBackground: spec.barBackground
-    };
+      barBackground: spec.barBackground,
+      stackCornerRadius: spec.stackCornerRadius
+    } as IBarSeriesSpec;
   }
 
   transformSpec(spec: T): void {

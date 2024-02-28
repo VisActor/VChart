@@ -3,7 +3,7 @@ import { Factory } from './../core/factory';
 import type { IComponentMark } from './component';
 import type { IMark } from './interface/common';
 import { MarkTypeEnum } from './interface/type';
-import { TextMark } from './text';
+import { ITextMark, TextMark } from './text';
 
 export class LabelMark extends TextMark implements ILabelMark {
   static readonly type = MarkTypeEnum.text;
@@ -39,7 +39,7 @@ export class LabelMark extends TextMark implements ILabelMark {
   }
 }
 
-export interface ILabelMark extends IMark {
+export interface ILabelMark extends ITextMark {
   skipEncode: boolean;
 
   getRule: () => string;

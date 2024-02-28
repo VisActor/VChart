@@ -8,7 +8,7 @@ export interface IToolTipLinePattern extends ITooltipShapePattern, ITooltipLabel
   key?: TooltipContentProperty<string>;
   /** tooltip value 值内容
    *  支持富文本配置
-   *   - type 文本类型：text, rich, html
+   *   - type 文本类型：text, rich
    *   - text 文本内容：string | string[] | number | number[] | IRichTextCharacter[];
    */
   value?: TooltipContentProperty<string | TooltipRichTextAttrs>;

@@ -6,15 +6,14 @@ import type {
   ICrosshairLabelSpec,
   ICrosshairTheme
 } from '../../../../component/crosshair/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 const getLabelSpec = (): ICrosshairLabelSpec => ({
   visible: false,
   style: {
     fontWeight: 'normal',
     fill: { type: 'palette', key: 'axisMarkerFontColor' },
-    fontSize: THEME_CONSTANTS.l5FontSize
-    //lineHeight: THEME_CONSTANTS.l5LineHeight,
+    fontSize: { type: 'token', key: 'l5FontSize' }
+    //lineHeight: { type: 'token', key: 'l5LineHeight' },
   },
   labelBackground: {
     padding: {
