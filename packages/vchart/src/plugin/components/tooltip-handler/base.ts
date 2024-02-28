@@ -475,11 +475,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       top = getActualTooltipPositionValue(posTop, event);
       right = getActualTooltipPositionValue(posRight, event);
       bottom = getActualTooltipPositionValue(posBottom, event);
-    } else if (
-      isValid(position) &&
-      positionMode !== TooltipPositionMode.pointer &&
-      actualTooltip.activeType === 'mark'
-    ) {
+    } else if (isValid(position) && positionMode !== 'pointer' && actualTooltip.activeType === 'mark') {
       isFixedPosition = true;
       const element = params.item as IElement;
       const model = params.model as IModel;

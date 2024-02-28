@@ -132,19 +132,21 @@ const getDefaultTooltipPattern = (
   } else if (activeType === 'dimension' && dimensionInfo?.length) {
     // dimension tooltip
     const patternList: ITooltipPattern[] = [];
-    dimensionInfo[0].data.forEach(data => {
-      const { series } = data;
-      const mockDimensionInfo = [
-        {
-          ...dimensionInfo[0],
-          data: [data]
+    dimensionInfo.forEach(({ data }) =>
+      data.forEach(data => {
+        const { series } = data;
+        const mockDimensionInfo = [
+          {
+            ...dimensionInfo[0],
+            data: [data]
+          }
+        ] as IDimensionInfo[];
+        const pattern = makeDefaultPattern(series, 'dimension', mockDimensionInfo);
+        if (pattern) {
+          patternList.push(pattern);
         }
-      ] as IDimensionInfo[];
-      const pattern = makeDefaultPattern(series, 'dimension', mockDimensionInfo);
-      if (pattern) {
-        patternList.push(pattern);
-      }
-    });
+      })
+    );
     // 拼接默认 tooltip content
     const defaultPatternContent: Array<TooltipPatternProperty<MaybeArray<IToolTipLinePattern>>> = [];
     patternList.forEach(({ content }) => {
