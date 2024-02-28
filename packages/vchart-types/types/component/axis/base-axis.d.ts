@@ -74,59 +74,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     };
     protected getLabelFormatMethod(): (value: any, datum: any, index: number) => any;
     protected _delegateAxisContainerEvent(component: IGroup): void;
-    protected _getAxisAttributes(): {
-        orient: IOrientType | IPolarOrientType;
-        select: boolean;
-        hover: boolean;
-        line: any;
-        label: {
-            style: any;
-            formatMethod: (value: any, datum: any, index: number) => any;
-            state: {};
-        };
-        tick: {
-            visible: boolean;
-            length?: undefined;
-            inside?: undefined;
-            alignWithLabel?: undefined;
-            style?: undefined;
-            state?: undefined;
-            dataFilter?: undefined;
-        } | {
-            visible: true;
-            length: number;
-            inside: boolean;
-            alignWithLabel: boolean;
-            style: any;
-            state: {};
-            dataFilter: (data: import("@visactor/vrender-components").AxisItem[]) => import("@visactor/vrender-components").AxisItem[];
-        };
-        subTick: {
-            visible: boolean;
-            length?: undefined;
-            inside?: undefined;
-            count?: undefined;
-            style?: undefined;
-            state?: undefined;
-        } | {
-            visible: true;
-            length: number;
-            inside: boolean;
-            count: number;
-            style: any;
-            state: {};
-        };
-        title: any;
-        panel: {
-            visible: boolean;
-            style?: undefined;
-            state?: undefined;
-        } | {
-            visible: any;
-            style: any;
-            state: {};
-        };
-    };
+    protected _getAxisAttributes(): any;
     protected _getGridAttributes(): {
         alternateColor: any;
         alignWithLabel: any;

@@ -24,7 +24,7 @@ export declare const funnel: (originData: Array<DataView>, op: IFunnelOpt) => {
     type: import("@visactor/vdataset/es/constants").DATAVIEW_TYPE;
     name: string | number;
     target: any;
-    parseOption: import("@visactor/vdataset/es/parser").IParserOptions;
+    parseOption: import("@visactor/vdataset").IParserOptions;
     transformsArr: import("@visactor/vdataset").ITransformOptions[];
     isRunning: boolean;
     rawData: any;

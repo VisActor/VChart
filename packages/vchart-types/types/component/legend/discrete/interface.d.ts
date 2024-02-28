@@ -57,5 +57,6 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
     pager?: IPager;
     scaleName?: string;
     field?: string;
+    defaultSelected?: string[];
 } & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager'>;
 export type IDiscreteLegendTheme = Omit<IDiscreteLegendSpec, 'type' | 'data' | 'regionIndex' | 'regionId' | 'seriesIndex' | 'seriesId' | 'id' | 'defaultSelected'>;

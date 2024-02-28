@@ -1,4 +1,4 @@
-import { TooltipFixedPosition } from '../../../../typings/tooltip/position';
+import type { TooltipFixedPosition } from '../../../../typings/tooltip/position';
 export declare const getActualTooltipPositionValue: (position: number | ((event: MouseEvent) => number), event: MouseEvent) => number;
 export type TooltipHorizontalPositionType = 'left' | 'right' | 'middle';
 export type TooltipVerticalPositionType = 'top' | 'bottom' | 'middle';
