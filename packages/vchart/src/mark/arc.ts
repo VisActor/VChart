@@ -79,19 +79,15 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
   ) {
     const { innerPadding, outerPadding } = style;
 
-    // padding 符号取反
-    if (isValid(innerPadding)) {
-      return {
-        ...style,
-        innerPadding: -innerPadding
-      };
-    }
-
-    if (isValid(outerPadding)) {
-      return {
-        ...style,
-        outerPadding: -outerPadding
-      };
+    // VRender 的 padding 定义基于 centent-box 盒模型，默认正方向是向外扩，与 VChart 不一致。这里将 padding 符号取反
+    if (isValid(innerPadding) || isValid(outerPadding)) {
+      const newStyle = { ...style };
+      if (innerPadding) {
+        newStyle.innerPadding = -innerPadding;
+      }
+      if (outerPadding) {
+        newStyle.outerPadding = -outerPadding;
+      }
     }
 
     return style;
