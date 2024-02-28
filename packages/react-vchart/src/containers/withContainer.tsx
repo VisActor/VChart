@@ -8,7 +8,7 @@ export interface ContainerProps {
 }
 
 export default function withContainer<Props extends ContainerProps, CompProps>(
-  Comp: typeof React.Component<any, CompProps>,
+  Comp: any,
   name = 'ChartContainer',
   getProps?: (props: any) => CompProps
 ) {
