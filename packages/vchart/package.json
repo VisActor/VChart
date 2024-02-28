@@ -15,17 +15,18 @@
     "./*/vchart-simple.js"
   ],
   "scripts": {
+    "build": "bundle --clean && npm run build:schema && npm run build:types && npm run build:es5",
     "build:es5": "rm -rf lib && rollup -c --bundleConfigAsCjs",
     "build:schema": "schema src/typings/spec/chart.ts ISpec --useTypeOfKeyword --ignoreErrors --required > ../vchart-schema/vchart.json",
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir ../vchart-types/types",
-    "build": "bundle --clean && npm run build:schema && npm run build:types && npm run build:es5",
     "build:ci": "bundle --clean -f umd --ignorePostTasks --ignoreUmdEntries",
     "build:umd": "bundle -f umd",
+    "build:cjs": "bundle --clean -f cjs --ignorePostTasks --ignoreUmdEntries",
+    "build:es": "bundle --clean -f es --ignorePostTasks",
     "analyze": "npm run analyze-full && npm run analyze-line && npm run analyze-simple",
     "analyze-full": "BUNDLE_ANALYZE='full' bundle -f umd ",
     "analyze-simple": "BUNDLE_ANALYZE='simple' bundle -f umd",
     "dev": "bundle --clean -f es -w",
-    "build-cjs": "bundle --clean -f cjs --ignorePostTasks --ignoreUmdEntries",
     "compile": "tsc --noEmit",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser",
     "clear": "rm -rf build && rm -rf esm && rm -rf cjs",
@@ -40,7 +41,6 @@
     "test-live": "npm run test-watch __tests__/unit",
     "test-watch": "DEBUG_MODE=1 jest --watch",
     "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts",
-    "build:es": "bundle --clean -f es --ignorePostTasks",
     "size": "size-limit"
   },
   "files": [

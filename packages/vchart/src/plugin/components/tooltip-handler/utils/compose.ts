@@ -192,6 +192,7 @@ export const getOneLineData = (
   const shapeFill = getTooltipContentValue(config.shapeFill, datum, params);
   const shapeStroke = getTooltipContentValue(config.shapeStroke, datum, params);
   const shapeLineWidth = getTooltipContentValue(config.shapeLineWidth, datum, params);
+  const shapeHollow = getTooltipContentValue(config.shapeHollow, datum, params);
   const keyStyle = getTooltipContentValue(config.keyStyle, datum, params);
   const valueStyle = getTooltipContentValue(config.valueStyle, datum, params);
 
@@ -201,11 +202,11 @@ export const getOneLineData = (
     visible,
     isKeyAdaptive,
     hasShape: config.hasShape,
-    shapeType: shapeType as any,
+    shapeType,
     shapeFill,
     shapeStroke,
     shapeLineWidth,
-    shapeHollow: config.shapeHollow,
+    shapeHollow,
     shapeColor,
     keyStyle,
     valueStyle,

@@ -157,9 +157,9 @@ export const getTooltipAttributes = (
         spaceRow: actualSpaceRow,
         keyStyle: actualKeyStyle,
         valueStyle: actualValueStyle,
+        shapeHollow: actualShapeHollow,
         // 弃用的属性，做下兼容
-        shapeColor: actualShapeColor,
-        shapeHollow: actualShapeHollow
+        shapeColor: actualShapeColor
       } = item;
       const itemAttrs: TooltipRowAttrs = { height: 0, spaceRow: actualSpaceRow ?? commonSpaceRow };
       if (isValid(actualKey)) {
