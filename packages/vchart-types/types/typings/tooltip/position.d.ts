@@ -5,25 +5,8 @@ export interface ITooltipPositionPattern {
     top?: number | ITooltipPositionCallback;
     bottom?: number | ITooltipPositionCallback;
 }
-export declare const enum TooltipFixedPosition {
-    top = "top",
-    bottom = "bottom",
-    left = "left",
-    right = "right",
-    tl = "tl",
-    lt = "lt",
-    tr = "tr",
-    rt = "rt",
-    bl = "bl",
-    lb = "lb",
-    br = "br",
-    rb = "rb",
-    inside = "inside"
-}
-export declare const enum TooltipPositionMode {
-    pointer = "pointer",
-    mark = "mark"
-}
+export type TooltipFixedPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'lt' | 'tr' | 'rt' | 'bl' | 'lb' | 'br' | 'rb' | 'inside';
+export type TooltipPositionMode = 'pointer' | 'mark';
 export type TooltipPosition = ITooltipPositionPattern | TooltipFixedPosition;
 export interface ITooltipPositionActual {
     x: number;

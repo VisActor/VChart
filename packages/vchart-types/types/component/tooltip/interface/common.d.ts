@@ -14,7 +14,7 @@ export type TotalMouseEventData = {
     tooltipInfo: Partial<ITooltipActiveTypeAsKeys<MarkTooltipInfo, DimensionTooltipInfo>>;
     ignore: Partial<ITooltipActiveTypeAsKeys<boolean, boolean>>;
 };
-export declare enum TooltipResult {
+export declare const enum TooltipResult {
     success = 0,
     failed = 1
 }

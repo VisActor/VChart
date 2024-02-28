@@ -16,7 +16,7 @@ export interface ILineSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<Li
     [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
     [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
     [SeriesMarkNameEnum.lineLabel]?: Omit<ILabelSpec, 'position'> & {
-        position: 'start' | 'end';
+        position?: 'start' | 'end';
     };
     seriesMark?: 'line' | 'point';
     activePoint?: boolean;
