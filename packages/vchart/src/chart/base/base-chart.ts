@@ -459,7 +459,12 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   // 通知所有需要通知的元素 onLayoutEnd 钩子
   onLayoutEnd(option: IChartLayoutOption) {
     const elements = this.getAllModels();
-    elements.forEach(element => element.onLayoutEnd(option));
+    elements.forEach(element => {
+      // series.onLayoutEnd will be called by region model
+      if (element.modelType !== 'series') {
+        element.onLayoutEnd(option);
+      }
+    });
   }
 
   onEvaluateEnd(option: IChartEvaluateOption) {
