@@ -1,9 +1,14 @@
 import { CSSProperties } from 'react';
 import { IOptions } from './IOptions';
-import { IVChart, ISpec } from './IVChart';
+import { IVChart, ISpec, IVChartConstructor } from './IVChart';
 import { IEvent } from './IEvent';
+import { VChartEnvType } from './VChartEnvType';
 
 interface IChartProps {
+  /**
+   * 图表构造函数，必须
+   */
+  chartConstructor: IVChartConstructor;
   /**
    * 图表 id, 必确唯一
    */
@@ -44,4 +49,16 @@ interface IChartProps {
   onChartUpdate?: (chart: IVChart) => void;
 }
 
-export { IChartProps };
+interface IVChartProps extends IChartProps {
+  /**
+   * 配置环境。如果没有声明，则会通过 `Taro.getEnv()` 自动获取。
+   * - `tt` 字节小程序。
+   * - `lark` 飞书小程序。
+   * - `weapp` 微信小程序
+   * - `h5` 浏览器环境, 与`web`等价。
+   * - `web` 浏览器环境, 与`h5`等价。
+   */
+  type?: VChartEnvType;
+}
+
+export { IChartProps, IVChartProps };
