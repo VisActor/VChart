@@ -104,7 +104,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     this.forEachSeriesInSpec(chartSpec, transform, currentChartSpecInfo);
     // 记录每个 series 关联的 region
     currentChartSpecInfo.series?.forEach((seriesSpecInfo, i) => {
-      const region = getRelatedRegionInfo(seriesSpecInfo, currentChartSpecInfo) ?? currentChartSpecInfo.region?.[0];
+      const relatedRegion =
+        getRelatedRegionInfo(seriesSpecInfo, currentChartSpecInfo) ?? currentChartSpecInfo.region ?? [];
+      const region = relatedRegion[0];
       if (region) {
         if (!region.seriesIndexes) {
           region.seriesIndexes = [];
@@ -122,9 +124,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
           return;
         }
         if (!componentSpecInfo.regionIndexes) {
-          const relatedRegion = getRelatedRegionInfo(componentSpecInfo, currentChartSpecInfo);
-          const regionList = relatedRegion ? array(relatedRegion) : currentChartSpecInfo.region ?? [];
-          componentSpecInfo.regionIndexes = regionList.map(region => region.regionIndexes[0]);
+          const relatedRegion =
+            getRelatedRegionInfo(componentSpecInfo, currentChartSpecInfo) ?? currentChartSpecInfo.region ?? [];
+          componentSpecInfo.regionIndexes = relatedRegion.map(region => region.regionIndexes[0]);
         }
         if (!componentSpecInfo.seriesIndexes) {
           const seriesInfo = getRelatedSeriesInfo(componentSpecInfo, currentChartSpecInfo);
