@@ -105,9 +105,9 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
      * 标签布局方式
      * @default 'outside'
      */
-    position: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right';
+    position?: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right';
     /** 标签文字缩略 */
-    limit: number;
+    limit?: number;
   };
 
   /** 进度条配置 */

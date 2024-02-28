@@ -33,8 +33,8 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
         effect: 'self' | 'adjacency' | 'related';
     };
     [SeriesMarkNameEnum.label]?: ILabelSpec & {
-        position: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right';
-        limit: number;
+        position?: 'outside' | 'inside-start' | 'inside-middle' | 'inside-end' | 'left' | 'right';
+        limit?: number;
     };
 }
 export interface SankeyLinkDatum {

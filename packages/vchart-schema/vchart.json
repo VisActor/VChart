@@ -18937,7 +18937,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -19980,7 +19980,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -20693,7 +20693,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -21546,7 +21546,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -22294,7 +22294,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -22940,7 +22940,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -23842,7 +23842,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -25016,7 +25016,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -25631,7 +25631,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -25992,7 +25992,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -26401,7 +26401,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -26849,7 +26849,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -29014,7 +29014,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -29450,7 +29450,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -32110,7 +32110,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -32555,7 +32555,7 @@
       ],
       "type": "object"
     },
-    "IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>": {
+    "IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">": {
       "properties": {
         "componentType": {
           "description": "specify the component type",
@@ -32932,7 +32932,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -33460,7 +33460,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -34043,7 +34043,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -34509,7 +34509,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -35005,7 +35005,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -35456,7 +35456,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -38430,7 +38430,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -39107,7 +39107,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -39636,7 +39636,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -40452,7 +40452,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -43109,7 +43109,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -44109,7 +44109,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -44639,7 +44639,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -45019,7 +45019,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -45251,7 +45251,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -45918,7 +45918,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -46321,7 +46321,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -48865,7 +48865,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -49407,7 +49407,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -49831,7 +49831,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -52450,7 +52450,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -52924,7 +52924,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -53421,7 +53421,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -54155,7 +54155,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -54649,7 +54649,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -55406,7 +55406,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -55872,7 +55872,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -56629,7 +56629,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -57916,7 +57916,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -58334,7 +58334,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -58987,7 +58987,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -59423,7 +59423,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -59841,7 +59841,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -60549,7 +60549,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -61638,7 +61638,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -63312,7 +63312,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -63746,7 +63746,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -66183,7 +66183,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -66657,7 +66657,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -68727,7 +68727,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -69504,7 +69504,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -70230,7 +70230,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -70697,7 +70697,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -71165,7 +71165,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -71625,7 +71625,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -72041,7 +72041,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         },
         "size": {
@@ -72049,14 +72049,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12747",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         },
         "size": {
@@ -72064,14 +72064,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12747",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         },
         "size": {
@@ -72079,14 +72079,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12747",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         },
         "size": {
@@ -72094,14 +72094,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12747",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         },
         "size": {
@@ -72109,14 +72109,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12747",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         },
         "size": {
@@ -72124,14 +72124,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12747",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         },
         "size": {
@@ -72139,14 +72139,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12747",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         },
         "size": {
@@ -72154,14 +72154,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12747",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         },
         "size": {
@@ -72169,7 +72169,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12741",
+        "__@toStringTag@12747",
         "size"
       ],
       "type": "object"
@@ -73298,7 +73298,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -73968,7 +73968,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -74718,7 +74718,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -75069,7 +75069,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -76225,7 +76225,7 @@
           "items": {
             "anyOf": [
               {
-                "$ref": "#/definitions/IExtensionMarkSpec<MarkTypeEnum.symbol|MarkTypeEnum.rule|MarkTypeEnum.line|MarkTypeEnum.text|MarkTypeEnum.rect|MarkTypeEnum.rect3d|MarkTypeEnum.image|MarkTypeEnum.path|MarkTypeEnum.area|MarkTypeEnum.arc|MarkTypeEnum.arc3d|MarkTypeEnum.polygon|MarkTypeEnum.pyramid3d|MarkTypeEnum.boxPlot|MarkTypeEnum.linkPath|MarkTypeEnum.progressArc|MarkTypeEnum.ripple>"
+                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"rect3d\"|\"arc\"|\"arc3d\"|\"pyramid3d\"|\"rule\"|\"linkPath\"|\"boxPlot\"|\"progressArc\"|\"ripple\">"
               },
               {
                 "$ref": "#/definitions/IExtensionGroupMarkSpec"
@@ -85844,6 +85844,15 @@
         "underline": {
           "type": "number"
         },
+        "underlineDash": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "underlineOffset": {
+          "type": "number"
+        },
         "verticalMode": {
           "type": "number"
         },
@@ -86947,6 +86956,15 @@
           "type": "number"
         },
         "underline": {
+          "type": "number"
+        },
+        "underlineDash": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "underlineOffset": {
           "type": "number"
         },
         "verticalMode": {
@@ -89725,34 +89743,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12741"
+        "__@toStringTag@12747"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12741"
+        "__@toStringTag@12747"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12741": {
+        "__@toStringTag@12747": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12741"
+        "__@toStringTag@12747"
       ],
       "type": "object"
     },
@@ -97610,6 +97628,15 @@
         "underline": {
           "type": "number"
         },
+        "underlineDash": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "underlineOffset": {
+          "type": "number"
+        },
         "verticalMode": {
           "type": "number"
         },
@@ -97730,6 +97757,8 @@
         "texturePadding",
         "textureSize",
         "underline",
+        "underlineDash",
+        "underlineOffset",
         "verticalMode",
         "visible",
         "whiteSpace",

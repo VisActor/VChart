@@ -369,116 +369,174 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _getAxisAttributes() {
     const spec = this._spec;
-    let titleAngle = spec.title.angle;
-    let titleTextStyle;
-    if (spec.orient === 'left' || spec.orient === 'right') {
-      // 处理纵轴的标题样式
-      if (spec.title?.autoRotate && isNil(spec.title.angle)) {
-        titleAngle = spec.orient === 'left' ? -90 : 90;
-        titleTextStyle = DEFAULT_TITLE_STYLE[spec.orient];
-      }
-    }
 
-    const labelSpec = pickWithout(spec.label, ['style', 'formatMethod', 'state']);
-    const backgroundSpec = spec.background ?? {};
-    const titleBackgroundSpec = spec.title.background ?? {};
-    return {
+    const axisAttrs: any = {
       orient: this.getOrient(),
       select: this._option.disableTriggerEvent === true ? false : spec.select,
-      hover: this._option.disableTriggerEvent === true ? false : spec.hover,
-      line: transformAxisLineStyle(spec.domainLine),
-      label: {
-        style: isFunction(spec.label.style)
+      hover: this._option.disableTriggerEvent === true ? false : spec.hover
+    };
+
+    // 属性均需要显示开启
+    if (spec.domainLine && spec.domainLine.visible) {
+      axisAttrs.line = transformAxisLineStyle(spec.domainLine);
+    } else {
+      axisAttrs.line = { visible: false };
+    }
+
+    if (spec.label && spec.label.visible) {
+      const labelSpec = pickWithout(spec.label, ['style', 'formatMethod', 'state']);
+      axisAttrs.label = labelSpec;
+      if (spec.label.style) {
+        axisAttrs.label.style = isFunction(spec.label.style)
           ? (datum: Datum, index: number, data: Datum[], layer?: number) => {
               const style = spec.label.style(datum.rawValue, index, datum, data, layer);
               return transformToGraphic(mergeSpec({}, this._theme.label?.style, style));
             }
-          : transformToGraphic(spec.label.style),
-        formatMethod: spec.label.formatMethod
-          ? (value: any, datum: any, index: number) => {
-              return spec.label.formatMethod(datum.rawValue, datum);
+          : transformToGraphic(spec.label.style);
+      }
+      if (spec.label.formatMethod) {
+        axisAttrs.label.formatMethod = (value: any, datum: any, index: number) => {
+          return spec.label.formatMethod(datum.rawValue, datum);
+        };
+      }
+      if (spec.label.state) {
+        axisAttrs.label.state = transformAxisLabelStateStyle(spec.label.state);
+      }
+    } else {
+      axisAttrs.label = {
+        visible: false
+      };
+    }
+
+    if (spec.tick && spec.tick.visible) {
+      axisAttrs.tick = {
+        visible: spec.tick.visible,
+        length: spec.tick.tickSize,
+        inside: spec.tick.inside,
+        alignWithLabel: spec.tick.alignWithLabel,
+        dataFilter: spec.tick.dataFilter
+      };
+      if (spec.tick.style) {
+        axisAttrs.tick.style = isFunction(spec.tick.style)
+          ? (value: number, index: number, datum: Datum, data: Datum[]) => {
+              const style = (spec.tick.style as any)(value, index, datum, data);
+              return transformToGraphic(mergeSpec({}, this._theme.tick?.style, style));
             }
-          : null,
-        state: transformAxisLabelStateStyle(spec.label.state),
-        ...labelSpec
-      },
-      tick:
-        spec.tick.visible === false
-          ? { visible: false }
-          : {
-              visible: spec.tick.visible,
-              length: spec.tick.tickSize,
-              inside: spec.tick.inside,
-              alignWithLabel: spec.tick.alignWithLabel,
-              style: isFunction(spec.tick.style)
-                ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-                    const style = (spec.tick.style as any)(value, index, datum, data);
-                    return transformToGraphic(mergeSpec({}, this._theme.tick?.style, style));
-                  }
-                : transformToGraphic(spec.tick.style),
-              state: transformStateStyle(spec.tick.state),
-              dataFilter: spec.tick.dataFilter
-            },
-      subTick:
-        spec.subTick.visible === false
-          ? { visible: false }
-          : {
-              visible: spec.subTick.visible,
-              length: spec.subTick.tickSize,
-              inside: spec.subTick.inside,
-              count: spec.subTick.tickCount,
-              style: isFunction(spec.subTick.style)
-                ? (value: number, index: number, datum: Datum, data: Datum[]) => {
-                    const style = (spec.subTick.style as any)(value, index, datum, data);
-                    return transformToGraphic(mergeSpec({}, this._theme.subTick?.style, style));
-                  }
-                : transformToGraphic(spec.subTick.style),
-              state: transformStateStyle(spec.subTick.state)
-            },
-      title:
-        spec.title.visible === false
-          ? { visible: false }
-          : {
-              visible: spec.title.visible,
-              position: spec.title.position,
-              space: spec.title.space,
-              autoRotate: false, // 默认不对外提供该配置
-              angle: titleAngle ? degreeToRadian(titleAngle) : null,
-              textStyle: mergeSpec({}, titleTextStyle, transformToGraphic(spec.title.style)),
-              padding: spec.title.padding,
-              shape:
-                spec.title.shape?.visible === false
-                  ? { visible: false }
-                  : {
-                      visible: spec.title.shape?.visible,
-                      space: spec.title.shape?.space,
-                      style: transformToGraphic(spec.title.shape?.style)
-                    },
-              background:
-                titleBackgroundSpec.visible === false
-                  ? { visible: false }
-                  : {
-                      visible: titleBackgroundSpec.visible,
-                      style: transformToGraphic(titleBackgroundSpec.style)
-                    },
-              state: {
-                text: transformStateStyle(spec.title.state),
-                shape: transformStateStyle(spec.title.shape?.state),
-                background: transformStateStyle(spec.title.background?.state)
-              },
-              pickable: spec.title.style?.pickable !== false,
-              childrenPickable: spec.title.style?.pickable !== false,
-              ...spec.title
-            },
-      panel:
-        backgroundSpec.visible === false
-          ? { visible: false }
-          : {
-              visible: backgroundSpec.visible,
-              style: transformToGraphic(backgroundSpec.style),
-              state: transformStateStyle(backgroundSpec.state)
+          : transformToGraphic(spec.tick.style);
+      }
+      if (spec.tick.state) {
+        axisAttrs.tick.state = transformStateStyle(spec.tick.state);
+      }
+    } else {
+      axisAttrs.tick = {
+        visible: false
+      };
+    }
+
+    if (spec.subTick && spec.subTick.visible) {
+      axisAttrs.subTick = {
+        visible: spec.subTick.visible,
+        length: spec.subTick.tickSize,
+        inside: spec.subTick.inside,
+        count: spec.subTick.tickCount
+      };
+      if (spec.subTick.style) {
+        axisAttrs.subTick.style = isFunction(spec.subTick.style)
+          ? (value: number, index: number, datum: Datum, data: Datum[]) => {
+              const style = (spec.subTick.style as any)(value, index, datum, data);
+              return transformToGraphic(mergeSpec({}, this._theme.subTick?.style, style));
             }
-    };
+          : transformToGraphic(spec.subTick.style);
+      }
+      if (spec.subTick.state) {
+        axisAttrs.subTick.state = transformStateStyle(spec.subTick.state);
+      }
+    } else {
+      axisAttrs.subTick = {
+        visible: false
+      };
+    }
+
+    if (spec.title && spec.title.visible) {
+      const {
+        autoRotate,
+        angle,
+        style: titleStyle = {},
+        background: titleBackgroundSpec,
+        state: titleState,
+        shape: titleShapeSpec,
+        ...restTitleAttrs
+      } = spec.title;
+      let titleAngle = angle;
+      let titleTextStyle;
+      if (spec.orient === 'left' || spec.orient === 'right') {
+        // 处理纵轴的标题样式
+        if (autoRotate && isNil(titleAngle)) {
+          titleAngle = spec.orient === 'left' ? -90 : 90;
+          titleTextStyle = DEFAULT_TITLE_STYLE[spec.orient];
+        }
+      }
+
+      axisAttrs.title = {
+        ...restTitleAttrs,
+        autoRotate: false, // 默认不对外提供该配置
+        angle: titleAngle ? degreeToRadian(titleAngle) : null,
+        textStyle: mergeSpec({}, titleTextStyle, transformToGraphic(titleStyle)),
+        pickable: titleStyle.pickable !== false,
+        childrenPickable: titleStyle.pickable !== false,
+        state: {}
+      };
+
+      if (titleShapeSpec && titleShapeSpec.visible) {
+        axisAttrs.title.shape = {
+          ...titleShapeSpec,
+          style: transformToGraphic(titleShapeSpec.style)
+        };
+        if (titleShapeSpec.state) {
+          axisAttrs.title.state.shape = transformStateStyle(titleShapeSpec.state);
+        }
+      } else {
+        axisAttrs.title.shape = { visible: false };
+      }
+
+      if (titleBackgroundSpec && titleBackgroundSpec.visible) {
+        axisAttrs.title.background = {
+          ...titleBackgroundSpec,
+          style: transformToGraphic(titleBackgroundSpec.style)
+        };
+        if (titleBackgroundSpec.state) {
+          axisAttrs.title.state.background = transformStateStyle(titleBackgroundSpec.state);
+        }
+      } else {
+        axisAttrs.title.background = { visible: false };
+      }
+
+      if (titleState) {
+        axisAttrs.title.state.text = transformStateStyle(titleState);
+      }
+    } else {
+      axisAttrs.title = {
+        visible: false
+      };
+    }
+
+    if (spec.background && spec.background.visible) {
+      axisAttrs.panel = {
+        visible: true
+      };
+      if (spec.background.style) {
+        axisAttrs.panel.style = transformToGraphic(spec.background.style);
+      }
+      if (spec.background.state) {
+        axisAttrs.panel.state = transformStateStyle(spec.background.state);
+      }
+    } else {
+      axisAttrs.panel = {
+        visible: false
+      };
+    }
+
+    return axisAttrs;
   }
 
   protected _getGridAttributes() {

@@ -53,19 +53,40 @@ export const getDimensionData = (
   const isDiscreteAxis = isDiscrete(scale.type);
 
   const data: IDimensionData[] = [];
-  const regions = axis.getRegions(); // TODO: 直接从轴里取系列
-  for (const region of regions) {
-    const seriesList = region.getSeries();
-    for (const series of seriesList) {
-      if (series.coordinate === coordinate) {
-        const dimensionField = array(getDimensionField(series));
-        const viewData = series.getViewData()?.latestData;
-        if (dimensionField && viewData) {
-          if (isDiscreteAxis) {
+  const seriesList = axis.getOption().getChart().getSeriesInIndex(axis.getSpecInfo().seriesIndexes);
+  for (const series of seriesList) {
+    if (series.coordinate === coordinate) {
+      const dimensionField = array(getDimensionField(series));
+      const viewData = series.getViewData()?.latestData;
+      if (dimensionField && viewData) {
+        if (isDiscreteAxis) {
+          const datums: Datum[] = [];
+          const datumIdList: number[] = [];
+          viewData.forEach((datum: any, i: number) => {
+            if (datum[dimensionField[0]]?.toString() === value?.toString()) {
+              datums.push(datum); // 获取该维度项所对应的数据
+              datumIdList.push(i);
+            }
+          });
+          data.push({
+            series,
+            datum: datums,
+            key: getDimensionDataKey(series, datumIdList)
+          });
+        } else {
+          // 连续轴
+          if (isValid(dimensionField[1])) {
+            // 直方图情况，根据范围取 datum
             const datums: Datum[] = [];
             const datumIdList: number[] = [];
             viewData.forEach((datum: any, i: number) => {
-              if (datum[dimensionField[0]]?.toString() === value?.toString()) {
+              if (
+                datum[dimensionField[0]]?.toString() === value?.toString() ||
+                (isValid(datum[dimensionField[0]]) &&
+                  isValid(datum[dimensionField[1]]) &&
+                  value >= datum[dimensionField[0]] &&
+                  value < datum[dimensionField[1]])
+              ) {
                 datums.push(datum); // 获取该维度项所对应的数据
                 datumIdList.push(i);
               }
@@ -76,71 +97,47 @@ export const getDimensionData = (
               key: getDimensionDataKey(series, datumIdList)
             });
           } else {
-            // 连续轴
-            if (isValid(dimensionField[1])) {
-              // 直方图情况，根据范围取 datum
-              const datums: Datum[] = [];
-              const datumIdList: number[] = [];
+            // 散点图情况，依据轴上的配置判断
+            const range = (axis.getSpec() as ICartesianLinearAxisSpec).tooltipFilterRange;
+            const rangeArr = (isValidNumber(range) ? [-range, range] : range) as Maybe<[number, number]>;
+            let datums: Datum[] = [];
+            let datumIdList: number[] = [];
+            if (rangeArr) {
+              // 根据范围取 datum
               viewData.forEach((datum: any, i: number) => {
-                if (
-                  datum[dimensionField[0]]?.toString() === value?.toString() ||
-                  (isValid(datum[dimensionField[0]]) &&
-                    isValid(datum[dimensionField[1]]) &&
-                    value >= datum[dimensionField[0]] &&
-                    value < datum[dimensionField[1]])
-                ) {
-                  datums.push(datum); // 获取该维度项所对应的数据
-                  datumIdList.push(i);
+                if (isValid(datum[dimensionField[0]])) {
+                  const delta = datum[dimensionField[0]] - value;
+                  if (delta >= rangeArr[0] && delta <= rangeArr[1]) {
+                    datums.push(datum);
+                    datumIdList.push(i);
+                  }
                 }
               });
-              data.push({
-                series,
-                datum: datums,
-                key: getDimensionDataKey(series, datumIdList)
-              });
             } else {
-              // 散点图情况，依据轴上的配置判断
-              const range = (axis.getSpec() as ICartesianLinearAxisSpec).tooltipFilterRange;
-              const rangeArr = (isValidNumber(range) ? [-range, range] : range) as Maybe<[number, number]>;
-              let datums: Datum[] = [];
-              let datumIdList: number[] = [];
-              if (rangeArr) {
-                // 根据范围取 datum
-                viewData.forEach((datum: any, i: number) => {
-                  if (isValid(datum[dimensionField[0]])) {
-                    const delta = datum[dimensionField[0]] - value;
-                    if (delta >= rangeArr[0] && delta <= rangeArr[1]) {
-                      datums.push(datum);
-                      datumIdList.push(i);
-                    }
+              // 根据最近距离取 datum
+              let minDelta = Infinity;
+              let deltaSign = 0;
+              viewData.forEach((datum: any, i: number) => {
+                if (isValid(datum[dimensionField[0]])) {
+                  const delta = Math.abs(datum[dimensionField[0]] - value);
+                  const sign = Math.sign(datum[dimensionField[0]] - value);
+                  if (delta < minDelta) {
+                    minDelta = delta;
+                    datums = [datum];
+                    datumIdList = [i];
+                    deltaSign = sign;
+                  } else if (delta === minDelta && sign === deltaSign) {
+                    datums.push(datum);
+                    datumIdList.push(i);
                   }
-                });
-              } else {
-                // 根据最近距离取 datum
-                let minDelta = Infinity;
-                let deltaSign = 0;
-                viewData.forEach((datum: any, i: number) => {
-                  if (isValid(datum[dimensionField[0]])) {
-                    const delta = Math.abs(datum[dimensionField[0]] - value);
-                    const sign = Math.sign(datum[dimensionField[0]] - value);
-                    if (delta < minDelta) {
-                      minDelta = delta;
-                      datums = [datum];
-                      datumIdList = [i];
-                      deltaSign = sign;
-                    } else if (delta === minDelta && sign === deltaSign) {
-                      datums.push(datum);
-                      datumIdList.push(i);
-                    }
-                  }
-                });
-              }
-              data.push({
-                series,
-                datum: datums,
-                key: getDimensionDataKey(series, datumIdList)
+                }
               });
             }
+            data.push({
+              series,
+              datum: datums,
+              key: getDimensionDataKey(series, datumIdList)
+            });
           }
         }
       }

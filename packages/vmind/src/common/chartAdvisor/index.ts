@@ -1,1 +1,0 @@
-export { chartAdvisorHandler } from './chartAdvisorHandler';

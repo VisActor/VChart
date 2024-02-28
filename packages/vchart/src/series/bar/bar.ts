@@ -394,7 +394,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             return valueInScaleRange(this._dataToPosX1(datum), xScale);
           },
           y: (datum: Datum) => this._getPosition(this.direction, datum),
-          height: () => this._getBarWidth(this._yAxisHelper)
+          height: () => this._getBarWidth(this._yAxisHelper),
+          width: () => undefined,
+          y1: () => undefined
         },
         'normal',
         AttributeLevel.Series
@@ -425,7 +427,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           },
           width: () => {
             return this._getBarWidth(this._xAxisHelper);
-          }
+          },
+          x1: () => undefined,
+          height: () => undefined
         },
         'normal',
         AttributeLevel.Series
@@ -460,7 +464,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             return max;
           },
           y: (datum: Datum) => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
-          height: () => this._getBarWidth(this._yAxisHelper, scaleDepth)
+          height: () => this._getBarWidth(this._yAxisHelper, scaleDepth),
+          width: () => undefined,
+          y1: () => undefined
         },
         'normal',
         AttributeLevel.Series
@@ -482,7 +488,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           },
           width: () => {
             return this._getBarWidth(this._xAxisHelper, scaleDepth);
-          }
+          },
+          x1: () => undefined,
+          height: () => undefined
         },
         'normal',
         AttributeLevel.Series

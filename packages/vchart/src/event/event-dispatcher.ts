@@ -1,6 +1,6 @@
 import { Bubble } from './bubble';
 import { isValid, debounce, throttle, get, isFunction } from '@visactor/vutils';
-import { BASE_EVENTS, ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant/event';
+import { BASE_EVENTS, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_EVENT } from '../constant/event';
 import type {
   EventType,
   EventQuery,
@@ -398,10 +398,6 @@ export class EventDispatcher implements IEventDispatcher {
   }
 
   private _isValidEvent(eType: string) {
-    return (
-      BASE_EVENTS.includes(eType) ||
-      (Object.values(VGRAMMAR_HOOK_EVENT) as string[]).includes(eType) ||
-      (Object.values(ChartEvent) as string[]).includes(eType)
-    );
+    return BASE_EVENTS.includes(eType) || (Object.values(VGRAMMAR_HOOK_EVENT) as string[]).includes(eType);
   }
 }

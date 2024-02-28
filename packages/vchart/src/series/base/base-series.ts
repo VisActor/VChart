@@ -708,7 +708,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   private _createExtensionMark(
-    spec: IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec,
+    spec: IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec,
     parentMark: null | IGroupMark,
     namePrefix: string,
     index: number,

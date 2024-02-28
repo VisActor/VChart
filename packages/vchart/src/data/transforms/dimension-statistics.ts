@@ -39,6 +39,7 @@ export interface IStatisticsOption {
   fields: {
     key: string;
     operations: StatisticOperations;
+    filter?: (fv: any) => boolean;
     customize?: { max: number; min: number } | any[];
   }[];
   // operations: Array<'max' | 'min' | 'values'>;
@@ -86,6 +87,7 @@ export const dimensionStatisticsOfSimpleData = (
   fields: {
     key: string;
     operations: StatisticOperations;
+    filter?: (fv: any) => boolean;
     customize?: { max: number; min: number } | any[];
   }[],
   dataFields?: Record<
@@ -141,6 +143,10 @@ export const dimensionStatisticsOfSimpleData = (
       }, []);
     } else {
       fValues = fValues.filter((entry: any) => entry !== undefined);
+    }
+
+    if (f.filter) {
+      fValues = fValues.filter(f.filter);
     }
 
     operations.forEach(op => {

@@ -1,8 +1,8 @@
-import { has, isValid } from '@visactor/vutils';
+import { array, has, isValid } from '@visactor/vutils';
 import type { IChartSpec, IRegionSpec, ISeriesSpec } from '../../typings';
 import type { IChartSpecInfo, IChartSpecTransformer, IChartSpecTransformerOption } from '../interface';
 import type { IModelConstructor, IModelSpecInfo } from '../../model/interface';
-import type { IRegionConstructor, IRegionSpecInfo } from '../../region/interface';
+import type { IRegionConstructor } from '../../region/interface';
 import { Factory } from '../../core';
 import type { ISeriesConstructor } from '../../series';
 import type { IComponentConstructor } from '../../component/interface/common';
@@ -122,9 +122,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
           return;
         }
         if (!componentSpecInfo.regionIndexes) {
-          const region =
-            getRelatedRegionInfo(componentSpecInfo, currentChartSpecInfo) ?? currentChartSpecInfo.region?.[0];
-          componentSpecInfo.regionIndexes = region?.regionIndexes.slice();
+          const relatedRegion = getRelatedRegionInfo(componentSpecInfo, currentChartSpecInfo);
+          const regionList = relatedRegion ? array(relatedRegion) : currentChartSpecInfo.region ?? [];
+          componentSpecInfo.regionIndexes = regionList.map(region => region.regionIndexes[0]);
         }
         if (!componentSpecInfo.seriesIndexes) {
           const seriesInfo = getRelatedSeriesInfo(componentSpecInfo, currentChartSpecInfo);

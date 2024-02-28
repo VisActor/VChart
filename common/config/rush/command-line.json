@@ -98,13 +98,6 @@
       "shellCommand": "rush run -p @visactor/react-vchart -s start"
     },
     {
-      "commandKind": "global",
-      "name": "vmind",
-      "summary": "Start the development server of react-vchart demo",
-      "description": "Run this command to start react-vchart development server",
-      "shellCommand": "rush run -p @visactor/vmind -s start"
-    },
-    {
       "name": "change-all",
       "commandKind": "global",
       "autoinstallerName": "run-script",

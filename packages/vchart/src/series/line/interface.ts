@@ -43,7 +43,7 @@ export interface ILineSeriesSpec
    * @since 1.7.0
    */
   [SeriesMarkNameEnum.lineLabel]?: Omit<ILabelSpec, 'position'> & {
-    position: 'start' | 'end';
+    position?: 'start' | 'end';
   };
   /**
    * 系列主 mark 类型配置，该配置会影响图例的展示
