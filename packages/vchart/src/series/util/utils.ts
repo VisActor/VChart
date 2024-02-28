@@ -18,7 +18,10 @@ export function sortDataInAxisHelper(axisHelper: CartesianHelper | IPolarAxisHel
     });
   } else {
     dataList.sort((datumA: Datum, datumB: Datum) => {
-      return ((scale as IOrdinalScale).index(datumA[field]) - scale.index(datumB[field])) * (isRevert ? -1 : 1);
+      return (
+        ((scale as IOrdinalScale).index(datumA[field]) - (scale as IOrdinalScale).index(datumB[field])) *
+        (isRevert ? -1 : 1)
+      );
     });
   }
 }
