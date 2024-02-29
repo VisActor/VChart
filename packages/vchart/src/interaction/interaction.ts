@@ -185,8 +185,7 @@ export class Interaction implements IInteraction {
     const interactions = this._vgrammarInteractions.get(stateValue);
     if (interactions) {
       interactions.forEach(vgInteraction => {
-        // @ts-ignore
-        vgInteraction.handleStart({ element }); // TODO: 替换为 vgrammar 新增的 star API
+        vgInteraction.start(element);
       });
     }
   }
@@ -201,8 +200,7 @@ export class Interaction implements IInteraction {
     const interactions = this._vgrammarInteractions.get(stateValue);
     if (interactions) {
       interactions.forEach(vgInteraction => {
-        // @ts-ignore
-        vgInteraction.handleReset({ element }); // TODO: 替换为 vgrammar 新增的 star API
+        vgInteraction.reset(element);
       });
     }
   }
