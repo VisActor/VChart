@@ -1196,7 +1196,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
               }
             }
             pickElements.forEach(element => {
-              r.interaction.addEventElement(stateKey, element);
+              r.interaction.startInteraction(stateKey, element);
             });
           }
         });
