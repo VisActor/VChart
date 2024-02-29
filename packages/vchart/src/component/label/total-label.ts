@@ -177,11 +177,18 @@ export class TotalLabel extends BaseLabelComponent {
 
 export function totalLabelPosition(series: ISeries, type: MarkType) {
   let position;
+  const { direction } = series as ICartesianSeries;
+  const isInverse =
+    direction === 'horizontal'
+      ? (series as ICartesianSeries).getXAxisHelper()?.isInverse()
+      : (series as ICartesianSeries).getYAxisHelper()?.isInverse();
+  const positionMap = { vertical: ['top', 'bottom'], horizontal: ['right', 'left'] };
+  const index = isInverse ? 1 : 0;
   switch (type) {
     case 'rect':
-      position = (series as ICartesianSeries).direction === 'horizontal' ? 'right' : 'top';
-      break;
     case 'symbol':
+      position = positionMap[direction][index];
+      break;
     default:
       position = 'top';
   }
