@@ -1,6 +1,4 @@
-import { precisionSub } from '@visactor/vutils';
-// import { isNil, precisionAdd } from '@visactor/vutils';
-import { isNil, precisionAdd } from '@visactor/vutils';
+import { isNil, precisionAdd, precisionSub } from '@visactor/vutils';
 
 import type { DataView } from '@visactor/vdataset';
 import type {
@@ -10,6 +8,7 @@ import type {
 } from '../../series/waterfall/interface';
 import type { Datum } from '../../typings';
 import { WaterfallDefaultSeriesField } from '../../constant/waterfall';
+import { warn } from '../../util/debug';
 
 type TotalInfo = {
   start: number;
@@ -66,7 +65,8 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
     };
 
     const indexData = dimensionData[key];
-    // 1.10.0 当前的key对应的数据中有一个总计。并且还有其他的分组值时，总计的计算逻辑
+    // 1.10.0 新增能力
+    // 当前 key 对应的数据中有一个总计数据，并且还有其他的分组数据时。总计的计算逻辑需要将总计值拆分
     if (indexData.length > 1) {
       const isTotalCheck = (d: Datum) => {
         if (!totalSpec || totalSpec.type === 'end') {
@@ -253,12 +253,12 @@ function getTotalInCollectField(d: Datum, totalData: TotalInfo[], total: TotalIn
   const startIndex = totalData.length - +d[totalSpec.collectCountField];
   const endIndex = totalData.length - 1;
   if (startIndex < 0) {
-    console.warn('total.collectCountField error');
+    warn('total.collectCountField error');
   } else {
     start = totalData[startIndex].start;
   }
   if (endIndex < 0) {
-    console.warn('total.collectCountField error');
+    warn('total.collectCountField error');
   } else {
     end = totalData[endIndex].end;
   }
