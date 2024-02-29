@@ -8,7 +8,6 @@ import { VChart as chartConstructor, registerLarkEnv, registerWXEnv } from './ch
 import { VChartSimple } from './simple';
 
 export default function VChart({ type, ...args }: IVChartProps) {
-  console.log('VChart');
   const env = (type ?? Taro.getEnv()).toLocaleLowerCase();
   // @ts-ignore
   const props = { chartConstructor, ...args };

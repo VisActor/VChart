@@ -108,7 +108,7 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
       ];
 
       const { chartConstructor } = this.props;
-      const { vglobal } = (chartConstructor as any) ?? {};
+      const { vglobal } = chartConstructor as any;
       if (vglobal) {
         await vglobal.setEnv('wx', { domref, force: true, canvasIdLists, freeCanvasIdx: 2, component: undefined });
       }
