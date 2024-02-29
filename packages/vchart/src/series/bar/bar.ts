@@ -694,7 +694,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
       for (let index = groupFields.length - 1; index >= 1; index--) {
         const groupField = groupFields[index];
-        const groupValues = this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
+        // const groupValues = this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
+        const groupValues = axisHelper.getScale(index)?.domain() ?? [];
         const groupCount = groupValues.length;
         const gap = getActualNumValue(barInGroup[index - 1] ?? last(barInGroup), bandWidth);
         const i = groupValues.indexOf(datum[groupField]);
