@@ -1,4 +1,3 @@
-import type { DataView } from '@visactor/vdataset';
 import type { ICartesianSeries } from '../interface';
 import { BaseSeries } from '../base/base-series';
 import type { IPoint } from '../../typings/coordinate';
@@ -98,7 +97,7 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     getDimensionField(): string[];
     getDimensionContinuousField(): string[];
     getMeasureField(): string[];
-    viewDataUpdate(d: DataView): void;
+    protected initEvent(): void;
     _sortDataInAxisDomain(): void;
     protected _getInvalidDefined: (datum: Datum) => boolean;
     reInit(spec: T): void;

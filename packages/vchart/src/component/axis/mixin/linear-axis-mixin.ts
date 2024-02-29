@@ -109,9 +109,6 @@ export class LinearAxisMixin {
   }
 
   valueToPosition(value: any): number {
-    if (this._spec.type === 'log' && !isNil(value) && (value === 0 || value[0] === 0)) {
-      return this._scale.range()[0];
-    }
     return this._scale.scale(value);
   }
 

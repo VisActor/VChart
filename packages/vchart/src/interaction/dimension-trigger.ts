@@ -84,10 +84,15 @@ export class DimensionTrigger implements ITrigger {
         const seriesMark = (reverse ? this._markReverse : this._marks)
           .getMarks()
           .filter(m => m.model === dd.series && m.getVisible());
+
         seriesMark.forEach(m => {
-          const elements = m
-            .getProduct()
-            .elements.filter(e => {
+          const markProduct = m.getProduct();
+          if (!markProduct || !markProduct.elements) {
+            return;
+          }
+
+          const elements = markProduct.elements
+            .filter(e => {
               const datum = e.getDatum();
               let c;
               if (isArray(datum)) {
@@ -107,6 +112,7 @@ export class DimensionTrigger implements ITrigger {
         });
       });
     });
+
     return items;
   }
 

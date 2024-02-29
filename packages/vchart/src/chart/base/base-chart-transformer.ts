@@ -1,8 +1,8 @@
-import { has, isValid } from '@visactor/vutils';
+import { array, has, isValid } from '@visactor/vutils';
 import type { IChartSpec, IRegionSpec, ISeriesSpec } from '../../typings';
 import type { IChartSpecInfo, IChartSpecTransformer, IChartSpecTransformerOption } from '../interface';
 import type { IModelConstructor, IModelSpecInfo } from '../../model/interface';
-import type { IRegionConstructor, IRegionSpecInfo } from '../../region/interface';
+import type { IRegionConstructor } from '../../region/interface';
 import { Factory } from '../../core';
 import type { ISeriesConstructor } from '../../series';
 import type { IComponentConstructor } from '../../component/interface/common';
@@ -105,7 +105,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     this.forEachSeriesInSpec(chartSpec, transform, currentChartSpecInfo);
     // 记录每个 series 关联的 region
     currentChartSpecInfo.series?.forEach((seriesSpecInfo, i) => {
-      const region = getRelatedRegionInfo(seriesSpecInfo, currentChartSpecInfo) ?? currentChartSpecInfo.region?.[0];
+      const relatedRegion =
+        getRelatedRegionInfo(seriesSpecInfo, currentChartSpecInfo) ?? currentChartSpecInfo.region ?? [];
+      const region = relatedRegion[0];
       if (region) {
         if (!region.seriesIndexes) {
           region.seriesIndexes = [];
@@ -124,9 +126,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
           return;
         }
         if (!componentSpecInfo.regionIndexes) {
-          const region =
-            getRelatedRegionInfo(componentSpecInfo, currentChartSpecInfo) ?? currentChartSpecInfo.region?.[0];
-          componentSpecInfo.regionIndexes = region?.regionIndexes.slice();
+          const relatedRegion =
+            getRelatedRegionInfo(componentSpecInfo, currentChartSpecInfo) ?? currentChartSpecInfo.region ?? [];
+          componentSpecInfo.regionIndexes = relatedRegion.map(region => region.regionIndexes[0]);
         }
         if (!componentSpecInfo.seriesIndexes) {
           const seriesInfo = getRelatedSeriesInfo(componentSpecInfo, currentChartSpecInfo);

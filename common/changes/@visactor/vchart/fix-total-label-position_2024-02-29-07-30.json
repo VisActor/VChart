@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(player): default attr leades to layout error. fix#241",
+      "comment": "fix: optimize totoal label position when axis is inversed",
       "type": "none"
     }
   ],

@@ -428,7 +428,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           x: datum => this._getBarXStart(datum, xScale),
           x1: datum => this._getBarXEnd(datum, xScale),
           y: datum => this._getPosition(this.direction, datum),
-          height: () => this._getBarWidth(this._yAxisHelper)
+          height: () => this._getBarWidth(this._yAxisHelper),
+          width: () => undefined,
+          y1: () => undefined
         },
         'normal',
         AttributeLevel.Series
@@ -440,7 +442,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           y: datum => this._getBarYStart(datum, yScale),
           y1: datum => this._getBarYEnd(datum, yScale),
           x: datum => this._getPosition(this.direction, datum),
-          width: () => this._getBarWidth(this._xAxisHelper)
+          width: () => this._getBarWidth(this._xAxisHelper),
+          x1: () => undefined,
+          height: () => undefined
         },
         'normal',
         AttributeLevel.Series
@@ -590,7 +594,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           x: () => this._getBarBackgroundXStart(xScale),
           x1: () => this._getBarBackgroundXEnd(xScale),
           y: datum => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
-          height: () => this._getBarWidth(this._yAxisHelper, scaleDepth)
+          height: () => this._getBarWidth(this._yAxisHelper, scaleDepth),
+          width: () => undefined,
+          y1: () => undefined
         },
         'normal',
         AttributeLevel.Series
@@ -602,7 +608,9 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           x: datum => this._getPosition(this.direction, datum, scaleDepth, SeriesMarkNameEnum.barBackground),
           y: () => this._getBarBackgroundYStart(yScale),
           y1: () => this._getBarBackgroundYEnd(yScale),
-          width: () => this._getBarWidth(this._xAxisHelper, scaleDepth)
+          width: () => this._getBarWidth(this._xAxisHelper, scaleDepth),
+          x1: () => undefined,
+          height: () => undefined
         },
         'normal',
         AttributeLevel.Series
@@ -723,7 +731,8 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
       for (let index = groupFields.length - 1; index >= 1; index--) {
         const groupField = groupFields[index];
-        const groupValues = this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
+        // const groupValues = this.getViewDataStatistics()?.latestData?.[groupField]?.values ?? [];
+        const groupValues = axisHelper.getScale(index)?.domain() ?? [];
         const groupCount = groupValues.length;
         const gap = getActualNumValue(barInGroup[index - 1] ?? last(barInGroup), bandWidth);
         const i = groupValues.indexOf(datum[groupField]);

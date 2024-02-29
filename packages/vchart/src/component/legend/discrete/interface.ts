@@ -171,6 +171,10 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
    * If the domain of the scale is not dependent on data statistics, series.getSeriesField() is used by default
    */
   field?: string;
+  /**
+   * 默认筛选的数据范围
+   */
+  defaultSelected?: string[];
 } & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager'>;
 
 // theme 主题相关配置

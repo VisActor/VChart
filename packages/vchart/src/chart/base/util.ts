@@ -1,22 +1,25 @@
-import { isValid } from '@visactor/vutils';
+import { array, isValid } from '@visactor/vutils';
 import type { IModelSpecInfo } from '../../model/interface';
 import type { IRegionSpec, IRegionSpecInfo } from '../../region/interface';
 import type { IChartSpecInfo } from '../interface';
 import type { ISeriesSpecInfo } from '../../series/interface';
 import type { ISeriesSpec } from '../../typings';
+import type { IComponentSpec } from '../../component/base/interface';
 
 /** 寻找和 model 关联的 region info */
 export const getRelatedRegionInfo = (
   modelInfo: IModelSpecInfo,
   currentChartSpecInfo: IChartSpecInfo
-): IRegionSpecInfo<IRegionSpec> | undefined => {
-  const {
-    spec: { regionId, regionIndex }
-  } = modelInfo;
+): Array<IRegionSpecInfo<IRegionSpec>> | undefined => {
+  const spec = modelInfo.spec as IComponentSpec;
+  const { regionId, regionIndex } = spec;
   if (isValid(regionId)) {
-    return currentChartSpecInfo.region?.find(({ spec }) => spec.id === regionId);
+    const regionIdList = array(regionId);
+    return currentChartSpecInfo.region?.filter(({ spec }) => regionIdList.includes(spec.id));
   } else if (isValid(regionIndex)) {
-    return currentChartSpecInfo.region?.[regionIndex];
+    return array(regionIndex)
+      .map((index: number) => currentChartSpecInfo.region?.[index])
+      .filter(isValid);
   }
   return undefined;
 };
@@ -26,17 +29,15 @@ export const getRelatedSeriesInfo = (
   modelInfo: IModelSpecInfo,
   currentChartSpecInfo: IChartSpecInfo
 ): Array<ISeriesSpecInfo<ISeriesSpec>> | undefined => {
-  let series: ISeriesSpecInfo;
-  const {
-    spec: { seriesId, seriesIndex }
-  } = modelInfo;
+  const spec = modelInfo.spec as IComponentSpec;
+  const { seriesId, seriesIndex } = spec;
   if (isValid(seriesId)) {
-    series = currentChartSpecInfo.series?.find(({ spec }) => spec.id === seriesId);
+    const seriesIdList = array(seriesId);
+    return currentChartSpecInfo.series?.filter(({ spec }) => seriesIdList.includes(spec.id));
   } else if (isValid(seriesIndex)) {
-    series = currentChartSpecInfo.series?.[seriesIndex];
-  }
-  if (series) {
-    return [series];
+    return array(seriesIndex)
+      .map((index: number) => currentChartSpecInfo.series?.[index])
+      .filter(isValid);
   }
   return undefined;
 };

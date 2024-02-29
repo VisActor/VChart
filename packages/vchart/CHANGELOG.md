@@ -1,6 +1,41 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 05 Feb 2024 09:28:49 GMT and should not be manually modified.
+This log was last generated on Wed, 28 Feb 2024 10:28:52 GMT and should not be manually modified.
+
+## 1.9.4
+Wed, 28 Feb 2024 10:28:52 GMT
+
+### Updates
+
+- fix: `startAngle` and `endAngle` is invalid in polar axis spec, related #2243
+- feat: supply pie percent data as `data._percent_`
+- fix: fix the issue of axis title'angle does not work, fixed#2270
+- fix: axis zero not work beacause of collect data. fix#2226
+- fix: rect graphics will be reused when animation is true, and switch direction, the channels must be cleared, fix #2241
+
+
+- fix: active point should can show in a dual chart, which has two line series, fix #2273
+
+
+- fix: fix bug of sortDataByAxis not work well in combination chart
+
+
+- fix: fixed the issue of `ChartEvent` being triggered multiple times, fixed#2276
+- fix: marker area xy layout needs to deal with the problem of empty coordinate points
+- fix(marker): point and line filter not work. fix#2245
+- fix(player): default attr leades to layout error. fix#241
+- fix: wordcloud support rect shape. fix#2220
+
+## 1.9.3
+Wed, 07 Feb 2024 11:02:59 GMT
+
+### Updates
+
+- feat: supply pie percent data as `data._percent_`
+- fix: axis zero not work beacause of collect data. fix#2226
+- fix: marker area xy layout needs to deal with the problem of empty coordinate points
+- fix(player): default attr leades to layout error. fix#241
+- fix: wordcloud support rect shape. fix#2220
 
 ## 1.9.2
 Mon, 05 Feb 2024 09:28:49 GMT

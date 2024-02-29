@@ -176,7 +176,13 @@ export class Compiler {
       });
 
       Object.keys(regionCombindInteractions).forEach(key => {
-        this._view.interaction(regionCombindInteractions[key].type, regionCombindInteractions[key]);
+        const interaction = this._view.interaction(regionCombindInteractions[key].type, regionCombindInteractions[key]);
+        if (this._compileChart) {
+          const region = this._compileChart.getRegionsInIds([regionCombindInteractions[key].regionId])[0];
+          if (region) {
+            region.interaction.addVgrammarInteraction(regionCombindInteractions[key].vchartState, interaction);
+          }
+        }
       });
     }
   }

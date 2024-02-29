@@ -7,7 +7,8 @@ import type {
   ElementHighlightByNameSpec,
   ElementHighlightSpec,
   ElementSelectSpec,
-  IElement
+  IElement,
+  IInteraction as IVGrammarInteraction
 } from '@visactor/vgrammar-core';
 import type { IMark } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
@@ -30,6 +31,9 @@ export interface IInteraction {
   reverseEventElement: (stateValue: StateValue) => void;
 
   setDisableActiveEffect: (disable: boolean) => void;
+  addVgrammarInteraction: (state: StateValue, i: IVGrammarInteraction) => void;
+  startInteraction: (state: StateValue, element: IElement) => void;
+  resetInteraction: (state: StateValue, element: IElement) => void;
 }
 
 export interface ITrigger {

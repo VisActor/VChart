@@ -525,8 +525,11 @@ export class VChart implements IVChart {
     if (this._autoSize) {
       if (this._container) {
         const ResizeObserverWindow: any = window.ResizeObserver;
-        this._observer = new ResizeObserverWindow(this._onResize);
-        this._observer?.observe(this._container);
+
+        if (ResizeObserverWindow) {
+          this._observer = new ResizeObserverWindow(this._onResize);
+          this._observer?.observe(this._container);
+        }
       }
       window.addEventListener('resize', this._onResize);
     }

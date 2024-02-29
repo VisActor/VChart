@@ -27,7 +27,7 @@ export class CustomMark<T = any> extends BaseComponent<any> {
   layoutZIndex: number = LayoutZIndex.CustomMark;
   layoutLevel: number = LayoutLevel.CustomMark;
 
-  protected declare _spec: (ICustomMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | ICustomMarkGroupSpec)[];
+  protected declare _spec: (ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec)[];
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const spec = chartSpec[this.specKey];
@@ -75,7 +75,7 @@ export class CustomMark<T = any> extends BaseComponent<any> {
   }
 
   private _createExtensionMark(
-    spec: ICustomMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | ICustomMarkGroupSpec,
+    spec: ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec,
     parentMark: null | IGroupMark,
     namePrefix: string,
     index: number,

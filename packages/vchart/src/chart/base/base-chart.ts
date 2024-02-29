@@ -42,7 +42,7 @@ import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
 import type { DataView } from '@visactor/vdataset';
-import type { DataSet } from '@visactor/vdataset/es/data-set';
+import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
 import {
@@ -459,7 +459,12 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   // 通知所有需要通知的元素 onLayoutEnd 钩子
   onLayoutEnd(option: IChartLayoutOption) {
     const elements = this.getAllModels();
-    elements.forEach(element => element.onLayoutEnd(option));
+    elements.forEach(element => {
+      // series.onLayoutEnd will be called by region model
+      if (element.modelType !== 'series') {
+        element.onLayoutEnd(option);
+      }
+    });
   }
 
   onEvaluateEnd(option: IChartEvaluateOption) {
@@ -1191,7 +1196,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
               }
             }
             pickElements.forEach(element => {
-              r.interaction.addEventElement(stateKey, element);
+              r.interaction.startInteraction(stateKey, element);
             });
           }
         });
