@@ -4,7 +4,7 @@ import { eachSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
-import type { IComponent, IComponentOption } from '../interface';
+import { ComponentTypeEnum, type IComponent, type IComponentOption } from '../interface';
 import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
 import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, StringOrNumber } from '../../typings';
@@ -178,7 +178,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return axisScale.range()[0] > axisScale.range()[1] && (!axis.getInverse() || this._isHorizontal);
   }
 
-  protected _updateRangeFactor(tag?: string, label?: string) {
+  protected _updateRangeFactor(tag?: 'startHandler' | 'endHandler') {
     // 轴的range有时是相反的
     // 比如相同的region范围, 有的场景range为[0, 500], 有的场景range为[500, 0]
     // 而datazoom/scrollbar的range是根据布局强制转化为[0, 500]
@@ -226,7 +226,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   effect: IEffect = {
-    onZoomChange: (tag?: string) => {
+    onZoomChange: (tag?: 'startHandler' | 'endHandler') => {
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
       if (axis && this._filterMode === IFilterMode.axis) {
         const axisScale = axis.getScale() as IBandLikeScale;
@@ -238,7 +238,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           axisScale.minBandwidth('auto');
         }
 
-        this._updateRangeFactor(tag, 'zoomChange');
+        this._updateRangeFactor(tag);
 
         (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
         axis.effect.scaleUpdate();
@@ -922,7 +922,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
     if (isDiscrete(axisScale.type)) {
       if (bandSizeResult && (this._start || this._end)) {
-        this._updateRangeFactor(null, 'auto');
+        if (this.type === ComponentTypeEnum.scrollBar) {
+          this._start = 0;
+          this._end = 1;
+        }
+        this._updateRangeFactor();
       }
       const [start, end] = axisScale.rangeFactor() ?? [];
       if (isNil(start) && isNil(end)) {

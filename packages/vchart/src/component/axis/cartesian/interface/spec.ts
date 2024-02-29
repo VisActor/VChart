@@ -1,4 +1,4 @@
-import type { ILayoutNumber, IOrientType, IRectMarkSpec, StringOrNumber } from '../../../../typings';
+import type { ILayoutNumber, IRectMarkSpec, StringOrNumber } from '../../../../typings';
 import type { IBandAxisSpec, ILinearAxisSpec, IGrid, ICommonAxisSpec } from '../../interface';
 import type {
   ICartesianDomainLine,
@@ -147,6 +147,24 @@ export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
      * @since 1.4.0
      */
     minBandSize?: number;
+
+    /**
+     * 指定在哪个 scale 层级上设置 bandSize，默认为 0
+     * @since 1.10.0
+     */
+    bandSizeLevel?: number;
+
+    /**
+     * 在当前 scale 层级设置 bandSize 后，当前层级 range 的扩增值
+     * @since 1.10.0
+     */
+    bandSizeExtend?: {
+      /** 两个 band 之间的 gap，单位为 px 或者百分比 */
+      gap?: number | string;
+      /** 当前层级 range 的总体扩增值，单位为 px */
+      extend?: number;
+    };
+
     /**
      * 是否根据组宽自动计算 region 宽度或高度，仅当 `bandSize` 或 `maxBandSize` 配置时生效
      * @since 1.4.0

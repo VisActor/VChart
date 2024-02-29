@@ -98,9 +98,10 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
     const currentChartSpecInfo: IChartSpecInfo = {};
 
-    // 预处理 region
+    /* 预处理 region */
     this.forEachRegionInSpec(chartSpec, transform, currentChartSpecInfo);
-    // 预处理 series
+
+    /* 预处理 series */
     this.forEachSeriesInSpec(chartSpec, transform, currentChartSpecInfo);
     // 记录每个 series 关联的 region
     currentChartSpecInfo.series?.forEach((seriesSpecInfo, i) => {
@@ -113,7 +114,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         seriesSpecInfo.regionIndexes = region.regionIndexes.slice();
       }
     });
-    // 预处理 component
+
+    /* 预处理 component */
     this.forEachComponentInSpec(chartSpec, transform, currentChartSpecInfo);
     // 记录每个 component 关联的 region、series
     Object.values(currentChartSpecInfo.component ?? {}).forEach(specInfoList =>
