@@ -65,7 +65,7 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
     };
 
     const indexData = dimensionData[key];
-    // 1.10.0 新增能力
+    // 1.9.5 新增能力
     // 当前 key 对应的数据中有一个总计数据，并且还有其他的分组数据时。总计的计算逻辑需要将总计值拆分
     if (indexData.length > 1) {
       const isTotalCheck = (d: Datum) => {
