@@ -1,5 +1,2 @@
-import { AxisSyncPlugin } from './axis-sync';
-
-export default {
-  AxisSyncPlugin
-};
+export * from './axis-sync';
+export * from './tooltip-handler';
