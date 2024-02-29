@@ -90,7 +90,8 @@ export class CustomMark<T = any> extends BaseComponent<any> {
         // 避免二次dataflow
         skipBeforeLayouted: true,
         attributeContext: this._getMarkAttributeContext(),
-        componentType: spec.componentType
+        componentType: spec.componentType,
+        key: spec.dataKey
       }
     ) as IGroupMark;
     if (!mark) {
