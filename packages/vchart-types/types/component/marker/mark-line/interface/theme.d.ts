@@ -6,7 +6,7 @@ export interface IMarkLineTheme {
         style?: ILineMarkSpec;
     };
     label?: {
-        position?: IMarkLineLabelPosition;
+        position?: keyof typeof IMarkLineLabelPosition;
     } & IMarkerLabelSpec;
     startSymbol?: IMarkerSymbol;
     endSymbol?: IMarkerSymbol;

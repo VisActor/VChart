@@ -1,6 +1,6 @@
 import type { IBarSeriesSpec } from '../bar/interface';
 import type { ICartesianSeriesTheme } from '../cartesian/interface';
-import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
+import type { IFormatMethod, IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IPositionedTextMarkSpec, IRectMarkSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { RangeColumnAppearPreset } from './animation';
@@ -26,16 +26,16 @@ export interface IRangeColumnSeriesSpec extends Omit<IBarSeriesSpec, 'type' | 'l
     [SeriesMarkNameEnum.label]?: Partial<ILabelSpec> & {
         position?: PositionEnum;
         [SeriesMarkNameEnum.minLabel]?: IMarkSpec<IPositionedTextMarkSpec> & {
-            visible: boolean;
+            visible?: boolean;
             position?: keyof typeof minMaxPositionEnum;
             offset?: number;
-            formatMethod?: (text: string | string[], datum?: any) => string | string[];
+            formatMethod?: IFormatMethod<[text: string | string[], datum?: any]>;
         };
         [SeriesMarkNameEnum.maxLabel]?: IMarkSpec<IPositionedTextMarkSpec> & {
-            visible: boolean;
+            visible?: boolean;
             position?: minMaxPositionEnum;
             offset?: number;
-            formatMethod?: (text: string | string[], datum?: any) => string | string[];
+            formatMethod?: IFormatMethod<[text: string | string[], datum?: any]>;
         };
     };
 }

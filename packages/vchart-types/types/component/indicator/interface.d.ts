@@ -1,8 +1,8 @@
+import { Datum, IFormatMethod } from '../../typings';
 import type { IPercent } from '../../typings/layout';
 import type { ConvertToMarkStyleSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IComponentSpec } from '../base/interface';
 import type { IComponent } from '../interface';
-import type { IRichTextCharacter } from '@visactor/vrender-core';
 export interface IIndicatorItemSpec {
     visible?: boolean;
     field?: string;
@@ -12,8 +12,8 @@ export interface IIndicatorItemSpec {
     fitPercent?: number;
     fitStrategy?: 'default' | 'inscribed';
     style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible' | 'text'> & {
-        type?: 'text' | 'rich' | 'html';
-        text?: string | string[] | number | number[] | IRichTextCharacter[];
+        type?: 'text' | 'rich';
+        text?: IFormatMethod<[activeDatum: Datum]> | ITextMarkSpec['text'] | ReturnType<IFormatMethod<[activeDatum: Datum]>>;
     };
 }
 export type IIndicator = IComponent;
@@ -28,10 +28,10 @@ export interface IIndicatorSpec extends IComponentSpec {
     title?: IIndicatorItemSpec;
     content?: IIndicatorItemSpec[] | IIndicatorItemSpec;
 }
-export interface IIndicatorItemTheme extends IIndicatorItemSpec {
+export interface IIndicatorItemTheme extends Omit<IIndicatorItemSpec, 'style'> {
     style?: Omit<ITextMarkSpec, 'visible'>;
 }
-export interface IIndicatorTheme extends IIndicatorSpec {
+export interface IIndicatorTheme extends Omit<IIndicatorSpec, 'content' | 'title'> {
     title?: IIndicatorItemTheme;
     content?: IIndicatorItemTheme;
 }

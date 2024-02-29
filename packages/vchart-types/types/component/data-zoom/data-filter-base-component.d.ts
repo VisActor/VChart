@@ -1,6 +1,6 @@
 import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
-import type { IComponent, IComponentOption } from '../interface';
+import { type IComponent, type IComponentOption } from '../interface';
 import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, StringOrNumber } from '../../typings';
 import type { IBaseScale } from '@visactor/vscale';
 import type { ICartesianBandAxisSpec } from '../axis/cartesian';
@@ -63,7 +63,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected abstract _handleDataCollectionChange(): void;
     protected _handleChange(start: number, end: number, updateComponent?: boolean): void;
     protected _isReverse(): boolean;
-    protected _updateRangeFactor(tag?: string, label?: string): void;
+    protected _updateRangeFactor(tag?: 'startHandler' | 'endHandler'): void;
     effect: IEffect;
     protected _visible: boolean;
     get visible(): boolean;

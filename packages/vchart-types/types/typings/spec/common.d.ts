@@ -14,7 +14,7 @@ import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
 import type { IMorphSeriesSpec } from '../../animation/spec';
 import type { IPlayer } from '../../component/player';
-import type { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
+import { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
 import type { IDataZoomSpec, IScrollBarSpec } from '../../component/data-zoom';
 import type { ICrosshairSpec } from '../../component/crosshair/interface';
 import type { ITheme } from '../../theme';
@@ -23,7 +23,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
 import type { IMediaQuerySpec } from '..';
 export type IChartPadding = ILayoutOrientPadding | number;
@@ -273,3 +273,12 @@ export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, 'group'>> 
 export interface IExtensionGroupMarkSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
     children?: ICustomMarkSpec<EnableMarkType>[];
 }
+export type ITextFormatMethod<T extends any[]> = (...args: T) => ITextMarkSpec['text'] | {
+    type: 'text';
+    text: ITextMarkSpec['text'];
+};
+export type IRichTextFormatMethod<T extends any[]> = (...args: T) => {
+    type: 'rich';
+    text: IRichTextCharacter[];
+} | IRichTextCharacter[];
+export type IFormatMethod<T extends any[]> = (...args: T) => ReturnType<ITextFormatMethod<T>> | ReturnType<IRichTextFormatMethod<T>>;
