@@ -128,7 +128,8 @@ export type EventParamsDefinition = {
     pinchstart: BaseEventParams;
     pinchend: BaseEventParams;
     swipe: BaseEventParams;
-    dimension: DimensionEventParams;
+    dimensionHover: DimensionEventParams;
+    dimensionClick: DimensionEventParams;
     tooltipShow: TooltipEventParams;
     tooltipHide: TooltipEventParams;
     tooltipRelease: TooltipEventParams;

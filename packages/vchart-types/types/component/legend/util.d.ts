@@ -23,7 +23,7 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
         text: import("@visactor/vrender-core").IRichTextCharacter[];
     };
     visible?: boolean;
-    padding?: import("@visactor/vrender-components/es/core/type").Padding;
+    padding?: import("@visactor/vrender-components").Padding;
     maxWidth?: number;
     minWidth?: number;
     space?: number;
