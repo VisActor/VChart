@@ -126,21 +126,20 @@ export function userAnimationConfig<M extends string, Preset extends string>(
     Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>
   > = {};
 
-  if (spec.animationAppear) {
+  if (isValid(spec.animationAppear)) {
     userConfig.appear = spec.animationAppear[markName] ?? spec.animationAppear;
   }
-
-  if (spec.animationDisappear) {
+  if (isValid(spec.animationDisappear)) {
     userConfig.disappear = spec.animationDisappear[markName] ?? spec.animationDisappear;
   }
-  if (spec.animationEnter) {
+  if (isValid(spec.animationEnter)) {
     userConfig.enter = spec.animationEnter[markName] ?? spec.animationEnter;
   }
 
-  if (spec.animationExit) {
+  if (isValid(spec.animationExit)) {
     userConfig.exit = spec.animationExit[markName] ?? spec.animationExit;
   }
-  if (spec.animationUpdate) {
+  if (isValid(spec.animationUpdate)) {
     userConfig.update = spec.animationUpdate[markName] ?? spec.animationUpdate;
   }
   if (spec.animationNormal && spec.animationNormal[markName]) {
