@@ -187,4 +187,4 @@ VChart.useRegisters([
 ]);
 ```
 
-You can specifically view the code example: [On-demand import of bar chart](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn)
+You can specifically view the code example: [On-demand import of bar chart](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn). For more detailed instructions, please refer to the[ Load on Demand Tutorial](/vchart/guide/tutorial_docs/Load_on_Demand)
