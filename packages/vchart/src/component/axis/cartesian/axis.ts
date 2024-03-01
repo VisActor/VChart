@@ -25,7 +25,7 @@ import { Factory } from '../../../core/factory';
 import { isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo, transformInverse } from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
-import pluginMap from '../../../plugin/components';
+import { AxisSyncPlugin } from '../../../plugin/components';
 import type { Datum, StringOrNumber } from '../../../typings/common';
 import type { IPoint } from '../../../typings/coordinate';
 import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
@@ -47,7 +47,7 @@ import type { IGraphic, IText } from '@visactor/vrender-core';
 import { createText } from '@visactor/vrender-core';
 import type { ICartesianChartSpec } from '../../../chart';
 
-const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
+const CartesianAxisPlugin = [AxisSyncPlugin];
 
 export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartesianAxisCommonSpec>
   extends AxisComponent<T>
