@@ -70,28 +70,6 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
     });
     return center + offset[key];
   };
-
-  protected _filterStyle(
-    style: Partial<IMarkStyle<T>>,
-    state: StateValueType,
-    level: number,
-    stateStyle = this.stateStyle
-  ) {
-    const { innerPadding, outerPadding } = style;
-
-    // VRender 的 padding 定义基于 centent-box 盒模型，默认正方向是向外扩，与 VChart 不一致。这里将 padding 符号取反
-    if (isValid(innerPadding) || isValid(outerPadding)) {
-      const newStyle = { ...style };
-      if (innerPadding) {
-        newStyle.innerPadding = -innerPadding;
-      }
-      if (outerPadding) {
-        newStyle.outerPadding = -outerPadding;
-      }
-    }
-
-    return style;
-  }
 }
 
 export class ArcMark extends BaseArcMark<IArcMarkSpec> implements IArcMark {
