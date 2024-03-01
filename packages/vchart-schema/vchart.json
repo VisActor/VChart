@@ -30246,6 +30246,17 @@
           "description": "关联的数据索引",
           "type": "number"
         },
+        "dataKey": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "dataKey用于绑定数据与Mark的关系\n如果数据和系列数据一致，可以不配置，默认会读取系列中的配置"
+        },
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户id"
@@ -32499,6 +32510,17 @@
           "description": "关联的数据索引",
           "type": "number"
         },
+        "dataKey": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "dataKey用于绑定数据与Mark的关系\n如果数据和系列数据一致，可以不配置，默认会读取系列中的配置"
+        },
         "id": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "用户id"
@@ -32572,6 +32594,17 @@
           "default": "与系列使用同一份数据",
           "description": "关联的数据索引",
           "type": "number"
+        },
+        "dataKey": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "dataKey用于绑定数据与Mark的关系\n如果数据和系列数据一致，可以不配置，默认会读取系列中的配置"
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber",
@@ -72041,7 +72074,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         },
         "size": {
@@ -72049,14 +72082,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12747",
+        "__@toStringTag@12776",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         },
         "size": {
@@ -72064,14 +72097,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12747",
+        "__@toStringTag@12776",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         },
         "size": {
@@ -72079,14 +72112,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12747",
+        "__@toStringTag@12776",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         },
         "size": {
@@ -72094,14 +72127,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12747",
+        "__@toStringTag@12776",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         },
         "size": {
@@ -72109,14 +72142,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12747",
+        "__@toStringTag@12776",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         },
         "size": {
@@ -72124,14 +72157,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12747",
+        "__@toStringTag@12776",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         },
         "size": {
@@ -72139,14 +72172,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12747",
+        "__@toStringTag@12776",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         },
         "size": {
@@ -72154,14 +72187,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12747",
+        "__@toStringTag@12776",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         },
         "size": {
@@ -72169,7 +72202,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12747",
+        "__@toStringTag@12776",
         "size"
       ],
       "type": "object"
@@ -89743,34 +89776,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12747"
+        "__@toStringTag@12776"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12747"
+        "__@toStringTag@12776"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12747": {
+        "__@toStringTag@12776": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12747"
+        "__@toStringTag@12776"
       ],
       "type": "object"
     },

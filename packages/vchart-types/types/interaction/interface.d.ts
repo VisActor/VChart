@@ -1,4 +1,4 @@
-import type { ElementActiveByLegendSpec, ElementActiveSpec, ElementHighlightByGroupSpec, ElementHighlightByKeySpec, ElementHighlightByLegendSpec, ElementHighlightByNameSpec, ElementHighlightSpec, ElementSelectSpec, IElement } from '@visactor/vgrammar-core';
+import type { ElementActiveByLegendSpec, ElementActiveSpec, ElementHighlightByGroupSpec, ElementHighlightByKeySpec, ElementHighlightByLegendSpec, ElementHighlightByNameSpec, ElementHighlightSpec, ElementSelectSpec, IElement, IInteraction as IVGrammarInteraction } from '@visactor/vgrammar-core';
 import type { IMark } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { BaseEventParams, IEventDispatcher, EventType } from '../event/interface';
@@ -17,6 +17,9 @@ export interface IInteraction {
     clearEventElement: (stateValue: StateValue, clearReverse: boolean) => void;
     reverseEventElement: (stateValue: StateValue) => void;
     setDisableActiveEffect: (disable: boolean) => void;
+    addVgrammarInteraction: (state: StateValue, i: IVGrammarInteraction) => void;
+    startInteraction: (state: StateValue, element: IElement) => void;
+    resetInteraction: (state: StateValue, element: IElement) => void;
 }
 export interface ITrigger {
     init: () => void;

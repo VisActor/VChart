@@ -57,7 +57,7 @@ export interface ISeriesMarkInitOption {
     parent?: IGroupMark | false;
     isSeriesMark?: boolean;
     depend?: IGrammarItem | IGrammarItem[];
-    key?: string;
+    key?: string | ((datum: any) => string);
     groupKey?: string;
     morph?: boolean;
     defaultMorphElementKey?: string;
