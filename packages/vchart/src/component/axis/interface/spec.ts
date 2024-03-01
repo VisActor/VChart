@@ -65,6 +65,12 @@ export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center
    * @since 1.1.0
    */
   sampling?: boolean;
+
+  /**
+   * 是否强制初始化 tick 数据，仅在 visible 为 false 时生效
+   * @default false
+   */
+  forceInitTick?: boolean;
 }
 
 export interface ILinearAxisSpec {
