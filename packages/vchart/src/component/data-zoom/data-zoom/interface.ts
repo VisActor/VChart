@@ -91,17 +91,7 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
   ignoreBandSize?: boolean;
 
   /**
-   * 自定义domain
-   * @since 1.10.0
-   */
-  customDomain?: any[];
-  /**
-   * 自定义datazoom更新回调
-   * @since 1.10.0
-   */
-  updateDataAfterChange?: (start: number, end: number, startValue: any, endValue: any) => void;
-  /**
-   * 背景图表采样速率, 如果不配置则默认将节点限制在10000个
+   * 背景图表节点压缩率, 如果不配置则默认将节点限制在10000个
    * @since 1.10.0
    */
   tolerance?: number;

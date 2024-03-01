@@ -153,6 +153,23 @@ prefix = '#' + ${prefix}
 #${prefix} realTime(boolean) = true
 Whether to update the view in real time during interaction, enabled by default. Supported since version `1.5.1`.
 
+### customDomain(array)
+
+Supports custom domain, used to unify dataZoom domain and associated axis domain. Supported since version 1.10.0.
+
+### updateDataAfterChange(Function)
+Customize the callback when datazoom is updated. Supported since version 1.10.0.
+
+```ts
+/**
+ * @params start dataZoom starting point
+ * @params start dataZoom end point
+ * @params startValue dataZoom starting point data value
+ * @params endValue dataZoom end data value
+ */
+(start: number, end: number, startValue: any, endValue: any) => void
+```
+
 {{ use: common-layout-item(
   prefix = ${prefix},
   defaultLayoutType = 'region-relative',

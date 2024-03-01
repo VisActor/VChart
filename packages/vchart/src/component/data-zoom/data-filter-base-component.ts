@@ -561,6 +561,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const scale = this._stateScale;
     const domain = scale.domain();
 
+    // 下面整体的逻辑本来可以用scale invert，但scale invert在大数据场景下性能不太好，所以这里自行计算
     if (isContinuous(scale.type)) {
       if (this._isReverse()) {
         return domain[0] + (domain[1] - domain[0]) * (1 - state);

@@ -41,7 +41,7 @@ interface IBrushDataBindSpec {
    */
   dataZoomIndex?: number | number[];
   /**
-   * 更新dataZoom范围时, 范围拓展
+   * 更新dataZoom范围时, 按百分比进行范围拓展, 比如: dataZoomRangeExpand = 0.05, 则代表更新时newStart - 0.05 & newEnd + 0.05
    * @since 1.10.0
    * 原因:
    * 1) 轴的zero、nice、min、max等配置可能导致轴范围与dataZoom范围不一致）

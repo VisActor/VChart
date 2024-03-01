@@ -21,6 +21,7 @@ import { Factory } from '../../core/factory';
 import type { DataZoom } from '../data-zoom';
 import type { IAxis } from '../axis/interface/common';
 import { isContinuous } from '@visactor/vscale';
+import type { Datum } from '../../typings/common';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -480,58 +481,68 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return domain[Math[type](...dataIndex)];
   }
 
+  private _setDataZoomComponent(
+    dataZooms: DataZoom[],
+    region: IRegion,
+    operateMaskBounds: IBounds,
+    inBrushDataValue: Datum[],
+    isHorizontal: boolean
+  ) {
+    const range = this._spec.dataZoomRangeExpand ?? 0;
+    const { x1, x2, y1, y2 } = operateMaskBounds;
+    const regionStartAttr = isHorizontal ? 'x' : 'y';
+    const boundsStart = isHorizontal ? x1 : y1;
+    const boundsEnd = isHorizontal ? x2 : y2;
+    dataZooms.forEach((dz: DataZoom) => {
+      const startValue =
+        dz.relatedAxisComponent && inBrushDataValue.length > 0
+          ? (dz.relatedAxisComponent as IAxis)
+              .getScale()
+              .invert(boundsStart - region.getLayoutStartPoint()[regionStartAttr])
+          : this._findValueInDataZoom(dz, inBrushDataValue, 'min');
+      const endValue =
+        dz.relatedAxisComponent && inBrushDataValue.length > 0
+          ? (dz.relatedAxisComponent as IAxis)
+              .getScale()
+              .invert(boundsEnd - region.getLayoutStartPoint()[regionStartAttr])
+          : this._findValueInDataZoom(dz, inBrushDataValue, 'max');
+
+      const startPercent = dz.dataToStatePoint(startValue);
+      const endPercent = dz.dataToStatePoint(endValue);
+      dz.setStartAndEnd(Math.min(Math.max(0, startPercent - range), 1), Math.min(Math.max(0, endPercent + range), 1), [
+        'percent',
+        'percent'
+      ]);
+    });
+  }
+
   private _setDataZoomState(operateMask: IPolygon, region: IRegion) {
     // step1: 找到横向 & 纵向 datazoom
-    const hDataZooms: DataZoom[] = this._relatedDataZooms.filter((d: DataZoom) => d.isHorizontal);
-    const vDataZooms: DataZoom[] = this._relatedDataZooms.filter((d: DataZoom) => !d.isHorizontal);
+    const hDataZooms: DataZoom[] = [];
+    const vDataZooms: DataZoom[] = [];
+    this._relatedDataZooms.forEach(dz => {
+      if (dz.isHorizontal) {
+        hDataZooms.push(dz);
+      } else {
+        vDataZooms.push(dz);
+      }
+    });
 
     // step2: 拿到brush bounds, 计算dataZoom新范围
-    const { x1, x2, y1, y2 } = operateMask.AABBBounds;
+    const operateMaskBounds = operateMask.AABBBounds;
 
     // step3: 拿到brushData, 计算dataZoom新范围
-    const inBrushDataXValue = this._extendDataInBrush(this._inBrushElementsMap).map(
-      item => item[array(item.getSeries().getSpec().xField)[0]]
-    );
-    const inBrushDataYValue = this._extendDataInBrush(this._inBrushElementsMap).map(
-      item => item[array(item.getSeries().getSpec().yField)[0]]
-    );
-
-    // step4: 得到新范围的起点和终点值
-    const range = this._spec.dataZoomRangeExpand ?? 0;
-    hDataZooms.forEach((hd: DataZoom) => {
-      const startValue =
-        hd.relatedAxisComponent && inBrushDataXValue.length > 0
-          ? (hd.relatedAxisComponent as IAxis).getScale().invert(x1 - region.getLayoutStartPoint().x)
-          : this._findValueInDataZoom(hd, inBrushDataXValue, 'min');
-      const endValue =
-        hd.relatedAxisComponent && inBrushDataXValue.length > 0
-          ? (hd.relatedAxisComponent as IAxis).getScale().invert(x2 - region.getLayoutStartPoint().x)
-          : this._findValueInDataZoom(hd, inBrushDataXValue, 'max');
-
-      const startPercent = hd.dataToStatePoint(startValue);
-      const endPercent = hd.dataToStatePoint(endValue);
-      hd.setStartAndEnd(Math.min(Math.max(0, startPercent - range), 1), Math.min(Math.max(0, endPercent + range), 1), [
-        'percent',
-        'percent'
-      ]);
+    const inBrushDataXValue: Datum[] = [];
+    const inBrushDataYValue: Datum[] = [];
+    this._extendDataInBrush(this._inBrushElementsMap).forEach(item => {
+      const spec = item.getSeries().getSpec();
+      inBrushDataXValue.push(item[array(spec.xField)[0]]);
+      inBrushDataYValue.push(item[array(spec.yField)[0]]);
     });
 
-    vDataZooms.forEach((vd: DataZoom) => {
-      const startValue =
-        vd.relatedAxisComponent && inBrushDataYValue.length > 0
-          ? (vd.relatedAxisComponent as IAxis).getScale().invert(y1 - region.getLayoutStartPoint().y)
-          : this._findValueInDataZoom(vd, inBrushDataYValue, 'min');
-      const endValue =
-        vd.relatedAxisComponent && inBrushDataYValue.length > 0
-          ? (vd.relatedAxisComponent as IAxis).getScale().invert(y2 - region.getLayoutStartPoint().y)
-          : this._findValueInDataZoom(vd, inBrushDataYValue, 'max');
-      const startPercent = vd.dataToStatePoint(startValue);
-      const endPercent = vd.dataToStatePoint(endValue);
-      vd.setStartAndEnd(Math.min(Math.max(0, startPercent - range), 1), Math.min(Math.max(0, endPercent + range), 1), [
-        'percent',
-        'percent'
-      ]);
-    });
+    // step4: 重置新范围的起点和终点值
+    this._setDataZoomComponent(hDataZooms, region, operateMaskBounds, inBrushDataXValue, true);
+    this._setDataZoomComponent(vDataZooms, region, operateMaskBounds, inBrushDataYValue, false);
   }
 
   protected _bindRegions() {

@@ -90,6 +90,20 @@ Event-triggering delay duration.
 
 brush选框的大小阈值。自 `1.2.0` 版本开始支持。
 
+### dataZoomId(string|string[])
+
+Retrieve the associated dataZoom id, which only takes effect when the currently operated region/series and dataZoom are associated with the same axis. Effective from version 0.10.0.
+
+### dataZoomIndex(number|number[])
+
+Brush the associated dataZoom index, which only takes effect when the currently operated region/series and dataZoom are associated with the same axis. Effective from version 0.10.0.
+
+### dataZoomRangeExpand(number)
+When updating the dataZoom range, expand the range, expand the range by percentage, for example: dataZoomRangeExpand = 0.05, which means newStart - 0.05 & newEnd + 0.05 during update.:
+1. When scaling continuous axes: The zero, nice, min, max and other configurations of the axis may cause the axis range to be inconsistent with the dataZoom range (this problem is best solved through DataZoom.customDomain)
+2. When scaling the continuous axis: The scatter plot is positioned according to the scatter point center. If updated strictly according to the center range, the scatter points will exceed the canvas.
+3. When scaling discrete axes: You do not want to strictly follow the filtered data range, but you want to still have space at both ends after scaling.
+
 ### style(Object)
 
 Selection box style configuration.

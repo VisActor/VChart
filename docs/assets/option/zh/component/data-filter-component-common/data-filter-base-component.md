@@ -148,6 +148,23 @@ prefix = '#' + ${prefix}
 #${prefix} realTime(boolean) = true
 是否在交互时实时更新视图, 默认开启。自 `1.5.1` 版本开始支持。
 
+### customDomain(array)
+
+支持自定义domain, 用于统一dataZoom domain与关联axis domain。自 1.10.0 版本开始支持。
+
+### updateDataAfterChange(Function)
+自定义datazoom更新时的回调。自 1.10.0 版本开始支持。
+
+```ts
+/**
+ * @params start dataZoom起点
+ * @params start dataZoom终点
+ * @params startValue dataZoom起点数据值
+ * @params endValue dataZoom终点数据值
+ */
+(start: number, end: number, startValue: any, endValue: any) => void
+```
+
 {{ use: roam-spec(
 prefix = '#' + ${prefix}
 ) }}

@@ -228,23 +228,6 @@
 
 该配置仅在 `auto` 设为 true 时生效。
 
-### customDomain(array)
-
-支持自定义domain, 用于统一dataZoom domain与关联axis domain。自 1.10.0 版本开始支持。
-
-### updateDataAfterChange(Function)
-自定义datazoom更新时的回调。自 1.10.0 版本开始支持。
-
-```ts
-/**
- * @params start dataZoom起点
- * @params start dataZoom终点
- * @params startValue dataZoom起点数据值
- * @params endValue dataZoom终点数据值
- */
-(start: number, end: number, startValue: any, endValue: any) => void
-```
-
 ### tolerance(number)
 背景图表节点压缩率, 如果不配置则默认将节点限制在10000个。自 1.10.0 版本开始支持。
 
