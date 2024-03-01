@@ -396,6 +396,7 @@ export function showTooltip(
       ...datum
     };
     const mockParams: TooltipHandlerParams = {
+      // FIXME: 补充 action、dimensionInfo
       changePositionOnly: false,
       chart: componentOptions.globalInstance.getChart() ?? undefined,
       datum: mockDatum,
@@ -404,7 +405,7 @@ export function showTooltip(
       event: getMockEvent(info.pos),
       item: undefined,
       itemMap: new Map<string, any>()
-    };
+    } as any;
     tooltipHandler?.showTooltip?.(
       activeType,
       [
