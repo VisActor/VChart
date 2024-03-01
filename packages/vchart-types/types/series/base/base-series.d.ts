@@ -130,6 +130,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected _updateExtensionMarkSpec(lastSpec?: any): void;
     getStackData(): ISeriesStackData;
     protected _parseDefaultInteractionConfig(mainMarks?: IMark[]): ({
+        vchartState: STATE_VALUE_ENUM;
         seriesId: number;
         regionId: number;
         selector: string[];
@@ -142,6 +143,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
         state?: undefined;
         isMultiple?: undefined;
     } | {
+        vchartState: STATE_VALUE_ENUM;
         type: string;
         seriesId: number;
         regionId: number;

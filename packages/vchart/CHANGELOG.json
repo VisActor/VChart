@@ -2,6 +2,27 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.9.5",
+      "tag": "@visactor/vchart_v1.9.5",
+      "date": "Fri, 01 Mar 2024 08:24:59 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support dataKey in CustomMark and ExtensionMark"
+          },
+          {
+            "comment": "feat: support mulity data in waterfal total dimensions\n\n"
+          },
+          {
+            "comment": "fix: `animationAppear: false` not work"
+          },
+          {
+            "comment": "fix: optimize totoal label position when axis is inversed"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.9.4",
       "tag": "@visactor/vchart_v1.9.4",
       "date": "Wed, 28 Feb 2024 10:28:52 GMT",
