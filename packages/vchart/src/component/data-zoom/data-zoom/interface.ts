@@ -70,11 +70,18 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
     padding?: number;
     style?: IMarkSpec<ITextMarkSpec>;
     formatMethod?: (text: string | number) => string | string[];
+    /**
+     * 格式化模板
+     * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+     * @since 1.10.0
+     */
+    formatter?: string | string[];
   };
   endText?: {
     padding?: number;
     style?: IMarkSpec<ITextMarkSpec>;
     formatMethod?: (text: string | number) => string | string[];
+    formatter?: string | string[];
   };
   /**
    * 是否开启框选, 如果不开启则支持selectedBackground拖拽（框选和拖拽两者互斥）

@@ -56,6 +56,7 @@ import { GroupFadeIn, GroupTransition } from '@visactor/vrender-components';
 import { GroupFadeOut } from '@visactor/vrender-core';
 import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
+import { getFormatFunction } from '../util';
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -356,12 +357,6 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     return result;
   }
 
-  protected getLabelFormatMethod() {
-    return this._spec.label.formatMethod
-      ? (value: any, datum: any, index: number) => this._spec.label.formatMethod(datum.rawValue, datum)
-      : null;
-  }
-
   protected _delegateAxisContainerEvent(component: IGroup) {
     component.addEventListener('*', ((event: any, type: string) =>
       this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
@@ -394,10 +389,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
             }
           : transformToGraphic(spec.label.style);
       }
-      if (spec.label.formatMethod) {
-        axisAttrs.label.formatMethod = (value: any, datum: any, index: number) => {
-          return spec.label.formatMethod(datum.rawValue, datum);
-        };
+      if (spec.label.formatMethod || spec.label.formatter) {
+        axisAttrs.label.formatMethod = this._getLabelFormatMethod();
       }
       if (spec.label.state) {
         axisAttrs.label.state = transformAxisLabelStateStyle(spec.label.state);
@@ -562,6 +555,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
               style: transformToGraphic(spec.subGrid.style)
             }
     };
+  }
+
+  protected _getLabelFormatMethod() {
+    const { formatMethod, formatter } = this._spec.label;
+    const { formatFunc } = getFormatFunction(formatMethod, formatter);
+    return formatFunc ? (value: any, datum: any, index: number) => formatFunc(datum.rawValue, datum, formatter) : null;
   }
 
   protected _initTickDataSet<T extends ITickDataOpt>(options: T, index: number = 0) {

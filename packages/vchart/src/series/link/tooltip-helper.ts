@@ -1,7 +1,7 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { ITooltipPattern, TooltipActiveType } from '../../typings';
-import { TimeUtil } from '../../component/axis/cartesian/util/time';
+import { TimeUtil } from '@visactor/vutils';
 
 export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   /** 获取默认的tooltip pattern */

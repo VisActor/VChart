@@ -276,7 +276,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       }
 
       const axisStyle: any = this._getAxisAttributes();
-      axisStyle.label.formatMethod = this.getLabelFormatMethod();
+      axisStyle.label.formatMethod = this._getLabelFormatMethod();
       axisStyle.verticalFactor = this.getOrient() === 'top' || this.getOrient() === 'right' ? -1 : 1;
       this._axisStyle = axisStyle;
     }

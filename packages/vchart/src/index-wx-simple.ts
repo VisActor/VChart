@@ -17,6 +17,7 @@ import { registerCartesianLinearAxis } from './component/axis/cartesian/linear-a
 import { registerWXEnv } from './env';
 import { registerCanvasTooltipHandler } from './plugin';
 import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
+import { registerFormatPlugin } from './plugin/chart/formatter';
 
 export * from './core';
 
@@ -38,6 +39,7 @@ VChart.useRegisters([
 
   // plugin
   registerCanvasTooltipHandler,
+  registerFormatPlugin,
 
   // vgrammar interactions,
   registerElementHighlight,

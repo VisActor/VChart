@@ -60,7 +60,6 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
 
     this.spec = spec;
     this.activeType = getTooltipActualActiveType(spec);
-
     this._seriesCacheInfo = this._getSeriesCacheInfo();
   }
 

@@ -31,6 +31,7 @@ import { getAxisLabelOffset } from '../axis/util';
 import { Factory } from '../../core/factory';
 import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
+import { getFormatFunction } from '../util';
 
 interface ICrosshairInfo {
   x: number;
@@ -325,18 +326,36 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     if (this.enableRemain && !angleCrossHairInfo.visible && isValid(this._cacheAngleCrossHairInfo)) {
       angleCrossHairInfo = this._cacheAngleCrossHairInfo;
     } else {
-      if (this._angleHair?.label?.formatMethod && angleCrossHairInfo.label.visible) {
-        const { label } = angleCrossHairInfo;
-        label.text = this._angleHair.label.formatMethod(label.text, 'angle') as string;
+      if (angleCrossHairInfo.label.visible) {
+        if (this._angleHair && this._angleHair.label) {
+          const { label } = angleCrossHairInfo;
+          const { formatMethod, formatter } = this._angleHair.label;
+          const { formatFunc, args } = getFormatFunction(formatMethod, formatter, label.text, {
+            label: label.text,
+            orient: 'angle'
+          });
+          if (formatFunc) {
+            label.text = formatFunc(...args);
+          }
+        }
       }
     }
 
     if (this.enableRemain && !radiusCrossHairInfo.visible && isValid(this._cacheRadiusCrossHairInfo)) {
       radiusCrossHairInfo = this._cacheRadiusCrossHairInfo;
     } else {
-      if (this._radiusHair?.label?.formatMethod && radiusCrossHairInfo.label.visible) {
-        const { label } = radiusCrossHairInfo;
-        label.text = this._radiusHair.label.formatMethod(label.text, 'radius') as string;
+      if (radiusCrossHairInfo.label.visible) {
+        if (this._radiusHair && this._radiusHair.label) {
+          const { label } = radiusCrossHairInfo;
+          const { formatMethod, formatter } = this._radiusHair.label;
+          const { formatFunc, args } = getFormatFunction(formatMethod, formatter, label.text, {
+            label: label.text,
+            orient: 'radius'
+          });
+          if (formatFunc) {
+            label.text = formatFunc(...args);
+          }
+        }
       }
     }
 

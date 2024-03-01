@@ -56,6 +56,7 @@ import { registerMapLabel } from './component/map-label';
 import { registerGridLayout } from './layout/grid-layout/grid-layout';
 import { registerPoptip } from './component/poptip';
 import { registerCanvasTooltipHandler } from './plugin';
+import { registerFormatPlugin } from './plugin/chart/formatter';
 
 import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
 
@@ -126,6 +127,7 @@ VChart.useRegisters([
 
   // plugin
   registerCanvasTooltipHandler,
+  registerFormatPlugin,
 
   // vgrammar interactions,
   registerElementHighlight,

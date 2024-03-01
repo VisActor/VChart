@@ -36,6 +36,12 @@ export interface IHair {
     visible: boolean;
     /** 格式化函数 */
     formatMethod?: (text: StringOrNumber | string[], position: string) => string | string[];
+    /**
+     * 格式化模板
+     * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+     * @since 1.10.0
+     */
+    formatter?: string | string[];
     /** 文本样式 */
     textStyle?: Dict<any>;
     minWidth?: number;
@@ -422,6 +428,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       hair.label = {
         visible: true,
         formatMethod: label.formatMethod,
+        formatter: label.formatter,
         minWidth: labelBackground.minWidth,
         maxWidth: labelBackground.maxWidth,
         padding: labelBackground.padding,
