@@ -211,7 +211,6 @@ export interface IMarkState {
   update: () => void;
 }
 
-// TODO: enum to const
 export enum STATE_VALUE_ENUM {
   STATE_NORMAL = 'normal',
 
@@ -225,7 +224,6 @@ export enum STATE_VALUE_ENUM {
   STATE_SELECTED_REVERSE = 'selected_reverse'
 }
 
-// TODO: 也许有更好的ts写法
 export enum STATE_VALUE_ENUM_REVERSE {
   STATE_HOVER_REVERSE = 'hover_reverse',
   STATE_DIMENSION_HOVER_REVERSE = 'dimension_hover_reverse',

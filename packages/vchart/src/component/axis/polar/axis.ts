@@ -255,46 +255,15 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     return true;
   }
 
-  protected collectData(depth: number, rawData?: boolean) {
-    const data: { min: number; max: number; values: any[] }[] = [];
-    eachSeries(
-      this._regions,
-      s => {
-        let field: string | string[];
-        if (depth > 0) {
-          field = s.getGroups()?.fields?.[depth];
-        } else {
-          field =
-            this.getOrient() === 'radius' ? (s as IPolarSeries).getRadiusField() : (s as IPolarSeries).getAngleField();
-        }
-        field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
-        if (!depth) {
-          this._dataFieldText = s.getFieldAlias(field[0]);
-        }
+  protected collectSeriesField(depth: number, series: IPolarSeries) {
+    let field: string | string[];
 
-        if (field) {
-          const viewData = s.getViewData();
-          if (rawData) {
-            field.forEach(f => {
-              data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
-            });
-          } else if (viewData && viewData.latestData && viewData.latestData.length) {
-            const seriesData = s.getViewDataStatistics?.();
-
-            field.forEach(f => {
-              if (seriesData?.latestData?.[f]) {
-                data.push(seriesData.latestData[f]);
-              }
-            });
-          }
-        }
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
-    return data;
+    if (depth > 0) {
+      field = series.getGroups()?.fields?.[depth];
+    } else {
+      field = this.getOrient() === 'radius' ? series.getRadiusField() : series.getAngleField();
+    }
+    return field;
   }
 
   protected abstract computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[];
