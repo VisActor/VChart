@@ -51,6 +51,7 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
     };
     brushSelect?: boolean;
     ignoreBandSize?: boolean;
+    tolerance?: number;
 }
 export type IDataZoomCommonTheme = IComponentSpec & IDataZoomStyle & {
     orient?: IDataZoomSpec['orient'];

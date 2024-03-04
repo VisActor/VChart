@@ -26,6 +26,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     protected _middleHandlerSize: number;
     protected _startHandlerSize: number;
     protected _endHandlerSize: number;
+    protected _isReverseCache: boolean;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     constructor(spec: T, options: IComponentOption);
     created(): void;
