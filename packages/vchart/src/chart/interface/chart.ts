@@ -1,7 +1,7 @@
 import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
-import type { IParserOptions } from '@visactor/vdataset/es/parser';
+import type { IParserOptions } from '@visactor/vdataset';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
 import type { IModel, IModelConstructor, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';

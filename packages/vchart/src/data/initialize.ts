@@ -7,7 +7,7 @@ import type { IDataViewOptions, IFields, ITransformOptions } from '@visactor/vda
 import type { IDataValues, SheetParseOptions } from '../typings/spec/common';
 import { registerDataSetInstanceTransform } from './register';
 import { copyDataView } from './transforms/copy-data-view';
-import type { IParserOptions } from '@visactor/vdataset/es/parser';
+import type { IParserOptions } from '@visactor/vdataset';
 
 export function initializeData() {
   // todo
