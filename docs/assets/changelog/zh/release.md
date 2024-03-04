@@ -5,13 +5,13 @@
 
 **🆕 新增功能**
 
-- **@visactor/vchart**: support dataKey in CustomMark and ExtensionMark
-- **@visactor/vchart**: support mulity data in waterfal total dimensions
+- **@visactor/vchart**: 自定义Mark和拓展Mark支持`dataKey`配置，用于配置数据对应的唯一key
+- **@visactor/vchart**: 瀑布图总计支持多分组数据
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: `animationAppear: false` not work
-- **@visactor/vchart**: optimize totoal label position when axis is inversed
+- **@visactor/vchart**: 修复动画配置`animationAppear: false`不生效的问题
+- **@visactor/vchart**: 优化坐标轴反转时，总计`label`展示位置
 
 
 
