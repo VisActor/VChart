@@ -24,7 +24,7 @@ import type {
   IEvent,
   IEventDispatcher
 } from '../event/interface';
-import type { IParserOptions } from '@visactor/vdataset/es/parser';
+import type { IParserOptions } from '@visactor/vdataset';
 import type { IFields, Transform, DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser } from '@visactor/vdataset';
