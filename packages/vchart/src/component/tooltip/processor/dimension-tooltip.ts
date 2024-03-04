@@ -12,7 +12,7 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
   /** 触发对应类型的 tooltip */
   showTooltip(info: DimensionTooltipInfo, params: BaseEventParams, changePositionOnly: boolean) {
     const newParams: TooltipHandlerParams = {
-      ...params,
+      ...(params as TooltipHandlerParams),
       dimensionInfo: this._preprocessDimensionInfo(info),
       changePositionOnly
     };
