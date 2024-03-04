@@ -108,11 +108,7 @@ export interface IFixedTooltipPositionPattern {
   y: TooltipPositionPatternItem;
 }
 
-export type TooltipPosition =
-  | IGlobalTooltipPositionPattern
-  | IFixedTooltipPositionPattern
-  // 旧版本，不推荐使用
-  | TooltipFixedPosition;
+export type TooltipPosition = IGlobalTooltipPositionPattern | IFixedTooltipPositionPattern | TooltipFixedPosition;
 
 export interface ITooltipPositionActual {
   x: number;
