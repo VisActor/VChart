@@ -1,6 +1,4 @@
 import React from 'react';
-// @ts-ignore
-import VChart from '@visactor/vchart/build/es5';
 import { IChartProps, IVChart, RenderMode } from '../../typings';
 
 export interface WebChartProps extends IChartProps {
@@ -18,8 +16,11 @@ export class WebChart extends React.Component<WebChartProps> {
   }
 
   componentDidMount() {
-    const { onChartInit, onChartReady, mode }: any = this.props;
-    this.vchart = new VChart(this.props.spec, {
+    const { onChartInit, onChartReady, mode, chartConstructor }: any = this.props;
+    if (!chartConstructor) {
+      console.error('chartConstructor not found');
+    }
+    this.vchart = new chartConstructor(this.props.spec, {
       dom: `${this.props.canvasId}`,
       mode,
       ...this.props.options

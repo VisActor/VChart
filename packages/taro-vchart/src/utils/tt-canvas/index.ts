@@ -1,8 +1,6 @@
-// @ts-ignore
-import VChart from '@visactor/vchart/build/es5';
-import { IEvent, IOptions, IVChart, IChartProps, IDomRef } from '../../typings';
-
+import type { IEvent, IOptions, IVChart, IChartProps, IDomRef, IVChartConstructor } from '../../typings';
 export interface IProps {
+  chartConstructor: IVChartConstructor;
   dpr: number;
   domref: IDomRef;
   mode?: string;
@@ -25,6 +23,7 @@ interface ITTCanvas {
 }
 
 export class TTCanvas implements ITTCanvas {
+  private chartConstructor: IVChartConstructor;
   private dpr: number;
   private domref: IDomRef;
   private mode: string;
@@ -39,6 +38,8 @@ export class TTCanvas implements ITTCanvas {
 
   constructor(props: IProps) {
     const {
+      chartConstructor,
+
       dpr,
       events,
       spec,
@@ -51,6 +52,7 @@ export class TTCanvas implements ITTCanvas {
       onChartUpdate
     } = props;
 
+    this.chartConstructor = chartConstructor;
     this.domref = domref;
     this.mode = mode || 'miniApp';
     this.dpr = dpr;
@@ -74,7 +76,8 @@ export class TTCanvas implements ITTCanvas {
 
   init() {
     const domref = this.domref;
-    this.chartInstance = new VChart(
+    this.chartInstance = new this.chartConstructor(
+      // @ts-ignore
       {
         width: domref.width, // Tip: 跨端环境需要手动传入宽高
         height: domref.height,

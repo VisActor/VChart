@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View } from '@tarojs/components';
-import { VChart } from '../../../src';
+import { VChart } from '../../../src/';
+// import { VChartSimple as VChart } from '../../../src/simple';
+import { VChart as chartConstructor, initVChart } from './vchart';
+
 import Taro from '@tarojs/taro';
 
 export default function (props: any) {
   console.log('env', Taro.getEnv());
+  initVChart();
   // let type;
   // if (URLSearchParams) {
   //   const url = new URLSearchParams(props.tid);
@@ -44,6 +48,7 @@ export default function (props: any) {
         <VChart
           type={Taro.getEnv()}
           spec={spec}
+          chartConstructor={chartConstructor}
           canvasId={`${type}chart1`}
           style={{
             width: '100%',
@@ -65,36 +70,6 @@ export default function (props: any) {
           }}
         />
       </View>
-
-      {/* <View
-        style={{
-          boxSizing: 'border-box',
-          width: '100vw',
-          height: '75vh',
-          padding: '0 8px'
-        }}
-      >
-        <VChart
-          type={Taro.getEnv() as any}
-          spec={spec}
-          canvasId={`${type}chart2`}
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "4px",
-            border: "1px solid #eeeeee",
-          }}
-          onChartInit={() => {
-            console.log(`init ${type}`);
-          }}
-          onChartReady={() => {
-            console.log(`ready ${type}`);
-          }}
-          onChartUpdate={() => {
-            console.log(`update ${type}`);
-          }}
-        />
-      </View> */}
     </View>
   );
 }

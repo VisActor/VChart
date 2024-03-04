@@ -29,6 +29,7 @@ import type { IFields, Transform, DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
+import { vglobal } from '@visactor/vrender-core';
 import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
@@ -272,6 +273,8 @@ export class VChart implements IVChart {
 
   /** 工具方法 */
   static readonly Utils = VCHART_UTILS;
+
+  static readonly vglobal = vglobal;
 
   protected _originalSpec: any;
   protected _spec: any;
