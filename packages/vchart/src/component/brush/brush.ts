@@ -1,6 +1,6 @@
 import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
 import { BaseComponent } from '../base/base-component';
-import type { IComponentOption } from '../interface';
+import type { IComponent, IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
@@ -9,14 +9,7 @@ import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
 import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type {
-  IGraphic,
-  IGroup,
-  INode,
-  IPolygon,
-  IRectGraphicAttribute,
-  ISymbolGraphicAttribute
-} from '@visactor/vrender-core';
+import type { IGraphic, IGroup, INode, IPolygon, ISymbolGraphicAttribute } from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
@@ -25,6 +18,10 @@ import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle }
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
+import type { DataZoom } from '../data-zoom';
+import type { IAxis } from '../axis/interface/common';
+import { isContinuous } from '@visactor/vscale';
+import type { Datum } from '../../typings/common';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -59,6 +56,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
 
   private _needDisablePickable: boolean = false;
+
+  private _relatedDataZooms: DataZoom[] = [];
 
   init() {
     const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec.inBrush);
@@ -111,6 +110,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     this.initEvent();
     this._bindRegions();
     this._bindLinkedSeries();
+    this._bindDataZoom();
     this._initNeedOperatedItem();
   }
 
@@ -118,7 +118,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     const data = [];
     for (const brushName in elementsMap) {
       for (const elementKey in elementsMap[brushName]) {
-        data.push(elementsMap[brushName][elementKey].data[0]);
+        data.push({
+          ...elementsMap[brushName][elementKey].data[0],
+          getSeries: (elementsMap[brushName][elementKey] as any).getSeries // 将series info写入element, 更新dataZoom范围时需要使用
+        });
       }
     }
     return data;
@@ -201,10 +204,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._needDisablePickable = true;
 
       this._handleBrushChange(ChartEvent.brushChange, region, e);
+      this._emitEvent(ChartEvent.brushChange, region);
     });
 
     brush.addEventListener(BrushEvent.moving, (e: any) => {
       this._handleBrushChange(ChartEvent.brushChange, region, e);
+      this._emitEvent(ChartEvent.brushChange, region);
     });
 
     brush.addEventListener(BrushEvent.brushClear, (e: any) => {
@@ -213,16 +218,24 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._needDisablePickable = false;
       this._handleBrushChange(ChartEvent.brushChange, region, e);
       this._handleBrushChange(ChartEvent.brushClear, region, e);
+      this._emitEvent(ChartEvent.brushChange, region);
+      this._emitEvent(ChartEvent.brushClear, region);
     });
 
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
       this._needInitOutState = true;
       this._needDisablePickable = false;
+      const { operateMask } = e.detail as any;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
+      this._setDataZoomState(operateMask, region);
+      this._emitEvent(ChartEvent.brushEnd, region);
     });
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
+      const { operateMask } = e.detail as any;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
+      this._setDataZoomState(operateMask, region);
+      this._emitEvent(ChartEvent.brushEnd, region);
     });
   }
 
@@ -230,8 +243,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     const { operateMask } = e.detail as any;
     this._reconfigItem(operateMask, region);
     this._reconfigLinkedItem(operateMask, region);
-
-    this._emitEvent(eventType, region);
   }
 
   private _emitEvent(eventType: string, region: IRegion) {
@@ -257,7 +268,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         // 被链接的系列中：在选框内的 vgrammar elements
         linkedInBrushElementsMap: this._linkedInBrushElementsMap,
         // 被链接的系列中：在选框外的 vgrammar elements
-        linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap
+        linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap,
+        // 关联的dataZoom
+        releatedDataZoom: this._relatedDataZooms ?? []
       }
     });
   }
@@ -291,6 +304,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       }
       const elements = grammarMark.elements;
       elements.forEach((el: IElement) => {
+        (el as any).getSeries = (mark as any).getSeries;
         const graphicItem = el.getGraphicItem();
         const elementKey = mark.id + '_' + el.key;
         // 判断逻辑:
@@ -457,6 +471,80 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return brushMask.globalAABBBounds.intersects(item.globalAABBBounds);
   }
 
+  private _findValueInDataZoom(dataZoom: DataZoom, dataValue: any[], type: 'min' | 'max') {
+    const stateScale = dataZoom.stateScale;
+    if (isContinuous(stateScale.type)) {
+      return Math[type](...dataValue);
+    }
+    const domain = stateScale.domain();
+    const dataIndex = dataValue.map(d => d.indexOf(domain));
+    return domain[Math[type](...dataIndex)];
+  }
+
+  private _setDataZoomComponent(
+    dataZooms: DataZoom[],
+    region: IRegion,
+    operateMaskBounds: IBounds,
+    inBrushDataValue: Datum[],
+    isHorizontal: boolean
+  ) {
+    const range = this._spec.dataZoomRangeExpand ?? 0;
+    const { x1, x2, y1, y2 } = operateMaskBounds;
+    const regionStartAttr = isHorizontal ? 'x' : 'y';
+    const boundsStart = isHorizontal ? x1 : y1;
+    const boundsEnd = isHorizontal ? x2 : y2;
+    dataZooms.forEach((dz: DataZoom) => {
+      const startValue =
+        dz.relatedAxisComponent && inBrushDataValue.length > 0
+          ? (dz.relatedAxisComponent as IAxis)
+              .getScale()
+              .invert(boundsStart - region.getLayoutStartPoint()[regionStartAttr])
+          : this._findValueInDataZoom(dz, inBrushDataValue, 'min');
+      const endValue =
+        dz.relatedAxisComponent && inBrushDataValue.length > 0
+          ? (dz.relatedAxisComponent as IAxis)
+              .getScale()
+              .invert(boundsEnd - region.getLayoutStartPoint()[regionStartAttr])
+          : this._findValueInDataZoom(dz, inBrushDataValue, 'max');
+
+      const startPercent = dz.dataToStatePoint(startValue);
+      const endPercent = dz.dataToStatePoint(endValue);
+      dz.setStartAndEnd(Math.min(Math.max(0, startPercent - range), 1), Math.min(Math.max(0, endPercent + range), 1), [
+        'percent',
+        'percent'
+      ]);
+    });
+  }
+
+  private _setDataZoomState(operateMask: IPolygon, region: IRegion) {
+    // step1: 找到横向 & 纵向 datazoom
+    const hDataZooms: DataZoom[] = [];
+    const vDataZooms: DataZoom[] = [];
+    this._relatedDataZooms.forEach(dz => {
+      if (dz.isHorizontal) {
+        hDataZooms.push(dz);
+      } else {
+        vDataZooms.push(dz);
+      }
+    });
+
+    // step2: 拿到brush bounds, 计算dataZoom新范围
+    const operateMaskBounds = operateMask.AABBBounds;
+
+    // step3: 拿到brushData, 计算dataZoom新范围
+    const inBrushDataXValue: Datum[] = [];
+    const inBrushDataYValue: Datum[] = [];
+    this._extendDataInBrush(this._inBrushElementsMap).forEach(item => {
+      const spec = item.getSeries().getSpec();
+      inBrushDataXValue.push(item[array(spec.xField)[0]]);
+      inBrushDataYValue.push(item[array(spec.yField)[0]]);
+    });
+
+    // step4: 重置新范围的起点和终点值
+    this._setDataZoomComponent(hDataZooms, region, operateMaskBounds, inBrushDataXValue, true);
+    this._setDataZoomComponent(vDataZooms, region, operateMaskBounds, inBrushDataYValue, false);
+  }
+
   protected _bindRegions() {
     if (isValid(this._spec.regionId) && isValid(this._spec.regionIndex)) {
       this._relativeRegions = this._option.getAllRegions();
@@ -477,6 +565,19 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     );
   }
 
+  private _bindDataZoom() {
+    if (this._spec.dataZoomId) {
+      array(this._spec.dataZoomId).forEach((dataZoomId: string) => {
+        this._relatedDataZooms.push(this._option.getComponentByUserId(dataZoomId) as DataZoom);
+      });
+    }
+    if (this._spec.dataZoomIndex) {
+      array(this._spec.dataZoomIndex).forEach((dataZoomIndex: number) => {
+        this._relatedDataZooms.push(this._option.getComponentByIndex('dataZoom', dataZoomIndex) as DataZoom);
+      });
+    }
+  }
+
   private _initNeedOperatedItem() {
     const seriesUserId = this._spec.seriesId;
     const seriesIndex = this._spec.seriesIndex;
@@ -488,7 +589,13 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           (seriesIndex && array(seriesIndex).includes(s.getSpecIndex())) ||
           (!seriesIndex && !seriesUserId)
         ) {
-          allMarks.push(...s.getMarksWithoutRoot());
+          // series系列info 写入mark, 便于进一步写入element
+          allMarks.push(
+            ...s.getMarksWithoutRoot().map(mark => {
+              (mark as any).getSeries = () => s;
+              return mark;
+            })
+          );
         }
         this._itemMap[r.id] = allMarks;
       });

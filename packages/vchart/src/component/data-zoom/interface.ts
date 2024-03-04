@@ -143,6 +143,16 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
    * @default true
    */
   realTime?: boolean;
+  /**
+   * 自定义domain
+   * @since 1.10.0
+   */
+  customDomain?: any[];
+  /**
+   * 自定义datazoom更新回调
+   * @since 1.10.0
+   */
+  updateDataAfterChange?: (start: number, end: number, startValue: any, endValue: any) => void;
 }
 
 export interface IRoamDragSpec extends IRoamSpec {
