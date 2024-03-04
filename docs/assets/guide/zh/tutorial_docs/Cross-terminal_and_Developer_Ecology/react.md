@@ -419,8 +419,8 @@ export default MyChart;
 
 React-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的时候，建议使用 `<VChartSimple />` 标签，
 
-`<VChartSimole />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart/esm/core` 引用 `VChart` 构造类，并传入给 `<VChartSimple />`;
-VChart 按需引用参考[相关文档](../Basic/How_to_Import_VChart.md#按需引入)
+`<VChartSimple />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart/esm/core` 引用 `VChart` 构造类，并传入给 `<VChartSimple />`;
+VChart 按需引用参考[相关文档](/vchart/guide/tutorial_docs/Load_on_Demand)
 
 ````typescript
 interface VChartSimpleProps extends EventsProps {

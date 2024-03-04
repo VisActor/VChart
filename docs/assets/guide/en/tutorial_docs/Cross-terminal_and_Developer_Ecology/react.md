@@ -418,7 +418,7 @@ If there are components not covered by syntactic tags when using React-VChart, y
 React-VChart itself supports on-demand loading. When VChart needs to be loaded on demand, it is recommended to use the `<VChartSimple />` tag,
 
 The `<VChartSimple />` component and the `<VChart />` component are used in almost the same way. The only difference is that users need to import the `VChart` constructor class from `@viasctor/vchart/esm/core` and pass it to `<VChartSimple />`;
-Reference for on-demand import of VChart [related documents](../Basic/How_to_Import_VChart.md#use-with-npm)
+Reference for on-demand import of VChart [related documents](/vchart/guide/tutorial_docs/Load_on_Demand)
 
 ````typescript
 interface VChartSimpleProps extends EventsProps {
