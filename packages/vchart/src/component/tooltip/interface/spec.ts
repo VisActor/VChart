@@ -1,4 +1,4 @@
-import type { IToolTipActual, ITooltipPattern, Maybe, TooltipActiveType, TooltipData } from '../../../typings';
+import type { ITooltipActual, ITooltipPattern, Maybe, TooltipActiveType, TooltipData } from '../../../typings';
 import type { ITooltipActiveTypeAsKeys, TooltipHandlerParams, TooltipResult } from './common';
 import type { ITooltipTheme } from './theme';
 
@@ -82,7 +82,7 @@ export interface ITooltipSpec
    * 更新 tooltip dom 元素，仅当 renderMode: 'html' 时生效
    * @since 1.6.0
    */
-  updateElement?: (tooltipElement: HTMLElement, actualTooltip: IToolTipActual, params: TooltipHandlerParams) => void;
+  updateElement?: (tooltipElement: HTMLElement, actualTooltip: ITooltipActual, params: TooltipHandlerParams) => void;
 
   offset?: {
     x?: number;

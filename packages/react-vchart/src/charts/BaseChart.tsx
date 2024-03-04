@@ -1,9 +1,18 @@
-import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor } from '@visactor/vchart';
-import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
+import type {
+  IVChart,
+  IData,
+  IInitOption,
+  ISpec,
+  IVChartConstructor,
+  ITooltipSpec,
+  ITooltipActual,
+  TooltipHandlerParams
+} from '@visactor/vchart';
+import React, { useState, useEffect, useRef, useImperativeHandle, ReactNode } from 'react';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
 import type { IView } from '@visactor/vgrammar-core';
-import { isEqual, isNil, pickWithout } from '@visactor/vutils';
+import { isEqual, isNil, isObject, pickWithout } from '@visactor/vutils';
 import ViewContext from '../context/view';
 import { toArray } from '../util';
 import { REACT_PRIVATE_PROPS } from '../constants';
@@ -21,6 +30,9 @@ import {
   HierarchyEventProps,
   ChartLifeCycleEventProps
 } from '../eventsUtils';
+import { IReactTooltipProps, TooltipProps, TooltipRender } from '../components/tooltip/interface';
+import { createPortal } from 'react-dom';
+import { REACT_TOOLTIP_ClASS_NAME } from '../components/tooltip/constant';
 
 export type ChartOptions = Omit<IInitOption, 'dom'>;
 
@@ -33,7 +45,8 @@ export interface BaseChartProps
     PlayerEventProps,
     DimensionEventProps,
     HierarchyEventProps,
-    ChartLifeCycleEventProps {
+    ChartLifeCycleEventProps,
+    IReactTooltipProps {
   vchartConstrouctor?: IVChartConstructor;
   type?: string;
   /** 上层container */
@@ -127,16 +140,82 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const specFromChildren = useRef<Omit<ISpec, 'type' | 'data' | 'width' | 'height'>>(null);
   const eventsBinded = React.useRef<BaseChartProps>(null);
   const skipFunctionDiff = !!props.skipFunctionDiff;
+  const [tooltipNode, setTooltipNode] = useState<ReactNode>(null);
 
   const parseSpec = (props: Props) => {
+    let spec: ISpec = undefined;
+
     if (hasSpec && props.spec) {
-      return props.spec;
+      spec = props.spec;
+    } else {
+      spec = {
+        ...prevSpec.current,
+        ...specFromChildren.current
+      } as ISpec;
     }
 
-    return {
-      ...prevSpec.current,
-      ...specFromChildren.current
-    } as ISpec;
+    spec.tooltip = initCustomTooltip(props, spec.tooltip);
+
+    return spec;
+  };
+
+  /** tooltip 自定义插槽 */
+  const initCustomTooltip = (props: Props, spec?: TooltipProps) => {
+    let render: TooltipRender = undefined;
+    if (spec?.tooltipRender) {
+      render = spec.tooltipRender;
+      delete spec.tooltipRender;
+    } else if (spec?.children) {
+      render = (tooltipElement, actualTooltip, params) =>
+        React.Children.map(spec.children, child =>
+          isObject(child)
+            ? React.cloneElement(child as React.ReactElement<any, React.JSXElementConstructor<any>>, {
+                tooltipElement,
+                actualTooltip,
+                params
+              })
+            : child
+        );
+    } else if (props.tooltipRender) {
+      render = props.tooltipRender;
+    }
+
+    let reserve: boolean = undefined;
+    if (spec?.reserveDefaultTooltip) {
+      reserve = spec.reserveDefaultTooltip;
+      delete spec.reserveDefaultTooltip;
+    } else {
+      reserve = props.reserveDefaultTooltip;
+    }
+
+    if (render) {
+      return {
+        ...spec,
+        updateElement: (el, actualTooltip, params) => {
+          const { changePositionOnly } = params;
+          if (changePositionOnly) {
+            return;
+          }
+          if (!reserve) {
+            el.style.width = 'auto';
+            el.style.height = 'auto';
+            el.style.minHeight = 'auto';
+            el.style.padding = '0px';
+            for (let i = 0; i < el.children.length; i++) {
+              const childNode = el.children[i] as HTMLElement;
+              if (childNode.className !== REACT_TOOLTIP_ClASS_NAME && childNode.style.display !== 'none') {
+                childNode.style.display = 'none';
+              }
+            }
+          }
+          setTooltipNode(
+            createPortal(<div className={REACT_TOOLTIP_ClASS_NAME}>{render(el, actualTooltip, params)}</div>, el)
+          );
+        }
+      } as ITooltipSpec;
+    }
+
+    return spec as ITooltipSpec;
   };
 
   const createChart = (props: Props) => {
@@ -253,6 +332,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
             </React.Fragment>
           );
         })}
+        {tooltipNode}
       </ViewContext.Provider>
     </RootChartContext.Provider>
   );

@@ -9,7 +9,7 @@ export * from './MarkLine';
 export * from './MarkArea';
 export * from './MarkPoint';
 export * from './ScrollBar';
-export * from './Tooltip';
+export * from './tooltip';
 export * from './Player';
 export * from './Indicator';
 export * from './Title';

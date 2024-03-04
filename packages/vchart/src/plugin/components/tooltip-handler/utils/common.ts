@@ -1,6 +1,6 @@
 import type { Datum } from '@visactor/vgrammar-core';
 import type {
-  IToolTipLinePattern,
+  ITooltipLinePattern,
   ITooltipPattern,
   MaybeArray,
   TooltipContentProperty,
@@ -82,16 +82,16 @@ export const getTooltipContentPattern = (
   field?: ITooltipPattern['content'],
   data?: TooltipData,
   params?: TooltipHandlerParams
-): Array<IToolTipLinePattern> | undefined => {
+): Array<ITooltipLinePattern> | undefined => {
   if (isNil(field)) {
     return field;
   }
-  let result: IToolTipLinePattern[] = [];
+  let result: ITooltipLinePattern[] = [];
   array(field).forEach(patternItem => {
     if (isFunction(patternItem)) {
       result = result.concat(array(patternItem(data, params)));
     } else {
-      result.push(patternItem as IToolTipLinePattern);
+      result.push(patternItem as ITooltipLinePattern);
     }
   });
   return result;

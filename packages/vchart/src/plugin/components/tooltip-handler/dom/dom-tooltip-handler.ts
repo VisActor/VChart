@@ -1,4 +1,4 @@
-import type { IToolTipActual } from '../../../../typings/tooltip';
+import type { ITooltipActual } from '../../../../typings/tooltip';
 import { BaseTooltipHandler } from '../base';
 import { getDomStyles } from './utils';
 import type { IDomTooltipStyle } from './interface';
@@ -20,7 +20,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   protected _tooltipContainer = domDocument?.body;
   protected _domStyle: IDomTooltipStyle;
-  protected _tooltipActual?: IToolTipActual;
+  protected _tooltipActual?: ITooltipActual;
   protected declare _container: Maybe<HTMLDivElement>;
 
   protected model: TooltipModel;
@@ -82,7 +82,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     this._container = null;
   }
 
-  protected _updateTooltip(visible: boolean, params: TooltipHandlerParams, actualTooltip: IToolTipActual) {
+  protected _updateTooltip(visible: boolean, params: TooltipHandlerParams, actualTooltip: ITooltipActual) {
     if (!visible || !this.model) {
       this.setVisibility(visible);
     } else {

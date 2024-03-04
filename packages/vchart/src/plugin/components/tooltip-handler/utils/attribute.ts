@@ -5,7 +5,7 @@ import type {
   TooltipSymbolAttrs,
   TooltipTextAttrs
 } from '@visactor/vrender-components';
-import type { IPadding, IToolTipActual } from '../../../../typings';
+import type { IPadding, ITooltipActual } from '../../../../typings';
 import type { ITooltipAttributes, ITooltipTextStyle } from '../interface';
 import { isValid, maxInArray, normalizePadding } from '@visactor/vutils';
 import { mergeSpec } from '../../../../util/spec/merge-spec';
@@ -71,7 +71,7 @@ export const getPanelAttributes = (style: ITooltipTheme['panel']): TooltipPanelA
 };
 
 export const getTooltipAttributes = (
-  actualTooltip: IToolTipActual,
+  actualTooltip: ITooltipActual,
   spec: ITooltipSpec,
   globalTheme: ITheme
 ): ITooltipAttributes => {

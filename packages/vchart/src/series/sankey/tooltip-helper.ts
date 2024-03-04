@@ -1,7 +1,7 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { Datum } from '@visactor/vgrammar-core';
-import type { IToolTipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
+import type { ITooltipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
 import { isNumber } from '@visactor/vutils';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
 
@@ -41,12 +41,12 @@ export class SankeySeriesTooltipHelper extends BaseSeriesTooltipHelper implement
         ]
       };
     } else if (activeType === 'dimension' && dimensionInfo) {
-      const title: IToolTipLinePattern = {
+      const title: ITooltipLinePattern = {
         key: undefined,
         value: this._getDimensionData,
         hasShape: false
       };
-      const content: IToolTipLinePattern[] = [];
+      const content: ITooltipLinePattern[] = [];
       dimensionInfo.forEach(({ data }) =>
         data.forEach(({ series }: any) => {
           content.push({

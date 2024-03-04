@@ -16,7 +16,8 @@ import {
   Axis,
   Mark,
   VChart,
-  Legend
+  Legend,
+  Tooltip
 } from '../../src';
 import './App.css';
 import { generateData } from './util';
@@ -143,9 +144,17 @@ function App() {
           }}
         />
         <Legend visible={true} onLegendItemClick={handleLegendItemClick} />
+        <Tooltip reserveDefaultTooltip>🔥</Tooltip>
       </BarChart>
 
-      <AreaChart data={[{ id: 'id0', values: barData }]} xField={['x', 'type']} yField="y">
+      <AreaChart
+        data={[{ id: 'id0', values: barData }]}
+        xField={['x', 'type']}
+        yField="y"
+        tooltipRender={(el, actualTooltip) => (
+          <div style={{ color: 'red', padding: 5 }}>🔥 {actualTooltip.title.value}</div>
+        )}
+      >
         <Axis orient="bottom" type="band" />
         <Axis orient="left" label={{ visible: true }} type="linear" />
         <Legend visible={true} />
@@ -155,6 +164,11 @@ function App() {
         <Axis orient="bottom" type="band" />
         <Axis orient="left" label={{ visible: true }} type="linear" />
         <Legend visible={true} />
+        <Tooltip
+          tooltipRender={(el, actualTooltip) => (
+            <div style={{ color: 'red', padding: 5 }}>🔥 {actualTooltip.title.value}</div>
+          )}
+        />
       </LineChart>
 
       <ScatterChart data={[{ id: 'id0', values: barData }]} xField={['x', 'type']} yField="y">
