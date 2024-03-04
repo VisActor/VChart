@@ -166,7 +166,7 @@ function App() {
         <Legend visible={true} />
         <Tooltip
           tooltipRender={(el, actualTooltip) => (
-            <div style={{ color: 'red', padding: 5 }}>🔥 {actualTooltip.title.value}</div>
+            <div style={{ color: 'red', padding: 5, width: 300 }}>🔥 {actualTooltip.title.value}</div>
           )}
         />
       </LineChart>

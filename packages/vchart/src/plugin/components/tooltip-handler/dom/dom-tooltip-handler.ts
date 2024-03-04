@@ -1,4 +1,4 @@
-import type { ITooltipActual } from '../../../../typings/tooltip';
+import type { ITooltipActual, ITooltipPositionActual } from '../../../../typings/tooltip';
 import { BaseTooltipHandler } from '../base';
 import { getDomStyles } from './utils';
 import type { IDomTooltipStyle } from './interface';
@@ -10,6 +10,7 @@ import type { ITooltipSpec, TooltipHandlerParams } from '../../../../component/t
 import type { IComponentPluginService } from '../../interface';
 import { registerComponentPlugin } from '../../register';
 import { DEFAULT_TOOLTIP_Z_INDEX } from './constant';
+import type { ILayoutPoint } from '../../../../typings';
 
 /**
  * The tooltip handler class.
@@ -22,6 +23,9 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   protected _domStyle: IDomTooltipStyle;
   protected _tooltipActual?: ITooltipActual;
   protected declare _container: Maybe<HTMLDivElement>;
+
+  /** 自定义 tooltip 的位置缓存 */
+  protected _cacheCustomTooltipPosition: ILayoutPoint;
 
   protected model: TooltipModel;
 
@@ -85,6 +89,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   protected _updateTooltip(visible: boolean, params: TooltipHandlerParams, actualTooltip: ITooltipActual) {
     if (!visible || !this.model) {
       this.setVisibility(visible);
+      this._cacheCustomTooltipPosition = undefined;
     } else {
       if (!params.changePositionOnly) {
         this._tooltipActual = actualTooltip;
@@ -100,11 +105,10 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       const el = this.model.product;
       if (el) {
         const { x = 0, y = 0 } = actualTooltip.position ?? {};
-        // 此处先设定一次位置，防止页面暂时出现滚动条
-        // translate3d 性能较好：https://stackoverflow.com/questions/22111256/translate3d-vs-translate-performance
-        el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-
         if (this._cacheViewSpec?.updateElement) {
+          // 此处先设定一次位置，防止页面暂时出现滚动条（优先设置上次的位置）
+          this._updatePosition(this._cacheCustomTooltipPosition ?? { x, y });
+          // 更新 tooltip dom
           this._cacheViewSpec.updateElement(el, actualTooltip, params);
           // 重新计算 tooltip 位置
           const position = this._getActualTooltipPosition(actualTooltip, params, {
@@ -112,7 +116,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
             height: el.offsetHeight
           });
           // 更新位置
-          el.style.transform = `translate3d(${position.x}px, ${position.y}px, 0)`;
+          this._updatePosition(position);
+          // 更新缓存
+          this._cacheCustomTooltipPosition = position;
+        } else {
+          this._updatePosition({ x, y });
         }
       }
     }
@@ -133,6 +141,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   reInit() {
     super.reInit();
     this._initStyle();
+  }
+
+  protected _updatePosition({ x, y }: ITooltipPositionActual) {
+    const el = this.model.product;
+    if (el) {
+      // translate3d 性能较好：https://stackoverflow.com/questions/22111256/translate3d-vs-translate-performance
+      el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    }
   }
 }
 
