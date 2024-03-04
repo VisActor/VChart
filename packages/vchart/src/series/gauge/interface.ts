@@ -1,5 +1,5 @@
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec';
-import type { IArcMarkSpec, IPathMarkSpec, IProgressArcMarkSpec, IRectMarkSpec } from '../../typings/visual';
+import type { IArcMarkSpec, IPathMarkSpec, IRectMarkSpec } from '../../typings/visual';
 import type { IProgressLikeSeriesSpec, IProgressLikeSeriesTheme } from '../polar/progress-like/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { ProgressLikeAppearPreset } from '../polar/progress-like';
@@ -75,7 +75,7 @@ export interface IGaugeSeriesSpec
   padAngle?: number;
 
   /** 扇区样式 */
-  [SeriesMarkNameEnum.segment]?: IMarkSpec<IProgressArcMarkSpec>;
+  [SeriesMarkNameEnum.segment]?: IMarkSpec<IArcMarkSpec>;
   /** 背景样式 */
   [SeriesMarkNameEnum.track]?: IMarkSpec<IArcMarkSpec>;
   /** 标签样式 */
@@ -87,7 +87,7 @@ export interface IGaugeSeriesTheme extends IProgressLikeSeriesTheme {
   padAngle?: number;
 
   /** 扇区样式 */
-  [SeriesMarkNameEnum.segment]?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
+  [SeriesMarkNameEnum.segment]?: Partial<IMarkTheme<IArcMarkSpec>>;
   /** 背景样式 */
   [SeriesMarkNameEnum.track]?: Partial<IMarkTheme<IArcMarkSpec>>;
   /** 标签样式 */

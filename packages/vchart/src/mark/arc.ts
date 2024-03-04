@@ -3,12 +3,14 @@ import { ARC_MIDDLE_ANGLE } from '../constant';
 import type { IArcMarkSpec, Datum, StateValueType } from '../typings';
 import { polarToCartesian } from '../util/math';
 import type { ExChannelCall } from './base/base-mark';
+// eslint-disable-next-line no-duplicate-imports
 import { BaseMark } from './base/base-mark';
 import type { IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { registerArcGraphic } from '@visactor/vgrammar-core';
 import { registerVGrammarArcAnimation } from '../animation/config';
+import { isValid } from '@visactor/vutils';
 
 export type IArcMark = IMarkRaw<IArcMarkSpec>;
 
@@ -37,7 +39,9 @@ export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements 
       outerRadius: 0,
       innerRadius: 0,
       cornerRadius: 0,
-      lineWidth: 0
+      lineWidth: 0,
+      innerPadding: 0,
+      outerPadding: 0
     };
     return defaultStyle;
   }

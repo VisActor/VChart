@@ -456,6 +456,9 @@ export interface IArcMarkSpec extends IFillMarkSpec {
   innerRadius?: number;
   cornerRadius?: number;
 
+  innerPadding?: number;
+  outerPadding?: number;
+
   /** arc的中心点偏移距离 */
   centerOffset?: number;
 
@@ -468,13 +471,6 @@ export interface IArcMarkSpec extends IFillMarkSpec {
 // 3d arc，有高度配置
 export interface IArc3dMarkSpec extends IArcMarkSpec {
   height?: number;
-}
-
-export interface IProgressArcMarkSpec extends IArcMarkSpec {
-  /** 进度条内侧 padding（接受负值） */
-  innerPadding?: number;
-  /** 进度条外侧 padding（接受负值） */
-  outerPadding?: number;
 }
 
 export interface ICellMarkSpec extends ISymbolMarkSpec {

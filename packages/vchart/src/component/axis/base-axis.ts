@@ -145,8 +145,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // scales
     this.initScales();
     this.updateSeriesScale();
-    // data，当且仅当轴展示的时候处理
-    this.getVisible() && this._initData();
+    // data
+    this._shouldComputeTickData() && this._initData();
 
     if (this._visible) {
       // 创建语法元素
@@ -223,6 +223,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         this._marks.forEach(m => m.setAnimationConfig(axisAnimateConfig));
       }
     }
+  }
+
+  protected _shouldComputeTickData() {
+    // 当轴被展示、或者强制要求计算 data 时再计算 data
+    return this.getVisible() || this._spec.forceInitTick;
   }
 
   // data

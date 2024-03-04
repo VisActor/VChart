@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `tickMask` is invalid in circular progress charts, related #2316",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
