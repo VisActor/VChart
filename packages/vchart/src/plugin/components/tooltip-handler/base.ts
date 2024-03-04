@@ -28,7 +28,7 @@ import {
 } from './utils/position';
 import { getShowContent } from './utils/compose';
 import { getTooltipSpecForShow } from './utils/get-spec';
-import type { ISeries } from '../../../series/interface';
+import type { ICartesianSeries, ISeries } from '../../../series/interface';
 import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -61,6 +61,7 @@ import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
 import type { ITooltipAttributes } from './interface';
 import { layoutByValue } from '../../../component/crosshair/utils/cartesian';
+import { getFirstSeries } from '../../../util';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -503,7 +504,11 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
         }
       } else if (positionMode === 'crosshair' && firstDimensionInfo?.axis?.getCoordinateType() === 'cartesian') {
         isFixedPosition = true;
-        const rect = getCartesianCrosshairRect(params.dimensionInfo, this._component.getFirstSeries(), startPoint);
+        const rect = getCartesianCrosshairRect(
+          params.dimensionInfo,
+          getFirstSeries(this._component.getRegions(), 'cartesian') as ICartesianSeries,
+          startPoint
+        );
         if (rect) {
           const {
             start: { x: rectX1, y: rectY1 },

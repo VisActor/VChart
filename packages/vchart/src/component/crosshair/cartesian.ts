@@ -21,6 +21,7 @@ import { Factory } from '../../core/factory';
 import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
 import { layoutByValue, layoutHorizontalCrosshair, layoutVerticalCrosshair } from './utils/cartesian';
+import { getFirstSeries } from '../../util';
 
 // 1. crosshair保存上次记录的x和y轴dimension
 // 2. 每次交互触发时，首先转化成dimension保存，然后依据dimension计算x和y绘制
@@ -242,7 +243,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     if (!this.enable) {
       return;
     }
-    const series = this.getFirstSeries<ICartesianSeries>();
+    const series = getFirstSeries(this._regions, 'cartesian') as ICartesianSeries;
     if (!series) {
       return;
     }

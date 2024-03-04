@@ -19,6 +19,7 @@ import { Factory } from '../../core/factory';
 import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
 import { layoutByValue, layoutAngleCrosshair, layoutRadiusCrosshair } from './utils/polar';
+import { getFirstSeries } from '../../util';
 
 export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
   static specKey = 'crosshair';
@@ -222,7 +223,7 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
     if (!this.enable) {
       return;
     }
-    const series = this.getFirstSeries<IPolarSeries>();
+    const series = getFirstSeries(this._regions, 'polar') as IPolarSeries;
     if (!series) {
       return;
     }
