@@ -549,6 +549,14 @@ const run = () => {
     },
     legends: {
       visible: true
+    },
+    tooltip: {
+      dimension: {
+        position: {
+          x: { orient: 'insideRight', mode: 'crosshair' },
+          y: { orient: 'right', mode: 'pointer' }
+        }
+      }
     }
   };
 

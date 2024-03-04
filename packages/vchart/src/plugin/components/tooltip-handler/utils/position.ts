@@ -9,8 +9,12 @@ import {
 import type { IDimensionInfo } from '../../../../event';
 import type { ICartesianSeries } from '../../../../series';
 import type { ILayoutPoint } from '../../../../typings';
-import type { TooltipFixedPosition } from '../../../../typings/tooltip/position';
-import { isFunction, isNumber, isValid } from '@visactor/vutils';
+import type {
+  IFixedTooltipPositionPattern,
+  IGlobalTooltipPositionPattern,
+  TooltipFixedPosition
+} from '../../../../typings/tooltip/position';
+import { isFunction, isNumber, isObject, isValid } from '@visactor/vutils';
 
 export const getActualTooltipPositionValue = (
   position: number | ((event: MouseEvent) => number) | null | undefined,
@@ -113,4 +117,21 @@ export const getCartesianCrosshairRect = (
     return layoutHorizontalCrosshair(yHair, crosshairInfoY, bandHeight, offsetHeight);
   }
   return undefined;
+};
+
+export const isGlobalTooltipPositionPattern = (obj: any): obj is IGlobalTooltipPositionPattern => {
+  return (
+    isObject(obj) &&
+    (isValid((obj as IGlobalTooltipPositionPattern).left) ||
+      isValid((obj as IGlobalTooltipPositionPattern).right) ||
+      isValid((obj as IGlobalTooltipPositionPattern).top) ||
+      isValid((obj as IGlobalTooltipPositionPattern).bottom))
+  );
+};
+
+export const isFixedTooltipPositionPattern = (obj: any): obj is IFixedTooltipPositionPattern => {
+  return (
+    isObject(obj) &&
+    (isValid((obj as IFixedTooltipPositionPattern).x) || isValid((obj as IFixedTooltipPositionPattern).y))
+  );
 };

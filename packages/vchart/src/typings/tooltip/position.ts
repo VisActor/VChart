@@ -1,11 +1,17 @@
-export type ITooltipPositionCallback = (event: MouseEvent) => number;
+export type TooltipPositionCallback<T> = (event: MouseEvent) => T;
 
-export interface ITooltipPositionPattern {
-  left?: number | ITooltipPositionCallback;
-  right?: number | ITooltipPositionCallback;
-  top?: number | ITooltipPositionCallback;
-  bottom?: number | ITooltipPositionCallback;
+export type TooltipPositionValue = number | TooltipPositionCallback<number>;
+
+export interface ITooltipPositionFixedValue {
+  /** 固定方位 */
+  orient: TooltipFixedPosition;
+  /** 固定模式 */
+  mode: TooltipPositionMode;
+  /** 偏移量（像素值） */
+  offset?: number;
 }
+
+export type TooltipPositionPatternItem = TooltipPositionValue | ITooltipPositionFixedValue;
 
 /** tooltip显示在鼠标所在图形的固定位置，只对 mark tooltip 有效 */
 export type TooltipFixedPosition =
@@ -88,7 +94,25 @@ export type TooltipPositionMode =
   /** tooltip 固定在 crosshair 附近 */
   | 'crosshair';
 
-export type TooltipPosition = ITooltipPositionPattern | TooltipFixedPosition;
+/** 相对于全局布局的 tooltip position，只支持像素值或者像素值的回调 */
+export interface IGlobalTooltipPositionPattern {
+  left?: TooltipPositionValue;
+  right?: TooltipPositionValue;
+  top?: TooltipPositionValue;
+  bottom?: TooltipPositionValue;
+}
+
+/** 相对于某个图表元素的 tooltip position，支持像素值或者固定方位（x、y 可分别配置） */
+export interface IFixedTooltipPositionPattern {
+  x: TooltipPositionPatternItem;
+  y: TooltipPositionPatternItem;
+}
+
+export type TooltipPosition =
+  | IGlobalTooltipPositionPattern
+  | IFixedTooltipPositionPattern
+  // 旧版本，不推荐使用
+  | TooltipFixedPosition;
 
 export interface ITooltipPositionActual {
   x: number;
