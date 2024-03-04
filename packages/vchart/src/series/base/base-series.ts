@@ -727,7 +727,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         dataView: false,
         customShape: spec?.customShape,
         componentType: spec.componentType,
-        depend: options.depend
+        depend: options.depend,
+        key: spec.dataKey
       }
     ) as IGroupMark;
     if (!mark) {

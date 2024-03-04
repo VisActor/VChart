@@ -1,6 +1,18 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 28 Feb 2024 10:28:52 GMT and should not be manually modified.
+This log was last generated on Fri, 01 Mar 2024 08:24:59 GMT and should not be manually modified.
+
+## 1.9.5
+Fri, 01 Mar 2024 08:24:59 GMT
+
+### Updates
+
+- feat: support dataKey in CustomMark and ExtensionMark
+- feat: support mulity data in waterfal total dimensions
+
+
+- fix: `animationAppear: false` not work
+- fix: optimize totoal label position when axis is inversed
 
 ## 1.9.4
 Wed, 28 Feb 2024 10:28:52 GMT

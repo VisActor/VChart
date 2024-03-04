@@ -39,11 +39,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected abstract axisHelper(): any;
     protected abstract getSeriesStatisticsField(s: ISeries): string[];
     protected abstract updateSeriesScale(): void;
-    protected abstract collectData(depth: number, rawData?: boolean): {
-        min: number;
-        max: number;
-        values: any[];
-    }[];
+    protected abstract collectSeriesField(depth: number, series: ISeries): string | string[];
     abstract transformScaleDomain(): void;
     protected _dataFieldText: string;
     protected _axisMark: IComponentMark;
@@ -54,6 +50,11 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     getVRenderComponents(): any[];
     created(): void;
     protected _initData(): void;
+    protected collectData(depth: number, rawData?: boolean): {
+        min: number;
+        max: number;
+        values: any[];
+    }[];
     protected isSeriesDataEnable(): boolean;
     protected setSeriesAndRegionsFromSpec(): void;
     getBindSeriesFilter(): {
