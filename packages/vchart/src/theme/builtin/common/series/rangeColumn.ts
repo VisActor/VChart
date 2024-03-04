@@ -8,6 +8,7 @@ export const rangeColumn: IRangeColumnSeriesTheme = {
     offset: 5,
     position: 'inside',
     style: {
+      lineWidth: 2,
       fill: { type: 'palette', key: 'axisMarkerFontColor' }
     },
     minLabel: {

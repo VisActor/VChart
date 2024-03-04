@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `animationAppear: false` not work",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

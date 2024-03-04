@@ -83,7 +83,7 @@ export interface ISeriesMarkInitOption {
   depend?: IGrammarItem | IGrammarItem[];
 
   /** 数据 key 值 */
-  key?: string;
+  key?: string | ((datum: any) => string);
 
   /** 分组 key 值 */
   groupKey?: string;

@@ -2,6 +2,7 @@ import { ticks } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import type { ITickDataOpt } from '@visactor/vutils-extension';
 import type { IBaseScale } from '@visactor/vscale';
+import { isContinuous } from '@visactor/vscale';
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type {
@@ -113,7 +114,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected abstract axisHelper(): any;
   protected abstract getSeriesStatisticsField(s: ISeries): string[];
   protected abstract updateSeriesScale(): void;
-  protected abstract collectData(depth: number, rawData?: boolean): { min: number; max: number; values: any[] }[];
+  protected abstract collectSeriesField(depth: number, series: ISeries): string | string[];
   abstract transformScaleDomain(): void;
 
   protected _dataFieldText: string;
@@ -235,6 +236,42 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     const tickData = this._initTickDataSet(this._tickTransformOption());
     tickData.target.addListener('change', this._forceLayout.bind(this));
     this._tickData = [new CompilableData(this._option, tickData)];
+  }
+
+  protected collectData(depth: number, rawData?: boolean) {
+    const data: { min: number; max: number; values: any[] }[] = [];
+    eachSeries(
+      this._regions,
+      s => {
+        let field = this.collectSeriesField(depth, s);
+        field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
+        if (!depth) {
+          this._dataFieldText = s.getFieldAlias(field[0]);
+        }
+
+        if (field) {
+          const viewData = s.getViewData();
+          if (rawData) {
+            field.forEach(f => {
+              data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
+            });
+          } else if (viewData && viewData.latestData && viewData.latestData.length) {
+            const seriesData = s.getViewDataStatistics?.();
+
+            field.forEach(f => {
+              if (seriesData?.latestData?.[f]) {
+                data.push(seriesData.latestData[f]);
+              }
+            });
+          }
+        }
+      },
+      {
+        userId: this._seriesUserId,
+        specIndex: this._seriesIndex
+      }
+    );
+    return data;
   }
 
   protected isSeriesDataEnable() {

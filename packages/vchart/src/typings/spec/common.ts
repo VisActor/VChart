@@ -641,6 +641,13 @@ export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBu
    */
   dataIndex?: number;
   /**
+   * dataKey用于绑定数据与Mark的关系
+   * 如果数据和系列数据一致，可以不配置，默认会读取系列中的配置
+   *
+   * @support since 1.9.5
+   */
+  dataKey?: string | ((datum: any) => string);
+  /**
    * 关联的数据id
    */
   dataId?: StringOrNumber;
@@ -660,6 +667,13 @@ export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, 'group'>> 
    * @default 与系列使用同一份数据
    */
   dataIndex?: number;
+  /**
+   * dataKey用于绑定数据与Mark的关系
+   * 如果数据和系列数据一致，可以不配置，默认会读取系列中的配置
+   *
+   * @support since 1.9.5
+   */
+  dataKey?: string | ((datum: any) => string);
   /**
    * 关联的数据id
    */
