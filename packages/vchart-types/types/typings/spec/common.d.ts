@@ -259,6 +259,7 @@ export type EnableMarkType = keyof IBuildinMarkSpec;
 export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {
     type: T;
     dataIndex?: number;
+    dataKey?: string | ((datum: any) => string);
     dataId?: StringOrNumber;
     componentType?: string;
 }
@@ -267,6 +268,7 @@ export interface ICustomMarkGroupSpec extends ICustomMarkSpec<MarkTypeEnum.group
 }
 export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, 'group'>> extends ICustomMarkSpec<T> {
     dataIndex?: number;
+    dataKey?: string | ((datum: any) => string);
     dataId?: StringOrNumber;
     componentType?: string;
 }

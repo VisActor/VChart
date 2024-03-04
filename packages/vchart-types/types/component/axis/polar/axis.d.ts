@@ -44,11 +44,7 @@ export declare abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarA
     protected _tickTransformOption(): IPolarTickDataOpt;
     afterCompile(): void;
     protected updateScaleRange(): boolean;
-    protected collectData(depth: number, rawData?: boolean): {
-        min: number;
-        max: number;
-        values: any[];
-    }[];
+    protected collectSeriesField(depth: number, series: IPolarSeries): string | string[];
     protected abstract computeDomain(data: {
         min: number;
         max: number;
