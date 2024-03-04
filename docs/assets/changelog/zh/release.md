@@ -1,3 +1,22 @@
+# v1.9.5
+
+2024-03-04
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: support dataKey in CustomMark and ExtensionMark
+- **@visactor/vchart**: support mulity data in waterfal total dimensions
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: `animationAppear: false` not work
+- **@visactor/vchart**: optimize totoal label position when axis is inversed
+
+
+
+[更多详情请查看 v1.9.5](https://github.com/VisActor/VChart/releases/tag/v1.9.5)
+
 # v1.9.3
 
 2024-02-07
