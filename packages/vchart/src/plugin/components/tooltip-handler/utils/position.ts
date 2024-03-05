@@ -39,11 +39,11 @@ export const getActualTooltipPositionValue = (
 export type TooltipHorizontalPositionType = 'left' | 'right' | 'middle' | 'middleLeft' | 'middleRight';
 export type TooltipVerticalPositionType = 'top' | 'bottom' | 'middle' | 'middleTop' | 'middleBottom';
 
+/** position 对齐方式在 x、y 分量下的分解 */
 export const positionType: Record<TooltipFixedPosition, [TooltipHorizontalPositionType, TooltipVerticalPositionType]> =
   {
     left: ['left', 'middle'],
     right: ['right', 'middle'],
-    inside: ['middle', 'middle'],
     top: ['middle', 'top'],
     lt: ['left', 'top'],
     tl: ['left', 'top'],
@@ -54,10 +54,12 @@ export const positionType: Record<TooltipFixedPosition, [TooltipHorizontalPositi
     lb: ['left', 'bottom'],
     br: ['right', 'bottom'],
     rb: ['right', 'bottom'],
-    insideBottom: ['middle', 'middleBottom'],
-    insideTop: ['middle', 'middleTop'],
-    insideLeft: ['middleLeft', 'middle'],
-    insideRight: ['middleRight', 'middle']
+    inside: ['middle', 'middle'], // 旧版兼容
+    middle: ['middle', 'middle'],
+    middleBottom: ['middle', 'middleBottom'],
+    middleTop: ['middle', 'middleTop'],
+    middleLeft: ['middleLeft', 'middle'],
+    middleRight: ['middleRight', 'middle']
   };
 
 export const getHorizontalPositionType = (
