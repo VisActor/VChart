@@ -1796,6 +1796,13 @@
             "zh": "自定义图例 UI",
             "en": "Custom Legend UI"
           }
+        },
+        {
+          "path": "scrollbar",
+          "title": {
+            "zh": "图例使用滚动条翻页",
+            "en": "Scrollbar of legend"
+          }
         }
       ]
     },
