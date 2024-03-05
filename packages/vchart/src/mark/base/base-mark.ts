@@ -348,6 +348,9 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     if (stateStyle.referer) {
       return stateStyle.referer._computeAttribute(key, state);
     }
+    if (!stateStyle.style) {
+      return (datum: Datum, opt: IAttributeOpt) => stateStyle.style;
+    }
 
     if (typeof stateStyle.style === 'function') {
       return (datum: Datum, opt: IAttributeOpt) =>
