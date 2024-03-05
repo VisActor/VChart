@@ -17,7 +17,7 @@ import { TooltipResult } from './interface/common';
 import { showTooltip } from './utils/show-tooltip';
 import { getTooltipActualActiveType, isEmptyPos } from './utils/common';
 import { isSameDimensionInfo } from '../../event/events/dimension/util/common';
-import { ChartEvent, Event_Bubble_Level, Event_Source_Type } from '../../constant';
+import { ChartEvent, Event_Source_Type } from '../../constant';
 import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
 // eslint-disable-next-line no-duplicate-imports
 import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
@@ -192,15 +192,15 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     const mode = this._option.mode;
 
     if (trigger === 'hover') {
-      this._mountEvent('pointermove', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
+      this._mountEvent('pointermove', { source: 'chart' }, this._handleMouseMove);
       // 移动端的点按 + 滑动触发
       if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
-        this._mountEvent('pointerdown', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
+        this._mountEvent('pointerdown', { source: 'chart' }, this._handleMouseMove);
         this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
       }
       this._mountEvent('pointerout', { source: 'canvas' }, this._getMouseOutHandler(false));
     } else if (trigger === 'click') {
-      this._mountEvent('pointertap', { level: Event_Bubble_Level.chart }, this._handleMouseMove);
+      this._mountEvent('pointertap', { source: 'chart' }, this._handleMouseMove);
       this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
     }
   }
@@ -245,7 +245,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     if (this._spec.triggerOff !== 'none') {
       this._hideTooltipByHandler({
-        ...params
+        ...(params as any)
       });
       this._cacheInfo = undefined;
       this._cacheParams = undefined;

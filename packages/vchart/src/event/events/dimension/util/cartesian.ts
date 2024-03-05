@@ -158,5 +158,5 @@ export const getDimensionInfoByValue = (
     'cartesian',
     getDimensionField ?? (isXAxis(axis.getOrient()) ? discreteXAxisGetDimensionField : discreteYAxisGetDimensionField)
   );
-  return { index, value, axis, data };
+  return { index, value, position: scale.scale(value), axis, data };
 };

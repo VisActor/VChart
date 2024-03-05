@@ -28,60 +28,96 @@ tooltip 内容配置，配置项为`IToolTipLinePattern`对象或者该对象的
 
 tooltip 位置配置，支持对象和字符串类型的配置。
 
-如果配置为字符串属性，则 tooltip 将固定在对应图元的四周或内部（目前仅 mark tooltip 支持）。有以下几种显示类型：
+目前支持 3 种配置形式：
 
-- `'top'`，tooltip 显示在图形上侧
-- `'bottom'`, tooltip 显示在图形下侧
-- `'left'`，tooltip 显示在图形左侧
-- `'right'`, tooltip 显示在图形右侧
-- `'inside'`, tooltip 显示在图形中心位置
-- `'tl'` / `'lt'`, tooltip 显示在图形左上角
-- `'tr'` / `'rt'`, tooltip 显示在图形右上角
-- `'bl'` / `'lb'`, tooltip 显示在图形左下角
-- `'br'` / `'rb'`, tooltip 显示在图形右下角
+如果配置为字符串属性，则 tooltip 将固定在对应元素的四周或内部。
 
-如果配置为对象类型，则是相对容器布局的模式。可以配置以下可选属性：
+{{ use: component-tooltip-position-fixed-type() }}
+
+如果配置为对象类型且相对图表容器布局，可以配置以下可选属性：
+
+```ts
+/** 相对于全局布局的 tooltip position，只支持像素值或者像素值的回调 */
+export interface IGlobalTooltipPositionPattern {
+  left?: TooltipPositionValue;
+  right?: TooltipPositionValue;
+  top?: TooltipPositionValue;
+  bottom?: TooltipPositionValue;
+}
+```
+
+如果配置为对象类型且相对某个图表元素进行布局，可以配置以下可选属性：
+
+```ts
+/** 相对于某个图表元素的 tooltip position，支持像素值或者固定方位（x、y 可分别配置） */
+export interface IFixedTooltipPositionPattern {
+  x: TooltipPositionPatternItem;
+  y: TooltipPositionPatternItem;
+}
+```
+
+其中 `TooltipPositionPatternItem` 的类型声明为：
+
+```ts
+export type TooltipPositionPatternItem = TooltipPositionValue | ITooltipPositionFixedValue;
+
+export interface ITooltipPositionFixedValue {
+  /** 固定方位 */
+  orient: TooltipFixedPosition;
+  /** 固定模式 */
+  mode: TooltipPositionMode;
+  /** 偏移量（像素值） */
+  offset?: number;
+}
+```
+
+具体的配置项说明如下所示。
 
 ##${prefix} left(number|Function)
 
 **可选** tooltip 触发点距容器左边的距离。
 
-{{ use: component-tooltip-position-callback(
-  prefix = '##' + ${prefix}
-) }}
+{{ use: component-tooltip-position-callback() }}
 
 ##${prefix} right(number|Function)
 
 **可选** tooltip 触发点距容器右边的距离。
 
-{{ use: component-tooltip-position-callback(
-  prefix = '##' + ${prefix}
-) }}
+{{ use: component-tooltip-position-callback() }}
 
 ##${prefix} top(number|Function)
 
 **可选** tooltip 触发点距容器顶边的距离。
 
-{{ use: component-tooltip-position-callback(
-  prefix = '##' + ${prefix}
-) }}
+{{ use: component-tooltip-position-callback() }}
 
 ##${prefix} bottom(number|Function)
 
 **可选** tooltip 触发点距容器底边的距离。
 
-{{ use: component-tooltip-position-callback(
-  prefix = '##' + ${prefix}
+{{ use: component-tooltip-position-callback() }}
+
+##${prefix} x(number|Function|Object)
+
+**可选**
+
+{{ use: component-tooltip-position-fixed(
+  prefix = '##' + ${prefix},
+) }}
+
+##${prefix} y(number|Function|Object)
+
+**可选**
+
+{{ use: component-tooltip-position-fixed(
+  prefix = '##' + ${prefix},
 ) }}
 
 #${prefix} positionMode(string)
 
 tooltip 位置模式，决定 `position` 相对固定于什么图形，如固定在鼠标指针周围或图元周围。该配置只有 `position` 设为字符串时生效。
 
-有以下几种模式，默认为 `'mark'`：
-
-- `'mark'`，tooltip 固定在鼠标所在图元附近
-- `'pointer'`, tooltip 固定在鼠标指针附近
+{{ use: component-tooltip-position-fixed-mode() }}
 
 #${prefix} updateContent(Function)
 

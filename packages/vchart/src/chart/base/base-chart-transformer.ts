@@ -246,9 +246,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     let cartesianAxis: IComponentConstructor;
     let polarAxis: IComponentConstructor;
     let geoCoordinate: IComponentConstructor;
-    let label: IComponentConstructor;
-    let totalLabel: IComponentConstructor;
-    const noAxisComponents = [];
+    let tooltip: IComponentConstructor;
+    const otherComponents = [];
+
     for (let index = 0; index < components.length; index++) {
       const { cmp, alwaysCheck } = components[index];
       if (cmp.type.startsWith(ComponentTypeEnum.cartesianAxis)) {
@@ -258,18 +258,16 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       } else if (cmp.type === ComponentTypeEnum.geoCoordinate) {
         geoCoordinate = cmp;
       } else if (alwaysCheck || chartSpec[cmp.specKey ?? cmp.type]) {
-        if (cmp.type === ComponentTypeEnum.label) {
-          label = cmp;
-        } else if (cmp.type === ComponentTypeEnum.totalLabel) {
-          totalLabel = cmp;
+        if (cmp.type === ComponentTypeEnum.tooltip) {
+          tooltip = cmp;
         } else {
-          noAxisComponents.push(cmp);
+          otherComponents.push(cmp);
         }
       }
     }
 
-    let hasInitAxis = false;
     // NOTE: 坐标轴组件需要在其他组件之前创建
+    let hasInitAxis = false;
     if (cartesianAxis) {
       const infoList = cartesianAxis.getSpecInfo(chartSpec, chartSpecInfo);
       if (infoList?.length > 0) {
@@ -298,21 +296,15 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       });
     }
 
-    if (label && chartSpecInfo) {
-      label.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
-        results.push(callbackfn(label, info, chartSpecInfo));
-      });
-    }
-    if (totalLabel && chartSpecInfo) {
-      totalLabel.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
-        results.push(callbackfn(totalLabel, info, chartSpecInfo));
-      });
-    }
-
-    noAxisComponents.forEach(C => {
+    otherComponents.forEach(C => {
       C.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
         results.push(callbackfn(C, info, chartSpecInfo));
       });
+    });
+
+    // NOTE: tooltip 组件需要在 crosshair 组件之后创建
+    tooltip?.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
+      results.push(callbackfn(tooltip, info, chartSpecInfo));
     });
 
     return results;

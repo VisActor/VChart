@@ -4,7 +4,7 @@ import type { Options } from './constants';
 import { DEFAULT_OPTIONS } from './constants';
 import type { Maybe, IPoint, ILayoutPoint, RenderMode } from '../../../typings';
 // eslint-disable-next-line no-duplicate-imports
-import { TooltipPositionMode } from '../../../typings/tooltip/position';
+import type { ITooltipPositionFixedValue } from '../../../typings/tooltip/position';
 // eslint-disable-next-line no-duplicate-imports
 import { isTrueBrowser } from '../../../util/env';
 import type {
@@ -14,16 +14,23 @@ import type {
   ITooltipHandler,
   ITooltipPattern,
   ITooltipPositionActual,
-  ITooltipPositionPattern
+  IGlobalTooltipPositionPattern
 } from '../../../typings/tooltip';
 // eslint-disable-next-line no-duplicate-imports
 import type { TooltipFixedPosition } from '../../../typings/tooltip';
 import type { BaseEventParams } from '../../../event/interface';
 import { getTooltipPatternValue, getScale } from './utils/common';
-import { getActualTooltipPositionValue, getHorizontalPositionType, getVerticalPositionType } from './utils/position';
+import {
+  getActualTooltipPositionValue,
+  getCartesianCrosshairRect,
+  getHorizontalPositionType,
+  getVerticalPositionType,
+  isFixedTooltipPositionPattern,
+  isGlobalTooltipPositionPattern
+} from './utils/position';
 import { getShowContent } from './utils/compose';
 import { getTooltipSpecForShow } from './utils/get-spec';
-import type { ISeries } from '../../../series/interface';
+import type { ICartesianSeries, ISeries } from '../../../series/interface';
 import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -35,10 +42,11 @@ import {
   throttle,
   isNil,
   polygonContainPoint,
-  pointInRect
+  pointInRect,
+  isFunction
 } from '@visactor/vutils';
 import type { IElement } from '@visactor/vgrammar-core';
-import type { ILayoutModel, IModel } from '../../../model/interface';
+import type { ILayoutModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize } from '@visactor/vrender-components';
 import { getTooltipAttributes } from './utils/attribute';
@@ -55,6 +63,7 @@ import { TooltipResult } from '../../../component/tooltip';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
 import type { ITooltipAttributes } from './interface';
+import { getFirstSeries } from '../../../util';
 
 type ChangeTooltipFunc = (
   visible: boolean,
@@ -407,13 +416,14 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     tooltipBoxSize: IContainerSize | undefined
   ): ITooltipPositionActual => {
     const event = params.event as MouseEvent;
+    const firstDimensionInfo = params.dimensionInfo?.[0];
 
     const invalidPosition = {
       x: Infinity,
       y: Infinity
     };
 
-    const { offsetX, offsetY } = this._option;
+    let { offsetX, offsetY } = this._option;
     const tooltipSpec = this._cacheViewSpec;
     if (!tooltipSpec) {
       this._cacheTooltipPosition = undefined;
@@ -423,7 +433,8 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     const { activeType, data } = actualTooltip;
     const pattern = tooltipSpec[activeType];
     const position = getTooltipPatternValue(pattern.position, data, params);
-    const positionMode = getTooltipPatternValue(pattern.positionMode, data, params);
+    const positionMode =
+      getTooltipPatternValue(pattern.positionMode, data, params) ?? (activeType === 'mark' ? 'mark' : 'pointer');
     const tooltipParentElement = this._getParentElement(tooltipSpec);
     const { width: tooltipBoxWidth = 0, height: tooltipBoxHeight = 0 } = tooltipBoxSize ?? {};
 
@@ -469,47 +480,139 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     let top: number | undefined;
     let right: number | undefined;
     let bottom: number | undefined;
-    if (isObject(position)) {
-      const { left: posLeft, right: posRight, top: posTop, bottom: posBottom } = position as ITooltipPositionPattern;
-      left = getActualTooltipPositionValue(posLeft, event);
-      top = getActualTooltipPositionValue(posTop, event);
-      right = getActualTooltipPositionValue(posRight, event);
-      bottom = getActualTooltipPositionValue(posBottom, event);
-    } else if (isValid(position) && positionMode !== 'pointer' && actualTooltip.activeType === 'mark') {
-      isFixedPosition = true;
-      const element = params.item as IElement;
-      const model = params.model as IModel;
-      const bounds = element?.getBounds() as AABBBounds;
-      const startPoint = (<ILayoutModel>(<unknown>model))?.getLayoutStartPoint();
-      if (bounds && startPoint) {
-        let { x1, y1, x2, y2 } = bounds;
-        x1 += startPoint.x;
-        x2 += startPoint.x;
-        y1 += startPoint.y;
-        y2 += startPoint.y;
-        switch (getHorizontalPositionType(position)) {
+
+    let pointerFixedPositionX: TooltipFixedPosition = position as any;
+    let pointerFixedPositionY: TooltipFixedPosition = position as any;
+
+    const processCartesianFixedPositionX = ({ orient, mode, offset }: ITooltipPositionFixedValue) => {
+      let x1: number;
+      let x2: number;
+      const model = params.model as ILayoutModel;
+      const startPoint = model?.getLayoutStartPoint();
+      offsetX = offset ?? offsetX;
+
+      if (mode === 'mark') {
+        isFixedPosition = true;
+        const element = params.item as IElement;
+        const bounds = element?.getBounds() as AABBBounds;
+        if (bounds && startPoint) {
+          x1 = bounds.x1 + startPoint.x;
+          x2 = bounds.x2 + startPoint.x;
+        }
+      } else if (mode === 'crosshair' && firstDimensionInfo?.axis?.getCoordinateType() === 'cartesian') {
+        isFixedPosition = true;
+        const rect = getCartesianCrosshairRect(
+          params.dimensionInfo,
+          getFirstSeries(this._component.getRegions(), 'cartesian') as ICartesianSeries,
+          startPoint
+        );
+        if (rect) {
+          x1 = rect.start.x;
+          x2 = rect.end.x;
+        }
+      } else {
+        pointerFixedPositionX = orient;
+      }
+
+      if (isFixedPosition) {
+        switch (getHorizontalPositionType(orient)) {
           case 'left':
             left = x1 - tooltipBoxWidth * tooltipSizeScale - offsetX;
             break;
           case 'right':
             left = x2 + offsetX;
             break;
-          case 'middle':
+          case 'center':
             left = (x1 + x2) / 2 - (tooltipBoxWidth * tooltipSizeScale) / 2;
             break;
+          case 'centerLeft':
+            left = (x1 + x2) / 2 - tooltipBoxWidth * tooltipSizeScale - offsetX;
+            break;
+          case 'centerRight':
+            left = (x1 + x2) / 2 + offsetX;
+            break;
         }
-        switch (getVerticalPositionType(position)) {
+      }
+    };
+    const processCartesianFixedPositionY = ({ orient, mode, offset }: ITooltipPositionFixedValue) => {
+      let y1: number;
+      let y2: number;
+      const model = params.model as ILayoutModel;
+      const startPoint = model?.getLayoutStartPoint();
+      offsetY = offset ?? offsetY;
+
+      if (mode === 'mark') {
+        isFixedPosition = true;
+        const element = params.item as IElement;
+        const bounds = element?.getBounds() as AABBBounds;
+        if (bounds && startPoint) {
+          y1 = bounds.y1 + startPoint.y;
+          y2 = bounds.y2 + startPoint.y;
+        }
+      } else if (mode === 'crosshair' && firstDimensionInfo?.axis?.getCoordinateType() === 'cartesian') {
+        isFixedPosition = true;
+        const rect = getCartesianCrosshairRect(
+          params.dimensionInfo,
+          getFirstSeries(this._component.getRegions(), 'cartesian') as ICartesianSeries,
+          startPoint
+        );
+        if (rect) {
+          y1 = rect.start.y;
+          y2 = rect.end.y;
+        }
+      } else {
+        pointerFixedPositionY = orient;
+      }
+
+      if (isFixedPosition) {
+        switch (getVerticalPositionType(orient)) {
           case 'top':
             top = y1 - tooltipBoxHeight * tooltipSizeScale - offsetY;
             break;
           case 'bottom':
             top = y2 + offsetY;
             break;
-          case 'middle':
+          case 'center':
             top = (y1 + y2) / 2 - (tooltipBoxHeight * tooltipSizeScale) / 2;
+            break;
+          case 'centerTop':
+            top = (y1 + y2) / 2 - tooltipBoxHeight * tooltipSizeScale - offsetY;
+            break;
+          case 'centerBottom':
+            top = (y1 + y2) / 2 + offsetY;
             break;
         }
       }
+    };
+
+    if (isObject(position)) {
+      if (isGlobalTooltipPositionPattern(position)) {
+        const {
+          left: posLeft,
+          right: posRight,
+          top: posTop,
+          bottom: posBottom
+        } = position as IGlobalTooltipPositionPattern;
+        left = getActualTooltipPositionValue(posLeft, event);
+        top = getActualTooltipPositionValue(posTop, event);
+        right = getActualTooltipPositionValue(posRight, event);
+        bottom = getActualTooltipPositionValue(posBottom, event);
+      } else if (isFixedTooltipPositionPattern(position)) {
+        const { x, y } = position;
+        if (isNumber(x) || isFunction(x)) {
+          left = getActualTooltipPositionValue(x, event);
+        } else {
+          processCartesianFixedPositionX(x);
+        }
+        if (isNumber(y) || isFunction(y)) {
+          top = getActualTooltipPositionValue(y, event);
+        } else {
+          processCartesianFixedPositionY(y);
+        }
+      }
+    } else if (isValid(position)) {
+      processCartesianFixedPositionX({ orient: position, mode: positionMode });
+      processCartesianFixedPositionY({ orient: position, mode: positionMode });
     }
 
     /* 二、换算成 x 和 y */
@@ -523,14 +626,16 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       x = canvasWidth - tooltipBoxWidth * tooltipSizeScale - right;
     } else {
       const x0 = canvasX;
-      switch (getHorizontalPositionType(position as TooltipFixedPosition, 'right')) {
-        case 'middle':
+      switch (getHorizontalPositionType(pointerFixedPositionX, 'right')) {
+        case 'center':
           x = x0 - (tooltipBoxWidth * tooltipSizeScale) / 2;
           break;
         case 'left':
+        case 'centerLeft':
           x = x0 - tooltipBoxWidth * tooltipSizeScale - offsetX;
           break;
         case 'right':
+        case 'centerRight':
           x = x0 + offsetX;
           break;
       }
@@ -541,14 +646,16 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       y = canvasHeight - tooltipBoxHeight * tooltipSizeScale - bottom;
     } else {
       const y0 = canvasY;
-      switch (getVerticalPositionType(position as TooltipFixedPosition, 'bottom')) {
-        case 'middle':
+      switch (getVerticalPositionType(pointerFixedPositionY, 'bottom')) {
+        case 'center':
           y = y0 - (tooltipBoxHeight * tooltipSizeScale) / 2;
           break;
         case 'top':
+        case 'centerTop':
           y = y0 - tooltipBoxHeight * tooltipSizeScale - offsetY;
           break;
         case 'bottom':
+        case 'centerBottom':
           y = y0 + offsetY;
           break;
       }
@@ -579,7 +686,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
         if (isFixedPosition) {
           x = -tooltipParentElementRect.x / tooltipParentElementScale;
         } else {
-          if (getHorizontalPositionType(position as TooltipFixedPosition, 'right') === 'middle') {
+          if (getHorizontalPositionType(position as TooltipFixedPosition, 'right') === 'center') {
             x += offsetX + tooltipBoxWidth / 2;
           } else {
             x += offsetX * 2 + tooltipBoxWidth;
@@ -599,7 +706,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
         if (isFixedPosition) {
           x = (containerWidth - tooltipParentElementRect.x) / tooltipParentElementScale - tooltipBoxWidth;
         } else {
-          if (getHorizontalPositionType(position as TooltipFixedPosition, 'right') === 'middle') {
+          if (getHorizontalPositionType(position as TooltipFixedPosition, 'right') === 'center') {
             x -= offsetX + tooltipBoxWidth / 2;
           } else {
             x -= offsetX * 2 + tooltipBoxWidth;
@@ -619,7 +726,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
         if (isFixedPosition) {
           y = -tooltipParentElementRect.y / tooltipParentElementScale;
         } else {
-          if (getVerticalPositionType(position as TooltipFixedPosition, 'bottom') === 'middle') {
+          if (getVerticalPositionType(position as TooltipFixedPosition, 'bottom') === 'center') {
             y += offsetY + tooltipBoxHeight / 2;
           } else {
             y += offsetY * 2 + tooltipBoxHeight;
@@ -639,7 +746,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
         if (isFixedPosition) {
           y = (containerHeight - tooltipParentElementRect.y) / tooltipParentElementScale - tooltipBoxHeight;
         } else {
-          if (getVerticalPositionType(position as TooltipFixedPosition, 'bottom') === 'middle') {
+          if (getVerticalPositionType(position as TooltipFixedPosition, 'bottom') === 'center') {
             y -= offsetY + tooltipBoxHeight / 2;
           } else {
             y -= offsetY * 2 + tooltipBoxHeight;
@@ -656,7 +763,9 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
     // 处理左右
     switch (getHorizontalPositionType(position as TooltipFixedPosition, 'right')) {
-      case 'middle':
+      case 'center':
+      case 'centerLeft':
+      case 'centerRight':
         if (isLeftOut()) {
           detectLeftFirst();
           detectRightLast();
@@ -676,7 +785,9 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     }
     // 处理上下
     switch (getVerticalPositionType(position as TooltipFixedPosition, 'bottom')) {
-      case 'middle':
+      case 'center':
+      case 'centerTop':
+      case 'centerBottom':
         if (isTopOut()) {
           detectTopFirst();
           detectBottomLast();

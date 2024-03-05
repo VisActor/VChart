@@ -1,6 +1,6 @@
 import type { Dict, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { throttle, PointService, isEqual, array, isArray, isNumber, get, isBoolean } from '@visactor/vutils';
+import { throttle, PointService, isEqual, isArray, isNumber, get, isBoolean } from '@visactor/vutils';
 import { RenderModeEnum } from '../../typings/spec/common';
 import type { BaseEventParams, EventType } from '../../event/interface';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
@@ -50,6 +50,10 @@ export interface IHair {
     panel?: Dict<any>;
     zIndex?: number;
   };
+}
+
+export interface IHairRadius extends IHair {
+  smooth?: boolean;
 }
 
 const ORIENT_MAP = {
@@ -340,20 +344,6 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         cfg.out && this._eventOff(cfg.out, true);
       });
     }
-  }
-
-  protected _firstSeries<T>(): T | null {
-    for (let i = 0; i < this._regions.length; i++) {
-      const r = this._regions[i];
-      const series = r.getSeries();
-      for (let j = 0; j < series.length; j++) {
-        const s = series[j];
-        if (s) {
-          return s as unknown as T;
-        }
-      }
-    }
-    return null;
   }
 
   protected _parseCrosshairSpec() {

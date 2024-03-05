@@ -1,7 +1,7 @@
 import type { BaseEventParams } from '../../interface';
 import type { ISeries } from '../../../series/interface';
 import type { Datum } from '../../../typings';
-import type { AxisComponent } from '../../../component/axis/base-axis';
+import type { IAxis } from '../../../component/axis';
 
 export enum DimensionEventEnum {
   dimensionHover = 'dimensionHover',
@@ -13,8 +13,10 @@ export interface IDimensionInfo {
   index?: number;
   /** 维度项原始值，在离散轴上为维度标签，在连续轴上为数字 */
   value: string | number;
+  /** 维度项所在坐标（scale 执行后的值） */
+  position?: number;
   /** 维度项所在轴 */
-  axis?: AxisComponent;
+  axis?: IAxis;
   /** 维度项对应数据 */
   data: IDimensionData[];
 }
