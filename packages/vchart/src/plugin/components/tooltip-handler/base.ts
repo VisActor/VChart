@@ -522,13 +522,13 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
           case 'right':
             left = x2 + offsetX;
             break;
-          case 'middle':
+          case 'center':
             left = (x1 + x2) / 2 - (tooltipBoxWidth * tooltipSizeScale) / 2;
             break;
-          case 'middleLeft':
+          case 'centerLeft':
             left = (x1 + x2) / 2 - tooltipBoxWidth * tooltipSizeScale - offsetX;
             break;
-          case 'middleRight':
+          case 'centerRight':
             left = (x1 + x2) / 2 + offsetX;
             break;
         }
@@ -572,13 +572,13 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
           case 'bottom':
             top = y2 + offsetY;
             break;
-          case 'middle':
+          case 'center':
             top = (y1 + y2) / 2 - (tooltipBoxHeight * tooltipSizeScale) / 2;
             break;
-          case 'middleTop':
+          case 'centerTop':
             top = (y1 + y2) / 2 - tooltipBoxHeight * tooltipSizeScale - offsetY;
             break;
-          case 'middleBottom':
+          case 'centerBottom':
             top = (y1 + y2) / 2 + offsetY;
             break;
         }
@@ -627,15 +627,15 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     } else {
       const x0 = canvasX;
       switch (getHorizontalPositionType(pointerFixedPositionX, 'right')) {
-        case 'middle':
+        case 'center':
           x = x0 - (tooltipBoxWidth * tooltipSizeScale) / 2;
           break;
         case 'left':
-        case 'middleLeft':
+        case 'centerLeft':
           x = x0 - tooltipBoxWidth * tooltipSizeScale - offsetX;
           break;
         case 'right':
-        case 'middleRight':
+        case 'centerRight':
           x = x0 + offsetX;
           break;
       }
@@ -647,15 +647,15 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     } else {
       const y0 = canvasY;
       switch (getVerticalPositionType(pointerFixedPositionY, 'bottom')) {
-        case 'middle':
+        case 'center':
           y = y0 - (tooltipBoxHeight * tooltipSizeScale) / 2;
           break;
         case 'top':
-        case 'middleTop':
+        case 'centerTop':
           y = y0 - tooltipBoxHeight * tooltipSizeScale - offsetY;
           break;
         case 'bottom':
-        case 'middleBottom':
+        case 'centerBottom':
           y = y0 + offsetY;
           break;
       }
@@ -686,7 +686,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
         if (isFixedPosition) {
           x = -tooltipParentElementRect.x / tooltipParentElementScale;
         } else {
-          if (getHorizontalPositionType(position as TooltipFixedPosition, 'right') === 'middle') {
+          if (getHorizontalPositionType(position as TooltipFixedPosition, 'right') === 'center') {
             x += offsetX + tooltipBoxWidth / 2;
           } else {
             x += offsetX * 2 + tooltipBoxWidth;
@@ -706,7 +706,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
         if (isFixedPosition) {
           x = (containerWidth - tooltipParentElementRect.x) / tooltipParentElementScale - tooltipBoxWidth;
         } else {
-          if (getHorizontalPositionType(position as TooltipFixedPosition, 'right') === 'middle') {
+          if (getHorizontalPositionType(position as TooltipFixedPosition, 'right') === 'center') {
             x -= offsetX + tooltipBoxWidth / 2;
           } else {
             x -= offsetX * 2 + tooltipBoxWidth;
@@ -726,7 +726,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
         if (isFixedPosition) {
           y = -tooltipParentElementRect.y / tooltipParentElementScale;
         } else {
-          if (getVerticalPositionType(position as TooltipFixedPosition, 'bottom') === 'middle') {
+          if (getVerticalPositionType(position as TooltipFixedPosition, 'bottom') === 'center') {
             y += offsetY + tooltipBoxHeight / 2;
           } else {
             y += offsetY * 2 + tooltipBoxHeight;
@@ -746,7 +746,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
         if (isFixedPosition) {
           y = (containerHeight - tooltipParentElementRect.y) / tooltipParentElementScale - tooltipBoxHeight;
         } else {
-          if (getVerticalPositionType(position as TooltipFixedPosition, 'bottom') === 'middle') {
+          if (getVerticalPositionType(position as TooltipFixedPosition, 'bottom') === 'center') {
             y -= offsetY + tooltipBoxHeight / 2;
           } else {
             y -= offsetY * 2 + tooltipBoxHeight;
@@ -763,9 +763,9 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
     // 处理左右
     switch (getHorizontalPositionType(position as TooltipFixedPosition, 'right')) {
-      case 'middle':
-      case 'middleLeft':
-      case 'middleRight':
+      case 'center':
+      case 'centerLeft':
+      case 'centerRight':
         if (isLeftOut()) {
           detectLeftFirst();
           detectRightLast();
@@ -785,9 +785,9 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     }
     // 处理上下
     switch (getVerticalPositionType(position as TooltipFixedPosition, 'bottom')) {
-      case 'middle':
-      case 'middleTop':
-      case 'middleBottom':
+      case 'center':
+      case 'centerTop':
+      case 'centerBottom':
         if (isTopOut()) {
           detectTopFirst();
           detectBottomLast();

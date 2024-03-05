@@ -67,28 +67,28 @@ export type TooltipFixedPosition =
    * tooltip 显示在鼠标所在图形中心位置
    * @since 1.10.0
    */
-  | 'middle'
+  | 'center'
   /**
    * tooltip 显示在鼠标所在图形中心位置的上侧
    * @since 1.10.0
    */
-  | 'middleTop'
+  | 'centerTop'
   /**
    * tooltip 显示在鼠标所在图形中心位置的下侧
    * @since 1.10.0
    */
-  | 'middleBottom'
+  | 'centerBottom'
   /**
    * tooltip 显示在鼠标所在图形中心位置的左侧
    * @since 1.10.0
    */
-  | 'middleLeft'
+  | 'centerLeft'
   /**
    * tooltip 显示在鼠标所在图形中心位置的右侧
    * @since 1.10.0
    */
-  | 'middleRight'
-  /** tooltip 显示在鼠标所在图形中心位置（旧版兼容，建议用 `'middle'`） */
+  | 'centerRight'
+  /** tooltip 显示在鼠标所在图形中心位置（旧版兼容，建议用 `'center'`） */
   | 'inside';
 
 export type TooltipPositionMode =
