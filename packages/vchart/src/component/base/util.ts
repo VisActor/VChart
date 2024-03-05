@@ -1,10 +1,11 @@
 import type { ITheme } from '../../theme';
-import { getOrient } from '../axis/cartesian/util/common';
+import { Direction, type IOrientType } from '../../typings';
+import { mergeSpec } from '../../util';
+import { getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
 import { getCartesianAxisTheme, getPolarAxisTheme } from '../axis/util';
 import { getCartesianCrosshairTheme, getPolarCrosshairTheme } from '../crosshair/utils';
-import { getDataFilterTheme } from '../data-zoom/util';
+import type { ComponentThemeWithDirection } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
-import { getLayout } from '../legend/util';
 import { getComponentThemeFromOption } from '../util';
 
 export function getComponentThemeFromGlobalTheme(
@@ -37,11 +38,23 @@ export function getComponentThemeFromGlobalTheme(
       return getPolarCrosshairTheme(chartTheme, chartSpec);
     case ComponentTypeEnum.colorLegend:
     case ComponentTypeEnum.sizeLegend:
-      return getComponentThemeFromOption(`${type}.${getLayout(componentSpec)}`, chartTheme);
+    case ComponentTypeEnum.discreteLegend:
     case ComponentTypeEnum.dataZoom:
     case ComponentTypeEnum.scrollBar:
-      return getDataFilterTheme(getOrient(componentSpec), type, chartTheme);
+      return getComponentThemeWithDirection(getOrient(componentSpec), getComponentThemeFromOption(type, chartTheme));
     default:
       return getComponentThemeFromOption(type, chartTheme);
   }
 }
+
+export const getComponentThemeWithDirection = <T>(
+  orient: IOrientType,
+  originalTheme: ComponentThemeWithDirection<T>
+): T => {
+  const directionTheme = originalTheme[getDirectionByOrient(orient)];
+  const finalTheme = mergeSpec({}, originalTheme, directionTheme);
+
+  delete finalTheme[Direction.horizontal];
+  delete finalTheme[Direction.vertical];
+  return finalTheme;
+};
