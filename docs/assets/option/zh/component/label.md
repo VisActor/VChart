@@ -68,7 +68,7 @@ formatMethod: text => {
 
 #${prefix} syncState(boolean) = false
 
-是否同步数据图元的状态变化，自`1.9.0`版本开始支持，用法可以参考 [demo](/vchart/examples/label/bar-label-syncState)
+是否同步数据图元的状态变化，自`1.9.0`版本开始支持，用法可以参考 [demo](/vchart/demo/label/bar-label-syncState)
 
 {{ if: !${noOffset} }}
 
@@ -291,7 +291,7 @@ label 超出 mark 范围，也以 mark 作为背景色进行反色。
 #${prefix} dataFilter(function)
 自定义标签数据筛选和排序。自`1.3.0`版本开始支持。
 
-返回一组标签数据，布局顺序与数组顺序一致。所以在数组中越靠后的数据将越有可能发生碰撞并被隐藏。  
+返回一组标签数据，布局顺序与数组顺序一致。所以在数组中越靠后的数据将越有可能发生碰撞并被隐藏。
 函数回调参数为：`(data: LabelItem[]) => LabelItem[]`
 
 ```ts

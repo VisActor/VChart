@@ -68,7 +68,7 @@ For example, `formatter: 'type={type},value={value},percent={_percent_}'`
 
 #${prefix} syncState(boolean) = false
 
-The ability to synchronize the state changes of data graphics has been supported since version `1.9.0`. You can refer to the [demo](/vchart/examples/label/bar-label-syncState) for usage.
+The ability to synchronize the state changes of data graphics has been supported since version `1.9.0`. You can refer to the [demo](/vchart/demo/label/bar-label-syncState) for usage.
 
 {{ if: !${noOffset} }}
 
