@@ -367,6 +367,7 @@ export function showTooltip(
     const mockParams: TooltipHandlerParams = {
       changePositionOnly: false,
       action: 'enter',
+      tooltip: null,
       dimensionInfo: mockDimensionInfo,
       chart: componentOptions.globalInstance.getChart() ?? undefined,
       datum: undefined,
@@ -398,6 +399,7 @@ export function showTooltip(
     const mockParams: TooltipHandlerParams = {
       // FIXME: 补充 action、dimensionInfo
       changePositionOnly: false,
+      tooltip: null,
       chart: componentOptions.globalInstance.getChart() ?? undefined,
       datum: mockDatum,
       model: info.series,

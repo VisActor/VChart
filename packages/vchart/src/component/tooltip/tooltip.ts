@@ -245,7 +245,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     if (this._spec.triggerOff !== 'none') {
       this._hideTooltipByHandler({
-        ...(params as any)
+        ...(params as any),
+        tooltip: this
       });
       this._cacheInfo = undefined;
       this._cacheParams = undefined;
@@ -471,6 +472,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   hideTooltip(): boolean {
     const params: TooltipHandlerParams = {
       changePositionOnly: false,
+      tooltip: this,
       item: undefined,
       datum: undefined,
       source: Event_Source_Type.chart

@@ -16,7 +16,8 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
     const newParams: TooltipHandlerParams = {
       ...(params as any),
       dimensionInfo: this._preprocessDimensionInfo(dimensionInfo),
-      changePositionOnly
+      changePositionOnly,
+      tooltip: this.component
     };
     return this._showTooltipByHandler(tooltipData, newParams);
   }

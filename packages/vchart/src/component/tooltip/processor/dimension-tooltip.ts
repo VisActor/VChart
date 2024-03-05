@@ -14,7 +14,8 @@ export class DimensionTooltipProcessor extends BaseTooltipProcessor {
     const newParams: TooltipHandlerParams = {
       ...(params as TooltipHandlerParams),
       dimensionInfo: this._preprocessDimensionInfo(info),
-      changePositionOnly
+      changePositionOnly,
+      tooltip: this.component
     };
     return this._showTooltipByHandler(info, newParams);
   }
