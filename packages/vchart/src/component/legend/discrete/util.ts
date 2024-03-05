@@ -59,11 +59,21 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
   }
   attrs.item = item;
 
-  // transform pager
-  if (!isEmpty(pager.textStyle)) {
-    transformToGraphic(pager.textStyle);
+  if (pager.type === 'scrollbar') {
+    if (!isEmpty(pager.railStyle)) {
+      transformToGraphic(pager.railStyle);
+    }
+    if (!isEmpty(pager.sliderStyle)) {
+      transformToGraphic(pager.sliderStyle);
+    }
+  } else {
+    // transform pager
+    if (!isEmpty(pager.textStyle)) {
+      transformToGraphic(pager.textStyle);
+    }
+    transformComponentStyle(pager.handler);
   }
-  transformComponentStyle(pager.handler);
+
   attrs.pager = pager;
 
   if (background.visible && !isEmpty(background.style)) {
