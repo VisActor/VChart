@@ -111,3 +111,8 @@ The first parameter is the final tooltip title information calculated by VChart 
 #${prefix} maxLineCount(number)
 
 Define the maximum number of displayed lines for tooltip content, and any content exceeding this limit will be represented as "others".
+
+{{ use: component-tooltip-shape-pattern(
+  prefix = ${prefix},
+  type = 'pattern'
+) }}

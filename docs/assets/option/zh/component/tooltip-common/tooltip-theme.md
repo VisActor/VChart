@@ -63,11 +63,16 @@
 
 ##${prefix} size(number)
 
-**可选** 配置 tooltip shape 宽高。
+**可选** 配置 tooltip shape 宽高，和 `shapeSize` 通用。
 
 ##${prefix} spacing(number)
 
 **可选** 配置 tooltip shape 与右边相邻元素的水平间距。
+
+{{ use: component-tooltip-shape-pattern(
+  prefix = '#' + ${prefix},
+  type = 'style'
+) }}
 
 #${prefix} titleLabel(Object)
 

@@ -200,10 +200,6 @@ export class ContentColumnModel extends BaseTooltipModel {
       ...tooltipStyle.shapeColumn,
       ...tooltipStyle.shapeColumn.items?.[index]
     };
-    const keyColumn = {
-      ...tooltipStyle.keyColumn,
-      ...tooltipStyle.keyColumn.items?.[index]
-    };
     return {
       hasShape: line.hasShape,
       symbolType: line.shapeType,

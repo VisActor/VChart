@@ -15,7 +15,8 @@ export const markByName: IGlobalMarkThemeByName = {
     style: {
       fontSize: { type: 'token', key: 'l4FontSize' },
       fontWeight: 'normal',
-      fillOpacity: 1
+      fillOpacity: 1,
+      lineJoin: 'bevel'
     }
   },
   area: {

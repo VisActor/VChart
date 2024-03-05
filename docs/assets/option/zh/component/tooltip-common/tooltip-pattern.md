@@ -111,3 +111,8 @@ tooltip 标题的回调，在最终显示 tooltip 前调用，可以在这个回
 #${prefix} maxLineCount(number)
 
 定义 tooltip 内容的最大显示行数，超过的内容将用“其他”表示。
+
+{{ use: component-tooltip-shape-pattern(
+  prefix = ${prefix},
+  type = 'pattern'
+) }}
