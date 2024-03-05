@@ -19,7 +19,6 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _fixedBandSize?: number;
     protected _cacheRect?: ILayoutRect;
     protected _cacheVisibility?: boolean;
-    get orient(): IOrientType;
     protected _stateScale: IBaseScale;
     protected _relatedAxisComponent: IComponent;
     protected _originalStateFields: Record<number, string | number>;
@@ -45,6 +44,16 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _zoomAttr: IRoamZoomSpec;
     protected _dragAttr: IRoamDragSpec;
     protected _scrollAttr: IRoamScrollSpec;
+    get orient(): IOrientType;
+    get isHorizontal(): boolean;
+    get stateScale(): IBaseScale;
+    get relatedAxisComponent(): IComponent;
+    get state(): {
+        start: number;
+        end: number;
+        startValue: string | number;
+        endValue: string | number;
+    };
     setStartAndEnd(start: number | string, end: number | string, rangeMode?: ['percent' | 'value', 'percent' | 'value']): void;
     enableInteraction(): void;
     disableInteraction(): void;
@@ -78,7 +87,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _initData(): void;
     setAttrFromSpec(): void;
     protected _statePointToData(state: number): any;
-    protected _dataToStatePoint(data: number | string): number;
+    dataToStatePoint(data: number | string): number;
     protected _modeCheck(statePoint: 'start' | 'end', mode: string): any;
     protected _setStateFromSpec(): void;
     private _parseFieldOfSeries;
