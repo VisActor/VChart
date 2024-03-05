@@ -127,6 +127,7 @@ export type ComponentThemeWithDirection<
     orient?: IOrientType;
   }
 > = T /* 通用主题，留作兼容 */ & {
+  orient?: IOrientType;
   /** 横向主题 */
   [Direction.horizontal]?: Omit<T, 'orient'>;
   /** 纵向主题 */

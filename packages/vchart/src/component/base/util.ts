@@ -41,16 +41,17 @@ export function getComponentThemeFromGlobalTheme(
     case ComponentTypeEnum.discreteLegend:
     case ComponentTypeEnum.dataZoom:
     case ComponentTypeEnum.scrollBar:
-      return getComponentThemeWithDirection(getOrient(componentSpec), getComponentThemeFromOption(type, chartTheme));
+      return getComponentThemeWithDirection(componentSpec, getComponentThemeFromOption(type, chartTheme));
     default:
       return getComponentThemeFromOption(type, chartTheme);
   }
 }
 
 export const getComponentThemeWithDirection = <T>(
-  orient: IOrientType,
+  componentSpec: { orient?: IOrientType },
   originalTheme: ComponentThemeWithDirection<T>
 ): T => {
+  const orient = componentSpec.orient ?? originalTheme.orient;
   const directionTheme = originalTheme[getDirectionByOrient(orient)];
   const finalTheme = mergeSpec({}, originalTheme, directionTheme);
 
