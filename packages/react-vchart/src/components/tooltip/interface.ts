@@ -4,6 +4,12 @@ import type { ITooltipSpec, ITooltipActual, TooltipHandlerParams } from '@visact
 
 export type TooltipProps = PropsWithChildren<ITooltipSpec & IReactTooltipProps & BaseComponentProps>;
 
+export interface ITooltipRenderProps {
+  tooltipElement: HTMLElement;
+  actualTooltip: ITooltipActual;
+  params: TooltipHandlerParams;
+}
+
 export type TooltipRender = (
   tooltipElement: HTMLElement,
   actualTooltip: ITooltipActual,

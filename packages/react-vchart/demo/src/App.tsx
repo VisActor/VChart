@@ -17,7 +17,8 @@ import {
   Mark,
   VChart,
   Legend,
-  Tooltip
+  Tooltip,
+  ITooltipRenderProps
 } from '../../src';
 import './App.css';
 import { generateData } from './util';
@@ -171,15 +172,18 @@ function App() {
         />
       </LineChart>
 
+      <PieChart data={simpleData} valueField={'y'} categoryField={'x'}>
+        <Legend visible={true} />
+        <Tooltip>
+          <TestTooltip />
+        </Tooltip>
+      </PieChart>
+
       <ScatterChart data={[{ id: 'id0', values: barData }]} xField={['x', 'type']} yField="y">
         <Axis orient="bottom" type="band" />
         <Axis orient="left" label={{ visible: true }} type="linear" />
         <Legend visible={true} />
       </ScatterChart>
-
-      <PieChart data={simpleData} valueField={'y'} categoryField={'x'}>
-        <Legend visible={true} />
-      </PieChart>
 
       <RoseChart data={simpleData} valueField={'y'} categoryField={'x'} seriesField={'x'}>
         <Legend visible={true} />
@@ -333,5 +337,9 @@ function App() {
     </div>
   );
 }
+
+const TestTooltip = ({ actualTooltip }: ITooltipRenderProps) => (
+  <div style={{ color: 'red', padding: 5 }}>🏀 {actualTooltip.title.value}</div>
+);
 
 export default App;
