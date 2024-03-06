@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: theme supports for configuring series themes in stack state, related #2331",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
