@@ -7,7 +7,7 @@ import type {
   ITextMarkSpec
 } from '../../../typings/visual';
 import type { IComponentSpec } from '../../base/interface';
-import type { IComponent } from '../../interface';
+import type { ComponentThemeWithDirection, IComponent } from '../../interface';
 import type { IFilterMode } from '../constant';
 import type { IDataFilterComponent, IDataFilterComponentSpec } from '../interface';
 
@@ -113,9 +113,4 @@ export type IDataZoomCommonTheme = IComponentSpec &
     brushSelect?: boolean;
   };
 
-export type IDataZoomTheme = IDataZoomCommonTheme /* 通用主题，留作兼容 */ & {
-  /** 横向主题 */
-  horizontal?: Omit<IDataZoomCommonTheme, 'orient'>;
-  /** 纵向主题 */
-  vertical?: Omit<IDataZoomCommonTheme, 'orient'>;
-};
+export type IDataZoomTheme = ComponentThemeWithDirection<IDataZoomCommonTheme>;

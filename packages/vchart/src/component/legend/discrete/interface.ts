@@ -4,6 +4,7 @@ import type { ILegendCommonSpec, NoVisibleMarkStyle } from '../interface';
 import type { IFormatMethod, StringOrNumber } from '../../../typings';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGlobalScale } from '../../../scale/interface';
+import type { ComponentThemeWithDirection } from '../../interface';
 
 // export type formatterCallback = (text: StringOrNumber, item: LegendItemDatum, index: number) => any;
 export type formatterCallback = IFormatMethod<[text: StringOrNumber, item: LegendItemDatum, index: number]>;
@@ -190,7 +191,9 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
 } & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager'>;
 
 // theme 主题相关配置
-export type IDiscreteLegendTheme = Omit<
+export type IDiscreteLegendCommonTheme = Omit<
   IDiscreteLegendSpec,
   'type' | 'data' | 'regionIndex' | 'regionId' | 'seriesIndex' | 'seriesId' | 'id' | 'defaultSelected'
 >;
+
+export type IDiscreteLegendTheme = ComponentThemeWithDirection<IDiscreteLegendCommonTheme>;

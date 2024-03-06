@@ -99,13 +99,3 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
 
   return resultData;
 };
-
-export const getDataFilterTheme = (orient: IOrientType, type: ComponentTypeEnum, chartTheme: ITheme) => {
-  const theme = getComponentThemeFromOption(type, chartTheme);
-  const directionTheme = theme[getDirectionByOrient(orient)];
-  const finalTheme = mergeSpec({}, theme, directionTheme);
-
-  delete finalTheme[Direction.horizontal];
-  delete finalTheme[Direction.vertical];
-  return finalTheme;
-};
