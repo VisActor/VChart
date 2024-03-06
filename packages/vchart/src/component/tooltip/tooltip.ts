@@ -222,7 +222,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return;
     }
 
-    const browserEnv = isTrueBrowser(this._option.mode);
+    const browserEnv = isTrueBrowser(this._option?.mode);
     const { clientX, clientY } = params.event as MouseEvent;
 
     // 当 enterable 为 true，同时鼠标移入 tooltip 时 pointerleave 事件也会触发，所以这里做一个判断
@@ -526,7 +526,10 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   }
 
   private _isPointerInChart(point: IPoint): boolean {
-    const globalInstance = this._option.globalInstance;
+    const globalInstance = this._option?.globalInstance;
+    if (!globalInstance) {
+      return false;
+    }
     const chart = globalInstance.getChart();
     if (!chart) {
       return false;
