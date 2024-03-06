@@ -38,14 +38,14 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
     const chartTheme = this._option?.getTheme();
     const { markByName, mark } = chartTheme;
     const type = this._option.type;
+    // 基本主题
     const theme = transformSeriesThemeToMerge(get(chartTheme, `series.${type}`), type, mark, markByName);
-    const themeWithDirection = transformSeriesThemeToMerge(
-      get(chartTheme, `series.${type}_${direction}`),
-      `${type}_${direction}`,
-      mark,
-      markByName
-    );
-    return mergeSpec({}, theme, themeWithDirection);
+    // 区分方向的主题
+    const themeWithDirection = get(chartTheme, `series.${type}_${direction}`);
+    // stack 状态下的主题
+    const stack = spec.stack ?? themeWithDirection?.stack ?? theme?.stack;
+    const themeWithStack = stack ? get(chartTheme, `series.${type}_stack`) : undefined;
+    return mergeSpec({}, theme, themeWithDirection, themeWithStack);
   }
 
   /** 不建议重写该方法，最好重写对应子步骤 */
