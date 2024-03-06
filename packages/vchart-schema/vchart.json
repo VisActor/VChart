@@ -24118,6 +24118,41 @@
           "default": "'rect'",
           "description": "框选类型"
         },
+        "dataZoomId": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "刷取关联的dataZoom id, 只有当前操作的region/series与dataZoom关联同一个axis时生效",
+          "since": "1.10.0"
+        },
+        "dataZoomIndex": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "description": "刷取关联的dataZoom index, 只有当前操作的region/series与dataZoom关联同一个axis时生效",
+          "since": "1.10.0"
+        },
+        "dataZoomRangeExpand": {
+          "description": "更新dataZoom范围时, 按百分比进行范围拓展, 比如: dataZoomRangeExpand = 0.05, 则代表更新时newStart - 0.05 & newEnd + 0.05",
+          "since": "1.10.0\n原因:\n1) 轴的zero、nice、min、max等配置可能导致轴范围与dataZoom范围不一致）\n2) 散点图按照散点中心定位, 如果严格按照中心范围更新，会出现散点超出画布的现象",
+          "type": "number"
+        },
         "delayTime": {
           "default": 10,
           "description": "事件触发延迟时长",
@@ -30648,6 +30683,12 @@
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
         },
+        "customDomain": {
+          "description": "自定义domain",
+          "items": {},
+          "since": "1.10.0",
+          "type": "array"
+        },
         "delayTime": {
           "default": 30,
           "description": "事件触发延迟时长",
@@ -30939,9 +30980,17 @@
             "number"
           ]
         },
+        "tolerance": {
+          "description": "背景图表节点压缩率, 如果不配置则默认将节点限制在10000个",
+          "since": "1.10.0",
+          "type": "number"
+        },
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "updateDataAfterChange": {
+          "typeof": "function"
         },
         "valueField": {
           "description": "背景趋势线对应的字段",
@@ -60878,6 +60927,12 @@
           "description": "模块是否裁剪超出布局区域外的绘图内容",
           "type": "boolean"
         },
+        "customDomain": {
+          "description": "自定义domain",
+          "items": {},
+          "since": "1.10.0",
+          "type": "array"
+        },
         "delayTime": {
           "default": 30,
           "description": "事件触发延迟时长",
@@ -61199,6 +61254,9 @@
         "top": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表顶部的距离。注意仅在 layoutType === 'absolute' 时生效"
+        },
+        "updateDataAfterChange": {
+          "typeof": "function"
         },
         "valueField": {
           "description": "数据过滤对应的数据字段",
@@ -72074,7 +72132,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         },
         "size": {
@@ -72082,14 +72140,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12776",
+        "__@toStringTag@12780",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         },
         "size": {
@@ -72097,14 +72155,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12776",
+        "__@toStringTag@12780",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         },
         "size": {
@@ -72112,14 +72170,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12776",
+        "__@toStringTag@12780",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         },
         "size": {
@@ -72127,14 +72185,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12776",
+        "__@toStringTag@12780",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         },
         "size": {
@@ -72142,14 +72200,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12776",
+        "__@toStringTag@12780",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         },
         "size": {
@@ -72157,14 +72215,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12776",
+        "__@toStringTag@12780",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         },
         "size": {
@@ -72172,14 +72230,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12776",
+        "__@toStringTag@12780",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         },
         "size": {
@@ -72187,14 +72245,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12776",
+        "__@toStringTag@12780",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         },
         "size": {
@@ -72202,7 +72260,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12776",
+        "__@toStringTag@12780",
         "size"
       ],
       "type": "object"
@@ -89776,34 +89834,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12776"
+        "__@toStringTag@12780"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12776"
+        "__@toStringTag@12780"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12776": {
+        "__@toStringTag@12780": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12776"
+        "__@toStringTag@12780"
       ],
       "type": "object"
     },
