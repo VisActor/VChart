@@ -15,6 +15,7 @@ export declare enum AttributeLevel {
     User_Mark = 8,
     Built_In = 99
 }
+export declare const STACK_FIELD_KEY: string;
 export declare const STACK_FIELD_START: string;
 export declare const STACK_FIELD_END: string;
 export declare const STACK_FIELD_START_PERCENT: string;

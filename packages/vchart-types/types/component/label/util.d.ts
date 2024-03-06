@@ -56,7 +56,7 @@ export declare function stackLabel(labelInfo: ILabelInfo): {
     };
 };
 export declare function treemapLabel(labelInfo: ILabelInfo): {
-    customLayoutFunc: (labels: LabelItem[]) => import("@visactor/vrender-core").IText[];
+    customLayoutFunc: (labels: LabelItem[], text: any) => any;
     overlap: boolean;
 };
 export declare function LineLabel(labelInfo: ILabelInfo): {

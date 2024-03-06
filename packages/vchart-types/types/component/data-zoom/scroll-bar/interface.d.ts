@@ -1,6 +1,7 @@
 import type { ILayoutItemSpec } from '../../../layout/interface';
 import type { IPadding } from '../../../typings';
 import type { IRectMarkSpec } from '../../../typings/visual';
+import type { ComponentThemeWithDirection } from '../../interface';
 import type { IFilterMode } from '../constant';
 import type { IDataFilterComponentSpec } from '../interface';
 export interface IScrollBarStyle {
@@ -21,7 +22,4 @@ export type IScrollBarCommonTheme = ILayoutItemSpec & IScrollBarStyle & {
     round?: IScrollBarSpec['round'];
     innerPadding?: IScrollBarSpec['innerPadding'];
 };
-export type IScrollBarTheme = IScrollBarCommonTheme & {
-    horizontal?: Omit<IScrollBarCommonTheme, 'orient'>;
-    vertical?: Omit<IScrollBarCommonTheme, 'orient'>;
-};
+export type IScrollBarTheme = ComponentThemeWithDirection<IScrollBarCommonTheme>;

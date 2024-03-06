@@ -73,6 +73,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
         };
         disableTriggerEvent: boolean;
     };
+    protected _getHandlerTextFormatMethod(spec: IDataZoomSpec['startText']): (text: any) => any;
     protected _getNeedClearVRenderComponents(): IGraphic[];
 }
 export declare const registerDataZoom: () => void;

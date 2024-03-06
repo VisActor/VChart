@@ -16,7 +16,7 @@ export declare class CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICarte
     setAttrFromSpec(): void;
     protected _initData(): void;
     protected computeData(updateType?: 'range' | 'domain' | 'force'): void;
-    protected getLabelFormatMethod(): any;
+    protected _getLabelFormatMethod(): any;
     protected getLabelItems(length: number): any[];
     transformScaleDomain(): void;
 }

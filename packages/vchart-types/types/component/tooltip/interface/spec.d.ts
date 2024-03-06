@@ -1,4 +1,4 @@
-import type { IToolTipActual, ITooltipPattern, Maybe, TooltipActiveType, TooltipData } from '../../../typings';
+import type { ITooltipActual, ITooltipPattern, Maybe, TooltipActiveType, TooltipData } from '../../../typings';
 import type { ITooltipActiveTypeAsKeys, TooltipHandlerParams, TooltipResult } from './common';
 import type { ITooltipTheme } from './theme';
 export interface ITooltipSpec extends Partial<ITooltipActiveTypeAsKeys<ITooltipPattern, ITooltipPattern>> {
@@ -15,7 +15,7 @@ export interface ITooltipSpec extends Partial<ITooltipActiveTypeAsKeys<ITooltipP
     enterable?: boolean;
     transitionDuration?: number;
     throttleInterval?: number;
-    updateElement?: (tooltipElement: HTMLElement, actualTooltip: IToolTipActual, params: TooltipHandlerParams) => void;
+    updateElement?: (tooltipElement: HTMLElement, actualTooltip: ITooltipActual, params: TooltipHandlerParams) => void;
     offset?: {
         x?: number;
         y?: number;

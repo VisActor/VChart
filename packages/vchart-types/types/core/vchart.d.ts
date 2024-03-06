@@ -5,7 +5,7 @@ import type { ISeriesConstructor } from '../series/interface';
 import type { DimensionIndexOption, IChart, IChartConstructor, IChartSpecInfo } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
-import type { IParserOptions } from '@visactor/vdataset/es/parser';
+import type { IParserOptions } from '@visactor/vdataset';
 import type { Transform, DataView } from '@visactor/vdataset';
 import { DataSet } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
@@ -46,6 +46,7 @@ export declare class VChart implements IVChart {
     static readonly Utils: {
         measureText: (text: string, textSpec?: Partial<import("@visactor/vrender-core").ITextGraphicAttribute>, option?: Partial<import("@visactor/vutils").ITextMeasureOption>, useNaiveCanvas?: boolean) => import("@visactor/vutils").ITextSize;
     };
+    static readonly vglobal: import("@visactor/vrender-core").IGlobal;
     protected _originalSpec: any;
     protected _spec: any;
     getSpec(): any;
