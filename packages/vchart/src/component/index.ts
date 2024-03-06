@@ -193,3 +193,6 @@ export type {
   ITitleTheme,
   ITooltipTheme
 };
+
+// tooltip
+export * from './tooltip/interface';

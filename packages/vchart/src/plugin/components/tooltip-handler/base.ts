@@ -9,7 +9,7 @@ import type { ITooltipPositionFixedValue } from '../../../typings/tooltip/positi
 import { isTrueBrowser } from '../../../util/env';
 import type {
   TooltipData,
-  IToolTipActual,
+  ITooltipActual,
   TooltipActiveType,
   ITooltipHandler,
   ITooltipPattern,
@@ -109,7 +109,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   protected _compiler: Compiler;
 
   protected _cacheViewSpec: ITooltipSpec | undefined;
-  protected _cacheActualTooltip: IToolTipActual | undefined;
+  protected _cacheActualTooltip: ITooltipActual | undefined;
 
   protected _isTooltipPaused: boolean;
   protected _isPointerEscaped: boolean;
@@ -210,7 +210,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     }
 
     // 合成 tooltip 内容
-    let actualTooltip: IToolTipActual | undefined;
+    let actualTooltip: ITooltipActual | undefined;
     if (changePositionOnly && this._cacheActualTooltip) {
       actualTooltip = this._cacheActualTooltip;
     } else {
@@ -350,7 +350,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
   /* -----需要子类继承的方法开始----- */
 
-  protected abstract _updateTooltip(visible: boolean, params: TooltipHandlerParams, domData?: IToolTipActual): void;
+  protected abstract _updateTooltip(visible: boolean, params: TooltipHandlerParams, domData?: ITooltipActual): void;
   protected abstract _removeTooltip(): void;
 
   /* -----需要子类继承的方法结束----- */
@@ -389,7 +389,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     pattern: ITooltipPattern,
     data: TooltipData,
     params: TooltipHandlerParams
-  ): IToolTipActual => {
+  ): ITooltipActual => {
     // 可见性
     const patternVisible = getTooltipPatternValue(pattern.visible, data, params);
 
@@ -397,7 +397,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     let tooltipContent: TooltipActualTitleContent | null = null;
     tooltipContent = getShowContent(pattern, data, params);
 
-    const actualTooltip: IToolTipActual = {
+    const actualTooltip: ITooltipActual = {
       ...tooltipContent,
       visible: isValid(tooltipContent) ? patternVisible !== false : false, // 最终展示数据为 null 则不展示
       activeType: pattern.activeType,
@@ -411,7 +411,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
    * 计算实际的 tooltip 位置
    */
   protected _getActualTooltipPosition = (
-    actualTooltip: IToolTipActual,
+    actualTooltip: ITooltipActual,
     params: TooltipHandlerParams,
     tooltipBoxSize: IContainerSize | undefined
   ): ITooltipPositionActual => {
@@ -813,7 +813,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   };
 
   // 计算 tooltip 内容区域的宽高，并缓存结果
-  protected _getTooltipBoxSize(actualTooltip: IToolTipActual, changePositionOnly: boolean): IContainerSize | undefined {
+  protected _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined {
     if (!changePositionOnly || isNil(this._attributes)) {
       const chartTheme = this._chartOption?.getTheme() ?? {};
       this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), chartTheme);

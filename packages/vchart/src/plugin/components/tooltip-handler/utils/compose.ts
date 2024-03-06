@@ -1,9 +1,9 @@
 import { isValid, isNil, TimeUtil } from '@visactor/vutils';
 import type {
-  IToolTipLinePattern,
+  ITooltipLinePattern,
   ITooltipPattern,
   TooltipData,
-  IToolTipLineActual
+  ITooltipLineActual
 } from '../../../../typings/tooltip';
 import {
   getFirstDatumFromTooltipData,
@@ -169,9 +169,9 @@ export const getShowContent = (
  */
 export const getOneLineData = (
   datum: any,
-  config: IToolTipLinePattern,
+  config: ITooltipLinePattern,
   params: TooltipHandlerParams
-): IToolTipLineActual => {
+): ITooltipLineActual => {
   const key = getTimeString(
     getTooltipContentValue(config.key, datum, params, config.keyFormatter),
     config.keyTimeFormat,

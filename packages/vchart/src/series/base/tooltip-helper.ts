@@ -1,5 +1,5 @@
 import type { ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams } from '../../component/tooltip/interface';
-import type { IToolTipLinePattern, ITooltipPattern, ShapeType, TooltipActiveType } from '../../typings';
+import type { ITooltipLinePattern, ITooltipPattern, ShapeType, TooltipActiveType } from '../../typings';
 import { array, isFunction, isValid } from '@visactor/vutils';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
 import { BaseTooltipHelper } from '../../model/tooltip-helper';
@@ -154,12 +154,12 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
         ]
       };
     } else if (activeType === 'dimension' && dimensionInfo) {
-      const title: IToolTipLinePattern = {
+      const title: ITooltipLinePattern = {
         key: undefined,
         value: this._getDimensionData,
         hasShape: false
       };
-      const content: IToolTipLinePattern[] = [];
+      const content: ITooltipLinePattern[] = [];
       dimensionInfo.forEach(({ data }) =>
         data.forEach(({ series }) => {
           content.push({
@@ -193,7 +193,7 @@ const merge = <T, K>(source: K, extraInfo: T | ((source: K) => T), overwrite?: b
 
 export const addExtraInfoToTooltipTitlePattern = <T>(
   pattern: ITooltipPattern['title'],
-  extraInfo: T | ((line: IToolTipLinePattern) => T),
+  extraInfo: T | ((line: ITooltipLinePattern) => T),
   overwrite?: boolean
 ): ITooltipPattern['title'] | undefined => {
   const result = isValid(pattern)
@@ -206,14 +206,14 @@ export const addExtraInfoToTooltipTitlePattern = <T>(
 
 export const addExtraInfoToTooltipContentPattern = <T>(
   pattern: ITooltipPattern['content'],
-  extraInfo: T | ((line: IToolTipLinePattern) => T),
+  extraInfo: T | ((line: ITooltipLinePattern) => T),
   overwrite?: boolean
 ): ITooltipPattern['content'] | undefined => {
   const result = isValid(pattern)
     ? array(pattern).map(patternItem =>
         isFunction(patternItem)
           ? (...args: any[]) => array(patternItem(...args)).map(line => merge(line, extraInfo, overwrite))
-          : merge(patternItem as IToolTipLinePattern, extraInfo, overwrite)
+          : merge(patternItem as ITooltipLinePattern, extraInfo, overwrite)
       )
     : undefined;
   return result;

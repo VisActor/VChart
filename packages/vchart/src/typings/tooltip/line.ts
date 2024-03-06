@@ -3,7 +3,7 @@ import type { ITooltipLabelActual, ITooltipLabelPattern } from './label';
 import type { ITooltipShapeActual, ITooltipShapePattern } from './shape';
 import type { TooltipRichTextAttrs } from '@visactor/vrender-components';
 
-export interface IToolTipLinePattern extends ITooltipShapePattern, ITooltipLabelPattern {
+export interface ITooltipLinePattern extends ITooltipShapePattern, ITooltipLabelPattern {
   /** tooltip key 值内容 */
   key?: TooltipContentProperty<string>;
   /**
@@ -48,7 +48,7 @@ export interface IToolTipLinePattern extends ITooltipShapePattern, ITooltipLabel
   valueTimeFormatMode?: 'utc' | 'local';
 }
 
-export interface IToolTipLineActual extends ITooltipShapeActual, ITooltipLabelActual {
+export interface ITooltipLineActual extends ITooltipShapeActual, ITooltipLabelActual {
   /** tooltip key 值内容 */
   key?: string;
   /** tooltip value 值内容 */

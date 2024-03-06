@@ -14,7 +14,7 @@ import { ShapeModel } from './shape-model';
 import { TextModel } from './text-model';
 import { TOOLTIP_EMPTY_STRING } from '../../constants';
 import { getPixelPropertyStr } from '../utils';
-import type { IToolTipLineActual } from '../../../../../typings';
+import type { ITooltipLineActual } from '../../../../../typings';
 import { mergeSpec } from '../../../../../util/spec/merge-spec';
 
 export type ContentColumnType = 'shape-box' | 'key-box' | 'value-box';
@@ -85,7 +85,7 @@ export class ContentColumnModel extends BaseTooltipModel {
     const renderContent = this._option.getTooltipActual()?.content ?? [];
     const contentAttributes = this._option.getTooltipAttributes()?.content ?? [];
 
-    const getKeyItemStyle = (line: IToolTipLineActual, i: number): Partial<CSSStyleDeclaration> => {
+    const getKeyItemStyle = (line: ITooltipLineActual, i: number): Partial<CSSStyleDeclaration> => {
       const { key, isKeyAdaptive } = line;
       const { height } = contentAttributes[i];
       const { keyColumn } = tooltipStyle;
@@ -108,7 +108,7 @@ export class ContentColumnModel extends BaseTooltipModel {
       return style;
     };
 
-    const getValueItemStyle = (line: IToolTipLineActual, i: number): Partial<CSSStyleDeclaration> => {
+    const getValueItemStyle = (line: ITooltipLineActual, i: number): Partial<CSSStyleDeclaration> => {
       const { height } = contentAttributes[i];
       const { valueColumn } = tooltipStyle;
       const style: Partial<CSSStyleDeclaration> = mergeSpec({}, defaultValueStyle, {
@@ -120,7 +120,7 @@ export class ContentColumnModel extends BaseTooltipModel {
       return style;
     };
 
-    const getShapeItemStyle = (line: IToolTipLineActual, i: number): Partial<CSSStyleDeclaration> => {
+    const getShapeItemStyle = (line: ITooltipLineActual, i: number): Partial<CSSStyleDeclaration> => {
       const { height } = contentAttributes[i];
       const { shapeColumn } = tooltipStyle;
       const keyStyle = getKeyItemStyle(line, i);
@@ -194,7 +194,7 @@ export class ContentColumnModel extends BaseTooltipModel {
     }
   }
 
-  protected _getShapeSvgOption(line: IToolTipLineActual, index: number): IShapeSvgOption {
+  protected _getShapeSvgOption(line: ITooltipLineActual, index: number): IShapeSvgOption {
     const tooltipStyle = this._option.getTooltipStyle();
     const shapeColumn = {
       ...tooltipStyle.shapeColumn,

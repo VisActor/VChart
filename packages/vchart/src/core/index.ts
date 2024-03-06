@@ -25,6 +25,9 @@ export * from './interface';
  */
 export * from '../typings/spec/index';
 
+// tooltip
+export * from '../typings/tooltip';
+
 // theme
 export * from '../theme/index';
 

@@ -1,6 +1,6 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type { IToolTipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
+import type { ITooltipLinePattern, ITooltipPattern, TooltipActiveType } from '../../typings';
 import { isValid, TimeUtil } from '@visactor/vutils';
 
 export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
@@ -8,7 +8,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
     super.updateTooltipSpec();
     if (isValid(this.spec?.mark)) {
       this.spec!.mark.updateContent = (prev: any, datum: any, params: any) => {
-        const childrenContent: IToolTipLinePattern[] = [];
+        const childrenContent: ITooltipLinePattern[] = [];
         const childrenPrev = prev.filter((p: any) => p.key === 'children');
         childrenPrev.length > 0 &&
           childrenPrev[0].value.forEach((element: any) => {
@@ -77,7 +77,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
           }
         ],
         updateContent: (prev: any, datum: any, params: any) => {
-          const childrenContent: IToolTipLinePattern[] = [];
+          const childrenContent: ITooltipLinePattern[] = [];
           prev[3].value.forEach((element: any) => {
             let flag = true;
             for (const key in element) {
@@ -88,7 +88,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
                 shapeStroke: this.contentShapeColorCallback(datum[0].datum[0]),
                 key: key,
                 value: element[key] + ''
-              } as IToolTipLinePattern);
+              } as ITooltipLinePattern);
               flag = false;
             }
           });

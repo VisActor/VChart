@@ -3,7 +3,7 @@ import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
-import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
+import type { ITooltipHandler, ITooltipLineActual, TooltipActiveType } from '../../typings/tooltip';
 import type { Datum, IPoint, IShowTooltipOption } from '../../typings';
 import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode, domDocument } from '../../util/env';
 import type {
@@ -35,8 +35,8 @@ import { TOOLTIP_EL_CLASS_NAME, TooltipHandlerType } from '../../plugin/componen
 import { error } from '../../util';
 
 export type TooltipActualTitleContent = {
-  title?: IToolTipLineActual;
-  content?: IToolTipLineActual[];
+  title?: ITooltipLineActual;
+  content?: ITooltipLineActual[];
 };
 
 type EventHandlerList = {
@@ -245,7 +245,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
     if (this._spec.triggerOff !== 'none') {
       this._hideTooltipByHandler({
-        ...(params as any)
+        ...(params as any),
+        tooltip: this
       });
       this._cacheInfo = undefined;
       this._cacheParams = undefined;
@@ -471,6 +472,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   hideTooltip(): boolean {
     const params: TooltipHandlerParams = {
       changePositionOnly: false,
+      tooltip: this,
       item: undefined,
       datum: undefined,
       source: Event_Source_Type.chart

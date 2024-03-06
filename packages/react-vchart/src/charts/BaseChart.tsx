@@ -1,5 +1,5 @@
 import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor } from '@visactor/vchart';
-import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle, ReactNode } from 'react';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
 import type { IView } from '@visactor/vgrammar-core';
@@ -21,6 +21,8 @@ import {
   HierarchyEventProps,
   ChartLifeCycleEventProps
 } from '../eventsUtils';
+import { IReactTooltipProps } from '../components/tooltip/interface';
+import { initCustomTooltip } from '../components/tooltip/util';
 
 export type ChartOptions = Omit<IInitOption, 'dom'>;
 
@@ -33,7 +35,8 @@ export interface BaseChartProps
     PlayerEventProps,
     DimensionEventProps,
     HierarchyEventProps,
-    ChartLifeCycleEventProps {
+    ChartLifeCycleEventProps,
+    IReactTooltipProps {
   vchartConstrouctor?: IVChartConstructor;
   type?: string;
   /** 上层container */
@@ -127,16 +130,22 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const specFromChildren = useRef<Omit<ISpec, 'type' | 'data' | 'width' | 'height'>>(null);
   const eventsBinded = React.useRef<BaseChartProps>(null);
   const skipFunctionDiff = !!props.skipFunctionDiff;
+  const [tooltipNode, setTooltipNode] = useState<ReactNode>(null);
 
   const parseSpec = (props: Props) => {
+    let spec: ISpec = undefined;
+
     if (hasSpec && props.spec) {
-      return props.spec;
+      spec = props.spec;
+    } else {
+      spec = {
+        ...prevSpec.current,
+        ...specFromChildren.current
+      } as ISpec;
     }
 
-    return {
-      ...prevSpec.current,
-      ...specFromChildren.current
-    } as ISpec;
+    spec.tooltip = initCustomTooltip(setTooltipNode, props, spec.tooltip);
+    return spec;
   };
 
   const createChart = (props: Props) => {
@@ -253,6 +262,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
             </React.Fragment>
           );
         })}
+        {tooltipNode}
       </ViewContext.Provider>
     </RootChartContext.Provider>
   );
