@@ -88,6 +88,24 @@ Height setting for legend items, not set, automatically calculated by default. A
   componentName='Legend item'
 ) }}
 
+#### align(string) = 'left'
+
+Supported since version `1.10.0`;
+
+Specifies the placement of icons and text in legend items, with optional values:
+
+- 'left': Icon on the left
+- 'right': Icon on the right
+
+#### autoEllipsisStrategy(string) = 'none'
+
+Supported since version `1.10.0`;
+
+When label + value coexist, the automatic ellipsis strategy is:
+
+- 'labelFirst' - Attempt to display the complete `label`
+- 'valueFirst' - Attempt to display the complete `value`
+- 'none' - Display label and value according to `widthRatio`
 #### background(Object)
 
 The background configuration of the legend item.
@@ -360,6 +378,12 @@ Text configuration of the legend item.
 
 The spacing between the legend item label and the value that follows it.
 
+##### widthRatio(number)
+
+Supported since version `1.10.0`
+
+When label + value are displayed simultaneously and the text is too long, the width ratio of the label
+
 ##### formatMethod(Function)
 
 label's text formatting method, you can customize the display text of the label. The parameters of the function are:
@@ -531,6 +555,12 @@ The spacing between the legend item value and the following element.
 ##### alignRight(boolean) = false
 
 Whether or not to align the value to the right side of the legend item as a whole, **only if the legend item width `itemWidth` is set**.
+
+##### widthRatio(number)
+
+Supported since version `1.10.0`
+
+When label + value are displayed simultaneously and the text is too long, the width ratio of the value
 
 ##### formatMethod(Function)
 
@@ -712,6 +742,14 @@ Whether to enable automatic page turning, the default is on.
 
 Page Turner Configuration.
 
+#### type(string)
+
+Supported since version `1.10.0`
+
+Set the pager type, currently supporting two styles:
+
+- Default style: pager with arrows
+- `type: 'scrollbar'`: Scrollbar pager
 #### layout(string)
 
 The layout of the page turner, the optional values are `'horizontal'` and `'vertical'`. The default value logic is:
@@ -749,11 +787,15 @@ Animated jogging effect.
 
 Text style configuration.
 
+This configuration only applies to the default pager
+
 {{ use: graphic-text(
   prefix = '####'
 ) }}
 
 #### handler(Object)
+
+This configuration only applies to the default pager
 
 Style configuration for the page turner button.
 
@@ -799,6 +841,35 @@ Style configuration for the unavailable state of the page turner button.
 {{ use: graphic-symbol(
   prefix = '######'
 ) }}
+
+#### railStyle
+
+Supported since version `1.10.0`
+
+This configuration only applies to the scrollbar page turner
+Scrollbar slider style configuration.
+
+{{ use: graphic-rect(
+  prefix = '####'
+) }}
+
+#### sliderStyle
+
+Supported since version `1.10.0`
+
+This configuration only applies to the scrollbar page turner
+Scrollbar track style configuration.
+
+{{ use: graphic-rect(
+  prefix = '####'
+) }}
+
+#### scrollByPosition(boolean)
+
+Supported since version `1.10.0`
+
+This configuration only applies to the scrollbar page turner
+Whether the scrollbar position supports displaying in the middle of the pagination
 
 ### data(Function)
 
