@@ -223,6 +223,9 @@ export enum STATE_VALUE_ENUM {
   STATE_DIMENSION_HOVER = 'dimension_hover',
   STATE_DIMENSION_HOVER_REVERSE = 'dimension_hover_reverse',
 
+  STATE_GROUP_HOVER = 'group_hover',
+  STATE_GROUP_HOVER_REVERSE = 'group_hover_reverse',
+
   STATE_SELECTED = 'selected',
   STATE_SELECTED_REVERSE = 'selected_reverse'
 }
@@ -230,6 +233,7 @@ export enum STATE_VALUE_ENUM {
 export enum STATE_VALUE_ENUM_REVERSE {
   STATE_HOVER_REVERSE = 'hover_reverse',
   STATE_DIMENSION_HOVER_REVERSE = 'dimension_hover_reverse',
+  STATE_GROUP_HOVER_REVERSE = 'group_hover_reverse',
   STATE_SELECTED_REVERSE = 'selected_reverse'
 }
 

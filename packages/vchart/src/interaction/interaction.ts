@@ -1,10 +1,9 @@
 import { isEmpty } from '@visactor/vutils';
 import type { StateValue } from '../compile/mark';
-import type { IElement } from '@visactor/vgrammar-core';
 import type { BaseEventParams } from '../event/interface';
 import type { IMark } from '../mark/interface';
 import type { IInteraction } from './interface';
-import type { IInteraction as IVGrammarInteraction } from '@visactor/vgrammar-core';
+import type { IInteraction as IVGrammarInteraction, IElement } from '@visactor/vgrammar-core';
 
 import { stateToReverse } from '../compile/mark/util';
 

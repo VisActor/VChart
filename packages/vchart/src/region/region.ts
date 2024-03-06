@@ -20,6 +20,7 @@ import type { ILayoutType, StringOrNumber } from '../typings';
 import { IFilterMode } from '../component/data-zoom/constant';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
+import { GroupTrigger } from '../interaction/group-trigger';
 
 export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> implements IRegion {
   static type = 'region';
@@ -71,7 +72,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   protected _backgroundMark?: IRectMark;
   protected _foregroundMark?: IRectMark;
 
-  protected _trigger: ITrigger;
+  protected _triggers: ITrigger[];
 
   constructor(spec: T, ctx: IModelOption) {
     super(spec, ctx);
@@ -321,7 +322,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
       model: this,
       interaction: this.interaction
     };
-    this._trigger = new DimensionTrigger(triggerOptions);
+    this._triggers = [new DimensionTrigger(triggerOptions), new GroupTrigger(triggerOptions)];
   }
 
   initTrigger() {
@@ -329,10 +330,10 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     // trigger check mark enable
     this._series.forEach(s => {
       s.getMarksWithoutRoot().forEach(m => {
-        this._trigger.registerMark(m);
+        this._triggers.forEach(trigger => trigger.registerMark(m));
       });
     });
-    this._trigger.init();
+    this._triggers.forEach(trigger => trigger.init());
   }
 
   initInteraction() {
