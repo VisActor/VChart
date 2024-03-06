@@ -5,7 +5,7 @@ import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from 
 import { merge } from '@visactor/vutils';
 
 export interface IGeoJsonOption {
-  type: 'geojson';
+  type?: 'geojson';
   /** 计算中心点 */
   /** @default true */
   centroid?: boolean;
