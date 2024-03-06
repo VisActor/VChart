@@ -346,8 +346,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       this._isTooltipShown = true;
     }
     // 全局唯一 tooltip
-    const vchart = this._option.globalInstance;
-    if (success && VChart.globalConfig.uniqueTooltip) {
+    const vchart = this._option?.globalInstance;
+    if (success && VChart.globalConfig.uniqueTooltip && vchart) {
       VChart.hideTooltip(vchart.id);
     }
     return success;
