@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add new mark states `group_hover` and `group_hover_reverse`, related #2338",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
