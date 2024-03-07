@@ -40,6 +40,7 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     private _needInitOutState;
     private _cacheInteractiveRangeAttrs;
     private _needDisablePickable;
+    private _relatedDataZooms;
     init(): void;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     created(): void;
@@ -60,8 +61,12 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     private _reconfigItem;
     private _reconfigLinkedItem;
     private _isBrushContainItem;
+    private _findValueInDataZoom;
+    private _setDataZoomComponent;
+    private _setDataZoomState;
     protected _bindRegions(): void;
     protected _bindLinkedSeries(): void;
+    private _bindDataZoom;
     private _initNeedOperatedItem;
     protected _initMarkBrushState(componentIndex: number, stateName: string): void;
     protected initEvent(): void;
