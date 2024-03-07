@@ -148,8 +148,10 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
     if (textNodes && textNodes.length > 0) {
       textNodes.forEach(text => {
         text.__vchart_event = true;
-        text.addEventListener('*', ((event: any, type: string) =>
-          this._delegateEvent(component, event, type, text, (text.attribute as LabelItem).data)) as LooseFunction);
+        if (text.listenerCount('*') === 0) {
+          text.addEventListener('*', ((event: any, type: string) =>
+            this._delegateEvent(component, event, type, text, (text.attribute as LabelItem).data)) as LooseFunction);
+        }
       });
     }
   }

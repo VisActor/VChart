@@ -400,8 +400,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected _delegateAxisContainerEvent(component: IGroup) {
-    component.addEventListener('*', ((event: any, type: string) =>
-      this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
+    if (component.listenerCount('*') === 0) {
+      component.addEventListener('*', ((event: any, type: string) =>
+        this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
+    }
   }
 
   protected _getAxisAttributes() {
