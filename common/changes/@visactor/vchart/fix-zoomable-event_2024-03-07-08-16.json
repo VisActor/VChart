@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(scrollbar): click stopped by zoomable. fix#2333",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
