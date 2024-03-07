@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: rect crosshair should lock when lockAfterClick is true\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
