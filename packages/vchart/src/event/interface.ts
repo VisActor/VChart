@@ -75,7 +75,8 @@ export type ComponentType =
   | 'markPoint'
   | 'tooltip'
   | 'title'
-  | 'label';
+  | 'label'
+  | 'totalLabel';
 export type EventTargetType = MarkType | ComponentType | SeriesType;
 
 export type EventSourceType = keyof typeof Event_Source_Type;
