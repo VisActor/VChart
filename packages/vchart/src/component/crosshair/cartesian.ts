@@ -411,14 +411,16 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
           ...attributes,
           lineStyle: style,
           zIndex: this.gridZIndex + 1, // 样式优化：线盖在面上
-          disableTriggerEvent: this._option.disableTriggerEvent
+          disableTriggerEvent: this._option.disableTriggerEvent,
+          pickable: false
         });
       } else if (type === 'rect') {
         crosshair = new RectCrosshair({
           ...attributes,
           rectStyle: style,
           zIndex: this.gridZIndex,
-          disableTriggerEvent: this._option.disableTriggerEvent
+          disableTriggerEvent: this._option.disableTriggerEvent,
+          pickable: false
         });
       }
       // 添加至场景树
