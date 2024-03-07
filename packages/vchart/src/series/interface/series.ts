@@ -13,7 +13,6 @@ import type { IInvalidType, Datum, DirectionType, IGroup, StringOrNumber } from 
 import type { ISeriesMarkAttributeContext, StateValueType } from '../../compile/mark';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import type { IGroupMark } from '../../mark/group';
-import type { IArcLabelSpec } from '../pie/interface';
 import type { IGeoCoordinateHelper } from '../../component/geo/interface';
 import type { ILabelMark } from '../../mark/label';
 
