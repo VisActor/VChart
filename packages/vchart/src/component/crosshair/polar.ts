@@ -270,7 +270,8 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
           crosshair = new LineCrosshair({
             ...(positionAttrs as { start: IPoint; end: IPoint }),
             lineStyle: this._angleHair.style,
-            zIndex: this.gridZIndex
+            zIndex: this.gridZIndex,
+            pickable: false
           });
         } else if (crosshairType === 'sector') {
           crosshair = new SectorCrosshair({
@@ -282,7 +283,8 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
               endAngle: number;
             }),
             sectorStyle: this._angleHair.style,
-            zIndex: this.gridZIndex
+            zIndex: this.gridZIndex,
+            pickable: false
           });
         }
         this._angleCrosshair = crosshair as unknown as IGroup;
