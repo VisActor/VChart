@@ -430,7 +430,8 @@ export class VChart implements IVChart {
       this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
         ...this._option,
         type: this._spec.type,
-        getTheme: () => this._currentTheme ?? {}
+        getTheme: () => this._currentTheme ?? {},
+        mode: this._getMode()
       });
     }
 
