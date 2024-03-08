@@ -3,10 +3,10 @@ import type { ITooltipActual } from '../../../../typings/tooltip';
 import { BaseTooltipHandler } from '../base';
 import { Tooltip as TooltipComponent } from '@visactor/vrender-components';
 import { isValid } from '@visactor/vutils';
-import { TooltipHandlerType } from '../constants';
 import type { TooltipHandlerParams } from '../../../../component/tooltip';
 import type { IComponentPluginService } from '../../interface';
 import { registerComponentPlugin } from '../../register';
+import { TooltipHandlerType } from '../../../../component/tooltip/constant';
 
 /**
  * The tooltip handler class.

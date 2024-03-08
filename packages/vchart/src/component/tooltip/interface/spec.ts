@@ -1,4 +1,11 @@
-import type { ITooltipActual, ITooltipPattern, Maybe, TooltipActiveType, TooltipData } from '../../../typings';
+import type {
+  ITooltipActual,
+  ITooltipPattern,
+  Maybe,
+  MaybeArray,
+  TooltipActiveType,
+  TooltipData
+} from '../../../typings';
 import type { ITooltipActiveTypeAsKeys, TooltipHandlerParams, TooltipResult } from './common';
 import type { ITooltipTheme } from './theme';
 
@@ -27,13 +34,18 @@ export interface ITooltipSpec
    * tooltip触发方式
    * （*会影响自定义handler）
    */
-  trigger?: 'hover' | 'click' | 'none';
+  trigger?: MaybeArray<'hover' | 'click'> | 'none';
   /**
    * 隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）
    * （*会影响自定义handler）
    */
-  triggerOff?: 'hover' | 'click' | 'none';
-
+  triggerOff?: MaybeArray<'hover' | 'click'> | 'none';
+  /**
+   * 点击后锁定，只有点击才可以更新位置或者解锁，通常用于 trigger 为 `['hover', 'click']` 的场景
+   * （*会影响自定义handler）
+   * @since 1.10.0
+   */
+  lockAfterClick?: boolean;
   /**
    * tooltip样式
    */

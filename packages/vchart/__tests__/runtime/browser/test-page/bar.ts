@@ -551,12 +551,24 @@ const run = () => {
       visible: true
     },
     tooltip: {
+      trigger: ['click', 'hover'],
+      lockAfterClick: true,
       dimension: {
         position: {
-          x: { orient: 'insideRight', mode: 'crosshair' },
-          y: { orient: 'right', mode: 'pointer' }
+          x: { orient: 'right', mode: 'crosshair' },
+          y: { orient: 'center', mode: 'pointer' }
+        }
+      },
+      mark: {
+        position: {
+          x: { orient: 'right', mode: 'crosshair' },
+          y: { orient: 'center', mode: 'pointer' }
         }
       }
+    },
+    crosshair: {
+      trigger: ['click', 'hover'],
+      lockAfterClick: true
     }
   };
 

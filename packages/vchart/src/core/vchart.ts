@@ -428,9 +428,9 @@ export class VChart implements IVChart {
     this._spec = spec;
     if (!this._chartSpecTransformer) {
       this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
+        ...this._option,
         type: this._spec.type,
-        getTheme: () => this._currentTheme ?? {},
-        animation: this._option.animation
+        getTheme: () => this._currentTheme ?? {}
       });
     }
 
@@ -448,6 +448,7 @@ export class VChart implements IVChart {
   private _updateSpecInfo() {
     if (!this._chartSpecTransformer) {
       this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
+        ...this._option,
         type: this._spec.type,
         getTheme: () => this._currentTheme ?? {}
       });

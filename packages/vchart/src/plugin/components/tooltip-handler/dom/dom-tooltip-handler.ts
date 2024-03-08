@@ -3,7 +3,7 @@ import { BaseTooltipHandler } from '../base';
 import { getDomStyles } from './utils';
 import type { IDomTooltipStyle } from './interface';
 import { TooltipModel } from './model/tooltip-model';
-import { TOOLTIP_CONTAINER_EL_CLASS_NAME, TooltipHandlerType } from '../constants';
+import { TOOLTIP_CONTAINER_EL_CLASS_NAME } from '../constants';
 import { hasParentElement, isNil, type Maybe } from '@visactor/vutils';
 import { domDocument } from '../../../../util/env';
 import type { ITooltipSpec, TooltipHandlerParams } from '../../../../component/tooltip';
@@ -11,6 +11,7 @@ import type { IComponentPluginService } from '../../interface';
 import { registerComponentPlugin } from '../../register';
 import { DEFAULT_TOOLTIP_Z_INDEX } from './constant';
 import type { ILayoutPoint } from '../../../../typings';
+import { TooltipHandlerType } from '../../../../component/tooltip/constant';
 
 /**
  * The tooltip handler class.
