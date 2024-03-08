@@ -19,6 +19,7 @@ export declare class TotalLabel extends BaseLabelComponent {
     protected _initTextMark(): void;
     _initTextMarkStyle(): void;
     protected _initLabelComponent(): void;
+    afterCompile(): void;
     updateLayoutAttribute(): void;
     compileMarks(): void;
     getVRenderComponents(): any[];

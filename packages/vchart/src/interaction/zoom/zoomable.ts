@@ -89,6 +89,11 @@ export class Zoomable implements IZoomable {
     this._isGestureListener = isMobileLikeMode(this._renderMode) || isMiniAppLikeMode(this._renderMode);
     if (getDefaultTriggerEventByMode(this._renderMode)) {
       // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
+
+      // 只在drag时屏蔽，而zoom、scrol时不屏蔽
+      // drag move: 屏蔽
+      // darg end 结束屏蔽
+      // 屏蔽时：clickEnable应该为false，即其他逻辑不允许响应click
       this._clickEnable = true;
       this._zoomableTrigger = new (this._getZoomTriggerEvent('trigger') as any)();
     }
@@ -126,7 +131,6 @@ export class Zoomable implements IZoomable {
     ) {
       return;
     }
-    this._clickEnable = false;
 
     if (callback) {
       // zoomDelta, zoomX, zoomY can be changed in the callback
@@ -252,7 +256,6 @@ export class Zoomable implements IZoomable {
     ) {
       return stopBubble;
     }
-    this._clickEnable = false;
 
     if (callback) {
       stopBubble = callback({ scrollX, scrollY }, event as any);
@@ -359,8 +362,12 @@ export class Zoomable implements IZoomable {
         this._handleDrag(params, callback, option);
       }
     });
-    // click 事件需要在drag和zoom时被屏蔽
     // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
+
+    // 只在drag时屏蔽，而zoom、scrol时不屏蔽
+    // drag move: 屏蔽
+    // darg end 结束屏蔽
+    // 屏蔽时：clickEnable应该为false，即其他逻辑不允许响应click
     eventObj.on('click', { level: Event_Bubble_Level.chart }, () => {
       return !this._clickEnable;
     });
@@ -409,6 +416,11 @@ export class Zoomable implements IZoomable {
 
               // click 事件需要在drag和zoom时被屏蔽
               // hack 应该由事件系统做？或者事件系统有更好的方式处理这种交互冲突场景
+
+              // 只在drag时屏蔽，而zoom、scrol时不屏蔽
+              // drag move: 屏蔽
+              // darg end 结束屏蔽
+              // 屏蔽时：clickEnable应该为false，即其他逻辑不允许响应click
               s.event.on(
                 'click',
                 { level: Event_Bubble_Level.model, filter: ({ model }) => model?.id === s.id },
@@ -433,7 +445,7 @@ export class Zoomable implements IZoomable {
     if (this._option.disableTriggerEvent) {
       return;
     }
-    this._clickEnable = true;
+    this._clickEnable = false;
     if (!this._zoomableTrigger.parserDragEvent(params.event)) {
       return;
     }
@@ -449,7 +461,7 @@ export class Zoomable implements IZoomable {
     let upY = event.canvasY;
 
     const mouseup = delayMap[delayType]((params: BaseEventParams) => {
-      this._clickEnable = false;
+      this._clickEnable = true;
       const event = params.event as any;
       const dx = event.canvasX - upX;
       const dy = event.canvasY - upY;

@@ -186,4 +186,4 @@ VChart.useRegisters([
 ]);
 ```
 
-具体可以查看代码示例：[按需引入柱状图](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn)
+具体可以查看代码示例：[按需引入柱状图](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn)，更详细说明请参考[按需加载教程](/vchart/guide/tutorial_docs/Load_on_Demand)
