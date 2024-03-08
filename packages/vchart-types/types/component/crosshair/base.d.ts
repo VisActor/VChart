@@ -22,6 +22,7 @@ export interface IHair {
     label?: {
         visible: boolean;
         formatMethod?: (text: StringOrNumber | string[], position: string) => string | string[];
+        formatter?: string | string[];
         textStyle?: Dict<any>;
         minWidth?: number;
         maxWidth?: number;
@@ -29,6 +30,9 @@ export interface IHair {
         panel?: Dict<any>;
         zIndex?: number;
     };
+}
+export interface IHairRadius extends IHair {
+    smooth?: boolean;
 }
 export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCrosshairSpec> extends BaseComponent<T> implements ICrossHair {
     static specKey: string;
@@ -75,7 +79,6 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     onLayoutEnd(ctx: IModelLayoutOption): void;
     onRender(ctx: IModelRenderOption): void;
     protected _releaseEvent(): void;
-    protected _firstSeries<T>(): T | null;
     protected _parseCrosshairSpec(): void;
     protected _parseField(field: ICrosshairCategoryFieldSpec, fieldName: string): any;
     protected _filterAxisByPoint<T>(axisMap: IAxisInfo<T>, relativeX: number, relativeY: number): IAxisInfo<T>;

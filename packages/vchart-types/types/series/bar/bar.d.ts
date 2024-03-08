@@ -1,3 +1,4 @@
+import type { IBaseScale } from '@visactor/vscale';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
@@ -40,9 +41,18 @@ export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extend
     protected _dataToPosX1(datum: Datum): number;
     protected _dataToPosY(datum: Datum): number;
     protected _dataToPosY1(datum: Datum): number;
+    protected _getBarXStart: (datum: Datum, scale: IBaseScale) => any;
+    protected _getBarXEnd: (datum: Datum, scale: IBaseScale) => any;
+    protected _getBarYStart: (datum: Datum, scale: IBaseScale) => any;
+    protected _getBarYEnd: (datum: Datum, scale: IBaseScale) => any;
     initBandRectMarkStyle(): void;
-    protected _initBandBarBackgroundMarkStyle(): void;
+    protected _initStackBarMarkStyle(): void;
     initLinearRectMarkStyle(): void;
+    protected _getBarBackgroundXStart: (scale: IBaseScale) => number;
+    protected _getBarBackgroundXEnd: (scale: IBaseScale) => number;
+    protected _getBarBackgroundYStart: (scale: IBaseScale) => number;
+    protected _getBarBackgroundYEnd: (scale: IBaseScale) => number;
+    protected _initBandBarBackgroundMarkStyle(): void;
     protected _initLinearBarBackgroundMarkStyle(): void;
     initAnimation(): void;
     protected _getBarWidth(axisHelper: IAxisHelper, scaleDepth?: number): number;

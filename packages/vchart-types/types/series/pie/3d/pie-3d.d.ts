@@ -15,6 +15,6 @@ export declare class Pie3dSeries<T extends IPie3dSeriesSpec = IPie3dSeriesSpec> 
     protected _angle3d: number;
     setAttrFromSpec(): void;
     initMarkStyle(): void;
-    initLabelMarkStyle(textMark: ITextMark): void;
+    initLabelMarkStyle(textMark: ITextMark, spec?: any): void;
 }
 export declare const registerPie3dSeries: () => void;

@@ -1,5 +1,5 @@
 import type { DataSet } from '@visactor/vdataset';
-import type { IParserOptions } from '@visactor/vdataset/es/parser';
+import type { IParserOptions } from '@visactor/vdataset';
 import type { Datum, IInitOption, IMarkStateSpec, IPoint, IRegionQuerier, IShowTooltipOption, ISpec, ITooltipHandler, Maybe, MaybeArray, StringOrNumber } from '../typings';
 import type { IMorphConfig } from '../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';

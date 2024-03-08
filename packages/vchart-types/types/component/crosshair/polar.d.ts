@@ -30,8 +30,8 @@ export declare class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrossh
     private _getValueByAxis;
     protected _layoutCrosshair(relativeX: number, relativeY: number): void;
     layoutByValue(tag?: number): void;
-    private _layoutVertical;
-    private _layoutHorizontal;
+    private _layoutAngle;
+    private _layoutRadius;
     protected _parseFieldInfo(): void;
     private _updateCrosshairLabel;
     protected _getNeedClearVRenderComponents(): IGraphic[];

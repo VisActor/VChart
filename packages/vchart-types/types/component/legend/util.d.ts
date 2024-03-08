@@ -1,4 +1,4 @@
-import type { ILegendCommonSpec, ITitle } from './interface';
+import type { ITitle } from './interface';
 export declare function transformLegendTitleAttributes(title: ITitle): {
     textStyle?: import("./interface").NoVisibleMarkStyle<import("../..").ITextMarkSpec>;
     style?: import("./interface").NoVisibleMarkStyle<import("../..").ITextMarkSpec>;
@@ -29,4 +29,3 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
     space?: number;
     align?: "start" | "end" | "center";
 };
-export declare function getLayout(spec: ILegendCommonSpec): "vertical" | "horizontal";

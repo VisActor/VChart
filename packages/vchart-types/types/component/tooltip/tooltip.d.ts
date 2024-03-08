@@ -3,7 +3,7 @@ import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
-import type { ITooltipHandler, IToolTipLineActual, TooltipActiveType } from '../../typings/tooltip';
+import type { ITooltipHandler, ITooltipLineActual, TooltipActiveType } from '../../typings/tooltip';
 import type { Datum, IShowTooltipOption } from '../../typings';
 import type { ITooltip, ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams, TotalMouseEventData } from './interface';
 import { TooltipResult } from './interface/common';
@@ -13,8 +13,8 @@ import type { Maybe } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
 export type TooltipActualTitleContent = {
-    title?: IToolTipLineActual;
-    content?: IToolTipLineActual[];
+    title?: ITooltipLineActual;
+    content?: ITooltipLineActual[];
 };
 export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected layoutZIndex: number;

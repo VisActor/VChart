@@ -45,10 +45,12 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _axisMark: IComponentMark;
     protected _gridMark: IComponentMark;
     protected _coordinateType: CoordinateType;
+    getCoordinateType(): CoordinateType;
     constructor(spec: T, options: IComponentOption);
     protected _getNeedClearVRenderComponents(): IGraphic[];
     getVRenderComponents(): any[];
     created(): void;
+    protected _shouldComputeTickData(): boolean;
     protected _initData(): void;
     protected collectData(depth: number, rawData?: boolean): {
         min: number;
@@ -73,7 +75,6 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
         reSize: boolean;
         reCompile: boolean;
     };
-    protected getLabelFormatMethod(): (value: any, datum: any, index: number) => any;
     protected _delegateAxisContainerEvent(component: IGroup): void;
     protected _getAxisAttributes(): any;
     protected _getGridAttributes(): {
@@ -92,6 +93,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
             style: any;
         };
     };
+    protected _getLabelFormatMethod(): (value: any, datum: any, index: number) => any;
     protected _initTickDataSet<T extends ITickDataOpt>(options: T, index?: number): DataView;
     protected _tickTransformOption(): ITickDataOpt;
     addTransformToTickData(options: ITransformOptions, execute?: boolean): void;

@@ -2,7 +2,6 @@ import type { Maybe } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { ICartesianCrosshairSpec } from './interface';
-import type { IBound } from './base';
 import { BaseCrossHair } from './base';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IAxis } from '../axis/interface';
@@ -32,18 +31,13 @@ export declare class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICar
     private _findAllAxisContains;
     private _getValueAt;
     clearAxisValue(): void;
-    setAxisValue(v: StringOrNumber, axis: IAxis): void;
+    setAxisValue(value: StringOrNumber, axis: IAxis): void;
     private _getAllAxisValues;
     protected _layoutCrosshair(relativeX: number, relativeY: number): void;
     hide(): void;
-    _setRegionArea(outRegion: IBound, currentValue: Map<number, {
-        v: StringOrNumber;
-        axis: IAxis;
-    }>): void;
     layoutByValue(tag?: number): void;
     private _layoutVertical;
     private _layoutHorizontal;
-    private _getRectSize;
     protected _parseFieldInfo(): void;
     private _updateCrosshair;
     private _updateCrosshairLabel;

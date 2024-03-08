@@ -30,15 +30,19 @@ export interface ISeriesTheme {
     [SeriesTypeEnum.bar]?: IBarSeriesTheme;
     [SeriesTypeForThemeEnum.bar_vertical]?: IBarSeriesTheme;
     [SeriesTypeForThemeEnum.bar_horizontal]?: IBarSeriesTheme;
+    [SeriesTypeForThemeEnum.bar_stack]?: IBarSeriesTheme;
     [SeriesTypeEnum.bar3d]?: IBar3dSeriesTheme;
     [SeriesTypeForThemeEnum.bar3d_vertical]?: IBar3dSeriesTheme;
     [SeriesTypeForThemeEnum.bar3d_horizontal]?: IBar3dSeriesTheme;
+    [SeriesTypeForThemeEnum.bar3d_stack]?: IBar3dSeriesTheme;
     [SeriesTypeEnum.line]?: ILineSeriesTheme;
     [SeriesTypeForThemeEnum.line_vertical]?: ILineSeriesTheme;
     [SeriesTypeForThemeEnum.line_horizontal]?: ILineSeriesTheme;
+    [SeriesTypeForThemeEnum.line_stack]?: ILineSeriesTheme;
     [SeriesTypeEnum.area]?: IAreaSeriesTheme;
     [SeriesTypeForThemeEnum.area_vertical]?: IAreaSeriesTheme;
     [SeriesTypeForThemeEnum.area_horizontal]?: IAreaSeriesTheme;
+    [SeriesTypeForThemeEnum.area_stack]?: IAreaSeriesTheme;
     [SeriesTypeEnum.rangeColumn]?: IRangeColumnSeriesTheme;
     [SeriesTypeForThemeEnum.rangeColumn_vertical]?: IRangeColumnSeriesTheme;
     [SeriesTypeForThemeEnum.rangeColumn_horizontal]?: IRangeColumnSeriesTheme;
@@ -48,6 +52,7 @@ export interface ISeriesTheme {
     [SeriesTypeEnum.linearProgress]?: ILinearProgressSeriesTheme;
     [SeriesTypeForThemeEnum.linearProgress_vertical]?: ILinearProgressSeriesTheme;
     [SeriesTypeForThemeEnum.linearProgress_horizontal]?: ILinearProgressSeriesTheme;
+    [SeriesTypeForThemeEnum.linearProgress_stack]?: ILinearProgressSeriesTheme;
     [SeriesTypeEnum.boxPlot]?: IBoxPlotSeriesTheme;
     [SeriesTypeForThemeEnum.boxPlot_vertical]?: IBoxPlotSeriesTheme;
     [SeriesTypeForThemeEnum.boxPlot_horizontal]?: IBoxPlotSeriesTheme;
@@ -59,11 +64,14 @@ export interface ISeriesTheme {
     [SeriesTypeForThemeEnum.waterfall_horizontal]?: IWaterfallSeriesTheme;
     [SeriesTypeEnum.scatter]?: IScatterSeriesTheme;
     [SeriesTypeEnum.radar]?: IRadarSeriesTheme;
+    [SeriesTypeForThemeEnum.radar_stack]?: IRadarSeriesTheme;
     [SeriesTypeEnum.pie]?: IPieSeriesTheme;
     [SeriesTypeEnum.pie3d]?: IPie3dSeriesTheme;
     [SeriesTypeEnum.rose]?: IRoseSeriesTheme;
+    [SeriesTypeForThemeEnum.rose_stack]?: IRoseSeriesTheme;
     [SeriesTypeEnum.map]?: IMapSeriesTheme;
     [SeriesTypeEnum.circularProgress]?: ICircularProgressSeriesTheme;
+    [SeriesTypeForThemeEnum.circularProgress_stack]?: ICircularProgressSeriesTheme;
     [SeriesTypeEnum.link]?: ILinkSeriesTheme;
     [SeriesTypeEnum.dot]?: IDotSeriesTheme;
     [SeriesTypeEnum.wordCloud]?: IWordCloudSeriesTheme;
@@ -82,12 +90,16 @@ export interface ISeriesTheme {
 export declare enum SeriesTypeForThemeEnum {
     area_horizontal = "area_horizontal",
     area_vertical = "area_vertical",
+    area_stack = "area_stack",
     line_horizontal = "line_horizontal",
     line_vertical = "line_vertical",
+    line_stack = "line_stack",
     bar_horizontal = "bar_horizontal",
     bar_vertical = "bar_vertical",
+    bar_stack = "bar_stack",
     bar3d_horizontal = "bar3d_horizontal",
     bar3d_vertical = "bar3d_vertical",
+    bar3d_stack = "bar3d_stack",
     rangeColumn_horizontal = "rangeColumn_horizontal",
     rangeColumn_vertical = "rangeColumn_vertical",
     rangeColumn3d_horizontal = "rangeColumn3d_horizontal",
@@ -96,11 +108,15 @@ export declare enum SeriesTypeForThemeEnum {
     rangeArea_vertical = "rangeArea_vertical",
     linearProgress_horizontal = "linearProgress_horizontal",
     linearProgress_vertical = "linearProgress_vertical",
+    linearProgress_stack = "linearProgress_stack",
     boxPlot_horizontal = "boxPlot_horizontal",
     boxPlot_vertical = "boxPlot_vertical",
     sankey_horizontal = "sankey_horizontal",
     sankey_vertical = "sankey_vertical",
     waterfall_horizontal = "waterfall_horizontal",
-    waterfall_vertical = "waterfall_vertical"
+    waterfall_vertical = "waterfall_vertical",
+    circularProgress_stack = "circularProgress_stack",
+    radar_stack = "radar_stack",
+    rose_stack = "rose_stack"
 }
 export declare const seriesMarkInfoMap: Record<SeriesTypeEnum, SeriesMarkMap>;

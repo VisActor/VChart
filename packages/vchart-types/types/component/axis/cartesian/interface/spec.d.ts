@@ -49,6 +49,11 @@ export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec & IBandAxisSpec & 
     bandSize?: number;
     maxBandSize?: number;
     minBandSize?: number;
+    bandSizeLevel?: number;
+    bandSizeExtend?: {
+        gap?: number | string;
+        extend?: number;
+    };
     autoRegionSize?: boolean;
 };
 export type ICartesianTimeAxisSpec = Omit<ICartesianAxisCommonSpec, 'inverse'> & {
