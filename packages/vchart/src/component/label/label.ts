@@ -16,10 +16,9 @@ import type { IComponentMark } from '../../mark/component';
 // eslint-disable-next-line no-duplicate-imports
 import { registerComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
-import type { LooseFunction, Maybe } from '@visactor/vutils';
+import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isArray, isFunction, pickWithout } from '@visactor/vutils';
-import type { IGroup, IText } from '@visactor/vrender-core';
 import type { ILabelSpec, TransformedLabelSpec } from './interface';
 import { Factory } from '../../core/factory';
 import type { ILabelMark } from '../../mark/label';
@@ -29,7 +28,7 @@ import type { ICompilableMark } from '../../compile/mark';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { IChartSpec } from '../../typings';
 import { LabelSpecTransformer } from './label-transformer';
-import type { LabelItem } from '@visactor/vrender-components';
+import { HOOK_EVENT } from '@visactor/vgrammar-core';
 
 export interface ILabelInfo {
   baseMark: ICompilableMark;
@@ -130,30 +129,19 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
       });
       this.event.off(VGRAMMAR_HOOK_EVENT.AFTER_MARK_RENDER_END, enableAnimation);
     };
-
-    this.event.on('afterElementEncode', eventParams => {
-      const mark = eventParams.item;
-
-      if (this._option.getChart().getLayoutTag() === false && mark.getContext()?.model === this) {
-        this._delegateLabelEvent(mark.getGroupGraphicItem());
-      }
-    });
   }
 
-  protected _delegateLabelEvent(component: IGroup) {
-    const textNodes = component
-      ?.findAll(node => node.type === 'text', true)
-      // label 组件的底层实现是有 text 图元复用的，这里为了避免重复的事件监听
-      .filter(text => !(text as any).__vchart_event) as IText[];
-    if (textNodes && textNodes.length > 0) {
-      textNodes.forEach(text => {
-        text.__vchart_event = true;
-        if (text.listenerCount('*') === 0) {
-          text.addEventListener('*', ((event: any, type: string) =>
-            this._delegateEvent(component, event, type, text, (text.attribute as LabelItem).data)) as LooseFunction);
-        }
-      });
-    }
+  afterCompile() {
+    this._labelComponentMap.forEach((info, component) => {
+      const product = component.getProduct();
+      if (product) {
+        product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
+          if (this._isLayout === false) {
+            this._delegateLabelEvent(product.getGroupGraphicItem());
+          }
+        });
+      }
+    });
   }
 
   protected _initTextMark() {

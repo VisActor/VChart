@@ -7,8 +7,9 @@ import type { IModelRenderOption } from '../../model/interface';
 import { LayoutZIndex } from '../../constant';
 import type { ILabelSpec } from './interface';
 import type { IHoverSpec, ISelectSpec } from '../../interaction/interface';
+import type { LooseFunction } from '@visactor/vutils';
 import { isEqual } from '@visactor/vutils';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic, IGroup } from '@visactor/vrender-core';
 
 export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
   static type = ComponentTypeEnum.label;
@@ -59,5 +60,12 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
   }
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [];
+  }
+
+  protected _delegateLabelEvent(component: IGroup) {
+    if (component.listenerCount('*') === 0) {
+      component.addEventListener('*', ((event: any, type: string) =>
+        this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
+    }
   }
 }
