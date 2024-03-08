@@ -450,7 +450,8 @@ export class VChart implements IVChart {
       this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
         ...this._option,
         type: this._spec.type,
-        getTheme: () => this._currentTheme ?? {}
+        getTheme: () => this._currentTheme ?? {},
+        mode: this._getMode()
       });
     }
     this._specInfo = this._chartSpecTransformer?.createSpecInfo(this._spec);
@@ -478,7 +479,7 @@ export class VChart implements IVChart {
       container: this._container,
       canvas: this._canvas,
       map: new Map(),
-      mode: this._option.mode || RenderModeEnum['desktop-browser'],
+      mode: this._getMode(),
       modeParams: this._option.modeParams,
       getCompiler: () => this._compiler,
       performanceHook: this._option.performanceHook,
@@ -555,7 +556,7 @@ export class VChart implements IVChart {
       {
         container: this._container,
         canvas: this._canvas,
-        mode: this._option.mode || RenderModeEnum['desktop-browser'],
+        mode: this._getMode(),
         modeParams: this._option.modeParams
       },
       {
@@ -1865,6 +1866,10 @@ export class VChart implements IVChart {
       return;
     }
     (this._chartPlugin[funcName] as (...args: any[]) => any).apply(this._chartPlugin, args);
+  }
+
+  protected _getMode() {
+    return this._option.mode || RenderModeEnum['desktop-browser'];
   }
 }
 
