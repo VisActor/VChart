@@ -1,7 +1,7 @@
 import { DataView } from '@visactor/vdataset';
 import type { GeoSourceType } from '../../typings/geo';
 export interface IGeoJsonOption {
-    type: 'geojson';
+    type?: 'geojson';
     centroid?: boolean;
     simplify?: boolean;
     rewind?: boolean | {

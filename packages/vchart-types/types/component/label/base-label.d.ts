@@ -4,7 +4,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption } from '../../model/interface';
 import type { ILabelSpec } from './interface';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IGraphic, IGroup } from '@visactor/vrender-core';
 export declare abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
@@ -32,4 +32,5 @@ export declare abstract class BaseLabelComponent<T = any> extends BaseComponent<
     onRender(ctx: IModelRenderOption): void;
     changeRegions(regions: IRegion[]): void;
     protected _getNeedClearVRenderComponents(): IGraphic[];
+    protected _delegateLabelEvent(component: IGroup): void;
 }
