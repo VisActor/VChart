@@ -1,5 +1,5 @@
 import type { IMarkTheme, IMarkSpec } from '../../typings';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
 import type { ISymbolMarkSpec, IRippleMarkSpec } from '../../typings';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec } from '../polar/interface';
@@ -24,9 +24,9 @@ export interface ICorrelationSeriesSpec extends Omit<IPolarSeriesSpec, 'innerRad
         position?: 'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center';
     };
     [SeriesMarkNameEnum.nodePoint]?: IMarkSpec<ISymbolMarkSpec>;
-    [SeriesMarkNameEnum.label]?: ILabelSpec & {
+    [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILabelSpec & {
         position?: 'top' | 'bottom' | 'left' | 'right' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'center';
-    };
+    }>;
 }
 export interface ICorrelationSeriesTheme {
     [SeriesMarkNameEnum.nodePoint]?: IMarkTheme<ISymbolMarkSpec>;

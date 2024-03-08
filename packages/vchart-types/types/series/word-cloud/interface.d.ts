@@ -1,4 +1,4 @@
-import type { ITextMarkSpec, IMarkSpec, ISeriesSpec } from '../../typings';
+import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod } from '../../typings';
 import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { WordcloudAppearPreset } from './animation';
@@ -71,7 +71,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     wordCloudShapeConfig?: WordCloudShapeConfigType;
     [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
         padding?: number;
-        formatMethod?: (datum?: any) => string;
+        formatMethod?: ITextFormatMethod<[datum?: any]>;
     };
     [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
         padding?: number;
@@ -87,11 +87,9 @@ export interface IWordCloudSeriesSpec extends IWordCloudSeriesBaseSpec {
 export interface IWordCloudSeriesTheme {
     [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
         padding?: number;
-        formatMethod?: (datum?: any) => string;
     };
     [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
         padding?: number;
-        formatMethod?: (datum?: any) => string;
     };
 }
 export interface IWordCloud3dSeriesSpec extends IWordCloudSeriesBaseSpec {
@@ -102,10 +100,8 @@ export interface IWordCloud3dSeriesSpec extends IWordCloudSeriesBaseSpec {
 export interface IWordCloud3dSeriesTheme {
     [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
         padding?: number;
-        formatMethod?: (text: string | string[], datum?: any) => string | string[];
     };
     [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
         padding?: number;
-        formatMethod?: (text: string | string[], datum?: any) => string | string[];
     };
 }

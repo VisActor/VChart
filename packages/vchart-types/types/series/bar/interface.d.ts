@@ -3,7 +3,7 @@ import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IRect3dMarkSpec, IRectMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { BarAppearPreset } from './animation';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
 import type { IDataSamping, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { Functional } from '@visactor/vrender-components';
@@ -14,14 +14,15 @@ export interface IBarSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<Bar
     yField?: string | string[];
     [SeriesMarkNameEnum.bar]?: IMarkSpec<IRectMarkSpec>;
     [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec> & IBarBackgroundSpec;
-    [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position'> & {
+    [SeriesMarkNameEnum.label]?: IMultiLabelSpec<Omit<ILabelSpec, 'position'> & {
         position?: Functional<'outside' | 'top' | 'bottom' | 'left' | 'right' | 'inside' | 'inside-top' | 'inside-bottom' | 'inside-right' | 'inside-left' | 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'>;
-    };
+    }>;
     barWidth?: number | string;
     barMinWidth?: number | string;
     barMaxWidth?: number | string;
     barGapInGroup?: number | string | (number | string)[];
     barMinHeight?: number;
+    stackCornerRadius?: number | number[];
 }
 export interface IBarBackgroundSpec {
     fieldLevel?: number;

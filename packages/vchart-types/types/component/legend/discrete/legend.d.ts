@@ -23,5 +23,6 @@ export declare class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     protected _getLegendConstructor(): typeof LegendComponent;
     protected _initEvent(): void;
     private _getLegendItems;
+    private _addLegendItemFormatMethods;
 }
 export declare const registerDiscreteLegend: () => void;

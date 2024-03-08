@@ -3,7 +3,7 @@ import type { CompilerListenerParameters, CompilerModel, IGrammarItem, IRenderCo
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import type { VChart } from '../core/vchart';
+import { VChart } from '../core/vchart';
 import type { IColor, Stage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 type EventListener = {

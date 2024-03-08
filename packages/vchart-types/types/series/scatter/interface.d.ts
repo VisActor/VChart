@@ -6,6 +6,7 @@ import type { ScatterAppearPreset, ScatterMarks } from './animation';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILineLikeLabelSpec } from '../mixin/line-mixin';
+import { IMultiLabelSpec } from '../../component/label';
 export interface IScatterSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<ScatterMarks, ScatterAppearPreset>, IMarkProgressiveConfig {
     type: 'scatter';
     xField?: string | string[];
@@ -15,7 +16,7 @@ export interface IScatterSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec
     size?: number | number[] | FunctionType<number> | IVisualSpecBase<unknown, number>;
     shapeField?: string;
     shape?: ShapeType | ShapeType[] | FunctionType<ShapeType> | IVisualSpecBase<unknown, ShapeType>;
-    [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+    [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILineLikeLabelSpec>;
 }
 export interface IScatterSeriesTheme extends ICartesianSeriesTheme {
     size?: number;
