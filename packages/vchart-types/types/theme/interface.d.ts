@@ -5,13 +5,15 @@ import type { MarkTypeEnum } from '../mark/interface';
 import type { IColorKey, IThemeColorScheme } from './color-scheme/interface';
 import type { IGradientColor } from '@visactor/vrender-core';
 import type { IComponentTheme } from '../component/interface';
+import type { ITokenKey, TokenMap } from './token';
 export interface ITheme {
     name?: string;
     description?: string;
     type?: 'light' | 'dark';
     background?: string | IGradientColor | IColorKey;
     padding?: ILayoutPaddingSpec;
-    fontFamily?: string;
+    fontFamily?: string | ITokenKey;
+    token?: TokenMap;
     colorScheme?: IThemeColorScheme;
     mark?: IGlobalMarkThemeByType;
     markByName?: IGlobalMarkThemeByName;
@@ -35,22 +37,4 @@ export interface IGlobalMarkThemeByName {
     bar?: Partial<IMarkTheme<IRectMarkSpec>>;
     label?: Partial<IMarkTheme<ITextMarkSpec>>;
     [markName: string]: Partial<IMarkTheme<any>>;
-}
-export interface IThemeConstants {
-    defaultFontFamily: string;
-    defaultFontSize: number;
-    l1FontSize: number;
-    l1LineHeight: number | string;
-    l2FontSize: number;
-    l2LineHeight: number | string;
-    l3FontSize: number;
-    l3LineHeight: number | string;
-    l4FontSize: number;
-    l4LineHeight: number | string;
-    l5FontSize: number;
-    l5LineHeight: number | string;
-    l6FontSize: number;
-    l6LineHeight: number | string;
-    axisTickSize: number;
-    areaOpacity: number;
 }

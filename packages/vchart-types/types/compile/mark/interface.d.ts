@@ -8,7 +8,7 @@ import type { IAnimate, IAnimateArranger, IElement, IGroupMark, IMark, MarkAnima
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
 import type { IRegion } from '../../region/interface';
-import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { ICustomPath2D, IGraphic } from '@visactor/vrender-core';
 export interface ICompilableMarkOption extends GrammarItemInitOption {
     key?: string | ((datum: Datum) => string);
     groupKey?: string;
@@ -62,6 +62,8 @@ export interface ICompilableMark extends IGrammarItem {
     setUserId: (id: StringOrNumber) => void;
     getSupport3d: () => boolean | undefined;
     setSupport3d: (support3d: boolean) => void;
+    getClip: () => MarkClip | undefined;
+    setClip: (clip: MarkClip) => void;
     compile: (option?: IMarkCompileOption) => void;
     getProduct: () => Maybe<IMark>;
     getMarks: () => ICompilableMark[];
@@ -145,3 +147,4 @@ export interface ISeriesMarkAttributeContext extends IModelMarkAttributeContext 
     seriesColor: (seriesValue?: string | number) => string;
     getRegion: () => IRegion;
 }
+export type MarkClip = false | IGraphic[] | ((elements: IElement[]) => IGraphic[]);

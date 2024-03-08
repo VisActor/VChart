@@ -8,6 +8,6 @@ export declare class ThemeManager {
     static themeExist(name: any): boolean;
     static getDefaultTheme(): ITheme;
     static setCurrentTheme(name: string): void;
-    static getCurrentTheme(): ITheme;
+    static getCurrentTheme(transformed?: boolean): ITheme;
     static getCurrentThemeName(): string;
 }

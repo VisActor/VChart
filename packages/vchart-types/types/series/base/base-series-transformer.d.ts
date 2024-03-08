@@ -15,4 +15,8 @@ export declare class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends
     protected _transformLabelSpec(spec: T): void;
     protected _addMarkLabelSpec<V extends ISeries = ISeries>(spec: T, markName: SeriesMarkNameEnum, labelSpecKey?: keyof T, styleHandlerName?: keyof V, hasAnimation?: boolean, head?: boolean): void;
     protected _getDefaultSpecFromChart(chartSpec: any): any;
+    protected _mergeThemeToSpec(spec: T, chartSpec: any): {
+        spec: T;
+        theme: K;
+    };
 }

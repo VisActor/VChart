@@ -1,7 +1,7 @@
 import type { BaseEventParams } from '../../interface';
 import type { ISeries } from '../../../series/interface';
 import type { Datum } from '../../../typings';
-import type { AxisComponent } from '../../../component/axis/base-axis';
+import type { IAxis } from '../../../component/axis';
 export declare enum DimensionEventEnum {
     dimensionHover = "dimensionHover",
     dimensionClick = "dimensionClick"
@@ -9,7 +9,8 @@ export declare enum DimensionEventEnum {
 export interface IDimensionInfo {
     index?: number;
     value: string | number;
-    axis?: AxisComponent;
+    position?: number;
+    axis?: IAxis;
     data: IDimensionData[];
 }
 export interface IDimensionData {
