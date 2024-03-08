@@ -1,11 +1,11 @@
 import type { BuiltinTokenMap } from './interface';
 
 /** 标准色板 */
-export const tokenMap: BuiltinTokenMap = {
-  defaultFontFamily:
+export const token: BuiltinTokenMap = {
+  fontFamily:
     // eslint-disable-next-line max-len
     'PingFang SC,Helvetica Neue,Microsoft Yahei,system-ui,-apple-system,segoe ui,Roboto,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol',
-  defaultFontSize: 14,
+  fontSize: 14,
 
   l1FontSize: 32,
   l1LineHeight: '150%',

@@ -36,9 +36,9 @@ function transformThemeToMerge(theme?: Maybe<ITheme>): Maybe<ITheme> {
 
   return Object.assign({}, theme, {
     colorScheme,
-    tokenMap: theme.tokenMap ?? {},
+    token: theme.token ?? {},
     series: Object.assign({}, theme.series, newSeriesTheme)
-  });
+  } as Partial<ITheme>);
 }
 
 /** 将色板转化为标准形式 */

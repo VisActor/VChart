@@ -13,10 +13,10 @@ import { normalizeLayoutPaddingSpec } from '../../../../util/space';
 import { measureTooltipText } from './common';
 import type { ITheme } from '../../../../theme';
 import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../component/tooltip';
-import { tokenMap } from '../../../../theme/token';
+import { token } from '../../../../theme/token';
 
 const DEFAULT_TEXT_ATTRIBUTES: Partial<ITooltipTextStyle> = {
-  fontFamily: tokenMap.defaultFontFamily,
+  fontFamily: token.fontFamily,
   spacing: 10,
   wordBreak: 'break-word'
 };

@@ -2,9 +2,9 @@ import type { TokenMap } from '../interface';
 
 export type BuiltinTokenMap = TokenMap & {
   /** 默认字体 */
-  defaultFontFamily: string;
+  fontFamily: string;
   /** 默认字号 */
-  defaultFontSize: number;
+  fontSize: number;
 
   /** 1级字阶字号，用于：环形图中间数值 / 展示型数值 */
   l1FontSize: number;

@@ -5,6 +5,7 @@ import type { ISeriesSpec } from '../../typings';
 import type { TokenMap } from '../../theme/token';
 // eslint-disable-next-line no-duplicate-imports
 import { isTokenKey, queryToken } from '../../theme/token';
+import type { ITheme } from '../../theme';
 
 const IGNORE_KEYS = ['animationThreshold', 'colorScheme', 'name', 'padding'];
 
@@ -18,10 +19,10 @@ export function preprocessTheme(
     return obj;
   }
   if (!colorScheme) {
-    colorScheme = obj.colorScheme;
+    colorScheme = (obj as ITheme).colorScheme;
   }
   if (!tokenMap) {
-    tokenMap = obj.tokenMap;
+    tokenMap = (obj as ITheme).token;
   }
   const newObj = {};
   Object.keys(obj).forEach(key => {
