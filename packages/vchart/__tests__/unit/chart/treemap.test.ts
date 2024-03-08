@@ -54,7 +54,8 @@ describe('treemap chart test', () => {
     const transformer = new TreemapChart.transformerConstructor({
       type: 'treemap',
       seriesType: 'treemap',
-      getTheme: () => ThemeManager.getCurrentTheme(true)
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
     const chart = new TreemapChart(
