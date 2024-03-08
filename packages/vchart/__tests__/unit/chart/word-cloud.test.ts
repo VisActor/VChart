@@ -62,7 +62,8 @@ describe('wordCloud chart test', () => {
     const transformer = new WordCloudChart.transformerConstructor({
       type: 'wordCloud',
       seriesType: 'wordCloud',
-      getTheme: () => ThemeManager.getCurrentTheme(true)
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec);
     const chart = new WordCloudChart(spec, {
