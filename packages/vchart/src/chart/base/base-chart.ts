@@ -210,7 +210,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   created() {
     this._transformer = new this.transformerConstructor({
-      ...(this._option as any),
+      ...this._option,
       type: this.type,
       seriesType: this.seriesType
     });

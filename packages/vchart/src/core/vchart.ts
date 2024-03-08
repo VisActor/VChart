@@ -9,6 +9,7 @@ import type {
   DimensionIndexOption,
   IChart,
   IChartConstructor,
+  IChartOption,
   IChartSpecInfo,
   IChartSpecTransformer
 } from '../chart/interface';
@@ -427,12 +428,10 @@ export class VChart implements IVChart {
     }
     this._spec = spec;
     if (!this._chartSpecTransformer) {
-      this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
-        ...this._option,
-        type: this._spec.type,
-        getTheme: () => this._currentTheme ?? {},
-        mode: this._getMode()
-      });
+      this._chartSpecTransformer = Factory.createChartSpecTransformer(
+        this._spec.type,
+        this._getChartOption(this._spec.type)
+      );
     }
 
     this._chartSpecTransformer.transformSpec(this._spec);
@@ -448,12 +447,10 @@ export class VChart implements IVChart {
 
   private _updateSpecInfo() {
     if (!this._chartSpecTransformer) {
-      this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
-        ...this._option,
-        type: this._spec.type,
-        getTheme: () => this._currentTheme ?? {},
-        mode: this._getMode()
-      });
+      this._chartSpecTransformer = Factory.createChartSpecTransformer(
+        this._spec.type,
+        this._getChartOption(this._spec.type)
+      );
     }
     this._specInfo = this._chartSpecTransformer?.createSpecInfo(this._spec);
   }
@@ -472,27 +469,7 @@ export class VChart implements IVChart {
     // 用户spec更新，也许会有core上图表实例的内容存在
     // 如果要支持spec的类似Proxy监听，更新逻辑应当从这一层开始。如果在chart上做，就需要在再向上发送spec更新消息，不是很合理。
     // todo: 问题1 存不存在 chart 需要在这个阶段处理的特殊字段？目前没有，但是理论上可以有？
-    const chart = Factory.createChart(spec.type, spec, {
-      type: spec.type,
-      globalInstance: this,
-      eventDispatcher: this._eventDispatcher!,
-      dataSet: this._dataSet!,
-      container: this._container,
-      canvas: this._canvas,
-      map: new Map(),
-      mode: this._getMode(),
-      modeParams: this._option.modeParams,
-      getCompiler: () => this._compiler,
-      performanceHook: this._option.performanceHook,
-      viewBox: this._viewBox,
-      animation: this._option.animation,
-      getTheme: () => this._currentTheme ?? {},
-      getSpecInfo: () => this._specInfo ?? {},
-
-      layout: this._option.layout,
-      onError: this._onError,
-      disableTriggerEvent: this._option.disableTriggerEvent === true
-    });
+    const chart = Factory.createChart(spec.type, spec, this._getChartOption(spec.type));
     if (!chart) {
       this._option?.onError('init chart fail');
       return;
@@ -1871,6 +1848,30 @@ export class VChart implements IVChart {
 
   protected _getMode() {
     return this._option.mode || RenderModeEnum['desktop-browser'];
+  }
+
+  protected _getChartOption(type: string): IChartOption {
+    return {
+      type,
+      globalInstance: this,
+      eventDispatcher: this._eventDispatcher!,
+      dataSet: this._dataSet!,
+      container: this._container,
+      canvas: this._canvas,
+      map: new Map(),
+      mode: this._getMode(),
+      modeParams: this._option.modeParams,
+      getCompiler: () => this._compiler,
+      performanceHook: this._option.performanceHook,
+      viewBox: this._viewBox,
+      animation: this._option.animation,
+      getTheme: () => this._currentTheme ?? {},
+      getSpecInfo: () => this._specInfo ?? {},
+
+      layout: this._option.layout,
+      onError: this._onError,
+      disableTriggerEvent: this._option.disableTriggerEvent === true
+    };
   }
 }
 

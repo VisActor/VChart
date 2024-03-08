@@ -3,9 +3,6 @@ import type { IRenderOption } from '../../compile/interface';
 import type { IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IView } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { ITheme } from '../../theme';
-import type { IInitOption, ILayoutRect, RenderMode } from '../../typings';
-import type { ComponentTypeEnum } from '../../component/interface';
 import type { ISeriesSpecInfo } from '../../series';
 import type { IRegionSpecInfo } from '../../region';
 
@@ -41,10 +38,8 @@ export interface IChartOption
   disableTriggerEvent?: boolean;
 }
 
-export interface IChartSpecTransformerOption extends IInitOption {
-  type: string;
+export interface IChartSpecTransformerOption extends IChartOption {
   seriesType?: string;
-  getTheme: () => ITheme;
 }
 
 /** 图表 spec 信息，包含所有的 IModelSpecInfo 对象 */
