@@ -62,14 +62,12 @@ import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugi
 import { registerFormatPlugin } from './plugin/chart/formatter';
 import {
   registerElementActive,
-  registerElementHighlight,
-  registerElementSelect,
   registerElementActiveByLegend,
   registerElementHighlightByLegend,
   registerElementHighlightByName,
   registerElementHighlightByGroup,
   registerElementHighlightByKey
-} from '@visactor/vgrammar-core';
+} from './interaction';
 
 VChart.useRegisters([
   // charts
@@ -155,8 +153,6 @@ VChart.useRegisters([
 
   // vgrammar interactions,
   registerElementActive,
-  registerElementHighlight,
-  registerElementSelect,
 
   registerElementActiveByLegend,
   registerElementHighlightByLegend,

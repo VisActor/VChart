@@ -110,6 +110,10 @@ import { mergeTheme, preprocessTheme } from '../util/spec';
 import { darkTheme, registerTheme } from '../theme/builtin';
 import type { IChartPluginService } from '../plugin/chart/interface';
 import { ChartPluginService } from '../plugin/chart/plugin-service';
+import {
+  registerElementHighlight as registerHoverInteraction,
+  registerElementSelect as registerSelectInteraction
+} from '../interaction';
 
 export class VChart implements IVChart {
   readonly id = createID();
@@ -1886,6 +1890,9 @@ export const registerVChartCore = () => {
   View.useRegisters([registerFilterTransform, registerMapTransform]);
   // install animation
   registerVGrammarCommonAnimation();
+  // install default interaction
+  registerHoverInteraction();
+  registerSelectInteraction();
   // install default theme
   registerTheme(darkTheme.name, darkTheme);
   // set default logger level to Level.error
