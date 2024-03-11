@@ -56,8 +56,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     const transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
       const { spec, specPath, specInfoPath, type } = specInfo;
       const transformer = new constructor.transformerConstructor({
-        type,
-        getTheme: this._option.getTheme
+        ...this._option,
+        type
       });
       // 调用 model 自己的 transformer 进行转换
       const transformResult = transformer.transformSpec(spec, chartSpec, chartSpecInfo);
@@ -86,8 +86,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
         const { spec, specPath, specInfoPath, type } = specInfo;
         const transformer = new constructor.transformerConstructor({
-          type,
-          getTheme: this._option.getTheme
+          ...this._option,
+          type
         });
         setProperty(chartSpecInfo, specInfoPath ?? specPath, {
           ...specInfo,

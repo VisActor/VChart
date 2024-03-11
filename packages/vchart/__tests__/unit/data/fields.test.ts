@@ -56,7 +56,8 @@ describe('data fields test', () => {
     const transformer = new LineChart.transformerConstructor({
       type: 'line',
       seriesType: 'line',
-      getTheme: () => ThemeManager.getCurrentTheme(true)
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
     const chart = new LineChart(spec, {
@@ -136,7 +137,8 @@ describe('data fields test', () => {
     const transformer = new LineChart.transformerConstructor({
       type: 'line',
       seriesType: 'line',
-      getTheme: () => ThemeManager.getCurrentTheme(true)
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
     const chart = new LineChart(spec, {

@@ -5,7 +5,7 @@ import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
 import type { ITooltipHandler, ITooltipLineActual, TooltipActiveType } from '../../typings/tooltip';
 import type { Datum, IPoint, IShowTooltipOption } from '../../typings';
-import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode, domDocument } from '../../util/env';
+import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode } from '../../util/env';
 import type {
   ITooltip,
   ITooltipActiveTypeAsKeys,
@@ -15,7 +15,7 @@ import type {
 } from './interface';
 import { TooltipResult } from './interface/common';
 import { showTooltip } from './utils/show-tooltip';
-import { getTooltipActualActiveType, isEmptyPos } from './utils/common';
+import { isEmptyPos } from './utils/common';
 import { isSameDimensionInfo } from '../../event/events/dimension/util/common';
 import { ChartEvent, Event_Source_Type } from '../../constant';
 import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
@@ -25,14 +25,14 @@ import { isDimensionInfo, isMarkInfo } from './processor/util';
 import { MarkTooltipProcessor } from './processor/mark-tooltip';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { hasParentElement, isString, cloneDeep, isArray, isValid, isNil } from '@visactor/vutils';
+import { hasParentElement, isArray, isValid, isNil, array } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
 import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
-import { TOOLTIP_EL_CLASS_NAME, TooltipHandlerType } from '../../plugin/components/tooltip-handler/constants';
 import { error } from '../../util';
+import { TooltipHandlerType } from './constant';
 
 export type TooltipActualTitleContent = {
   title?: ITooltipLineActual;
@@ -98,6 +98,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   protected _processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor>;
 
   protected _isTooltipShown: boolean = false;
+
+  protected _clickLock: boolean = false;
+
   /** 当前是否正在显示 tooltip */
   isTooltipShown() {
     return this._isTooltipShown;
@@ -186,21 +189,22 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     if (this._option.disableTriggerEvent) {
       return;
     }
-    const trigger = this._spec.trigger ?? 'hover';
+    const trigger = array(this._spec.trigger ?? 'hover');
     // TODO: triggerOff完整支持
     // const triggerOff = this._spec.triggerOff ?? trigger;
     const mode = this._option.mode;
 
-    if (trigger === 'hover') {
-      this._mountEvent('pointermove', { source: 'chart' }, this._handleMouseMove);
+    if (trigger.includes('hover')) {
+      this._mountEvent('pointermove', { source: 'chart' }, this._getMouseMoveHandler(false));
       // 移动端的点按 + 滑动触发
       if (isMobileLikeMode(mode) || isMiniAppLikeMode(mode)) {
-        this._mountEvent('pointerdown', { source: 'chart' }, this._handleMouseMove);
+        this._mountEvent('pointerdown', { source: 'chart' }, this._getMouseMoveHandler(false));
         this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
       }
       this._mountEvent('pointerout', { source: 'canvas' }, this._getMouseOutHandler(false));
-    } else if (trigger === 'click') {
-      this._mountEvent('pointertap', { source: 'chart' }, this._handleMouseMove);
+    }
+    if (trigger.includes('click')) {
+      this._mountEvent('pointertap', { source: 'chart' }, this._getMouseMoveHandler(true));
       this._mountEvent('pointerup', { source: 'window' }, this._getMouseOutHandler(true));
     }
   }
@@ -253,7 +257,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     }
   };
 
-  protected _handleMouseMove = (params: BaseEventParams) => {
+  protected _getMouseMoveHandler = (isClick: boolean) => (params: BaseEventParams) => {
     if (!this.tooltipHandler) {
       this._initHandler();
     }
@@ -268,6 +272,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     if (this._isPointerOnTooltip(params)) {
       return;
     }
+    if (!isClick && this._clickLock) {
+      return;
+    }
 
     /* 获取 tooltip 原始数据 */
     const mouseEventData = this._getMouseEventData(params);
@@ -280,27 +287,30 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     let dimensionTooltipSuccess: boolean = false;
 
     /* 显示常规tooltip */
-    markTooltipSuccess = this._showTooltipByMouseEvent('mark', mouseEventData, params);
+    markTooltipSuccess = this._showTooltipByMouseEvent('mark', mouseEventData, params, isClick);
     if (!markTooltipSuccess) {
-      dimensionTooltipSuccess = this._showTooltipByMouseEvent('dimension', mouseEventData, params);
+      dimensionTooltipSuccess = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick);
     }
 
     /* 如果不是常规情况，进行一些特殊情况tooltip处理 */
     if (!markTooltipSuccess && !dimensionTooltipSuccess && !isEmptyPos(params)) {
       // 用户手动配置ignore，则继续显示缓存tooltip
       if (ignoreMark && isMarkInfo(this._cacheInfo)) {
-        markTooltipSuccess = this._showTooltipByMouseEvent('mark', mouseEventData, params, true);
+        markTooltipSuccess = this._showTooltipByMouseEvent('mark', mouseEventData, params, isClick, true);
       } else if (ignoreDimension && isDimensionInfo(this._cacheInfo)) {
-        dimensionTooltipSuccess = this._showTooltipByMouseEvent('dimension', mouseEventData, params, true);
+        dimensionTooltipSuccess = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick, true);
       } else if (isValid(dimensionInfo)) {
         // 用户没有手动配置ignore的话，默认显示dimension tooltip
-        dimensionTooltipSuccess = this._showTooltipByMouseEvent('dimension', mouseEventData, params);
+        dimensionTooltipSuccess = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick);
       }
     }
 
     /* 如果还是不应该显示tooltip，则隐藏上一次tooltip */
     if (!markTooltipSuccess && (!dimensionTooltipSuccess || isNil(dimensionInfo))) {
       this._handleChartMouseOut(params);
+      if (isClick && this._clickLock) {
+        this._clickLock = false;
+      }
     }
   };
 
@@ -316,6 +326,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     activeType: TooltipActiveType,
     mouseEventData: TotalMouseEventData,
     params: BaseEventParams,
+    isClick: boolean,
     useCache?: boolean
   ): boolean => {
     const processor = this._processor[activeType];
@@ -345,6 +356,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     }
     if (success) {
       this._isTooltipShown = true;
+      if (isClick && this._spec.lockAfterClick && !this._clickLock) {
+        this._clickLock = true;
+      }
     }
     // 全局唯一 tooltip
     const vchart = this._option.globalInstance;
@@ -394,58 +408,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       this.tooltipHandler.reInit?.();
     } else {
       this._initHandler();
-    }
-  }
-
-  setAttrFromSpec() {
-    super.setAttrFromSpec();
-    const userSpec = this._spec as ITooltipSpec;
-    this._spec = {
-      ...userSpec,
-      visible: isValid(userSpec.visible) ? userSpec.visible : true,
-      activeType: getTooltipActualActiveType(userSpec),
-      renderMode: 'html',
-      trigger: isValid(userSpec.trigger) ? userSpec.trigger : 'hover',
-      className: isValid(userSpec.className) ? userSpec.className : TOOLTIP_EL_CLASS_NAME,
-      enterable: isValid(userSpec.enterable) ? userSpec.enterable : false,
-      transitionDuration: isValid(userSpec.transitionDuration) ? userSpec.transitionDuration : 150
-    } as ITooltipSpec;
-    this._spec.triggerOff = isValid(userSpec.triggerOff) ? userSpec.triggerOff : this._spec.trigger;
-
-    if (isValid(userSpec.renderMode)) {
-      this._spec.renderMode = userSpec.renderMode;
-    } else if (isMiniAppLikeMode(this._option.mode) || !isTrueBrowser(this._option.mode)) {
-      // 小程序或非浏览器环境下，默认使用canvas渲染
-      this._spec.renderMode = 'canvas';
-    }
-
-    if (isValid(userSpec.mark)) {
-      this._spec.mark = {
-        ...cloneDeep(userSpec.mark),
-        activeType: 'mark'
-      };
-    }
-    if (isValid(userSpec.dimension)) {
-      this._spec.dimension = {
-        ...cloneDeep(userSpec.dimension),
-        activeType: 'dimension'
-      };
-    }
-
-    if (isValid(userSpec.parentElement)) {
-      if (isString(userSpec.parentElement)) {
-        this._spec.parentElement = globalThis?.document?.getElementById(userSpec.parentElement);
-      } else {
-        this._spec.parentElement = userSpec.parentElement;
-      }
-    } else if (isTrueBrowser(this._option.mode)) {
-      this._spec.parentElement = domDocument?.body;
-    }
-
-    if (isValid(userSpec.confine)) {
-      this._spec.confine = userSpec.confine;
-    } else {
-      this._spec.confine = this._spec.renderMode === 'canvas';
     }
   }
 
