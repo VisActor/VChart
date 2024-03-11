@@ -112,7 +112,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     );
 
     // hack: region 的样式不能设置在groupMark上，因为groupMark目前没有计算dirtyBound，会导致拖影问题
-    if (this._spec.style) {
+    if (!isEmpty(this._spec.style)) {
       this._backgroundMark = this._createMark({ type: MarkTypeEnum.rect, name: 'regionBackground' }) as IRectMark;
       if (clip) {
         this._foregroundMark = this._createMark({ type: MarkTypeEnum.rect, name: 'regionForeground' }) as IRectMark;
