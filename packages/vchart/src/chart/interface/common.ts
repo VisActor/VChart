@@ -38,7 +38,7 @@ export interface IChartOption
   disableTriggerEvent?: boolean;
 }
 
-export interface IChartSpecTransformerOption extends IChartOption {
+export interface IChartSpecTransformerOption extends Partial<IChartOption> {
   seriesType?: string;
 }
 

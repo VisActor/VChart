@@ -750,7 +750,8 @@ export class VChart implements IVChart {
     if ((this._onResize as any)?.cancel) {
       (this._onResize as any).cancel();
     }
-    this._chartPluginApply('disposeAll');
+    this._chartPluginApply('releaseAll');
+    this._chartPlugin = null;
     this._chartSpecTransformer = null;
     this._chart?.release();
     this._compiler?.release();
@@ -760,9 +761,15 @@ export class VChart implements IVChart {
 
     this._releaseData();
 
+    this._onError = null;
+    this._onResize = null;
+    this._container = null;
+    this._currentTheme = null;
+    this._option = null;
     this._chart = null;
     this._compiler = null;
     this._spec = null;
+    this._specInfo = null;
     this._originalSpec = null;
     // this._option = null;
     this._userEvents = null;
