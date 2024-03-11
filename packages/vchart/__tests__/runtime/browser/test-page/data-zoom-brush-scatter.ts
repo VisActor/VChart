@@ -80,7 +80,7 @@ const spec = {
     visible: true,
     brushType: 'rect',
     brushZoom: true,
-    axisIndex: 0,
+    // axisIndex: 0,
     inBrush: {
       colorAlpha: 1
     },
@@ -112,46 +112,45 @@ const run = () => {
 
   cs.renderAsync();
 
-  const history = {
-    ['xDataZoom']: [
-      {
-        start: 0,
-        end: 1
-      }
-    ],
-    ['yDataZoom']: [
-      {
-        start: 0,
-        end: 1
-      }
-    ]
-  };
+  const history = [
+    {
+      id: Math.random(),
+      record: [
+        {
+          start: 0,
+          end: 1
+        },
+        {
+          start: 0,
+          end: 1
+        }
+      ]
+    }
+  ];
 
   cs.on('brushEnd', args => {
-    args.value.releatedDataZoom.forEach(dz => {
-      history[dz.userId].push(dz?.state);
+    console.log('args', args.value.zoomRecord);
+    history.push({
+      id: Math.random(),
+      record: args.value.zoomRecord
     });
-
-    console.log('history', cloneDeep(history));
+    console.log('histogry', history);
   });
 
   createButton('back', () => {
-    history['xDataZoom'].pop();
-    history['yDataZoom'].pop();
-    const xDataZoom = history['xDataZoom'][history['xDataZoom'].length - 1];
-    const yDataZoom = history['yDataZoom'][history['yDataZoom'].length - 1];
+    history.pop();
     const newSpec = {
       ...spec,
       dataZoom: [
         {
           ...spec.dataZoom[0],
-          start: xDataZoom.start,
-          end: xDataZoom.end
+          start: history[history.length - 1].record[1].start,
+          end: history[history.length - 1].record[1].end
         },
         {
           ...spec.dataZoom[1],
-          start: yDataZoom.start,
-          end: yDataZoom.end
+          start: history[history.length - 1].record[0].start,
+          end: history[history.length - 1].record[0].end
         }
       ]
     };

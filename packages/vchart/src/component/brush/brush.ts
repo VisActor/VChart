@@ -56,13 +56,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
   private _needDisablePickable: boolean = false;
 
-  private _relatedDataZooms: DataZoom[] = [];
   private _releatedAxes: AxisComponent[] = [];
 
   // 根据region找axis
   private _regionAxisMap: { [regionId: string]: AxisComponent[] } = {};
   // 根据axis找dataZoom
   private _axisDataZoomMap: { [axisId: string]: DataZoom } = {};
+  //
+  private _zoomRecord: { operateComponent: AxisComponent | DataZoom; start: number; end: number }[] = [];
 
   init() {
     const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec.inBrush);
@@ -275,8 +276,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         linkedInBrushElementsMap: this._linkedInBrushElementsMap,
         // 被链接的系列中：在选框外的 vgrammar elements
         linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap,
-        // 关联的dataZoom
-        releatedDataZoom: this._relatedDataZooms ?? []
+        // 缩放记录
+        zoomRecord: this._zoomRecord
       }
     });
   }
@@ -477,7 +478,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return brushMask.globalAABBBounds.intersects(item.globalAABBBounds);
   }
 
+  private _stateClamp(state: number) {
+    return Math.min(Math.max(0, state), 1);
+  }
+
   private _setAxisAndDataZoom(operateMask: IPolygon, region: IRegion) {
+    this._zoomRecord = [];
     if (this._spec.brushZoom) {
       // step1: 拿到brush bounds, 计算 continuous axis/dataZoom新范围
       const operateMaskBounds = operateMask.AABBBounds;
@@ -502,11 +508,15 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           const endValue = releatedAxis.getScale().invert(boundsEnd - region.getLayoutStartPoint()[regionStartAttr]);
           const startPercent = dataZoom.dataToStatePoint(startValue);
           const endPercent = dataZoom.dataToStatePoint(endValue);
-          dataZoom.setStartAndEnd(
-            Math.min(Math.max(0, startPercent - axisRangeExpand), 1),
-            Math.min(Math.max(0, endPercent + axisRangeExpand), 1),
-            ['percent', 'percent']
-          );
+          const newStartPercent = this._stateClamp(startPercent - axisRangeExpand);
+          const newEndPercent = this._stateClamp(endPercent + axisRangeExpand);
+          dataZoom.setStartAndEnd(newStartPercent, newEndPercent, ['percent', 'percent']);
+
+          this._zoomRecord.push({
+            operateComponent: dataZoom,
+            start: newStartPercent,
+            end: newEndPercent
+          });
         } else {
           const range = axis.getScale().range();
           const rangeFactor = (axis.getScale() as IContinuousScale | IBandLikeScale).rangeFactor() ?? [0, 1];
@@ -516,11 +526,16 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
             ((startPos - range[0]) / (range[1] - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
           const end =
             ((endPos - range[0]) / (range[1] - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
-          (axis.getScale() as ILinearScale).rangeFactor([
-            Math.min(Math.max(0, Math.min(start, end) - axisRangeExpand), 1),
-            Math.min(Math.max(0, Math.max(start, end) + axisRangeExpand), 1)
-          ]);
+          const newStart = this._stateClamp(start - axisRangeExpand);
+          const newEnd = this._stateClamp(end + axisRangeExpand);
+          (axis.getScale() as ILinearScale).rangeFactor([newStart, newEnd]);
           axis.effect.scaleUpdate();
+
+          this._zoomRecord.push({
+            operateComponent: axis,
+            start: newStart,
+            end: newEnd
+          });
         }
       });
     }

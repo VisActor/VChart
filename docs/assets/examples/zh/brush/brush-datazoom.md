@@ -42,15 +42,24 @@ const minRange = Math.min(...scatterData.map(d => d.LifeExpectancy)) - 10
 const maxRange = Math.max(...scatterData.map(d => d.LifeExpectancy)) + 10
 
 // step4: init some variable
-const xDataZoomId = 'xDataZoom';
 const xDataZoomInitState = { start: 0, end: 1 };
-const yDataZoomId = 'yDataZoom';
 const yDataZoomInitState = { start: 0, end: 1 };
 // for go back last state
-const history = {
-  [xDataZoomId]: [xDataZoomInitState],
-  [yDataZoomId]: [yDataZoomInitState]
-}
+const history = [
+  {
+    id: Math.random(),
+    record: [
+      {
+        start: xDataZoomInitState.start,
+        end: xDataZoomInitState.end
+      },
+      {
+        start: yDataZoomInitState.start,
+        end: yDataZoomInitState.end
+      }
+    ]
+  }
+]
 
 // step5: decalre spec & render chart, you can focus on brush and dataZoom spec
 const spec = {
@@ -95,13 +104,11 @@ const spec = {
     {
       filterMode: 'axis',
       orient: 'bottom',
-      id: xDataZoomId,
       customDomain: [0, 50000]
     },
     {
       filterMode: 'axis',
       orient: 'right',
-      id: yDataZoomId,
       axisId: 'yAxis',
       customDomain: [minRange, maxRange]
     }
@@ -141,9 +148,9 @@ window['vchart'] = vchart;
 
 // step6: add listener for brushEnd and record state
 vchart.on('brushEnd', args => {
-  const releatedDataZoom = args.value.releatedDataZoom;
-  releatedDataZoom.forEach(dz => {
-    history[dz.userId].push(dz?.state)
+  history.push({
+    id: Math.random(),
+    record: args.value.zoomRecord
   })
 })
 
@@ -151,10 +158,9 @@ vchart.on('brushEnd', args => {
 const button = document.createElement('button');
 button.text = 'back';
 button.onclick = () => {
-  history[xDataZoomId].pop()
-  history[yDataZoomId].pop()
-  const xDataZoom = history[xDataZoomId][history[xDataZoomId].length - 1];
-  const yDataZoom = history[yDataZoomId][history[yDataZoomId].length - 1];
+  history.pop()
+  const xDataZoom = history[history.length - 1].record[1];
+  const yDataZoom = history[history.length - 1].record[0];
   const newSpec = {
     ...spec,
     dataZoom: [
