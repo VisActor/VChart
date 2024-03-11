@@ -90,7 +90,7 @@ Event-triggering delay duration.
 
 The size threshold of the brush selection box. Supported since version `1.2.0`.
 
-### brushZoom(boolean) = false
+### zoomAfterBrush(boolean) = false
 Whether to turn on the brush to remove the drill. Effective from version 0.10.0.
 
 ### axisId(string|string[])

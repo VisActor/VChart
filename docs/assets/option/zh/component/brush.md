@@ -90,7 +90,7 @@
 
 brush选框的大小阈值。自 `1.2.0` 版本开始支持。
 
-### brushZoom(boolean) = false
+### zoomAfterBrush(boolean) = false
 是否开启刷取下钻。自0.10.0版本生效。
 
 ### axisId(string|string[])

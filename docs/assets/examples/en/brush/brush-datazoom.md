@@ -14,9 +14,7 @@ By binding dataZoom, you can achieve the effect of frame selection to control ca
 
 ## Key Configuration
 
-- The `dataZoomId` attribute is declared as the dataZoom component id associated with the frame selection. It only takes effect when the currently operated region/series and dataZoom are associated with the same axis.
-
-- The `dataZoomIndex` attribute is declared as the index of the dataZoom component associated with the frame selection. It only takes effect when the currently operated region/series and dataZoom are associated with the same axis.
+- The `zoomAfterBrush` attribute declares whether to update the axis/dataZoom range after brushing.
 
 
 ## Live Demo
@@ -123,7 +121,7 @@ const spec = {
       colorAlpha: 0.2
     },
     // 开启后默认关联所有axis/dataZoom
-    brushZoom: true
+    zoomAfterBrush: true
   },
   tooltip: {
     dimension: {

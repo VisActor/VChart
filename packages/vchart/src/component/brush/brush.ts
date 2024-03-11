@@ -482,7 +482,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
   private _setAxisAndDataZoom(operateMask: IPolygon, region: IRegion) {
     this._zoomRecord = [];
-    if (this._spec.brushZoom) {
+    if (this._spec.zoomAfterBrush) {
       // step1: 拿到brush bounds, 计算 continuous axis/dataZoom新范围
       const operateMaskBounds = operateMask.AABBBounds;
 

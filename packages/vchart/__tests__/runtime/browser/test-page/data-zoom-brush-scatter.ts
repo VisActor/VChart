@@ -79,7 +79,7 @@ const spec = {
   brush: {
     visible: true,
     brushType: 'rect',
-    brushZoom: true,
+    zoomAfterBrush: true,
     // axisIndex: 0,
     inBrush: {
       colorAlpha: 1

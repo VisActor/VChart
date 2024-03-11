@@ -14,9 +14,7 @@ option: scatterChart#brush
 
 ## 关键配置
 
-- `dataZoomId` 属性声明为框选关联的dataZoom组件id, 只有当前操作的region/series与dataZoom关联同一个axis时生效。
-
-- `dataZoomIndex` 属性声明为框选关联的dataZoom组件index, 只有当前操作的region/series与dataZoom关联同一个axis时生效。
+- `zoomAfterBrush` 属性声明为刷取后是否更新axis/dataZoom范围。
 
 
 ## 代码演示
@@ -123,7 +121,7 @@ const spec = {
       colorAlpha: 0.2
     },
     // 开启后默认关联所有axis/dataZoom
-    brushZoom: true
+    zoomAfterBrush: true
   },
   tooltip: {
     dimension: {

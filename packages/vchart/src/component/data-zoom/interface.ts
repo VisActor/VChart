@@ -145,6 +145,7 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
   realTime?: boolean;
   /**
    * 自定义domain
+   * 当brush组件开启`zoomAfterBrush`时, 关联的dataZoom需要和axis保持一致, 否则刷取范围无法正确计算
    * @since 1.10.0
    */
   customDomain?: any[];

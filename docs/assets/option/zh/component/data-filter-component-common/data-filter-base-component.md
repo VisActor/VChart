@@ -150,7 +150,7 @@ prefix = '#' + ${prefix}
 
 ### customDomain(array)
 
-支持自定义domain, 用于统一dataZoom domain与关联axis domain。自 1.10.0 版本开始支持。
+支持自定义domain, 用于统一dataZoom domain与关联axis domain(当brush组件开启`zoomAfterBrush`时, 关联的dataZoom需要和axis保持一致, 否则刷取范围无法正确计算)。自 1.10.0 版本开始支持。
 
 ### updateDataAfterChange(Function)
 自定义datazoom更新时的回调。自 1.10.0 版本开始支持。

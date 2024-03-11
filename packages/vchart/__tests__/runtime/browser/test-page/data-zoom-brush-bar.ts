@@ -68,7 +68,7 @@ const spec = {
     outOfBrush: {
       colorAlpha: 0.2
     },
-    brushZoom: true,
+    zoomAfterBrush: true,
     axisIndex: 1
   }
   // dataZoom: [{

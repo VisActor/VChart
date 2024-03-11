@@ -155,7 +155,7 @@ Whether to update the view in real time during interaction, enabled by default. 
 
 ### customDomain(array)
 
-Supports custom domain, used to unify dataZoom domain and associated axis domain. Supported since version 1.10.0.
+Supports custom domain, used to unify dataZoom domain and associated axis domain(When the brush component turns on `zoomAfterBrush`, the associated dataZoom needs to be consistent with the axis, otherwise the brush range cannot be calculated correctly.). Supported since version 1.10.0.
 
 ### updateDataAfterChange(Function)
 Customize the callback when datazoom is updated. Supported since version 1.10.0.

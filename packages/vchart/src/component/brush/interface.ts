@@ -32,11 +32,11 @@ interface IBrushDataBindSpec {
   brushLinkSeriesId?: string | string[]; // 默认无系列
 
   /**
-   * 是否开启刷取下钻
+   * 刷取后是否更新axis/dataZoom范围
    * @default false
    * @since 0.10.0
    */
-  brushZoom?: boolean;
+  zoomAfterBrush?: boolean;
   /**
    * 刷取联动的axisId
    * 如果开启刷取下钻, 默认联动所有关联axis和dataZoom
