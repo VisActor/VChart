@@ -106,8 +106,6 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     } else if (parentMark) {
       parentMark.addMark(mark);
     }
-    mark.setInteractive(spec.interactive !== false);
-    mark.setZIndex(spec.zIndex ?? this.layoutZIndex);
     // set style
     this.initMarkStyleWithSpec(mark, spec);
     if (spec.type === 'group') {
