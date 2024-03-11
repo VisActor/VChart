@@ -204,7 +204,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     this._layoutCrosshair(x, y);
 
     const components = this._getNeedClearVRenderComponents();
-    this._hasActive = components.some(comp => comp && comp.attribute.visible);
+    this._hasActive = components.some(comp => comp && comp.attribute.visible !== false);
   };
 
   private _handleClickInEvent = (params: any) => {

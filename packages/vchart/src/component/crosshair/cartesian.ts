@@ -294,7 +294,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             textAlign: 'center',
             textBaseline: 'bottom'
           },
-          zIndex: this.labelZIndex
+          zIndex: this.labelZIndex,
+          visible: true
         };
         this._updateCrosshairLabel(this._xTopLabel, updateAttrs, label => {
           label.name = 'crosshair-x-top-label';
@@ -315,7 +316,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             textAlign: 'center',
             textBaseline: 'top'
           },
-          zIndex: this.labelZIndex
+          zIndex: this.labelZIndex,
+          visible: true
         };
         this._updateCrosshairLabel(this._xBottomLabel, updateAttrs, label => {
           label.name = 'crosshair-x-bottom-label';
@@ -411,14 +413,16 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
           ...attributes,
           lineStyle: style,
           zIndex: this.gridZIndex + 1, // 样式优化：线盖在面上
-          disableTriggerEvent: this._option.disableTriggerEvent
+          disableTriggerEvent: this._option.disableTriggerEvent,
+          pickable: false
         });
       } else if (type === 'rect') {
         crosshair = new RectCrosshair({
           ...attributes,
           rectStyle: style,
           zIndex: this.gridZIndex,
-          disableTriggerEvent: this._option.disableTriggerEvent
+          disableTriggerEvent: this._option.disableTriggerEvent,
+          pickable: false
         });
       }
       // 添加至场景树
