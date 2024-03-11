@@ -732,6 +732,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return;
     }
 
+    mark.setInteractive(spec.interactive !== false);
+    mark.setZIndex(spec.zIndex);
+
     if (options.hasAnimation) {
       // 自定义图元默认不添加动画
       const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));

@@ -1,19 +1,19 @@
 import { BaseComponent } from '../base/base-component';
 import { ComponentTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
-import type { IComponentOption } from '../interface';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import { LayoutLevel, LayoutZIndex, PREFIX } from '../../constant';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
 import type { IGroupMark } from '../../mark/group';
-import type { IMark, MarkTypeEnum } from '../../mark/interface';
-import type { Maybe } from '@visactor/vutils';
+import type { IMark } from '../../mark/interface';
+import type { LooseFunction, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { registerImageMark } from '../../mark/image';
 import type { IGraphic } from '@visactor/vrender-core';
+import { HOOK_EVENT } from '@visactor/vgrammar-core';
 
 // TODO: 规范范型
 export class CustomMark<T = any> extends BaseComponent<any> {
@@ -106,6 +106,8 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     } else if (parentMark) {
       parentMark.addMark(mark);
     }
+    mark.setInteractive(spec.interactive !== false);
+    mark.setZIndex(spec.zIndex ?? this.layoutZIndex);
     // set style
     this.initMarkStyleWithSpec(mark, spec);
     if (spec.type === 'group') {
@@ -154,6 +156,24 @@ export class CustomMark<T = any> extends BaseComponent<any> {
 
   onRender(ctx: IModelRenderOption): void {
     // do nothing;
+  }
+
+  afterCompile() {
+    this.getMarks().forEach(mark => {
+      const product = mark.getProduct();
+      if (product) {
+        product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
+          if (this._isLayout === false) {
+            const component = product.getGroupGraphicItem();
+            // TODO: 待 vgrammar 提供接口后进行优化 @zwx
+            if (component.listenerCount('*') === 0) {
+              component.addEventListener('*', ((event: any, type: string) =>
+                this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
+            }
+          }
+        });
+      }
+    });
   }
   private _getMarkAttributeContext() {
     return {
