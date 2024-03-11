@@ -10,7 +10,7 @@ import type {
   IFoldOptions,
   IDsvParserOptions
 } from '@visactor/vdataset';
-import type { IRegionSpec } from '../../region/interface';
+import type { RegionSpec } from '../../region/interface';
 import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { ITooltipSpec } from '../../component/tooltip/interface';
@@ -55,7 +55,7 @@ import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
-import type { IComposedTextMarkSpec, IMediaQuerySpec } from '..';
+import type { IMediaQuerySpec } from '..';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -178,7 +178,7 @@ export interface IChartSpec {
   select?: boolean | ISelectSpec;
 
   /** region配置 */
-  region?: IRegionSpec[];
+  region?: RegionSpec[];
   /** 图表标题配置 */
   title?: ITitleSpec;
   /** 布局配置 */

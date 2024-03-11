@@ -1,8 +1,8 @@
-import { array, has, isValid } from '@visactor/vutils';
-import type { IChartSpec, IRegionSpec, ISeriesSpec } from '../../typings';
+import { has, isValid } from '@visactor/vutils';
+import type { IChartSpec, ISeriesSpec } from '../../typings';
 import type { IChartSpecInfo, IChartSpecTransformer, IChartSpecTransformerOption } from '../interface';
 import type { IModelConstructor, IModelSpecInfo } from '../../model/interface';
-import type { IRegionConstructor } from '../../region/interface';
+import type { IRegionConstructor, RegionSpec } from '../../region/interface';
 import { Factory } from '../../core';
 import type { ISeriesConstructor } from '../../series';
 import type { IComponentConstructor } from '../../component/interface/common';
@@ -42,7 +42,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
     if (isValid(chartSpec.stackInverse)) {
       chartSpec.region.forEach(
-        (r: IRegionSpec) => !isValid(r.stackInverse) && (r.stackInverse = chartSpec.stackInverse)
+        (r: RegionSpec) => !isValid(r.stackInverse) && (r.stackInverse = chartSpec.stackInverse)
       );
     }
   }
@@ -197,7 +197,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
     chartSpecInfo?: IChartSpecInfo
   ): K[] {
-    const regionSpec = (chartSpec.region as IRegionSpec[]) ?? [];
+    const regionSpec = (chartSpec.region as RegionSpec[]) ?? [];
     return regionSpec.map((spec, index) =>
       callbackfn(
         Factory.getRegionInType('region'),

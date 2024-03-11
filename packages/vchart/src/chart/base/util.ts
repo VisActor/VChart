@@ -1,6 +1,6 @@
 import { array, isValid } from '@visactor/vutils';
 import type { IModelSpecInfo } from '../../model/interface';
-import type { IRegionSpec, IRegionSpecInfo } from '../../region/interface';
+import type { RegionSpec, IRegionSpecInfo } from '../../region/interface';
 import type { IChartSpecInfo } from '../interface';
 import type { ISeriesSpecInfo } from '../../series/interface';
 import type { ISeriesSpec } from '../../typings';
@@ -10,7 +10,7 @@ import type { IComponentSpec } from '../../component/base/interface';
 export const getRelatedRegionInfo = (
   modelInfo: IModelSpecInfo,
   currentChartSpecInfo: IChartSpecInfo
-): Array<IRegionSpecInfo<IRegionSpec>> | undefined => {
+): Array<IRegionSpecInfo<RegionSpec>> | undefined => {
   const spec = modelInfo.spec as IComponentSpec;
   const { regionId, regionIndex } = spec;
   if (isValid(regionId)) {

@@ -95,7 +95,9 @@ export interface IGeoRegionSpec extends IRegionSpec {
   };
 }
 
-export interface IRegionSpecInfo<T extends IRegionSpec = IRegionSpec> extends IModelSpecInfo {
+export type RegionSpec = IRegionSpec | IGeoRegionSpec;
+
+export interface IRegionSpecInfo<T extends RegionSpec = IRegionSpec> extends IModelSpecInfo {
   /** model 具体类型 */
   type: 'region';
   /** model spec */
