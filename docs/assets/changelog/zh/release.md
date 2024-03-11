@@ -2,21 +2,20 @@
 
 2024-03-11
 
-
 **🆕 新增功能**
 
-- **@visactor/vchart**: support dataKey in CustomMark and ExtensionMark
-- **@visactor/vchart**: support mulity data in waterfal total dimensions
+- **@visactor/vchart**：支持在CustomMark和ExtensionMark中设置`dataKey`
+- **@visactor/vchart**：支持瀑布图总维度中的多个数据
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: `animationAppear: false` not work
-- **@visactor/vchart**: fix bug that throws error when setting mark style to invlaid value
-- **@visactor/vchart**: fix the issue of duplicate event registration, fixed [#2336](https://github.com/VisActor/VChart/issues/2336)
-- **@visactor/vchart**: fixed the issue of being unable to listen to label and totalLabel component events on vchart, `vchart.on('click', { level: 'model', type: 'label' })`
-- **@visactor/vchart**: optimize totoal label position when axis is inversed
-- **@visactor/vchart**: upgrade vrender to 0.17.27, vgrammar to 0.11.15
-- **scrollbar**: click stopped by zoomable. fix[#2333](https://github.com/VisActor/VChart/issues/2333)
+- **@visactor/vchart**：修复`animationAppear: false`不起作用的问题
+- **@visactor/vchart**：修复设置Mark样式为无效值时引发错误的问题
+- **@visactor/vchart**：修复重复事件注册的问题，修复[#2336](https://github.com/VisActor/VChart/issues/2336)
+- **@visactor/vchart**：修复无法监听vchart上的标签和totalLabel组件事件的问题，`vchart.on('click', { level: 'model', type: 'label' })`
+- **@visactor/vchart**：优化当轴反转时的总标签位置
+- **@visactor/vchart**：升级vrender至0.17.27，vgrammar至0.11.15
+- **scrollbar**：被可缩放组件阻止点击。修复[#2333](https://github.com/VisActor/VChart/issues/2333)
 
 
 
