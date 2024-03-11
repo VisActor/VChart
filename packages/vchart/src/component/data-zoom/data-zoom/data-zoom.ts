@@ -161,7 +161,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   }
 
   protected _updateScaleRange() {
-    const handlerSize = (this._startHandlerSize + this._endHandlerSize) / 2;
+    const handlerSize = this._startHandlerSize + this._endHandlerSize;
     if (!this._stateScale || !this._valueScale) {
       return;
     }
@@ -174,29 +174,28 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
     const defaultRange = (this._relatedAxisComponent as CartesianAxis<any>)?.getScale().range() ?? [
       this._startHandlerSize / 2,
-      defaultSize - this._endHandlerSize / 2
+      defaultSize + this._startHandlerSize / 2
     ];
 
     if (this._isHorizontal) {
       stateScaleRange = this._visible
-        ? [this._startHandlerSize / 2, this._computeWidth() - this._endHandlerSize / 2]
+        ? [this._startHandlerSize / 2, this._computeWidth() - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
       this._stateScale.range(stateScaleRange);
       this._valueScale.range([this._computeHeight() - this._middleHandlerSize, 0]);
     } else if (this.layoutOrient === 'left') {
       stateScaleRange = this._visible
-        ? [this._startHandlerSize / 2, this._computeHeight() - this._endHandlerSize / 2]
+        ? [this._startHandlerSize / 2, this._computeHeight() - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
       this._stateScale.range(stateScaleRange);
       this._valueScale.range([this._computeWidth() - this._middleHandlerSize, 0]);
     } else {
       stateScaleRange = this._visible
-        ? [this._startHandlerSize / 2, this._computeHeight() - this._endHandlerSize / 2]
+        ? [this._startHandlerSize / 2, this._computeHeight() - handlerSize + this._startHandlerSize / 2]
         : defaultRange;
       this._stateScale.range(stateScaleRange);
       this._valueScale.range([0, this._computeWidth() - this._middleHandlerSize]);
     }
-
     if (this._component && this._cacheVisibility !== false) {
       this._component.setAttributes({
         size: {
