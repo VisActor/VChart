@@ -155,15 +155,15 @@ However, it should be noted that not all components enable event interaction by 
 | -------------- | ------------------------------------------ |
 | axis           | Yes                                        |
 | dataZoom       | Yes                                        |
-| indicator      | yes                                        |
-| legend         | is                                         |
+| indicator      | Yes                                        |
+| legend         | Yes                                        |
 | mapLabel       | Yes                                        |
 | customMark     | Yes                                        |
-| title          | is                                         |
+| title          | Yes                                        |
 | markLine       | No                                         |
 | markArea       | No                                         |
 | markPoint      | No                                         |
-| label          | no                                         |
+| label          | No                                         |
 | totalLabel     | No                                         |
 
 #### Monitor **mark primitive** events through event filtering

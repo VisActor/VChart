@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fixed the issue of being unable to listen to customMark events on vchart, and  `interactive` and `zIndex` can not work in customMark",
+      "comment": "fix: fixed the issue of being unable to listen to customMark events on vchart",
       "type": "none"
     }
   ],
