@@ -56,17 +56,20 @@ export class BasePluginService<T extends IBasePlugin = IBasePlugin> implements I
     return this._plugins.slice();
   }
 
-  dispose(pluginsId: number): void {
+  release(pluginsId: number): void {
     const plugin = this._plugins.find(p => p.id === pluginsId);
     if (!plugin) {
       return;
     }
-    plugin.dispose && plugin.dispose(this);
+    plugin.release(this);
+    this._plugins = this._plugins.filter(entry => entry !== plugin);
   }
 
-  disposeAll(): void {
+  releaseAll(): void {
     this._plugins.forEach(plugin => {
-      plugin.dispose && plugin.dispose(this);
+      plugin.release(this);
     });
+
+    this._plugins = [];
   }
 }

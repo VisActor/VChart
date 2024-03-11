@@ -37,4 +37,9 @@ export class ChartPluginService<T extends IChartPlugin = IChartPlugin>
       plugin.onBeforeInitChart && plugin.onBeforeInitChart(this, chartSpec, actionSource);
     });
   }
+
+  releaseAll(): void {
+    super.releaseAll();
+    this.globalInstance = null;
+  }
 }
