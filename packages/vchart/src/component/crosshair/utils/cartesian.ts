@@ -268,6 +268,7 @@ export const layoutVerticalCrosshair = (
   let positionAttribute;
   if (type === 'line') {
     positionAttribute = {
+      visible: true,
       start: { x: x + bandWidth / 2, y: topPos },
       end: { x: x + bandWidth / 2, y: topPos + height }
     };
@@ -276,6 +277,7 @@ export const layoutVerticalCrosshair = (
     const { leftPos, rightPos } = crosshairInfo;
 
     positionAttribute = {
+      visible: true,
       start: { x: Math.max(x - extend / 2 - offsetWidth / 2, leftPos), y: topPos },
       end: { x: Math.min(x + bandWidth + extend / 2 + offsetWidth / 2, rightPos), y: topPos + height }
     };
@@ -297,6 +299,7 @@ export const layoutHorizontalCrosshair = (
   let positionAttribute;
   if (type === 'line') {
     positionAttribute = {
+      visible: true,
       start: { x: leftPos, y: y + bandHeight / 2 },
       end: { x: leftPos + width, y: y + bandHeight / 2 }
     };
@@ -305,6 +308,7 @@ export const layoutHorizontalCrosshair = (
     const { topPos, bottomPos } = crosshairInfo;
 
     positionAttribute = {
+      visible: true,
       start: { x: leftPos, y: Math.max(y - extend / 2 - offsetHeight / 2, topPos) },
       end: { x: leftPos + width, y: Math.min(y + bandHeight + extend / 2 + offsetHeight / 2, bottomPos) }
     };

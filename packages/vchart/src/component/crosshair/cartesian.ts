@@ -294,7 +294,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             textAlign: 'center',
             textBaseline: 'bottom'
           },
-          zIndex: this.labelZIndex
+          zIndex: this.labelZIndex,
+          visible: true
         };
         this._updateCrosshairLabel(this._xTopLabel, updateAttrs, label => {
           label.name = 'crosshair-x-top-label';
@@ -315,7 +316,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             textAlign: 'center',
             textBaseline: 'top'
           },
-          zIndex: this.labelZIndex
+          zIndex: this.labelZIndex,
+          visible: true
         };
         this._updateCrosshairLabel(this._xBottomLabel, updateAttrs, label => {
           label.name = 'crosshair-x-bottom-label';
