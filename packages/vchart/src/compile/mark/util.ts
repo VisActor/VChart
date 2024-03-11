@@ -37,6 +37,11 @@ export function isStateAttrChangeable<T>(key: string, stateStyle: Partial<IAttrs
   if (isFunctionStyle) {
     return true;
   }
+  const hasPostProcess = isFunction(style.postProcess);
+  if (hasPostProcess) {
+    return true;
+  }
+
   const isScale = !!style?.scale;
   if (isScale) {
     if (style.field !== facetField) {
