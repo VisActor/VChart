@@ -17,14 +17,12 @@ import { registerCartesianLinearAxis } from './component/axis/cartesian/linear-a
 import { registerCanvasTooltipHandler, registerDomTooltipHandler } from './plugin/components/tooltip-handler';
 import {
   registerElementActive,
-  registerElementHighlight,
-  registerElementSelect,
   registerElementActiveByLegend,
   registerElementHighlightByLegend,
   registerElementHighlightByName,
   registerElementHighlightByGroup,
   registerElementHighlightByKey
-} from '@visactor/vgrammar-core';
+} from './interaction';
 
 export * from './core';
 
@@ -50,8 +48,6 @@ VChart.useRegisters([
 
   // vgrammar interactions,
   registerElementActive,
-  registerElementHighlight,
-  registerElementSelect,
 
   registerElementActiveByLegend,
   registerElementHighlightByLegend,
