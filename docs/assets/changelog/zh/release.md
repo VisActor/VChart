@@ -1,3 +1,26 @@
+# v1.9.6
+
+2024-03-11
+
+**🆕 新增功能**
+
+- **@visactor/vchart**：支持在CustomMark和ExtensionMark中设置`dataKey`
+- **@visactor/vchart**：支持瀑布图总维度中的多个数据
+
+**🐛 功能修复**
+
+- **@visactor/vchart**：修复`animationAppear: false`不起作用的问题
+- **@visactor/vchart**：修复设置Mark样式为无效值时引发错误的问题
+- **@visactor/vchart**：修复重复事件注册的问题，修复[#2336](https://github.com/VisActor/VChart/issues/2336)
+- **@visactor/vchart**：修复无法监听vchart上的标签和totalLabel组件事件的问题，`vchart.on('click', { level: 'model', type: 'label' })`
+- **@visactor/vchart**：优化当轴反转时的总标签位置
+- **@visactor/vchart**：升级vrender至0.17.27，vgrammar至0.11.15
+- **scrollbar**：被可缩放组件阻止点击。修复[#2333](https://github.com/VisActor/VChart/issues/2333)
+
+
+
+[更多详情请查看 v1.9.6](https://github.com/VisActor/VChart/releases/tag/v1.9.6)
+
 # v1.9.5
 
 2024-03-04

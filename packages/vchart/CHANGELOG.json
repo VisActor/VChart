@@ -2,6 +2,42 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.9.6",
+      "tag": "@visactor/vchart_v1.9.6",
+      "date": "Fri, 08 Mar 2024 06:37:04 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support dataKey in CustomMark and ExtensionMark"
+          },
+          {
+            "comment": "feat: support mulity data in waterfal total dimensions\n\n"
+          },
+          {
+            "comment": "fix: `animationAppear: false` not work"
+          },
+          {
+            "comment": "fix: fix bug that throws error when setting mark style to invlaid value\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of duplicate event registration, fixed #2336"
+          },
+          {
+            "comment": "fix: fixed the issue of being unable to listen to label and totalLabel component events on vchart, `vchart.on('click', { level: 'model', type: 'label' })`"
+          },
+          {
+            "comment": "fix: optimize totoal label position when axis is inversed"
+          },
+          {
+            "comment": "fix: upgrade vrender to 0.17.27, vgrammar to 0.11.15\n\n"
+          },
+          {
+            "comment": "fix(scrollbar): click stopped by zoomable. fix#2333"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.9.5",
       "tag": "@visactor/vchart_v1.9.5",
       "date": "Fri, 01 Mar 2024 08:24:59 GMT",
