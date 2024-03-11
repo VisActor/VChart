@@ -37,7 +37,7 @@ export function isStateAttrChangeable<T>(key: string, stateStyle: Partial<IAttrs
   if (isFunctionStyle) {
     return true;
   }
-  const hasPostProcess = isFunction(style.postProcess);
+  const hasPostProcess = isFunction(stateStyle[key]?.postProcess);
   if (hasPostProcess) {
     return true;
   }
