@@ -732,6 +732,13 @@
             "zh": "漏斗图自定义标注",
             "en": "Custom Annotation in Funnel Chart"
           }
+        },
+        {
+          "path": "funnel-template",
+          "title": {
+            "zh": "漏斗图模板",
+            "en": "Funnel Template"
+          }
         }
       ]
     },
@@ -1666,6 +1673,13 @@
             "zh": "多层级坐标轴",
             "en": "Multi-level axes"
           }
+        },
+        {
+          "path": "axis-richtext-label",
+          "title": {
+            "zh": "轴富文本标签",
+            "en": "Axis Richtext Label"
+          }
         }
       ]
     },
@@ -2196,6 +2210,20 @@
           "title": {
             "zh": "组合图标签",
             "en": "Combination Chart Labels"
+          }
+        },
+        {
+          "path": "label-formatter",
+          "title": {
+            "zh": "文本格式化",
+            "en": "Label Formatter"
+          }
+        },
+        {
+          "path": "richtext-label",
+          "title": {
+            "zh": "富文本标签",
+            "en": "RichText Label"
           }
         }
       ]
