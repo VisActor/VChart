@@ -388,6 +388,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         }
       });
     }
+
     this.callPlugin(plugin => {
       this.pluginService && plugin.onDidCompile && plugin.onDidCompile(this.pluginService, this);
     });
