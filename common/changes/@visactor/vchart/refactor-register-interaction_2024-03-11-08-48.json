@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: register hover/select interaction by default",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
