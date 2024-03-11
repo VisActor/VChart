@@ -14,7 +14,7 @@ import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
-import type { IChart, IChartSpecInfo } from '../chart/interface';
+import type { IChart, IChartSpecInfo, IChartSpecTransformerOption } from '../chart/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
 import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
@@ -218,10 +218,7 @@ export interface IModelMarkInfo {
   name: string;
 }
 
-export interface IBaseModelSpecTransformerOption {
-  type: string;
-  getTheme: () => ITheme;
-}
+export type IBaseModelSpecTransformerOption = IChartSpecTransformerOption;
 
 export interface IBaseModelSpecTransformerResult<T, K> {
   spec: T;

@@ -1,9 +1,9 @@
-import { isValid, isNil, array } from '@visactor/vutils';
+import { isValid, isNil, TimeUtil } from '@visactor/vutils';
 import type {
-  IToolTipLinePattern,
+  ITooltipLinePattern,
   ITooltipPattern,
   TooltipData,
-  IToolTipLineActual
+  ITooltipLineActual
 } from '../../../../typings/tooltip';
 import {
   getFirstDatumFromTooltipData,
@@ -15,7 +15,6 @@ import type { IDimensionData, IDimensionInfo } from '../../../../event/events/di
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constants';
 import { getTooltipActualActiveType } from '../../../../component/tooltip/utils';
 import type { TooltipActualTitleContent, TooltipHandlerParams } from '../../../../component/tooltip';
-import { TimeUtil } from '../../../../component/axis/cartesian/util';
 
 const getTimeString = (value: any, timeFormat?: string, timeFormatMode?: 'local' | 'utc') => {
   if (!timeFormat && !timeFormatMode) {
@@ -59,7 +58,8 @@ export const getShowContent = (
 
   /** title */
   const patternTitle = getTooltipPatternValue(pattern.title, data, params);
-  const { visible, value, valueTimeFormat, valueTimeFormatMode, valueStyle, hasShape } = patternTitle ?? {};
+  const { visible, value, valueTimeFormat, valueTimeFormatMode, valueStyle, hasShape, valueFormatter } =
+    patternTitle ?? {};
   const patternTitleVisible = getTooltipContentValue(visible, data, params) !== false;
 
   if (!patternTitle || !patternTitleVisible) {
@@ -71,7 +71,11 @@ export const getShowContent = (
     // 找到第一个可用的datum
     const datum = getFirstDatumFromTooltipData(data);
     tooltipActualTitleContent.title = {
-      value: getTimeString(getTooltipContentValue(value, datum, params), valueTimeFormat, valueTimeFormatMode),
+      value: getTimeString(
+        getTooltipContentValue(value, datum, params, valueFormatter),
+        valueTimeFormat,
+        valueTimeFormatMode
+      ),
       valueStyle: getTooltipContentValue(valueStyle, datum, params),
       hasShape
     };
@@ -165,16 +169,16 @@ export const getShowContent = (
  */
 export const getOneLineData = (
   datum: any,
-  config: IToolTipLinePattern,
+  config: ITooltipLinePattern,
   params: TooltipHandlerParams
-): IToolTipLineActual => {
+): ITooltipLineActual => {
   const key = getTimeString(
-    getTooltipContentValue(config.key, datum, params),
+    getTooltipContentValue(config.key, datum, params, config.keyFormatter),
     config.keyTimeFormat,
     config.keyTimeFormatMode
   );
   const value = getTimeString(
-    getTooltipContentValue(config.value, datum, params),
+    getTooltipContentValue(config.value, datum, params, config.valueFormatter),
     config.valueTimeFormat,
     config.valueTimeFormatMode
   );
@@ -188,6 +192,7 @@ export const getOneLineData = (
   const shapeFill = getTooltipContentValue(config.shapeFill, datum, params);
   const shapeStroke = getTooltipContentValue(config.shapeStroke, datum, params);
   const shapeLineWidth = getTooltipContentValue(config.shapeLineWidth, datum, params);
+  const shapeHollow = getTooltipContentValue(config.shapeHollow, datum, params);
   const keyStyle = getTooltipContentValue(config.keyStyle, datum, params);
   const valueStyle = getTooltipContentValue(config.valueStyle, datum, params);
 
@@ -197,11 +202,11 @@ export const getOneLineData = (
     visible,
     isKeyAdaptive,
     hasShape: config.hasShape,
-    shapeType: shapeType as any,
+    shapeType,
     shapeFill,
     shapeStroke,
     shapeLineWidth,
-    shapeHollow: config.shapeHollow,
+    shapeHollow,
     shapeColor,
     keyStyle,
     valueStyle,

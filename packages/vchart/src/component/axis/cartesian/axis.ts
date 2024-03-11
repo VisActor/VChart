@@ -25,7 +25,7 @@ import { Factory } from '../../../core/factory';
 import { isXAxis, getOrient, isZAxis, isYAxis, getCartesianAxisInfo, transformInverse } from './util/common';
 import { ChartEvent, DEFAULT_LAYOUT_RECT_LEVEL, LayoutZIndex, USER_LAYOUT_RECT_LEVEL } from '../../../constant';
 import { LayoutLevel } from '../../../constant/index';
-import pluginMap from '../../../plugin/components';
+import { AxisSyncPlugin } from '../../../plugin/components';
 import type { Datum, StringOrNumber } from '../../../typings/common';
 import type { IPoint } from '../../../typings/coordinate';
 import type { ILayoutRect, ILayoutType } from '../../../typings/layout';
@@ -47,7 +47,7 @@ import type { IGraphic, IText } from '@visactor/vrender-core';
 import { createText } from '@visactor/vrender-core';
 import type { ICartesianChartSpec } from '../../../chart';
 
-const CartesianAxisPlugin = [pluginMap.AxisSyncPlugin];
+const CartesianAxisPlugin = [AxisSyncPlugin];
 
 export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartesianAxisCommonSpec>
   extends AxisComponent<T>
@@ -276,7 +276,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       }
 
       const axisStyle: any = this._getAxisAttributes();
-      axisStyle.label.formatMethod = this.getLabelFormatMethod();
+      axisStyle.label.formatMethod = this._getLabelFormatMethod();
       axisStyle.verticalFactor = this.getOrient() === 'top' || this.getOrient() === 'right' ? -1 : 1;
       this._axisStyle = axisStyle;
     }
@@ -439,54 +439,20 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return scales;
   }
 
-  protected collectData(depth?: number, rawData?: boolean) {
-    const data: { min: number; max: number; values: any[] }[] = [];
-    eachSeries(
-      this._regions,
-      s => {
-        let field: string | string[];
-        if (depth > 0) {
-          field = s.getGroups()?.fields?.[depth];
-        } else {
-          if (isXAxis(this.getOrient())) {
-            field = (s as ICartesianSeries).getSpec().x2Field
-              ? [...(s as ICartesianSeries).fieldX, (s as ICartesianSeries).fieldX2]
-              : (s as ICartesianSeries).fieldX;
-          } else if (isZAxis(this.getOrient())) {
-            field = (s as ICartesianSeries).fieldZ;
-          } else {
-            field = (s as ICartesianSeries).getSpec().y2Field
-              ? [...(s as ICartesianSeries).fieldY, (s as ICartesianSeries).fieldY2]
-              : (s as ICartesianSeries).fieldY;
-          }
-        }
-        field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
-        if (!depth) {
-          this._dataFieldText = s.getFieldAlias(field[0]);
-        }
-        if (field) {
-          const viewData = s.getViewData();
-          if (rawData) {
-            field.forEach(f => {
-              data.push(s.getRawDataStatisticsByField(f, false) as { min: number; max: number; values: any[] });
-            });
-          } else if (viewData && viewData.latestData && viewData.latestData.length) {
-            const seriesData = s.getViewDataStatistics?.();
-
-            field.forEach(f => {
-              if (seriesData?.latestData?.[f]) {
-                data.push(seriesData.latestData[f]);
-              }
-            });
-          }
-        }
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
+  protected collectSeriesField(depth: number, series: ICartesianSeries) {
+    let field: string | string[];
+    if (depth > 0) {
+      field = series.getGroups()?.fields?.[depth];
+    } else {
+      if (isXAxis(this.getOrient())) {
+        field = series.getSpec().x2Field ? [...series.fieldX, series.fieldX2] : series.fieldX;
+      } else if (isZAxis(this.getOrient())) {
+        field = series.fieldZ;
+      } else {
+        field = series.getSpec().y2Field ? [...series.fieldY, series.fieldY2] : series.fieldY;
       }
-    );
-    return data;
+    }
+    return field;
   }
 
   protected updateSeriesScale() {

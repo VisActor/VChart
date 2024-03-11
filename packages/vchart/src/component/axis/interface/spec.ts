@@ -65,6 +65,12 @@ export interface ICommonAxisSpec extends Omit<IComponentSpec, 'orient' | 'center
    * @since 1.1.0
    */
   sampling?: boolean;
+
+  /**
+   * 是否强制初始化 tick 数据，仅在 visible 为 false 时生效
+   * @default false
+   */
+  forceInitTick?: boolean;
 }
 
 export interface ILinearAxisSpec {
@@ -267,6 +273,12 @@ export interface ILabel extends IAxisItem<ITextMarkSpec> {
    * @returns 格式化后的文本
    */
   formatMethod?: IFormatMethod<[text: string | string[], datum?: Datum]>;
+  /**
+   * 格式化模板
+   * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+   * @since 1.10.0
+   */
+  formatter?: string | string[];
   /** 标签同 tick 之间的间距 */
   space?: number;
   /**

@@ -42,7 +42,7 @@ import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
 import type { DataView } from '@visactor/vdataset';
-import type { DataSet } from '@visactor/vdataset/es/data-set';
+import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
 import {
@@ -58,7 +58,7 @@ import { Stack } from '../stack';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
-import type { IParserOptions } from '@visactor/vdataset/es/parser';
+import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { has, isFunction, isEmpty, isNil, isString, isEqual } from '@visactor/vutils';
@@ -210,10 +210,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   created() {
     this._transformer = new this.transformerConstructor({
+      ...this._option,
       type: this.type,
-      seriesType: this.seriesType,
-      getTheme: this._option.getTheme,
-      animation: this._option.animation
+      seriesType: this.seriesType
     });
     // data
     this._chartData.parseData(this._spec.data);
@@ -459,7 +458,12 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   // 通知所有需要通知的元素 onLayoutEnd 钩子
   onLayoutEnd(option: IChartLayoutOption) {
     const elements = this.getAllModels();
-    elements.forEach(element => element.onLayoutEnd(option));
+    elements.forEach(element => {
+      // series.onLayoutEnd will be called by region model
+      if (element.modelType !== 'series') {
+        element.onLayoutEnd(option);
+      }
+    });
   }
 
   onEvaluateEnd(option: IChartEvaluateOption) {
@@ -1191,7 +1195,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
               }
             }
             pickElements.forEach(element => {
-              r.interaction.addEventElement(stateKey, element);
+              r.interaction.startInteraction(stateKey, element);
             });
           }
         });

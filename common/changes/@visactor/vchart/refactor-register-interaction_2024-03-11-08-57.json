@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: remove advanced interaction in simple bundle",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

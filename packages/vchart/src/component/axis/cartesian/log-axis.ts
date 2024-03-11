@@ -28,6 +28,7 @@ export class CartesianLogAxis<T extends ICartesianLogAxisSpec = ICartesianLogAxi
   protected initScales() {
     super.initScales();
     this._scale.base(this._spec.base ?? 10);
+    this._scale.clamp(true, null, false);
   }
 
   transformScaleDomain() {

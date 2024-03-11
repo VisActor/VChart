@@ -131,6 +131,12 @@ export interface ICrosshairLabelSpec {
    */
   formatMethod?: (text: StringOrNumber | string[]) => string | string[];
   /**
+   * 格式化模板
+   * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+   * @since 1.10.0
+   */
+  formatter?: string | string[];
+  /**
    * 文本样式配置
    */
   style?: Partial<ITextMarkSpec>;

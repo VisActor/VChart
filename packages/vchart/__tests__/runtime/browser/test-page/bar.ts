@@ -552,11 +552,15 @@ const run = () => {
         ]
       }
     ],
+    barMaxWidth: 10,
+    barGapInGroup: 10,
+    autoBandSize: {
+      //extend: 10
+    },
     xField: ['date', 'stack'],
     yField: 'value',
     seriesField: 'group',
     stack: true,
-    stackCornerRadius: 1000,
     axes: [
       {
         orient: 'left',
@@ -575,8 +579,32 @@ const run = () => {
         }
       }
     ],
+    scrollBar: {
+      orient: 'bottom',
+      auto: true
+    },
     legends: {
       visible: true
+    },
+    tooltip: {
+      trigger: ['click', 'hover'],
+      lockAfterClick: true,
+      dimension: {
+        position: {
+          x: { orient: 'right', mode: 'crosshair' },
+          y: { orient: 'center', mode: 'pointer' }
+        }
+      },
+      mark: {
+        position: {
+          x: { orient: 'right', mode: 'crosshair' },
+          y: { orient: 'center', mode: 'pointer' }
+        }
+      }
+    },
+    crosshair: {
+      trigger: ['click', 'hover'],
+      lockAfterClick: true
     }
   };
 

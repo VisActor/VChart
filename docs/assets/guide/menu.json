@@ -649,6 +649,13 @@
           }
         },
         {
+          "path": "Load_on_Demand",
+          "title": {
+            "zh": "VChart 按需加载教程",
+            "en": "VChart Load on Demand Tutorial"
+          }
+        },
+        {
           "path": "Cross-terminal_and_Developer_Ecology",
           "title": {
             "zh": "跨端与开发者生态",

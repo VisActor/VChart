@@ -6,8 +6,8 @@ import { progressLikeSeriesMark } from '../polar/progress-like/constant';
 
 export const gaugeSeriesMark: SeriesMarkMap = {
   ...progressLikeSeriesMark,
-  [SeriesMarkNameEnum.segment]: { name: SeriesMarkNameEnum.segment, type: MarkTypeEnum.progressArc },
-  [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.progressArc }
+  [SeriesMarkNameEnum.segment]: { name: SeriesMarkNameEnum.segment, type: MarkTypeEnum.arc },
+  [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.arc }
 };
 
 export const gaugePointerSeriesMark: SeriesMarkMap = {

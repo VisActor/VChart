@@ -4,6 +4,8 @@ import type { IElement } from '@visactor/vgrammar-core';
 import type { BaseEventParams } from '../event/interface';
 import type { IMark } from '../mark/interface';
 import type { IInteraction } from './interface';
+import type { IInteraction as IVGrammarInteraction } from '@visactor/vgrammar-core';
+
 import { stateToReverse } from '../compile/mark/util';
 
 export class Interaction implements IInteraction {
@@ -11,6 +13,15 @@ export class Interaction implements IInteraction {
   private _stateMarks: Map<StateValue, IMark[]> = new Map();
   // active
   private _stateElements: Map<StateValue, IElement[]> = new Map();
+
+  private _vgrammarInteractions: Map<StateValue, IVGrammarInteraction[]> = new Map();
+  addVgrammarInteraction(state: StateValue, i: IVGrammarInteraction) {
+    if (!this._vgrammarInteractions.get(state)) {
+      !this._vgrammarInteractions.set(state, [i]);
+    } else {
+      this._vgrammarInteractions.get(state).push(i);
+    }
+  }
 
   static markStateEnable(mark: IMark, state: string) {
     return !isEmpty(mark.stateStyle[state]);
@@ -161,6 +172,36 @@ export class Interaction implements IInteraction {
             });
         });
       }
+    }
+  }
+
+  /**
+   * hover/select 交互通过 vgrammar 代理
+   * @param stateValue
+   * @param activeElement
+   * @returns
+   */
+  startInteraction(stateValue: StateValue, element: IElement) {
+    const interactions = this._vgrammarInteractions.get(stateValue);
+    if (interactions) {
+      interactions.forEach(vgInteraction => {
+        vgInteraction.start(element);
+      });
+    }
+  }
+
+  /**
+   * hover/select 交互通过 vgrammar 代理
+   * @param stateValue
+   * @param activeElement
+   * @returns
+   */
+  resetInteraction(stateValue: StateValue, element: IElement) {
+    const interactions = this._vgrammarInteractions.get(stateValue);
+    if (interactions) {
+      interactions.forEach(vgInteraction => {
+        vgInteraction.reset(element);
+      });
     }
   }
 }

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: `x` & `y` of the tooltip position can be fixed separately, related #2320",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

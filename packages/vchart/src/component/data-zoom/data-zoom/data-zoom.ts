@@ -34,6 +34,7 @@ import type { IZoomable } from '../../../interaction/zoom';
 import type { CartesianAxis } from '../../axis/cartesian';
 import type { IModelSpecInfo } from '../../../model/interface';
 import { DataZoomSpecTransformer } from './data-zoom-transformer';
+import { getFormatFunction } from '../../util';
 
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
@@ -434,12 +435,12 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       endHandlerStyle: transformToGraphic(this._spec.endHandler?.style) as unknown as ISymbolGraphicAttribute,
       startTextStyle: {
         padding: startText.padding,
-        formatMethod: startText.formatMethod,
+        formatMethod: this._getHandlerTextFormatMethod(startText),
         textStyle: transformToGraphic(startText.style)
       } as unknown,
       endTextStyle: {
         padding: endText.padding,
-        formatMethod: endText.formatMethod,
+        formatMethod: this._getHandlerTextFormatMethod(endText),
         textStyle: transformToGraphic(endText.style)
       } as unknown,
       selectedBackgroundStyle: transformToGraphic(
@@ -464,6 +465,12 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       },
       disableTriggerEvent: this._option.disableTriggerEvent
     };
+  }
+
+  protected _getHandlerTextFormatMethod(spec: IDataZoomSpec['startText']) {
+    const { formatMethod, formatter } = spec;
+    const { formatFunc } = getFormatFunction(formatMethod, formatter);
+    return formatFunc ? (text: any) => formatFunc(text, { label: text }, formatter) : undefined;
   }
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {

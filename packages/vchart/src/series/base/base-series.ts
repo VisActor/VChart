@@ -711,7 +711,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   private _createExtensionMark(
-    spec: IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec,
+    spec: IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec,
     parentMark: null | IGroupMark,
     namePrefix: string,
     index: number,
@@ -727,7 +727,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         dataView: false,
         customShape: spec?.customShape,
         componentType: spec.componentType,
-        depend: options.depend
+        depend: options.depend,
+        key: spec.dataKey
       }
     ) as IGroupMark;
     if (!mark) {
@@ -805,6 +806,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     if (finalHoverSpec.enable) {
       res.push({
+        vchartState: STATE_VALUE_ENUM.STATE_HOVER,
         seriesId: this.id,
         regionId: this._region.id,
         selector: mainMarks.map(mark => `#${mark.getProductId()}`),
@@ -818,6 +820,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     if (finalSelectSpec.enable) {
       res.push({
+        vchartState: STATE_VALUE_ENUM.STATE_SELECTED,
         type: 'element-select',
         seriesId: this.id,
         regionId: this._region.id,

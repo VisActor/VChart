@@ -1,9 +1,16 @@
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec } from '../../../typings/visual';
-import type { DiscreteLegendAttrs, LegendItemDatum, LegendItem } from '@visactor/vrender-components';
+import type {
+  DiscreteLegendAttrs,
+  LegendItemDatum,
+  LegendItem,
+  LegendPagerAttributes,
+  LegendScrollbarAttributes
+} from '@visactor/vrender-components';
 import type { ILegendCommonSpec, NoVisibleMarkStyle } from '../interface';
 import type { IFormatMethod, StringOrNumber } from '../../../typings';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGlobalScale } from '../../../scale/interface';
+import type { ComponentThemeWithDirection } from '../../interface';
 
 // export type formatterCallback = (text: StringOrNumber, item: LegendItemDatum, index: number) => any;
 export type formatterCallback = IFormatMethod<[text: StringOrNumber, item: LegendItemDatum, index: number]>;
@@ -40,6 +47,14 @@ export type LegendItemStyle<T> = {
 
 export type IItem = {
   /**
+   * @since 1.10.0
+   * 指定图例项中图标和文字的摆放位置，可选值为：
+   * 'left' 图标在左侧
+   * 'right' 图标在右侧
+   * 默认值为： 'left'
+   */
+  align?: 'left' | 'right';
+  /**
    * 图例项背景配置
    */
   background?: {
@@ -64,6 +79,11 @@ export type IItem = {
    */
   label?: {
     /**
+     * @since 1.10.0
+     * 当 label + value 同时展示，文字超长的时候，label的宽度占比
+     */
+    widthRatio?: number;
+    /**
      * 图例项 label 同后面 value 的间距
      */
     space?: number;
@@ -71,11 +91,22 @@ export type IItem = {
      * 格式化文本函数
      */
     formatMethod?: formatterCallback;
+    /**
+     * 格式化模板
+     * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+     * @since 1.10.0
+     */
+    formatter?: string;
   } & LegendItemStyle<LegendItemStyleValue<NoVisibleMarkStyle<ITextMarkSpec>>>;
   /**
    * 图例项 value 配置
    */
   value?: {
+    /**
+     * @since 1.10.0
+     * 当 label + value 同时展示，文字超长的时候，label的宽度占比
+     */
+    widthRatio?: number;
     /** value 同后面元素的间距 */
     space?: number;
     /**
@@ -87,6 +118,12 @@ export type IItem = {
      * 格式化文本函数
      */
     formatMethod?: formatterCallback;
+    /**
+     * 格式化模板
+     * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+     * @since 1.10.0
+     */
+    formatter?: string | string[];
   } & LegendItemStyle<LegendItemStyleValue<NoVisibleMarkStyle<ITextMarkSpec>>>;
   /**
    * 聚焦按钮配置
@@ -107,6 +144,14 @@ export type IItem = {
    * 可使用百分比，表示显示区域的高度占比。
    */
   height?: number | string;
+  /**
+   * @since 1.10.0
+   * 当label+ value同时存在的时候，自动省略的策略
+   * 'labelFirst' - 尽量保证完整展示`label`
+   * 'valueFirst' - 尽量保证完整展示`value`
+   * 'none' - 按照`widthRatio`展示label 和 value
+   */
+  autoEllipsisStrategy?: 'labelFirst' | 'valueFirst' | 'none';
 } & Omit<LegendItem, 'background' | 'shape' | 'label' | 'value' | 'focusIconStyle' | 'width' | 'height' | 'maxWidth'>;
 
 export type IPager = {
@@ -139,7 +184,13 @@ export type IPager = {
       disable?: Omit<NoVisibleMarkStyle<ISymbolMarkSpec>, 'symbolType'>;
     };
   };
-} & Omit<DiscreteLegendAttrs['pager'], 'textStyle' | 'handler'>;
+} & Omit<LegendPagerAttributes, 'textStyle' | 'handler'>;
+
+export type ILegendScrollbar = {
+  type: 'scrollbar';
+  railStyle?: Omit<Partial<NoVisibleMarkStyle<IRectMarkSpec>>, 'width' | 'height'>;
+  sliderStyle?: Omit<Partial<NoVisibleMarkStyle<IRectMarkSpec>>, 'width' | 'height'>;
+} & Omit<LegendScrollbarAttributes, 'railStyle' | 'sliderStyle'>;
 
 /** spec */
 export type IDiscreteLegendSpec = ILegendCommonSpec & {
@@ -159,7 +210,7 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
   /**
    * 翻页器配置
    */
-  pager?: IPager;
+  pager?: IPager | ILegendScrollbar;
 
   /**
    * scaleName must match the id of the scale configured in **scales**
@@ -171,10 +222,16 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
    * If the domain of the scale is not dependent on data statistics, series.getSeriesField() is used by default
    */
   field?: string;
+  /**
+   * 默认筛选的数据范围
+   */
+  defaultSelected?: string[];
 } & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager'>;
 
 // theme 主题相关配置
-export type IDiscreteLegendTheme = Omit<
+export type IDiscreteLegendCommonTheme = Omit<
   IDiscreteLegendSpec,
   'type' | 'data' | 'regionIndex' | 'regionId' | 'seriesIndex' | 'seriesId' | 'id' | 'defaultSelected'
 >;
+
+export type IDiscreteLegendTheme = ComponentThemeWithDirection<IDiscreteLegendCommonTheme>;

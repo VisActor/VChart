@@ -1,9 +1,9 @@
 import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor } from '@visactor/vchart';
-import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle, ReactNode } from 'react';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
 import type { IView } from '@visactor/vgrammar-core';
-import { isEqual, pickWithout } from '@visactor/vutils';
+import { isEqual, isNil, pickWithout } from '@visactor/vutils';
 import ViewContext from '../context/view';
 import { toArray } from '../util';
 import { REACT_PRIVATE_PROPS } from '../constants';
@@ -21,6 +21,8 @@ import {
   HierarchyEventProps,
   ChartLifeCycleEventProps
 } from '../eventsUtils';
+import { IReactTooltipProps } from '../components/tooltip/interface';
+import { initCustomTooltip } from '../components/tooltip/util';
 
 export type ChartOptions = Omit<IInitOption, 'dom'>;
 
@@ -33,7 +35,8 @@ export interface BaseChartProps
     PlayerEventProps,
     DimensionEventProps,
     HierarchyEventProps,
-    ChartLifeCycleEventProps {
+    ChartLifeCycleEventProps,
+    IReactTooltipProps {
   vchartConstrouctor?: IVChartConstructor;
   type?: string;
   /** 上层container */
@@ -80,14 +83,26 @@ const notSpecKeys = [
   'options'
 ];
 
+const getComponentId = (child: React.ReactNode, index: number) => {
+  const componentName = child && (child as any).type && ((child as any).type.displayName || (child as any).type.name);
+  return `${componentName}-${index}`;
+};
+
 const parseSpecFromChildren = (props: Props) => {
   const specFromChildren: Omit<ISpec, 'type' | 'data' | 'width' | 'height'> = {};
 
-  toArray(props.children).map(child => {
+  toArray(props.children).map((child, index) => {
     const parseSpec = child && (child as any).type && (child as any).type.parseSpec;
 
     if (parseSpec && (child as any).props) {
-      const specResult = parseSpec((child as any).props);
+      const childProps = isNil((child as any).props.componentId)
+        ? {
+            ...(child as any).props,
+            componentId: getComponentId(child, index)
+          }
+        : (child as any).props;
+
+      const specResult = parseSpec(childProps);
 
       if (specResult.isSingle) {
         specFromChildren[specResult.specName] = specResult.spec;
@@ -115,16 +130,22 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
   const specFromChildren = useRef<Omit<ISpec, 'type' | 'data' | 'width' | 'height'>>(null);
   const eventsBinded = React.useRef<BaseChartProps>(null);
   const skipFunctionDiff = !!props.skipFunctionDiff;
+  const [tooltipNode, setTooltipNode] = useState<ReactNode>(null);
 
   const parseSpec = (props: Props) => {
+    let spec: ISpec = undefined;
+
     if (hasSpec && props.spec) {
-      return props.spec;
+      spec = props.spec;
+    } else {
+      spec = {
+        ...prevSpec.current,
+        ...specFromChildren.current
+      } as ISpec;
     }
 
-    return {
-      ...prevSpec.current,
-      ...specFromChildren.current
-    } as ISpec;
+    spec.tooltip = initCustomTooltip(setTooltipNode, props, spec.tooltip);
+    return spec;
   };
 
   const createChart = (props: Props) => {
@@ -135,6 +156,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       dom: props.container
     });
     chartContext.current = { ...chartContext.current, chart: cs };
+    isUnmount.current = false;
   };
 
   const handleChartRender = () => {
@@ -175,7 +197,6 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
       createChart(props);
       renderChart();
-      bindEventsToChart(chartContext.current.chart, props, null, CHART_EVENTS);
       eventsBinded.current = props;
       return;
     }
@@ -217,6 +238,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
           chartContext.current.chart = null;
         }
       }
+      eventsBinded.current = null;
       isUnmount.current = true;
     };
   }, []);
@@ -229,9 +251,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
             return;
           }
 
-          const componentName =
-            child && (child as any).type && ((child as any).type.displayName || (child as any).type.name);
-          const childId = `${componentName}-${index}`;
+          const childId = getComponentId(child, index);
 
           return (
             <React.Fragment key={childId}>
@@ -242,6 +262,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
             </React.Fragment>
           );
         })}
+        {tooltipNode}
       </ViewContext.Provider>
     </RootChartContext.Provider>
   );

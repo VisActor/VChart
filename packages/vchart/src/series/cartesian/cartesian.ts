@@ -10,7 +10,8 @@ import {
   STACK_FIELD_START,
   STACK_FIELD_START_PERCENT,
   STACK_FIELD_START_OffsetSilhouette,
-  PREFIX
+  PREFIX,
+  ChartEvent
 } from '../../constant';
 import type { IAxisHelper } from '../../component/axis/cartesian/interface';
 import type { DirectionType } from '../../typings/space';
@@ -147,39 +148,43 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
 
   getStatisticFields() {
     const fields: { key: string; operations: StatisticOperations }[] = [];
-    if (this.getXAxisHelper()?.getScale) {
-      (this._fieldX2 ? [...this._fieldX, this._fieldX2] : this._fieldX).forEach(f => {
-        const result: { key: string; operations: Array<'max' | 'min' | 'values'> } = { key: f, operations: [] };
-        if (isContinuous(this.getXAxisHelper().getScale(0).type)) {
-          result.operations = ['max', 'min'];
-        } else {
-          result.operations = ['values'];
-        }
-        fields.push(result);
-      });
-    }
-    if (this.getYAxisHelper()?.getScale) {
-      (this._fieldY2 ? [...this._fieldY, this._fieldY2] : this._fieldY).forEach(f => {
-        const result: { key: string; operations: Array<'max' | 'min' | 'values'> } = { key: f, operations: [] };
-        if (isContinuous(this.getYAxisHelper().getScale(0).type)) {
-          result.operations = ['max', 'min'];
-        } else {
-          result.operations = ['values'];
-        }
-        fields.push(result);
-      });
-    }
-    if (this._fieldZ && this.getZAxisHelper()?.getScale) {
-      this._fieldZ.forEach(f => {
-        const result: { key: string; operations: Array<'max' | 'min' | 'values'> } = { key: f, operations: [] };
-        if (isContinuous(this.getZAxisHelper().getScale(0).type)) {
-          result.operations = ['max', 'min'];
-        } else {
-          result.operations = ['values'];
-        }
-        fields.push(result);
-      });
-    }
+    const axes = [
+      {
+        axisHelper: this.getXAxisHelper(),
+        fields: this._fieldX2 ? [...this._fieldX, this._fieldX2] : this._fieldX
+      },
+      {
+        axisHelper: this.getYAxisHelper(),
+        fields: this._fieldY2 ? [...this._fieldY, this._fieldY2] : this._fieldY
+      },
+      {
+        axisHelper: this.getZAxisHelper(),
+        fields: this._fieldZ
+      }
+    ];
+
+    axes.forEach(axisOption => {
+      if (axisOption.axisHelper && axisOption.axisHelper.getScale && axisOption.fields) {
+        axisOption.fields.forEach(f => {
+          const result: { key: string; operations: Array<'max' | 'min' | 'values'>; filter?: (fv: any) => boolean } = {
+            key: f,
+            operations: []
+          };
+          const scale = axisOption.axisHelper.getScale(0);
+          if (isContinuous(scale.type)) {
+            result.operations = ['max', 'min'];
+
+            if (scale.type === 'log') {
+              result.filter = (fv: any) => fv > 0;
+            }
+          } else {
+            result.operations = ['values'];
+          }
+          fields.push(result);
+        });
+      }
+    });
+
     if (this.getStack()) {
       fields.push({
         key: this.getStackValueField(),
@@ -494,10 +499,22 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return this._specYField;
   }
 
-  viewDataUpdate(d: DataView): void {
-    super.viewDataUpdate(d);
+  protected initEvent() {
+    super.initEvent();
+    // 通过轴事件来进行排序。轴的domain数据变化在系列的统计数据完成后
     if (this.sortDataByAxis) {
-      this._sortDataInAxisDomain();
+      this.event.on(
+        ChartEvent.scaleDomainUpdate,
+        {
+          filter: param =>
+            param.model.id ===
+            (this._direction === Direction.horizontal ? this._yAxisHelper : this._xAxisHelper)?.getAxisId()
+        },
+        () => {
+          // 只能排序，不能修改数据，此时已经在数据流的统计流程之后
+          this._sortDataInAxisDomain();
+        }
+      );
     }
   }
 

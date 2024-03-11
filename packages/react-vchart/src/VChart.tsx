@@ -1,5 +1,4 @@
 import { BaseChartProps, createChart } from './charts/BaseChart';
-import type { IVChartConstructor } from '@visactor/vchart';
 import VChartCore from '@visactor/vchart';
 export { VChartCore };
 

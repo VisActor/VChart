@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add more tooltip shape configs in `tooltip.style` of the chart spec, related #2292",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

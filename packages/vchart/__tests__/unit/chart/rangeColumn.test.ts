@@ -51,7 +51,8 @@ describe('rangeColumn chart test', () => {
     const transformer = new RangeColumnChart.transformerConstructor({
       type: 'rangeColumn',
       seriesType: 'rangeColumn',
-      getTheme: () => ThemeManager.getCurrentTheme(true)
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
     const chart = new RangeColumnChart(

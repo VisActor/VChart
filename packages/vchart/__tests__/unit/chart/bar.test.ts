@@ -92,7 +92,8 @@ describe('Bar chart test', () => {
     const transformer = new BarChart.transformerConstructor({
       type: 'bar',
       seriesType: 'bar',
-      getTheme: () => ThemeManager.getCurrentTheme(true)
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
     chart = new BarChart(

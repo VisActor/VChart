@@ -1,6 +1,6 @@
 import type { RichTextWordBreak } from '@visactor/vrender-core';
-import type { StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
-import type { Padding } from '@visactor/vrender-components/es/core/type';
+import type { ITooltipShapeActual, StringOrNumber, TextAlign, TextBaseLine } from '../../../typings';
+import type { Padding } from '@visactor/vrender-components';
 import type { ITokenKey } from '../../../theme/token';
 
 export interface ITooltipTextTheme<ColorType = string> {
@@ -66,7 +66,7 @@ export interface ITooltipTheme<ColorType = string> {
     size?: number;
     /** shape 与相邻元素的水平间距 */
     spacing?: number;
-  };
+  } & ITooltipShapeActual;
   /** tooltip标题 */
   titleLabel?: ITooltipTextTheme<ColorType>;
   /** tooltip内容，key字段 */

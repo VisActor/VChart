@@ -41,7 +41,8 @@ describe('linearProgress chart test', () => {
     const transformer = new LinearProgressChart.transformerConstructor({
       type: 'linearProgress',
       seriesType: 'linearProgress',
-      getTheme: () => ThemeManager.getCurrentTheme(true)
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
     const chart = new LinearProgressChart(

@@ -26,6 +26,7 @@ import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
 import type { ILayoutRect } from '../../../typings/layout';
 import type { Datum } from '../../../typings';
+import { getFormatFunction } from '../../util';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static specKey = 'legends';
@@ -184,6 +185,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       maxHeight: rect.height
     };
     this._addDefaultTitleText(attrs);
+    this._addLegendItemFormatMethods(attrs);
     return attrs;
   }
 
@@ -244,6 +246,24 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       ? this._spec.data(originData, this._option.globalScale.getScale('color'), this._option.globalScale)
       : originData;
     return legendItems;
+  }
+
+  private _addLegendItemFormatMethods(attrs: any) {
+    const { formatMethod: labelFormatMethod, formatter: labelFormatter } = this._spec.item?.label ?? {};
+    const { formatMethod: valueFormatMethod, formatter: valueFormatter } = this._spec.item?.value ?? {};
+
+    const { formatFunc: labelFormatFunc } = getFormatFunction(labelFormatMethod, labelFormatter);
+    if (labelFormatter && !labelFormatMethod && labelFormatFunc) {
+      attrs.item.label.formatMethod = (value: string, datum: any) => {
+        return labelFormatFunc(value, datum, labelFormatter);
+      };
+    }
+    const { formatFunc: valueFormatFunc } = getFormatFunction(valueFormatMethod, valueFormatter);
+    if (valueFormatter && !valueFormatMethod && valueFormatFunc) {
+      attrs.item.value.formatMethod = (value: string, datum: any) => {
+        return valueFormatFunc(valueFormatter, value, datum, labelFormatter);
+      };
+    }
   }
 }
 

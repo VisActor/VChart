@@ -1,6 +1,6 @@
 import type { Dict, IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { throttle, PointService, isEqual, array, isArray, isNumber, get, isBoolean } from '@visactor/vutils';
+import { throttle, PointService, isEqual, isArray, isNumber, get, isBoolean } from '@visactor/vutils';
 import { RenderModeEnum } from '../../typings/spec/common';
 import type { BaseEventParams, EventType } from '../../event/interface';
 import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
@@ -36,6 +36,12 @@ export interface IHair {
     visible: boolean;
     /** 格式化函数 */
     formatMethod?: (text: StringOrNumber | string[], position: string) => string | string[];
+    /**
+     * 格式化模板
+     * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+     * @since 1.10.0
+     */
+    formatter?: string | string[];
     /** 文本样式 */
     textStyle?: Dict<any>;
     minWidth?: number;
@@ -44,6 +50,10 @@ export interface IHair {
     panel?: Dict<any>;
     zIndex?: number;
   };
+}
+
+export interface IHairRadius extends IHair {
+  smooth?: boolean;
 }
 
 const ORIENT_MAP = {
@@ -194,7 +204,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     this._layoutCrosshair(x, y);
 
     const components = this._getNeedClearVRenderComponents();
-    this._hasActive = components.some(comp => comp && comp.attribute.visible);
+    this._hasActive = components.some(comp => comp && comp.attribute.visible !== false);
   };
 
   private _handleClickInEvent = (params: any) => {
@@ -336,20 +346,6 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     }
   }
 
-  protected _firstSeries<T>(): T | null {
-    for (let i = 0; i < this._regions.length; i++) {
-      const r = this._regions[i];
-      const series = r.getSeries();
-      for (let j = 0; j < series.length; j++) {
-        const s = series[j];
-        if (s) {
-          return s as unknown as T;
-        }
-      }
-    }
-    return null;
-  }
-
   protected _parseCrosshairSpec() {
     this._parseFieldInfo();
 
@@ -422,6 +418,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       hair.label = {
         visible: true,
         formatMethod: label.formatMethod,
+        formatter: label.formatter,
         minWidth: labelBackground.minWidth,
         maxWidth: labelBackground.maxWidth,
         padding: labelBackground.padding,

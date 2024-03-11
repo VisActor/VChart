@@ -3,7 +3,7 @@ import { MarkTypeEnum } from '../../mark/interface/type';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum, SeriesMarkNameEnum } from '../interface/type';
 import { BarSeries } from './bar';
-import { Rect3dMark, registerRect3dMark } from '../../mark/rect-3d';
+import { registerRect3dMark } from '../../mark/rect-3d';
 import type { IBar3dSeriesSpec } from './interface';
 import type { AdaptiveSpec } from '../../typings';
 import { bar3dSeriesMark } from './constant';

@@ -9,7 +9,8 @@ import type {
   IVisualScale,
   IVisualSpecStyle,
   ICommonSpec,
-  FunctionType
+  FunctionType,
+  ValueType
 } from '../../typings';
 
 import { mergeSpec } from '../../util/spec/merge-spec';
@@ -100,23 +101,26 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     this._initSpecStyle(spec, this.stateStyle, key);
   }
 
-  convertAngleToRadian(styleConverter: StyleConvert<number>): StyleConvert<any> {
-    // 用户传入的angle配置，需要做一层转换
-    if (isNumber(styleConverter)) {
-      return degreeToRadian(styleConverter) as StyleConvert<any>;
-    } else if ((styleConverter as VisualScaleType).scale) {
-      const range = (styleConverter as VisualScaleType).scale.range();
-
-      (styleConverter as VisualScaleType).scale.range(range.map(degreeToRadian));
-
-      return styleConverter as StyleConvert<any>;
+  protected _transformStyleValue<T>(
+    styleConverter: StyleConvert<T>,
+    transform: (value: ValueType<T>) => ValueType<T>
+  ): StyleConvert<any> {
+    if ((styleConverter as VisualScaleType).scale) {
+      const scale = (styleConverter as VisualScaleType).scale;
+      const range = scale.range();
+      scale.range(range.map(transform));
+      return styleConverter as StyleConvert<T>;
     } else if (typeof styleConverter === 'function') {
-      return ((item: any, ctx: any, opt: IAttributeOpt, source?: DataView) => {
-        return degreeToRadian((styleConverter as FunctionType<number>)(item, ctx, opt, source));
-      }) as StyleConvert<any>;
+      return ((...args) => {
+        return transform((styleConverter as FunctionType<number>)(...args) as ValueType<T>);
+      }) as StyleConvert<T>;
     }
+    return transform(styleConverter as ValueType<T>);
+  }
 
-    return styleConverter;
+  convertAngleToRadian(styleConverter: StyleConvert<number>) {
+    // 用户传入的角度配置，需要做一层转换
+    return this._transformStyleValue(styleConverter, degreeToRadian);
   }
 
   isUserLevel(level: number) {
@@ -138,7 +142,6 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     if (isNil(style)) {
       return;
     }
-    style = this._filterStyle(style, state, level, stateStyle);
 
     if (stateStyle[state] === undefined) {
       stateStyle[state] = {};
@@ -162,16 +165,6 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     return this.stateStyle[state][key]?.style;
   }
 
-  /** 过滤用户传来的 style 对象 */
-  protected _filterStyle(
-    style: Partial<IMarkStyle<T>>,
-    state: StateValueType,
-    level: number,
-    stateStyle = this.stateStyle
-  ): Partial<IMarkStyle<T>> {
-    return style;
-  }
-
   /** 过滤单个 attribute */
   protected _filterAttribute<U extends keyof T>(
     attr: U,
@@ -182,8 +175,17 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     stateStyle = this.stateStyle
   ): StyleConvert<T[U]> {
     let newStyle = this._styleConvert(style);
-    if (isUserLevel && attr === 'angle') {
-      newStyle = this.convertAngleToRadian(newStyle as StyleConvert<number>);
+    if (isUserLevel) {
+      switch (attr) {
+        case 'angle':
+          newStyle = this.convertAngleToRadian(newStyle);
+          break;
+        case 'innerPadding':
+        case 'outerPadding':
+          // VRender 的 padding 定义基于 centent-box 盒模型，默认正方向是向外扩，与 VChart 不一致。这里将 padding 符号取反
+          newStyle = this._transformStyleValue(newStyle, (value: number) => -value);
+          break;
+      }
     }
     return newStyle;
   }
@@ -347,6 +349,9 @@ export class BaseMark<T extends ICommonSpec> extends CompilableMark implements I
     }
     if (stateStyle.referer) {
       return stateStyle.referer._computeAttribute(key, state);
+    }
+    if (!stateStyle.style) {
+      return (datum: Datum, opt: IAttributeOpt) => stateStyle.style;
     }
 
     if (typeof stateStyle.style === 'function') {

@@ -25,6 +25,9 @@ export const waterfall: IWaterfallSeriesTheme = {
   label: {
     visible: false,
     offset: 12,
-    position: 'inside'
+    position: 'inside',
+    style: {
+      lineWidth: 2
+    }
   }
 };

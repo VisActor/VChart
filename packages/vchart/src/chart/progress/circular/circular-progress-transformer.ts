@@ -31,6 +31,9 @@ export class CircularProgressChartSpecTransformer<
       {
         orient: 'radius',
         visible: false
+      },
+      {
+        forceInitTick: spec.tickMask && spec.tickMask.visible !== false
       }
     );
   }

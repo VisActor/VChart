@@ -20,12 +20,10 @@ import type { IBoundsLike } from '@visactor/vutils';
 import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import type { VChart } from '../core/vchart';
+import { VChart } from '../core/vchart';
 import type { IColor, Stage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import { Event_Source_Type } from '../constant';
-// eslint-disable-next-line no-duplicate-imports
-import { vglobal } from '@visactor/vrender-core';
 
 type EventListener = {
   type: string;
@@ -176,7 +174,13 @@ export class Compiler {
       });
 
       Object.keys(regionCombindInteractions).forEach(key => {
-        this._view.interaction(regionCombindInteractions[key].type, regionCombindInteractions[key]);
+        const interaction = this._view.interaction(regionCombindInteractions[key].type, regionCombindInteractions[key]);
+        if (this._compileChart) {
+          const region = this._compileChart.getRegionsInIds([regionCombindInteractions[key].regionId])[0];
+          if (region) {
+            region.interaction.addVgrammarInteraction(regionCombindInteractions[key].vchartState, interaction);
+          }
+        }
       });
     }
   }
@@ -204,7 +208,7 @@ export class Compiler {
 
   renderNextTick(morphConfig?: IMorphConfig): void {
     if (!this._nextRafId) {
-      this._nextRafId = vglobal.getRequestAnimationFrame()(() => {
+      this._nextRafId = VChart.vglobal.getRequestAnimationFrame()(() => {
         this._nextRafId = null;
         this.render(morphConfig);
       }) as unknown as number;
@@ -213,7 +217,7 @@ export class Compiler {
 
   render(morphConfig?: IMorphConfig) {
     if (this._nextRafId) {
-      vglobal.getCancelAnimationFrame()(this._nextRafId);
+      VChart.vglobal.getCancelAnimationFrame()(this._nextRafId);
       this._nextRafId = null;
     }
     if (this._isRunning) {

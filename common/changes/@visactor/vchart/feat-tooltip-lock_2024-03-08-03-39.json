@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: tooltip supports the same `lockAfterClick` as crosshair, related #2352",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -4,7 +4,7 @@ import { isPercent } from '../../../util/space';
 import { mergeSpec } from '../../../util/spec/merge-spec';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
 import { transformLegendTitleAttributes } from '../util';
-import type { IDiscreteLegendSpec } from './interface';
+import type { IDiscreteLegendSpec, ILegendScrollbar, IPager } from './interface';
 import type { ILayoutRect } from '../../../typings/layout';
 
 export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect) {
@@ -59,11 +59,21 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
   }
   attrs.item = item;
 
-  // transform pager
-  if (!isEmpty(pager.textStyle)) {
-    transformToGraphic(pager.textStyle);
+  if ((pager as ILegendScrollbar).type === 'scrollbar') {
+    if (!isEmpty((pager as ILegendScrollbar).railStyle)) {
+      transformToGraphic((pager as ILegendScrollbar).railStyle);
+    }
+    if (!isEmpty((pager as ILegendScrollbar).sliderStyle)) {
+      transformToGraphic((pager as ILegendScrollbar).sliderStyle);
+    }
+  } else {
+    // transform pager
+    if (!isEmpty((pager as IPager).textStyle)) {
+      transformToGraphic((pager as IPager).textStyle);
+    }
+    transformComponentStyle((pager as IPager).handler);
   }
-  transformComponentStyle(pager.handler);
+
   attrs.pager = pager;
 
   if (background.visible && !isEmpty(background.style)) {

@@ -43,7 +43,7 @@ export interface ITheme {
    * 用户自定义的语义化 token，可以在主题中以 ITokenKey 的形式引用并作为常量赋值
    * @since 1.10.0
    */
-  tokenMap?: TokenMap;
+  token?: TokenMap;
 
   /**
    * 第 3 种配置：色板

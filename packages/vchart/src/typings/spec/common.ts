@@ -29,7 +29,6 @@ import type {
   ILinkPathMarkSpec,
   IPathMarkSpec,
   IPolygonMarkSpec,
-  IProgressArcMarkSpec,
   IPyramid3dMarkSpec,
   IRect3dMarkSpec,
   IRectMarkSpec,
@@ -45,7 +44,7 @@ import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
 import type { IMorphSeriesSpec } from '../../animation/spec';
 import type { IPlayer } from '../../component/player';
-import { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
+import type { IMarkProgressiveConfig, MarkTypeEnum } from '../../mark/interface';
 import type { IDataZoomSpec, IScrollBarSpec } from '../../component/data-zoom';
 import type { ICrosshairSpec } from '../../component/crosshair/interface';
 import type { ITheme } from '../../theme';
@@ -443,7 +442,7 @@ export interface ISeriesSpec extends IInteractionSpec {
   /**
    * 扩展mark
    */
-  extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, MarkTypeEnum.group>> | IExtensionGroupMarkSpec)[];
+  extensionMark?: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[];
 
   /**
    * series background
@@ -613,36 +612,41 @@ export interface IPerformanceHook {
   afterVRenderDraw?: () => void;
 }
 
-export type IBuiltInMarkSpec = {
-  [MarkTypeEnum.group]: IGroupMarkSpec;
-
-  [MarkTypeEnum.symbol]: ISymbolMarkSpec;
-  [MarkTypeEnum.rule]: IRuleMarkSpec;
-  [MarkTypeEnum.line]: ILineMarkSpec;
-  [MarkTypeEnum.text]: IComposedTextMarkSpec;
-  [MarkTypeEnum.rect]: IRectMarkSpec;
-  [MarkTypeEnum.rect3d]: IRect3dMarkSpec;
-  [MarkTypeEnum.image]: IImageMarkSpec;
-  [MarkTypeEnum.path]: IPathMarkSpec;
-  [MarkTypeEnum.area]: IAreaMarkSpec;
-  [MarkTypeEnum.arc]: IArcMarkSpec;
-  [MarkTypeEnum.arc3d]: IArc3dMarkSpec;
-  [MarkTypeEnum.polygon]: IPolygonMarkSpec;
-  [MarkTypeEnum.pyramid3d]: IPyramid3dMarkSpec;
-  [MarkTypeEnum.boxPlot]: IBoxPlotMarkSpec;
-  [MarkTypeEnum.linkPath]: ILinkPathMarkSpec;
-  [MarkTypeEnum.progressArc]: IProgressArcMarkSpec;
-  [MarkTypeEnum.ripple]: IRippleMarkSpec;
+export type IBuildinMarkSpec = {
+  group: IGroupMarkSpec;
+  symbol: ISymbolMarkSpec;
+  rule: IRuleMarkSpec;
+  line: ILineMarkSpec;
+  text: ITextMarkSpec;
+  rect: IRectMarkSpec;
+  rect3d: IRect3dMarkSpec;
+  image: IImageMarkSpec;
+  path: IPathMarkSpec;
+  area: IAreaMarkSpec;
+  arc: IArcMarkSpec;
+  arc3d: IArc3dMarkSpec;
+  polygon: IPolygonMarkSpec;
+  pyramid3d: IPyramid3dMarkSpec;
+  boxPlot: IBoxPlotMarkSpec;
+  linkPath: ILinkPathMarkSpec;
+  ripple: IRippleMarkSpec;
 };
-export type EnableMarkType = keyof IBuiltInMarkSpec;
 
-export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuiltInMarkSpec[T]> {
+export type EnableMarkType = keyof IBuildinMarkSpec;
+export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {
   type: T;
   /**
    * 关联的数据索引
    * @default 与系列使用同一份数据
    */
   dataIndex?: number;
+  /**
+   * dataKey用于绑定数据与Mark的关系
+   * 如果数据和系列数据一致，可以不配置，默认会读取系列中的配置
+   *
+   * @support since 1.9.5
+   */
+  dataKey?: string | ((datum: any) => string);
   /**
    * 关联的数据id
    */
@@ -657,12 +661,19 @@ export interface ICustomMarkGroupSpec extends ICustomMarkSpec<MarkTypeEnum.group
   children?: ICustomMarkSpec<EnableMarkType>[];
 }
 
-export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, MarkTypeEnum.group>> extends ICustomMarkSpec<T> {
+export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, 'group'>> extends ICustomMarkSpec<T> {
   /**
    * 关联的数据索引
    * @default 与系列使用同一份数据
    */
   dataIndex?: number;
+  /**
+   * dataKey用于绑定数据与Mark的关系
+   * 如果数据和系列数据一致，可以不配置，默认会读取系列中的配置
+   *
+   * @support since 1.9.5
+   */
+  dataKey?: string | ((datum: any) => string);
   /**
    * 关联的数据id
    */
