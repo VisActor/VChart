@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: when region style is empty, should not create _backgroundMark or _foregroundMark",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
