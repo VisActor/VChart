@@ -15,4 +15,8 @@ export class BasePlugin<T extends IBasePluginService = IBasePluginService> imple
   onAdd(service: T): void {
     this.service = service;
   }
+
+  release(): void {
+    this.service = null;
+  }
 }

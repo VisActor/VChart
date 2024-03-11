@@ -125,7 +125,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
       });
     }
     this._container = null;
-    this.pluginService?.disposeAll();
+    this.pluginService?.releaseAll();
     this.pluginService = null;
   }
 

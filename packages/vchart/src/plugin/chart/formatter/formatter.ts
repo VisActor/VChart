@@ -2,7 +2,7 @@ import { isFunction, isArray, TimeUtil, NumberUtil, numberSpecifierReg } from '@
 
 import { BasePlugin } from '../../base/base-plugin';
 
-import { IChartPlugin, IChartPluginService } from '../interface';
+import type { IChartPlugin, IChartPluginService } from '../interface';
 import { Factory, registerChartPlugin } from '../../../core';
 
 const bracketReg = /\{([^}]+)\}/;
@@ -81,9 +81,8 @@ export class FormatterPlugin extends BasePlugin implements IChartPlugin {
 
     if (isArray(formatter)) {
       return formatter.map(f => this._formatSingleLine(text, datum, f));
-    } else {
-      return this._formatSingleLine(text, datum, formatter);
     }
+    return this._formatSingleLine(text, datum, formatter);
   }
 
   protected _formatSingleLine(text: string | number, datum: any, formatter: string) {
@@ -102,17 +101,15 @@ export class FormatterPlugin extends BasePlugin implements IChartPlugin {
         if (!hasFormatter) {
           const value = datum[key.trim()];
           return typeof value !== 'undefined' ? value : match;
-        } else {
-          const parts = key.split(':');
-          const value = datum[parts.shift()];
-          const valueFormatter = parts.join(':');
-          return this._formatSingleText(value, valueFormatter);
         }
+        const parts = key.split(':');
+        const value = datum[parts.shift()];
+        const valueFormatter = parts.join(':');
+        return this._formatSingleText(value, valueFormatter);
       });
       return result;
-    } else {
-      return this._formatSingleText(text, formatter);
     }
+    return this._formatSingleText(text, formatter);
   }
 
   protected _formatSingleText(text: string | number, formatter: string): string | number {
@@ -132,12 +129,12 @@ export class FormatterPlugin extends BasePlugin implements IChartPlugin {
       return this._numericFormatter(formatter, Number(text));
     } else if (formatter.includes('%') && this._timeFormatter) {
       return this._timeFormatter(formatter, text);
-    } else {
-      return text;
     }
+    return text;
   }
 
-  dispose() {
+  release() {
+    super.release();
     this._format = null;
     this._timeFormatter = null;
     this._numericFormatter = null;

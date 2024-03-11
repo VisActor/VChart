@@ -111,7 +111,7 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     }
 
     if (resetMediaQuery) {
-      this.dispose();
+      this.release();
     }
     if (!this._initialized) {
       // 初始化媒体查询
@@ -235,7 +235,8 @@ export class MediaQuery extends BasePlugin implements IChartPlugin {
     }
   }
 
-  dispose() {
+  release() {
+    super.release();
     this._initialized = false;
     this._spec = [];
     this._option = undefined;
