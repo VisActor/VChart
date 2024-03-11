@@ -62,7 +62,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   private _regionAxisMap: { [regionId: string]: AxisComponent[] } = {};
   // 根据axis找dataZoom
   private _axisDataZoomMap: { [axisId: string]: DataZoom } = {};
-  //
+  // 记录当前操作的axis或dataZoom的状态
   private _zoomRecord: { operateComponent: AxisComponent | DataZoom; start: number; end: number }[] = [];
 
   init() {
@@ -126,8 +126,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     for (const brushName in elementsMap) {
       for (const elementKey in elementsMap[brushName]) {
         data.push({
-          ...elementsMap[brushName][elementKey].data[0],
-          getSeries: (elementsMap[brushName][elementKey] as any).getSeries // 将series info写入element, 更新dataZoom范围时需要使用
+          ...elementsMap[brushName][elementKey].data[0]
         });
       }
     }
@@ -311,7 +310,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       }
       const elements = grammarMark.elements;
       elements.forEach((el: IElement) => {
-        (el as any).getSeries = (mark as any).getSeries;
         const graphicItem = el.getGraphicItem();
         const elementKey = mark.id + '_' + el.key;
         // 判断逻辑:
@@ -607,13 +605,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
           (seriesIndex && array(seriesIndex).includes(s.getSpecIndex())) ||
           (!seriesIndex && !seriesUserId)
         ) {
-          // series系列info 写入mark, 便于进一步写入element
-          allMarks.push(
-            ...s.getMarksWithoutRoot().map(mark => {
-              (mark as any).getSeries = () => s;
-              return mark;
-            })
-          );
+          allMarks.push(...s.getMarksWithoutRoot());
         }
         this._itemMap[r.id] = allMarks;
       });

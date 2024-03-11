@@ -112,27 +112,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     reverse: true
   };
 
-  get orient() {
-    return this._orient;
-  }
-  get isHorizontal() {
-    return this._isHorizontal;
-  }
-  get stateScale() {
-    return this._stateScale;
-  }
-
   get relatedAxisComponent() {
     return this._relatedAxisComponent;
-  }
-
-  get state() {
-    return {
-      start: this._start,
-      end: this._end,
-      startValue: this._startValue,
-      endValue: this._endValue
-    };
   }
 
   /**
