@@ -88,17 +88,24 @@ Event-triggering delay duration.
 
 ### sizeThreshold(number) = 5
 
-brush选框的大小阈值。自 `1.2.0` 版本开始支持。
+The size threshold of the brush selection box. Supported since version `1.2.0`.
 
-### dataZoomId(string|string[])
+### brushZoom(boolean) = false
+Whether to turn on the brush to remove the drill. Effective from version 0.10.0.
 
-Retrieve the associated dataZoom id, which only takes effect when the currently operated region/series and dataZoom are associated with the same axis. Effective from version 0.10.0.
+### axisId(string|string[])
 
-### dataZoomIndex(number|number[])
+Brush the axisId of the linkage. Effective from version 0.10.0.
+1. If you enable brush removal and drilling, all associated axes and dataZoom will be linked by default.
+2. DataZoom filterMode: 'axis' can only be used for brushing normally (filterMode: 'filter' will change the axis domain, causing calculation errors)
 
-Brush the associated dataZoom index, which only takes effect when the currently operated region/series and dataZoom are associated with the same axis. Effective from version 0.10.0.
+### axisIndex(number|number[])
 
-### dataZoomRangeExpand(number)
+Brush the linked axisIndex. Effective from version 0.10.0.
+1. If you enable brush removal and drilling, all associated axes and dataZoom will be linked by default.
+2. DataZoom filterMode: 'axis' can only be used for brushing normally (filterMode: 'filter' will change the axis domain, causing calculation errors)
+
+### axisRangeExpand(number)
 When updating the dataZoom range, expand the range, expand the range by percentage, for example: dataZoomRangeExpand = 0.05, which means newStart - 0.05 & newEnd + 0.05 during update.:
 1. When scaling continuous axes: The zero, nice, min, max and other configurations of the axis may cause the axis range to be inconsistent with the dataZoom range (this problem is best solved through DataZoom.customDomain)
 2. When scaling the continuous axis: The scatter plot is positioned according to the scatter point center. If updated strictly according to the center range, the scatter points will exceed the canvas.

@@ -115,8 +115,8 @@ const spec = {
     outOfBrush: {
       colorAlpha: 0.2
     },
-    // for related dataZoom
-    dataZoomIndex: [0, 1],
+    // 开启后默认关联所有axis/dataZoom
+    brushZoom: true
   },
   tooltip: {
     dimension: {

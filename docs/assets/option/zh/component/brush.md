@@ -88,17 +88,24 @@
 
 ### sizeThreshold(number) = 5
 
-The size threshold of the brush selection box. Supported since version `1.2.0`.
+brush选框的大小阈值。自 `1.2.0` 版本开始支持。
 
-### dataZoomId(string|string[])
+### brushZoom(boolean) = false
+是否开启刷取下钻。自0.10.0版本生效。
 
-刷取关联的dataZoom id, 只有当前操作的region/series与dataZoom关联同一个axis时生效。自0.10.0版本生效。
+### axisId(string|string[])
 
-### dataZoomIndex(number|number[])
+刷取联动的axisId。自0.10.0版本生效。
+1. 如果开启刷取下钻, 默认联动所有关联axis和dataZoom。
+2. dataZoom filterMode: 'axis'时刷取才能正常进行（filterMode: 'filter'会改变axis domain, 导致计算错误）
 
-刷取关联的dataZoom index, 只有当前操作的region/series与dataZoom关联同一个axis时生效。自0.10.0版本生效。
+### axisIndex(number|number[])
 
-### dataZoomRangeExpand(number)
+刷取联动的axisIndex。自0.10.0版本生效。
+1. 如果开启刷取下钻, 默认联动所有关联axis和dataZoom。
+2. dataZoom filterMode: 'axis'时刷取才能正常进行（filterMode: 'filter'会改变axis domain, 导致计算错误）
+
+### axisRangeExpand(number)
 更新dataZoom范围时, 按百分比进行范围拓展, 比如: dataZoomRangeExpand = 0.05, 则代表更新时newStart - 0.05 & newEnd + 0.05。
 可能需要配置dataZoomRangeExpand的情况:
 1. 缩放连续轴时: 轴的zero、nice、min、max等配置可能导致轴范围与dataZoom范围不一致（这个问题最好通过DataZoom.customDomain解决）

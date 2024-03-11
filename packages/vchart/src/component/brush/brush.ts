@@ -19,9 +19,8 @@ import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle }
 import { isEqual } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import type { DataZoom } from '../data-zoom';
-import type { IAxis } from '../axis/interface/common';
-import { isContinuous } from '@visactor/vscale';
-import type { Datum } from '../../typings/common';
+import type { IBandLikeScale, IContinuousScale, ILinearScale } from '@visactor/vscale';
+import type { AxisComponent } from '../axis/base-axis';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -58,6 +57,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   private _needDisablePickable: boolean = false;
 
   private _relatedDataZooms: DataZoom[] = [];
+  private _releatedAxes: AxisComponent[] = [];
+
+  // 根据region找axis
+  private _regionAxisMap: { [regionId: string]: AxisComponent[] } = {};
+  // 根据axis找dataZoom
+  private _axisDataZoomMap: { [axisId: string]: DataZoom } = {};
 
   init() {
     const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec.inBrush);
@@ -110,7 +115,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     this.initEvent();
     this._bindRegions();
     this._bindLinkedSeries();
-    this._bindDataZoom();
+    this._initRegionAxisMap();
+    this._initAxisDataZoomMap();
     this._initNeedOperatedItem();
   }
 
@@ -227,14 +233,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._needDisablePickable = false;
       const { operateMask } = e.detail as any;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
-      this._setDataZoomState(operateMask, region);
+      this._setAxisAndDataZoom(operateMask, region);
       this._emitEvent(ChartEvent.brushEnd, region);
     });
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
       const { operateMask } = e.detail as any;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
-      this._setDataZoomState(operateMask, region);
+      this._setAxisAndDataZoom(operateMask, region);
       this._emitEvent(ChartEvent.brushEnd, region);
     });
   }
@@ -471,78 +477,53 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return brushMask.globalAABBBounds.intersects(item.globalAABBBounds);
   }
 
-  private _findValueInDataZoom(dataZoom: DataZoom, dataValue: any[], type: 'min' | 'max') {
-    const stateScale = dataZoom.stateScale;
-    if (isContinuous(stateScale.type)) {
-      return Math[type](...dataValue);
+  private _setAxisAndDataZoom(operateMask: IPolygon, region: IRegion) {
+    if (this._spec.brushZoom) {
+      // step1: 拿到brush bounds, 计算 continuous axis/dataZoom新范围
+      const operateMaskBounds = operateMask.AABBBounds;
+
+      // step2:
+      // 如果轴关联了dataZoom，则通过dataZoom更新轴
+      // 如果轴没有关联dataZoom，则直接更改轴rangeFactor
+      this._regionAxisMap['region_' + region.id]?.forEach(axis => {
+        const isHorizontal = axis.layoutOrient === 'bottom' || axis.layoutOrient === 'top';
+        const axisRangeExpand = this._spec.axisRangeExpand ?? 0;
+        const { x1, x2, y1, y2 } = operateMaskBounds;
+        const regionStartAttr = isHorizontal ? 'x' : 'y';
+        const boundsStart = isHorizontal ? x1 : y1;
+        const boundsEnd = isHorizontal ? x2 : y2;
+
+        if (this._axisDataZoomMap[axis.id]) {
+          const dataZoom = this._axisDataZoomMap[axis.id];
+          const releatedAxis = dataZoom.relatedAxisComponent as AxisComponent;
+          const startValue = releatedAxis
+            .getScale()
+            .invert(boundsStart - region.getLayoutStartPoint()[regionStartAttr]);
+          const endValue = releatedAxis.getScale().invert(boundsEnd - region.getLayoutStartPoint()[regionStartAttr]);
+          const startPercent = dataZoom.dataToStatePoint(startValue);
+          const endPercent = dataZoom.dataToStatePoint(endValue);
+          dataZoom.setStartAndEnd(
+            Math.min(Math.max(0, startPercent - axisRangeExpand), 1),
+            Math.min(Math.max(0, endPercent + axisRangeExpand), 1),
+            ['percent', 'percent']
+          );
+        } else {
+          const range = axis.getScale().range();
+          const rangeFactor = (axis.getScale() as IContinuousScale | IBandLikeScale).rangeFactor() ?? [0, 1];
+          const startPos = boundsStart - region.getLayoutStartPoint()[regionStartAttr];
+          const endPos = boundsEnd - region.getLayoutStartPoint()[regionStartAttr];
+          const start =
+            ((startPos - range[0]) / (range[1] - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
+          const end =
+            ((endPos - range[0]) / (range[1] - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
+          (axis.getScale() as ILinearScale).rangeFactor([
+            Math.min(Math.max(0, Math.min(start, end) - axisRangeExpand), 1),
+            Math.min(Math.max(0, Math.max(start, end) + axisRangeExpand), 1)
+          ]);
+          axis.effect.scaleUpdate();
+        }
+      });
     }
-    const domain = stateScale.domain();
-    const dataIndex = dataValue.map(d => d.indexOf(domain));
-    return domain[Math[type](...dataIndex)];
-  }
-
-  private _setDataZoomComponent(
-    dataZooms: DataZoom[],
-    region: IRegion,
-    operateMaskBounds: IBounds,
-    inBrushDataValue: Datum[],
-    isHorizontal: boolean
-  ) {
-    const range = this._spec.dataZoomRangeExpand ?? 0;
-    const { x1, x2, y1, y2 } = operateMaskBounds;
-    const regionStartAttr = isHorizontal ? 'x' : 'y';
-    const boundsStart = isHorizontal ? x1 : y1;
-    const boundsEnd = isHorizontal ? x2 : y2;
-    dataZooms.forEach((dz: DataZoom) => {
-      const startValue =
-        dz.relatedAxisComponent && inBrushDataValue.length > 0
-          ? (dz.relatedAxisComponent as IAxis)
-              .getScale()
-              .invert(boundsStart - region.getLayoutStartPoint()[regionStartAttr])
-          : this._findValueInDataZoom(dz, inBrushDataValue, 'min');
-      const endValue =
-        dz.relatedAxisComponent && inBrushDataValue.length > 0
-          ? (dz.relatedAxisComponent as IAxis)
-              .getScale()
-              .invert(boundsEnd - region.getLayoutStartPoint()[regionStartAttr])
-          : this._findValueInDataZoom(dz, inBrushDataValue, 'max');
-
-      const startPercent = dz.dataToStatePoint(startValue);
-      const endPercent = dz.dataToStatePoint(endValue);
-      dz.setStartAndEnd(Math.min(Math.max(0, startPercent - range), 1), Math.min(Math.max(0, endPercent + range), 1), [
-        'percent',
-        'percent'
-      ]);
-    });
-  }
-
-  private _setDataZoomState(operateMask: IPolygon, region: IRegion) {
-    // step1: 找到横向 & 纵向 datazoom
-    const hDataZooms: DataZoom[] = [];
-    const vDataZooms: DataZoom[] = [];
-    this._relatedDataZooms.forEach(dz => {
-      if (dz.isHorizontal) {
-        hDataZooms.push(dz);
-      } else {
-        vDataZooms.push(dz);
-      }
-    });
-
-    // step2: 拿到brush bounds, 计算dataZoom新范围
-    const operateMaskBounds = operateMask.AABBBounds;
-
-    // step3: 拿到brushData, 计算dataZoom新范围
-    const inBrushDataXValue: Datum[] = [];
-    const inBrushDataYValue: Datum[] = [];
-    this._extendDataInBrush(this._inBrushElementsMap).forEach(item => {
-      const spec = item.getSeries().getSpec();
-      inBrushDataXValue.push(item[array(spec.xField)[0]]);
-      inBrushDataYValue.push(item[array(spec.yField)[0]]);
-    });
-
-    // step4: 重置新范围的起点和终点值
-    this._setDataZoomComponent(hDataZooms, region, operateMaskBounds, inBrushDataXValue, true);
-    this._setDataZoomComponent(vDataZooms, region, operateMaskBounds, inBrushDataYValue, false);
   }
 
   protected _bindRegions() {
@@ -565,17 +546,39 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     );
   }
 
-  private _bindDataZoom() {
-    if (this._spec.dataZoomId) {
-      array(this._spec.dataZoomId).forEach((dataZoomId: string) => {
-        this._relatedDataZooms.push(this._option.getComponentByUserId(dataZoomId) as DataZoom);
+  private _initRegionAxisMap() {
+    // 如果配置了axis，则按配置
+    // 如果没有配置axis，则默认所有axis
+    if (isValid(this._spec.axisId)) {
+      array(this._spec.axisId).forEach((axisId: string) => {
+        this._releatedAxes.push(this._option.getComponentByUserId(axisId) as AxisComponent);
       });
-    }
-    if (this._spec.dataZoomIndex) {
-      array(this._spec.dataZoomIndex).forEach((dataZoomIndex: number) => {
-        this._relatedDataZooms.push(this._option.getComponentByIndex('dataZoom', dataZoomIndex) as DataZoom);
+    } else if (isValid(this._spec.axisIndex)) {
+      array(this._spec.axisIndex).forEach((axisIndex: number) => {
+        this._releatedAxes.push(this._option.getComponentByIndex('axes', axisIndex) as AxisComponent);
       });
+    } else {
+      this._releatedAxes = this._option.getComponentsByKey('axes') as AxisComponent[];
     }
+
+    // 按照region进行分组，便于brush找到关联axis (brush -> region -> axis)
+    this._releatedAxes.forEach((axis: AxisComponent) => {
+      axis?.getRegions().forEach((region: IRegion) => {
+        if (this._regionAxisMap['region_' + region.id]) {
+          this._regionAxisMap['region_' + region.id].push(axis);
+        } else {
+          this._regionAxisMap['region_' + region.id] = [axis];
+        }
+      });
+    });
+  }
+
+  private _initAxisDataZoomMap() {
+    (this._option.getComponentsByKey('dataZoom') as DataZoom[]).forEach((dz: DataZoom) => {
+      if (dz.relatedAxisComponent) {
+        this._axisDataZoomMap[(dz.relatedAxisComponent as AxisComponent).id] = dz;
+      }
+    });
   }
 
   private _initNeedOperatedItem() {

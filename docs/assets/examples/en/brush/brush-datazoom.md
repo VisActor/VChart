@@ -115,8 +115,8 @@ const spec = {
     outOfBrush: {
       colorAlpha: 0.2
     },
-    // for related dataZoom
-    dataZoomIndex: [0, 1],
+    // all axis/dataZoom will be associated by default
+    brushZoom: true
   },
   tooltip: {
     dimension: {

@@ -40,8 +40,8 @@ const spec = {
     {
       type: 'linear',
       orient: 'left',
-      max: maxData,
-      min: minData,
+      // max: maxData,
+      // min: minData,
       id: 'yAxis',
       zero: false,
       nice: false
@@ -50,9 +50,10 @@ const spec = {
       type: 'linear',
       orient: 'bottom',
       zero: false,
-      nice: false,
-      max: 50000,
-      min: 0
+      nice: false
+      // domainLine
+      // max: 50000,
+      // min: 0
     }
   ],
   dataZoom: [
@@ -60,8 +61,8 @@ const spec = {
       filterMode: 'axis',
       orient: 'bottom',
       id: 'xDataZoom',
-      showDetail: true,
-      customDomain: [0, 50000]
+      showDetail: true
+      // customDomain: [1600, 50000]
     },
     {
       filterMode: 'axis',
@@ -69,19 +70,23 @@ const spec = {
       axisId: 'yAxis',
       id: 'yDataZoom',
       showDetail: true,
-      customDomain: [minData, maxData]
+      realTime: true
+      // customDomain: [minData, maxData],
+      // start: 0.3,
+      // end: 0.5
     }
   ],
   brush: {
     visible: true,
     brushType: 'rect',
+    brushZoom: true,
+    axisIndex: 0,
     inBrush: {
       colorAlpha: 1
     },
     outOfBrush: {
       colorAlpha: 0.2
-    },
-    dataZoomIndex: [0, 1]
+    }
   },
   tooltip: {
     dimension: {

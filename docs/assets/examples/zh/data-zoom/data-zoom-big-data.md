@@ -86,13 +86,16 @@ const spec = {
       start: 0.95,
       end: 1,
       maxSpan: 0.05,
-      backgroundChart: {
+      tolerance: 4,
+      selectedBackgroundChart: {
         area: {
+          visible: false,
           style: {
             visible: false
           }
         },
         line: {
+          visible: false,
           style: {
             visible: false
           }
