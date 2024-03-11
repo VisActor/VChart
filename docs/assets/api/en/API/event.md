@@ -305,6 +305,8 @@ The event parameters are as follows:
     linkedInBrushElementsMap: { [brushName: string]: { [elementKey: string]: IElement } };
     /** In linked series: vgrammar elements outside the marquee */
     linkedOutOfBrushElementsMap: { [elementKey: string]: IElement };
+     /** record of axis and datazoom change */
+    zoomRecord: { operateComponent: AxisComponent | DataZoom; start: number; end: number }[];
   }
 }
 ```
