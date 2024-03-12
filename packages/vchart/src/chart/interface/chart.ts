@@ -1,11 +1,11 @@
 import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IRunningConfig as IMorphConfig, IView } from '@visactor/vgrammar-core';
+import type { IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
 import type { IModel, IModelConstructor, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
-import type { IRegion, IRegionConstructor, IRegionSpec } from '../../region/interface';
+import type { IRegion, IRegionConstructor } from '../../region/interface';
 import type { ISeries, ISeriesConstructor } from '../../series/interface';
 import type {
   IChartEvaluateOption,
@@ -27,11 +27,10 @@ import type {
   IShowTooltipOption,
   IDataValues,
   ILayoutRect,
-  IData,
-  ISeriesSpec
+  IData
 } from '../../typings';
+// eslint-disable-next-line no-duplicate-imports
 import type { DataView } from '@visactor/vdataset';
-import { spec } from 'node:test/reporters';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
