@@ -224,7 +224,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   getStack() {
-    return this.getSpecInfo().stack;
+    return this.getSpecInfo()?.stack;
   }
 
   getStackValue() {
