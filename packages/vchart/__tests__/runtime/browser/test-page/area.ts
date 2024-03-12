@@ -83,7 +83,18 @@ const spec: IAreaChartSpec = {
         }
       }
     }
-  ]
+  ],
+  theme: {
+    series: {
+      area_stack: {
+        area: {
+          style: {
+            fill: 'red'
+          }
+        }
+      }
+    }
+  }
 };
 
 const run = () => {

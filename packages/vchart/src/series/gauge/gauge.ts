@@ -27,7 +27,6 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
   private _segmentMark: IArcMark | null = null;
   private _trackMark: IArcMark | null = null;
 
-  protected _stack: boolean = false;
   protected _padAngle: number = 0;
 
   setAttrFromSpec(): void {

@@ -16,6 +16,7 @@ import { Factory } from '../../../core/factory';
 import { registerProgressLikeAnimation } from '../../polar/progress-like';
 import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IMark } from '../../../mark/interface';
+import { CircularProgressSeriesSpecTransformer } from './circular-transformer';
 
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
@@ -24,6 +25,8 @@ export class CircularProgressSeries<
   type = SeriesTypeEnum.circularProgress;
 
   static readonly mark: SeriesMarkMap = circularProgressSeriesMark;
+  static readonly transformerConstructor = CircularProgressSeriesSpecTransformer as any;
+  readonly transformerConstructor = CircularProgressSeriesSpecTransformer;
 
   private _progressMark: IArcMark | null = null;
   private _trackMark: IArcMark | null = null;
@@ -131,13 +134,13 @@ export class CircularProgressSeries<
           x: () => this.angleAxisHelper.center().x,
           y: () => this.angleAxisHelper.center().y,
           startAngle: () => {
-            const fieldName = this._stack ? STACK_FIELD_START : this._angleField[0];
+            const fieldName = this.getStack() ? STACK_FIELD_START : this._angleField[0];
             const scale = this.angleAxisHelper.getScale(0);
             const domain = scale.domain();
             return this._getAngleValueStart({ [fieldName]: domain[0] });
           },
           endAngle: () => {
-            const fieldName = this._stack ? STACK_FIELD_END : this._angleField[0];
+            const fieldName = this.getStack() ? STACK_FIELD_END : this._angleField[0];
             const scale = this.angleAxisHelper.getScale(0);
             const domain = scale.domain();
             return this._getAngleValueEnd({ [fieldName]: domain[domain.length - 1] });
