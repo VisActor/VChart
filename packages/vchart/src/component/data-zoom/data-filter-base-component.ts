@@ -542,22 +542,24 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const scale = this._stateScale;
     const domain = scale.domain();
 
-    // 下面整体的逻辑本来可以用scale invert，但scale invert在大数据场景下性能不太好，所以这里自行计算
+    // continuous scale: 本来可以用scale invert，但scale invert在大数据场景下性能不太好，所以这里自行计算
     if (isContinuous(scale.type)) {
       if (this._isReverse()) {
         return domain[0] + (domain[1] - domain[0]) * (1 - state);
       }
       return domain[0] + (domain[1] - domain[0]) * state;
     }
-    let range = scale.range();
 
+    // discete scale: 根据bandSize计算不准确, bandSize不是最新的, 导致index计算错误, 所以仍然使用invert
+    let range = scale.range();
     if (this._isReverse()) {
       range = range.slice().reverse();
     }
     const posInRange: number = range[0] + (range[1] - range[0]) * state;
-    const bandSize = (scale as BandScale).bandwidth();
-    const domainIndex = Math.min(Math.max(0, Math.floor(posInRange / bandSize)), domain.length - 1);
-    return domain[domainIndex];
+    // const bandSize = (scale as BandScale).bandwidth();
+    // const domainIndex = Math.min(Math.max(0, Math.floor(posInRange / bandSize)), domain.length - 1);
+    // return domain[domainIndex];
+    return scale.invert(posInRange);
   }
 
   dataToStatePoint(data: number | string) {
@@ -644,10 +646,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           .domain(domain.length ? [minInArray(domainNum), maxInArray(domainNum)] : [0, 1], true)
           .range(defaultRange);
       } else {
-        this._stateScale.domain(domain, true).range(defaultRange).padding(0);
+        this._stateScale.domain(domain, true).range(defaultRange);
       }
     } else {
-      this._stateScale = new BandScale().padding(0);
+      this._stateScale = new BandScale();
       this._stateScale.domain(this._computeDomainOfStateScale(), true).range(defaultRange);
     }
   }
