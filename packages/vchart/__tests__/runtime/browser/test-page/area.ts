@@ -91,7 +91,8 @@ const spec: IAreaChartSpec = {
           style: {
             fill: 'red'
           }
-        }
+        },
+        seriesMark: 'line'
       }
     }
   }

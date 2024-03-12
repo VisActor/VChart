@@ -7,7 +7,7 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { AreaAppearPreset } from './animation';
 import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { ILabelSpec } from '../../component';
-import { IMultiLabelSpec } from '../../component/label';
+import type { IMultiLabelSpec } from '../../component/label';
 export interface IAreaSeriesSpec
   extends ICartesianSeriesSpec,
     IAnimationSpec<string, AreaAppearPreset>,
@@ -64,5 +64,27 @@ export interface IAreaSeriesSpec
 }
 
 export interface IAreaSeriesTheme extends ILineLikeSeriesTheme {
+  /**
+   * 面积图元配置
+   */
   [SeriesMarkNameEnum.area]?: Partial<IMarkTheme<IAreaMarkSpec>>;
+  /**
+   * 面积图元标签配置
+   * @since 1.7.0
+   */
+  [SeriesMarkNameEnum.areaLabel]?: Omit<ILabelSpec, 'position'> & {
+    position?: 'start' | 'end';
+  };
+  /**
+   * 系列主 mark 类型配置，该配置会影响图例的展示
+   * @default 'area'
+   * @since 1.2.0
+   */
+  seriesMark?: 'point' | 'line' | 'area';
+  /**
+   * 是否使用额外的 activePoint 显示交互点，可以在点隐藏时显示被交互的点
+   * @default false
+   * @since 1.3.0
+   */
+  activePoint?: boolean;
 }

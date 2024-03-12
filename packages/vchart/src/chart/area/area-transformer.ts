@@ -11,7 +11,7 @@ export class AreaChartSpecTransformer<
       point: spec.point,
       line: spec.line,
       area: spec.area,
-      seriesMark: spec.seriesMark ?? 'area',
+      seriesMark: spec.seriesMark,
       activePoint: spec.activePoint,
       sampling: spec.sampling,
       samplingFactor: spec.samplingFactor,
