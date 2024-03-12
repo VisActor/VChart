@@ -181,6 +181,9 @@ export class EventDispatcher implements IEventDispatcher {
       bubble.release();
     }
     this._canvasBubbles.clear();
+
+    this.globalInstance = null;
+    this._compiler = null;
   }
 
   /**
