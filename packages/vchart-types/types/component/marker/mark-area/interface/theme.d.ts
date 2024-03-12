@@ -6,6 +6,6 @@ export interface IMarkAreaTheme {
         style?: IPolygonMarkSpec;
     };
     label?: {
-        position?: IMarkAreaLabelPosition;
+        position?: keyof typeof IMarkAreaLabelPosition;
     } & IMarkerLabelWithoutRefSpec;
 }

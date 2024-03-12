@@ -4,7 +4,7 @@ import type { IRegion } from '../../region/interface';
 import type { IMark } from '../../mark/interface';
 import type { CoordinateType, IInvalidType, IPoint, DataKeyType, Datum, Maybe, ISeriesSpec, IGroup, ILayoutType, ILayoutPoint, ILayoutRect } from '../../typings';
 import { BaseModel } from '../../model/base-model';
-import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo } from '../interface';
+import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo, ISeriesStackDataLeaf, ISeriesStackDataMeta } from '../interface';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
@@ -59,13 +59,9 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     setSeriesField(field: string): void;
     protected _groups?: IGroup;
     getGroups(): IGroup;
-    protected _stack: boolean;
-    protected _supportStack: boolean;
     getStack(): boolean;
     getStackValue(): import("../../typings").StringOrNumber;
-    protected _percent: boolean;
     getPercent(): boolean;
-    protected _stackOffsetSilhouette: boolean;
     getStackOffsetSilhouette(): boolean;
     protected _dataSet: DataSet;
     protected _tooltipHelper: ISeriesTooltipHelper | undefined;
@@ -227,4 +223,5 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected _getInvalidConnectType(): "none" | "zero" | "connect";
     protected _getInvalidDefined: (datum: Datum) => boolean;
     protected _getRelatedComponentSpecInfo(specKey: string): import("../../model/interface").IModelSpecInfo<any>[];
+    protected _forEachStackGroup(callback: (node: ISeriesStackDataLeaf) => void, node?: ISeriesStackDataMeta): void;
 }

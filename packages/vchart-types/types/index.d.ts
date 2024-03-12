@@ -8,3 +8,4 @@ export * from './component';
 export * from './layout';
 export * from './env';
 export * from './event';
+export * from './plugin';

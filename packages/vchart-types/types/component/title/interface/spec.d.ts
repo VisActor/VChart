@@ -1,14 +1,10 @@
 import type { IComponent } from '../../interface';
 import type { ITextGraphicAttribute, IRichTextCharacter, RichTextWordBreak } from '@visactor/vrender-core';
-import type { IOrientType, IPadding, StringOrNumber } from '../../../typings';
+import type { IOrientType, IPadding } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
-export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
+interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
     visible?: boolean;
     orient?: IOrientType;
-    text?: string | number | string[] | number[] | IRichTextCharacter[];
-    textType?: string;
-    subtext?: string | number | string[] | number[] | IRichTextCharacter[];
-    subtextType?: string;
     x?: number;
     y?: number;
     width?: number;
@@ -43,5 +39,20 @@ export interface ITitleSpec extends Omit<IComponentSpec, 'orient'> {
         character?: IRichTextCharacter[];
     } & Partial<ITextGraphicAttribute>;
 }
-export type Text = StringOrNumber;
+export type ITitleTextSpec = {
+    textType?: 'text';
+    text: string | number | string[] | number[];
+} | {
+    textType: 'rich';
+    text: IRichTextCharacter[];
+};
+export type ISubTitleTextSpec = {
+    subtextType?: 'text';
+    subtext?: string | number | string[] | number[];
+} | {
+    subtextType?: 'rich';
+    subtext?: IRichTextCharacter[];
+};
+export type ITitleSpec = ITitleSpecWithoutText & ITitleTextSpec & ISubTitleTextSpec;
 export type ITitle = IComponent;
+export {};

@@ -21,6 +21,7 @@ export interface IStackCacheNode {
     nodes: {
         [key: string]: IStackCacheNode;
     };
+    key: string;
 }
 export interface IStackCacheRoot {
     nodes: {
@@ -35,4 +36,4 @@ export declare function getRegionStackGroup(region: {
 export declare function stackTotal(stackData: IStackCacheNode, valueField: string): void;
 export declare function stackOffsetSilhouette(stackCache: IStackCacheNode): void;
 export declare function stack(stackCache: IStackCacheNode, stackInverse: boolean, hasPercent?: boolean): void;
-export declare function stackGroup(s: ISeries, stackData: ISeriesStackDataMeta, stackCache: IStackCacheNode, valueField: string, setInitialValue: boolean): void;
+export declare function stackGroup(s: ISeries, stackData: ISeriesStackDataMeta, stackCache: IStackCacheNode, valueField: string, setInitialValue: boolean, stackKey?: string): void;

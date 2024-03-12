@@ -19,6 +19,7 @@ export declare class Factory {
     private static _implements;
     private static _chartPlugin;
     private static _componentPlugin;
+    private static _formatter;
     static transforms: {
         [key: string]: Transform;
     };
@@ -62,4 +63,6 @@ export declare class Factory {
     static getChartPlugins(): IChartPluginConstructor[];
     static getComponentPlugins(): IComponentPluginConstructor[];
     static getComponentPluginInType(type: string): IComponentPluginConstructor;
+    static registerFormatter(func: typeof Factory['_formatter']): void;
+    static getFormatter(): (text: string | number | string[] | number[], datum: any, formatter: string | string[]) => any;
 }

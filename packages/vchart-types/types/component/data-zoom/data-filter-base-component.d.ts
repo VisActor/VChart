@@ -1,6 +1,6 @@
 import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
-import type { IComponent, IComponentOption } from '../interface';
+import { type IComponent, type IComponentOption } from '../interface';
 import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, StringOrNumber } from '../../typings';
 import type { IBaseScale } from '@visactor/vscale';
 import type { ICartesianBandAxisSpec } from '../axis/cartesian';
@@ -19,7 +19,6 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _fixedBandSize?: number;
     protected _cacheRect?: ILayoutRect;
     protected _cacheVisibility?: boolean;
-    get orient(): IOrientType;
     protected _stateScale: IBaseScale;
     protected _relatedAxisComponent: IComponent;
     protected _originalStateFields: Record<number, string | number>;
@@ -45,6 +44,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _zoomAttr: IRoamZoomSpec;
     protected _dragAttr: IRoamDragSpec;
     protected _scrollAttr: IRoamScrollSpec;
+    get relatedAxisComponent(): IComponent;
     setStartAndEnd(start: number | string, end: number | string, rangeMode?: ['percent' | 'value', 'percent' | 'value']): void;
     enableInteraction(): void;
     disableInteraction(): void;
@@ -63,7 +63,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected abstract _handleDataCollectionChange(): void;
     protected _handleChange(start: number, end: number, updateComponent?: boolean): void;
     protected _isReverse(): boolean;
-    protected _updateRangeFactor(tag?: string, label?: string): void;
+    protected _updateRangeFactor(tag?: 'startHandler' | 'endHandler'): void;
     effect: IEffect;
     protected _visible: boolean;
     get visible(): boolean;
@@ -78,7 +78,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _initData(): void;
     setAttrFromSpec(): void;
     protected _statePointToData(state: number): any;
-    protected _dataToStatePoint(data: number | string): number;
+    dataToStatePoint(data: number | string): number;
     protected _modeCheck(statePoint: 'start' | 'end', mode: string): any;
     protected _setStateFromSpec(): void;
     private _parseFieldOfSeries;
