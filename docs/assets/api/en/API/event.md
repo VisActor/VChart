@@ -80,57 +80,117 @@ type SuperEvent = Event & {
 };
 ```
 
-### event filtering
+### Event filtering
 
-If you need to listen to events in a certain part of the chart, you can use the built-in query rules to configure. At present, we provide filtering rules in the following ways:
+If you need to specifically monitor events in a certain part of the chart, you can use the built-in query rules for configuration. Currently, we provide the following filtering rules:
 
-1.  `source`, filtering according to the event source, that is, listening to the event of the window or the chart itself.
+1. `source`, filter according to the event source, that is, listen to the events of the window or the chart itself.
 
 ```ts
-// 监听 window 上的 pointerdown 事件
+//Listen to the pointerdown event on the window
 vchart.on('pointerdown', { source: 'window' }, () => {});
 ```
 
-2.  `level`, filtered according to the event bubbling level, the bubbling order of the events is: 'mark' - > 'model' - > 'chart' - > 'vchart'.
+2. `level`, filter according to the event bubbling level. The bubbling order of events is: 'mark' -> 'model' -> 'chart' -> 'vchart'.
 
 ```ts
-// 监听 bar 图元 上的 pointerdown 事件
+//Listen to the pointerdown event on the bar primitive
 vchart.on('pointerdown', { level: 'mark', type: 'bar' }, () => {});
 ```
 
-3.  `nodeName`, filter according to the picked graph node names. Inside vchart, some component names will be built into some components for user identification.
+3. `nodeName`, filter according to the picked graphics node name. Inside vchart, some component names will be built in for some components to facilitate user identification.
 
 ```ts
-// 监听坐标轴文本上的 pointerdown 事件
+//Listen to the pointerdown event on the axis text
 vchart.on('pointerdown', { nodeName: 'axis-label' }, () => {});
 ```
 
-4.  `markName`, filter according to the name of the mark primitive.
+4. `markName`, filter according to the name of mark primitive.
 
 ```ts
-// 监听 bar 图元 上的 pointerdown 事件
+//Listen to the pointerdown event on the bar primitive
 vchart.on('pointerdown', { markName: 'bar' }, () => {});
 ```
 
-5.  `type`, only used in scenarios where the level is'mark 'or'model', used to filter mark type or diagram constituent element model type
+5. `type`, **only used in scenarios where level is 'mark' or 'model'**, is used to filter mark types or chart component element model types
 
 ```ts
-// 监听坐标轴上的 pointerdown 事件
+//Listen to the pointerdown event on the coordinate axis
 vchart.on('pointerdown', { level: 'model', type: 'axis' }, () => {});
 ```
 
-6.  `id`, filter according to the id configured by the user for the chart widget on the spec
+6. `id`, filter based on the id configured by the user on the spec for the chart component
 
 ```ts
-// 监听 id 为 'axis-left' 的组件事件
+//Listen to the component event with id 'axis-left'
 vchart.on('pointerdown', { id: 'axis-left' }, () => {});
 ```
 
-7.  `filter`, when none of the above filtering configurations meet the requirements, you can filter through a custom filtering function
+7. `filter`, when none of the above filtering configurations meet the needs, you can filter through a custom filtering function
 
 ```ts
 vchart.on('pointerdown', { filter: ({model} => model.id === 45) }, () => {});
 ```
+
+#### Listen to **component** events through event filtering
+
+Through the following event filtering rules, we can monitor the events of each component on the VChart example
+
+```ts
+/**
+ * 'pointerdown' is the event name
+ * Need to declare in event filtering:
+ * 1. `level` is declared as 'model'
+ * 2. `type` declares the name of the component
+ */
+vchart.on('pointerdown', { level: 'model', type: 'axis' }, e => {
+  // The specific graphics picked up by the current event can be obtained through e.event.target
+  console.log('axis pointerdown', e.event.target);
+});
+```
+
+However, it should be noted that not all components enable event interaction by default. For components that are turned off by default, users need to manually enable them on the spec corresponding to the component (such as enabling label event interaction: `label: { interactive: true }`) , the following table lists the current component names of our VChart and how its events are turned on and off by default. You can refer to this table for specific use.
+
+| Component type | Whether to enable event support by default |
+| -------------- | ------------------------------------------ |
+| axis           | Yes                                        |
+| dataZoom       | Yes                                        |
+| indicator      | Yes                                        |
+| legend         | Yes                                        |
+| mapLabel       | Yes                                        |
+| customMark     | Yes                                        |
+| title          | Yes                                        |
+| markLine       | No                                         |
+| markArea       | No                                         |
+| markPoint      | No                                         |
+| label          | No                                         |
+| totalLabel     | No                                         |
+
+#### Monitor **mark primitive** events through event filtering
+
+If you want to listen to the events of mark primitives, you can do it in two ways:
+
+1. Use `markName` to filter, such as:
+
+```ts
+// Listen to the pointerdown event on the bar primitive
+vchart.on('pointerdown', { markName: 'bar' }, (e: EventParams) => {
+  console.log('bar pointerdown', e);
+});
+```
+
+2. Use the `{ level: 'mark', type: 'bar' }` rule to filter, such as:
+
+```ts
+// Listen to the pointerdown event on the bar primitive
+vchart.on('pointerdown', { level: 'mark', type: 'bar' }, (e: EventParams) => {
+  console.log('bar pointerdown', e);
+});
+```
+
+If you want to listen to the events of all primitives, you only need to declare `level: 'mark'`, such as `vchart.on('pointerdown', { level: 'mark'}, e => {})`
+
+The specific primitive types (corresponding to the types configured on the spec) are: 'point', 'line', 'area', 'bar', 'bar3d', 'boxPlot', 'outlier', 'circlePacking', 'dot ', 'funnel','funnel3d', 'link', 'pie', 'rose', 'pie3d', 'word', 'fillingWord', etc.
 
 ## Event classification
 

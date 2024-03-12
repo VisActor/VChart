@@ -63,6 +63,7 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
   }
 
   protected _delegateLabelEvent(component: IGroup) {
+    // TODO: 待优化 @zwx
     if (component.listenerCount('*') === 0) {
       component.addEventListener('*', ((event: any, type: string) =>
         this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);

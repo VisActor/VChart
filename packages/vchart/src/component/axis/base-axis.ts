@@ -177,6 +177,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           }
         );
         gridMark.setZIndex(this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid);
+        gridMark.setInteractive(false); // 轴网格线关闭交互
         this._marks.addMark(gridMark);
         this._gridMark = gridMark;
       }

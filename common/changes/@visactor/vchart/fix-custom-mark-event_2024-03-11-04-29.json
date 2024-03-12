@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: grid component should not be pickable expect its children",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
