@@ -96,6 +96,12 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
    * @since 1.7.0
    */
   ignoreBandSize?: boolean;
+
+  /**
+   * 背景图表节点压缩率, 如果不配置则默认将节点限制在10000个
+   * @since 1.10.0
+   */
+  tolerance?: number;
 }
 
 export type IDataZoomCommonTheme = IComponentSpec &

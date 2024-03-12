@@ -305,6 +305,8 @@ Brush 清除选框事件。
     linkedInBrushElementsMap: { [brushName: string]: { [elementKey: string]: IElement } };
     /** 被链接的系列中：在选框外的 vgrammar elements */
     linkedOutOfBrushElementsMap: { [elementKey: string]: IElement };
+    /** 轴/dataZoom的缩放操作记录 */
+    zoomRecord: { operateComponent: AxisComponent | DataZoom; start: number; end: number }[];
   }
 }
 ```

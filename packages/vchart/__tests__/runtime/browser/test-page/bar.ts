@@ -3,6 +3,42 @@ import { default as VChart } from '../../../../src/index';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 
 const run = () => {
+  const data1 = [
+    { date: 'Day 1', workload: 7000 },
+    { date: 'Day 2', workload: 1000 },
+    { date: 'Day 3', workload: 6000 },
+    { date: 'Day 4', workload: 4000 },
+    { date: 'Day 5', workload: 8000 },
+    { date: 'Day 6', workload: 3000 },
+    { date: 'Day 7', workload: 9000 },
+    { date: 'Day 8', workload: 2000 },
+    { date: 'Day 9', workload: 5000 }
+  ];
+
+  const data2 = [
+    { date: 'Day 1', workload: 1000 },
+    { date: 'Day 2', workload: 2000 },
+    { date: 'Day 3', workload: 3000 },
+    { date: 'Day 4', workload: 4000 },
+    { date: 'Day 5', workload: 5000 }
+  ];
+
+  const data3 = [
+    { date: 'Day 0', workload: 3000 },
+    { date: 'Day 1', workload: 4000 },
+    { date: 'Day 2', workload: 5000 },
+    { date: 'Day3', workload: 6000 },
+    { date: 'Day4', workload: 7000 },
+    { date: 'Day5', workload: 8000 },
+    { date: 'Day 5', workload: 8000 },
+    { date: 'Day 10', workload: 8000 }
+  ];
+
+  /**
+   * @author siji
+   * @desc 测试配置itemContent.confine后, mark point超出画布后是否会向内收缩
+   * @desc github issue: https://github.com/VisActor/VChart/issues/1573
+   */
   const spec = {
     type: 'bar',
     data: [

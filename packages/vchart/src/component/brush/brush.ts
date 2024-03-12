@@ -1,6 +1,6 @@
 import { AttributeLevel, ChartEvent, LayoutZIndex } from '../../constant';
 import { BaseComponent } from '../base/base-component';
-import type { IComponentOption } from '../interface';
+import type { IComponent, IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
 import { Brush as BrushComponent, IOperateType as BrushEvent } from '@visactor/vrender-components';
@@ -9,14 +9,7 @@ import type { IBounds, IPointLike, Maybe } from '@visactor/vutils';
 import { array, isNil, polygonIntersectPolygon, isValid } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type {
-  IGraphic,
-  IGroup,
-  INode,
-  IPolygon,
-  IRectGraphicAttribute,
-  ISymbolGraphicAttribute
-} from '@visactor/vrender-core';
+import type { IGraphic, IGroup, INode, IPolygon, ISymbolGraphicAttribute } from '@visactor/vrender-core';
 import { transformToGraphic } from '../../util/style';
 import type { ISeries } from '../../series/interface';
 import type { IMark } from '../../mark/interface';
@@ -25,6 +18,9 @@ import type { BrushInteractiveRangeAttr, IBrush, IBrushSpec, selectedItemStyle }
 // eslint-disable-next-line no-duplicate-imports
 import { isEqual } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
+import type { DataZoom } from '../data-zoom';
+import type { IBandLikeScale, IContinuousScale, ILinearScale } from '@visactor/vscale';
+import type { AxisComponent } from '../axis/base-axis';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -59,6 +55,15 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   private _cacheInteractiveRangeAttrs: BrushInteractiveRangeAttr[] = [];
 
   private _needDisablePickable: boolean = false;
+
+  private _releatedAxes: AxisComponent[] = [];
+
+  // 根据region找axis
+  private _regionAxisMap: { [regionId: string]: AxisComponent[] } = {};
+  // 根据axis找dataZoom
+  private _axisDataZoomMap: { [axisId: string]: DataZoom } = {};
+  // 记录当前操作的axis或dataZoom的状态
+  private _zoomRecord: { operateComponent: AxisComponent | DataZoom; start: number; end: number }[] = [];
 
   init() {
     const inBrushMarkAttr = this._transformBrushedMarkAttr(this._spec.inBrush);
@@ -111,6 +116,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     this.initEvent();
     this._bindRegions();
     this._bindLinkedSeries();
+    this._initRegionAxisMap();
+    this._initAxisDataZoomMap();
     this._initNeedOperatedItem();
   }
 
@@ -118,7 +125,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     const data = [];
     for (const brushName in elementsMap) {
       for (const elementKey in elementsMap[brushName]) {
-        data.push(elementsMap[brushName][elementKey].data[0]);
+        data.push({
+          ...elementsMap[brushName][elementKey].data[0]
+        });
       }
     }
     return data;
@@ -201,10 +210,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._needDisablePickable = true;
 
       this._handleBrushChange(ChartEvent.brushChange, region, e);
+      this._emitEvent(ChartEvent.brushChange, region);
     });
 
     brush.addEventListener(BrushEvent.moving, (e: any) => {
       this._handleBrushChange(ChartEvent.brushChange, region, e);
+      this._emitEvent(ChartEvent.brushChange, region);
     });
 
     brush.addEventListener(BrushEvent.brushClear, (e: any) => {
@@ -213,16 +224,24 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._needDisablePickable = false;
       this._handleBrushChange(ChartEvent.brushChange, region, e);
       this._handleBrushChange(ChartEvent.brushClear, region, e);
+      this._emitEvent(ChartEvent.brushChange, region);
+      this._emitEvent(ChartEvent.brushClear, region);
     });
 
     brush.addEventListener(BrushEvent.drawEnd, (e: any) => {
       this._needInitOutState = true;
       this._needDisablePickable = false;
+      const { operateMask } = e.detail as any;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
+      this._setAxisAndDataZoom(operateMask, region);
+      this._emitEvent(ChartEvent.brushEnd, region);
     });
 
     brush.addEventListener(BrushEvent.moveEnd, (e: any) => {
+      const { operateMask } = e.detail as any;
       this._handleBrushChange(ChartEvent.brushEnd, region, e);
+      this._setAxisAndDataZoom(operateMask, region);
+      this._emitEvent(ChartEvent.brushEnd, region);
     });
   }
 
@@ -230,8 +249,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     const { operateMask } = e.detail as any;
     this._reconfigItem(operateMask, region);
     this._reconfigLinkedItem(operateMask, region);
-
-    this._emitEvent(eventType, region);
   }
 
   private _emitEvent(eventType: string, region: IRegion) {
@@ -257,7 +274,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         // 被链接的系列中：在选框内的 vgrammar elements
         linkedInBrushElementsMap: this._linkedInBrushElementsMap,
         // 被链接的系列中：在选框外的 vgrammar elements
-        linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap
+        linkedOutOfBrushElementsMap: this._linkedOutOfBrushElementsMap,
+        // 缩放记录
+        zoomRecord: this._zoomRecord
       }
     });
   }
@@ -457,6 +476,69 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     return brushMask.globalAABBBounds.intersects(item.globalAABBBounds);
   }
 
+  private _stateClamp(state: number) {
+    return Math.min(Math.max(0, state), 1);
+  }
+
+  private _setAxisAndDataZoom(operateMask: IPolygon, region: IRegion) {
+    this._zoomRecord = [];
+    if (this._spec.zoomAfterBrush) {
+      // step1: 拿到brush bounds, 计算 continuous axis/dataZoom新范围
+      const operateMaskBounds = operateMask.AABBBounds;
+
+      // step2:
+      // 如果轴关联了dataZoom，则通过dataZoom更新轴
+      // 如果轴没有关联dataZoom，则直接更改轴rangeFactor
+      this._regionAxisMap['region_' + region.id]?.forEach(axis => {
+        const isHorizontal = axis.layoutOrient === 'bottom' || axis.layoutOrient === 'top';
+        const axisRangeExpand = this._spec.axisRangeExpand ?? 0;
+        const { x1, x2, y1, y2 } = operateMaskBounds;
+        const regionStartAttr = isHorizontal ? 'x' : 'y';
+        const boundsStart = isHorizontal ? x1 : y1;
+        const boundsEnd = isHorizontal ? x2 : y2;
+
+        if (this._axisDataZoomMap[axis.id]) {
+          const dataZoom = this._axisDataZoomMap[axis.id];
+          const releatedAxis = dataZoom.relatedAxisComponent as AxisComponent;
+          const startValue = releatedAxis
+            .getScale()
+            .invert(boundsStart - region.getLayoutStartPoint()[regionStartAttr]);
+          const endValue = releatedAxis.getScale().invert(boundsEnd - region.getLayoutStartPoint()[regionStartAttr]);
+          const startPercent = dataZoom.dataToStatePoint(startValue);
+          const endPercent = dataZoom.dataToStatePoint(endValue);
+          const newStartPercent = this._stateClamp(startPercent - axisRangeExpand);
+          const newEndPercent = this._stateClamp(endPercent + axisRangeExpand);
+          dataZoom.setStartAndEnd(newStartPercent, newEndPercent, ['percent', 'percent']);
+
+          this._zoomRecord.push({
+            operateComponent: dataZoom,
+            start: newStartPercent,
+            end: newEndPercent
+          });
+        } else {
+          const range = axis.getScale().range();
+          const rangeFactor = (axis.getScale() as IContinuousScale | IBandLikeScale).rangeFactor() ?? [0, 1];
+          const startPos = boundsStart - region.getLayoutStartPoint()[regionStartAttr];
+          const endPos = boundsEnd - region.getLayoutStartPoint()[regionStartAttr];
+          const start =
+            ((startPos - range[0]) / (range[1] - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
+          const end =
+            ((endPos - range[0]) / (range[1] - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
+          const newStart = this._stateClamp(start - axisRangeExpand);
+          const newEnd = this._stateClamp(end + axisRangeExpand);
+          (axis.getScale() as ILinearScale).rangeFactor([newStart, newEnd]);
+          axis.effect.scaleUpdate();
+
+          this._zoomRecord.push({
+            operateComponent: axis,
+            start: newStart,
+            end: newEnd
+          });
+        }
+      });
+    }
+  }
+
   protected _bindRegions() {
     if (isValid(this._spec.regionId) && isValid(this._spec.regionIndex)) {
       this._relativeRegions = this._option.getAllRegions();
@@ -475,6 +557,41 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       array(this._spec.brushLinkSeriesId),
       array(this._spec.brushLinkSeriesIndex)
     );
+  }
+
+  private _initRegionAxisMap() {
+    // 如果配置了axis，则按配置
+    // 如果没有配置axis，则默认所有axis
+    if (isValid(this._spec.axisId)) {
+      array(this._spec.axisId).forEach((axisId: string) => {
+        this._releatedAxes.push(this._option.getComponentByUserId(axisId) as AxisComponent);
+      });
+    } else if (isValid(this._spec.axisIndex)) {
+      array(this._spec.axisIndex).forEach((axisIndex: number) => {
+        this._releatedAxes.push(this._option.getComponentByIndex('axes', axisIndex) as AxisComponent);
+      });
+    } else {
+      this._releatedAxes = this._option.getComponentsByKey('axes') as AxisComponent[];
+    }
+
+    // 按照region进行分组，便于brush找到关联axis (brush -> region -> axis)
+    this._releatedAxes.forEach((axis: AxisComponent) => {
+      axis?.getRegions().forEach((region: IRegion) => {
+        if (this._regionAxisMap['region_' + region.id]) {
+          this._regionAxisMap['region_' + region.id].push(axis);
+        } else {
+          this._regionAxisMap['region_' + region.id] = [axis];
+        }
+      });
+    });
+  }
+
+  private _initAxisDataZoomMap() {
+    (this._option.getComponentsByKey('dataZoom') as DataZoom[]).forEach((dz: DataZoom) => {
+      if (dz.relatedAxisComponent) {
+        this._axisDataZoomMap[(dz.relatedAxisComponent as AxisComponent).id] = dz;
+      }
+    });
   }
 
   private _initNeedOperatedItem() {

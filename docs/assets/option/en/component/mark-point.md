@@ -149,6 +149,8 @@ Optional values:
 - 'insideBottom'
 - 'insideMiddle'
 
+layout like this: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/marker-position.png
+
 #### offsetX(number)
 
 The x-direction offset of the mark content relative to the mark point.
