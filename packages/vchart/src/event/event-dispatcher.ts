@@ -156,7 +156,7 @@ export class EventDispatcher implements IEventDispatcher {
     return this;
   }
 
-  release(): void {
+  clear(): void {
     for (const entry of this._viewListeners.entries()) {
       this._compiler.removeEventListener(Event_Source_Type.chart, entry[0], entry[1]);
     }
@@ -181,6 +181,12 @@ export class EventDispatcher implements IEventDispatcher {
       bubble.release();
     }
     this._canvasBubbles.clear();
+  }
+
+  release(): void {
+    this.clear();
+    this.globalInstance = null;
+    this._compiler = null;
   }
 
   /**

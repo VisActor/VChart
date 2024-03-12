@@ -112,7 +112,7 @@ export class Event implements IEvent {
   }
 
   release(): void {
-    this._eventDispatcher.release();
+    this._eventDispatcher.clear();
     this._composedEventMap.clear();
   }
 }
