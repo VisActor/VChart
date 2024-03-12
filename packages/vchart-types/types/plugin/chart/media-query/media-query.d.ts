@@ -25,6 +25,6 @@ export declare class MediaQuery extends BasePlugin implements IChartPlugin {
     protected _check(item: IMediaQueryItem): IMediaQueryCheckResult;
     protected _apply(item: IMediaQueryItem, chartSpec: any, chartSpecInfo: IChartSpecInfo): IMediaQueryActionResult;
     protected _reInit(compile?: boolean, render?: boolean): void;
-    dispose(): void;
+    release(): void;
 }
 export declare const registerMediaQuery: () => void;

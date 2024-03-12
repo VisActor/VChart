@@ -8,7 +8,6 @@ import type { IGroupMark } from '../../../mark/group';
 import type { SeriesMarkMap } from '../../interface';
 export declare abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> extends PolarSeries<T> {
     static readonly mark: SeriesMarkMap;
-    protected _supportStack: boolean;
     protected _startAngle: number;
     protected _endAngle: number;
     protected _arcGroupMark: IGroupMark | null;

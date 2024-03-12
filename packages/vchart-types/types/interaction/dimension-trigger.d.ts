@@ -10,7 +10,6 @@ export declare class DimensionTrigger implements ITrigger {
     protected _option: ITriggerOption;
     protected _marks: MarkSet;
     protected _markReverse: MarkSet;
-    protected _lastDimensionEvent: DimensionEventParams;
     private _hover;
     get hover(): IHoverSpec;
     private _select;
@@ -23,10 +22,6 @@ export declare class DimensionTrigger implements ITrigger {
     protected initEvent(): void;
     protected releaseEvent(): void;
     private initConfig;
-    protected getEventElement(params: DimensionEventParams, reverse?: boolean): {
-        el: IElement;
-        mark: IMark;
-    }[];
-    protected dimensionDataEqual(params: DimensionEventParams): boolean;
+    protected getEventElement(params: DimensionEventParams, reverse?: boolean): IElement[];
     private onHover;
 }

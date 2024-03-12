@@ -13,7 +13,6 @@ export declare class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> 
     readonly transformerConstructor: typeof GaugeSeriesSpecTransformer;
     private _segmentMark;
     private _trackMark;
-    protected _stack: boolean;
     protected _padAngle: number;
     setAttrFromSpec(): void;
     initData(): void;

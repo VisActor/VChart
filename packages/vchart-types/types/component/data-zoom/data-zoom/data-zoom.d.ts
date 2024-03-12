@@ -26,6 +26,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     protected _middleHandlerSize: number;
     protected _startHandlerSize: number;
     protected _endHandlerSize: number;
+    protected _isReverseCache: boolean;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     constructor(spec: T, options: IComponentOption);
     created(): void;
@@ -73,6 +74,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
         };
         disableTriggerEvent: boolean;
     };
+    protected _getHandlerTextFormatMethod(spec: IDataZoomSpec['startText']): (text: any) => any;
     protected _getNeedClearVRenderComponents(): IGraphic[];
 }
 export declare const registerDataZoom: () => void;

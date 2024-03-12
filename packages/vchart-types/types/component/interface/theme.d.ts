@@ -15,6 +15,7 @@ import type { ComponentTypeEnum } from './type';
 import type { ITotalLabelTheme } from '../label';
 import type { IPoptipTheme } from '../poptip/interface';
 import type { IColorKey } from '../../theme';
+import type { Direction, IOrientType } from '../../typings';
 export interface IComponentTheme {
     axis?: IAxisCommonTheme;
     axisBand?: IAxisCommonTheme;
@@ -42,3 +43,10 @@ export interface IComponentTheme {
     [ComponentTypeEnum.poptip]?: IPoptipTheme;
     [ComponentTypeEnum.totalLabel]?: ITotalLabelTheme;
 }
+export type ComponentThemeWithDirection<T extends {
+    orient?: IOrientType;
+}> = T & {
+    orient?: IOrientType;
+    [Direction.horizontal]?: Omit<T, 'orient'>;
+    [Direction.vertical]?: Omit<T, 'orient'>;
+};

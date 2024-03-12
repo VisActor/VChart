@@ -14,13 +14,12 @@ import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { ICompilableData } from '../compile/data';
 import type { IGlobalScale } from '../scale/interface';
-import type { IChart, IChartSpecInfo } from '../chart/interface';
+import type { IChart, IChartSpecInfo, IChartSpecTransformerOption } from '../chart/interface';
 import type { IThemeColorScheme } from '../theme/color-scheme/interface';
 import type { ILayoutItem, ILayoutItemSpec } from '../layout/interface';
 import type { ILayoutPoint, ILayoutRect } from '../typings/layout';
 import type { ComponentTypeEnum } from '../component/interface';
-import type { SeriesMarkNameEnum, SeriesTypeEnum } from '../series';
-import type { TransformedLabelSpec } from '../component/label';
+import type { SeriesTypeEnum } from '../series';
 export interface IModelInitOption {
 }
 export interface IModelLayoutOption {
@@ -138,14 +137,10 @@ export interface IModelMarkInfo {
     type: MarkTypeEnum | string | (MarkTypeEnum | string)[];
     name: string;
 }
-export interface IBaseModelSpecTransformerOption {
-    type: string;
-    getTheme: () => ITheme;
-}
+export type IBaseModelSpecTransformerOption = IChartSpecTransformerOption;
 export interface IBaseModelSpecTransformerResult<T, K> {
     spec: T;
     theme: K;
-    markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
 }
 export interface IBaseModelSpecTransformer {
     getTheme: (spec: any, chartSpec: any) => any;

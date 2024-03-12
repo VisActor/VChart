@@ -8,6 +8,6 @@ export declare class BasePluginService<T extends IBasePlugin = IBasePlugin> impl
     activate(plugins: T[]): void;
     get(id: number): T | undefined;
     getAll(): T[];
-    dispose(pluginsId: number): void;
-    disposeAll(): void;
+    release(pluginsId: number): void;
+    releaseAll(): void;
 }

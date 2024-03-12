@@ -16,7 +16,6 @@ export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfall
     static readonly mark: SeriesMarkMap;
     static readonly transformerConstructor: any;
     readonly transformerConstructor: any;
-    protected _stack: boolean;
     protected _totalData?: SeriesData;
     getTotalData(): any;
     protected _spec: T;

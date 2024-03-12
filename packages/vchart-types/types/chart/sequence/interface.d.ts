@@ -3,7 +3,7 @@ import type { ICartesianAxisSpec } from '../../component/axis/cartesian/interfac
 import type { IDataZoomSpec, IScrollBarSpec } from '../../component/data-zoom';
 import type { ICartesianCrosshairSpec } from '../../component/crosshair/interface';
 import type { ILayoutSpec } from '../../layout/interface';
-import type { IRegionSpec } from '../../region/interface';
+import type { RegionSpec } from '../../region/interface';
 import type { IPadding } from '../../typings';
 export interface ISequenceChartSpec extends IChartSpec {
     type: 'sequence';
@@ -13,7 +13,7 @@ export interface ISequenceChartSpec extends IChartSpec {
     scrollBars?: IScrollBarSpec[];
     crosshair?: ICartesianCrosshairSpec | ICartesianCrosshairSpec[];
     layout?: ILayoutSpec;
-    region?: IRegionSpec[];
+    region?: RegionSpec[];
 }
 export interface ISequenceSeriesSpec extends ISeriesSpec {
     height?: number;

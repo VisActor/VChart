@@ -13,7 +13,6 @@ export declare class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> ext
     static readonly mark: SeriesMarkMap;
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof RoseSeriesSpecTransformer;
-    protected _supportStack: boolean;
     private _roseMark;
     protected _labelMark: ITextMark | null;
     initMark(): void;

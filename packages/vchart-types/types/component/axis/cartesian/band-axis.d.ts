@@ -31,5 +31,10 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
     };
     transformScaleDomain(): void;
     updateFixedWholeLength(): void;
+    protected _getOuterBandSizeFromSpec(): {
+        bandSize: number;
+        maxBandSize: number;
+        minBandSize: number;
+    };
 }
 export declare const registerCartesianBandAxis: () => void;

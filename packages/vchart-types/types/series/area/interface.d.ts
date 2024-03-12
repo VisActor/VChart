@@ -7,6 +7,7 @@ import type { IAnimationSpec } from '../../animation/spec';
 import type { AreaAppearPreset } from './animation';
 import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { ILabelSpec } from '../../component';
+import { IMultiLabelSpec } from '../../component/label';
 export interface IAreaSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<string, AreaAppearPreset>, IMarkProgressiveConfig, IDataSamping, IMarkOverlap {
     type: 'area';
     xField?: string | string[];
@@ -14,7 +15,7 @@ export interface IAreaSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<st
     [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
     [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
     [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
-    [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+    [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILineLikeLabelSpec>;
     [SeriesMarkNameEnum.areaLabel]?: Omit<ILabelSpec, 'position'> & {
         position?: 'start' | 'end';
     };
