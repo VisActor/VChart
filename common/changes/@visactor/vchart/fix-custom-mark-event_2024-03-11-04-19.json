@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: support dataKey in CustomMark and ExtensionMark",
+      "comment": "fix: when region style is empty, should not create _backgroundMark or _foregroundMark",
       "type": "none"
     }
   ],

@@ -181,6 +181,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
           }
         );
         gridMark.setZIndex(this._spec.grid?.style?.zIndex ?? this._spec.grid?.zIndex ?? LayoutZIndex.Axis_Grid);
+        gridMark.setInteractive(false); // 轴网格线关闭交互
         this._marks.addMark(gridMark);
         this._gridMark = gridMark;
       }
@@ -403,8 +404,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected _delegateAxisContainerEvent(component: IGroup) {
-    component.addEventListener('*', ((event: any, type: string) =>
-      this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
+    if (component.listenerCount('*') === 0) {
+      component.addEventListener('*', ((event: any, type: string) =>
+        this._delegateEvent(component as unknown as IGraphic, event, type)) as LooseFunction);
+    }
   }
 
   protected _getAxisAttributes() {

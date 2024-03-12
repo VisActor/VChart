@@ -7,7 +7,6 @@ import type { ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
 import type { IComponentMark } from '../../mark/component';
 import { BaseLabelComponent } from './base-label';
 import type { Maybe } from '@visactor/vutils';
-import type { IGroup } from '@visactor/vrender-core';
 import type { TransformedLabelSpec } from './interface';
 import type { ILabelMark } from '../../mark/label';
 import type { ICompilableMark } from '../../compile/mark';
@@ -41,7 +40,7 @@ export declare class Label<T extends IChartSpec = any> extends BaseLabelComponen
     init(option: IModelInitOption): void;
     reInit(spec?: T): void;
     initEvent(): void;
-    protected _delegateLabelEvent(component: IGroup): void;
+    afterCompile(): void;
     protected _initTextMark(): void;
     protected _initLabelComponent(): void;
     protected _initTextMarkStyle(): void;
