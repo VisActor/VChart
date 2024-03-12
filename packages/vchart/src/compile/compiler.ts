@@ -125,9 +125,7 @@ export class Compiler {
     this._setCanvasStyle();
 
     // emit afterRender event
-    this.getStage().hooks.afterRender.tap('chart-event', () => {
-      this._compileChart?.getEvent()?.emit(ChartEvent.afterRender, { chart: this._compileChart });
-    });
+    this.getStage().hooks.afterRender.tap('chart-event', this.handleStageRender);
 
     const interactive = this._option.interactive;
     if (interactive !== false) {
@@ -137,6 +135,10 @@ export class Compiler {
       });
     }
   }
+
+  handleStageRender = () => {
+    this._compileChart?.getEvent()?.emit(ChartEvent.afterRender, { chart: this._compileChart });
+  };
 
   private _setCanvasStyle() {
     if (!this._view) {
@@ -380,6 +382,12 @@ export class Compiler {
   }
 
   protected releaseEvent(): void {
+    const stage = this.getStage();
+
+    if (stage) {
+      stage.hooks.afterRender.unTap('chart-event', this.handleStageRender);
+    }
+
     // 相应的事件remove在model中完成
     this._viewListeners.clear();
     this._windowListeners.clear();
@@ -394,6 +402,7 @@ export class Compiler {
     this._view?.release();
     this._view = null;
     this.isInited = false;
+    this._compileChart = null;
   }
 
   /**

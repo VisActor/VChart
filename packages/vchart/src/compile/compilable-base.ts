@@ -23,5 +23,6 @@ export abstract class CompilableBase implements ICompilable {
 
   release() {
     this._option = null;
+    this.getCompiler = null;
   }
 }
