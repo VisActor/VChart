@@ -69,7 +69,7 @@ export declare class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpe
         x: number;
         y: number;
     };
-    dataToPosition(datum: any): {
+    dataToPosition(datum: any, checkInViewData?: boolean): {
         x: number;
         y: number;
     };
