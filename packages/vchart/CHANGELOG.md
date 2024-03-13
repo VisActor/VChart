@@ -1,6 +1,50 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 08 Mar 2024 06:37:04 GMT and should not be manually modified.
+This log was last generated on Wed, 13 Mar 2024 04:23:20 GMT and should not be manually modified.
+
+## 1.10.0
+Wed, 13 Mar 2024 04:23:20 GMT
+
+### Updates
+
+- chore: use `rimraf` to replace `rm -rf`
+
+
+- feat: bar chart supports `autoBandSize` to automatically calculate bandSize based on the incoming configuration such as `barWidth`, thereby affecting the actual length of the axis, related #2268
+- feat: stacked bar chart supports the config `stackCornerRadius` to configure the corner radius of stacked bar groups, releated #2185
+- feat(dataZoom): enhance when big data and brush releated
+- feat(dataZoom): add sampler for preview chart
+- feat: support scrollbar in legend
+- feat: the theme of the legend supports separate configuration of different themes in different directions, related #2216
+- feat: react-vchart supports custom tooltip render, related #2288
+- fix: enterable tooltip will not hide when mouse moves directly from the tooltip to a non-chart area, related #2315
+- feat: theme supports for configuring series themes in stack state, related #2331
+- feat: theme supports custom tokens, related #2255
+- feat: tooltip supports the same `lockAfterClick` as crosshair, related #2352
+- feat: `x` & `y` of the tooltip position can be fixed separately, related #2320
+- feat: add more tooltip shape configs in `tooltip.style` of the chart spec, related #2292
+- fix: upgrade version of vgrammar to fix end state of animation
+
+
+- feat: state style of arc marks support `innerPadding` and `outerPadding`, related #2038
+- fix: `tickMask` is invalid in circular progress charts, related #2316
+- fix: rect crosshair should lock when lockAfterClick is true
+
+
+- fix: when region style is empty, should not create _backgroundMark or _foregroundMark
+- fix: fixed the issue of being unable to listen to customMark events on vchart
+- fix: grid component should not be pickable expect its children
+- fix: events on `<Bar />` should not trigged twice
+
+
+- refactor(react-vchart): refactor react-vchart to support render in strict mode
+
+
+- fix: plugin should be released in `release()`
+
+
+- feat: register hover/select interaction by default
+- feat: remove advanced interaction in simple bundle
 
 ## 1.9.6
 Fri, 08 Mar 2024 06:37:04 GMT

@@ -1,6 +1,6 @@
 import type { ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type { Datum, ITooltipPattern, TooltipActiveType, IToolTipLinePattern } from '../../typings';
+import type { Datum, ITooltipPattern, TooltipActiveType, ITooltipLinePattern } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { IDimensionInfo } from '../../event/events/dimension/interface';
@@ -30,12 +30,12 @@ export class RangeAreaSeriesTooltipHelper extends BaseSeriesTooltipHelper implem
         ]
       };
     } else if (activeType === 'dimension' && dimensionInfo) {
-      const title: IToolTipLinePattern = {
+      const title: ITooltipLinePattern = {
         key: undefined,
         value: this._getDimensionData,
         hasShape: false
       };
-      const content: IToolTipLinePattern[] = [];
+      const content: ITooltipLinePattern[] = [];
       dimensionInfo.forEach(({ data }) =>
         data.forEach(({ series }: any) => {
           if (series.type === 'rangeArea') {

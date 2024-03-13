@@ -7,7 +7,7 @@ import type {
   ITextMarkSpec
 } from '../../../typings/visual';
 import type { IComponentSpec } from '../../base/interface';
-import type { IComponent } from '../../interface';
+import type { ComponentThemeWithDirection, IComponent } from '../../interface';
 import type { IFilterMode } from '../constant';
 import type { IDataFilterComponent, IDataFilterComponentSpec } from '../interface';
 
@@ -70,11 +70,18 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
     padding?: number;
     style?: IMarkSpec<ITextMarkSpec>;
     formatMethod?: (text: string | number) => string | string[];
+    /**
+     * 格式化模板
+     * @description 可以通过类似 `{value:.2f}%` 的形式对指定数据字段进行格式化
+     * @since 1.10.0
+     */
+    formatter?: string | string[];
   };
   endText?: {
     padding?: number;
     style?: IMarkSpec<ITextMarkSpec>;
     formatMethod?: (text: string | number) => string | string[];
+    formatter?: string | string[];
   };
   /**
    * 是否开启框选, 如果不开启则支持selectedBackground拖拽（框选和拖拽两者互斥）
@@ -89,6 +96,12 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
    * @since 1.7.0
    */
   ignoreBandSize?: boolean;
+
+  /**
+   * 背景图表节点压缩率, 如果不配置则默认将节点限制在10000个
+   * @since 1.10.0
+   */
+  tolerance?: number;
 }
 
 export type IDataZoomCommonTheme = IComponentSpec &
@@ -106,9 +119,4 @@ export type IDataZoomCommonTheme = IComponentSpec &
     brushSelect?: boolean;
   };
 
-export type IDataZoomTheme = IDataZoomCommonTheme /* 通用主题，留作兼容 */ & {
-  /** 横向主题 */
-  horizontal?: Omit<IDataZoomCommonTheme, 'orient'>;
-  /** 纵向主题 */
-  vertical?: Omit<IDataZoomCommonTheme, 'orient'>;
-};
+export type IDataZoomTheme = ComponentThemeWithDirection<IDataZoomCommonTheme>;

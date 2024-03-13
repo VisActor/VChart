@@ -56,6 +56,7 @@ export interface ICrosshairRectSpec {
 export interface ICrosshairLabelSpec {
     visible?: boolean;
     formatMethod?: (text: StringOrNumber | string[]) => string | string[];
+    formatter?: string | string[];
     style?: Partial<ITextMarkSpec>;
     labelBackground?: ICrosshairLabelBackgroundSpec;
 }

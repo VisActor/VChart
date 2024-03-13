@@ -1,9 +1,6 @@
 import React from 'react';
 import { View, Canvas } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-// @ts-ignore
-import { vglobal } from '@visactor/vchart/build/es5';
-
 import {
   TTCanvas,
   style_cs_canvas,
@@ -25,6 +22,9 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
   ttCanvas: TTCanvas;
 
   async componentDidMount() {
+    if (!this.props.chartConstructor) {
+      console.error('props.chartConstructor is not found');
+    }
     if (!this.props.spec || !this.props.canvasId) {
       if (!this.props.spec) console.warn('props.spec are not found');
       if (!this.props.canvasId) console.warn('props.canvasId are not found');
@@ -106,11 +106,17 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
         `${this.props.canvasId}_tooltip_canvas`,
         `${this.props.canvasId}_hidden_canvas`
       ];
-      await vglobal.setEnv('wx', { domref, force: true, canvasIdLists, freeCanvasIdx: 2, component: undefined });
+
+      const { chartConstructor } = this.props;
+      const { vglobal } = chartConstructor as any;
+      if (vglobal) {
+        await vglobal.setEnv('wx', { domref, force: true, canvasIdLists, freeCanvasIdx: 2, component: undefined });
+      }
     }
 
     domref.id = this.props.canvasId;
     this.ttCanvas = new TTCanvas({
+      chartConstructor: this.props.chartConstructor,
       dpr: dpr,
       domref,
       spec: this.props.spec,

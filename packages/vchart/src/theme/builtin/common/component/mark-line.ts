@@ -1,5 +1,4 @@
 import type { IMarkLineTheme } from '../../../../component/marker/mark-line/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const markLine: IMarkLineTheme = {
   line: {
@@ -31,7 +30,7 @@ export const markLine: IMarkLineTheme = {
   label: {
     refY: 5,
     style: {
-      fontSize: THEME_CONSTANTS.l4FontSize,
+      fontSize: { type: 'token', key: 'l4FontSize' },
       fontWeight: 'normal',
       fontStyle: 'normal',
       fill: { type: 'palette', key: 'primaryFontColor' }

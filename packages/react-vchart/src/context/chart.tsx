@@ -3,7 +3,6 @@ import type { IVChart } from '@visactor/vchart';
 
 export interface ChartContextType {
   chart?: IVChart;
-  specFromChildren: any;
   isChildrenUpdated?: boolean;
 }
 

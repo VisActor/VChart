@@ -64,6 +64,8 @@
 - 'filter'
 - 'axis'
 
+其中 `filterMode` 设置为 `filter` 的时候，表示多数据进行过滤，会影响轴的刻度计算；`filterMode` 设置为 `axis` 的时候，只是影响对应轴的坐标对应范围，不对数据进行过滤。
+
 #${prefix} start(number) = 0
 
 起点配置（比例）：范围[0, 1]。
@@ -145,6 +147,23 @@ prefix = '#' + ${prefix}
 
 #${prefix} realTime(boolean) = true
 是否在交互时实时更新视图, 默认开启。自 `1.5.1` 版本开始支持。
+
+### customDomain(array)
+
+支持自定义domain, 用于统一dataZoom domain与关联axis domain(当brush组件开启`zoomAfterBrush`时, 关联的dataZoom需要和axis保持一致, 否则刷取范围无法正确计算)。自 1.10.0 版本开始支持。
+
+### updateDataAfterChange(Function)
+自定义datazoom更新时的回调。自 1.10.0 版本开始支持。
+
+```ts
+/**
+ * @params start dataZoom起点
+ * @params start dataZoom终点
+ * @params startValue dataZoom起点数据值
+ * @params endValue dataZoom终点数据值
+ */
+(start: number, end: number, startValue: any, endValue: any) => void
+```
 
 {{ use: roam-spec(
 prefix = '#' + ${prefix}

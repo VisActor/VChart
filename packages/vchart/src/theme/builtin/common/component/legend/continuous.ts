@@ -1,5 +1,4 @@
 import type { IContinuousLegendTheme } from '../../../../../component/legend';
-import { THEME_CONSTANTS } from '../../constants';
 
 export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
   orient: 'right',
@@ -9,8 +8,8 @@ export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
     visible: false,
     padding: 0,
     textStyle: {
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' },
 
       fontWeight: 'normal',
       fill: { type: 'palette', key: 'primaryFontColor' }
@@ -22,8 +21,8 @@ export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
   },
   startText: {
     style: {
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' },
 
       fontWeight: 'normal',
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
@@ -32,8 +31,8 @@ export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
   },
   endText: {
     style: {
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' },
 
       fontWeight: 'normal',
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
@@ -42,8 +41,8 @@ export const DEFAULT_CONTINUOUS_LEGEND_THEME: IContinuousLegendTheme = {
   },
   handlerText: {
     style: {
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' },
 
       fontWeight: 'normal',
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }

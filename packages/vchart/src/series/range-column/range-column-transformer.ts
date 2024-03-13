@@ -8,6 +8,8 @@ export class RangeColumnSeriesSpecTransformer<
   T extends IRangeColumnSeriesSpec = IRangeColumnSeriesSpec,
   K extends IRangeColumnSeriesTheme = IRangeColumnSeriesTheme
 > extends BarSeriesSpecTransformer<any, K> {
+  protected _supportStack: boolean = false;
+
   protected _transformLabelSpec(spec: T): void {
     const labelPosition = spec.label?.position;
     if (labelPosition !== PositionEnum.bothEnd) {

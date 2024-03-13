@@ -2,6 +2,93 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.10.0",
+      "tag": "@visactor/vchart_v1.10.0",
+      "date": "Wed, 13 Mar 2024 04:23:20 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "chore: use `rimraf` to replace `rm -rf`\n\n"
+          },
+          {
+            "comment": "feat: bar chart supports `autoBandSize` to automatically calculate bandSize based on the incoming configuration such as `barWidth`, thereby affecting the actual length of the axis, related #2268"
+          },
+          {
+            "comment": "feat: stacked bar chart supports the config `stackCornerRadius` to configure the corner radius of stacked bar groups, releated #2185"
+          },
+          {
+            "comment": "feat(dataZoom): enhance when big data and brush releated"
+          },
+          {
+            "comment": "feat(dataZoom): add sampler for preview chart"
+          },
+          {
+            "comment": "feat: support scrollbar in legend"
+          },
+          {
+            "comment": "feat: the theme of the legend supports separate configuration of different themes in different directions, related #2216"
+          },
+          {
+            "comment": "feat: react-vchart supports custom tooltip render, related #2288"
+          },
+          {
+            "comment": "fix: enterable tooltip will not hide when mouse moves directly from the tooltip to a non-chart area, related #2315"
+          },
+          {
+            "comment": "feat: theme supports for configuring series themes in stack state, related #2331"
+          },
+          {
+            "comment": "feat: theme supports custom tokens, related #2255"
+          },
+          {
+            "comment": "feat: tooltip supports the same `lockAfterClick` as crosshair, related #2352"
+          },
+          {
+            "comment": "feat: `x` & `y` of the tooltip position can be fixed separately, related #2320"
+          },
+          {
+            "comment": "feat: add more tooltip shape configs in `tooltip.style` of the chart spec, related #2292"
+          },
+          {
+            "comment": "fix: upgrade version of vgrammar to fix end state of animation\n\n"
+          },
+          {
+            "comment": "feat: state style of arc marks support `innerPadding` and `outerPadding`, related #2038"
+          },
+          {
+            "comment": "fix: `tickMask` is invalid in circular progress charts, related #2316"
+          },
+          {
+            "comment": "fix: rect crosshair should lock when lockAfterClick is true\n\n"
+          },
+          {
+            "comment": "fix: when region style is empty, should not create _backgroundMark or _foregroundMark"
+          },
+          {
+            "comment": "fix: fixed the issue of being unable to listen to customMark events on vchart"
+          },
+          {
+            "comment": "fix: grid component should not be pickable expect its children"
+          },
+          {
+            "comment": "fix: events on `<Bar />` should not trigged twice\n\n"
+          },
+          {
+            "comment": "refactor(react-vchart): refactor react-vchart to support render in strict mode\n\n"
+          },
+          {
+            "comment": "fix: plugin should be released in `release()`\n\n"
+          },
+          {
+            "comment": "feat: register hover/select interaction by default"
+          },
+          {
+            "comment": "feat: remove advanced interaction in simple bundle"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.9.6",
       "tag": "@visactor/vchart_v1.9.6",
       "date": "Fri, 08 Mar 2024 06:37:04 GMT",

@@ -1,4 +1,5 @@
 import type { IAnimationSpec } from '../../animation/spec';
+import { IMultiLabelSpec } from '../../component/label';
 import type { IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IAreaMarkSpec, ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
@@ -12,7 +13,7 @@ export interface IRadarSeriesSpec extends IRoseLikeSeriesSpec, IAnimationSpec<Ra
     [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
     [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
     [SeriesMarkNameEnum.area]?: IMarkSpec<IAreaMarkSpec>;
-    [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+    [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILineLikeLabelSpec>;
     seriesMark?: 'point' | 'line' | 'area';
     activePoint?: boolean;
 }

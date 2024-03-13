@@ -1,5 +1,5 @@
 import type { Maybe } from '@visactor/vutils';
-import type { IToolTipLineActual } from '../../../../../typings';
+import type { ITooltipLineActual } from '../../../../../typings';
 import type { ITooltipModelOption } from './interface';
 import { domDocument } from '../../../../../util/env';
 
@@ -22,7 +22,7 @@ export class BaseTooltipModel {
     Object.values(this.children).forEach(c => c.setOption(option));
   }
 
-  protected _renderContentCache: IToolTipLineActual[] | null = null;
+  protected _renderContentCache: ITooltipLineActual[] | null = null;
 
   children: Record<number, BaseTooltipModel> = {};
 

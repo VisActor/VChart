@@ -1,6 +1,13 @@
 import type { IPadding } from '@visactor/vutils';
-import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
-import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
+import type { SymbolType } from '@visactor/vrender-core';
+import type {
+  IComposedTextMarkSpec,
+  IFormatMethod,
+  IRectMarkSpec,
+  IRichTextFormatMethod,
+  ISymbolMarkSpec,
+  StringOrNumber
+} from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
@@ -127,29 +134,24 @@ export type IMarkerLabelWithoutRefSpec = {
      */
     style?: Omit<IRectMarkSpec, 'visible'>;
   };
-  /**
-   * 文本类型：text, rich, html
-   */
-  type?: 'text' | 'rich' | 'html';
+  /** @deprecated  */
+  type?: 'rich' | 'text';
   /**
    * 文本内容，如果需要进行换行，则使用数组形式，如 ['abc', '123']
-   * 支持富文本内容, 如textConfig, html, 设置富文本时要配置type类型为'rich'或'html'
+   * 支持富文本内容 textConfig，设置富文本时要配置 textType 类型为 'rich'
    */
-  text?: string | string[] | number | number[] | IRichTextCharacter[];
+  text?: string | string[] | number | number[] | ReturnType<IRichTextFormatMethod<[]>>;
   /**
    * label文本 - 文本格式化
    * @param markData 组成标注的数据
    * @param seriesData 标注关联的数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (
-    markData: Datum[],
-    seriesData: Datum[]
-  ) => string | string[] | number | number[] | IRichTextCharacter[];
+  formatMethod?: IFormatMethod<[markData: Datum[], seriesData: Datum[]]>;
   /**
    * label文本 - 文本样式
    */
-  style?: Omit<ITextMarkSpec, 'visible'>;
+  style?: Omit<IComposedTextMarkSpec, 'visible'>;
 
   /**
    * label文本 - 文本前 mark 图元
@@ -178,7 +180,6 @@ export type IMarkerLabelWithoutRefSpec = {
    */
   dy?: number;
 };
-
 export type IMarkerLabelSpec = IMarkerLabelWithoutRefSpec & IMarkerRef;
 
 export interface IMarkerRef {

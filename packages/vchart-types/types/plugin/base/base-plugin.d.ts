@@ -6,4 +6,5 @@ export declare class BasePlugin<T extends IBasePluginService = IBasePluginServic
     protected service?: T;
     constructor(type: string);
     onAdd(service: T): void;
+    release(): void;
 }

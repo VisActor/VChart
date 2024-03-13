@@ -1,5 +1,4 @@
 import type { IDataZoomTheme } from '../../../../component/data-zoom';
-import { THEME_CONSTANTS } from '../constants';
 
 // eslint-disable-next-line max-len
 const DataZoomHandlerSymbolType = `M-0.5-2.4h0.9c0.4,0,0.7,0.3,0.7,0.7v3.3c0,0.4-0.3,0.7-0.7,0.7h-0.9c-0.4,0-0.7-0.3-0.7-0.7v-3.3
@@ -90,8 +89,8 @@ export const dataZoom: IDataZoomTheme = {
   startText: {
     padding: 8,
     style: {
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' },
 
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     }
@@ -99,8 +98,8 @@ export const dataZoom: IDataZoomTheme = {
   endText: {
     padding: 8,
     style: {
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' },
 
       fill: { type: 'palette', key: 'secondaryFontColor', default: '#89909d' }
     }

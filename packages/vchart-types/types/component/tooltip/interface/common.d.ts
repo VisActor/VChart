@@ -1,10 +1,10 @@
 import type { DimensionEventParams } from '../../../event/events/dimension/interface';
-import type { BaseEventParams } from '../../../event/interface';
 import type { DimensionTooltipInfo, MarkTooltipInfo } from '../processor/interface';
 import type { Datum, IShowTooltipOption } from '../../../typings';
 import type { IComponent } from '../../interface';
-export type TooltipHandlerParams = (BaseEventParams | DimensionEventParams) & {
+export type TooltipHandlerParams = DimensionEventParams & {
     changePositionOnly?: boolean;
+    tooltip: ITooltip;
 };
 export interface ITooltipActiveTypeAsKeys<T, K> {
     mark: T;

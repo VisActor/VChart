@@ -12,16 +12,16 @@ Whether or not to show the tooltip, the default is to show it. **_(support setti
 
 Supported tooltip types. Two types of tooltips are currently supported: the meta tooltip (`'mark'`) and the dimension item tooltip (`'dimension'`). **_(supported on series) (works on all handlers)_**
 
-##${prefix} trigger('hover'|'click'|'none') = 'hover'
+##${prefix} trigger('hover'|'click'|'none'|string[]) = 'hover'
 
 Show how the tooltip is triggered. Defaults to `'hover'`, i.e. triggered on mouse hover. Optional value is:
 
 - `'hover'`: Triggered on mouse hover.
 - `'click'`: Triggered on mouse click.
 
-**_(support setup on series)(works on all handlers)_\***
+**_(works on all handlers)_**
 
-##${prefix} triggerOff('hover'|'click'|'none') = 'hover'
+##${prefix} triggerOff('hover'|'click'|'none'|string[]) = 'hover'
 
 Hide the tooltip trigger method. Defaults to `'hover'`, which hides the previous `tooltip` when the mouse hovers out of the hotspot. Optional values are:
 
@@ -30,7 +30,15 @@ Hide the tooltip trigger method. Defaults to `'hover'`, which hides the previous
 
 Currently `triggerOff` only supports settings consistent with `trigger` and `'none'`. If configured as `'none'`, the tooltip will not disappear due to user interaction.
 
-**_(support setup on series)(works on all handlers)_\***
+**_(works on all handlers)_**
+
+##${prefix} lockAfterClick(boolean)
+
+Supported since version `1.10.0`
+
+Locks the tooltip after clicking, usually used in scenarios where `trigger` is `['hover', 'click']`
+
+**_(works on all handlers)_**
 
 ##${prefix} mark(Object)
 

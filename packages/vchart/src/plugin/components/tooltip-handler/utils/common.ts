@@ -1,6 +1,6 @@
 import type { Datum } from '@visactor/vgrammar-core';
 import type {
-  IToolTipLinePattern,
+  ITooltipLinePattern,
   ITooltipPattern,
   MaybeArray,
   TooltipContentProperty,
@@ -17,6 +17,7 @@ import type { TooltipRichTextAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRichTextCharacter } from '@visactor/vrender-core';
 import type { TooltipHandlerParams } from '../../../../component/tooltip';
+import { getFormatFunction } from '../../../../component/util';
 
 interface IGradientColor {
   [key: string]: any;
@@ -43,15 +44,24 @@ export function escapeHTML(value: any): string {
 export const getTooltipContentValue = <T>(
   field?: TooltipContentProperty<T>,
   datum?: any,
-  params?: TooltipHandlerParams
+  params?: TooltipHandlerParams,
+  formatter?: string
 ): T | undefined => {
-  if (isNil(field)) {
-    return field;
-  }
+  let value: T;
   if (isFunction(field)) {
-    return field(datum, params);
+    value = field(datum, params);
+  } else {
+    value = field;
   }
-  return field;
+
+  if (formatter) {
+    const { formatFunc, args } = getFormatFunction(undefined, formatter, field as string, datum);
+    if (formatFunc && args) {
+      value = formatFunc(...args);
+    }
+  }
+
+  return value;
 };
 
 export const getTooltipPatternValue = <T>(
@@ -72,16 +82,16 @@ export const getTooltipContentPattern = (
   field?: ITooltipPattern['content'],
   data?: TooltipData,
   params?: TooltipHandlerParams
-): Array<IToolTipLinePattern> | undefined => {
+): Array<ITooltipLinePattern> | undefined => {
   if (isNil(field)) {
     return field;
   }
-  let result: IToolTipLinePattern[] = [];
+  let result: ITooltipLinePattern[] = [];
   array(field).forEach(patternItem => {
     if (isFunction(patternItem)) {
       result = result.concat(array(patternItem(data, params)));
     } else {
-      result.push(patternItem as IToolTipLinePattern);
+      result.push(patternItem as ITooltipLinePattern);
     }
   });
   return result;

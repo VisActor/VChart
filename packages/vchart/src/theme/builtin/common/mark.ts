@@ -1,10 +1,9 @@
 import type { IGlobalMarkThemeByName, IGlobalMarkThemeByType } from '../../interface';
-import { THEME_CONSTANTS } from './constants';
 
 export const markByType: IGlobalMarkThemeByType = {
   text: {
     style: {
-      fontSize: THEME_CONSTANTS.l4FontSize,
+      fontSize: { type: 'token', key: 'l4FontSize' },
       fontWeight: 'normal',
       fillOpacity: 1
     }
@@ -14,14 +13,15 @@ export const markByType: IGlobalMarkThemeByType = {
 export const markByName: IGlobalMarkThemeByName = {
   label: {
     style: {
-      fontSize: THEME_CONSTANTS.l4FontSize,
+      fontSize: { type: 'token', key: 'l4FontSize' },
       fontWeight: 'normal',
-      fillOpacity: 1
+      fillOpacity: 1,
+      lineJoin: 'bevel'
     }
   },
   area: {
     style: {
-      fillOpacity: THEME_CONSTANTS.areaOpacity
+      fillOpacity: 0.2
     }
   },
   line: {

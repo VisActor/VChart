@@ -15,6 +15,7 @@ import type { ComponentTypeEnum } from './type';
 import type { ITotalLabelTheme } from '../label';
 import type { IPoptipTheme } from '../poptip/interface';
 import type { IColorKey } from '../../theme';
+import type { Direction, IOrientType } from '../../typings';
 
 export interface IComponentTheme {
   /**
@@ -119,3 +120,16 @@ export interface IComponentTheme {
    */
   [ComponentTypeEnum.totalLabel]?: ITotalLabelTheme;
 }
+
+/** 区分方向的组件主题类型 */
+export type ComponentThemeWithDirection<
+  T extends {
+    orient?: IOrientType;
+  }
+> = T /* 通用主题，留作兼容 */ & {
+  orient?: IOrientType;
+  /** 横向主题 */
+  [Direction.horizontal]?: Omit<T, 'orient'>;
+  /** 纵向主题 */
+  [Direction.vertical]?: Omit<T, 'orient'>;
+};

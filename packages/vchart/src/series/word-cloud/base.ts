@@ -27,7 +27,6 @@ import type {
 } from './interface';
 import type { Datum, IPoint } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import type { IOrdinalScale } from '@visactor/vscale';
 import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
 import {
@@ -135,7 +134,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     this._fillingFontPadding = this._spec.fillingWord?.padding ?? DEFAULT_FONT_PADDING;
 
     this._isWordCloudShape = !SHAPE_TYPE.includes(this._maskShape);
-    this._defaultFontFamily = this._option.getTheme().fontFamily;
+    this._defaultFontFamily = this._option.getTheme().fontFamily as string;
   }
 
   protected _wordMark: ITextMark;

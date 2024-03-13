@@ -101,3 +101,37 @@ Can be configured with fixed coordinates, such as [100, 100], or percentage coor
 #${prefix} pickStrokeBuffer(number) = 0
 
 Supported since version `1.7.3`, it is used to expand the picking range of strokes. 0 is the default line width, positive numbers widen the width, and negative numbers widen the width.
+
+#${prefix} html(object)
+Starting from version `1.10.0`, it supports configuring the HTML overlay of the graph element.
+
+##${prefix} dom(string|HTMLElement)
+
+DOM string or node.
+
+##${prefix} container(string|HTMLElement)
+
+HTML container for mounting.
+
+##${prefix} width(number)
+
+Width of the node.
+
+##${prefix} height(number)
+
+Height of the node.
+
+##${prefix} style(string|object)
+
+Style of the node. Supports style string or object.
+
+##${prefix} visible(boolean) = true
+
+Whether to display the node.
+
+##${prefix} anchorType(string) = 'boundsLeftTop'
+
+Node layout alignment method, supports:
+
+- `boundsLeftTop`
+- `position`

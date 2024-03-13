@@ -18,7 +18,6 @@ export const enum MarkTypeEnum {
   pyramid3d = 'pyramid3d',
   boxPlot = 'boxPlot',
   linkPath = 'linkPath',
-  progressArc = 'progressArc',
   cell = 'cell',
   ripple = 'ripple',
   liquid = 'liquid',

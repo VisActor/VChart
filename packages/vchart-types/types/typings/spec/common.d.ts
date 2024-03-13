@@ -2,12 +2,12 @@ import type { IFillMarkSpec, IImageMarkSpec } from '../visual';
 import type { LayoutCallBack } from '../../layout/interface';
 import type { IElement, srIOption3DType } from '@visactor/vgrammar-core';
 import type { DataSet, DataView, ISimplifyOptions, IFieldsOptions, IFilterOptions, IFoldOptions, IDsvParserOptions } from '@visactor/vdataset';
-import type { IRegionSpec } from '../../region/interface';
+import type { RegionSpec } from '../../region/interface';
 import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { ITooltipSpec } from '../../component/tooltip/interface';
 import type { ILayoutSpec } from '../../layout/interface';
-import type { ConvertToMarkStyleSpec, IArc3dMarkSpec, IArcMarkSpec, IAreaMarkSpec, IBoxPlotMarkSpec, ICommonSpec, IGroupMarkSpec, ILineMarkSpec, ILinkPathMarkSpec, IPathMarkSpec, IPolygonMarkSpec, IProgressArcMarkSpec, IPyramid3dMarkSpec, IRect3dMarkSpec, IRectMarkSpec, IRuleMarkSpec, ISymbolMarkSpec, IRippleMarkSpec, ITextMarkSpec, IVisualSpecScale } from '../visual';
+import type { ConvertToMarkStyleSpec, IArc3dMarkSpec, IArcMarkSpec, IAreaMarkSpec, IBoxPlotMarkSpec, ICommonSpec, IGroupMarkSpec, ILineMarkSpec, ILinkPathMarkSpec, IPathMarkSpec, IPolygonMarkSpec, IPyramid3dMarkSpec, IRect3dMarkSpec, IRectMarkSpec, IRuleMarkSpec, ISymbolMarkSpec, IRippleMarkSpec, ITextMarkSpec, IVisualSpecScale } from '../visual';
 import type { StateValue } from '../../compile/mark';
 import type { ISeriesStyle, SeriesType } from '../../series/interface';
 import type { Datum, StringOrNumber } from '../common';
@@ -23,7 +23,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
 import type { IMediaQuerySpec } from '..';
 export type IChartPadding = ILayoutOrientPadding | number;
@@ -65,7 +65,7 @@ export interface IChartSpec {
     animationThreshold?: number;
     hover?: boolean | IHoverSpec;
     select?: boolean | ISelectSpec;
-    region?: IRegionSpec[];
+    region?: RegionSpec[];
     title?: ITitleSpec;
     layout?: ILayoutSpec;
     legends?: ILegendSpec | ILegendSpec[];
@@ -252,7 +252,6 @@ export type IBuildinMarkSpec = {
     pyramid3d: IPyramid3dMarkSpec;
     boxPlot: IBoxPlotMarkSpec;
     linkPath: ILinkPathMarkSpec;
-    progressArc: IProgressArcMarkSpec;
     ripple: IRippleMarkSpec;
 };
 export type EnableMarkType = keyof IBuildinMarkSpec;
@@ -275,3 +274,12 @@ export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, 'group'>> 
 export interface IExtensionGroupMarkSpec extends ICustomMarkSpec<MarkTypeEnum.group> {
     children?: ICustomMarkSpec<EnableMarkType>[];
 }
+export type ITextFormatMethod<T extends any[]> = (...args: T) => ITextMarkSpec['text'] | {
+    type: 'text';
+    text: ITextMarkSpec['text'];
+};
+export type IRichTextFormatMethod<T extends any[]> = (...args: T) => {
+    type: 'rich';
+    text: IRichTextCharacter[];
+} | IRichTextCharacter[];
+export type IFormatMethod<T extends any[]> = (...args: T) => ReturnType<ITextFormatMethod<T>> | ReturnType<IRichTextFormatMethod<T>>;

@@ -6,7 +6,7 @@ import type { ICirclePackingSeriesSpec } from './interface';
 
 import type { IMarkSpec } from '../../typings/spec/common';
 import { Factory } from '../../core/factory';
-import type { Datum, IArcMarkSpec, ITextMarkSpec } from '../../typings';
+import type { Datum, IArcMarkSpec, IComposedTextMarkSpec, ITextMarkSpec } from '../../typings';
 
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
@@ -222,7 +222,7 @@ export class CirclePackingSeries<
     }
     const labelMark = this._createMark(CirclePackingSeries.mark.label, {
       isSeriesMark: false
-    }) as IArcMark;
+    }) as ITextMark;
 
     this._labelMark = labelMark;
   }
@@ -232,7 +232,7 @@ export class CirclePackingSeries<
       return;
     }
 
-    this.setMarkStyle(
+    this.setMarkStyle<IComposedTextMarkSpec>(
       this._labelMark,
       {
         x: d => d.x,

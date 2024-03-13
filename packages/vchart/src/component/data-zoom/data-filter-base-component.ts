@@ -4,14 +4,14 @@ import { eachSeries } from '../../util/model';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
-import type { IComponent, IComponentOption } from '../interface';
+import { ComponentTypeEnum, type IComponent, type IComponentOption } from '../interface';
 import type { IGroupMark } from '../../mark/group';
 import { dataFilterComputeDomain, dataFilterWithNewDomain } from './util';
 import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, StringOrNumber } from '../../typings';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
+import type { IBandLikeScale, IBaseScale, LinearScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
@@ -57,12 +57,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _cacheRect?: ILayoutRect;
   protected _cacheVisibility?: boolean = undefined;
 
-  get orient() {
-    return this._orient;
-  }
-
   // 数据
   protected _stateScale: IBaseScale;
+
   protected _relatedAxisComponent!: IComponent;
   protected _originalStateFields: Record<number, string | number>;
 
@@ -115,6 +112,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     reverse: true
   };
 
+  get relatedAxisComponent() {
+    return this._relatedAxisComponent;
+  }
+
   /**
    * 外部可以通过此方法强制改变datazoom的start和end，达到聚焦定位的效果
    * @param start datazoom起点所在的相对位置
@@ -128,8 +129,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   ) {
     const [startMode = 'percent', endMode = 'percent'] = rangeMode;
 
-    const startPercent = (startMode === 'percent' ? start : this._dataToStatePoint(start)) as number;
-    const endPercent = (endMode === 'percent' ? end : this._dataToStatePoint(end)) as number;
+    const startPercent = (startMode === 'percent' ? start : this.dataToStatePoint(start)) as number;
+    const endPercent = (endMode === 'percent' ? end : this.dataToStatePoint(end)) as number;
 
     this._handleChange(startPercent, endPercent, true);
   }
@@ -164,7 +165,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
     const zoomLock = this._spec?.zoomLock ?? false;
-    if (zoomLock || end - start < this._minSpan || end - start > this._maxSpan) {
+    if (zoomLock) {
       this._shouldChange = false;
     }
   }
@@ -178,7 +179,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     return axisScale.range()[0] > axisScale.range()[1] && (!axis.getInverse() || this._isHorizontal);
   }
 
-  protected _updateRangeFactor(tag?: string, label?: string) {
+  protected _updateRangeFactor(tag?: 'startHandler' | 'endHandler') {
     // 轴的range有时是相反的
     // 比如相同的region范围, 有的场景range为[0, 500], 有的场景range为[500, 0]
     // 而datazoom/scrollbar的range是根据布局强制转化为[0, 500]
@@ -226,7 +227,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   effect: IEffect = {
-    onZoomChange: (tag?: string) => {
+    onZoomChange: (tag?: 'startHandler' | 'endHandler') => {
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
       if (axis && this._filterMode === IFilterMode.axis) {
         const axisScale = axis.getScale() as IBandLikeScale;
@@ -238,7 +239,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           axisScale.minBandwidth('auto');
         }
 
-        this._updateRangeFactor(tag, 'zoomChange');
+        this._updateRangeFactor(tag);
 
         (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
         axis.effect.scaleUpdate();
@@ -376,6 +377,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   protected _computeDomainOfStateScale(isContinuous?: boolean) {
+    if ((this._spec as IDataZoomSpec).customDomain) {
+      return (this._spec as IDataZoomSpec).customDomain;
+    }
+
     const domain = this._data.getLatestData().map((d: any) => d[this._stateField]);
 
     if (isContinuous) {
@@ -535,17 +540,29 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _statePointToData(state: number) {
     const scale = this._stateScale;
-    let range = scale.range();
+    const domain = scale.domain();
 
+    // continuous scale: 本来可以用scale invert，但scale invert在大数据场景下性能不太好，所以这里自行计算
+    if (isContinuous(scale.type)) {
+      if (this._isReverse()) {
+        return domain[0] + (domain[1] - domain[0]) * (1 - state);
+      }
+      return domain[0] + (domain[1] - domain[0]) * state;
+    }
+
+    // discete scale: 根据bandSize计算不准确, bandSize不是最新的, 导致index计算错误, 所以仍然使用invert
+    let range = scale.range();
     if (this._isReverse()) {
       range = range.slice().reverse();
     }
     const posInRange: number = range[0] + (range[1] - range[0]) * state;
-
+    // const bandSize = (scale as BandScale).bandwidth();
+    // const domainIndex = Math.min(Math.max(0, Math.floor(posInRange / bandSize)), domain.length - 1);
+    // return domain[domainIndex];
     return scale.invert(posInRange);
   }
 
-  protected _dataToStatePoint(data: number | string) {
+  dataToStatePoint(data: number | string) {
     const scale = this._stateScale;
     const pos = scale.scale(data);
     let range = scale.range();
@@ -573,16 +590,16 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       // 只有mode与配置相符时，才会生效
       // 比如rangeMode为['value', 'percent'],那么start为dataValue, end为[0, 1]
       if (this._modeCheck('start', startMode) && this._modeCheck('end', endMode)) {
-        start = startMode === 'percent' ? this._spec.start : this._dataToStatePoint(this._spec.startValue);
-        end = endMode === 'percent' ? this._spec.end : this._dataToStatePoint(this._spec.endValue);
+        start = startMode === 'percent' ? this._spec.start : this.dataToStatePoint(this._spec.startValue);
+        end = endMode === 'percent' ? this._spec.end : this.dataToStatePoint(this._spec.endValue);
       }
     } else {
       start = this._spec.start
         ? this._spec.start
         : this._spec.startValue
-        ? this._dataToStatePoint(this._spec.startValue)
+        ? this.dataToStatePoint(this._spec.startValue)
         : 0;
-      end = this._spec.end ? this._spec.end : this._spec.endValue ? this._dataToStatePoint(this._spec.endValue) : 1;
+      end = this._spec.end ? this._spec.end : this._spec.endValue ? this.dataToStatePoint(this._spec.endValue) : 1;
     }
     this._startValue = this._statePointToData(start);
     this._endValue = this._statePointToData(end);
@@ -922,7 +939,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
     if (isDiscrete(axisScale.type)) {
       if (bandSizeResult && (this._start || this._end)) {
-        this._updateRangeFactor(null, 'auto');
+        if (this.type === ComponentTypeEnum.scrollBar) {
+          this._start = 0;
+          this._end = 1;
+        }
+        this._updateRangeFactor();
       }
       const [start, end] = axisScale.rangeFactor() ?? [];
       if (isNil(start) && isNil(end)) {

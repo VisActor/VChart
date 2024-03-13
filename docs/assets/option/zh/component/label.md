@@ -16,7 +16,6 @@
 
 - 'text'
 - 'rich'
-- 'html'
 
 #${prefix} formatMethod(Function)
 
@@ -24,12 +23,37 @@
 
 ```ts
   /**
-   * 轴标签内容格式化函数
+   * 标签内容格式化函数
    * @param text 原始标签文本值
    * @param datum 图形数据
    * @returns 格式化后的文本
    */
-  formatMethod?: (text: string | string[], datum?: any) => string | string[] | IRichTextCharacter[];
+  formatMethod?: (text: string | string[], datum?: any) => string | string[] | number |  number[]
+```
+
+自`1.10.0`后，支持返回富文本配置，例如：
+
+```ts
+formatMethod: text => {
+  return {
+    type: 'rich',
+    text: [
+      {
+        text,
+        fontSize: 14,
+        fontWeight: 'bold',
+        fill: 'red'
+      },
+      {
+        text: 'Rich Text',
+        fontSize: 10,
+        lineThrough: true,
+        underline: true,
+        fill: 'green'
+      }
+    ]
+  };
+};
 ```
 
 #${prefix} formatter(string)
@@ -44,7 +68,7 @@
 
 #${prefix} syncState(boolean) = false
 
-是否同步数据图元的状态变化，自`1.9.0`版本开始支持，用法可以参考 [demo](/vchart/examples/label/bar-label-syncState)
+是否同步数据图元的状态变化，自`1.9.0`版本开始支持，用法可以参考 [demo](/vchart/demo/label/bar-label-syncState)
 
 {{ if: !${noOffset} }}
 
@@ -267,7 +291,7 @@ label 超出 mark 范围，也以 mark 作为背景色进行反色。
 #${prefix} dataFilter(function)
 自定义标签数据筛选和排序。自`1.3.0`版本开始支持。
 
-返回一组标签数据，布局顺序与数组顺序一致。所以在数组中越靠后的数据将越有可能发生碰撞并被隐藏。  
+返回一组标签数据，布局顺序与数组顺序一致。所以在数组中越靠后的数据将越有可能发生碰撞并被隐藏。
 函数回调参数为：`(data: LabelItem[]) => LabelItem[]`
 
 ```ts

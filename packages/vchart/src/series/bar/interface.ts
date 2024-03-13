@@ -3,7 +3,7 @@ import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IRect3dMarkSpec, IRectMarkSpec } from '../../typings/visual';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { BarAppearPreset } from './animation';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
 import type { IDataSamping, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { Functional } from '@visactor/vrender-components';
@@ -37,29 +37,31 @@ export interface IBarSeriesSpec
    */
   [SeriesMarkNameEnum.barBackground]?: IMarkSpec<IRectMarkSpec> & IBarBackgroundSpec;
   /** 标签配置*/
-  [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position'> & {
-    /**
-     * 标签位置
-     * @since 1.6.0
-     * 支持'top-right' | 'top-left'| 'bottom-right' | 'bottom-left'，以及函数形式配置
-     * */
-    position?: Functional<
-      | 'outside'
-      | 'top'
-      | 'bottom'
-      | 'left'
-      | 'right'
-      | 'inside'
-      | 'inside-top'
-      | 'inside-bottom'
-      | 'inside-right'
-      | 'inside-left'
-      | 'top-right'
-      | 'top-left'
-      | 'bottom-right'
-      | 'bottom-left'
-    >;
-  };
+  [SeriesMarkNameEnum.label]?: IMultiLabelSpec<
+    Omit<ILabelSpec, 'position'> & {
+      /**
+       * 标签位置
+       * @since 1.6.0
+       * 支持'top-right' | 'top-left'| 'bottom-right' | 'bottom-left'，以及函数形式配置
+       * */
+      position?: Functional<
+        | 'outside'
+        | 'top'
+        | 'bottom'
+        | 'left'
+        | 'right'
+        | 'inside'
+        | 'inside-top'
+        | 'inside-bottom'
+        | 'inside-right'
+        | 'inside-left'
+        | 'top-right'
+        | 'top-left'
+        | 'bottom-right'
+        | 'bottom-left'
+      >;
+    }
+  >;
   /**
    * 柱体宽度，可以设置绝对的像素值，也可以使用百分比（如 '10%'）
    * 1. number 类型，表示像素值
@@ -93,6 +95,12 @@ export interface IBarSeriesSpec
    * @since 1.4.0
    */
   barMinHeight?: number;
+
+  /**
+   * 堆叠柱整体的圆角
+   * @since 1.10.0
+   */
+  stackCornerRadius?: number | number[];
 }
 
 export interface IBarBackgroundSpec {

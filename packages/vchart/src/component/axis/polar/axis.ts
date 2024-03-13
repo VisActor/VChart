@@ -1,8 +1,8 @@
-import { POLAR_DEFAULT_RADIUS, POLAR_END_ANGLE, POLAR_END_RADIAN } from '../../../constant/polar';
-import type { IBaseScale, BandScale, LinearScale } from '@visactor/vscale';
+import { POLAR_DEFAULT_RADIUS, POLAR_END_RADIAN } from '../../../constant/polar';
+import type { IBaseScale, BandScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
-import { ChartEvent, LayoutZIndex, POLAR_START_ANGLE, POLAR_START_RADIAN } from '../../../constant';
+import { ChartEvent, LayoutZIndex, POLAR_START_RADIAN } from '../../../constant';
 import type { IPolarAxis, IPolarAxisCommonSpec } from './interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports

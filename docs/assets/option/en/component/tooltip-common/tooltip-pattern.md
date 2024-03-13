@@ -28,60 +28,96 @@ Configuration of tooltip content, which can be an `IToolTipLinePattern` object o
 
 Configuration of tooltip position, supporting object and string types.
 
-If configured as a string attribute, the tooltip will be fixed around or inside the corresponding graphical element (currently only mark tooltip is supported). There are several display types:
+Currently supports three configuration forms:
 
-- `'top'`, tooltip is displayed above the element
-- `'bottom'`, tooltip is displayed below the element
-- `'left'`, tooltip is displayed to the left of the element
-- `'right'`, tooltip is displayed to the right of the element
-- `'inside'`, tooltip is displayed at the center of the element
-- `'tl'` / `'lt'`, tooltip is displayed in the upper left corner of the element
-- `'tr'` / `'rt'`, tooltip is displayed in the upper right corner of the element
-- `'bl'` / `'lb'`, tooltip is displayed in the bottom left corner of the element
-- `'br'` / `'rb'`, tooltip is displayed in the bottom right corner of the element
+If configured as a string attribute, the tooltip will be fixed around or inside the corresponding graphical element.
+
+{{ use: component-tooltip-position-fixed-type() }}
 
 If configured as an object type, it uses a relative container layout mode. The following optional attributes can be configured:
+
+```ts
+/** The following is a tooltip position relative to the global layout, which only supports pixel values or pixel value callbacks */
+export interface IGlobalTooltipPositionPattern {
+  left?: TooltipPositionValue;
+  right?: TooltipPositionValue;
+  top?: TooltipPositionValue;
+  bottom?: TooltipPositionValue;
+}
+```
+
+If configured as an object type and laid out relative to a certain chart element, the following optional properties can be configured:
+
+```ts
+/** The following is a tooltip position relative to a certain chart element, supporting pixel values or fixed orientations (x and y can be configured separately) */
+export interface IFixedTooltipPositionPattern {
+  x: TooltipPositionPatternItem;
+  y: TooltipPositionPatternItem;
+}
+```
+
+The type declaration of `TooltipPositionPatternItem` is:
+
+```ts
+export type TooltipPositionPatternItem = TooltipPositionValue | ITooltipPositionFixedValue;
+
+export interface ITooltipPositionFixedValue {
+  /** Orient of fixed tooltip position */
+  orient: TooltipFixedPosition;
+  /** Mode of fixed tooltip position */
+  mode: TooltipPositionMode;
+  /** Offset (pixel value) */
+  offset?: number;
+}
+```
+
+The specific configuration items are explained as follows.
 
 ##${prefix} left(number|Function)
 
 **Optional** Distance between the tooltip trigger point and the left side of the container.
 
-{{ use: component-tooltip-position-callback(
-  prefix = '##' + ${prefix}
-) }}
+{{ use: component-tooltip-position-callback() }}
 
 ##${prefix} right(number|Function)
 
 **Optional** Distance between the tooltip trigger point and the right side of the container.
 
-{{ use: component-tooltip-position-callback(
-  prefix = '##' + ${prefix}
-) }}
+{{ use: component-tooltip-position-callback() }}
 
 ##${prefix} top(number|Function)
 
 **Optional** Distance between the tooltip trigger point and the top side of the container.
 
-{{ use: component-tooltip-position-callback(
-  prefix = '##' + ${prefix}
-) }}
+{{ use: component-tooltip-position-callback() }}
 
 ##${prefix} bottom(number|Function)
 
 **Optional** Distance between the tooltip trigger point and the bottom side of the container.
 
-{{ use: component-tooltip-position-callback(
-  prefix = '##' + ${prefix}
+{{ use: component-tooltip-position-callback() }}
+
+##${prefix} x(number|Function|Object)
+
+**Optional**
+
+{{ use: component-tooltip-position-fixed(
+  prefix = '##' + ${prefix},
+) }}
+
+##${prefix} y(number|Function|Object)
+
+**Optional**
+
+{{ use: component-tooltip-position-fixed(
+  prefix = '##' + ${prefix},
 ) }}
 
 #${prefix} positionMode(string)
 
 The tooltip position mode determines what element the `position` is relatively fixed to, such as around the mouse pointer or mouse-over marks. This configuration only takes effect when `position` is set to a string.
 
-There are several modes, with the default being `'mark'`:
-
-- `'mark'`，tooltip fixed near the mouse-over mark
-- `'pointer'`, tooltip fixed near the mouse pointer
+{{ use: component-tooltip-position-fixed-mode() }}
 
 #${prefix} updateContent(Function)
 
@@ -111,3 +147,8 @@ The first parameter is the final tooltip title information calculated by VChart 
 #${prefix} maxLineCount(number)
 
 Define the maximum number of displayed lines for tooltip content, and any content exceeding this limit will be represented as "others".
+
+{{ use: component-tooltip-shape-pattern(
+  prefix = ${prefix},
+  type = 'pattern'
+) }}

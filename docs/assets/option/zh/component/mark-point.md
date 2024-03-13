@@ -149,6 +149,8 @@
 - 'insideBottom'
 - 'insideMiddle'
 
+位置布局可参考: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/marker-position.png
+
 #### offsetX(number)
 
 标注内容相对于标注点的 x 方向偏移量。

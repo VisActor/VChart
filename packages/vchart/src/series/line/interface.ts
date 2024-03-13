@@ -7,6 +7,7 @@ import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mix
 import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILabelSpec } from '../../component';
+import { IMultiLabelSpec } from '../../component/label';
 
 type LineMarks = 'point' | 'line';
 
@@ -37,7 +38,7 @@ export interface ILineSeriesSpec
   /**
    * 标签配置
    */
-  [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+  [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILineLikeLabelSpec>;
   /**
    * 折线标签配置
    * @since 1.7.0

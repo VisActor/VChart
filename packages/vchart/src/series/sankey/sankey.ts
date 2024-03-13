@@ -6,7 +6,7 @@ import type { IRectMark } from '../../mark/rect';
 import type { ILinkPathMark } from '../../mark/link-path';
 import type { ITextMark } from '../../mark/text';
 import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
-import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, ITextMarkSpec } from '../../typings';
+import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, ITextMarkSpec, IComposedTextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -305,7 +305,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
     if (this._spec.direction === 'vertical') {
       if (this._spec.label.position === 'inside-start') {
-        this.setMarkStyle<ITextMarkSpec>(
+        this.setMarkStyle<IComposedTextMarkSpec>(
           this._labelMark,
           {
             x: (datum: Datum) => datum.x0,
@@ -320,7 +320,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           AttributeLevel.Series
         );
       } else if (this._spec.label.position === 'inside-middle') {
-        this.setMarkStyle<ITextMarkSpec>(
+        this.setMarkStyle<IComposedTextMarkSpec>(
           this._labelMark,
           {
             x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
@@ -335,7 +335,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           AttributeLevel.Series
         );
       } else if (this._spec.label.position === 'inside-end') {
-        this.setMarkStyle<ITextMarkSpec>(
+        this.setMarkStyle<IComposedTextMarkSpec>(
           this._labelMark,
           {
             x: (datum: Datum) => datum.x1,
@@ -350,7 +350,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           AttributeLevel.Series
         );
       } else {
-        this.setMarkStyle<ITextMarkSpec>(
+        this.setMarkStyle<IComposedTextMarkSpec>(
           this._labelMark,
           {
             x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
@@ -379,7 +379,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       }
     } else {
       if (this._spec.label.position === 'inside-start') {
-        this.setMarkStyle<ITextMarkSpec>(
+        this.setMarkStyle<IComposedTextMarkSpec>(
           this._labelMark,
           {
             x: (datum: Datum) => datum.x0,
@@ -394,7 +394,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           AttributeLevel.Series
         );
       } else if (this._spec.label.position === 'inside-middle') {
-        this.setMarkStyle<ITextMarkSpec>(
+        this.setMarkStyle<IComposedTextMarkSpec>(
           this._labelMark,
           {
             x: (datum: Datum) => (datum.x0 + datum.x1) / 2,
@@ -409,7 +409,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           AttributeLevel.Series
         );
       } else if (this._spec.label.position === 'inside-end') {
-        this.setMarkStyle<ITextMarkSpec>(
+        this.setMarkStyle<IComposedTextMarkSpec>(
           this._labelMark,
           {
             x: (datum: Datum) => datum.x1,
@@ -424,7 +424,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           AttributeLevel.Series
         );
       } else if (this._spec.label.position === 'left') {
-        this.setMarkStyle<ITextMarkSpec>(
+        this.setMarkStyle<IComposedTextMarkSpec>(
           this._labelMark,
           {
             x: (datum: Datum) => datum.x0,
@@ -441,7 +441,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           AttributeLevel.Series
         );
       } else if (this._spec.label.position === 'right') {
-        this.setMarkStyle<ITextMarkSpec>(
+        this.setMarkStyle<IComposedTextMarkSpec>(
           this._labelMark,
           {
             x: (datum: Datum) => datum.x1,
@@ -458,7 +458,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           AttributeLevel.Series
         );
       } else {
-        this.setMarkStyle<ITextMarkSpec>(
+        this.setMarkStyle<IComposedTextMarkSpec>(
           this._labelMark,
           {
             x: (datum: Datum) => {

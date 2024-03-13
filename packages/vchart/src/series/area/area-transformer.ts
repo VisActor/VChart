@@ -1,4 +1,4 @@
-import { isNil, isValid } from '@visactor/vutils';
+import { isValid } from '@visactor/vutils';
 import type { IChartSpecInfo } from '../../chart/interface';
 import { SeriesMarkNameEnum } from '../interface';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
@@ -11,6 +11,8 @@ export class AreaSeriesSpecTransformer<
   T extends IAreaSeriesSpec = IAreaSeriesSpec,
   K extends IAreaSeriesTheme = IAreaSeriesTheme
 > extends LineLikeSeriesSpecTransformer<T, K> {
+  protected _supportStack: boolean = true;
+
   protected _transformLabelSpec(spec: T): void {
     super._transformLabelSpec(spec);
     this._addMarkLabelSpec<AreaSeries>(
@@ -30,7 +32,7 @@ export class AreaSeriesSpecTransformer<
   protected _transformSpecAfterMergingTheme(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo) {
     super._transformSpecAfterMergingTheme(spec, chartSpec, chartSpecInfo);
 
-    const { area = {}, line = {}, seriesMark = 'area' } = spec;
+    const { area = {}, line = {}, seriesMark } = spec;
     const isAreaVisible = area.visible !== false && area.style?.visible !== false;
     const isLineVisible = line.visible !== false && line.style?.visible !== false;
     // merge line to area

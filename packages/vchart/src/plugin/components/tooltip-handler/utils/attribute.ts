@@ -5,18 +5,18 @@ import type {
   TooltipSymbolAttrs,
   TooltipTextAttrs
 } from '@visactor/vrender-components';
-import type { IPadding, IToolTipActual } from '../../../../typings';
+import type { IPadding, ITooltipActual } from '../../../../typings';
 import type { ITooltipAttributes, ITooltipTextStyle } from '../interface';
 import { isValid, maxInArray, normalizePadding } from '@visactor/vutils';
 import { mergeSpec } from '../../../../util/spec/merge-spec';
 import { normalizeLayoutPaddingSpec } from '../../../../util/space';
-import { THEME_CONSTANTS } from '../../../../theme/builtin/common/constants';
 import { measureTooltipText } from './common';
 import type { ITheme } from '../../../../theme';
 import type { ITooltipSpec, ITooltipTextTheme, ITooltipTheme } from '../../../../component/tooltip';
+import { token } from '../../../../theme/token';
 
 const DEFAULT_TEXT_ATTRIBUTES: Partial<ITooltipTextStyle> = {
-  fontFamily: THEME_CONSTANTS.defaultFontFamily,
+  fontFamily: token.fontFamily,
   spacing: 10,
   wordBreak: 'break-word'
 };
@@ -31,10 +31,10 @@ export function getTextAttributes(
     fill: (style.fill ?? style.fontColor) as string,
     textAlign: style.textAlign,
     textBaseline: style.textBaseline,
-    fontFamily: style.fontFamily ?? globalTheme?.fontFamily,
-    fontSize: style.fontSize,
+    fontFamily: style.fontFamily ?? (globalTheme?.fontFamily as string),
+    fontSize: style.fontSize as number,
     fontWeight: style.fontWeight,
-    lineHeight: style.lineHeight,
+    lineHeight: style.lineHeight as number,
     spacing: style.spacing,
     multiLine: style.multiLine,
     maxWidth: style.maxWidth,
@@ -71,7 +71,7 @@ export const getPanelAttributes = (style: ITooltipTheme['panel']): TooltipPanelA
 };
 
 export const getTooltipAttributes = (
-  actualTooltip: IToolTipActual,
+  actualTooltip: ITooltipActual,
   spec: ITooltipSpec,
   globalTheme: ITheme
 ): ITooltipAttributes => {
@@ -157,9 +157,9 @@ export const getTooltipAttributes = (
         spaceRow: actualSpaceRow,
         keyStyle: actualKeyStyle,
         valueStyle: actualValueStyle,
+        shapeHollow: actualShapeHollow,
         // 弃用的属性，做下兼容
-        shapeColor: actualShapeColor,
-        shapeHollow: actualShapeHollow
+        shapeColor: actualShapeColor
       } = item;
       const itemAttrs: TooltipRowAttrs = { height: 0, spaceRow: actualSpaceRow ?? commonSpaceRow };
       if (isValid(actualKey)) {

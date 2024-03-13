@@ -1,7 +1,7 @@
 import type { IMapSeriesSpec } from '../../series';
 // eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../../series';
-import type { IRegionSpec, ISeriesSpec } from '../../typings';
+import type { RegionSpec, ISeriesSpec } from '../../typings';
 import { BaseChartSpecTransformer } from '../base';
 import type { IMapChartSpec } from './interface';
 
@@ -36,7 +36,7 @@ export class MapChartSpecTransformer<T extends IMapChartSpec = IMapChartSpec> ex
   transformSpec(spec: T): void {
     super.transformSpec(spec);
 
-    spec.region.forEach((r: IRegionSpec) => {
+    spec.region.forEach((r: RegionSpec) => {
       r.coordinate = 'geo';
     });
 

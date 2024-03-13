@@ -237,7 +237,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
         this.initMarkStyleWithSpec(labelMark, labelSpec, undefined);
         if (isFunction(labelSpec?.getStyleHandler)) {
           const styleHandler = labelSpec.getStyleHandler(series);
-          styleHandler?.call(series, labelMark);
+          styleHandler?.call(series, labelMark, labelSpec);
         }
         if (labelMark.stateStyle?.normal?.lineWidth) {
           labelMark.setAttribute('stroke', series.getColorAttribute(), 'normal', AttributeLevel.Base_Series);

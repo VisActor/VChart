@@ -3,7 +3,6 @@ import type { IRenderOption } from '../../compile/interface';
 import type { IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IView } from '@visactor/vgrammar-core';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { ITheme } from '../../theme';
 import type { ISeriesSpecInfo } from '../../series';
 import type { IRegionSpecInfo } from '../../region';
 export interface ILayoutParams {
@@ -22,11 +21,8 @@ export interface IChartOption extends Omit<IModelOption, 'getChartViewRect' | 'g
     layout?: LayoutCallBack;
     disableTriggerEvent?: boolean;
 }
-export interface IChartSpecTransformerOption {
-    type: string;
+export interface IChartSpecTransformerOption extends Partial<IChartOption> {
     seriesType?: string;
-    animation?: boolean;
-    getTheme: () => ITheme;
 }
 export interface IChartSpecInfo {
     region?: IRegionSpecInfo[];

@@ -3,10 +3,9 @@ import { LayoutZIndex } from './../../constant/index';
 import type { IPoint } from '../../typings/coordinate';
 import { Projection } from './projection';
 import type { IEffect, IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../../model/interface';
-import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
-import type { IGeoRegionSpec, IRegion, IRegionSpec } from '../../region/interface';
+import type { IGeoRegionSpec, IRegion, RegionSpec } from '../../region/interface';
 import { eachSeries } from '../../util/model';
 import { mergeSpec } from '../../util/spec/merge-spec';
 import { ChartEvent, PREFIX } from '../../constant/index';
@@ -14,7 +13,7 @@ import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';
 import type { IGeoCoordinate, IGeoCoordinateHelper, IGeoCoordinateSpec, IProjectionSpec } from './interface';
 import type { BaseEventParams, ExtendEventParam, PanEventParam, ZoomEventParam } from '../../event/interface';
-import type { IChartSpec, StringOrNumber } from '../../typings';
+import type { StringOrNumber } from '../../typings';
 import type { IZoomable } from '../../interaction/zoom/zoomable';
 import { Zoomable } from '../../interaction/zoom/zoomable';
 import { isValid, mixin, isNil, Matrix } from '@visactor/vutils';
@@ -76,7 +75,7 @@ export class GeoCoordinate extends BaseComponent<IGeoRegionSpec> implements IGeo
       return null;
     }
     const specInfos: IModelSpecInfo[] = [];
-    chartSpec.region.forEach((r: IRegionSpec, i: number) => {
+    chartSpec.region.forEach((r: RegionSpec, i: number) => {
       if (r.coordinate === 'geo') {
         // 去除 padding 配置，避免重复计算
         const spec = { ...r, padding: 0 };

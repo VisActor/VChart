@@ -4,18 +4,17 @@ import { AttributeLevel, DEFAULT_DATA_KEY, VGRAMMAR_HOOK_EVENT } from '../../con
 import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IRectMark } from '../../mark/rect';
-import type { Datum, IRectMarkSpec, ITextMarkSpec } from '../../typings';
+import type { Datum, IComposedTextMarkSpec, IRectMarkSpec } from '../../typings';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { ITreemapSeriesSpec } from './interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
-import type { ITreemapOpt } from '../../data/transforms/treemap';
-import { treemap } from '../../data/transforms/treemap';
 import { flatten } from '../../data/transforms/flatten';
 import type { IBounds } from '@visactor/vutils';
 import { isValidNumber, Bounds, Matrix, mixin } from '@visactor/vutils';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
+import { registerTreemapTransforms } from '@visactor/vgrammar-hierarchy';
 import type { TreemapNodeElement } from '@visactor/vgrammar-hierarchy';
 import { DataView } from '@visactor/vdataset';
 import { hierarchyDimensionStatistics } from '../../data/transforms/hierarchy-dimension-statistics';
@@ -35,7 +34,6 @@ import { registerTextMark } from '../../mark/text';
 import { treemapSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerTreemapAnimation } from './animation';
-import { TransformLevel } from '../../data/initialize';
 import type { ILabelMark } from '../../mark/label';
 import { TreemapSeriesSpecTransformer } from './treemap-transform';
 
@@ -110,27 +108,29 @@ export class TreemapSeries extends CartesianSeries<any> {
   initData() {
     super.initData();
     // 矩形树图中原始数据为层次结果，图元数据为平坦化后的结构，具体逻辑如下：
-    // spec.data => rawData(hierarchy) => viewDataFilter => treemap transform => flatten transform => viewData
     if (this.getViewData()) {
       // 对原始数据进行上卷下钻筛选
       if (this._spec.drill) {
         (this as unknown as IDrillable).initDrillableData(this._dataSet);
       }
+    }
+  }
 
-      registerDataSetInstanceTransform(this._dataSet, 'treemap', treemap);
-      registerDataSetInstanceTransform(this._dataSet, 'flatten', flatten);
+  compile(): void {
+    super.compile();
+    this._runTreemapTransform();
+  }
 
-      this.addViewDataFilter({
-        type: 'treemap',
-        options: {
-          range: () => {
-            return {
-              x0: this._viewBox.x1,
-              x1: this._viewBox.x2,
-              y0: this._viewBox.y1,
-              y1: this._viewBox.y2
-            };
-          },
+  protected _runTreemapTransform(render = false) {
+    const viewDataProduct = this._data.getProduct();
+    if (viewDataProduct) {
+      viewDataProduct.transform([
+        {
+          type: 'treemap',
+          x0: this._viewBox.x1,
+          x1: this._viewBox.x2,
+          y0: this._viewBox.y1,
+          y1: this._viewBox.y2,
           maxDepth: this._maxDepth,
           gapWidth: this._spec.gapWidth,
           padding: this._spec.nodePadding,
@@ -140,24 +140,24 @@ export class TreemapSeries extends CartesianSeries<any> {
           labelPosition: this._spec.nonLeafLabel?.position,
           minVisibleArea: this._spec.minVisibleArea ?? 10,
           minChildrenVisibleArea: this._spec.minChildrenVisibleArea,
-          minChildrenVisibleSize: this._spec.minChildrenVisibleSize
-        } as ITreemapOpt,
-        level: TransformLevel.treemapFilter
-      });
-
-      this.addViewDataFilter({
-        type: 'flatten',
-        options: {
-          callback: (node: TreemapNodeElement) => {
-            if (node.datum) {
-              const nodeData = node.datum[node.depth];
-              return { ...node, ...nodeData };
-            }
-            return node;
-          }
+          minChildrenVisibleSize: this._spec.minChildrenVisibleSize,
+          flatten: true
         },
-        level: TransformLevel.treemapFlatten
-      });
+        {
+          type: 'map',
+          callback: (datum: TreemapNodeElement) => {
+            if (datum) {
+              [DEFAULT_HIERARCHY_ROOT, 'name'].forEach(key => {
+                datum[key] = datum.datum[datum.depth][key];
+              });
+            }
+            return datum;
+          }
+        }
+      ]);
+    }
+    if (render) {
+      this.getCompiler().renderNextTick();
     }
   }
 
@@ -323,7 +323,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     }
     this._labelMark = labelMark;
     labelMark.setRule('treemap');
-    this.setMarkStyle<ITextMarkSpec>(
+    this.setMarkStyle(
       labelMark,
       {
         x: datum => (datum.x0 + datum.x1) / 2,
@@ -338,6 +338,18 @@ export class TreemapSeries extends CartesianSeries<any> {
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
+    if (labelMark.getTextType() === 'rich') {
+      this.setMarkStyle<IComposedTextMarkSpec>(
+        labelMark,
+        {
+          maxWidth: datum => Math.abs(datum.x0 - datum.x1),
+          maxHeight: datum => Math.abs(datum.y0 - datum.y1),
+          ellipsis: true
+        },
+        STATE_VALUE_ENUM.STATE_NORMAL,
+        AttributeLevel.Series
+      );
+    }
   }
 
   protected initNonLeafLabelMarkStyle(labelMark: ILabelMark) {
@@ -346,7 +358,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     }
     this._nonLeafLabelMark = labelMark;
     labelMark.setRule('treemap');
-    this.setMarkStyle<ITextMarkSpec>(
+    this.setMarkStyle(
       labelMark,
       {
         x: datum => {
@@ -371,6 +383,18 @@ export class TreemapSeries extends CartesianSeries<any> {
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
+    if (labelMark.getTextType() === 'rich') {
+      this.setMarkStyle<IComposedTextMarkSpec>(
+        labelMark,
+        {
+          maxWidth: datum => Math.abs(datum.x0 - datum.x1),
+          maxHeight: datum => Math.abs(datum.y0 - datum.y1),
+          ellipsis: true
+        },
+        STATE_VALUE_ENUM.STATE_NORMAL,
+        AttributeLevel.Series
+      );
+    }
   }
 
   initAnimation(): void {
@@ -378,15 +402,6 @@ export class TreemapSeries extends CartesianSeries<any> {
       mark.setAnimationConfig(
         animationConfig(
           Factory.getAnimationInKey('treemap')?.(),
-          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
-        )
-      );
-    });
-
-    this.getMarksInType(MarkTypeEnum.text).forEach(mark => {
-      mark.setAnimationConfig(
-        animationConfig(
-          Factory.getAnimationInKey('fadeInOut')?.(),
           userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
         )
       );
@@ -442,7 +457,7 @@ export class TreemapSeries extends CartesianSeries<any> {
 
     this._viewBox.transformWithMatrix(this._matrix);
 
-    this.reFilterViewData();
+    this._runTreemapTransform(true);
   }
 
   handleZoom(event: ZoomEventParam) {
@@ -463,7 +478,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     this.disableMarkAnimation();
     this.event.on(VGRAMMAR_HOOK_EVENT.AFTER_DO_RENDER, this._enableAnimationHook);
     this._viewBox.transformWithMatrix(this._matrix);
-    this.reFilterViewData();
+    this._runTreemapTransform(true);
   }
 
   getDimensionField() {
@@ -477,7 +492,7 @@ export class TreemapSeries extends CartesianSeries<any> {
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     this._viewBox.set(0, 0, this.getLayoutRect().width, this.getLayoutRect().height);
-    this._rawData.reRunAllTransform();
+    this._runTreemapTransform();
   }
 
   protected enableMarkAnimation() {
@@ -521,5 +536,6 @@ export const registerTreemapSeries = () => {
   registerTextMark();
   registerTreemapAnimation();
   registerFadeInOutAnimation();
+  registerTreemapTransforms();
   Factory.registerSeries(TreemapSeries.type, TreemapSeries);
 };

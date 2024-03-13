@@ -275,7 +275,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
           text: (datum: Datum) => {
             const text = `${datum[this.getCategoryField()]}`;
             if (isFunction(this._spec.outerLabel.formatMethod)) {
-              return this._spec.outerLabel.formatMethod(text, datum);
+              return this._spec.outerLabel.formatMethod(text, datum) as unknown as any;
             }
             return text;
           },

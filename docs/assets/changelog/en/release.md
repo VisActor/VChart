@@ -1,3 +1,27 @@
+# v1.9.6
+
+2024-03-11
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: support dataKey in CustomMark and ExtensionMark
+- **@visactor/vchart**: support mulity data in waterfal total dimensions
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: `animationAppear: false` not work
+- **@visactor/vchart**: fix bug that throws error when setting mark style to invlaid value
+- **@visactor/vchart**: fix the issue of duplicate event registration, fixed [#2336](https://github.com/VisActor/VChart/issues/2336)
+- **@visactor/vchart**: fixed the issue of being unable to listen to label and totalLabel component events on vchart, `vchart.on('click', { level: 'model', type: 'label' })`
+- **@visactor/vchart**: optimize totoal label position when axis is inversed
+- **@visactor/vchart**: upgrade vrender to 0.17.27, vgrammar to 0.11.15
+- **scrollbar**: click stopped by zoomable. fix[#2333](https://github.com/VisActor/VChart/issues/2333)
+
+
+
+[more detail about v1.9.6](https://github.com/VisActor/VChart/releases/tag/v1.9.6)
+
 # v1.9.5
 
 2024-03-04

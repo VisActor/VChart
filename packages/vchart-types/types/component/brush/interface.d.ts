@@ -10,6 +10,10 @@ interface IBrushDataBindSpec {
     seriesId?: string | string[];
     brushLinkSeriesIndex?: number | number[];
     brushLinkSeriesId?: string | string[];
+    zoomAfterBrush?: boolean;
+    axisId?: string | string[];
+    axisIndex?: number | number[];
+    axisRangeExpand?: number;
 }
 export interface IBrushTheme {
     style?: Partial<IPolygonMarkSpec>;

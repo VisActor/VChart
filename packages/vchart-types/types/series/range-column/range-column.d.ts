@@ -15,7 +15,6 @@ export declare class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRange
     static readonly mark: SeriesMarkMap;
     static readonly transformerConstructor: any;
     readonly transformerConstructor: any;
-    protected _stack: boolean;
     private _minLabelMark?;
     private _maxLabelMark?;
     private _labelMark?;

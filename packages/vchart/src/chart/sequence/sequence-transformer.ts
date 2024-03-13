@@ -2,7 +2,7 @@ import { array } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 import { BaseChartSpecTransformer } from '../base';
 import type { ISequenceChartSpec, ISequenceSeriesSpec } from './interface';
-import type { Datum, IRegionSpec } from '../../typings';
+import type { Datum, RegionSpec } from '../../typings';
 import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
 import { SeriesTypeEnum } from '../../series';
 import { normalizeLayoutPaddingSpec } from '../../util';
@@ -58,7 +58,7 @@ export class SequenceChartSpecTransformer<
     // 初始化目标属性
     let rowNum = 0;
     const elements: any[] = [];
-    const region: IRegionSpec[] = [];
+    const region: RegionSpec[] = [];
     const axes: ICartesianAxisSpec[] = [];
     const scrollBar: IScrollBarSpec[] = [];
     const rowHeight: any = [];
