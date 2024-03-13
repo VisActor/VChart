@@ -8,7 +8,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "rm -rf lib && rollup -c --bundleConfigAsCjs",
+    "build": "rimraf lib && rollup -c --bundleConfigAsCjs",
     "build:tt": "taro build --type tt",
     "build:lark": "taro build --type lark",
     "build:h5": "taro build --type h5",
@@ -83,7 +83,8 @@
     "rollup": "3.20.5",
     "rollup-plugin-import-css": "^3.0.2",
     "stylelint": "9.3.0",
-    "tslib": "2.3.1"
+    "tslib": "2.3.1",
+    "rimraf": "3.0.2"
   },
   "publishConfig": {
     "access": "public",

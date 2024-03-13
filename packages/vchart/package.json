@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "bundle --clean && npm run build:schema && npm run build:types && npm run build:es5",
-    "build:es5": "rm -rf lib && rollup -c --bundleConfigAsCjs",
+    "build:es5": "rimraf lib && rollup -c --bundleConfigAsCjs",
     "build:schema": "schema src/typings/spec/chart.ts ISpec --useTypeOfKeyword --ignoreErrors --required > ../vchart-schema/vchart.json",
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir ../vchart-types/types",
     "build:ci": "bundle --clean -f umd --ignorePostTasks --ignoreUmdEntries",
@@ -29,7 +29,7 @@
     "dev": "bundle --clean -f es -w",
     "compile": "tsc --noEmit",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser",
-    "clear": "rm -rf build && rm -rf esm && rm -rf cjs",
+    "clear": "rimraf build && rimraf esm && rimraf cjs",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check .",
     "eslint": "eslint --debug --fix src/",
@@ -115,7 +115,8 @@
     "form-data": "~4.0.0",
     "canvas": "2.11.2",
     "size-limit": "9.0.0",
-    "@size-limit/file": "9.0.0"
+    "@size-limit/file": "9.0.0",
+    "rimraf": "3.0.2"
   },
   "dependencies": {
     "@visactor/vutils": "~0.18.1",
