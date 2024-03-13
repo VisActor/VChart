@@ -18110,7 +18110,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18240,7 +18239,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -18349,7 +18347,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -19715,6 +19712,9 @@
             },
             {
               "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "typeof": "function"
             },
             {
               "typeof": "function"
@@ -30728,9 +30728,35 @@
                   "typeof": "function"
                 }
               ]
+            },
+            {
+              "allOf": [
+                {
+                  "typeof": "function"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
             }
           ],
           "description": "图例背景配置"
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -30829,6 +30855,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "filter": {
           "description": "是否进行数据筛选，默认为 true",
@@ -31425,6 +31454,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -40399,7 +40431,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40511,7 +40542,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -40598,7 +40628,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -49442,6 +49471,22 @@
         "angle": {
           "type": "number"
         },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -49558,6 +49603,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -49817,6 +49865,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -60773,6 +60824,9 @@
         "getLayer": {
           "typeof": "function"
         },
+        "getTheme": {
+          "typeof": "function"
+        },
         "getTimeline": {
           "typeof": "function"
         },
@@ -61061,6 +61115,7 @@
         "getElementsByName",
         "getElementsByType",
         "getLayer",
+        "getTheme",
         "getTimeline",
         "height",
         "hooks",
@@ -63934,7 +63989,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -63954,7 +64008,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -63966,7 +64019,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -69941,7 +69993,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         },
         "size": {
@@ -69949,14 +70001,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12589",
+        "__@toStringTag@12619",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         },
         "size": {
@@ -69964,14 +70016,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12589",
+        "__@toStringTag@12619",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         },
         "size": {
@@ -69979,14 +70031,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12589",
+        "__@toStringTag@12619",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         },
         "size": {
@@ -69994,14 +70046,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12589",
+        "__@toStringTag@12619",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         },
         "size": {
@@ -70009,14 +70061,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12589",
+        "__@toStringTag@12619",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         },
         "size": {
@@ -70024,14 +70076,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12589",
+        "__@toStringTag@12619",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         },
         "size": {
@@ -70039,14 +70091,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12589",
+        "__@toStringTag@12619",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         },
         "size": {
@@ -70054,14 +70106,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12589",
+        "__@toStringTag@12619",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         },
         "size": {
@@ -70069,7 +70121,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12589",
+        "__@toStringTag@12619",
         "size"
       ],
       "type": "object"
@@ -70596,9 +70648,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -70693,6 +70764,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -70939,6 +71013,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -73173,6 +73250,22 @@
         "angle": {
           "type": "number"
         },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
+        },
         "backgroundMode": {
           "enum": [
             "no-repeat",
@@ -73254,6 +73347,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -73468,6 +73564,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -73515,7 +73614,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73627,7 +73725,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -73710,7 +73807,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -74984,9 +75080,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -75075,6 +75190,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -75302,6 +75420,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -75705,9 +75826,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -75796,6 +75936,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "forceShowCap": {
           "type": "boolean"
@@ -75993,6 +76136,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -76120,9 +76266,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -76208,6 +76373,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -76398,6 +76566,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -76592,9 +76763,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -76657,6 +76847,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -76841,6 +77034,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -77030,9 +77226,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -77108,6 +77323,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -77300,6 +77518,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -77430,9 +77651,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -77492,6 +77732,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -77671,6 +77914,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -77815,9 +78061,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -77900,6 +78165,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -78114,6 +78382,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -78247,9 +78518,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -78322,6 +78612,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -78523,6 +78816,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -78567,7 +78863,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -78679,7 +78974,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -78766,7 +79060,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -78899,9 +79192,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -78990,6 +79302,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -79181,6 +79496,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -79222,7 +79540,6 @@
               "$ref": "#/definitions/ILabelAnimation"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79334,7 +79651,6 @@
               "$ref": "#/definitions/OverlapAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -79422,7 +79738,6 @@
               "$ref": "#/definitions/SmartInvertAttrs"
             },
             {
-              "const": false,
               "type": "boolean"
             }
           ],
@@ -80084,9 +80399,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -80149,6 +80483,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -80338,6 +80675,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -80465,9 +80805,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -80543,6 +80902,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -80727,6 +81089,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -81104,9 +81469,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -81179,6 +81563,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -81364,6 +81751,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -81500,9 +81890,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -81575,6 +81984,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -81756,6 +82168,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -82140,6 +82555,12 @@
         "renderStyle": {
           "type": "string"
         },
+        "supportsPointerEvents": {
+          "type": "boolean"
+        },
+        "supportsTouchEvents": {
+          "type": "boolean"
+        },
         "ticker": {
           "$ref": "#/definitions/ITicker"
         },
@@ -82249,9 +82670,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -82311,6 +82751,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -82510,6 +82953,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -82640,9 +83086,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -82718,6 +83183,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "fontFamily": {
           "type": "string"
@@ -82938,6 +83406,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -83713,9 +84184,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -83788,6 +84278,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "fontFamily": {
           "type": "string"
@@ -84009,6 +84502,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -84195,9 +84691,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -84267,6 +84782,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -84444,6 +84962,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -84583,9 +85104,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -84645,6 +85185,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -84823,6 +85366,9 @@
         },
         "strokeOpacity": {
           "type": "number"
+        },
+        "strokePickable": {
+          "type": "boolean"
         },
         "strokeSeg": {
           "typeof": "function"
@@ -86280,34 +86826,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12589"
+        "__@toStringTag@12619"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12589"
+        "__@toStringTag@12619"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12589": {
+        "__@toStringTag@12619": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12589"
+        "__@toStringTag@12619"
       ],
       "type": "object"
     },
@@ -86483,9 +87029,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -86574,6 +87139,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "forceShowCap": {
           "type": "boolean"
@@ -86771,6 +87339,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -86809,6 +87380,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -86825,6 +87398,7 @@
         "endAngle",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "forceShowCap",
         "globalCompositeOperation",
         "globalZIndex",
@@ -86864,6 +87438,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -86971,9 +87546,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -87059,6 +87653,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -87250,6 +87847,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -87288,6 +87888,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -87308,6 +87910,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -87343,6 +87946,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -87450,9 +88054,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -87515,6 +88138,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -87700,6 +88326,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -87738,6 +88367,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -87752,6 +88383,7 @@
         "endAngle",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -87787,6 +88419,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -87894,9 +88527,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -87972,6 +88624,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -88164,6 +88819,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -88205,6 +88863,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -88220,6 +88880,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -88255,6 +88916,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -88380,9 +89042,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -88465,6 +89146,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "flexDirection": {
           "enum": [
@@ -88679,6 +89363,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -88725,6 +89412,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -88741,6 +89430,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "flexDirection",
         "flexWrap",
         "globalCompositeOperation",
@@ -88779,6 +89469,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -88888,9 +89579,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -88963,6 +89673,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -89164,6 +89877,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -89205,6 +89921,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -89219,6 +89937,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -89256,6 +89975,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -89364,9 +90084,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -89455,6 +90194,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -89646,6 +90388,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -89684,6 +90429,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -89705,6 +90452,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -89740,6 +90488,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -89847,9 +90596,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -89912,6 +90680,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -90101,6 +90872,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -90139,6 +90913,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -90153,6 +90929,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -90187,6 +90964,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -90294,9 +91072,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -90372,6 +91169,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -90557,6 +91357,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -90595,6 +91398,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -90610,6 +91415,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -90644,6 +91450,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -90751,9 +91558,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -90826,6 +91652,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -91011,6 +91840,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -91058,6 +91890,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -91072,6 +91906,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -91107,6 +91942,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -91217,9 +92053,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -91292,6 +92147,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -91474,6 +92332,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -91521,6 +92382,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -91535,6 +92398,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -91569,6 +92433,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "texture",
         "textureColor",
@@ -91679,9 +92544,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -91747,6 +92631,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -91941,6 +92828,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -92000,6 +92890,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -92014,6 +92906,7 @@
         "ellipsis",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -92052,6 +92945,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "textAlign",
         "textBaseline",
@@ -92165,7 +93059,23 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
+            }
+          ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
             }
           ]
         },
@@ -92190,6 +93100,9 @@
         },
         "backgroundFillOpacity": {
           "type": "number"
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundHeight": {
           "type": "number"
@@ -92304,6 +93217,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -92521,6 +93437,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -92568,8 +93487,10 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
         "backgroundFill",
         "backgroundFillOpacity",
+        "backgroundFit",
         "backgroundHeight",
         "backgroundMode",
         "backgroundRadius",
@@ -92591,6 +93512,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -92630,6 +93552,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "textAlign",
         "textBaseline",
@@ -92740,9 +93663,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -92802,6 +93744,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -93001,6 +93946,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -93042,6 +93990,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -93055,6 +94005,7 @@
         "dz",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "globalCompositeOperation",
         "globalZIndex",
         "html",
@@ -93089,6 +94040,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "symbolType",
         "texture",
@@ -93197,9 +94149,28 @@
               "typeof": "function"
             },
             {
+              "typeof": "function"
+            },
+            {
               "type": "string"
             }
           ]
+        },
+        "backgroundCornerRadius": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        },
+        "backgroundFit": {
+          "type": "boolean"
         },
         "backgroundMode": {
           "enum": [
@@ -93275,6 +94246,9 @@
         },
         "fillOpacity": {
           "type": "number"
+        },
+        "fillPickable": {
+          "type": "boolean"
         },
         "fontFamily": {
           "type": "string"
@@ -93496,6 +94470,9 @@
         "strokeOpacity": {
           "type": "number"
         },
+        "strokePickable": {
+          "type": "boolean"
+        },
         "strokeSeg": {
           "typeof": "function"
         },
@@ -93593,6 +94570,8 @@
         "anchor3d",
         "angle",
         "background",
+        "backgroundCornerRadius",
+        "backgroundFit",
         "backgroundMode",
         "beta",
         "blur",
@@ -93609,6 +94588,7 @@
         "ellipsis",
         "fill",
         "fillOpacity",
+        "fillPickable",
         "fontFamily",
         "fontSize",
         "fontStyle",
@@ -93654,6 +94634,7 @@
         "stroke",
         "strokeBoundsBuffer",
         "strokeOpacity",
+        "strokePickable",
         "strokeSeg",
         "suffixPosition",
         "text",

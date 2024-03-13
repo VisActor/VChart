@@ -1,6 +1,6 @@
 {
   "name": "@visactor/react-vchart",
-  "version": "1.8.5-hotfix.2",
+  "version": "1.8.5-hotfix.3",
   "description": "The react version of VChart 4.x",
   "keywords": [
     "react",
@@ -28,7 +28,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.8.5-hotfix.2",
+    "@visactor/vchart": "workspace:1.8.5-hotfix.3",
     "@visactor/vutils": "~0.17.3",
     "@visactor/vrender-core": "0.17.19",
     "@visactor/vrender-kits": "0.17.19",
