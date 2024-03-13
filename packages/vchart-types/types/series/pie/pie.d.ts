@@ -63,7 +63,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
         reCompile: boolean;
     };
     computeDatumInnerRadius(datum: Datum, state?: string): number;
-    dataToPosition(datum: Datum): IPoint | null;
+    dataToPosition(datum: Datum, checkInViewData?: boolean): IPoint | null;
     dataToCentralPosition: (datum: Datum) => IPoint | null;
     initAnimation(): void;
     getDefaultShapeType(): string;
