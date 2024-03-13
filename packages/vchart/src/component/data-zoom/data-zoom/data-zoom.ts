@@ -475,6 +475,19 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._component] as unknown as IGroup[];
   }
+
+  clear(): void {
+    if (this._component) {
+      const container = this.getContainer();
+      this._component.removeAllChild();
+      if (container) {
+        container.removeChild(this._component as unknown as INode);
+      }
+
+      this._component = null;
+    }
+    super.clear();
+  }
 }
 
 export const registerDataZoom = () => {
