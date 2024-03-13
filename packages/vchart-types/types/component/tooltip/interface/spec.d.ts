@@ -1,11 +1,12 @@
-import type { IToolTipActual, ITooltipPattern, Maybe, TooltipActiveType, TooltipData } from '../../../typings';
+import type { ITooltipActual, ITooltipPattern, Maybe, MaybeArray, TooltipActiveType, TooltipData } from '../../../typings';
 import type { ITooltipActiveTypeAsKeys, TooltipHandlerParams, TooltipResult } from './common';
 import type { ITooltipTheme } from './theme';
 export interface ITooltipSpec extends Partial<ITooltipActiveTypeAsKeys<ITooltipPattern, ITooltipPattern>> {
     visible?: boolean;
     activeType?: TooltipActiveType | TooltipActiveType[];
-    trigger?: 'hover' | 'click' | 'none';
-    triggerOff?: 'hover' | 'click' | 'none';
+    trigger?: MaybeArray<'hover' | 'click'> | 'none';
+    triggerOff?: MaybeArray<'hover' | 'click'> | 'none';
+    lockAfterClick?: boolean;
     style?: Omit<ITooltipTheme<string>, 'offset'>;
     handler?: Partial<ITooltipHandlerSpec>;
     renderMode?: 'html' | 'canvas';
@@ -15,7 +16,7 @@ export interface ITooltipSpec extends Partial<ITooltipActiveTypeAsKeys<ITooltipP
     enterable?: boolean;
     transitionDuration?: number;
     throttleInterval?: number;
-    updateElement?: (tooltipElement: HTMLElement, actualTooltip: IToolTipActual, params: TooltipHandlerParams) => void;
+    updateElement?: (tooltipElement: HTMLElement, actualTooltip: ITooltipActual, params: TooltipHandlerParams) => void;
     offset?: {
         x?: number;
         y?: number;

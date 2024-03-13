@@ -5,13 +5,14 @@ import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IRoseLikeSeriesSpec, IRoseLikeSeriesTheme } from '../polar/rose-like';
 import type { RoseAppearPreset } from './animation';
 import type { IArcLabelSpec } from '../pie/interface';
+import { IMultiLabelSpec } from '../../component/label';
 export type RoseMarks = 'rose';
 export interface IRoseSeriesSpec extends IRoseLikeSeriesSpec, IAnimationSpec<RoseMarks, RoseAppearPreset> {
     type: 'rose';
     categoryField: string | string[];
     valueField: string | string[];
     [SeriesMarkNameEnum.rose]?: IMarkSpec<IArcMarkSpec>;
-    [SeriesMarkNameEnum.label]?: IArcLabelSpec;
+    [SeriesMarkNameEnum.label]?: IMultiLabelSpec<IArcLabelSpec>;
 }
 export interface IRoseSeriesTheme extends IRoseLikeSeriesTheme {
     [SeriesMarkNameEnum.rose]?: Partial<IMarkTheme<IArcMarkSpec>>;

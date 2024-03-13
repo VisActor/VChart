@@ -1,5 +1,5 @@
 import type { Maybe } from '@visactor/vutils';
-import type { IToolTipLineActual } from '../../../../../typings';
+import type { ITooltipLineActual } from '../../../../../typings';
 import type { ITooltipModelOption } from './interface';
 export declare class BaseTooltipModel {
     static type: string;
@@ -9,7 +9,7 @@ export declare class BaseTooltipModel {
     readonly childIndex: number;
     protected _option: ITooltipModelOption;
     setOption(option: ITooltipModelOption): void;
-    protected _renderContentCache: IToolTipLineActual[] | null;
+    protected _renderContentCache: ITooltipLineActual[] | null;
     children: Record<number, BaseTooltipModel>;
     product: Maybe<HTMLElement>;
     getParentEl(): HTMLElement;

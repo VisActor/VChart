@@ -4,7 +4,7 @@ import type { IArcMarkSpec, ITextMarkSpec, IArc3dMarkSpec, ILineMarkSpec } from 
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { IPolarSeriesSpec, IPolarSeriesTheme } from '../polar/interface';
 import type { PieAppearPreset } from './animation/animation';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec, IMultiLabelSpec } from '../../component/label';
 export type PieMarks = 'pie' | 'label' | 'labelLine';
 export type IBasePieSeriesSpec = Omit<IPieSeriesSpec, 'type'> & {
     type: string;
@@ -25,7 +25,7 @@ export interface IPieSeriesSpec extends IPolarSeriesSpec, IAnimationSpec<PieMark
     padAngle?: number;
     minAngle?: number;
     [SeriesMarkNameEnum.pie]?: IMarkSpec<IArcMarkSpec>;
-    [SeriesMarkNameEnum.label]?: IArcLabelSpec;
+    [SeriesMarkNameEnum.label]?: IMultiLabelSpec<IArcLabelSpec>;
 }
 export interface IPieSeriesTheme extends IPolarSeriesTheme {
     [SeriesMarkNameEnum.pie]?: Partial<IMarkTheme<IArcMarkSpec>>;
@@ -57,14 +57,15 @@ export interface IArcLabelLayoutSpec {
     strategy?: ArcLabelStrategyType;
     tangentConstraint?: boolean;
 }
-export interface IArcLabelSpec extends ILabelSpec {
+export type IArcLabelSpec = Omit<ILabelSpec, 'position'> & {
     position?: 'outside' | 'inside';
     showRule?: 'all' | 'max' | 'min' | 'minAndMax' | 'headAndTail';
     coverEnable?: boolean;
     rotate?: boolean;
     spaceWidth?: number;
     layoutArcGap?: number;
+    centerOffset?: number;
     style?: ITextMarkSpec;
     line?: IArcLabelLineSpec;
     layout?: IArcLabelLayoutSpec;
-}
+};

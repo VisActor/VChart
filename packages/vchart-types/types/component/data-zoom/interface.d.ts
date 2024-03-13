@@ -30,6 +30,8 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
     roamDrag?: IRoamDragSpec | boolean;
     roamScroll?: IRoamScrollSpec | boolean;
     realTime?: boolean;
+    customDomain?: any[];
+    updateDataAfterChange?: (start: number, end: number, startValue: any, endValue: any) => void;
 }
 export interface IRoamDragSpec extends IRoamSpec {
     reverse?: boolean;

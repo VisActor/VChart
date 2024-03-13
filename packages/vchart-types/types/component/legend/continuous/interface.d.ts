@@ -1,4 +1,5 @@
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../typings';
+import type { ComponentThemeWithDirection } from '../../interface';
 import type { ILegendCommonSpec, NoVisibleMarkStyle } from '../interface';
 type Text = StringOrNumber;
 export type TextAttribute = {
@@ -44,16 +45,9 @@ export type ISizeLegendSpec = IContinuousLegendSpec & {
     align?: 'top' | 'bottom' | 'left' | 'right';
 };
 export type IContinuousLegendTheme = Omit<IContinuousLegendSpec, 'type' | 'field' | 'scale' | 'regionIndex' | 'regionId' | 'seriesIndex' | 'seriesId' | 'id' | 'defaultSelected'>;
-export interface IColorLegendTheme {
-    horizontal?: IContinuousLegendTheme;
-    vertical?: IContinuousLegendTheme;
-}
-export interface ISizeLegendTheme {
-    horizontal?: IContinuousLegendTheme & {
-        sizeBackground?: ISizeLegendSpec['sizeBackground'];
-    };
-    vertical?: IContinuousLegendTheme & {
-        sizeBackground?: ISizeLegendSpec['sizeBackground'];
-    };
-}
+export type ISizeLegendCommonTheme = IContinuousLegendTheme & {
+    sizeBackground?: ISizeLegendSpec['sizeBackground'];
+};
+export type IColorLegendTheme = ComponentThemeWithDirection<IContinuousLegendTheme>;
+export type ISizeLegendTheme = ComponentThemeWithDirection<ISizeLegendCommonTheme>;
 export {};

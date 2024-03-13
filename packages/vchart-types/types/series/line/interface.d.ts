@@ -7,6 +7,7 @@ import type { ILineLikeLabelSpec, ILineLikeSeriesTheme } from '../mixin/line-mix
 import type { IDataSamping, IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILabelSpec } from '../../component';
+import { IMultiLabelSpec } from '../../component/label';
 type LineMarks = 'point' | 'line';
 export interface ILineSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<LineMarks, LineAppearPreset>, IMarkProgressiveConfig, IDataSamping, IMarkOverlap {
     type: 'line';
@@ -14,7 +15,7 @@ export interface ILineSeriesSpec extends ICartesianSeriesSpec, IAnimationSpec<Li
     yField?: string | string[];
     [SeriesMarkNameEnum.point]?: IMarkSpec<ISymbolMarkSpec>;
     [SeriesMarkNameEnum.line]?: IMarkSpec<ILineMarkSpec>;
-    [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+    [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILineLikeLabelSpec>;
     [SeriesMarkNameEnum.lineLabel]?: Omit<ILabelSpec, 'position'> & {
         position?: 'start' | 'end';
     };

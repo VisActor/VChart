@@ -1,7 +1,7 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IGrammarItem } from '../../compile/interface';
 import type { IGroupMark } from '../../mark/group';
-import type { IModelConstructor, IModelMarkInfo, IModelOption, IModelSpecInfo } from '../../model/interface';
+import type { IBaseModelSpecTransformerResult, IModelConstructor, IModelMarkInfo, IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
@@ -10,6 +10,7 @@ import type { ISeriesSpec, StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
 import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { MarkClip } from '../../compile/mark';
 export interface ISeriesSeriesInfo {
     key: string;
     index?: number;
@@ -69,13 +70,18 @@ export interface ISeriesMarkInitOption {
     customShape?: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D;
     stateSort?: (stateA: string, stateB: string) => number;
     componentType?: string;
+    clip?: MarkClip;
 }
 export interface ISeriesMarkInfo extends IModelMarkInfo {
     name: SeriesMarkNameEnum | string;
 }
 export type SeriesMarkMap = Partial<Record<SeriesMarkNameEnum, ISeriesMarkInfo>>;
-export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec> extends IModelSpecInfo {
+export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec> extends IModelSpecInfo, ISeriesSpecTransformerResult<T, any> {
     type: string | SeriesTypeEnum;
     spec: T;
+    theme: any;
+}
+export interface ISeriesSpecTransformerResult<T, K> extends IBaseModelSpecTransformerResult<T, K> {
     markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
+    stack?: boolean;
 }

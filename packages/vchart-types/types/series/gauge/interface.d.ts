@@ -1,5 +1,5 @@
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec';
-import type { IArcMarkSpec, IPathMarkSpec, IProgressArcMarkSpec, IRectMarkSpec } from '../../typings/visual';
+import type { IArcMarkSpec, IPathMarkSpec, IRectMarkSpec } from '../../typings/visual';
 import type { IProgressLikeSeriesSpec, IProgressLikeSeriesTheme } from '../polar/progress-like/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { ProgressLikeAppearPreset } from '../polar/progress-like';
@@ -37,13 +37,13 @@ export type GaugeMarks = 'segment' | 'track';
 export interface IGaugeSeriesSpec extends IProgressLikeSeriesSpec, IAnimationSpec<GaugeMarks, ProgressLikeAppearPreset> {
     type: 'gauge';
     padAngle?: number;
-    [SeriesMarkNameEnum.segment]?: IMarkSpec<IProgressArcMarkSpec>;
+    [SeriesMarkNameEnum.segment]?: IMarkSpec<IArcMarkSpec>;
     [SeriesMarkNameEnum.track]?: IMarkSpec<IArcMarkSpec>;
     [SeriesMarkNameEnum.label]?: IGaugeLabelSpec;
 }
 export interface IGaugeSeriesTheme extends IProgressLikeSeriesTheme {
     padAngle?: number;
-    [SeriesMarkNameEnum.segment]?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
+    [SeriesMarkNameEnum.segment]?: Partial<IMarkTheme<IArcMarkSpec>>;
     [SeriesMarkNameEnum.track]?: Partial<IMarkTheme<IArcMarkSpec>>;
     [SeriesMarkNameEnum.label]?: IGaugeLabelSpec;
 }

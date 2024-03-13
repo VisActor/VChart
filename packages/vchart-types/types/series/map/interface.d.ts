@@ -1,6 +1,7 @@
 import type { IPathMarkSpec, ITextMarkSpec } from '../../typings/visual';
 import type { IMarkSpec, IMarkTheme, ISeriesSpec } from '../../typings/spec/common';
 import type { IAnimationSpec } from '../../animation/spec';
+import { ILabelSpec } from '../../component';
 type LineMarks = 'area';
 export interface IMapSeriesSpec extends ISeriesSpec, IAnimationSpec<LineMarks, 'fadeIn'> {
     type: 'map';
@@ -14,11 +15,7 @@ export interface IMapSeriesSpec extends ISeriesSpec, IAnimationSpec<LineMarks, '
     };
     area?: IMarkSpec<Omit<IPathMarkSpec, 'smoothScale'>>;
     defaultFillColor?: string;
-    label?: IMarkSpec<ITextMarkSpec> & {
-        offset?: number;
-        position?: string;
-        formatMethod?: (text: string | string[], datum?: any) => string | string[];
-    };
+    label?: Omit<ILabelSpec, 'position'>;
 }
 export interface IMapSeriesTheme {
     defaultFillColor?: string;

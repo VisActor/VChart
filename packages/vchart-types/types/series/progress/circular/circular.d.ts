@@ -4,10 +4,13 @@ import { SeriesTypeEnum } from '../../interface/type';
 import type { ICircularProgressSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IMark } from '../../../mark/interface';
+import { CircularProgressSeriesSpecTransformer } from './circular-transformer';
 export declare class CircularProgressSeries<T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec> extends ProgressLikeSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof CircularProgressSeriesSpecTransformer;
     private _progressMark;
     private _trackMark;
     getStackGroupFields(): string[];

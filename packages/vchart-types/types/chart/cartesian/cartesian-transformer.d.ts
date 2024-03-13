@@ -5,4 +5,5 @@ export declare class CartesianChartSpecTransformer<T extends ICartesianChartSpec
     protected _isValidSeries(type: string): boolean;
     protected _getDefaultSeriesSpec(spec: any): any;
     transformSpec(spec: T): void;
+    protected _transformAxisSpec(spec: T): void;
 }

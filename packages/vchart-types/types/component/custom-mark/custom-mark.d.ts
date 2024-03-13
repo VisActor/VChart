@@ -29,6 +29,7 @@ export declare class CustomMark<T = any> extends BaseComponent<any> {
     changeRegions(regions: IRegion[]): void;
     protected _getNeedClearVRenderComponents(): IGraphic[];
     onRender(ctx: IModelRenderOption): void;
+    afterCompile(): void;
     private _getMarkAttributeContext;
 }
 export declare const registerCustomMark: () => void;

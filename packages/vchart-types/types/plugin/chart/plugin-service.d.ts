@@ -9,4 +9,5 @@ export declare class ChartPluginService<T extends IChartPlugin = IChartPlugin> e
     onBeforeResize(width: number, height: number): void;
     onAfterChartSpecTransform(chartSpec: any, actionSource: VChartRenderActionSource): void;
     onBeforeInitChart(chartSpec: any, actionSource: VChartRenderActionSource): void;
+    releaseAll(): void;
 }

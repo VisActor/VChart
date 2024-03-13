@@ -17,7 +17,6 @@ export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> ext
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof AreaSeriesSpecTransformer;
     protected _areaMark: IAreaMark;
-    protected _supportStack: boolean;
     protected _sortDataByAxis: boolean;
     initMark(): void;
     initMarkStyle(): void;

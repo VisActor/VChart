@@ -5,6 +5,7 @@ import type { ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { TreemapAppearPreset, TreemapMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface/type';
+import { ILabelSpec } from '../../component';
 export interface ITreemapSeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimationSpec<TreemapMark, TreemapAppearPreset> {
     type: 'treemap';
     categoryField: string;
@@ -23,8 +24,8 @@ export interface ITreemapSeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimatio
     drillField?: string;
     [SeriesMarkNameEnum.leaf]?: IMarkSpec<IRectMarkSpec>;
     [SeriesMarkNameEnum.nonLeaf]?: IMarkSpec<IRectMarkSpec>;
-    [SeriesMarkNameEnum.label]?: IMarkSpec<ITextMarkSpec>;
-    [SeriesMarkNameEnum.nonLeafLabel]?: IMarkSpec<ITextMarkSpec> & {
+    [SeriesMarkNameEnum.label]?: Omit<ILabelSpec, 'position' | 'overlap'>;
+    [SeriesMarkNameEnum.nonLeafLabel]?: Omit<ILabelSpec, 'position' | 'overlap'> & {
         position?: TreemapOptions['labelPosition'];
         padding?: TreemapOptions['labelPadding'];
     };

@@ -4,6 +4,9 @@ import type { ICartesianChartSpec } from '../cartesian/interface';
 export interface IBarChartSpec extends ICartesianChartSpec, IChartExtendsSeriesSpec<IBarSeriesSpec> {
     type: 'bar';
     series?: IBarSeriesSpec[];
+    autoBandSize?: boolean | {
+        extend: number;
+    };
 }
 export interface IBar3dChartSpec extends ICartesianChartSpec, IChartExtendsSeriesSpec<IBar3dSeriesSpec> {
     type: 'bar3d';

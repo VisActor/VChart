@@ -1,6 +1,6 @@
 import type { IPadding } from '@visactor/vutils';
-import type { SymbolType, IRichTextCharacter } from '@visactor/vrender-core';
-import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../typings';
+import type { SymbolType } from '@visactor/vrender-core';
+import type { IComposedTextMarkSpec, IFormatMethod, IRectMarkSpec, IRichTextFormatMethod, ISymbolMarkSpec, StringOrNumber } from '../../typings';
 import type { IComponentSpec } from '../base/interface';
 import type { Datum } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
@@ -44,10 +44,10 @@ export type IMarkerLabelWithoutRefSpec = {
         padding?: IPadding | number[] | number;
         style?: Omit<IRectMarkSpec, 'visible'>;
     };
-    type?: 'text' | 'rich' | 'html';
-    text?: string | string[] | number | number[] | IRichTextCharacter[];
-    formatMethod?: (markData: Datum[], seriesData: Datum[]) => string | string[] | number | number[] | IRichTextCharacter[];
-    style?: Omit<ITextMarkSpec, 'visible'>;
+    type?: 'rich' | 'text';
+    text?: string | string[] | number | number[] | ReturnType<IRichTextFormatMethod<[]>>;
+    formatMethod?: IFormatMethod<[markData: Datum[], seriesData: Datum[]]>;
+    style?: Omit<IComposedTextMarkSpec, 'visible'>;
     shape?: {
         visible?: boolean;
         style: Omit<ISymbolMarkSpec, 'visible'>;
