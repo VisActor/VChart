@@ -75,7 +75,9 @@ export type ComponentType =
   | 'markPoint'
   | 'tooltip'
   | 'title'
-  | 'label';
+  | 'label'
+  | 'totalLabel'
+  | 'customMark';
 export type EventTargetType = MarkType | ComponentType | SeriesType;
 
 export type EventSourceType = keyof typeof Event_Source_Type;
@@ -288,6 +290,7 @@ export interface IEventDispatcher {
   register: <Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) => this;
   unregister: <Evt extends EventType>(eType: Evt, handler?: EventHandler<EventParamsDefinition[Evt]>) => this;
   dispatch: <Evt extends EventType>(eType: Evt, params?: EventParamsDefinition[Evt], level?: EventBubbleLevel) => this;
+  clear: () => void;
   release: () => void;
 }
 

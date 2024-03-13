@@ -46,7 +46,7 @@ vchart.off('pointerdown', callback); // 卸载事件
 ```ts
 type EventParams = {
   /**
-   * 事件对象
+   * 原始事件对象
    */
   event: SuperEvent;
   /**
@@ -112,7 +112,7 @@ vchart.on('pointerdown', { nodeName: 'axis-label' }, () => {});
 vchart.on('pointerdown', { markName: 'bar' }, () => {});
 ```
 
-5. `type`，仅在 level 为 'mark' 或者 'model' 的场景下使用，用于筛选 mark 类型或者图表组成元素模型类型
+5. `type`，**仅在 level 为 'mark' 或者 'model' 的场景下使用**，用于筛选 mark 类型或者图表组成元素模型类型
 
 ```ts
 // 监听坐标轴上的 pointerdown 事件
@@ -131,6 +131,66 @@ vchart.on('pointerdown', { id: 'axis-left' }, () => {});
 ```ts
 vchart.on('pointerdown', { filter: ({model} => model.id === 45) }, () => {});
 ```
+
+#### 通过事件过滤监听**组件**事件
+
+通过如下事件过滤规则，我们可以监听到 VChart 示例上各个组件的事件
+
+```ts
+/**
+ * 'pointerdown' 为 事件名称
+ * 在事件过滤中需要声明：
+ * 1. `level` 声明为 'model'
+ * 2. `type` 声明了组件的名称
+ */
+vchart.on('pointerdown', { level: 'model', type: 'axis' }, e => {
+  // 通过 e.event.target 可以获取到当前事件拾取到的具体图形
+  console.log('axis pointerdown', e.event.target);
+});
+```
+
+但是需要注意并不是所有组件在默认情况下是开启事件交互的，对于默认关闭的组件需要用户手动在组件对应的 spec 上开启（如开启 label 的事件交互：`label: { interactive: true }`），下面表格列出了目前我们 VChart 的组件名称以及其事件默认开启关闭的情况，在具体使用时可以查阅该表格。
+
+| 组件类型   | 是否默认开启事件支持 |
+| ---------- | -------------------- |
+| axis       | 是                   |
+| dataZoom   | 是                   |
+| indicator  | 是                   |
+| legend     | 是                   |
+| mapLabel   | 是                   |
+| customMark | 是                   |
+| title      | 是                   |
+| markLine   | 否                   |
+| markArea   | 否                   |
+| markPoint  | 否                   |
+| label      | 否                   |
+| totalLabel | 否                   |
+
+#### 通过事件过滤监听**mark 图元**事件
+
+如果想要监听 mark 图元的事件，可以通过两种方式实现：
+
+1. 使用 `markName` 进行过滤，如：
+
+```ts
+// 监听 bar 图元 上的 pointerdown 事件
+vchart.on('pointerdown', { markName: 'bar' }, (e: EventParams) => {
+  console.log('bar pointerdown', e);
+});
+```
+
+2. 使用 `{ level: 'mark', type: 'bar' }` 规则进行过滤，如：
+
+```ts
+// 监听 bar 图元 上的 pointerdown 事件
+vchart.on('pointerdown', { level: 'mark', type: 'bar' }, (e: EventParams) => {
+  console.log('bar pointerdown', e);
+});
+```
+
+如果想要监听所有图元的事件，那么只需要声明 `level: 'mark'` 即可，如 `vchart.on('pointerdown', { level: 'mark'}, e => {})`
+
+具体的图元类型（同 spec 上配置的类型对应）有：'point', 'line', 'area', 'bar', 'bar3d', 'boxPlot', 'outlier', 'circlePacking', 'dot', 'funnel','funnel3d', 'link', 'pie', 'rose', 'pie3d', 'word', 'fillingWord' 等。
 
 ## 事件分类
 

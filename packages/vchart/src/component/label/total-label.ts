@@ -19,6 +19,7 @@ import type { Datum, Maybe } from '../../typings';
 import { Factory } from '../../core/factory';
 import { registerComponentMark } from '../../mark/component';
 import type { IChartSpecInfo } from '../../chart/interface';
+import { HOOK_EVENT } from '@visactor/vgrammar-core';
 
 export class TotalLabel extends BaseLabelComponent {
   static type = ComponentTypeEnum.totalLabel;
@@ -98,6 +99,19 @@ export class TotalLabel extends BaseLabelComponent {
     if (component) {
       this._marks.addMark(component);
     }
+  }
+
+  afterCompile() {
+    this._marks.forEach((componentMark, index) => {
+      const product = componentMark.getProduct() as ReturnType<IView['label']>;
+      if (product) {
+        product.addEventListener(HOOK_EVENT.AFTER_ELEMENT_ENCODE, () => {
+          if (this._isLayout === false) {
+            this._delegateLabelEvent(product.getGroupGraphicItem());
+          }
+        });
+      }
+    });
   }
 
   updateLayoutAttribute(): void {
