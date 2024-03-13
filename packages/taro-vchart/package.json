@@ -1,6 +1,6 @@
 {
   "name": "@visactor/taro-vchart",
-  "version": "1.9.6",
+  "version": "1.10.0",
   "description": "Taro VChart 图表组件",
   "sideEffects": false,
   "main": "lib/src/index.js",
@@ -8,7 +8,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "rm -rf lib && rollup -c --bundleConfigAsCjs",
+    "build": "rimraf lib && rollup -c --bundleConfigAsCjs",
     "build:tt": "taro build --type tt",
     "build:lark": "taro build --type lark",
     "build:h5": "taro build --type h5",
@@ -42,7 +42,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@visactor/vchart": "workspace:1.9.6"
+    "@visactor/vchart": "workspace:1.10.0"
   },
   "devDependencies": {
     "@internal/eslint-config": "workspace:*",
@@ -83,7 +83,8 @@
     "rollup": "3.20.5",
     "rollup-plugin-import-css": "^3.0.2",
     "stylelint": "9.3.0",
-    "tslib": "2.3.1"
+    "tslib": "2.3.1",
+    "rimraf": "3.0.2"
   },
   "publishConfig": {
     "access": "public",

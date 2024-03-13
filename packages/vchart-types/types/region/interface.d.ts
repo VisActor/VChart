@@ -60,7 +60,8 @@ export interface IGeoRegionSpec extends IRegionSpec {
         max?: number;
     };
 }
-export interface IRegionSpecInfo<T extends IRegionSpec = IRegionSpec> extends IModelSpecInfo {
+export type RegionSpec = IRegionSpec | IGeoRegionSpec;
+export interface IRegionSpecInfo<T extends RegionSpec = IRegionSpec> extends IModelSpecInfo {
     type: 'region';
     spec: T;
 }

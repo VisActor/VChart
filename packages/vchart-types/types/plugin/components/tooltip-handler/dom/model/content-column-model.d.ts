@@ -1,7 +1,7 @@
 import { BaseTooltipModel } from './base-tooltip-model';
 import type { ITooltipModelOption } from './interface';
 import type { IShapeSvgOption } from './shape-model';
-import type { IToolTipLineActual } from '../../../../../typings';
+import type { ITooltipLineActual } from '../../../../../typings';
 export type ContentColumnType = 'shape-box' | 'key-box' | 'value-box';
 export declare class ContentColumnModel extends BaseTooltipModel {
     readonly className: ContentColumnType;
@@ -19,5 +19,5 @@ export declare class ContentColumnModel extends BaseTooltipModel {
         common?: import("../interface").IShapeStyle;
         items?: import("../interface").IShapeStyle[];
     };
-    protected _getShapeSvgOption(line: IToolTipLineActual, index: number): IShapeSvgOption;
+    protected _getShapeSvgOption(line: ITooltipLineActual, index: number): IShapeSvgOption;
 }

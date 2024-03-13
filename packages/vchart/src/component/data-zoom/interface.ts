@@ -143,6 +143,17 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
    * @default true
    */
   realTime?: boolean;
+  /**
+   * 自定义domain
+   * 当brush组件开启`zoomAfterBrush`时, 关联的dataZoom需要和axis保持一致, 否则刷取范围无法正确计算
+   * @since 1.10.0
+   */
+  customDomain?: any[];
+  /**
+   * 自定义datazoom更新回调
+   * @since 1.10.0
+   */
+  updateDataAfterChange?: (start: number, end: number, startValue: any, endValue: any) => void;
 }
 
 export interface IRoamDragSpec extends IRoamSpec {

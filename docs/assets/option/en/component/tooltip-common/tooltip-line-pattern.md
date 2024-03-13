@@ -54,7 +54,7 @@ It can also be configured as rich text configuration, the type is:
 {
     /**
      * Main title text type (default type is text)
-     * text, rich, html
+     * text, rich
      */
     type?: string;
     /**
@@ -100,35 +100,9 @@ Time conversion mode of value label. Support `'utc' | 'local'` mode.
 
 {{ if: ${content} }}
 
-#${prefix} hasShape(boolean) = true
-
-Whether to show the shape symbol for the current line of the tooltip, default is `true`.
-
-#${prefix} shapeType(string|Function)
-
-The shape type displayed for the current line of the tooltip. If configured as a string, it will be displayed as the corresponding constant shape. It can also be configured as a function callback, with the type:
-
-```ts
-(datum: Datum) => string;
-```
-
-Where `datum` is the default data item corresponding to the current line of the tooltip.
-
-<!-- TODO: Unify symbol types -->
-
-Note: Built-in shapes include:
-
-- `'triangleForward'`: Right arrow
-- `'triangle'`: Triangle
-- `'diamond'`: Diamond
-- `'square'`: Square
-- `'star'`: Star
-- `'cardioid'`: Heart shape
-- `'circle'`: Circle
-- `'pentagon'`: Pentagon
-
-#${prefix} shapeHollow(boolean) = false
-
-Whether the shape displayed for the current line of the tooltip is hollow, default is `false`.
+{{ use: component-tooltip-shape-pattern(
+  prefix = ${prefix},
+  type = 'pattern'
+) }}
 
 {{ /if }}

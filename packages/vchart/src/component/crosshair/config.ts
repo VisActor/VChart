@@ -1,4 +1,5 @@
 import type { RenderMode } from '../../typings/spec';
+// eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../../typings/spec';
 import { isMiniAppLikeMode, isMobileLikeMode } from '../../util';
 

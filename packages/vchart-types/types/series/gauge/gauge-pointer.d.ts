@@ -5,14 +5,16 @@ import { SeriesTypeEnum } from '../interface/type';
 import type { IGaugePointerSeriesSpec, PinMarkSpec, PointerMarkSpec } from './interface';
 import type { Datum } from '../../typings';
 import { ProgressLikeSeries } from '../polar/progress-like';
+import { GaugePointerSeriesSpecTransformer } from './gauge-pointer-transformer';
 export declare class GaugePointerSeries<T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec> extends ProgressLikeSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly transformerConstructor: any;
+    readonly transformerConstructor: typeof GaugePointerSeriesSpecTransformer;
     private _pinMark;
     private _pointerMark;
     private _pinBackgroundMark;
-    protected _stack: boolean;
     protected _pointerType: MarkTypeEnum;
     setAttrFromSpec(): void;
     initMark(): void;

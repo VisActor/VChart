@@ -10,7 +10,7 @@ import type {
   IFoldOptions,
   IDsvParserOptions
 } from '@visactor/vdataset';
-import type { IRegionSpec } from '../../region/interface';
+import type { RegionSpec } from '../../region/interface';
 import type { IHoverSpec, ISelectSpec, IInteractionSpec } from '../../interaction/interface';
 import type { IRenderOption } from '../../compile/interface';
 import type { ITooltipSpec } from '../../component/tooltip/interface';
@@ -29,7 +29,6 @@ import type {
   ILinkPathMarkSpec,
   IPathMarkSpec,
   IPolygonMarkSpec,
-  IProgressArcMarkSpec,
   IPyramid3dMarkSpec,
   IRect3dMarkSpec,
   IRectMarkSpec,
@@ -54,7 +53,7 @@ import type { IBrushSpec } from '../../component/brush';
 import type { ITotalLabelSpec } from '../../component/label';
 import type { ILegendSpec } from '../../component/legend';
 import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
-import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
 import type { IMediaQuerySpec } from '..';
 
@@ -179,7 +178,7 @@ export interface IChartSpec {
   select?: boolean | ISelectSpec;
 
   /** region配置 */
-  region?: IRegionSpec[];
+  region?: RegionSpec[];
   /** 图表标题配置 */
   title?: ITitleSpec;
   /** 布局配置 */
@@ -630,7 +629,6 @@ export type IBuildinMarkSpec = {
   pyramid3d: IPyramid3dMarkSpec;
   boxPlot: IBoxPlotMarkSpec;
   linkPath: ILinkPathMarkSpec;
-  progressArc: IProgressArcMarkSpec;
   ripple: IRippleMarkSpec;
 };
 
@@ -693,3 +691,23 @@ export interface IExtensionGroupMarkSpec extends ICustomMarkSpec<MarkTypeEnum.gr
    */
   children?: ICustomMarkSpec<EnableMarkType>[];
 }
+
+/** 纯文本类型的 formatMethod */
+export type ITextFormatMethod<T extends any[]> = (
+  ...args: T
+) => ITextMarkSpec['text'] | { type: 'text'; text: ITextMarkSpec['text'] };
+
+export type IRichTextFormatMethod<T extends any[]> = (...args: T) =>
+  | {
+      type: 'rich';
+      text: IRichTextCharacter[];
+    }
+  | IRichTextCharacter[];
+
+/**
+ * 常规 text.formatMethod 支持返回文字字符串，或统一的对象配置
+ * （这里特指由 vgrammar 代理的 text 图元）
+ */
+export type IFormatMethod<T extends any[]> = (
+  ...args: T
+) => ReturnType<ITextFormatMethod<T>> | ReturnType<IRichTextFormatMethod<T>>;

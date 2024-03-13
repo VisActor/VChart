@@ -1,4 +1,5 @@
 import type { IAnimationSpec } from '../../animation/spec';
+import { IMultiLabelSpec } from '../../component/label';
 import type { IMarkOverlap, IMarkProgressiveConfig } from '../../mark/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
 import type { IAreaMarkSpec, ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
@@ -31,7 +32,7 @@ export interface IRadarSeriesSpec
   /**
    * 标签配置
    */
-  [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+  [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILineLikeLabelSpec>;
   /**
    * 系列主 mark 类型配置，该配置会影响图例的展示
    * @default 'area'

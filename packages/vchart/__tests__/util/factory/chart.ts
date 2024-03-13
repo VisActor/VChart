@@ -5,7 +5,7 @@ import { GlobalScale } from '../../../src/scale/global-scale';
 import type { IGlobalScale } from '../../../src/scale/interface';
 /* eslint-disable @typescript-eslint/no-empty-function */
 import type { IRegionSpec, IRegion } from '../../../src/region/interface';
-import type { IParserOptions } from '@visactor/vdataset/es/parser';
+import type { IParserOptions } from '@visactor/vdataset';
 import type { IComponent } from '../../../src/component/interface';
 import type { IModel, IUpdateSpecResult } from '../../../src/model/interface';
 import type { IMark } from '../../../src/mark/interface';

@@ -1,7 +1,7 @@
 import type { IMarkSpec } from '../../../typings/spec';
 import type { IAreaMarkSpec, ILineMarkSpec, IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec } from '../../../typings/visual';
 import type { IComponentSpec } from '../../base/interface';
-import type { IComponent } from '../../interface';
+import type { ComponentThemeWithDirection, IComponent } from '../../interface';
 import type { IFilterMode } from '../constant';
 import type { IDataFilterComponent, IDataFilterComponentSpec } from '../interface';
 export type IDataZoom = IComponent & IDataFilterComponent;
@@ -43,14 +43,17 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
         padding?: number;
         style?: IMarkSpec<ITextMarkSpec>;
         formatMethod?: (text: string | number) => string | string[];
+        formatter?: string | string[];
     };
     endText?: {
         padding?: number;
         style?: IMarkSpec<ITextMarkSpec>;
         formatMethod?: (text: string | number) => string | string[];
+        formatter?: string | string[];
     };
     brushSelect?: boolean;
     ignoreBandSize?: boolean;
+    tolerance?: number;
 }
 export type IDataZoomCommonTheme = IComponentSpec & IDataZoomStyle & {
     orient?: IDataZoomSpec['orient'];
@@ -58,7 +61,4 @@ export type IDataZoomCommonTheme = IComponentSpec & IDataZoomStyle & {
     height?: IDataZoomSpec['height'];
     brushSelect?: boolean;
 };
-export type IDataZoomTheme = IDataZoomCommonTheme & {
-    horizontal?: Omit<IDataZoomCommonTheme, 'orient'>;
-    vertical?: Omit<IDataZoomCommonTheme, 'orient'>;
-};
+export type IDataZoomTheme = ComponentThemeWithDirection<IDataZoomCommonTheme>;

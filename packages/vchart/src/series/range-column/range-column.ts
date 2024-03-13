@@ -41,7 +41,6 @@ export class RangeColumnSeries<T extends IRangeColumnSeriesSpec = IRangeColumnSe
   static readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
   readonly transformerConstructor = RangeColumnSeriesSpecTransformer as any;
 
-  protected _stack: boolean = false;
   private _minLabelMark?: ITextMark;
   private _maxLabelMark?: ITextMark;
   private _labelMark?: ITextMark;

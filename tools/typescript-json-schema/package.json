@@ -26,13 +26,14 @@
     "ajv-formats": "^2.1.1",
     "chai": "^4.3.4",
     "mocha": "^9.1.3",
-    "source-map-support": "^0.5.20"
+    "source-map-support": "^0.5.20",
+    "rimraf": "3.0.2"
   },
   "scripts": {
     "postinstall": "npm run build",
     "prepublishOnly": "npm run build",
     "debug": "node --inspect=19248 --inspect-brk -r ts-node/register typescript-json-schema-cli.ts",
-    "run": "rm -rf ./dist && ts-node typescript-json-schema-cli.ts",
+    "run": "rimraf ./dist && ts-node typescript-json-schema-cli.ts",
     "build": "tsc",
     "dev": "tsc -w",
     "test:dev": "mocha -t 5000 --watch --require source-map-support/register dist/test"

@@ -113,7 +113,8 @@ describe('Bar chart test', () => {
   test('default morph', () => {
     const transformer = new CommonChart.transformerConstructor({
       type: 'common',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(scatterSpec as any);
     const scatterChart = new CommonChart(
@@ -134,7 +135,7 @@ describe('Bar chart test', () => {
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
         onError: () => {},
-        getTheme: () => ThemeManager.getCurrentTheme(),
+        getTheme: () => ThemeManager.getCurrentTheme(true),
         getSpecInfo: () => info
       } as any
     );
@@ -144,7 +145,8 @@ describe('Bar chart test', () => {
     const barTransformer = new BarChart.transformerConstructor({
       type: 'bar',
       seriesType: 'bar',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const barInfo = barTransformer.initChartSpec(barSpec as any);
     const barChart = new BarChart(
@@ -165,7 +167,7 @@ describe('Bar chart test', () => {
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
         onError: () => {},
-        getTheme: () => ThemeManager.getCurrentTheme(),
+        getTheme: () => ThemeManager.getCurrentTheme(true),
         getSpecInfo: () => barInfo
       } as any
     );
@@ -188,7 +190,8 @@ describe('Bar chart test', () => {
   test('custom morph config', () => {
     const transformer = new CommonChart.transformerConstructor({
       type: 'common',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(multiScatterSeriesSpec as any);
     const scatterChart = new CommonChart(
@@ -209,7 +212,7 @@ describe('Bar chart test', () => {
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
         animation: true,
         onError: () => {},
-        getTheme: () => ThemeManager.getCurrentTheme(),
+        getTheme: () => ThemeManager.getCurrentTheme(true),
         getSpecInfo: () => info
       } as any
     );

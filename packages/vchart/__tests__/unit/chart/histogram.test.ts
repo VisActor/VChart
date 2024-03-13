@@ -53,7 +53,8 @@ describe('histogram chart test', () => {
     const transformer = new HistogramChart.transformerConstructor({
       type: 'histogram',
       seriesType: 'bar',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec as any);
     const chart = new HistogramChart(
@@ -70,7 +71,7 @@ describe('histogram chart test', () => {
         mode: 'desktop-browser',
         getCompiler: getTestCompiler,
         globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: () => ThemeManager.getCurrentTheme(),
+        getTheme: () => ThemeManager.getCurrentTheme(true),
         getSpecInfo: () => info
       } as any
     );

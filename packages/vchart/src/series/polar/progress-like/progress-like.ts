@@ -23,8 +23,6 @@ import { binaryFuzzySearch } from '@visactor/vutils-extension';
 export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> extends PolarSeries<T> {
   static readonly mark: SeriesMarkMap = progressLikeSeriesMark;
 
-  protected _supportStack: boolean = true;
-
   protected _startAngle: number;
   protected _endAngle: number;
 
@@ -86,7 +84,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
     const { tickMask } = this._spec;
 
     if (tickMask?.forceAlign && this._isTickMaskVisible(axis)) {
-      const field = this._stack ? STACK_FIELD_START : SEGMENT_FIELD_START;
+      const field = this.getStack() ? STACK_FIELD_START : SEGMENT_FIELD_START;
       const originValue = datum[field];
       const subTickData = this._getAngleAxisSubTickData(axis);
       const step = subTickData[1].value - subTickData[0].value;
@@ -124,7 +122,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
     const { tickMask } = this._spec;
 
     if (tickMask?.forceAlign && this._isTickMaskVisible(axis)) {
-      const field = this._stack ? STACK_FIELD_END : this._angleField[0];
+      const field = this.getStack() ? STACK_FIELD_END : this._angleField[0];
       const originValue = datum[field];
       const subTickData = this._getAngleAxisSubTickData(axis);
       const step = subTickData[1].value - subTickData[0].value;
@@ -155,7 +153,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
   };
 
   protected _getAngleValueStartWithoutMask(datum: Datum) {
-    if (this._stack) {
+    if (this.getStack()) {
       const value = valueInScaleRange(
         this.angleAxisHelper.dataToPosition([datum[STACK_FIELD_START]]),
         this.angleAxisHelper.getScale(0)
@@ -168,7 +166,7 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
   }
 
   protected _getAngleValueEndWithoutMask(datum: Datum) {
-    if (this._stack) {
+    if (this.getStack()) {
       const value = valueInScaleRange(
         this.angleAxisHelper.dataToPosition([datum[STACK_FIELD_END]]),
         this.angleAxisHelper.getScale(0)
@@ -211,46 +209,45 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
     this.setMarkStyle(
       groupMark,
       {
-        clip: true,
         x: 0,
-        y: 0,
-        path: () => {
-          const axis = this._getAngleAxis();
-          if (this._isTickMaskVisible(axis)) {
-            const { tickMask } = this._spec;
-            const { angle, offsetAngle, style = {} } = tickMask;
-            const subTickData = this._getAngleAxisSubTickData(axis);
-            const { x, y } = this.angleAxisHelper.center();
-            const radius = this._computeLayoutRadius();
-            const markStyle = style as any;
-            return subTickData.map(({ value }) => {
-              const pos = this.angleAxisHelper.dataToPosition([value]) + degreeToRadian(offsetAngle);
-              const angleUnit = degreeToRadian(angle) / 2;
-              return createArc({
-                ...markStyle,
-                x,
-                y,
-                startAngle: pos - angleUnit,
-                endAngle: pos + angleUnit,
-                innerRadius: radius * this._innerRadius,
-                outerRadius: radius * this._outerRadius,
-                fill: true
-              });
-            });
-          }
-          const { width, height } = this.getLayoutRect();
-          return [
-            createRect({
-              width,
-              height,
-              fill: true
-            })
-          ];
-        }
+        y: 0
       },
       'normal',
       AttributeLevel.Series
     );
+    groupMark.setClip(() => {
+      const axis = this._getAngleAxis();
+      if (this._isTickMaskVisible(axis)) {
+        const { tickMask } = this._spec;
+        const { angle, offsetAngle, style = {} } = tickMask;
+        const subTickData = this._getAngleAxisSubTickData(axis);
+        const { x, y } = this.angleAxisHelper.center();
+        const radius = this._computeLayoutRadius();
+        const markStyle = style as any;
+        return subTickData.map(({ value }) => {
+          const pos = this.angleAxisHelper.dataToPosition([value]) + degreeToRadian(offsetAngle);
+          const angleUnit = degreeToRadian(angle) / 2;
+          return createArc({
+            ...markStyle,
+            x,
+            y,
+            startAngle: pos - angleUnit,
+            endAngle: pos + angleUnit,
+            innerRadius: radius * this._innerRadius,
+            outerRadius: radius * this._outerRadius,
+            fill: true
+          });
+        });
+      }
+      const { width, height } = this.getLayoutRect();
+      return [
+        createRect({
+          width,
+          height,
+          fill: true
+        })
+      ];
+    });
     this._arcGroupMark.setInteractive(false);
   }
 

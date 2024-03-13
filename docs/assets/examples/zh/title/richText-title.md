@@ -14,7 +14,8 @@ option: lineChart#title
 
 ## 关键配置
 
-- `textStyle(subtextStyle).character` 属性声明富文本配置。可声明文本内容、文字大小、文字样式等。文本内容支持转义字符，例如换行 `\n` 。
+- `textType` 属性声明富文本类型。
+- `text` 属性配置富文本内容。可声明文本内容、文字大小、文字样式等。文本内容支持转义字符，例如换行 `\n` 。
 
 ## 代码演示
 
@@ -68,58 +69,56 @@ const spec = {
     align: 'left',
     verticalAlign: 'top',
     orient: 'top',
-    textStyle: {
-      character: [
-        {
-          text: 'Chinese Character Test',
-          fontSize: 30,
-          textAlign: 'center',
-          textDecoration: 'underline',
-          stroke: '#0f51b5'
-        }
-      ]
-    },
-    subtextStyle: {
-      character: [
-        {
-          text: 'Mapbox',
-          fontWeight: 'bold',
-          fontSize: 30,
-          fill: '#3f51b5'
-        },
-        {
-          text: 'was established in 2010 with the goal of providing an alternative solution',
-          fill: '#000'
-        },
-        {
-          text: 'alternative solution',
-          fontStyle: 'italic',
-          fill: '#3f51b5'
-        },
-        {
-          text: ' to Google Maps. At that time, Google Map',
-          fill: '#000'
-        },
-        {
-          text: 'Map',
-          textDecoration: 'line-through',
-          fill: '#000'
-        },
-        {
-          text: '[1]',
-          script: 'super',
-          fill: '#000'
-        },
-        {
-          text: 'almost monopolized the online mapping business. However, within Google Maps, there was hardly any possibility for customization, and there were no tools available for map creators to create maps according to their own vision',
-          fill: '#000'
-        },
-        {
-          text: '.\n',
-          fill: '#30ff05'
-        }
-      ]
-    }
+    textType: 'rich',
+    text: [
+      {
+        text: 'Chinese Character Test',
+        fontSize: 30,
+        textAlign: 'center',
+        textDecoration: 'underline',
+        stroke: '#0f51b5'
+      }
+    ],
+    subtextType: 'rich',
+    subtext: [
+      {
+        text: 'Mapbox',
+        fontWeight: 'bold',
+        fontSize: 30,
+        fill: '#3f51b5'
+      },
+      {
+        text: 'was established in 2010 with the goal of providing an alternative solution',
+        fill: '#000'
+      },
+      {
+        text: 'alternative solution',
+        fontStyle: 'italic',
+        fill: '#3f51b5'
+      },
+      {
+        text: ' to Google Maps. At that time, Google Map',
+        fill: '#000'
+      },
+      {
+        text: 'Map',
+        textDecoration: 'line-through',
+        fill: '#000'
+      },
+      {
+        text: '[1]',
+        script: 'super',
+        fill: '#000'
+      },
+      {
+        text: 'almost monopolized the online mapping business. However, within Google Maps, there was hardly any possibility for customization, and there were no tools available for map creators to create maps according to their own vision',
+        fill: '#000'
+      },
+      {
+        text: '.\n',
+        fill: '#30ff05'
+      }
+    ]
   }
 };
 

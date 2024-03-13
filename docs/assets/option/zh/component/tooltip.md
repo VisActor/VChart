@@ -12,16 +12,16 @@ tooltip 配置。
 
 受支持的 tooltip 类型。目前支持两种类型的 tooltip：图元 tooltip（`'mark'`）和维度项 tooltip（`'dimension'`）。**_（支持在系列上设置）（作用于所有 handler）_**
 
-##${prefix} trigger('hover'|'click'|'none') = 'hover'
+##${prefix} trigger('hover'|'click'|'none'|string[]) = 'hover'
 
 显示 tooltip 触发方式。默认为`'hover'`，即鼠标悬浮时触发。可选值为：
 
 - `'hover'`: 鼠标悬浮时触发。
 - `'click'`: 鼠标点击时触发。
 
-**_（支持在系列上设置）（作用于所有 handler）_**
+**_（作用于所有 handler）_**
 
-##${prefix} triggerOff('hover'|'click'|'none') = 'hover'
+##${prefix} triggerOff('hover'|'click'|'none'|string[]) = 'hover'
 
 隐藏 tooltip 触发方式。默认为`'hover'`，即鼠标悬浮出热区时隐藏上一个`tooltip`。可选值为：
 
@@ -30,7 +30,15 @@ tooltip 配置。
 
 目前 `triggerOff` 仅支持和 `trigger` 一致的设置，以及`'none'`。如果配置为`'none'`，tooltip 将不会因为用户交互而消失。
 
-**_（支持在系列上设置）（作用于所有 handler）_**
+**_（作用于所有 handler）_**
+
+##${prefix} lockAfterClick(boolean)
+
+`1.10.0` 版本后支持该配置；
+
+点击后锁定 tooltip，通常用于 `trigger` 为 `['hover', 'click']` 的场景。
+
+**_（作用于所有 handler）_**
 
 ##${prefix} mark(Object)
 

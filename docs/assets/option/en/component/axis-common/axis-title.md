@@ -16,7 +16,6 @@ Optional:
 
 - 'text'
 - 'rich'
-- 'html'
 
 #${prefix} text(string|number|(string|number)[])
 

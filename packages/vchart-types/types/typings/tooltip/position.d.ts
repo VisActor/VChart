@@ -1,13 +1,24 @@
-export type ITooltipPositionCallback = (event: MouseEvent) => number;
-export interface ITooltipPositionPattern {
-    left?: number | ITooltipPositionCallback;
-    right?: number | ITooltipPositionCallback;
-    top?: number | ITooltipPositionCallback;
-    bottom?: number | ITooltipPositionCallback;
+export type TooltipPositionCallback<T> = (event: MouseEvent) => T;
+export type TooltipPositionValue = number | TooltipPositionCallback<number>;
+export interface ITooltipPositionFixedValue {
+    orient: TooltipFixedPosition;
+    mode: TooltipPositionMode;
+    offset?: number;
 }
-export type TooltipFixedPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'lt' | 'tr' | 'rt' | 'bl' | 'lb' | 'br' | 'rb' | 'inside';
-export type TooltipPositionMode = 'pointer' | 'mark';
-export type TooltipPosition = ITooltipPositionPattern | TooltipFixedPosition;
+export type TooltipPositionPatternItem = TooltipPositionValue | ITooltipPositionFixedValue;
+export type TooltipFixedPosition = 'top' | 'bottom' | 'left' | 'right' | 'tl' | 'lt' | 'tr' | 'rt' | 'bl' | 'lb' | 'br' | 'rb' | 'center' | 'centerTop' | 'centerBottom' | 'centerLeft' | 'centerRight' | 'inside';
+export type TooltipPositionMode = 'pointer' | 'mark' | 'crosshair';
+export interface IGlobalTooltipPositionPattern {
+    left?: TooltipPositionValue;
+    right?: TooltipPositionValue;
+    top?: TooltipPositionValue;
+    bottom?: TooltipPositionValue;
+}
+export interface IFixedTooltipPositionPattern {
+    x: TooltipPositionPatternItem;
+    y: TooltipPositionPatternItem;
+}
+export type TooltipPosition = IGlobalTooltipPositionPattern | IFixedTooltipPositionPattern | TooltipFixedPosition;
 export interface ITooltipPositionActual {
     x: number;
     y: number;

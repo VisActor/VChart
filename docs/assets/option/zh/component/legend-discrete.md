@@ -88,6 +88,25 @@
   componentName='图例项'
 ) }}
 
+#### align(string) = 'left'
+
+自 `1.10.0`版本开始支持；
+
+指定图例项中图标和文字的摆放位置，可选值为：
+
+- 'left' 图标在左侧
+- 'right' 图标在右侧
+
+#### autoEllipsisStrategy(string) = 'none'
+
+自 `1.10.0`版本开始支持；
+
+当 label+ value 同时存在的时候，自动省略的策略：
+
+- 'labelFirst' - 尽量保证完整展示`label`
+- 'valueFirst' - 尽量保证完整展示`value`
+- 'none' - 按照`widthRatio`展示 label 和 value
+
 #### background(Object)
 
 图例项的背景配置。
@@ -356,6 +375,12 @@ shape: {
 
 图例项 label 同后面 value 的间距。
 
+##### widthRatio(number)
+
+从`1.10.0`版本开始支持
+
+当 label + value 同时展示，文字超长的时候，label 的宽度占比
+
 ##### formatMethod(Function)
 
 label 的文本格式化方法，可以自定义 label 的显示文本。函数的参数为：
@@ -524,6 +549,12 @@ label: {
 ##### alignRight(boolean) = false
 
 是否将 value 对齐到图例项整体的右侧，**仅当设置图例项宽度 `itemWidth` 时生效**。
+
+##### widthRatio(number)
+
+从`1.10.0`版本开始支持
+
+当 label + value 同时展示，文字超长的时候，value 的宽度占比
 
 ##### formatMethod(Function)
 
@@ -702,6 +733,13 @@ value: {
 
 翻页器配置。
 
+#### type(string)
+
+设置翻页器类型，目前支持两种样式：
+
+- 默认样式：带箭头的翻页器
+- `type: 'scrollbar'`: 滚动条翻页
+
 #### layout(string)
 
 翻页器的布局方式，可选值为 `'horizontal'` 和 `'vertical'`。默认值逻辑为：
@@ -737,6 +775,7 @@ value: {
 
 #### textStyle(Object)
 
+该配置仅对默认翻页器生效
 文本样式配置。
 
 {{ use: graphic-text(
@@ -744,6 +783,8 @@ value: {
 ) }}
 
 #### handler(Object)
+
+该配置仅对默认翻页器生效
 
 翻页器按钮的样式配置。
 
@@ -789,6 +830,29 @@ value: {
 {{ use: graphic-symbol(
   prefix = '######'
 ) }}
+
+#### railStyle
+
+该配置仅对滚动条翻页器生效
+滚动条滑块样式配置。
+
+{{ use: graphic-rect(
+  prefix = '####'
+) }}
+
+#### sliderStyle
+
+该配置仅对滚动条翻页器生效
+滚动条轨道样式配置。
+
+{{ use: graphic-rect(
+  prefix = '####'
+) }}
+
+#### scrollByPosition(boolean)
+
+该配置仅对滚动条翻页器生效
+滚动条的位置是否支持展示在分页的中间
 
 ### data(Function)
 

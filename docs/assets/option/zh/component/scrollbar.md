@@ -56,3 +56,5 @@
 
 - 'filter'
 - 'axis'
+
+其中 `filterMode` 设置为 `filter` 的时候，表示多数据进行过滤，会影响轴的刻度计算；`filterMode` 设置为 `axis` 的时候，只是影响对应轴的坐标对应范围，不对数据进行过滤。

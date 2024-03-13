@@ -1,23 +1,22 @@
 /* eslint-disable no-duplicate-imports */
 import type { BandScale } from '@visactor/vscale';
 import type { IArcMark } from '../../../mark/arc';
-import type { Maybe, Datum } from '../../../typings';
+import type { Datum } from '../../../typings';
 import { isValidNumber } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
 import { animationConfig, userAnimationConfig } from '../../../animation/utils';
-import type { ICircularProgressSeriesSpec, ICircularProgressSeriesTheme } from './interface';
+import type { ICircularProgressSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IStateAnimateSpec } from '../../../animation/spec';
-import type { IProgressArcMark } from '../../../mark/progress-arc';
-import { ArcMark, registerArcMark } from '../../../mark/arc';
-import { ProgressArcMark, registerProgressArcMark } from '../../../mark/progress-arc';
+import { registerArcMark } from '../../../mark/arc';
 import { circularProgressSeriesMark } from './constant';
 import { STACK_FIELD_END, STACK_FIELD_START, AttributeLevel } from '../../../constant';
 import { Factory } from '../../../core/factory';
 import { registerProgressLikeAnimation } from '../../polar/progress-like';
 import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IMark } from '../../../mark/interface';
+import { CircularProgressSeriesSpecTransformer } from './circular-transformer';
 
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
@@ -26,9 +25,11 @@ export class CircularProgressSeries<
   type = SeriesTypeEnum.circularProgress;
 
   static readonly mark: SeriesMarkMap = circularProgressSeriesMark;
+  static readonly transformerConstructor = CircularProgressSeriesSpecTransformer as any;
+  readonly transformerConstructor = CircularProgressSeriesSpecTransformer;
 
-  private _progressMark: IProgressArcMark | null = null;
-  private _trackMark: IProgressArcMark | null = null;
+  private _progressMark: IArcMark | null = null;
+  private _trackMark: IArcMark | null = null;
 
   getStackGroupFields(): string[] {
     return this.getGroupFields();
@@ -133,13 +134,13 @@ export class CircularProgressSeries<
           x: () => this.angleAxisHelper.center().x,
           y: () => this.angleAxisHelper.center().y,
           startAngle: () => {
-            const fieldName = this._stack ? STACK_FIELD_START : this._angleField[0];
+            const fieldName = this.getStack() ? STACK_FIELD_START : this._angleField[0];
             const scale = this.angleAxisHelper.getScale(0);
             const domain = scale.domain();
             return this._getAngleValueStart({ [fieldName]: domain[0] });
           },
           endAngle: () => {
-            const fieldName = this._stack ? STACK_FIELD_END : this._angleField[0];
+            const fieldName = this.getStack() ? STACK_FIELD_END : this._angleField[0];
             const scale = this.angleAxisHelper.getScale(0);
             const domain = scale.domain();
             return this._getAngleValueEnd({ [fieldName]: domain[domain.length - 1] });
@@ -205,7 +206,6 @@ export class CircularProgressSeries<
 }
 
 export const registerCircularProgressSeries = () => {
-  registerProgressArcMark();
   registerArcMark();
   registerProgressLikeAnimation();
   registerFadeInOutAnimation();

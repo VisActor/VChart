@@ -5,7 +5,7 @@ import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { IMarkProgressiveConfig, IMarkStateStyle, MarkType } from '../../mark/interface';
 import type { IModel } from '../../model/interface';
 import { MarkStateManager } from './mark-state-manager';
-import type { ICompilableMark, IMarkDataInitOption, ICompilableMarkOption, StateValueType, IMarkCompileOption, IAttributeOpt } from './interface';
+import type { ICompilableMark, IMarkDataInitOption, ICompilableMarkOption, StateValueType, IMarkCompileOption, IAttributeOpt, MarkClip } from './interface';
 import { MarkData } from './mark-data';
 import { GrammarType } from '../interface/compilable-item';
 import type { IEvent } from '../../event/interface';
@@ -75,6 +75,9 @@ export declare abstract class CompilableMark extends GrammarItem implements ICom
     setCustomizedShapeCallback(callback: (datum: any[], attrs: any, path: ICustomPath2D) => ICustomPath2D): void;
     protected _enableSegments: boolean;
     setEnableSegments(enable: boolean): void;
+    protected _clip: MarkClip;
+    getClip(): MarkClip;
+    setClip(clip: MarkClip): void;
     protected _stateSort?: (stateA: string, stateB: string) => number;
     setStateSortCallback(stateSort: (stateA: string, stateB: string) => number): void;
     protected _option: ICompilableMarkOption;

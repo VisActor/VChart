@@ -58,7 +58,7 @@ import { Stack } from '../stack';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
-import type { IParserOptions } from '@visactor/vdataset/es/parser';
+import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { has, isFunction, isEmpty, isNil, isString, isEqual } from '@visactor/vutils';
@@ -210,10 +210,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   created() {
     this._transformer = new this.transformerConstructor({
+      ...this._option,
       type: this.type,
-      seriesType: this.seriesType,
-      getTheme: this._option.getTheme,
-      animation: this._option.animation
+      seriesType: this.seriesType
     });
     // data
     this._chartData.parseData(this._spec.data);

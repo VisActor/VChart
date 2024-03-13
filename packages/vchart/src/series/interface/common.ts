@@ -2,8 +2,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { IGrammarItem } from '../../compile/interface';
 import type { IGroupMark } from '../../mark/group';
 import type {
-  IBaseModelSpecTransformer,
-  IBaseModelSpecTransformerOption,
+  IBaseModelSpecTransformerResult,
   IModelConstructor,
   IModelMarkInfo,
   IModelOption,
@@ -14,9 +13,10 @@ import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { ISeriesSpec, StringOrNumber } from '../../typings';
-import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
+import type { TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
 import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { MarkClip } from '../../compile/mark';
 
 // export type SeriesStyle = 'color' | 'size' | 'shape';
 
@@ -124,6 +124,11 @@ export interface ISeriesMarkInitOption {
    * @since 1.9.0
    */
   componentType?: string;
+  /**
+   * 裁剪配置
+   * @since 1.10.0
+   */
+  clip?: MarkClip;
 }
 
 export interface ISeriesMarkInfo extends IModelMarkInfo {
@@ -133,11 +138,20 @@ export interface ISeriesMarkInfo extends IModelMarkInfo {
 
 export type SeriesMarkMap = Partial<Record<SeriesMarkNameEnum, ISeriesMarkInfo>>;
 
-export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec> extends IModelSpecInfo {
+export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec>
+  extends IModelSpecInfo,
+    ISeriesSpecTransformerResult<T, any> {
   /** model 具体类型 */
   type: string | SeriesTypeEnum;
   /** model spec */
   spec: T;
+  /** model theme */
+  theme: any;
+}
+
+export interface ISeriesSpecTransformerResult<T, K> extends IBaseModelSpecTransformerResult<T, K> {
   /** 当前的 mark 标签 spec */
   markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
+  /** 是否堆叠 */
+  stack?: boolean;
 }

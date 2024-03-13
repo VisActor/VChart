@@ -63,11 +63,16 @@ Configure tooltip background frame style.
 
 ##${prefix} size(number)
 
-**Optional** Configure tooltip shape width and height.
+**Optional** Configure tooltip shape width and height. This configuration is common to `shapeSize`.
 
 ##${prefix} spacing(number)
 
 **Optional** Configure tooltip shape horizontal spacing with adjacent element on the right.
+
+{{ use: component-tooltip-shape-pattern(
+  prefix = '#' + ${prefix},
+  type = 'style'
+) }}
 
 #${prefix} titleLabel(Object)
 

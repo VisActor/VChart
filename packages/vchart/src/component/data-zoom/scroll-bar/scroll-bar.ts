@@ -1,5 +1,5 @@
 import type { Maybe } from '@visactor/vutils';
-import { isArray, isBoolean, isEmpty, isNil, isNumber, isValid } from '@visactor/vutils';
+import { isArray, isBoolean, isEmpty, isFunction, isNil, isNumber, isValid } from '@visactor/vutils';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -145,7 +145,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       const container = this.getContainer();
       this._component = new ScrollBarComponent(attrs);
       // 绑定事件，防抖，防止频繁触发
-      this._component.addEventListener('scroll', (e: any) => {
+      this._component.addEventListener('scrollDrag', (e: any) => {
         const value = e.detail.value;
         this._handleChange(value[0], value[1]);
       });
@@ -162,7 +162,11 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
       this._start = start;
       this._end = end;
-      const hasChange = this._handleStateChange(this._statePointToData(start), this._statePointToData(end));
+      const startValue = this._statePointToData(start);
+      const endValue = this._statePointToData(end);
+      const hasChange = isFunction(this._spec.updateDataAfterChange)
+        ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
+        : this._handleStateChange(this._statePointToData(start), this._statePointToData(end));
       if (hasChange) {
         this.event.emit(ChartEvent.scrollBarChange, {
           model: this,
@@ -186,7 +190,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   protected _initCommonEvent() {
     super._initCommonEvent();
     if (this._component) {
-      this._component.on('scroll', (e: any) => {
+      this._component.on('scrollDrag', (e: any) => {
         const value = e.detail.value;
         this._handleChange(value[0], value[1]);
       });

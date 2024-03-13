@@ -1,44 +1,34 @@
 import React from 'react';
 import { WebChart } from './components/web-chart';
 import { GeneralChart } from './components/general-chart';
-import { IChartProps, VChartEnvType } from './typings';
+import { IVChartProps } from './typings';
 import Taro from '@tarojs/taro';
 // @ts-ignore
-import { registerLarkEnv, registerWXEnv } from '@visactor/vchart/build/es5';
-
-interface IVChartProps extends IChartProps {
-  /**
-   * 配置环境。如果没有声明，则会通过 `Taro.getEnv()` 自动获取。
-   * - `tt` 字节小程序。
-   * - `lark` 飞书小程序。
-   * - `weapp` 微信小程序
-   * - `h5` 浏览器环境, 与`web`等价。
-   * - `web` 浏览器环境, 与`h5`等价。
-   */
-  type?: VChartEnvType;
-}
+import { VChart as chartConstructor, registerLarkEnv, registerWXEnv } from './chart/index';
+import { VChartSimple } from './simple';
 
 export default function VChart({ type, ...args }: IVChartProps) {
   const env = (type ?? Taro.getEnv()).toLocaleLowerCase();
-
+  // @ts-ignore
+  const props = { chartConstructor, ...args };
   const strategies = {
     lark: () => {
       registerLarkEnv();
-      return <GeneralChart {...args} mode="miniApp" />;
+      return <GeneralChart {...props} mode="miniApp" />;
     },
     tt: () => {
       registerLarkEnv();
-      return <GeneralChart {...args} mode="miniApp" />;
+      return <GeneralChart {...props} mode="miniApp" />;
     },
     weapp: () => {
       registerWXEnv();
-      return <GeneralChart {...args} mode="wx" />;
+      return <GeneralChart {...props} mode="wx" />;
     },
     web: () => {
-      return <WebChart {...args} />;
+      return <WebChart {...props} />;
     },
     h5: () => {
-      return <WebChart {...args} mode="mobile-browser" />;
+      return <WebChart {...props} mode="mobile-browser" />;
     }
   };
 
@@ -47,7 +37,7 @@ export default function VChart({ type, ...args }: IVChartProps) {
   }
 
   console.warn(`暂不支持 ${env} 环境`);
-  return <GeneralChart {...args} />;
+  return <GeneralChart {...props} />;
 }
 
-export { VChart };
+export { VChart, VChartSimple };

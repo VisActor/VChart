@@ -1,4 +1,4 @@
-import type { ITextMarkSpec, IMarkSpec, ISeriesSpec } from '../../typings';
+import type { ITextMarkSpec, IMarkSpec, ISeriesSpec, ITextFormatMethod } from '../../typings';
 import type { IAnimationSpec, IMarkAnimateSpec, IStateAnimateSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { WordcloudAppearPreset } from './animation';
@@ -261,7 +261,7 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
    */
   [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
-    formatMethod?: (datum?: any) => string;
+    formatMethod?: ITextFormatMethod<[datum?: any]>;
   };
   /**
    * 形状词云填充词文字图元配置
@@ -270,7 +270,6 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
    */
   [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
-    // formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };
 
   animationAppear?:
@@ -291,18 +290,15 @@ export interface IWordCloudSeriesBaseSpec extends ISeriesSpec, IAnimationSpec<st
     | IMarkAnimateSpec<string>;
 }
 
-// TODO: 补充 IAnimationSpec 动画类型 @hefeifei
 export interface IWordCloudSeriesSpec extends IWordCloudSeriesBaseSpec {
   type: 'wordCloud';
 }
 export interface IWordCloudSeriesTheme {
   [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
-    formatMethod?: (datum?: any) => string;
   };
   [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
-    formatMethod?: (datum?: any) => string;
   };
 }
 
@@ -315,10 +311,8 @@ export interface IWordCloud3dSeriesSpec extends IWordCloudSeriesBaseSpec {
 export interface IWordCloud3dSeriesTheme {
   [SeriesMarkNameEnum.word]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
-    formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };
   [SeriesMarkNameEnum.fillingWord]?: IMarkSpec<ITextMarkSpec> & {
     padding?: number;
-    formatMethod?: (text: string | string[], datum?: any) => string | string[];
   };
 }

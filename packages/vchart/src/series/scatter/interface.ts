@@ -6,6 +6,7 @@ import type { ScatterAppearPreset, ScatterMarks } from './animation';
 import type { IMarkProgressiveConfig } from '../../mark/interface';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILineLikeLabelSpec } from '../mixin/line-mixin';
+import { IMultiLabelSpec } from '../../component/label';
 
 export interface IScatterSeriesSpec
   extends ICartesianSeriesSpec,
@@ -40,7 +41,7 @@ export interface IScatterSeriesSpec
   /**
    * 标签配置
    */
-  [SeriesMarkNameEnum.label]?: ILineLikeLabelSpec;
+  [SeriesMarkNameEnum.label]?: IMultiLabelSpec<ILineLikeLabelSpec>;
 }
 
 export interface IScatterSeriesTheme extends ICartesianSeriesTheme {

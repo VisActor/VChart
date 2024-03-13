@@ -1,5 +1,5 @@
 import type { IAttributeOpt, IModelMarkAttributeContext } from '../../compile/mark/interface';
-import type { Datum, IMarkSpec, ICommonSpec } from '../../typings';
+import type { Datum, IMarkSpec, ICommonSpec, ValueType } from '../../typings';
 import type { IMarkRaw, IMarkStateStyle, IMarkStyle, IMarkOption, StyleConvert, MarkInputStyle } from '../interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
@@ -17,11 +17,11 @@ export declare class BaseMark<T extends ICommonSpec> extends CompilableMark impl
     constructor(name: string, option: IMarkOption);
     created(): void;
     initStyleWithSpec(spec: IMarkSpec<T>, key?: string): void;
-    convertAngleToRadian(styleConverter: StyleConvert<number>): StyleConvert<any>;
+    protected _transformStyleValue<T>(styleConverter: StyleConvert<T>, transform: (value: ValueType<T>) => ValueType<T>): StyleConvert<any>;
+    convertAngleToRadian(styleConverter: StyleConvert<number>): any;
     isUserLevel(level: number): boolean;
     setStyle<U extends keyof T>(style: Partial<IMarkStyle<T>>, state?: StateValueType, level?: number, stateStyle?: IMarkStateStyle<T>): void;
     getStyle(key: string, state?: StateValueType): any;
-    protected _filterStyle(style: Partial<IMarkStyle<T>>, state: StateValueType, level: number, stateStyle?: IMarkStateStyle<T>): Partial<IMarkStyle<T>>;
     protected _filterAttribute<U extends keyof T>(attr: U, style: MarkInputStyle<T[U]>, state: StateValueType, level: number, isUserLevel: boolean, stateStyle?: IMarkStateStyle<T>): StyleConvert<T[U]>;
     setReferer<U extends keyof T>(mark: IMarkRaw<T>, styleKey?: U, state?: StateValueType, stateStyle?: IMarkStateStyle<T>): void;
     setPostProcess<U extends keyof T>(key: U, postProcessFunc: any, state?: StateValueType): void;

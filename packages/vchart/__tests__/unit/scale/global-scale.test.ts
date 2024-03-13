@@ -290,7 +290,8 @@ describe('global-scale test', () => {
     });
     const transformer = new CommonChart.transformerConstructor({
       type: 'common',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec);
     chart = new CommonChart(
@@ -310,7 +311,7 @@ describe('global-scale test', () => {
         mode: 'desktop-browser',
         getSpecInfo: () => info,
         getCompiler: getTestCompiler,
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(true)
       } as any
     );
     chart.created();
@@ -439,7 +440,8 @@ describe('global-scale test', () => {
     });
     const transformer = new CommonChart.transformerConstructor({
       type: 'common',
-      getTheme: () => ThemeManager.getCurrentTheme()
+      getTheme: () => ThemeManager.getCurrentTheme(true),
+      mode: 'desktop-browser'
     });
     const info = transformer.initChartSpec(spec);
     chart = new CommonChart(
@@ -459,7 +461,7 @@ describe('global-scale test', () => {
         mode: 'desktop-browser',
         getSpecInfo: () => info,
         getCompiler: getTestCompiler,
-        getTheme: () => ThemeManager.getCurrentTheme()
+        getTheme: () => ThemeManager.getCurrentTheme(true)
       } as any
     );
     chart.created();

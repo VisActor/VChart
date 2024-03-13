@@ -1,6 +1,3 @@
-import type { IOrientType } from '../../typings';
-import type { ComponentTypeEnum } from '../interface';
-import type { ITheme } from '../../theme';
 export interface IDataFilterWithNewDomainOption {
     getNewDomain: () => any[];
     isContinuous: () => boolean;
@@ -20,4 +17,3 @@ export interface IDataFilterComputeDomainOption {
     };
 }
 export declare const dataFilterComputeDomain: (data: Array<any>, op: IDataFilterComputeDomainOption) => any[];
-export declare const getDataFilterTheme: (orient: IOrientType, type: ComponentTypeEnum, chartTheme: ITheme) => any;

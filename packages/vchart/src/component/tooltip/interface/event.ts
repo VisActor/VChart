@@ -1,5 +1,4 @@
 import type { TooltipActiveType, TooltipData } from '../../../typings';
-import type { IComponent } from '../../interface/common';
 import type { TooltipHandlerParams } from './common';
 
 export type TooltipEventParams = TooltipHandlerParams & {
@@ -7,6 +6,4 @@ export type TooltipEventParams = TooltipHandlerParams & {
   activeType?: TooltipActiveType;
   /** tooltip 数据 */
   tooltipData?: TooltipData;
-  /** tooltip 组件实例 */
-  tooltip: IComponent;
 };

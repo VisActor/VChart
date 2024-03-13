@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.9.6",
+  "version": "1.10.0",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -15,20 +15,21 @@
     "./*/vchart-simple.js"
   ],
   "scripts": {
-    "build:es5": "rm -rf lib && rollup -c --bundleConfigAsCjs",
+    "build": "bundle --clean && npm run build:schema && npm run build:types && npm run build:es5",
+    "build:es5": "rimraf lib && rollup -c --bundleConfigAsCjs",
     "build:schema": "schema src/typings/spec/chart.ts ISpec --useTypeOfKeyword --ignoreErrors --required > ../vchart-schema/vchart.json",
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir ../vchart-types/types",
-    "build": "bundle --clean && npm run build:schema && npm run build:types && npm run build:es5",
     "build:ci": "bundle --clean -f umd --ignorePostTasks --ignoreUmdEntries",
     "build:umd": "bundle -f umd",
+    "build:cjs": "bundle --clean -f cjs --ignorePostTasks --ignoreUmdEntries",
+    "build:es": "bundle --clean -f es --ignorePostTasks",
     "analyze": "npm run analyze-full && npm run analyze-line && npm run analyze-simple",
     "analyze-full": "BUNDLE_ANALYZE='full' bundle -f umd ",
     "analyze-simple": "BUNDLE_ANALYZE='simple' bundle -f umd",
     "dev": "bundle --clean -f es -w",
-    "build-cjs": "bundle --clean -f cjs --ignorePostTasks --ignoreUmdEntries",
     "compile": "tsc --noEmit",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser",
-    "clear": "rm -rf build && rm -rf esm && rm -rf cjs",
+    "clear": "rimraf build && rimraf esm && rimraf cjs",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check .",
     "eslint": "eslint --debug --fix src/",
@@ -40,7 +41,6 @@
     "test-live": "npm run test-watch __tests__/unit",
     "test-watch": "DEBUG_MODE=1 jest --watch",
     "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts",
-    "build:es": "bundle --clean -f es --ignorePostTasks",
     "size": "size-limit"
   },
   "files": [
@@ -115,23 +115,24 @@
     "form-data": "~4.0.0",
     "canvas": "2.11.2",
     "size-limit": "9.0.0",
-    "@size-limit/file": "9.0.0"
+    "@size-limit/file": "9.0.0",
+    "rimraf": "3.0.2"
   },
   "dependencies": {
     "@visactor/vutils": "~0.18.1",
     "@visactor/vdataset": "~0.18.1",
     "@visactor/vscale": "~0.18.1",
-    "@visactor/vrender-core": "0.17.28",
-    "@visactor/vrender-kits": "0.17.28",
-    "@visactor/vrender-components": "0.17.28",
-    "@visactor/vgrammar-core": "0.11.18",
-    "@visactor/vgrammar-projection": "0.11.18",
-    "@visactor/vgrammar-wordcloud": "0.11.18",
-    "@visactor/vgrammar-wordcloud-shape": "0.11.18",
-    "@visactor/vgrammar-hierarchy": "0.11.18",
-    "@visactor/vgrammar-sankey": "0.11.18",
-    "@visactor/vgrammar-util": "0.11.18",
-    "@visactor/vutils-extension": "workspace:1.9.6"
+    "@visactor/vrender-core": "0.18.5",
+    "@visactor/vrender-kits": "0.18.5",
+    "@visactor/vrender-components": "0.18.5",
+    "@visactor/vgrammar-core": "0.12.4",
+    "@visactor/vgrammar-projection": "0.12.4",
+    "@visactor/vgrammar-wordcloud": "0.12.4",
+    "@visactor/vgrammar-wordcloud-shape": "0.12.4",
+    "@visactor/vgrammar-hierarchy": "0.12.4",
+    "@visactor/vgrammar-sankey": "0.12.4",
+    "@visactor/vgrammar-util": "0.12.4",
+    "@visactor/vutils-extension": "workspace:1.10.0"
   },
   "publishConfig": {
     "access": "public",

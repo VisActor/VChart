@@ -4,10 +4,11 @@ import { Direction } from '../../typings/space';
 import type { ILabelInfo } from './label';
 import type { BaseLabelAttrs, LabelItem, OverlapAttrs, Strategy } from '@visactor/vrender-components';
 import type { ICartesianSeries } from '../../series/interface';
-import { isBoolean, isFunction, isObject, isString, substitute } from '@visactor/vutils';
+import { isBoolean, isFunction, isObject, isString } from '@visactor/vutils';
 import { createText } from '@visactor/vrender-core';
 import type { IWaterfallSeriesSpec } from '../../series/waterfall/interface';
 import type { ILabelSpec } from './interface';
+import { getFormatFunction } from '../util';
 
 export const labelRuleMap = {
   rect: barLabel,
@@ -49,13 +50,11 @@ export function textAttribute(
     textAttribute[key] = attr;
   }
 
-  if (formatMethod) {
-    textAttribute.text = formatMethod(textAttribute.text, datum, { series });
+  const { formatFunc, args } = getFormatFunction(formatMethod, formatter, textAttribute.text, datum);
+  if (formatFunc) {
+    textAttribute.text = formatFunc(...args, { series });
   }
 
-  if (formatter) {
-    textAttribute.text = substitute(formatter, datum);
-  }
   return textAttribute;
 }
 
@@ -308,15 +307,8 @@ export function stackLabel(labelInfo: ILabelInfo) {
  * treemap 非叶子节点标签配置规则
  */
 export function treemapLabel(labelInfo: ILabelInfo) {
-  const labelSpec = labelInfo.labelSpec;
   return {
-    customLayoutFunc: (labels: LabelItem[]) => {
-      return labels.map(label => {
-        const datum = label.data;
-        const attribute = textAttribute(labelInfo, datum, labelSpec.formatMethod);
-        return createText({ ...attribute, id: label.id, pickable: false });
-      });
-    },
+    customLayoutFunc: (labels: LabelItem[], text: any) => text,
     overlap: false
   };
 }

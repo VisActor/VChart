@@ -23,12 +23,3 @@ export function transformLegendTitleAttributes(title: ITitle) {
   }
   return transformedTitle;
 }
-
-/**
- * 根据图例 spec.orient 参数判断是水平还是垂直布局
- * @param spec
- * @returns
- */
-export function getLayout(spec: ILegendCommonSpec) {
-  return spec.orient === 'bottom' || spec.orient === 'top' ? 'horizontal' : 'vertical';
-}

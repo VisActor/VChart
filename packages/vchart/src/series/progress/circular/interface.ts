@@ -1,10 +1,10 @@
 import type { IAnimationSpec } from '../../../animation/spec';
 import type { IMarkSpec, IMarkTheme } from '../../../typings/spec/common';
-import type { IProgressArcMarkSpec } from '../../../typings/visual';
 import type { ProgressLikeAppearPreset } from '../../polar/progress-like/animation';
 import type { IProgressSeriesSpec } from '../interface';
 import type { IProgressLikeSeriesSpec, IProgressLikeSeriesTheme } from '../../polar/progress-like/interface';
 import type { SeriesMarkNameEnum } from '../../interface/type';
+import type { IArcMarkSpec } from '../../../typings';
 
 export type CircularProgressMarks = 'progress' | 'track';
 
@@ -23,13 +23,13 @@ export interface ICircularProgressSeriesSpec
   maxValue?: number;
 
   /** 进度条样式 */
-  [SeriesMarkNameEnum.progress]?: IMarkSpec<IProgressArcMarkSpec>;
+  [SeriesMarkNameEnum.progress]?: IMarkSpec<IArcMarkSpec>;
 
   /** 背景样式 */
-  [SeriesMarkNameEnum.track]?: IMarkSpec<IProgressArcMarkSpec>;
+  [SeriesMarkNameEnum.track]?: IMarkSpec<IArcMarkSpec>;
 }
 
 export interface ICircularProgressSeriesTheme extends IProgressLikeSeriesTheme {
-  [SeriesMarkNameEnum.progress]?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
-  [SeriesMarkNameEnum.track]?: Partial<IMarkTheme<IProgressArcMarkSpec>>;
+  [SeriesMarkNameEnum.progress]?: Partial<IMarkTheme<IArcMarkSpec>>;
+  [SeriesMarkNameEnum.track]?: Partial<IMarkTheme<IArcMarkSpec>>;
 }

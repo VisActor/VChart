@@ -1,9 +1,9 @@
 import type { ITextMeasureOption, ITextSize } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import type { TextMeasure } from '@visactor/vutils';
-import { THEME_CONSTANTS } from '../theme/builtin/common/constants';
 import { initTextMeasure as initTextMeasureFunc } from '@visactor/vutils-extension';
 import type { ITextGraphicAttribute } from '@visactor/vrender-core';
+import { token } from '../theme/token';
 
 export const initTextMeasure = (
   textSpec?: Partial<ITextGraphicAttribute>,
@@ -11,8 +11,8 @@ export const initTextMeasure = (
   useNaiveCanvas?: boolean
 ): TextMeasure<ITextGraphicAttribute> => {
   return initTextMeasureFunc(textSpec, option, useNaiveCanvas, {
-    fontFamily: THEME_CONSTANTS.defaultFontFamily,
-    fontSize: THEME_CONSTANTS.defaultFontSize
+    fontFamily: token.fontFamily,
+    fontSize: token.fontSize
   });
 };
 

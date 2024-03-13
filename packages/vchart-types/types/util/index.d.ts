@@ -1,5 +1,4 @@
-import { TimeUtil } from '../component/axis/cartesian/util/time';
-import { debounce, throttle, clamp } from '@visactor/vutils';
+import { debounce, throttle, clamp, TimeUtil } from '@visactor/vutils';
 export { debounce, throttle, clamp };
 export * from './array';
 export * from './color';

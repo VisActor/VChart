@@ -44,7 +44,10 @@ import type {
   ISeriesTooltipHelper,
   SeriesMarkMap,
   ISeriesMarkInfo,
-  ISeriesSpecInfo
+  ISeriesSpecInfo,
+  ISeriesStackDataLeaf,
+  ISeriesStackDataNode,
+  ISeriesStackDataMeta
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
@@ -220,22 +223,18 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._groups;
   }
 
-  protected _stack: boolean;
-  protected _supportStack: boolean;
   getStack() {
-    return this._stack;
+    return this.getSpecInfo()?.stack;
   }
 
   getStackValue() {
     return this._spec.stackValue ?? `${PREFIX}_series_${this.type}`;
   }
-  protected _percent: boolean = false;
   getPercent() {
-    return this._percent;
+    return this._spec.percent;
   }
-  protected _stackOffsetSilhouette: boolean = false;
   getStackOffsetSilhouette() {
-    return this._stackOffsetSilhouette;
+    return this._spec.stackOffsetSilhouette;
   }
   protected _dataSet: DataSet;
 
@@ -323,25 +322,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
     this.setSeriesField(this._spec.seriesField);
-    if (isBoolean(this._spec.stack)) {
-      this._stack = this._spec.stack;
-    }
-    if (isBoolean(this._spec.percent)) {
-      this._percent = this._spec.percent;
-      this._stack = this._spec.percent || this._stack; // this._stack is `true` in bar/area series
-    }
-    if (isBoolean(this._spec.stackOffsetSilhouette)) {
-      this._stackOffsetSilhouette = this._spec.stackOffsetSilhouette;
-      this._stack = this._spec.stackOffsetSilhouette || this._stack; // this._stack is `true` in bar/area series
-    }
-    if (isValid(this._spec.stackValue)) {
-      this._stack = true;
-    }
-
-    if (isNil(this._stack) && this._supportStack && this._seriesField) {
-      // only set default value of stack to be `true` when series support stack and seriesField is not null
-      this._stack = true;
-    }
     if (isValid(this._spec.invalidType)) {
       this._invalidType = this._spec.invalidType;
     }
@@ -359,7 +339,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._addDataIndexAndKey();
     // 初始化viewData
     if (this._rawData) {
-      if (this._stack) {
+      if (this.getStack()) {
         // 初始化viewDataFilter
         this._viewDataFilter = dataViewFromDataView(this._rawData, this._dataSet, {
           name: `${this.type}_${this.id}_viewDataFilter`
@@ -367,12 +347,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       }
 
       // 初始化viewData
-      const viewData = dataViewFromDataView(this._stack ? this._viewDataFilter : this._rawData, this._dataSet, {
+      const viewData = dataViewFromDataView(this.getStack() ? this._viewDataFilter : this._rawData, this._dataSet, {
         name: `${this.type}_${this.id}_viewData`
       });
       this._data = new SeriesData(this._option, viewData);
 
-      if (this._stack) {
+      if (this.getStack()) {
         this._viewDataFilter.target.removeListener('change', viewData.reRunAllTransform);
       }
     }
@@ -482,7 +462,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     );
 
     this._data.getDataView().target.removeListener('change', this._viewDataStatistics.reRunAllTransform);
-    if (this._stack) {
+    if (this.getStack()) {
       this.createdStackData();
     }
   }
@@ -1253,6 +1233,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       progressive,
       support3d = this._spec.support3d || !!(this._spec as any).zField,
       morph = false,
+      clip,
       customShape,
       stateSort
     } = option;
@@ -1311,6 +1292,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       if (stateSort) {
         m.setStateSortCallback(stateSort);
+      }
+
+      if (clip) {
+        m.setClip(clip);
       }
 
       this.initMarkStyleWithSpec(m, mergeSpec({}, themeSpec, markSpec || spec[m.name]));
@@ -1405,5 +1390,20 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       .getSpecInfo()
       .component[specKey]?.filter(componentInfo => componentInfo.seriesIndexes.includes(specIndex));
     return relatedComponent ?? [];
+  }
+
+  protected _forEachStackGroup(callback: (node: ISeriesStackDataLeaf) => void, node?: ISeriesStackDataMeta) {
+    node = node ?? this._viewStackData?.latestData;
+    if (!node) {
+      return;
+    }
+
+    if ((node as ISeriesStackDataLeaf).values?.length) {
+      callback(node as ISeriesStackDataLeaf);
+    } else if ((node as ISeriesStackDataNode).nodes) {
+      Object.values((node as ISeriesStackDataNode).nodes).forEach(n => {
+        this._forEachStackGroup(callback, n);
+      });
+    }
   }
 }

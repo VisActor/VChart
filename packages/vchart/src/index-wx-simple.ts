@@ -15,8 +15,9 @@ import { registerDiscreteLegend } from './component/legend/discrete/legend';
 import { registerCartesianBandAxis } from './component/axis/cartesian/band-axis';
 import { registerCartesianLinearAxis } from './component/axis/cartesian/linear-axis';
 import { registerWXEnv } from './env';
-import { registerCanvasTooltipHandler } from './plugin/components/tooltip-handler';
+import { registerCanvasTooltipHandler } from './plugin';
 import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
+import { registerFormatPlugin } from './plugin/chart/formatter';
 
 export * from './core';
 
@@ -38,6 +39,7 @@ VChart.useRegisters([
 
   // plugin
   registerCanvasTooltipHandler,
+  registerFormatPlugin,
 
   // vgrammar interactions,
   registerElementHighlight,

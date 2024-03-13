@@ -33,3 +33,7 @@ If the number of arrays in `barGapInGroup` is less than the number of grouping l
 #${prefix} barMinHeight(number)
 
 Supported since `1.4.0` version, used to configure the minimum height of the bar, which can be used to prevent visual adjustments of a data item whose value is too small.
+
+#${prefix} stackCornerRadius(number|number[])
+
+Supported since `1.4.0` version, used to configure the overall rounded corners of stacked bar groups.

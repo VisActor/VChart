@@ -14,6 +14,7 @@ export declare class EventDispatcher implements IEventDispatcher {
     register<Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>): this;
     unregister<Evt extends EventType>(eType: Evt, handler?: EventHandler<EventParamsDefinition[Evt]>): this;
     dispatch<Evt extends EventType>(eType: Evt, params: EventParamsDefinition[Evt], level?: EventBubbleLevel): this;
+    clear(): void;
     release(): void;
     private _filter;
     private _prepareParams;

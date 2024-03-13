@@ -1,8 +1,8 @@
-import { array, has, isValid } from '@visactor/vutils';
-import type { IChartSpec, IRegionSpec, ISeriesSpec } from '../../typings';
+import { has, isValid } from '@visactor/vutils';
+import type { IChartSpec, ISeriesSpec } from '../../typings';
 import type { IChartSpecInfo, IChartSpecTransformer, IChartSpecTransformerOption } from '../interface';
 import type { IModelConstructor, IModelSpecInfo } from '../../model/interface';
-import type { IRegionConstructor } from '../../region/interface';
+import type { IRegionConstructor, RegionSpec } from '../../region/interface';
 import { Factory } from '../../core';
 import type { ISeriesConstructor } from '../../series';
 import type { IComponentConstructor } from '../../component/interface/common';
@@ -42,7 +42,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     }
     if (isValid(chartSpec.stackInverse)) {
       chartSpec.region.forEach(
-        (r: IRegionSpec) => !isValid(r.stackInverse) && (r.stackInverse = chartSpec.stackInverse)
+        (r: RegionSpec) => !isValid(r.stackInverse) && (r.stackInverse = chartSpec.stackInverse)
       );
     }
   }
@@ -56,8 +56,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     const transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
       const { spec, specPath, specInfoPath, type } = specInfo;
       const transformer = new constructor.transformerConstructor({
-        type,
-        getTheme: this._option.getTheme
+        ...this._option,
+        type
       });
       // 调用 model 自己的 transformer 进行转换
       const transformResult = transformer.transformSpec(spec, chartSpec, chartSpecInfo);
@@ -86,8 +86,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       transform = (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => {
         const { spec, specPath, specInfoPath, type } = specInfo;
         const transformer = new constructor.transformerConstructor({
-          type,
-          getTheme: this._option.getTheme
+          ...this._option,
+          type
         });
         setProperty(chartSpecInfo, specInfoPath ?? specPath, {
           ...specInfo,
@@ -98,9 +98,10 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
     const currentChartSpecInfo: IChartSpecInfo = {};
 
-    // 预处理 region
+    /* 预处理 region */
     this.forEachRegionInSpec(chartSpec, transform, currentChartSpecInfo);
-    // 预处理 series
+
+    /* 预处理 series */
     this.forEachSeriesInSpec(chartSpec, transform, currentChartSpecInfo);
     // 记录每个 series 关联的 region
     currentChartSpecInfo.series?.forEach((seriesSpecInfo, i) => {
@@ -115,7 +116,8 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
         seriesSpecInfo.regionIndexes = region.regionIndexes.slice();
       }
     });
-    // 预处理 component
+
+    /* 预处理 component */
     this.forEachComponentInSpec(chartSpec, transform, currentChartSpecInfo);
     // 记录每个 component 关联的 region、series
     Object.values(currentChartSpecInfo.component ?? {}).forEach(specInfoList =>
@@ -195,7 +197,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K,
     chartSpecInfo?: IChartSpecInfo
   ): K[] {
-    const regionSpec = (chartSpec.region as IRegionSpec[]) ?? [];
+    const regionSpec = (chartSpec.region as RegionSpec[]) ?? [];
     return regionSpec.map((spec, index) =>
       callbackfn(
         Factory.getRegionInType('region'),
@@ -244,9 +246,9 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     let cartesianAxis: IComponentConstructor;
     let polarAxis: IComponentConstructor;
     let geoCoordinate: IComponentConstructor;
-    let label: IComponentConstructor;
-    let totalLabel: IComponentConstructor;
-    const noAxisComponents = [];
+    let tooltip: IComponentConstructor;
+    const otherComponents = [];
+
     for (let index = 0; index < components.length; index++) {
       const { cmp, alwaysCheck } = components[index];
       if (cmp.type.startsWith(ComponentTypeEnum.cartesianAxis)) {
@@ -256,18 +258,16 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       } else if (cmp.type === ComponentTypeEnum.geoCoordinate) {
         geoCoordinate = cmp;
       } else if (alwaysCheck || chartSpec[cmp.specKey ?? cmp.type]) {
-        if (cmp.type === ComponentTypeEnum.label) {
-          label = cmp;
-        } else if (cmp.type === ComponentTypeEnum.totalLabel) {
-          totalLabel = cmp;
+        if (cmp.type === ComponentTypeEnum.tooltip) {
+          tooltip = cmp;
         } else {
-          noAxisComponents.push(cmp);
+          otherComponents.push(cmp);
         }
       }
     }
 
-    let hasInitAxis = false;
     // NOTE: 坐标轴组件需要在其他组件之前创建
+    let hasInitAxis = false;
     if (cartesianAxis) {
       const infoList = cartesianAxis.getSpecInfo(chartSpec, chartSpecInfo);
       if (infoList?.length > 0) {
@@ -296,21 +296,15 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
       });
     }
 
-    if (label && chartSpecInfo) {
-      label.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
-        results.push(callbackfn(label, info, chartSpecInfo));
-      });
-    }
-    if (totalLabel && chartSpecInfo) {
-      totalLabel.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
-        results.push(callbackfn(totalLabel, info, chartSpecInfo));
-      });
-    }
-
-    noAxisComponents.forEach(C => {
+    otherComponents.forEach(C => {
       C.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
         results.push(callbackfn(C, info, chartSpecInfo));
       });
+    });
+
+    // NOTE: tooltip 组件需要在 crosshair 组件之后创建
+    tooltip?.getSpecInfo(chartSpec, chartSpecInfo)?.forEach(info => {
+      results.push(callbackfn(tooltip, info, chartSpecInfo));
     });
 
     return results;

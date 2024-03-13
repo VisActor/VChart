@@ -9,6 +9,7 @@ import type {
   DimensionIndexOption,
   IChart,
   IChartConstructor,
+  IChartOption,
   IChartSpecInfo,
   IChartSpecTransformer
 } from '../chart/interface';
@@ -24,11 +25,12 @@ import type {
   IEvent,
   IEventDispatcher
 } from '../event/interface';
-import type { IParserOptions } from '@visactor/vdataset/es/parser';
+import type { IParserOptions } from '@visactor/vdataset';
 import type { IFields, Transform, DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
+import { vglobal } from '@visactor/vrender-core';
 import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
@@ -36,7 +38,7 @@ import { isTrueBrowser } from '../util/env';
 import { warn } from '../util/debug';
 import { mergeSpec, mergeSpecWithFilter } from '../util/spec/merge-spec';
 import { specTransform } from '../util/spec/transform';
-import { getThemeObject } from '../util/spec/common';
+import { getThemeObject } from '../util/theme/common';
 import { Factory } from './factory';
 import { Event } from '../event/event';
 import { EventDispatcher } from '../event/event-dispatcher';
@@ -277,6 +279,8 @@ export class VChart implements IVChart {
   /** 工具方法 */
   static readonly Utils = VCHART_UTILS;
 
+  static readonly vglobal = vglobal;
+
   protected _originalSpec: any;
   protected _spec: any;
   getSpec() {
@@ -386,7 +390,7 @@ export class VChart implements IVChart {
     // TODO: 如果通过 updateSpec 更新主题字体的验证
     // 设置全局字体
     this.getStage()?.setTheme({
-      text: { fontFamily: this._currentTheme?.fontFamily }
+      text: { fontFamily: this._currentTheme?.fontFamily as string }
     });
     this._initDataSet(this._option.dataSet);
     this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
@@ -428,11 +432,10 @@ export class VChart implements IVChart {
     }
     this._spec = spec;
     if (!this._chartSpecTransformer) {
-      this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
-        type: this._spec.type,
-        getTheme: () => this._currentTheme ?? {},
-        animation: this._option.animation
-      });
+      this._chartSpecTransformer = Factory.createChartSpecTransformer(
+        this._spec.type,
+        this._getChartOption(this._spec.type)
+      );
     }
 
     this._chartSpecTransformer.transformSpec(this._spec);
@@ -448,10 +451,10 @@ export class VChart implements IVChart {
 
   private _updateSpecInfo() {
     if (!this._chartSpecTransformer) {
-      this._chartSpecTransformer = Factory.createChartSpecTransformer(this._spec.type, {
-        type: this._spec.type,
-        getTheme: () => this._currentTheme ?? {}
-      });
+      this._chartSpecTransformer = Factory.createChartSpecTransformer(
+        this._spec.type,
+        this._getChartOption(this._spec.type)
+      );
     }
     this._specInfo = this._chartSpecTransformer?.createSpecInfo(this._spec);
   }
@@ -470,27 +473,7 @@ export class VChart implements IVChart {
     // 用户spec更新，也许会有core上图表实例的内容存在
     // 如果要支持spec的类似Proxy监听，更新逻辑应当从这一层开始。如果在chart上做，就需要在再向上发送spec更新消息，不是很合理。
     // todo: 问题1 存不存在 chart 需要在这个阶段处理的特殊字段？目前没有，但是理论上可以有？
-    const chart = Factory.createChart(spec.type, spec, {
-      type: spec.type,
-      globalInstance: this,
-      eventDispatcher: this._eventDispatcher!,
-      dataSet: this._dataSet!,
-      container: this._container,
-      canvas: this._canvas,
-      map: new Map(),
-      mode: this._option.mode || RenderModeEnum['desktop-browser'],
-      modeParams: this._option.modeParams,
-      getCompiler: () => this._compiler,
-      performanceHook: this._option.performanceHook,
-      viewBox: this._viewBox,
-      animation: this._option.animation,
-      getTheme: () => this._currentTheme ?? {},
-      getSpecInfo: () => this._specInfo ?? {},
-
-      layout: this._option.layout,
-      onError: this._onError,
-      disableTriggerEvent: this._option.disableTriggerEvent === true
-    });
+    const chart = Factory.createChart(spec.type, spec, this._getChartOption(spec.type));
     if (!chart) {
       this._option?.onError('init chart fail');
       return;
@@ -555,7 +538,7 @@ export class VChart implements IVChart {
       {
         container: this._container,
         canvas: this._canvas,
-        mode: this._option.mode || RenderModeEnum['desktop-browser'],
+        mode: this._getMode(),
         modeParams: this._option.modeParams
       },
       {
@@ -767,7 +750,8 @@ export class VChart implements IVChart {
     if ((this._onResize as any)?.cancel) {
       (this._onResize as any).cancel();
     }
-    this._chartPluginApply('disposeAll');
+    this._chartPluginApply('releaseAll');
+    this._chartPlugin = null;
     this._chartSpecTransformer = null;
     this._chart?.release();
     this._compiler?.release();
@@ -777,9 +761,15 @@ export class VChart implements IVChart {
 
     this._releaseData();
 
+    this._onError = null;
+    this._onResize = null;
+    this._container = null;
+    this._currentTheme = null;
+    this._option = null;
     this._chart = null;
     this._compiler = null;
     this._spec = null;
+    this._specInfo = null;
     this._originalSpec = null;
     // this._option = null;
     this._userEvents = null;
@@ -1272,7 +1262,7 @@ export class VChart implements IVChart {
           getThemeObject(optionTheme),
           getThemeObject(specTheme)
         );
-        this._currentTheme = preprocessTheme(finalTheme, finalTheme.colorScheme);
+        this._currentTheme = preprocessTheme(finalTheme);
       }
     } else {
       this._currentTheme = getThemeObject(this._currentThemeName, true);
@@ -1865,6 +1855,34 @@ export class VChart implements IVChart {
       return;
     }
     (this._chartPlugin[funcName] as (...args: any[]) => any).apply(this._chartPlugin, args);
+  }
+
+  protected _getMode() {
+    return this._option.mode || RenderModeEnum['desktop-browser'];
+  }
+
+  protected _getChartOption(type: string): IChartOption {
+    return {
+      type,
+      globalInstance: this,
+      eventDispatcher: this._eventDispatcher!,
+      dataSet: this._dataSet!,
+      container: this._container,
+      canvas: this._canvas,
+      map: new Map(),
+      mode: this._getMode(),
+      modeParams: this._option.modeParams,
+      getCompiler: () => this._compiler,
+      performanceHook: this._option.performanceHook,
+      viewBox: this._viewBox,
+      animation: this._option.animation,
+      getTheme: () => this._currentTheme ?? {},
+      getSpecInfo: () => this._specInfo ?? {},
+
+      layout: this._option.layout,
+      onError: this._onError,
+      disableTriggerEvent: this._option.disableTriggerEvent === true
+    };
   }
 }
 

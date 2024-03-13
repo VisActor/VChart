@@ -32,6 +32,18 @@ const run = () => {
     seriesField: 'type',
     radius: 0.8,
     innerRadius: 0.4,
+    progress: {
+      style: {
+        innerPadding: 5,
+        outerPadding: 5
+      },
+      state: {
+        hover: {
+          innerPadding: 0,
+          outerPadding: 0
+        }
+      }
+    },
     tickMask: {
       visible: true,
       angle: 10,

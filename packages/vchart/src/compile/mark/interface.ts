@@ -17,9 +17,8 @@ import type {
 } from '@visactor/vgrammar-core';
 import type { Maybe, Datum, StringOrNumber } from '../../typings';
 import type { MarkData } from './mark-data';
-import type { TransformedLabelSpec } from '../../component/label';
 import type { IRegion } from '../../region/interface';
-import type { ICustomPath2D } from '@visactor/vrender-core';
+import type { ICustomPath2D, IGraphic } from '@visactor/vrender-core';
 
 export interface ICompilableMarkOption extends GrammarItemInitOption {
   key?: string | ((datum: Datum) => string);
@@ -120,6 +119,10 @@ export interface ICompilableMark extends IGrammarItem {
   // 是否支持 3d
   getSupport3d: () => boolean | undefined;
   setSupport3d: (support3d: boolean) => void;
+
+  // 裁剪
+  getClip: () => MarkClip | undefined;
+  setClip: (clip: MarkClip) => void;
 
   compile: (option?: IMarkCompileOption) => void;
 
@@ -265,3 +268,5 @@ export interface ISeriesMarkAttributeContext extends IModelMarkAttributeContext 
    */
   getRegion: () => IRegion;
 }
+
+export type MarkClip = false | IGraphic[] | ((elements: IElement[]) => IGraphic[]);

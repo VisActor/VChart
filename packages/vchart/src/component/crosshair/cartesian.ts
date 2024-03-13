@@ -1,51 +1,27 @@
 import type { Maybe } from '@visactor/vutils';
-import { isArray, isValid, isValidNumber, isNil } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
+import { isArray, isValidNumber, isNil } from '@visactor/vutils';
 import type { IComponentOption } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../interface/type';
-import type { ICartesianCrosshairSpec } from './interface';
+import type { AxisCurrentValueMap, ICartesianCrosshairSpec, ICrosshairInfoX, ICrosshairInfoY } from './interface';
 import type { ICartesianSeries } from '../../series/interface';
-import type { BandScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isDiscrete, isContinuous } from '@visactor/vscale';
 import { LineCrosshair, RectCrosshair, Tag } from '@visactor/vrender-components';
-import type { IAxisInfo, IBound, IHair } from './base';
+import type { IAxisInfo, IHair } from './base';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseCrossHair } from './base';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
-import { getDatumByValue, limitTagInBounds } from './util';
-import { getAxisLabelOffset } from '../axis/util';
+import { limitTagInBounds } from './utils';
 import type { IAxis } from '../axis/interface';
 import type { IOrientType, StringOrNumber } from '../../typings';
 import { isXAxis } from '../axis/cartesian/util/common';
 import { Factory } from '../../core/factory';
 import { LayoutType } from './config';
 import type { IModelSpecInfo } from '../../model/interface';
-
-interface ICrosshairInfoX {
-  height: number;
-  leftPos: number;
-  rightPos: number;
-  topPos: number;
-  x: number;
-  bottom: { visible: boolean; text: StringOrNumber; dx: number; dy: number };
-  top: { visible: boolean; text: StringOrNumber; dx: number; dy: number };
-  visible: boolean;
-  _isCache?: boolean;
-  axis: IAxis;
-}
-interface ICrosshairInfoY {
-  width: number;
-  leftPos: number;
-  topPos: number;
-  bottomPos: number;
-  y: number;
-  left: { visible: boolean; text: StringOrNumber; dx: number; dy: number };
-  right: { visible: boolean; text: StringOrNumber; dx: number; dy: number };
-  visible: boolean;
-  _isCache?: boolean;
-  axis: IAxis;
-}
+import { layoutByValue, layoutHorizontalCrosshair, layoutVerticalCrosshair } from './utils/cartesian';
+import { getFirstSeries } from '../../util';
 
 // 1. crosshair保存上次记录的x和y轴dimension
 // 2. 每次交互触发时，首先转化成dimension保存，然后依据dimension计算x和y绘制
@@ -73,8 +49,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   private _yLeftLabel: Tag;
   private _yRightLabel: Tag;
 
-  private _currValueX: Map<number, { v: StringOrNumber; axis: IAxis }>;
-  private _currValueY: Map<number, { v: StringOrNumber; axis: IAxis }>;
+  private _currValueX: AxisCurrentValueMap;
+  private _currValueY: AxisCurrentValueMap;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const crosshairSpec = chartSpec[this.specKey];
@@ -126,7 +102,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     }
   }
 
-  private _defaultCrosshair(axisIndex: number, datum: StringOrNumber, tag: number) {
+  private _defaultCrosshair(axisIndex: number, value: StringOrNumber, tag: number) {
     const axis = this._option.getComponentsByKey('axes').find(c => c.getSpecIndex() === axisIndex) as IAxis;
     if (!axis) {
       return;
@@ -134,10 +110,10 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     // 横轴
     if (tag === LayoutType.VERTICAL) {
       this._currValueX.clear();
-      this._currValueX.set(axisIndex, { axis, v: datum });
+      this._currValueX.set(axisIndex, { axis, value });
     } else {
       this._currValueY.clear();
-      this._currValueY.set(axisIndex, { axis, v: datum });
+      this._currValueY.set(axisIndex, { axis, value });
     }
     this.layoutByValue(tag);
   }
@@ -175,15 +151,15 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   /**
    * set axis value of crosshair
    */
-  setAxisValue(v: StringOrNumber, axis: IAxis) {
+  setAxisValue(value: StringOrNumber, axis: IAxis) {
     if (isXAxis(axis.getOrient() as unknown as IOrientType)) {
       this._currValueX.set(axis.getSpecIndex(), {
-        v,
+        value,
         axis
       });
     } else {
       this._currValueY.set(axis.getSpecIndex(), {
-        v,
+        value,
         axis
       });
     }
@@ -197,7 +173,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   private _getAllAxisValues(
     axisMap: IAxisInfo<IAxis>,
     p: number,
-    currValue: Map<number, { v: StringOrNumber; axis: IAxis }>,
+    currValue: AxisCurrentValueMap,
     vertical: boolean
   ): boolean {
     // 首先不能存在两个离散轴
@@ -218,7 +194,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     axisMap.forEach((item, id) => {
       const axis = item.axis;
       currValue.set(id, {
-        v: this._getValueAt(
+        value: this._getValueAt(
           axis,
           p -
             (vertical
@@ -263,219 +239,35 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     this._yRightLabel && this._yRightLabel.hideAll();
   }
 
-  // 计算x轴和y轴对应的region区域
-  _setRegionArea(outRegion: IBound, currentValue: Map<number, { v: StringOrNumber; axis: IAxis }>) {
-    currentValue.forEach(({ axis }) => {
-      const regions = axis.getRegions();
-      regions.forEach(r => {
-        outRegion.x1 = Math.min(outRegion.x1, r.getLayoutStartPoint().x);
-        outRegion.y1 = Math.min(outRegion.y1, r.getLayoutStartPoint().y);
-        outRegion.x2 = Math.max(outRegion.x2, r.getLayoutStartPoint().x + r.getLayoutRect().width);
-        outRegion.y2 = Math.max(outRegion.y2, r.getLayoutStartPoint().y + r.getLayoutRect().height);
-      });
-    });
-  }
-
   layoutByValue(tag: number = LayoutType.ALL) {
     if (!this.enable) {
       return;
     }
-    // 获取axisHelper
-    const series = this._firstSeries<ICartesianSeries>();
+    const series = getFirstSeries(this._regions, 'cartesian') as ICartesianSeries;
     if (!series) {
       return;
     }
-    const layoutX = tag & LayoutType.VERTICAL;
-    const layoutY = tag & LayoutType.HORIZONTAL;
 
-    // 计算x和y的坐标
-    let xAxis = null;
-    let yAxis = null;
-    let x = 0;
-    let y = 0;
-    if (this._currValueX.size) {
-      const item = Array.from(this._currValueX.values())[0];
-      x = item.axis.getScale().scale(item.v) + item.axis.getLayoutStartPoint().x - this.getLayoutStartPoint().x;
-      xAxis = item.axis;
-    }
-    if (this._currValueY.size) {
-      const item = Array.from(this._currValueY.values())[0];
-      y = item.axis.getScale().scale(item.v) + item.axis.getLayoutStartPoint().y - this.getLayoutStartPoint().y;
-      yAxis = item.axis;
-    }
+    const { x, y, offsetWidth, offsetHeight, bandWidth, bandHeight } = layoutByValue(
+      tag,
+      series,
+      this.getLayoutStartPoint(),
+      this._currValueX,
+      this._currValueY,
+      this._xHair,
+      this._yHair,
+      this.enableRemain,
+      this._cacheXCrossHairInfo,
+      this._cacheYCrossHairInfo
+    );
 
-    const xVisible = !!this._currValueX.size && Number.isFinite(x);
-    const yVisible = !!this._currValueY.size && Number.isFinite(y);
-    const xUseCache = this.enableRemain && !xVisible && isValid(this._cacheXCrossHairInfo);
-    const yUseCache = this.enableRemain && !yVisible && isValid(this._cacheYCrossHairInfo);
-
-    let xCrossHairInfo: ICrosshairInfoX;
-
-    if (layoutX) {
-      xCrossHairInfo = xUseCache
-        ? this._cacheXCrossHairInfo
-        : {
-            height: 0,
-            leftPos: 0,
-            rightPos: 0,
-            topPos: 0,
-            x: 0,
-            bottom: { visible: false, text: '', dx: 0, dy: 0 },
-            top: { visible: false, text: '', dx: 0, dy: 0 },
-            visible: xVisible,
-            axis: xAxis
-          };
+    if (this.enableRemain) {
+      x && (this._cacheXCrossHairInfo = { ...x, _isCache: true });
+      y && (this._cacheYCrossHairInfo = { ...y, _isCache: true });
     }
 
-    let yCrossHairInfo: ICrosshairInfoY;
-    if (layoutY) {
-      yCrossHairInfo = yUseCache
-        ? this._cacheYCrossHairInfo
-        : {
-            width: 0,
-            leftPos: 0,
-            topPos: 0,
-            bottomPos: 0,
-            y: 0,
-            left: { visible: false, text: '', dx: 0, dy: 0 },
-            right: { visible: false, text: '', dx: 0, dy: 0 },
-            visible: yVisible,
-            axis: yAxis
-          };
-    }
-
-    let indexWidth;
-    let offsetWidth: number = 0;
-    let valueHeight;
-    let offsetHeight: number = 0;
-    // 计算x轴和y轴的数据，只允许最多一对x和一对y
-    if (this._xHair) {
-      this._currValueX.forEach(({ axis, v }) => {
-        v = v ?? '';
-        const xScale = axis.getScale();
-        if (isDiscrete(xScale.type)) {
-          indexWidth = (xScale as BandScale).bandwidth();
-
-          if (indexWidth === 0 && (xScale as BandScale).step) {
-            offsetWidth = (xScale as BandScale).step();
-          }
-        } else if (isContinuous(xScale.type)) {
-          const fieldX = series.fieldX[0];
-          const fieldX2 = series.fieldX2;
-          const datum = getDatumByValue(series.getViewData().latestData, +v, fieldX, fieldX2);
-          if (datum) {
-            const startX = series.dataToPositionX(datum);
-            if (fieldX2) {
-              indexWidth = Math.abs(startX - series.dataToPositionX1(datum));
-              v = `${datum[fieldX]} ~ ${datum[fieldX2]}`;
-            } else {
-              indexWidth = 1;
-            }
-            x = startX;
-          }
-        }
-        if (xCrossHairInfo && this._xHair.label?.visible && !xUseCache) {
-          const labelOffset = getAxisLabelOffset(axis.getSpec());
-          if (axis.getOrient() === 'bottom') {
-            xCrossHairInfo.bottom.visible = true;
-            xCrossHairInfo.bottom.text = v;
-            xCrossHairInfo.bottom.dx = 0;
-            xCrossHairInfo.bottom.dy = labelOffset;
-          } else if (axis.getOrient() === 'top') {
-            xCrossHairInfo.top.visible = true;
-            xCrossHairInfo.top.text = v;
-            xCrossHairInfo.top.dx = 0;
-            xCrossHairInfo.top.dy = -labelOffset;
-          }
-        }
-      });
-    }
-
-    if (this._yHair) {
-      this._currValueY.forEach(({ axis, v }) => {
-        v = v ?? '';
-        const yScale = axis.getScale();
-        if (isDiscrete(yScale.type)) {
-          valueHeight = (yScale as BandScale).bandwidth();
-
-          if (valueHeight === 0 && (yScale as BandScale).step) {
-            offsetHeight = (yScale as BandScale).step();
-          }
-        } else if (isContinuous(yScale.type)) {
-          const fieldY = series.fieldY[0];
-          const fieldY2 = series.fieldY2;
-          const datum = getDatumByValue(series.getViewData().latestData, +v, fieldY, fieldY2);
-          if (datum) {
-            const startY = series.dataToPositionY(datum);
-            if (fieldY2) {
-              valueHeight = Math.abs(startY - series.dataToPositionY1(datum));
-              v = `${datum[fieldY]} ~ ${datum[fieldY2]}`;
-            } else {
-              valueHeight = 1;
-            }
-            y = startY;
-          }
-        }
-        if (yCrossHairInfo && this._yHair.label?.visible && !yUseCache) {
-          const labelOffset = getAxisLabelOffset(axis.getSpec());
-          if (axis.getOrient() === 'left') {
-            yCrossHairInfo.left.visible = true;
-            yCrossHairInfo.left.text = v;
-            yCrossHairInfo.left.dx = -labelOffset;
-            yCrossHairInfo.left.dy = 0;
-          } else if (axis.getOrient() === 'right') {
-            yCrossHairInfo.right.visible = true;
-            yCrossHairInfo.right.text = v;
-            yCrossHairInfo.right.dx = labelOffset;
-            yCrossHairInfo.right.dy = 0;
-          }
-        }
-      });
-    }
-
-    if (xCrossHairInfo && !xUseCache) {
-      const xRegion = { x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity };
-      this._setRegionArea(xRegion, this._currValueX);
-      xCrossHairInfo.leftPos = xRegion.x1;
-      xCrossHairInfo.rightPos = xRegion.x2;
-      xCrossHairInfo.topPos = xRegion.y1;
-      xCrossHairInfo.height = xRegion.y2 - xRegion.y1;
-      xCrossHairInfo.x = x + this.getLayoutStartPoint().x;
-      if (this._xHair?.label?.formatMethod) {
-        const { top, bottom } = xCrossHairInfo;
-        bottom.visible && (bottom.text = this._xHair.label.formatMethod(bottom.text, 'bottom') as string);
-        top.visible && (top.text = this._xHair.label.formatMethod(top.text, 'top') as string);
-      }
-    }
-
-    if (yCrossHairInfo && !yUseCache) {
-      const yRegion = { x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity };
-      this._setRegionArea(yRegion, this._currValueY);
-      yCrossHairInfo.leftPos = yRegion.x1;
-      yCrossHairInfo.topPos = yRegion.y1;
-      yCrossHairInfo.bottomPos = yRegion.y2;
-      yCrossHairInfo.width = yRegion.x2 - yRegion.x1;
-      yCrossHairInfo.y = y + this.getLayoutStartPoint().y;
-      if (this._yHair?.label?.formatMethod) {
-        const { left, right } = yCrossHairInfo;
-        left.visible && (left.text = this._yHair.label.formatMethod(left.text, 'left') as string);
-        right.visible && (right.text = this._yHair.label.formatMethod(right.text, 'right') as string);
-      }
-    }
-
-    if (layoutX && xCrossHairInfo) {
-      this._layoutVertical(xCrossHairInfo, indexWidth ?? 0, offsetWidth);
-      if (this.enableRemain) {
-        this._cacheXCrossHairInfo = { ...xCrossHairInfo, _isCache: true };
-      }
-    }
-
-    if (layoutY && yCrossHairInfo) {
-      this._layoutHorizontal(yCrossHairInfo, valueHeight ?? 0, offsetHeight);
-      if (this.enableRemain) {
-        this._cacheYCrossHairInfo = { ...yCrossHairInfo, _isCache: true };
-      }
-    }
+    x && this._layoutVertical(x, bandWidth, offsetWidth);
+    y && this._layoutHorizontal(y, bandHeight, offsetHeight);
   }
 
   private _layoutVertical(crosshairInfo: ICrosshairInfoX, bandWidth: number, offsetWidth: number) {
@@ -488,21 +280,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     if (visible) {
       // 外部设置的size
       const type = this._xHair.type;
-      let positionAttribute;
-      if (type === 'line') {
-        positionAttribute = {
-          start: { x: x + bandWidth / 2, y: topPos },
-          end: { x: x + bandWidth / 2, y: topPos + height }
-        };
-      } else if (type === 'rect') {
-        const extend = this._getRectSize(this._xHair, bandWidth, crosshairInfo.axis);
-        const { leftPos, rightPos } = crosshairInfo;
-
-        positionAttribute = {
-          start: { x: Math.max(x - extend / 2 - offsetWidth / 2, leftPos), y: topPos },
-          end: { x: Math.min(x + bandWidth + extend / 2 + offsetWidth / 2, rightPos), y: topPos + height }
-        };
-      }
+      const positionAttribute = layoutVerticalCrosshair(this._xHair, crosshairInfo, bandWidth, offsetWidth);
       this._updateCrosshair('x', type, positionAttribute);
       // 文本
       if (top.visible) {
@@ -516,7 +294,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             textAlign: 'center',
             textBaseline: 'bottom'
           },
-          zIndex: this.labelZIndex
+          zIndex: this.labelZIndex,
+          visible: true
         };
         this._updateCrosshairLabel(this._xTopLabel, updateAttrs, label => {
           label.name = 'crosshair-x-top-label';
@@ -537,7 +316,8 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
             textAlign: 'center',
             textBaseline: 'top'
           },
-          zIndex: this.labelZIndex
+          zIndex: this.labelZIndex,
+          visible: true
         };
         this._updateCrosshairLabel(this._xBottomLabel, updateAttrs, label => {
           label.name = 'crosshair-x-bottom-label';
@@ -556,21 +336,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     const { leftPos, width, y, left, right, visible } = crosshairInfo;
     if (visible) {
       const type = this._yHair.type;
-      let positionAttribute;
-      if (type === 'line') {
-        positionAttribute = {
-          start: { x: leftPos, y: y + bandHeight / 2 },
-          end: { x: leftPos + width, y: y + bandHeight / 2 }
-        };
-      } else if (type === 'rect') {
-        const extend = this._getRectSize(this._yHair, bandHeight, crosshairInfo.axis);
-        const { topPos, bottomPos } = crosshairInfo;
-
-        positionAttribute = {
-          start: { x: leftPos, y: Math.max(y - extend / 2 - offsetHeight / 2, topPos) },
-          end: { x: leftPos + width, y: Math.min(y + bandHeight + extend / 2 + offsetHeight / 2, bottomPos) }
-        };
-      }
+      const positionAttribute = layoutHorizontalCrosshair(this._yHair, crosshairInfo, bandHeight, offsetHeight);
       this._updateCrosshair('y', type, positionAttribute);
 
       // 文本
@@ -619,21 +385,6 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     }
   }
 
-  private _getRectSize(hair: IHair, bandSize: number, axis: IAxis) {
-    // 外部设置的size
-    let extend = 0;
-    if (hair.style?.sizePercent) {
-      extend = (hair.style.sizePercent - 1) * bandSize;
-    } else if (typeof hair.style?.size === 'number') {
-      extend = hair.style.size - bandSize;
-    } else if (typeof hair.style?.size === 'function') {
-      const axisRect = axis.getLayoutRect();
-      extend = hair.style.size(axisRect, axis) - bandSize;
-    }
-
-    return extend;
-  }
-
   protected _parseFieldInfo() {
     const { xField, yField } = this._spec as ICartesianCrosshairSpec;
     if (xField && xField.visible) {
@@ -662,14 +413,16 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
           ...attributes,
           lineStyle: style,
           zIndex: this.gridZIndex + 1, // 样式优化：线盖在面上
-          disableTriggerEvent: this._option.disableTriggerEvent
+          disableTriggerEvent: this._option.disableTriggerEvent,
+          pickable: false
         });
       } else if (type === 'rect') {
         crosshair = new RectCrosshair({
           ...attributes,
           rectStyle: style,
           zIndex: this.gridZIndex,
-          disableTriggerEvent: this._option.disableTriggerEvent
+          disableTriggerEvent: this._option.disableTriggerEvent,
+          pickable: false
         });
       }
       // 添加至场景树

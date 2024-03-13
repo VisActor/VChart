@@ -12,4 +12,9 @@ export class ComponentPluginService<T extends IComponentPlugin = IComponentPlugi
     super();
     this.component = component;
   }
+
+  releaseAll(): void {
+    super.releaseAll();
+    this.component = null;
+  }
 }

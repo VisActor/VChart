@@ -30,6 +30,8 @@ export declare class TreemapSeries extends CartesianSeries<any> {
     private _enableAnimationHook;
     setAttrFromSpec(): void;
     initData(): void;
+    compile(): void;
+    protected _runTreemapTransform(render?: boolean): void;
     protected _addDataIndexAndKey(): void;
     getRawDataStatisticsByField(field: string, isNumeric?: boolean): any;
     protected _createHierarchyDataStatistics(dataName: string, rawData: DataView[]): DataView;

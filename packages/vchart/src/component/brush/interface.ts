@@ -30,6 +30,35 @@ interface IBrushDataBindSpec {
    * 刷取联动的seriesId
    */
   brushLinkSeriesId?: string | string[]; // 默认无系列
+
+  /**
+   * 刷取后是否更新axis/dataZoom范围
+   * @default false
+   * @since 0.10.0
+   */
+  zoomAfterBrush?: boolean;
+  /**
+   * 刷取联动的axisId
+   * 如果开启刷取下钻, 默认联动所有关联axis和dataZoom
+   * dataZoom filterMode: 'axis'时刷取才能正常进行（filterMode: 'filter'会改变axis domain, 导致计算错误）
+   * @since 0.10.0
+   */
+  axisId?: string | string[];
+  /**
+   * 刷取联动的axisIndex
+   * 如果开启刷取下钻, 默认联动所有关联axis和dataZoom
+   * dataZoom filterMode: 'axis'时刷取才能正常进行（filterMode: 'filter'会改变axis domain, 导致计算错误）
+   * @since 0.10.0
+   */
+  axisIndex?: number | number[];
+  /**
+   * 更新dataZoom范围时, 按百分比进行范围拓展, 比如: dataZoomRangeExpand = 0.05, 则代表更新时newStart - 0.05 & newEnd + 0.05
+   * @since 1.10.0
+   * 原因:
+   * 1) 轴的zero、nice、min、max等配置可能导致轴范围与dataZoom范围不一致）
+   * 2) 散点图按照散点中心定位, 如果严格按照中心范围更新，会出现散点超出画布的现象
+   */
+  axisRangeExpand?: number;
 }
 
 export interface IBrushTheme {

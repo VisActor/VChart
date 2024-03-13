@@ -119,7 +119,7 @@ const spec = {
         }
       ],
       position: 'top',
-      positionAt: 'pointer',
+      positionMode: 'pointer',
       updateContent: prev => {
         console.log(prev);
         // sort tooltip items

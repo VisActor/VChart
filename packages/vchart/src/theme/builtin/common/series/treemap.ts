@@ -1,5 +1,4 @@
 import type { ITreemapSeriesTheme } from '../../../../series/treemap/interface';
-import { THEME_CONSTANTS } from '../constants';
 
 export const treemap: ITreemapSeriesTheme = {
   gapWidth: 1,
@@ -15,18 +14,18 @@ export const treemap: ITreemapSeriesTheme = {
       fill: 'white',
       textBaseline: 'middle',
       textAlign: 'center',
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' }
     }
   },
   nonLeafLabel: {
-    padding: THEME_CONSTANTS.l5FontSize * 2,
+    padding: 24,
     style: {
       fill: 'black',
       stroke: { type: 'palette', key: 'backgroundColor' },
       lineWidth: 2,
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' },
       textBaseline: 'middle',
       textAlign: 'center'
     }

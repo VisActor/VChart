@@ -1,5 +1,4 @@
 import type { IAxisCommonTheme } from '../../../../../component/axis';
-import { THEME_CONSTANTS } from '../../constants';
 
 export const commonAxis: IAxisCommonTheme = {
   domainLine: {
@@ -31,7 +30,7 @@ export const commonAxis: IAxisCommonTheme = {
   tick: {
     visible: true,
     inside: false,
-    tickSize: THEME_CONSTANTS.axisTickSize,
+    tickSize: 4,
     alignWithLabel: true,
     style: {
       lineWidth: 1,
@@ -41,7 +40,7 @@ export const commonAxis: IAxisCommonTheme = {
   },
   subTick: {
     visible: false,
-    tickSize: THEME_CONSTANTS.axisTickSize / 2,
+    tickSize: 2,
     style: {
       lineWidth: 1,
       stroke: { type: 'palette', key: 'axisDomainColor' },
@@ -53,7 +52,7 @@ export const commonAxis: IAxisCommonTheme = {
     inside: false,
     space: 10,
     style: {
-      fontSize: THEME_CONSTANTS.l5FontSize,
+      fontSize: { type: 'token', key: 'l5FontSize' },
       fill: { type: 'palette', key: 'axisLabelFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1
@@ -63,8 +62,8 @@ export const commonAxis: IAxisCommonTheme = {
     space: 10,
     padding: 0,
     style: {
-      fontSize: THEME_CONSTANTS.l5FontSize,
-      lineHeight: THEME_CONSTANTS.l5LineHeight,
+      fontSize: { type: 'token', key: 'l5FontSize' },
+      lineHeight: { type: 'token', key: 'l5LineHeight' },
       fill: { type: 'palette', key: 'secondaryFontColor' },
       fontWeight: 'normal',
       fillOpacity: 1

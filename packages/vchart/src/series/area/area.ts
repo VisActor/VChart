@@ -55,7 +55,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   readonly transformerConstructor = AreaSeriesSpecTransformer;
 
   protected _areaMark!: IAreaMark;
-  protected _supportStack: boolean = true;
   protected _sortDataByAxis: boolean = false;
 
   initMark(): void {

@@ -64,6 +64,8 @@ Optional values:
 - 'filter'
 - 'axis'
 
+When `filterMode` is set to `filter`, it means filtering multiple data, which will affect the scale calculation of the axis; when `filterMode` is set to `axis`, it only affects the coordinate corresponding range of the corresponding axis and does not filter the data.
+
 #${prefix} start(number) = 0
 
 Start configuration (percentage): Range [0, 1].
@@ -150,6 +152,23 @@ prefix = '#' + ${prefix}
 
 #${prefix} realTime(boolean) = true
 Whether to update the view in real time during interaction, enabled by default. Supported since version `1.5.1`.
+
+### customDomain(array)
+
+Supports custom domain, used to unify dataZoom domain and associated axis domain(When the brush component turns on `zoomAfterBrush`, the associated dataZoom needs to be consistent with the axis, otherwise the brush range cannot be calculated correctly.). Supported since version 1.10.0.
+
+### updateDataAfterChange(Function)
+Customize the callback when datazoom is updated. Supported since version 1.10.0.
+
+```ts
+/**
+ * @params start dataZoom starting point
+ * @params start dataZoom end point
+ * @params startValue dataZoom starting point data value
+ * @params endValue dataZoom end data value
+ */
+(start: number, end: number, startValue: any, endValue: any) => void
+```
 
 {{ use: common-layout-item(
   prefix = ${prefix},

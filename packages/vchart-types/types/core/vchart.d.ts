@@ -1,11 +1,12 @@
 import type { ISeries } from '../series/interface/series';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
 import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/common';
+import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
-import type { DimensionIndexOption, IChart, IChartConstructor, IChartSpecInfo } from '../chart/interface';
+import type { DimensionIndexOption, IChart, IChartConstructor, IChartOption, IChartSpecInfo } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
-import type { IParserOptions } from '@visactor/vdataset/es/parser';
+import type { IParserOptions } from '@visactor/vdataset';
 import type { Transform, DataView } from '@visactor/vdataset';
 import { DataSet } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
@@ -46,6 +47,7 @@ export declare class VChart implements IVChart {
     static readonly Utils: {
         measureText: (text: string, textSpec?: Partial<import("@visactor/vrender-core").ITextGraphicAttribute>, option?: Partial<import("@visactor/vutils").ITextMeasureOption>, useNaiveCanvas?: boolean) => import("@visactor/vutils").ITextSize;
     };
+    static readonly vglobal: import("@visactor/vrender-core").IGlobal;
     protected _originalSpec: any;
     protected _spec: any;
     getSpec(): any;
@@ -181,5 +183,7 @@ export declare class VChart implements IVChart {
     setRuntimeSpec(spec: any): void;
     private _initChartPlugin;
     private _chartPluginApply;
+    protected _getMode(): (typeof RenderModeEnum)["desktop-browser"] | "desktop-browser" | "mobile-browser" | "node" | "worker" | "miniApp" | "wx" | "desktop-miniApp" | "lynx";
+    protected _getChartOption(type: string): IChartOption;
 }
 export declare const registerVChartCore: () => void;

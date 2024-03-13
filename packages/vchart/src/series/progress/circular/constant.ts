@@ -5,6 +5,6 @@ import { progressLikeSeriesMark } from '../../polar/progress-like/constant';
 
 export const circularProgressSeriesMark: SeriesMarkMap = {
   ...progressLikeSeriesMark,
-  [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.progressArc },
-  [SeriesMarkNameEnum.progress]: { name: SeriesMarkNameEnum.progress, type: MarkTypeEnum.progressArc }
+  [SeriesMarkNameEnum.track]: { name: SeriesMarkNameEnum.track, type: MarkTypeEnum.arc },
+  [SeriesMarkNameEnum.progress]: { name: SeriesMarkNameEnum.progress, type: MarkTypeEnum.arc }
 };
