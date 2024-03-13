@@ -1717,9 +1717,12 @@ export class VChart implements IVChart {
       const seriesLayoutStartPoint = series.getRegion().getLayoutStartPoint();
       let point: IPoint;
       if (handledDatum) {
-        point = series.dataToPosition(handledDatum);
+        point = series.dataToPosition(handledDatum, true);
       } else {
-        point = series.dataToPosition(datum);
+        point = series.dataToPosition(datum, true);
+      }
+      if (!point) {
+        return null;
       }
       return convertPoint(point, seriesLayoutStartPoint, isRelativeToCanvas);
     }

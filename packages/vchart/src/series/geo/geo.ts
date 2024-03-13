@@ -67,10 +67,13 @@ export abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpec> exten
   }
 
   // position
-  dataToPosition(datum: any): IPoint | null {
+  dataToPosition(datum: any, checkInViewData?: boolean): IPoint | null {
     let result: IPoint | null = null;
 
     if (!datum) {
+      return result;
+    }
+    if (checkInViewData && !this.isDatumInViewData(datum)) {
       return result;
     }
     const { dataToPosition, latitudeField, longitudeField } = this._coordinateHelper;

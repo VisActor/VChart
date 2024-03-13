@@ -161,7 +161,7 @@ export interface ISeries extends IModel {
   handlePan?: (e: PanEventParam) => void;
 
   // 数据映射
-  dataToPosition: (datum: Datum) => IPoint | null;
+  dataToPosition: (datum: Datum, checkInViewData?: boolean) => IPoint | null;
   dataToPositionX: (datum: Datum) => number | null;
   dataToPositionY: (datum: Datum) => number | null;
   dataToPositionZ?: (datum: Datum) => number | null;
@@ -268,7 +268,7 @@ export interface IGeoSeries extends ISeries {
   getMapViewData: () => DataView;
   getNameProperty: () => string;
 
-  dataToPosition: (datum: any) => IPoint | null;
+  dataToPosition: (datum: any, checkInViewData?: boolean) => IPoint | null;
   dataToLatitude: (latValue: any) => number | null;
   dataToLongitude: (lonValue: any) => number | null;
 

@@ -501,16 +501,19 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     return this._getPolygonCenter(this.getPoints(innerDatum));
   }
 
-  dataToPosition(datum: any) {
+  dataToPosition(datum: any, checkInViewData?: boolean) {
+    if (checkInViewData && !this.isDatumInViewData(datum)) {
+      return null;
+    }
     return this.valueToPosition(datum[this._categoryField]);
   }
 
   dataToPositionX(datum: any) {
-    return this.dataToPosition(datum).x;
+    return this.dataToPosition(datum)?.x;
   }
 
   dataToPositionY(datum: any) {
-    return this.dataToPosition(datum).y;
+    return this.dataToPosition(datum)?.y;
   }
 
   dataToPositionZ(datum: any) {

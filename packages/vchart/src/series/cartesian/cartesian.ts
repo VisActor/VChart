@@ -288,8 +288,11 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     }
   }
 
-  dataToPosition(datum: Datum): IPoint | null {
+  dataToPosition(datum: Datum, checkInViewData?: boolean): IPoint | null {
     if (!datum) {
+      return null;
+    }
+    if (checkInViewData && !this.isDatumInViewData(datum)) {
       return null;
     }
     return {
