@@ -593,14 +593,17 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
 
   clear(): void {
     if (this._brushComponents) {
-      this.getContainer()?.removeChild(this._brushComponents as unknown as INode);
+      const container = this.getContainer();
       this._brushComponents.forEach(brush => {
         brush.removeAllChild();
         brush.releaseBrushEvents();
+
+        if (container) {
+          container.removeChild(brush as unknown as INode);
+        }
       });
       this._brushComponents = null;
     }
-    super.clear();
   }
 }
 
