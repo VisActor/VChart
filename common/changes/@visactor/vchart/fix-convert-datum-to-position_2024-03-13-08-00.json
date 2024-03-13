@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `convertDatumToPosition` still return the position of mark that is hidden by legend, related #2340",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
