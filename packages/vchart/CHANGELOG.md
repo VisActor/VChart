@@ -1,6 +1,19 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 08 Mar 2024 06:37:04 GMT and should not be manually modified.
+This log was last generated on Wed, 13 Mar 2024 05:30:12 GMT and should not be manually modified.
+
+## 1.9.7
+Wed, 13 Mar 2024 05:30:12 GMT
+
+### Updates
+
+- fix: upgrade version of vgrammar to fix end state of animation
+
+
+- fix: when region style is empty, should not create _backgroundMark or _foregroundMark
+- fix: fixed the issue of being unable to listen to customMark events on vchart
+- fix: grid component should not be pickable expect its children
+- feat: register hover/select interaction by default
 
 ## 1.9.6
 Fri, 08 Mar 2024 06:37:04 GMT

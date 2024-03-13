@@ -2,6 +2,30 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.9.7",
+      "tag": "@visactor/vchart_v1.9.7",
+      "date": "Wed, 13 Mar 2024 05:30:12 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: upgrade version of vgrammar to fix end state of animation\n\n"
+          },
+          {
+            "comment": "fix: when region style is empty, should not create _backgroundMark or _foregroundMark"
+          },
+          {
+            "comment": "fix: fixed the issue of being unable to listen to customMark events on vchart"
+          },
+          {
+            "comment": "fix: grid component should not be pickable expect its children"
+          },
+          {
+            "comment": "feat: register hover/select interaction by default"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.9.6",
       "tag": "@visactor/vchart_v1.9.6",
       "date": "Fri, 08 Mar 2024 06:37:04 GMT",

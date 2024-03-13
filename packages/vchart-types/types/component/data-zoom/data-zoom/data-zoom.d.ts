@@ -74,5 +74,6 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
         disableTriggerEvent: boolean;
     };
     protected _getNeedClearVRenderComponents(): IGraphic[];
+    clear(): void;
 }
 export declare const registerDataZoom: () => void;

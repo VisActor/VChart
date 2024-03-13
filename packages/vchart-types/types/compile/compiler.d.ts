@@ -35,6 +35,7 @@ export declare class Compiler {
     getCanvas(): HTMLCanvasElement | undefined;
     getStage(): Stage | undefined;
     initView(): void;
+    handleStageRender: () => void;
     private _setCanvasStyle;
     compileInteractions(): void;
     compile(ctx: {
