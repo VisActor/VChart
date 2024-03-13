@@ -29,10 +29,10 @@ export abstract class RoseLikeSeries<T extends IRoseLikeSeriesSpec> extends Pola
     this._specAngleField = this._angleField.slice();
     this._specRadiusField = this._radiusField.slice();
     this.setInnerRadiusField(this._spec.valueField || this._spec.radiusField);
-    if (this._stack) {
+    if (this.getStack()) {
       this.setValueFieldToStack();
     }
-    if (this._percent) {
+    if (this.getPercent()) {
       this.setValueFieldToPercent();
     }
   }

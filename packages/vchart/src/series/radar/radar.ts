@@ -102,7 +102,9 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
             }
             return this.valueToPosition(
               this.getDatumPositionValues(datum, this._angleField),
-              this._stack ? this.getDatumPositionValues(datum, this._innerRadiusField) : this.radiusScale.domain()[0]
+              this.getStack()
+                ? this.getDatumPositionValues(datum, this._innerRadiusField)
+                : this.radiusScale.domain()[0]
             ).x;
           },
           y1: (datum: Datum) => {
@@ -112,7 +114,9 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
 
             const value = this.valueToPosition(
               this.getDatumPositionValues(datum, this._angleField),
-              this._stack ? this.getDatumPositionValues(datum, this._innerRadiusField) : this.radiusScale.domain()[0]
+              this.getStack()
+                ? this.getDatumPositionValues(datum, this._innerRadiusField)
+                : this.radiusScale.domain()[0]
             ).y;
             return value;
           },

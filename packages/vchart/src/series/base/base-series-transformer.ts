@@ -1,17 +1,18 @@
-import { isObject } from '@visactor/vutils';
+import { isBoolean, isNil, isObject } from '@visactor/vutils';
 import type { IChartSpecInfo } from '../../chart/interface';
 import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
-import type { IBaseModelSpecTransformerResult } from '../../model/interface';
 import { BaseModelSpecTransformer } from '../../model/base-model-transformer';
 import type { ISeriesSpec } from '../../typings';
 import { array, get, isArray, isValid, mergeSpec, transformSeriesThemeToMerge } from '../../util';
-import type { SeriesMarkNameEnum } from '../interface';
+import type { ISeriesSpecTransformerResult, SeriesMarkNameEnum } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../interface';
 import { getDirectionFromSeriesSpec } from '../util/spec';
 
 export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseModelSpecTransformer<T, K> {
   markLabelSpec: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>> = {};
+  stack: boolean;
+  protected _supportStack: boolean;
 
   getLabelSpec(markName: string) {
     return this.markLabelSpec[markName];
@@ -43,23 +44,45 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
     // 区分方向的主题
     const themeWithDirection = get(chartTheme, `series.${type}_${direction}`);
     // stack 状态下的主题
-    const stack = spec.stack ?? themeWithDirection?.stack ?? theme?.stack;
+    const stack = this.stack ?? themeWithDirection?.stack ?? theme?.stack;
     const themeWithStack = stack ? get(chartTheme, `series.${type}_stack`) : undefined;
     return mergeSpec({}, theme, themeWithDirection, themeWithStack);
   }
 
   /** 不建议重写该方法，最好重写对应子步骤 */
-  transformSpec(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo): IBaseModelSpecTransformerResult<T, K> {
+  transformSpec(spec: T, chartSpec: any, chartSpecInfo?: IChartSpecInfo): ISeriesSpecTransformerResult<T, K> {
+    this._transformStack(spec);
     const result = super.transformSpec(spec, chartSpec, chartSpecInfo);
     this._transformLabelSpec(result.spec);
     return {
       ...result,
-      markLabelSpec: this.markLabelSpec
+      markLabelSpec: this.markLabelSpec,
+      stack: this.stack
     };
   }
 
   protected _transformLabelSpec(spec: T) {
     // empty
+  }
+
+  protected _transformStack(spec: T) {
+    if (isBoolean(spec.stack)) {
+      this.stack = spec.stack;
+    }
+    if (isBoolean(spec.percent)) {
+      this.stack = spec.percent || this.stack; // this.stack is `true` in bar/area series
+    }
+    if (isBoolean(spec.stackOffsetSilhouette)) {
+      this.stack = spec.stackOffsetSilhouette || this.stack; // this.stack is `true` in bar/area series
+    }
+    if (isValid(spec.stackValue)) {
+      this.stack = true;
+    }
+
+    if (isNil(this.stack) && this._supportStack && spec.seriesField) {
+      // only set default value of stack to be `true` when series support stack and seriesField is not null
+      this.stack = true;
+    }
   }
 
   protected _addMarkLabelSpec<V extends ISeries = ISeries>(
@@ -111,7 +134,7 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
 
     if (this._shouldMergeThemeToSpec()) {
       const specFromChart = this._getDefaultSpecFromChart(chartSpec);
-      // this._originalSpec + specFromChart + this._theme = this._spec
+      // this._originalSpec + specFromChart + this._theme = spec
       const merge = (originalSpec: any) => {
         const result = mergeSpec({}, theme, specFromChart, originalSpec);
         const labelTheme = (theme as any).label;

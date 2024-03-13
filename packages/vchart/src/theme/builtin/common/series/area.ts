@@ -14,5 +14,6 @@ export const area: IAreaSeriesTheme = {
     style: {
       symbolType: 'circle'
     }
-  }
+  },
+  seriesMark: 'area'
 };

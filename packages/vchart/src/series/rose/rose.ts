@@ -28,8 +28,6 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
   static readonly transformerConstructor = RoseSeriesSpecTransformer as any;
   readonly transformerConstructor = RoseSeriesSpecTransformer;
 
-  protected _supportStack: boolean = true;
-
   private _roseMark: IArcMark | null = null;
   protected _labelMark: ITextMark | null = null;
 
@@ -102,7 +100,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
             this.radiusAxisHelper.getScale(0)
           ),
         innerRadius: (datum: Datum) => {
-          if (!this._stack) {
+          if (!this.getStack()) {
             return 0;
           }
           const stackStart = valueInScaleRange(

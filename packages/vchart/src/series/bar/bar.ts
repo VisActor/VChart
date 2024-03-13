@@ -56,7 +56,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   static readonly transformerConstructor = BarSeriesSpecTransformer as any;
   readonly transformerConstructor = BarSeriesSpecTransformer;
 
-  protected _supportStack: boolean = true;
   protected _bandPosition = 0;
   protected _barMark!: IRectMark;
   protected _barBackgroundMark!: IRectMark;
@@ -269,7 +268,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   private _shouldDoPreCalculate() {
     const region = this.getRegion();
-    return this._stack && region.getSeries().filter(s => s.type === this.type && s.getSpec().barMinHeight).length;
+    return this.getStack() && region.getSeries().filter(s => s.type === this.type && s.getSpec().barMinHeight).length;
   }
 
   private _calculateStackRectPosition(isVertical: boolean) {

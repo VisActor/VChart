@@ -1,7 +1,13 @@
 import type { DataView } from '@visactor/vdataset';
 import type { IGrammarItem } from '../../compile/interface';
 import type { IGroupMark } from '../../mark/group';
-import type { IModelConstructor, IModelMarkInfo, IModelOption, IModelSpecInfo } from '../../model/interface';
+import type {
+  IBaseModelSpecTransformerResult,
+  IModelConstructor,
+  IModelMarkInfo,
+  IModelOption,
+  IModelSpecInfo
+} from '../../model/interface';
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
@@ -132,11 +138,20 @@ export interface ISeriesMarkInfo extends IModelMarkInfo {
 
 export type SeriesMarkMap = Partial<Record<SeriesMarkNameEnum, ISeriesMarkInfo>>;
 
-export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec> extends IModelSpecInfo {
+export interface ISeriesSpecInfo<T extends ISeriesSpec = ISeriesSpec>
+  extends IModelSpecInfo,
+    ISeriesSpecTransformerResult<T, any> {
   /** model 具体类型 */
   type: string | SeriesTypeEnum;
   /** model spec */
   spec: T;
+  /** model theme */
+  theme: any;
+}
+
+export interface ISeriesSpecTransformerResult<T, K> extends IBaseModelSpecTransformerResult<T, K> {
   /** 当前的 mark 标签 spec */
   markLabelSpec?: Partial<Record<SeriesMarkNameEnum, TransformedLabelSpec[]>>;
+  /** 是否堆叠 */
+  stack?: boolean;
 }

@@ -273,13 +273,13 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     this.setFieldX2(this._spec?.x2Field);
     this.setFieldY2(this._spec?.y2Field);
 
-    if (this._stack) {
+    if (this.getStack()) {
       this.setValueFieldToStack();
     }
-    if (this._percent) {
+    if (this.getPercent()) {
       this.setValueFieldToPercent();
     }
-    if (this._stackOffsetSilhouette) {
+    if (this.getStackOffsetSilhouette()) {
       this.setValueFieldToStackOffsetSilhouette();
     }
 

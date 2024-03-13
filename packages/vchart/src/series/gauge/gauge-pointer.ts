@@ -4,18 +4,19 @@ import { MarkTypeEnum } from '../../mark/interface/type';
 import { isValid } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IGaugePointerSeriesSpec, IGaugePointerSeriesTheme, PinMarkSpec, PointerMarkSpec } from './interface';
-import type { Datum, Maybe } from '../../typings';
+import type { IGaugePointerSeriesSpec, PinMarkSpec, PointerMarkSpec } from './interface';
+import type { Datum } from '../../typings';
 import type { IPathMark } from '../../mark/path';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
-import { ProgressLikeSeries, registerProgressLikeAnimation } from '../polar/progress-like';
+import { ProgressLikeSeries } from '../polar/progress-like';
 import type { IRectMark } from '../../mark/rect';
 import type { IStateAnimateSpec } from '../../animation/spec';
-import { PathMark, registerPathMark } from '../../mark/path';
-import { RectMark, registerRectMark } from '../../mark/rect';
+import { registerPathMark } from '../../mark/path';
+import { registerRectMark } from '../../mark/rect';
 import { gaugePointerSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerGaugePointerAnimation } from './animation';
+import { GaugePointerSeriesSpecTransformer } from './gauge-pointer-transformer';
 
 export class GaugePointerSeries<
   T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec
@@ -24,11 +25,12 @@ export class GaugePointerSeries<
   type = SeriesTypeEnum.gaugePointer;
 
   static readonly mark: SeriesMarkMap = gaugePointerSeriesMark;
+  static readonly transformerConstructor = GaugePointerSeriesSpecTransformer as any;
+  readonly transformerConstructor = GaugePointerSeriesSpecTransformer;
 
   private _pinMark: IPathMark | null = null;
   private _pointerMark: IPathMark | IRectMark | null = null;
   private _pinBackgroundMark: IPathMark | null = null;
-  protected _stack: boolean = false;
 
   protected _pointerType: MarkTypeEnum;
 

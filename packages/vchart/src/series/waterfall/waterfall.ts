@@ -47,8 +47,6 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   static readonly transformerConstructor = WaterfallSeriesSpecTransformer as any;
   readonly transformerConstructor = WaterfallSeriesSpecTransformer as any;
 
-  protected _stack: boolean = false;
-
   protected _totalData?: SeriesData;
   getTotalData() {
     return this._totalData?.getLatestData();
