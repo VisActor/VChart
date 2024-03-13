@@ -1,3 +1,50 @@
+# v1.10.0
+
+2024-03-13
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: bar chart supports `autoBandSize` to automatically calculate bandSize based on the incoming configuration such as `barWidth`, thereby affecting the actual length of the axis, related [#2268](https://github.com/VisActor/VChart/issues/2268)
+- **@visactor/vchart**: stacked bar chart supports the config `stackCornerRadius` to configure the corner radius of stacked bar groups, releated [#2185](https://github.com/VisActor/VChart/issues/2185)
+- **dataZoom**: enhance when big data and brush releated
+- **dataZoom**: add sampler for preview chart
+- **@visactor/vchart**: support scrollbar in legend
+- **@visactor/vchart**: the theme of the legend supports separate configuration of different themes in different directions, related [#2216](https://github.com/VisActor/VChart/issues/2216)
+- **@visactor/vchart**: react-vchart supports custom tooltip render, related [#2288](https://github.com/VisActor/VChart/issues/2288)
+- **@visactor/vchart**: theme supports for configuring series themes in stack state, related [#2331](https://github.com/VisActor/VChart/issues/2331)
+- **@visactor/vchart**: theme supports custom tokens, related [#2255](https://github.com/VisActor/VChart/issues/2255)
+- **@visactor/vchart**: tooltip supports the same `lockAfterClick` as crosshair, related [#2352](https://github.com/VisActor/VChart/issues/2352)
+- **@visactor/vchart**: `x` & `y` of the tooltip position can be fixed separately, related [#2320](https://github.com/VisActor/VChart/issues/2320)
+- **@visactor/vchart**: add more tooltip shape configs in `tooltip.style` of the chart spec, related [#2292](https://github.com/VisActor/VChart/issues/2292)
+- **@visactor/vchart**: state style of arc marks support `innerPadding` and `outerPadding`, related [#2038](https://github.com/VisActor/VChart/issues/2038)
+- **@visactor/vchart**: register hover/select interaction by default
+- **@visactor/vchart**: remove advanced interaction in simple bundle
+
+**🐛 功能修复**
+
+- **@visactor/vchart**: enterable tooltip will not hide when mouse moves directly from the tooltip to a non-chart area, related [#2315](https://github.com/VisActor/VChart/issues/2315)
+- **@visactor/vchart**: upgrade version of vgrammar to fix end state of animation
+- **@visactor/vchart**: `tickMask` is invalid in circular progress charts, related [#2316](https://github.com/VisActor/VChart/issues/2316)
+- **@visactor/vchart**: rect crosshair should lock when lockAfterClick is true
+- **@visactor/vchart**: when region style is empty, should not create _backgroundMark or _foregroundMark
+- **@visactor/vchart**: fixed the issue of being unable to listen to customMark events on vchart
+- **@visactor/vchart**: grid component should not be pickable expect its children
+- **@visactor/vchart**: events on `<Bar />` should not trigged twice
+- **@visactor/vchart**: plugin should be released in `release()`
+
+**🔨 功能重构**
+
+- **react-vchart**: refactor react-vchart to support render in strict mode
+
+**🔧 项目配置**
+
+- **@visactor/vchart**: use `rimraf` to replace `rm -rf`
+
+
+
+[更多详情请查看 v1.10.0](https://github.com/VisActor/VChart/releases/tag/v1.10.0)
+
 # v1.9.6
 
 2024-03-11
