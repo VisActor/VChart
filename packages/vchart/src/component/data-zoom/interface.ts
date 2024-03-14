@@ -206,3 +206,8 @@ export interface IDataFilterComponent extends IComponent {
   zoomIn: (location?: { x: number; y: number }) => void;
   zoomOut: (location?: { x: number; y: number }) => void;
 }
+
+export const enum IFilterMode {
+  filter = 'filter',
+  axis = 'axis'
+}

@@ -2,7 +2,7 @@ import { array, isArray, isNil, isValid } from '@visactor/vutils';
 import type { IDataZoomSpec, IIndicatorSpec } from '../../component';
 import { BaseChartSpecTransformer } from '../base';
 import type { IPolarChartSpec } from './interface';
-import { IFilterMode } from '../../component/data-zoom/constant';
+import { IFilterMode } from '../../component/data-zoom';
 
 export class PolarChartSpecTransformer<T extends IPolarChartSpec> extends BaseChartSpecTransformer<T> {
   protected _isValidSeries(type: string): boolean {

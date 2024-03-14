@@ -6,7 +6,7 @@ import type { Datum, RegionSpec } from '../../typings';
 import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
 import { SeriesTypeEnum } from '../../series';
 import { normalizeLayoutPaddingSpec } from '../../util';
-import { IFilterMode } from '../../component/data-zoom/constant';
+import { IFilterMode } from '../../component/data-zoom';
 import type { IGridLayoutSpec } from '../../layout';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../constant/scroll-bar';
 
