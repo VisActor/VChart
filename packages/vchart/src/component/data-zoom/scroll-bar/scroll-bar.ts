@@ -17,7 +17,6 @@ import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { ILayoutType } from '../../../typings/layout';
 import type { IModelSpecInfo } from '../../../model/interface';
-import { SCROLLBAR_EVENT } from '@visactor/vrender-components/es/constant';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
@@ -146,7 +145,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
       const container = this.getContainer();
       this._component = new ScrollBarComponent(attrs);
       // 绑定事件，防抖，防止频繁触发
-      this._component.addEventListener(SCROLLBAR_EVENT, (e: any) => {
+      this._component.addEventListener('scrollDrag', (e: any) => {
         const value = e.detail.value;
         this._handleChange(value[0], value[1]);
       });
@@ -191,7 +190,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
   protected _initCommonEvent() {
     super._initCommonEvent();
     if (this._component) {
-      this._component.on(SCROLLBAR_EVENT, (e: any) => {
+      this._component.on('scrollDrag', (e: any) => {
         const value = e.detail.value;
         this._handleChange(value[0], value[1]);
       });
