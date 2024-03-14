@@ -1,12 +1,8 @@
-import type { DataView } from '@visactor/vdataset';
 import { AreaSeries } from '../area/area';
 import type { SeriesMarkMap } from '../interface';
-// eslint-disable-next-line no-duplicate-imports
 import { SeriesTypeEnum } from '../interface/type';
 import type { IAreaMark } from '../../mark/area';
-// eslint-disable-next-line no-duplicate-imports
 import { registerAreaMark } from '../../mark/area';
-import { DEFAULT_SMOOTH_INTERPOLATE } from '../../typings/interpolate';
 import { Direction } from '../../typings/space';
 import type { Datum } from '../../typings';
 import { AttributeLevel } from '../../constant';
@@ -14,6 +10,7 @@ import { RangeAreaSeriesTooltipHelper } from './tooltip-helper';
 import type { IAreaSeriesSpec } from '../area/interface';
 import { rangeAreaSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
+import { couldBeValidNumber } from '../../util';
 
 export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends AreaSeries<T> {
   static readonly type: string = SeriesTypeEnum.rangeArea;
@@ -22,45 +19,37 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
   static readonly mark: SeriesMarkMap = rangeAreaSeriesMark;
 
   initMark(): void {
-    // area
+    const { customShape, stateSort } = this._spec.area ?? {};
     this._areaMark = this._createMark(RangeAreaSeries.mark.area, {
       defaultMorphElementKey: this.getDimensionField()[0],
       groupKey: this._seriesField,
       isSeriesMark: true,
-      customShape: this._spec.area?.customShape,
-      stateSort: this._spec.area?.stateSort
+      customShape,
+      stateSort
     }) as IAreaMark;
   }
 
   initMarkStyle(): void {
-    const userCurveType = this.getSpec().area?.style?.curveType ?? this.getSpec().line?.style?.curveType;
-    const curveType =
-      userCurveType === DEFAULT_SMOOTH_INTERPOLATE
-        ? this._direction === Direction.horizontal
-          ? 'monotoneY'
-          : 'monotoneX'
-        : userCurveType;
+    this.initAreaMarkStyle();
+  }
 
-    // area
+  initAreaMarkStyle(): void {
     const areaMark = this._areaMark;
     if (areaMark) {
+      super.initAreaMarkStyle();
       if (this._direction === Direction.horizontal) {
         this.setMarkStyle(
           this._areaMark,
           {
-            x: this.dataToPositionX.bind(this),
             x1: (datum: Datum) => {
               if (!this._xAxisHelper) {
                 return Number.NaN;
               }
               const { dataToPosition } = this._xAxisHelper;
-
               return dataToPosition(this.getDatumPositionValues(datum, this._spec.xField[1]), {
                 bandPosition: this._bandPosition
               });
-            },
-            y: this.dataToPositionY.bind(this),
-            orient: this._direction
+            }
           },
           'normal',
           AttributeLevel.Series
@@ -69,51 +58,22 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
         this.setMarkStyle(
           this._areaMark,
           {
-            x: this.dataToPositionX.bind(this),
             y1: (datum: Datum) => {
               if (!this._yAxisHelper) {
                 return Number.NaN;
               }
               const { dataToPosition } = this._yAxisHelper;
-
               return dataToPosition(this.getDatumPositionValues(datum, this._spec.yField[1]), {
                 bandPosition: this._bandPosition
               });
-            },
-            y: this.dataToPositionY.bind(this)
+            }
           },
           'normal',
           AttributeLevel.Series
         );
       }
-      this.setMarkStyle(
-        areaMark,
-        {
-          fill: this.getColorAttribute(),
-          stroke: false
-        },
-        'normal',
-        AttributeLevel.Series
-      );
-      if (this._invalidType !== 'zero') {
-        this.setMarkStyle(
-          areaMark,
-          {
-            defined: this._getInvalidDefined,
-            connectedType: this._getInvalidConnectType()
-          },
-          'normal',
-          AttributeLevel.Series
-        );
-      }
-      this.setMarkStyle(
-        areaMark,
-        {
-          curveType
-        },
-        'normal',
-        AttributeLevel.Built_In
-      );
+
+      this.setMarkStyle(areaMark, { stroke: false }, 'normal', AttributeLevel.Series);
     }
   }
 
@@ -122,9 +82,26 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
     this._areaMark && this._tooltipHelper.activeTriggerSet.dimension.add(this._areaMark);
   }
 
-  viewDataStatisticsUpdate(d: DataView) {
-    super.viewDataStatisticsUpdate(d);
-    this.encodeDefined(this._areaMark, 'defined');
+  protected _isFieldAllValid() {
+    const viewStatistics = this.getViewDataStatistics();
+    const fields = this.fieldY;
+    if (viewStatistics && viewStatistics.latestData && fields.length) {
+      return fields.every(field => viewStatistics.latestData[field] && viewStatistics.latestData[field].allValid);
+    }
+    return false;
+  }
+
+  protected _getInvalidDefined(datum: Datum) {
+    if (!super._getInvalidDefined(datum)) {
+      return false;
+    }
+
+    if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
+      if (!couldBeValidNumber(datum[this._specYField[1]])) {
+        return false;
+      }
+    }
+    return true;
   }
 }
 

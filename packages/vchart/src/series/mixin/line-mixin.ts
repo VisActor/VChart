@@ -151,7 +151,7 @@ export class LineLikeSeriesMixin {
         this.setMarkStyle(
           lineMark,
           {
-            defined: this._getInvalidDefined,
+            defined: this._getInvalidDefined.bind(this),
             connectedType: this._getInvalidConnectType()
           },
           'normal',
@@ -327,7 +327,7 @@ export class LineLikeSeriesMixin {
       this.setMarkStyle(
         symbolMark,
         {
-          visible: this._getInvalidDefined
+          visible: this._getInvalidDefined.bind(this)
         },
         'normal',
         AttributeLevel.Series
@@ -397,7 +397,7 @@ export class LineLikeSeriesMixin {
       this.setMarkStyle(
         labelMark,
         {
-          visible: this._getInvalidDefined
+          visible: this._getInvalidDefined.bind(this)
         },
         'normal',
         AttributeLevel.Series
@@ -427,8 +427,8 @@ export class LineLikeSeriesMixin {
     if (!mark) {
       return;
     }
-    const statistics = this.getViewDataStatistics()?.latestData?.[this.getStackValueField()];
-    if (this._invalidType === 'zero' || (statistics && statistics?.allValid)) {
+    const allValid = this._isFieldAllValid();
+    if (this._invalidType === 'zero' || allValid) {
       if (mark.stateStyle.normal?.[attr]?.style === true) {
         // no change
         return;
@@ -439,11 +439,20 @@ export class LineLikeSeriesMixin {
         // no change
         return;
       }
-      this.setMarkStyle(mark, { [attr]: this._getInvalidDefined }, 'normal', AttributeLevel.Series);
+      this.setMarkStyle(mark, { [attr]: this._getInvalidDefined.bind(this) }, 'normal', AttributeLevel.Series);
     }
     // if has produce, reCompile encode to set attribute to product
     if (mark.getProduct()) {
       mark.compileEncode();
     }
+  }
+
+  protected _isFieldAllValid() {
+    const viewStatistics = this.getViewDataStatistics();
+    const field = this.getStackValueField();
+    if (viewStatistics && viewStatistics.latestData && field) {
+      return viewStatistics.latestData[field] && viewStatistics.latestData[field].allValid;
+    }
+    return false;
   }
 }

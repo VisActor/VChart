@@ -1382,7 +1382,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._invalidType === 'zero' ? 'zero' : this._invalidType === 'link' ? 'connect' : 'none';
   }
 
-  protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
+  protected _getInvalidDefined(datum: Datum) {
+    return couldBeValidNumber(datum[this.getStackValueField()]);
+  }
 
   protected _getRelatedComponentSpecInfo(specKey: string) {
     const specIndex = this.getSpecIndex();

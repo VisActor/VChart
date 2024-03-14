@@ -1,4 +1,3 @@
-import type { DataView } from '@visactor/vdataset';
 import type { ICartesianSeries } from '../interface';
 import { BaseSeries } from '../base/base-series';
 import type { IPoint } from '../../typings/coordinate';
@@ -529,19 +528,19 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     }
   }
 
-  protected _getInvalidDefined = (datum: Datum) => {
-    if (this._xAxisHelper?.isContinuous) {
+  protected _getInvalidDefined(datum: Datum) {
+    if (this._xAxisHelper && this._xAxisHelper.isContinuous) {
       if (!couldBeValidNumber(datum[this._specXField[0]])) {
         return false;
       }
     }
-    if (this._yAxisHelper?.isContinuous) {
+    if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
       if (!couldBeValidNumber(datum[this._specYField[0]])) {
         return false;
       }
     }
     return true;
-  };
+  }
 
   reInit(spec: T) {
     if (this._positionXEncoder) {

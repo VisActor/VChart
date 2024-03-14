@@ -253,7 +253,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
 
     if (this._invalidType !== 'zero') {
       this.setMarkStyle(symbolMark, {
-        visible: this._getInvalidDefined
+        visible: this._getInvalidDefined.bind(this)
       });
     }
 
@@ -307,7 +307,12 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     if (this._invalidType === 'zero' || allValid) {
       this.setMarkStyle(this._symbolMark, { visible: true }, 'normal', AttributeLevel.Series);
     } else {
-      this.setMarkStyle(this._symbolMark, { visible: this._getInvalidDefined }, 'normal', AttributeLevel.Series);
+      this.setMarkStyle(
+        this._symbolMark,
+        { visible: this._getInvalidDefined.bind(this) },
+        'normal',
+        AttributeLevel.Series
+      );
     }
   }
 
@@ -335,7 +340,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       this.setMarkStyle(
         labelMark,
         {
-          visible: this._getInvalidDefined
+          visible: this._getInvalidDefined.bind(this)
         },
         STATE_VALUE_ENUM.STATE_NORMAL,
         AttributeLevel.Series
