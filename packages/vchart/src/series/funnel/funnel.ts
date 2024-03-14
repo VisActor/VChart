@@ -772,7 +772,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     if (this._funnelAlign === 'center') {
       space /= 2;
     }
-    return space - outerLineSpace - (this._spec.outerLabel?.spaceWidth ?? FUNNEL_LABEL_SPACE_WIDTH) * 2;
+    return space - outerLineSpace - (this._spec.outerLabel?.spaceWidth ?? FUNNEL_LABEL_SPACE_WIDTH);
   }
 
   private _computeOuterLabelLinePosition(datum: Datum) {
