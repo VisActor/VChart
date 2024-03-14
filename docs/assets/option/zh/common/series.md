@@ -54,7 +54,7 @@
 系列上 tooltip 的配置。
 
 {{ use: component-tooltip(
-  prefix = '#' + ${prefix}
+  prefix = ${prefix}
 ) }}
 
 #${prefix} animation(boolean) = true

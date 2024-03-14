@@ -25,7 +25,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-area(
   prefix = '##',
   noMorph = true,
-  useInChart = true,
+  useInChart = false,
   seriesType = 'area',
 ) }}
 
@@ -34,7 +34,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-line(
   prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.bar(Object)
@@ -42,7 +42,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-bar(
   prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.rangeColumn(Object)
@@ -50,7 +50,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-range-column(
   prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.rangeArea(Object)
@@ -58,7 +58,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-rangeArea(
  prefix = '##',
   noMorph = true,
-  useInChart = true,
+  useInChart = false,
 ) }}
 
 ## series.heatmap(Object)
@@ -66,7 +66,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-heatmap(
  prefix = '##',
   noMorph = true,
-  useInChart = true,
+  useInChart = false,
 ) }}
 
 ## series.waterfall(Object)
@@ -74,7 +74,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-waterfall(
  prefix = '##',
   noMorph = true,
-  useInChart = true,
+  useInChart = false,
 ) }}
 
 ## series.radar(Object)
@@ -82,7 +82,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-radar(
   prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.rose(Object)
@@ -90,7 +90,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-rose(
  prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.boxPlot(Object)
@@ -98,7 +98,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-box-plot(
  prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.map(Object)
@@ -106,7 +106,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-map(
   prefix = '##',
   noMorph = true,
-  useInChart = true,
+  useInChart = false,
   noStack = true
 ) }}
 
@@ -115,7 +115,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-scatter(
  prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.linearProgress(Object)
@@ -123,7 +123,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-linear-progress(
  prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.wordCloud(Object)
@@ -131,7 +131,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-word-cloud(
  prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.funnel(Object)
@@ -147,7 +147,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-sankey(
   prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.treemap(Object)
@@ -155,7 +155,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-treemap(
   prefix = '##',
   noMorph = true,
-  useInChart = true,
+  useInChart = false,
   noStack = true
 ) }}
 
@@ -164,7 +164,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-sunburst(
  prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.circlePacking(Object)
@@ -172,7 +172,7 @@ IGaugePointerSeriesSpec-->
 {{ use: series-circle-packing(
   prefix = '##',
   noMorph = true,
-  useInChart = true
+  useInChart = false
 ) }}
 
 ## series.dot(Object)
