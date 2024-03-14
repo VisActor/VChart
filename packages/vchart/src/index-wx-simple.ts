@@ -15,9 +15,8 @@ import { registerDiscreteLegend } from './component/legend/discrete/legend';
 import { registerCartesianBandAxis } from './component/axis/cartesian/band-axis';
 import { registerCartesianLinearAxis } from './component/axis/cartesian/linear-axis';
 import { registerWXEnv } from './env';
-import { registerCanvasTooltipHandler } from './plugin';
+import { registerCanvasTooltipHandler, registerFormatPlugin } from './plugin';
 import { registerElementHighlight, registerElementSelect } from '@visactor/vgrammar-core';
-import { registerFormatPlugin } from './plugin/chart/formatter';
 
 export * from './core';
 
