@@ -1,6 +1,6 @@
 ---
 category: demo
-group: axis
+group: data-zoom
 title: datazoom supports interaction in large data scenarios
 keywords: areaChart,dataZoom
 order: 29-6

@@ -1,6 +1,6 @@
 ---
 category: demo
-group: axis
+group: data-zoom
 title: 缩略轴预览图表样式配置
 keywords: barChart,dataZoom
 order: 29-0
