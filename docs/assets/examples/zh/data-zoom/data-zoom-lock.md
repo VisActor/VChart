@@ -1,6 +1,6 @@
 ---
 category: demo
-group: axis
+group: data-zoom
 title: 缩略轴支持范围锁定
 keywords: barChart,dataZoom
 order: 29-4

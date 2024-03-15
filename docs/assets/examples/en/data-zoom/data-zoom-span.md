@@ -1,6 +1,6 @@
 ---
 category: demo
-group: axis
+group: data-zoom
 title: datazoom supports config maximum and minimum range
 keywords: barChart,dataZoom
 order: 29-5
