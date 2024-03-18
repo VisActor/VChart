@@ -144,7 +144,10 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       } as ISpec;
     }
 
-    spec.tooltip = initCustomTooltip(setTooltipNode, props, spec.tooltip);
+    const tooltipSpec = initCustomTooltip(setTooltipNode, props, spec.tooltip);
+    if (tooltipSpec) {
+      spec.tooltip = tooltipSpec;
+    }
     return spec;
   };
 
