@@ -62,11 +62,11 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _viewDataLabel!: SeriesData;
 
   // 饼图渲染不依赖于极坐标系轴，因此由 series 自己存储相关配置信息
-  protected _center!: IPoint | null;
-  public get center(): IPoint {
+  getCenter(): IPoint {
+    const { width, height } = this._region.getLayoutRect();
     return {
-      x: this._spec?.centerX ?? this._region.getLayoutRect().width / 2,
-      y: this._spec?.centerY ?? this._region.getLayoutRect().height / 2
+      x: this._spec?.centerX ?? width / 2,
+      y: this._spec?.centerY ?? height / 2
     };
   }
   protected _centerOffset!: number;
@@ -84,12 +84,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();
     // center
-    this._markAttributeContext.getCenter = () => {
-      return {
-        x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
-        y: () => this._center?.y ?? this._region.getLayoutRect().height / 2
-      };
-    };
+    this._markAttributeContext.getCenter = () => this.getCenter();
 
     // angle scale
     this._markAttributeContext.startAngleScale = (datum: Datum) => this.startAngleScale(datum);
@@ -192,8 +187,8 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
       this.setMarkStyle(
         pieMark,
         {
-          x: () => this._center?.x ?? this._region.getLayoutRect().width / 2,
-          y: () => this._center?.y ?? this._region.getLayoutRect().height / 2,
+          x: () => this.getCenter().x,
+          y: () => this.getCenter().y,
           fill: this.getColorAttribute(),
           outerRadius: isSpecValueWithScale(this._outerRadius)
             ? this._outerRadius
