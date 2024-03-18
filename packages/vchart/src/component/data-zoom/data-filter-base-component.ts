@@ -241,7 +241,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
         this._updateRangeFactor(tag);
 
-        (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
+        if (this._auto) {
+          (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
+        }
+
         axis.effect.scaleUpdate();
       } else {
         eachSeries(
@@ -607,7 +610,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._end = end;
     this._minSpan = this._spec.minSpan ?? 0;
     this._maxSpan = this._spec.maxSpan ?? 1;
-    if (isContinuous(this._stateScale.type) && this._stateScale.domain[0] !== this._stateScale.domain[1]) {
+    if (isContinuous(this._stateScale.type) && this._stateScale.domain()[0] !== this._stateScale.domain()[1]) {
       if (this._spec.minValueSpan) {
         this._minSpan = this._spec.minValueSpan / (this._stateScale.domain()[1] - this._stateScale.domain()[0]);
       }
