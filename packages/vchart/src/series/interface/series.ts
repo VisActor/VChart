@@ -285,7 +285,7 @@ export interface IGeoSeries extends ISeries {
 
 // 收拢扇区标签形式依赖的 api
 export interface IArcSeries extends IPolarSeries {
-  center: (() => IPoint) | IPoint;
+  getCenter: () => IPoint;
   getRadius: (state?: StateValueType) => number;
   getInnerRadius: (state?: StateValueType) => number;
 
