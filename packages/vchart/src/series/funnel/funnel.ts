@@ -283,7 +283,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
           y: (datum: Datum) => this._computeOuterLabelPosition(datum).y,
           textAlign: (datum: Datum) => this._computeOuterLabelPosition(datum).align,
           textBaseline: (datum: Datum) => this._computeOuterLabelPosition(datum).textBaseline,
-          limit: (datum: Datum) => this._computeOuterLabelLimit(datum)
+          maxLineWidth: (datum: Datum) => this._computeOuterLabelLimit(datum)
         },
         'normal',
         AttributeLevel.Series
@@ -769,12 +769,13 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       }, true)?.AABBBounds;
 
     const funnelLabelWidth = funnelLabelBounds ? funnelLabelBounds.x2 - funnelLabelBounds.x1 : 0;
-    return (
-      this.getLayoutRect().width / 2 -
-      Math.max(shapeMiddleWidth / 2, funnelLabelWidth / 2) -
-      FUNNEL_LABEL_LINE_LENGTH -
-      (this._spec.outerLabel?.spaceWidth ?? FUNNEL_LABEL_SPACE_WIDTH) * 2
-    );
+    const outerLineSpace = this._funnelOuterLabelMark.line ? FUNNEL_LABEL_LINE_LENGTH : 0;
+
+    let space = this.getLayoutRect().width - Math.max(shapeMiddleWidth, funnelLabelWidth);
+    if (this._funnelAlign === 'center') {
+      space /= 2;
+    }
+    return space - outerLineSpace - (this._spec.outerLabel?.spaceWidth ?? FUNNEL_LABEL_SPACE_WIDTH);
   }
 
   private _computeOuterLabelLinePosition(datum: Datum) {
