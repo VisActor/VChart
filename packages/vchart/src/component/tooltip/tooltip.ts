@@ -540,5 +540,5 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 }
 
 export const registerTooltip = () => {
-  Factory.registerComponent(Tooltip.type, Tooltip);
+  Factory.registerComponent(Tooltip.type, Tooltip, true);
 };
