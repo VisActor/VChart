@@ -93,7 +93,7 @@ Whether to automatically indent.
 
 #${prefix} auto(boolean) = false
 
-Whether it is in automatic mode. After opening, the component will not cause scaling of the axis, and configurations such as `end` and `roam` that may cause scaling will be ignored, and the component can automatically disappear. Supported since version `1.4.0`.
+Whether it is in automatic mode. After opening, the component will not cause scaling of the axis, and configurations such as `end`、`roam`、`minSpan`、`maxSpan`、`minValueSpan`、`maxValueSpan` that may cause scaling will be ignored, and the component can automatically disappear. Supported since version `1.4.0`.
 
 #${prefix} zoomLock(boolean) = false
 Whether to lock the size of the selection area (or data window). Supported since version `1.5.1`.

@@ -92,7 +92,7 @@
 
 #${prefix} auto(boolean) = false
 
-是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam 等可能导致缩放的配置将被忽略，且组件可以自动消失。自 `1.4.0` 版本开始支持。
+是否为自动模式。开启以后，组件不会导致轴 scale 缩放，end、roam、minSpan、maxSpan、minValueSpan、maxValueSpan 等可能导致缩放的配置将被忽略，且组件可以自动消失。自 `1.4.0` 版本开始支持。
 
 #${prefix} zoomLock(boolean) = false
 是否锁定选择区域（或叫做数据窗口）的大小。自 `1.5.1` 版本开始支持。
