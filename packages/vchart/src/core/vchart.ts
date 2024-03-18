@@ -760,9 +760,9 @@ export class VChart implements IVChart {
     this._chartPluginApply('releaseAll');
     this._chartPlugin = null;
     this._chartSpecTransformer = null;
+    this._eventDispatcher?.release();
     this._chart?.release();
     this._compiler?.release();
-    this._eventDispatcher?.release();
     this._unBindResizeEvent();
     // resetID(); // 为什么要重置ID呢？
 

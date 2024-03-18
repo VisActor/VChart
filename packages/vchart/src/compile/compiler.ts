@@ -341,9 +341,9 @@ export class Compiler {
       wrappedCallback && windowObject?.removeEventListener(type, wrappedCallback);
       this._windowListeners.delete(callback);
     } else if (source === Event_Source_Type.canvas) {
-      const canvasObject = this._getGlobalThis();
+      const canvasObject = this.getStage()?.window;
       const wrappedCallback = this._canvasListeners.get(callback)?.callback;
-      wrappedCallback && canvasObject?.removeEventListener(type, wrappedCallback);
+      canvasObject && wrappedCallback && canvasObject?.removeEventListener(type, wrappedCallback);
       this._canvasListeners.delete(callback);
     }
   }
