@@ -228,7 +228,7 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     }
   }
 
-  protected _getInvalidDefined = (datum: Datum) => {
+  protected _getInvalidDefined(datum: Datum) {
     if (this.angleAxisHelper.isContinuous) {
       if (!couldBeValidNumber(datum[this._angleField[0]])) {
         return false;
@@ -240,5 +240,5 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
       }
     }
     return true;
-  };
+  }
 }

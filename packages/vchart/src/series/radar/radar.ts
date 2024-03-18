@@ -132,7 +132,7 @@ export class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> extends 
         this.setMarkStyle(
           areaMark,
           {
-            defined: this._getInvalidDefined,
+            defined: this._getInvalidDefined.bind(this),
             connectedType: this._getInvalidConnectType()
           },
           'normal',
