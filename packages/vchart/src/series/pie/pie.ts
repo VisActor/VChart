@@ -370,9 +370,12 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     return this.computeLayoutRadius() * this.getInnerRadius(state) + this._centerOffset;
   }
 
-  dataToPosition(datum: Datum): IPoint | null {
+  dataToPosition(datum: Datum, checkInViewData?: boolean): IPoint | null {
     const angle = datum[ARC_MIDDLE_ANGLE];
     if (isNil(angle)) {
+      return null;
+    }
+    if (checkInViewData && !this.isDatumInViewData(datum)) {
       return null;
     }
     const radius = this.computeDatumRadius(datum);

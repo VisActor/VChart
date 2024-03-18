@@ -392,9 +392,15 @@ export interface IVChart {
    * @param datum the datum to convert
    * @param dataLinkInfo the data link info, could be seriesId or seriesIndex, default is { seriesIndex: 0 }
    * @param isRelativeToCanvas 是否相对画布坐标，默认为 false Whether relative to canvas coordinates, default is false
+   * @param checkInViewData 是否检查数据对应的图元是否在视图中，如果不在视图中，返回 null
    * @returns
    */
-  convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean) => IPoint | null;
+  convertDatumToPosition: (
+    datum: Datum,
+    dataLinkInfo?: DataLinkSeries,
+    isRelativeToCanvas?: boolean,
+    checkInViewData?: boolean
+  ) => IPoint | null;
 
   /**
    * Convert the value to coordinate position
