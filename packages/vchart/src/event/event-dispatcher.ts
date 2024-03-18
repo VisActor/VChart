@@ -76,9 +76,8 @@ export class EventDispatcher implements IEventDispatcher {
     const bubble = bubbles.get(eType) as Bubble;
     bubble.addHandler(handler, handler.filter?.level as EventBubbleLevel);
     if (this._isValidEvent(eType) && !listeners.has(eType)) {
-      const callback = this._onDelegate.bind(this);
-      this._compiler.addEventListener(handler.filter?.source as EventSourceType, eType, callback);
-      listeners.set(eType, callback);
+      this._compiler.addEventListener(handler.filter?.source as EventSourceType, eType, this._onDelegate);
+      listeners.set(eType, this._onDelegate);
     }
     return this;
   }
@@ -249,7 +248,7 @@ export class EventDispatcher implements IEventDispatcher {
   /**
    * 代理语法层事件的监听回调
    */
-  private _onDelegate(listenerParams: CompilerListenerParameters) {
+  private _onDelegate = (listenerParams: CompilerListenerParameters) => {
     const chart = this.globalInstance.getChart();
     const model = (isValid(listenerParams.modelId) && chart?.getModelById(listenerParams.modelId)) || undefined;
     const mark = (isValid(listenerParams.markId) && chart?.getMarkById(listenerParams.markId)) || null;
@@ -282,7 +281,7 @@ export class EventDispatcher implements IEventDispatcher {
       node: get(listenerParams.event, 'target')
     };
     this.dispatch(listenerParams.type, params);
-  }
+  };
 
   /**
    * 调用相应事件监听下的 handlers
