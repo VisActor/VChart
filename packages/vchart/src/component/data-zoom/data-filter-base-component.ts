@@ -84,6 +84,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _minSpan!: number;
   // 最大窗口范围
   protected _maxSpan!: number;
+  // 窗口范围缓存
+  protected _spanCache!: number;
   protected _shouldChange: boolean = true;
 
   protected _field!: string | undefined;
@@ -165,9 +167,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
     const zoomLock = this._spec?.zoomLock ?? false;
-    if (zoomLock) {
+    if (zoomLock || (end - start !== this._spanCache && (end - start < this._minSpan || end - start > this._maxSpan))) {
       this._shouldChange = false;
+    } else {
+      this._shouldChange = true;
     }
+    this._spanCache = end - start;
   }
 
   protected _isReverse() {
@@ -240,7 +245,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         }
 
         this._updateRangeFactor(tag);
-
         if (this._auto) {
           (this._component as DataZoom)?.setStartAndEnd?.(this._start, this._end);
         }
