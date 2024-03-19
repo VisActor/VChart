@@ -1,4 +1,4 @@
-import { VChart } from './core';
+import { VChart as VChartCore } from './core';
 
 import { registerLineChart } from './chart/line';
 import { registerAreaChart } from './chart/area';
@@ -69,97 +69,101 @@ import {
   registerElementHighlightByKey
 } from './interaction';
 
-VChart.useRegisters([
-  // charts
-  registerLineChart,
-  registerAreaChart,
-  registerBarChart,
-  registerScatterChart,
-  registerPieChart,
-  registerRoseChart,
-  registerRadarChart,
-  registerHistogramChart,
-  registerMapChart,
-  registerGaugeChart,
-  registerWordCloudChart,
-  registerWordCloudShapeChart,
-  registerFunnelChart,
-  registerWaterfallChart,
-  registerBoxplotChart,
-  registerCircularProgressChart,
-  registerLinearProgressChart,
-  registerRangeColumnChart,
-  registerRangeAreaChart,
-  registerSunburstChart,
-  registerCirclePackingChart,
-  registerTreemapChart,
-  registerSankeyChart,
-  registerHeatmapChart,
-  registerSequenceChart,
-  registerCorrelationChart,
-  // 优化vchart-all体积, 默认不注册
-  // registerLiquidChart,
-  registerCommonChart,
+const VChart = (function () {
+  VChartCore.useRegisters([
+    // charts
+    registerLineChart,
+    registerAreaChart,
+    registerBarChart,
+    registerScatterChart,
+    registerPieChart,
+    registerRoseChart,
+    registerRadarChart,
+    registerHistogramChart,
+    registerMapChart,
+    registerGaugeChart,
+    registerWordCloudChart,
+    registerWordCloudShapeChart,
+    registerFunnelChart,
+    registerWaterfallChart,
+    registerBoxplotChart,
+    registerCircularProgressChart,
+    registerLinearProgressChart,
+    registerRangeColumnChart,
+    registerRangeAreaChart,
+    registerSunburstChart,
+    registerCirclePackingChart,
+    registerTreemapChart,
+    registerSankeyChart,
+    registerHeatmapChart,
+    registerSequenceChart,
+    registerCorrelationChart,
+    // 优化vchart-all体积, 默认不注册
+    // registerLiquidChart,
+    registerCommonChart,
 
-  // 3d charts
-  registerBar3dChart,
-  registerPie3dChart,
-  registerHistogram3dChart,
-  registerFunnel3dChart,
-  registerRangeColumn3dChart,
-  registerWordCloud3dChart,
-  registerWordCloudShape3dChart,
+    // 3d charts
+    registerBar3dChart,
+    registerPie3dChart,
+    registerHistogram3dChart,
+    registerFunnel3dChart,
+    registerRangeColumn3dChart,
+    registerWordCloud3dChart,
+    registerWordCloudShape3dChart,
 
-  // components
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis,
-  registerCartesianLogAxis,
-  registerCartesianSymlogAxis,
-  registerPolarBandAxis,
-  registerPolarLinearAxis,
+    // components
+    registerCartesianLinearAxis,
+    registerCartesianBandAxis,
+    registerCartesianTimeAxis,
+    registerCartesianLogAxis,
+    registerCartesianSymlogAxis,
+    registerPolarBandAxis,
+    registerPolarLinearAxis,
 
-  registerDiscreteLegend,
-  registerContinuousLegend,
+    registerDiscreteLegend,
+    registerContinuousLegend,
 
-  registerTooltip,
-  registerCartesianCrossHair,
-  registerPolarCrossHair,
+    registerTooltip,
+    registerCartesianCrossHair,
+    registerPolarCrossHair,
 
-  registerDataZoom,
-  registerScrollBar,
-  registerIndicator,
-  registerGeoCoordinate,
-  registerMarkPoint,
-  registerMarkLine,
-  registerMarkArea,
-  registerTitle,
-  registerPlayer,
-  registerLabel,
-  registerTotalLabel,
-  registerBrush,
-  registerCustomMark,
-  registerMapLabel,
-  registerPoptip,
+    registerDataZoom,
+    registerScrollBar,
+    registerIndicator,
+    registerGeoCoordinate,
+    registerMarkPoint,
+    registerMarkLine,
+    registerMarkArea,
+    registerTitle,
+    registerPlayer,
+    registerLabel,
+    registerTotalLabel,
+    registerBrush,
+    registerCustomMark,
+    registerMapLabel,
+    registerPoptip,
 
-  // layout
-  registerGridLayout,
-  registerLayout3d,
+    // layout
+    registerGridLayout,
+    registerLayout3d,
 
-  // plugin
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerFormatPlugin,
+    // plugin
+    registerDomTooltipHandler,
+    registerCanvasTooltipHandler,
+    registerFormatPlugin,
 
-  // vgrammar interactions,
-  registerElementActive,
+    // vgrammar interactions,
+    registerElementActive,
 
-  registerElementActiveByLegend,
-  registerElementHighlightByLegend,
+    registerElementActiveByLegend,
+    registerElementHighlightByLegend,
 
-  registerElementHighlightByName,
-  registerElementHighlightByGroup,
-  registerElementHighlightByKey
-]);
+    registerElementHighlightByName,
+    registerElementHighlightByGroup,
+    registerElementHighlightByKey
+  ]);
+
+  return VChartCore;
+})();
 
 export { VChart };
