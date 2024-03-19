@@ -84,7 +84,10 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();
     // center
-    this._markAttributeContext.getCenter = () => this.getCenter();
+    this._markAttributeContext.getCenter = () => ({
+      x: () => this.getCenter().x,
+      y: () => this.getCenter().y
+    });
 
     // angle scale
     this._markAttributeContext.startAngleScale = (datum: Datum) => this.startAngleScale(datum);
