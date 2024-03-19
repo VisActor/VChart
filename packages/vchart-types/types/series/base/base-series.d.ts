@@ -105,7 +105,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
         operations: StatisticOperations;
     }[];
     abstract getGroupFields(): string[];
-    abstract dataToPosition(data: Datum): IPoint;
+    abstract dataToPosition(data: Datum, checkInViewData?: boolean): IPoint;
     abstract dataToPositionX(data: Datum): number;
     abstract dataToPositionY(data: Datum): number;
     abstract valueToPosition(value1: any, value2?: any): IPoint;
@@ -221,7 +221,8 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     getFieldAlias(field: string): any;
     getMarkInfoList(): import("../../model/interface").IModelMarkInfo[];
     protected _getInvalidConnectType(): "none" | "zero" | "connect";
-    protected _getInvalidDefined: (datum: Datum) => boolean;
+    protected _getInvalidDefined(datum: Datum): boolean;
     protected _getRelatedComponentSpecInfo(specKey: string): import("../../model/interface").IModelSpecInfo<any>[];
     protected _forEachStackGroup(callback: (node: ISeriesStackDataLeaf) => void, node?: ISeriesStackDataMeta): void;
+    isDatumInViewData(datum: Datum): any;
 }

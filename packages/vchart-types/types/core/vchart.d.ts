@@ -173,7 +173,7 @@ export declare class VChart implements IVChart {
     stopAnimation(): void;
     pauseAnimation(): void;
     resumeAnimation(): void;
-    convertDatumToPosition(datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean): IPoint | null;
+    convertDatumToPosition(datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean, checkInViewData?: boolean): IPoint | null;
     convertValueToPosition(value: StringOrNumber, dataLinkInfo: DataLinkAxis, isRelativeToCanvas?: boolean): number | null;
     convertValueToPosition(value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries, isRelativeToCanvas?: boolean): IPoint | null;
     getFunction(key: string): Function | null;

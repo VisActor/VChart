@@ -6,4 +6,5 @@ export declare class PieSeriesSpecTransformer<T extends IBasePieSeriesSpec = IBa
         spec: T;
         theme: K;
     };
+    protected _getDefaultSpecFromChart(chartSpec: any): any;
 }
