@@ -25,8 +25,7 @@
   "scripts": {
     "compile": "tsc --noEmit",
     "start": "vite ./demo",
-    "build": "bundle --clean",
-    "prepublishOnly": "npm run build"
+    "build": "bundle --clean"
   },
   "dependencies": {
     "@visactor/vchart": "workspace:1.10.0",
