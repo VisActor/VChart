@@ -1,6 +1,20 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 13 Mar 2024 04:23:20 GMT and should not be manually modified.
+This log was last generated on Tue, 19 Mar 2024 14:59:23 GMT and should not be manually modified.
+
+## 1.10.1
+Tue, 19 Mar 2024 14:59:23 GMT
+
+### Updates
+
+- fix: upgrade version of vgrammar to fix end state of animation
+
+
+- fix: `convertDatumToPosition` still return the position of mark that is hidden by legend, related #2340
+- fix: the default calculation for the maxLineWidth of outerLabel is incorrect when funnelAlign is not set to center.
+- fix: `pie.centerX` & `pie.centerY` do not work, releated #2309
+- fix: react vchart tooltip is not displayed by default, related #2404
+- feat: register hover/select interaction by default
 
 ## 1.10.0
 Wed, 13 Mar 2024 04:23:20 GMT

@@ -67,7 +67,7 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     onYAxisHelperUpdate(): void;
     onZAxisHelperUpdate(): void;
     setAttrFromSpec(): void;
-    dataToPosition(datum: Datum): IPoint | null;
+    dataToPosition(datum: Datum, checkInViewData?: boolean): IPoint | null;
     protected _buildMarkAttributeContext(): void;
     valueToPosition(xValue: StringOrNumber | StringOrNumber[], yValue: StringOrNumber | StringOrNumber[]): {
         x: number;
@@ -99,6 +99,6 @@ export declare abstract class CartesianSeries<T extends ICartesianSeriesSpec = I
     getMeasureField(): string[];
     protected initEvent(): void;
     _sortDataInAxisDomain(): void;
-    protected _getInvalidDefined: (datum: Datum) => boolean;
+    protected _getInvalidDefined(datum: Datum): boolean;
     reInit(spec: T): void;
 }

@@ -18,8 +18,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     protected _pieMarkType: MarkTypeEnum;
     static readonly mark: SeriesMarkMap;
     protected _viewDataLabel: SeriesData;
-    protected _center: IPoint | null;
-    get center(): IPoint;
+    getCenter(): IPoint;
     protected _centerOffset: number;
     protected _cornerRadius: number;
     protected _startAngle: number;
@@ -63,7 +62,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
         reCompile: boolean;
     };
     computeDatumInnerRadius(datum: Datum, state?: string): number;
-    dataToPosition(datum: Datum): IPoint | null;
+    dataToPosition(datum: Datum, checkInViewData?: boolean): IPoint | null;
     dataToCentralPosition: (datum: Datum) => IPoint | null;
     initAnimation(): void;
     getDefaultShapeType(): string;
