@@ -272,7 +272,6 @@ These components do not actually exist in the DOM structure. This notation is ju
 
 Series components refer to the components defined for the element series corresponding to the chart type. If the type of the chart component is specified, the series components corresponding to it should be used for defining the elements. The series components include the following:
 
-````
 ```typescript
 import {
   Area,
@@ -290,9 +289,9 @@ import {
   Funnel,
   LinearProgress,
   RangeColumn,
-  BoxPlot,
+  BoxPlot
 } from '@visactor/react-vchart';
-````
+```
 
 ### Usage of Syntactic Tags
 
@@ -300,12 +299,7 @@ First, it is important to clarify the basic principles of syntactic tag prop def
 
 For example, consider the following spec definition for a line chart:
 
-````javascript
-{
-  type: 'line',
-  data: [
-
-```json
+```javascript
 {
   type: 'line',
   data: [
@@ -354,7 +348,7 @@ For example, consider the following spec definition for a line chart:
     }
   ]
 }
-````
+```
 
 The corresponding syntactic tag definition is as follows:
 
@@ -420,7 +414,7 @@ React-VChart itself supports on-demand loading. When VChart needs to be loaded o
 The `<VChartSimple />` component and the `<VChart />` component are used in almost the same way. The only difference is that users need to import the `VChart` constructor class from `@viasctor/vchart/esm/core` and pass it to `<VChartSimple />`;
 Reference for on-demand import of VChart [related documents](/vchart/guide/tutorial_docs/Load_on_Demand)
 
-````typescript
+```typescript
 interface VChartSimpleProps extends EventsProps {
   /** the spec of chart */
   spec: any;
@@ -428,7 +422,7 @@ interface VChartSimpleProps extends EventsProps {
   options?: ChartOptions;
   /** call when the chart is rendered */
   onReady?: (instance: VChart, isInitial: boolean) => void;
-   /** throw error when chart run into an error */
+  /** throw error when chart run into an error */
   onError?: (err: Error) => void;
   /**
    * use renderSync
@@ -447,8 +441,9 @@ interface VChartSimpleProps extends EventsProps {
    *
    * @since 1.8.3
    **/
-  vchartConstrouctor: IVChartConstructor
+  vchartConstrouctor: IVChartConstructor;
 }
+```
 
 ## Event Interaction
 
@@ -506,7 +501,7 @@ interface EventsProps {
   onClick?: (e: any) => void | boolean;
   onDblClick?: (e: any) => void | boolean;
 }
-````
+```
 
 ### Component Tag Events
 
