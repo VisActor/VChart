@@ -2,6 +2,33 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.10.1",
+      "tag": "@visactor/vchart_v1.10.1",
+      "date": "Tue, 19 Mar 2024 14:59:23 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: upgrade version of vgrammar to fix end state of animation\n\n"
+          },
+          {
+            "comment": "fix: `convertDatumToPosition` still return the position of mark that is hidden by legend, related #2340"
+          },
+          {
+            "comment": "fix: the default calculation for the maxLineWidth of outerLabel is incorrect when funnelAlign is not set to center."
+          },
+          {
+            "comment": "fix: `pie.centerX` & `pie.centerY` do not work, releated #2309"
+          },
+          {
+            "comment": "fix: react vchart tooltip is not displayed by default, related #2404"
+          },
+          {
+            "comment": "feat: register hover/select interaction by default"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.10.0",
       "tag": "@visactor/vchart_v1.10.0",
       "date": "Wed, 13 Mar 2024 04:23:20 GMT",

@@ -78,7 +78,7 @@ export interface ISeries extends IModel {
     setSeriesField: (field: string) => void;
     handleZoom?: (e: ZoomEventParam) => void;
     handlePan?: (e: PanEventParam) => void;
-    dataToPosition: (datum: Datum) => IPoint | null;
+    dataToPosition: (datum: Datum, checkInViewData?: boolean) => IPoint | null;
     dataToPositionX: (datum: Datum) => number | null;
     dataToPositionY: (datum: Datum) => number | null;
     dataToPositionZ?: (datum: Datum) => number | null;
@@ -154,7 +154,7 @@ export interface IGeoSeries extends ISeries {
     valueField?: string;
     getMapViewData: () => DataView;
     getNameProperty: () => string;
-    dataToPosition: (datum: any) => IPoint | null;
+    dataToPosition: (datum: any, checkInViewData?: boolean) => IPoint | null;
     dataToLatitude: (latValue: any) => number | null;
     dataToLongitude: (lonValue: any) => number | null;
     positionToData: (p: IPoint) => any;
@@ -166,7 +166,7 @@ export interface IGeoSeries extends ISeries {
     getDatumCenter: (datum: any) => [number, number];
 }
 export interface IArcSeries extends IPolarSeries {
-    center: (() => IPoint) | IPoint;
+    getCenter: () => IPoint;
     getRadius: (state?: StateValueType) => number;
     getInnerRadius: (state?: StateValueType) => number;
     computeRadius: (r: number, k?: number) => number;

@@ -37,7 +37,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     if (!chartSpec.region || chartSpec.region.length === 0) {
       chartSpec.region = [{}];
     }
-    if (!has(chartSpec, 'tooltip')) {
+    if (chartSpec.tooltip === undefined) {
       chartSpec.tooltip = {};
     }
     if (isValid(chartSpec.stackInverse)) {

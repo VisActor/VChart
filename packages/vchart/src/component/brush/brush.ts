@@ -721,7 +721,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       });
       this._brushComponents = null;
     }
-    super.clear();
   }
 }
 

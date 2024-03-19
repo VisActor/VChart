@@ -1,4 +1,4 @@
-import { isArray } from '@visactor/vutils';
+import { isArray, isValid } from '@visactor/vutils';
 import { mergeSpec } from '../../util';
 import { BaseSeriesSpecTransformer } from '../base';
 import { SeriesMarkNameEnum } from '../interface';
@@ -26,9 +26,8 @@ export class PieSeriesSpecTransformer<
       const getMergedLabelSpec = (position: IArcLabelSpec['position'], label: IArcLabelSpec) => {
         if (position === 'inside') {
           return mergeSpec({}, this._theme.innerLabel, label);
-        } else {
-          return mergeSpec({}, this._theme.outerLabel, label);
         }
+        return mergeSpec({}, this._theme.outerLabel, label);
       };
 
       if (isArray(newSpec.label)) {
@@ -39,5 +38,17 @@ export class PieSeriesSpecTransformer<
     }
 
     return { spec: newSpec, theme };
+  }
+
+  protected _getDefaultSpecFromChart(chartSpec: any): any {
+    const spec = (super._getDefaultSpecFromChart(chartSpec) as any) ?? {};
+    const { centerX, centerY } = chartSpec;
+    if (isValid(centerX)) {
+      spec.centerX = centerX;
+    }
+    if (isValid(centerY)) {
+      spec.centerY = centerY;
+    }
+    return Object.keys(spec).length > 0 ? spec : undefined;
   }
 }

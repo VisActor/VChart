@@ -271,7 +271,6 @@ const chart = new VChart(spec, {
 
 ## 方法
 
-
 ### renderSync
 
 **同步**渲染图表。
@@ -300,7 +299,6 @@ renderSync: (morphConfig?: IMorphConfig) => IVChart;
  */
 renderAsync: (morphConfig?: IMorphConfig) => Promise<IVChart>;
 ```
-
 
 ### updateData
 
@@ -1098,9 +1096,15 @@ type DimensionIndexOption = {
  * @param datum 要转化的数据 the datum（from data source）to convert
  * @param dataLinkInfo 数据的绑定信息，the data link info, could be seriesId or seriesIndex, default is { seriesIndex: 0 }
  * @param isRelativeToCanvas 是否相对画布坐标 Whether relative to canvas coordinates
+ * @param checkInViewData 是否检查数据对应的图元是否在视图中，如果不在视图中，返回 null
  * @returns
  */
-convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean) => IPoint | null;
+convertDatumToPosition: (
+  datum: Datum,
+  dataLinkInfo?: DataLinkSeries,
+  isRelativeToCanvas?: boolean,
+  checkInViewData?: boolean
+) => IPoint | null;
 ```
 
 ### convertValueToPosition

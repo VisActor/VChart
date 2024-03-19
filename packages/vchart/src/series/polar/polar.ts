@@ -117,9 +117,12 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     return this.angleAxisHelper.coordToPoint({ angle, radius });
   }
 
-  dataToPosition(datum: Datum): IPoint {
+  dataToPosition(datum: Datum, checkInViewData?: boolean): IPoint {
     if (!datum || !this.angleAxisHelper || !this.radiusAxisHelper) {
-      return { x: Number.NaN, y: Number.NaN };
+      return null;
+    }
+    if (checkInViewData && !this.isDatumInViewData(datum)) {
+      return null;
     }
     // FIXME: 由于存在两个轴，这里的 坐标系转换逻辑会有点尬
     return this.valueToPosition(
@@ -129,11 +132,11 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   }
 
   dataToPositionX(datum: Datum): number {
-    return this.dataToPosition(datum).x;
+    return this.dataToPosition(datum)?.x;
   }
 
   dataToPositionY(datum: Datum): number {
-    return this.dataToPosition(datum).y;
+    return this.dataToPosition(datum)?.y;
   }
 
   dataToPositionZ(datum: Datum): number {
@@ -225,7 +228,7 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     }
   }
 
-  protected _getInvalidDefined = (datum: Datum) => {
+  protected _getInvalidDefined(datum: Datum) {
     if (this.angleAxisHelper.isContinuous) {
       if (!couldBeValidNumber(datum[this._angleField[0]])) {
         return false;
@@ -237,5 +240,5 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
       }
     }
     return true;
-  };
+  }
 }

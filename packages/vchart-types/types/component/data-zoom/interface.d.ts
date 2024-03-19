@@ -59,3 +59,7 @@ export interface IDataFilterComponent extends IComponent {
         y: number;
     }) => void;
 }
+export declare const enum IFilterMode {
+    filter = "filter",
+    axis = "axis"
+}

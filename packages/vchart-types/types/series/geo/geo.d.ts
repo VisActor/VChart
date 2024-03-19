@@ -31,7 +31,7 @@ export declare abstract class GeoSeries<T extends IGeoSeriesSpec = IGeoSeriesSpe
         operations: Array<'max' | 'min' | 'values'>;
     }[];
     getGroupFields(): string[];
-    dataToPosition(datum: any): IPoint | null;
+    dataToPosition(datum: any, checkInViewData?: boolean): IPoint | null;
     protected nameToPosition(datum: any): IPoint | null;
     abstract getDatumCenter(datum: any): [number, number];
     abstract getDatumName(datum: any): string;

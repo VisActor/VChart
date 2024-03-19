@@ -753,9 +753,9 @@ export class VChart implements IVChart {
     this._chartPluginApply('releaseAll');
     this._chartPlugin = null;
     this._chartSpecTransformer = null;
+    this._eventDispatcher?.release();
     this._chart?.release();
     this._compiler?.release();
-    this._eventDispatcher?.release();
     this._unBindResizeEvent();
     // resetID(); // 为什么要重置ID呢？
 
@@ -1686,12 +1686,14 @@ export class VChart implements IVChart {
    * @param datum 要转化的数据 the datum（from data source）to convert
    * @param dataLinkInfo 数据的绑定信息，the data link info, could be seriesId or seriesIndex, default is { seriesIndex: 0 }
    * @param isRelativeToCanvas 是否相对画布坐标 Whether relative to canvas coordinates
+   * @param checkInViewData 是否检查数据对应的图元是否在视图中，如果不在视图中，返回 null
    * @returns
    */
   convertDatumToPosition(
     datum: Datum,
     dataLinkInfo: DataLinkSeries = {},
-    isRelativeToCanvas: boolean = false
+    isRelativeToCanvas: boolean = false,
+    checkInViewData?: boolean
   ): IPoint | null {
     if (!this._chart) {
       return null;
@@ -1717,9 +1719,12 @@ export class VChart implements IVChart {
       const seriesLayoutStartPoint = series.getRegion().getLayoutStartPoint();
       let point: IPoint;
       if (handledDatum) {
-        point = series.dataToPosition(handledDatum);
+        point = series.dataToPosition(handledDatum, checkInViewData);
       } else {
-        point = series.dataToPosition(datum);
+        point = series.dataToPosition(datum, checkInViewData);
+      }
+      if (!point) {
+        return null;
       }
       return convertPoint(point, seriesLayoutStartPoint, isRelativeToCanvas);
     }

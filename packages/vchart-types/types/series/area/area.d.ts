@@ -20,6 +20,7 @@ export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> ext
     protected _sortDataByAxis: boolean;
     initMark(): void;
     initMarkStyle(): void;
+    initAreaMarkStyle(): void;
     initAnimation(): void;
     protected initTooltip(): void;
     viewDataStatisticsUpdate(d: DataView): void;

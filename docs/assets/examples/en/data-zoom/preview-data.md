@@ -1,6 +1,6 @@
 ---
 category: demo
-group: axis
+group: data-zoom
 title: Thumbnail Axis Preview Chart Style Configuration
 keywords: barChart,dataZoom
 order: 29-0

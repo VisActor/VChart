@@ -8,7 +8,7 @@ import type {
 } from '../../../typings/visual';
 import type { IComponentSpec } from '../../base/interface';
 import type { ComponentThemeWithDirection, IComponent } from '../../interface';
-import type { IFilterMode } from '../constant';
+import type { IFilterMode } from '../interface';
 import type { IDataFilterComponent, IDataFilterComponentSpec } from '../interface';
 
 export type IDataZoom = IComponent & IDataFilterComponent;
@@ -56,7 +56,8 @@ export interface IDataZoomSpec extends IDataZoomStyle, IDataFilterComponentSpec 
   /**
    * 数据过滤模式
    * @default 'filter' （dataZoom默认数据过滤模式）
-   * 详细可参考：https://echarts.apache.org/zh/option.html#dataZoom-slider.filterMode）
+   * 'filter' 为过滤数据从而达到缩放轴的效果, 'axis'为直接缩放轴, 不过滤数据
+   * 具体效果可参考: https://www.visactor.io/vchart/demo/sequence-chart/social-media-event?keyword=dataZoom
    */
   filterMode?: IFilterMode;
   /**

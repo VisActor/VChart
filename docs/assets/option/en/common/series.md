@@ -54,7 +54,7 @@ Region id associated with the series.
 Configuration for tooltip on the series.
 
 {{ use: component-tooltip(
-  prefix = '#' + ${prefix}
+  prefix = ${prefix}
 ) }}
 
 #${prefix} animation(boolean) = true

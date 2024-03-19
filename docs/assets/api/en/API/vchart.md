@@ -1091,9 +1091,15 @@ Obtain the corresponding chart coordinate position according to the data in the 
  * @param datum the datum to convert
  * @param dataLinkInfo the data link info, could be seriesId or seriesIndex, default is { seriesIndex: 0 }
  * @param isRelativeToCanvas Whether relative to canvas coordinates, default is false
+ * @param checkInViewData Check if the corresponding element of the data is in the view. If it is not in the view, return null
  * @returns
  */
-convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean) => IPoint | null;
+convertDatumToPosition: (
+  datum: Datum,
+  dataLinkInfo?: DataLinkSeries,
+  isRelativeToCanvas?: boolean,
+  checkInViewData?: boolean
+) => IPoint | null;
 ```
 
 ### convertValueToPosition
@@ -1105,7 +1111,7 @@ Convert the value to the corresponding canvas coordinate point.
  * Convert the value to coordinate position
  * @param value number | [number, number], the value to convert
  * @param dataLinkInfo the data link info, could be seriesId,seriesIndex,axisId,axisIndex
- * @param isRelativeToCanvas 是否相对画布坐标，默认为 false Whether relative to canvas coordinates, default is false
+ * @param isRelativeToCanvas whether relative to canvas coordinates, default is false
  * returns
  */
 convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isRelativeToCanvas?: boolean) =>

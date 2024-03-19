@@ -5,7 +5,7 @@ import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, String
 import type { IBaseScale } from '@visactor/vscale';
 import type { ICartesianBandAxisSpec } from '../axis/cartesian';
 import type { IBoundsLike } from '@visactor/vutils';
-import { IFilterMode } from './constant';
+import { IFilterMode } from './interface';
 import type { IDataFilterComponent, IDataFilterComponentSpec, IRoamDragSpec, IRoamScrollSpec, IRoamZoomSpec } from './interface';
 import type { BaseEventParams } from '../../event/interface';
 import type { AbstractComponent } from '@visactor/vrender-components';
@@ -33,6 +33,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _end: number;
     protected _minSpan: number;
     protected _maxSpan: number;
+    protected _spanCache: number;
     protected _shouldChange: boolean;
     protected _field: string | undefined;
     protected _stateField: string;

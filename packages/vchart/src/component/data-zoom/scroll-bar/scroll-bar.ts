@@ -12,7 +12,7 @@ import type { IRectGraphicAttribute, INode, IGroup, IGraphic } from '@visactor/v
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../../constant';
 import { SCROLL_BAR_DEFAULT_SIZE } from '../../../constant/scroll-bar';
 import type { IScrollBarSpec } from './interface';
-import { IFilterMode } from '../constant';
+import { IFilterMode } from '../interface';
 import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { ILayoutType } from '../../../typings/layout';

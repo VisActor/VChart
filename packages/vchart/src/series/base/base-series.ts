@@ -637,7 +637,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   /** 获取分组字段 */
   abstract getGroupFields(): string[];
   /** 数据到坐标点的映射 */
-  abstract dataToPosition(data: Datum): IPoint;
+  abstract dataToPosition(data: Datum, checkInViewData?: boolean): IPoint;
   /** 数据到 x 坐标点的映射 */
   abstract dataToPositionX(data: Datum): number;
   /** 数据到 y 坐标点的映射 */
@@ -1382,7 +1382,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return this._invalidType === 'zero' ? 'zero' : this._invalidType === 'link' ? 'connect' : 'none';
   }
 
-  protected _getInvalidDefined = (datum: Datum) => couldBeValidNumber(datum[this.getStackValueField()]);
+  protected _getInvalidDefined(datum: Datum) {
+    return couldBeValidNumber(datum[this.getStackValueField()]);
+  }
 
   protected _getRelatedComponentSpecInfo(specKey: string) {
     const specIndex = this.getSpecIndex();
@@ -1405,5 +1407,20 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         this._forEachStackGroup(callback, n);
       });
     }
+  }
+
+  /** 判断 datum 是否在 viewData 中 */
+  isDatumInViewData(datum: Datum) {
+    if (!datum) {
+      return false;
+    }
+    const viewDataList = this.getViewData().latestData;
+    if (!viewDataList) {
+      return false;
+    }
+    if (viewDataList.includes(datum)) {
+      return true;
+    }
+    return viewDataList.some((viewDatum: Datum) => Object.keys(datum).every(key => datum[key] === viewDatum[key]));
   }
 }

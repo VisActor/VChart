@@ -6,8 +6,7 @@ import type { IAreaMark } from '../../mark/area';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant';
-import type { Datum, ConvertToMarkStyleSpec, IAreaMarkSpec, InterpolateType } from '../../typings';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import type { Datum, InterpolateType } from '../../typings';
 import { valueInScaleRange } from '../../util/scale';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -82,6 +81,11 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   }
 
   initMarkStyle(): void {
+    this.initAreaMarkStyle();
+    this.initSymbolMarkStyle();
+  }
+
+  initAreaMarkStyle() {
     // FIXME 是不是应该把curveType提前到上层配置
     // 不允许area和line的curveType不一致
     const userCurveType = (this.getSpec().area?.style?.curveType ??
@@ -139,7 +143,7 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
         this.setMarkStyle(
           areaMark,
           {
-            defined: this._getInvalidDefined,
+            defined: this._getInvalidDefined.bind(this),
             connectedType: this._getInvalidConnectType()
           },
           'normal',
@@ -168,9 +172,6 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
         }
       });
     }
-
-    this.initLineMarkStyle(this._direction, userCurveType);
-    this.initSymbolMarkStyle();
   }
 
   initAnimation() {

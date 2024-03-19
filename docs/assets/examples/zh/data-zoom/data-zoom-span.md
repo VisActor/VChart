@@ -1,6 +1,6 @@
 ---
 category: demo
-group: axis
+group: data-zoom
 title: 缩略轴支持窗口最大最小值配置
 keywords: barChart,dataZoom
 order: 29-5

@@ -59,4 +59,5 @@ export declare class LineLikeSeriesMixin {
     initLabelMarkStyle(labelMark?: ILabelMark): void;
     initLineLabelMarkStyle(labelMark?: ILabelMark): void;
     encodeDefined(mark: IMark, attr: string): void;
+    protected _isFieldAllValid(): any;
 }

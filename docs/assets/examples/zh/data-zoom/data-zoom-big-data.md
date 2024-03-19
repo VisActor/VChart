@@ -1,6 +1,6 @@
 ---
 category: demo
-group: axis
+group: data-zoom
 title: 缩略轴支持大数据量场景下交互
 keywords: areaChart,dataZoom
 order: 29-6

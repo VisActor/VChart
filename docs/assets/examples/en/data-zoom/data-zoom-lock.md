@@ -1,6 +1,6 @@
 ---
 category: demo
-group: axis
+group: data-zoom
 title: datazoom supports zoomLock
 keywords: barChart,dataZoom
 order: 29-4

@@ -1,13 +1,12 @@
 {
   "name": "@visactor/vchart",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "browser": "esm/index.js",
   "types": "esm/index.d.ts",
   "sideEffects": [
-    "./*/index.js",
     "./*/index-lark.js",
     "./*/index-wx-simple.js",
     "./*/index-wx.js",
@@ -132,7 +131,7 @@
     "@visactor/vgrammar-hierarchy": "0.12.4",
     "@visactor/vgrammar-sankey": "0.12.4",
     "@visactor/vgrammar-util": "0.12.4",
-    "@visactor/vutils-extension": "workspace:1.10.0"
+    "@visactor/vutils-extension": "workspace:1.10.1"
   },
   "publishConfig": {
     "access": "public",

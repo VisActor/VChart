@@ -38,7 +38,7 @@ export declare abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSer
     get sortDataByAxis(): boolean;
     protected _buildMarkAttributeContext(): void;
     valueToPosition(angleValue: StringOrNumber | StringOrNumber[], radiusValue: StringOrNumber | StringOrNumber[]): IPoint;
-    dataToPosition(datum: Datum): IPoint;
+    dataToPosition(datum: Datum, checkInViewData?: boolean): IPoint;
     dataToPositionX(datum: Datum): number;
     dataToPositionY(datum: Datum): number;
     dataToPositionZ(datum: Datum): number;
@@ -56,5 +56,5 @@ export declare abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSer
     protected _computeLayoutRadius(): number;
     fillData(): void;
     _sortDataInAxisDomain(): void;
-    protected _getInvalidDefined: (datum: Datum) => boolean;
+    protected _getInvalidDefined(datum: Datum): boolean;
 }

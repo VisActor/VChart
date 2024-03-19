@@ -17,7 +17,7 @@ import type { IRectMark } from '../mark/rect';
 import { AnimateManager } from '../animation/animate-manager';
 import type { IAnimate } from '../animation/interface';
 import type { ILayoutType, StringOrNumber } from '../typings';
-import { IFilterMode } from '../component/data-zoom/constant';
+import { IFilterMode } from '../component/data-zoom';
 import { LayoutModel } from '../model/layout-model';
 import { RegionSpecTransformer } from './region-transformer';
 
