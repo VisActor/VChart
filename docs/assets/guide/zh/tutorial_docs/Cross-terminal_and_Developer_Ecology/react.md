@@ -422,7 +422,7 @@ React-VChart 本身代码都支持按需加载，当需要 VChart 按需加载�
 `<VChartSimple />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart/esm/core` 引用 `VChart` 构造类，并传入给 `<VChartSimple />`;
 VChart 按需引用参考[相关文档](/vchart/guide/tutorial_docs/Load_on_Demand)
 
-````typescript
+```typescript
 interface VChartSimpleProps extends EventsProps {
   /** 图表定义 */
   spec: any;
@@ -430,7 +430,7 @@ interface VChartSimpleProps extends EventsProps {
   options?: ChartOptions;
   /** 图表渲染完成事件 */
   onReady?: (instance: VChart, isInitial: boolean) => void;
-   /** throw error when chart run into an error */
+  /** throw error when chart run into an error */
   onError?: (err: Error) => void;
   /**
    * 切换到同步渲染
@@ -449,14 +449,15 @@ interface VChartSimpleProps extends EventsProps {
    *
    * @since 1.8.3
    **/
-  vchartConstrouctor: IVChartConstructor
+  vchartConstrouctor: IVChartConstructor;
 }
+```
 
 ## 事件交互
 
 ### 基础事件
 
-统一图表标签（VChart）或是语法化图表标签（BarChart等）最外层图表组件，其Props上都支持底层渲染层抛出的场景树事件`EventsProps`。
+统一图表标签（VChart）或是语法化图表标签（BarChart 等）最外层图表组件，其 Props 上都支持底层渲染层抛出的场景树事件`EventsProps`。
 
 `EventsProps`的定义如下：
 
@@ -508,7 +509,7 @@ interface EventsProps {
   onClick?: (e: any) => void | boolean;
   onDblClick?: (e: any) => void | boolean;
 }
-````
+```
 
 ### 组件标签的事件
 
