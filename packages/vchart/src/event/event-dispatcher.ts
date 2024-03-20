@@ -11,12 +11,15 @@ import type {
   BaseEventParams,
   EventParams,
   EventFilter,
-  EventSourceType
+  EventSourceType,
+  InteractionEventParam
 } from './interface';
 import type { VChart } from '../core/vchart';
 import type { CompilerListenerParameters } from '../compile/interface';
 import type { Compiler } from '../compile/compiler';
 import type { StringOrNumber } from '../typings';
+import type { IElement } from '@visactor/vgrammar-core';
+import { Factory as VGrammarFactory } from '@visactor/vgrammar-core';
 
 const componentTypeMap = {
   cartesianAxis: 'axis',
@@ -77,6 +80,10 @@ export class EventDispatcher implements IEventDispatcher {
     bubble.addHandler(handler, handler.filter?.level as EventBubbleLevel);
     if (this._isValidEvent(eType) && !listeners.has(eType)) {
       const callback = this._onDelegate.bind(this);
+      this._compiler.addEventListener(handler.filter?.source as EventSourceType, eType, callback);
+      listeners.set(eType, callback);
+    } else if (this._isInteractionEvent(eType) && !listeners.has(eType)) {
+      const callback = this._onDelegateInteractionEvent.bind(this);
       this._compiler.addEventListener(handler.filter?.source as EventSourceType, eType, callback);
       listeners.set(eType, callback);
     }
@@ -285,6 +292,31 @@ export class EventDispatcher implements IEventDispatcher {
   };
 
   /**
+   * 代理语法层事件的监听回调
+   */
+  private _onDelegateInteractionEvent = (listenerParams: CompilerListenerParameters) => {
+    const chart = this.globalInstance.getChart();
+    const event = listenerParams.event;
+    let items: IElement[] = null;
+
+    if ((event as any).elements) {
+      items = (event as any).elements;
+    }
+
+    const params: InteractionEventParam = {
+      event: listenerParams.event,
+      chart,
+      items,
+      datums:
+        items &&
+        items.map(item => {
+          return item.getDatum();
+        })
+    };
+    this.dispatch(listenerParams.type, params);
+  };
+
+  /**
    * 调用相应事件监听下的 handlers
    */
   private _invoke<Evt extends EventType>(
@@ -405,5 +437,15 @@ export class EventDispatcher implements IEventDispatcher {
 
   private _isValidEvent(eType: string) {
     return BASE_EVENTS.includes(eType) || (Object.values(VGRAMMAR_HOOK_EVENT) as string[]).includes(eType);
+  }
+
+  private _isInteractionEvent(eType: string) {
+    let interactionType: string;
+
+    return (
+      eType &&
+      ((interactionType = eType.split(':')[0]), interactionType) &&
+      VGrammarFactory.hasInteraction(interactionType)
+    );
   }
 }
