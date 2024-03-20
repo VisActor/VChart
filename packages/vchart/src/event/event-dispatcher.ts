@@ -76,8 +76,9 @@ export class EventDispatcher implements IEventDispatcher {
     const bubble = bubbles.get(eType) as Bubble;
     bubble.addHandler(handler, handler.filter?.level as EventBubbleLevel);
     if (this._isValidEvent(eType) && !listeners.has(eType)) {
-      this._compiler.addEventListener(handler.filter?.source as EventSourceType, eType, this._onDelegate);
-      listeners.set(eType, this._onDelegate);
+      const callback = this._onDelegate.bind(this);
+      this._compiler.addEventListener(handler.filter?.source as EventSourceType, eType, callback);
+      listeners.set(eType, callback);
     }
     return this;
   }
