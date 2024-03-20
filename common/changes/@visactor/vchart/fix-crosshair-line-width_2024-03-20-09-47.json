@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `lineWidth` is invalid in rect-type-crosshair, related #2432",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
