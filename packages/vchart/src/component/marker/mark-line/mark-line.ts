@@ -256,7 +256,7 @@ export class MarkLine extends BaseMarker<IMarkLineSpec> implements IMarkLine {
     } else {
       this._markerComponent?.setAttributes({
         points: points,
-        label: labelAttrs,
+        label: labelAttrs as any,
         limitRect,
         dx: this._layoutOffsetX,
         dy: this._layoutOffsetY
