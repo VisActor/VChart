@@ -30611,6 +30611,15 @@
           ],
           "type": "string"
         },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "allowAllCanceled": {
           "type": "boolean"
         },
@@ -31354,6 +31363,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "reversed": {
           "type": "boolean"
         },
@@ -35327,6 +35337,9 @@
         "attachShadow": {
           "typeof": "function"
         },
+        "attachedThemeGraphic": {
+          "$ref": "#/definitions/IGraphic<any>"
+        },
         "attribute": {
           "$ref": "#/definitions/Partial<IGlyphGraphicAttribute>"
         },
@@ -35878,6 +35891,9 @@
         "attachShadow": {
           "typeof": "function"
         },
+        "attachedThemeGraphic": {
+          "$ref": "#/definitions/IGraphic<any>"
+        },
         "attribute": {
           "$ref": "#/definitions/Partial<Partial<IGraphicAttribute>>"
         },
@@ -36360,6 +36376,560 @@
       ],
       "type": "object"
     },
+    "IGraphic<any>": {
+      "properties": {
+        "AABBBounds": {
+          "$ref": "#/definitions/IBounds"
+        },
+        "OBBBounds": {
+          "$ref": "#/definitions/IOBBBounds"
+        },
+        "_next": {
+          "$ref": "#/definitions/INode"
+        },
+        "_prev": {
+          "$ref": "#/definitions/INode"
+        },
+        "_uid": {
+          "type": "number"
+        },
+        "add": {
+          "typeof": "function"
+        },
+        "addEventListener": {
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "addState": {
+          "typeof": "function"
+        },
+        "addUpdateBoundTag": {
+          "typeof": "function"
+        },
+        "addUpdateGlobalPositionTag": {
+          "typeof": "function"
+        },
+        "addUpdateLayoutTag": {
+          "typeof": "function"
+        },
+        "addUpdatePositionTag": {
+          "typeof": "function"
+        },
+        "addUpdateShapeAndBoundsTag": {
+          "typeof": "function"
+        },
+        "animate": {
+          "typeof": "function"
+        },
+        "animates": {
+          "$ref": "#/definitions/Map<string|number,IAnimate>"
+        },
+        "animationBackUps": {
+          "typeof": "function"
+        },
+        "appendChild": {
+          "typeof": "function"
+        },
+        "applyStateAttrs": {
+          "typeof": "function"
+        },
+        "at": {
+          "typeof": "function"
+        },
+        "attachShadow": {
+          "typeof": "function"
+        },
+        "attachedThemeGraphic": {
+          "$ref": "#/definitions/IGraphic<any>"
+        },
+        "attribute": {
+          "$ref": "#/definitions/Partial<any>"
+        },
+        "backgroundImg": {
+          "type": "boolean"
+        },
+        "bindDom": {
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
+        },
+        "childrenCount": {
+          "type": "number"
+        },
+        "clearStates": {
+          "typeof": "function"
+        },
+        "clearUpdateShapeTag": {
+          "typeof": "function"
+        },
+        "clone": {
+          "typeof": "function"
+        },
+        "containNode": {
+          "typeof": "function"
+        },
+        "containsPoint": {
+          "typeof": "function"
+        },
+        "count": {
+          "type": "number"
+        },
+        "createPathProxy": {
+          "typeof": "function"
+        },
+        "delete": {
+          "typeof": "function"
+        },
+        "detachShadow": {
+          "typeof": "function"
+        },
+        "dispatchEvent": {
+          "typeof": "function"
+        },
+        "emit": {
+          "typeof": "function"
+        },
+        "find": {
+          "typeof": "function"
+        },
+        "findAll": {
+          "typeof": "function"
+        },
+        "findChildById": {
+          "typeof": "function"
+        },
+        "findChildByUid": {
+          "typeof": "function"
+        },
+        "findChildrenByName": {
+          "typeof": "function"
+        },
+        "findFace": {
+          "typeof": "function"
+        },
+        "firstChild": {
+          "$ref": "#/definitions/INode"
+        },
+        "forEachChildren": {
+          "typeof": "function"
+        },
+        "forEachChildrenAsync": {
+          "typeof": "function"
+        },
+        "getChildAt": {
+          "typeof": "function"
+        },
+        "getChildren": {
+          "typeof": "function"
+        },
+        "getComputedAttribute": {
+          "typeof": "function"
+        },
+        "getDefaultAttribute": {
+          "typeof": "function"
+        },
+        "getElementById": {
+          "typeof": "function"
+        },
+        "getElementsByName": {
+          "typeof": "function"
+        },
+        "getElementsByType": {
+          "typeof": "function"
+        },
+        "getNoWorkAnimateAttr": {
+          "typeof": "function"
+        },
+        "getOffsetXY": {
+          "typeof": "function"
+        },
+        "getState": {
+          "typeof": "function"
+        },
+        "globalAABBBounds": {
+          "$ref": "#/definitions/IBounds"
+        },
+        "globalTransMatrix": {
+          "$ref": "#/definitions/IMatrix"
+        },
+        "glyphHost": {
+          "$ref": "#/definitions/IGraphic<IGlyphGraphicAttribute>"
+        },
+        "hasState": {
+          "typeof": "function"
+        },
+        "id": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "imageLoadFail": {
+          "typeof": "function"
+        },
+        "imageLoadSuccess": {
+          "typeof": "function"
+        },
+        "in3dMode": {
+          "type": "boolean"
+        },
+        "incremental": {
+          "type": "number"
+        },
+        "incrementalAt": {
+          "type": "number"
+        },
+        "initAttributes": {
+          "typeof": "function"
+        },
+        "insertAfter": {
+          "typeof": "function"
+        },
+        "insertBefore": {
+          "typeof": "function"
+        },
+        "insertInto": {
+          "typeof": "function"
+        },
+        "insertIntoKeepIdx": {
+          "typeof": "function"
+        },
+        "isAncestorsOf": {
+          "typeof": "function"
+        },
+        "isChildOf": {
+          "typeof": "function"
+        },
+        "isContainer": {
+          "type": "boolean"
+        },
+        "isDescendantsOf": {
+          "typeof": "function"
+        },
+        "isParentOf": {
+          "typeof": "function"
+        },
+        "isValid": {
+          "typeof": "function"
+        },
+        "lastChild": {
+          "$ref": "#/definitions/INode"
+        },
+        "layer": {
+          "$ref": "#/definitions/ILayer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "normalAttrs": {
+          "$ref": "#/definitions/Partial<any>"
+        },
+        "numberType": {
+          "type": "number"
+        },
+        "off": {
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "on": {
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "onAddStep": {
+          "typeof": "function"
+        },
+        "onAnimateBind": {
+          "typeof": "function"
+        },
+        "onBeforeAttributeUpdate": {
+          "typeof": "function"
+        },
+        "onSetStage": {
+          "typeof": "function"
+        },
+        "onStep": {
+          "typeof": "function"
+        },
+        "onStop": {
+          "typeof": "function"
+        },
+        "once": {
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "parent": {
+          "$ref": "#/definitions/IGroup"
+        },
+        "pathProxy": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ICustomPath2D"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "release": {
+          "typeof": "function"
+        },
+        "removeAllChild": {
+          "typeof": "function"
+        },
+        "removeAllListeners": {
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "removeChild": {
+          "typeof": "function"
+        },
+        "removeEventListener": {
+          "allOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "removeState": {
+          "typeof": "function"
+        },
+        "resources": {
+          "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
+        },
+        "rotate": {
+          "typeof": "function"
+        },
+        "rotateTo": {
+          "typeof": "function"
+        },
+        "scale": {
+          "typeof": "function"
+        },
+        "scaleTo": {
+          "typeof": "function"
+        },
+        "setAllDescendantsProps": {
+          "typeof": "function"
+        },
+        "setAttribute": {
+          "typeof": "function"
+        },
+        "setAttributes": {
+          "typeof": "function"
+        },
+        "setMode": {
+          "typeof": "function"
+        },
+        "setStage": {
+          "typeof": "function"
+        },
+        "shadowRoot": {
+          "$ref": "#/definitions/IShadowRoot"
+        },
+        "shouldSelfChangeUpdateAABBBounds": {
+          "typeof": "function"
+        },
+        "shouldUpdateAABBBounds": {
+          "typeof": "function"
+        },
+        "shouldUpdateGlobalMatrix": {
+          "typeof": "function"
+        },
+        "shouldUpdateShape": {
+          "typeof": "function"
+        },
+        "skewTo": {
+          "typeof": "function"
+        },
+        "stage": {
+          "$ref": "#/definitions/IStage"
+        },
+        "stamp": {
+          "type": "number"
+        },
+        "stateProxy": {
+          "typeof": "function"
+        },
+        "states": {
+          "$ref": "#/definitions/Record<string,Partial<any>>"
+        },
+        "stepInterpolate": {
+          "typeof": "function"
+        },
+        "stopAnimates": {
+          "typeof": "function"
+        },
+        "toCustomPath": {
+          "typeof": "function"
+        },
+        "toJson": {
+          "typeof": "function"
+        },
+        "toggleState": {
+          "typeof": "function"
+        },
+        "transMatrix": {
+          "$ref": "#/definitions/IMatrix"
+        },
+        "translate": {
+          "typeof": "function"
+        },
+        "translateTo": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/GraphicType"
+        },
+        "update": {
+          "typeof": "function"
+        },
+        "updateNormalAttrs": {
+          "typeof": "function"
+        },
+        "useStates": {
+          "typeof": "function"
+        },
+        "valid": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "AABBBounds",
+        "OBBBounds",
+        "_uid",
+        "add",
+        "addEventListener",
+        "addState",
+        "addUpdateBoundTag",
+        "addUpdateGlobalPositionTag",
+        "addUpdateLayoutTag",
+        "addUpdatePositionTag",
+        "addUpdateShapeAndBoundsTag",
+        "animate",
+        "animates",
+        "appendChild",
+        "applyStateAttrs",
+        "at",
+        "attachShadow",
+        "attribute",
+        "childrenCount",
+        "clearStates",
+        "clearUpdateShapeTag",
+        "clone",
+        "containNode",
+        "containsPoint",
+        "count",
+        "createPathProxy",
+        "delete",
+        "detachShadow",
+        "dispatchEvent",
+        "emit",
+        "find",
+        "findAll",
+        "findChildById",
+        "findChildByUid",
+        "findChildrenByName",
+        "firstChild",
+        "forEachChildren",
+        "forEachChildrenAsync",
+        "getChildAt",
+        "getChildren",
+        "getComputedAttribute",
+        "getDefaultAttribute",
+        "getElementById",
+        "getElementsByName",
+        "getElementsByType",
+        "getNoWorkAnimateAttr",
+        "getOffsetXY",
+        "getState",
+        "globalAABBBounds",
+        "globalTransMatrix",
+        "hasState",
+        "imageLoadFail",
+        "imageLoadSuccess",
+        "initAttributes",
+        "insertAfter",
+        "insertBefore",
+        "insertInto",
+        "insertIntoKeepIdx",
+        "isAncestorsOf",
+        "isChildOf",
+        "isDescendantsOf",
+        "isParentOf",
+        "isValid",
+        "lastChild",
+        "off",
+        "on",
+        "onSetStage",
+        "onStep",
+        "onStop",
+        "once",
+        "parent",
+        "release",
+        "removeAllChild",
+        "removeAllListeners",
+        "removeChild",
+        "removeEventListener",
+        "removeState",
+        "rotate",
+        "rotateTo",
+        "scale",
+        "scaleTo",
+        "setAllDescendantsProps",
+        "setAttribute",
+        "setAttributes",
+        "setMode",
+        "setStage",
+        "shouldSelfChangeUpdateAABBBounds",
+        "shouldUpdateAABBBounds",
+        "shouldUpdateGlobalMatrix",
+        "shouldUpdateShape",
+        "skewTo",
+        "stepInterpolate",
+        "stopAnimates",
+        "toJson",
+        "toggleState",
+        "transMatrix",
+        "translate",
+        "translateTo",
+        "update",
+        "updateNormalAttrs",
+        "useStates",
+        "valid"
+      ],
+      "type": "object"
+    },
     "IGrid": {
       "properties": {
         "alignWithLabel": {
@@ -36511,6 +37081,9 @@
         },
         "attachShadow": {
           "typeof": "function"
+        },
+        "attachedThemeGraphic": {
+          "$ref": "#/definitions/IGraphic<any>"
         },
         "attribute": {
           "$ref": "#/definitions/Partial<IGroupGraphicAttribute>"
@@ -40738,6 +41311,9 @@
         "attachShadow": {
           "typeof": "function"
         },
+        "attachedThemeGraphic": {
+          "$ref": "#/definitions/IGraphic<any>"
+        },
         "attribute": {
           "$ref": "#/definitions/Partial<IGroupGraphicAttribute>"
         },
@@ -41383,6 +41959,9 @@
         "releaseLayer": {
           "typeof": "function"
         },
+        "releaseStage": {
+          "typeof": "function"
+        },
         "restLayerCount": {
           "typeof": "function"
         }
@@ -41393,6 +41972,7 @@
         "layerCount",
         "prepareStageLayer",
         "releaseLayer",
+        "releaseStage",
         "restLayerCount"
       ],
       "type": "object"
@@ -49401,6 +49981,15 @@
           ],
           "type": "string"
         },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -49780,6 +50369,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -55751,6 +56341,9 @@
         "height": {
           "type": "number"
         },
+        "keepMatrix": {
+          "type": "boolean"
+        },
         "layer": {
           "$ref": "#/definitions/ILayer"
         },
@@ -60116,6 +60709,9 @@
         "attachShadow": {
           "typeof": "function"
         },
+        "attachedThemeGraphic": {
+          "$ref": "#/definitions/IGraphic<any>"
+        },
         "attribute": {
           "$ref": "#/definitions/Partial<IGroupGraphicAttribute>"
         },
@@ -60824,6 +61420,9 @@
         "getLayer": {
           "typeof": "function"
         },
+        "getPluginsByName": {
+          "typeof": "function"
+        },
         "getTheme": {
           "typeof": "function"
         },
@@ -61115,6 +61714,7 @@
         "getElementsByName",
         "getElementsByType",
         "getLayer",
+        "getPluginsByName",
         "getTheme",
         "getTimeline",
         "height",
@@ -69993,7 +70593,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         },
         "size": {
@@ -70001,14 +70601,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12619",
+        "__@toStringTag@12745",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         },
         "size": {
@@ -70016,14 +70616,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12619",
+        "__@toStringTag@12745",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         },
         "size": {
@@ -70031,14 +70631,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12619",
+        "__@toStringTag@12745",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         },
         "size": {
@@ -70046,14 +70646,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12619",
+        "__@toStringTag@12745",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         },
         "size": {
@@ -70061,14 +70661,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12619",
+        "__@toStringTag@12745",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         },
         "size": {
@@ -70076,14 +70676,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12619",
+        "__@toStringTag@12745",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         },
         "size": {
@@ -70091,14 +70691,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12619",
+        "__@toStringTag@12745",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         },
         "size": {
@@ -70106,14 +70706,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12619",
+        "__@toStringTag@12745",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         },
         "size": {
@@ -70121,7 +70721,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12619",
+        "__@toStringTag@12745",
         "size"
       ],
       "type": "object"
@@ -70560,6 +71160,15 @@
           ],
           "type": "string"
         },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "allowAllCanceled": {
           "type": "boolean"
         },
@@ -70921,6 +71530,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "reversed": {
           "type": "boolean"
         },
@@ -73180,6 +73790,15 @@
           ],
           "type": "string"
         },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -73484,6 +74103,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -74947,6 +75567,12 @@
               "type": "array"
             },
             {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
               "type": [
                 "string",
                 "number"
@@ -74983,6 +75609,15 @@
         },
         "alignItems": {
           "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
             "center",
             "flex-end",
             "flex-start"
@@ -75338,6 +75973,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -75744,6 +76380,15 @@
             }
           ]
         },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -76053,6 +76698,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -76183,6 +76829,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -76481,6 +77136,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -76680,6 +77336,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -76952,6 +77617,7 @@
         "radius": {
           "type": "number"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -77143,6 +77809,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -77438,6 +78113,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -77568,6 +78244,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -77834,6 +78519,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -77973,6 +78659,15 @@
         },
         "alignItems": {
           "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
             "center",
             "flex-end",
             "flex-start"
@@ -78302,6 +78997,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -78435,6 +79131,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -78730,6 +79435,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -79110,6 +79816,15 @@
             }
           ]
         },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -79410,6 +80125,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80317,6 +81033,15 @@
             }
           ]
         },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -80595,6 +81320,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -80722,6 +81448,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -81010,6 +81745,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -81387,6 +82123,15 @@
             }
           ]
         },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -81671,6 +82416,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -81807,6 +82553,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -82089,6 +82844,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -82552,6 +83308,9 @@
         "poptip": {
           "type": "boolean"
         },
+        "renderKeepMatrix": {
+          "type": "boolean"
+        },
         "renderStyle": {
           "type": "string"
         },
@@ -82587,6 +83346,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -82853,6 +83621,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -83003,6 +83772,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -83324,6 +84102,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -83462,6 +84241,15 @@
           "type": "number"
         },
         "underline": {
+          "type": "number"
+        },
+        "underlineDash": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "underlineOffset": {
           "type": "number"
         },
         "verticalMode": {
@@ -84102,6 +84890,15 @@
             }
           ]
         },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
         "alpha": {
           "type": "number"
         },
@@ -84419,6 +85216,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -84559,6 +85357,15 @@
         "underline": {
           "type": "number"
         },
+        "underlineDash": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "underlineOffset": {
+          "type": "number"
+        },
         "verticalMode": {
           "type": "number"
         },
@@ -84608,6 +85415,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -84887,6 +85703,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -85021,6 +85838,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -85287,6 +86113,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -86826,34 +87653,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12619"
+        "__@toStringTag@12745"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12619"
+        "__@toStringTag@12745"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12619": {
+        "__@toStringTag@12745": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12619"
+        "__@toStringTag@12745"
       ],
       "type": "object"
     },
@@ -86932,6 +87759,9 @@
     "Record<string,Partial<Partial<IGraphicAttribute>>>": {
       "type": "object"
     },
+    "Record<string,Partial<any>>": {
+      "type": "object"
+    },
     "Record<string,any>": {
       "type": "object"
     },
@@ -86946,6 +87776,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -87256,6 +88095,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -87375,6 +88215,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -87423,6 +88264,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -87463,6 +88305,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -87761,6 +88612,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -87883,6 +88735,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -87931,6 +88784,7 @@
         "pickable",
         "points",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -87971,6 +88825,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -88243,6 +89106,7 @@
         "radius": {
           "type": "number"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -88362,6 +89226,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -88404,6 +89269,7 @@
         "pickable",
         "postMatrix",
         "radius",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -88444,6 +89310,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -88739,6 +89614,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -88858,6 +89734,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -88902,6 +89779,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -88954,6 +89832,15 @@
         },
         "alignItems": {
           "enum": [
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
             "center",
             "flex-end",
             "flex-start"
@@ -89283,6 +90170,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -89407,6 +90295,7 @@
         "_debug_bounds",
         "alignContent",
         "alignItems",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -89455,6 +90344,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -89496,6 +90386,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -89791,6 +90690,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -89916,6 +90816,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -89959,6 +90860,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "repeatX",
         "repeatY",
         "scaleCenter",
@@ -90001,6 +90903,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -90302,6 +91213,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -90424,6 +91336,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -90473,6 +91386,7 @@
         "pickable",
         "points",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -90513,6 +91427,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -90792,6 +91715,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -90908,6 +91832,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -90950,6 +91875,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -90989,6 +91915,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -91277,6 +92212,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -91393,6 +92329,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -91436,6 +92373,7 @@
         "pickable",
         "points",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -91475,6 +92413,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -91760,6 +92707,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -91885,6 +92833,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -91928,6 +92877,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -91970,6 +92920,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -92252,6 +93211,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -92377,6 +93337,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -92419,6 +93380,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -92461,6 +93423,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -92745,6 +93716,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -92885,6 +93857,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -92930,6 +93903,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -92976,6 +93950,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -93351,6 +94334,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
         },
@@ -93482,6 +94466,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -93536,6 +94521,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "repeatX",
         "repeatY",
         "scaleCenter",
@@ -93580,6 +94566,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -93846,6 +94841,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -93985,6 +94981,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -94025,6 +95022,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleX",
         "scaleY",
@@ -94066,6 +95064,15 @@
               "type": "boolean"
             }
           ]
+        },
+        "alignSelf": {
+          "enum": [
+            "auto",
+            "center",
+            "flex-end",
+            "flex-start"
+          ],
+          "type": "string"
         },
         "alpha": {
           "type": "number"
@@ -94387,6 +95394,7 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "renderStyle": {},
         "scaleCenter": {
           "items": [
             {
@@ -94527,6 +95535,15 @@
         "underline": {
           "type": "number"
         },
+        "underlineDash": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "underlineOffset": {
+          "type": "number"
+        },
         "verticalMode": {
           "type": "number"
         },
@@ -94565,6 +95582,7 @@
       },
       "required": [
         "_debug_bounds",
+        "alignSelf",
         "alpha",
         "anchor",
         "anchor3d",
@@ -94619,6 +95637,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "renderStyle",
         "scaleCenter",
         "scaleIn3d",
         "scaleX",
@@ -94645,6 +95664,8 @@
         "texturePadding",
         "textureSize",
         "underline",
+        "underlineDash",
+        "underlineOffset",
         "verticalMode",
         "visible",
         "whiteSpace",

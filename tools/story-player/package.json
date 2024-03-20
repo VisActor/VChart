@@ -58,7 +58,7 @@
   "dependencies": {
     "@visactor/vrender-core": "0.17.29",
     "@visactor/vrender-kits": "0.17.29",
-    "@visactor/vchart": "workspace:1.8.5-hotfix.3",
+    "@visactor/vchart": "workspace:1.8.5-hotfix.4",
     "@visactor/vrender": "0.17.29",
     "@visactor/vutils": "~0.17.3"
   }
