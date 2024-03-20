@@ -5,6 +5,7 @@ import type { IPolarAxisHelper } from '../../component/axis';
 import { Factory } from '../../core/factory';
 import { PolarPointUpdate, PolarTagPointsUpdate } from '../polar/animation';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
+import { registerArc } from '@visactor/vrender-kits';
 
 export interface IRadarAnimationParams {
   center: () => Maybe<IPoint>;
@@ -146,4 +147,5 @@ export const registerRadarAnimation = () => {
       disappear: radarGroupClipAnimation(params, 'out')
     };
   });
+  registerArc(); // clipAngle animation will use arc graphic
 };
