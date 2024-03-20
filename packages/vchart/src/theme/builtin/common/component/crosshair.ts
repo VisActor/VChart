@@ -35,9 +35,11 @@ const getBandField = (): ICrosshairCategoryFieldSpec => ({
     type: 'rect',
     visible: true,
     style: {
+      lineWidth: 0,
+      stroke: { type: 'palette', key: 'markLineStrokeColor' },
       fill: { type: 'palette', key: 'axisGridColor' },
       opacity: 0.7,
-      lineDash: []
+      lineDash: [2, 3]
     }
   } as ICrosshairRectSpec,
   label: getLabelSpec()
