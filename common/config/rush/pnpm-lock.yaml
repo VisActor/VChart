@@ -124,6 +124,7 @@ importers:
       '@types/jest': ^26.0.0
       '@types/node': '*'
       '@types/offscreencanvas': 2019.6.4
+      '@types/react-is': ^17.0.3
       '@visactor/vchart': workspace:1.10.1
       '@visactor/vgrammar-core': 0.12.4
       '@visactor/vrender-core': 0.18.5
@@ -160,6 +161,7 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 20.11.30
       '@types/offscreencanvas': 2019.6.4
+      '@types/react-is': 17.0.7
       '@vitejs/plugin-react': 3.1.0_vite@3.2.6
       eslint: 8.18.0
       eslint-config-prettier: 8.5.0_eslint@8.18.0
