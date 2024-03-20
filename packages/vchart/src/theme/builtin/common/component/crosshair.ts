@@ -35,9 +35,8 @@ const getBandField = (): ICrosshairCategoryFieldSpec => ({
     type: 'rect',
     visible: true,
     style: {
-      lineWidth: 0,
       stroke: { type: 'palette', key: 'markLineStrokeColor' },
-      strokeOpacity: 0.7,
+      strokeOpacity: 0,
       fill: { type: 'palette', key: 'axisGridColor' },
       fillOpacity: 0.7,
       lineDash: [2, 3]
@@ -55,7 +54,7 @@ const getLinearField = (): ICrosshairValueFieldSpec => ({
       stroke: { type: 'palette', key: 'markLineStrokeColor' },
       strokeOpacity: 0.7,
       fill: { type: 'palette', key: 'axisGridColor' },
-      fillOpacity: 0.7,
+      fillOpacity: 0,
       lineDash: [2, 3]
     }
   } as ICrosshairLineSpec,
@@ -65,5 +64,7 @@ const getLinearField = (): ICrosshairValueFieldSpec => ({
 export const crosshair: ICrosshairTheme = {
   trigger: 'hover',
   bandField: getBandField(),
-  linearField: getLinearField()
+  linearField: getLinearField(),
+  categoryField: getBandField(),
+  valueField: getLinearField()
 };
