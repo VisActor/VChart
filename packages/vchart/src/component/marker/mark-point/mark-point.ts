@@ -143,8 +143,8 @@ export class MarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint 
           textStyle: {
             ...textStyle,
             text: this._spec.itemContent.text?.formatMethod
-              ? this._spec.itemContent.text.formatMethod(dataPoints, seriesData)
-              : textStyle.text
+              ? (this._spec.itemContent.text.formatMethod(dataPoints, seriesData) as any)
+              : (textStyle.text as any)
           }
         },
         limitRect,
