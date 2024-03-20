@@ -222,6 +222,11 @@ export type ZoomEventParam = ExtendEventParam & {
   scaleCenter: IPoint;
 };
 
+export type InteractionEventParam = {
+  items?: IElement[];
+  datums?: Datum[];
+} & Partial<BaseEventParams>;
+
 export type EventParamsDefinition = {
   // 基础事件回调参数
   pointerdown: BaseEventParams;
@@ -280,6 +285,12 @@ export type EventParamsDefinition = {
   tooltipHide: TooltipEventParams;
   tooltipRelease: TooltipEventParams;
   afterLayout: LayoutEventParam;
+
+  // 交互相关事件
+  'element-select:start': InteractionEventParam;
+  'element-select:reset': InteractionEventParam;
+  'element-highlight:start': InteractionEventParam;
+  'element-highlight:reset': InteractionEventParam;
 
   // 扩展事件参数
   [key: string]: ExtendEventParam;
