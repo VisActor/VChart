@@ -78,6 +78,13 @@ export interface IFunnelSeriesSpec extends ISeriesSpec, IAnimationSpec<FunnelMar
    */
   minSize?: number | IPercent;
   /**
+   * 漏斗层与转化层的图形高度比例
+   * The height ratio between the funnel graphic and the transform graphic
+   * @default 0.5
+   * @since 1.10.1
+   */
+  heightRatio?: number;
+  /**
    * 漏斗层样式
    */
   [SeriesMarkNameEnum.funnel]?: IMarkSpec<IPathMarkSpec>;
