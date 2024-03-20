@@ -38,6 +38,10 @@
 - `'center'`
 - `'right'`
 
+#${prefix} heightRatio(number) = 0.5
+自 `1.10.2` 版本支持，漏斗层与转化层的图形高度比例。
+仅在转化漏斗图（即 `isTransform: true`）时生效。
+
 #${prefix} shape(string) = 'trapezoid'
 
 漏斗图形状。默认为梯形 'trapezoid'
