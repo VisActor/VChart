@@ -14,6 +14,10 @@ lark-vchart:
 react-vchart:
   - packages/react-vchart/**
 
+# Add 'openinula-vchart' label to any change within the 'openinula-vchart' package
+openinula-vchart:
+  - packages/openinula-vchart/**
+
 # Add 'taro-vchart' label to any change within the 'taro-vchart' package
 taro-vchart:
   - packages/taro-vchart/**

@@ -34,6 +34,13 @@
       "versionPolicyName": "vchartMain"
     },
     {
+      "packageName": "@visactor/openinula-vchart",
+      "projectFolder": "packages/openinula-vchart",
+      "tags": ["package"],
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
+    },
+    {
       "packageName": "@visactor/taro-vchart",
       "projectFolder": "packages/taro-vchart",
       "tags": ["package"],
