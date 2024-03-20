@@ -37,8 +37,9 @@ const getBandField = (): ICrosshairCategoryFieldSpec => ({
     style: {
       lineWidth: 0,
       stroke: { type: 'palette', key: 'markLineStrokeColor' },
+      strokeOpacity: 0.7,
       fill: { type: 'palette', key: 'axisGridColor' },
-      opacity: 0.7,
+      fillOpacity: 0.7,
       lineDash: [2, 3]
     }
   } as ICrosshairRectSpec,
@@ -52,8 +53,9 @@ const getLinearField = (): ICrosshairValueFieldSpec => ({
     visible: true,
     style: {
       stroke: { type: 'palette', key: 'markLineStrokeColor' },
+      strokeOpacity: 0.7,
       fill: { type: 'palette', key: 'axisGridColor' },
-      opacity: 0.7,
+      fillOpacity: 0.7,
       lineDash: [2, 3]
     }
   } as ICrosshairLineSpec,
