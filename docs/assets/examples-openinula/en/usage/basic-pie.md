@@ -1,9 +1,9 @@
 ---
 category: examples
-group: component
+group: usage
 title: Basic Pie Chart With Legend
 keywords: pieChart,comparison,composition,proportion,circle
-order: 0-2
+order: 0-8
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81707.png
 option: pieChart
 ---
