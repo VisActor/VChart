@@ -32681,6 +32681,12 @@
           "description": "画布高度",
           "type": "number"
         },
+        "heightRatio": {
+          "default": 0.5,
+          "description": "漏斗层与转化层的图形高度比例\nThe height ratio between the funnel graphic and the transform graphic",
+          "since": "1.10.1",
+          "type": "number"
+        },
         "hover": {
           "anyOf": [
             {
@@ -33207,6 +33213,12 @@
         },
         "height": {
           "description": "画布高度",
+          "type": "number"
+        },
+        "heightRatio": {
+          "default": 0.5,
+          "description": "漏斗层与转化层的图形高度比例\nThe height ratio between the funnel graphic and the transform graphic",
+          "since": "1.10.1",
           "type": "number"
         },
         "hover": {
@@ -33980,6 +33992,12 @@
         "gap": {
           "default": 0,
           "description": "漏斗层之间的像素间隔。转化漏斗图不支持gap配置。",
+          "type": "number"
+        },
+        "heightRatio": {
+          "default": 0.5,
+          "description": "漏斗层与转化层的图形高度比例\nThe height ratio between the funnel graphic and the transform graphic",
+          "since": "1.10.1",
           "type": "number"
         },
         "hover": {
@@ -72532,7 +72550,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         },
         "size": {
@@ -72540,14 +72558,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12935",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         },
         "size": {
@@ -72555,14 +72573,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12935",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         },
         "size": {
@@ -72570,14 +72588,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12935",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         },
         "size": {
@@ -72585,14 +72603,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12935",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         },
         "size": {
@@ -72600,14 +72618,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12935",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         },
         "size": {
@@ -72615,14 +72633,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12935",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         },
         "size": {
@@ -72630,14 +72648,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12935",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         },
         "size": {
@@ -72645,14 +72663,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12935",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         },
         "size": {
@@ -72660,7 +72678,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12935",
         "size"
       ],
       "type": "object"
@@ -75261,6 +75279,12 @@
         "gap": {
           "default": 0,
           "description": "漏斗层之间的像素间隔。转化漏斗图不支持gap配置。",
+          "type": "number"
+        },
+        "heightRatio": {
+          "default": 0.5,
+          "description": "漏斗层与转化层的图形高度比例\nThe height ratio between the funnel graphic and the transform graphic",
+          "since": "1.10.1",
           "type": "number"
         },
         "hover": {
@@ -91269,34 +91293,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12934"
+        "__@toStringTag@12935"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12934"
+        "__@toStringTag@12935"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12935": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12934"
+        "__@toStringTag@12935"
       ],
       "type": "object"
     },
