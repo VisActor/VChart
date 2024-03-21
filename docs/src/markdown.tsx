@@ -68,7 +68,7 @@ function transformCode(str: string, template: string) {
   try {
     transformedCode =
       bubleTransform(transformedCode, {
-        transforms: { templateString: false },
+        transforms: { templateString: false, asyncAwait: false },
         jsx: jsxMap[template] ?? jsxMap.react
       }).code ?? '';
   } catch (e) {

@@ -1,23 +1,23 @@
 ---
 category: examples
-group: line chart
-title: 基础折线图
+group: Usage
+title: Basic line chart
 keywords: lineChart,comparison,trend,line
 order: 0-0
 cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/line-chart/basic-line.png
 option: lineChart
 ---
 
-# 基础折线图
+# Basic Line Chart
 
-折线图通过将一系列数据点进行连接，构造出趋势。折线图用于分析事物随时间或有序类别而变化的趋势。如果有多组数据，则用于分析多组数据随时间变化或有序类别的相互作用和影响。折线的方向表示正/负变化。折线的斜率表示变化的程度。在这个例子中，我们创建了一个基础折线图用来展示一天的气温变化。
+Line charts are constructed by connecting a series of data points to form a trend. Line charts are used to analyze the trends of things changing over time or ordered categories. If there are multiple sets of data, they are used to analyze the interaction and influence of multiple data sets over time or ordered categories. The line's direction indicates positive/negative changes. The slope of the line indicates the degree of change. In this example, we created a basic line chart to show the temperature change of a day.
 
-## 关键配置
+## Key option
 
-- `xField` 属性声明为连续时间间隔或有序类别字段
-- `yField` 属性声明数值字段
+- Declare the `xField` attribute as continuous time intervals or ordered category fields
+- Declare the `yField` attribute as numerical fields
 
-## 代码演示
+## Demo source
 
 ```javascript livedemo template=openinula-vchart
 const getData = () =>
@@ -53,9 +53,12 @@ const Card = () => {
   return (
     <div>
       <VChart ref={chartRef} spec={spec} />
-      <p style={{ textAlign: 'center' }}>
-        <button onClick={handleSwitchData}>Switch Data</button>
-      </p>
+      <button
+        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translate(-50%, 0)' }}
+        onClick={handleSwitchData}
+      >
+        Switch Data
+      </button>
     </div>
   );
 };
@@ -68,6 +71,6 @@ window.customRelease = () => {
 };
 ```
 
-## 相关教程
+## Related Tutorials
 
-[折线图](link)
+[Line Chart](link)

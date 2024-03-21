@@ -1,6 +1,6 @@
 ---
 category: examples
-group: line chart
+group: 基础用法
 title: 基础折线图
 keywords: lineChart,comparison,trend,line
 order: 0-0
@@ -53,9 +53,12 @@ const Card = () => {
   return (
     <div>
       <VChart ref={chartRef} spec={spec} />
-      <p style={{ textAlign: 'center' }}>
-        <button onClick={handleSwitchData}>Switch Data</button>
-      </p>
+      <button
+        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translate(-50%, 0)' }}
+        onClick={handleSwitchData}
+      >
+        Switch Data
+      </button>
     </div>
   );
 };
