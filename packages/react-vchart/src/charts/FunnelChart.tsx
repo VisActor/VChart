@@ -1,6 +1,6 @@
 import React from 'react';
 import { IFunnelChartSpec } from '@visactor/vchart';
-import { default as VChart } from '@visactor/vchart';
+import { VChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 export interface FunnelChartProps
