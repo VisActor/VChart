@@ -1,24 +1,24 @@
 ---
 category: examples
-group: bar chart
-title: 基础柱状图
-keywords: barChart,comparison,distribution,rank,rectangle
+group: Grammatical Tag
+title: Basic Column Chart
+keywords: barChart, comparison, distribution, rank, rectangle
 order: 0-1
 cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/bar-chart/basic-column.png
 option: barChart
 ---
 
-# 基础柱状图
+# Basic Column Chart
 
-最基础的柱形图，需要一个分类变量和一个数值变量，在这个例子中，我们创建了一个简单的柱形图用来展示一周的销售数据，其中分类变量为 `month`，数值变量为 `sales`。
+The most basic column chart requires a categorical variable and a numerical variable. In this example, we created a simple column chart to display a week's sales data, where the categorical variable is `month` and the numerical variable is `sales`.
 
-## 关键配置
+## Key option
 
-- `type: bar` 属性声明为柱形图
-- `xField` 属性声明为分类字段或时序字段
-- `yField` 属性声明为数值字段
+- `type: bar` attribute declares it as a column chart
+- `xField` attribute declares the categorical or temporal field
+- `yField` attribute declares the numerical field
 
-## 代码演示
+## Demo source
 
 ```javascript livedemo template=openinula-vchart
 const getData = () =>
@@ -62,10 +62,12 @@ const Card = () => {
           onClick={handleBarClick}
         />
       </BarChart>
-
-      <p style={{ textAlign: 'center' }}>
-        <button onClick={handleSwitchData}>Switch Data</button>
-      </p>
+      <button
+        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translate(-50%, 0)' }}
+        onClick={handleSwitchData}
+      >
+        Switch Data
+      </button>
     </div>
   );
 };
@@ -78,6 +80,6 @@ window.customRelease = () => {
 };
 ```
 
-## 相关教程
+## Related Tutorials
 
-[柱状图](link)
+[Column Chart](link)

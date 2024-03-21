@@ -1,7 +1,7 @@
 ---
 category: examples
-group: pie
-title: 基础饼图
+group: 组件
+title: 带图例的基础饼图
 keywords: pieChart,comparison,composition,proportion,circle
 order: 0-2
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81707.png

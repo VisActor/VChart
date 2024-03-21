@@ -1,23 +1,23 @@
 ---
 category: examples
-group: pie
-title: 环图
+group: Component
+title: Ring Chart With Legend
 keywords: pieChart,comparison,composition,proportion,circle
 order: 0-3
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c8170b.png
 option: pieChart
 ---
 
-# 环图
+# Ring Chart With Legend
 
-饼图可通过配置 `innerRadius`、`outerRadius` 属性来调整指定扇区的内外半径，从而形成环图。
+Pie charts can be adjusted by configuring the `innerRadius` and `outerRadius` attributes to specify the inner and outer radius of a sector, thereby forming a ring chart.
 
-## 关键配置
+## Key option
 
-- `categoryField`、`valueField` 属性分别用于指定饼图类别与扇形角度字段
-- `innerRadius`、`outerRadius` 属性用于指定扇区的内外半径
+- The `categoryField` and `valueField` attributes are used to specify the pie chart category and sector angle fields, respectively.
+- The `innerRadius` and `outerRadius` attributes are used to specify the inner and outer radius of the sector.
 
-## 代码演示
+## Demo source
 
 ```javascript livedemo template=openinula-vchart
 const root = document.getElementById(CONTAINER_ID);
@@ -84,6 +84,6 @@ window.customRelease = () => {
 };
 ```
 
-## 相关教程
+## Related tutorials
 
-[饼图](link)
+[Pie chart](link)

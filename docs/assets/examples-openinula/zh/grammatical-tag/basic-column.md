@@ -1,6 +1,6 @@
 ---
 category: examples
-group: bar chart
+group: 语法标签
 title: 基础柱状图
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 0-1
@@ -62,10 +62,12 @@ const Card = () => {
           onClick={handleBarClick}
         />
       </BarChart>
-
-      <p style={{ textAlign: 'center' }}>
-        <button onClick={handleSwitchData}>Switch Data</button>
-      </p>
+      <button
+        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translate(-50%, 0)' }}
+        onClick={handleSwitchData}
+      >
+        Switch Data
+      </button>
     </div>
   );
 };

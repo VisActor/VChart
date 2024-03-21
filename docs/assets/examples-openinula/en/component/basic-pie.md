@@ -1,28 +1,28 @@
 ---
 category: examples
-group: pie
-title: 基础饼图
+group: Component
+title: Basic Pie Chart With Legend
 keywords: pieChart,comparison,composition,proportion,circle
 order: 0-2
 cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/c0de7ff0a101bd4cb25c81707.png
 option: pieChart
 ---
 
-# 基础饼图
+# Basic Pie Chart With Legend
 
-饼图，或称饼状图，是一个划分为几个扇形的圆形统计图表，用于描述量、频率或百分比之间的相对关系。在饼图中，每个扇区的弧长（以及圆心角和面积）大小为其所表示的数量的比例。这些扇区合在一起刚好是一个完全的圆形。
+A pie chart, also known as a pie-shaped chart, is a circular statistical chart divided into several sectors, used to describe the relative relationship between quantity, frequency, or percentage. In a pie chart, the length of each sector's arc (as well as its central angle and area) is proportional to the amount it represents. These sectors combined make up a complete circle.
 
-## 何时使用
+## When to use
 
-1. 展示不同分类数据占比。
-2. 比较不同分类的大小，且各分类值差异较为明显。
+1. Display the proportion of different categories of data.
+2. Compare the size of different categories, with a relatively noticeable difference in category values.
 
-## 关键配置
+## Key option
 
-- `categoryField`、`valueField` 属性分别用于指定饼图类别与扇形角度字段
-- `innerRadius`、`outerRadius` 属性用于指定扇区的内外半径
+- `categoryField` and `valueField` attributes are used to specify the pie chart category and sector angle fields, respectively
+- `innerRadius` and `outerRadius` attributes are used to specify the inner and outer radius of the sector
 
-## 代码演示
+## Demo source
 
 ```javascript livedemo template=openinula-vchart
 const spec = {
@@ -93,6 +93,6 @@ window.customRelease = () => {
 };
 ```
 
-## 相关教程
+## Related tutorials
 
-[饼图](link)
+[Pie chart](link)
