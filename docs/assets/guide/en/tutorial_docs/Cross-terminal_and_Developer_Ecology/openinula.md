@@ -1,34 +1,34 @@
-# React VChart
+# Openinula VChart
 
-- Repository Address: [https://github.com/VisActor/VChart/tree/main/packages/react-vchart](https://github.com/VisActor/VChart/tree/main/packages/react-vchart)
+- Repository Address: [https://github.com/VisActor/VChart/tree/main/packages/openinula-vchart](https://github.com/VisActor/VChart/tree/main/packages/openinula-vchart)
 
-To make it easier for React users to use VChart, we provide a React wrapper package for VChart: `@visactor/react-vchart`. This component mainly encapsulates VChart's chart components as React components, and its configuration items are consistent with VChart.
+To make it easier for Openinula users to use VChart, we provide a Openinula wrapper package for VChart: `@visactor/openinula-vchart`. This component mainly encapsulates VChart's chart components as Openinula components, and its configuration items are consistent with VChart.
 
-In this tutorial, we will explain in detail how to use VChart in a React project and create a simple bar chart. For more detailed API documentation, please refer to the [`@visactor/react-chart`](https://github.com/VisActor/VChart/blob/main/packages/react-vchart/docs/2.1%20API%E8%AE%BE%E8%AE%A1.md) repository documentation.
+In this tutorial, we will explain in detail how to use VChart in a Openinula project and create a simple bar chart. For more detailed API documentation, please refer to the [`@visactor/openinula-vchart`](https://github.com/VisActor/VChart/blob/main/packages/openinula-vchart/docs/2.1%20API%E8%AE%BE%E8%AE%A1.md) repository documentation.
 
 ## Quick Start
 
 ### How to Install
 
-To start using React VChart, you'll first need to install the `@visactor/react-vchart` package in your React project. In the project root directory, use the following command to install the package:
+To start using Openinula VChart, you'll first need to install the `@visactor/openinula-vchart` package in your Openinula project. In the project root directory, use the following command to install the package:
 
 ```
-npm install @visactor/react-vchart
+npm install @visactor/openinula-vchart
 ```
 
 or use yarn to install:
 
 ```
-yarn add @visactor/react-vchart
+yarn add @visactor/openinula-vchart
 ```
 
 ### Creating a Chart
 
-Let's take creating a simple bar chart as an example. In your React component, import the `<BarChart>` component from `visactor/react-vchart` and use them in the component. Here's an example code to create a bar chart:
+Let's take creating a simple bar chart as an example. In your Openinula component, import the `<BarChart>` component from `visactor/openinula-vchart` and use them in the component. Here's an example code to create a bar chart:
 
 ```javascript
-import React, { useRef } from 'react';
-import { BarChart, Bar, Legend, Axis } from '@visactor/react-vchart';
+import React, { useRef } from 'openinula';
+import { BarChart, Bar, Legend, Axis } from '@visactor/openinula-vchart';
 
 const App = () => {
   const chartRef = useRef(null);
@@ -143,17 +143,17 @@ By adjusting the configuration, we have created a bar chart that is more suitabl
 
 ## Unified Chart Component `<VChart />`
 
-`<VChart />` receives a complete **spec** as the chart definition. The data structure of its **spec** is exactly the same as the definition in VChart, so developers can input any valid VChart spec into React-VChart for chart rendering.
+`<VChart />` receives a complete **spec** as the chart definition. The data structure of its **spec** is exactly the same as the definition in VChart, so developers can input any valid VChart spec into Openinula-VChart for chart rendering.
 
 ### Props
 
 If you already have chart spec information, using the unified chart component is a quick way. Simply import the `VChart` component:
 
 ```typescript
-import { VChart } from '@visactor/react-vchart';
+import { VChart } from '@visactor/openinula-vchart';
 ```
 
-The `VChart` component is a encapsulated React component, and its props are defined as follows:
+The `VChart` component is a encapsulated Openinula component, and its props are defined as follows:
 
 ```typescript
 interface VChartProps extends EventsProps {
@@ -188,11 +188,11 @@ For example, developers can register the required callback events on the chart i
 
 ## Syntactic Tags
 
-Syntactic tags refer to React-VChart encapsulating the chart container and various components as React components exported to developers. Developers can define charts in a more semantic and native React-like way. It should be noted that the definition content of syntactic tags can be mutually converted with chart spec in most scenarios. The main content of this article also explains the relationship between syntactic tags and spec.
+Syntactic tags refer to Openinula-VChart encapsulating the chart container and various components as Openinula components exported to developers. Developers can define charts in a more semantic and native Openinula-like way. It should be noted that the definition content of syntactic tags can be mutually converted with chart spec in most scenarios. The main content of this article also explains the relationship between syntactic tags and spec.
 
 ### Tag Classification
 
-Currently, React-VChart exports three types of component tags: chart tags, component tags, and series tags.
+Currently, Openinula-VChart exports three types of component tags: chart tags, component tags, and series tags.
 
 #### Chart Tags
 
@@ -216,7 +216,7 @@ import {
   LinearProgressChart,
   RangeColumnChart,
   CommonChart
-} from '@visactor/react-vchart';
+} from '@visactor/openinula-vchart';
 ```
 
 In general, using these tags directly determines the type of chart. Among them, CommonChart is a special type of chart tag, which can be used to implement combined charts, dual-axis charts, and other types of charts. For more information on combined charts, please refer to: [Combination Chart](../Chart_Types/Combination.md)
@@ -263,7 +263,7 @@ import {
   Tooltip,
   Mark,
   Region
-} from '@visactor/react-vchart';
+} from '@visactor/openinula-vchart';
 ```
 
 These components do not actually exist in the DOM structure. This notation is just to clearly show the structure of the chart. The configuration of these components completely aligns with the definition of the corresponding components in VChart. The difference is that the original data structure definition can now be used as props parameters for configuration.
@@ -290,7 +290,7 @@ import {
   LinearProgress,
   RangeColumn,
   BoxPlot
-} from '@visactor/react-vchart';
+} from '@visactor/openinula-vchart';
 ```
 
 ### Usage of Syntactic Tags
@@ -353,8 +353,8 @@ For example, consider the following spec definition for a line chart:
 The corresponding syntactic tag definition is as follows:
 
 ```typescript
-import React from 'react';
-import { LineChart, Line, Axis, Legend } from '@visactor/react-vchart';
+import React from 'openinula';
+import { LineChart, Line, Axis, Legend } from '@visactor/openinula-vchart';
 
 function MyChart(props) {
   const lineData = [
@@ -405,11 +405,11 @@ export default MyChart;
 
 ### Components not covered by syntactic tags
 
-If there are components not covered by syntactic tags when using React-VChart, you can use the unified chart component as a fallback solution.
+If there are components not covered by syntactic tags when using Openinula-VChart, you can use the unified chart component as a fallback solution.
 
 ## On-demand loading
 
-React-VChart itself supports on-demand loading. When VChart needs to be loaded on demand, it is recommended to use the `<VChartSimple />` tag,
+Openinula-VChart itself supports on-demand loading. When VChart needs to be loaded on demand, it is recommended to use the `<VChartSimple />` tag,
 
 The `<VChartSimple />` component and the `<VChart />` component are used in almost the same way. The only difference is that users need to import the `VChart` constructor class from `@viasctor/vchart/esm/core` and pass it to `<VChartSimple />`;
 Reference for on-demand import of VChart [related documents](/vchart/guide/tutorial_docs/Load_on_Demand)
@@ -608,8 +608,8 @@ interface LifeCycleEventsProps {
 ### Event Usage Example
 
 ```tsx
-import React from 'react';
-import { BarChart, Bar, Axis, Legend } from '@visactor/react-vchart';
+import React from 'openinula';
+import { BarChart, Bar, Axis, Legend } from '@visactor/openinula-vchart';
 
 function MyChart(props) {
   const barData = [
@@ -656,7 +656,7 @@ export default MyChart;
 
 ## Theme Styles
 
-If you want to use custom themes in VChart, there are two ways to achieve this: defining themes in the spec and registering themes through `ThemeManager`. Since you don't need to import the VChart npm package in React-VChart, the VChart base class is exposed as `VChartCore` in React-VChart, making it convenient for developers to register custom themes using static methods on the VChart base class.
+If you want to use custom themes in VChart, there are two ways to achieve this: defining themes in the spec and registering themes through `ThemeManager`. Since you don't need to import the VChart npm package in Openinula-VChart, the VChart base class is exposed as `VChartCore` in Openinula-VChart, making it convenient for developers to register custom themes using static methods on the VChart base class.
 
 Please refer to [VChart Theme](https://visactor.io/vchart/guide/tutorial_docs/Theme/Theme) for VChart theme configuration.
 
@@ -665,8 +665,8 @@ Note that for on-demand use of VChart, it is recommended to directly call the VC
 ## Example
 
 ```tsx
-import React from 'react';
-import { VChartCore, BarChart, Bar, Axis, Legend } from '@visactor/react-vchart';
+import React from 'openinula';
+import { VChartCore, BarChart, Bar, Axis, Legend } from '@visactor/openinula-vchart';
 
 const theme = {
   colorScheme: {
@@ -742,7 +742,7 @@ export default MyChart;
 
 ### customized legend component
 
-When the built-in legend component of VChart cannot meet the business requirements, it is common in React projects to use custom legend components implemented with React components. In such cases, the updateState API can be used to establish event associations between React components and charts. You can refer to [the specific implementation example here](https://codesandbox.io/s/visactor-vchart-legend-demo-tdqmq3?file=/src/PieChart.tsx).
+When the built-in legend component of VChart cannot meet the business requirements, it is common in Openinula projects to use custom legend components implemented with Openinula components. In such cases, the updateState API can be used to establish event associations between Openinula components and charts. You can refer to [the specific implementation example here](https://codesandbox.io/s/visactor-vchart-legend-demo-tdqmq3?file=/src/PieChart.tsx).
 
 The core code is as follows:
 
@@ -793,4 +793,4 @@ The key point is to obtain the VChart instance through the `ref` and use the [`u
 
 ## Conclusion
 
-Through this tutorial, you should have learned how to use VChart to create a simple bar chart in a React project. At the same time, you have learned how to configure the chart according to requirements to meet different scenarios in the project. VChart provides a wealth of options and components, which will undoubtedly play a more significant role in your actual projects. We hope you enjoy using the VChart chart library in your projects!
+Through this tutorial, you should have learned how to use VChart to create a simple bar chart in a Openinula project. At the same time, you have learned how to configure the chart according to requirements to meet different scenarios in the project. VChart provides a wealth of options and components, which will undoubtedly play a more significant role in your actual projects. We hope you enjoy using the VChart chart library in your projects!

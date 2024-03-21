@@ -1,34 +1,34 @@
-# React VChart
+# Openinula VChart
 
-- 仓库地址：[https://github.com/VisActor/VChart/tree/main/packages/react-vchart](https://github.com/VisActor/VChart/tree/main/packages/react-vchart)
+- 仓库地址：[https://github.com/VisActor/VChart/tree/main/packages/openinula-vchart](https://github.com/VisActor/VChart/tree/main/packages/openinula-vchart)
 
-为了方便 React 技术栈的同学更好得使用 VChart，我们提供了 VChart 的 react 封装包：`@visactor/react-vchart`。该组件主要对 VChart 的图表部件做 React 组件化的封装，相关的配置项均与 VChart 一致。
+为了方便 Openinula 技术栈的同学更好得使用 VChart，我们提供了 VChart 的 Openinula 封装包：`@visactor/openinula-vchart`。该组件主要对 VChart 的图表部件做 Openinula 组件化的封装，相关的配置项均与 VChart 一致。
 
-我们将在本教程中详细讲解如在 React 项目中使用 VChart，并创建一个简单的柱状图。更多详细 api 文档，请查看 [`@visactor/react-vchart`](https://github.com/VisActor/VChart/blob/main/packages/react-vchart/docs/2.1%20API%E8%AE%BE%E8%AE%A1.md) 仓库的文档。
+我们将在本教程中详细讲解如在 Openinula 项目中使用 VChart，并创建一个简单的柱状图。更多详细 api 文档，请查看 [`@visactor/openinula-vchart`](https://github.com/VisActor/VChart/blob/main/packages/openinula-vchart/docs/2.1%20API%E8%AE%BE%E8%AE%A1.md) 仓库的文档。
 
 ## 快速上手
 
 ### 如何安装
 
-要开始使用 React VChart，首先需要在你的 React 项目中安装 `@visactor/react-vchart` 包。在项目根目录下，使用以下命令安装该包：
+要开始使用 Openinula VChart，首先需要在你的 Openinula 项目中安装 `@visactor/openinula-vchart` 包。在项目根目录下，使用以下命令安装该包：
 
 ```
-npm install @visactor/react-vchart
+npm install @visactor/openinula-vchart
 ```
 
 或者使用 yarn 进行安装：
 
 ```
-yarn add @visactor/react-vchart
+yarn add @visactor/openinula-vchart
 ```
 
 ### 创建图表
 
-以创建一个简单的状图为例。在你的 React 组件中，引入 `visactor/react-vchart` 的 `<BarChart>` 组件，并在组件中使用它们。下面是一个创建柱状图的示例代码：
+以创建一个简单的状图为例。在你的 Openinula 组件中，引入 `visactor/openinula-vchart` 的 `<BarChart>` 组件，并在组件中使用它们。下面是一个创建柱状图的示例代码：
 
 ```javascript
-import React, { useRef } from 'react';
-import { BarChart, Bar, Legend, Axis } from '@visactor/react-vchart';
+import React, { useRef } from 'openinula';
+import { BarChart, Bar, Legend, Axis } from '@visactor/openinula-vchart';
 
 const App = () => {
   const chartRef = useRef(null);
@@ -143,17 +143,17 @@ export default App;
 
 ## 统一图表标签 `<VChart />`
 
-`<VChart />` 接收的一个完整的**spec**作为图表定义，其**spec**的数据结构完全等同于 VChart 中的定义，因此开发者可以将任何对于 VChart 合法的 spec 送入 React-VChart 中进行图表渲染。
+`<VChart />` 接收的一个完整的**spec**作为图表定义，其**spec**的数据结构完全等同于 VChart 中的定义，因此开发者可以将任何对于 VChart 合法的 spec 送入 Openinula-VChart 中进行图表渲染。
 
 ### Props
 
 如果你已经有了 spec 图表描述信息，使用统一图表标签是比较快捷的方式，只需要引入`VChart`组件即可：
 
 ```typescript
-import { VChart } from '@visactor/react-vchart';
+import { VChart } from '@visactor/openinula-vchart';
 ```
 
-`VChart`组件即封装的 React 组件，其 props 定义如下：
+`VChart`组件即封装的 Openinula 组件，其 props 定义如下：
 
 ```typescript
 interface VChartProps extends EventsProps {
@@ -188,11 +188,11 @@ interface VChartProps extends EventsProps {
 
 ## 语法化标签
 
-语法化标签是指 React-VChart 将图表的图表容器以及各个组件都封装为 React 组件导出给开发者，开发者可以通过更加语义化、更接近原生 React 声明的方式来定义图表。需要说明的是语法化标签的定义内容，在多数场景下都是可以和图表描述 spec 进行相互转化的，本文主要的内容也是解释语法化标签与 spec 的关系。
+语法化标签是指 Openinula-VChart 将图表的图表容器以及各个组件都封装为 Openinula 组件导出给开发者，开发者可以通过更加语义化、更接近原生 Openinula 声明的方式来定义图表。需要说明的是语法化标签的定义内容，在多数场景下都是可以和图表描述 spec 进行相互转化的，本文主要的内容也是解释语法化标签与 spec 的关系。
 
 ### 标签的分类
 
-目前 React-VChart 共导出了三种类型的组件标签，分别是图表标签、组件标签、系列标签
+目前 Openinula-VChart 共导出了三种类型的组件标签，分别是图表标签、组件标签、系列标签
 
 #### 图表标签
 
@@ -216,7 +216,7 @@ import {
   LinearProgressChart,
   RangeColumnChart,
   CommonChart
-} from '@visactor/react-vchart';
+} from '@visactor/openinula-vchart';
 ```
 
 一般情况下使用这些标签直接决定了图表类型。而其中比较特殊的是 CommonChart，这是一个通用图表类型标签，可以用来实现组合图、双轴图等图表类型。更多组合图说明可参考：[组合图]()
@@ -271,7 +271,7 @@ import {
   Mark,
   //
   Region
-} from '@visactor/react-vchart';
+} from '@visactor/openinula-vchart';
 ```
 
 这些组件并不会真实的存在于 DOM 结构中，这样的写法只是为了更清晰的展示图表的结构组成。其中这些组件的配置项完全对齐 VChart 中对应组件的定义，区别在于原本的数据结构定义在此时可以作为 props 参数进行配置。
@@ -298,7 +298,7 @@ import {
   LinearProgress,
   RangeColumn,
   BoxPlot
-} from '@visactor/react-vchart';
+} from '@visactor/openinula-vchart';
 ```
 
 ### 语法化标签的使用
@@ -361,8 +361,8 @@ import {
 与之对应的语法化标签定义如下：
 
 ```typescript
-import React from 'react';
-import { LineChart, Line, Axis, Legend } from '@visactor/react-vchart';
+import React from 'openinula';
+import { LineChart, Line, Axis, Legend } from '@visactor/openinula-vchart';
 
 function MyChart(props) {
   const lineData = [
@@ -413,11 +413,11 @@ export default MyChart;
 
 ### 语法化标签未覆盖的组件
 
-如果在使用 React-VChart 时涉及到语法化标签未覆盖的组件，可以使用统一图表标签作为兜底方案。
+如果在使用 Openinula-VChart 时涉及到语法化标签未覆盖的组件，可以使用统一图表标签作为兜底方案。
 
 ## 按需加载
 
-React-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的时候，建议使用 `<VChartSimple />` 标签，
+Openinula-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的时候，建议使用 `<VChartSimple />` 标签，
 
 `<VChartSimple />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart/esm/core` 引用 `VChart` 构造类，并传入给 `<VChartSimple />`;
 VChart 按需引用参考[相关文档](/vchart/guide/tutorial_docs/Load_on_Demand)
@@ -616,8 +616,8 @@ interface ScrollBarEventsProps {
 ### 事件使用示例
 
 ```tsx
-import React from 'react';
-import { BarChart, Bar, Axis, Legend } from '@visactor/react-vchart';
+import React from 'openinula';
+import { BarChart, Bar, Axis, Legend } from '@visactor/openinula-vchart';
 
 function MyChart(props) {
   const barData = [
@@ -664,7 +664,7 @@ export default MyChart;
 
 ## 主题样式
 
-如果在 VChart 中使用自定义主题，可以通过两种方式实现，分别是在 spec 中定义 theme，以及通过`ThemeManager`注册主题。因为在 React-VChart 中，并不需要引用 VChart 的 npm 包。因此 React-VChart 中透出了 VChart 基类，命名为`VChartCore`，方便开发者在 VChart 的基类上通过静态方法注册自定义主题。
+如果在 VChart 中使用自定义主题，可以通过两种方式实现，分别是在 spec 中定义 theme，以及通过`ThemeManager`注册主题。因为在 Openinula-VChart 中，并不需要引用 VChart 的 npm 包。因此 Openinula-VChart 中透出了 VChart 基类，命名为`VChartCore`，方便开发者在 VChart 的基类上通过静态方法注册自定义主题。
 
 VChart 的主题配置请参考[VChart 主题](https://visactor.io/vchart/guide/tutorial_docs/Theme/Theme)。
 
@@ -673,8 +673,8 @@ VChart 的主题配置请参考[VChart 主题](https://visactor.io/vchart/guide/
 ## 示例
 
 ```tsx
-import React from 'react';
-import { VChartCore, BarChart, Bar, Axis, Legend } from '@visactor/react-vchart';
+import React from 'openinula';
+import { VChartCore, BarChart, Bar, Axis, Legend } from '@visactor/openinula-vchart';
 
 const theme = {
   colorScheme: {
@@ -750,7 +750,7 @@ export default MyChart;
 
 ### 自定义图例组件
 
-当 VChart 内置的图例组件不能满足业务需求的时候，在 react 项目中经常存在使用 react 组件实现业务中自定义的图例组件的场景，这种情况下可以通过`updateState`API 实现 react 组件和图表的事件关联；具体实现案例可以[参考](https://codesandbox.io/s/visactor-vchart-legend-demo-tdqmq3?file=/src/PieChart.tsx)
+当 VChart 内置的图例组件不能满足业务需求的时候，在 Openinula 项目中经常存在使用 Openinula 组件实现业务中自定义的图例组件的场景，这种情况下可以通过`updateState`API 实现 Openinula 组件和图表的事件关联；具体实现案例可以[参考](https://codesandbox.io/s/visactor-vchart-legend-demo-tdqmq3?file=/src/PieChart.tsx)
 
 其中核心代码如下：
 
@@ -801,4 +801,4 @@ export function PieChart() {
 
 ## 总结
 
-通过本教程，你应该已经学会了如何在 React 项目中使用 VChart 图表创建一个简单的柱状图。同时，你还了解了如何根据需求配置图表，以满足项目中不同的场景。VChart 提供了丰富的配置选项和组件，相信你在实际项目中会更好地掌握它们的使用，并发挥出更大的作用。希望你能在项目中愉快地使用 VChart 表库！
+通过本教程，你应该已经学会了如何在 Openinula 项目中使用 VChart 图表创建一个简单的柱状图。同时，你还了解了如何根据需求配置图表，以满足项目中不同的场景。VChart 提供了丰富的配置选项和组件，相信你在实际项目中会更好地掌握它们的使用，并发挥出更大的作用。希望你能在项目中愉快地使用 VChart 表库！
