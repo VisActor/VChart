@@ -5,11 +5,9 @@ import { useContext, useEffect, useState } from 'react';
 import { LanguageContext, LanguageEnum } from './i18n';
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
+import { transform as bubleTransform } from 'buble';
 
 import 'highlight.js/styles/atom-one-light.css';
-
-import * as VCHART_MODULE from '@visactor/vchart';
-(window as any).VCHART_MODULE = VCHART_MODULE;
 
 const markdownParser = MarkdownIt({
   html: true,
@@ -60,6 +58,25 @@ function htmlRestore(str: string) {
   return result;
 }
 
+const jsxMap: Record<string, string> = {
+  react: 'React.createElement',
+  openinula: 'Inula.createElement',
+  vrender: 'VRender.jsx'
+};
+function transformCode(str: string, template: string) {
+  let transformedCode = str;
+  try {
+    transformedCode =
+      bubleTransform(transformedCode, {
+        transforms: { templateString: false },
+        jsx: jsxMap[template] ?? jsxMap.react
+      }).code ?? '';
+  } catch (e) {
+    transformedCode = str;
+  }
+  return transformedCode;
+}
+
 function generateMenuItem(node: IMenuItem, assetDirectory: string, language: LanguageEnum, navigate: any) {
   return node.children ? (
     <SubMenu key={node.fullPath} title={<>{node.title[language]}</>}>
@@ -108,19 +125,33 @@ function Outline(props: IOutlineProps) {
 
 function Content(props: IContentProps) {
   const demos = [...props.content.matchAll(/<pre><code class="language-livedemo">((.|\n)*?)<\/code><\/pre>/g)];
+  const openinulaDemos = [
+    ...props.content.matchAll(/<pre><code class="language-openinula-livedemo">((.|\n)*?)<\/code><\/pre>/g)
+  ];
+
+  const allDemos = ([] as any[])
+    .concat(demos.map(demo => ({ reg: demo, template: 'react' })))
+    .concat(openinulaDemos.map(demo => ({ reg: demo, template: 'openinula' })));
 
   let content = props.content;
 
-  const runnings = demos.map(demo => {
-    const pre = demo[0];
-    const code = demo[1];
+  const runnings = allDemos.map(demo => {
+    const pre = demo.reg[0];
+    const code = demo.reg[1];
     const containerId = `markdown-demo-${globalContainerId++}`;
-    content = content.replace(pre, `<div id="${containerId}" class="markdown-demo"></div>`);
+    content = content.replace(
+      pre,
+      `<div style="position: relative">
+        <div id="${containerId}" class="markdown-demo"></div>
+        <div id="live-demo-additional-container" style="position: absolute; left: 0; top: 0"></div>
+      </div>`
+    );
     const evaluateCode = code
       .replace('CONTAINER_ID', `"${containerId}"`)
-      .concat(`window['${containerId}'] = (() => { try { return vchart; } catch { return vChart; } })();`);
+      .concat(`window['${containerId}'] = (() => { try { return vchart; } catch(e) { return vChart; } })();`);
     return {
-      code: htmlRestore(evaluateCode),
+      // TODO: handle template
+      code: transformCode(htmlRestore(evaluateCode), demo.template),
       id: containerId
     };
   });
@@ -205,6 +236,10 @@ export function Markdown() {
             }
           }
           // Hack: process all livedemo code to livedemo language and replace these after
+          processedText = processedText.replaceAll(
+            /\`\`\`(.*) livedemo template=openinula-vchart/g,
+            '```openinula-livedemo'
+          );
           processedText = processedText.replaceAll(/\`\`\`(.*) livedemo/g, '```livedemo');
           setContent(markdownParser.render(processedText));
         });
