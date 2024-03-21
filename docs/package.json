@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@arco-design/web-react": "2.46.1",
+    "@visactor/openinula-vchart": "workspace:1.10.1",
+    "@visactor/react-vchart": "workspace:1.10.1",
     "@visactor/vchart": "workspace:1.10.1",
     "@visactor/vchart-theme": "~1.6.6",
     "@visactor/vmind": "1.2.4-alpha.5",
@@ -22,6 +24,8 @@
     "markdown-it": "^13.0.0",
     "highlight.js": "^11.8.0",
     "axios": "^1.4.0",
+    "buble": "^0.20.0",
+    "openinula": ">=0.1.2-SNAPSHOT",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "6.9.0"
@@ -31,6 +35,7 @@
     "@internal/eslint-config": "workspace:*",
     "@internal/ts-config": "workspace:*",
     "@internal/story-player": "workspace:*",
+    "@types/buble": "^0.20.5",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/markdown-it": "^13.0.0",

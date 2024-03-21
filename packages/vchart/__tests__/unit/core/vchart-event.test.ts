@@ -160,4 +160,21 @@ describe('vchart event test', () => {
 
     expect(labelEventSpy).toBeCalledTimes(1);
   });
+
+  it('should fire pointerdown event once after updateSpecSync()', () => {
+    const pointDowmSpy = jest.fn();
+    vchart.on('pointerdown', pointDowmSpy);
+
+    vchart.getCompiler().getVGrammarView().emit('pointerdown', {});
+
+    expect(pointDowmSpy).toBeCalledTimes(1);
+
+    vchart.updateSpecSync({
+      ...vchart.getSpec(),
+      stack: 'percent'
+    });
+
+    vchart.getCompiler().getVGrammarView().emit('pointerdown', {});
+    expect(pointDowmSpy).toBeCalledTimes(2);
+  });
 });

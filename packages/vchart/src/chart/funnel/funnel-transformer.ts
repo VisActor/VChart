@@ -18,6 +18,7 @@ export class FunnelChartSpecTransformer<T extends IFunnelChartSpec> extends Base
 
       funnelAlign: spec.funnelAlign,
       funnelOrient: spec.funnelOrient,
+      heightRatio: spec.heightRatio,
 
       shape: spec.shape,
       funnel: spec.funnel,

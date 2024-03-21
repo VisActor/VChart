@@ -1,0 +1,12 @@
+{
+  "menu": "examples-openinula",
+  "children": [
+    {
+      "path": "basic",
+      "title": {
+        "en": "basic",
+        "zh": "基础条形图"
+      }
+    }
+  ]
+}
