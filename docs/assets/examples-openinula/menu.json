@@ -2,10 +2,31 @@
   "menu": "examples-openinula",
   "children": [
     {
-      "path": "basic",
+      "path": "basic-line",
       "title": {
         "en": "basic",
-        "zh": "基础条形图"
+        "zh": "基础折线图"
+      }
+    },
+    {
+      "path": "basic-column",
+      "title": {
+        "en": "basic",
+        "zh": "基础柱状图"
+      }
+    },
+    {
+      "path": "basic-pie",
+      "title": {
+        "en": "basic",
+        "zh": "基础饼图"
+      }
+    },
+    {
+      "path": "ring",
+      "title": {
+        "en": "basic",
+        "zh": "环图"
       }
     }
   ]
