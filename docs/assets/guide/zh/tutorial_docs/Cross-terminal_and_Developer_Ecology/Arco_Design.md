@@ -29,7 +29,7 @@ ArcoDesign 是一套设计系统的简称。
 
 ## 安装和使用 VChart
 
-Semi Design 目前主要适配 React 工程。可以使用以下命令安装 react-vchart：
+Arco Design 目前主要适配 React 工程。可以使用以下命令安装 react-vchart：
 
 ```bash
 # 使用 npm 安装
