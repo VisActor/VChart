@@ -54,9 +54,7 @@ const getLinearField = (): ICrosshairValueFieldSpec => ({
     style: {
       stroke: { type: 'palette', key: 'markLineStrokeColor' },
       opacity: 0.7,
-      lineDash: [2, 3],
-      // 此处设置 fill 是为了用户想要 rect 形式的 crosshair 时，可以直接复用颜色
-      fill: { type: 'palette', key: 'axisGridColor' }
+      lineDash: [2, 3]
     }
   } as ICrosshairLineSpec,
   label: getLabelSpec()
