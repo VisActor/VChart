@@ -21,6 +21,13 @@
             "en": "Set Default Selected Dimension",
             "zh": "设置默认选中维度"
           }
+        },
+        {
+          "path": "basic-pie",
+          "title": {
+            "en": "Basic Pie Chart With Legend",
+            "zh": "带图例的基础饼图"
+          }
         }
       ]
     },
@@ -54,13 +61,6 @@
         "zh": "组件"
       },
       "children": [
-        {
-          "path": "basic-pie",
-          "title": {
-            "en": "Basic Pie Chart With Legend",
-            "zh": "带图例的基础饼图"
-          }
-        },
         {
           "path": "ring",
           "title": {
