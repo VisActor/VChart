@@ -17,6 +17,7 @@ import { Factory } from '../../../core/factory';
 import type { IZoomable } from '../../../interaction/zoom';
 import type { ILayoutType } from '../../../typings/layout';
 import type { IModelSpecInfo } from '../../../model/interface';
+import { isClose } from '../../../util';
 
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
@@ -155,7 +156,9 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
     super._handleChange(start, end, updateComponent);
-    if (this._shouldChange) {
+    // filter out scroll event with same scroll value
+    const isSameScrollValue = isClose(this._start, start) && isClose(this._end, end);
+    if (this._shouldChange && !isSameScrollValue) {
       if (updateComponent && this._component) {
         this._component.setAttribute('range', [start, end]);
       }
