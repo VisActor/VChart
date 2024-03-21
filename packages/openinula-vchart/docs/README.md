@@ -3,7 +3,7 @@
 1. [快速开始](./1.%20%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B.md)
    - 环境要求
    - 安装
-   - 引入 `@visactor/react-vchart`
+   - 引入 `@visactor/openinula-vchart`
    - 绘制一个简单的柱状图
 2. 入门
    - [API 设计](./2.1%20API%E8%AE%BE%E8%AE%A1.md)
