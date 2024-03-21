@@ -1,6 +1,6 @@
 ---
 category: examples
-group: 语法标签
+group: grammatical-tag
 title: 基础柱状图
 keywords: barChart,comparison,distribution,rank,rectangle
 order: 0-1

@@ -1,6 +1,6 @@
 ---
 category: examples
-group: Component
+group: component
 title: Clock Example
 keywords: gauge,comparison,circle,indicator
 order: 0-7

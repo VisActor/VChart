@@ -1,6 +1,6 @@
 ---
 category: examples
-group: radar chart
+group: theme
 title: 可以切换主题的堆叠雷达图
 keywords: radarChart,comparison,line,circle,axis
 order: 0-5

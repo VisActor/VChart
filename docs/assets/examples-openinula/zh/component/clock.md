@@ -1,6 +1,6 @@
 ---
 category: examples
-group: 组件
+group: component
 title: 时钟示例
 keywords: gauge,comparison,circle,indicator
 order: 0-7

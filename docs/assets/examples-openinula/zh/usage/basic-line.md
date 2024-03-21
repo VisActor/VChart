@@ -1,6 +1,6 @@
 ---
 category: examples
-group: 基础用法
+group: usage
 title: 基础折线图
 keywords: lineChart,comparison,trend,line
 order: 0-0

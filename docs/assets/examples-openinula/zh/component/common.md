@@ -1,6 +1,6 @@
 ---
 category: examples
-group: 组件
+group: component
 title: 带自定义 tooltip 的组合图
 order: 0-4
 cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/theme/theme-switch.png

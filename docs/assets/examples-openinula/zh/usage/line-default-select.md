@@ -1,6 +1,6 @@
 ---
 category: examples
-group: line chart
+group: usage
 title: 设置默认选中维度
 keywords: lineChart,comparison,trend,line
 order: 0-7

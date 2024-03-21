@@ -1,6 +1,6 @@
 ---
 category: examples
-group: Grammatical Tag
+group: grammatical-tag
 title: Nested Pie Chart
 keywords: pieChart, comparison, composition, proportion, circle
 order: 0-8
