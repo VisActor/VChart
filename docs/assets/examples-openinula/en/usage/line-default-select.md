@@ -1,6 +1,6 @@
 ---
 category: examples
-group: Usage
+group: usage
 title: Set Default Selected Dimension
 keywords: lineChart,comparison,trend,line
 order: 0-7

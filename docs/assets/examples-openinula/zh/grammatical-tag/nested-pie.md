@@ -1,6 +1,6 @@
 ---
 category: examples
-group: 语法标签
+group: grammatical-tag
 title: 嵌套饼图
 keywords: pieChart,comparison,composition,proportion,circle
 order: 0-8

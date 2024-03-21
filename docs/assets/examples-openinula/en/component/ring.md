@@ -1,6 +1,6 @@
 ---
 category: examples
-group: Component
+group: component
 title: Ring Chart With Legend
 keywords: pieChart,comparison,composition,proportion,circle
 order: 0-3
