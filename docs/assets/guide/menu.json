@@ -775,6 +775,13 @@
                 "zh": "OMI",
                 "en": "OMI"
               }
+            },
+            {
+              "path": "openinula",
+              "title": {
+                "zh": "Openinula VChart",
+                "en": "Openinula VChart"
+              }
             }
           ]
         },
