@@ -1,6 +1,6 @@
 ---
 category: examples
-group: Grammatical Tag
+group: grammatical-tag
 title: Basic Column Chart
 keywords: barChart, comparison, distribution, rank, rectangle
 order: 0-1

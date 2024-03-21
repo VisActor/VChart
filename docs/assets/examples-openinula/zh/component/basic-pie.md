@@ -1,6 +1,6 @@
 ---
 category: examples
-group: 组件
+group: component
 title: 带图例的基础饼图
 keywords: pieChart,comparison,composition,proportion,circle
 order: 0-2

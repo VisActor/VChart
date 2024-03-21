@@ -1,6 +1,6 @@
 ---
 category: examples
-group: Usage
+group: usage
 title: Basic line chart
 keywords: lineChart,comparison,trend,line
 order: 0-0
