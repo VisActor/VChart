@@ -38,6 +38,10 @@ Options：
 - `'center'`
 - `'right'`
 
+#${prefix} heightRatio(number) = 0.5
+The height ratio between the funnel graphic and the transform graphic. Only effective when `isTransform: true`.
+Supported since version `1.10.2`
+
 #${prefix} shape(string) = 'trapezoid'
 Funnel chart shape. Default is trapezoid 'trapezoid'
 

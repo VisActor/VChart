@@ -34,7 +34,7 @@ import { field } from '../../util/object';
 import type { FunnelAppearPreset, IFunnelSeriesSpec } from './interface';
 import type { IRuleMark } from '../../mark/rule';
 import { FunnelSeriesTooltipHelper } from './tooltip-helper';
-import { isFunction, isValid, isNumber } from '@visactor/vutils';
+import { isFunction, isValid, isNumber, isBoolean } from '@visactor/vutils';
 import {
   FadeInOutAnimation,
   registerCartesianGroupClipAnimation,
@@ -527,9 +527,11 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     const hasTransform = !!this._spec.isTransform;
     const gap = hasTransform ? 0 : this._spec.gap ?? 0;
     const transformCount = hasTransform ? Math.max(0, funnelCount - 1) : 0;
-    const funnelHeight = (viewHeight - gap * Math.max(0, funnelCount - 1)) / (funnelCount + 0.5 * transformCount);
+    const heightRatio = this._spec.heightRatio || 0.5;
+    const funnelHeight =
+      (viewHeight - gap * Math.max(0, funnelCount - 1)) / (funnelCount + heightRatio * transformCount);
     if (isTransform) {
-      return hasTransform ? funnelHeight * 0.5 : 0;
+      return hasTransform ? funnelHeight * heightRatio : 0;
     }
     return funnelHeight;
   }
