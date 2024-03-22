@@ -53,6 +53,7 @@ const getLinearField = (): ICrosshairValueFieldSpec => ({
     visible: true,
     style: {
       stroke: { type: 'palette', key: 'markLineStrokeColor' },
+      fill: { type: 'palette', key: 'axisGridColor' },
       opacity: 0.7,
       lineDash: [2, 3]
     }
