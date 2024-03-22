@@ -37,7 +37,10 @@ const getBandField = (): ICrosshairCategoryFieldSpec => ({
     style: {
       fill: { type: 'palette', key: 'axisGridColor' },
       opacity: 0.7,
-      lineDash: []
+      lineWidth: 0, // 默认不显示边线
+      // 此处设置 stroke 和 lineDash 是为了用户想要 line 形式的 crosshair 时，可以直接复用颜色和配置
+      stroke: { type: 'palette', key: 'markLineStrokeColor' },
+      lineDash: [2, 3]
     }
   } as ICrosshairRectSpec,
   label: getLabelSpec()
@@ -50,7 +53,7 @@ const getLinearField = (): ICrosshairValueFieldSpec => ({
     visible: true,
     style: {
       stroke: { type: 'palette', key: 'markLineStrokeColor' },
-      fill: { type: 'palette', key: 'axisGridColor' },
+      fill: 'transparent',
       opacity: 0.7,
       lineDash: [2, 3]
     }
