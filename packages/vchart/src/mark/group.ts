@@ -40,8 +40,8 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
   protected _getDefaultStyle() {
     const defaultStyle: IMarkStyle<IGroupMarkSpec> = {
-      ...super._getDefaultStyle(),
-      clip: false
+      ...super._getDefaultStyle()
+      // clip: false
     };
     return defaultStyle;
   }
