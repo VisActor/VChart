@@ -64,7 +64,5 @@ const getLinearField = (): ICrosshairValueFieldSpec => ({
 export const crosshair: ICrosshairTheme = {
   trigger: 'hover',
   bandField: getBandField(),
-  linearField: getLinearField(),
-  categoryField: getBandField(),
-  valueField: getLinearField()
+  linearField: getLinearField()
 };
