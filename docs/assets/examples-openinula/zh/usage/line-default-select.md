@@ -1,24 +1,24 @@
 ---
 category: examples
-group: line chart
-title: Set Default Selected Dimension
+group: usage
+title: 设置默认选中维度
 keywords: lineChart,comparison,trend,line
-order: 0-13
+order: 0-7
 cover: /vchart/preview/line-chart-line-default-select_1.8.2.png
 option: lineChart
 ---
 
-# Set Default Selected Dimension
+# 设置默认选中维度
 
-Select specific dimensions by default and highlight crosshair, tooltip, etc.
+默认选中特定的维度，并高亮 crosshair、 tooltip 等
 
-## Key Configuration
+## 关键配置
 
-- Use the method `vchart.setDimensionIndex` to set the selected specific dimension data
+- `vchart.setDimensionIndex` 使用该方法设置选中特定的维度对应的数据
 
-## Code Demo
+## 代码演示
 
-```javascript livedemo
+```javascript livedemo template=openinula-vchart
 const spec = {
   type: 'line',
   data: {
@@ -90,19 +90,47 @@ const spec = {
   legends: [{ visible: true, position: 'middle', orient: 'bottom' }]
 };
 
-const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderSync();
+const root = document.getElementById(CONTAINER_ID);
+const { VChart } = InulaVChart;
+const { useState, useRef, useEffect } = Inula;
 
-vchart.setDimensionIndex('Rouge', {
-  showTooltipOption: {
-    y: 100
-  }
-});
+const Card = () => {
+  const chartRef = useRef(null);
+  useEffect(() => {
+    window['vchart'] = chartRef;
+  }, []);
 
-// Just for the convenience of console debugging, DO NOT COPY!
-window['vchart'] = vchart;
+  const handleSelectDimension = () => {
+    if (chartRef.current) {
+      chartRef.current.setDimensionIndex('Rouge', {
+        showTooltipOption: {
+          y: 100
+        }
+      });
+    }
+  };
+
+  return (
+    <div>
+      <VChart ref={chartRef} spec={spec} />
+      <button
+        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translate(-50%, 0)' }}
+        onClick={handleSelectDimension}
+      >
+        Select 'Rouge'
+      </button>
+    </div>
+  );
+};
+
+Inula.render(<Card />, root);
+
+// release openinula instance, do not copy
+window.customRelease = () => {
+  Inula.unmountComponentAtNode(root);
+};
 ```
 
-## Related Tutorials
+## 相关教程
 
 [Line Chart](link)

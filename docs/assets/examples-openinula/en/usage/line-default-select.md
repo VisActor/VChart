@@ -1,9 +1,9 @@
 ---
 category: examples
-group: line chart
+group: usage
 title: Set Default Selected Dimension
 keywords: lineChart,comparison,trend,line
-order: 0-13
+order: 0-7
 cover: /vchart/preview/line-chart-line-default-select_1.8.2.png
 option: lineChart
 ---
@@ -18,7 +18,7 @@ Select specific dimensions by default and highlight crosshair, tooltip, etc.
 
 ## Code Demo
 
-```javascript livedemo
+```javascript livedemo template=openinula-vchart
 const spec = {
   type: 'line',
   data: {
@@ -90,17 +90,45 @@ const spec = {
   legends: [{ visible: true, position: 'middle', orient: 'bottom' }]
 };
 
-const vchart = new VChart(spec, { dom: CONTAINER_ID });
-vchart.renderSync();
+const root = document.getElementById(CONTAINER_ID);
+const { VChart } = InulaVChart;
+const { useState, useRef, useEffect } = Inula;
 
-vchart.setDimensionIndex('Rouge', {
-  showTooltipOption: {
-    y: 100
-  }
-});
+const Card = () => {
+  const chartRef = useRef(null);
+  useEffect(() => {
+    window['vchart'] = chartRef;
+  }, []);
 
-// Just for the convenience of console debugging, DO NOT COPY!
-window['vchart'] = vchart;
+  const handleSelectDimension = () => {
+    if (chartRef.current) {
+      chartRef.current.setDimensionIndex('Rouge', {
+        showTooltipOption: {
+          y: 100
+        }
+      });
+    }
+  };
+
+  return (
+    <div>
+      <VChart ref={chartRef} spec={spec} />
+      <button
+        style={{ position: 'absolute', top: 0, left: '50%', transform: 'translate(-50%, 0)' }}
+        onClick={handleSelectDimension}
+      >
+        Select 'Rouge'
+      </button>
+    </div>
+  );
+};
+
+Inula.render(<Card />, root);
+
+// release openinula instance, do not copy
+window.customRelease = () => {
+  Inula.unmountComponentAtNode(root);
+};
 ```
 
 ## Related Tutorials
