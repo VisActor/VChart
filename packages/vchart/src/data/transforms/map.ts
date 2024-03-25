@@ -12,11 +12,10 @@ export const map = (data: GeoSourceType, opt: IMapOpt) => {
   if (data.features) {
     data.features.forEach((f: any, index: number) => {
       f[DEFAULT_DATA_INDEX] = index;
-      const name = f.properties?.[opt.nameProperty];
-      if (opt.nameMap && opt.nameMap[name]) {
-        f[DEFAULT_MAP_LOOK_UP_KEY] = opt.nameMap[name];
+      if (opt.nameMap) {
+        f[DEFAULT_MAP_LOOK_UP_KEY] = opt.nameMap[f.properties?.[opt.nameProperty]];
       } else {
-        f[DEFAULT_MAP_LOOK_UP_KEY] = name;
+        f[DEFAULT_MAP_LOOK_UP_KEY] = f.properties?.[opt.nameProperty];
       }
     });
   }
