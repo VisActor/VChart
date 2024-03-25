@@ -297,11 +297,12 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     if (datum[this.nameField]) {
       return datum[this.nameField];
     }
-    if (datum.properties?.[this._nameProperty]) {
-      if (this._spec?.nameMap) {
-        return this._spec.nameMap[datum.properties[this._nameProperty]] ?? '';
+    const name = datum.properties?.[this._nameProperty];
+    if (name) {
+      if (this._spec.nameMap && this._spec.nameMap[name]) {
+        return this._spec.nameMap[name];
       }
-      return datum.properties[this._nameProperty] ?? '';
+      return name;
     }
     return '';
   }
