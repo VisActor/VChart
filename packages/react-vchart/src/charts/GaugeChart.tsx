@@ -1,28 +1,9 @@
 import React from 'react';
 import type { ISankeyChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerSankeyChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerTitle,
-  registerCustomMark
-} from '@visactor/vchart';
+import { VChart, registerSankeyChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerSankeyChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerTitle,
-  registerCustomMark
-]);
+VChart.useRegisters([registerSankeyChart]);
 
 export interface SankeyChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,

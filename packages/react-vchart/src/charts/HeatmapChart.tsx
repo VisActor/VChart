@@ -4,45 +4,12 @@ import {
   VChart,
   registerHeatmapChart,
   registerCartesianBandAxis,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
   registerCartesianCrossHair,
-  registerDataZoom,
-  registerScrollBar,
-  registerLabel,
-  registerTitle,
-  registerMarkLine,
-  registerMarkPoint,
-  registerMarkArea,
-  registerTotalLabel,
-  registerBrush,
-  registerCustomMark
+  registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerHeatmapChart,
-  registerCartesianBandAxis,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerCartesianCrossHair,
-  registerDataZoom,
-  registerScrollBar,
-  registerLabel,
-  registerTitle,
-  registerMarkLine,
-  registerMarkPoint,
-  registerMarkArea,
-  registerTotalLabel,
-  registerBrush,
-  registerCustomMark
-]);
+VChart.useRegisters([registerHeatmapChart, registerCartesianBandAxis, registerCartesianCrossHair, registerLabel]);
 
 export interface HeatmapChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,

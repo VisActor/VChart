@@ -37,22 +37,10 @@ VChart.useRegisters([
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
   registerCartesianLogAxis, // 非必选
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
   registerCartesianCrossHair,
-  registerDataZoom,
-  registerScrollBar,
+
   registerLabel,
-  registerTitle,
-  registerMarkLine,
-  registerMarkPoint,
-  registerMarkArea,
   registerTotalLabel,
-  registerBrush,
-  registerCustomMark,
 
   registerAreaSeries,
   registerBarSeries,

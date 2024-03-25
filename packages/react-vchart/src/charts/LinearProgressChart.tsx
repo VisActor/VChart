@@ -7,19 +7,8 @@ import {
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
   registerCartesianLogAxis, // 非必选
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
   registerCartesianCrossHair,
-  registerLabel,
-  registerTitle,
-  registerMarkLine,
-  registerMarkPoint,
-  registerMarkArea,
-  registerBrush,
-  registerCustomMark
+  registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
@@ -29,19 +18,8 @@ VChart.useRegisters([
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
   registerCartesianLogAxis, // 非必选
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
   registerCartesianCrossHair,
-  registerLabel,
-  registerTitle,
-  registerMarkLine,
-  registerMarkPoint,
-  registerMarkArea,
-  registerBrush,
-  registerCustomMark
+  registerLabel
 ]);
 
 export interface LinearProgressChartProps

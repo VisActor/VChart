@@ -1,5 +1,8 @@
 import { BaseComponentProps, createComponent } from './BaseComponent';
 import type { IIndicatorSpec } from '@visactor/vchart';
+import { registerIndicator, VChart } from '@visactor/vchart';
+
+VChart.useRegisters([registerIndicator]);
 
 export type IndicatorProps = IIndicatorSpec & BaseComponentProps;
 

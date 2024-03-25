@@ -1,28 +1,9 @@
 import React from 'react';
 import type { ISunburstChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerSunburstChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerTitle,
-  registerCustomMark
-} from '@visactor/vchart';
+import { VChart, registerSunburstChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerSunburstChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerTitle,
-  registerCustomMark
-]);
+VChart.useRegisters([registerSunburstChart]);
 
 export interface SunburstChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,

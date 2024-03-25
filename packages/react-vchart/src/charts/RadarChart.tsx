@@ -5,15 +5,8 @@ import {
   registerRadarChart,
   registerPolarLinearAxis, // 必选
   registerPolarBandAxis, // 必选
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
   registerPolarCrossHair,
-  registerLabel,
-  registerTitle,
-  registerCustomMark
+  registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
@@ -21,15 +14,8 @@ VChart.useRegisters([
   registerRadarChart,
   registerPolarLinearAxis, // 必选
   registerPolarBandAxis, // 必选
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
   registerPolarCrossHair,
-  registerLabel,
-  registerTitle,
-  registerCustomMark
+  registerLabel
 ]);
 
 export interface RadarChartProps

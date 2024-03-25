@@ -1,30 +1,9 @@
 import React from 'react';
 import type { IWordCloudChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerWordCloudChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerTitle,
-  registerBrush,
-  registerCustomMark
-} from '@visactor/vchart';
+import { VChart, registerWordCloudChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerWordCloudChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerTitle,
-  registerBrush,
-  registerCustomMark
-]);
+VChart.useRegisters([registerWordCloudChart]);
 
 export interface WordCloudChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
