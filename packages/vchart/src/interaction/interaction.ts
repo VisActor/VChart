@@ -16,6 +16,10 @@ export class Interaction implements IInteraction {
 
   private _vgrammarInteractions: Map<StateValue, IVGrammarInteraction[]> = new Map();
   addVgrammarInteraction(state: StateValue, i: IVGrammarInteraction) {
+    if (!state) {
+      return;
+    }
+
     if (!this._vgrammarInteractions.get(state)) {
       !this._vgrammarInteractions.set(state, [i]);
     } else {

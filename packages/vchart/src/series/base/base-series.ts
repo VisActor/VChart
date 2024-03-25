@@ -813,7 +813,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       selector.length &&
         res.push({
-          vchartState: STATE_VALUE_ENUM.STATE_HOVER,
           seriesId: this.id,
           regionId: this._region.id,
           selector,
@@ -830,7 +829,6 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       selector.length &&
         res.push({
-          vchartState: STATE_VALUE_ENUM.STATE_SELECTED,
           type: 'element-select',
           seriesId: this.id,
           regionId: this._region.id,
