@@ -57,7 +57,7 @@ import type { IModelEvaluateOption, IModelRenderOption } from '../../model/inter
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
 import { addVChartProperty } from '../../data/transforms/add-property';
-import type { ISelectSpec } from '../../interaction/interface';
+import type { IBaseInteractionSpec, ISelectSpec } from '../../interaction/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { BaseSeriesTooltipHelper } from './tooltip-helper';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
@@ -755,6 +755,33 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** mark */
 
+  protected _parseSelectorOfInteraction(interactionSpec: IBaseInteractionSpec, marks: IMark[]) {
+    if (!marks || !marks.length) {
+      return [];
+    }
+    const selector: string[] = [];
+
+    if (interactionSpec.markIds) {
+      marks.filter(mark => {
+        if (interactionSpec.markIds.includes(mark.getProductId())) {
+          selector.push(`#${mark.getProductId()}`);
+        }
+      });
+    } else if (interactionSpec.markNames) {
+      marks.forEach(mark => {
+        if (interactionSpec.markNames.includes(mark.name)) {
+          selector.push(`#${mark.getProductId()}`);
+        }
+      });
+    } else {
+      marks.forEach(mark => {
+        selector.push(`#${mark.getProductId()}`);
+      });
+    }
+
+    return selector;
+  }
+
   protected _parseDefaultInteractionConfig(mainMarks?: IMark[]) {
     if (!mainMarks?.length) {
       return [];
@@ -782,32 +809,38 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const res = [];
 
     if (finalHoverSpec.enable) {
-      res.push({
-        vchartState: STATE_VALUE_ENUM.STATE_HOVER,
-        seriesId: this.id,
-        regionId: this._region.id,
-        selector: mainMarks.map(mark => `#${mark.getProductId()}`),
-        type: 'element-highlight',
-        trigger: finalHoverSpec.trigger as EventType,
-        triggerOff: finalHoverSpec.triggerOff as EventType,
-        blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
-        highlightState: STATE_VALUE_ENUM.STATE_HOVER
-      });
+      const selector: string[] = this._parseSelectorOfInteraction(finalHoverSpec as IBaseInteractionSpec, mainMarks);
+
+      selector.length &&
+        res.push({
+          vchartState: STATE_VALUE_ENUM.STATE_HOVER,
+          seriesId: this.id,
+          regionId: this._region.id,
+          selector,
+          type: 'element-highlight',
+          trigger: finalHoverSpec.trigger as EventType,
+          triggerOff: finalHoverSpec.triggerOff as EventType,
+          blurState: STATE_VALUE_ENUM.STATE_HOVER_REVERSE,
+          highlightState: STATE_VALUE_ENUM.STATE_HOVER
+        });
     }
 
     if (finalSelectSpec.enable) {
-      res.push({
-        vchartState: STATE_VALUE_ENUM.STATE_SELECTED,
-        type: 'element-select',
-        seriesId: this.id,
-        regionId: this._region.id,
-        selector: mainMarks.map(mark => `#${mark.getProductId()}`),
-        trigger: finalSelectSpec.trigger as EventType,
-        triggerOff: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
-        reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
-        state: STATE_VALUE_ENUM.STATE_SELECTED,
-        isMultiple: finalSelectSpec.mode === 'multiple'
-      });
+      const selector: string[] = this._parseSelectorOfInteraction(finalSelectSpec as IBaseInteractionSpec, mainMarks);
+
+      selector.length &&
+        res.push({
+          vchartState: STATE_VALUE_ENUM.STATE_SELECTED,
+          type: 'element-select',
+          seriesId: this.id,
+          regionId: this._region.id,
+          selector,
+          trigger: finalSelectSpec.trigger as EventType,
+          triggerOff: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
+          reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
+          state: STATE_VALUE_ENUM.STATE_SELECTED,
+          isMultiple: finalSelectSpec.mode === 'multiple'
+        });
     }
 
     return res;
@@ -830,24 +863,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     if (interactions && interactions.length) {
       interactions.forEach(interaction => {
-        const selectors: string[] = [];
-        if (interaction.markIds) {
-          this.getMarks().filter(mark => {
-            if (interaction.markIds.includes(mark.getProductId())) {
-              selectors.push(`#${mark.getProductId()}`);
-            }
-          });
-        } else if (interaction.markNames) {
-          this.getMarks().forEach(mark => {
-            if (interaction.markNames.includes(mark.name)) {
-              selectors.push(`#${mark.getProductId()}`);
-            }
-          });
-        } else if (mainMarks?.length) {
-          mainMarks.forEach(mark => {
-            selectors.push(`#${mark.getProductId()}`);
-          });
-        }
+        const selectors: string[] = this._parseSelectorOfInteraction(interaction, this.getMarks());
 
         if (selectors.length) {
           compiler.addInteraction({
