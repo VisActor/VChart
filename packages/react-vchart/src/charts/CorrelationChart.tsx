@@ -25,7 +25,7 @@ VChart.useRegisters([
 ]);
 
 export interface CorrelationChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ICorrelationChartSpec, 'type'> {}
 
 export const CorrelationChart = createChart<React.PropsWithChildren<CorrelationChartProps> & { type: 'correlation' }>(

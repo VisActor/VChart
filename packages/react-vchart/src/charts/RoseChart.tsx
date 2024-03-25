@@ -33,7 +33,7 @@ VChart.useRegisters([
 ]);
 
 export interface RoseChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IRoseChartSpec, 'type'> {}
 
 export const RoseChart = createChart<React.PropsWithChildren<RoseChartProps> & { type: 'rose' }>('RoseChart', {

@@ -29,7 +29,7 @@ VChart.useRegisters([
 ]);
 
 export interface PieChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IPieChartSpec, 'type'> {}
 
 export const PieChart = createChart<React.PropsWithChildren<PieChartProps> & { type: 'pie' }>('PieChart', {

@@ -47,7 +47,7 @@ VChart.useRegisters([
 ]);
 
 export interface SequenceChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ISequenceChartSpec, 'type'> {}
 
 export const SequenceChart = createChart<React.PropsWithChildren<SequenceChartProps> & { type: 'sequence' }>(

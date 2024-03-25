@@ -25,7 +25,7 @@ VChart.useRegisters([
 ]);
 
 export interface CirclePackingChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ICirclePackingChartSpec, 'type'> {}
 
 export const CirclePackingChart = createChart<

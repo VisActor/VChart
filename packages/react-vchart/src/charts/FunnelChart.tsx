@@ -27,7 +27,7 @@ VChart.useRegisters([
 ]);
 
 export interface FunnelChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IFunnelChartSpec, 'type'> {}
 
 export const FunnelChart = createChart<React.PropsWithChildren<FunnelChartProps> & { type: 'funnel' }>('FunnelChart', {

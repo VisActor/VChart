@@ -25,7 +25,7 @@ VChart.useRegisters([
 ]);
 
 export interface LiquidChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data' | 'data'>,
     Omit<ILiquidChartSpec, 'type'> {}
 
 export const LiquidChart = createChart<React.PropsWithChildren<LiquidChartProps> & { type: 'liquid' }>('LiquidChart', {

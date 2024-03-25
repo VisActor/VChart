@@ -33,7 +33,7 @@ VChart.useRegisters([
 ]);
 
 export interface RadarChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IRadarChartSpec, 'type'> {}
 
 export const RadarChart = createChart<React.PropsWithChildren<RadarChartProps> & { type: 'radar' }>('RadarChart', {

@@ -45,7 +45,7 @@ VChart.useRegisters([
 ]);
 
 export interface LinearProgressChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ILinearProgressChartSpec, 'type'> {}
 
 export const LinearProgressChart = createChart<

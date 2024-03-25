@@ -35,7 +35,7 @@ VChart.useRegisters([
 ]);
 
 export interface CircularProgressChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ICircularProgressChartSpec, 'type'> {}
 
 export const CircularProgressChart = createChart<
