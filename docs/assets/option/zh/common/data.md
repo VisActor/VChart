@@ -71,35 +71,6 @@ export type Datum = {
 
 目前内置的数据变换：
 
-- simplify: 地理数据简化
-
-```ts
-// type
-type simplifyType = {
-  type: 'simplify';
-  options: {
-    tolerance?: number;
-  };
-};
-// example
-const spec = {
-  data: [
-    {
-      id: 'geoData',
-      values: data,
-      transform: [
-        {
-          type: 'simplify',
-          options: {
-            tolerance: 1
-          }
-        }
-      ]
-    }
-  ]
-};
-```
-
 - fields: 数据维度处理，包括基于维度的排序，逆序，数据筛选能力
 
 ```ts

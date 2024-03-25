@@ -71,35 +71,6 @@ Data transformation. You can add transformations to the data. When the chart is 
 
 Currently built-in data transformations:
 
-- simplify: Geographic data simplification
-
-```ts
-// type
-type simplifyType = {
-  type: 'simplify';
-  options: {
-    tolerance?: number;
-  };
-};
-// example
-const spec = {
-  data: [
-    {
-      id: 'geoData',
-      values: data,
-      transform: [
-        {
-          type: 'simplify',
-          options: {
-            tolerance: 1
-          }
-        }
-      ]
-    }
-  ]
-};
-```
-
 - fields: Data dimension processing, including dimension-based sorting, reverse order, data filtering capabilities
 
 ```ts

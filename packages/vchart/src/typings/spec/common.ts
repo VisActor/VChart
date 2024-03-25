@@ -243,11 +243,6 @@ export type IData = IDataType | IDataType[];
 export type DataKeyType = string | string[] | ((data: Datum, index: number) => string);
 export type BuildInTransformOptions =
   | {
-      /** 地理数据简化 */
-      type: 'simplify';
-      options: ISimplifyOptions;
-    }
-  | {
       /** 数据维度处理，包括排序，逆序，数据筛选能力 */
       type: 'fields';
       options: IFieldsOptions;
