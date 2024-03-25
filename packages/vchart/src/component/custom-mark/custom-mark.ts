@@ -14,6 +14,8 @@ import { Factory } from '../../core/factory';
 import { registerImageMark } from '../../mark/image';
 import type { IGraphic } from '@visactor/vrender-core';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
+import { animationConfig, userAnimationConfig } from '../../animation/utils';
+import type { IModelMarkAttributeContext } from '../../compile/mark/interface';
 
 // TODO: 规范范型
 export class CustomMark<T = any> extends BaseComponent<any> {
@@ -50,11 +52,26 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     this.initEvent();
   }
 
+  protected _markAttributeContext: IModelMarkAttributeContext;
+  getMarkAttributeContext() {
+    return this._markAttributeContext;
+  }
+
+  protected _buildMarkAttributeContext() {
+    this._markAttributeContext = {
+      vchart: this._option.globalInstance,
+      globalScale: (key: string, value: string | number) => {
+        return this._option.globalScale.getScale(key)?.scale(value);
+      }
+    };
+  }
+
   protected initMarks() {
     if (!this._spec) {
       return;
     }
     const series = this._option && this._option.getAllSeries();
+    const hasAnimation = this._option.animation !== false;
     const depend: IMark[] = [];
 
     if (series && series.length) {
@@ -70,7 +87,7 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     }
 
     this._spec.forEach((m, i) => {
-      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, { depend });
+      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, { depend, hasAnimation });
     });
   }
 
@@ -96,6 +113,12 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     ) as IGroupMark;
     if (!mark) {
       return;
+    }
+
+    if (options.hasAnimation) {
+      // 自定义图元默认不添加动画
+      const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
+      mark.setAnimationConfig(config);
     }
 
     if (options.depend && options.depend.length) {

@@ -375,10 +375,12 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       hair.style = { visible: false };
     } else {
       const style = line.style || {};
-      const { strokeOpacity, fillOpacity, opacity, stroke, fill, lineWidth, ...restStyle } = style as any;
+      const { stroke, fill, lineWidth } = style as any;
+      const { strokeOpacity, fillOpacity, opacity, ...restStyle } = style as any;
       const isLineType = hair.type === 'line';
       let finalOpacity = isLineType ? strokeOpacity : fillOpacity;
       if (isNumber(opacity)) {
+        // FIXME: 之前的兼容逻辑，去掉可能会影响现有 crosshair 的展示效果
         finalOpacity = (finalOpacity ?? 1) * opacity;
       }
       hair.style = {

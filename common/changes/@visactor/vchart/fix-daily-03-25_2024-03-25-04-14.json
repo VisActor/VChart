@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: should use `series.getMarkInName` to get the mark for total label's caculation, fixed #2448",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

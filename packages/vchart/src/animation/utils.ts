@@ -16,7 +16,7 @@ import type { SeriesMarkNameEnum } from '../series/interface/type';
 import { mergeSpec } from '../util/spec/merge-spec';
 import type { ISeries } from '../series';
 import type { ISeriesSpec } from '../typings';
-import type { ISeriesMarkAttributeContext } from '../compile/mark';
+import type { IModelMarkAttributeContext } from '../compile/mark';
 
 export const AnimationStates = ['appear', 'enter', 'update', 'exit', 'disappear', 'normal'];
 
@@ -120,7 +120,7 @@ export function animationConfig<Preset extends string>(
 export function userAnimationConfig<M extends string, Preset extends string>(
   markName: SeriesMarkNameEnum | string,
   spec: IAnimationSpec<M, Preset>,
-  ctx: ISeriesMarkAttributeContext
+  ctx: IModelMarkAttributeContext
 ) {
   const userConfig: Partial<
     Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>
@@ -230,7 +230,7 @@ export function isChannelAnimation(animationConfig: IAnimationConfig) {
 
 export function uniformAnimationConfig<Preset extends string>(
   config: Partial<Record<IAnimationState, boolean | IStateAnimateSpec<Preset> | IAnimationConfig | IAnimationConfig[]>>,
-  ctx: ISeriesMarkAttributeContext
+  ctx: IModelMarkAttributeContext
 ) {
   if (!config) {
     return config;
