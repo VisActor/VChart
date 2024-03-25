@@ -180,7 +180,7 @@ export class Compiler {
         if (this._compileChart) {
           const region = this._compileChart.getRegionsInIds([regionCombindInteractions[key].regionId])[0];
           if (region) {
-            region.interaction.addVgrammarInteraction(regionCombindInteractions[key].vchartState, interaction);
+            region.interaction.addVgrammarInteraction(interaction.getStartState(), interaction);
           }
         }
       });
