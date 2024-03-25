@@ -1,32 +1,9 @@
 import React from 'react';
 import type { IMapChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerMapChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerLabel,
-  registerTitle,
-  registerBrush,
-  registerCustomMark
-} from '@visactor/vchart';
+import { VChart, registerMapChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerMapChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerLabel,
-  registerTitle,
-  registerBrush,
-  registerCustomMark
-]);
+VChart.useRegisters([registerMapChart, registerLabel]);
 
 export interface MapChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,

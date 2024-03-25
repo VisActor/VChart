@@ -5,16 +5,8 @@ import {
   registerCircularProgressChart,
   registerPolarLinearAxis, // 必选
   registerPolarBandAxis, // 必选
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
   registerPolarCrossHair,
-  registerLabel,
-  registerTitle,
-  registerCustomMark,
-  registerIndicator
+  registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
@@ -22,16 +14,8 @@ VChart.useRegisters([
   registerCircularProgressChart,
   registerPolarLinearAxis, // 必选
   registerPolarBandAxis, // 必选
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
   registerPolarCrossHair,
-  registerLabel,
-  registerTitle,
-  registerCustomMark,
-  registerIndicator
+  registerLabel
 ]);
 
 export interface CircularProgressChartProps

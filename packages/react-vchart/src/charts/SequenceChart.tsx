@@ -7,20 +7,7 @@ import {
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
   registerCartesianLogAxis, // 非必选
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerCartesianCrossHair,
-  registerDataZoom,
-  registerScrollBar,
-  registerTitle,
-  registerMarkLine,
-  registerMarkPoint,
-  registerMarkArea,
-  registerBrush,
-  registerCustomMark
+  registerCartesianCrossHair
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
@@ -30,20 +17,7 @@ VChart.useRegisters([
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
   registerCartesianLogAxis, // 非必选
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerCartesianCrossHair,
-  registerDataZoom,
-  registerScrollBar,
-  registerTitle,
-  registerMarkLine,
-  registerMarkPoint,
-  registerMarkArea,
-  registerBrush,
-  registerCustomMark
+  registerCartesianCrossHair
 ]);
 
 export interface SequenceChartProps

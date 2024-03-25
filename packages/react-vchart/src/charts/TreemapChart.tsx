@@ -1,28 +1,9 @@
 import React from 'react';
 import type { ITreemapChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerTreemapChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerTitle,
-  registerCustomMark
-} from '@visactor/vchart';
+import { VChart, registerTreemapChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerTreemapChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerTitle,
-  registerCustomMark
-]);
+VChart.useRegisters([registerTreemapChart]);
 
 export interface TreemapChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,

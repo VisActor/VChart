@@ -1,32 +1,9 @@
 import React from 'react';
 import type { IPieChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerPieChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerLabel,
-  registerTitle,
-  registerCustomMark,
-  registerIndicator
-} from '@visactor/vchart';
+import { VChart, registerPieChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerPieChart,
-  registerDiscreteLegend,
-  registerContinuousLegend,
-  registerTooltip,
-  registerDomTooltipHandler,
-  registerCanvasTooltipHandler,
-  registerLabel,
-  registerTitle,
-  registerCustomMark,
-  registerIndicator
-]);
+VChart.useRegisters([registerPieChart, registerLabel]);
 
 export interface PieChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
