@@ -64,7 +64,7 @@ export class TotalLabel extends BaseLabelComponent {
   protected _initTextMark() {
     const series = this._getSeries();
     if (series.getSpec().totalLabel?.visible) {
-      const mark = series.getMarksInType([MarkTypeEnum.rect, MarkTypeEnum.symbol])[0];
+      const mark = series.getMarkInName(series.type);
       const textMark = this._createMark({ type: MarkTypeEnum.label, name: `${mark.name}-total-label` }) as ILabelMark;
       this._baseMark = mark;
       this._textMark = textMark;
