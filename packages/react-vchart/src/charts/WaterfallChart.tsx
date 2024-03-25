@@ -1,8 +1,8 @@
 import React from 'react';
-import type { ISequenceChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type { IWaterfallChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
-  registerSequenceChart,
+  registerWaterfallChart,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
@@ -15,17 +15,19 @@ import {
   registerCartesianCrossHair,
   registerDataZoom,
   registerScrollBar,
+  registerLabel,
   registerTitle,
   registerMarkLine,
   registerMarkPoint,
   registerMarkArea,
+  registerTotalLabel,
   registerBrush,
   registerCustomMark
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 VChart.useRegisters([
-  registerSequenceChart,
+  registerWaterfallChart,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
@@ -38,22 +40,26 @@ VChart.useRegisters([
   registerCartesianCrossHair,
   registerDataZoom,
   registerScrollBar,
+  registerLabel,
   registerTitle,
   registerMarkLine,
   registerMarkPoint,
   registerMarkArea,
+  registerTotalLabel,
   registerBrush,
   registerCustomMark
 ]);
 
-export interface SequenceChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
-    Omit<ISequenceChartSpec, 'type'> {}
+export interface WaterfallChartProps
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+    Omit<IWaterfallChartSpec, 'type'> {
+  //
+}
 
-export const SequenceChart = createChart<React.PropsWithChildren<SequenceChartProps> & { type: 'sequence' }>(
-  'SequenceChart',
+export const WaterfallChart = createChart<React.PropsWithChildren<WaterfallChartProps> & { type: 'waterfall' }>(
+  'WaterfallChart',
   {
-    type: 'sequence',
+    type: 'waterfall',
     vchartConstrouctor: VChart as IVChartConstructor
   }
 );
