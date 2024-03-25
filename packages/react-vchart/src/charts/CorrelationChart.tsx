@@ -1,38 +1,37 @@
 import React from 'react';
-import type { IMapChartSpec, IVChartConstructor } from '@visactor/vchart';
+import { ICorrelationChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
-  registerMapChart,
+  registerCorrelationChart,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  registerLabel,
   registerTitle,
-  registerBrush,
   registerCustomMark
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 VChart.useRegisters([
-  registerMapChart,
+  registerCorrelationChart,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  registerLabel,
   registerTitle,
-  registerBrush,
   registerCustomMark
 ]);
 
-export interface MapChartProps
+export interface CorrelationChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
-    Omit<IMapChartSpec, 'type'> {}
+    Omit<ICorrelationChartSpec, 'type'> {}
 
-export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { type: 'map' }>('MapChart', {
-  type: 'map',
-  vchartConstrouctor: VChart as IVChartConstructor
-});
+export const CorrelationChart = createChart<React.PropsWithChildren<CorrelationChartProps> & { type: 'correlation' }>(
+  'CorrelationChart',
+  {
+    type: 'correlation',
+    vchartConstrouctor: VChart as IVChartConstructor
+  }
+);

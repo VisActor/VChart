@@ -1,38 +1,34 @@
 import React from 'react';
-import type { IMapChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type { ILiquidChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
-  registerMapChart,
+  registerLiquidChart,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  registerLabel,
   registerTitle,
-  registerBrush,
   registerCustomMark
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 VChart.useRegisters([
-  registerMapChart,
+  registerLiquidChart,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  registerLabel,
   registerTitle,
-  registerBrush,
   registerCustomMark
 ]);
 
-export interface MapChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
-    Omit<IMapChartSpec, 'type'> {}
+export interface LiquidChartProps
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+    Omit<ILiquidChartSpec, 'type'> {}
 
-export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { type: 'map' }>('MapChart', {
-  type: 'map',
+export const LiquidChart = createChart<React.PropsWithChildren<LiquidChartProps> & { type: 'liquid' }>('LiquidChart', {
+  type: 'liquid',
   vchartConstrouctor: VChart as IVChartConstructor
 });

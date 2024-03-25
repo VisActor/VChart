@@ -1,38 +1,34 @@
 import React from 'react';
-import type { IMapChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type { ISankeyChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
-  registerMapChart,
+  registerSankeyChart,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  registerLabel,
   registerTitle,
-  registerBrush,
   registerCustomMark
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 VChart.useRegisters([
-  registerMapChart,
+  registerSankeyChart,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  registerLabel,
   registerTitle,
-  registerBrush,
   registerCustomMark
 ]);
 
-export interface MapChartProps
+export interface SankeyChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
-    Omit<IMapChartSpec, 'type'> {}
+    Omit<ISankeyChartSpec, 'type'> {}
 
-export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { type: 'map' }>('MapChart', {
-  type: 'map',
+export const SankeyChart = createChart<React.PropsWithChildren<SankeyChartProps> & { type: 'sankey' }>('SankeyChart', {
+  type: 'sankey',
   vchartConstrouctor: VChart as IVChartConstructor
 });
