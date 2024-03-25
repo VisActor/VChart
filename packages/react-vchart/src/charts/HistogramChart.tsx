@@ -49,7 +49,7 @@ VChart.useRegisters([
 ]);
 
 export interface HistogramChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IHistogramChartSpec, 'type'> {}
 
 export const HistogramChart = createChart<React.PropsWithChildren<HistogramChartProps> & { type: 'histogram' }>(

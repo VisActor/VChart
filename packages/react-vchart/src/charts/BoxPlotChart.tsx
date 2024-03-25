@@ -49,7 +49,7 @@ VChart.useRegisters([
 ]);
 
 export interface BoxPlotChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IBoxPlotChartSpec, 'type'> {}
 
 export const BoxPlotChart = createChart<React.PropsWithChildren<BoxPlotChartProps> & { type: 'boxPlot' }>(

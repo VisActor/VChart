@@ -49,7 +49,7 @@ VChart.useRegisters([
 ]);
 
 export interface ScatterChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IScatterChartSpec, 'type'> {}
 
 export const ScatterChart = createChart<React.PropsWithChildren<ScatterChartProps> & { type: 'scatter' }>(

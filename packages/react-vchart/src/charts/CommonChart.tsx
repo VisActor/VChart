@@ -62,7 +62,7 @@ VChart.useRegisters([
 ]);
 
 export interface CommonChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ICommonChartSpec, 'type'> {}
 
 export const CommonChart = createChart<React.PropsWithChildren<CommonChartProps> & { type: 'common' }>('CommonChart', {

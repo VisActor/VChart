@@ -25,7 +25,7 @@ VChart.useRegisters([
 ]);
 
 export interface SunburstChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ISunburstChartSpec, 'type'> {}
 
 export const SunburstChart = createChart<React.PropsWithChildren<SunburstChartProps> & { type: 'sunburst' }>(

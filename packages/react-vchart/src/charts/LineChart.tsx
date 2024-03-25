@@ -51,7 +51,7 @@ VChart.useRegisters([
 ]);
 
 export interface LineChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ILineChartSpec, 'type'> {}
 
 export const LineChart = createChart<React.PropsWithChildren<LineChartProps> & { type: 'line' }>('LineChart', {

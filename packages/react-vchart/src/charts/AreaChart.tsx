@@ -51,7 +51,7 @@ VChart.useRegisters([
 ]);
 
 export interface AreaChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IAreaChartSpec, 'type'> {}
 
 export const AreaChart = createChart<React.PropsWithChildren<AreaChartProps> & { type: 'area' }>('AreaChart', {

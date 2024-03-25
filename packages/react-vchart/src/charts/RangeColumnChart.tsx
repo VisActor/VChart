@@ -49,7 +49,7 @@ VChart.useRegisters([
 ]);
 
 export interface RangeColumnChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IRangeColumnChartSpec, 'type'> {}
 
 export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnChartProps> & { type: 'rangeColumn' }>(

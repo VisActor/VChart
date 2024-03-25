@@ -45,7 +45,7 @@ VChart.useRegisters([
 ]);
 
 export interface HeatmapChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IHeatmapChartSpec, 'type'> {
   //
 }
