@@ -1,12 +1,9 @@
 import React from 'react';
-import type { ISequenceChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type { IHeatmapChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
-  registerSequenceChart,
-  registerCartesianLinearAxis,
+  registerHeatmapChart,
   registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
@@ -15,21 +12,20 @@ import {
   registerCartesianCrossHair,
   registerDataZoom,
   registerScrollBar,
+  registerLabel,
   registerTitle,
   registerMarkLine,
   registerMarkPoint,
   registerMarkArea,
+  registerTotalLabel,
   registerBrush,
   registerCustomMark
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 VChart.useRegisters([
-  registerSequenceChart,
-  registerCartesianLinearAxis,
+  registerHeatmapChart,
   registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
@@ -38,22 +34,26 @@ VChart.useRegisters([
   registerCartesianCrossHair,
   registerDataZoom,
   registerScrollBar,
+  registerLabel,
   registerTitle,
   registerMarkLine,
   registerMarkPoint,
   registerMarkArea,
+  registerTotalLabel,
   registerBrush,
   registerCustomMark
 ]);
 
-export interface SequenceChartProps
+export interface HeatmapChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
-    Omit<ISequenceChartSpec, 'type'> {}
+    Omit<IHeatmapChartSpec, 'type'> {
+  //
+}
 
-export const SequenceChart = createChart<React.PropsWithChildren<SequenceChartProps> & { type: 'sequence' }>(
-  'SequenceChart',
+export const HeatmapChart = createChart<React.PropsWithChildren<HeatmapChartProps> & { type: 'heatmap' }>(
+  'HeatmapChart',
   {
-    type: 'sequence',
+    type: 'heatmap',
     vchartConstrouctor: VChart as IVChartConstructor
   }
 );

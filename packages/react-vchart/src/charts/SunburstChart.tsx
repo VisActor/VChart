@@ -1,38 +1,37 @@
 import React from 'react';
-import type { IMapChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type { ISunburstChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
-  registerMapChart,
+  registerSunburstChart,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  registerLabel,
   registerTitle,
-  registerBrush,
   registerCustomMark
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 VChart.useRegisters([
-  registerMapChart,
+  registerSunburstChart,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  registerLabel,
   registerTitle,
-  registerBrush,
   registerCustomMark
 ]);
 
-export interface MapChartProps
+export interface SunburstChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
-    Omit<IMapChartSpec, 'type'> {}
+    Omit<ISunburstChartSpec, 'type'> {}
 
-export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { type: 'map' }>('MapChart', {
-  type: 'map',
-  vchartConstrouctor: VChart as IVChartConstructor
-});
+export const SunburstChart = createChart<React.PropsWithChildren<SunburstChartProps> & { type: 'sunburst' }>(
+  'SunburstChart',
+  {
+    type: 'sunburst',
+    vchartConstrouctor: VChart as IVChartConstructor
+  }
+);

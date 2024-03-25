@@ -1,7 +1,52 @@
 import React from 'react';
-import { IHistogramChartSpec } from '@visactor/vchart';
-import { VChart } from '@visactor/vchart';
+import { IHistogramChartSpec, IVChartConstructor } from '@visactor/vchart';
+import {
+  VChart,
+  registerHistogramChart,
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerCartesianTimeAxis, // 非必选
+  registerCartesianLogAxis, // 非必选
+  registerDiscreteLegend,
+  registerContinuousLegend,
+  registerTooltip,
+  registerDomTooltipHandler,
+  registerCanvasTooltipHandler,
+  registerCartesianCrossHair,
+  registerDataZoom,
+  registerScrollBar,
+  registerLabel,
+  registerTitle,
+  registerMarkLine,
+  registerMarkPoint,
+  registerMarkArea,
+  registerBrush,
+  registerCustomMark
+} from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+
+VChart.useRegisters([
+  registerHistogramChart,
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  registerCartesianTimeAxis, // 非必选
+  registerCartesianLogAxis, // 非必选
+  registerDiscreteLegend,
+  registerContinuousLegend,
+  registerTooltip,
+  registerDomTooltipHandler,
+  registerCanvasTooltipHandler,
+  registerCartesianCrossHair,
+  registerDataZoom,
+  registerScrollBar,
+  registerLabel,
+  registerTitle,
+  registerMarkLine,
+  registerMarkPoint,
+  registerMarkArea,
+  registerBrush,
+  registerCustomMark
+]);
 
 export interface HistogramChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
@@ -11,6 +56,6 @@ export const HistogramChart = createChart<React.PropsWithChildren<HistogramChart
   'HistogramChart',
   {
     type: 'histogram',
-    vchartConstrouctor: VChart
+    vchartConstrouctor: VChart as IVChartConstructor
   }
 );

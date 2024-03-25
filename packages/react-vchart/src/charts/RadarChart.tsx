@@ -1,7 +1,36 @@
 import React from 'react';
-import type { IRadarChartSpec } from '@visactor/vchart';
-import { VChart } from '@visactor/vchart';
+import type { IRadarChartSpec, IVChartConstructor } from '@visactor/vchart';
+import {
+  VChart,
+  registerRadarChart,
+  registerPolarLinearAxis, // 必选
+  registerPolarBandAxis, // 必选
+  registerDiscreteLegend,
+  registerContinuousLegend,
+  registerTooltip,
+  registerDomTooltipHandler,
+  registerCanvasTooltipHandler,
+  registerPolarCrossHair,
+  registerLabel,
+  registerTitle,
+  registerCustomMark
+} from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+
+VChart.useRegisters([
+  registerRadarChart,
+  registerPolarLinearAxis, // 必选
+  registerPolarBandAxis, // 必选
+  registerDiscreteLegend,
+  registerContinuousLegend,
+  registerTooltip,
+  registerDomTooltipHandler,
+  registerCanvasTooltipHandler,
+  registerPolarCrossHair,
+  registerLabel,
+  registerTitle,
+  registerCustomMark
+]);
 
 export interface RadarChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
@@ -9,5 +38,5 @@ export interface RadarChartProps
 
 export const RadarChart = createChart<React.PropsWithChildren<RadarChartProps> & { type: 'radar' }>('RadarChart', {
   type: 'radar',
-  vchartConstrouctor: VChart
+  vchartConstrouctor: VChart as IVChartConstructor
 });

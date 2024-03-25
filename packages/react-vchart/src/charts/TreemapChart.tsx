@@ -1,38 +1,37 @@
 import React from 'react';
-import type { IMapChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type { ITreemapChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
-  registerMapChart,
+  registerTreemapChart,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  registerLabel,
   registerTitle,
-  registerBrush,
   registerCustomMark
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 VChart.useRegisters([
-  registerMapChart,
+  registerTreemapChart,
   registerDiscreteLegend,
   registerContinuousLegend,
   registerTooltip,
   registerDomTooltipHandler,
   registerCanvasTooltipHandler,
-  registerLabel,
   registerTitle,
-  registerBrush,
   registerCustomMark
 ]);
 
-export interface MapChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
-    Omit<IMapChartSpec, 'type'> {}
+export interface TreemapChartProps
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
+    Omit<ITreemapChartSpec, 'type'> {}
 
-export const MapChart = createChart<React.PropsWithChildren<MapChartProps> & { type: 'map' }>('MapChart', {
-  type: 'map',
-  vchartConstrouctor: VChart as IVChartConstructor
-});
+export const TreemapChart = createChart<React.PropsWithChildren<TreemapChartProps> & { type: 'treemap' }>(
+  'TreemapChart',
+  {
+    type: 'treemap',
+    vchartConstrouctor: VChart as IVChartConstructor
+  }
+);
