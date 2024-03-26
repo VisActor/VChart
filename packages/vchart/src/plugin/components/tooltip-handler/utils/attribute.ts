@@ -75,7 +75,7 @@ export const getTooltipAttributes = (
   spec: ITooltipSpec,
   globalTheme: ITheme
 ): ITooltipAttributes => {
-  const { style = {}, enterable, transitionDuration } = spec;
+  const { style = {}, enterable, transitionDuration, renderMode = 'html' } = spec;
   const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow, maxContentHeight } = style;
   const padding = normalizePadding(panel.padding);
   const paddingSpec = normalizeLayoutPaddingSpec(panel.padding) as IPadding;
@@ -315,7 +315,11 @@ export const getTooltipAttributes = (
     });
   }
 
-  attributes.panel.width = panelWidth;
+  if (renderMode === 'canvas') {
+    panelWidth += 2 * attributes.panel.lineWidth;
+    panelHeight += 2 * attributes.panel.lineWidth;
+  }
+
   attributes.panel.height = panelHeight;
   attributes.panelDomHeight = panelDomHeight;
 
