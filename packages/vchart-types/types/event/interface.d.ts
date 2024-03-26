@@ -81,6 +81,10 @@ export type ZoomEventParam = ExtendEventParam & {
     scale: number;
     scaleCenter: IPoint;
 };
+export type InteractionEventParam = {
+    items?: IElement[];
+    datums?: Datum[];
+} & Partial<BaseEventParams>;
 export type EventParamsDefinition = {
     pointerdown: BaseEventParams;
     pointerup: BaseEventParams;
@@ -134,6 +138,10 @@ export type EventParamsDefinition = {
     tooltipHide: TooltipEventParams;
     tooltipRelease: TooltipEventParams;
     afterLayout: LayoutEventParam;
+    'element-select:start': InteractionEventParam;
+    'element-select:reset': InteractionEventParam;
+    'element-highlight:start': InteractionEventParam;
+    'element-highlight:reset': InteractionEventParam;
     [key: string]: ExtendEventParam;
 };
 export interface IEventDispatcher {

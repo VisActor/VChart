@@ -2,6 +2,30 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.10.2",
+      "tag": "@visactor/vchart_v1.10.2",
+      "date": "Tue, 26 Mar 2024 03:13:22 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support interaction events of `element-select` and `element-highlight`\n\n"
+          },
+          {
+            "comment": "fix: `lineWidth` is invalid in rect-type-crosshair, related #2432"
+          },
+          {
+            "comment": "fix: should use `series.getMarkInName` to get the mark for total label's caculation, fixed #2448"
+          },
+          {
+            "comment": "fix: fix the issue of event trigger count after `updateSpecSync()`"
+          },
+          {
+            "comment": "fix: fix radar chart clipAngle animation error when loading on demand."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.10.1",
       "tag": "@visactor/vchart_v1.10.1",
       "date": "Tue, 19 Mar 2024 14:59:23 GMT",

@@ -5,6 +5,7 @@ import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
 import type { Maybe } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
+import type { IModelMarkAttributeContext } from '../../compile/mark/interface';
 export declare class CustomMark<T = any> extends BaseComponent<any> {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
@@ -16,6 +17,9 @@ export declare class CustomMark<T = any> extends BaseComponent<any> {
     protected _spec: (ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec)[];
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     created(): void;
+    protected _markAttributeContext: IModelMarkAttributeContext;
+    getMarkAttributeContext(): IModelMarkAttributeContext;
+    protected _buildMarkAttributeContext(): void;
     protected initMarks(): void;
     private _createExtensionMark;
     initEvent(): void;
