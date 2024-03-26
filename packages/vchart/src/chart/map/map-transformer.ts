@@ -27,7 +27,8 @@ export class MapChartSpecTransformer<T extends IMapChartSpec = IMapChartSpec> ex
       nameMap: spec.nameMap,
       area: spec.area,
 
-      defaultFillColor: spec.defaultFillColor
+      defaultFillColor: spec.defaultFillColor,
+      showDefaultName: spec.showDefaultName
     };
 
     return series;

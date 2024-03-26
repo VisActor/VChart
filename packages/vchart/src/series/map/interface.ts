@@ -45,6 +45,13 @@ export interface IMapSeriesSpec extends ISeriesSpec, IAnimationSpec<LineMarks, '
   /** 默认填充颜色 */
   defaultFillColor?: string;
 
+  /**
+   * 是否显示数据中没有的地区名称
+   * @default false
+   * @since 1.10.3
+   */
+  showDefaultName?: boolean;
+
   /** 标签配置 */
   label?: Omit<ILabelSpec, 'position'>;
 }
