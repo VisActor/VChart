@@ -30,7 +30,7 @@ yarn add @visactor/react-vchart
 
 ### DEMO
 
-完整 demo 请访问 [codeSandBox 页面](https://vp4y9p.csb.app/)。
+完整 demo 请访问[此页面](https://www.visactor.io/vchart/theme/demo/semi)。
 
 ### 安装
 
