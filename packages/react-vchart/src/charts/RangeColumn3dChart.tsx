@@ -1,8 +1,8 @@
 import React from 'react';
-import type { IRangeColumnChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type { IRangeColumn3dChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
-  registerRangeColumnChart,
+  registerRangeColumn3dChart,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
@@ -14,7 +14,7 @@ import {
 import { BaseChartProps, createChart } from './BaseChart';
 
 VChart.useRegisters([
-  registerRangeColumnChart,
+  registerRangeColumn3dChart,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
@@ -24,14 +24,13 @@ VChart.useRegisters([
   registerLabel
 ]);
 
-export interface RangeColumnChartProps
+export interface RangeColumn3dChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<IRangeColumnChartSpec, 'type'> {}
+    Omit<IRangeColumn3dChartSpec, 'type'> {}
 
-export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnChartProps> & { type: 'rangeColumn' }>(
-  'RangeColumnChart',
-  {
-    type: 'rangeColumn',
-    vchartConstrouctor: VChart as IVChartConstructor
-  }
-);
+export const RangeColumn3dChart = createChart<
+  React.PropsWithChildren<RangeColumn3dChartProps> & { type: 'rangeColumn3d' }
+>('RangeColumn3dChart', {
+  type: 'rangeColumn3d',
+  vchartConstrouctor: VChart as IVChartConstructor
+});

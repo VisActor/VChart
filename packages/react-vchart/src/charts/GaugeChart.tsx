@@ -1,15 +1,15 @@
 import React from 'react';
-import type { ISankeyChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerSankeyChart } from '@visactor/vchart';
+import type { IGaugeChartSpec, IVChartConstructor } from '@visactor/vchart';
+import { VChart, registerGaugeChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([registerSankeyChart]);
+VChart.useRegisters([registerGaugeChart]);
 
-export interface SankeyChartProps
+export interface GaugeChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<ISankeyChartSpec, 'type'> {}
+    Omit<IGaugeChartSpec, 'type'> {}
 
-export const SankeyChart = createChart<React.PropsWithChildren<SankeyChartProps> & { type: 'sankey' }>('SankeyChart', {
-  type: 'sankey',
+export const GaugeChart = createChart<React.PropsWithChildren<GaugeChartProps> & { type: 'gauge' }>('GaugeChart', {
+  type: 'gauge',
   vchartConstrouctor: VChart as IVChartConstructor
 });
