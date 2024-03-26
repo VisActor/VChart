@@ -15,6 +15,7 @@ export interface IMapSeriesSpec extends ISeriesSpec, IAnimationSpec<LineMarks, '
     };
     area?: IMarkSpec<Omit<IPathMarkSpec, 'smoothScale'>>;
     defaultFillColor?: string;
+    showDefaultName?: boolean;
     label?: Omit<ILabelSpec, 'position'>;
 }
 export interface IMapSeriesTheme {

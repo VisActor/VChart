@@ -92,6 +92,9 @@
       "$ref": "#/definitions/ICorrelationChartSpec"
     },
     {
+      "$ref": "#/definitions/ILiquidChartSpec"
+    },
+    {
       "$ref": "#/definitions/IWordCloudChartSpec"
     },
     {
@@ -45618,6 +45621,606 @@
       },
       "type": "object"
     },
+    "ILiquidChartSpec": {
+      "properties": {
+        "animationAppear": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "图表入场动画\n支持配置图表内置不同动画效果"
+        },
+        "animationDisappear": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LiquidAppearPreset>,\"preset\">"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "图表退场动画"
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LiquidAppearPreset>,\"preset\">"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 新增数据动画"
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LiquidAppearPreset>,\"preset\">"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 数据删除动画"
+        },
+        "animationNormal": {
+          "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>",
+          "description": "循环动画"
+        },
+        "animationThreshold": {
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "since": "1.2.0",
+          "type": "number"
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LiquidAppearPreset>,\"preset\">"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 数据更新动画"
+        },
+        "autoFit": {
+          "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
+          "type": "boolean"
+        },
+        "axes": {
+          "description": "笛卡尔坐标系的坐标轴配置",
+          "items": {
+            "$ref": "#/definitions/ICartesianAxisSpec"
+          },
+          "type": "array"
+        },
+        "background": {
+          "$ref": "#/definitions/IBackgroundSpec",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置"
+        },
+        "brush": {
+          "$ref": "#/definitions/IBrushSpec",
+          "description": "框选配置"
+        },
+        "color": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
+            }
+          ],
+          "description": "图表色系配置"
+        },
+        "crosshair": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ICartesianCrosshairSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ICartesianCrosshairSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "十字辅助线配置"
+        },
+        "customMark": {
+          "description": "自定义mark",
+          "items": {
+            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
+          },
+          "type": "array"
+        },
+        "data": {
+          "$ref": "#/definitions/IData",
+          "description": "数据"
+        },
+        "dataZoom": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IDataZoomSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IDataZoomSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "缩略轴配置"
+        },
+        "direction": {
+          "$ref": "#/definitions/DirectionType_1",
+          "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。"
+        },
+        "height": {
+          "description": "画布高度",
+          "type": "number"
+        },
+        "hover": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IHoverSpec"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "hover 交互"
+        },
+        "indicatorSmartInvert": {
+          "default": false,
+          "description": "是否开启指标智能反色",
+          "type": "boolean"
+        },
+        "layout": {
+          "$ref": "#/definitions/ILayoutSpec",
+          "description": "布局配置"
+        },
+        "legends": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IColorLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/ISizeLegendSpec"
+            },
+            {
+              "$ref": "#/definitions/IDiscreteLegendSpec",
+              "description": "spec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/ILegendSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "图例配置"
+        },
+        "liquid": {
+          "$ref": "#/definitions/IMarkSpec<ILiquidMarkSpec>",
+          "description": "水波图元配置"
+        },
+        "liquidBackground": {
+          "$ref": "#/definitions/IMarkSpec<IGroupMarkSpec>",
+          "description": "水波背景图元配置"
+        },
+        "liquidOutline": {
+          "$ref": "#/definitions/IMarkSpec<ISymbolMark>",
+          "description": "水波外轮廓配置"
+        },
+        "markArea": {
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkAreaSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "参考区域配置"
+        },
+        "markLine": {
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineXYY1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineYXX1Spec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkLineTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/Omit<IMarkLineTheme,\"line\"|\"label\">"
+                },
+                {
+                  "typeof": "function"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkLineSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "参考线配置"
+        },
+        "markPoint": {
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "参考点配置"
+        },
+        "maskShape": {
+          "default": "'circle'",
+          "description": "轮廓形状",
+          "type": "string"
+        },
+        "media": {
+          "description": "媒体查询配置",
+          "items": {
+            "$ref": "#/definitions/IMediaQueryItem"
+          },
+          "since": "1.8.0",
+          "type": "array"
+        },
+        "outlineMargin": {
+          "$ref": "#/definitions/ILiquidPaddingSpec",
+          "description": "外轮廓与region边界之间的padding"
+        },
+        "outlinePadding": {
+          "$ref": "#/definitions/ILiquidPaddingSpec",
+          "description": "内轮廓与外轮廓之间的padding"
+        },
+        "padding": {
+          "$ref": "#/definitions/ILayoutPaddingSpec",
+          "description": "图表整体 padding 设置"
+        },
+        "player": {
+          "$ref": "#/definitions/IPlayer",
+          "description": "播放器配置"
+        },
+        "region": {
+          "description": "region配置",
+          "items": {
+            "$ref": "#/definitions/RegionSpec"
+          },
+          "type": "array"
+        },
+        "scales": {
+          "description": "全局 scale 配置",
+          "items": {
+            "$ref": "#/definitions/IVisualSpecScale<unknown,unknown>"
+          },
+          "type": "array"
+        },
+        "scrollBar": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IScrollBarSpec"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IScrollBarSpec"
+              },
+              "type": "array"
+            }
+          ],
+          "description": "滚动条配置"
+        },
+        "select": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ISelectSpec"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "select 交互"
+        },
+        "series": {
+          "description": "系列配置",
+          "items": {
+            "$ref": "#/definitions/ILiquidSeriesSpec"
+          },
+          "type": "array"
+        },
+        "seriesStyle": {
+          "description": "仅在图表配置了seriesField时生效",
+          "items": {
+            "$ref": "#/definitions/ISeriesStyleItem"
+          },
+          "type": "array"
+        },
+        "stackInverse": {
+          "default": false,
+          "description": "堆积时是否逆序",
+          "since": "1.4.0",
+          "type": "boolean"
+        },
+        "theme": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<ITheme,\"name\">"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册"
+        },
+        "title": {
+          "$ref": "#/definitions/ITitleSpec",
+          "description": "图表标题配置"
+        },
+        "tooltip": {
+          "$ref": "#/definitions/ITooltipSpec",
+          "description": "tooltip配置"
+        },
+        "type": {
+          "const": "liquid",
+          "description": "图表类型",
+          "type": "string"
+        },
+        "valueField": {
+          "description": "value字段",
+          "type": "string"
+        },
+        "width": {
+          "description": "画布宽度",
+          "type": "number"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
     "ILiquidMarkSpec": {
       "properties": {
         "alpha": {
@@ -45823,6 +46426,127 @@
         }
       ],
       "description": "布局 padding的配置"
+    },
+    "ILiquidSeriesSpec": {
+      "properties": {
+        "animationAppear": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "图表入场动画\n支持配置图表内置不同动画效果"
+        },
+        "animationDisappear": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LiquidAppearPreset>,\"preset\">"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "图表退场动画"
+        },
+        "animationEnter": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LiquidAppearPreset>,\"preset\">"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 新增数据动画"
+        },
+        "animationExit": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LiquidAppearPreset>,\"preset\">"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 数据删除动画"
+        },
+        "animationNormal": {
+          "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>",
+          "description": "循环动画"
+        },
+        "animationUpdate": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Omit<IStateAnimateSpec<LiquidAppearPreset>,\"preset\">"
+            },
+            {
+              "$ref": "#/definitions/Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>"
+            },
+            {
+              "type": "boolean"
+            }
+          ],
+          "description": "数据更新 - 数据更新动画"
+        },
+        "indicatorSmartInvert": {
+          "default": false,
+          "description": "是否开启指标智能反色",
+          "type": "boolean"
+        },
+        "liquid": {
+          "$ref": "#/definitions/IMarkSpec<ILiquidMarkSpec>",
+          "description": "水波图元配置"
+        },
+        "liquidBackground": {
+          "$ref": "#/definitions/IMarkSpec<IGroupMarkSpec>",
+          "description": "水波背景图元配置"
+        },
+        "liquidOutline": {
+          "$ref": "#/definitions/IMarkSpec<ISymbolMark>",
+          "description": "水波外轮廓配置"
+        },
+        "maskShape": {
+          "default": "'circle'",
+          "description": "轮廓形状",
+          "type": "string"
+        },
+        "outlineMargin": {
+          "$ref": "#/definitions/ILiquidPaddingSpec",
+          "description": "外轮廓与region边界之间的padding"
+        },
+        "outlinePadding": {
+          "$ref": "#/definitions/ILiquidPaddingSpec",
+          "description": "内轮廓与外轮廓之间的padding"
+        },
+        "type": {
+          "const": "liquid",
+          "description": "系列类型",
+          "type": "string"
+        },
+        "valueField": {
+          "description": "value字段",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
     },
     "ILiquidSeriesTheme": {
       "properties": {
@@ -46261,6 +46985,12 @@
           },
           "type": "array"
         },
+        "showDefaultName": {
+          "default": false,
+          "description": "是否显示数据中没有的地区名称",
+          "since": "1.10.3",
+          "type": "boolean"
+        },
         "stack": {
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
@@ -46575,6 +47305,12 @@
             "$ref": "#/definitions/ISeriesStyleItem"
           },
           "type": "array"
+        },
+        "showDefaultName": {
+          "default": false,
+          "description": "是否显示数据中没有的地区名称",
+          "since": "1.10.3",
+          "type": "boolean"
         },
         "stack": {
           "description": "是否对数据进行堆叠处理",
@@ -47466,6 +48202,17 @@
       ],
       "description": "markSpec"
     },
+    "IMarkSpec<ILiquidMarkSpec>": {
+      "allOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "typeof": "function"
+        }
+      ],
+      "description": "markSpec"
+    },
     "IMarkSpec<ILiquidOutlineSpec>": {
       "allOf": [
         {
@@ -47511,6 +48258,17 @@
       "description": "markSpec"
     },
     "IMarkSpec<IRuleMarkSpec>": {
+      "allOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "typeof": "function"
+        }
+      ],
+      "description": "markSpec"
+    },
+    "IMarkSpec<ISymbolMark>": {
       "allOf": [
         {
           "typeof": "function"
@@ -72632,7 +73390,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         },
         "size": {
@@ -72640,14 +73398,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12943",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         },
         "size": {
@@ -72655,14 +73413,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12943",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         },
         "size": {
@@ -72670,14 +73428,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12943",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         },
         "size": {
@@ -72685,14 +73443,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12943",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         },
         "size": {
@@ -72700,14 +73458,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12943",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         },
         "size": {
@@ -72715,14 +73473,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12943",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         },
         "size": {
@@ -72730,14 +73488,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12943",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         },
         "size": {
@@ -72745,14 +73503,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12943",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         },
         "size": {
@@ -72760,7 +73518,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12943",
         "size"
       ],
       "type": "object"
@@ -77436,6 +78194,27 @@
       "type": "object"
     },
     "Omit<IStateAnimateSpec<LinearProgressAppearPreset>,\"preset\">": {
+      "properties": {
+        "delay": {
+          "description": "动画延迟开始的时长",
+          "type": "number"
+        },
+        "duration": {
+          "description": "图表动画时长",
+          "type": "number"
+        },
+        "easing": {
+          "$ref": "#/definitions/EasingType",
+          "description": "动画缓动效果"
+        },
+        "oneByOne": {
+          "description": "是否轮流执行",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Omit<IStateAnimateSpec<LiquidAppearPreset>,\"preset\">": {
       "properties": {
         "delay": {
           "description": "动画延迟开始的时长",
@@ -89506,6 +90285,31 @@
       },
       "type": "object"
     },
+    "Partial<Record<\"liquid\",false|IAnimationConfig|IAnimationConfig[]>>": {
+      "properties": {
+        "liquid": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IAnimationTimeline"
+            },
+            {
+              "$ref": "#/definitions/IAnimationTypeConfig"
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IAnimationConfig"
+              },
+              "type": "array"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
     "Partial<Record<\"rangeColumn\",false|IAnimationConfig|IAnimationConfig[]>>": {
       "properties": {
         "rangeColumn": {
@@ -91594,34 +92398,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12940"
+        "__@toStringTag@12943"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12940"
+        "__@toStringTag@12943"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12943": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12940"
+        "__@toStringTag@12943"
       ],
       "type": "object"
     },

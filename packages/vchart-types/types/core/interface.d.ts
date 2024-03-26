@@ -23,6 +23,7 @@ export type DataLinkAxis = {
 };
 export interface IVChartConstructor {
     new (spec: ISpec, options: IInitOption): IVChart;
+    useRegisters: (comps: (() => void)[]) => any;
 }
 export interface IVChart {
     readonly id: number;
