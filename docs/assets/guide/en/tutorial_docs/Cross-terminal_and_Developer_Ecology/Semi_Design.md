@@ -32,7 +32,7 @@ In order to provide a better experience for VChart in the Semi page environment,
 
 ### DEMO
 
-For a complete demo, please visit the [codeSandBox page](https://vp4y9p.csb.app/).
+For a complete demo, please visit the [this page](https://www.visactor.io/vchart/theme/demo/semi).
 
 ### Installation
 
