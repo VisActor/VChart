@@ -20,7 +20,7 @@ import { SeriesData } from '../base/series-data';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
-import { PathMark, registerPathMark } from '../../mark/path';
+import { registerPathMark } from '../../mark/path';
 import { mapSeriesMark } from './constant';
 import type { ILabelMark } from '../../mark/label';
 import { Factory } from '../../core/factory';
@@ -302,7 +302,9 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       if (this._spec.nameMap && this._spec.nameMap[name]) {
         return this._spec.nameMap[name];
       }
-      return name;
+      if (this._spec.showDefaultName) {
+        return name;
+      }
     }
     return '';
   }
