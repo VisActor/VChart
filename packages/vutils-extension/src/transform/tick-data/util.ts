@@ -1,11 +1,11 @@
 import type { IBaseScale } from '@visactor/vscale';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { AABBBounds, degreeToRadian, polarToCartesian } from '@visactor/vutils';
+import { AABBBounds, degreeToRadian } from '@visactor/vutils';
 import type { IGraphic, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
 import { initTextMeasure } from '../../utils/text';
-import { angleLabelOrientAttribute } from '../../utils/polar';
 import type { ICartesianTickDataOpt, IOrientType, IPolarTickDataOpt, ITickData } from './interface';
+import { getLabelPos } from './utils/polar-label-position';
 
 export const convertDomainToTickData = (domain: any[]): ITickData[] => {
   const ticks = domain.map((t: number, index: number) => {
@@ -141,7 +141,7 @@ export const getCartesianLabelBounds = (scale: IBaseScale, domain: any[], op: IC
 };
 
 export const getPolarAngleLabelBounds = (scale: IBaseScale, domain: any[], op: IPolarTickDataOpt): AABBBounds[] => {
-  const { labelStyle, getRadius, labelOffset, labelFormatter } = op;
+  const { labelStyle, getRadius, labelOffset, labelFormatter, inside } = op;
   const radius = getRadius?.();
   const labelAngle = labelStyle.angle ?? 0;
 
@@ -158,8 +158,12 @@ export const getPolarAngleLabelBounds = (scale: IBaseScale, domain: any[], op: I
     const angle = scale.scale(v);
     let textX = 0;
     let textY = 0;
-    const orient = angleLabelOrientAttribute(angle);
-    const { x, y } = polarToCartesian({ x: 0, y: 0 }, radius + labelOffset, angle);
+    const orient = {
+      align: labelStyle.textAlign ?? 'center',
+      baseline: labelStyle.textBaseline ?? 'middle'
+    };
+
+    const { x, y } = getLabelPos(angle, { x: 0, y: 0 }, radius, labelOffset, inside, str, labelStyle);
     textX = x + (orient.align === 'right' ? -textWidth : orient.align === 'center' ? -textWidth / 2 : 0);
     textY = y + (orient.baseline === 'bottom' ? -textHeight : orient.baseline === 'middle' ? -textHeight / 2 : 0);
 
