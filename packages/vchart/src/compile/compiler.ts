@@ -179,9 +179,9 @@ export class Compiler {
         const interaction = this._view.interaction(regionCombindInteractions[key].type, regionCombindInteractions[key]);
         if (this._compileChart) {
           const region = this._compileChart.getRegionsInIds([regionCombindInteractions[key].regionId])[0];
-          // if (region) {
-          //   region.interaction.addVgrammarInteraction(interaction.getStartState(), interaction);
-          // }
+          if (region) {
+            region.interaction.addVgrammarInteraction(interaction.getStartState(), interaction);
+          }
         }
       });
     }
