@@ -1,6 +1,19 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 19 Mar 2024 14:59:23 GMT and should not be manually modified.
+This log was last generated on Tue, 26 Mar 2024 03:13:22 GMT and should not be manually modified.
+
+## 1.10.2
+Tue, 26 Mar 2024 03:13:22 GMT
+
+### Updates
+
+- feat: support interaction events of `element-select` and `element-highlight`
+
+
+- fix: `lineWidth` is invalid in rect-type-crosshair, related #2432
+- fix: should use `series.getMarkInName` to get the mark for total label's caculation, fixed #2448
+- fix: fix the issue of event trigger count after `updateSpecSync()`
+- fix: fix radar chart clipAngle animation error when loading on demand.
 
 ## 1.10.1
 Tue, 19 Mar 2024 14:59:23 GMT

@@ -7,6 +7,7 @@ import { BaseModel } from '../../model/base-model';
 import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo, ISeriesStackDataLeaf, ISeriesStackDataMeta } from '../interface';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
+import type { IBaseInteractionSpec } from '../../interaction/interface';
 import type { StatisticOperations } from '../../data/transforms/dimension-statistics';
 import { SeriesData } from './series-data';
 import type { IGroupMark } from '../../mark/group';
@@ -125,8 +126,8 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     private _createExtensionMark;
     protected _updateExtensionMarkSpec(lastSpec?: any): void;
     getStackData(): ISeriesStackData;
+    protected _parseSelectorOfInteraction(interactionSpec: IBaseInteractionSpec, marks: IMark[]): string[];
     protected _parseDefaultInteractionConfig(mainMarks?: IMark[]): ({
-        vchartState: STATE_VALUE_ENUM;
         seriesId: number;
         regionId: number;
         selector: string[];
@@ -139,7 +140,6 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
         state?: undefined;
         isMultiple?: undefined;
     } | {
-        vchartState: STATE_VALUE_ENUM;
         type: string;
         seriesId: number;
         regionId: number;

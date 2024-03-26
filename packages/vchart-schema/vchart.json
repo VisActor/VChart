@@ -790,7 +790,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -947,7 +947,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -1101,7 +1101,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -1255,7 +1255,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -1409,7 +1409,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -1551,7 +1551,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -1684,7 +1684,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -1810,7 +1810,7 @@
           "$ref": "#/definitions/VisualType<Cursor>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -1955,7 +1955,7 @@
           "$ref": "#/definitions/VisualType<Cursor>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -2124,7 +2124,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -2255,7 +2255,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -2383,7 +2383,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "image": {
@@ -2523,7 +2523,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "image": {
@@ -2662,7 +2662,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -2798,7 +2798,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -2941,7 +2941,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -3101,7 +3101,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -3248,7 +3248,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -3372,7 +3372,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -3500,7 +3500,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -3625,7 +3625,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -3750,7 +3750,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -3875,7 +3875,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -4003,7 +4003,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -4140,7 +4140,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -4277,7 +4277,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -4411,7 +4411,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -4545,7 +4545,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -4678,7 +4678,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -4839,7 +4839,7 @@
           "$ref": "#/definitions/VisualType<Cursor>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -4956,7 +4956,7 @@
           "$ref": "#/definitions/VisualType<Cursor>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -5088,7 +5088,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -5230,7 +5230,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -5514,7 +5514,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -5649,7 +5649,7 @@
           "$ref": "#/definitions/VisualType<number>"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -5811,7 +5811,7 @@
           "description": "字重"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -6001,7 +6001,7 @@
           "description": "字重"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -6191,7 +6191,7 @@
           "description": "字重"
         },
         "html": {
-          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -17785,7 +17785,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -18081,7 +18081,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -18453,7 +18453,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -18881,7 +18881,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -19133,7 +19133,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -19496,7 +19496,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -19598,7 +19598,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -20243,7 +20243,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -20646,7 +20646,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -21116,7 +21116,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -21519,7 +21519,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -21868,7 +21868,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -21945,7 +21945,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -22526,7 +22526,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -22942,7 +22942,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -23137,7 +23137,7 @@
           "$ref": "#/definitions/Cursor_1"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -23428,7 +23428,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -23518,7 +23518,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -24643,7 +24643,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -24689,7 +24689,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -24909,7 +24909,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -24989,7 +24989,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -25262,7 +25262,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -25393,7 +25393,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -25619,7 +25619,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -25684,7 +25684,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -26032,7 +26032,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -26190,7 +26190,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -26476,7 +26476,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -26568,7 +26568,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -27188,7 +27188,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -27410,7 +27410,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -28653,7 +28653,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -28805,7 +28805,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -29078,7 +29078,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -29168,7 +29168,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -31510,6 +31510,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "reversed": {
           "type": "boolean"
@@ -31804,7 +31807,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -31854,7 +31857,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -32681,10 +32684,16 @@
           "description": "画布高度",
           "type": "number"
         },
+        "heightRatio": {
+          "default": 0.5,
+          "description": "漏斗层与转化层的图形高度比例\nThe height ratio between the funnel graphic and the transform graphic",
+          "since": "1.10.1",
+          "type": "number"
+        },
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -32847,7 +32856,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -33209,10 +33218,16 @@
           "description": "画布高度",
           "type": "number"
         },
+        "heightRatio": {
+          "default": 0.5,
+          "description": "漏斗层与转化层的图形高度比例\nThe height ratio between the funnel graphic and the transform graphic",
+          "since": "1.10.1",
+          "type": "number"
+        },
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -33375,7 +33390,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -33982,10 +33997,16 @@
           "description": "漏斗层之间的像素间隔。转化漏斗图不支持gap配置。",
           "type": "number"
         },
+        "heightRatio": {
+          "default": 0.5,
+          "description": "漏斗层与转化层的图形高度比例\nThe height ratio between the funnel graphic and the transform graphic",
+          "since": "1.10.1",
+          "type": "number"
+        },
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -34082,7 +34103,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -34442,7 +34463,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -34635,7 +34656,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -34923,7 +34944,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -35050,7 +35071,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -35374,7 +35395,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -35480,7 +35501,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -36043,7 +36064,7 @@
           "type": "boolean"
         },
         "bindDom": {
-          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -36597,7 +36618,7 @@
           "type": "boolean"
         },
         "bindDom": {
-          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -37151,7 +37172,7 @@
           "type": "boolean"
         },
         "bindDom": {
-          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -37788,7 +37809,7 @@
           "type": "boolean"
         },
         "bindDom": {
-          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -38500,7 +38521,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -38899,7 +38920,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -39173,7 +39194,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -39246,7 +39267,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -39706,7 +39727,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -40109,7 +40130,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -40530,7 +40551,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -40933,7 +40954,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -41085,6 +41106,32 @@
       "required": [
         "type"
       ],
+      "type": "object"
+    },
+    "IHoverSpec": {
+      "properties": {
+        "enable": {
+          "type": "boolean"
+        },
+        "markIds": {
+          "items": {
+            "$ref": "#/definitions/StringOrNumber"
+          },
+          "type": "array"
+        },
+        "markNames": {
+          "items": {
+            "$ref": "#/definitions/StringOrNumber"
+          },
+          "type": "array"
+        },
+        "trigger": {
+          "$ref": "#/definitions/Trigger"
+        },
+        "triggerOff": {
+          "$ref": "#/definitions/Trigger"
+        }
+      },
       "type": "object"
     },
     "IIndicatorItemSpec": {
@@ -42201,7 +42248,7 @@
           "type": "boolean"
         },
         "bindDom": {
-          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
         },
         "blendMode": {
           "type": "string"
@@ -42832,6 +42879,9 @@
         "releaseLayer": {
           "typeof": "function"
         },
+        "releaseStage": {
+          "typeof": "function"
+        },
         "restLayerCount": {
           "typeof": "function"
         }
@@ -42842,6 +42892,7 @@
         "layerCount",
         "prepareStageLayer",
         "releaseLayer",
+        "releaseStage",
         "restLayerCount"
       ],
       "type": "object"
@@ -43235,7 +43286,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -43675,7 +43726,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -43957,7 +44008,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -44235,7 +44286,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -44349,7 +44400,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -44769,7 +44820,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -44895,7 +44946,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -45145,7 +45196,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -45205,7 +45256,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -45381,7 +45432,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -45435,7 +45486,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -45615,7 +45666,7 @@
           "$ref": "#/definitions/Cursor_1"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -46052,7 +46103,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -46184,7 +46235,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -46441,7 +46492,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -46507,7 +46558,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -48652,7 +48703,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -49072,7 +49123,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -49234,7 +49285,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -49614,7 +49665,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -49776,7 +49827,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -50034,7 +50085,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -50126,7 +50177,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -51131,7 +51182,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -51691,6 +51742,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -51998,7 +52052,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -52381,7 +52435,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -52565,7 +52619,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -52851,7 +52905,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -52969,7 +53023,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -53352,7 +53406,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -53787,7 +53841,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -54082,7 +54136,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -54191,7 +54245,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -54580,7 +54634,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -54997,7 +55051,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -55348,7 +55402,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -55439,7 +55493,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -55833,7 +55887,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -56250,7 +56304,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -56601,7 +56655,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -56692,7 +56746,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -56951,7 +57005,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -57213,7 +57267,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -57903,7 +57957,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -58050,7 +58104,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -58317,7 +58371,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -58398,7 +58452,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -58608,7 +58662,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -58978,7 +59032,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -59183,7 +59237,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -59410,7 +59464,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -59553,7 +59607,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -59832,7 +59886,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -60228,7 +60282,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -60536,7 +60590,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -60606,7 +60660,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -61306,6 +61360,52 @@
       ],
       "type": "object"
     },
+    "ISelectSpec": {
+      "properties": {
+        "enable": {
+          "type": "boolean"
+        },
+        "markIds": {
+          "items": {
+            "$ref": "#/definitions/StringOrNumber"
+          },
+          "type": "array"
+        },
+        "markNames": {
+          "items": {
+            "$ref": "#/definitions/StringOrNumber"
+          },
+          "type": "array"
+        },
+        "mode": {
+          "enum": [
+            "multiple",
+            "single"
+          ],
+          "type": "string"
+        },
+        "trigger": {
+          "$ref": "#/definitions/Trigger"
+        },
+        "triggerOff": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": [
+                "string",
+                "number"
+              ]
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
     "ISequenceChartSpec": {
       "properties": {
         "animationThreshold": {
@@ -61403,7 +61503,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -61490,7 +61590,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -61634,7 +61734,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -61680,7 +61780,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -62005,7 +62105,7 @@
           "type": "boolean"
         },
         "bindDom": {
-          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>"
+          "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
         },
         "childrenCount": {
           "type": "number"
@@ -63347,7 +63447,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -63520,7 +63620,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -63777,7 +63877,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -63884,7 +63984,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -64128,7 +64228,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -64426,7 +64526,7 @@
           "description": "字重"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -66356,7 +66456,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -66564,7 +66664,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -66823,7 +66923,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -66961,7 +67061,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -67982,7 +68082,7 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>": {
+    "IVisualSpecStyle<unknown,Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>": {
       "properties": {
         "domain": {
           "description": "will set to scale.domain, it means input of scale",
@@ -67995,7 +68095,7 @@
         "range": {
           "description": "will set to scale.range, it means output of scale",
           "items": {
-            "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>"
+            "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>"
           },
           "type": "array"
         },
@@ -69180,7 +69280,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -69594,7 +69694,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -69968,7 +70068,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -70056,7 +70156,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -70804,7 +70904,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -70944,7 +71044,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -71267,7 +71367,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -71341,7 +71441,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -71739,7 +71839,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -71875,7 +71975,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -72195,7 +72295,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -72265,7 +72365,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -72532,7 +72632,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         },
         "size": {
@@ -72540,14 +72640,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12940",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         },
         "size": {
@@ -72555,14 +72655,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12940",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         },
         "size": {
@@ -72570,14 +72670,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12940",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         },
         "size": {
@@ -72585,14 +72685,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12940",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         },
         "size": {
@@ -72600,14 +72700,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12940",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         },
         "size": {
@@ -72615,14 +72715,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12940",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         },
         "size": {
@@ -72630,14 +72730,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12940",
         "size"
       ],
       "type": "object"
     },
-    "Map<string|HTMLElement,{container:string|HTMLElement;dom:HTMLElement;wrapGroup:HTMLDivElement;}>": {
+    "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         },
         "size": {
@@ -72645,14 +72745,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12940",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         },
         "size": {
@@ -72660,7 +72760,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12934",
+        "__@toStringTag@12940",
         "size"
       ],
       "type": "object"
@@ -73473,6 +73573,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "reversed": {
           "type": "boolean"
@@ -73804,7 +73907,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -73881,7 +73984,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -74487,7 +74590,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -74579,7 +74682,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -75263,10 +75366,16 @@
           "description": "漏斗层之间的像素间隔。转化漏斗图不支持gap配置。",
           "type": "number"
         },
+        "heightRatio": {
+          "default": 0.5,
+          "description": "漏斗层与转化层的图形高度比例\nThe height ratio between the funnel graphic and the transform graphic",
+          "since": "1.10.1",
+          "type": "number"
+        },
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -75363,7 +75472,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -75593,7 +75702,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -75699,7 +75808,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -76135,6 +76244,9 @@
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
+        },
+        "react": {
+          "typeof": "function"
         },
         "renderStyle": {},
         "scaleCenter": {
@@ -77018,7 +77130,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -77110,7 +77222,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -78317,6 +78429,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -78830,6 +78945,9 @@
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
+        },
+        "react": {
+          "typeof": "function"
         },
         "realTime": {
           "type": "boolean"
@@ -79641,6 +79759,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -80078,6 +80199,9 @@
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
+        },
+        "react": {
+          "typeof": "function"
         },
         "renderStyle": {},
         "scaleCenter": {
@@ -80559,6 +80683,9 @@
         },
         "radius": {
           "type": "number"
+        },
+        "react": {
+          "typeof": "function"
         },
         "renderStyle": {},
         "scaleCenter": {
@@ -81056,6 +81183,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -81461,6 +81591,9 @@
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
+        },
+        "react": {
+          "typeof": "function"
         },
         "renderStyle": {},
         "scaleCenter": {
@@ -81940,6 +82073,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -82377,6 +82513,9 @@
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
+        },
+        "react": {
+          "typeof": "function"
         },
         "renderStyle": {},
         "repeatX": {
@@ -83095,6 +83234,9 @@
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
+        },
+        "react": {
+          "typeof": "function"
         },
         "renderStyle": {},
         "scaleCenter": {
@@ -84319,6 +84461,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -84744,6 +84889,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -84971,7 +85119,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -85419,6 +85567,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -85847,6 +85998,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -86086,7 +86240,7 @@
           "type": "number"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -86234,6 +86388,7 @@
     },
     "Partial<IStageParams>": {
       "properties": {
+        "ReactDOM": {},
         "afterRender": {
           "typeof": "function"
         },
@@ -86624,6 +86779,9 @@
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
+        },
+        "react": {
+          "typeof": "function"
         },
         "renderStyle": {},
         "scaleCenter": {
@@ -87106,6 +87264,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -87434,7 +87595,7 @@
           "description": "字重"
         },
         "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>",
           "since": "1.10.0\nhtml 浮层"
         },
         "innerBorder": {
@@ -87750,7 +87911,7 @@
         "hover": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/IHoverSpec"
             },
             {
               "type": "boolean"
@@ -87826,7 +87987,7 @@
         "select": {
           "anyOf": [
             {
-              "typeof": "function"
+              "$ref": "#/definitions/ISelectSpec"
             },
             {
               "type": "boolean"
@@ -88246,6 +88407,9 @@
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
+        },
+        "react": {
+          "typeof": "function"
         },
         "renderStyle": {},
         "scaleCenter": {
@@ -88734,6 +88898,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -89143,6 +89310,9 @@
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
+        },
+        "react": {
+          "typeof": "function"
         },
         "renderStyle": {},
         "scaleCenter": {
@@ -90316,7 +90486,7 @@
     "Partial<any>": {
       "type": "object"
     },
-    "Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>": {
+    "Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>": {
       "properties": {
         "anchorType": {
           "enum": [
@@ -90347,6 +90517,9 @@
         },
         "height": {
           "type": "number"
+        },
+        "pointerEvents": {
+          "type": "boolean"
         },
         "style": {
           "anyOf": [
@@ -90635,6 +90808,7 @@
                 "mouseover",
                 "mouseup",
                 "mouseupoutside",
+                "none",
                 "pan",
                 "panend",
                 "panstart",
@@ -90692,7 +90866,57 @@
           "$ref": "#/definitions/EventType"
         },
         "triggerOff": {
-          "$ref": "#/definitions/EventType"
+          "enum": [
+            "click",
+            "dblclick",
+            "drag",
+            "dragend",
+            "dragenter",
+            "dragleave",
+            "dragover",
+            "dragstart",
+            "drop",
+            "mousedown",
+            "mouseenter",
+            "mouseleave",
+            "mousemove",
+            "mouseout",
+            "mouseover",
+            "mouseup",
+            "mouseupoutside",
+            "none",
+            "pan",
+            "panend",
+            "panstart",
+            "pinch",
+            "pinchend",
+            "pinchstart",
+            "pointerdown",
+            "pointerenter",
+            "pointerleave",
+            "pointermove",
+            "pointerout",
+            "pointerover",
+            "pointertap",
+            "pointerup",
+            "pointerupoutside",
+            "press",
+            "pressend",
+            "pressup",
+            "resize",
+            "rightdown",
+            "rightup",
+            "rightupoutside",
+            "swipe",
+            "tap",
+            "touchcancel",
+            "touchend",
+            "touchendoutside",
+            "touchmove",
+            "touchstart",
+            "wheel"
+          ],
+          "type": "string"
         },
         "type": {
           "const": "element-highlight-by-group",
@@ -90716,7 +90940,57 @@
           "$ref": "#/definitions/EventType"
         },
         "triggerOff": {
-          "$ref": "#/definitions/EventType"
+          "enum": [
+            "click",
+            "dblclick",
+            "drag",
+            "dragend",
+            "dragenter",
+            "dragleave",
+            "dragover",
+            "dragstart",
+            "drop",
+            "mousedown",
+            "mouseenter",
+            "mouseleave",
+            "mousemove",
+            "mouseout",
+            "mouseover",
+            "mouseup",
+            "mouseupoutside",
+            "none",
+            "pan",
+            "panend",
+            "panstart",
+            "pinch",
+            "pinchend",
+            "pinchstart",
+            "pointerdown",
+            "pointerenter",
+            "pointerleave",
+            "pointermove",
+            "pointerout",
+            "pointerover",
+            "pointertap",
+            "pointerup",
+            "pointerupoutside",
+            "press",
+            "pressend",
+            "pressup",
+            "resize",
+            "rightdown",
+            "rightup",
+            "rightupoutside",
+            "swipe",
+            "tap",
+            "touchcancel",
+            "touchend",
+            "touchendoutside",
+            "touchmove",
+            "touchstart",
+            "wheel"
+          ],
+          "type": "string"
         },
         "type": {
           "const": "element-highlight-by-key",
@@ -90799,7 +91073,57 @@
           "$ref": "#/definitions/EventType"
         },
         "triggerOff": {
-          "$ref": "#/definitions/EventType"
+          "enum": [
+            "click",
+            "dblclick",
+            "drag",
+            "dragend",
+            "dragenter",
+            "dragleave",
+            "dragover",
+            "dragstart",
+            "drop",
+            "mousedown",
+            "mouseenter",
+            "mouseleave",
+            "mousemove",
+            "mouseout",
+            "mouseover",
+            "mouseup",
+            "mouseupoutside",
+            "none",
+            "pan",
+            "panend",
+            "panstart",
+            "pinch",
+            "pinchend",
+            "pinchstart",
+            "pointerdown",
+            "pointerenter",
+            "pointerleave",
+            "pointermove",
+            "pointerout",
+            "pointerover",
+            "pointertap",
+            "pointerup",
+            "pointerupoutside",
+            "press",
+            "pressend",
+            "pressup",
+            "resize",
+            "rightdown",
+            "rightup",
+            "rightupoutside",
+            "swipe",
+            "tap",
+            "touchcancel",
+            "touchend",
+            "touchendoutside",
+            "touchmove",
+            "touchstart",
+            "wheel"
+          ],
+          "type": "string"
         },
         "type": {
           "const": "element-highlight",
@@ -90912,6 +91236,7 @@
                 "mouseover",
                 "mouseup",
                 "mouseupoutside",
+                "none",
                 "pan",
                 "panend",
                 "panstart",
@@ -91269,34 +91594,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12934"
+        "__@toStringTag@12940"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12934"
+        "__@toStringTag@12940"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12934": {
+        "__@toStringTag@12940": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12934"
+        "__@toStringTag@12940"
       ],
       "type": "object"
     },
@@ -91724,6 +92049,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -91895,6 +92223,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -92243,6 +92572,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -92415,6 +92747,7 @@
         "pickable",
         "points",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -92737,6 +93070,9 @@
         "radius": {
           "type": "number"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -92900,6 +93236,7 @@
         "pickable",
         "postMatrix",
         "radius",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -93245,6 +93582,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -93410,6 +93750,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -93801,6 +94142,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -93975,6 +94319,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -94321,6 +94666,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
@@ -94491,6 +94839,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "repeatX",
         "repeatY",
@@ -94844,6 +95193,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -95017,6 +95369,7 @@
         "pickable",
         "points",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -95346,6 +95699,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -95506,6 +95862,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -95843,6 +96200,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -96004,6 +96364,7 @@
         "pickable",
         "points",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -96338,6 +96699,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -96508,6 +96872,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -96842,6 +97207,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -97011,6 +97379,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -97396,6 +97765,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -97658,6 +98030,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleIn3d",
@@ -98098,6 +98471,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "repeatX": {
           "$ref": "#/definitions/IRepeatType"
@@ -98285,6 +98661,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "repeatX",
         "repeatY",
@@ -98605,6 +98982,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -98786,6 +99166,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleX",
@@ -99158,6 +99539,9 @@
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
         },
+        "react": {
+          "typeof": "function"
+        },
         "renderStyle": {},
         "scaleCenter": {
           "items": [
@@ -99401,6 +99785,7 @@
         "pickStrokeBuffer",
         "pickable",
         "postMatrix",
+        "react",
         "renderStyle",
         "scaleCenter",
         "scaleIn3d",
@@ -103211,6 +103596,19 @@
         }
       ]
     },
+    "Trigger": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
     "VisualType<\"accurate\"|\"imprecise\">": {
       "anyOf": [
         {
@@ -103712,19 +104110,19 @@
         }
       ]
     },
-    "VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>": {
+    "VisualType<Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>": {
       "anyOf": [
         {
           "$ref": "#/definitions/IVisualScale"
         },
         {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>"
+          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>"
         },
         {
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style:string|Record<string,any>;visible?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>"
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,Partial<{dom:string|HTMLElement;container:string|HTMLElement;width:number;height:number;style?:string|Record<string,any>;visible?:boolean;pointerEvents?:boolean;anchorType?:\"position\"|\"boundsLeftTop\";}>>"
         }
       ]
     },

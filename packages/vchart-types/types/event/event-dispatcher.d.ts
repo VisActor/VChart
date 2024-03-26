@@ -19,10 +19,12 @@ export declare class EventDispatcher implements IEventDispatcher {
     private _filter;
     private _prepareParams;
     private _onDelegate;
+    private _onDelegateInteractionEvent;
     private _invoke;
     private _getQueryLevel;
     private _parseQuery;
     private getEventBubble;
     private getEventListeners;
     private _isValidEvent;
+    private _isInteractionEvent;
 }
