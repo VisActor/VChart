@@ -229,6 +229,23 @@ export const VeOColor = {
 
 `@visactor/vchart-ve-o-theme` 主题包同时导出了 json 格式的静态主题，内置了源力设计的样式默认值。
 
+- [veODesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignLight.json) O Design - light
+- [veODesignLightFinance](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignLightFinance.json) O Design - light - 金融行业色板
+- [veODesignLightGovernment](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignLightGovernment.json) O Design - light - 政府行业色板
+- [veODesignLightConsumer](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignLightConsumer.json) O Design - light - 大消费行业色板
+- [veODesignLightAutomobile](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignLightAutomobile.json) O Design - light - 汽车行业色板
+- [veODesignLightCulturalTourism](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignLightCulturalTourism.json) O Design - light - 文旅行业色板
+- [veODesignLightMedical](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignLightMedical.json) O Design - light - 医疗行业色板
+- [veODesignLightNewEnergy](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignLightNewEnergy.json) O Design - light - 新能源行业色板
+- [veODesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignDark.json) O Design - dark
+- [veODesignDarkFinance](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignDarkFinance.json) O Design - dark - 金融行业色板
+- [veODesignDarkGovernment](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignDarkGovernment.json) O Design - dark - 政府行业色板
+- [veODesignDarkConsumer](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignDarkConsumer.json) O Design - dark - 大消费行业色板
+- [veODesignDarkAutomobile](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignDarkAutomobile.json) O Design - dark - 汽车行业色板
+- [veODesignDarkCulturalTourism](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignDarkCulturalTourism.json) O Design - dark - 文旅行业色板
+- [veODesignDarkMedical](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignDarkMedical.json) O Design - dark - 医疗行业色板
+- [veODesignDarkNewEnergy](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignDarkNewEnergy.json) O Design - dark - 新能源行业色板
+
 使用时，直接从该包中引用对应主题的 JSON 文件，全局只需执行一次：
 
 ```typescript
@@ -239,8 +256,3 @@ VChart.ThemeManager.registerTheme('veODesignLight', veODesignLight);
 // apply the theme
 VChart.ThemeManager.setCurrentTheme('veODesignLight');
 ```
-
-该包同时包含两个静态的主题 json 资源，可以按需使用。
-
-- [veODesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignLight.json) Arco Design - light
-- [veODesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-ve-o-theme/public/veODesignDark.json) Arco Design - dark
