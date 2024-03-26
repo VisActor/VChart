@@ -599,6 +599,13 @@
                 "zh": "适用于 Arco Design 的主题",
                 "en": "Themes for Arco Design"
               }
+            },
+            {
+              "path": "Ve_O_Design",
+              "title": {
+                "zh": "适用于源力设计的主题",
+                "en": "Themes for O Design"
+              }
             }
           ]
         },

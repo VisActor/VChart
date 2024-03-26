@@ -47,7 +47,7 @@ In order to provide a better experience for VChart in the Arco page environment,
 
 ### DEMO
 
-For a complete demo, please visit the [codeSandBox page](https://gr93cn-3000.csb.app/).
+For a complete demo, please visit the [this page](https://www.visactor.io/vchart/theme/demo/arco).
 
 ### Installation
 
