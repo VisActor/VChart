@@ -1,37 +1,36 @@
 import React from 'react';
-import type { IRangeColumnChartSpec, IVChartConstructor } from '@visactor/vchart';
+import type { IBar3dChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
-  registerRangeColumnChart,
+  registerBar3dChart,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
   registerCartesianLogAxis, // 非必选
   registerCartesianCrossHair,
-  registerScrollBar,
-  registerLabel
+  registerLabel,
+  registerTotalLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 VChart.useRegisters([
-  registerRangeColumnChart,
+  registerBar3dChart,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
   registerCartesianLogAxis, // 非必选
   registerCartesianCrossHair,
-  registerScrollBar,
-  registerLabel
+  registerLabel,
+  registerTotalLabel
 ]);
 
-export interface RangeColumnChartProps
+export interface Bar3dChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<IRangeColumnChartSpec, 'type'> {}
+    Omit<IBar3dChartSpec, 'type'> {
+  //
+}
 
-export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnChartProps> & { type: 'rangeColumn' }>(
-  'RangeColumnChart',
-  {
-    type: 'rangeColumn',
-    vchartConstrouctor: VChart as IVChartConstructor
-  }
-);
+export const Bar3dChart = createChart<React.PropsWithChildren<Bar3dChartProps> & { type: 'bar3d' }>('Bar3dChart', {
+  type: 'bar3d',
+  vchartConstrouctor: VChart as IVChartConstructor
+});

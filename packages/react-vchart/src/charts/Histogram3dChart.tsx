@@ -1,37 +1,35 @@
 import React from 'react';
-import type { IRangeColumnChartSpec, IVChartConstructor } from '@visactor/vchart';
+import { IHistogram3dChartSpec, IVChartConstructor } from '@visactor/vchart';
 import {
   VChart,
-  registerRangeColumnChart,
+  registerHistogram3dChart,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
   registerCartesianLogAxis, // 非必选
   registerCartesianCrossHair,
-  registerScrollBar,
   registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 VChart.useRegisters([
-  registerRangeColumnChart,
+  registerHistogram3dChart,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerCartesianTimeAxis, // 非必选
   registerCartesianLogAxis, // 非必选
   registerCartesianCrossHair,
-  registerScrollBar,
   registerLabel
 ]);
 
-export interface RangeColumnChartProps
+export interface Histogram3dChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
-    Omit<IRangeColumnChartSpec, 'type'> {}
+    Omit<IHistogram3dChartSpec, 'type'> {}
 
-export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnChartProps> & { type: 'rangeColumn' }>(
-  'RangeColumnChart',
+export const Histogram3dChart = createChart<React.PropsWithChildren<Histogram3dChartProps> & { type: 'histogram3d' }>(
+  'Histogram3dChart',
   {
-    type: 'rangeColumn',
+    type: 'histogram3d',
     vchartConstrouctor: VChart as IVChartConstructor
   }
 );
