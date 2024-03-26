@@ -274,13 +274,13 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 export const createChart = <T extends Props>(
   componentName: string,
   defaultProps?: Partial<T>,
-  callback?: (props: T, defaultProps?: Partial<T>) => T
+  registers?: (() => void)[]
 ) => {
-  const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
-    if (callback) {
-      return callback(props, defaultProps);
-    }
+  if (registers && registers.length && defaultProps.vchartConstrouctor) {
+    defaultProps.vchartConstrouctor.useRegisters(registers);
+  }
 
+  const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
     if (defaultProps) {
       return Object.assign(props, defaultProps);
     }

@@ -12,16 +12,6 @@ import {
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerScatterChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
-  registerCartesianCrossHair,
-  registerLabel
-]);
-
 export interface ScatterChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IScatterChartSpec, 'type'> {}
@@ -31,5 +21,14 @@ export const ScatterChart = createChart<React.PropsWithChildren<ScatterChartProp
   {
     type: 'scatter',
     vchartConstrouctor: VChart as IVChartConstructor
-  }
+  },
+  [
+    registerScatterChart,
+    registerCartesianLinearAxis,
+    registerCartesianBandAxis,
+    registerCartesianTimeAxis, // 非必选
+    registerCartesianLogAxis, // 非必选
+    registerCartesianCrossHair,
+    registerLabel
+  ]
 );

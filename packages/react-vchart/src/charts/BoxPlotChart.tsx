@@ -12,16 +12,6 @@ import {
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerBoxplotChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
-  registerCartesianCrossHair,
-  registerLabel
-]);
-
 export interface BoxPlotChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IBoxPlotChartSpec, 'type'> {}
@@ -31,5 +21,14 @@ export const BoxPlotChart = createChart<React.PropsWithChildren<BoxPlotChartProp
   {
     type: 'boxPlot',
     vchartConstrouctor: VChart as IVChartConstructor
-  }
+  },
+  [
+    registerBoxplotChart,
+    registerCartesianLinearAxis,
+    registerCartesianBandAxis,
+    registerCartesianTimeAxis, // 非必选
+    registerCartesianLogAxis, // 非必选
+    registerCartesianCrossHair,
+    registerLabel
+  ]
 );

@@ -12,16 +12,6 @@ import {
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerHistogramChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
-  registerCartesianCrossHair,
-  registerLabel
-]);
-
 export interface HistogramChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IHistogramChartSpec, 'type'> {}
@@ -31,5 +21,14 @@ export const HistogramChart = createChart<React.PropsWithChildren<HistogramChart
   {
     type: 'histogram',
     vchartConstrouctor: VChart as IVChartConstructor
-  }
+  },
+  [
+    registerHistogramChart,
+    registerCartesianLinearAxis,
+    registerCartesianBandAxis,
+    registerCartesianTimeAxis, // 非必选
+    registerCartesianLogAxis, // 非必选
+    registerCartesianCrossHair,
+    registerLabel
+  ]
 );

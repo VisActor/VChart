@@ -3,8 +3,6 @@ import { ICirclePackingChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerCirclePackingChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([registerCirclePackingChart]);
-
 export interface CirclePackingChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ICirclePackingChartSpec, 'type'> {}

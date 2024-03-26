@@ -10,19 +10,21 @@ import {
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerRadarChart,
-  registerPolarLinearAxis, // 必选
-  registerPolarBandAxis, // 必选
-  registerPolarCrossHair,
-  registerLabel
-]);
-
 export interface RadarChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IRadarChartSpec, 'type'> {}
 
-export const RadarChart = createChart<React.PropsWithChildren<RadarChartProps> & { type: 'radar' }>('RadarChart', {
-  type: 'radar',
-  vchartConstrouctor: VChart as IVChartConstructor
-});
+export const RadarChart = createChart<React.PropsWithChildren<RadarChartProps> & { type: 'radar' }>(
+  'RadarChart',
+  {
+    type: 'radar',
+    vchartConstrouctor: VChart as IVChartConstructor
+  },
+  [
+    registerRadarChart,
+    registerPolarLinearAxis, // 必选
+    registerPolarBandAxis, // 必选
+    registerPolarCrossHair,
+    registerLabel
+  ]
+);

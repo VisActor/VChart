@@ -12,21 +12,23 @@ import {
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerAreaChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
-  registerCartesianCrossHair,
-  registerLabel
-]);
-
 export interface AreaChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IAreaChartSpec, 'type'> {}
 
-export const AreaChart = createChart<React.PropsWithChildren<AreaChartProps> & { type: 'area' }>('AreaChart', {
-  type: 'area',
-  vchartConstrouctor: VChart as IVChartConstructor
-});
+export const AreaChart = createChart<React.PropsWithChildren<AreaChartProps> & { type: 'area' }>(
+  'AreaChart',
+  {
+    type: 'area',
+    vchartConstrouctor: VChart as IVChartConstructor
+  },
+  [
+    registerAreaChart,
+    registerCartesianLinearAxis,
+    registerCartesianBandAxis,
+    registerCartesianTimeAxis, // 非必选
+    registerCartesianLogAxis, // 非必选
+    registerCartesianCrossHair,
+    registerLabel
+  ]
+);
