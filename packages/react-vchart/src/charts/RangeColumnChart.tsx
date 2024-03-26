@@ -13,17 +13,6 @@ import {
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerRangeColumnChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
-  registerCartesianCrossHair,
-  registerScrollBar,
-  registerLabel
-]);
-
 export interface RangeColumnChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IRangeColumnChartSpec, 'type'> {}
@@ -33,5 +22,15 @@ export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnC
   {
     type: 'rangeColumn',
     vchartConstrouctor: VChart as IVChartConstructor
-  }
+  },
+  [
+    registerRangeColumnChart,
+    registerCartesianLinearAxis,
+    registerCartesianBandAxis,
+    registerCartesianTimeAxis, // 非必选
+    registerCartesianLogAxis, // 非必选
+    registerCartesianCrossHair,
+    registerScrollBar,
+    registerLabel
+  ]
 );

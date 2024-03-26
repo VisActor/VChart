@@ -3,8 +3,6 @@ import type { ISunburstChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerSunburstChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([registerSunburstChart]);
-
 export interface SunburstChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ISunburstChartSpec, 'type'> {}
@@ -14,5 +12,6 @@ export const SunburstChart = createChart<React.PropsWithChildren<SunburstChartPr
   {
     type: 'sunburst',
     vchartConstrouctor: VChart as IVChartConstructor
-  }
+  },
+  [registerSunburstChart]
 );

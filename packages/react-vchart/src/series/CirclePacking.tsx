@@ -1,14 +1,12 @@
 import { BaseSeriesProps, createSeries } from './BaseSeries';
-
 import type { ICirclePackingSeriesSpec } from '@visactor/vchart';
-import { registerCirclePackingSeries, VChart } from '@visactor/vchart';
-
-VChart.useRegisters([registerCirclePackingSeries]);
+import { registerCirclePackingSeries } from '@visactor/vchart';
 
 export type CirclePackingProps = BaseSeriesProps & Omit<ICirclePackingSeriesSpec, 'type'>;
 
 export const CirclePacking = createSeries<CirclePackingProps>(
   'CirclePacking',
   ['circlePacking', 'label'],
-  'circlePacking'
+  'circlePacking',
+  [registerCirclePackingSeries]
 );

@@ -11,15 +11,6 @@ import {
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([
-  registerSequenceChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
-  registerCartesianCrossHair
-]);
-
 export interface SequenceChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ISequenceChartSpec, 'type'> {}
@@ -29,5 +20,13 @@ export const SequenceChart = createChart<React.PropsWithChildren<SequenceChartPr
   {
     type: 'sequence',
     vchartConstrouctor: VChart as IVChartConstructor
-  }
+  },
+  [
+    registerSequenceChart,
+    registerCartesianLinearAxis,
+    registerCartesianBandAxis,
+    registerCartesianTimeAxis, // 非必选
+    registerCartesianLogAxis, // 非必选
+    registerCartesianCrossHair
+  ]
 );

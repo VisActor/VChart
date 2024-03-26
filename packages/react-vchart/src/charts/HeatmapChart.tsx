@@ -9,8 +9,6 @@ import {
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
-VChart.useRegisters([registerHeatmapChart, registerCartesianBandAxis, registerCartesianCrossHair, registerLabel]);
-
 export interface HeatmapChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<IHeatmapChartSpec, 'type'> {
@@ -22,5 +20,6 @@ export const HeatmapChart = createChart<React.PropsWithChildren<HeatmapChartProp
   {
     type: 'heatmap',
     vchartConstrouctor: VChart as IVChartConstructor
-  }
+  },
+  [registerHeatmapChart, registerCartesianBandAxis, registerCartesianCrossHair, registerLabel]
 );
