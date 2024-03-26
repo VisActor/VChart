@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix the issue of event trigger count after `updateSpecSync()`",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

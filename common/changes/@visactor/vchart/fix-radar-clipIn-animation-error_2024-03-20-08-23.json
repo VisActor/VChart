@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix radar chart clipAngle animation error when loading on demand.",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
