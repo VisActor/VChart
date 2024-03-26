@@ -142,6 +142,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   /** series field 所作用的 mark */
   protected _seriesMark: Maybe<IMark> = null;
+  getSeriesMark() {
+    return this._seriesMark;
+  }
 
   protected _layoutLevel!: number;
 

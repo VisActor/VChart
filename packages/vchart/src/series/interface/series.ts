@@ -103,6 +103,7 @@ export interface ISeries extends IModel {
 
   getRootMark: () => IGroupMark;
   getActiveMarks: () => IMark[];
+  getSeriesMark: () => IMark;
 
   // example
   /**
