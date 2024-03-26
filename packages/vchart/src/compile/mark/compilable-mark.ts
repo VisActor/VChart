@@ -418,8 +418,8 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
         // 组件有自己的动画状态
         stateSignal = (this.model as IComponent).animate?.getAnimationStateSignalName();
       } else {
-        const region = (this.model as ISeries).getRegion();
-        stateSignal = region.animate?.getAnimationStateSignalName();
+        const region = (this.model as ISeries).getRegion?.();
+        stateSignal = region?.animate?.getAnimationStateSignalName();
       }
       this._product.animation(this._animationConfig);
       this._product.animationState({
