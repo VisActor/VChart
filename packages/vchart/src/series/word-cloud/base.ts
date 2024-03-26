@@ -285,20 +285,20 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     }
 
     // rotateAngles处理
-    wordCloudTransforms.push({
-      type: 'map',
-      as: WORD_CLOUD_ANGLE,
-      callback: () => {
-        return rotateAngles[Math.floor(Math.random() * rotateAngles.length)];
-      }
-    });
-    wordCloudTransforms.push({
-      type: 'map',
-      as: WORD_CLOUD_FILLING_ANGLE,
-      callback: () => {
-        return fillingRotateAngles[Math.floor(Math.random() * fillingRotateAngles.length)];
-      }
-    });
+    // wordCloudTransforms.push({
+    //   type: 'map',
+    //   as: WORD_CLOUD_ANGLE,
+    //   callback: () => {
+    //     return rotateAngles[Math.floor(Math.random() * rotateAngles.length)];
+    //   }
+    // });
+    // wordCloudTransforms.push({
+    //   type: 'map',
+    //   as: WORD_CLOUD_FILLING_ANGLE,
+    //   callback: () => {
+    //     return fillingRotateAngles[Math.floor(Math.random() * fillingRotateAngles.length)];
+    //   }
+    // });
     const wordSpec = this._spec.word ?? {};
 
     // text fromat method 处理
@@ -344,7 +344,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       fontSize: this._valueField ? { field: this._valueField } : this._fontSizeRange[0],
       fontSizeRange: this._fontSizeRange === 'auto' ? null : this._fontSizeRange,
       padding: this._fontPadding,
-      rotate: { field: WORD_CLOUD_ANGLE },
+      rotate: this._rotateAngles,
       fontFamily: this._fontFamilyField ?? wordStyleSpec.fontFamily ?? this._defaultFontFamily,
       fontWeight: this._fontWeightField
         ? { field: this._fontWeightField }

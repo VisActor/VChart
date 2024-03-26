@@ -443,9 +443,9 @@ export class EventDispatcher implements IEventDispatcher {
     let interactionType: string;
 
     return (
-      eType &&
-      ((interactionType = eType.split(':')[0]), interactionType) &&
-      VGrammarFactory.hasInteraction(interactionType)
+      eType && ((interactionType = eType.split(':')[0]), interactionType)
+      // &&
+      // VGrammarFactory.hasInteraction(interactionType)
     );
   }
 }
