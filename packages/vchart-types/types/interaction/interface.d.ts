@@ -35,25 +35,25 @@ export interface ITriggerOption {
     eventDispatcher: IEventDispatcher;
     model: IModel;
 }
+export interface IBaseInteractionSpec {
+    markIds?: StringOrNumber[];
+    markNames?: StringOrNumber[];
+}
 type Trigger = EventType | EventType[];
-export type IHoverSpec = {
+export interface IHoverSpec extends IBaseInteractionSpec {
     enable?: boolean;
     trigger?: Trigger;
     triggerOff?: Trigger;
-};
-export type ISelectSpec = {
+}
+export interface ISelectSpec extends IBaseInteractionSpec {
     enable?: boolean;
     mode?: 'single' | 'multiple';
     trigger?: Trigger;
     triggerOff?: Trigger | number;
-};
+}
 export interface ITriggerSpec {
     hover?: IHoverSpec | boolean;
     select?: ISelectSpec | boolean;
-}
-interface IBaseInteractionSpec {
-    markIds?: StringOrNumber[];
-    markNames?: StringOrNumber[];
 }
 export type IElementActiveSpec = IBaseInteractionSpec & Pick<ElementActiveSpec, 'type' | 'trigger' | 'triggerOff' | 'state'>;
 export type IElementSelectSpec = IBaseInteractionSpec & Pick<ElementSelectSpec, 'type' | 'trigger' | 'triggerOff' | 'state' | 'isMultiple' | 'reverseState'>;
