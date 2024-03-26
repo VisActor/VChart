@@ -299,10 +299,15 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     }
     const name = datum.properties?.[this._nameProperty];
     if (name) {
-      if (this._spec.nameMap && this._spec.nameMap[name]) {
-        return this._spec.nameMap[name];
+      if (this._spec.nameMap) {
+        if (this._spec.nameMap[name]) {
+          return this._spec.nameMap[name];
+        }
       }
-      if (this._spec.showDefaultName) {
+      // TODO:
+      // 1. showDefaultName 是一个考虑配置兼容的产物，不然会有 break-change
+      // 2. 后续大版本升级，这里无需判断条件，直接返回 name 是更合理的
+      if (this._spec.showDefaultName || !this._spec.nameMap) {
         return name;
       }
     }
