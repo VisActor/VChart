@@ -222,7 +222,7 @@ export const getTooltipAttributes = (
 
       itemAttrs.height = itemHeight;
       contentHeight += itemHeight;
-      if (i < filteredContent.length - 1) {
+      if (i < filteredContent.length) {
         contentHeight += itemAttrs.spaceRow;
       }
 
@@ -315,13 +315,8 @@ export const getTooltipAttributes = (
     });
   }
 
-  if (renderMode === 'canvas') {
-    panelWidth += 2 * attributes.panel.lineWidth;
-    panelHeight += 2 * attributes.panel.lineWidth;
-  }
-
+  attributes.panel.width = panelWidth;
   attributes.panel.height = panelHeight;
   attributes.panelDomHeight = panelDomHeight;
-
   return attributes;
 };

@@ -819,9 +819,11 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), chartTheme);
     }
     const { panel, panelDomHeight } = this._attributes ?? {};
+    const isCanvas = this._component.getSpec().renderMode === 'canvas';
+
     return {
-      width: panel?.width,
-      height: panelDomHeight ?? panel?.height
+      width: panel?.width + (isCanvas ? 2 * panel.lineWidth : 0),
+      height: (panelDomHeight ?? panel?.height) + (isCanvas ? 2 * panel.lineWidth : 0)
     };
   }
 
