@@ -92,6 +92,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   private _cacheInfo: TooltipInfo | undefined;
   private _cacheParams: BaseEventParams | undefined;
+  private _cacheActiveType: TooltipActiveType | undefined;
 
   private _eventList: EventHandlerList = [];
 
@@ -256,6 +257,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       });
       this._cacheInfo = undefined;
       this._cacheParams = undefined;
+      this._cacheActiveType = undefined;
     }
   };
 
@@ -348,12 +350,13 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       success = !processor.showTooltip(this._cacheInfo as any, params, true);
     } else {
       const tooltipInfo = mouseEventData.tooltipInfo[activeType];
-      const isSameAsCache = this._isSameAsCache(tooltipInfo, params);
+      const isSameAsCache = this._isSameAsCache(tooltipInfo, params, activeType);
       success = !processor.showTooltip(tooltipInfo as any, params, isSameAsCache);
       if (success) {
         // 成功显示 tooltip，则更新缓存
         this._cacheInfo = tooltipInfo;
         this._cacheParams = params;
+        this._cacheActiveType = activeType;
       }
     }
     if (success) {
@@ -388,13 +391,28 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       // 如果当前 tooltip 未显示，则提前退出
       return TooltipResult.success;
     }
+
+    // 触发事件
     this.event.emit(ChartEvent.tooltipHide, {
       ...params,
       source: Event_Source_Type.chart, // 统一 event 的来源
       tooltip: this
     });
-    if (this.tooltipHandler?.hideTooltip) {
-      const result = this.tooltipHandler.hideTooltip(params);
+
+    // 删除缓存
+    Object.values(this._processor).forEach((processor: BaseTooltipProcessor) => {
+      processor.clearCache();
+    });
+
+    // 隐藏 tooltip
+    let hideTooltip;
+    if (this._spec.handler?.hideTooltip) {
+      hideTooltip = this._spec.handler.hideTooltip.bind(this._spec.handler);
+    } else if (this.tooltipHandler?.hideTooltip) {
+      hideTooltip = this.tooltipHandler.hideTooltip.bind(this.tooltipHandler);
+    }
+    if (hideTooltip) {
+      const result = hideTooltip(params);
       if (!result) {
         this._isTooltipShown = false;
       }
@@ -446,7 +464,14 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     return !this._hideTooltipByHandler(params);
   }
 
-  private _isSameAsCache(nextInfo?: TooltipInfo, nextParams?: BaseEventParams): boolean {
+  private _isSameAsCache(
+    nextInfo?: TooltipInfo,
+    nextParams?: BaseEventParams,
+    nextActiveType?: TooltipActiveType
+  ): boolean {
+    if (nextActiveType !== this._cacheActiveType) {
+      return false;
+    }
     if (nextInfo === this._cacheInfo) {
       return true;
     }
