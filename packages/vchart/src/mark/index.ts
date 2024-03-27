@@ -1,26 +1,27 @@
-/* eslint-disable no-duplicate-imports */
 /**
  * @description export all mark modules
  */
-import { BoxPlotMark } from './box-plot';
-import { LineMark } from './line';
-import { SymbolMark } from './symbol';
-import { GroupMark } from './group';
-import { RuleMark } from './rule';
-import { TextMark } from './text';
-import { AreaMark } from './area';
-import { RectMark } from './rect';
-import { Rect3dMark } from './rect-3d';
-import { PathMark } from './path';
-import { ArcMark } from './arc';
-import { Arc3dMark } from './arc-3d';
-import { ComponentMark } from './component';
-import { LinkPathMark } from './link-path';
-import { RippleMark } from './ripple';
-import { CellMark } from './cell';
+import { LineMark, registerLineMark } from './line';
+import { SymbolMark, registerSymbolMark } from './symbol';
+import { GroupMark, registerGroupMark } from './group';
+import { RuleMark, registerRuleMark } from './rule';
+import { TextMark, registerTextMark } from './text';
+import { AreaMark, registerAreaMark } from './area';
+import { RectMark, registerRectMark } from './rect';
+import { Rect3dMark, registerRect3dMark } from './rect-3d';
+import { PathMark, registerPathMark } from './path';
+import { ArcMark, registerArcMark } from './arc';
+import { Arc3dMark, registerArc3dMark } from './arc-3d';
+import { ComponentMark, registerComponentMark } from './component';
+import { LinkPathMark, registerLinkPathMark } from './link-path';
+import { RippleMark, registerRippleMark } from './ripple';
+import { CellMark, registerCellMark } from './cell';
 import { BaseMark } from './base';
-import { PolygonMark } from './polygon/polygon';
-import { Pyramid3dMark } from './polygon/pyramid-3d';
+import { PolygonMark, registerPolygonMark } from './polygon/polygon';
+import { Pyramid3dMark, registerPyramid3dMark } from './polygon/pyramid-3d';
+import { ImageMark, registerImageMark } from './image';
+import { LiquidMark, registerLiquidMark } from './liquid';
+import { BoxPlotMark, registerBoxPlotMark } from './box-plot';
 
 export type {
   IBoxPlotMarkSpec,
@@ -40,8 +41,9 @@ export type {
   IPyramid3dMarkSpec,
   ILinkPathMarkSpec,
   IRippleMarkSpec,
-  ConvertToMarkStyleSpec,
-  ICellMarkSpec
+  ICellMarkSpec,
+  ILiquidMarkSpec,
+  ConvertToMarkStyleSpec
 } from '../typings/visual';
 
 export {
@@ -63,5 +65,49 @@ export {
   LinkPathMark,
   RippleMark,
   CellMark,
+  ImageMark,
+  LiquidMark,
   BaseMark
+};
+
+export {
+  registerBoxPlotMark,
+  registerLineMark,
+  registerSymbolMark,
+  registerGroupMark,
+  registerRuleMark,
+  registerTextMark,
+  registerAreaMark,
+  registerRectMark,
+  registerRect3dMark,
+  registerPathMark,
+  registerArcMark,
+  registerArc3dMark,
+  registerPolygonMark,
+  registerPyramid3dMark,
+  registerLinkPathMark,
+  registerRippleMark,
+  registerCellMark,
+  registerImageMark,
+  registerComponentMark,
+  registerLiquidMark
+};
+
+export const registerAllMarks = () => {
+  registerGroupMark();
+  registerLineMark();
+  registerSymbolMark();
+  registerRuleMark();
+  registerTextMark();
+  registerAreaMark();
+  registerRectMark();
+  registerPathMark();
+  registerArcMark();
+  registerPolygonMark();
+  registerImageMark();
+  registerRippleMark();
+  registerComponentMark();
+  registerArc3dMark();
+  registerRect3dMark();
+  registerPyramid3dMark();
 };
