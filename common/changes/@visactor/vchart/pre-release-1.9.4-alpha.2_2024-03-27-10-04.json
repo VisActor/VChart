@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: tooltip cliped if set border width. fix#2471",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
