@@ -5,18 +5,18 @@ import type {
   MaybeArray,
   TooltipActiveType,
   TooltipPatternProperty
-} from '../../../../typings';
-import type { ISeries } from '../../../../series/interface';
-import { mergeSpec } from '../../../../util/spec/merge-spec';
-import { makeDefaultPattern } from './pattern';
-import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
+} from '../../../typings';
+import type { ISeries } from '../../../series/interface';
+import { mergeSpec } from '../../../util/spec/merge-spec';
+import { makeDefaultPattern } from '../../../plugin/components/tooltip-handler/utils/pattern';
+import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 import { memoize, isValid, array, isFunction, isNil, cloneDeep } from '@visactor/vutils';
-import type { ITooltipSpec, ITooltipTheme } from '../../../../component/tooltip';
-import { getTooltipActualActiveType } from '../../../../component/tooltip/utils';
+import type { ITooltipSpec, ITooltipTheme } from '..';
+import { getTooltipActualActiveType } from '.';
 import {
   addExtraInfoToTooltipContentPattern,
   addExtraInfoToTooltipTitlePattern
-} from '../../../../series/base/tooltip-helper';
+} from '../../../series/base/tooltip-helper';
 
 export const getTooltipSpecForShow = (
   activeType: TooltipActiveType,

@@ -12,14 +12,12 @@ import type {
   ITooltipActual,
   TooltipActiveType,
   ITooltipHandler,
-  ITooltipPattern,
   ITooltipPositionActual,
   IGlobalTooltipPositionPattern
 } from '../../../typings/tooltip';
 // eslint-disable-next-line no-duplicate-imports
 import type { TooltipFixedPosition } from '../../../typings/tooltip';
-import type { BaseEventParams } from '../../../event/interface';
-import { getTooltipPatternValue, getScale } from './utils/common';
+import { getScale } from './utils/common';
 import {
   getActualTooltipPositionValue,
   getCartesianCrosshairRect,
@@ -28,9 +26,7 @@ import {
   isFixedTooltipPositionPattern,
   isGlobalTooltipPositionPattern
 } from './utils/position';
-import { getShowContent } from './utils/compose';
-import { getTooltipSpecForShow } from './utils/get-spec';
-import type { ICartesianSeries, ISeries } from '../../../series/interface';
+import type { ICartesianSeries } from '../../../series/interface';
 import type { IGroup } from '@visactor/vrender-core';
 import type { AABBBounds } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -50,34 +46,19 @@ import type { ILayoutModel } from '../../../model/interface';
 import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize } from '@visactor/vrender-components';
 import { getTooltipAttributes } from './utils/attribute';
-import type { DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { IChartOption } from '../../../chart/interface';
-import type {
-  ITooltipSpec,
-  Tooltip,
-  TooltipActualTitleContent,
-  TooltipHandlerParams
-} from '../../../component/tooltip';
+import type { ITooltipSpec, Tooltip, TooltipHandlerParams } from '../../../component/tooltip';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipResult } from '../../../component/tooltip';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
 import type { ITooltipAttributes } from './interface';
 import { getFirstSeries } from '../../../util';
+import { getTooltipPatternValue } from '../../../component/tooltip/utils';
 
-type ChangeTooltipFunc = (
-  visible: boolean,
-  params: TooltipHandlerParams,
-  changePositionOnly?: boolean,
-  activeType?: TooltipActiveType,
-  data?: TooltipData
-) => TooltipResult;
+type ChangeTooltipFunc = (visible: boolean, params: TooltipHandlerParams, data?: TooltipData) => TooltipResult;
 
-type ChangeTooltipPositionFunc = (
-  changePositionOnly: boolean,
-  data: TooltipData,
-  params: TooltipHandlerParams
-) => TooltipResult;
+type ChangeTooltipPositionFunc = (params: TooltipHandlerParams, data: TooltipData) => TooltipResult;
 
 /**
  * The tooltip handler class.
@@ -108,9 +89,6 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   protected _chartContainer: Maybe<HTMLElement>;
   protected _compiler: Compiler;
 
-  protected _cacheViewSpec: ITooltipSpec | undefined;
-  protected _cacheActualTooltip: ITooltipActual | undefined;
-
   protected _isTooltipPaused: boolean;
   protected _isPointerEscaped: boolean;
   protected _cachePointerTimer: number;
@@ -135,16 +113,12 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   }
 
   showTooltip = (activeType: TooltipActiveType, data: TooltipData, params: TooltipHandlerParams) => {
-    let changePositionOnly = !!params.changePositionOnly;
-    if (!params.changePositionOnly || this._cacheActualTooltip?.activeType !== activeType) {
-      changePositionOnly = false;
-      this._clearCacheOfContent();
-    }
+    const { changePositionOnly } = params;
 
-    if (changePositionOnly && this._cacheViewSpec && this._cacheActualTooltip) {
-      return this.changeTooltipPosition(changePositionOnly, data, params);
+    if (changePositionOnly) {
+      return this.changeTooltipPosition(params, data);
     }
-    return this.changeTooltip(true, params, changePositionOnly, activeType, data);
+    return this.changeTooltip(true, params, data);
   };
 
   /** 改变 tooltip 内容和位置（带 throttle 版本），返回是否遇到异常 */
@@ -154,101 +128,35 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   protected _changeTooltip: ChangeTooltipFunc = (
     visible: boolean,
     params: TooltipHandlerParams,
-    changePositionOnly?: boolean,
-    activeType?: TooltipActiveType,
     data?: TooltipData
   ) => {
-    const tooltipSpec = this._component.getSpec() as ITooltipSpec;
-    if (this._isReleased || !tooltipSpec) {
+    if (this._isReleased) {
       return TooltipResult.failed;
     }
 
-    /** 关闭 tooltip */
     if (!visible) {
       this._clearAllCache();
-
-      /** 用户自定义逻辑 */
-      if (tooltipSpec.handler) {
-        return tooltipSpec.handler.hideTooltip?.(params) ?? TooltipResult.success;
-      }
-      /** 默认逻辑 */
+      /** 关闭 tooltip */
       this._updateTooltip(false, params);
       return TooltipResult.success;
     }
 
-    if (isNil(activeType) || isNil(data)) {
-      return TooltipResult.failed;
-    }
-
-    /** spec 预处理 */
-    let spec: ITooltipSpec | undefined;
-    if (changePositionOnly && this._cacheViewSpec) {
-      spec = this._cacheViewSpec;
-    } else {
-      spec = getTooltipSpecForShow(
-        activeType!,
-        tooltipSpec,
-        (params as BaseEventParams).model as ISeries,
-        (params as DimensionEventParams).dimensionInfo
-      );
-      this._cacheViewSpec = spec;
-    }
-
-    if (spec.visible === false) {
-      return TooltipResult.failed;
-    }
-
-    /** 用户自定义逻辑 */
-    if (spec.handler) {
-      return spec.handler.showTooltip?.(activeType!, data!, params) ?? TooltipResult.success;
-    }
-
-    /** 默认逻辑 */
-    const pattern = spec[activeType!] as ITooltipPattern;
-    if (!pattern) {
-      return TooltipResult.failed;
-    }
-
-    // 合成 tooltip 内容
-    let actualTooltip: ITooltipActual | undefined;
-    if (changePositionOnly && this._cacheActualTooltip) {
-      actualTooltip = this._cacheActualTooltip;
-    } else {
-      actualTooltip = this._getActualTooltipContent(pattern, data!, params);
-      actualTooltip.title = pattern.updateTitle?.(actualTooltip.title, data, params) ?? actualTooltip.title;
-      actualTooltip.content = pattern.updateContent?.(actualTooltip.content, data, params) ?? actualTooltip.content;
-    }
-
-    // 判断 tooltip 是否为空
-    if (isNil(actualTooltip.title?.key) && isNil(actualTooltip.title?.value) && !actualTooltip.content?.length) {
-      return TooltipResult.failed;
-    }
-
-    this._cacheActualTooltip = actualTooltip;
-    return this._changeTooltipPosition(!!changePositionOnly, data!, params);
+    return this._changeTooltipPosition(params, data);
   };
 
   /** 改变 tooltip 位置（带 throttle 版本），返回是否遇到异常 */
   protected changeTooltipPosition: ChangeTooltipPositionFunc;
 
   /** 改变 tooltip 位置（不带 throttle 版本），返回是否遇到异常 */
-  protected _changeTooltipPosition: ChangeTooltipPositionFunc = (
-    changePositionOnly: boolean,
-    data: TooltipData,
-    params: TooltipHandlerParams
-  ) => {
+  protected _changeTooltipPosition: ChangeTooltipPositionFunc = (params: TooltipHandlerParams, data: TooltipData) => {
     if (this._isReleased) {
       return TooltipResult.failed;
     }
 
     const event = params.event as MouseEvent;
-    const spec = this._cacheViewSpec;
-    const actualTooltip = this._cacheActualTooltip;
-    if (!spec || !actualTooltip) {
-      return TooltipResult.failed;
-    }
+    const { tooltipSpec, tooltipActual, changePositionOnly } = params;
 
-    if (spec.enterable) {
+    if (tooltipSpec.enterable) {
       if (!this._isPointerEscaped && this._isPointerMovingToTooltip(params)) {
         if (!this._isTooltipPaused) {
           this._isTooltipPaused = true;
@@ -264,28 +172,28 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       this._cachePointerPosition = this._getPointerPositionRelativeToTooltipParent(params);
     }
 
-    const activeType = actualTooltip.activeType;
+    const activeType = tooltipActual.activeType;
 
     /** 用户自定义逻辑 */
-    if (spec.handler) {
-      return spec.handler.showTooltip?.(activeType, data, params) ?? TooltipResult.success;
+    if (tooltipSpec.handler) {
+      return tooltipSpec.handler.showTooltip?.(activeType, data, params) ?? TooltipResult.success;
     }
 
     /** 默认逻辑 */
-    const pattern = spec[activeType];
+    const pattern = tooltipSpec[activeType];
     if (!pattern) {
       return TooltipResult.failed;
     }
 
     // 计算 tooltip 位置
     const position = this._getActualTooltipPosition(
-      actualTooltip,
+      tooltipActual,
       params,
-      this._getTooltipBoxSize(actualTooltip, changePositionOnly)
+      this._getTooltipBoxSize(tooltipActual, changePositionOnly)
     );
-    actualTooltip.position = position;
+    tooltipActual.position = position;
     if (pattern.updatePosition) {
-      actualTooltip.position = pattern.updatePosition(actualTooltip.position, data, params);
+      tooltipActual.position = pattern.updatePosition(tooltipActual.position, data, params);
     }
 
     // 判断 tooltip 可见性
@@ -293,20 +201,16 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     if (
       !data ||
       event.type === 'pointerout' ||
-      !actualTooltip.visible ||
-      (!actualTooltip.title && !actualTooltip.content)
+      !tooltipActual.visible ||
+      (!tooltipActual.title && !tooltipActual.content)
     ) {
       tooltipVisible = false;
     }
 
-    this._updateTooltip(
-      tooltipVisible,
-      {
-        ...params,
-        changePositionOnly
-      },
-      actualTooltip
-    );
+    this._updateTooltip(tooltipVisible, {
+      ...params,
+      changePositionOnly
+    });
     return TooltipResult.success;
   };
 
@@ -329,16 +233,6 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   }
 
   protected _clearAllCache() {
-    this._clearCacheOfContent();
-    this._clearCacheOfPosition();
-  }
-
-  protected _clearCacheOfContent() {
-    this._cacheViewSpec = undefined;
-    this._cacheActualTooltip = undefined;
-  }
-
-  protected _clearCacheOfPosition() {
     this._isTooltipPaused = false;
     this._isPointerEscaped = false;
     clearTimeout(this._cachePointerTimer);
@@ -350,7 +244,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
   /* -----需要子类继承的方法开始----- */
 
-  protected abstract _updateTooltip(visible: boolean, params: TooltipHandlerParams, domData?: ITooltipActual): void;
+  protected abstract _updateTooltip(visible: boolean, params: TooltipHandlerParams): void;
   protected abstract _removeTooltip(): void;
 
   /* -----需要子类继承的方法结束----- */
@@ -380,34 +274,6 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
   }
 
   /**
-   * 计算实际的 tooltip 内容
-   * @param pattern
-   * @param data
-   * @param event
-   */
-  protected _getActualTooltipContent = (
-    pattern: ITooltipPattern,
-    data: TooltipData,
-    params: TooltipHandlerParams
-  ): ITooltipActual => {
-    // 可见性
-    const patternVisible = getTooltipPatternValue(pattern.visible, data, params);
-
-    // 数据
-    let tooltipContent: TooltipActualTitleContent | null = null;
-    tooltipContent = getShowContent(pattern, data, params);
-
-    const actualTooltip: ITooltipActual = {
-      ...tooltipContent,
-      visible: isValid(tooltipContent) ? patternVisible !== false : false, // 最终展示数据为 null 则不展示
-      activeType: pattern.activeType,
-      data
-    };
-
-    return actualTooltip;
-  };
-
-  /**
    * 计算实际的 tooltip 位置
    */
   protected _getActualTooltipPosition = (
@@ -416,6 +282,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     tooltipBoxSize: IContainerSize | undefined
   ): ITooltipPositionActual => {
     const event = params.event as MouseEvent;
+    const { tooltipSpec } = params;
     const firstDimensionInfo = params.dimensionInfo?.[0];
 
     const invalidPosition = {
@@ -424,7 +291,6 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     };
 
     let { offsetX, offsetY } = this._option;
-    const tooltipSpec = this._cacheViewSpec;
     if (!tooltipSpec) {
       this._cacheTooltipPosition = undefined;
       return invalidPosition;
@@ -827,13 +693,13 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
 
   protected _getPointerPositionRelativeToTooltipParent(params: TooltipHandlerParams) {
     let { canvasX: x, canvasY: y } = params.event;
+    const { tooltipSpec } = params;
 
     const invalidPosition = {
       x: Infinity,
       y: Infinity
     };
 
-    const tooltipSpec = this._cacheViewSpec;
     const isCanvas = tooltipSpec.renderMode === 'canvas';
     const tooltipParentElement = this._getParentElement(tooltipSpec);
 
