@@ -207,6 +207,5 @@ export class CustomMark<T = any> extends BaseComponent<any> {
 }
 
 export const registerCustomMark = () => {
-  registerImageMark();
   Factory.registerComponent(CustomMark.type, CustomMark);
 };

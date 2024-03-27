@@ -1,5 +1,5 @@
 import type { DataView } from '@visactor/vdataset';
-import { isValid, isArray } from '@visactor/vutils';
+import { isArray } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
 import type { IAreaMark } from '../../mark/area';
@@ -26,6 +26,7 @@ import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { AreaSeriesSpecTransformer } from './area-transformer';
 import { getGroupAnimationParams } from '../util/utils';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -264,5 +265,7 @@ export const registerAreaSeries = () => {
   registerAreaMark();
   registerSymbolMark();
   registerAreaAnimation();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(AreaSeries.type, AreaSeries);
 };
