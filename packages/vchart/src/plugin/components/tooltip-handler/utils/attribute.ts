@@ -75,7 +75,7 @@ export const getTooltipAttributes = (
   spec: ITooltipSpec,
   globalTheme: ITheme
 ): ITooltipAttributes => {
-  const { style = {}, enterable, transitionDuration, renderMode = 'html' } = spec;
+  const { style = {}, enterable, transitionDuration } = spec;
   const { panel = {}, titleLabel, shape, keyLabel, valueLabel, spaceRow: commonSpaceRow, maxContentHeight } = style;
   const padding = normalizePadding(panel.padding);
   const paddingSpec = normalizeLayoutPaddingSpec(panel.padding) as IPadding;
@@ -222,7 +222,7 @@ export const getTooltipAttributes = (
 
       itemAttrs.height = itemHeight;
       contentHeight += itemHeight;
-      if (i < filteredContent.length) {
+      if (i < filteredContent.length - 1) {
         contentHeight += itemAttrs.spaceRow;
       }
 
