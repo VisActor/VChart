@@ -100,7 +100,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     const result = super._compareSpec(spec, prevSpec);
     if (!result.reMake) {
       result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        return isEqual(prevSpec?.[k], spec[k]);
+        return !isEqual(prevSpec?.[k], spec[k]);
       });
     }
     if ((prevSpec as any)?.visible !== (spec as any).visible) {

@@ -913,7 +913,7 @@ export class VChart implements IVChart {
     const result = this._updateSpec(spec, forceMerge);
     await this.updateCustomConfigAndRerender(result, false, {
       morphConfig,
-      transformSpec: true,
+      transformSpec: false,
       actionSource: 'updateSpec'
     });
     return this as unknown as IVChart;
@@ -927,9 +927,10 @@ export class VChart implements IVChart {
    */
   updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
     const result = this._updateSpec(spec, forceMerge);
+
     this.updateCustomConfigAndRerender(result, true, {
       morphConfig,
-      transformSpec: true,
+      transformSpec: false,
       actionSource: 'updateSpec'
     });
     return this as unknown as IVChart;
@@ -956,6 +957,17 @@ export class VChart implements IVChart {
 
     const reSize = this._shouldChartResize(lastSpec);
     this._compiler?.getVGrammarView()?.updateLayoutTag();
+
+    if (this._spec.type !== lastSpec.type) {
+      return {
+        change: reSize,
+        reMake: true,
+        reCompile: false,
+        reSize
+      };
+    }
+
+    this._initChartSpec(this._spec, 'render');
 
     return mergeUpdateResult(this._chart.updateSpec(this._spec), {
       change: reSize,
@@ -1279,13 +1291,13 @@ export class VChart implements IVChart {
     let resize = false;
 
     if (isNil(this._spec.width)) {
-      this._spec.width = oldSpec.width;
+      !isNil(oldSpec.width) && (this._spec.width = oldSpec.width);
     } else if (this._spec.width !== oldSpec.width) {
       resize = true;
     }
 
     if (isNil(this._spec.height)) {
-      this._spec.height = oldSpec.height;
+      !isNil(oldSpec.height) && (this._spec.height = oldSpec.height);
     } else if (this._spec.height !== oldSpec.height) {
       resize = true;
     }
