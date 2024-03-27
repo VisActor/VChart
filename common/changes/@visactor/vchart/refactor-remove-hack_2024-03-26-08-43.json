@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: should use series's _seriesMark to calculate total mark, not all series mark names are the same as series.type",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
