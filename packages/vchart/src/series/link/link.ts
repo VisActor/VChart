@@ -11,14 +11,15 @@ import type { ISymbolMark } from '../../mark/symbol';
 import type { IDotSeriesSpec } from '../dot/interface';
 import type { IGroupMark } from '../../mark/group';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
-import type { ILinkSeriesSpec, ILinkSeriesTheme } from './interface';
+import type { ILinkSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';
-import { RuleMark, registerRuleMark } from '../../mark/rule';
-import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
+import { registerRuleMark } from '../../mark/rule';
+import { registerSymbolMark } from '../../mark/symbol';
 import { linkSeriesMark } from './constant';
 import { linkDotInfo } from '../../data/transforms/link-dot-info';
 import { Factory } from '../../core/factory';
 import { TransformLevel } from '../../data/initialize';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.link;
@@ -369,5 +370,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 export const registerLinkSeries = () => {
   registerRuleMark();
   registerSymbolMark();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(LinkSeries.type, LinkSeries);
 };

@@ -68,6 +68,7 @@ import {
   registerElementHighlightByGroup,
   registerElementHighlightByKey
 } from './interaction';
+import { registerAllMarks } from './mark';
 
 VChart.useRegisters([
   // charts
@@ -145,6 +146,9 @@ VChart.useRegisters([
   // layout
   registerGridLayout,
   registerLayout3d,
+
+  // mark
+  registerAllMarks,
 
   // plugin
   registerDomTooltipHandler,

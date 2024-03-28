@@ -132,16 +132,16 @@ vchart.renderSync();
 
 ```ts
 // 引入 VChart 核心模块
-import { VChart } from '@visactor/vchart/esm/core';
+import { VChart } from '@visactor/vchart';
 // 引入柱状图
-import { registerBarChart } from '@visactor/vchart/esm/chart';
+import { registerBarChart } from '@visactor/vchart';
 // 引入坐标轴、Tooltip、CrossHair组件
 import {
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerTooltip,
   registerCartesianCrossHair
-} from '@visactor/vchart/esm/component';
+} from '@visactor/vchart';
 
 // 注册图表和组件
 VChart.useRegisters([
@@ -157,33 +157,8 @@ VChart 默认对浏览器和 node 环境提供了支持。如果你的项目需�
 例如，在微信小程序中使用时，需要调用 `registerWXEnv`：
 
 ```ts
-import { registerWXEnv } from '@visactor/vchart/esm/env';
+import { registerWXEnv } from '@visactor/vchart';
 VChart.useRegisters([registerWXEnv]);
-```
-
-注意如果你的项目使用的是 cjs(commonJS) 的话，请从 `@visactor/vchart/cjs` 目录下引用，如下：
-
-```js
-// 引入 VChart 核心模块
-const { VChart } = require('@visactor/vchart/cjs/core');
-// 引入柱状图
-const { registerBarChart } = require('@visactor/vchart/cjs/chart');
-// 引入坐标轴、Tooltip、CrossHair组件
-const {
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerTooltip,
-  registerCartesianCrossHair
-} = require('@visactor/vchart/cjs/component');
-
-// 注册
-VChart.useRegisters([
-  registerBarChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerTooltip,
-  registerCartesianCrossHair
-]);
 ```
 
 具体可以查看代码示例：[按需引入柱状图](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn)，更详细说明请参考[按需加载教程](/vchart/guide/tutorial_docs/Load_on_Demand)

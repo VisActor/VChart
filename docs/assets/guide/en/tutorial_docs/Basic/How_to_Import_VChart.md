@@ -132,16 +132,16 @@ vchart.renderSync();
 
 ```ts
 // Import the VChart core module
-import { VChart } from '@visactor/vchart/esm/core';
+import { VChart } from '@visactor/vchart';
 // Import bar chart register
-import { registerBarChart } from '@visactor/vchart/esm/chart';
+import { registerBarChart } from '@visactor/vchart';
 // Import Cartesian axes, Tooltip, CrossHair components' registers
 import {
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
   registerTooltip,
   registerCartesianCrossHair
-} from '@visactor/vchart/esm/component';
+} from '@visactor/vchart';
 // Import cross-environment code, here we only load code for browser
 
 // Register
@@ -158,33 +158,8 @@ VChart provides support for browser and node environments by default. If your pr
 For example, when using in WeChat Mini Program, you need to call `registerWXEnv`:
 
 ```ts
-import { registerWXEnv } from '@visactor/vchart/esm/env';
+import { registerWXEnv } from '@visactor/vchart';
 VChart.useRegisters([registerWXEnv]);
-```
-
-Note that if your project uses cjs (commonJS), please import from the `@visactor/vchart/cjs` directory as follows:
-
-```js
-// Import the VChart core module
-const { VChart } = require('@visactor/vchart/cjs/core');
-// Import bar chart register
-const { registerBarChart } = require('@visactor/vchart/cjs/chart');
-// Import Cartesian axes, Tooltip, CrossHair components' registers
-const {
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerTooltip,
-  registerCartesianCrossHair
-} = require('@visactor/vchart/cjs/component');
-
-// Register
-VChart.useRegisters([
-  registerBarChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerTooltip,
-  registerCartesianCrossHair
-]);
 ```
 
 You can specifically view the code example: [On-demand import of bar chart](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn). For more detailed instructions, please refer to the[ Load on Demand Tutorial](/vchart/guide/tutorial_docs/Load_on_Demand)

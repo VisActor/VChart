@@ -17,6 +17,7 @@ import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import type { ILabelMark } from '../../mark/label';
 import { RoseSeriesSpecTransformer } from './rose-transformer';
+import { registerPolarBandAxis, registerPolarLinearAxis } from '../../component/axis/polar';
 
 export const DefaultBandWidth = 0.5;
 
@@ -163,4 +164,6 @@ export const registerRoseSeries = () => {
   Factory.registerSeries(RoseSeries.type, RoseSeries);
   registerArcMark();
   registerRoseAnimation();
+  registerPolarBandAxis();
+  registerPolarLinearAxis();
 };

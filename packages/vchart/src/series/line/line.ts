@@ -18,6 +18,7 @@ import type { IMark } from '../../mark/interface';
 import { registerSampleTransform, registerMarkOverlapTransform } from '@visactor/vgrammar-core';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import { getGroupAnimationParams } from '../util/utils';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -130,5 +131,7 @@ export const registerLineSeries = () => {
   registerSymbolMark();
   registerLineAnimation();
   registerScaleInOutAnimation();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(LineSeries.type, LineSeries);
 };

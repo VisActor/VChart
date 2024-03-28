@@ -15,6 +15,7 @@ import { registerProgressLikeAnimation } from '../polar/progress-like';
 import type { IMark } from '../../mark/interface';
 import { GaugeSeriesSpecTransformer } from './gauge-transformer';
 import { registerArcMark, type IArcMark } from '../../mark/arc';
+import { registerPolarLinearAxis } from '../../component/axis/polar';
 
 export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends ProgressLikeSeries<T> {
   static readonly type: string = SeriesTypeEnum.gauge;
@@ -177,7 +178,9 @@ export class GaugeSeries<T extends IGaugeSeriesSpec = IGaugeSeriesSpec> extends 
 }
 
 export const registerGaugeSeries = () => {
+  Factory.registerSeries(GaugeSeries.type, GaugeSeries);
   registerArcMark();
   registerProgressLikeAnimation();
-  Factory.registerSeries(GaugeSeries.type, GaugeSeries);
+  // 仪表盘只使用了角度轴
+  registerPolarLinearAxis();
 };

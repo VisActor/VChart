@@ -22,13 +22,14 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerScaleInOutAnimation } from '../../animation/config';
 import type { IMarkAnimateSpec } from '../../animation/spec';
-import { BoxPlotMark, registerBoxPlotMark } from '../../mark/box-plot';
-import { SymbolMark, registerSymbolMark } from '../../mark/symbol';
+import { registerBoxPlotMark } from '../../mark/box-plot';
+import { registerSymbolMark } from '../../mark/symbol';
 import { boxPlotSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { merge, isNumber } from '@visactor/vutils';
 import { getGroupAnimationParams } from '../util/utils';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -402,5 +403,7 @@ export const registerBoxplotSeries = () => {
   registerBoxPlotMark();
   registerSymbolMark();
   registerScaleInOutAnimation();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(BoxPlotSeries.type, BoxPlotSeries);
 };

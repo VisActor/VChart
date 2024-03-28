@@ -17,6 +17,7 @@ import { gaugePointerSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerGaugePointerAnimation } from './animation';
 import { GaugePointerSeriesSpecTransformer } from './gauge-pointer-transformer';
+import { registerPolarBandAxis, registerPolarLinearAxis } from '../../component/axis/polar';
 
 export class GaugePointerSeries<
   T extends IGaugePointerSeriesSpec = IGaugePointerSeriesSpec
@@ -216,8 +217,10 @@ export class GaugePointerSeries<
 }
 
 export const registerGaugePointerSeries = () => {
+  Factory.registerSeries(GaugePointerSeries.type, GaugePointerSeries);
   registerPathMark();
   registerRectMark();
   registerGaugePointerAnimation();
-  Factory.registerSeries(GaugePointerSeries.type, GaugePointerSeries);
+  registerPolarBandAxis();
+  registerPolarLinearAxis();
 };

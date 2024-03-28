@@ -21,6 +21,7 @@ import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { getGroupAnimationParams } from '../util/utils';
 import { HeatmapSeriesSpecTransformer } from './heatmap-transformer';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -194,5 +195,7 @@ export const registerHeatmapSeries = () => {
   registerTextMark();
   registerCellMark();
   registerHeatmapAnimation();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(HeatmapSeries.type, HeatmapSeries);
 };
