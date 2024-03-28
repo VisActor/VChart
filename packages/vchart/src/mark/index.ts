@@ -47,7 +47,6 @@ export type {
 } from '../typings/visual';
 
 export {
-  BoxPlotMark,
   LineMark,
   SymbolMark,
   GroupMark,
@@ -62,16 +61,12 @@ export {
   ComponentMark,
   PolygonMark,
   Pyramid3dMark,
-  LinkPathMark,
   RippleMark,
-  CellMark,
   ImageMark,
-  LiquidMark,
   BaseMark
 };
 
 export {
-  registerBoxPlotMark,
   registerLineMark,
   registerSymbolMark,
   registerGroupMark,
@@ -85,12 +80,9 @@ export {
   registerArc3dMark,
   registerPolygonMark,
   registerPyramid3dMark,
-  registerLinkPathMark,
   registerRippleMark,
-  registerCellMark,
   registerImageMark,
-  registerComponentMark,
-  registerLiquidMark
+  registerComponentMark
 };
 
 export const registerAllMarks = () => {
