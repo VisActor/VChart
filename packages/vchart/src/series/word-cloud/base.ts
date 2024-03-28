@@ -29,12 +29,7 @@ import type { Datum, IPoint } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { LinearScale } from '@visactor/vscale';
 import { extent } from '@visactor/vgrammar-util';
-import {
-  WORD_CLOUD_ANGLE,
-  WORD_CLOUD_FILLING_ANGLE,
-  WORD_CLOUD_TEXT,
-  WORD_CLOUD_WEIGHT
-} from '../../constant/word-cloud';
+import { WORD_CLOUD_TEXT, WORD_CLOUD_WEIGHT } from '../../constant/word-cloud';
 import type { ICompilableMark } from '../../compile/mark';
 import { BaseSeries } from '../base/base-series';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
@@ -284,21 +279,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       });
     }
 
-    // rotateAngles处理
-    // wordCloudTransforms.push({
-    //   type: 'map',
-    //   as: WORD_CLOUD_ANGLE,
-    //   callback: () => {
-    //     return rotateAngles[Math.floor(Math.random() * rotateAngles.length)];
-    //   }
-    // });
-    // wordCloudTransforms.push({
-    //   type: 'map',
-    //   as: WORD_CLOUD_FILLING_ANGLE,
-    //   callback: () => {
-    //     return fillingRotateAngles[Math.floor(Math.random() * fillingRotateAngles.length)];
-    //   }
-    // });
     const wordSpec = this._spec.word ?? {};
 
     // text fromat method 处理
