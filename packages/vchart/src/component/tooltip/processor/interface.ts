@@ -5,14 +5,16 @@ import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 
 export type DimensionTooltipInfo = IDimensionInfo[];
 
-export type MarkTooltipInfo = {
-  datum: Datum;
+export type MarkTooltipInfo<T = Datum> = {
+  datum: T;
   mark: IMark;
   series: ISeries;
   dimensionInfo: DimensionTooltipInfo;
 };
 
-export type TooltipInfo = DimensionTooltipInfo | MarkTooltipInfo;
+export type GroupTooltipInfo = MarkTooltipInfo<Datum[]>;
+
+export type TooltipInfo = DimensionTooltipInfo | MarkTooltipInfo | GroupTooltipInfo;
 
 export type MouseEventData = {
   /** 展示 tooltip 需要的信息 */

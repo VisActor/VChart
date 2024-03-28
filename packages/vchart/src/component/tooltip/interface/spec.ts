@@ -16,7 +16,7 @@ export interface ITooltipSpec
      * & dimension tooltip pattern
      * （*支持在series上设置）
      */
-    ITooltipActiveTypeAsKeys<ITooltipPattern, ITooltipPattern>
+    ITooltipActiveTypeAsKeys<ITooltipPattern, ITooltipPattern, ITooltipPattern>
   > {
   /**
    * 是否显示

@@ -19,6 +19,7 @@ import { isEmptyPos } from './utils/common';
 import { isSameDimensionInfo } from '../../event/events/dimension/util/common';
 import { ChartEvent, Event_Source_Type } from '../../constant';
 import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
+import { GroupTooltipProcessor } from './processor';
 // eslint-disable-next-line no-duplicate-imports
 import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
@@ -96,7 +97,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   private _eventList: EventHandlerList = [];
 
-  protected _processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor>;
+  protected _processor: ITooltipActiveTypeAsKeys<
+    MarkTooltipProcessor,
+    DimensionTooltipProcessor,
+    GroupTooltipProcessor
+  >;
 
   protected _isTooltipShown: boolean = false;
 
@@ -184,7 +189,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     // 初始化 tooltip 类型
     this._processor = {
       mark: new MarkTooltipProcessor(this),
-      dimension: new DimensionTooltipProcessor(this)
+      dimension: new DimensionTooltipProcessor(this),
+      group: new GroupTooltipProcessor(this)
     };
   }
 
@@ -287,30 +293,37 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       ignore: { mark: ignoreMark, dimension: ignoreDimension }
     } = mouseEventData;
 
-    let markTooltipSuccess: boolean = false;
-    let dimensionTooltipSuccess: boolean = false;
+    /** tooltip 是否显示成功 */
+    const success: ITooltipActiveTypeAsKeys<boolean, boolean, boolean> = {
+      mark: false,
+      dimension: false,
+      group: false
+    };
 
     /* 显示常规tooltip */
-    markTooltipSuccess = this._showTooltipByMouseEvent('mark', mouseEventData, params, isClick);
-    if (!markTooltipSuccess) {
-      dimensionTooltipSuccess = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick);
+    success.mark = this._showTooltipByMouseEvent('mark', mouseEventData, params, isClick);
+    if (!success.mark) {
+      success.group = this._showTooltipByMouseEvent('group', mouseEventData, params, isClick);
+    }
+    if (!success.group) {
+      success.dimension = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick);
     }
 
     /* 如果不是常规情况，进行一些特殊情况tooltip处理 */
-    if (!markTooltipSuccess && !dimensionTooltipSuccess && !isEmptyPos(params)) {
+    if (Object.values(success).every(val => !val) && !isEmptyPos(params)) {
       // 用户手动配置ignore，则继续显示缓存tooltip
       if (ignoreMark && isMarkInfo(this._cacheInfo)) {
-        markTooltipSuccess = this._showTooltipByMouseEvent('mark', mouseEventData, params, isClick, true);
+        success.mark = this._showTooltipByMouseEvent('mark', mouseEventData, params, isClick, true);
       } else if (ignoreDimension && isDimensionInfo(this._cacheInfo)) {
-        dimensionTooltipSuccess = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick, true);
+        success.dimension = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick, true);
       } else if (isValid(dimensionInfo)) {
         // 用户没有手动配置ignore的话，默认显示dimension tooltip
-        dimensionTooltipSuccess = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick);
+        success.dimension = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick);
       }
     }
 
     /* 如果还是不应该显示tooltip，则隐藏上一次tooltip */
-    if (!markTooltipSuccess && (!dimensionTooltipSuccess || isNil(dimensionInfo))) {
+    if (!success.mark && !success.group && (!success.dimension || isNil(dimensionInfo))) {
       this._handleChartMouseOut(params);
       if (isClick && this._clickLock) {
         this._clickLock = false;
