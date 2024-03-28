@@ -211,11 +211,18 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
   protected initTooltip() {
     this._tooltipHelper = new AreaSeriesTooltipHelper(this);
     const { dimension, group, mark } = this._tooltipHelper.activeTriggerSet;
-    this._areaMark && dimension.add(this._areaMark);
-    this._areaMark && group.add(this._areaMark);
-    this._lineMark && dimension.add(this._lineMark);
-    this._lineMark && group.add(this._lineMark);
-    this._symbolMark && mark.add(this._symbolMark);
+    if (this._areaMark) {
+      dimension.add(this._areaMark);
+      group.add(this._areaMark);
+    }
+    if (this._lineMark) {
+      dimension.add(this._lineMark);
+      group.add(this._lineMark);
+    }
+    if (this._symbolMark) {
+      mark.add(this._symbolMark);
+      group.add(this._symbolMark);
+    }
   }
 
   viewDataStatisticsUpdate(d: DataView) {
