@@ -12,7 +12,7 @@ export type MarkTooltipInfo<T = Datum> = {
   dimensionInfo: DimensionTooltipInfo;
 };
 
-export type GroupTooltipInfo = MarkTooltipInfo<Datum[]>;
+export type GroupTooltipInfo = MarkTooltipInfo<Datum | Datum[]>;
 
 export type TooltipInfo = DimensionTooltipInfo | MarkTooltipInfo | GroupTooltipInfo;
 

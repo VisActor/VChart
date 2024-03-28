@@ -297,9 +297,9 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     };
 
     /* 显示常规tooltip */
-    success.mark = this._showTooltipByMouseEvent('mark', mouseEventData, params, isClick);
-    if (!success.mark) {
-      success.group = this._showTooltipByMouseEvent('group', mouseEventData, params, isClick);
+    success.group = this._showTooltipByMouseEvent('group', mouseEventData, params, isClick);
+    if (!success.group) {
+      success.mark = this._showTooltipByMouseEvent('mark', mouseEventData, params, isClick);
     }
     if (!success.mark && !success.group) {
       success.dimension = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick);
@@ -387,11 +387,21 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       tooltipInfo: {},
       ignore: {}
     };
-    Object.keys(this._processor).forEach(activeType => {
-      const { tooltipInfo, ignore } = (this._processor[activeType] as BaseTooltipProcessor).getMouseEventData(params);
-      result.tooltipInfo[activeType] = tooltipInfo;
-      result.ignore[activeType] = ignore;
-    });
+
+    let activeType: TooltipActiveType = 'dimension';
+    const { tooltipInfo, ignore } = this._processor[activeType].getMouseEventData(params);
+    result.tooltipInfo[activeType] = tooltipInfo as any;
+    result.ignore[activeType] = ignore;
+
+    const dimensionInfo = tooltipInfo as DimensionTooltipInfo;
+
+    for (activeType of Object.keys(this._processor) as any) {
+      if (activeType !== 'dimension') {
+        const { tooltipInfo, ignore } = this._processor[activeType].getMouseEventData(params, dimensionInfo);
+        result.tooltipInfo[activeType] = tooltipInfo as any;
+        result.ignore[activeType] = ignore;
+      }
+    }
     return result;
   };
 
