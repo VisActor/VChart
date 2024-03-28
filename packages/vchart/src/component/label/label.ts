@@ -82,8 +82,7 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
           labelSpecList => Array.isArray(labelSpecList) && isLabelVisible(labelSpecList)
         );
       });
-
-      if (chartSpec.labelLayout !== 'region' || hasVisibleLabel) {
+      if (hasVisibleLabel) {
         specInfo.push({
           spec: chartSpec,
           type: ComponentTypeEnum.label,
