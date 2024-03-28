@@ -66,6 +66,7 @@ export interface ICompilableMark extends IGrammarItem {
     setClip: (clip: MarkClip) => void;
     compile: (option?: IMarkCompileOption) => void;
     getProduct: () => Maybe<IMark>;
+    getProductElements: () => Maybe<IMark['elements']>;
     getMarks: () => ICompilableMark[];
     setSkipBeforeLayouted: (skip: boolean) => void;
     getSkipBeforeLayouted: () => boolean;

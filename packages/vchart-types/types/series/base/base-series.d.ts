@@ -36,6 +36,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected _rootMark: IGroupMark;
     getRootMark(): IGroupMark;
     protected _seriesMark: Maybe<IMark>;
+    getSeriesMark(): IMark;
     protected _layoutLevel: number;
     protected _rawData: DataView;
     getRawData(): DataView;

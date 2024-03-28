@@ -78,3 +78,21 @@ VChart.ThemeManager.setCurrentTheme('vScreenVolcanoBlue');
 - [semiDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/semiDesignDark.json) Semi Design - dark
 - [arcoDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/arcoDesignLight.json) Arco Design - light
 - [arcoDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/arcoDesignDark.json) Arco Design - dark
+- [ttPlatformLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/ttPlatformLight.json) TT Platform - light
+- [ttPlatformDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/ttPlatformDark.json) TT Platform - dark
+- [veODesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLight.json) O Design - light
+- [veODesignLightFinance](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightFinance.json) O Design - light - 金融行业色板
+- [veODesignLightGovernment](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightGovernment.json) O Design - light - 政府行业色板
+- [veODesignLightConsumer](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightConsumer.json) O Design - light - 大消费行业色板
+- [veODesignLightAutomobile](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightAutomobile.json) O Design - light - 汽车行业色板
+- [veODesignLightCulturalTourism](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightCulturalTourism.json) O Design - light - 文旅行业色板
+- [veODesignLightMedical](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightMedical.json) O Design - light - 医疗行业色板
+- [veODesignLightNewEnergy](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightNewEnergy.json) O Design - light - 新能源行业色板
+- [veODesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDark.json) O Design - dark
+- [veODesignDarkFinance](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkFinance.json) O Design - dark - 金融行业色板
+- [veODesignDarkGovernment](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkGovernment.json) O Design - dark - 政府行业色板
+- [veODesignDarkConsumer](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkConsumer.json) O Design - dark - 大消费行业色板
+- [veODesignDarkAutomobile](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkAutomobile.json) O Design - dark - 汽车行业色板
+- [veODesignDarkCulturalTourism](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkCulturalTourism.json) O Design - dark - 文旅行业色板
+- [veODesignDarkMedical](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkMedical.json) O Design - dark - 医疗行业色板
+- [veODesignDarkNewEnergy](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkNewEnergy.json) O Design - dark - 新能源行业色板

@@ -318,6 +318,5 @@ export const getTooltipAttributes = (
   attributes.panel.width = panelWidth;
   attributes.panel.height = panelHeight;
   attributes.panelDomHeight = panelDomHeight;
-
   return attributes;
 };

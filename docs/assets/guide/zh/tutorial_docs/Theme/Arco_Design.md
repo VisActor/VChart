@@ -49,7 +49,7 @@ yarn add @visactor/react-vchart
 
 ### DEMO
 
-完整 demo 请访问 [codeSandBox 页面](https://gr93cn-3000.csb.app/)。
+完整 demo 请访问[此页面](https://www.visactor.io/vchart/theme/demo/arco)。
 
 ### 安装
 

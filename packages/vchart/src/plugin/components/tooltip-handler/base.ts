@@ -819,9 +819,13 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       this._attributes = getTooltipAttributes(actualTooltip, this._component.getSpec(), chartTheme);
     }
     const { panel, panelDomHeight } = this._attributes ?? {};
+    // canvas模式下, size需要考虑border size, 目的是为了精准判断边界是否超出画布，达到confine效果
+    // html模式不提供confine, 所以不考虑精准计算size
+    const isCanvas = this._component.getSpec().renderMode === 'canvas';
+
     return {
-      width: panel?.width,
-      height: panelDomHeight ?? panel?.height
+      width: panel?.width + (isCanvas ? panel.lineWidth : 0),
+      height: (panelDomHeight ?? panel?.height) + (isCanvas ? panel.lineWidth : 0)
     };
   }
 
