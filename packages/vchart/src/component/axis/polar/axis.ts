@@ -218,7 +218,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       noDecimal: this._tick.noDecimals,
       startAngle: this.startAngle,
       labelOffset: getAxisLabelOffset(this._spec),
-      getRadius: () => this.getOuterRadius()
+      getRadius: () => this.getOuterRadius(),
+      inside: this._spec.inside
     } as IPolarTickDataOpt;
   }
 
