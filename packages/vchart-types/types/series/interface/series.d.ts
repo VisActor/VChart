@@ -53,6 +53,7 @@ export interface ISeries extends IModel {
     getMarkInId: (id: number) => IMark | undefined;
     getRootMark: () => IGroupMark;
     getActiveMarks: () => IMark[];
+    getSeriesMark: () => IMark;
     getStackData: () => ISeriesStackData;
     getStack: () => boolean;
     getStackValue: () => StringOrNumber | undefined;
