@@ -5,7 +5,7 @@ import type { Datum } from '../../typings';
 import { SeriesData } from '../base/series-data';
 import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
-import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
+import type { IElement, IGlyphElement, IMark as IVgrammarMark } from '@visactor/vgrammar-core';
 import type { IMark } from '../../mark/interface';
 export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
@@ -46,6 +46,7 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     protected _handleLinkAdjacencyClick: (element: IGlyphElement) => void;
     protected _handleNodeRelatedClick: (element: IElement) => void;
     protected _handleLinkRelatedClick: (element: IGlyphElement) => void;
+    protected _highLightElements(vGrammarElements: IVgrammarMark['elements'], highlightNodes: string[]): void;
     protected initTooltip(): void;
     _setNodeOrdinalColorScale(): void;
     getNodeList(): any;

@@ -46261,6 +46261,12 @@
           },
           "type": "array"
         },
+        "showDefaultName": {
+          "default": false,
+          "description": "是否显示数据中没有的地区名称",
+          "since": "1.10.3",
+          "type": "boolean"
+        },
         "stack": {
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
@@ -46575,6 +46581,12 @@
             "$ref": "#/definitions/ISeriesStyleItem"
           },
           "type": "array"
+        },
+        "showDefaultName": {
+          "default": false,
+          "description": "是否显示数据中没有的地区名称",
+          "since": "1.10.3",
+          "type": "boolean"
         },
         "stack": {
           "description": "是否对数据进行堆叠处理",
@@ -72632,7 +72644,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         },
         "size": {
@@ -72640,14 +72652,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12942",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         },
         "size": {
@@ -72655,14 +72667,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12942",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         },
         "size": {
@@ -72670,14 +72682,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12942",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         },
         "size": {
@@ -72685,14 +72697,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12942",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         },
         "size": {
@@ -72700,14 +72712,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12942",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         },
         "size": {
@@ -72715,14 +72727,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12942",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         },
         "size": {
@@ -72730,14 +72742,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12942",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         },
         "size": {
@@ -72745,14 +72757,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12942",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         },
         "size": {
@@ -72760,7 +72772,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12942",
         "size"
       ],
       "type": "object"
@@ -91594,34 +91606,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12940"
+        "__@toStringTag@12942"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12940"
+        "__@toStringTag@12942"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12942": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12940"
+        "__@toStringTag@12942"
       ],
       "type": "object"
     },
