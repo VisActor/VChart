@@ -87,13 +87,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     this._container = null;
   }
 
-  protected _updateTooltip(visible: boolean, params: TooltipHandlerParams, actualTooltip: ITooltipActual) {
+  protected _updateTooltip(visible: boolean, params: TooltipHandlerParams) {
+    const { tooltipActual, tooltipSpec } = params;
     if (!visible || !this.model) {
       this.setVisibility(visible);
       this._cacheCustomTooltipPosition = undefined;
     } else {
       if (!params.changePositionOnly) {
-        this._tooltipActual = actualTooltip;
+        this._tooltipActual = tooltipActual;
         this._initStyle();
 
         const firstInit = !this.model.product;
@@ -109,14 +110,14 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       // 位置
       const el = this.model.product;
       if (el) {
-        const { x = 0, y = 0 } = actualTooltip.position ?? {};
-        if (this._cacheViewSpec?.updateElement) {
+        const { x = 0, y = 0 } = tooltipActual.position ?? {};
+        if (tooltipSpec.updateElement) {
           // 此处先设定一次位置，防止页面暂时出现滚动条（优先设置上次的位置）
           this._updatePosition(this._cacheCustomTooltipPosition ?? { x, y });
           // 更新 tooltip dom
-          this._cacheViewSpec.updateElement(el, actualTooltip, params);
+          tooltipSpec.updateElement(el, tooltipActual, params);
           // 重新计算 tooltip 位置
-          const position = this._getActualTooltipPosition(actualTooltip, params, {
+          const position = this._getActualTooltipPosition(tooltipActual, params, {
             width: el.offsetWidth,
             height: el.offsetHeight
           });
@@ -158,7 +159,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
   protected _initEvent(el: HTMLElement) {
     el.addEventListener('pointerleave', event => {
-      const { renderMode, enterable } = this._cacheViewSpec;
+      const { renderMode, enterable } = this._component.getSpec();
       const relatedTarget = event.relatedTarget as HTMLElement;
       if (renderMode === 'html' && enterable) {
         if (

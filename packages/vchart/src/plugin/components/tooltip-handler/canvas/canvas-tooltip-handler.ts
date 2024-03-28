@@ -1,5 +1,4 @@
 import type { ILayer, INode, Stage } from '@visactor/vrender-core';
-import type { ITooltipActual } from '../../../../typings/tooltip';
 import { BaseTooltipHandler } from '../base';
 import { Tooltip as TooltipComponent } from '@visactor/vrender-components';
 import { isValid } from '@visactor/vutils';
@@ -64,7 +63,7 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
     this._attributes = null;
   }
 
-  protected _updateTooltip(visible: boolean, params: TooltipHandlerParams, actualTooltip: ITooltipActual) {
+  protected _updateTooltip(visible: boolean, params: TooltipHandlerParams) {
     this._visible = visible;
 
     const stage = this._compiler.getStage();
@@ -86,7 +85,8 @@ export class CanvasTooltipHandler extends BaseTooltipHandler {
       this._initTooltipComponent(stage);
     }
 
-    const pos = actualTooltip?.position;
+    const { tooltipActual } = params;
+    const pos = tooltipActual.position;
     if (!params.changePositionOnly) {
       this._tooltipComponent.setAttributes({
         ...this._attributes,
