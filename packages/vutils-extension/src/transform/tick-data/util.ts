@@ -5,7 +5,7 @@ import { AABBBounds, degreeToRadian } from '@visactor/vutils';
 import type { IGraphic, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
 import { initTextMeasure } from '../../utils/text';
 import type { ICartesianTickDataOpt, IOrientType, IPolarTickDataOpt, ITickData } from './interface';
-import { getLabelPos } from './utils/polar-label-position';
+import { getLabelPosition } from './utils/polar-label-position';
 
 export const convertDomainToTickData = (domain: any[]): ITickData[] => {
   const ticks = domain.map((t: number, index: number) => {
@@ -163,7 +163,7 @@ export const getPolarAngleLabelBounds = (scale: IBaseScale, domain: any[], op: I
       baseline: labelStyle.textBaseline ?? 'middle'
     };
 
-    const { x, y } = getLabelPos(angle, { x: 0, y: 0 }, radius, labelOffset, inside, str, labelStyle);
+    const { x, y } = getLabelPosition(angle, { x: 0, y: 0 }, radius, labelOffset, inside, str, labelStyle);
     textX = x + (orient.align === 'right' ? -textWidth : orient.align === 'center' ? -textWidth / 2 : 0);
     textY = y + (orient.baseline === 'bottom' ? -textHeight : orient.baseline === 'middle' ? -textHeight / 2 : 0);
 

@@ -2,7 +2,7 @@ import { ITextGraphicAttribute } from '@visactor/vrender-core';
 import { getCircleLabelPosition, getCircleVerticalVector, getVerticalCoord } from '@visactor/vrender-components';
 import { polarToCartesian } from '@visactor/vutils';
 
-export function getLabelPos(
+export function getLabelPosition(
   angle: number,
   center: { x: number; y: number },
   radius: number,
