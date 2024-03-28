@@ -19,11 +19,9 @@ import { isEmptyPos } from './utils/common';
 import { isSameDimensionInfo } from '../../event/events/dimension/util/common';
 import { ChartEvent, Event_Source_Type } from '../../constant';
 import type { BaseTooltipProcessor, DimensionTooltipInfo, MarkTooltipInfo, TooltipInfo } from './processor';
-import { GroupTooltipProcessor } from './processor';
 // eslint-disable-next-line no-duplicate-imports
-import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
+import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
-import { MarkTooltipProcessor } from './processor/mark-tooltip';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { hasParentElement, isArray, isValid, isNil, array } from '@visactor/vutils';
@@ -303,7 +301,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     if (!success.mark) {
       success.group = this._showTooltipByMouseEvent('group', mouseEventData, params, isClick);
     }
-    if (!success.group) {
+    if (!success.mark && !success.group) {
       success.dimension = this._showTooltipByMouseEvent('dimension', mouseEventData, params, isClick);
     }
 
