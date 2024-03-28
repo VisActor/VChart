@@ -1,7 +1,7 @@
 import type { BaseEventParams } from '../../../event/interface';
-import type { IGroupTooltipPattern, TooltipActiveType } from '../../../typings';
+import type { Datum, IGroupTooltipPattern, TooltipActiveType } from '../../../typings';
 import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
-import type { GroupTooltipInfo, MouseEventData } from './interface';
+import type { DimensionTooltipInfo, GroupTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
 import { array, isNil } from '@visactor/vutils';
 import type { ISeries } from '../../../series/interface';
@@ -15,6 +15,7 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
     const tooltipData = [{ datum: array(datum), series }];
     const newParams: TooltipHandlerParams = {
       ...(params as any),
+      groupDatum: this._getGroupDatum(params),
       dimensionInfo: this._preprocessDimensionInfo(dimensionInfo),
       changePositionOnly,
       tooltip: this.component
@@ -37,7 +38,7 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
   }
 
   /** 获取触发 tooltip 需要的信息 */
-  getMouseEventData(params: BaseEventParams): MouseEventData {
+  getMouseEventData(params: BaseEventParams, dimensionInfo?: DimensionTooltipInfo): MouseEventData {
     let info: GroupTooltipInfo | undefined;
     let ignore: boolean | undefined;
 
@@ -54,9 +55,9 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
         if (triggerMark.includes(params.mark?.name as any)) {
           info = {
             mark: params.mark,
-            datum: array(params.datum),
+            datum: params.datum,
             series,
-            dimensionInfo: this._getDimensionInfo(params)
+            dimensionInfo
           };
         }
       } else if (ignoreTriggers?.has(params.model) || ignoreTriggers?.has(params.mark)) {
@@ -68,5 +69,22 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
       tooltipInfo: info,
       ignore
     };
+  }
+
+  protected _getGroupDatum(params: BaseEventParams) {
+    const { model, mark, datum } = params;
+    const series = model as ISeries;
+    if (['line', 'area'].includes(mark.type)) {
+      return array(datum);
+    }
+
+    const datumList = series.getViewData().latestData;
+    const seriesField = series.getSeriesField();
+    if (!seriesField) {
+      return datumList;
+    }
+
+    const seriesFieldValue = array(datum)[0][seriesField];
+    return datumList.filter((d: Datum) => d[seriesField] === seriesFieldValue);
   }
 }

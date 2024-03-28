@@ -5,7 +5,7 @@ import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { TooltipResult } from '../interface/common';
 import type { Tooltip } from '../tooltip';
-import type { MouseEventData, TooltipInfo } from './interface';
+import type { DimensionTooltipInfo, MouseEventData, TooltipInfo } from './interface';
 import { ChartEvent } from '../../../constant';
 import type { TooltipEventParams } from '../interface/event';
 import type { IDimensionData, IDimensionInfo } from '../../../event/events/dimension';
@@ -35,7 +35,7 @@ export abstract class BaseTooltipProcessor {
   abstract shouldHandleTooltip(params: BaseEventParams, mouseEventData: Partial<MouseEventData>): boolean;
 
   /** 获取触发 tooltip 需要的信息 */
-  abstract getMouseEventData(params: BaseEventParams): MouseEventData;
+  abstract getMouseEventData(params: BaseEventParams, dimensionInfo?: DimensionTooltipInfo): MouseEventData;
 
   protected _showTooltipByHandler = (data: TooltipData | undefined, params: TooltipHandlerParams): TooltipResult => {
     if (isNil(data)) {

@@ -13,6 +13,8 @@ export type TooltipHandlerParams = DimensionEventParams & {
   tooltipSpec?: ITooltipSpec;
   /** 本次触发的 tooltip 的显示数据 */
   tooltipActual?: ITooltipActual;
+  /** 和 datum 同组的数据项 */
+  groupDatum?: Datum[];
 };
 
 export interface ITooltipActiveTypeAsKeys<T, K, U> {

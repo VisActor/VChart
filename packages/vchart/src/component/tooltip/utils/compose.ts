@@ -10,6 +10,7 @@ import type { IDimensionData, IDimensionInfo } from '../../../event';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constant';
 import { getTooltipActualActiveType } from '.';
 import type { TooltipActualTitleContent, TooltipHandlerParams } from '..';
+import type { Datum } from '../../../typings';
 
 const getTimeString = (value: any, timeFormat?: string, timeFormatMode?: 'local' | 'utc') => {
   if (!timeFormat && !timeFormatMode) {
@@ -86,30 +87,35 @@ export const getShowContent = (
       }
     : TOOLTIP_OTHERS_LINE;
 
-  switch (pattern.activeType) {
-    case 'mark':
-    case 'group':
-      const datumList = (data as IDimensionData[])[0]?.datum;
-      if (datumList?.length) {
-        for (const datum of datumList) {
-          for (const content of patternContent ?? []) {
-            const oneLineData = getOneLineData(datum, content, params);
-            if (oneLineData.visible !== false) {
-              if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
-                tooltipActualTitleContent.content.push({
-                  ...oneLineData,
-                  ...othersLine
-                });
-                break;
-              } else if (tooltipActualTitleContent.content.length < maxLineCount) {
-                tooltipActualTitleContent.content.push(oneLineData);
-              } else {
-                break;
-              }
+  const getTooltipContentFromDatumList = (datumList?: Datum[]) => {
+    if (datumList?.length) {
+      for (const datum of datumList) {
+        for (const content of patternContent ?? []) {
+          const oneLineData = getOneLineData(datum, content, params);
+          if (oneLineData.visible !== false) {
+            if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
+              tooltipActualTitleContent.content.push({
+                ...oneLineData,
+                ...othersLine
+              });
+              break;
+            } else if (tooltipActualTitleContent.content.length < maxLineCount) {
+              tooltipActualTitleContent.content.push(oneLineData);
+            } else {
+              break;
             }
           }
         }
       }
+    }
+  };
+
+  switch (pattern.activeType) {
+    case 'mark':
+      getTooltipContentFromDatumList((data as IDimensionData[])[0]?.datum);
+      break;
+    case 'group':
+      getTooltipContentFromDatumList(params.groupDatum);
       break;
     case 'dimension':
       for (const { data: d } of data as IDimensionInfo[]) {
