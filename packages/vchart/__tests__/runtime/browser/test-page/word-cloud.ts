@@ -6,8 +6,6 @@ const run = () => {
     type: 'wordCloud',
     nameField: 'name',
     valueField: 'value',
-    rotateAngles: [0, 30],
-    random: false,
     data: {
       name: '0',
       values: [
@@ -27,7 +25,6 @@ const run = () => {
     type: 'wordCloud',
     nameField: 'name',
     valueField: 'value',
-    rotateAngles: [0, 30],
     data: {
       name: '1',
       values: [
@@ -64,10 +61,10 @@ const run = () => {
   };
   const cs = new VChart(spec, { dom: 'chart' });
   cs.renderAsync().then(() => {
-    // setTimeout(() => {
-    //   console.log('updateSpec');
-    //   // cs.updateSpec(spec1);
-    // }, 3000);
+    setTimeout(() => {
+      console.log('updateSpec');
+      cs.updateSpec(spec1);
+    }, 3000);
   });
   window['vchart'] = cs;
   console.log(cs);
