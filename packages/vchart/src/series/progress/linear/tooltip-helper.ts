@@ -7,12 +7,13 @@ export class LinearProgressSeriesTooltipHelper extends BaseSeriesTooltipHelper i
   /** 获取默认的tooltip pattern */
   getDefaultTooltipPattern(activeType: TooltipActiveType, dimensionInfo?: IDimensionInfo[]): ITooltipPattern | null {
     const result = super.getDefaultTooltipPattern(activeType, dimensionInfo);
-    if (activeType === 'mark') {
-      return result;
-    }
-    if (activeType === 'dimension') {
-      result.visible = false;
-      return result;
+    switch (activeType) {
+      case 'mark':
+      case 'group':
+        return result;
+      case 'dimension':
+        result.visible = false;
+        return result;
     }
     return null;
   }

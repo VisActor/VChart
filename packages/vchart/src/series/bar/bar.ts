@@ -130,8 +130,11 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   protected initTooltip() {
     super.initTooltip();
-
-    this._barMark && this._tooltipHelper.activeTriggerSet.mark.add(this._barMark);
+    const { mark, group } = this._tooltipHelper.activeTriggerSet;
+    if (this._barMark) {
+      mark.add(this._barMark);
+      group.add(this._barMark);
+    }
   }
 
   protected _statisticViewData(): void {

@@ -1,7 +1,7 @@
 import type { BaseEventParams } from '../../../event/interface';
 import type { TooltipActiveType } from '../../../typings';
 import type { TooltipHandlerParams } from '../interface';
-import type { MarkTooltipInfo, MouseEventData } from './interface';
+import type { DimensionTooltipInfo, MarkTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
 import { isNil } from '@visactor/vutils';
 import type { ISeries } from '../../../series/interface';
@@ -37,7 +37,7 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
   }
 
   /** 获取触发 tooltip 需要的信息 */
-  getMouseEventData(params: BaseEventParams): MouseEventData {
+  getMouseEventData(params: BaseEventParams, dimensionInfo?: DimensionTooltipInfo): MouseEventData {
     let info: MarkTooltipInfo | undefined;
     let ignore: boolean | undefined;
 
@@ -52,7 +52,7 @@ export class MarkTooltipProcessor extends BaseTooltipProcessor {
           mark: params.mark,
           datum: params.datum,
           series,
-          dimensionInfo: this._getDimensionInfo(params)
+          dimensionInfo
         };
       } else if (ignoreTriggers?.has(params.model) || ignoreTriggers?.has(params.mark)) {
         ignore = true;

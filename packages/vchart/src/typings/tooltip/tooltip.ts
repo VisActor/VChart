@@ -27,6 +27,16 @@ export interface ITooltipPattern extends ITooltipShapePattern {
   activeType?: TooltipActiveType;
 }
 
+export type GroupTooltipTriggerMark = 'line' | 'area' | 'point' | 'bar';
+
+export interface IGroupTooltipPattern extends ITooltipPattern {
+  /**
+   * group tooltip 的触发 mark
+   * @since 1.11.0
+   */
+  triggerMark?: MaybeArray<GroupTooltipTriggerMark>;
+}
+
 export interface ITooltipActual {
   visible?: boolean;
   title?: ITooltipLineActual;

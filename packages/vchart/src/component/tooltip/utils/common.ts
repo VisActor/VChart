@@ -8,9 +8,10 @@ export const getTooltipActualActiveType = (spec?: ITooltipSpec): TooltipActiveTy
     return [];
   }
 
-  const activeTypeMap: ITooltipActiveTypeAsKeys<boolean, boolean> = {
+  const activeTypeMap: ITooltipActiveTypeAsKeys<boolean, boolean, boolean> = {
     mark: spec?.mark?.visible !== false,
-    dimension: spec?.dimension?.visible !== false
+    dimension: spec?.dimension?.visible !== false,
+    group: spec?.group?.visible !== false
   };
 
   if (isValid(spec?.activeType)) {
