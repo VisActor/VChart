@@ -1,6 +1,6 @@
 import type { BaseEventParams } from '../../../event/interface';
-import type { TooltipActiveType } from '../../../typings';
-import type { TooltipHandlerParams } from '../interface';
+import type { IGroupTooltipPattern, TooltipActiveType } from '../../../typings';
+import type { ITooltipSpec, TooltipHandlerParams } from '../interface';
 import type { GroupTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
 import { array, isNil } from '@visactor/vutils';
@@ -47,13 +47,18 @@ export class GroupTooltipProcessor extends BaseTooltipProcessor {
       const helper = series.tooltipHelper;
       const activeTriggers = helper?.activeTriggerSet.group;
       const ignoreTriggers = helper?.ignoreTriggerSet.group;
+
       if (activeTriggers?.has(params.model) || activeTriggers?.has(params.mark)) {
-        info = {
-          mark: params.mark,
-          datum: array(params.datum),
-          series,
-          dimensionInfo: this._getDimensionInfo(params)
-        };
+        const patternSpec: IGroupTooltipPattern = (this.component.getSpec() as ITooltipSpec)[this.activeType];
+        const triggerMark = patternSpec?.triggerMark ? array(patternSpec.triggerMark) : [];
+        if (triggerMark.includes(params.mark?.name as any)) {
+          info = {
+            mark: params.mark,
+            datum: array(params.datum),
+            series,
+            dimensionInfo: this._getDimensionInfo(params)
+          };
+        }
       } else if (ignoreTriggers?.has(params.model) || ignoreTriggers?.has(params.mark)) {
         ignore = true;
       }
