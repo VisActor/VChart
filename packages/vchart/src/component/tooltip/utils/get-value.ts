@@ -81,4 +81,5 @@ export function getFirstDatumFromTooltipData(data: TooltipData): Datum {
       }
     }
   }
+  return undefined;
 }
