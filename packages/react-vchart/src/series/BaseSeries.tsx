@@ -8,11 +8,21 @@ import {
   COMMON_EVENTK_KEYS,
   VCHART_TO_REACT_EVENTS
 } from '../eventsUtils';
+import { VChart } from '@visactor/vchart';
 export interface BaseSeriesProps extends EventsProps {
   id?: string | number;
 }
 
-export const createSeries = <T extends BaseSeriesProps>(componentName: string, markNames: string[], type?: string) => {
+export const createSeries = <T extends BaseSeriesProps>(
+  componentName: string,
+  markNames: string[],
+  type?: string,
+  registers?: (() => void)[]
+) => {
+  if (registers && registers.length) {
+    VChart.useRegisters(registers);
+  }
+
   const ignoreKeys = ['id', 'updateId', 'componentId'];
   const notSpecKeys = COMMON_EVENTK_KEYS.concat(ignoreKeys);
 

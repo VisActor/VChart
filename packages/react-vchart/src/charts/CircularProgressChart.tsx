@@ -1,15 +1,32 @@
 import React from 'react';
-import { ICircularProgressChartSpec } from '@visactor/vchart';
-import { default as VChart } from '@visactor/vchart';
+import { ICircularProgressChartSpec, IVChartConstructor } from '@visactor/vchart';
+import {
+  VChart,
+  registerCircularProgressChart,
+  registerPolarLinearAxis, // 必选
+  registerPolarBandAxis, // 必选
+  registerPolarCrossHair,
+  registerLabel
+} from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 
 export interface CircularProgressChartProps
-  extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,
+  extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
     Omit<ICircularProgressChartSpec, 'type'> {}
 
 export const CircularProgressChart = createChart<
   React.PropsWithChildren<CircularProgressChartProps> & { type: 'circularProgress' }
->('CircularProgressChart', {
-  type: 'circularProgress',
-  vchartConstrouctor: VChart
-});
+>(
+  'CircularProgressChart',
+  {
+    type: 'circularProgress',
+    vchartConstrouctor: VChart as IVChartConstructor
+  },
+  [
+    registerCircularProgressChart,
+    registerPolarLinearAxis, // 必选
+    registerPolarBandAxis, // 必选
+    registerPolarCrossHair,
+    registerLabel
+  ]
+);

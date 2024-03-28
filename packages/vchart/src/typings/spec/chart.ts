@@ -25,6 +25,7 @@ import type { IWaterfallChartSpec } from '../../chart/waterfall';
 import type { ICorrelationChartSpec } from '../../chart/correlation';
 import type { IWordCloudChartSpec, IWordCloud3dChartSpec } from '../../chart/word-cloud';
 import type { IChartSpec } from './common';
+import type { ILiquidChartSpec } from '../../chart/liquid/interface';
 
 export interface ChartSpecMap {
   readonly common: ICommonChartSpec;
@@ -59,6 +60,7 @@ export interface ChartSpecMap {
   readonly circlePacking: ICirclePackingChartSpec;
   readonly heatmap: IHeatmapChartSpec;
   readonly correlation: ICorrelationChartSpec;
+  readonly liquid: ILiquidChartSpec;
 }
 
 export type ISpec = ChartSpecMap[keyof ChartSpecMap] | IChartSpec;

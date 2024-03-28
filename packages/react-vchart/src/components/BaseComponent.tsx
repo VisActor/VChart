@@ -3,6 +3,7 @@ import { pickWithout } from '@visactor/vutils';
 
 import RootChartContext from '../context/chart';
 import { bindEventsToChart } from '../eventsUtils';
+import { VChart } from '@visactor/vchart';
 
 export interface BaseComponentProps {
   id?: string | number;
@@ -14,8 +15,13 @@ export const createComponent = <T extends ComponentProps>(
   componentName: string,
   specName: string,
   supportedEvents?: Record<string, string> | null,
-  isSingle?: boolean
+  isSingle?: boolean,
+  registers?: (() => void)[]
 ) => {
+  if (registers && registers.length) {
+    VChart.useRegisters(registers);
+  }
+
   const ignoreKeys = ['id', 'updateId', 'componentId'];
   const notSpecKeys = supportedEvents ? Object.keys(supportedEvents).concat(ignoreKeys) : ignoreKeys;
 

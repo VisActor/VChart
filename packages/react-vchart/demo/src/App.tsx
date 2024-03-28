@@ -15,7 +15,7 @@ import {
   Bar,
   Axis,
   Mark,
-  VChart,
+  // VChart,
   Legend,
   Tooltip,
   ITooltipRenderProps
@@ -273,7 +273,7 @@ function App() {
         direction={'vertical'}
       />
 
-      <VChart
+      {/* <VChart
         onClick={handleChartClick}
         spec={{
           type: 'line',
@@ -333,7 +333,7 @@ function App() {
             //renderMode: 'canvas'
           }
         }}
-      />
+      /> */}
     </div>
   );
 }

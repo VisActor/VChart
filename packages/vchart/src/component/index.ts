@@ -68,7 +68,7 @@ import type { IMarkPointSpec, IMarkPointTheme } from './marker/mark-point';
 import { MarkPoint, registerMarkPoint } from './marker/mark-point';
 import type { ITooltipSpec, ITooltipTheme } from './tooltip';
 import { Tooltip, registerTooltip } from './tooltip';
-import type { ILabelSpec, ITotalLabelTheme } from './label';
+import type { ILabelSpec, ITotalLabelTheme, ITotalLabelSpec } from './label';
 import { Label, registerLabel } from './label';
 import { TotalLabel, registerTotalLabel } from './label/total-label';
 import { registerPoptip } from './poptip/index';
@@ -153,6 +153,7 @@ export type {
   IGeoCoordinateSpec,
   IIndicatorSpec,
   ILabelSpec,
+  ITotalLabelSpec,
   IMapLabelSpec,
   IMarkAreaSpec,
   IMarkLineSpec,
