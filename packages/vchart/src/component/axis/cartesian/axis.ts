@@ -13,7 +13,9 @@ import {
   eachSeries,
   isNil,
   isUndefined,
-  calcLayoutNumber
+  calcLayoutNumber,
+  maxInArr,
+  minInArr
 } from '../../../util';
 import type { IOrientType, IRect } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
@@ -372,15 +374,15 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
           // 更新单位的显示位置
           if (this._unitText) {
-            const bounds = product.graphicItem.AABBBounds;
+            const { x, y } = this.getLayoutStartPoint();
             const pos = isXAxis(this._orient)
               ? {
-                  x: bounds.x2,
-                  y: this.getLayoutStartPoint().y
+                  x: maxInArr<number>(this._scale.range()) + x,
+                  y
                 }
               : {
-                  x: this.getLayoutStartPoint().x,
-                  y: bounds.y1
+                  x,
+                  y: minInArr<number>(this._scale.range()) + y
                 };
 
             this._unitText.setAttributes(pos);
@@ -889,10 +891,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       const { text, style } = this._spec.unit;
       let pos;
       let unitTextStyle: any;
+      const { x, y } = this.getLayoutStartPoint();
       if (isX) {
         pos = {
-          x: bounds.x2,
-          y: this.getLayoutStartPoint().y
+          x: maxInArr<number>(this._scale.range()) + x,
+          y
         };
         unitTextStyle = {
           textAlign: 'left',
@@ -900,8 +903,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         };
       } else {
         pos = {
-          x: this.getLayoutStartPoint().x,
-          y: bounds.y1
+          x,
+          y: minInArr<number>(this._scale.range()) + y
         };
         unitTextStyle = {
           textAlign: this._orient === 'left' ? 'left' : 'right',
