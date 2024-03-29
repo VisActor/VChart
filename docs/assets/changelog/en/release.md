@@ -28,9 +28,10 @@
 
 2024-03-26
 
-## :new: feat 
+## 🆕 New feat 
 - **@visactor/vchart**: support interaction events of `element-select` and `element-highlight`
-## :bug: fix 
+
+## 🐛 Bug fix 
 - **@visactor/vchart**: `lineWidth` is invalid in rect-type-crosshair, related [#2432](https://github.com/VisActor/VChart/issues/2432)
 - **@visactor/vchart**: should use `series.getMarkInName` to get the mark for total label's caculation, fixed [#2448](https://github.com/VisActor/VChart/issues/2448)
 - **@visactor/vchart**: fix the issue of event trigger count after `updateSpecSync()`
