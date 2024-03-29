@@ -1,6 +1,6 @@
 import type { Options } from './constants';
 import type { Maybe, ILayoutPoint, RenderMode } from '../../../typings';
-import type { TooltipData, ITooltipActual, TooltipActiveType, ITooltipHandler, ITooltipPattern, ITooltipPositionActual } from '../../../typings/tooltip';
+import type { TooltipData, ITooltipActual, TooltipActiveType, ITooltipHandler, ITooltipPositionActual } from '../../../typings/tooltip';
 import type { IGroup } from '@visactor/vrender-core';
 import type { Compiler } from '../../../compile/compiler';
 import type { IContainerSize } from '@visactor/vrender-components';
@@ -10,8 +10,8 @@ import { TooltipResult } from '../../../component/tooltip';
 import type { IComponentPlugin, IComponentPluginService } from '../interface';
 import { BasePlugin } from '../../base/base-plugin';
 import type { ITooltipAttributes } from './interface';
-type ChangeTooltipFunc = (visible: boolean, params: TooltipHandlerParams, changePositionOnly?: boolean, activeType?: TooltipActiveType, data?: TooltipData) => TooltipResult;
-type ChangeTooltipPositionFunc = (changePositionOnly: boolean, data: TooltipData, params: TooltipHandlerParams) => TooltipResult;
+type ChangeTooltipFunc = (visible: boolean, params: TooltipHandlerParams, data?: TooltipData) => TooltipResult;
+type ChangeTooltipPositionFunc = (params: TooltipHandlerParams, data: TooltipData) => TooltipResult;
 export declare abstract class BaseTooltipHandler extends BasePlugin implements ITooltipHandler, IComponentPlugin {
     static readonly pluginType: 'component';
     static readonly specKey = "tooltip";
@@ -25,8 +25,6 @@ export declare abstract class BaseTooltipHandler extends BasePlugin implements I
     protected _attributes?: ITooltipAttributes | null;
     protected _chartContainer: Maybe<HTMLElement>;
     protected _compiler: Compiler;
-    protected _cacheViewSpec: ITooltipSpec | undefined;
-    protected _cacheActualTooltip: ITooltipActual | undefined;
     protected _isTooltipPaused: boolean;
     protected _isPointerEscaped: boolean;
     protected _cachePointerTimer: number;
@@ -44,13 +42,10 @@ export declare abstract class BaseTooltipHandler extends BasePlugin implements I
     hideTooltip(params: TooltipHandlerParams): TooltipResult;
     release(): void;
     protected _clearAllCache(): void;
-    protected _clearCacheOfContent(): void;
-    protected _clearCacheOfPosition(): void;
-    protected abstract _updateTooltip(visible: boolean, params: TooltipHandlerParams, domData?: ITooltipActual): void;
+    protected abstract _updateTooltip(visible: boolean, params: TooltipHandlerParams): void;
     protected abstract _removeTooltip(): void;
     protected _throttle(callback: any): (...args: unknown[]) => unknown;
     protected _getDefaultOption(): Options;
-    protected _getActualTooltipContent: (pattern: ITooltipPattern, data: TooltipData, params: TooltipHandlerParams) => ITooltipActual;
     protected _getActualTooltipPosition: (actualTooltip: ITooltipActual, params: TooltipHandlerParams, tooltipBoxSize: IContainerSize | undefined) => ITooltipPositionActual;
     protected _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined;
     protected _getPointerPositionRelativeToTooltipParent(params: TooltipHandlerParams): {

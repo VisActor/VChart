@@ -7,8 +7,7 @@ import type { ITooltipHandler, ITooltipLineActual, TooltipActiveType } from '../
 import type { Datum, IShowTooltipOption } from '../../typings';
 import type { ITooltip, ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams, TotalMouseEventData } from './interface';
 import { TooltipResult } from './interface/common';
-import { DimensionTooltipProcessor } from './processor/dimension-tooltip';
-import { MarkTooltipProcessor } from './processor/mark-tooltip';
+import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
 import type { Maybe } from '@visactor/vutils';
 import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
@@ -32,8 +31,9 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     private _alwaysShow;
     private _cacheInfo;
     private _cacheParams;
+    private _cacheActiveType;
     private _eventList;
-    protected _processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor>;
+    protected _processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor, GroupTooltipProcessor>;
     protected _isTooltipShown: boolean;
     protected _clickLock: boolean;
     isTooltipShown(): boolean;

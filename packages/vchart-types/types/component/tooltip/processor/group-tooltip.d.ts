@@ -1,10 +1,11 @@
 import type { BaseEventParams } from '../../../event/interface';
 import type { TooltipActiveType } from '../../../typings';
-import type { DimensionTooltipInfo, MarkTooltipInfo, MouseEventData } from './interface';
+import type { DimensionTooltipInfo, GroupTooltipInfo, MouseEventData } from './interface';
 import { BaseTooltipProcessor } from './base';
-export declare class MarkTooltipProcessor extends BaseTooltipProcessor {
+export declare class GroupTooltipProcessor extends BaseTooltipProcessor {
     activeType: TooltipActiveType;
-    showTooltip(info: MarkTooltipInfo, params: BaseEventParams, changePositionOnly: boolean): import("../interface").TooltipResult;
+    showTooltip(info: GroupTooltipInfo, params: BaseEventParams, changePositionOnly: boolean): import("../interface").TooltipResult;
     shouldHandleTooltip(params: BaseEventParams, mouseEventData: Partial<MouseEventData>): boolean;
     getMouseEventData(params: BaseEventParams, dimensionInfo?: DimensionTooltipInfo): MouseEventData;
+    protected _getGroupDatum(params: BaseEventParams): any;
 }

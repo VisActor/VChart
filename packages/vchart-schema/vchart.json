@@ -5332,76 +5332,7 @@
       },
       "type": "object"
     },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
-          "description": "style格式转换"
-        }
-      ],
-      "description": "style格式转换"
-    },
-    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
       "anyOf": [
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>_1",
@@ -5420,15 +5351,15 @@
           "description": "style格式转换"
         },
         {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>_1",
           "description": "style格式转换"
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>_1",
-          "description": "style格式转换"
-        },
-        {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_1",
           "description": "style格式转换"
         },
         {
@@ -5469,6 +5400,75 @@
         },
         {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>_1",
+          "description": "style格式转换"
+        }
+      ],
+      "description": "style格式转换"
+    },
+    "ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILineMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ITextMarkSpec>_1",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArcMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRect3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ISymbolMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IBoxPlotMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IAreaMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPolygonMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IPyramid3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IArc3dMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<ILinkPathMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRippleMarkSpec>",
+          "description": "style格式转换"
+        },
+        {
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IImageMarkSpec>",
           "description": "style格式转换"
         }
       ],
@@ -8609,6 +8609,15 @@
         "shadowroot",
         "symbol",
         "text"
+      ],
+      "type": "string"
+    },
+    "GroupTooltipTriggerMark": {
+      "enum": [
+        "area",
+        "bar",
+        "line",
+        "point"
       ],
       "type": "string"
     },
@@ -29904,14 +29913,14 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -32297,14 +32306,14 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
+          "$ref": "#/definitions/Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>",
           "description": "不同状态下的样式配置"
         },
         "stateSort": {
           "typeof": "function"
         },
         "style": {
-          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
+          "$ref": "#/definitions/ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>",
           "description": "默认样式设置"
         },
         "support3d": {
@@ -35188,7 +35197,7 @@
           "description": "图钉背景样式"
         },
         "pointer": {
-          "$ref": "#/definitions/Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>",
+          "$ref": "#/definitions/Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>",
           "description": "指针样式"
         },
         "radius": {
@@ -38316,6 +38325,85 @@
         "useStates",
         "valid"
       ],
+      "type": "object"
+    },
+    "IGroupTooltipPattern": {
+      "properties": {
+        "activeType": {
+          "$ref": "#/definitions/TooltipActiveType",
+          "description": "方便内部逻辑辨别 tooltip 类型，不暴露给用户"
+        },
+        "content": {
+          "$ref": "#/definitions/MaybeArray<TooltipPatternProperty<MaybeArray<ITooltipLinePattern>>>"
+        },
+        "hasShape": {
+          "type": "boolean"
+        },
+        "maxLineCount": {
+          "description": "tooltip content 保留的最大数据行数，默认为 20",
+          "type": "number"
+        },
+        "position": {
+          "$ref": "#/definitions/TooltipPatternProperty<TooltipPosition>"
+        },
+        "positionMode": {
+          "$ref": "#/definitions/TooltipPatternProperty<TooltipPositionMode>",
+          "description": "决定 `position` 相对固定于什么图形，如固定在鼠标指针周围或图元周围。该配置只有 `position` 设为字符串时生效。默认为 `'mark'`",
+          "since": "1.4.0"
+        },
+        "seriesId": {
+          "description": "该 pattern 属于哪个系列id（用户不需要设置）",
+          "type": "number"
+        },
+        "shapeColor": {
+          "$ref": "#/definitions/TooltipContentProperty<string>"
+        },
+        "shapeFill": {
+          "$ref": "#/definitions/TooltipContentProperty<string>",
+          "description": "形状填充颜色",
+          "since": "1.4.0"
+        },
+        "shapeHollow": {
+          "$ref": "#/definitions/TooltipContentProperty<boolean>",
+          "description": "形状是否空心"
+        },
+        "shapeLineWidth": {
+          "$ref": "#/definitions/TooltipContentProperty<number>",
+          "description": "形状描边宽度",
+          "since": "1.4.0"
+        },
+        "shapeSize": {
+          "$ref": "#/definitions/TooltipContentProperty<number>"
+        },
+        "shapeStroke": {
+          "$ref": "#/definitions/TooltipContentProperty<string>",
+          "description": "形状描边颜色",
+          "since": "1.4.0"
+        },
+        "shapeType": {
+          "$ref": "#/definitions/TooltipContentProperty<string>"
+        },
+        "title": {
+          "$ref": "#/definitions/TooltipPatternProperty<ITooltipLinePattern>"
+        },
+        "triggerMark": {
+          "$ref": "#/definitions/MaybeArray<GroupTooltipTriggerMark>",
+          "description": "group tooltip 的触发 mark",
+          "since": "1.11.0"
+        },
+        "updateContent": {
+          "typeof": "function"
+        },
+        "updatePosition": {
+          "typeof": "function"
+        },
+        "updateTitle": {
+          "typeof": "function"
+        },
+        "visible": {
+          "$ref": "#/definitions/TooltipPatternProperty<boolean>"
+        }
+      },
       "type": "object"
     },
     "IHeatmapChartSpec": {
@@ -46261,6 +46349,12 @@
           },
           "type": "array"
         },
+        "showDefaultName": {
+          "default": false,
+          "description": "是否显示数据中没有的地区名称",
+          "since": "1.10.3",
+          "type": "boolean"
+        },
         "stack": {
           "description": "是否对数据进行堆叠处理",
           "type": "boolean"
@@ -46575,6 +46669,12 @@
             "$ref": "#/definitions/ISeriesStyleItem"
           },
           "type": "array"
+        },
+        "showDefaultName": {
+          "default": false,
+          "description": "是否显示数据中没有的地区名称",
+          "since": "1.10.3",
+          "type": "boolean"
         },
         "stack": {
           "description": "是否对数据进行堆叠处理",
@@ -65791,6 +65891,7 @@
             {
               "enum": [
                 "dimension",
+                "group",
                 "mark"
               ],
               "type": "string"
@@ -65812,6 +65913,9 @@
         "enterable": {
           "description": "鼠标是否可进入提示框浮层中，默认为false，如需详情内交互，如添加链接，按钮，可设置为 true。\n该属性目前只对 renderMode 为 html 时生效\nTODO: 支持 renderMode: canvas",
           "type": "boolean"
+        },
+        "group": {
+          "$ref": "#/definitions/IGroupTooltipPattern"
         },
         "handler": {
           "$ref": "#/definitions/Partial<ITooltipHandlerSpec>",
@@ -72632,7 +72736,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         },
         "size": {
@@ -72640,14 +72744,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12952",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         },
         "size": {
@@ -72655,14 +72759,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12952",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         },
         "size": {
@@ -72670,14 +72774,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12952",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         },
         "size": {
@@ -72685,14 +72789,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12952",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         },
         "size": {
@@ -72700,14 +72804,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12952",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         },
         "size": {
@@ -72715,14 +72819,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12952",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         },
         "size": {
@@ -72730,14 +72834,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12952",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         },
         "size": {
@@ -72745,14 +72849,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12952",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         },
         "size": {
@@ -72760,7 +72864,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12940",
+        "__@toStringTag@12952",
         "size"
       ],
       "type": "object"
@@ -72785,6 +72889,25 @@
             "number",
             "boolean"
           ]
+        }
+      ]
+    },
+    "MaybeArray<GroupTooltipTriggerMark>": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/definitions/GroupTooltipTriggerMark"
+          },
+          "type": "array"
+        },
+        {
+          "enum": [
+            "area",
+            "bar",
+            "line",
+            "point"
+          ],
+          "type": "string"
         }
       ]
     },
@@ -83813,75 +83936,6 @@
       },
       "type": "object"
     },
-    "Partial<IMarkTheme<IPathMarkSpec|IRectMarkSpec>&PointerMarkSpec>": {
-      "properties": {
-        "center": {
-          "description": "中心点坐标（0~1）",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "height": {
-          "description": "指针长度比例（0~1）（为空则挂载 radius）",
-          "type": "number"
-        },
-        "innerPadding": {
-          "description": "指针靠近圆心的一端离圆心的距离",
-          "type": "number"
-        },
-        "interactive": {
-          "description": "可交互的开关",
-          "type": "boolean"
-        },
-        "isOnCenter": {
-          "description": "是否定位于极坐标系的中心，默认为 true。如果为 false，则位置受 innerRadius 影响",
-          "type": "boolean"
-        },
-        "outerPadding": {
-          "description": "指针靠近边缘的一端离边缘的距离",
-          "type": "number"
-        },
-        "state": {
-          "$ref": "#/definitions/Record<string,IPathMarkSpec|IRectMarkSpec>",
-          "description": "不同状态下的样式配置"
-        },
-        "style": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IPathMarkSpec"
-            },
-            {
-              "$ref": "#/definitions/IRectMarkSpec"
-            }
-          ],
-          "description": "默认样式设置"
-        },
-        "type": {
-          "enum": [
-            "path",
-            "rect"
-          ],
-          "type": "string"
-        },
-        "visible": {
-          "description": "mark 层 是否显示配置",
-          "type": "boolean"
-        },
-        "width": {
-          "description": "指针宽度比例（0~1）",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "Partial<IMarkTheme<IPolygonMarkSpec>>": {
       "properties": {
         "interactive": {
@@ -83962,6 +84016,75 @@
         "visible": {
           "description": "mark 层 是否显示配置",
           "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<IMarkTheme<IRectMarkSpec|IPathMarkSpec>&PointerMarkSpec>": {
+      "properties": {
+        "center": {
+          "description": "中心点坐标（0~1）",
+          "items": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "height": {
+          "description": "指针长度比例（0~1）（为空则挂载 radius）",
+          "type": "number"
+        },
+        "innerPadding": {
+          "description": "指针靠近圆心的一端离圆心的距离",
+          "type": "number"
+        },
+        "interactive": {
+          "description": "可交互的开关",
+          "type": "boolean"
+        },
+        "isOnCenter": {
+          "description": "是否定位于极坐标系的中心，默认为 true。如果为 false，则位置受 innerRadius 影响",
+          "type": "boolean"
+        },
+        "outerPadding": {
+          "description": "指针靠近边缘的一端离边缘的距离",
+          "type": "number"
+        },
+        "state": {
+          "$ref": "#/definitions/Record<string,IRectMarkSpec|IPathMarkSpec>",
+          "description": "不同状态下的样式配置"
+        },
+        "style": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRectMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IPathMarkSpec"
+            }
+          ],
+          "description": "默认样式设置"
+        },
+        "type": {
+          "enum": [
+            "path",
+            "rect"
+          ],
+          "type": "string"
+        },
+        "visible": {
+          "description": "mark 层 是否显示配置",
+          "type": "boolean"
+        },
+        "width": {
+          "description": "指针宽度比例（0~1）",
+          "type": "number"
         }
       },
       "type": "object"
@@ -91594,34 +91717,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12940"
+        "__@toStringTag@12952"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12940"
+        "__@toStringTag@12952"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12940": {
+        "__@toStringTag@12952": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12940"
+        "__@toStringTag@12952"
       ],
       "type": "object"
     },
@@ -91631,10 +91754,10 @@
     "Record<string,ConvertToMarkStyleSpec<IGroupMarkSpec>|IMarkStateSpec<IGroupMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
-    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IGroupMarkSpec|IArcMarkSpec|IPathMarkSpec|IRectMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
+    "Record<string,ConvertToMarkStyleSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>|IMarkStateSpec<IRuleMarkSpec|ILineMarkSpec|ITextMarkSpec|IRectMarkSpec|IArcMarkSpec|IPathMarkSpec|IRect3dMarkSpec|ISymbolMarkSpec|IBoxPlotMarkSpec|IAreaMarkSpec|IPolygonMarkSpec|IPyramid3dMarkSpec|IArc3dMarkSpec|ILinkPathMarkSpec|IRippleMarkSpec|IImageMarkSpec>>": {
       "type": "object"
     },
     "Record<string,IArc3dMarkSpec>": {
@@ -91661,9 +91784,6 @@
     "Record<string,IPathMarkSpec>": {
       "type": "object"
     },
-    "Record<string,IPathMarkSpec|IRectMarkSpec>": {
-      "type": "object"
-    },
     "Record<string,IPolygonMarkSpec>": {
       "type": "object"
     },
@@ -91674,6 +91794,9 @@
       "type": "object"
     },
     "Record<string,IRectMarkSpec>": {
+      "type": "object"
+    },
+    "Record<string,IRectMarkSpec|IPathMarkSpec>": {
       "type": "object"
     },
     "Record<string,IRuleMarkSpec>": {
@@ -103397,6 +103520,7 @@
     "TooltipActiveType": {
       "enum": [
         "dimension",
+        "group",
         "mark"
       ],
       "type": "string"

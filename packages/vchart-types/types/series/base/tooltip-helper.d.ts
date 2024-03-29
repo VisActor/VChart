@@ -18,6 +18,7 @@ export declare class BaseSeriesTooltipHelper extends BaseTooltipHelper implement
     protected _getSeriesCacheInfo: () => ISeriesCacheInfo;
     protected _getDimensionData: (datum: any) => any;
     protected _getMeasureData: (datum: any) => any;
+    protected _getSeriesFieldData: (datum: any) => any;
     protected _getSeriesStyle: (datum: any, styleKey: string | string[], defaultValue?: any) => any;
     contentKeyCallback: (datum: Datum, params?: TooltipHandlerParams) => string | undefined;
     contentValueCallback: (datum: Datum, params?: TooltipHandlerParams) => string | undefined;
