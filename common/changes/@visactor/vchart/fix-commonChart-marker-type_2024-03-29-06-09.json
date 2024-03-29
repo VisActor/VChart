@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": " fix: type defination of markArea & markPoint in common chart",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
