@@ -24,6 +24,20 @@
 
 [more detail about v1.10.3](https://github.com/VisActor/VChart/releases/tag/v1.10.3)
 
+# v1.10.2
+
+2024-03-26
+
+## :new: feat 
+- **@visactor/vchart**: support interaction events of `element-select` and `element-highlight`
+## :bug: fix 
+- **@visactor/vchart**: `lineWidth` is invalid in rect-type-crosshair, related [#2432](https://github.com/VisActor/VChart/issues/2432)
+- **@visactor/vchart**: should use `series.getMarkInName` to get the mark for total label's caculation, fixed [#2448](https://github.com/VisActor/VChart/issues/2448)
+- **@visactor/vchart**: fix the issue of event trigger count after `updateSpecSync()`
+- **@visactor/vchart**: fix radar chart clipAngle animation error when loading on demand.
+
+[more detail about v1.10.2](https://github.com/VisActor/VChart/releases/tag/v1.10.2)
+
 # v1.10.0
 
 2024-03-13
