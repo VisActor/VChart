@@ -24,7 +24,7 @@ spec.axes = [
   {
     orient: 'right',
     seriesId: ['line'],
-    gird: {
+    grid: {
       visible: false
     },
     sync: {
