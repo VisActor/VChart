@@ -1,6 +1,6 @@
-import { VChart } from './vchart-all';
+import { VChartAll } from './vchart-all';
 
-export default VChart;
+export default VChartAll;
 
 export * from './core';
 

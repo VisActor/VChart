@@ -69,7 +69,50 @@ import {
   registerElementHighlightByKey
 } from './interaction';
 
-VChart.useRegisters([
+const registerCache: (() => void)[] = [];
+
+/**
+ * VChartAll用于注册器的隔离
+ * @description Tree-shaking 通常只在生产环境启用以提升性能，导致按需加载组件在开发环境未注册的组件因加载了 vchart-all 文件而能正常显示，隐藏了潜在错误，使得开发与生产环境行为不一致。改用懒加载注册器，只有在执行 new VChartAll 时才注册组件，能解决不一致问题。
+ */
+class VChartAll extends VChart {
+  /**
+   * 按需注册图表和组件
+   * @param comps
+   */
+  static useRegisters(comps: (() => void)[]): void {
+    registerCache.push(...comps);
+  }
+
+  /**
+   * 注册地图数据
+   * @param key 地图名称
+   * @param source 地图数据
+   * @param option 地图数据配置
+   */
+  static registerMap: typeof VChart['registerMap'] = (...args) => {
+    VChart.useRegisters([registerMapChart]);
+    return VChart.registerMap(...args);
+  };
+
+  constructor(...args: ConstructorParameters<typeof VChart>) {
+    registerCache.forEach((fn: () => void) => {
+      if (typeof fn === 'function') {
+        // 确保元素是函数类型
+        fn();
+      } else {
+        console.error('Invalid function:', fn);
+      }
+    });
+
+    // 清空缓存
+    registerCache.length = 0;
+
+    super(...args);
+  }
+}
+
+VChartAll.useRegisters([
   // charts
   registerLineChart,
   registerAreaChart,
@@ -162,4 +205,4 @@ VChart.useRegisters([
   registerElementHighlightByKey
 ]);
 
-export { VChart };
+export { VChartAll };
