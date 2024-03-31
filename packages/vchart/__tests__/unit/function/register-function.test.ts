@@ -1,5 +1,5 @@
 import { DataSet } from '@visactor/vdataset';
-import { VChart } from '../../../src/vchart-all';
+import { VChartAll as VChart } from '../../../src/vchart-all';
 import { createCanvas, removeDom } from '../../util/dom';
 import { initChartDataSet } from '../../util/context';
 import type { IBarChartSpec } from '../../../src';

@@ -96,14 +96,7 @@ class VChartAll extends VChart {
   };
 
   constructor(...args: ConstructorParameters<typeof VChart>) {
-    registerCache.forEach((fn: () => void) => {
-      if (typeof fn === 'function') {
-        // 确保元素是函数类型
-        fn();
-      } else {
-        console.error('Invalid function:', fn);
-      }
-    });
+    VChart.useRegisters(registerCache);
 
     // 清空缓存
     registerCache.length = 0;

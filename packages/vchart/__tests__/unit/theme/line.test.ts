@@ -1,5 +1,5 @@
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
-import { VChart } from '../../../src/vchart-all';
+import { VChartAll as VChart } from '../../../src/vchart-all';
 import type { ITheme } from '../../../src/theme';
 // eslint-disable-next-line no-duplicate-imports
 import { ThemeManager } from '../../../src/theme';
