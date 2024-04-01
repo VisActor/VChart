@@ -4,7 +4,7 @@ group: combination
 title: Bar-Line Combination Chart With UnNormal Axis
 keywords: commonChart
 order: 22-8
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/combination/single-region.png
+cover: /vchart/preview/combination-bar-line_1.10.3.png
 option: commonChart
 ---
 
