@@ -1,12 +1,12 @@
 import type { Tag } from '@visactor/vrender-components';
 import type { IBoundsLike } from '@visactor/vutils';
-import type { Datum } from '../../../typings';
+import type { Datum, StringOrNumber } from '../../../typings';
 import type { ICrosshairTheme } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
-import { array, isValid } from '@visactor/vutils';
+import { array, isValid, isValidNumber } from '@visactor/vutils';
 import { isXAxis, isYAxis } from '../../axis/cartesian/util/common';
-import { isDiscrete } from '@visactor/vscale';
-import type { ICartesianAxisCommonSpec, IPolarAxisCommonSpec } from '../../axis';
+import { isContinuous, isDiscrete } from '@visactor/vscale';
+import type { IAxis, ICartesianAxisCommonSpec, IPolarAxisCommonSpec } from '../../axis';
 import { getComponentThemeFromOption } from '../../util';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { ITheme } from '../../../theme';
@@ -121,4 +121,15 @@ export const getPolarCrosshairTheme = (chartTheme: ITheme, chartSpec: any): ICro
     categoryField: newAngleField,
     valueField: newRadiusField
   };
+};
+
+export const toFixedCrosshairLabelValue = (axis: IAxis, value: StringOrNumber) => {
+  if (isContinuous(axis.getScale().type) && isValidNumber(+value)) {
+    // 根据轴 domain 范围做动态判断，取 n + 2 位有效数字
+    const domain = axis.getScale().domain();
+    const domainSpan = Math.abs(domain[1] - domain[0]);
+    const n = Math.max(-Math.log10(domainSpan), 0) + 2;
+    return (+value as number).toFixed(n);
+  }
+  return value;
 };
