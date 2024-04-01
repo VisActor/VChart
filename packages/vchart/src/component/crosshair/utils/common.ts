@@ -125,11 +125,12 @@ export const getPolarCrosshairTheme = (chartTheme: ITheme, chartSpec: any): ICro
 
 export const toFixedCrosshairLabelValue = (axis: IAxis, value: StringOrNumber) => {
   if (isContinuous(axis.getScale().type) && isValidNumber(+value)) {
-    // 根据轴 domain 范围做动态判断，取 n + 2 位有效数字
+    // 根据轴 domain 范围做动态判断，取最多 n + 2 位小数
     const domain = axis.getScale().domain();
     const domainSpan = Math.abs(domain[1] - domain[0]);
     const n = Math.max(-Math.log10(domainSpan), 0) + 2;
-    return (+value as number).toFixed(n);
+    const unit = Math.pow(10, n);
+    return Math.round((+value as number) * unit) / unit;
   }
   return value;
 };
