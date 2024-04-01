@@ -7,6 +7,7 @@ import { PointService, clamp, getAngleByPoint, getIntersectPoint, isValid, polar
 import type { IPolarAxis } from '../../axis';
 import { getFormatFunction } from '../../util';
 import { mergeSpec } from '@visactor/vutils-extension';
+import { toFixedCrosshairLabelValue } from './common';
 
 export const layoutByValue = (
   series: IPolarSeries,
@@ -55,7 +56,8 @@ export const layoutByValue = (
       angleCrossHairInfo.angle = angle;
       if (angleHair.label?.visible) {
         angleCrossHairInfo.label.visible = true;
-        angleCrossHairInfo.label.text = value;
+        angleCrossHairInfo.label.value = value;
+        angleCrossHairInfo.label.text = toFixedCrosshairLabelValue(axis, value);
         angleCrossHairInfo.label.offset = getAxisLabelOffset(axis.getSpec());
       }
 
@@ -70,7 +72,8 @@ export const layoutByValue = (
       value = value ?? '';
       if (radiusHair.label?.visible) {
         radiusCrossHairInfo.label.visible = true;
-        radiusCrossHairInfo.label.text = value;
+        radiusCrossHairInfo.label.value = value;
+        radiusCrossHairInfo.label.text = toFixedCrosshairLabelValue(axis, value);
         radiusCrossHairInfo.label.offset = getAxisLabelOffset(axis.getSpec());
       }
       radiusCrossHairInfo.angle = coord.angle;
@@ -88,6 +91,7 @@ export const layoutByValue = (
         const { formatMethod, formatter } = angleHair.label;
         const { formatFunc, args } = getFormatFunction(formatMethod, formatter, label.text, {
           label: label.text,
+          value: label.value,
           orient: 'angle'
         });
         if (formatFunc) {
@@ -106,6 +110,7 @@ export const layoutByValue = (
         const { formatMethod, formatter } = radiusHair.label;
         const { formatFunc, args } = getFormatFunction(formatMethod, formatter, label.text, {
           label: label.text,
+          value: label.value,
           orient: 'radius'
         });
         if (formatFunc) {

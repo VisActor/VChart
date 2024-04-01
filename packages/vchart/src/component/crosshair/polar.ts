@@ -172,13 +172,11 @@ export class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec>
   private _getValueByAxis(axis: IPolarAxis, point: IPoint) {
     const { x: axisStartX, y: axisStartY } = axis.getLayoutStartPoint();
     const { x, y } = this.getLayoutStartPoint();
-    let value = axis.positionToData({
+    const value = axis.positionToData({
       x: point.x - (axisStartX - x),
       y: point.y - (axisStartY - y)
     });
-    if (isContinuous(axis.getScale().type) && isValidNumber(+value)) {
-      value = (+value as number).toFixed(2);
-    }
+
     const center = {
       x: axis.getCenter().x + this.getLayoutStartPoint().x,
       y: axis.getCenter().y + this.getLayoutStartPoint().y
