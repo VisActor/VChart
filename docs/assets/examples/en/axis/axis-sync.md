@@ -77,7 +77,7 @@ const spec = {
     {
       orient: 'right',
       seriesId: ['line'],
-      gird: { visible: false },
+      grid: { visible: false },
       nice: false,
       zero: false,
       sync: { axisId: 'axisLeft', tickAlign: true }

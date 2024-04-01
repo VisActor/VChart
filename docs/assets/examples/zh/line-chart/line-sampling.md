@@ -104,7 +104,7 @@ const spec = {
   ],
   axes: [
     { orient: 'left', seriesIndex: [0, 1, 2, 3, 4, 5] },
-    // { orient: 'right', seriesId: ['line'], gird: { visible: false } },
+    // { orient: 'right', seriesId: ['line'], grid: { visible: false } },
     { orient: 'bottom', label: { visible: true }, type: 'band' }
   ],
   legends: {
