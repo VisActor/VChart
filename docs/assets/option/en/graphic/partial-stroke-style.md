@@ -1,7 +1,7 @@
 {{ target: graphic-partial-stroke-style }}
 
 {{ if: ${markType} === 'arc' }}
-#${prefix} stroke(number | [boolean | string, boolean | string, boolean | string, boolean | string] )
+#${prefix} stroke(string | Array )
 
 Stroke color. Supports setting to a solid color using `'rgb (255, 255, 255)'`, `'rgba (255, 255, 255, 1)'`, `'#fff'`, etc., and also supports setting it to a gradient stroke color.
 
