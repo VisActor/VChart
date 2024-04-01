@@ -9,21 +9,34 @@
 import { VChart } from '@visactor/vchart';
 // import bar chart
 import { registerBarChart } from '@visactor/vchart';
-// import axis, tooltip, crosshair components
-import {
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerTooltip,
-  registerCartesianCrossHair
-} from '@visactor/vchart';
+// import tooltip, crosshair components
+import { registerTooltip, registerDomTooltipHandler, registerCartesianCrossHair } from '@visactor/vchart';
 
 // register chart and components
+VChart.useRegisters([registerBarChart, registerTooltip, registerDomTooltipHandler, registerCartesianCrossHair]);
+```
+
+If the tree-shaking optimization of your bundle tool is turned off, you need to manually import the internal files from `@visactor/vchart/esm/xxx`, such as `@visactor/vchart/esm/core` or `@visactor/vchart/esm/component`, etc. The usage is as follows:
+
+```ts
+// Import the VChart core module
+import { VChart } from '@visactor/vchart/esm/core';
+// Import bar chart register
+import { registerBarChart } from '@visactor/vchart/esm/chart';
+// Import Tooltip, CrossHair components
+import { registerTooltip, registerCartesianCrossHair } from '@visactor/vchart/esm/component';
+// Import dom tooltip plugin
+import { registerDomTooltipHandler } from '@visactor/vchart/esm/plugin';
+// Import WeChat environment code
+import { registerWXEnv } from '@visactor/vchart/esm/env';
+
+// Register
 VChart.useRegisters([
   registerBarChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
   registerTooltip,
-  registerCartesianCrossHair
+  registerCartesianCrossHair,
+  registerDomTooltipHandler,
+  registerWXEnv
 ]);
 ```
 
@@ -342,14 +355,14 @@ The environment compatibility registrars currently supported by VChart include:
   <tr>
     <td>Discrete Legend</td>
     <td><code>registerDiscreteLegend</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a215.png"
         alt="Discrete Legend Illustration" style="max-width: 400px"></td>
   </tr>
   <tr>
     <td>Continuous Legend</td>
     <td><code>registerContinuousLegend</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a13.png"
         alt="Continuous Legend Illustration" style="max-width: 400px"></td>
   </tr>
@@ -365,35 +378,35 @@ The environment compatibility registrars currently supported by VChart include:
   <tr>
     <td>Crosshair (Cartesian Coordinate System)</td>
     <td><code>registerCartesianCrossHair</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a15.png"
         alt="Cartesian CrossHair Illustration" style="max-width: 400px"></td>
   </tr>
   <tr>
     <td>Crosshair (Polar Coordinate System)</td>
     <td><code>registerPolarCrossHair</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a218.png"
         alt="Polar CrossHair Illustration" style="max-width: 400px"></td>
   </tr>
   <tr>
     <td>Zoom Slider</td>
     <td><code>registerDataZoom</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/load-on-demand-datazoom.png"
         alt="DataZoom Illustration" style="max-width: 400px"></td>
   </tr>
   <tr>
     <td>Scrollbar</td>
     <td><code>registerScrollBar</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a18.png"
         alt="ScrollBar Illustration" style="max-width: 400px"></td>
   </tr>
   <tr>
     <td>Label</td>
     <td><code>registerLabel</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/eb08aeafba39ab34c8a08c613.png" alt="Label Illustration"
         style="max-width: 400px"></td>
   </tr>
@@ -413,28 +426,28 @@ The environment compatibility registrars currently supported by VChart include:
   <tr>
     <td>Mark Line</td>
     <td><code>registerMarkLine</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/eb08aeafba39ab34c8a08c619.png"
         alt="MarkLine Illustration" style="max-width: 400px"></td>
   </tr>
   <tr>
     <td>Mark Point</td>
     <td><code>registerMarkPoint</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/0a2e223bdcd7410c08f6a6a1b.png"
         alt="MarkPoint Illustration" style="max-width: 400px"></td>
   </tr>
   <tr>
     <td>Mark Area</td>
     <td><code>registerMarkArea</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/48c337ece11d289fc4644a21c.png"
         alt="MarkArea Illustration" style="max-width: 400px"></td>
   </tr>
   <tr>
     <td>Total Label</td>
     <td><code>registerTotalLabel</code></td>
-    <td>Usually used for stacked charts to display the total stack.</br><img 
+    <td>Usually used for stacked charts to display the total stack.</br><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/load-on-demand-totalLabel.png"
         alt="TotalLabel Illustration" style="max-width: 400px"></td>
   </tr>
@@ -447,14 +460,14 @@ The environment compatibility registrars currently supported by VChart include:
   <tr>
     <td>Custom Mark</td>
     <td><code>registerCustomMark</code></td>
-    <td>Provides the ability to extend custom drawing.<br><img 
+    <td>Provides the ability to extend custom drawing.<br><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/load-on-demand-customMark.png"
         alt="Custom Mark Illustration" style="max-width: 400px"></td>
   </tr>
   <tr>
     <td>Player</td>
     <td><code>registerPlayer</code></td>
-    <td><img 
+    <td><img
         src="https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/eb08aeafba39ab34c8a08c618.png" alt="Player Illustration"
         style="max-width: 400px"></td>
   </tr>
@@ -544,3 +557,4 @@ The environment compatibility registrars currently supported by VChart include:
         <td>3D pyramid marks is used to draw pyramid-shaped hexahedrons and can create visualization effects such as funnel charts in 3D visualizations. </td>
     </tr>
 </table>
+````

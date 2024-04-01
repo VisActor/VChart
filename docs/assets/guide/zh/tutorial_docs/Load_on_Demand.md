@@ -10,20 +10,33 @@ import { VChart } from '@visactor/vchart';
 // 引入柱状图
 import { registerBarChart } from '@visactor/vchart';
 // 引入坐标轴、提示信息、十字准星组件
-import {
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerTooltip,
-  registerCartesianCrossHair
-} from '@visactor/vchart';
+import { registerTooltip, registerCartesianCrossHair, registerDomTooltipHandler } from '@visactor/vchart';
 
 // 注册柱状图和组件
+VChart.useRegisters([registerBarChart, registerTooltip, registerDomTooltipHandler, registerCartesianCrossHair]);
+```
+
+如果你的项目中关闭了打包软件的 tree-shaking 优化，则需要手动引入内部文件 `@visactor/vchart/esm/xxx`，如`@visactor/vchart/esm/core`或`@visactor/vchart/esm/component`等，使用方法如下所示：
+
+```ts
+// 引入 VChart 核心模块
+import { VChart } from '@visactor/vchart/esm/core';
+// 引入柱状图
+import { registerBarChart } from '@visactor/vchart/esm/chart';
+// 引入坐标轴、Tooltip、CrossHair组件
+import { registerTooltip, registerCartesianCrossHair } from '@visactor/vchart/esm/component';
+// 引入 Dom tooltip 逻辑
+import { registerDomTooltipHandler } from '@visactor/vchart/esm/plugin';
+// 引入微信小程序环境代码
+import { registerWXEnv } from '@visactor/vchart/esm/env';
+
+// 注册图表和组件
 VChart.useRegisters([
   registerBarChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
   registerTooltip,
-  registerCartesianCrossHair
+  registerCartesianCrossHair,
+  registerDomTooltipHandler,
+  registerWXEnv
 ]);
 ```
 
