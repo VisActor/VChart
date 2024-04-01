@@ -1,5 +1,5 @@
 import { pickWithout } from '@visactor/vutils';
-import type { IBackgroundSpec, IBackgroundStyleSpec } from '@visactor/vchart-types';
+import type { IBackgroundSpec, IBackgroundStyleSpec } from '../../typings';
 
 export function convertBackgroundSpec(
   bg: IBackgroundSpec

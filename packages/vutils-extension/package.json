@@ -51,8 +51,7 @@
     "ts-loader": "8.0.2",
     "ts-node": "10.9.0",
     "tslib": "2.3.1",
-    "tslint": "5.12.1",
-    "@visactor/vchart-types": "workspace:1.10.3"
+    "tslint": "5.12.1"
   },
   "publishConfig": {
     "access": "public"

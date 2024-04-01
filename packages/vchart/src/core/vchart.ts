@@ -31,13 +31,13 @@ import { DataSet, dataViewParser } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '@visactor/vrender-core';
-import { isString, isValid, isNil, array, debounce } from '../util';
+import { isString, isValid, isNil, array, debounce, specTransform, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
 import { isTrueBrowser } from '../util/env';
 import { warn } from '../util/debug';
 import { getThemeObject } from '../util/theme/common';
-import { mergeSpec, mergeSpecWithFilter, specTransform, functionTransform } from '@visactor/vutils-extension';
+import { mergeSpec, mergeSpecWithFilter } from '@visactor/vutils-extension';
 import { Factory } from './factory';
 import { Event } from '../event/event';
 import { EventDispatcher } from '../event/event-dispatcher';
