@@ -11,7 +11,7 @@ import {
   minInArray,
   uniqArray
 } from '@visactor/vutils';
-import { mergeSpec } from '../../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';

@@ -1,4 +1,4 @@
-import type { ISeriesSpec } from '../../typings';
+import type { ISeriesSpec } from '@visactor/vchart-types';
 import { isArray, isPlainObject, isString } from '@visactor/vutils';
 
 // todo 以目前的场景来看，并没有递归的需要。

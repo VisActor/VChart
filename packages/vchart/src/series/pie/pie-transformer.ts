@@ -1,5 +1,5 @@
 import { isArray, isValid } from '@visactor/vutils';
-import { mergeSpec } from '../../util';
+import { mergeSpec } from '@visactor/vutils-extension';
 import { BaseSeriesSpecTransformer } from '../base';
 import { SeriesMarkNameEnum } from '../interface';
 import type { IArcLabelSpec, IBasePieSeriesSpec, IPieSeriesTheme } from './interface';

@@ -9,11 +9,12 @@ import type {
 import { checkMediaQuery } from './util';
 import { executeMediaQueryAction } from './util/action';
 import type { IChartPlugin, IChartPluginService } from '../interface';
-import { array, cloneDeepSpec } from '../../../util';
+import { array } from '../../../util';
 import type { VChartRenderActionSource } from '../../../core/interface';
 import { BasePlugin } from '../../base/base-plugin';
 import { registerChartPlugin } from '../register';
 import type { IChartSpecInfo } from '../../../chart/interface';
+import { cloneDeepSpec } from '@visactor/vutils-extension';
 
 export class MediaQuery extends BasePlugin implements IChartPlugin {
   static readonly pluginType: 'chart' = 'chart';

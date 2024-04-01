@@ -1,8 +1,9 @@
 import { getContainerSize, isString } from '@visactor/vutils';
-import { DEFAULT_CHART_HEIGHT, DEFAULT_CHART_WIDTH } from '../constant/base';
 import type { IChartSpec } from '../typings';
+// eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../typings';
-import { array, isMiniAppLikeMode, isTrueBrowser, isValid, mergeSpec } from '../util';
+import { array, isMiniAppLikeMode, isTrueBrowser, isValid } from '../util';
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { ICartesianChartSpec } from './cartesian/interface';
 import type { IChartOption } from './interface/common';
 import type { IUpdateSpecResult } from '../model/interface';

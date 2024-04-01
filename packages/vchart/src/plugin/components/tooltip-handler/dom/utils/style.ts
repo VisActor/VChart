@@ -1,6 +1,6 @@
 import type { Maybe } from '@visactor/vutils';
 import type { FontWeight, TextAlign } from '../../../../../typings';
-import { mergeSpec } from '../../../../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import { normalizeLayoutPaddingSpec } from '../../../../../util/space';
 import type { ITooltipAttributes, ITooltipTextStyle } from '../../interface';
 import type { ILabelStyle, IShapeStyle, IDomTooltipStyle } from '../interface';

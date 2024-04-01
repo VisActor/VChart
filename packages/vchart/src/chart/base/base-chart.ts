@@ -42,22 +42,16 @@ import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
 import type { DataView } from '@visactor/vdataset';
+// eslint-disable-next-line no-duplicate-imports
 import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
-import {
-  isArray,
-  isValid,
-  createID,
-  calcPadding,
-  normalizeLayoutPaddingSpec,
-  array,
-  convertBackgroundSpec
-} from '../../util';
+import { isArray, isValid, createID, calcPadding, normalizeLayoutPaddingSpec, array } from '../../util';
 import { Stack } from '../stack';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
+// eslint-disable-next-line no-duplicate-imports
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -76,6 +70,7 @@ import type { IRectMark } from '../../mark/rect';
 import { calculateChartSize, mergeUpdateResult } from '../util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';
+import { convertBackgroundSpec } from '@visactor/vutils-extension';
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';

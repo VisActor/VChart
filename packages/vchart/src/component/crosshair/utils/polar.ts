@@ -5,8 +5,8 @@ import type { AxisCurrentValueMap, IPolarCrosshairInfo } from '../interface';
 import { getAxisLabelOffset } from '../../axis/util';
 import { PointService, clamp, getAngleByPoint, getIntersectPoint, isValid, polarToCartesian } from '@visactor/vutils';
 import type { IPolarAxis } from '../../axis';
-import { mergeSpec } from '../../../util';
 import { getFormatFunction } from '../../util';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export const layoutByValue = (
   series: IPolarSeries,

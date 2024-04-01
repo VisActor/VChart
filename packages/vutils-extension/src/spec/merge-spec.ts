@@ -1,7 +1,6 @@
 import { isArray, isArrayLike, isObject, isPlainObject, isValid } from '@visactor/vutils';
-import type { StringOrNumber } from '../../typings';
 
-function baseMerge(target: any, source: any, shallowArray: boolean = false) {
+function baseMerge(target: any, source: any, shallowArray = false) {
   if (source) {
     if (target === source) {
       return;
@@ -33,7 +32,7 @@ function baseMerge(target: any, source: any, shallowArray: boolean = false) {
 }
 
 // 由于目前 VChart 内部对 spec 会先执行一次深拷贝，merge 暂时不考虑 source 中有环的问题
-function baseMergeDeep(target: object, source: object, key: string, shallowArray: boolean = false) {
+function baseMergeDeep(target: object, source: object, key: string, shallowArray = false) {
   const objValue = target[key];
   const srcValue = source[key];
   let newValue = source[key];
@@ -119,7 +118,7 @@ export function mergeSpecWithFilter(
     } else {
       // filter === user id
       if (isArray(target[k])) {
-        const index = target[k].findIndex((_s: { id: StringOrNumber }) => _s.id === filter);
+        const index = target[k].findIndex((_s: { id: string | number }) => _s.id === filter);
         if (index >= 0) {
           target[k][index] = forceMerge ? mergeSpec({}, target[k][index], spec) : spec;
         }

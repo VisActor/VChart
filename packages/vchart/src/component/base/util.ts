@@ -1,12 +1,12 @@
 import type { ITheme } from '../../theme';
 import { Direction, type IOrientType } from '../../typings';
-import { mergeSpec } from '../../util';
 import { getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
 import { getCartesianAxisTheme, getPolarAxisTheme } from '../axis/util';
 import { getCartesianCrosshairTheme, getPolarCrosshairTheme } from '../crosshair/utils';
 import type { ComponentThemeWithDirection } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import { getComponentThemeFromOption } from '../util';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export function getComponentThemeFromGlobalTheme(
   type: ComponentTypeEnum,
