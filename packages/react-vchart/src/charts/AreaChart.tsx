@@ -14,15 +14,5 @@ export const AreaChart = createChart<React.PropsWithChildren<AreaChartProps> & {
     type: 'area',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [
-    registerAreaChart,
-    registerCartesianLinearAxis,
-    registerCartesianBandAxis,
-    registerCartesianTimeAxis, // 非必选
-    registerCartesianLogAxis, // 非必选
-    registerCartesianCrossHair,
-    registerLabel,
-
-    ...cartesianComponentsRegisters
-  ]
+  [registerAreaChart, registerLabel, ...cartesianComponentsRegisters]
 );
