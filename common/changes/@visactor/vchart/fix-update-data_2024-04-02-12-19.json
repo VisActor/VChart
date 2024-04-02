@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `updateDataSync` produces inconsistent results compared to direct drawing, related #2503",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
