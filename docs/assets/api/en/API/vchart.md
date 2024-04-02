@@ -1046,6 +1046,8 @@ getComponents: () => IComponent[];
 
 ### getDataSet
 
+Support since version `1.10.4`;
+
 Gets a DataSet instance of the chart.
 
 ```ts
