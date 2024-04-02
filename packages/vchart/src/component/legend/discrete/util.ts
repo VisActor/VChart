@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { isEmpty, isValid } from '@visactor/vutils';
 import { isPercent } from '../../../util/space';
-import { mergeSpec } from '../../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
 import { transformLegendTitleAttributes } from '../util';
 import type { IDiscreteLegendSpec, ILegendScrollbar, IPager } from './interface';

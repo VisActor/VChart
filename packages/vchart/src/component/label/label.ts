@@ -5,7 +5,7 @@ import type { IRegion } from '../../region/interface';
 import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
 import { AttributeLevel, ChartEvent, LayoutZIndex, VGRAMMAR_HOOK_EVENT } from '../../constant';
 import { MarkTypeEnum } from '../../mark/interface';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import { eachSeries } from '../../util/model';
 import type { ISeries } from '../../series/interface';
 import type { IGroupMark, ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';

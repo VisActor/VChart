@@ -52,7 +52,7 @@ import type {
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
 import { couldBeValidNumber } from '../../util/type';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports

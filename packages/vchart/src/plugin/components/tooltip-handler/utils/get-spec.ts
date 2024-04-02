@@ -7,7 +7,7 @@ import type {
   TooltipPatternProperty
 } from '../../../../typings';
 import type { ISeries } from '../../../../series/interface';
-import { mergeSpec } from '../../../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../../event/events/dimension/interface';
 import { memoize, isValid, array, isFunction, isNil, cloneDeep } from '@visactor/vutils';

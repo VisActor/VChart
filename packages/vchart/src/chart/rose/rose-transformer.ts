@@ -3,7 +3,7 @@ import type { IPolarAxisSpec, IPolarBandAxisSpec } from '../../component';
 import { POLAR_DEFAULT_RADIUS } from '../../constant';
 import { RoseLikeChartSpecTransformer } from '../polar';
 import type { IRoseChartSpec } from './interface';
-import { mergeSpec } from '../../util';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export class RoseChartSpecTransformer<
   T extends IRoseChartSpec = IRoseChartSpec

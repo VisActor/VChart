@@ -25,20 +25,19 @@ import type {
   IEvent,
   IEventDispatcher
 } from '../event/interface';
-import type { IParserOptions } from '@visactor/vdataset';
-import type { IFields, Transform, DataView } from '@visactor/vdataset';
+import type { IParserOptions, IFields, Transform, DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
+// eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '@visactor/vrender-core';
-import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
+import { isString, isValid, isNil, array, debounce, specTransform, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
 import { isTrueBrowser } from '../util/env';
 import { warn } from '../util/debug';
-import { mergeSpec, mergeSpecWithFilter } from '../util/spec/merge-spec';
-import { specTransform } from '../util/spec/transform';
 import { getThemeObject } from '../util/theme/common';
+import { mergeSpec, mergeSpecWithFilter } from '@visactor/vutils-extension';
 import { Factory } from './factory';
 import { Event } from '../event/event';
 import { EventDispatcher } from '../event/event-dispatcher';
@@ -106,7 +105,7 @@ import { View, registerFilterTransform, registerMapTransform } from '@visactor/v
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
-import { mergeTheme, preprocessTheme } from '../util/spec';
+import { mergeTheme, preprocessTheme } from '../util/theme';
 import { darkTheme, registerTheme } from '../theme/builtin';
 import type { IChartPluginService } from '../plugin/chart/interface';
 import { ChartPluginService } from '../plugin/chart/plugin-service';

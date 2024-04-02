@@ -3,7 +3,8 @@ import type { IChartSpecInfo } from '../../chart/interface';
 import type { ILabelSpec, TransformedLabelSpec } from '../../component/label';
 import { BaseModelSpecTransformer } from '../../model/base-model-transformer';
 import type { ISeriesSpec } from '../../typings';
-import { array, get, isArray, isValid, mergeSpec, transformSeriesThemeToMerge } from '../../util';
+import { array, get, isArray, isValid, transformSeriesThemeToMerge } from '../../util';
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { ISeriesSpecTransformerResult, SeriesMarkNameEnum } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeries } from '../interface';

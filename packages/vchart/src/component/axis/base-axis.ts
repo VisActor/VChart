@@ -2,6 +2,7 @@ import { ticks } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import type { ITickDataOpt } from '@visactor/vutils-extension';
 import type { IBaseScale } from '@visactor/vscale';
+// eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
 import type { IGroup, IGraphic } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
@@ -18,7 +19,8 @@ import { CompilableData } from '../../compile/data';
 import type { IAxis, ICommonAxisSpec, ITick } from './interface';
 import type { IComponentOption } from '../interface';
 import { eachSeries, getSeries } from '../../util/model';
-import { mergeSpec } from '../../util/spec/merge-spec';
+// eslint-disable-next-line no-duplicate-imports
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { ISeries } from '../../series/interface';
 import { ChartEvent, LayoutZIndex } from '../../constant';
 import { animationConfig } from '../../animation/utils';
