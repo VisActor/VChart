@@ -1,16 +1,6 @@
 import React from 'react';
 import type { ILineChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerLineChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
-  registerCartesianCrossHair,
-  registerLabel,
-  registerTotalLabel
-} from '@visactor/vchart';
+import { VChart, registerLineChart, registerLabel, registerTotalLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 import { cartesianComponentsRegisters } from './register';
 
@@ -24,16 +14,5 @@ export const LineChart = createChart<React.PropsWithChildren<LineChartProps> & {
     type: 'line',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [
-    registerLineChart,
-    registerCartesianLinearAxis,
-    registerCartesianBandAxis,
-    registerCartesianTimeAxis, // 非必选
-    registerCartesianLogAxis, // 非必选
-    registerCartesianCrossHair,
-    registerLabel,
-    registerTotalLabel,
-
-    ...cartesianComponentsRegisters
-  ]
+  [registerLineChart, registerLabel, registerTotalLabel, ...cartesianComponentsRegisters]
 );

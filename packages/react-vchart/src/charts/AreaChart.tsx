@@ -1,15 +1,6 @@
 import React from 'react';
 import type { IAreaChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerAreaChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis,
-  registerCartesianLogAxis,
-  registerCartesianCrossHair,
-  registerLabel
-} from '@visactor/vchart';
+import { VChart, registerAreaChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 import { cartesianComponentsRegisters } from './register';
 

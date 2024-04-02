@@ -1,15 +1,6 @@
 import React from 'react';
 import { ILinearProgressChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerLinearProgressChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
-  registerCartesianCrossHair,
-  registerLabel
-} from '@visactor/vchart';
+import { VChart, registerLinearProgressChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 import { cartesianComponentsRegisters } from './register';
 
@@ -25,14 +16,5 @@ export const LinearProgressChart = createChart<
     type: 'linearProgress',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [
-    registerLinearProgressChart,
-    registerCartesianLinearAxis,
-    registerCartesianBandAxis,
-    registerCartesianTimeAxis, // 非必选
-    registerCartesianLogAxis, // 非必选
-    registerCartesianCrossHair,
-    registerLabel,
-    ...cartesianComponentsRegisters
-  ]
+  [registerLinearProgressChart, registerLabel, ...cartesianComponentsRegisters]
 );

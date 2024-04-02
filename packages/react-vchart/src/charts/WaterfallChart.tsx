@@ -1,16 +1,6 @@
 import React from 'react';
 import type { IWaterfallChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerWaterfallChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
-  registerCartesianCrossHair,
-  registerLabel,
-  registerTotalLabel
-} from '@visactor/vchart';
+import { VChart, registerWaterfallChart, registerLabel, registerTotalLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 import { cartesianComponentsRegisters } from './register';
 
@@ -26,16 +16,5 @@ export const WaterfallChart = createChart<React.PropsWithChildren<WaterfallChart
     type: 'waterfall',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [
-    registerWaterfallChart,
-    registerCartesianLinearAxis,
-    registerCartesianBandAxis,
-    registerCartesianTimeAxis, // 非必选
-    registerCartesianLogAxis, // 非必选
-    registerCartesianCrossHair,
-    registerLabel,
-    registerTotalLabel,
-
-    ...cartesianComponentsRegisters
-  ]
+  [registerWaterfallChart, registerLabel, registerTotalLabel, ...cartesianComponentsRegisters]
 );

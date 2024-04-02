@@ -1,16 +1,6 @@
 import React from 'react';
 import type { IRangeColumnChartSpec, IVChartConstructor } from '@visactor/vchart';
-import {
-  VChart,
-  registerRangeColumnChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
-  registerCartesianCrossHair,
-  registerScrollBar,
-  registerLabel
-} from '@visactor/vchart';
+import { VChart, registerRangeColumnChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
 import { cartesianComponentsRegisters } from './register';
 
@@ -24,15 +14,5 @@ export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnC
     type: 'rangeColumn',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [
-    registerRangeColumnChart,
-    registerCartesianLinearAxis,
-    registerCartesianBandAxis,
-    registerCartesianTimeAxis, // 非必选
-    registerCartesianLogAxis, // 非必选
-    registerCartesianCrossHair,
-    registerScrollBar,
-    registerLabel,
-    ...cartesianComponentsRegisters
-  ]
+  [registerRangeColumnChart, registerLabel, ...cartesianComponentsRegisters]
 );
