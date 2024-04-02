@@ -226,7 +226,7 @@ export interface IChartSpec {
   /**
    * 堆积时是否排序
    * @default false
-   * @since 1.11.0
+   * @since 1.10.4
    */
   stackSort?: boolean;
   /**
