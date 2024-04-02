@@ -159,7 +159,15 @@ export type EventParams = {
    */
   node?: IGraphic;
   /**
-   *
+   * @since 1.10.4
+   * 生命周期相关事件，包括：
+   *  - 'rendered'
+   *  - 'initialized'
+   *  - 'animationFinished'
+   *  - 'renderFinished'
+   *  - 'layoutStart'
+   *  - 'layoutEnd'
+   * 会返回vchart实例
    */
   vchart?: IVChart;
 };

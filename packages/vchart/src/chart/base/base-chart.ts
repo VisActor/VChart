@@ -435,7 +435,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   layout(params: ILayoutParams): void {
     this._option.performanceHook?.beforeLayoutWithSceneGraph?.();
     if (this.getLayoutTag()) {
-      this._event.emit(ChartEvent.layoutStart, { chart: this });
+      this._event.emit(ChartEvent.layoutStart, { chart: this, vchart: this._option.globalInstance });
 
       this.onLayoutStart(params);
       const elements = this.getLayoutElements();
@@ -444,7 +444,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       this.setLayoutTag(false);
       this.onLayoutEnd(params);
 
-      this._event.emit(ChartEvent.layoutEnd, { chart: this });
+      this._event.emit(ChartEvent.layoutEnd, { chart: this, vchart: this._option.globalInstance });
     }
     this._option.performanceHook?.afterLayoutWithSceneGraph?.();
   }
