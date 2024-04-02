@@ -6,7 +6,7 @@ export interface ICrosshairLabelInfo {
   text: StringOrNumber;
   dx: number;
   dy: number;
-  value?: StringOrNumber;
+  defaultFormatter?: (value: StringOrNumber) => StringOrNumber;
 }
 
 export interface ICrosshairInfoX {

@@ -23,5 +23,5 @@ export interface IPolarCrosshairLabelInfo {
   visible: boolean;
   text: StringOrNumber;
   offset: number;
-  value?: StringOrNumber;
+  defaultFormatter?: (value: StringOrNumber) => StringOrNumber;
 }

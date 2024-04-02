@@ -123,14 +123,14 @@ export const layoutByValue = (
         const labelOffset = getAxisLabelOffset(axis.getSpec());
         if (axis.getOrient() === 'bottom') {
           xCrossHairInfo.bottom.visible = true;
-          xCrossHairInfo.bottom.value = value;
-          xCrossHairInfo.bottom.text = niceLabelFormatter ? niceLabelFormatter(value) : value;
+          xCrossHairInfo.bottom.defaultFormatter = niceLabelFormatter;
+          xCrossHairInfo.bottom.text = value;
           xCrossHairInfo.bottom.dx = 0;
           xCrossHairInfo.bottom.dy = labelOffset;
         } else if (axis.getOrient() === 'top') {
           xCrossHairInfo.top.visible = true;
-          xCrossHairInfo.top.value = value;
-          xCrossHairInfo.top.text = niceLabelFormatter ? niceLabelFormatter(value) : value;
+          xCrossHairInfo.top.defaultFormatter = niceLabelFormatter;
+          xCrossHairInfo.top.text = value;
           xCrossHairInfo.top.dx = 0;
           xCrossHairInfo.top.dy = -labelOffset;
         }
@@ -169,14 +169,14 @@ export const layoutByValue = (
         const labelOffset = getAxisLabelOffset(axis.getSpec());
         if (axis.getOrient() === 'left') {
           yCrossHairInfo.left.visible = true;
-          yCrossHairInfo.left.value = value;
-          yCrossHairInfo.left.text = niceLabelFormatter ? niceLabelFormatter(value) : value;
+          yCrossHairInfo.left.defaultFormatter = niceLabelFormatter;
+          yCrossHairInfo.left.text = value;
           yCrossHairInfo.left.dx = -labelOffset;
           yCrossHairInfo.left.dy = 0;
         } else if (axis.getOrient() === 'right') {
           yCrossHairInfo.right.visible = true;
-          yCrossHairInfo.right.value = value;
-          yCrossHairInfo.right.text = niceLabelFormatter ? niceLabelFormatter(value) : value;
+          yCrossHairInfo.right.defaultFormatter = niceLabelFormatter;
+          yCrossHairInfo.right.text = value;
           yCrossHairInfo.right.dx = labelOffset;
           yCrossHairInfo.right.dy = 0;
         }
@@ -238,11 +238,12 @@ const setFormattedCrosshairLabel = (labelInfo: ICrosshairLabelInfo, position: st
   const { formatMethod, formatter } = labelSpec;
   const { formatFunc, args } = getFormatFunction(formatMethod, formatter, labelInfo.text, {
     label: labelInfo.text,
-    value: labelInfo.value,
     position
   });
   if (formatFunc) {
     labelInfo.text = formatFunc(...args);
+  } else if (labelInfo.defaultFormatter) {
+    labelInfo.text = labelInfo.defaultFormatter(labelInfo.text);
   }
 };
 

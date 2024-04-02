@@ -56,8 +56,8 @@ export const layoutByValue = (
       const niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
       if (angleHair.label?.visible) {
         angleCrossHairInfo.label.visible = true;
-        angleCrossHairInfo.label.value = value;
-        angleCrossHairInfo.label.text = niceLabelFormatter ? niceLabelFormatter(value) : value;
+        angleCrossHairInfo.label.defaultFormatter = niceLabelFormatter;
+        angleCrossHairInfo.label.text = value;
         angleCrossHairInfo.label.offset = getAxisLabelOffset(axis.getSpec());
       }
 
@@ -73,8 +73,8 @@ export const layoutByValue = (
       const niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
       if (radiusHair.label?.visible) {
         radiusCrossHairInfo.label.visible = true;
-        radiusCrossHairInfo.label.value = value;
-        radiusCrossHairInfo.label.text = niceLabelFormatter ? niceLabelFormatter(value) : value;
+        radiusCrossHairInfo.label.defaultFormatter = niceLabelFormatter;
+        radiusCrossHairInfo.label.text = value;
         radiusCrossHairInfo.label.offset = getAxisLabelOffset(axis.getSpec());
       }
       radiusCrossHairInfo.angle = coord.angle;
@@ -92,11 +92,12 @@ export const layoutByValue = (
         const { formatMethod, formatter } = angleHair.label;
         const { formatFunc, args } = getFormatFunction(formatMethod, formatter, label.text, {
           label: label.text,
-          value: label.value,
           orient: 'angle'
         });
         if (formatFunc) {
           label.text = formatFunc(...args);
+        } else if (label.defaultFormatter) {
+          label.text = label.defaultFormatter(label.text);
         }
       }
     }
@@ -111,11 +112,12 @@ export const layoutByValue = (
         const { formatMethod, formatter } = radiusHair.label;
         const { formatFunc, args } = getFormatFunction(formatMethod, formatter, label.text, {
           label: label.text,
-          value: label.value,
           orient: 'radius'
         });
         if (formatFunc) {
           label.text = formatFunc(...args);
+        } else if (label.defaultFormatter) {
+          label.text = label.defaultFormatter(label.text);
         }
       }
     }
