@@ -36,6 +36,7 @@ import { Factory } from '../../core/factory';
 import { registerRectMark } from '../../mark/rect';
 import { getGroupAnimationParams } from '../util/utils';
 import { WaterfallSeriesSpecTransformer } from './waterfall-transformer';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -309,5 +310,7 @@ export const registerWaterfallSeries = () => {
   registerRectMark();
   registerWaterfallAnimation();
   registerFadeInOutAnimation();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(WaterfallSeries.type, WaterfallSeries);
 };

@@ -6,7 +6,7 @@ import type { IRectMark } from '../../mark/rect';
 import type { ILinkPathMark } from '../../mark/link-path';
 import type { ITextMark } from '../../mark/text';
 import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
-import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, ITextMarkSpec, IComposedTextMarkSpec } from '../../typings';
+import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, IComposedTextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import { registerDataSetInstanceTransform } from '../../data/register';

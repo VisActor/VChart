@@ -9,6 +9,7 @@ import type { AdaptiveSpec } from '../../typings';
 import { bar3dSeriesMark } from './constant';
 import { Factory } from '../../core/factory';
 import { registerBar3dAnimation } from './animation';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export class Bar3dSeries<T extends IBar3dSeriesSpec = IBar3dSeriesSpec> extends BarSeries<AdaptiveSpec<T, 'type'>> {
   static readonly type: string = SeriesTypeEnum.bar3d;
@@ -23,5 +24,7 @@ export class Bar3dSeries<T extends IBar3dSeriesSpec = IBar3dSeriesSpec> extends 
 export const registerBar3dSeries = () => {
   registerBar3dAnimation();
   registerRect3dMark();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(Bar3dSeries.type, Bar3dSeries);
 };

@@ -128,29 +128,42 @@ vchart.renderSync();
 
 ## Import on demand
 
-`@visactor/vchart` provides all VChart functionality by default. If your project has strong requirements for code size, you can also import the relevant charts and components on demand. Let's take a bar chart as an example to demonstrate how to import on demand:
+`@visactor/vchart` provides all VChart functionality by default. If your project has strong requirements for code size, you can also import the relevant charts and components on demand.
+VChart supports on-demand loading through tree-shaking optimization to reduce the bundle size. If you have not turned off the tree-shaking optimization of your bundle tool, you can register the charts and components you need as shown like the example below:
+
+```ts
+// Import the VChart core module
+import { VChart } from '@visactor/vchart';
+// Import bar chart register
+import { registerBarChart } from '@visactor/vchart';
+// Import Tooltip, CrossHair components
+import { registerTooltip, registerCartesianCrossHair, registerDomTooltipHandler } from '@visactor/vchart';
+
+// Register
+VChart.useRegisters([registerBarChart, registerTooltip, registerDomTooltipHandler, registerCartesianCrossHair]);
+```
+
+If the tree-shaking optimization of your bundle tool is turned off, you need to manually import the internal files from `@visactor/vchart/esm/xxx`, such as `@visactor/vchart/esm/core` or `@visactor/vchart/esm/component`, etc. The usage is as follows:
 
 ```ts
 // Import the VChart core module
 import { VChart } from '@visactor/vchart/esm/core';
 // Import bar chart register
 import { registerBarChart } from '@visactor/vchart/esm/chart';
-// Import Cartesian axes, Tooltip, CrossHair components' registers
-import {
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerTooltip,
-  registerCartesianCrossHair
-} from '@visactor/vchart/esm/component';
-// Import cross-environment code, here we only load code for browser
+// Import Tooltip, CrossHair components
+import { registerTooltip, registerCartesianCrossHair } from '@visactor/vchart/esm/component';
+// Import dom tooltip plugin
+import { registerDomTooltipHandler } from '@visactor/vchart/esm/plugin';
+// Import WeChat environment code
+import { registerWXEnv } from '@visactor/vchart/esm/env';
 
 // Register
 VChart.useRegisters([
   registerBarChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
   registerTooltip,
-  registerCartesianCrossHair
+  registerCartesianCrossHair,
+  registerDomTooltipHandler,
+  registerWXEnv
 ]);
 ```
 
@@ -158,33 +171,8 @@ VChart provides support for browser and node environments by default. If your pr
 For example, when using in WeChat Mini Program, you need to call `registerWXEnv`:
 
 ```ts
-import { registerWXEnv } from '@visactor/vchart/esm/env';
+import { registerWXEnv } from '@visactor/vchart';
 VChart.useRegisters([registerWXEnv]);
-```
-
-Note that if your project uses cjs (commonJS), please import from the `@visactor/vchart/cjs` directory as follows:
-
-```js
-// Import the VChart core module
-const { VChart } = require('@visactor/vchart/cjs/core');
-// Import bar chart register
-const { registerBarChart } = require('@visactor/vchart/cjs/chart');
-// Import Cartesian axes, Tooltip, CrossHair components' registers
-const {
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerTooltip,
-  registerCartesianCrossHair
-} = require('@visactor/vchart/cjs/component');
-
-// Register
-VChart.useRegisters([
-  registerBarChart,
-  registerCartesianLinearAxis,
-  registerCartesianBandAxis,
-  registerTooltip,
-  registerCartesianCrossHair
-]);
 ```
 
 You can specifically view the code example: [On-demand import of bar chart](https://codesandbox.io/s/the-example-of-visactor-vcharts-shrinking-bundle-size-4gsdfn). For more detailed instructions, please refer to the[ Load on Demand Tutorial](/vchart/guide/tutorial_docs/Load_on_Demand)
