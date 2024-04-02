@@ -224,6 +224,12 @@ export interface IChartSpec {
    */
   stackInverse?: boolean;
   /**
+   * 堆积时是否排序
+   * @default false
+   * @since 1.11.0
+   */
+  stackSort?: boolean;
+  /**
    * 媒体查询配置
    * @since 1.8.0
    */

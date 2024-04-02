@@ -16,6 +16,7 @@ export interface IRegion extends ILayoutModel {
 
   //stack
   getStackInverse: () => boolean;
+  getStackSort: () => boolean;
 
   getMaxWidth: () => number | undefined;
   setMaxWidth: (value: number) => void;
@@ -65,6 +66,12 @@ export interface IRegionSpec extends ILayoutItemSpec {
    * @since 1.4.0
    */
   stackInverse?: boolean;
+  /**
+   * 堆积时是否排序
+   * @default false
+   * @since 1.11.0
+   */
+  stackSort?: boolean;
 }
 
 export interface IGeoRegionSpec extends IRegionSpec {

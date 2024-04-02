@@ -40,10 +40,17 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     if (chartSpec.tooltip === undefined) {
       chartSpec.tooltip = {};
     }
+    // 堆积逆序
     if (isValid(chartSpec.stackInverse)) {
-      chartSpec.region.forEach(
-        (r: RegionSpec) => !isValid(r.stackInverse) && (r.stackInverse = chartSpec.stackInverse)
-      );
+      chartSpec.region.forEach((r: RegionSpec) => {
+        !isValid(r.stackInverse) && (r.stackInverse = chartSpec.stackInverse);
+      });
+    }
+    // 堆积排序
+    if (isValid(chartSpec.stackSort)) {
+      chartSpec.region.forEach((r: RegionSpec) => {
+        !isValid(r.stackSort) && (r.stackSort = chartSpec.stackSort);
+      });
     }
   }
 

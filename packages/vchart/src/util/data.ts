@@ -15,6 +15,7 @@ import {
 import { toValidNumber } from './type';
 import { max, sum } from './math';
 import type { ISeries, ISeriesStackDataMeta } from '../series/interface';
+import type { IRegion } from '../region/interface';
 
 export function mergeFields(
   targetFields: {
@@ -75,6 +76,7 @@ export interface IStackCacheNode {
   sortDatums: {
     datum: any;
     index: number;
+    series: ISeries;
   }[];
   nodes: {
     [key: string]: IStackCacheNode;
@@ -94,35 +96,36 @@ export interface IStackSortCache {
   };
 }
 
-export function getRegionStackGroup(
-  region: { getSeries: () => ISeries[] },
-  setInitialValue: boolean,
-  filter?: (s: any) => boolean
-) {
+export function getRegionStackGroup(region: IRegion, setInitialValue: boolean, filter?: (s: any) => boolean) {
+  const stackSort = region.getStackSort();
+
   const stackValueGroup: { [key: string]: IStackCacheRoot } = {};
   // 堆积排序 {维度key: { lastIndex: 0, sort:{[值]: 值序号}}}
-  const stackSortCache: IStackSortCache = {};
-
-  // 先遍历系列，得到基于 seriesField 的排序信息
-  // 这里性能消耗应该很小
-  region.getSeries().forEach(s => {
-    // 拿到系列的 seriesField 做排序准备
-    const seriesField = s.getSeriesField();
-    if (seriesField) {
-      const fieldInfo = s.getRawDataStatisticsByField(seriesField);
-      if (fieldInfo.values) {
-        if (!stackSortCache[seriesField]) {
-          stackSortCache[seriesField] = { lastIndex: 0, sort: {} };
-        }
-        fieldInfo.values.forEach((v, i) => {
-          if (!(v in stackSortCache[seriesField].sort)) {
-            stackSortCache[seriesField].sort[v] = stackSortCache[seriesField].lastIndex;
-            stackSortCache[seriesField].lastIndex++;
+  let stackSortCache: IStackSortCache = null;
+  // 如果有排序
+  if (stackSort) {
+    // 先遍历系列，得到基于 seriesField 的排序信息
+    // 这里性能消耗应该很小
+    stackSortCache = {};
+    region.getSeries().forEach(s => {
+      // 拿到系列的 seriesField 做排序准备
+      const seriesField = s.getSeriesField();
+      if (seriesField) {
+        const fieldInfo = s.getRawDataStatisticsByField(seriesField);
+        if (fieldInfo.values) {
+          if (!stackSortCache[seriesField]) {
+            stackSortCache[seriesField] = { lastIndex: 0, sort: {} };
           }
-        });
+          fieldInfo.values.forEach((v, i) => {
+            if (!(v in stackSortCache[seriesField].sort)) {
+              stackSortCache[seriesField].sort[v] = stackSortCache[seriesField].lastIndex;
+              stackSortCache[seriesField].lastIndex++;
+            }
+          });
+        }
       }
-    }
-  });
+    });
+  }
 
   region.getSeries().forEach(s => {
     const stackData = s.getStackData();
@@ -144,7 +147,9 @@ export function getRegionStackGroup(
       );
     }
   });
-  return sortStackValueGroup(stackValueGroup as { [key: string]: IStackCacheNode }, stackSortCache);
+  return stackSort
+    ? sortStackValueGroup(stackValueGroup as { [key: string]: IStackCacheNode }, stackSortCache)
+    : stackValueGroup;
 }
 
 // 排序
@@ -247,16 +252,23 @@ export function stackGroup(
   stackKey?: string
 ) {
   if ('values' in stackData) {
-    // 系列的 seriesField
-    const seriesField = s.getSeriesField();
     setInitialValue && stackData.values.forEach(v => (v[STACK_FIELD_END] = toValidNumber(v[valueField])));
     stackCache.series.push({ s: s, values: stackData.values });
-    stackData.values.forEach(d => {
-      stackCache.sortDatums.push({
-        datum: d,
-        index: seriesField ? stackSortCache[seriesField].sort[d[seriesField]] : 0
+    // 如果有排序
+    if (stackSortCache) {
+      // 系列的 seriesField
+      const seriesField = s.getSeriesField();
+      stackData.values.forEach(d => {
+        stackCache.sortDatums.push({
+          series: s,
+          datum: d,
+          index: seriesField ? stackSortCache[seriesField].sort[d[seriesField]] : 0
+        });
       });
-    });
+    } else {
+      // 如果没有排序，直接生成 values 数组
+      stackCache.values.push(...stackData.values);
+    }
     return;
   }
   for (const key in stackData.nodes) {
