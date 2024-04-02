@@ -486,3 +486,18 @@ The event parameters are as follows:
 - `'layoutStart'` Layout start event
 
 - `'layoutEnd'` Layout end event
+
+The event parameters are as follows:
+
+```ts
+{
+  /**
+   * The chart of the event source
+   */
+  chart: IChart;
+  /**
+   * the instance of VChart
+   */
+  vchart: IVChart;
+}
+```
