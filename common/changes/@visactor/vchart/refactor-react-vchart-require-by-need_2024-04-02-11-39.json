@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: react-vchart will require component by need by default",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
