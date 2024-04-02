@@ -68,6 +68,10 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     return this._spec.stackInverse === true;
   }
 
+  getStackSort() {
+    return this._spec.stackSort === true;
+  }
+
   protected _backgroundMark?: IRectMark;
   protected _foregroundMark?: IRectMark;
 
