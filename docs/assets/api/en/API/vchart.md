@@ -1052,6 +1052,14 @@ Gets a DataSet instance of the chart.
 getDataSet: () => DataSet;
 ```
 
+### getScale
+
+Gets a Scale instance of the chart
+
+```ts
+getScale: (scaleId: string) => IBaseScale;
+```
+
 ### setDimensionIndex
 
 Manually invoked to trigger the dimension interaction.

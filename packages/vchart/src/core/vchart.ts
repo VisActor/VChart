@@ -1656,6 +1656,17 @@ export class VChart implements IVChart {
   }
 
   /**
+   * 获取全局scale
+   * @param scaleName 指定scale的id
+   * @returns scale实例
+   */
+  getScale(scaleId: string) {
+    const globalScale = this._chart?.getGlobalScale();
+
+    return globalScale?.getScale(scaleId);
+  }
+
+  /**
    * setDimensionIndex could trigger mark state, tooltip, crosshair
    * @param value dimension value
    * @param opt option for set trigger

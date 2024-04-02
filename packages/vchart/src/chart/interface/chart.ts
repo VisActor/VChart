@@ -31,6 +31,7 @@ import type {
 } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataView } from '@visactor/vdataset';
+import type { IGlobalScale } from '../../scale/interface';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
@@ -65,6 +66,11 @@ export interface IChart extends ICompilable {
 
   /** event */
   getEvent: () => IEvent;
+
+  /**
+   * @since 1.10.4
+   */
+  getGlobalScale: () => IGlobalScale;
 
   /** layout */
   setLayout: (layout: LayoutCallBack) => void;

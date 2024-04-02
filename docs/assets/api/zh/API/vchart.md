@@ -1057,6 +1057,14 @@ getComponents: () => IComponent[];
 getDataSet: () => DataSet;
 ```
 
+### getScale
+
+获取图表的 Scale 实例。
+
+```ts
+getScale: (scaleId: string) => IBaseScale;
+```
+
 ### setDimensionIndex
 
 手动调用触发 dimension 交互效果。

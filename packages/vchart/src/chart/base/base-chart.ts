@@ -153,6 +153,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   // protected _globalScale: { [key: string]: IBaseScale } = {};
   protected _globalScale: IGlobalScale;
 
+  getGlobalScale() {
+    return this._globalScale;
+  }
+
   // mark & model 的 id 映射
   protected _idMap: Map<number, IModel | IMark> = new Map();
 
