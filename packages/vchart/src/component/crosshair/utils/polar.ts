@@ -4,9 +4,9 @@ import type { IHair, IHairRadius } from '../base';
 import type { AxisCurrentValueMap, IPolarCrosshairInfo } from '../interface';
 import { getAxisLabelOffset } from '../../axis/util';
 import { PointService, clamp, getAngleByPoint, getIntersectPoint, isValid, polarToCartesian } from '@visactor/vutils';
-import type { IPolarAxis } from '../../axis';
-import { getFormatFunction } from '../../util';
+import type { ILinearAxis, IPolarAxis } from '../../axis';
 import { mergeSpec } from '@visactor/vutils-extension';
+import { getFormatFunction } from '../../util';
 
 export const layoutByValue = (
   series: IPolarSeries,
@@ -53,8 +53,10 @@ export const layoutByValue = (
       mergeSpec(angleCrossHairInfo, rest);
       const angle = series.angleAxisHelper.dataToPosition([value]);
       angleCrossHairInfo.angle = angle;
+      const niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
       if (angleHair.label?.visible) {
         angleCrossHairInfo.label.visible = true;
+        angleCrossHairInfo.label.defaultFormatter = niceLabelFormatter;
         angleCrossHairInfo.label.text = value;
         angleCrossHairInfo.label.offset = getAxisLabelOffset(axis.getSpec());
       }
@@ -68,8 +70,10 @@ export const layoutByValue = (
     radiusCrossHairInfo.visible = !!currValueRadius.size;
     currValueRadius.forEach(({ axis, value, coord, ...rest }) => {
       value = value ?? '';
+      const niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
       if (radiusHair.label?.visible) {
         radiusCrossHairInfo.label.visible = true;
+        radiusCrossHairInfo.label.defaultFormatter = niceLabelFormatter;
         radiusCrossHairInfo.label.text = value;
         radiusCrossHairInfo.label.offset = getAxisLabelOffset(axis.getSpec());
       }
@@ -92,6 +96,8 @@ export const layoutByValue = (
         });
         if (formatFunc) {
           label.text = formatFunc(...args);
+        } else if (label.defaultFormatter) {
+          label.text = label.defaultFormatter(label.text);
         }
       }
     }
@@ -110,6 +116,8 @@ export const layoutByValue = (
         });
         if (formatFunc) {
           label.text = formatFunc(...args);
+        } else if (label.defaultFormatter) {
+          label.text = label.defaultFormatter(label.text);
         }
       }
     }

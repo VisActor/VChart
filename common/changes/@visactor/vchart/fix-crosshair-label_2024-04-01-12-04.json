@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: crosshair can't move when axis domain is very small, related #2492",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
