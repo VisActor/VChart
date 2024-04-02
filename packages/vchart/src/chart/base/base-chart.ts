@@ -440,7 +440,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       this.onLayoutStart(params);
       const elements = this.getLayoutElements();
       this._layoutFunc(this, elements, this._layoutRect, this._viewBox);
-      this._event.emit(ChartEvent.afterLayout, { elements });
+      this._event.emit(ChartEvent.afterLayout, { elements, chart: this });
       this.setLayoutTag(false);
       this.onLayoutEnd(params);
 
@@ -922,7 +922,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._layoutRect.x = this.padding.left;
     this._layoutRect.y = this.padding.top;
 
-    this._event.emit(ChartEvent.layoutRectUpdate, {});
+    this._event.emit(ChartEvent.layoutRectUpdate, { chart: this });
   }
 
   /** 设置当前全局主题 */

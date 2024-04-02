@@ -149,10 +149,12 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   beforeRelease() {
     // 触发事件
     this.event.emit(ChartEvent.tooltipHide, {
-      tooltip: this
+      tooltip: this,
+      chart: this.getChart()
     } as unknown as TooltipEventParams);
     this.event.emit(ChartEvent.tooltipRelease, {
-      tooltip: this
+      tooltip: this,
+      chart: this.getChart()
     } as unknown as TooltipEventParams);
   }
 

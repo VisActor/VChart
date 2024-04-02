@@ -302,7 +302,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   }
 
   seriesDataFilterOver = () => {
-    this.event.emit(ChartEvent.regionSeriesDataFilterOver, { model: this });
+    this.event.emit(ChartEvent.regionSeriesDataFilterOver, { model: this, chart: this.getChart() });
     this._series.forEach(s => {
       if (s.getViewDataFilter()) {
         s.reTransformViewData();

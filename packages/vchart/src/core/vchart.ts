@@ -482,7 +482,10 @@ export class VChart implements IVChart {
     this._chart.setCanvasRect(this._currentSize.width, this._currentSize.height);
     this._chart.created();
     this._chart.init();
-    this._event.emit(ChartEvent.initialized, {});
+    this._event.emit(ChartEvent.initialized, {
+      chart,
+      vchart: this
+    });
   }
 
   private _releaseData() {
@@ -501,10 +504,16 @@ export class VChart implements IVChart {
       return;
     }
     this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
-      this._event.emit(ChartEvent.animationFinished, {});
+      this._event.emit(ChartEvent.animationFinished, {
+        chart: this._chart,
+        vchart: this
+      });
     });
     this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
-      this._event.emit(ChartEvent.renderFinished, {});
+      this._event.emit(ChartEvent.renderFinished, {
+        chart: this._chart,
+        vchart: this
+      });
     });
   }
 
@@ -687,7 +696,10 @@ export class VChart implements IVChart {
       return false;
     }
     this._updateAnimateState();
-    this._event.emit(ChartEvent.rendered, {});
+    this._event.emit(ChartEvent.rendered, {
+      chart: this._chart,
+      vchart: this
+    });
     return true;
   }
 
