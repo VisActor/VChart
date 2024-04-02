@@ -60,7 +60,7 @@ axes: [
 
 {{ use : background }}
 
-#${prefix} padding(Object|number) = 12
+#${prefix} padding(Object|number) = 20
 
 图表整体 padding 设置。支持直接设置数值，也可以通过对象类型分别为上下左右方向配置。
 

@@ -60,7 +60,7 @@ The chart background color configuration has a higher priority than the backgrou
 
 {{ use : background }}
 
-#${prefix} padding(Object|number) = 12
+#${prefix} padding(Object|number) = 20
 
 Overall padding setting for the chart. Supports setting a value directly or configuring each direction separately for top, bottom, left, and right through object type.
 
