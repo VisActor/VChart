@@ -12,6 +12,7 @@ import {
   registerTotalLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { cartesianComponentsRegisters } from './register';
 
 export interface WaterfallChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -33,6 +34,8 @@ export const WaterfallChart = createChart<React.PropsWithChildren<WaterfallChart
     registerCartesianLogAxis, // 非必选
     registerCartesianCrossHair,
     registerLabel,
-    registerTotalLabel
+    registerTotalLabel,
+
+    ...cartesianComponentsRegisters
   ]
 );

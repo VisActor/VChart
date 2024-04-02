@@ -2,6 +2,7 @@ import React from 'react';
 import { IFunnelChartSpec, IVChartConstructor } from '@visactor/vchart';
 import { VChart, registerFunnelChart, registerLabel } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { simpleComponentsRegisters } from './register';
 
 export interface FunnelChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -13,5 +14,5 @@ export const FunnelChart = createChart<React.PropsWithChildren<FunnelChartProps>
     type: 'funnel',
     vchartConstrouctor: VChart as IVChartConstructor
   },
-  [registerFunnelChart, registerLabel]
+  [registerFunnelChart, registerLabel, ...simpleComponentsRegisters]
 );

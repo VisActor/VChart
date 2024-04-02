@@ -10,6 +10,7 @@ import {
   registerCartesianCrossHair
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { cartesianComponentsRegisters } from './register';
 
 export interface SequenceChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -27,6 +28,7 @@ export const SequenceChart = createChart<React.PropsWithChildren<SequenceChartPr
     registerCartesianBandAxis,
     registerCartesianTimeAxis, // 非必选
     registerCartesianLogAxis, // 非必选
-    registerCartesianCrossHair
+    registerCartesianCrossHair,
+    ...cartesianComponentsRegisters
   ]
 );

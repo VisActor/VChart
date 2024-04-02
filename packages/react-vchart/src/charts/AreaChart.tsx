@@ -5,12 +5,13 @@ import {
   registerAreaChart,
   registerCartesianLinearAxis,
   registerCartesianBandAxis,
-  registerCartesianTimeAxis, // 非必选
-  registerCartesianLogAxis, // 非必选
+  registerCartesianTimeAxis,
+  registerCartesianLogAxis,
   registerCartesianCrossHair,
   registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { cartesianComponentsRegisters } from './register';
 
 export interface AreaChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -29,6 +30,8 @@ export const AreaChart = createChart<React.PropsWithChildren<AreaChartProps> & {
     registerCartesianTimeAxis, // 非必选
     registerCartesianLogAxis, // 非必选
     registerCartesianCrossHair,
-    registerLabel
+    registerLabel,
+
+    ...cartesianComponentsRegisters
   ]
 );

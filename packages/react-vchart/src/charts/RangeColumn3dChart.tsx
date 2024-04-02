@@ -12,6 +12,7 @@ import {
   registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { cartesianComponentsRegisters } from './register';
 
 export interface RangeColumn3dChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -33,6 +34,7 @@ export const RangeColumn3dChart = createChart<
     registerCartesianLogAxis, // 非必选
     registerCartesianCrossHair,
     registerScrollBar,
-    registerLabel
+    registerLabel,
+    ...cartesianComponentsRegisters
   ]
 );

@@ -12,6 +12,7 @@ import {
   registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { cartesianComponentsRegisters } from './register';
 
 export interface RangeColumnChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -31,6 +32,7 @@ export const RangeColumnChart = createChart<React.PropsWithChildren<RangeColumnC
     registerCartesianLogAxis, // 非必选
     registerCartesianCrossHair,
     registerScrollBar,
-    registerLabel
+    registerLabel,
+    ...cartesianComponentsRegisters
   ]
 );

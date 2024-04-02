@@ -12,6 +12,7 @@ import {
   registerTotalLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { cartesianComponentsRegisters } from './register';
 
 export interface BarChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -33,6 +34,7 @@ export const BarChart = createChart<React.PropsWithChildren<BarChartProps> & { t
     registerCartesianLogAxis, // 非必选
     registerCartesianCrossHair,
     registerLabel,
-    registerTotalLabel
+    registerTotalLabel,
+    ...cartesianComponentsRegisters
   ]
 );

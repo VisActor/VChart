@@ -11,6 +11,7 @@ import {
   registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { cartesianComponentsRegisters } from './register';
 
 export interface Histogram3dChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -29,6 +30,7 @@ export const Histogram3dChart = createChart<React.PropsWithChildren<Histogram3dC
     registerCartesianTimeAxis, // 非必选
     registerCartesianLogAxis, // 非必选
     registerCartesianCrossHair,
-    registerLabel
+    registerLabel,
+    ...cartesianComponentsRegisters
   ]
 );

@@ -11,6 +11,7 @@ import {
   registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { cartesianComponentsRegisters } from './register';
 
 export interface LinearProgressChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -31,6 +32,7 @@ export const LinearProgressChart = createChart<
     registerCartesianTimeAxis, // 非必选
     registerCartesianLogAxis, // 非必选
     registerCartesianCrossHair,
-    registerLabel
+    registerLabel,
+    ...cartesianComponentsRegisters
   ]
 );

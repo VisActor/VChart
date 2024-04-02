@@ -9,6 +9,7 @@ import {
   registerLabel
 } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+import { polarComponentsRegisters } from './register';
 
 export interface RoseChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type' | 'data'>,
@@ -25,6 +26,8 @@ export const RoseChart = createChart<React.PropsWithChildren<RoseChartProps> & {
     registerPolarLinearAxis, // 必选
     registerPolarBandAxis, // 必选
     registerPolarCrossHair,
-    registerLabel
+    registerLabel,
+
+    ...polarComponentsRegisters
   ]
 );
