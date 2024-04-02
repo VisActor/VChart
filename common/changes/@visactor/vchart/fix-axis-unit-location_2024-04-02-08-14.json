@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: axis unit in wrong position when hiding the axis domainLine",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
