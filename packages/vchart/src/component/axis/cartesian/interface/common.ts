@@ -98,6 +98,8 @@ export interface ILinearAxis extends IAxis {
 
   // 用户其他模块扩充轴scale的区间
   setExtendDomain: (key: string, value: number | undefined) => void;
+
+  niceLabelFormatter?: (value: StringOrNumber) => StringOrNumber;
 }
 
 export interface IAxisHelper {
