@@ -137,11 +137,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   getLayoutTag() {
     return this._layoutTag;
   }
-  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, reLayout: boolean = true): boolean {
+  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, renderNextTick: boolean = true): boolean {
     this._layoutTag = tag;
     if (this.getCompiler()?.getVGrammarView()) {
       this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && reLayout && this.getCompiler().renderNextTick(morphConfig);
+      tag && renderNextTick && this.getCompiler().renderNextTick(morphConfig);
     }
     return this._layoutTag;
   }
@@ -645,6 +645,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       this.updateGlobalScaleDomain();
     }
     this.getAllModels().forEach(model => model.onDataUpdate());
+    // 需要重新布局
+    this.setLayoutTag(true, null, false);
   }
 
   updateFullData(data: IDataValues | IDataValues[], updateGlobalScale: boolean = true) {
