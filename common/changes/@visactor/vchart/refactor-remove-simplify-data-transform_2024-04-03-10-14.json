@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "refactor: remove-simplify-data-transform",
+      "comment": "refactor: remove built-in simplify data transform",
       "type": "none"
     }
   ],
