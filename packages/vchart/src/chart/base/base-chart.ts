@@ -645,8 +645,6 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       this.updateGlobalScaleDomain();
     }
     this.getAllModels().forEach(model => model.onDataUpdate());
-    // 需要重新布局
-    this.setLayoutTag(true, null, false);
   }
 
   updateFullData(data: IDataValues | IDataValues[], updateGlobalScale: boolean = true) {
