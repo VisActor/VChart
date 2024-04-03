@@ -808,7 +808,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (active) {
       this._handleChartMove(value, this._scrollAttr.rate ?? 1);
     }
-    return active;
+
+    // 判断是否滚动到最顶部或最底部
+    // 如果滚动到最顶部或最底部，则不应该stopBubble
+    const hasChange = this._start !== 0 && this._end !== 1;
+
+    return active && hasChange;
   };
 
   protected _handleChartDrag = (delta: [number, number], e: BaseEventParams['event']) => {
@@ -835,6 +840,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         this._handleChange(this._start + moveDelta, this._end + moveDelta, true);
       }
     }
+    return false;
   };
 
   protected _initCommonEvent() {
