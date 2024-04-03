@@ -8,7 +8,7 @@ import type { ISeriesTheme } from '../../series/interface';
 // eslint-disable-next-line no-duplicate-imports
 import type { ISeriesMarkInfo } from '../../series/interface/common';
 import { seriesMarkInfoMap } from '../../series/interface/theme';
-import { mergeSpec } from '../spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export function mergeTheme(target: Maybe<ITheme>, ...sources: Maybe<ITheme>[]): Maybe<ITheme> {
   return mergeSpec(transformThemeToMerge(target), ...sources.map(transformThemeToMerge));

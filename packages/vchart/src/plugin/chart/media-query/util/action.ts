@@ -1,5 +1,5 @@
-import { setProperty } from '@visactor/vutils-extension';
-import { isArray, isFunction, isNil, mergeSpec } from '../../../../util';
+import { setProperty, mergeSpec } from '@visactor/vutils-extension';
+import { isArray, isFunction, isNil } from '../../../../util';
 import type { IMediaQueryAction, IMediaQueryCondition, IMediaQueryActionResult } from '../interface';
 import { executeMediaQueryActionFilter } from './filter';
 import type { IChartSpecInfo } from '../../../../chart/interface';

@@ -1,7 +1,8 @@
 import type { AdaptiveSpec } from '../../../typings';
-import { isArray, mergeSpec } from '../../../util';
+import { isArray } from '../../../util';
 import { BaseComponentSpecTransformer } from '../../base';
 import type { IDataZoomSpec, IDataZoomTheme } from './interface';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export class DataZoomSpecTransformer<
   T extends IDataZoomSpec = IDataZoomSpec,

@@ -68,6 +68,10 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
     return this._spec.stackInverse === true;
   }
 
+  getStackSort() {
+    return this._spec.stackSort === true;
+  }
+
   protected _backgroundMark?: IRectMark;
   protected _foregroundMark?: IRectMark;
 
@@ -302,7 +306,7 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   }
 
   seriesDataFilterOver = () => {
-    this.event.emit(ChartEvent.regionSeriesDataFilterOver, { model: this });
+    this.event.emit(ChartEvent.regionSeriesDataFilterOver, { model: this, chart: this.getChart() });
     this._series.forEach(s => {
       if (s.getViewDataFilter()) {
         s.reTransformViewData();

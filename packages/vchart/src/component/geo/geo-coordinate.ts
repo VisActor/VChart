@@ -7,7 +7,7 @@ import { ComponentTypeEnum } from '../interface/type';
 import { BaseComponent } from '../base/base-component';
 import type { IGeoRegionSpec, IRegion, RegionSpec } from '../../region/interface';
 import { eachSeries } from '../../util/model';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import { ChartEvent, PREFIX } from '../../constant/index';
 import type { ICartesianSeries, IGeoSeries } from '../../series/interface';
 import { SeriesTypeEnum } from '../../series/interface/type';

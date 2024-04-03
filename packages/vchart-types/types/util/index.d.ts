@@ -11,6 +11,7 @@ export * from './object';
 export * from './scale';
 export * from './space';
 export * from './type';
+export * from './theme';
 export * from './spec';
 export * from './text';
 export * from './data';

@@ -23,6 +23,7 @@ export interface ILinearAxis extends IAxis {
     readonly zero: boolean;
     readonly nice: boolean;
     setExtendDomain: (key: string, value: number | undefined) => void;
+    niceLabelFormatter?: (value: StringOrNumber) => StringOrNumber;
 }
 export interface IAxisHelper {
     isContinuous: boolean;

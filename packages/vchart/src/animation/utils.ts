@@ -13,7 +13,7 @@ import { DEFAULT_DATA_INDEX } from '../constant';
 import { DEFAULT_ANIMATION_CONFIG } from './config';
 import { cloneDeep, isArray, isObject, isValid } from '@visactor/vutils';
 import type { SeriesMarkNameEnum } from '../series/interface/type';
-import { mergeSpec } from '../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { ISeries } from '../series';
 import type { ISeriesSpec } from '../typings';
 import type { IModelMarkAttributeContext } from '../compile/mark';

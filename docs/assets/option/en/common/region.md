@@ -87,3 +87,7 @@ Background style settings.
 ### stackInverse(boolean)
 
 Supported since `1.4.0` version, Whether to reverse the order when stacking
+
+### stackSort(boolean)
+
+Supported since `1.10.4` version, Whether to sorting data when stacking

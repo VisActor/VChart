@@ -301,7 +301,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
     // only reCompute bar
     const stackValueGroup = getRegionStackGroup(region, false, s => s.type === this.type);
-
     // 按照堆积逻辑 重新计算一次图形的堆积位置并设置到数据上
     for (const stackValue in stackValueGroup) {
       for (const key in stackValueGroup[stackValue].nodes) {

@@ -1,3 +1,43 @@
+# v1.10.3
+
+2024-03-28
+
+
+**🆕 新增功能**
+- **@visactor/vchart**：支持`element-select`和`element-highlight`的交互事件
+- **@visactor/vchart**：支持在地图图表中使用`showDefaultName`来显示地图数据中未匹配的名称
+
+**🐛 功能修复**
+
+- **@visactor/vchart**：修复Tooltip边框被裁减的问题[#2471](https://github.com/VisActor/VChart/issues/2471)
+- **@visactor/vchart**：修复矩形Crosshair中`lineWidth`无效，相关[#2432](https://github.com/VisActor/VChart/issues/2432)
+- **@visactor/vchart**：应该使用`series.getMarkInName`来获取总标签的计算标记，已修复[#2448](https://github.com/VisActor/VChart/issues/2448)
+- **@visactor/vchart**：修复`updateSpecSync()`后事件触发次数不断增加的问题
+- **@visactor/vchart**：如果未在nameMap中配置，地图数据将不会显示
+- **@visactor/vchart**：在采样角度轴上缺少轴标签，相关[#2439](https://github.com/VisActor/VChart/issues/2439)
+- **@visactor/vchart**：修复雷达图clipAngle动画在按需加载时的错误
+- **@visactor/vchart**：修复_eventDispatcher的释放顺序问题
+- **@visactor/vchart**：应该使用系列的_seriesMark来计算总标记，不是所有系列标记名称都与系列类型相同
+
+
+
+[更多详情请查看 v1.10.3](https://github.com/VisActor/VChart/releases/tag/v1.10.3)
+
+# v1.10.2
+
+2024-03-26
+
+**🆕 新增功能**
+- **@visactor/vchart**：: 支持`element-select`和`element-highlight`交互事件
+
+**🐛 功能修复**
+- **@visactor/vchart**：：`lineWidth`在矩形十字准线中无效，相关[#2432](https://github.com/VisActor/VChart/issues/2432)
+- **@visactor/vchart**：：应该使用 `series.getMarkInName` 来获取总标签计算的标记，修复[#2448](https://github.com/VisActor/VChart/issues/2448)
+- **@visactor/vchart**：：修复`updateSpecSync()`之后事件触发计数的问题
+- **@visactor/vchart**：：修复雷达图按需加载时的clipAngle动画错误
+
+[更多详情请查看 v1.10.2](https://github.com/VisActor/VChart/releases/tag/v1.10.2)
+
 # v1.10.0
 
 2024-03-13

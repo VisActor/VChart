@@ -1,9 +1,8 @@
 import type { IEffect } from '../../../model/interface';
 import { DataView } from '@visactor/vdataset';
 import { isXAxis } from './util/common';
-import { isArray, TimeUtil } from '@visactor/vutils';
+import { TimeUtil } from '@visactor/vutils';
 import { eachSeries } from '../../../util/model';
-import { mergeSpec } from '../../../util/spec/merge-spec';
 import type { ICartesianSeries } from '../../../series/interface';
 import { CartesianLinearAxis } from './linear-axis';
 import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
@@ -15,6 +14,8 @@ import type { ICartesianTimeAxisSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
 import { getAxisItem } from '../util';
+// eslint-disable-next-line no-duplicate-imports
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export interface CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICartesianTimeAxisSpec>
   extends Pick<LinearAxisMixin, 'valueToPosition'>,

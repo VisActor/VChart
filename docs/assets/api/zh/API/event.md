@@ -486,3 +486,18 @@ Drill 钻取后触发的事件。
 - `'layoutStart'` 布局开始事件
 
 - `'layoutEnd'` 布局结束事件
+
+事件参数如下：
+
+```ts
+{
+  /**
+   * 事件来源的 chart
+   */
+  chart: IChart;
+  /**
+   * 全局的VChart实例
+   */
+  vchart: IVChart;
+}
+```

@@ -36,6 +36,6 @@ export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
     axes?: ICartesianAxisSpec[] | IPolarAxisSpec[];
     crosshair?: ICartesianCrosshairSpec | ICartesianCrosshairSpec[] | IPolarCrosshairSpec | IPolarCrosshairSpec[];
     markLine?: IMarkLineSpec | IMarkLineSpec[];
-    markArea?: IMarkAreaSpec;
-    markPoint?: IMarkPointSpec;
+    markArea?: IMarkAreaSpec | IMarkAreaSpec[];
+    markPoint?: IMarkPointSpec | IMarkPointSpec[];
 }

@@ -54,7 +54,7 @@
   ],
   axes: [
     { orient: 'left', seriesIndex: [0] },
-    { orient: 'right', seriesId: ['line'], gird: { visible: false }},
+    { orient: 'right', seriesId: ['line'], grid: { visible: false }},
     { orient: 'bottom', label: { visible: true }, type: 'band' }
   ],
 }
@@ -118,7 +118,7 @@ const spec = {
   ],
   axes: [
     { orient: 'left', seriesIndex: [0], max: 100 },
-    { orient: 'right', seriesId: ['line'], gird: { visible: false }, min: 0, max: 2 },
+    { orient: 'right', seriesId: ['line'], grid: { visible: false }, min: 0, max: 2 },
     { orient: 'bottom', label: { visible: true }, type: 'band' }
   ]
 };

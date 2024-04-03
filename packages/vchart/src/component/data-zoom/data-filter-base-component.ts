@@ -11,7 +11,7 @@ import type { AdaptiveSpec, ILayoutRect, ILayoutType, IOrientType, IRect, String
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
 import { BandScale, isContinuous, isDiscrete } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
-import type { IBandLikeScale, IBaseScale, LinearScale } from '@visactor/vscale';
+import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { Direction } from '../../typings/space';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
@@ -20,6 +20,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { mixin, clamp, isNil, merge, isEqual, isValid, array, minInArray, maxInArray, abs } from '@visactor/vutils';
 import { IFilterMode } from './interface';
+// eslint-disable-next-line no-duplicate-imports
 import type {
   IDataFilterComponent,
   IDataFilterComponentSpec,
@@ -56,6 +57,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _fixedBandSize?: number;
   protected _cacheRect?: ILayoutRect;
   protected _cacheVisibility?: boolean = undefined;
+  protected _dataUpdating: boolean = false;
 
   // 数据
   protected _stateScale: IBaseScale;
@@ -381,6 +383,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
     this._stateScale.domain(domain, true);
     this._handleChange(this._start, this._end, true);
+    // auto 模式下需要重新布局
+    if (this._spec.auto) {
+      this._dataUpdating = true;
+      this.getChart()?.setLayoutTag(true, null, false);
+    }
   }
 
   protected _computeDomainOfStateScale(isContinuous?: boolean) {
@@ -406,7 +413,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const dataCollection: any[] = [];
     const stateFields: string[] = [];
     const valueFields: string[] = [];
-    let hasValidateValueField = false;
 
     if (this._relatedAxisComponent) {
       const originalStateFields = {};
@@ -440,10 +446,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
           const isValidateValueAxis = isContinuous(valueAxisHelper.getScale(0).type);
 
-          if (isValidateValueAxis) {
-            hasValidateValueField = true;
-          }
-
           dataCollection.push(s.getRawData());
           // 这里获取原始的spec中的xField和yField，而非经过stack处理后的fieldX和fieldY，原因如下：
           // 1. dataFilterComputeDomain处理时拿到的viewData中没有__VCHART_STACK_START等属性，也就是还没处理
@@ -472,7 +474,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
       this._originalStateFields = originalStateFields;
     } else {
-      hasValidateValueField = isNil(this._spec.valueField);
       eachSeries(
         this._regions,
         s => {
@@ -873,6 +874,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         [sizeKey]: AttributeLevel.Built_In
       }
     );
+    this._dataUpdating = false;
   }
 
   /**
@@ -923,6 +925,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const bandSizeResult = this._getAxisBandSize(axisSpec);
 
     if (
+      !this._dataUpdating &&
       isDiscrete(axisScale.type) &&
       rect?.height === this._cacheRect?.height &&
       rect?.width === this._cacheRect?.width &&
