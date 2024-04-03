@@ -14,7 +14,7 @@ import type { IRegion, IRegionConstructor } from '../region/interface';
 import type { IBaseModelSpecTransformer, IBaseModelSpecTransformerOption, IModelOption } from '../model/interface';
 import type { Transform, Parser } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import { fields, filter, simplify, fold, csvParser, dsvParser, tsvParser } from '@visactor/vdataset';
+import { fields, filter, fold, csvParser, dsvParser, tsvParser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
 import type { MarkAnimationSpec } from '@visactor/vgrammar-core';
 import type { IChartPluginConstructor } from '../plugin/chart/interface';
@@ -38,7 +38,6 @@ export class Factory {
 
   static transforms: { [key: string]: Transform } = {
     // buildIn transforms
-    simplify: simplify,
     fields: fields,
     filter: filter,
     fold: fold
