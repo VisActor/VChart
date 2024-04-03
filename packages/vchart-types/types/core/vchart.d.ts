@@ -6,8 +6,7 @@ import type { ISeriesConstructor } from '../series/interface';
 import type { DimensionIndexOption, IChart, IChartConstructor, IChartOption, IChartSpecInfo } from '../chart/interface';
 import type { IComponentConstructor } from '../component/interface';
 import type { EventCallback, EventParams, EventQuery, EventType } from '../event/interface';
-import type { IParserOptions } from '@visactor/vdataset';
-import type { Transform, DataView } from '@visactor/vdataset';
+import type { IParserOptions, Transform, DataView } from '@visactor/vdataset';
 import { DataSet } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
 import type { GeoSourceType } from '../typings/geo';
@@ -169,6 +168,7 @@ export declare class VChart implements IVChart {
     getCanvas(): HTMLCanvasElement | undefined;
     getContainer(): Maybe<HTMLElement>;
     getComponents(): import("../component/interface").IComponent[];
+    getScale(scaleId: string): import("@visactor/vscale").IBaseScale;
     setDimensionIndex(value: StringOrNumber, opt?: DimensionIndexOption): void;
     stopAnimation(): void;
     pauseAnimation(): void;

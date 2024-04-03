@@ -33,6 +33,7 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
     protected _interactionMark: IGroupMark;
     getInteractionMark(): IGroupMark;
     getStackInverse(): boolean;
+    getStackSort(): boolean;
     protected _backgroundMark?: IRectMark;
     protected _foregroundMark?: IRectMark;
     protected _trigger: ITrigger;

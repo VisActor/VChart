@@ -18938,6 +18938,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -20707,6 +20713,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -21578,6 +21590,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "support3d": {
@@ -22986,6 +23004,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "support3d": {
@@ -25017,6 +25041,12 @@
           "since": "1.4.0",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "theme": {
           "anyOf": [
             {
@@ -25431,6 +25461,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "support3d": {
@@ -26234,6 +26270,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "startAngle": {
@@ -27222,7 +27264,79 @@
           "description": "图例配置"
         },
         "markArea": {
-          "$ref": "#/definitions/IMarkAreaSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaXYSpec"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkAreaTheme"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkAreaSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "**仅适用于笛卡尔坐标系**，参考区域配置"
         },
         "markLine": {
@@ -27360,7 +27474,53 @@
           "description": "**仅适用于笛卡尔坐标系**，参考线配置"
         },
         "markPoint": {
-          "$ref": "#/definitions/IMarkPointSpec",
+          "anyOf": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/IMarkerSpec"
+                },
+                {
+                  "typeof": "function"
+                },
+                {
+                  "$ref": "#/definitions/IMarkPointTheme<IMarkerSymbol>"
+                }
+              ]
+            },
+            {
+              "items": {
+                "$ref": "#/definitions/IMarkPointSpec"
+              },
+              "type": "array"
+            }
+          ],
           "description": "**仅适用于笛卡尔坐标系**，参考点配置"
         },
         "media": {
@@ -27530,6 +27690,12 @@
           "default": false,
           "description": "堆积时是否逆序",
           "since": "1.4.0",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "theme": {
@@ -28860,6 +29026,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "startAngle": {
@@ -32905,6 +33077,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -33437,6 +33615,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "support3d": {
@@ -34702,6 +34886,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "stackValue": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
@@ -35776,6 +35966,12 @@
           "default": false,
           "description": "堆积时是否逆序",
           "since": "1.4.0",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "style": {
@@ -38966,6 +39162,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -40191,6 +40393,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -41013,6 +41221,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "support3d": {
@@ -43782,6 +43996,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -44984,6 +45204,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "support3d": {
@@ -46279,6 +46505,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "support3d": {
@@ -49343,6 +49575,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "startAngle": {
           "default": -90,
           "description": "饼图的起始角度（0 ~ 360）",
@@ -49883,6 +50121,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "startAngle": {
@@ -52688,6 +52932,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "startAngle": {
           "description": "扇区起始角度",
           "type": "number"
@@ -53910,6 +54160,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -55122,6 +55378,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "support3d": {
@@ -56377,6 +56639,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -57516,6 +57784,12 @@
           "since": "1.4.0",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "style": {
           "$ref": "#/definitions/ConvertToMarkStyleSpec<IRectMarkSpec>_2"
         },
@@ -58160,6 +58434,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "startAngle": {
@@ -59296,6 +59576,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -60384,6 +60670,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "support3d": {
@@ -61628,6 +61920,12 @@
           "default": false,
           "description": "堆积时是否逆序",
           "since": "1.4.0",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "theme": {
@@ -63670,6 +63968,12 @@
         },
         "stackOffsetSilhouette": {
           "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean"
+        },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
           "type": "boolean"
         },
         "startAngle": {
@@ -66727,6 +67031,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "stackValue": {
           "$ref": "#/definitions/StringOrNumber",
           "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
@@ -69778,6 +70088,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -71096,6 +71412,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -72027,6 +72349,12 @@
           "description": "是否围绕中心轴偏移轮廓",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "support3d": {
           "description": "是否支持3d视角",
           "type": "boolean"
@@ -72644,7 +72972,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         },
         "size": {
@@ -72652,14 +72980,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12942",
+        "__@toStringTag@12945",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         },
         "size": {
@@ -72667,14 +72995,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12942",
+        "__@toStringTag@12945",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         },
         "size": {
@@ -72682,14 +73010,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12942",
+        "__@toStringTag@12945",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         },
         "size": {
@@ -72697,14 +73025,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12942",
+        "__@toStringTag@12945",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         },
         "size": {
@@ -72712,14 +73040,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12942",
+        "__@toStringTag@12945",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         },
         "size": {
@@ -72727,14 +73055,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12942",
+        "__@toStringTag@12945",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         },
         "size": {
@@ -72742,14 +73070,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12942",
+        "__@toStringTag@12945",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         },
         "size": {
@@ -72757,14 +73085,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12942",
+        "__@toStringTag@12945",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         },
         "size": {
@@ -72772,7 +73100,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12942",
+        "__@toStringTag@12945",
         "size"
       ],
       "type": "object"
@@ -72969,6 +73297,7 @@
         "seriesStyle",
         "sizeLegend",
         "stackInverse",
+        "stackSort",
         "sunburst",
         "theme",
         "title",
@@ -88027,6 +88356,12 @@
           "since": "1.4.0",
           "type": "boolean"
         },
+        "stackSort": {
+          "default": false,
+          "description": "堆积时是否排序",
+          "since": "1.10.4",
+          "type": "boolean"
+        },
         "theme": {
           "anyOf": [
             {
@@ -91606,34 +91941,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12942"
+        "__@toStringTag@12945"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12942"
+        "__@toStringTag@12945"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12942": {
+        "__@toStringTag@12945": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12942"
+        "__@toStringTag@12945"
       ],
       "type": "object"
     },

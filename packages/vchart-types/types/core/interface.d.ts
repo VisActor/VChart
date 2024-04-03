@@ -13,6 +13,7 @@ import type { Compiler } from '../compile/compiler';
 import type { IChart, IChartSpecInfo } from '../chart/interface';
 import type { Stage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
+import type { IBaseScale } from '@visactor/vscale';
 export type DataLinkSeries = {
     seriesId?: StringOrNumber;
     seriesIndex?: number;
@@ -81,6 +82,7 @@ export interface IVChart {
     getContainer: () => Maybe<HTMLElement>;
     getComponents: () => IComponent[];
     getDataSet: () => Maybe<DataSet>;
+    getScale: (scaleId: string) => IBaseScale | null;
     convertDatumToPosition: (datum: Datum, dataLinkInfo?: DataLinkSeries, isRelativeToCanvas?: boolean, checkInViewData?: boolean) => IPoint | null;
     convertValueToPosition: ((value: StringOrNumber, dataLinkInfo: DataLinkAxis, isRelativeToCanvas?: boolean) => number | null) & ((value: [StringOrNumber, StringOrNumber], dataLinkInfo: DataLinkSeries, isRelativeToCanvas?: boolean) => IPoint | null);
     stopAnimation: () => void;
