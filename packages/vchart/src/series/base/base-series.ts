@@ -677,6 +677,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 
+  private _getExtensionMarkNamePrefix() {
+    return `${this.type}_${this.id}_extensionMark`;
+  }
+
   protected _initExtensionMark(options: { hasAnimation: boolean; depend?: IMark[] }) {
     if (!this._spec.extensionMark) {
       return;
@@ -686,7 +690,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     options.depend = mainMarks;
 
     this._spec.extensionMark?.forEach((m, i) => {
-      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, options);
+      this._createExtensionMark(m, null, this._getExtensionMarkNamePrefix(), i, options);
     });
   }
 
@@ -738,7 +742,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _updateExtensionMarkSpec(lastSpec?: any) {
     this._spec.extensionMark?.forEach((spec, i) => {
-      const mark = this._marks.getMarkWithInfo({ name: `${this.type}_${this.id}_extensionMark_${i}` });
+      const mark = this._marks.getMarkWithInfo({ name: `${this._getExtensionMarkNamePrefix()}_${i}` });
       if (!mark) {
         return;
       }
