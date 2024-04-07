@@ -131,10 +131,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     return result;
   }
 
-  // reInit() {
-  //   super.reInit();
-  // }
-
   changeRegions(regions: IRegion[]): void {
     // do nothing
   }
@@ -292,6 +288,13 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
 
   protected _getNeedClearVRenderComponents(): IGraphic[] {
     return [this._legendComponent] as unknown as IGroup[];
+  }
+
+  compile(): void {
+    if (this._legendComponent && !this._legendComponent.stage) {
+      const container = this.getContainer();
+      container.add(this._legendComponent);
+    }
   }
 
   clear(): void {
