@@ -922,9 +922,14 @@ export class VChart implements IVChart {
    */
   async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
     const result = this._updateSpec(spec, forceMerge);
+
+    if (!result) {
+      return this as unknown as IVChart;
+    }
+
     await this.updateCustomConfigAndRerender(result, false, {
       morphConfig,
-      transformSpec: false,
+      transformSpec: result.reTransformSpec,
       actionSource: 'updateSpec'
     });
     return this as unknown as IVChart;
@@ -939,9 +944,13 @@ export class VChart implements IVChart {
   updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
     const result = this._updateSpec(spec, forceMerge);
 
+    if (!result) {
+      return this as unknown as IVChart;
+    }
+
     this.updateCustomConfigAndRerender(result, true, {
       morphConfig,
-      transformSpec: false,
+      transformSpec: result.reTransformSpec,
       actionSource: 'updateSpec'
     });
     return this as unknown as IVChart;
@@ -958,6 +967,17 @@ export class VChart implements IVChart {
 
   private _updateSpec(spec: ISpec, forceMerge: boolean = false): IUpdateSpecResult | undefined {
     const lastSpec = this._spec;
+
+    if (this._spec.type !== lastSpec.type) {
+      return {
+        reTransformSpec: true,
+        change: true,
+        reMake: true,
+        reCompile: false,
+        reSize: false
+      };
+    }
+
     if (!this._setNewSpec(spec, forceMerge)) {
       return undefined;
     }
@@ -968,19 +988,10 @@ export class VChart implements IVChart {
 
     const reSize = this._shouldChartResize(lastSpec);
     this._compiler?.getVGrammarView()?.updateLayoutTag();
-
-    if (this._spec.type !== lastSpec.type) {
-      return {
-        change: reSize,
-        reMake: true,
-        reCompile: false,
-        reSize
-      };
-    }
-
     this._initChartSpec(this._spec, 'render');
 
     return mergeUpdateResult(this._chart.updateSpec(this._spec), {
+      reTransformSpec: false,
       change: reSize,
       reMake: false,
       reCompile: false,

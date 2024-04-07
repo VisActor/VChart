@@ -228,6 +228,20 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     }
   }
 
+  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
+    const result = super._compareSpec(spec, prevSpec);
+
+    if (result.reMake) {
+      return result;
+    }
+
+    if (this._sortDataByAxis) {
+      result.reMake = true;
+    }
+
+    return result;
+  }
+
   protected _getInvalidDefined(datum: Datum) {
     if (this.angleAxisHelper.isContinuous) {
       if (!couldBeValidNumber(datum[this._angleField[0]])) {

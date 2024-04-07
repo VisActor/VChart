@@ -545,6 +545,20 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     return true;
   }
 
+  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
+    const result = super._compareSpec(spec, prevSpec);
+
+    if (result.reMake) {
+      return result;
+    }
+
+    if (this._sortDataByAxis) {
+      result.reMake = true;
+    }
+
+    return result;
+  }
+
   reInit(spec: T) {
     if (this._positionXEncoder) {
       this._positionXEncoder = null;

@@ -331,7 +331,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   protected _tickTransformOption() {
     return {
       ...super._tickTransformOption(),
-      noDecimals: this._tick.noDecimals,
+      noDecimals: this._tick?.noDecimals,
       labelLastVisible: this._spec.label?.lastVisible,
       labelFlush: this._spec.label?.flush
     } as ICartesianTickDataOpt;

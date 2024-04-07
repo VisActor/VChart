@@ -215,7 +215,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   protected _tickTransformOption() {
     return {
       ...super._tickTransformOption(),
-      noDecimal: this._tick.noDecimals,
+      noDecimal: this._tick?.noDecimals,
       startAngle: this.startAngle,
       labelOffset: getAxisLabelOffset(this._spec),
       getRadius: () => this.getOuterRadius(),
