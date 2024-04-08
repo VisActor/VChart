@@ -5,7 +5,7 @@
 
 **🆕 New feature**
 
-- **@visactor/vchart**: increase chart stacking capabilities, provide stackSort to support sorting when stacking
+- **@visactor/vchart**: increase chart stacking capabilities, provide `stackSort` to support sorting when stacking
 
 **🐛 Bug fix**
 
