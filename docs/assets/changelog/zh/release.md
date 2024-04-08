@@ -5,20 +5,20 @@
 
 **🆕 新增功能**
 
-- **@visactor/vchart**: increase chart stacking capabilities, provide stackSort to support sorting when stacking
+- **@visactor/vchart**: 增强图表堆叠能力，提供 `stackSort` 以支持堆叠时的排序
 
 **🐛 功能修复**
 
-- **@visactor/vchart**: axis unit in wrong position when hiding the axis domainLine
-- **@visactor/vchart**: fix issue of the order of data is not uniform in stack
-- **@visactor/vchart**: type defination of markArea & markPoint in common chart
-- **@visactor/vchart**: formatMethod of crosshair label runs multiple times, related [#2501](https://github.com/VisActor/VChart/issues/2501)
-- **@visactor/vchart**: crosshair can't move when axis domain is very small, related [#2492](https://github.com/VisActor/VChart/issues/2492)
-- **@visactor/vchart**: `updateDataSync` produces inconsistent results compared to direct drawing, related [#2503](https://github.com/VisActor/VChart/issues/2503)
+- **@visactor/vchart**: 修复了隐藏轴线时轴的单位错位的问题
+- **@visactor/vchart**: 修复了堆叠图表中数据顺序不一致的问题
+- **@visactor/vchart**: 增加了 common 图表中 markArea 和 markPoint 的类型定义
+- **@visactor/vchart**: 修复了 crosshair 的 `formatMethod` 有可能执行多次的问题，相关[#2501](https://github.com/VisActor/VChart/issues/2501)
+- **@visactor/vchart**: 修复了连续轴轴数据范围过小时，crosshair 难以移动的问题，相关[#2492](https://github.com/VisActor/VChart/issues/2492)
+- **@visactor/vchart**: 修复了 `updateDataSync` 方法造成图表布局没有刷新的问题，相关[#2503](https://github.com/VisActor/VChart/issues/2503)
 
 **🔨 功能重构**
 
-- **@visactor/vchart**: add event params `vchart`, which will updated in lifecycle events, close [#2502](https://github.com/VisActor/VChart/issues/2502)
+- **@visactor/vchart**: 增加事件参数 `vchart`，会在生命周期事件中更新，相关[#2502](https://github.com/VisActor/VChart/issues/2502)
 
 [更多详情请查看 v1.10.4](https://github.com/VisActor/VChart/releases/tag/v1.10.4)
 
