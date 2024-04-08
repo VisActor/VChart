@@ -57,7 +57,7 @@ export class BasePluginService<T extends IBasePlugin = IBasePlugin> implements I
   }
 
   release(pluginsId: number): void {
-    const plugin = this._plugins.find(p => p.id === pluginsId);
+    const plugin = this.get(pluginsId);
     if (!plugin) {
       return;
     }
@@ -71,5 +71,19 @@ export class BasePluginService<T extends IBasePlugin = IBasePlugin> implements I
     });
 
     this._plugins = [];
+  }
+
+  clear(pluginsId: number): void {
+    const plugin = this.get(pluginsId);
+    if (!plugin) {
+      return;
+    }
+    plugin.clear(this);
+  }
+
+  clearAll(): void {
+    this._plugins.forEach(plugin => {
+      plugin.clear?.(this);
+    });
   }
 }

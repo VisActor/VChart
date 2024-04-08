@@ -112,6 +112,9 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
   release() {
     super.release();
     this.clear();
+
+    this.pluginService?.releaseAll();
+    this.pluginService = null;
   }
 
   clear() {
@@ -125,8 +128,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
       });
     }
     this._container = null;
-    this.pluginService?.releaseAll();
-    this.pluginService = null;
+    this.pluginService?.clearAll();
   }
 
   compile(): void {
