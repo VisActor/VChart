@@ -635,6 +635,9 @@ export class VChart implements IVChart {
         this._doResize();
       }
     } else {
+      // reInit
+      this._chart.reInit();
+
       if (updateResult.reCompile) {
         // recompile
         // 清除之前的所有 compile 内容

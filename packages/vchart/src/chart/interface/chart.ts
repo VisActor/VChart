@@ -94,6 +94,11 @@ export interface IChart extends ICompilable {
   onRender: (ctx: IChartRenderOption) => void;
   onResize: (width: number, height: number, reRender: boolean) => void;
   onLayout: (view: IView) => void;
+  /**
+   * 图表更新的时候按需调用
+   * @since 1.11.0
+   */
+  reInit: () => void;
 
   // series
   getAllSeries: () => ISeries[];
