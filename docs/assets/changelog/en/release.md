@@ -2,9 +2,10 @@
 
 2024-04-03
 
+
 **🆕 New feature**
 
-- **@visactor/vchart**: increase chart stacking capabilities, provide `stackSort` to support sorting when stacking
+- **@visactor/vchart**: increase chart stacking capabilities, provide stackSort to support sorting when stacking
 
 **🐛 Bug fix**
 
@@ -25,6 +26,7 @@
 
 2024-03-28
 
+
 **🆕 New feature**
 
 - **@visactor/vchart**: support interaction events of `element-select` and `element-highlight`
@@ -39,8 +41,10 @@
 - **@visactor/vchart**: map data will not show if not configured in nameMap
 - **@visactor/vchart**: axis label missing in the sampled angle axis, related [#2439](https://github.com/VisActor/VChart/issues/2439)
 - **@visactor/vchart**: fix radar chart clipAngle animation error when loading on demand.
-- **@visactor/vchart**: fix the release order of \_eventDispatcher
-- **@visactor/vchart**: should use series's \_seriesMark to calculate total mark, not all series mark names are the same as series.type
+- **@visactor/vchart**: fix the release order of _eventDispatcher
+- **@visactor/vchart**: should use series's _seriesMark to calculate total mark, not all series mark names are the same as series.type
+
+
 
 [more detail about v1.10.3](https://github.com/VisActor/VChart/releases/tag/v1.10.3)
 
@@ -48,12 +52,10 @@
 
 2024-03-26
 
-## 🆕 New feat
-
+## 🆕 New feat 
 - **@visactor/vchart**: support interaction events of `element-select` and `element-highlight`
 
-## 🐛 Bug fix
-
+## 🐛 Bug fix 
 - **@visactor/vchart**: `lineWidth` is invalid in rect-type-crosshair, related [#2432](https://github.com/VisActor/VChart/issues/2432)
 - **@visactor/vchart**: should use `series.getMarkInName` to get the mark for total label's caculation, fixed [#2448](https://github.com/VisActor/VChart/issues/2448)
 - **@visactor/vchart**: fix the issue of event trigger count after `updateSpecSync()`
@@ -64,6 +66,7 @@
 # v1.10.0
 
 2024-03-13
+
 
 **🆕 New feature**
 
@@ -89,7 +92,7 @@
 - **@visactor/vchart**: upgrade version of vgrammar to fix end state of animation
 - **@visactor/vchart**: `tickMask` is invalid in circular progress charts, related [#2316](https://github.com/VisActor/VChart/issues/2316)
 - **@visactor/vchart**: rect crosshair should lock when lockAfterClick is true
-- **@visactor/vchart**: when region style is empty, should not create \_backgroundMark or \_foregroundMark
+- **@visactor/vchart**: when region style is empty, should not create _backgroundMark or _foregroundMark
 - **@visactor/vchart**: fixed the issue of being unable to listen to customMark events on vchart
 - **@visactor/vchart**: grid component should not be pickable expect its children
 - **@visactor/vchart**: events on `<Bar />` should not trigged twice
@@ -103,11 +106,14 @@
 
 - **@visactor/vchart**: use `rimraf` to replace `rm -rf`
 
+
+
 [more detail about v1.10.0](https://github.com/VisActor/VChart/releases/tag/v1.10.0)
 
 # v1.9.6
 
 2024-03-11
+
 
 **🆕 New feature**
 
@@ -124,11 +130,14 @@
 - **@visactor/vchart**: upgrade vrender to 0.17.27, vgrammar to 0.11.15
 - **scrollbar**: click stopped by zoomable. fix[#2333](https://github.com/VisActor/VChart/issues/2333)
 
+
+
 [more detail about v1.9.6](https://github.com/VisActor/VChart/releases/tag/v1.9.6)
 
 # v1.9.5
 
 2024-03-04
+
 
 **🆕 New feature**
 
@@ -140,11 +149,14 @@
 - **@visactor/vchart**: `animationAppear: false` not work
 - **@visactor/vchart**: optimize totoal label position when axis is inversed
 
+
+
 [more detail about v1.9.5](https://github.com/VisActor/VChart/releases/tag/v1.9.5)
 
 # v1.9.3
 
 2024-02-07
+
 
 **🆕 New feature**
 
@@ -163,13 +175,14 @@
 
 2024-02-05
 
+
 **🐛 Bug fix**
 
 - **@visactor/vchart**: bar label issue when position is 'inside-bottom' or 'inside-top'
 - **@visactor/vchart**: in block-vchart demo, the `dpr` acquisition method is wrong and needs to be obtained in real time
 - **@visactor/vchart**: series can read `direction` from chart spec, releated to [#2181](https://github.com/VisActor/VChart/issues/2181)
 - **@visactor/vchart**: dataZoom min and max span does not effect, related [#2195](https://github.com/VisActor/VChart/issues/2195)
-- **@visactor/vchart**: fix the problem that multi-layer axis labels are not displayed after closing tail labels, related [#2179](https://github.com/VisActor/VChart/issues/2179)
+- **@visactor/vchart**: fix the problem that multi-layer axis labels are not displayed after closing  tail labels, related [#2179](https://github.com/VisActor/VChart/issues/2179)
 - **@visactor/vchart**: fix polar animation interpolation
 - **@visactor/react-vchart**: fix the error when `onClick` of `<VChart />` is null, close [#2186](https://github.com/VisActor/VChart/issues/2186)
 - **@visactor/vchart**: charts should not stack toggle when series has same type but differernt axes, related [#2210](https://github.com/VisActor/VChart/issues/2210)
@@ -185,6 +198,7 @@
 
 2024-01-31
 
+
 **🐛 Bug fix**
 
 - **@visactor/vchart**: custom mark should run after all the series marks, fix [#2156](https://github.com/VisActor/VChart/issues/2156)
@@ -193,11 +207,14 @@
 - **@visactor/vchart**: fix error of vchart in strict-mode
 - **@visactor/vchart**: fix the zero-align of axes, fix [#2167](https://github.com/VisActor/VChart/issues/2167)
 
+
+
 [more detail about v1.9.1](https://github.com/VisActor/VChart/releases/tag/v1.9.1)
 
 # v1.9.0
 
 2024-01-26
+
 
 **🆕 New feature**
 
@@ -224,11 +241,14 @@
 
 - **@visactor/vchart**: deprecated `useSyncRender` in react-vchart
 
+
+
 [more detail about v1.9.0](https://github.com/VisActor/VChart/releases/tag/v1.9.0)
 
 # v1.8.10
 
 2024-01-25
+
 
 **🆕 New feature**
 
@@ -245,11 +265,14 @@
 - **@visactor/vchart**: treemap drill event error
 - **@visactor/vchart**: treemap drill error when turn off the animation
 
+
+
 [more detail about v1.8.10](https://github.com/VisActor/VChart/releases/tag/v1.8.10)
 
 # v1.8.9
 
 2024-01-23
+
 
 **🆕 New feature**
 
@@ -263,11 +286,14 @@
 - **@visactor/vchart**: fix the bugs of axis's onZero property, fixed [#2098](https://github.com/VisActor/VChart/issues/2098),[#2099](https://github.com/VisActor/VChart/issues/2099)
 - **@visactor/vchart**: update animation should exludes `defined` channel
 
+
+
 [more detail about v1.8.9](https://github.com/VisActor/VChart/releases/tag/v1.8.9)
 
 # v1.8.8
 
 2024-01-19
+
 
 **🆕 New feature**
 
