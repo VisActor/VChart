@@ -290,13 +290,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     return [this._legendComponent] as unknown as IGroup[];
   }
 
-  compile(): void {
-    if (this._legendComponent && !this._legendComponent.stage) {
-      const container = this.getContainer();
-      container.add(this._legendComponent);
-    }
-  }
-
   clear(): void {
     super.clear();
     this._cacheAttrs = null;
