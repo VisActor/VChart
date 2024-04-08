@@ -12,7 +12,7 @@
 - **@visactor/vchart**: 修复了隐藏轴线时轴的单位错位的问题
 - **@visactor/vchart**: 修复了堆叠图表中数据顺序不一致的问题
 - **@visactor/vchart**: 增加了 common 图表中 markArea 和 markPoint 的类型定义
-- **@visactor/vchart**: 修复了 crosshair 的 `formatMethod` 有可能执行多次的问题，相关[#2501](https://github.com/VisActor/VChart/issues/2501)
+- **@visactor/vchart**: 修复了 crosshair 的 `formatMethod` 有可能执行多次的问题（提示：修复过以后，之前 crosshair label 保留两位小数的逻辑变成了默认的 formatMethod，用户替换 formatMethod 以后不再保留小数），相关[#2501](https://github.com/VisActor/VChart/issues/2501)
 - **@visactor/vchart**: 修复了连续轴轴数据范围过小时，crosshair 难以移动的问题，相关[#2492](https://github.com/VisActor/VChart/issues/2492)
 - **@visactor/vchart**: 修复了 `updateDataSync` 方法造成图表布局没有刷新的问题，相关[#2503](https://github.com/VisActor/VChart/issues/2503)
 
