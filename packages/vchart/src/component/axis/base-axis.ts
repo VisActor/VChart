@@ -398,7 +398,10 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
     result.reRender = true;
-    if (prevSpec?.type !== spec?.type) {
+    /**
+     * 存在轴同步相关配置的时候，暂时通过`reMake`触发更新
+     */
+    if (prevSpec?.type !== spec?.type || spec.sync) {
       result.reMake = true;
       return result;
     }
