@@ -740,13 +740,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
-  protected _updateExtensionMarkSpec(lastSpec?: any) {
+  protected _updateExtensionMarkSpec() {
     this._spec.extensionMark?.forEach((spec, i) => {
       const mark = this._marks.getMarkWithInfo({ name: `${this._getExtensionMarkNamePrefix()}_${i}` });
       if (!mark) {
-        return;
-      }
-      if (lastSpec && isEqual(lastSpec.extensionMark?.[i], spec)) {
         return;
       }
       this.initMarkStyleWithSpec(mark, spec);
@@ -1099,7 +1096,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       mark.updateStaticEncode();
       mark.updateLayoutState(true);
     });
-    this._updateExtensionMarkSpec(spec);
+    this._updateExtensionMarkSpec();
     this._updateSpecData();
 
     if (this._tooltipHelper) {
