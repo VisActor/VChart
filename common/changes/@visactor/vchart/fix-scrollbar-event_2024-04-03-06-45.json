@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(scrollbar): enable bubble when scroll to boundary. fix#2521",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

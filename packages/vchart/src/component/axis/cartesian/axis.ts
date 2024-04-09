@@ -599,25 +599,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return result;
   }
 
-  updateLayoutAttribute(): void {
-    if (!this.visible) {
-      return;
-    }
-    const startPoint = this.getLayoutStartPoint();
-    // 正式的更新布局属性
-    const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
-    const axisProduct = this._axisMark.getProduct(); // 获取语法元素
-    const axisAttrs = mergeSpec({ x: startPoint.x, y: startPoint.y }, this._axisStyle, updateAxisAttrs);
-    axisProduct.encode(axisAttrs);
-
-    if (this._gridMark) {
-      const gridProduct = this._gridMark.getProduct(); // 获取语法元素
-      gridProduct.encode(mergeSpec({ x: startPoint.x, y: startPoint.y }, this._getGridAttributes(), updateGridAttrs));
-    }
-
-    super.updateLayoutAttribute();
-  }
-
   private _getTitleLimit(isX: boolean) {
     if (this._spec.title.visible && isNil(this._spec.title.style?.maxLineWidth)) {
       const angle = this._axisStyle.title?.angle ?? this._spec.title.style?.angle ?? 0;
@@ -779,8 +760,25 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       this.event.on(ChartEvent.layoutRectUpdate, () => {
         this._clearLayoutCache();
       });
+      // 过程: dolayout -> getBoundsInRect: update tick attr -> forceLayout ->  updateLayoutAttr: update tick attr -> chart layout -> scale update -> mark encode
+      // 问题: chart layout之后, scale发生变化, 导致tick 和 mark position 不同步
+      // 解决方案: chart layout 之后重新计算tick位置
+      this.event.on(ChartEvent.layoutEnd, this._updateAxisLayout);
     }
   }
+
+  protected _updateAxisLayout = () => {
+    const startPoint = this.getLayoutStartPoint();
+    const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
+    const axisProduct = this._axisMark.getProduct(); // 获取语法元素
+    const axisAttrs = mergeSpec({ x: startPoint.x, y: startPoint.y }, this._axisStyle, updateAxisAttrs);
+    axisProduct.encode(axisAttrs);
+
+    if (this._gridMark) {
+      const gridProduct = this._gridMark.getProduct(); // 获取语法元素
+      gridProduct.encode(mergeSpec({ x: startPoint.x, y: startPoint.y }, this._getGridAttributes(), updateGridAttrs));
+    }
+  };
 
   protected _getNormalizedValue(values: any[], length: number) {
     return length === 0 ? 0 : this.dataToPosition(values) / length;
