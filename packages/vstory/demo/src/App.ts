@@ -1,0 +1,2 @@
+// import './RankingBar';
+import './SimpleBar';
