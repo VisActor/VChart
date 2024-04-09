@@ -11,6 +11,7 @@ import { BaseSeries } from '../base/base-series';
 import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
 import { sortDataInAxisHelper } from '../util/utils';
+import { ChartEvent } from '../../constant';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>
@@ -215,10 +216,20 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     return Math.min(width / 2, height / 2);
   }
 
-  fillData(): void {
-    super.fillData();
+  protected initEvent() {
+    super.initEvent();
+    // 通过轴事件来进行排序。轴的domain数据变化在系列的统计数据完成后
     if (this.sortDataByAxis) {
-      this._sortDataInAxisDomain();
+      this.event.on(
+        ChartEvent.scaleDomainUpdate,
+        {
+          filter: param => param.model.id === this._angleAxisHelper?.getAxisId()
+        },
+        () => {
+          // 只能排序，不能修改数据，此时已经在数据流的统计流程之后
+          this._sortDataInAxisDomain();
+        }
+      );
     }
   }
 
@@ -226,20 +237,6 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     if (this.getViewData()?.latestData?.length) {
       sortDataInAxisHelper(this.angleAxisHelper, this._angleField[0], this.getViewData().latestData);
     }
-  }
-
-  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {
-    const result = super._compareSpec(spec, prevSpec);
-
-    if (result.reMake) {
-      return result;
-    }
-
-    if (this._sortDataByAxis) {
-      result.reMake = true;
-    }
-
-    return result;
   }
 
   protected _getInvalidDefined(datum: Datum) {

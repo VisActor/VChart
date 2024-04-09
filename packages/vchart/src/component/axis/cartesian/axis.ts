@@ -396,17 +396,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     });
   }
 
-  onLayoutEnd(ctx: any): void {
-    const isRangeChange = this.updateScaleRange();
-    if (isRangeChange) {
-      this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
-      // 这里会执行 computeData ，会执行系列scale更新
-    } else {
-      this.updateSeriesScale();
-    }
-    super.onLayoutEnd(ctx);
-  }
-
   onRender(ctx: any): void {
     // do nothing
   }

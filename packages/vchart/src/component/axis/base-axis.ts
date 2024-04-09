@@ -118,6 +118,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   protected abstract updateSeriesScale(): void;
   protected abstract collectSeriesField(depth: number, series: ISeries): string | string[];
   abstract transformScaleDomain(): void;
+  protected abstract updateScaleRange(): boolean;
 
   protected _dataFieldText: string;
   protected _axisMark: IComponentMark;
@@ -361,6 +362,14 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // 留给各个类型的 axis 来 override
   }
 
+  onLayoutEnd(ctx: any): void {
+    this.updateScaleRange();
+
+    this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
+
+    super.onLayoutEnd(ctx);
+  }
+
   protected computeData(updateType?: 'domain' | 'range' | 'force'): void {
     if (this._tickData && this._tickData.length && (updateType === 'force' || !isEqual(this._scale.range(), [0, 1]))) {
       this._tickData.forEach(tickData => {
@@ -401,7 +410,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     /**
      * 存在轴同步相关配置的时候，暂时通过`reMake`触发更新
      */
-    if (prevSpec?.type !== spec?.type || spec.sync) {
+    if (prevSpec?.type !== spec?.type) {
       result.reMake = true;
       return result;
     }

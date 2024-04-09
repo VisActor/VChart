@@ -21,7 +21,15 @@ export interface LinearAxisMixin {
   _spec: any;
   _nice: boolean;
   _zero: boolean;
+  /**
+   * spec中申明的min,max
+   */
   _domain: { min?: number; max?: number };
+  /**
+   * 记录一下解析spec后，获取到的domain，
+   * 用于在插件（如0值对齐等功能）中使用
+   */
+  _domainAfterSpec: [number, number];
   _expand?: { max?: number; min?: number };
   _tick: ITick | undefined;
   isSeriesDataEnable: any;
@@ -281,8 +289,13 @@ export class LinearAxisMixin {
     // 设置scale的nice-min-max
     this.setScaleNice();
     this._updateNiceLabelFormatter(domain);
+    this._domainAfterSpec = domain as [number, number];
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
+  }
+
+  getDomainAfterSpec() {
+    return this._domainAfterSpec;
   }
 
   protected _updateNiceLabelFormatter(domain: number[]) {
