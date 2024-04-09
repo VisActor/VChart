@@ -157,8 +157,9 @@ export const zeroAlign = (targetAxis: CartesianAxis, currentAxis: CartesianAxis)
     return;
   }
 
-  const domain1: [number, number] = (targetAxis as any).getDomainAfterSpec?.();
-  const domain2: [number, number] = (currentAxis as any).getDomainAfterSpec?.();
+  const domain1 = (targetAxis as any).getDomainAfterSpec?.() ?? [0, 1];
+  const domain2 = (currentAxis as any).getDomainAfterSpec?.() ?? [0, 1];
+
   if (!domain1 || !domain2 || !isValidAlignDomain(domain1) || !isValidAlignDomain(domain2)) {
     return;
   }

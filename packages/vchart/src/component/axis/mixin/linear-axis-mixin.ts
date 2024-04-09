@@ -29,7 +29,7 @@ export interface LinearAxisMixin {
    * 记录一下解析spec后，获取到的domain，
    * 用于在插件（如0值对齐等功能）中使用
    */
-  _domainAfterSpec: [number, number];
+  _domainAfterSpec: number[];
   _expand?: { max?: number; min?: number };
   _tick: ITick | undefined;
   isSeriesDataEnable: any;
@@ -289,7 +289,8 @@ export class LinearAxisMixin {
     // 设置scale的nice-min-max
     this.setScaleNice();
     this._updateNiceLabelFormatter(domain);
-    this._domainAfterSpec = domain as [number, number];
+
+    this._domainAfterSpec = this._scale.domain();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
   }
