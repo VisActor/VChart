@@ -2,6 +2,84 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.10.4",
+      "tag": "@visactor/vchart_v1.10.4",
+      "date": "Wed, 03 Apr 2024 09:30:23 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: axis unit in wrong position when hiding the axis domainLine"
+          },
+          {
+            "comment": "fix: fix issue of the order of data is not uniform in stack\n\n"
+          },
+          {
+            "comment": "feat: increase chart stacking capabilities, provide stackSort to support sorting when stacking\n\n"
+          },
+          {
+            "comment": " fix: type defination of markArea & markPoint in common chart"
+          },
+          {
+            "comment": "fix: formatMethod of crosshair label runs multiple times, related #2501"
+          },
+          {
+            "comment": "fix: crosshair can't move when axis domain is very small, related #2492"
+          },
+          {
+            "comment": "fix: `updateDataSync` produces inconsistent results compared to direct drawing, related #2503"
+          },
+          {
+            "comment": "refactor: add event params `vchart`, which will updated in lifecycle events, close #2502\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.10.3",
+      "tag": "@visactor/vchart_v1.10.3",
+      "date": "Thu, 28 Mar 2024 07:09:45 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: tooltip cliped if set border width. fix#2471"
+          },
+          {
+            "comment": "feat: support interaction events of `element-select` and `element-highlight`\n\n"
+          },
+          {
+            "comment": "fix: `lineWidth` is invalid in rect-type-crosshair, related #2432"
+          },
+          {
+            "comment": "fix: should use `series.getMarkInName` to get the mark for total label's caculation, fixed #2448"
+          },
+          {
+            "comment": "fix: fix the issue of event trigger count after `updateSpecSync()`"
+          },
+          {
+            "comment": "fix: map data will not show if not configured in nameMap"
+          },
+          {
+            "comment": "feat: support `showDefaultName` in map chart to display unmatched name in map data"
+          },
+          {
+            "comment": "fix: axis label missing in the sampled angle axis, related #2439"
+          },
+          {
+            "comment": "fix: tooltip cliped if set border width. fix#2471"
+          },
+          {
+            "comment": "fix: fix radar chart clipAngle animation error when loading on demand."
+          },
+          {
+            "comment": "fix: fix the release order of _eventDispatcher\n\n"
+          },
+          {
+            "comment": "fix: should use series's _seriesMark to calculate total mark, not all series mark names are the same as series.type"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.10.2",
       "tag": "@visactor/vchart_v1.10.2",
       "date": "Tue, 26 Mar 2024 03:13:22 GMT",

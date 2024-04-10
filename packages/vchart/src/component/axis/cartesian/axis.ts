@@ -5,15 +5,17 @@ import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/i
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
 import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianVertical } from './interface';
+import { mergeSpec } from '@visactor/vutils-extension';
 import {
   isArray,
   isValid,
   isValidNumber,
-  mergeSpec,
   eachSeries,
   isNil,
   isUndefined,
-  calcLayoutNumber
+  calcLayoutNumber,
+  maxInArr,
+  minInArr
 } from '../../../util';
 import type { IOrientType, IRect } from '../../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
@@ -37,6 +39,7 @@ import type { AxisItem, LineAxisAttributes } from '@visactor/vrender-components'
 // eslint-disable-next-line no-duplicate-imports
 import { getAxisItem, isValidCartesianAxis } from '../util';
 import type { IAxis, ITick } from '../interface';
+// eslint-disable-next-line no-duplicate-imports
 import type { ICartesianTickDataOpt } from '@visactor/vutils-extension';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataSet } from '@visactor/vdataset';
@@ -372,15 +375,15 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
 
           // 更新单位的显示位置
           if (this._unitText) {
-            const bounds = product.graphicItem.AABBBounds;
+            const { x, y } = this.getLayoutStartPoint();
             const pos = isXAxis(this._orient)
               ? {
-                  x: bounds.x2,
-                  y: this.getLayoutStartPoint().y
+                  x: maxInArr<number>(this._scale.range()) + x,
+                  y
                 }
               : {
-                  x: this.getLayoutStartPoint().x,
-                  y: bounds.y1
+                  x,
+                  y: minInArr<number>(this._scale.range()) + y
                 };
 
             this._unitText.setAttributes(pos);
@@ -596,25 +599,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return result;
   }
 
-  updateLayoutAttribute(): void {
-    if (!this.visible) {
-      return;
-    }
-    const startPoint = this.getLayoutStartPoint();
-    // 正式的更新布局属性
-    const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
-    const axisProduct = this._axisMark.getProduct(); // 获取语法元素
-    const axisAttrs = mergeSpec({ x: startPoint.x, y: startPoint.y }, this._axisStyle, updateAxisAttrs);
-    axisProduct.encode(axisAttrs);
-
-    if (this._gridMark) {
-      const gridProduct = this._gridMark.getProduct(); // 获取语法元素
-      gridProduct.encode(mergeSpec({ x: startPoint.x, y: startPoint.y }, this._getGridAttributes(), updateGridAttrs));
-    }
-
-    super.updateLayoutAttribute();
-  }
-
   private _getTitleLimit(isX: boolean) {
     if (this._spec.title.visible && isNil(this._spec.title.style?.maxLineWidth)) {
       const angle = this._axisStyle.title?.angle ?? this._spec.title.style?.angle ?? 0;
@@ -770,6 +754,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     super.initEvent();
 
     if (this.visible) {
+      // 过程: dolayout -> getBoundsInRect: update tick attr -> forceLayout ->  updateLayoutAttr: update tick attr -> chart layout -> scale update -> mark encode
+      // 问题: chart layout之后, scale发生变化, 导致tick 和 mark position 不同步
+      // 解决方案: chart layout 之后重新计算tick位置
+      this.event.on(ChartEvent.layoutEnd, this._updateAxisLayout);
       // 布局结束之后处理 0 基线问题
       this.event.on(ChartEvent.layoutEnd, this._fixAxisOnZero);
       // 图表resize后，需要正常布局，清除布局缓存
@@ -778,6 +766,19 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       });
     }
   }
+
+  protected _updateAxisLayout = () => {
+    const startPoint = this.getLayoutStartPoint();
+    const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
+    const axisProduct = this._axisMark.getProduct(); // 获取语法元素
+    const axisAttrs = mergeSpec({ x: startPoint.x, y: startPoint.y }, this._axisStyle, updateAxisAttrs);
+    axisProduct.encode(axisAttrs);
+
+    if (this._gridMark) {
+      const gridProduct = this._gridMark.getProduct(); // 获取语法元素
+      gridProduct.encode(mergeSpec({ x: startPoint.x, y: startPoint.y }, this._getGridAttributes(), updateGridAttrs));
+    }
+  };
 
   protected _getNormalizedValue(values: any[], length: number) {
     return length === 0 ? 0 : this.dataToPosition(values) / length;
@@ -889,10 +890,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       const { text, style } = this._spec.unit;
       let pos;
       let unitTextStyle: any;
+      const { x, y } = this.getLayoutStartPoint();
       if (isX) {
         pos = {
-          x: bounds.x2,
-          y: this.getLayoutStartPoint().y
+          x: maxInArr<number>(this._scale.range()) + x,
+          y
         };
         unitTextStyle = {
           textAlign: 'left',
@@ -900,8 +902,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         };
       } else {
         pos = {
-          x: this.getLayoutStartPoint().x,
-          y: bounds.y1
+          x,
+          y: minInArr<number>(this._scale.range()) + y
         };
         unitTextStyle = {
           textAlign: this._orient === 'left' ? 'left' : 'right',

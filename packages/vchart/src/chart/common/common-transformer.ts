@@ -1,8 +1,9 @@
 import type { AdaptiveSpec, ISeriesSpec } from '../../typings';
-import { get, mergeSpec } from '../../util';
+import { get } from '../../util';
 import { BaseChartSpecTransformer } from '../base';
 import { getTrimPaddingConfig } from '../util';
 import type { ICommonChartSpec } from './interface';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export class CommonChartSpecTransformer<T extends ICommonChartSpec = ICommonChartSpec> extends BaseChartSpecTransformer<
   AdaptiveSpec<T, 'series'>

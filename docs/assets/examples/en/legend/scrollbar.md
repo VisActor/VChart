@@ -4,7 +4,7 @@ group: legend
 title: 图例使用滚动条翻页
 keywords: pieChart,legend,circle,comparison,proportion,composition
 order: 27-5
-cover:
+cover: /vchart/preview/legend-scrollbar_1.10.3.png
 option: pieChart#legends
 ---
 

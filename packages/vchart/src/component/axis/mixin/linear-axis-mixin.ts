@@ -8,6 +8,7 @@ import type { IEvent } from '../../../event/interface';
 import { isXAxis } from '../cartesian/util/common';
 import type { IOrientType } from '../../../typings/space';
 import type { IComponentOption } from '../../interface/common';
+import type { StringOrNumber } from '../../../typings';
 
 export const e10 = Math.sqrt(50);
 export const e5 = Math.sqrt(10);
@@ -29,10 +30,13 @@ export interface LinearAxisMixin {
   event: IEvent;
   _orient: IOrientType;
   _option: IComponentOption;
+  niceLabelFormatter: (value: StringOrNumber) => StringOrNumber;
 }
 
 export class LinearAxisMixin {
   protected _extend: { [key: string]: number } = {};
+
+  niceLabelFormatter: (value: StringOrNumber) => StringOrNumber = null;
 
   setExtraAttrFromSpec() {
     isValid(this._spec.nice) && (this._nice = this._spec.nice);
@@ -276,7 +280,21 @@ export class LinearAxisMixin {
     this._scale.domain(domain, this._nice);
     // 设置scale的nice-min-max
     this.setScaleNice();
+    this._updateNiceLabelFormatter(domain);
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
+  }
+
+  protected _updateNiceLabelFormatter(domain: number[]) {
+    // 根据轴 domain 范围做动态判断，取最多 n + 2 位小数
+    const domainSpan = Math.abs(domain[1] - domain[0]);
+    const n = Math.max(-Math.floor(Math.log10(domainSpan)), 0) + 2;
+    const unit = Math.pow(10, n);
+    this.niceLabelFormatter = (value: StringOrNumber) => {
+      if (isValidNumber(+value)) {
+        return Math.round((+value as number) * unit) / unit;
+      }
+      return value;
+    };
   }
 }

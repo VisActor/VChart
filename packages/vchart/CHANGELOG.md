@@ -1,6 +1,48 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 26 Mar 2024 03:13:22 GMT and should not be manually modified.
+This log was last generated on Wed, 03 Apr 2024 09:30:23 GMT and should not be manually modified.
+
+## 1.10.4
+Wed, 03 Apr 2024 09:30:23 GMT
+
+### Updates
+
+- fix: axis unit in wrong position when hiding the axis domainLine
+- fix: fix issue of the order of data is not uniform in stack
+
+
+- feat: increase chart stacking capabilities, provide stackSort to support sorting when stacking
+
+
+-  fix: type defination of markArea & markPoint in common chart
+- fix: formatMethod of crosshair label runs multiple times, related #2501
+- fix: crosshair can't move when axis domain is very small, related #2492
+- fix: `updateDataSync` produces inconsistent results compared to direct drawing, related #2503
+- refactor: add event params `vchart`, which will updated in lifecycle events, close #2502
+
+
+
+## 1.10.3
+Thu, 28 Mar 2024 07:09:45 GMT
+
+### Updates
+
+- fix: tooltip cliped if set border width. fix#2471
+- feat: support interaction events of `element-select` and `element-highlight`
+
+
+- fix: `lineWidth` is invalid in rect-type-crosshair, related #2432
+- fix: should use `series.getMarkInName` to get the mark for total label's caculation, fixed #2448
+- fix: fix the issue of event trigger count after `updateSpecSync()`
+- fix: map data will not show if not configured in nameMap
+- feat: support `showDefaultName` in map chart to display unmatched name in map data
+- fix: axis label missing in the sampled angle axis, related #2439
+- fix: tooltip cliped if set border width. fix#2471
+- fix: fix radar chart clipAngle animation error when loading on demand.
+- fix: fix the release order of _eventDispatcher
+
+
+- fix: should use series's _seriesMark to calculate total mark, not all series mark names are the same as series.type
 
 ## 1.10.2
 Tue, 26 Mar 2024 03:13:22 GMT

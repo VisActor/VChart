@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: map data will not show if not configured in nameMap",
+      "comment": "fix(scrollbar): enable bubble when scroll to boundary. fix#2521",
       "type": "none"
     }
   ],

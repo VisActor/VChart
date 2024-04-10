@@ -15,6 +15,13 @@ export interface IPolarCrosshairInfo {
   angle: number;
   point: IPoint;
   _isCache?: boolean;
-  label?: { visible: boolean; text: StringOrNumber; offset: number };
+  label?: IPolarCrosshairLabelInfo;
   axis?: IPolarAxis;
+}
+
+export interface IPolarCrosshairLabelInfo {
+  visible: boolean;
+  text: StringOrNumber;
+  offset: number;
+  defaultFormatter?: (value: StringOrNumber) => StringOrNumber;
 }

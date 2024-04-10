@@ -40,7 +40,7 @@ import type { ILabelMark } from '../../mark/label';
 import type { Functional } from '@visactor/vrender-components';
 import type { IRegion } from '../../region/interface';
 import type { SeriesData } from '../base/series-data';
-import { mergeSpec } from '../../util/spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export interface ILineLikeSeriesTheme {
   line?: Partial<IMarkTheme<ILineMarkSpec>>;

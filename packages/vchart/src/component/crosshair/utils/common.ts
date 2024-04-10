@@ -4,7 +4,6 @@ import type { Datum } from '../../../typings';
 import type { ICrosshairTheme } from '../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { array, isValid } from '@visactor/vutils';
-import { mergeSpec } from '../../../util/spec/merge-spec';
 import { isXAxis, isYAxis } from '../../axis/cartesian/util/common';
 import { isDiscrete } from '@visactor/vscale';
 import type { ICartesianAxisCommonSpec, IPolarAxisCommonSpec } from '../../axis';
@@ -12,6 +11,7 @@ import { getComponentThemeFromOption } from '../../util';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { ITheme } from '../../../theme';
 import { isDiscreteAxis } from '../../axis/util';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export function limitTagInBounds(shape: Tag, bounds: IBoundsLike) {
   const { x1: regionMinX, y1: regionMinY, x2: regionMaxX, y2: regionMaxY } = bounds;

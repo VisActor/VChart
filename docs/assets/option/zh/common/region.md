@@ -87,3 +87,7 @@ region 的 id，可以在其他功能模块中使用这个 id 来索引这个 re
 ### stackInverse(boolean)
 
 从 `1.4.0` 版本开始支持，是否在堆积时逆序。
+
+### stackSort(boolean)
+
+从 `1.10.4` 版本开始支持，是否在堆积时对数据排序。

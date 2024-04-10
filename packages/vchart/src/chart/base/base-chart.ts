@@ -42,6 +42,7 @@ import type { IMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface';
 import type { IEvent } from '../../event/interface';
 import type { DataView } from '@visactor/vdataset';
+// eslint-disable-next-line no-duplicate-imports
 import type { DataSet } from '@visactor/vdataset';
 import { Factory } from '../../core/factory';
 import { Event } from '../../event/event';
@@ -58,6 +59,7 @@ import { Stack } from '../stack';
 import { BaseModel } from '../../model/base-model';
 import { BaseMark } from '../../mark/base/base-mark';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../constant/base';
+// eslint-disable-next-line no-duplicate-imports
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
@@ -135,11 +137,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   getLayoutTag() {
     return this._layoutTag;
   }
-  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, reLayout: boolean = true): boolean {
+  setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, renderNextTick: boolean = true): boolean {
     this._layoutTag = tag;
     if (this.getCompiler()?.getVGrammarView()) {
       this.getCompiler().getVGrammarView().updateLayoutTag();
-      tag && reLayout && this.getCompiler().renderNextTick(morphConfig);
+      tag && renderNextTick && this.getCompiler().renderNextTick(morphConfig);
     }
     return this._layoutTag;
   }
@@ -150,6 +152,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   // 全局通道
   // protected _globalScale: { [key: string]: IBaseScale } = {};
   protected _globalScale: IGlobalScale;
+
+  getGlobalScale() {
+    return this._globalScale;
+  }
 
   // mark & model 的 id 映射
   protected _idMap: Map<number, IModel | IMark> = new Map();
@@ -435,16 +441,16 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   layout(params: ILayoutParams): void {
     this._option.performanceHook?.beforeLayoutWithSceneGraph?.();
     if (this.getLayoutTag()) {
-      this._event.emit(ChartEvent.layoutStart, { chart: this });
+      this._event.emit(ChartEvent.layoutStart, { chart: this, vchart: this._option.globalInstance });
 
       this.onLayoutStart(params);
       const elements = this.getLayoutElements();
       this._layoutFunc(this, elements, this._layoutRect, this._viewBox);
-      this._event.emit(ChartEvent.afterLayout, { elements });
+      this._event.emit(ChartEvent.afterLayout, { elements, chart: this });
       this.setLayoutTag(false);
       this.onLayoutEnd(params);
 
-      this._event.emit(ChartEvent.layoutEnd, { chart: this });
+      this._event.emit(ChartEvent.layoutEnd, { chart: this, vchart: this._option.globalInstance });
     }
     this._option.performanceHook?.afterLayoutWithSceneGraph?.();
   }
@@ -922,7 +928,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._layoutRect.x = this.padding.left;
     this._layoutRect.y = this.padding.top;
 
-    this._event.emit(ChartEvent.layoutRectUpdate, {});
+    this._event.emit(ChartEvent.layoutRectUpdate, { chart: this });
   }
 
   /** 设置当前全局主题 */

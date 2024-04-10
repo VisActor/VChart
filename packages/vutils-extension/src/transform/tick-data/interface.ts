@@ -34,6 +34,7 @@ export interface IPolarTickDataOpt extends ITickDataOpt {
   axisOrientType: IPolarOrientType;
   getRadius: () => number;
   labelOffset: number;
+  inside: boolean;
 }
 
 export interface ITickData {

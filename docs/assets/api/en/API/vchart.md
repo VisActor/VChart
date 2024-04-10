@@ -1056,10 +1056,20 @@ getComponents: () => IComponent[];
 
 ### getDataSet
 
+Support since version `1.10.4`;
+
 Gets a DataSet instance of the chart.
 
 ```ts
 getDataSet: () => DataSet;
+```
+
+### getScale
+
+Gets a Scale instance of the chart
+
+```ts
+getScale: (scaleId: string) => IBaseScale;
 ```
 
 ### setDimensionIndex

@@ -670,7 +670,7 @@ describe('VChart', () => {
             orient: 'right',
             id: 'axisRight',
             seriesId: ['line'],
-            gird: { visible: false },
+            grid: { visible: false },
             nice: false,
             zero: false,
             label: { autoLimit: false },

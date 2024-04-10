@@ -16,6 +16,7 @@ import { getFieldAlias } from '../../../util/data';
 import { isDataDomainSpec } from '../../../util/type';
 // eslint-disable-next-line no-duplicate-imports
 import type { LegendItemDatum } from '@visactor/vrender-components';
+// eslint-disable-next-line no-duplicate-imports
 import { LegendEvent } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components';

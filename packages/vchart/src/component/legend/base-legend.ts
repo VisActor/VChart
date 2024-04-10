@@ -8,7 +8,7 @@ import type { ILayoutRect, ILayoutType, IOrientType, IPoint, StringOrNumber } fr
 import { ChartEvent, LayoutLevel, LayoutZIndex } from '../../constant';
 import { eachSeries } from '../../util/model';
 import { isValidOrient } from '../../util/space';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import { CompilableData } from '../../compile/data/compilable-data';
 // eslint-disable-next-line no-duplicate-imports
 import type { ILegend, ILegendCommonSpec } from './interface';
@@ -285,6 +285,8 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     }
     // 更新数据流
     this.effect.onSelectedDataChange?.();
+    // 需要重新布局
+    this.getChart()?.setLayoutTag(true, null, false);
     this.event.emit(ChartEvent.legendSelectedDataChange, { model: this });
   }
 

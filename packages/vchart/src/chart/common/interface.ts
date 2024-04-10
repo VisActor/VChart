@@ -83,9 +83,9 @@ export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
   /**
    * **仅适用于笛卡尔坐标系**，参考区域配置
    */
-  markArea?: IMarkAreaSpec;
+  markArea?: IMarkAreaSpec | IMarkAreaSpec[];
   /**
    * **仅适用于笛卡尔坐标系**，参考点配置
    */
-  markPoint?: IMarkPointSpec;
+  markPoint?: IMarkPointSpec | IMarkPointSpec[];
 }

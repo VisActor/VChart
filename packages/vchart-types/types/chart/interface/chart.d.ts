@@ -12,6 +12,8 @@ import type { IBoundsLike, IPadding } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
 import type { IRegionQuerier, MaybeArray, Datum, IMarkStateSpec, StringOrNumber, IShowTooltipOption, IDataValues, ILayoutRect, IData } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
+import type { IGlobalScale } from '../../scale/interface';
+import type { IMorphConfig } from '../../animation/spec';
 export type DimensionIndexOption = {
     filter?: (cmp: IComponent) => boolean;
     tooltip?: boolean;
@@ -35,10 +37,11 @@ export interface IChart extends ICompilable {
     getCanvasRect: () => ILayoutRect;
     getOption: () => IChartOption;
     getEvent: () => IEvent;
+    getGlobalScale: () => IGlobalScale;
     setLayout: (layout: LayoutCallBack) => void;
     layout: (context: ILayoutParams) => void;
     getLayoutTag: () => boolean;
-    setLayoutTag: (tag: boolean) => boolean;
+    setLayoutTag: (tag: boolean, morphConfig?: IMorphConfig, renderNextTick?: boolean) => boolean;
     updateData: (id: StringOrNumber, data: unknown, updateGlobalScale?: boolean, options?: IParserOptions) => void;
     updateFullData: (data: IDataValues | IDataValues[]) => void;
     updateGlobalScaleDomain: () => void;

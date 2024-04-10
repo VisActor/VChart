@@ -3,7 +3,7 @@ import type { IPolarAxisSpec, IPolarBandAxisSpec, IPolarLinearAxisSpec } from '.
 import type { IPolarChartSpec } from '../interface';
 import { PolarChartSpecTransformer } from '../polar-transformer';
 import { getLinearAxisSpecDomain } from '../../../component/axis/util';
-import { mergeSpec } from '../../../util';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export class ProgressLikeChartSpecTransformer<T extends IPolarChartSpec> extends PolarChartSpecTransformer<T> {
   protected needAxes(): boolean {

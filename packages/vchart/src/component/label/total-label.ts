@@ -7,7 +7,7 @@ import { AttributeLevel, LayoutZIndex, STACK_FIELD_TOTAL, STACK_FIELD_TOTAL_TOP 
 import type { IMark, MarkType } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from '../../mark/interface';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { ICartesianSeries, ISeries } from '../../series/interface';
 import type { IGroupMark, IView } from '@visactor/vgrammar-core';
 // eslint-disable-next-line no-duplicate-imports
