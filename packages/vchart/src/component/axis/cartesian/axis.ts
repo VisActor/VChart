@@ -754,16 +754,16 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     super.initEvent();
 
     if (this.visible) {
+      // 过程: dolayout -> getBoundsInRect: update tick attr -> forceLayout ->  updateLayoutAttr: update tick attr -> chart layout -> scale update -> mark encode
+      // 问题: chart layout之后, scale发生变化, 导致tick 和 mark position 不同步
+      // 解决方案: chart layout 之后重新计算tick位置
+      this.event.on(ChartEvent.layoutEnd, this._updateAxisLayout);
       // 布局结束之后处理 0 基线问题
       this.event.on(ChartEvent.layoutEnd, this._fixAxisOnZero);
       // 图表resize后，需要正常布局，清除布局缓存
       this.event.on(ChartEvent.layoutRectUpdate, () => {
         this._clearLayoutCache();
       });
-      // 过程: dolayout -> getBoundsInRect: update tick attr -> forceLayout ->  updateLayoutAttr: update tick attr -> chart layout -> scale update -> mark encode
-      // 问题: chart layout之后, scale发生变化, 导致tick 和 mark position 不同步
-      // 解决方案: chart layout 之后重新计算tick位置
-      this.event.on(ChartEvent.layoutEnd, this._updateAxisLayout);
     }
   }
 
