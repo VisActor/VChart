@@ -363,7 +363,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   onLayoutEnd(ctx: any): void {
-    this.updateScaleRange();
+    const changed = this.updateScaleRange();
 
     this.event.emit(ChartEvent.scaleUpdate, { model: this, value: 'range' });
 

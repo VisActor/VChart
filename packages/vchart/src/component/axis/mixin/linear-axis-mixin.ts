@@ -57,6 +57,9 @@ export class LinearAxisMixin {
   }
 
   setLinearScaleNice() {
+    if (!this._nice) {
+      return false;
+    }
     let tickCount: number = DEFAULT_TICK_COUNT;
     const tick = this._spec.tick || {};
 
@@ -89,31 +92,38 @@ export class LinearAxisMixin {
     }
     const { min, max } = this._domain ?? {};
     if (isNil(min) && isNil(max)) {
-      this._nice && this._scale.nice(tickCount);
+      return this._scale.nice(tickCount);
     } else if (isValid(min) && isNil(max)) {
-      this._nice && this._scale.niceMax(tickCount);
+      return this._scale.niceMax(tickCount);
     } else if (isNil(min) && isValid(max)) {
-      this._nice && this._scale.niceMin(tickCount);
+      return this._scale.niceMin(tickCount);
     }
+
+    return false;
   }
 
   setLogScaleNice() {
+    if (!this._nice) {
+      return false;
+    }
+
     const { min, max } = this._domain ?? {};
     if (isNil(min) && isNil(max)) {
-      this._nice && this._scale.nice();
+      return this._scale.nice();
     } else if (isValid(min) && isNil(max)) {
-      this._nice && this._scale.niceMax();
+      return this._scale.niceMax();
     } else if (isNil(min) && isValid(max)) {
-      this._nice && this._scale.niceMin();
+      return this._scale.niceMin();
     }
+
+    return false;
   }
 
   setScaleNice() {
     if (this._spec.type === 'log') {
-      this.setLogScaleNice();
-    } else {
-      this.setLinearScaleNice();
+      return this.setLogScaleNice();
     }
+    return this.setLinearScaleNice();
   }
 
   dataToPosition(values: any[], cfg?: IAxisLocationCfg): number {
@@ -222,7 +232,12 @@ export class LinearAxisMixin {
     this.setDomainMinMax(domain);
     this.niceDomain(domain);
     this._scale.domain(domain, this._nice);
-    this.setScaleNice();
+
+    if (this._nice) {
+      const niced = this.setScaleNice();
+
+      !niced && this._scale.rescale();
+    }
 
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
   }
@@ -287,7 +302,11 @@ export class LinearAxisMixin {
     this.niceDomain(domain);
     this._scale.domain(domain, this._nice);
     // 设置scale的nice-min-max
-    this.setScaleNice();
+    if (this._nice) {
+      const niced = this.setScaleNice();
+
+      !niced && this._scale.rescale();
+    }
     this._updateNiceLabelFormatter(domain);
 
     this._domainAfterSpec = this._scale.domain();
