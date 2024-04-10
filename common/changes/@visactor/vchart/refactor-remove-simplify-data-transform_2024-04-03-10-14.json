@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: remove built-in simplify data transform",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

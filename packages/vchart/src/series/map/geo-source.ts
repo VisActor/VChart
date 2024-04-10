@@ -2,7 +2,7 @@ import { DataSet, DataView, geoJSONParser, simplify, topoJSONParser } from '@vis
 import { warn } from '../../util/debug';
 import type { GeoSourceType } from '../../typings/geo';
 import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
-import { merge } from '@visactor/vutils';
+import { isObject, merge } from '@visactor/vutils';
 
 export interface IGeoJsonOption {
   type?: 'geojson';
@@ -11,7 +11,17 @@ export interface IGeoJsonOption {
   centroid?: boolean;
   /** 地图简化 */
   /** @default false */
-  simplify?: boolean;
+  simplify?:
+    | boolean
+    | {
+        /**
+         * A number in degrees(e.g. lat/lon distance).
+         *  1 degree is roughly equivalent to 69 miles. the default is 0.001, which is around a city block long.
+         * @default 0.01
+         * @since 1.11.0
+         */
+        tolerance: number;
+      };
   /** 逆时针回绕(Multi)LineString或(Multi)Polygon的外部环，内部环顺时针。*/
   /** @default false */
   rewind?:
@@ -71,8 +81,11 @@ export function registerMapSource(
     });
   }
 
-  if (option.simplify === true) {
+  const { simplify } = option;
+  if (simplify === true) {
     dataView.transform({ type: 'simplify' });
+  } else if (isObject(simplify)) {
+    dataView.transform({ type: 'simplify', options: simplify });
   }
 
   geoSourceMap.set(key, dataView);

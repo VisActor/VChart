@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: support `simplify.tolerance` config in `registerMap` API ",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
