@@ -11,7 +11,6 @@ import type { LooseFunction, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { Bounds, isArray, isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
-import { registerImageMark } from '../../mark/image';
 import type { IGraphic } from '@visactor/vrender-core';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -51,7 +50,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     return (spec as ICustomMarkSpec<EnableMarkType>[]).map((specItem, i) => {
       return {
         spec: specItem,
-        specPath: [this.specKey],
+        specPath: [this.specKey, i],
         specInfoPath: ['component', this.specKey, i],
         type: ComponentTypeEnum.customMark
       };
@@ -212,8 +211,14 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
   private _getMarkAttributeContext() {
     return {
       vchart: this._option.globalInstance,
+      chart: this.getChart(),
       globalScale: (key: string, value: string | number) => {
         return this._option.globalScale.getScale(key)?.scale(value);
+      },
+      getLayoutBounds: () => {
+        const { x, y } = this.getLayoutStartPoint();
+        const { width, height } = this.getLayoutRect();
+        return new Bounds().set(x, y, x + width, y + height);
       }
     };
   }
