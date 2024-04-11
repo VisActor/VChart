@@ -42,8 +42,8 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
   protected _container: IGroup;
 
   created() {
-    this.initLayout();
     super.created();
+    this.initLayout();
     this.pluginService = new ComponentPluginService(this);
   }
 

@@ -56,6 +56,7 @@ import type { ILayoutOrientPadding, ILayoutPaddingSpec } from '../layout';
 import type { ICustomPath2D, IRichTextCharacter } from '@visactor/vrender-core';
 import type { ICommonAxisSpec } from '../../component/axis';
 import type { IMediaQuerySpec } from '..';
+import type { IModelSpec } from '../../model/interface';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -639,7 +640,7 @@ export type IBuildinMarkSpec = {
 };
 
 export type EnableMarkType = keyof IBuildinMarkSpec;
-export interface ICustomMarkSpec<T extends EnableMarkType> extends IMarkSpec<IBuildinMarkSpec[T]> {
+export interface ICustomMarkSpec<T extends EnableMarkType> extends IModelSpec, IMarkSpec<IBuildinMarkSpec[T]> {
   type: T;
   /**
    * 关联的数据索引
