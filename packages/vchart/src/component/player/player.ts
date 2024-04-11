@@ -6,7 +6,7 @@ import type { ContinuousPlayerAttributes, DiscretePlayerAttributes } from '@visa
 import { DiscretePlayer, ContinuousPlayer, PlayerEventEnum } from '@visactor/vrender-components';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNumber, array, isEqual, isNil, isValidNumber, isEmpty } from '@visactor/vutils';
+import { isNumber, array, isEqual, isNil, isValidNumber } from '@visactor/vutils';
 
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
@@ -57,7 +57,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const playerSpec = chartSpec[this.specKey];
-    if (isNil(playerSpec) || isEmpty(playerSpec)) {
+    if (isNil(playerSpec)) {
       return null;
     }
     return [
