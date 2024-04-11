@@ -10,7 +10,6 @@ import { isNumber, array, isEqual, isNil, isValidNumber } from '@visactor/vutils
 
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type { IComponentOption } from '../interface';
 
 import type { DirectionType, IPlayer } from './interface';
 // eslint-disable-next-line no-duplicate-imports
@@ -39,6 +38,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   private _playerComponent: DiscretePlayer | ContinuousPlayer;
   private _cacheAttrs: ContinuousPlayerAttributes | DiscretePlayerAttributes;
 
+  private _visible: boolean;
   private _direction: DirectionType;
   private _alternate: boolean;
   private _dx: number;
@@ -57,7 +57,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const playerSpec = chartSpec[this.specKey];
-    if (isNil(playerSpec) || playerSpec.visible === false) {
+    if (isNil(playerSpec)) {
       return null;
     }
     return [
@@ -82,6 +82,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     this._dx = this._spec.dx ?? 0;
     this._dy = this._spec.dy ?? 0;
     this._position = this._spec.position ?? 'middle';
+    this._visible = this._spec.visible ?? true;
   }
 
   /**
@@ -193,6 +194,11 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
    * 计算起点
    */
   private _computeLayoutRect(rect: ILayoutRect, width: number, height: number) {
+    // don't set bounds when player hidden
+    if (this._visible === false) {
+      return { x1: 0, x2: 0, y1: 0, y2: 0 };
+    }
+    // set bounds by 4 kinds of orient
     switch (this._orient) {
       case 'top': {
         return { x1: 0, y1: 0, x2: width, y2: height };
@@ -330,7 +336,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     });
 
     // 循环播放 与 交替方向
-    this._playerComponent.addEventListener(PlayerEventEnum.OnEnd, () => {
+    this._playerComponent.addEventListener(PlayerEventEnum.end, () => {
       this.event.emit(ChartEvent.playerEnd, { model: this });
 
       // 交替方向, 仅离散轴支持
@@ -349,7 +355,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     });
 
     // 数据更新
-    this._playerComponent.addEventListener(PlayerEventEnum.OnChange, (e: { detail: { index: number } }) => {
+    this._playerComponent.addEventListener(PlayerEventEnum.change, (e: { detail: { index: number } }) => {
       // 更新data
       const { index } = e.detail;
       const spec = this._specs[index];
@@ -368,7 +374,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     });
 
     // 后退
-    this._playerComponent.addEventListener(PlayerEventEnum.OnBackward, (e: { detail: { index: number } }) => {
+    this._playerComponent.addEventListener(PlayerEventEnum.backward, (e: { detail: { index: number } }) => {
       const { index } = e.detail;
       const spec = this._specs[index];
       this.event.emit(ChartEvent.playerBackward, {
@@ -382,7 +388,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     });
 
     // 前进
-    this._playerComponent.addEventListener(PlayerEventEnum.OnForward, (e: { detail: { index: number } }) => {
+    this._playerComponent.addEventListener(PlayerEventEnum.forward, (e: { detail: { index: number } }) => {
       const { index } = e.detail;
       const spec = this._specs[index];
       this.event.emit(ChartEvent.playerForward, {
@@ -396,7 +402,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     });
 
     // 播放
-    this._playerComponent.addEventListener(PlayerEventEnum.OnPlay, (e: { detail: { index: number } }) => {
+    this._playerComponent.addEventListener(PlayerEventEnum.play, (e: { detail: { index: number } }) => {
       const { index } = e.detail;
       const spec = this._specs[index];
       this.event.emit(ChartEvent.playerPlay, {
@@ -410,7 +416,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     });
 
     // 暂停
-    this._playerComponent.addEventListener(PlayerEventEnum.OnPause, (e: { detail: { index: number } }) => {
+    this._playerComponent.addEventListener(PlayerEventEnum.pause, (e: { detail: { index: number } }) => {
       const { index } = e.detail;
       const spec = this._specs[index];
       this.event.emit(ChartEvent.playerPause, {
