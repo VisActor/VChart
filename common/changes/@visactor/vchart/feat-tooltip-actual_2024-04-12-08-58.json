@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add `othersLine` to customize the the \"Others\" line content displayed after the tooltip content exceeds the maximum number of displayed lines",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
