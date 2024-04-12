@@ -12,6 +12,7 @@ tooltip 标题配置
 
 {{ use: component-tooltip-line-pattern(
   prefix = '#' + ${prefix},
+  supportFunction = true,
   content = false
 ) }}
 
@@ -21,6 +22,7 @@ tooltip 内容配置，配置项为`IToolTipLinePattern`对象或者该对象的
 
 {{ use: component-tooltip-line-pattern(
   prefix = '#' + ${prefix},
+  supportFunction = true,
   content = true
 ) }}
 
@@ -151,4 +153,14 @@ tooltip 标题的回调，在最终显示 tooltip 前调用，可以在这个回
 {{ use: component-tooltip-shape-pattern(
   prefix = ${prefix},
   type = 'pattern'
+) }}
+
+#${prefix} othersLine(Object)
+
+tooltip 内容超过最大显示行数后，显示的“其他”行内容。
+
+{{ use: component-tooltip-line-pattern(
+  prefix = '#' + ${prefix},
+  supportFunction = false,
+  content = true
 ) }}
