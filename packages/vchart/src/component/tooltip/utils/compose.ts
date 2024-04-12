@@ -79,6 +79,12 @@ export const getShowContent = (
   /** content */
   const patternContent = getTooltipContentPattern(pattern.content, data, params);
   const { maxLineCount = TOOLTIP_MAX_LINE_COUNT } = pattern;
+  const othersLine = pattern.othersLine
+    ? {
+        ...TOOLTIP_OTHERS_LINE,
+        ...pattern.othersLine
+      }
+    : TOOLTIP_OTHERS_LINE;
 
   if (pattern.activeType === 'mark') {
     for (const content of patternContent ?? []) {
@@ -87,7 +93,7 @@ export const getShowContent = (
         if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
           tooltipActualTitleContent.content.push({
             ...oneLineData,
-            ...TOOLTIP_OTHERS_LINE
+            ...othersLine
           });
           break;
         } else if (tooltipActualTitleContent.content.length < maxLineCount) {
@@ -116,7 +122,7 @@ export const getShowContent = (
             if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
               tooltipActualTitleContent.content.push({
                 ...oneLineData,
-                ...TOOLTIP_OTHERS_LINE
+                ...othersLine
               });
               break;
             } else if (tooltipActualTitleContent.content.length < maxLineCount) {
