@@ -6,6 +6,19 @@
 
 是否显示该类型的 tooltip。
 
+{{ if: ${groupTooltip} }}
+
+#${prefix} triggerMark(string|string[])
+
+group tooltip 的触发图元，可以配置以下字符串或数组：
+
+- 'line'
+- 'area'
+- 'point'
+- 'bar'
+
+{{ /if }}
+
 #${prefix} title(Object)
 
 tooltip 标题配置
