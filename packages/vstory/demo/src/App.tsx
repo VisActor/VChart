@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { SimpleBar } from './demos/SimpleBar';
 import { RankingBar } from './demos/RankingBar';
+import { StoryBarDemo } from './demos/StoryBarDemo';
 
 const App = () => {
   const menus = [
@@ -12,10 +13,14 @@ const App = () => {
     {
       name: 'RankingBar',
       component: RankingBar
+    },
+    {
+      name: 'StoryBar',
+      component: StoryBarDemo
     }
   ];
 
-  const [selectedMenu, setSelectedMenu] = useState(menus[0]);
+  const [selectedMenu, setSelectedMenu] = useState(menus[2]);
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>
