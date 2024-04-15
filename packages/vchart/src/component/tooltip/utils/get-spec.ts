@@ -8,7 +8,7 @@ import type {
 } from '../../../typings';
 import type { ISeries } from '../../../series/interface';
 import { mergeSpec } from '@visactor/vutils-extension';
-import { makeDefaultPattern } from '../../../plugin/components/tooltip-handler/utils/pattern';
+import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 import { memoize, isValid, array, isFunction, isNil, cloneDeep } from '@visactor/vutils';
 import type { ITooltipSpec, ITooltipTheme } from '..';
