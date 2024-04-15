@@ -12,6 +12,7 @@ Configuration of tooltip title.
 
 {{ use: component-tooltip-line-pattern(
   prefix = '#' + ${prefix},
+  supportFunction = true,
   content = false
 ) }}
 
@@ -21,6 +22,7 @@ Configuration of tooltip content, which can be an `IToolTipLinePattern` object o
 
 {{ use: component-tooltip-line-pattern(
   prefix = '#' + ${prefix},
+  supportFunction = true,
   content = true
 ) }}
 
@@ -151,4 +153,14 @@ Define the maximum number of displayed lines for tooltip content, and any conten
 {{ use: component-tooltip-shape-pattern(
   prefix = ${prefix},
   type = 'pattern'
+) }}
+
+#${prefix} othersLine(Object)
+
+The "Others" line content displayed after the tooltip content exceeds the maximum number of displayed lines.
+
+{{ use: component-tooltip-line-pattern(
+  prefix = '#' + ${prefix},
+  supportFunction = false,
+  content = true
 ) }}

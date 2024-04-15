@@ -1,14 +1,5 @@
-import type { Datum } from '@visactor/vgrammar-core';
-import type {
-  ITooltipLinePattern,
-  ITooltipPattern,
-  MaybeArray,
-  TooltipContentProperty,
-  TooltipData,
-  TooltipPatternProperty
-} from '../../../../typings';
-import { isFunction, isObject, isString, isNil, array } from '@visactor/vutils';
-import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension';
+import type { MaybeArray } from '../../../../typings';
+import { isObject, isString } from '@visactor/vutils';
 import type { IRichTextParagraphCharacter } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { getRichTextBounds } from '@visactor/vrender-core';
@@ -16,8 +7,6 @@ import type { ITooltipTextStyle } from '../interface/style';
 import type { TooltipRichTextAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import type { IRichTextCharacter } from '@visactor/vrender-core';
-import type { TooltipHandlerParams } from '../../../../component/tooltip';
-import { getFormatFunction } from '../../../../component/util';
 
 interface IGradientColor {
   [key: string]: any;
@@ -39,78 +28,6 @@ export function escapeHTML(value: any): string {
     .replace(/>/g, '&gt;')
     .replace(/\(/g, '&#40;')
     .replace(/  /g, ' &nbsp;'); // 转义符和真空格夹杂，在转义和正常换行之间取得平衡
-}
-
-export const getTooltipContentValue = <T>(
-  field?: TooltipContentProperty<T>,
-  datum?: any,
-  params?: TooltipHandlerParams,
-  formatter?: string
-): T | undefined => {
-  let value: T;
-  if (isFunction(field)) {
-    value = field(datum, params);
-  } else {
-    value = field;
-  }
-
-  if (formatter) {
-    const { formatFunc, args } = getFormatFunction(undefined, formatter, field as string, datum);
-    if (formatFunc && args) {
-      value = formatFunc(...args);
-    }
-  }
-
-  return value;
-};
-
-export const getTooltipPatternValue = <T>(
-  field?: TooltipPatternProperty<T>,
-  data?: TooltipData,
-  params?: TooltipHandlerParams
-): T | undefined => {
-  if (isNil(field)) {
-    return field;
-  }
-  if (isFunction(field)) {
-    return field(data, params);
-  }
-  return field;
-};
-
-export const getTooltipContentPattern = (
-  field?: ITooltipPattern['content'],
-  data?: TooltipData,
-  params?: TooltipHandlerParams
-): Array<ITooltipLinePattern> | undefined => {
-  if (isNil(field)) {
-    return field;
-  }
-  let result: ITooltipLinePattern[] = [];
-  array(field).forEach(patternItem => {
-    if (isFunction(patternItem)) {
-      result = result.concat(array(patternItem(data, params)));
-    } else {
-      result.push(patternItem as ITooltipLinePattern);
-    }
-  });
-  return result;
-};
-
-export function getFirstDatumFromTooltipData(data: TooltipData): Datum {
-  // 找到第一个可用的datum
-  const dimInfoList: IDimensionInfo[] = (data as IDimensionData[])[0]?.series
-    ? [{ data: data as IDimensionData[], value: '' }]
-    : (data as IDimensionInfo[]);
-  for (const { data: dataList } of dimInfoList) {
-    for (const { datum: datumList } of dataList) {
-      for (const datumItem of datumList ?? []) {
-        if (datumItem) {
-          return datumItem;
-        }
-      }
-    }
-  }
 }
 
 export function pickFirstValidValue<T>(isValid: (element?: T) => any, ...elements: T[]): T | undefined {

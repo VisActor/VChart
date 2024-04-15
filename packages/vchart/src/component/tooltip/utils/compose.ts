@@ -1,20 +1,15 @@
 import { isValid, isNil, TimeUtil } from '@visactor/vutils';
-import type {
-  ITooltipLinePattern,
-  ITooltipPattern,
-  TooltipData,
-  ITooltipLineActual
-} from '../../../../typings/tooltip';
+import type { ITooltipLinePattern, ITooltipPattern, TooltipData, ITooltipLineActual } from '../../../typings/tooltip';
 import {
   getFirstDatumFromTooltipData,
   getTooltipContentPattern,
   getTooltipContentValue,
   getTooltipPatternValue
-} from './common';
-import type { IDimensionData, IDimensionInfo } from '../../../../event/events/dimension/interface';
-import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constants';
-import { getTooltipActualActiveType } from '../../../../component/tooltip/utils';
-import type { TooltipActualTitleContent, TooltipHandlerParams } from '../../../../component/tooltip';
+} from './get-value';
+import type { IDimensionData, IDimensionInfo } from '../../../event';
+import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constant';
+import { getTooltipActualActiveType } from '.';
+import type { TooltipActualTitleContent, TooltipHandlerParams } from '..';
 
 const getTimeString = (value: any, timeFormat?: string, timeFormatMode?: 'local' | 'utc') => {
   if (!timeFormat && !timeFormatMode) {
@@ -84,6 +79,12 @@ export const getShowContent = (
   /** content */
   const patternContent = getTooltipContentPattern(pattern.content, data, params);
   const { maxLineCount = TOOLTIP_MAX_LINE_COUNT } = pattern;
+  const othersLine = pattern.othersLine
+    ? {
+        ...TOOLTIP_OTHERS_LINE,
+        ...pattern.othersLine
+      }
+    : TOOLTIP_OTHERS_LINE;
 
   if (pattern.activeType === 'mark') {
     for (const content of patternContent ?? []) {
@@ -92,7 +93,7 @@ export const getShowContent = (
         if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
           tooltipActualTitleContent.content.push({
             ...oneLineData,
-            ...TOOLTIP_OTHERS_LINE
+            ...othersLine
           });
           break;
         } else if (tooltipActualTitleContent.content.length < maxLineCount) {
@@ -121,7 +122,7 @@ export const getShowContent = (
             if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
               tooltipActualTitleContent.content.push({
                 ...oneLineData,
-                ...TOOLTIP_OTHERS_LINE
+                ...othersLine
               });
               break;
             } else if (tooltipActualTitleContent.content.length < maxLineCount) {
