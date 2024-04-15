@@ -11,7 +11,7 @@ export class LiquidSeriesTooltipHelper extends BaseSeriesTooltipHelper implement
       activeType,
       title: {
         key: undefined,
-        value: this.titleValueCallback,
+        value: this.dimensionTooltipTitleCallback,
         hasShape: false
       },
       content: [
@@ -19,7 +19,7 @@ export class LiquidSeriesTooltipHelper extends BaseSeriesTooltipHelper implement
           key: this.getContentKey(),
           value: this.getContentValue(),
           hasShape: true,
-          shapeType: this.contentShapeTypeCallback,
+          shapeType: this.shapeTypeCallback,
           shapeColor: this.getLiquidFillColor,
           shapeStroke: this.getLiquidFillColor,
           shapeHollow: false

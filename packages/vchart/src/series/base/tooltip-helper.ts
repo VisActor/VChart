@@ -110,27 +110,40 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     return defaultValue;
   };
 
-  contentKeyCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+  markTooltipKeyCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getSeriesFieldData(datum);
   };
 
-  contentValueCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+  markTooltipValueCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getMeasureData(datum);
   };
 
-  contentShapeTypeCallback = (datum: Datum, params?: TooltipHandlerParams): ShapeType | undefined => {
+  shapeTypeCallback = (datum: Datum, params?: TooltipHandlerParams): ShapeType | undefined => {
     return (
       this._getSeriesStyle(datum, 'shape', null) ??
       this._getSeriesStyle(datum, 'symbolType', this.series.getDefaultShapeType())
     );
   };
 
-  contentShapeColorCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+  shapeColorCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getSeriesStyle(datum, ['fill', 'stroke']);
   };
 
-  titleValueCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+  dimensionTooltipTitleCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getDimensionData(datum);
+  };
+
+  groupTooltipTitleCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+    return this._getSeriesFieldData(datum);
+  };
+
+  groupTooltipKeyCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+    const { seriesFields } = this._seriesCacheInfo;
+    let dimensionFields = this._seriesCacheInfo.dimensionFields;
+    if (seriesFields[0]) {
+      dimensionFields = dimensionFields.filter(field => field !== seriesFields[0]);
+    }
+    return dimensionFields.map(field => datum?.[field]).join('-');
   };
 
   /** 获取默认的tooltip pattern */
@@ -142,18 +155,18 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
           activeType,
           title: {
             key: undefined,
-            value: this.titleValueCallback,
+            value: this.dimensionTooltipTitleCallback,
             hasShape: false
           },
           content: [
             {
               seriesId: this.series.id,
-              key: this.contentKeyCallback,
-              value: this.contentValueCallback,
+              key: this.markTooltipKeyCallback,
+              value: this.markTooltipValueCallback,
               hasShape: true,
-              shapeType: this.contentShapeTypeCallback,
-              shapeColor: this.contentShapeColorCallback,
-              shapeStroke: this.contentShapeColorCallback,
+              shapeType: this.shapeTypeCallback,
+              shapeColor: this.shapeColorCallback,
+              shapeStroke: this.shapeColorCallback,
               shapeHollow: false
             }
           ]
@@ -164,18 +177,18 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
           activeType,
           title: {
             key: undefined,
-            value: this.contentKeyCallback,
+            value: this.groupTooltipTitleCallback,
             hasShape: false
           },
           content: [
             {
               seriesId: this.series.id,
-              key: this.titleValueCallback,
-              value: this.contentValueCallback,
+              key: this.groupTooltipKeyCallback,
+              value: this.markTooltipValueCallback,
               hasShape: true,
-              shapeType: this.contentShapeTypeCallback,
-              shapeColor: this.contentShapeColorCallback,
-              shapeStroke: this.contentShapeColorCallback,
+              shapeType: this.shapeTypeCallback,
+              shapeColor: this.shapeColorCallback,
+              shapeStroke: this.shapeColorCallback,
               shapeHollow: false
             }
           ]
@@ -184,7 +197,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
         if (dimensionInfo) {
           const title: ITooltipLinePattern = {
             key: undefined,
-            value: this._getDimensionData,
+            value: this.dimensionTooltipTitleCallback,
             hasShape: false
           };
           const content: ITooltipLinePattern[] = [];
@@ -192,12 +205,12 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
             data.forEach(({ series }) => {
               content.push({
                 seriesId: series.id,
-                key: this.contentKeyCallback,
-                value: this.contentValueCallback,
+                key: this.markTooltipKeyCallback,
+                value: this.markTooltipValueCallback,
                 hasShape: true,
-                shapeType: this.contentShapeTypeCallback,
-                shapeColor: this.contentShapeColorCallback,
-                shapeStroke: this.contentShapeColorCallback,
+                shapeType: this.shapeTypeCallback,
+                shapeColor: this.shapeColorCallback,
+                shapeStroke: this.shapeColorCallback,
                 shapeHollow: false
               });
             })

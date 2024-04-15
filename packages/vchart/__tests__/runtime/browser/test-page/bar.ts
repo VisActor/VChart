@@ -109,6 +109,9 @@ const run = () => {
           key: 'others',
           hasShape: false
         }
+      },
+      group: {
+        triggerMark: 'bar'
       }
     }
   };

@@ -29,14 +29,14 @@ export class SankeySeriesTooltipHelper extends BaseSeriesTooltipHelper implement
           },
           content: [
             {
-              key: this.contentKeyCallback,
+              key: this.markTooltipKeyCallback,
               value: (datum: Datum) => {
                 return datum.value;
               },
               hasShape: true,
-              shapeType: this.contentShapeTypeCallback,
-              shapeColor: this.contentShapeColorCallback,
-              shapeStroke: this.contentShapeColorCallback,
+              shapeType: this.shapeTypeCallback,
+              shapeColor: this.shapeColorCallback,
+              shapeStroke: this.shapeColorCallback,
               shapeHollow: false
             }
           ]
@@ -53,12 +53,12 @@ export class SankeySeriesTooltipHelper extends BaseSeriesTooltipHelper implement
             data.forEach(({ series }: any) => {
               content.push({
                 seriesId: series.id,
-                key: this.contentKeyCallback,
-                value: this.contentValueCallback,
+                key: this.markTooltipKeyCallback,
+                value: this.markTooltipValueCallback,
                 hasShape: true,
-                shapeType: this.contentShapeTypeCallback,
-                shapeColor: this.contentShapeColorCallback,
-                shapeStroke: this.contentShapeColorCallback,
+                shapeType: this.shapeTypeCallback,
+                shapeColor: this.shapeColorCallback,
+                shapeStroke: this.shapeColorCallback,
                 shapeHollow: false
               });
             })

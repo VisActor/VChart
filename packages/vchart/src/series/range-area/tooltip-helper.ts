@@ -16,17 +16,17 @@ export class RangeAreaSeriesTooltipHelper extends BaseSeriesTooltipHelper implem
           activeType,
           title: {
             key: undefined,
-            value: this.titleValueCallback,
+            value: this.dimensionTooltipTitleCallback,
             hasShape: false
           },
           content: [
             {
-              key: this.contentKeyCallback,
-              value: this.contentValueCallback,
+              key: this.markTooltipKeyCallback,
+              value: this.markTooltipValueCallback,
               hasShape: true,
-              shapeType: this.contentShapeTypeCallback,
-              shapeColor: this.contentShapeColorCallback,
-              shapeStroke: this.contentShapeColorCallback,
+              shapeType: this.shapeTypeCallback,
+              shapeColor: this.shapeColorCallback,
+              shapeStroke: this.shapeColorCallback,
               shapeHollow: false
             }
           ]
@@ -44,16 +44,16 @@ export class RangeAreaSeriesTooltipHelper extends BaseSeriesTooltipHelper implem
               if (series.type === 'rangeArea') {
                 content.push({
                   seriesId: series.id,
-                  key: this.contentKeyCallback,
+                  key: this.markTooltipKeyCallback,
                   value: (datum: Datum) => {
                     return this.series.getSpec().direction === Direction.horizontal
                       ? datum[this.series.getSpec().xField[0]] + '-' + datum[this.series.getSpec().xField[1]]
                       : datum[this.series.getSpec().yField[0]] + '-' + datum[this.series.getSpec().yField[1]];
                   },
                   hasShape: true,
-                  shapeType: this.contentShapeTypeCallback,
-                  shapeColor: this.contentShapeColorCallback,
-                  shapeStroke: this.contentShapeColorCallback,
+                  shapeType: this.shapeTypeCallback,
+                  shapeColor: this.shapeColorCallback,
+                  shapeStroke: this.shapeColorCallback,
                   shapeHollow: false
                 });
               }
