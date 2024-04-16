@@ -206,12 +206,12 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
-        eventsBinded.current = props;
         chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
           morph: false,
           enableExitAnimation: false
         });
         handleChartRender();
+        eventsBinded.current = props;
       }
       return;
     }
@@ -230,6 +230,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
         enableExitAnimation: false
       });
       handleChartRender();
+      eventsBinded.current = props;
     }
   }, [props]);
 

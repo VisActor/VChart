@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: fix eventsBinded update in react-vchart",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
