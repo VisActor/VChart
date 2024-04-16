@@ -100,7 +100,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     const result = super._compareSpec(spec, prevSpec);
     if (!result.reMake) {
       result.reMake = ['seriesId', 'seriesIndex', 'regionId', 'regionIndex'].some(k => {
-        return isEqual(prevSpec?.[k], spec[k]);
+        return !isEqual(prevSpec?.[k], spec[k]);
       });
     }
     if ((prevSpec as any)?.visible !== (spec as any).visible) {
@@ -112,6 +112,9 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
   release() {
     super.release();
     this.clear();
+
+    this.pluginService?.releaseAll();
+    this.pluginService = null;
   }
 
   clear() {
@@ -125,12 +128,12 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
       });
     }
     this._container = null;
-    this.pluginService?.releaseAll();
-    this.pluginService = null;
+    this.pluginService?.clearAll();
   }
 
   compile(): void {
     this.compileMarks();
+    this.reAppendComponents();
   }
 
   compileMarks(group?: string | IGroupMark) {
@@ -142,6 +145,19 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
         }
       });
     });
+  }
+
+  reAppendComponents() {
+    const components = this._getNeedClearVRenderComponents();
+    if (components && components.length) {
+      components.forEach(c => {
+        if (c && !c.stage) {
+          // component is removed remove stage
+
+          this.getContainer()?.appendChild(c as unknown as INode);
+        }
+      });
+    }
   }
 
   // 代理组件本身的事件（非内部图形），如坐标轴整体的点击等

@@ -815,10 +815,13 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (result.reMake) {
       return result;
     }
-    this.updateDataSpec(result);
-    if (result.reMake) {
-      return result;
-    }
+    /**
+     * 当图表不是`remake`，而是部分更新的时候，所有的model需要`reInit`
+     * 由于 data 最终是挂在到model上的，data的transform又依赖model中的`spec`，
+     * 所以在更新model前需要调用`reInit`确保`spec`和内部变量已经更新
+     */
+    this.reInit();
+    this.updateDataSpec();
     // ensure that the domain of the scale follows the data change
     this.updateGlobalScaleDomain();
     return result;
@@ -837,7 +840,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
   }
 
-  updateDataSpec(result: IUpdateSpecResult) {
+  updateDataSpec() {
     if (!this._spec.data) {
       return;
     }
@@ -941,7 +944,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     // 设置色板，只设置 colorScale 的 range
     this.updateGlobalScaleTheme();
+    this.reInit();
+  }
 
+  reInit() {
     this._regions.forEach(r => r.reInit(r.getSpecInfo().spec));
     this._series.forEach(s => s.reInit(s.getSpecInfo().spec));
     this._components.forEach(c => c.reInit(c.getSpecInfo().spec));

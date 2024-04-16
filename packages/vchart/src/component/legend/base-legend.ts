@@ -131,10 +131,6 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     return result;
   }
 
-  // reInit() {
-  //   super.reInit();
-  // }
-
   changeRegions(regions: IRegion[]): void {
     // do nothing
   }
