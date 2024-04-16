@@ -92,6 +92,13 @@
     },
     {
       "commandKind": "global",
+      "name": "story",
+      "summary": "Start the development server",
+      "description": "Run this command to start vchart development server",
+      "shellCommand": "rush run -p @visactor/vstory -s start"
+    },
+    {
+      "commandKind": "global",
       "name": "react",
       "summary": "Start the development server of react-vchart demo",
       "description": "Run this command to start react-vchart development server",
