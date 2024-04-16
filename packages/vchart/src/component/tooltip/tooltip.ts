@@ -87,6 +87,8 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   tooltipHandler?: ITooltipHandler;
 
+  processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor, GroupTooltipProcessor>;
+
   private _alwaysShow: boolean = false;
 
   private _cacheInfo: TooltipInfo | undefined;
@@ -94,12 +96,6 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
   private _cacheActiveType: TooltipActiveType | undefined;
 
   private _eventList: EventHandlerList = [];
-
-  protected _processor: ITooltipActiveTypeAsKeys<
-    MarkTooltipProcessor,
-    DimensionTooltipProcessor,
-    GroupTooltipProcessor
-  >;
 
   protected _isTooltipShown: boolean = false;
 
@@ -185,7 +181,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
 
   protected _initProcessor() {
     // 初始化 tooltip 类型
-    this._processor = {
+    this.processor = {
       mark: new MarkTooltipProcessor(this),
       dimension: new DimensionTooltipProcessor(this),
       group: new GroupTooltipProcessor(this)
@@ -270,7 +266,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       this._initHandler();
     }
 
-    if (!this._processor) {
+    if (!this.processor) {
       this._initProcessor();
     }
 
@@ -344,7 +340,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     isClick: boolean,
     useCache?: boolean
   ): boolean => {
-    const processor = this._processor[activeType];
+    const processor = this.processor[activeType];
     // 判断是否应该触发 tooltip
     if (
       !processor.shouldHandleTooltip(params, {
@@ -391,15 +387,15 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     };
 
     let activeType: TooltipActiveType = 'dimension';
-    const { tooltipInfo, ignore } = this._processor[activeType].getMouseEventData(params);
+    const { tooltipInfo, ignore } = this.processor[activeType].getMouseEventData(params);
     result.tooltipInfo[activeType] = tooltipInfo as any;
     result.ignore[activeType] = ignore;
 
     const dimensionInfo = tooltipInfo as DimensionTooltipInfo;
 
-    for (activeType of Object.keys(this._processor) as any) {
+    for (activeType of Object.keys(this.processor) as any) {
       if (activeType !== 'dimension') {
-        const { tooltipInfo, ignore } = this._processor[activeType].getMouseEventData(params, dimensionInfo);
+        const { tooltipInfo, ignore } = this.processor[activeType].getMouseEventData(params, dimensionInfo);
         result.tooltipInfo[activeType] = tooltipInfo as any;
         result.ignore[activeType] = ignore;
       }
@@ -421,7 +417,7 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     });
 
     // 删除缓存
-    Object.values(this._processor).forEach((processor: BaseTooltipProcessor) => {
+    Object.values(this.processor).forEach((processor: BaseTooltipProcessor) => {
       processor.clearCache();
     });
 
@@ -457,14 +453,14 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       this._initHandler();
     }
 
-    if (!this._processor) {
+    if (!this.processor) {
       this._initProcessor();
     }
 
     if (!this.tooltipHandler?.showTooltip) {
       return false;
     }
-    const result = showTooltip(datum, options, this.tooltipHandler, this._option);
+    const result = showTooltip(datum, options, this);
     if (result !== 'none') {
       this._alwaysShow = !!options?.alwaysShow;
     }
