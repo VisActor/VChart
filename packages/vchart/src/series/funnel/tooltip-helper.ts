@@ -7,7 +7,7 @@ import type { TooltipHandlerParams } from '../../component/tooltip/interface';
 import type { Datum } from '@visactor/vgrammar-core';
 
 export class FunnelSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
-  titleValueCallback = (datum: Datum, params?: TooltipHandlerParams) => {
+  dimensionTooltipTitleCallback = (datum: Datum, params?: TooltipHandlerParams) => {
     const series = this.series as IFunnelSeries;
     if (params?.mark?.name === SeriesMarkNameEnum.transform) {
       // TODO: i18n
@@ -16,7 +16,7 @@ export class FunnelSeriesTooltipHelper extends BaseSeriesTooltipHelper implement
     return this._getDimensionData(datum) ?? datum.properties?.[`${series.getCategoryField()}`];
   };
 
-  contentValueCallback = (datum: Datum, params?: TooltipHandlerParams) => {
+  markTooltipValueCallback = (datum: Datum, params?: TooltipHandlerParams) => {
     if (params?.mark?.name === SeriesMarkNameEnum.transform) {
       const measureData = datum?.[FUNNEL_REACH_RATIO];
       return `${(measureData * 100).toFixed(1)}%`;
@@ -24,7 +24,7 @@ export class FunnelSeriesTooltipHelper extends BaseSeriesTooltipHelper implement
     return this._getMeasureData(datum);
   };
 
-  contentKeyCallback = (datum: Datum, params?: TooltipHandlerParams) => {
+  markTooltipKeyCallback = (datum: Datum, params?: TooltipHandlerParams) => {
     if (params?.mark?.name === SeriesMarkNameEnum.transform) {
       // TODO: i18n
       return `转化率`;

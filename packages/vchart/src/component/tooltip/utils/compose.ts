@@ -10,6 +10,7 @@ import type { IDimensionData, IDimensionInfo } from '../../../event';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constant';
 import { getTooltipActualActiveType } from '.';
 import type { TooltipActualTitleContent, TooltipHandlerParams } from '..';
+import type { Datum } from '../../../typings';
 
 const getTimeString = (value: any, timeFormat?: string, timeFormatMode?: 'local' | 'utc') => {
   if (!timeFormat && !timeFormatMode) {
@@ -86,39 +87,12 @@ export const getShowContent = (
       }
     : TOOLTIP_OTHERS_LINE;
 
-  if (pattern.activeType === 'mark') {
-    for (const content of patternContent ?? []) {
-      const oneLineData = getOneLineData((data as IDimensionData[])[0]?.datum[0], content, params);
-      if (oneLineData.visible !== false) {
-        if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
-          tooltipActualTitleContent.content.push({
-            ...oneLineData,
-            ...othersLine
-          });
-          break;
-        } else if (tooltipActualTitleContent.content.length < maxLineCount) {
-          tooltipActualTitleContent.content.push(oneLineData);
-        } else {
-          break;
-        }
-      }
-    }
-  } else if (pattern.activeType === 'dimension') {
-    for (const { data: d } of data as IDimensionInfo[]) {
-      for (const { datum, series } of d) {
-        if (!getTooltipActualActiveType(series.tooltipHelper?.spec).includes('dimension')) {
-          continue;
-        }
-        const contentPatterns =
-          patternContent?.filter(
-            c => isNil(c.seriesId) || c.seriesId === series.id // 匹配对应series
-          ) ?? [];
-        for (const datumItem of datum) {
-          for (const linePattern of contentPatterns) {
-            const oneLineData = getOneLineData(datumItem, linePattern, params);
-            if (oneLineData.visible === false) {
-              continue;
-            }
+  const getTooltipContentFromDatumList = (datumList?: Datum[]) => {
+    if (datumList?.length) {
+      for (const datum of datumList) {
+        for (const content of patternContent ?? []) {
+          const oneLineData = getOneLineData(datum, content, params);
+          if (oneLineData.visible !== false) {
             if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
               tooltipActualTitleContent.content.push({
                 ...oneLineData,
@@ -131,6 +105,50 @@ export const getShowContent = (
               break;
             }
           }
+        }
+      }
+    }
+  };
+
+  switch (pattern.activeType) {
+    case 'mark':
+      getTooltipContentFromDatumList((data as IDimensionData[])[0]?.datum);
+      break;
+    case 'group':
+      getTooltipContentFromDatumList(params.groupDatum);
+      break;
+    case 'dimension':
+      for (const { data: d } of data as IDimensionInfo[]) {
+        for (const { datum: datumList, series } of d) {
+          if (!getTooltipActualActiveType(series.tooltipHelper?.spec).includes('dimension')) {
+            continue;
+          }
+          const contentPatterns =
+            patternContent?.filter(
+              c => isNil(c.seriesId) || c.seriesId === series.id // 匹配对应series
+            ) ?? [];
+          for (const datum of datumList) {
+            for (const linePattern of contentPatterns) {
+              const oneLineData = getOneLineData(datum, linePattern, params);
+              if (oneLineData.visible === false) {
+                continue;
+              }
+              if (tooltipActualTitleContent.content.length === maxLineCount - 1) {
+                tooltipActualTitleContent.content.push({
+                  ...oneLineData,
+                  ...othersLine
+                });
+                break;
+              } else if (tooltipActualTitleContent.content.length < maxLineCount) {
+                tooltipActualTitleContent.content.push(oneLineData);
+              } else {
+                break;
+              }
+            }
+            if (tooltipActualTitleContent.content.length >= maxLineCount) {
+              break;
+            }
+          }
           if (tooltipActualTitleContent.content.length >= maxLineCount) {
             break;
           }
@@ -139,10 +157,7 @@ export const getShowContent = (
           break;
         }
       }
-      if (tooltipActualTitleContent.content.length >= maxLineCount) {
-        break;
-      }
-    }
+      break;
   }
 
   if (tooltipActualTitleContent.title) {

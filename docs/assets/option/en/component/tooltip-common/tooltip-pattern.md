@@ -6,6 +6,19 @@
 
 Whether to display tooltips of this type.
 
+{{ if: ${groupTooltip} }}
+
+#${prefix} triggerMark(string|string[])
+
+The trigger mark of group tooltip. The following string or array of these string can be specified：
+
+- 'line'
+- 'area'
+- 'point'
+- 'bar'
+
+{{ /if }}
+
 #${prefix} title(Object)
 
 Configuration of tooltip title.
