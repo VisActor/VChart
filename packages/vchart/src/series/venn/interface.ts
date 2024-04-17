@@ -1,36 +1,20 @@
-import type { IArcMarkSpec, IDataValues, IPathMarkSpec } from '../../typings';
+import type { IArcMarkSpec, IPathMarkSpec } from '../../typings';
 import type { IMarkSpec, IMarkTheme, ISeriesSpec } from '../../typings/spec';
-import type { IVennCircleDatum, IVennOverlapDatum } from '@visactor/vgrammar-venn';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { VennAppearPreset, VennMark } from './animation';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILabelSpec } from '../../component';
-import type { DataView } from '@visactor/vdataset';
 
-export interface IVennDataValues extends Omit<IDataValues, 'values'> {
-  values: Array<IVennCircleDatum | IVennOverlapDatum>;
-}
-
-export type VennData = DataView | IVennDataValues;
-
-export interface IVennSeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimationSpec<VennMark, VennAppearPreset> {
+export interface IVennSeriesSpec extends ISeriesSpec, IAnimationSpec<VennMark, VennAppearPreset> {
   type: 'venn';
   /**
-   * 文本字段
+   * 类别字段
    */
   categoryField?: string;
-  /**
-   * 集合 id 字段
-   */
-  setField: string | string[];
   /**
    * 权重字段
    */
   valueField: string;
-  /**
-   * 数据
-   */
-  data: VennData;
 
   /**
    * 圆形图元配置
