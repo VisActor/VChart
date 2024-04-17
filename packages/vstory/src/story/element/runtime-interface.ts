@@ -9,6 +9,8 @@ export interface IElement {
 
   init(): void;
   geElementRootMark(): IGroup;
+  show(): void;
+  hide(): void;
 }
 
 export interface IElementInitOption {

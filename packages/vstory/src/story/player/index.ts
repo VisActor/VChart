@@ -1,8 +1,9 @@
-import { isNumber } from '@visactor/vutils';
+import { isNumber, last } from '@visactor/vutils';
 import { StoryCanvas } from '../canvas/canvas';
 import { IAction, IChapterElementLink, IChapterSpec } from '../interface';
 import { IPlayer } from '../interface/player';
 import { IElement } from '../element';
+import { processorMap } from '../../dsl/story-processor';
 
 export class Ticker {
   cb?: (delta: number) => void;
@@ -58,7 +59,7 @@ export class Player implements IPlayer {
       elements: c.elements.map(item => {
         return {
           element: elements[(item as any).elementId],
-          actions: item.actions
+          actions: item.actions.sort((a, b) => (a.startTime ?? 0) - (b.startTime ?? 0))
         };
       })
     });
@@ -72,7 +73,36 @@ export class Player implements IPlayer {
     }
   }
 
-  tickTo(t: number) {}
+  tickTo(t: number) {
+    const lastTime = this._currTime;
+    if (lastTime > t) {
+      // 如果时间回退，那就重新走一遍
+    }
+    this._currChapter.elements.forEach(({ actions, element }) => {
+      actions.forEach(action => {
+        const { startTime } = action;
+        if (startTime > t) {
+          return;
+        }
+        // 之前没走过，现在走
+        if (startTime > lastTime && startTime <= t) {
+          const { temp } = element.spec.config;
+          const process = processorMap[temp];
+          if (process) {
+            const func = process[action.action];
+            func && func(element, action);
+          }
+        }
+        element.show();
+      });
+    });
+    this._currTime = t;
+    this._canvas.getStage().ticker.tickAt(t);
+    this._currChapter.elements.forEach(({ element }) => {
+      element.hide;
+    });
+    this._canvas.getStage().render();
+  }
 
   play(): void {
     if (!this._currChapter) {
@@ -80,8 +110,7 @@ export class Player implements IPlayer {
     }
     console.log(this);
     this._ticker.start(t => {
-      this._currTime += t;
-      this.tickTo(this._currTime);
+      this.tickTo(this._currTime + t);
     });
   }
 

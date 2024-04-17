@@ -8,6 +8,7 @@ import { ElementVisactor } from '../visactor/element';
 import { SpecProcess } from './spec-process/spec-process';
 import { ChartDataTempTransform } from './spec-process/data-temp-transform';
 import { ManualTicker } from '@visactor/vrender-core';
+import { manualTicker } from '../../player/ticker';
 
 const tempSpec = {
   type: 'line',
@@ -107,7 +108,7 @@ export class ElementChart extends ElementVisactor {
       disableTriggerEvent: true,
       disableDirtyBounds: true,
       viewBox,
-      ticker: new ManualTicker([]),
+      ticker: manualTicker,
       visibleAll: false
     });
     this.geElementRootMark().add(this._graphic as any);

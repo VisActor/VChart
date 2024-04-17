@@ -50,8 +50,8 @@ export abstract class Graphic {
 
   show(): void {
     this._graphic.setAttributes({
-      visible: false,
-      visibleAll: false
+      visible: true,
+      visibleAll: true
     });
   }
   hide(): void {

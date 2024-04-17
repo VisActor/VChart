@@ -21,7 +21,7 @@ export class ElementGraphics extends ElementBase {
   protected _parserSpec(): void {}
 
   protected _initGraphics(): void {
-    this._graphic = StoryFactory.createGraphic(this._spec.config.type, this);
+    this._graphic = StoryFactory.createGraphic(this._spec.config.temp, this);
     this._text = new GraphicText(this);
     this._graphic.init();
     this._text.init();
@@ -34,11 +34,11 @@ export class ElementGraphics extends ElementBase {
     this.hide();
   }
 
-  protected show(): void {
+  show(): void {
     this._text.show();
     this._graphic.show();
   }
-  protected hide(): void {
+  hide(): void {
     this._text.hide();
     this._graphic.hide();
   }

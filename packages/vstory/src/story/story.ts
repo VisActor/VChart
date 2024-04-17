@@ -77,4 +77,8 @@ export class Story implements IStory {
     this._player.setCurrentChapter(chapterIndex);
     this._player.play();
   }
+
+  getPlayer() {
+    return this._player;
+  }
 }

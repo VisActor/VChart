@@ -33,7 +33,7 @@ export const StorySceneDemo = () => {
             height: 100
           },
           config: {
-            type: 'rect',
+            temp: 'rect',
             graphic: {
               fill: 'red'
             },
@@ -56,7 +56,7 @@ export const StorySceneDemo = () => {
             height: 100
           },
           config: {
-            type: 'rect',
+            temp: 'rect',
             graphic: {
               fill: 'red',
               visible: false
@@ -112,8 +112,16 @@ export const StorySceneDemo = () => {
               elementId: 'test-graphics-0',
               actions: [
                 {
-                  startTime: 0,
-                  action: 'appear'
+                  startTime: 1000,
+                  action: 'appear',
+                  payload: {
+                    style: {},
+                    animation: {
+                      duration: 1000,
+                      easing: 'linear',
+                      effect: 'fadeIn'
+                    } as any
+                  }
                 }
               ]
             },
@@ -121,8 +129,16 @@ export const StorySceneDemo = () => {
               elementId: 'test-graphics-1',
               actions: [
                 {
-                  startTime: 1000,
-                  action: 'appear'
+                  startTime: 2000,
+                  action: 'appear',
+                  payload: {
+                    style: {},
+                    animation: {
+                      duration: 1000,
+                      easing: 'linear',
+                      effect: 'fadeIn'
+                    } as any
+                  }
                 }
               ]
             },
@@ -130,7 +146,7 @@ export const StorySceneDemo = () => {
               elementId: 'test-chart-0',
               actions: [
                 {
-                  startTime: 2000,
+                  startTime: 3000,
                   action: 'appear'
                 }
               ]
@@ -139,7 +155,7 @@ export const StorySceneDemo = () => {
               elementId: 'test-chart-1',
               actions: [
                 {
-                  startTime: 3000,
+                  startTime: 4000,
                   action: 'appear'
                 }
               ]
@@ -148,7 +164,13 @@ export const StorySceneDemo = () => {
         }
       ]
     };
-    new Story(tempSpec, { dom: id });
+    const story = new Story(tempSpec, { dom: id });
+    story.play();
+    // let i = 0;
+    // story.getPlayer().setCurrentChapter(0);
+    // setInterval(() => {
+    //   story.getPlayer().tickTo(300 * i++);
+    // }, 300);
   }, []);
 
   return <div style={{ width: '100%', height: '100%' }} id={id}></div>;

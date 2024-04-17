@@ -1,6 +1,7 @@
 import { Story } from './../story';
-import { IStage, createStage, vglobal, container, preLoadAllModule } from '@visactor/vrender-core';
+import { IStage, createStage, vglobal, container, preLoadAllModule, ManualTicker } from '@visactor/vrender-core';
 import { loadBrowserEnv } from '@visactor/vrender-kits';
+import { manualTicker } from '../player/ticker';
 
 preLoadAllModule();
 loadBrowserEnv(container);
@@ -44,8 +45,9 @@ export class StoryCanvas {
       width: this._canvas.clientWidth,
       height: this._canvas.clientHeight,
       canvasControled: true,
-      autoRender: true,
+      autoRender: false,
       disableDirtyBounds: true,
+      ticker: manualTicker,
       dpr: window.devicePixelRatio,
       event: {
         clickInterval: 300

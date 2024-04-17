@@ -3,3 +3,6 @@ export enum StoryChartType {
   LINE = 'line',
   PIE = 'pie'
 }
+export enum StoryGraphicType {
+  RECT = 'rect'
+}

@@ -14,8 +14,8 @@ export class GraphicText {
 
   show(): void {
     this._graphic.setAttributes({
-      visible: false
-      // visibleAll: false,
+      visible: true
+      // visibleAll: true,
     });
   }
   hide(): void {
@@ -67,8 +67,8 @@ export class GraphicText {
   applyLayoutData(w: Partial<IWidgetData>): void {
     const layoutData = getLayoutFromWidget(w);
     const layoutRatio = this._element.getTextLayoutRatio();
-    const graphicAlign = this._graphic.attribute.graphicAlign;
-    const graphicBaseline = this._graphic.attribute.graphicBaseline;
+    const graphicAlign = (this._graphic.attribute as any).graphicAlign;
+    const graphicBaseline = (this._graphic.attribute as any).graphicBaseline;
     const left = layoutData.x + layoutData.width * layoutRatio.left;
     const right = layoutData.x + layoutData.width * layoutRatio.right;
     const center = (left + right) / 2;

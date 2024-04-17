@@ -32,7 +32,7 @@ export type IEditorTextGraphicAttribute = {
 
 export interface IElementGraphicsSpec extends IElementSpecBase {
   config: {
-    type: string; // 图形类型
+    temp: string; // 图形类型
     graphic: any;
     text: IEditorTextGraphicAttribute;
     isResized?: boolean;

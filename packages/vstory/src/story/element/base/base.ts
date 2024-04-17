@@ -27,6 +27,9 @@ export abstract class ElementBase implements IElement {
   protected abstract _parserSpec(): void;
   protected abstract _initGraphics(): void;
 
+  abstract show(): void;
+  abstract hide(): void;
+
   public getLayoutData() {}
 
   public geElementRootMark() {
