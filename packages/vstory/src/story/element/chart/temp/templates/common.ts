@@ -1,7 +1,7 @@
 import type { IDataValue } from './../../data/interface';
-import { ChartDimensionField, ChartTypeField, ChartValueField } from './../../../../core/const';
 import { array } from '@visactor/vutils';
 import type { DataInfo, StandardData } from '../../data/interface';
+import { ChartDimensionField, ChartTypeField, ChartValueField } from '../../const';
 
 export function getCommonSpec() {
   return {

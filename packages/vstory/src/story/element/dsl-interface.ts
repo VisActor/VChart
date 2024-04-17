@@ -43,9 +43,9 @@ export interface IElementGraphicsSpec extends IElementSpecBase {
 
 export interface IElementChartSpec extends IElementSpecBase {
   config: {
-    data: string; // 数据源
+    data: any; // 数据源
     temp: string; // 模版
-    config: {
+    attribute: {
       // 可编辑属性
       theme: any;
       layout: any; // 内部模块布局信息

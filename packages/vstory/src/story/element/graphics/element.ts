@@ -18,9 +18,8 @@ export class ElementGraphics extends ElementBase {
     return this._text;
   }
 
-  protected _parserSpec(): void {
-    console.log('do nothing');
-  }
+  protected _parserSpec(): void {}
+
   protected _initGraphics(): void {
     this._graphic = StoryFactory.createGraphic(this._spec.config.type, this);
     this._text = new GraphicText(this);

@@ -26,6 +26,9 @@ export abstract class ElementVisactor extends ElementBase implements IElementVis
   }
 
   protected declare _graphic: IVisactorGraphic;
+  get graphic() {
+    return this._graphic;
+  }
 
   constructor(spec: IElementSpec, option: IElementInitOption) {
     super(spec, option);

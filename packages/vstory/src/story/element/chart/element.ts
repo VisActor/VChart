@@ -1,4 +1,3 @@
-import { IVisactorGraphic } from './../visactor/interface';
 import { cloneDeep } from '@visactor/vutils';
 import { VChart } from '@visactor/vchart';
 import { IElementChartSpec } from '../dsl-interface';
@@ -6,6 +5,8 @@ import { Chart } from './graphic/vchart-graphic';
 import { getLayoutFromWidget } from '../../utils/layout';
 import { IElementInitOption } from '../runtime-interface';
 import { ElementVisactor } from '../visactor/element';
+import { SpecProcess } from './spec-process/spec-process';
+import { ChartDataTempTransform } from './spec-process/data-temp-transform';
 
 const tempSpec = {
   type: 'line',
@@ -62,6 +63,8 @@ const tempSpec = {
 };
 
 export class ElementChart extends ElementVisactor {
+  protected declare _specProcess: SpecProcess;
+
   protected declare _spec: IElementChartSpec;
   get spec() {
     return this._spec;
@@ -72,11 +75,12 @@ export class ElementChart extends ElementVisactor {
   }
 
   protected _initSpecProcess(): void {
-    // this
+    this._specProcess = new SpecProcess(this as any, ChartDataTempTransform, this.onSpecReady);
   }
 
   protected _parserSpec(): void {
-    console.log('do nothing');
+    console.log('_parserSpec');
+    this._specProcess.updateConfig(this._spec.config);
   }
   protected _initGraphics(): void {
     const layout = getLayoutFromWidget(this._spec.widget);
@@ -86,13 +90,13 @@ export class ElementChart extends ElementVisactor {
       y1: layout.y,
       y2: layout.y + layout.height
     };
-    const spec = cloneDeep(tempSpec);
+    const spec = cloneDeep(this._specProcess.getElementSpec() ?? tempSpec);
     spec.width = layout.width;
     spec.height = layout.height;
     // @ts-ignore
     this._graphic = new Chart({
       renderCanvas: this._option.canvas.getCanvas(),
-      spec: tempSpec,
+      spec: spec,
       ClassType: VChart,
       vchart: null,
       mode: 'desktop-browser',
@@ -111,5 +115,6 @@ export class ElementChart extends ElementVisactor {
   }
   protected _updateVisactorSpec(): void {
     console.log('_updateVisactorSpec');
+    this._graphic?.updateSpec(this._specProcess.getElementSpec());
   }
 }

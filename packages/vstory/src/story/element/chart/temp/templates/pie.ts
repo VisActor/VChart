@@ -1,10 +1,10 @@
-import { ChartValueField, ChartDimensionField } from './../../../../core/const';
 import { array } from '@visactor/vutils';
 import type { StandardData } from '../../data/interface';
 import type { DataInfo } from '../../data/interface';
 import { BaseTemp } from './base-temp';
 import { CommonStandardDataCheck, getCommonSpec } from './common';
 import { TemplateChartType } from '../constant';
+import { ChartDimensionField, ChartValueField } from '../../const';
 
 export function spec() {
   return {

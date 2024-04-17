@@ -1,4 +1,4 @@
-import type { DirectionType } from './../../../../typings/space';
+import { DirectionType } from '../../../chart/const';
 import type { StandardData } from '../../data/interface';
 import type { DataInfo } from '../../data/interface';
 import { BaseTemp } from './base-temp';

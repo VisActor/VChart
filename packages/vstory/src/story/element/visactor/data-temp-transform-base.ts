@@ -1,17 +1,14 @@
-import { DataSet } from '@visactor/vdataset';
-import { EditorFactory } from '../../core/factory';
+import { StoryFactory } from '../../factory/factory';
 import type {
   IDataParser,
   StandardData,
   IVisactorTemp,
   IDataTempTransform,
   ISpecProcess,
-  IVisactorElement
+  IElementVisactor,
+  IUpdateAttributeOption
 } from './interface';
 import { EventEmitter } from '@visactor/vutils';
-import type { IUpdateAttributeOption } from '../../core/interface';
-import { EditorEventType, EditorMessageType } from '../../core/const';
-import type { VChartEditor } from '../../core/vchart-editor';
 
 export class DataTempTransformBase implements IDataTempTransform {
   protected _state = 'alive';
@@ -20,14 +17,12 @@ export class DataTempTransformBase implements IDataTempTransform {
   get specTemp() {
     return this._specTemp;
   }
-  protected _dataSet: DataSet = null;
   protected _dataParser: IDataParser;
   get dataParser() {
     return this._dataParser;
   }
 
-  protected _element: IVisactorElement;
-  protected _editor: VChartEditor;
+  protected _element: IElementVisactor;
   protected _specProcess: ISpecProcess;
 
   // 当图表类或者数据更新时，先使用 next 验证是否可用，可用再更新
@@ -46,19 +41,9 @@ export class DataTempTransformBase implements IDataTempTransform {
 
   emitter: EventEmitter = new EventEmitter();
 
-  constructor({
-    editor,
-    specProcess,
-    element
-  }: {
-    element: IVisactorElement;
-    editor: VChartEditor;
-    specProcess: ISpecProcess;
-  }) {
+  constructor({ specProcess, element }: { element: IElementVisactor; specProcess: ISpecProcess }) {
     this._element = element;
-    this._editor = editor;
     this._specProcess = specProcess;
-    this._dataSet = new DataSet();
   }
 
   protected _updateChartData(type: string, value: unknown) {
@@ -79,19 +64,12 @@ export class DataTempTransformBase implements IDataTempTransform {
       return false;
     }
     type = type ?? this._dataParser.type;
-    const parserCreate = EditorFactory.getParser(type);
-    if (!parserCreate) {
-      console.warn('invalid data source type:', type);
-      return false;
-    }
-    this._nextDataParser = new parserCreate(this._dataSet, null, {
+    this._nextDataParser = StoryFactory.createDataParser(type, {
       updateCall: this._nextDataUpdateCall,
       errorCall: this._nextDataErrorCall,
-      currentData: compareCurrent ? this._dataParser : null,
-      emitter: this._editor.emitter,
-      editor: this._editor
+      currentData: compareCurrent ? this._dataParser : null
     });
-    return true;
+    return !!this._nextDataParser;
   }
 
   protected _nextDataUpdateCall = (d: StandardData) => {
@@ -104,23 +82,19 @@ export class DataTempTransformBase implements IDataTempTransform {
         this._dataChangeSuccess(d, this._changeType);
       } else {
         // 数据不可用
-        this._editor.emitter.emit(EditorEventType.dataUpdateFail, {
-          message: EditorMessageType.dataUnmeetChartRequire
-        });
       }
     } else if (this._changeType === 'dataTemp') {
       if (this._checkEnable(this._nextDataParser, this._nextTemp)) {
         // 数据 + 模版更新成功
         const hasSpecialDataSource = this._nextTemp.type !== 'standard' || this._specTemp.type !== 'standard';
         if (this._specTemp) {
-          this._element.clearEditorData({
+          this._element.clearConfig({
             // 如果参与变换的类型里有风神。那么清楚编辑模块数据，否则不清楚
             clearCurrent: hasSpecialDataSource ? { layout: true } : false
           });
 
           if (hasSpecialDataSource) {
             // 这一次的更新不添加历史数据 并且清除当前的数据
-            this._element.option.editorData.clearHistory();
             this._setNoHistoryState();
           }
         }
@@ -148,14 +122,13 @@ export class DataTempTransformBase implements IDataTempTransform {
     this._dataParser.setDataErrorHandler(this._currentDataErrorCall);
     this._dataParser.setDataUpdateHandler(this._currentDataUpdateCall);
     this._currentDataUpdateCall(d, type, opt);
-    this._editor.emitter.emit(EditorEventType.dataUpdateSuccess, { type });
   }
 
   protected _nextDataErrorCall = (msg: { type: string; info: string }, opt: any) => {
     if (msg.type === 'msg') {
       this._handlerDataError(msg);
     } else if (msg.type === 'error') {
-      this._editor.emitter.emit(EditorEventType.dataUpdateFail, msg);
+      // this._editor.emitter.emit(EditorEventType.dataUpdateFail, msg);
     }
   };
 
@@ -168,41 +141,18 @@ export class DataTempTransformBase implements IDataTempTransform {
       this.emitter.emit('specReady');
     }
     if (this._updateOption.saveData === true) {
-      this._editor.editorData.saveData();
+      // this._editor.editorData.saveData();
     }
   };
   protected _currentDataErrorCall = (msg: { type: string; info: string }, opt: any) => {
     if (msg.type === 'msg') {
       this._handlerDataError(msg);
     } else if (msg.type === 'error') {
-      this._editor.emitter.emit(EditorEventType.dataUpdateFail, msg);
+      // this._editor.emitter.emit(EditorEventType.dataUpdateFail, msg);
     }
   };
 
-  protected _handlerDataError(msg: { type: string; info: string }) {
-    if (msg.info === 'chartTypeChange') {
-      // 这里仅仅是数据中的类型切换，保留模版
-      const temp = this._specProcess.getEditorSpec().temp;
-      this._element.clearEditorData({ clearCurrent: { layout: true, marker: true } });
-      this._specProcess.getEditorSpec().temp = temp;
-    } else if (msg.info === 'needClearHistory') {
-      this._editor.editorData.clearHistory();
-    } else if (msg.info === 'noHistory') {
-      // 这一次的更新不添加历史数据
-      this._setNoHistoryState();
-    } else if (msg.info === 'dataSourceChange') {
-      // 需要清楚当前的全部编辑信息
-      const temp = this._specProcess.getEditorSpec().temp;
-      this._element.clearEditorData({ clearCurrent: { layout: true } });
-      this._specProcess.getEditorSpec().temp = temp;
-    } else if (msg.info === 'toTableElement') {
-      // 需要将当前元素切换为table
-      this.emitter.emit('toTableElement');
-    } else if (msg.info === 'toChartElement') {
-      // 需要将当前元素切换为chart
-      this.emitter.emit('toChartElement');
-    }
-  }
+  protected _handlerDataError(msg: { type: string; info: string }) {}
 
   protected _updateChartTemp(temp: string) {
     if (!this._createNextTemp(temp)) {
@@ -231,14 +181,9 @@ export class DataTempTransformBase implements IDataTempTransform {
       console.warn('same temp type:', temp);
       return false;
     }
-    const tCreate = EditorFactory.getTemp(temp);
-    if (!tCreate) {
-      console.warn('invalid type  type:', temp);
-      return false;
-    }
     this._nextTemp?.clear();
-    this._nextTemp = new tCreate();
-    return true;
+    this._nextTemp = StoryFactory.createChartTemp(temp);
+    return !!this._nextTemp;
   }
 
   updateChartDataTemp(data?: { type: string; value: unknown }, temp?: string, option?: IUpdateAttributeOption) {
@@ -251,11 +196,6 @@ export class DataTempTransformBase implements IDataTempTransform {
       this._updateChartTemp(temp);
       return;
     }
-    // update data & emit event
-    this._editor.emitter.emit(EditorEventType.dataUpdateStart, {
-      actionType: option?.actionType,
-      temp: temp
-    });
     if (data && !temp) {
       this._updateChartData(data.type, data.value);
       return;

@@ -1,9 +1,8 @@
+import { IElementChartSpec } from './../dsl-interface';
 import type { EventEmitter } from '@visactor/vutils';
 import type { IElement } from '../runtime-interface';
-import type { ISpec, ITheme, IVChart } from '@visactor/vchart';
-import { IGraphic, IGroup } from '@visactor/vrender-core';
-
-type ILayoutData = any;
+import type { ISpec, IVChart } from '@visactor/vchart';
+import { IGroup } from '@visactor/vrender-core';
 
 export type StandardData = IDataValue | IDataValue[];
 export type IParserValue = any;
@@ -43,7 +42,7 @@ export interface IDataTempTransform {
 }
 
 export interface IDataTempTransformConstructor {
-  new ({ specProcess, element }: { element: IVisactorElement; specProcess: ISpecProcess }): IDataTempTransform;
+  new ({ specProcess, element }: { element: IElementVisactor; specProcess: ISpecProcess }): IDataTempTransform;
 }
 
 export interface ISpecProcess {
@@ -52,6 +51,8 @@ export interface ISpecProcess {
 
   // 得到编辑器元素的spec
   getElementSpec: () => ISpec;
+  // 得到编辑器元素的spec
+  getConfig: () => IElementChartSpec['config'];
 
   // temp
   getSpecTemp: () => string;
@@ -121,6 +122,8 @@ export interface IVisactorTempConstructor {
 // 绘图元素
 export interface IVisactorGraphic extends IGroup {
   readonly vProduct: IVChart;
+
+  updateSpec(spec: any): void;
 }
 
 // 编辑元素
@@ -132,4 +135,10 @@ export interface IElementVisactor extends IElement {
 
   // 清除编辑数据
   clearConfig: (opt: { clearCurrent: false | { [key: string]: any } }) => void;
+}
+
+export interface IUpdateAttributeOption {
+  triggerHistory?: boolean;
+  saveData?: boolean;
+  actionType?: 'data-add' | 'data-change' | 'data-replace' | string;
 }

@@ -3,6 +3,18 @@ import { IStorySpec } from '../../../src/story/interface';
 import { Story } from '../../../src/story/story';
 import '../../../src/story/index';
 
+const data0 = {
+  type: 'standard',
+  value:
+    '{"data":[{"State":"WY","Under 5 Years":25635,"5 to 13 Years":1890,"14 to 17 Years":9314},{"State":"DC","Under 5 Years":30352,"5 to 13 Years":20439,"14 to 17 Years":10225},{"State":"VT","Under 5 Years":38253,"5 to 13 Years":42538,"14 to 17 Years":15757},{"State":"ND","Under 5 Years":51896,"5 to 13 Years":67358,"14 to 17 Years":18794},{"State":"AK","Under 5 Years":72083,"5 to 13 Years":85640,"14 to 17 Years":22153}],"columns":["State","Under 5 Years","5 to 13 Years","14 to 17 Years"],"rows":["State","WY","DC","VT","ND","AK"]}'
+};
+
+const data1 = {
+  type: 'standard',
+  value:
+    '{"data":[{"date":"x1","a":20,"b":20},{"date":"x2","a":23,"b":24},{"date":"x3","a":26,"b":29}],"columns":["date","a","b"],"rows":["x1","x2","x3"],"originData":[{"date":"x1","a":20,"b":20},{"date":"x2","a":23,"b":24},{"date":"x3","a":26,"b":29}],"invalidCells":[]}'
+};
+
 export const StorySceneDemo = () => {
   const id = 'storyBar';
 
@@ -68,7 +80,10 @@ export const StorySceneDemo = () => {
             height: 300
           },
           config: {
-            temp: 'line'
+            temp: 'line',
+            data: data0,
+            // @ts-ignore
+            attribute: {}
           }
         },
         {
@@ -82,7 +97,10 @@ export const StorySceneDemo = () => {
             height: 300
           },
           config: {
-            temp: 'bar'
+            temp: 'bar',
+            data: data1,
+            // @ts-ignore
+            attribute: {}
           }
         }
       ],

@@ -1,7 +1,6 @@
 import { isString } from '@visactor/vutils';
-import type { DataSet } from '@visactor/vdataset';
 import type { DataErrorCall, DataUpdateCall, IDataParser, IDataType, IDataValue } from './../interface';
-import { ChartDimensionField, ChartTypeField, ChartValueField } from '../../../../core/const';
+import { ChartDimensionField, ChartTypeField, ChartValueField } from '../../const';
 
 export type IStandardValue = {
   columns: string[];
@@ -17,8 +16,7 @@ export class StandardParser implements IDataParser {
   protected _onDataUpdateCall: DataUpdateCall = null;
   protected _onDataErrorCall: DataErrorCall = null;
   constructor(
-    dataSet: DataSet,
-    value: any,
+    type: any,
     {
       updateCall,
       errorCall
@@ -30,10 +28,6 @@ export class StandardParser implements IDataParser {
     this.setDataUpdateHandler(updateCall);
     this.setDataErrorHandler(errorCall);
     this._data = [];
-    //
-    if (value) {
-      this.updateValue(value);
-    }
   }
 
   getData() {
