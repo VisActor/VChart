@@ -97,5 +97,6 @@ export const enum SeriesMarkNameEnum {
   liquidBackground = 'liquidBackground',
   liquidOutline = 'liquidOutline',
   circle = 'circle',
-  overlap = 'overlap'
+  overlap = 'overlap',
+  overlapLabel = 'overlapLabel'
 }

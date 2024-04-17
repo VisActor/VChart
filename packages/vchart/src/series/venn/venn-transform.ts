@@ -7,10 +7,8 @@ export class VennSeriesSpecTransformer<
   T extends ISeriesSpec = Omit<IVennSeriesSpec, 'data'>,
   K extends IVennSeriesTheme = IVennSeriesTheme
 > extends BaseSeriesSpecTransformer<T, K> {
-  /*
   protected _transformLabelSpec(spec: T): void {
-    this._addMarkLabelSpec(spec, SeriesMarkNameEnum.circle, 'nonLeafLabel' as any, 'initNonLeafLabelMarkStyle' as any);
-    this._addMarkLabelSpec(spec, SeriesMarkNameEnum.leaf);
+    this._addMarkLabelSpec(spec, SeriesMarkNameEnum.circle);
+    this._addMarkLabelSpec(spec, SeriesMarkNameEnum.overlap, 'overlapLabel' as any, 'initOverlapLabelMarkStyle' as any);
   }
-  */
 }

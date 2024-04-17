@@ -2,7 +2,7 @@
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
 import type { IMark } from '../../mark/interface';
-import type { Datum, IArcMarkSpec, IComposedTextMarkSpec, IPathMarkSpec, IPoint, StringOrNumber } from '../../typings';
+import type { Datum, IArcMarkSpec, IPathMarkSpec, IPoint, StringOrNumber } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { IVennSeriesSpec } from './interface';
@@ -21,6 +21,8 @@ import {
   VGRAMMAR_VENN_CIRCLE_RADIUS,
   VGRAMMAR_VENN_CIRCLE_X,
   VGRAMMAR_VENN_CIRCLE_Y,
+  VGRAMMAR_VENN_LABEL_X,
+  VGRAMMAR_VENN_LABEL_Y,
   VGRAMMAR_VENN_OVERLAP_PATH,
   registerVennTransforms
 } from '@visactor/vgrammar-venn';
@@ -181,34 +183,36 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
     this.setMarkStyle(
       labelMark,
       {
-        x: datum => (datum.x0 + datum.x1) / 2,
-        y: datum => (datum.y0 + datum.y1) / 2,
-        text: datum => {
-          return datum.datum[datum.depth]?.[this.getDimensionField()[0]];
-        },
-        maxLineWidth: (datum: Datum) => {
-          return datum.x1 === datum.x0 ? Number.MIN_VALUE : datum.x1 - datum.x0;
+        x: datum => datum[VGRAMMAR_VENN_LABEL_X],
+        y: datum => datum[VGRAMMAR_VENN_LABEL_Y],
+        text: datum => getVennSeriesDataKey(datum[this.getDimensionField()[0]]),
+        maxLineWidth: (datum: any) => {
+          const circleX0 = datum[VGRAMMAR_VENN_CIRCLE_X] - datum[VGRAMMAR_VENN_CIRCLE_RADIUS];
+          const circleX1 = datum[VGRAMMAR_VENN_CIRCLE_X] + datum[VGRAMMAR_VENN_CIRCLE_RADIUS];
+          const labelX = datum[VGRAMMAR_VENN_LABEL_X];
+          return Math.min(labelX - circleX0, circleX1 - labelX);
         }
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
     );
-    if (labelMark.getTextType() === 'rich') {
-      this.setMarkStyle<IComposedTextMarkSpec>(
-        labelMark,
-        {
-          maxWidth: datum => Math.abs(datum.x0 - datum.x1),
-          maxHeight: datum => Math.abs(datum.y0 - datum.y1),
-          ellipsis: true
-        },
-        STATE_VALUE_ENUM.STATE_NORMAL,
-        AttributeLevel.Series
-      );
-    }
   }
 
-  protected _getDataIdKey() {
-    return 'key';
+  initOverlapLabelMarkStyle(labelMark: ILabelMark) {
+    if (!labelMark) {
+      return;
+    }
+    this._labelMark = labelMark;
+    this.setMarkStyle(
+      labelMark,
+      {
+        x: datum => datum[VGRAMMAR_VENN_LABEL_X],
+        y: datum => datum[VGRAMMAR_VENN_LABEL_Y],
+        text: datum => getVennSeriesDataKey(datum[this.getDimensionField()[0]])
+      },
+      STATE_VALUE_ENUM.STATE_NORMAL,
+      AttributeLevel.Series
+    );
   }
 
   protected initTooltip() {

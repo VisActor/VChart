@@ -6,5 +6,6 @@ import { SeriesMarkNameEnum } from '../interface/type';
 export const vennSeriesMark: SeriesMarkMap = {
   ...baseSeriesMark,
   [SeriesMarkNameEnum.circle]: { name: SeriesMarkNameEnum.circle, type: MarkTypeEnum.arc },
-  [SeriesMarkNameEnum.overlap]: { name: SeriesMarkNameEnum.overlap, type: MarkTypeEnum.path }
+  [SeriesMarkNameEnum.overlap]: { name: SeriesMarkNameEnum.overlap, type: MarkTypeEnum.path },
+  [SeriesMarkNameEnum.overlapLabel]: { name: SeriesMarkNameEnum.overlapLabel, type: MarkTypeEnum.text }
 };
