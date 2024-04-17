@@ -47,7 +47,8 @@ import type {
   ISeriesSpecInfo,
   ISeriesStackDataLeaf,
   ISeriesStackDataNode,
-  ISeriesStackDataMeta
+  ISeriesStackDataMeta,
+  ISeriesSeriesInfo
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
@@ -1187,11 +1188,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return keys.map(key => {
       return {
         key,
+        originalKey: key,
         style: this.getSeriesStyle({
           [field]: key
         }),
         shapeType: defaultShapeType
-      };
+      } as ISeriesSeriesInfo;
     });
   }
 
@@ -1460,5 +1462,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return true;
     }
     return viewDataList.some((viewDatum: Datum) => Object.keys(datum).every(key => datum[key] === viewDatum[key]));
+  }
+
+  getSeriesFieldValue(datum: Datum, seriesField?: string) {
+    return datum[seriesField ?? this.getSeriesField() ?? DEFAULT_DATA_SERIES_FIELD];
   }
 }
