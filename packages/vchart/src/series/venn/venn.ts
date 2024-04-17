@@ -2,6 +2,7 @@
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { AttributeLevel, DEFAULT_DATA_KEY } from '../../constant';
 import type { IMark } from '../../mark/interface';
+import { MarkTypeEnum } from '../../mark/interface';
 import type { Datum, IArcMarkSpec, IPathMarkSpec, IPoint, StringOrNumber } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
@@ -32,6 +33,7 @@ import { getVennSeriesDataKey } from './util';
 import type { DiscreteLegend } from '../../component';
 import type { BaseLegend } from '../../component/legend/base-legend';
 import { ComponentTypeEnum } from '../../component/interface';
+import { animationConfig, userAnimationConfig } from '../../animation/utils';
 
 export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends BaseSeries<T> {
   static readonly type: string = SeriesTypeEnum.venn;
@@ -352,6 +354,25 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
       });
     }
     return selectedKeys;
+  }
+
+  initAnimation(): void {
+    this.getMarksInType(MarkTypeEnum.arc).forEach(mark => {
+      mark.setAnimationConfig(
+        animationConfig(
+          Factory.getAnimationInKey('vennCircle')?.(),
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+        )
+      );
+    });
+    this.getMarksInType(MarkTypeEnum.path).forEach(mark => {
+      mark.setAnimationConfig(
+        animationConfig(
+          Factory.getAnimationInKey('vennOverlap')?.(),
+          userAnimationConfig(mark.name, this._spec, this._markAttributeContext)
+        )
+      );
+    });
   }
 }
 
