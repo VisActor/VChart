@@ -1,7 +1,7 @@
 import { IVisactorGraphic } from './../../visactor/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ISpec, IVChart } from '@visactor/vchart';
-import type { GraphicType, IGroupGraphicAttribute } from '@visactor/vrender-core';
+import type { GraphicType, IGroupGraphicAttribute, ITicker } from '@visactor/vrender-core';
 import { genNumberType, Group } from '@visactor/vrender-core';
 
 export interface IChartGraphicAttribute extends IGroupGraphicAttribute {
@@ -17,6 +17,7 @@ export interface IChartGraphicAttribute extends IGroupGraphicAttribute {
   disableTriggerEvent: boolean;
   disableDirtyBounds: boolean;
   viewBox: IBoundsLike;
+  ticker?: ITicker;
 }
 
 export const CHART_NUMBER_TYPE = genNumberType();
@@ -53,6 +54,7 @@ export class Chart extends Group implements IVisactorGraphic {
         autoFit: false,
         disableTriggerEvent: params.disableTriggerEvent,
         disableDirtyBounds: params.disableDirtyBounds,
+        ticker: params.ticker,
         beforeRender: () => {
           if (!this.stage) {
             return;

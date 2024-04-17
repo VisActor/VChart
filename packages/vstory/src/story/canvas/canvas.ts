@@ -28,6 +28,7 @@ export class StoryCanvas {
     this._container = container;
     this._initCanvas();
   }
+
   protected _initCanvas() {
     const canvas = document.createElement('canvas');
     canvas.width = this._container.clientWidth * window.devicePixelRatio;

@@ -48,6 +48,19 @@ export abstract class Graphic {
     };
   }
 
+  show(): void {
+    this._graphic.setAttributes({
+      visible: false,
+      visibleAll: false
+    });
+  }
+  hide(): void {
+    this._graphic.setAttributes({
+      visible: false,
+      visibleAll: false
+    });
+  }
+
   getGraphicAttribute(): IElementGraphicsSpec['config']['graphic'] {
     return this._graphic?.attribute;
   }

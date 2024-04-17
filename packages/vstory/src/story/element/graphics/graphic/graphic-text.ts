@@ -12,6 +12,19 @@ export class GraphicText {
     this._element = graphicElement;
   }
 
+  show(): void {
+    this._graphic.setAttributes({
+      visible: false
+      // visibleAll: false,
+    });
+  }
+  hide(): void {
+    this._graphic.setAttributes({
+      visible: false
+      // visibleAll: false,
+    });
+  }
+
   init() {
     this._graphic = createText(
       this._transformTextAttributes({

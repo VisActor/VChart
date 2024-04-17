@@ -51,6 +51,13 @@ export abstract class ElementVisactor extends ElementBase implements IElementVis
 
   protected abstract _updateVisactorSpec(): void;
 
+  protected show(): void {
+    this._graphic.setAttribute('visibleAll', true);
+  }
+  protected hide(): void {
+    this._graphic.setAttribute('visibleAll', false);
+  }
+
   release() {
     this._specProcess.release();
     this._graphic?.parent?.removeChild(this._graphic);

@@ -31,6 +31,16 @@ export class ElementGraphics extends ElementBase {
 
     this._graphic.applyLayoutData(this._spec.widget);
     this._text.applyLayoutData(this._spec.widget);
+    this.hide();
+  }
+
+  protected show(): void {
+    this._text.show();
+    this._graphic.show();
+  }
+  protected hide(): void {
+    this._text.hide();
+    this._graphic.hide();
   }
 
   getTextLayoutRatio(): { left: number; right: number; top: number; bottom: number } {

@@ -1,9 +1,21 @@
 import { IElementSpec } from '../element';
 
-export type IAction = any;
+export type IAction = {
+  startTime: number;
+  action: string;
+  payload?: {
+    style: {
+      [key: string]: number | string;
+    };
+    animation: {
+      duration: number;
+      easing: string;
+    };
+  };
+};
 
 export interface IStorySpec {
-  chapter: IChapterSpec[]; // 作品的章节
+  chapters: IChapterSpec[]; // 作品的章节
   elements: IElementSpec[]; // 作品中的元素
 }
 

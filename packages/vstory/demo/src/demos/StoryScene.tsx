@@ -104,7 +104,49 @@ export const StorySceneDemo = () => {
           }
         }
       ],
-      chapter: []
+      chapters: [
+        {
+          id: 'default-chapter',
+          elements: [
+            {
+              elementId: 'test-graphics-0',
+              actions: [
+                {
+                  startTime: 0,
+                  action: 'appear'
+                }
+              ]
+            },
+            {
+              elementId: 'test-graphics-1',
+              actions: [
+                {
+                  startTime: 1000,
+                  action: 'appear'
+                }
+              ]
+            },
+            {
+              elementId: 'test-chart-0',
+              actions: [
+                {
+                  startTime: 2000,
+                  action: 'appear'
+                }
+              ]
+            },
+            {
+              elementId: 'test-chart-1',
+              actions: [
+                {
+                  startTime: 3000,
+                  action: 'appear'
+                }
+              ]
+            }
+          ]
+        }
+      ]
     };
     new Story(tempSpec, { dom: id });
   }, []);
