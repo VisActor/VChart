@@ -47,7 +47,7 @@ export interface IVennSeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimationSp
   [SeriesMarkNameEnum.overlap]?: IMarkSpec<IPathMarkSpec>;
 }
 
-export interface ITreemapSeriesTheme {
+export interface IVennSeriesTheme {
   /**
    * 标签配置
    */
