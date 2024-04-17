@@ -21,7 +21,8 @@ export const labelRuleMap = {
   area: LineLabel,
   rect3d: barLabel,
   arc3d: pieLabel,
-  treemap: treemapLabel
+  treemap: treemapLabel,
+  venn: vennLabel
 };
 
 export function defaultLabelConfig(rule: string, labelInfo: ILabelInfo) {
@@ -310,6 +311,16 @@ export function treemapLabel(labelInfo: ILabelInfo) {
   return {
     customLayoutFunc: (labels: LabelItem[], text: any) => text,
     overlap: false
+  };
+}
+
+/**
+ * venn 标签配置规则
+ */
+export function vennLabel(labelInfo: ILabelInfo) {
+  return {
+    customLayoutFunc: (labels: LabelItem[], text: any) => text,
+    smartInvert: true
   };
 }
 

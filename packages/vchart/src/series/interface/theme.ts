@@ -53,6 +53,7 @@ import type { IRangeAreaSeriesTheme } from '../range-area/interface';
 import { baseSeriesMark } from '../base/constant';
 import type { ILiquidSeriesTheme } from '../liquid/interface';
 import { LiquidSeriesMark } from '../liquid/constant';
+import type { IVennSeriesTheme } from '../venn/interface';
 
 export interface ISeriesTheme {
   [SeriesTypeEnum.bar]?: IBarSeriesTheme;
@@ -130,6 +131,7 @@ export interface ISeriesTheme {
   [SeriesTypeEnum.heatmap]?: IHeatmapSeriesTheme;
   [SeriesTypeEnum.correlation]?: ICorrelationSeriesTheme;
   [SeriesTypeEnum.liquid]?: ILiquidSeriesTheme;
+  [SeriesTypeEnum.venn]?: IVennSeriesTheme;
 }
 
 /** 带有方向信息的系列类型，作为主题相关的补充类型 */

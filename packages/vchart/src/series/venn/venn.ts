@@ -167,9 +167,24 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
         y: 0,
         path: datum => datum[VGRAMMAR_VENN_OVERLAP_PATH],
         fill: this.getColorAttribute(),
-        stroke: this.getColorAttribute()
+        stroke: this.getColorAttribute(),
+        zIndex: datum => {
+          // zIndex 按照重叠的深度来分级
+          return array(datum[this.getCategoryField()]).length * 100;
+        }
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
+      AttributeLevel.Series
+    );
+    this.setMarkStyle<IPathMarkSpec>(
+      this._overlapMark,
+      {
+        zIndex: datum => {
+          // hover 态的 zIndex 要比同级更高
+          return array(datum[this.getCategoryField()]).length * 100 + 1;
+        }
+      },
+      STATE_VALUE_ENUM.STATE_HOVER,
       AttributeLevel.Series
     );
   }
@@ -179,7 +194,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
       return;
     }
     this._labelMark = labelMark;
-    labelMark.setRule('treemap');
+    labelMark.setRule('venn');
     this.setMarkStyle(
       labelMark,
       {
@@ -203,6 +218,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
       return;
     }
     this._labelMark = labelMark;
+    labelMark.setRule('venn');
     this.setMarkStyle(
       labelMark,
       {
