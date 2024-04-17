@@ -16,7 +16,7 @@ import { sankeyNodes } from '../../data/transforms/sankey-nodes';
 import { sankeyLinks } from '../../data/transforms/sankey-links';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import { DataView } from '@visactor/vdataset';
-import { LayoutZIndex, AttributeLevel, Event_Bubble_Level, DEFAULT_DATA_INDEX } from '../../constant';
+import { LayoutZIndex, AttributeLevel, Event_Bubble_Level } from '../../constant';
 import { SeriesData } from '../base/series-data';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
