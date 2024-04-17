@@ -3,12 +3,14 @@ import { Datum } from './Datum';
 export interface UpdateStyleAction {
   action: 'updateStyle';
   data: Datum;
-  style: {
-    [key: string]: number | string;
-  };
-  animation: {
-    duration: number;
-    easing: string;
+  payload: {
+    style: {
+      [key: string]: number | string;
+    };
+    animation: {
+      duration: number;
+      easing: string;
+    };
   };
 }
 

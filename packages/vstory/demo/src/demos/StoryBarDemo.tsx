@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import VChart, { IChartSpec } from '@visactor/vchart';
 import { StoryBar } from '../../../src/dsl/story-chart';
-import { StoryPlayer } from '../../../src/dsl/story-player';
+import { StoryExecutor } from '../../../src/dsl/story-executor';
 
 export const StoryBarDemo = () => {
   const id = 'storyBar';
@@ -13,7 +13,7 @@ export const StoryBarDemo = () => {
       data: [
         {
           id: 'data',
-          values: [{ value: 80, name: 'A' }]
+          values: []
         }
       ],
       xField: 'name',
@@ -22,6 +22,12 @@ export const StoryBarDemo = () => {
         state: {
           updateStyle: {}
         }
+      },
+      animationUpdate: {
+        duration: 500
+      },
+      animationAppear: {
+        duration: 500
       }
     };
 
@@ -43,27 +49,52 @@ export const StoryBarDemo = () => {
     ];
 
     data.forEach(val => {
-      bar.add(val, {
+      bar.add(val, {});
+    });
+
+    data.forEach(val => {
+      bar.updateStyle(val, {
         style: {
           fillOpacity: 0.5
         }
       });
     });
 
-    data.reverse().forEach(val => {
+    data.forEach(val => {
       bar.updateStyle(val, {
         style: {
+          fillOpacity: 1,
           fill: 'red'
         }
       });
     });
 
-    const storyPlayer = new StoryPlayer(bar, {
+    data.forEach(val => {
+      bar.updateStyle(val, {
+        style: {
+          fillOpacity: 0.1,
+          fill: 'blue'
+        }
+      });
+    });
+
+    bar.updateStyle(data[3], {
+      style: {
+        dy: -100
+      }
+    });
+
+    const storyPlayer = new StoryExecutor(bar, {
       chartInstance,
       spec
     });
 
+    console.log(bar.exportSnapshot());
     storyPlayer.play();
+
+    return () => {
+      chartInstance.release();
+    };
   }, []);
 
   return <div id={id}></div>;

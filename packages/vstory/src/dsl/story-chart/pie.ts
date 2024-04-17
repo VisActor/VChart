@@ -6,9 +6,10 @@ import { defaultAdd } from './default/add';
 import { merge } from '@visactor/vutils';
 import { defaultUpdateStyle } from './default/updateStyle';
 import { StoryChartType } from '../constant';
+import { UpdateOption } from '../types/Update';
 
-export class StoryBar {
-  public storyChartType = StoryChartType.BAR;
+export class StoryPie {
+  public storyChartType = StoryChartType.PIE;
 
   private snapshots: ActionNode[];
 
@@ -31,20 +32,17 @@ export class StoryBar {
         data: data
       },
       defaultAdd,
-      { payload: option }
+      option
     );
     this.snapshot(editNode);
   }
 
-  public updateStyle(data: Datum, option?: Partial<UpdateStyleOption>) {
-    const editNode: AddAction = merge(
-      {
-        action: 'updateStyle',
-        data
-      },
-      defaultUpdateStyle,
-      { payload: option }
-    );
+  public update(data: Datum, payload?: Partial<UpdateOption>) {
+    const editNode: UpdateOption = merge({
+      action: 'update',
+      data: data,
+      payload: payload
+    });
     this.snapshot(editNode);
   }
 }
