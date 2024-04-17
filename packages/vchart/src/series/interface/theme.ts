@@ -54,6 +54,7 @@ import { baseSeriesMark } from '../base/constant';
 import type { ILiquidSeriesTheme } from '../liquid/interface';
 import { LiquidSeriesMark } from '../liquid/constant';
 import type { IVennSeriesTheme } from '../venn/interface';
+import { vennSeriesMark } from '../venn/constant';
 
 export interface ISeriesTheme {
   [SeriesTypeEnum.bar]?: IBarSeriesTheme;
@@ -213,5 +214,6 @@ export const seriesMarkInfoMap: Record<SeriesTypeEnum, SeriesMarkMap> = {
   [SeriesTypeEnum.heatmap]: heatmapSeriesMark,
   [SeriesTypeEnum.correlation]: correlationSeriesMark,
   [SeriesTypeEnum.rangeArea]: rangeAreaSeriesMark,
-  [SeriesTypeEnum.liquid]: LiquidSeriesMark
+  [SeriesTypeEnum.liquid]: LiquidSeriesMark,
+  [SeriesTypeEnum.venn]: vennSeriesMark
 };
