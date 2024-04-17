@@ -91,7 +91,7 @@ export const StorySceneDemo = () => {
           id: 'test-chart-1',
           zIndex: 0,
           widget: {
-            top: 500,
+            top: 350,
             left: 100,
             width: 300,
             height: 300
