@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { SimpleBar } from './demos/SimpleBar';
 import { RankingBar } from './demos/RankingBar';
 import { StoryBarDemo } from './demos/StoryBarDemo';
+import { StorySceneDemo } from './demos/StoryScene';
 
 const App = () => {
   const menus = [
@@ -17,10 +18,14 @@ const App = () => {
     {
       name: 'StoryBar',
       component: StoryBarDemo
+    },
+    {
+      name: 'StoryScene',
+      component: StorySceneDemo
     }
   ];
 
-  const [selectedMenu, setSelectedMenu] = useState(menus[2]);
+  const [selectedMenu, setSelectedMenu] = useState(menus[3]);
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>
@@ -32,7 +37,7 @@ const App = () => {
         ))}
       </div>
 
-      <div style={{ flexGrow: 1, border: '1px solid #eee' }}>
+      <div style={{ flexGrow: 1, border: '1px solid #eee', height: '90vh' }}>
         <selectedMenu.component />
       </div>
     </div>
