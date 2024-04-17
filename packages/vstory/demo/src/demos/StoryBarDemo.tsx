@@ -13,7 +13,7 @@ export const StoryBarDemo = () => {
       data: [
         {
           id: 'data',
-          values: [{ value: 80, name: 'A' }]
+          values: []
         }
       ],
       xField: 'name',
@@ -24,6 +24,9 @@ export const StoryBarDemo = () => {
         }
       },
       animationUpdate: {
+        duration: 500
+      },
+      animationAppear: {
         duration: 500
       }
     };
@@ -46,19 +49,39 @@ export const StoryBarDemo = () => {
     ];
 
     data.forEach(val => {
-      bar.add(val, {
+      bar.add(val, {});
+    });
+
+    data.forEach(val => {
+      bar.updateStyle(val, {
         style: {
           fillOpacity: 0.5
         }
       });
     });
 
-    data.reverse().forEach(val => {
+    data.forEach(val => {
       bar.updateStyle(val, {
         style: {
+          fillOpacity: 1,
           fill: 'red'
         }
       });
+    });
+
+    data.forEach(val => {
+      bar.updateStyle(val, {
+        style: {
+          fillOpacity: 0.1,
+          fill: 'blue'
+        }
+      });
+    });
+
+    bar.updateStyle(data[3], {
+      style: {
+        dy: -100
+      }
     });
 
     const storyPlayer = new StoryExecutor(bar, {
@@ -66,6 +89,7 @@ export const StoryBarDemo = () => {
       spec
     });
 
+    console.log(bar.exportSnapshot());
     storyPlayer.play();
 
     return () => {
