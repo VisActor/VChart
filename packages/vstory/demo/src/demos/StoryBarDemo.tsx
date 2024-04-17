@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import VChart, { IChartSpec } from '@visactor/vchart';
 import { StoryBar } from '../../../src/dsl/story-chart';
-import { StoryPlayer } from '../../../src/dsl/story-player';
+import { StoryExecutor } from '../../../src/dsl/story-executor';
 
 export const StoryBarDemo = () => {
   const id = 'storyBar';
@@ -22,6 +22,9 @@ export const StoryBarDemo = () => {
         state: {
           updateStyle: {}
         }
+      },
+      animationUpdate: {
+        duration: 500
       }
     };
 
@@ -58,12 +61,16 @@ export const StoryBarDemo = () => {
       });
     });
 
-    const storyPlayer = new StoryPlayer(bar, {
+    const storyPlayer = new StoryExecutor(bar, {
       chartInstance,
       spec
     });
 
     storyPlayer.play();
+
+    return () => {
+      chartInstance.release();
+    };
   }, []);
 
   return <div id={id}></div>;

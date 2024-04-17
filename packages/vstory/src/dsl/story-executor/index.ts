@@ -11,7 +11,7 @@ interface StoryPlayerOption {
   spec: IChartSpec;
 }
 
-export class StoryPlayer {
+export class StoryExecutor {
   private storyChart: StoryChart;
   private processor: Record<string, Function> = {};
 
@@ -20,7 +20,7 @@ export class StoryPlayer {
 
   constructor(storyChart: StoryChart, option: StoryPlayerOption) {
     this.storyChart = storyChart;
-    this.processor = processorMap[StoryChartType.BAR];
+    this.processor = processorMap[storyChart.storyChartType];
     this.option = option;
     this.snapshots = this.storyChart.exportSnapshot();
   }
