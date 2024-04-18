@@ -4,7 +4,7 @@ import type { StoryComponent } from './component/base';
 import { IInitOption, ISpec, IVChart, VChart } from '@visactor/vchart';
 import { merge } from '@visactor/vutils';
 import { defaultAdd } from './default/add';
-import { UpdateStyleOption } from '../types/UpdateStyle';
+import { UpdateStyleOption } from '../types/Style';
 import { defaultUpdateStyle } from './default/updateStyle';
 import { StoryElement } from './element';
 import { MarkPoint } from './component/markPoint';

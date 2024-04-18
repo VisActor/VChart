@@ -1,11 +1,8 @@
-import { UpdateStyleOption } from '../../types/UpdateStyle';
+import { StyleOption } from '../../types/Style';
 
-export const defaultUpdateStyle: UpdateStyleOption = {
-  payload: {
-    style: {},
-    animation: {
-      duration: 500,
-      easing: 'linear'
-    }
+export const defaultUpdateStyle: StyleOption = {
+  animation: {
+    duration: 500,
+    easing: 'linear'
   }
 };

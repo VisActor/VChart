@@ -1,18 +1,18 @@
 import VChart, { ISpec } from '@visactor/vchart';
 import { ActionNode } from '../../types';
-import { UpdateStyleAction } from '../../types/UpdateStyle';
+import { StyleAction } from '../../types/Style';
 import { getAllSeriesMarksWithoutRoot } from '../../../util/vchart-api';
 import { isDatumEqual } from '../../utils/datum';
 
-export const createMarkStyleProcessorByMarkType = (markType: string) => {
-  async (chartInstance: VChart, spec: ISpec, updateStyleAction: ActionNode) => {
-    const action = updateStyleAction as UpdateStyleAction;
+export const createMarkStyleProcessorByMarkType =
+  (markType: string) => async (chartInstance: VChart, spec: ISpec, updateStyleAction: ActionNode) => {
+    const action = updateStyleAction as StyleAction;
     const { payload } = action;
 
     const helper = (attribute: string) => {
       return (datum, element) => {
-        if (isDatumEqual(datum, action.data) && payload.style?.[attribute]) {
-          return payload.style[attribute];
+        if (isDatumEqual(datum, action.data) && payload?.[attribute]) {
+          return payload[attribute];
         }
 
         return element.graphicItem.attribute?.[attribute];
@@ -20,6 +20,7 @@ export const createMarkStyleProcessorByMarkType = (markType: string) => {
     };
 
     const attrs = [
+      'size',
       'fill',
       'fillOpacity',
       'dx',
@@ -42,7 +43,6 @@ export const createMarkStyleProcessorByMarkType = (markType: string) => {
 
     if (chartInstance) {
       const marks = getAllSeriesMarksWithoutRoot(chartInstance).filter(mark => mark.type === markType);
-
       if (marks && marks.length) {
         marks.forEach(mark => {
           mark.getProduct().encode(
@@ -57,4 +57,3 @@ export const createMarkStyleProcessorByMarkType = (markType: string) => {
       }
     }
   };
-};

@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import VChart, { IChartSpec } from '@visactor/vchart';
+import { IVChart, IChartSpec } from '@visactor/vchart';
 import { StoryChart } from '../story-chart';
 import { processorMap } from '../story-processor';
 import { ActionNode } from '../types';
 
 export interface StoryPlayerOption {
-  chartInstance: VChart;
+  chartInstance: IVChart;
   spec: IChartSpec;
 }
 
