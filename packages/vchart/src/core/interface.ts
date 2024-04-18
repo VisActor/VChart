@@ -3,6 +3,7 @@ import type { DataSet } from '@visactor/vdataset';
 import type { IParserOptions } from '@visactor/vdataset';
 import type {
   Datum,
+  IDataValues,
   IInitOption,
   IMarkStateSpec,
   IPoint,
@@ -102,6 +103,12 @@ export interface IVChart {
    */
   updateDataSync: (id: StringOrNumber, data: Datum[], options?: IParserOptions) => IVChart;
 
+  /**
+   * **同步方法** 更新数据
+   * @param data 图表配置结构中的数据对象
+   * @returns VChart 实例
+   */
+  updateFullDataSync: (data: IDataValues | IDataValues[], reRender?: boolean) => IVChart;
   /**
    * **异步**spec 更新。
    * @param spec

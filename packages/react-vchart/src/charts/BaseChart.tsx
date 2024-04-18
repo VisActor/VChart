@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useImperativeHandle, ReactNode } fr
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
 import type { IView } from '@visactor/vgrammar-core';
-import { isEqual, isNil, pickWithout } from '@visactor/vutils';
+import { isEqual, isNil, isValid, pickWithout } from '@visactor/vutils';
 import ViewContext from '../context/view';
 import { toArray } from '../util';
 import { REACT_PRIVATE_PROPS } from '../constants';
@@ -137,6 +137,13 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec && props.spec) {
       spec = props.spec;
+
+      if (isValid(props.data)) {
+        spec = {
+          ...props.spec,
+          data: props.data
+        } as ISpec;
+      }
     } else {
       spec = {
         ...prevSpec.current,
@@ -210,6 +217,10 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
           morph: false,
           enableExitAnimation: false
         });
+        handleChartRender();
+        eventsBinded.current = props;
+      } else if (eventsBinded.current.data !== props.data) {
+        chartContext.current.chart.updateFullDataSync(props.data as any);
         handleChartRender();
         eventsBinded.current = props;
       }
