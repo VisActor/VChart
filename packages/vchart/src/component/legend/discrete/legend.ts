@@ -36,7 +36,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
 
-  protected _unselectedData: StringOrNumber[] = [];
+  protected _unselectedData: StringOrNumber[];
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const legendSpec = chartSpec[this.specKey];
