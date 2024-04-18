@@ -70,6 +70,30 @@ export const StorySceneDemo = () => {
           }
         },
         {
+          type: 'graphics',
+          id: 'test-graphics-2',
+          zIndex: 0,
+          widget: {
+            top: 40,
+            left: 250,
+            width: 200,
+            height: 100
+          },
+          config: {
+            temp: 'qipao',
+            graphic: {
+              fill: 'red',
+              visible: false
+            },
+            text: {
+              text: '128min',
+              fill: 'black'
+            },
+            angle: 0,
+            shapePoints: []
+          }
+        },
+        {
           type: 'chart',
           id: 'test-chart-0',
           zIndex: 0,
