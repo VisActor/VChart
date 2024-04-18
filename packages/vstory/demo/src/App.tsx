@@ -30,7 +30,7 @@ const App = () => {
     }
   ];
 
-  const [selectedMenu, setSelectedMenu] = useState(menus[3]);
+  const [selectedMenu, setSelectedMenu] = useState(menus[4]);
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>

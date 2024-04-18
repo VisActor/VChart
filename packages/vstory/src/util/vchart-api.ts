@@ -13,3 +13,10 @@ export function getAllSeriesMarksWithoutRoot(vchart: IVChart) {
     .map(s => s.getMarksWithoutRoot())
     .flat();
 }
+
+export function getComponentById(vchart: IVChart, id: number) {
+  if (!vchart) {
+    return null;
+  }
+  return vchart.getComponents().find(component => component.userId === id);
+}

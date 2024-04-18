@@ -5,7 +5,8 @@ import { updateStyleProcessor } from './vchart/updateStyle';
 import { updateProcessor } from './vchart/update';
 import { qipaoAppearProcessor, rectAppearProcessor } from './graphic/appear';
 import { appearProcessor } from './vchart/appear';
-import { markPointProcessor, markPointFlickerProcessor } from './vchart/markPoint';
+import { createMarkPointProcessor, markPointFlickerProcessor } from './vchart/markPoint';
+import { createTitleProcessor } from './vchart/title';
 
 export const processorMap = {
   [StoryChartType.BAR]: {
@@ -32,11 +33,9 @@ export const processorMap = {
     add: addProcessor,
     addPatch: addProcessor,
     update: updateProcessor,
-    markPoint: markPointProcessor
-  }
-};
-
-export const componentProcessorMap = {
+    createMarkPoint: createMarkPointProcessor,
+    createTitle: createTitleProcessor
+  },
   [StoryChartComponentType.MARK_POINT]: {
     flicker: markPointFlickerProcessor
   }

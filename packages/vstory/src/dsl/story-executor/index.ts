@@ -4,16 +4,15 @@ import VChart, { IChartSpec } from '@visactor/vchart';
 import { StoryChart } from '../story-chart';
 import { processorMap } from '../story-processor';
 import { ActionNode } from '../types';
-import { componentProcessorMap } from '../story-processor/processorMap';
 
-interface StoryPlayerOption {
+export interface StoryPlayerOption {
   chartInstance: VChart;
   spec: IChartSpec;
 }
 
 export class StoryExecutor {
   private storyChart: StoryChart;
-  private processor: Record<string, Function> = {};
+  protected processor: Record<string, Function> = {};
 
   private option: StoryPlayerOption;
   private snapshots: ActionNode[] = [];
@@ -26,6 +25,7 @@ export class StoryExecutor {
   }
 
   play = async () => {
+    console.log(this.snapshots);
     for (let i = 0; i < this.snapshots.length; i++) {
       // TODO: 上个动作执行完后, 执行下一个.
       // eslint-disable-next-line promise/param-names
@@ -34,16 +34,20 @@ export class StoryExecutor {
       });
 
       const snapshot = this.snapshots[i];
+      const { action, elementId, elementType, callback } = snapshot;
+
       let processor;
-      // TODO: executor 需要与 element 一对一
-      if ('element' in snapshot) {
-        processor = componentProcessorMap[snapshot.element][snapshot.action];
+      if (elementId === this.storyChart.uid) {
+        processor = this.processor[action];
       } else {
-        processor = this.processor[snapshot.action];
+        processor = processorMap[elementType][action];
       }
 
       if (processor) {
         await processor(this.option.chartInstance, this.option.spec, snapshot);
+        if (callback) {
+          callback(this.option.chartInstance, this.option.spec, snapshot as any);
+        }
       }
     }
   };

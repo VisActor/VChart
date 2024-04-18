@@ -10,5 +10,6 @@ export enum StoryGraphicType {
 }
 
 export const enum StoryChartComponentType {
-  MARK_POINT = 'markPoint'
+  MARK_POINT = 'markPoint',
+  TITLE = 'title'
 }

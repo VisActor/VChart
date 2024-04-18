@@ -2,14 +2,14 @@ import type { IContext } from 'src/interface/type';
 import { Template } from '../template/base-template';
 import { INode, IStage, container, createStage, preLoadAllModule } from '@visactor/vrender-core';
 import { calculateSize } from '../util/size';
-import { CreateID } from '../util/common';
+import { CreateUID } from '../util/common';
 import { loadBrowserEnv } from '@visactor/vrender-kits';
 import { AbstractComponent } from '@visactor/vrender-components';
 import { ITask, TaskManager } from '../task';
 import { Action, Wait } from './action';
 
 export class Scene {
-  readonly id = CreateID();
+  readonly id = CreateUID();
 
   protected template: Template;
 

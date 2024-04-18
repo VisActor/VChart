@@ -87,47 +87,42 @@ export const AreaWithTag = () => {
     // 创建叙事
     const area = new StoryArea();
 
-    area.markPoint(
+    const markPoint = area.createMarkPoint(
       {
         type: 'Nail polish',
         value: 0.05
       },
       {
-        payload: {
-          animation: {
-            duration: 500
-          },
-          itemContent: {
-            offsetY: -10,
-            offsetX: -30,
-            type: 'text',
-            autoRotate: false,
-            text: {
-              text: '5%',
-              dx: -10,
+        itemContent: {
+          offsetY: -10,
+          offsetX: -30,
+          type: 'text',
+          autoRotate: false,
+          text: {
+            text: '5%',
+            dx: -10,
+            style: {
+              fill: 'black',
+              fontSize: 14,
+              fontWeight: 'bold'
+            },
+            labelBackground: {
+              padding: [5, 10, 5, 10],
               style: {
-                fill: 'black',
-                fontSize: 14,
-                fontWeight: 'bold'
-              },
-              labelBackground: {
-                padding: [5, 10, 5, 10],
-                style: {
-                  fill: 'rgb(122,209,182)',
-                  cornerRadius: 20
-                }
+                fill: 'rgb(122,209,182)',
+                cornerRadius: 20
               }
             }
+          }
+        },
+        itemLine: {
+          endSymbol: {
+            visible: false
           },
-          itemLine: {
-            endSymbol: {
+          startSymbol: { visible: false },
+          line: {
+            style: {
               visible: false
-            },
-            startSymbol: { visible: false },
-            line: {
-              style: {
-                visible: false
-              }
             }
           }
         }
@@ -140,18 +135,13 @@ export const AreaWithTag = () => {
     const EUData = values.filter(v => v.country === 'EU');
     const africaData = values.filter(v => v.country === 'Africa');
 
-    area.add(usaData);
-    area.add(EUData);
+    area.add({ id: 'data', values: usaData });
+    area.add({ id: 'data', values: EUData });
 
-    // area.wait()
+    markPoint.flicker();
 
-    // TODO: 组件动画的 API 优化
-    area.flicker({
-      element: 'markPoint'
-    });
-
-    area.add(chinaData);
-    area.add(africaData);
+    area.add({ id: 'data', values: chinaData });
+    area.add({ id: 'data', values: africaData });
 
     // TODO: executor 接口需要调整
     const storyPlayer = new StoryExecutor(area, {
@@ -160,6 +150,7 @@ export const AreaWithTag = () => {
     });
 
     storyPlayer.play();
+
     return () => {
       chartInstance.release();
     };
