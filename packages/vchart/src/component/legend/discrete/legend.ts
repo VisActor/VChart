@@ -212,9 +212,11 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   }
 
   setSelectedData(selectedData: StringOrNumber[]) {
-    this._unselectedData = this._getLegendDefaultData().filter(
-      (entry: StringOrNumber) => !selectedData.includes(entry)
-    );
+    if (selectedData) {
+      this._unselectedData = this._getLegendDefaultData().filter(
+        (entry: StringOrNumber) => !selectedData.includes(entry)
+      );
+    }
 
     super.setSelectedData(selectedData);
   }
