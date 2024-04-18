@@ -54,17 +54,17 @@ export const StoryBarDemo = () => {
 
     bar.add({
       id: 'data',
-      data: data[0]
+      values: data[0]
     });
 
     bar.add({
       id: 'data',
-      data: data[1]
+      values: data[1]
     });
 
     bar.add({
       id: 'data',
-      data: data.slice(2)
+      values: data.slice(2)
     });
 
     const storyPlayer = new StoryExecutor(bar, {

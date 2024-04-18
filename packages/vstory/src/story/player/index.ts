@@ -97,7 +97,7 @@ export class Player implements IPlayer {
           const process = processorMap[temp];
           if (process) {
             const func = process[action.action];
-            func && func(element, action);
+            func && func(element, {}, action);
           }
         }
         element.show();

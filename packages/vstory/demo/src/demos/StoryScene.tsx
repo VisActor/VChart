@@ -108,8 +108,8 @@ export const StorySceneDemo = () => {
           id: 'test-graphics-2',
           zIndex: 3,
           widget: {
-            top: 442,
-            left: 335,
+            top: 355,
+            left: 340,
             width: 40,
             height: 40
           },
@@ -188,15 +188,11 @@ export const StorySceneDemo = () => {
                     {
                       startTime: 5000,
                       action: 'add',
-                      data: [{ id: '0', values: [{ date: 'x4', a: 36, b: 39 }] }],
                       payload: {
-                        style: {},
-                        animation: {
-                          duration: 1000,
-                          easing: 'linear',
-                          effect: 'fadeIn'
-                        } as any
-                      }
+                        id: '0',
+                        values: [{ _editor_dimension_field: 'x4', _editor_type_field: 'x4', _editor_value_field: 39 }]
+                      },
+                      option: {}
                     } as any
                   ]
                 },

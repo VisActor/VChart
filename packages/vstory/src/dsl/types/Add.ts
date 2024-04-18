@@ -12,7 +12,7 @@ export interface AddOption {
 
 export interface AddPayload {
   id: string | number;
-  data: Datum | Datum[];
+  values: Datum | Datum[];
 }
 
 export interface AddAction extends AddOption {
