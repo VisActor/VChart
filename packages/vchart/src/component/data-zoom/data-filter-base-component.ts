@@ -169,12 +169,18 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
     const zoomLock = this._spec?.zoomLock ?? false;
-    if (zoomLock || (end - start !== this._spanCache && (end - start < this._minSpan || end - start > this._maxSpan))) {
+    if (
+      zoomLock ||
+      // 拖拽两端的handler, 而非拖拽中间handler
+      (end - start !== this._spanCache &&
+        // 拖拽后超出限制范围
+        (end - start < this._minSpan || end - start > this._maxSpan))
+    ) {
       this._shouldChange = false;
     } else {
       this._shouldChange = true;
+      this._spanCache = end - start;
     }
-    this._spanCache = end - start;
   }
 
   protected _isReverse() {
