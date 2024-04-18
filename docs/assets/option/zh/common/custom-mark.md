@@ -16,6 +16,8 @@
 - `image` 图片
 - `group` 组，可以将其他 mark 放到组下
 
+注意：布局相关配置自`1.11.0`版本后支持
+
 ## customMark.symbol(Object)
 
 图形类型 `symbol`
