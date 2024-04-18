@@ -26,7 +26,7 @@ import { ChartEvent } from '../../../constant';
 import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
 import type { ILayoutRect } from '../../../typings/layout';
-import type { Datum } from '../../../typings';
+import type { Datum, StringOrNumber } from '../../../typings';
 import { getFormatFunction } from '../../util';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
@@ -35,6 +35,8 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static type = ComponentTypeEnum.discreteLegend;
   type = ComponentTypeEnum.discreteLegend;
   name: string = ComponentTypeEnum.discreteLegend;
+
+  protected _unselectedData: StringOrNumber[] = [];
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const legendSpec = chartSpec[this.specKey];
@@ -147,10 +149,25 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   }
 
   protected _initSelectedData(): void {
-    if (this._spec.defaultSelected) {
+    const fullSelectedData = this._getLegendDefaultData();
+
+    if (this._unselectedData) {
+      const selected: StringOrNumber[] = [];
+      const unselected: StringOrNumber[] = [];
+
+      fullSelectedData.forEach((entry: StringOrNumber) => {
+        if (this._unselectedData.includes(entry)) {
+          unselected.push(entry);
+        } else {
+          selected.push(entry);
+        }
+      });
+      this._selectedData = selected;
+      this._unselectedData = unselected;
+    } else if (this._spec.defaultSelected) {
       this._selectedData = [...this._spec.defaultSelected];
     } else {
-      this._selectedData = this._getLegendDefaultData();
+      this._selectedData = fullSelectedData;
     }
   }
 
@@ -192,6 +209,14 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
   protected _getLegendConstructor() {
     return LegendComponent;
+  }
+
+  setSelectedData(selectedData: StringOrNumber[]) {
+    this._unselectedData = this._getLegendDefaultData().filter(
+      (entry: StringOrNumber) => !selectedData.includes(entry)
+    );
+
+    super.setSelectedData(selectedData);
   }
 
   protected _initEvent() {
