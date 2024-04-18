@@ -29,7 +29,11 @@ export interface IChapterElementCopy {
   actions: IAction[];
 }
 
+export interface IStepSpec {
+  elements: (IChapterElementCopy | IChapterElementLink)[]; // 这个章节中的元素和它的动作
+}
+
 export interface IChapterSpec {
   id: string;
-  elements: (IChapterElementCopy | IChapterElementLink)[]; // 这个章节中的元素和它的动作
+  steps: IStepSpec[];
 }

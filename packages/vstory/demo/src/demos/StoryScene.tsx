@@ -107,56 +107,73 @@ export const StorySceneDemo = () => {
       chapters: [
         {
           id: 'default-chapter',
-          elements: [
+          steps: [
             {
-              elementId: 'test-graphics-0',
-              actions: [
+              elements: [
                 {
-                  startTime: 1000,
-                  action: 'appear',
-                  payload: {
-                    style: {},
-                    animation: {
-                      duration: 1000,
-                      easing: 'linear',
-                      effect: 'fadeIn'
-                    } as any
-                  }
-                }
-              ]
-            },
-            {
-              elementId: 'test-graphics-1',
-              actions: [
+                  elementId: 'test-graphics-0',
+                  actions: [
+                    {
+                      startTime: 1000,
+                      action: 'appear',
+                      payload: {
+                        style: {},
+                        animation: {
+                          duration: 1000,
+                          easing: 'linear',
+                          effect: 'fadeIn'
+                        } as any
+                      }
+                    }
+                  ]
+                },
                 {
-                  startTime: 2000,
-                  action: 'appear',
-                  payload: {
-                    style: {},
-                    animation: {
-                      duration: 1000,
-                      easing: 'linear',
-                      effect: 'fadeIn'
-                    } as any
-                  }
-                }
-              ]
-            },
-            {
-              elementId: 'test-chart-0',
-              actions: [
+                  elementId: 'test-graphics-1',
+                  actions: [
+                    {
+                      startTime: 2000,
+                      action: 'appear',
+                      payload: {
+                        style: {},
+                        animation: {
+                          duration: 1000,
+                          easing: 'linear',
+                          effect: 'fadeIn'
+                        } as any
+                      }
+                    }
+                  ]
+                },
                 {
-                  startTime: 3000,
-                  action: 'appear'
-                }
-              ]
-            },
-            {
-              elementId: 'test-chart-1',
-              actions: [
+                  elementId: 'test-chart-0',
+                  actions: [
+                    {
+                      startTime: 3000,
+                      action: 'appear'
+                    }
+                  ]
+                },
                 {
-                  startTime: 4000,
-                  action: 'appear'
+                  elementId: 'test-chart-1',
+                  actions: [
+                    {
+                      startTime: 4000,
+                      action: 'appear'
+                    },
+                    {
+                      startTime: 5000,
+                      action: 'add',
+                      data: [{ id: '0', values: [{ date: 'x4', a: 36, b: 39 }] }],
+                      payload: {
+                        style: {},
+                        animation: {
+                          duration: 1000,
+                          easing: 'linear',
+                          effect: 'fadeIn'
+                        } as any
+                      }
+                    }
+                  ]
                 }
               ]
             }

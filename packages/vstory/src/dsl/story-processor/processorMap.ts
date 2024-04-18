@@ -7,11 +7,6 @@ import { appearProcessor } from './vchart/appear';
 import { markPointProcessor, markPointFlickerProcessor } from './vchart/markPoint';
 
 export const processorMap = {
-  [StoryChartType.BAR]: {
-    add: addProcessor,
-    updateStyle: updateStyleProcessor,
-    appear: appearProcessor
-  },
   [StoryChartType.LINE]: {
     add: addProcessor,
     updateStyle: updateStyleProcessor,

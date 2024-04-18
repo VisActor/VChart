@@ -54,14 +54,18 @@ export class Player implements IPlayer {
       [key: string]: IElement;
     }
   ): void {
-    this._chapters.push({
-      id: c.id,
-      elements: c.elements.map(item => {
-        return {
+    const e: { element: IElement; actions: IAction[] }[] = [];
+    c.steps.forEach(item => {
+      item.elements.forEach(item => {
+        e.push({
           element: elements[(item as any).elementId],
           actions: item.actions.sort((a, b) => (a.startTime ?? 0) - (b.startTime ?? 0))
-        };
-      })
+        });
+      });
+    });
+    this._chapters.push({
+      id: c.id,
+      elements: e
     });
   }
 
