@@ -15,6 +15,7 @@ export interface ISeriesTooltipHelper extends ITooltipHelper {
   markTooltipValueCallback: TooltipContentCallback<string>;
   shapeTypeCallback: TooltipContentCallback<ShapeType>;
   shapeColorCallback: TooltipContentCallback<string>;
+  shapeStrokeCallback: TooltipContentCallback<string>;
   dimensionTooltipTitleCallback: TooltipContentCallback<string>;
   groupTooltipTitleCallback: TooltipContentCallback<string>;
   groupTooltipKeyCallback: TooltipContentCallback<string>;

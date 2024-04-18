@@ -129,6 +129,10 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     return this._getSeriesStyle(datum, ['fill', 'stroke']);
   };
 
+  shapeStrokeCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+    return this._getSeriesStyle(datum, ['stroke', 'fill']);
+  };
+
   dimensionTooltipTitleCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getDimensionData(datum);
   };
@@ -166,7 +170,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
               hasShape: true,
               shapeType: this.shapeTypeCallback,
               shapeColor: this.shapeColorCallback,
-              shapeStroke: this.shapeColorCallback,
+              shapeStroke: this.shapeStrokeCallback,
               shapeHollow: false
             }
           ]
@@ -188,7 +192,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
               hasShape: true,
               shapeType: this.shapeTypeCallback,
               shapeColor: this.shapeColorCallback,
-              shapeStroke: this.shapeColorCallback,
+              shapeStroke: this.shapeStrokeCallback,
               shapeHollow: false
             }
           ]
@@ -210,7 +214,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
                 hasShape: true,
                 shapeType: this.shapeTypeCallback,
                 shapeColor: this.shapeColorCallback,
-                shapeStroke: this.shapeColorCallback,
+                shapeStroke: this.shapeStrokeCallback,
                 shapeHollow: false
               });
             })
