@@ -1,9 +1,30 @@
-import { isMobile } from 'react-device-detect';
-import type { IVennChartSpec } from '../../../../src/index';
-// eslint-disable-next-line no-duplicate-imports
-import { default as VChart, registerVennChart } from '../../../../src/index';
+---
+category: examples
+group: venn chart
+title: Venn Chart
+keywords: vennChart, proportion
+cover: /vchart/preview/venn-chart-hollow_1.11.0.png
+option: vennChart
+---
 
-const spec: IVennChartSpec = {
+# Hollow Venn Chart
+
+The circle and overlap mark in the venn chart can be freely styled.
+
+## Demo source
+
+```javascript livedemo
+/** --Please add the following code when using it in your code -- */
+// When using it in your code, please introduce registerVennChart and execute it
+// import { registerVennChart } from '@visactor/vchart';
+// registerVennChart();
+/** --Please add the above code when using it in your code-- */
+
+/** --Please delete the following code when using it in your code -- */
+VCHART_MODULE.registerVennChart();
+/** --Please delete the above code when using it in your code-- */
+
+const spec = {
   type: 'venn',
   data: {
     values: [
@@ -41,6 +62,9 @@ const spec: IVennChartSpec = {
       hover: {
         stroke: 'black',
         lineWidth: 8
+      },
+      hover_reverse: {
+        strokeOpacity: 0.2
       }
     }
   },
@@ -54,6 +78,9 @@ const spec: IVennChartSpec = {
       hover: {
         stroke: 'black',
         lineWidth: 8
+      },
+      hover_reverse: {
+        strokeOpacity: 0.2
       }
     }
   },
@@ -85,24 +112,13 @@ const spec: IVennChartSpec = {
   }
 };
 
-const run = () => {
-  registerVennChart();
-  // VChart.ThemeManager.setCurrentTheme('dark');
-  const cs = new VChart(spec, {
-    dom: document.getElementById('chart') as HTMLElement,
-    mode: isMobile ? 'mobile-browser' : 'desktop-browser',
-    //theme: 'dark',
-    onError: err => {
-      console.error(err);
-    }
-  });
-  console.time('renderTime');
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
 
-  cs.renderAsync().then(() => {
-    console.timeEnd('renderTime');
-  });
+// Just for the convenience of console debugging, DO NOT COPY!
+window['vchart'] = vchart;
+```
 
-  window['vchart'] = cs;
-  console.log(cs);
-};
-run();
+## Related Tutorials
+
+[Venn Chart](link)

@@ -1361,6 +1361,29 @@
       ]
     },
     {
+      "path": "venn-chart",
+      "title": {
+        "zh": "venn-chart",
+        "en": "venn-chart"
+      },
+      "children": [
+        {
+          "path": "venn-chart",
+          "title": {
+            "zh": "韦恩图",
+            "en": "Venn Chart"
+          }
+        },
+        {
+          "path": "venn-chart-hollow",
+          "title": {
+            "zh": "空心韦恩图",
+            "en": "Hollow Venn Chart"
+          }
+        }
+      ]
+    },
+    {
       "path": "combination",
       "title": {
         "zh": "combination",
