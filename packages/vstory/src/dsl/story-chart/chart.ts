@@ -1,7 +1,7 @@
 import type { Datum } from '../types/Datum';
 import type { AddAction, AddOption, AddPayload } from './../types/Add';
 import type { StoryComponent } from './component/base';
-import type { IInitOption, ISpec, VChart } from '@visactor/vchart';
+import { IInitOption, ISpec, IVChart, VChart } from '@visactor/vchart';
 import { merge } from '@visactor/vutils';
 import { defaultAdd } from './default/add';
 import { UpdateStyleOption } from '../types/UpdateStyle';
@@ -19,6 +19,7 @@ import { StoryChartType } from '../constant';
 export abstract class StoryChart extends StoryElement {
   public declare storyChartType: StoryChartType;
   private snapshots: ActionNode[];
+  private instance: IVChart;
 
   private components: Map<number, StoryComponent>;
   getComponent(id: number) {
@@ -29,6 +30,18 @@ export abstract class StoryChart extends StoryElement {
     super();
     this.snapshots = [];
     this.components = new Map();
+    if (spec && option) {
+      this.instance = new VChart(spec, option);
+    }
+  }
+
+  public getInstance() {
+    return this.instance;
+  }
+
+  public setInstance(instance: IVChart) {
+    this.instance = instance;
+    return this;
   }
 
   public snapshot(node: ActionNode) {
@@ -38,6 +51,7 @@ export abstract class StoryChart extends StoryElement {
   public exportSnapshot() {
     return this.snapshots;
   }
+
   public add(payload: Partial<AddPayload>, option?: Partial<AddOption>) {
     const editNode: AddAction = merge(
       { action: 'add', option: defaultAdd },
