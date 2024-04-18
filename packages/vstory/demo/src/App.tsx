@@ -5,6 +5,7 @@ import { RankingBar } from './demos/RankingBar';
 import { StoryBarDemo } from './demos/StoryBarDemo';
 import { StorySceneDemo } from './demos/StoryScene';
 import { AreaWithTag } from './demos/AreaWithTag';
+import { StoryLineDemo } from './demos/StoryLineDemo';
 
 const App = () => {
   const menus = [
@@ -21,6 +22,10 @@ const App = () => {
       component: StoryBarDemo
     },
     {
+      name: 'StoryLine',
+      component: StoryLineDemo
+    },
+    {
       name: 'StoryScene',
       component: StorySceneDemo
     },
@@ -30,7 +35,7 @@ const App = () => {
     }
   ];
 
-  const [selectedMenu, setSelectedMenu] = useState(menus[4]);
+  const [selectedMenu, setSelectedMenu] = useState(menus[3]);
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>
