@@ -15,12 +15,14 @@ import { ElementChart } from './element/chart/element';
 import { ContainerModule, GraphicRender, container } from '@visactor/vrender-core';
 import { ChartRender, VChartRender } from './element/chart/graphic/vchart-graphic-render';
 import { StandardParser } from './element/chart/data/parser/standard';
+import { GraphicQipao } from './element/graphics/graphic/qipao';
 
 // @ts-ignore
 StoryFactory.registerElement('chart', ElementChart);
 StoryFactory.registerElement('graphics', ElementGraphics);
 
 StoryFactory.registerGraphic('rect', GraphicRect);
+StoryFactory.registerGraphic('qipao', GraphicQipao);
 
 StoryFactory.registerDataParser('standard', StandardParser);
 

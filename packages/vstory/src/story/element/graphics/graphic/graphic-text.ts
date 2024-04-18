@@ -115,6 +115,7 @@ export class GraphicText {
         textBaseline: baseline,
         angle: layoutData.angle,
         anchor: [layoutData.x + layoutData.width / 2, layoutData.y + layoutData.height / 2],
+        scaleCenter: [layoutData.x + layoutData.width / 2, layoutData.y + layoutData.height / 2],
         maxLineWidth: right - left,
         heightLimit: this._element.graphic.getGraphicAttribute().isResized ? bottom - top : MAX_LAYOUT_SIZE
       })

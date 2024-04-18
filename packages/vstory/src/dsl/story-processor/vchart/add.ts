@@ -10,6 +10,14 @@ export const addProcessor = async (chartInstance: VChart, spec: IChartSpec, addA
   // TODO: 使用同步接口
   await chartInstance.updateDataSync('data', cloneDeep(spec.data[0].values));
 };
+export const barAppearProcessor = async (chartInstance: VChart, spec: IChartSpec, addAction: ActionNode) => {
+  // const action = addAction as AddAction;
+  const vchart = (chartInstance as any)._graphic._vchart;
+  vchart.updateSpecSync(vchart._spec);
+
+  // TODO: 使用同步接口
+  // await chartInstance.updateDataSync('data', cloneDeep(spec.data[0].values));
+};
 
 /**
  * 1. spec.data 要做归一化处理，统一处理到数组

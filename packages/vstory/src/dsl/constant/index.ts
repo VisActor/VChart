@@ -5,7 +5,8 @@ export const enum StoryChartType {
   AREA = 'area'
 }
 export enum StoryGraphicType {
-  RECT = 'rect'
+  RECT = 'rect',
+  QIPAO = 'qipao'
 }
 
 export const enum StoryChartComponentType {

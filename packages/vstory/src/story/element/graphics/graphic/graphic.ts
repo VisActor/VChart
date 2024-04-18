@@ -116,6 +116,7 @@ export abstract class Graphic {
       }
     });
     transformedAttributes.anchor = [x + width / 2, y + height / 2];
+    transformedAttributes.scaleCenter = [x + width / 2, y + height / 2];
     return transformedAttributes;
   }
 }

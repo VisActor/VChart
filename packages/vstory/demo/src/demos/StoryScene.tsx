@@ -12,7 +12,7 @@ const data0 = {
 const data1 = {
   type: 'standard',
   value:
-    '{"data":[{"date":"x1","a":20,"b":20},{"date":"x2","a":23,"b":24},{"date":"x3","a":26,"b":29}],"columns":["date","a","b"],"rows":["x1","x2","x3"],"originData":[{"date":"x1","a":20,"b":20},{"date":"x2","a":23,"b":24},{"date":"x3","a":26,"b":29}],"invalidCells":[]}'
+    '{"data":[{"2017":20,"year":"2017"},{"2017":18,"year":"2018"},{"2017":22,"year":"2019"},{"2017":23,"year":"2020"},{"2017":43,"year":"2021"},{"2017":21,"year":"2022"}],"columns":["year","2017"],"rows":["year","2017","2018","2019","2020","2021","2022"],"originData":[{"2017":"20","year":"2017"},{"2017":"18","year":"2018"},{"2017":"22","year":"2019"},{"2017":"23","year":"2020"},{"2017":"43","year":"2021"},{"2017":"21","year":"2022"}],"invalidCells":[]}'
 };
 
 export const StorySceneDemo = () => {
@@ -70,30 +70,6 @@ export const StorySceneDemo = () => {
           }
         },
         {
-          type: 'graphics',
-          id: 'test-graphics-2',
-          zIndex: 0,
-          widget: {
-            top: 40,
-            left: 250,
-            width: 200,
-            height: 100
-          },
-          config: {
-            temp: 'qipao',
-            graphic: {
-              fill: 'red',
-              visible: false
-            },
-            text: {
-              text: '128min',
-              fill: 'black'
-            },
-            angle: 0,
-            shapePoints: []
-          }
-        },
-        {
           type: 'chart',
           id: 'test-chart-0',
           zIndex: 0,
@@ -125,6 +101,31 @@ export const StorySceneDemo = () => {
             data: data1,
             // @ts-ignore
             attribute: {}
+          }
+        },
+        {
+          type: 'graphics',
+          id: 'test-graphics-2',
+          zIndex: 3,
+          widget: {
+            top: 442,
+            left: 335,
+            width: 40,
+            height: 40
+          },
+          config: {
+            temp: 'qipao',
+            graphic: {
+              fill: 'red',
+              visible: false
+            },
+            text: {
+              text: '128min',
+              fill: 'black',
+              fontSize: 10
+            },
+            angle: 0,
+            shapePoints: []
           }
         }
       ],
@@ -168,15 +169,15 @@ export const StorySceneDemo = () => {
                     }
                   ]
                 },
-                {
-                  elementId: 'test-chart-0',
-                  actions: [
-                    {
-                      startTime: 3000,
-                      action: 'appear'
-                    }
-                  ]
-                },
+                // {
+                //   elementId: 'test-chart-0',
+                //   actions: [
+                //     {
+                //       startTime: 3000,
+                //       action: 'appear'
+                //     }
+                //   ]
+                // },
                 {
                   elementId: 'test-chart-1',
                   actions: [
@@ -194,6 +195,23 @@ export const StorySceneDemo = () => {
                           duration: 1000,
                           easing: 'linear',
                           effect: 'fadeIn'
+                        } as any
+                      }
+                    }
+                  ]
+                },
+                {
+                  elementId: 'test-graphics-2',
+                  actions: [
+                    {
+                      startTime: 5000,
+                      action: 'appear',
+                      payload: {
+                        style: {},
+                        animation: {
+                          duration: 300,
+                          easing: 'linear',
+                          effect: 'grow'
                         } as any
                       }
                     }
