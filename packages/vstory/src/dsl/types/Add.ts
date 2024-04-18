@@ -1,8 +1,6 @@
 import { Datum } from './Datum';
 
-export interface AddAction {
-  action: 'add';
-  data: Datum;
+export interface AddOption {
   payload: {
     style: {
       [key: string]: number | string;
@@ -14,4 +12,12 @@ export interface AddAction {
   };
 }
 
-export type AddOption = Omit<AddAction, 'action' | 'data'>;
+export interface AddAction extends AddOption {
+  action: 'add';
+  data: Datum;
+}
+
+export interface AddPatchAction extends AddOption {
+  action: 'addPatch';
+  data: Datum[];
+}

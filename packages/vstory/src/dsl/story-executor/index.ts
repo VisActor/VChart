@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import VChart, { IChartSpec } from '@visactor/vchart';
-import { StoryChartType } from '../constant';
 import { StoryChart } from '../story-chart';
 import { processorMap } from '../story-processor';
 import { ActionNode } from '../types';
+import { componentProcessorMap } from '../story-processor/processorMap';
 
 interface StoryPlayerOption {
   chartInstance: VChart;
@@ -34,9 +34,17 @@ export class StoryExecutor {
       });
 
       const snapshot = this.snapshots[i];
-      const processor = this.processor[snapshot.action];
+      let processor;
+      // TODO: executor 需要与 element 一对一
+      if ('element' in snapshot) {
+        processor = componentProcessorMap[snapshot.element][snapshot.action];
+      } else {
+        processor = this.processor[snapshot.action];
+      }
 
-      await processor(this.option.chartInstance, this.option.spec, snapshot);
+      if (processor) {
+        await processor(this.option.chartInstance, this.option.spec, snapshot);
+      }
     }
   };
 }

@@ -4,6 +4,7 @@ import { SimpleBar } from './demos/SimpleBar';
 import { RankingBar } from './demos/RankingBar';
 import { StoryBarDemo } from './demos/StoryBarDemo';
 import { StorySceneDemo } from './demos/StoryScene';
+import { AreaWithTag } from './demos/AreaWithTag';
 
 const App = () => {
   const menus = [
@@ -22,6 +23,10 @@ const App = () => {
     {
       name: 'StoryScene',
       component: StorySceneDemo
+    },
+    {
+      name: 'AreaWithTag',
+      component: AreaWithTag
     }
   ];
 
