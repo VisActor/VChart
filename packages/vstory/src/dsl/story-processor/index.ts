@@ -1,1 +1,1 @@
-export { processorMap } from './processorMap';
+export { processorMap } from './processorMap/processorMap';
