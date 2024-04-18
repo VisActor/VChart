@@ -3,21 +3,21 @@ import type { IVennSeriesTheme } from '../../../../series/venn/interface';
 export const venn: IVennSeriesTheme = {
   circle: {
     style: {
-      fillOpacity: 1
+      opacity: 0.8
     },
     state: {
       hover: {
-        fillOpacity: 0.8
+        opacity: 1
       }
     }
   },
   overlap: {
     style: {
-      fillOpacity: 1
+      opacity: 0.6
     },
     state: {
       hover: {
-        fillOpacity: 0.8,
+        opacity: 0.8,
         stroke: 'white',
         lineWidth: 2
       }

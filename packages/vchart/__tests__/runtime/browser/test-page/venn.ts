@@ -23,24 +23,7 @@ const spec: IVennChartSpec = {
   categoryField: 'set',
   valueField: 'value',
   seriesField: 'set',
-  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
-  overlap: {
-    style: {
-      fill: 'transparent',
-      lineWidth: 4
-    }
-  },
-  circle: {
-    style: {
-      fill: 'transparent',
-      lineWidth: 4
-    }
-  },
-  label: {
-    style: {
-      fill: 'black'
-    }
-  }
+  legends: [{ visible: true, position: 'middle', orient: 'bottom' }]
 };
 
 const run = () => {
