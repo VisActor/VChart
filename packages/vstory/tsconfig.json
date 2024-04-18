@@ -5,5 +5,10 @@
     "outDir": "output",
     "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../vchart"
+    }
+  ]
 }

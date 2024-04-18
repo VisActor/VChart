@@ -9,26 +9,29 @@ export const StoryBarDemo = () => {
   useEffect(() => {
     // 准备一个图表
     const spec: IChartSpec = {
-      type: 'bar',
-      data: [
+      type: 'common',
+      series: [
         {
-          id: 'data',
-          values: []
+          type: 'bar',
+          data: {
+            id: 'data',
+            values: []
+          },
+          seriesField: 'type',
+          xField: ['name', 'type'],
+          yField: 'value'
         }
       ],
-      xField: 'name',
-      yField: 'value',
-      bar: {
-        state: {
-          updateStyle: {}
+      axes: [
+        {
+          orient: 'left',
+          type: 'linear'
+        },
+        {
+          orient: 'bottom',
+          type: 'band'
         }
-      },
-      animationUpdate: {
-        duration: 500
-      },
-      animationAppear: {
-        duration: 500
-      }
+      ]
     };
 
     const chartInstance = new VChart(spec, {
@@ -39,53 +42,33 @@ export const StoryBarDemo = () => {
 
     // 创建叙事
     const bar = new StoryBar();
+    bar.setInstance(chartInstance);
 
     // 数据
     const data = [
-      { key: 'a', value: 80, name: 'B' },
-      { key: 'b', value: 120, name: 'C' },
-      { key: 'c', value: 100, name: 'D' },
-      { key: 'd', value: 300, name: 'E' }
+      { key: 'a', value: 80, name: 'n1', type: 'TypeA' },
+      { key: 'b', value: 120, name: 'n2', type: 'TypeA' },
+      { key: 'c', value: 100, name: 'n3', type: 'TypeB' },
+      { key: 'd', value: 300, name: 'n4', type: 'TypeB' }
     ];
 
-    data.forEach(val => {
-      bar.add(val, {});
+    bar.add({
+      id: 'data',
+      data: data[0]
     });
 
-    data.forEach(val => {
-      bar.updateStyle(val, {
-        style: {
-          fillOpacity: 0.5
-        }
-      });
+    bar.add({
+      id: 'data',
+      data: data[1]
     });
 
-    data.forEach(val => {
-      bar.updateStyle(val, {
-        style: {
-          fillOpacity: 1,
-          fill: 'red'
-        }
-      });
-    });
-
-    data.forEach(val => {
-      bar.updateStyle(val, {
-        style: {
-          fillOpacity: 0.1,
-          fill: 'blue'
-        }
-      });
-    });
-
-    bar.updateStyle(data[3], {
-      style: {
-        dy: -100
-      }
+    bar.add({
+      id: 'data',
+      data: data.slice(2)
     });
 
     const storyPlayer = new StoryExecutor(bar, {
-      chartInstance,
+      chartInstance: bar.getInstance(),
       spec
     });
 
