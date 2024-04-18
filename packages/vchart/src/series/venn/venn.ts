@@ -18,15 +18,8 @@ import { VennSeriesSpecTransformer } from './venn-transform';
 import { BaseSeries } from '../base';
 import { registerArcMark, type IArcMark } from '../../mark/arc';
 import { registerPathMark, type IPathMark } from '../../mark/path';
-import {
-  VGRAMMAR_VENN_CIRCLE_RADIUS,
-  VGRAMMAR_VENN_CIRCLE_X,
-  VGRAMMAR_VENN_CIRCLE_Y,
-  VGRAMMAR_VENN_LABEL_X,
-  VGRAMMAR_VENN_LABEL_Y,
-  VGRAMMAR_VENN_OVERLAP_PATH,
-  registerVennTransforms
-} from '@visactor/vgrammar-venn';
+import type { IVennCircleDatum, IVennOverlapDatum } from '@visactor/vgrammar-venn';
+import { registerVennTransforms } from '@visactor/vgrammar-venn';
 import type { IBounds } from '@visactor/vutils';
 import { Bounds, array } from '@visactor/vutils';
 import { getVennSeriesDataKey } from './util';
@@ -144,10 +137,10 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
     this.setMarkStyle<IArcMarkSpec>(
       this._circleMark,
       {
-        x: datum => datum[VGRAMMAR_VENN_CIRCLE_X],
-        y: datum => datum[VGRAMMAR_VENN_CIRCLE_Y],
+        x: datum => (datum as IVennCircleDatum).x,
+        y: datum => (datum as IVennCircleDatum).y,
         innerRadius: 0,
-        outerRadius: datum => datum[VGRAMMAR_VENN_CIRCLE_RADIUS],
+        outerRadius: datum => (datum as IVennCircleDatum).radius,
         startAngle: 0,
         endAngle: Math.PI * 2,
         fill: this.getColorAttribute(),
@@ -165,14 +158,15 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
     this.setMarkStyle<IPathMarkSpec>(
       this._overlapMark,
       {
-        x: 0,
-        y: 0,
-        path: datum => datum[VGRAMMAR_VENN_OVERLAP_PATH],
+        x: datum => (datum as IVennCircleDatum).x,
+        y: datum => (datum as IVennCircleDatum).y,
+        path: datum => (datum as IVennOverlapDatum).path,
+        arcs: datum => (datum as IVennOverlapDatum).arcs,
         fill: this.getColorAttribute(),
         stroke: this.getColorAttribute(),
         zIndex: datum => {
           // zIndex 按照重叠的深度来分级
-          return array(datum[this.getCategoryField()]).length * 100;
+          return (datum as IVennOverlapDatum).sets.length * 100;
         }
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
@@ -183,7 +177,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
       {
         zIndex: datum => {
           // hover 态的 zIndex 要比同级更高
-          return array(datum[this.getCategoryField()]).length * 100 + 1;
+          return (datum as IVennOverlapDatum).sets.length * 100 + 1;
         }
       },
       STATE_VALUE_ENUM.STATE_HOVER,
@@ -200,13 +194,13 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
     this.setMarkStyle(
       labelMark,
       {
-        x: datum => datum[VGRAMMAR_VENN_LABEL_X],
-        y: datum => datum[VGRAMMAR_VENN_LABEL_Y],
-        text: datum => getVennSeriesDataKey(datum[this.getDimensionField()[0]]),
+        x: datum => (datum as IVennCircleDatum).labelX,
+        y: datum => (datum as IVennCircleDatum).labelY,
+        text: datum => getVennSeriesDataKey((datum as IVennCircleDatum).sets),
         maxLineWidth: (datum: any) => {
-          const circleX0 = datum[VGRAMMAR_VENN_CIRCLE_X] - datum[VGRAMMAR_VENN_CIRCLE_RADIUS];
-          const circleX1 = datum[VGRAMMAR_VENN_CIRCLE_X] + datum[VGRAMMAR_VENN_CIRCLE_RADIUS];
-          const labelX = datum[VGRAMMAR_VENN_LABEL_X];
+          const { x, radius, labelX } = datum as IVennCircleDatum;
+          const circleX0 = x - radius;
+          const circleX1 = x + radius;
           return Math.min(labelX - circleX0, circleX1 - labelX);
         }
       },
@@ -224,9 +218,9 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
     this.setMarkStyle(
       labelMark,
       {
-        x: datum => datum[VGRAMMAR_VENN_LABEL_X],
-        y: datum => datum[VGRAMMAR_VENN_LABEL_Y],
-        text: datum => getVennSeriesDataKey(datum[this.getDimensionField()[0]])
+        x: datum => (datum as IVennOverlapDatum).labelX,
+        y: datum => (datum as IVennOverlapDatum).labelY,
+        text: datum => getVennSeriesDataKey((datum as IVennOverlapDatum).sets)
       },
       STATE_VALUE_ENUM.STATE_NORMAL,
       AttributeLevel.Series
