@@ -4,6 +4,7 @@ import { IAction, IChapterElementLink, IChapterSpec } from '../interface';
 import { IPlayer } from '../interface/player';
 import { IElement } from '../element';
 import { processorMap } from '../../dsl/story-processor';
+import { Encoder } from './encode';
 
 export class Ticker {
   cb?: (delta: number) => void;
@@ -40,12 +41,14 @@ export class Player implements IPlayer {
   protected _currChapter: IChapterInstanceItem;
   protected _ticker: Ticker;
   protected _currTime: number;
+  protected _encoder: Encoder;
 
   constructor(c: StoryCanvas) {
     this._canvas = c;
     this._chapters = [];
     this._ticker = new Ticker();
     this._currTime = 0;
+    this._encoder = new Encoder();
   }
 
   addChapter(
@@ -116,6 +119,34 @@ export class Player implements IPlayer {
     this._ticker.start(t => {
       this.tickTo(this._currTime + t);
     });
+  }
+
+  async encodeToVideo(millsecond: number, fps: number) {
+    // if (!this._currChapter) {
+    //   return;
+    // }
+    const frameNum = (millsecond / 1000) * fps;
+    const deltaT = 1000 / fps;
+    this.tickTo(0);
+    const objUrl = await this._encoder.exportVideo(frameNum, fps, async i => {
+      const t = deltaT * i;
+      this.tickTo(t);
+      return new Promise((resolve, reject) => {
+        this._canvas
+          .getStage()
+          .window.getContext()
+          .canvas.nativeCanvas.toBlob((blob: any) => {
+            if (blob) {
+              resolve(blob);
+            } else {
+              console.log('no blob');
+              reject('no blob');
+            }
+          }, `image/png`);
+      });
+    });
+
+    return objUrl;
   }
 
   pause(): void {

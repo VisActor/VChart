@@ -78,6 +78,11 @@ export class Story implements IStory {
     this._player.play();
   }
 
+  async encodeToVideo(chapterIndex: number, millsecond: number, fps: number) {
+    this._player.setCurrentChapter(chapterIndex);
+    return this._player.encodeToVideo(millsecond, fps);
+  }
+
   getPlayer() {
     return this._player;
   }

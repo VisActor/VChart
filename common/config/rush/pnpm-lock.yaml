@@ -256,45 +256,6 @@ importers:
       typescript: 4.9.5
       vite: 3.2.6_@types+node@20.11.30
 
-  ../../packages/vstory:
-    specifiers:
-      '@internal/bundler': workspace:*
-      '@internal/eslint-config': workspace:*
-      '@internal/ts-config': workspace:*
-      '@rushstack/eslint-patch': ~1.1.4
-      '@types/react': ^18.0.0
-      '@types/react-dom': ^18.0.0
-      '@visactor/vchart': workspace:1.10.2
-      '@visactor/vrender-components': 0.18.7
-      '@visactor/vrender-core': 0.18.7
-      '@visactor/vrender-kits': 0.18.7
-      '@visactor/vutils': ~0.18.1
-      '@vitejs/plugin-react': 3.1.0
-      eslint: ~8.18.0
-      react: ^18.0.0
-      react-dom: ^18.0.0
-      typescript: 4.9.5
-      vite: 3.2.6
-    dependencies:
-      '@visactor/vchart': link:../vchart
-      '@visactor/vrender-components': 0.18.7
-      '@visactor/vrender-core': 0.18.7
-      '@visactor/vrender-kits': 0.18.7
-      '@visactor/vutils': 0.18.1
-    devDependencies:
-      '@internal/bundler': link:../../tools/bundler
-      '@internal/eslint-config': link:../../share/eslint-config
-      '@internal/ts-config': link:../../share/ts-config
-      '@rushstack/eslint-patch': 1.1.4
-      '@types/react': 18.2.67
-      '@types/react-dom': 18.2.22
-      '@vitejs/plugin-react': 3.1.0_vite@3.2.6
-      eslint: 8.18.0
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      typescript: 4.9.5
-      vite: 3.2.6
-
   ../../packages/taro-vchart:
     specifiers:
       '@babel/core': 7.20.12
@@ -539,6 +500,49 @@ importers:
       '@internal/eslint-config': link:../../share/eslint-config
       '@internal/ts-config': link:../../share/ts-config
       '@rushstack/eslint-patch': 1.1.4
+
+  ../../packages/vstory:
+    specifiers:
+      '@ffmpeg/core': ^0.11.0
+      '@ffmpeg/ffmpeg': ^0.11.6
+      '@internal/bundler': workspace:*
+      '@internal/eslint-config': workspace:*
+      '@internal/ts-config': workspace:*
+      '@rushstack/eslint-patch': ~1.1.4
+      '@types/react': ^18.0.0
+      '@types/react-dom': ^18.0.0
+      '@visactor/vchart': workspace:1.10.2
+      '@visactor/vrender-components': 0.18.7
+      '@visactor/vrender-core': 0.18.7
+      '@visactor/vrender-kits': 0.18.7
+      '@visactor/vutils': ~0.18.1
+      '@vitejs/plugin-react': 3.1.0
+      eslint: ~8.18.0
+      react: ^18.0.0
+      react-dom: ^18.0.0
+      typescript: 4.9.5
+      vite: 3.2.6
+    dependencies:
+      '@visactor/vchart': link:../vchart
+      '@visactor/vrender-components': 0.18.7
+      '@visactor/vrender-core': 0.18.7
+      '@visactor/vrender-kits': 0.18.7
+      '@visactor/vutils': 0.18.1
+    devDependencies:
+      '@ffmpeg/core': 0.11.0
+      '@ffmpeg/ffmpeg': 0.11.6
+      '@internal/bundler': link:../../tools/bundler
+      '@internal/eslint-config': link:../../share/eslint-config
+      '@internal/ts-config': link:../../share/ts-config
+      '@rushstack/eslint-patch': 1.1.4
+      '@types/react': 18.2.67
+      '@types/react-dom': 18.2.22
+      '@vitejs/plugin-react': 3.1.0_vite@3.2.6
+      eslint: 8.18.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      typescript: 4.9.5
+      vite: 3.2.6
 
   ../../packages/vutils-extension:
     specifiers:
@@ -2462,6 +2466,22 @@ packages:
       lodash.isundefined: 3.0.1
       lodash.uniq: 4.5.0
     dev: false
+
+  /@ffmpeg/core/0.11.0:
+    resolution: {integrity: sha512-9Tt/+2PMpkGPXUK8n6He9G8Y+qR6qmCPSCw9iEKZxHHOvJ9BE/r0Fccj+YgDZTlyu6rXxc9x6EqCaFBIt7qzjA==}
+    dev: true
+
+  /@ffmpeg/ffmpeg/0.11.6:
+    resolution: {integrity: sha512-uN8J8KDjADEavPhNva6tYO9Fj0lWs9z82swF3YXnTxWMBoFLGq3LZ6FLlIldRKEzhOBKnkVfA8UnFJuvGvNxcA==}
+    engines: {node: '>=12.16.1'}
+    dependencies:
+      is-url: 1.2.4
+      node-fetch: 2.6.7
+      regenerator-runtime: 0.13.11
+      resolve-url: 0.2.1
+    transitivePeerDependencies:
+      - encoding
+    dev: true
 
   /@gar/promisify/1.1.3:
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
@@ -4903,7 +4923,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.24.1_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 3.2.6_@types+node@20.11.30
+      vite: 3.2.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -13359,6 +13379,10 @@ packages:
   /is-unicode-supported/0.1.0:
     resolution: {integrity: sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==}
     engines: {node: '>=10'}
+    dev: true
+
+  /is-url/1.2.4:
+    resolution: {integrity: sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww==}
     dev: true
 
   /is-utf8/0.2.1:

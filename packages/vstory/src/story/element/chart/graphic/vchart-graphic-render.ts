@@ -49,6 +49,9 @@ export class VChartRender extends BaseRender<IGraphic> implements IGraphicRender
     chartStage.window.setViewBoxTransform(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f);
     chartStage.dirtyBounds?.clear();
     chartStage.render();
+    // const ctx = chartStage.window.getContext();
+    // ctx.fillStyle = 'green';
+    // ctx.fillRect(0, 0, 100, 100);
   }
 
   draw(chart: any, renderService: IRenderService, drawContext: IDrawContext, params?: IGraphicRenderDrawParams) {

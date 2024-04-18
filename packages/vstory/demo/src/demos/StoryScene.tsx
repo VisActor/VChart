@@ -197,14 +197,14 @@ export const StorySceneDemo = () => {
                           effect: 'fadeIn'
                         } as any
                       }
-                    }
+                    } as any
                   ]
                 },
                 {
                   elementId: 'test-graphics-2',
                   actions: [
                     {
-                      startTime: 5000,
+                      startTime: 4300,
                       action: 'appear',
                       payload: {
                         style: {},
@@ -224,7 +224,22 @@ export const StorySceneDemo = () => {
       ]
     };
     const story = new Story(tempSpec, { dom: id });
-    story.play();
+    // story.play();
+    story
+      .encodeToVideo(0, 5000, 15)
+      .then(objUrl => {
+        const video = document.createElement('video');
+        (video as any).muted = 'muted';
+        video.controls = true;
+        video.src = objUrl;
+        video.play();
+        video.style.width = '500px';
+        video.style.height = '300px';
+        document.body.appendChild(video);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     // let i = 0;
     // story.getPlayer().setCurrentChapter(0);
     // setInterval(() => {
