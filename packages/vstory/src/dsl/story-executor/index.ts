@@ -43,7 +43,7 @@ export class StoryExecutor {
       }
 
       if (processor) {
-        await processor(this.option.chartInstance, snapshot);
+        await processor(this.option.chartInstance, this.option.spec, snapshot);
       }
     }
   };

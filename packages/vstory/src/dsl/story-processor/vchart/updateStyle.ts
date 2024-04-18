@@ -1,11 +1,11 @@
-import VChart, { IChartSpec } from '@visactor/vchart';
+import VChart, { IChartSpec, ISpec } from '@visactor/vchart';
 import { ActionNode } from '../../types';
 import { UpdateStyleAction } from '../../types/UpdateStyle';
 import { getAllSeriesMarksWithoutRoot } from '../../../util/vchart-api';
 import { highlight } from '../../../animate/highlight';
 import { isDatumEqual } from '../../utils/datum';
 
-export const updateStyleProcessor = async (chartInstance: VChart, spec: IChartSpec, updateStyleAction: ActionNode) => {
+export const updateStyleProcessor = async (chartInstance: VChart, spec: ISpec, updateStyleAction: ActionNode) => {
   const action = updateStyleAction as UpdateStyleAction;
   const { payload } = action;
 

@@ -1,9 +1,9 @@
-import { IVChart } from '@visactor/vchart';
+import { ISpec, IVChart } from '@visactor/vchart';
 import { AddAction } from '../../types/Add';
 import { ActionNode } from '../../types';
 import { cloneDeep, isArray } from '@visactor/vutils';
 
-export const addProcessor = async (chartInstance: IVChart, action: ActionNode) => {
+export const addProcessor = async (chartInstance: IVChart, spec: ISpec, action: ActionNode) => {
   const vchart = chartInstance.getChart();
   const { payload } = action as AddAction;
   const { id, data } = payload;
