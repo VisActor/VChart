@@ -32,6 +32,14 @@ Graphical type `symbol`
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.rule(Object)
 
 Graphical type `rule`
@@ -48,6 +56,14 @@ Required configuration to specify the graphical type
 
 {{ use: graphic-rule(
   prefix = '###'
+) }}
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
 ) }}
 
 ## customMark.text(Object)
@@ -68,6 +84,14 @@ Required configuration to specify the graphical type
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.rect(Object)
 
 Graphical type `rect`
@@ -86,6 +110,14 @@ Required configuration to specify the graphical type
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.path(Object)
 
 Graphical type `path`
@@ -102,6 +134,14 @@ Required configuration to specify the graphical type
 
 {{ use: graphic-path(
   prefix = '###'
+) }}
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
 ) }}
 
 ## customMark.arc(Object)
@@ -123,6 +163,14 @@ Required configuration to specify the graphical type
   markType = 'arc'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.polygon(Object)
 
 Graphical type `polygon`
@@ -139,6 +187,14 @@ Required configuration to specify the graphical type
 
 {{ use: graphic-polygon(
   prefix = '###'
+) }}
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
 ) }}
 
 ## customMark.image(Object)
@@ -159,6 +215,14 @@ Required configuration to specify the graphical type
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.group(Object)
 
 Graphical type `group`
@@ -174,3 +238,11 @@ Required configuration to specify the graphical type
 ### children(Array)
 
 Group acts as a special mark. It allows for new marks to be configured within the group's children section
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}

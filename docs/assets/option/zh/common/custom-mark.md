@@ -32,6 +32,14 @@
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.rule(Object)
 
 图形类型 `rule`
@@ -48,6 +56,14 @@
 
 {{ use: graphic-rule(
   prefix = '###'
+) }}
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
 ) }}
 
 ## customMark.text(Object)
@@ -68,6 +84,14 @@
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.rect(Object)
 
 图形类型 `rect`
@@ -84,6 +108,14 @@
 
 {{ use: graphic-rect(
   prefix = '###'
+) }}
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
 ) }}
 
 ## customMark.path(Object)
@@ -104,6 +136,14 @@
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.arc(Object)
 
 图形类型 `arc`
@@ -120,6 +160,14 @@
 
 {{ use: graphic-arc(
   prefix = '###'
+) }}
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
 ) }}
 
 ## customMark.polygon(Object)
@@ -140,6 +188,14 @@
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.image(Object)
 
 图形类型 `image`
@@ -158,6 +214,14 @@
   prefix = '###'
 ) }}
 
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}
+
 ## customMark.group(Object)
 
 图形类型 `group`
@@ -173,3 +237,11 @@
 ### children(Array)
 
 group 作为特殊的 mark。允许在 group 的 children 下配置新的 mark
+
+{{ use: common-layout-item(
+  prefix = '##',
+  defaultLayoutType = 'none',
+  defaultLayoutLevel = 70,
+  defaultLayoutZIndex = 500,
+  noOrient = true
+) }}

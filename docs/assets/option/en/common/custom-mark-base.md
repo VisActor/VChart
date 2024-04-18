@@ -22,5 +22,5 @@ From version **1.9.0** onwards
 When the type of custom mark is `component`, it can be used to set the specific component type
 
 {{ use: common-mark(
-  prefix = ${prefix}
-) }}
+    prefix = ${prefix}
+  ) }}
