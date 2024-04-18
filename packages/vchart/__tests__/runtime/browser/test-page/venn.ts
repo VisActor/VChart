@@ -7,8 +7,8 @@ const spec: IVennChartSpec = {
   type: 'venn',
   data: {
     values: [
-      { set: ['A'], value: 12, label: 'A' },
-      { set: ['B'], value: 12, label: 'B' },
+      { set: ['A'], value: 8, label: 'A' },
+      { set: ['B'], value: 10, label: 'B' },
       { set: ['C'], value: 12, label: 'C' },
       { set: ['A', 'B'], value: 4, label: 'A,B', stroke: 'red' },
       { set: ['A', 'C'], value: 4, label: 'A,C', stroke: 'red' },
@@ -23,7 +23,24 @@ const spec: IVennChartSpec = {
   categoryField: 'set',
   valueField: 'value',
   seriesField: 'set',
-  legends: [{ visible: true, position: 'middle', orient: 'bottom' }]
+  legends: [{ visible: true, position: 'middle', orient: 'bottom' }],
+  overlap: {
+    style: {
+      fill: 'transparent',
+      lineWidth: 4
+    }
+  },
+  circle: {
+    style: {
+      fill: 'transparent',
+      lineWidth: 4
+    }
+  },
+  label: {
+    style: {
+      fill: 'black'
+    }
+  }
 };
 
 const run = () => {

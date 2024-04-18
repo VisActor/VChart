@@ -161,7 +161,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
         x: datum => (datum as IVennCircleDatum).x,
         y: datum => (datum as IVennCircleDatum).y,
         path: datum => (datum as IVennOverlapDatum).path,
-        arcs: datum => (datum as IVennOverlapDatum).arcs,
+        arcs: (datum: any) => (datum as IVennOverlapDatum).arcs,
         fill: this.getColorAttribute(),
         stroke: this.getColorAttribute(),
         zIndex: datum => {
