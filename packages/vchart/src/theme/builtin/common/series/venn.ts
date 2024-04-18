@@ -13,11 +13,11 @@ export const venn: IVennSeriesTheme = {
   },
   overlap: {
     style: {
-      opacity: 0.6
+      opacity: 0.8
     },
     state: {
       hover: {
-        opacity: 0.8,
+        opacity: 1,
         stroke: 'white',
         lineWidth: 2
       }

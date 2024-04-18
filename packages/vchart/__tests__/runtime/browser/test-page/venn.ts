@@ -16,10 +16,6 @@ const spec: IVennChartSpec = {
       { set: ['A', 'B', 'C'], value: 2, label: 'A,B,C', stroke: 'blue' }
     ]
   },
-  title: {
-    visible: true,
-    text: 'Stacked area chart of cosmetic products sales'
-  },
   categoryField: 'set',
   valueField: 'value',
   seriesField: 'set',
