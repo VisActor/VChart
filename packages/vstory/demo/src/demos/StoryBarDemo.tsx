@@ -44,28 +44,73 @@ export const StoryBarDemo = () => {
     bar.setInstance(chartInstance);
 
     // 数据
-    const values = new Array(9).fill(0).map((_, i) => {
+    const values = new Array(5).fill(0).map((_, i) => {
       return {
         x: i + 1,
         y: i + 1
       };
     });
 
-    values.forEach(val => {
-      bar.add({
-        id: 'data',
-        values: val
-      });
+    bar.add({
+      id: 'data',
+      values: values
     });
 
-    values.forEach(val => {
-      bar.barStyle(val, {
-        fill: 'red',
-        scaleZ: 0.1,
-        texture: 'horizontal-line',
-        textureColor: '#eee'
-      });
+    bar.appear({
+      type: 'growCenterIn',
+      duration: 100,
+      oneByOne: true
     });
+
+    bar.dance(values[4], {});
+
+    // bar.barStyle(values[0], {
+    //   fill: 'red'
+    // });
+    // bar.barStyle(values[1], {
+    //   texture: 'circle',
+    //   textureColor: '#ec12ee',
+    //   fillOpacity: 0.5
+    // });
+    // bar.barStyle(values[2], {
+    //   fill: 'green',
+    //   fillOpacity: 0.5,
+    //   stroke: '#eee',
+    //   lineWidth: 10
+    // });
+
+    // bar.add({
+    //   id: dataId,
+    //   values: values[3]
+    // });
+
+    // bar.add({
+    //   id: dataId,
+    //   values: values[4]
+    // });
+
+    // bar.add({
+    //   id: dataId,
+    //   values: values[5]
+    // });
+
+    // bar.add({
+    //   id: dataId,
+    //   values: values[1]
+    // });
+    // bar.add({
+    //   id: dataId,
+    //   values: values[2]
+    // });
+
+    // values.forEach(val => {
+    //   bar.barStyle(val, {
+    //     fill: 'red',
+    //     scaleZ: 0.1,
+    //     texture: 'horizontal-line',
+    //     textureColor: '#eee'
+    //   });
+    // });
 
     const storyPlayer = new StoryExecutor(bar, {
       chartInstance: bar.getInstance(),

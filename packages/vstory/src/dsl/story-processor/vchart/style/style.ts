@@ -10,16 +10,6 @@ export const createMarkStyleProcessorByMarkType =
     const action = updateStyleAction as StyleAction;
     const { payload } = action;
 
-    const encodeHelper = (attribute: string) => {
-      return (datum, element) => {
-        if (isDatumEqual(datum, action.data) && isValid(payload?.[attribute])) {
-          return payload[attribute];
-        }
-
-        return element.graphicItem?.attribute?.[attribute];
-      };
-    };
-
     if (chartInstance) {
       const marks = getAllSeriesMarksWithoutRoot(chartInstance).filter(mark => mark.type === markType);
       if (!marks.length) {
@@ -27,6 +17,16 @@ export const createMarkStyleProcessorByMarkType =
       }
 
       const attrs = Object.keys(action.payload);
+
+      const encodeHelper = (attribute: string) => {
+        return (datum, element) => {
+          if (isDatumEqual(datum, action.data) && isValid(payload?.[attribute])) {
+            return payload[attribute];
+          }
+
+          return element.graphicItem?.attribute?.[attribute];
+        };
+      };
 
       marks.forEach(mark => {
         mark.getProduct().encode(

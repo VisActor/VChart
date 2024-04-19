@@ -8,6 +8,7 @@ import { appearProcessor } from '../vchart/appear';
 import { createMarkPointProcessor, markPointFlickerProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
 import { lineStyleProcessor } from '../vchart/style/lineStyle';
+import { danceProcessor } from '../vchart/dance';
 
 /**
  * 通用的编辑processor
@@ -42,11 +43,12 @@ export const processorChartMap = {
     ...viewProcessor,
     // 通用的, 但实现不同的, 可以直接覆盖
     add: addProcessor,
-    appear: appearProcessor,
     createMarkPoint: createMarkPointProcessor,
     createTitle: createTitleProcessor,
     // 不通用的, 可直接覆盖, 重新定义
-    barStyle: createMarkStyleProcessorByMarkType('rect')
+    barStyle: createMarkStyleProcessorByMarkType('rect'),
+    appear: appearProcessor,
+    dance: danceProcessor
   },
   [StoryChartType.LINE]: {
     ...editProcessor,

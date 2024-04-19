@@ -21,7 +21,5 @@ export const addProcessor = async (chartInstance: IVChart, spec: ISpec, action: 
   const data = isArray(values) ? values : [values];
   rowData.push(...data);
 
-  // TODO, 让行为的option生效, 例如动画
-
   await instance.updateDataSync(dataId, rowData);
 };

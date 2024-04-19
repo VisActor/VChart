@@ -38,5 +38,4 @@ export const lineStyleProcessor = async (chartInstance: VChart, spec: ISpec, upd
 
     chartInstance.renderSync();
   }
-  // }
 };
