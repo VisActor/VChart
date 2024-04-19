@@ -3,6 +3,7 @@ import { ActionNode } from '../../../types';
 import { StyleAction } from '../../../types/Style';
 import { getAllSeriesMarksWithoutRoot } from '../../../../util/vchart-api';
 import { isDatumEqual } from '../../../utils/datum';
+import { isValid } from '@visactor/vutils';
 
 export const createMarkStyleProcessorByMarkType =
   (markType: string) => async (chartInstance: VChart, spec: ISpec, updateStyleAction: ActionNode) => {
@@ -11,11 +12,11 @@ export const createMarkStyleProcessorByMarkType =
 
     const encodeHelper = (attribute: string) => {
       return (datum, element) => {
-        if (isDatumEqual(datum, action.data) && payload?.[attribute]) {
+        if (isDatumEqual(datum, action.data) && isValid(payload?.[attribute])) {
           return payload[attribute];
         }
 
-        return element.graphicItem.attribute?.[attribute];
+        return element.graphicItem?.attribute?.[attribute];
       };
     };
 

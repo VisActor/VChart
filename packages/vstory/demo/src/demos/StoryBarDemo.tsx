@@ -8,28 +8,27 @@ export const StoryBarDemo = () => {
 
   useEffect(() => {
     // 准备一个图表
+    const dataId = 'data';
+    const data = {
+      id: dataId,
+      values: []
+    };
     const spec: IChartSpec = {
       type: 'common',
       series: [
         {
           type: 'bar',
-          data: {
-            id: 'data',
-            values: []
-          },
-          seriesField: 'type',
-          xField: ['name', 'type'],
-          yField: 'value'
+          data: data,
+          yField: 'y',
+          xField: 'x'
         }
       ],
       axes: [
         {
-          orient: 'left',
-          type: 'linear'
+          orient: 'left'
         },
         {
-          orient: 'bottom',
-          type: 'band'
+          orient: 'bottom'
         }
       ]
     };
@@ -45,26 +44,27 @@ export const StoryBarDemo = () => {
     bar.setInstance(chartInstance);
 
     // 数据
-    const data = [
-      { key: 'a', value: 80, name: 'n1', type: 'TypeA' },
-      { key: 'b', value: 120, name: 'n2', type: 'TypeA' },
-      { key: 'c', value: 100, name: 'n3', type: 'TypeB' },
-      { key: 'd', value: 300, name: 'n4', type: 'TypeB' }
-    ];
-
-    bar.add({
-      id: 'data',
-      values: data[0]
+    const values = new Array(9).fill(0).map((_, i) => {
+      return {
+        x: i + 1,
+        y: i + 1
+      };
     });
 
-    bar.add({
-      id: 'data',
-      values: data[1]
+    values.forEach(val => {
+      bar.add({
+        id: 'data',
+        values: val
+      });
     });
 
-    bar.add({
-      id: 'data',
-      values: data.slice(2)
+    values.forEach(val => {
+      bar.barStyle(val, {
+        fill: 'red',
+        scaleZ: 0.1,
+        texture: 'horizontal-line',
+        textureColor: '#eee'
+      });
     });
 
     const storyPlayer = new StoryExecutor(bar, {

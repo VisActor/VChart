@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import VChart, { IChartSpec } from '@visactor/vchart';
+import VChart, { IPieChartSpec } from '@visactor/vchart';
 import { StoryPie } from '../../../src/dsl/story-chart';
 import { StoryExecutor } from '../../../src/dsl/story-executor';
 
@@ -9,20 +9,20 @@ export const StoryPieDemo = () => {
   useEffect(() => {
     // 数据
     const values = new Array(10).fill(0).map((d, i) => ({
-      type: i.toString(),
-      value: Math.random() * 10
+      type: i + 1,
+      value: i + 1
     }));
+    const dataId = 'data';
+    const data = {
+      id: dataId,
+      values: []
+    };
 
     // 准备一个图表
-    const spec: IChartSpec = {
+    const spec: IPieChartSpec = {
       type: 'pie',
-      data: [
-        {
-          id: 'data',
-          values: []
-        }
-      ],
-      outerRadius: 0.8,
+      data: data,
+      outerRadius: 0.1,
       valueField: 'value',
       categoryField: 'type',
       animationUpdate: {
@@ -30,6 +30,9 @@ export const StoryPieDemo = () => {
       },
       label: {
         visible: true
+      },
+      animationAppear: {
+        duration: 300
       }
     };
 
@@ -41,10 +44,17 @@ export const StoryPieDemo = () => {
 
     // 创建叙事
     const pie = new StoryPie();
+    pie.setInstance(chartInstance);
 
-    for (let i = 0; i < values.length; i++) {
-      pie.add(values[i], {});
-    }
+    values.forEach((val, index) => {
+      pie.add({ id: dataId, values: val }, {});
+    });
+
+    values.forEach((val, index) => {
+      pie.arcStyle(val, {
+        outerRadius: 100 + index * 10
+      });
+    });
 
     const storyPlayer = new StoryExecutor(pie, {
       chartInstance,

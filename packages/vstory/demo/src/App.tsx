@@ -7,6 +7,7 @@ import { StorySceneDemo } from './demos/StoryScene';
 import { AreaWithTag } from './demos/AreaWithTag';
 import { StoryLineDemo } from './demos/StoryLineDemo';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { StoryPieDemo } from './demos/StoryPieDemo';
 
 const App = () => {
   const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
@@ -20,12 +21,16 @@ const App = () => {
       component: RankingBar
     },
     {
-      name: 'StoryBar',
+      name: 'Bar',
       component: StoryBarDemo
     },
     {
-      name: 'StoryLine',
+      name: 'Line',
       component: StoryLineDemo
+    },
+    {
+      name: 'Pie',
+      component: StoryPieDemo
     },
     {
       name: 'StoryScene',

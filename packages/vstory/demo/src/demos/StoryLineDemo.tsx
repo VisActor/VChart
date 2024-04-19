@@ -10,23 +10,52 @@ export const StoryLineDemo = () => {
     // 准备一个图表
     const dataId = 'data';
     // 数据
-    const data = [
-      { key: 'a', value: 80, name: '1', type: 'A' },
-      { key: 'b', value: 120, name: '2', type: 'A' },
-      { key: 'b', value: 180, name: '3', type: 'A' },
-      { key: 'a', value: 180, name: '1', type: 'B' },
-      { key: 'b', value: 1120, name: '2', type: 'B' },
-      { key: 'b', value: 1180, name: '3', type: 'B' }
-    ];
-
-    const spec: ISpec = {
-      type: 'line',
-      data: {
-        id: dataId,
-        values: data
+    const values = [
+      {
+        time: '2:00',
+        value: 8
       },
-      seriesField: 'type',
-      xField: 'name',
+      {
+        time: '4:00',
+        value: 9
+      },
+      {
+        time: '6:00',
+        value: 11
+      },
+      {
+        time: '8:00',
+        value: 14
+      },
+      {
+        time: '10:00',
+        value: 16
+      },
+      {
+        time: '12:00',
+        value: 17
+      },
+      {
+        time: '14:00',
+        value: 17
+      },
+      {
+        time: '16:00',
+        value: 16
+      },
+      {
+        time: '18:00',
+        value: 15
+      }
+    ];
+    const data = {
+      id: dataId,
+      values: values
+    };
+    const spec = {
+      type: 'line',
+      data: data,
+      xField: 'time',
       yField: 'value'
     };
 
@@ -40,13 +69,16 @@ export const StoryLineDemo = () => {
     const line = new StoryLine();
     line.setInstance(chartInstance as IVChart);
 
-    line.lineStyle(data[1], {
-      stroke: 'red'
+    values.forEach((val, index) => {
+      line.symbolStyle(val, {
+        size: 15 + 10 * index,
+        fill: 'red',
+        fillOpacity: Math.random()
+      });
     });
 
-    line.symbolStyle(data[0], {
-      size: 50,
-      fill: 'red'
+    line.lineStyle(values[1], {
+      stroke: 'red'
     });
 
     const storyPlayer = new StoryExecutor(line, {

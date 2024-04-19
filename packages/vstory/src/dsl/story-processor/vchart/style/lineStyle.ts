@@ -3,6 +3,7 @@ import { ActionNode } from '../../../types';
 import { StyleAction } from '../../../types/Style';
 import { getAllSeriesMarksWithoutRoot } from '../../../../util/vchart-api';
 import { isDatumEqual } from '../../../utils/datum';
+import { isValid } from '@visactor/vutils';
 
 export const lineStyleProcessor = async (chartInstance: VChart, spec: ISpec, updateStyleAction: ActionNode) => {
   const action = updateStyleAction as StyleAction;
@@ -10,7 +11,7 @@ export const lineStyleProcessor = async (chartInstance: VChart, spec: ISpec, upd
 
   const encodeHelper = (attribute: string) => {
     return (_, element) => {
-      if (element.data.some(d => isDatumEqual(d, action.data)) && payload?.[attribute]) {
+      if (element.data.some(d => isDatumEqual(d, action.data)) && isValid(payload?.[attribute])) {
         return payload[attribute];
       }
 

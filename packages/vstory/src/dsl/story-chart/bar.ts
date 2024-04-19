@@ -7,10 +7,10 @@ import { Datum } from '../types/Datum';
 export class StoryBar extends StoryChart {
   public storyChartType = StoryChartType.BAR;
 
-  barStyle(datum: Datum, payload: StylePayload) {
+  barStyle(data: Datum, payload: StylePayload) {
     const styleNode: StyleAction = merge(
       { action: 'barStyle' },
-      { elementType: this.storyChartType, elementId: this.uid, datum, payload }
+      { elementType: this.storyChartType, elementId: this.uid, data, payload }
     );
     this.snapshot(styleNode);
   }
