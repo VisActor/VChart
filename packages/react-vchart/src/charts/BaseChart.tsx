@@ -174,6 +174,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       const newView = chartContext.current.chart.getCompiler().getVGrammarView();
 
       setUpdateId(updateId + 1);
+      window.vchart = chartContext.current.chart;
       if (props.onReady) {
         props.onReady(chartContext.current.chart, updateId === 0);
       }
