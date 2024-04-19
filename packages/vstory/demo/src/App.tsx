@@ -6,8 +6,10 @@ import { StoryBarDemo } from './demos/StoryBarDemo';
 import { StorySceneDemo } from './demos/StoryScene';
 import { AreaWithTag } from './demos/AreaWithTag';
 import { StoryLineDemo } from './demos/StoryLineDemo';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 const App = () => {
+  const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
   const menus = [
     {
       name: 'SimpleBar',
@@ -35,13 +37,13 @@ const App = () => {
     }
   ];
 
-  const [selectedMenu, setSelectedMenu] = useState(menus[3]);
+  const selectedMenu = menus[activeIndex];
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>
       <div style={{ flexBasis: 200, height: '90vh', border: '1px solid #eee' }}>
         {menus.map((menu, index) => (
-          <div key={index} onClick={() => setSelectedMenu(menu)} style={{ color: 'blueviolet' }}>
+          <div key={index} onClick={() => setActiveIndex(index)} style={{ color: 'blueviolet' }}>
             <button>{menu.name}</button>
           </div>
         ))}

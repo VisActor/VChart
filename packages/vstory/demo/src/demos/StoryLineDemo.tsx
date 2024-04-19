@@ -1,4 +1,4 @@
-import VChart, { IChartSpec, IVChart } from '@visactor/vchart';
+import VChart, { ISpec, IVChart } from '@visactor/vchart';
 import React, { useEffect } from 'react';
 import { StoryExecutor } from '../../../src/dsl/story-executor';
 import { StoryLine } from '../../../src/dsl/story-chart/line';
@@ -9,25 +9,25 @@ export const StoryLineDemo = () => {
   useEffect(() => {
     // 准备一个图表
     const dataId = 'data';
-    const spec: IChartSpec = {
+    // 数据
+    const data = [
+      { key: 'a', value: 80, name: '1', type: 'A' },
+      { key: 'b', value: 120, name: '2', type: 'A' },
+      { key: 'b', value: 180, name: '3', type: 'A' },
+      { key: 'a', value: 180, name: '1', type: 'B' },
+      { key: 'b', value: 1120, name: '2', type: 'B' },
+      { key: 'b', value: 1180, name: '3', type: 'B' }
+    ];
+
+    const spec: ISpec = {
       type: 'line',
       data: {
-        id: 'data',
-        values: []
+        id: dataId,
+        values: data
       },
-      // seriesField: 'type',
-      xField: ['name', 'type'],
-      yField: 'value',
-      axes: [
-        {
-          orient: 'left',
-          type: 'linear'
-        },
-        {
-          orient: 'bottom',
-          type: 'band'
-        }
-      ]
+      seriesField: 'type',
+      xField: 'name',
+      yField: 'value'
     };
 
     const chartInstance = new VChart(spec, {
@@ -40,25 +40,13 @@ export const StoryLineDemo = () => {
     const line = new StoryLine();
     line.setInstance(chartInstance as IVChart);
 
-    // 数据
-    const data = [
-      { key: 'a', value: 80, name: 'n1', type: 'TypeA' },
-      { key: 'b', value: 120, name: 'n2', type: 'TypeA' },
-      { key: 'b', value: 180, name: 'n3', type: 'TypeA' }
-    ];
-
-    line.add({
-      id: dataId,
-      values: data
+    line.lineStyle(data[1], {
+      stroke: 'red'
     });
 
     line.symbolStyle(data[0], {
       size: 50,
       fill: 'red'
-    });
-
-    line.lineStyle(data[0], {
-      stroke: 'red'
     });
 
     const storyPlayer = new StoryExecutor(line, {
