@@ -1,12 +1,13 @@
 import { StoryChartComponentType, StoryChartType, StoryGraphicType } from '../../constant';
 
 import { addProcessor } from '../vchart/add';
-import { createMarkStyleProcessorByMarkType } from '../vchart/updateStyle';
+import { createMarkStyleProcessorByMarkType } from '../vchart/style/style';
 import { updateProcessor } from '../vchart/update';
 import { qipaoAppearProcessor, rectAppearProcessor } from '../graphic/appear';
 import { appearProcessor } from '../vchart/appear';
 import { createMarkPointProcessor, markPointFlickerProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
+import { lineStyleProcessor } from '../vchart/style/lineStyle';
 
 /**
  * 通用的编辑processor
@@ -51,7 +52,7 @@ export const processorChartMap = {
     ...editProcessor,
     ...viewProcessor,
     ...componentProcessor,
-    lineStyle: createMarkStyleProcessorByMarkType('line'),
+    lineStyle: lineStyleProcessor,
     symbolStyle: createMarkStyleProcessorByMarkType('symbol')
   },
   [StoryChartType.PIE]: {
