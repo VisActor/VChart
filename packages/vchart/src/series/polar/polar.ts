@@ -12,6 +12,8 @@ import type { IPolarSeriesSpec } from './interface';
 import type { Datum, StringOrNumber } from '../../typings';
 import { sortDataInAxisHelper } from '../util/utils';
 import { ChartEvent } from '../../constant';
+import { registerDataSetInstanceTransform } from '../../data/register';
+import { invalidTravel } from '../../data/transforms/invalid-travel';
 
 export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   extends BaseSeries<T>
@@ -236,6 +238,38 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   _sortDataInAxisDomain() {
     if (this.getViewData()?.latestData?.length) {
       sortDataInAxisHelper(this.angleAxisHelper, this._angleField[0], this.getViewData().latestData);
+    }
+  }
+
+  protected initInvalidDataTransform(): void {
+    // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
+    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
+      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
+      // make sure each series only transform once
+      this._rawData?.transform(
+        {
+          type: 'invalidTravel',
+          options: {
+            config: () => {
+              const fields = [];
+
+              if (this.angleAxisHelper.isContinuous) {
+                fields.push(this._angleField[0]);
+              }
+
+              if (this.radiusAxisHelper.isContinuous) {
+                fields.push(this._radiusField[0]);
+              }
+
+              return {
+                invalidType: this._invalidType,
+                checkField: fields
+              };
+            }
+          }
+        },
+        false
+      );
     }
   }
 

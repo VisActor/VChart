@@ -25,6 +25,8 @@ import type { StatisticOperations } from '../../data/transforms/dimension-statis
 import type { ICartesianSeriesSpec } from './interface';
 import { sortDataInAxisHelper } from '../util/utils';
 import type { IAxisLocationCfg } from '../../component/axis';
+import { registerDataSetInstanceTransform } from '../../data/register';
+import { invalidTravel } from '../../data/transforms/invalid-travel';
 
 export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesianSeriesSpec>
   extends BaseSeries<T>
@@ -528,6 +530,38 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
         this.getViewData().latestData
       );
       this._data?.updateData(true);
+    }
+  }
+
+  protected initInvalidDataTransform(): void {
+    // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
+    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
+      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
+      // make sure each series only transform once
+      this._rawData?.transform(
+        {
+          type: 'invalidTravel',
+          options: {
+            config: () => {
+              const fields = [];
+
+              if (this._xAxisHelper && this._xAxisHelper.isContinuous) {
+                fields.push(this._specXField[0]);
+              }
+
+              if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
+                fields.push(this._specYField[0]);
+              }
+
+              return {
+                invalidType: this._invalidType,
+                checkField: fields
+              };
+            }
+          }
+        },
+        false
+      );
     }
   }
 
