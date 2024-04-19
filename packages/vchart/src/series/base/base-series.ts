@@ -736,6 +736,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         mark.setDataView(this.getViewData(), this.getViewDataProductId());
       } else {
         mark.setDataView(dataView);
+
+        dataView.target.addListener('change', () => {
+          mark.getData().updateData();
+        });
       }
     }
   }
