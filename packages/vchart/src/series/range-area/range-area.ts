@@ -91,6 +91,20 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
     }
     return false;
   }
+
+  protected getInvalidCheckFields() {
+    const fields = [];
+
+    if (this._xAxisHelper && this._xAxisHelper.isContinuous) {
+      fields.push(this._specXField[0]);
+    }
+
+    if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
+      fields.push(this._specYField[0]);
+      fields.push(this._specYField[1]);
+    }
+    return fields;
+  }
 }
 
 export const registerRangeAreaSeries = () => {
