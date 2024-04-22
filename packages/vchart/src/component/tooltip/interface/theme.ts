@@ -36,6 +36,10 @@ export interface ITooltipTextTheme<ColorType = string> {
    * @since 1.4.2
    */
   autoWidth?: boolean;
+  /**
+   * tooltip 宽度偏移量，在内容宽度的基础上增加，可以用于调整标签的换行点
+   */
+  widthOffset?: number;
 }
 
 export interface ITooltipTheme<ColorType = string> {

@@ -39,7 +39,8 @@ export function getTextAttributes(
     multiLine: style.multiLine,
     maxWidth: style.maxWidth,
     wordBreak: style.wordBreak,
-    autoWidth: style.autoWidth
+    autoWidth: style.autoWidth,
+    widthOffset: style.widthOffset
   };
   return attrs;
 }
@@ -169,16 +170,17 @@ export const getTooltipAttributes = (
           getTextAttributes(actualKeyStyle, undefined, {})
         );
         const { width, height, text } = measureTooltipText(actualKey, itemKeyStyle);
+        const keyWidth = width + actualKeyStyle.widthOffset ?? 0;
         itemAttrs.key = {
-          width,
+          width: keyWidth,
           height,
           ...itemKeyStyle,
           text
         };
         if (!actualIsKeyAdaptive) {
-          keyWidths.push(width);
+          keyWidths.push(keyWidth);
         } else {
-          adaptiveKeyWidths.push(width);
+          adaptiveKeyWidths.push(keyWidth);
         }
         itemHeight = Math.max(itemHeight, height);
       }
@@ -189,13 +191,14 @@ export const getTooltipAttributes = (
           getTextAttributes(actualValueStyle, undefined, {})
         );
         const { width, height, text } = measureTooltipText(actualValue, itemValueStyle);
+        const valueWidth = width + actualValueStyle.widthOffset ?? 0;
         itemAttrs.value = {
-          width,
+          width: valueWidth,
           height,
           ...itemValueStyle,
           text
         };
-        valueWidths.push(width);
+        valueWidths.push(valueWidth);
         itemHeight = Math.max(itemHeight, height);
       }
       if (actualHasShape) {
@@ -271,7 +274,9 @@ export const getTooltipAttributes = (
 
     const { text, width, height } = measureTooltipText(actualTitleValue, titleValueStyle);
     attributes.title.value = {
-      width: isAutoWidthMode() ? Math.min(width, titleValueStyle.maxWidth ?? Number.MAX_VALUE) : width,
+      width:
+        (isAutoWidthMode() ? Math.min(width, titleValueStyle.maxWidth ?? Number.MAX_VALUE) : width) +
+          titleValueStyle.widthOffset ?? 0,
       height,
       ...titleValueStyle,
       text
