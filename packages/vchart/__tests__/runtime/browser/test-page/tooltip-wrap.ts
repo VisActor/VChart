@@ -207,7 +207,8 @@ const run = () => {
           size: 0
         },
         valueLabel: {
-          multiLine: true
+          multiLine: true,
+          extraWidth: 2
           //maxWidth: 200
         }
       },

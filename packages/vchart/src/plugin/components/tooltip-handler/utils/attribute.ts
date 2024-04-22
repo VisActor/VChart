@@ -40,7 +40,7 @@ export function getTextAttributes(
     maxWidth: style.maxWidth,
     wordBreak: style.wordBreak,
     autoWidth: style.autoWidth,
-    widthOffset: style.widthOffset
+    extraWidth: style.extraWidth
   };
   return attrs;
 }
@@ -170,18 +170,17 @@ export const getTooltipAttributes = (
           getTextAttributes(actualKeyStyle, undefined, {})
         );
         const { width, height, text } = measureTooltipText(actualKey, itemKeyStyle);
-        const { widthOffset = 0 } = itemKeyStyle;
-        const keyWidth = width + widthOffset;
+        const { extraWidth = 0 } = itemKeyStyle;
         itemAttrs.key = {
-          width: keyWidth,
+          width: width + extraWidth,
           height,
           ...itemKeyStyle,
           text
         };
         if (!actualIsKeyAdaptive) {
-          keyWidths.push(keyWidth);
+          keyWidths.push(itemAttrs.key.width);
         } else {
-          adaptiveKeyWidths.push(keyWidth);
+          adaptiveKeyWidths.push(itemAttrs.key.width);
         }
         itemHeight = Math.max(itemHeight, height);
       }
@@ -192,15 +191,14 @@ export const getTooltipAttributes = (
           getTextAttributes(actualValueStyle, undefined, {})
         );
         const { width, height, text } = measureTooltipText(actualValue, itemValueStyle);
-        const { widthOffset = 0 } = itemValueStyle;
-        const valueWidth = width + widthOffset;
+        const { extraWidth = 0 } = itemValueStyle;
         itemAttrs.value = {
-          width: valueWidth,
+          width: width + extraWidth,
           height,
           ...itemValueStyle,
           text
         };
-        valueWidths.push(valueWidth);
+        valueWidths.push(itemAttrs.value.width);
         itemHeight = Math.max(itemHeight, height);
       }
       if (actualHasShape) {
@@ -275,9 +273,9 @@ export const getTooltipAttributes = (
     }
 
     const { text, width, height } = measureTooltipText(actualTitleValue, titleValueStyle);
-    const { widthOffset = 0 } = titleValueStyle;
+    const { extraWidth = 0 } = titleValueStyle;
     attributes.title.value = {
-      width: (isAutoWidthMode() ? Math.min(width, titleValueStyle.maxWidth ?? Number.MAX_VALUE) : width) + widthOffset,
+      width: (isAutoWidthMode() ? Math.min(width, titleValueStyle.maxWidth ?? Number.MAX_VALUE) : width) + extraWidth,
       height,
       ...titleValueStyle,
       text

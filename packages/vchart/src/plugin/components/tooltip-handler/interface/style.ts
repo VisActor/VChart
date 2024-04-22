@@ -12,8 +12,8 @@ export interface ITooltipTextStyle extends Partial<ITextAttribute & IFillStyle> 
   wordBreak?: RichTextWordBreak;
   /** 是否开启自动宽度 */
   autoWidth?: boolean;
-  /** 宽度偏移量 */
-  widthOffset?: number;
+  /** 额外宽度，在内容宽度的基础上增加，可以用于调整标签的换行点 */
+  extraWidth?: number;
 }
 
 export interface ITooltipAttributes extends TooltipAttributes {
