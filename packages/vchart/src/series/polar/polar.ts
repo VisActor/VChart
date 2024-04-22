@@ -242,14 +242,18 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
   }
 
   protected getInvalidCheckFields() {
-    const fields = [];
+    const fields: string[] = [];
 
     if (this.angleAxisHelper.isContinuous) {
-      fields.push(this._angleField[0]);
+      this._angleField.forEach(f => {
+        fields.push(f);
+      });
     }
 
     if (this.radiusAxisHelper.isContinuous) {
-      fields.push(this._radiusField[0]);
+      this._radiusField.forEach(f => {
+        fields.push(f);
+      });
     }
     return fields;
   }

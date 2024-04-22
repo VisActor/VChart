@@ -534,14 +534,18 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
   }
 
   protected getInvalidCheckFields() {
-    const fields = [];
+    const fields: string[] = [];
 
     if (this._xAxisHelper && this._xAxisHelper.isContinuous) {
-      fields.push(this._specXField[0]);
+      this._specXField.forEach(f => {
+        fields.push(f);
+      });
     }
 
     if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
-      fields.push(this._specYField[0]);
+      this._specYField.forEach(f => {
+        fields.push(f);
+      });
     }
     return fields;
   }
