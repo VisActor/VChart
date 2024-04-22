@@ -537,13 +537,16 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     const fields: string[] = [];
 
     if (this._xAxisHelper && this._xAxisHelper.isContinuous) {
-      this._specXField.forEach(f => {
+      const xFields = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._specXField;
+      xFields.forEach(f => {
         fields.push(f);
       });
     }
 
     if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
-      this._specYField.forEach(f => {
+      const yFields = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._specYField;
+
+      yFields.forEach(f => {
         fields.push(f);
       });
     }
