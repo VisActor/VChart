@@ -91,19 +91,6 @@ export class RangeAreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extend
     }
     return false;
   }
-
-  protected _getInvalidDefined(datum: Datum) {
-    if (!super._getInvalidDefined(datum)) {
-      return false;
-    }
-
-    if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
-      if (!couldBeValidNumber(datum[this._specYField[1]])) {
-        return false;
-      }
-    }
-    return true;
-  }
 }
 
 export const registerRangeAreaSeries = () => {

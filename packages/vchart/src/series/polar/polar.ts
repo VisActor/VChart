@@ -241,49 +241,16 @@ export abstract class PolarSeries<T extends IPolarSeriesSpec = IPolarSeriesSpec>
     }
   }
 
-  protected initInvalidDataTransform(): void {
-    // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
-    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
-      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
-      // make sure each series only transform once
-      this._rawData?.transform(
-        {
-          type: 'invalidTravel',
-          options: {
-            config: () => {
-              const fields = [];
+  protected getInvalidCheckFields() {
+    const fields = [];
 
-              if (this.angleAxisHelper.isContinuous) {
-                fields.push(this._angleField[0]);
-              }
-
-              if (this.radiusAxisHelper.isContinuous) {
-                fields.push(this._radiusField[0]);
-              }
-
-              return {
-                invalidType: this._invalidType,
-                checkField: fields
-              };
-            }
-          }
-        },
-        false
-      );
-    }
-  }
-
-  protected _getInvalidDefined(datum: Datum) {
     if (this.angleAxisHelper.isContinuous) {
-      if (!couldBeValidNumber(datum[this._angleField[0]])) {
-        return false;
-      }
+      fields.push(this._angleField[0]);
     }
+
     if (this.radiusAxisHelper.isContinuous) {
-      if (!couldBeValidNumber(datum[this._radiusField[0]])) {
-        return false;
-      }
+      fields.push(this._radiusField[0]);
     }
-    return true;
+    return fields;
   }
 }

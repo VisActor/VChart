@@ -533,50 +533,17 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     }
   }
 
-  protected initInvalidDataTransform(): void {
-    // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
-    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
-      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
-      // make sure each series only transform once
-      this._rawData?.transform(
-        {
-          type: 'invalidTravel',
-          options: {
-            config: () => {
-              const fields = [];
+  protected getInvalidCheckFields() {
+    const fields = [];
 
-              if (this._xAxisHelper && this._xAxisHelper.isContinuous) {
-                fields.push(this._specXField[0]);
-              }
-
-              if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
-                fields.push(this._specYField[0]);
-              }
-
-              return {
-                invalidType: this._invalidType,
-                checkField: fields
-              };
-            }
-          }
-        },
-        false
-      );
-    }
-  }
-
-  protected _getInvalidDefined(datum: Datum) {
     if (this._xAxisHelper && this._xAxisHelper.isContinuous) {
-      if (!couldBeValidNumber(datum[this._specXField[0]])) {
-        return false;
-      }
+      fields.push(this._specXField[0]);
     }
+
     if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
-      if (!couldBeValidNumber(datum[this._specYField[0]])) {
-        return false;
-      }
+      fields.push(this._specYField[0]);
     }
-    return true;
+    return fields;
   }
 
   reInit(spec: T) {
