@@ -127,7 +127,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
       return;
     }
 
-    if (options.hasAnimation) {
+    if (options.hasAnimation && spec.animation) {
       // 自定义图元默认不添加动画
       const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
       mark.setAnimationConfig(config);
