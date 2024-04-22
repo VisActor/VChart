@@ -170,7 +170,8 @@ export const getTooltipAttributes = (
           getTextAttributes(actualKeyStyle, undefined, {})
         );
         const { width, height, text } = measureTooltipText(actualKey, itemKeyStyle);
-        const keyWidth = width + itemKeyStyle.widthOffset ?? 0;
+        const { widthOffset = 0 } = itemKeyStyle;
+        const keyWidth = width + widthOffset;
         itemAttrs.key = {
           width: keyWidth,
           height,
@@ -191,7 +192,8 @@ export const getTooltipAttributes = (
           getTextAttributes(actualValueStyle, undefined, {})
         );
         const { width, height, text } = measureTooltipText(actualValue, itemValueStyle);
-        const valueWidth = width + itemValueStyle.widthOffset ?? 0;
+        const { widthOffset = 0 } = itemValueStyle;
+        const valueWidth = width + widthOffset;
         itemAttrs.value = {
           width: valueWidth,
           height,
@@ -273,10 +275,9 @@ export const getTooltipAttributes = (
     }
 
     const { text, width, height } = measureTooltipText(actualTitleValue, titleValueStyle);
+    const { widthOffset = 0 } = titleValueStyle;
     attributes.title.value = {
-      width:
-        (isAutoWidthMode() ? Math.min(width, titleValueStyle.maxWidth ?? Number.MAX_VALUE) : width) +
-          titleValueStyle.widthOffset ?? 0,
+      width: (isAutoWidthMode() ? Math.min(width, titleValueStyle.maxWidth ?? Number.MAX_VALUE) : width) + widthOffset,
       height,
       ...titleValueStyle,
       text
