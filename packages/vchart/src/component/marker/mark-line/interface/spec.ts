@@ -15,7 +15,7 @@ import type {
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
 import type { ILineMarkSpec, IPoint } from '../../../../typings';
-import type { BaseMarkerAnimation, CommonMarkLineAnimationType } from '@visactor/vrender-components';
+import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components/es/marker/type';
 
 export type IMarkLine = IComponent;
 
@@ -48,8 +48,8 @@ export type IMarkLineSpec =
        * 动画配置
        * @since 0.11.0
        */
-      BaseMarkerAnimation<CommonMarkLineAnimationType>)
-  | (IStepMarkLineSpec & BaseMarkerAnimation<CommonMarkLineAnimationType>); // 标注目标：任意位置
+      BaseMarkerAnimation<MarkCommonLineAnimationType>)
+  | (IStepMarkLineSpec & BaseMarkerAnimation<MarkCommonLineAnimationType>); // 标注目标：任意位置
 
 export interface IMarkLineXSpec extends IMarkerCrossSeriesSpec {
   /**
