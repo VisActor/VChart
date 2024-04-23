@@ -435,12 +435,18 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       startTextStyle: {
         padding: startText.padding,
         formatMethod: this._getHandlerTextFormatMethod(startText),
-        textStyle: transformToGraphic(startText.style)
+        textStyle: transformToGraphic(startText.style),
+        // 如果没有默认值, 底层在setAttr的时候会出现-Infinity
+        dy: 0,
+        dx: 0
       } as unknown,
       endTextStyle: {
         padding: endText.padding,
         formatMethod: this._getHandlerTextFormatMethod(endText),
-        textStyle: transformToGraphic(endText.style)
+        textStyle: transformToGraphic(endText.style),
+        // 如果没有默认值, 底层在setAttr的时候会出现-Infinity
+        dy: 0,
+        dx: 0
       } as unknown,
       selectedBackgroundStyle: transformToGraphic(
         this._spec.selectedBackground.style
