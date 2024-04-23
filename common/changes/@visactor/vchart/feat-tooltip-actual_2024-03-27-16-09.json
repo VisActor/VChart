@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "feat: support `showDefaultName` in map chart to display unmatched name in map data",
+      "comment": "feat: add new properties `tooltipSpec` and `tooltipActual` to tooltip event params, related #2454",
       "type": "none"
     }
   ],

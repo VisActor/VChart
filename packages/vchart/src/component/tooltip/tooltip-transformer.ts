@@ -1,8 +1,9 @@
 import type { IChartSpecInfo } from '../../chart/interface';
-import { domDocument, isMiniAppLikeMode, isString, isTrueBrowser, isValid, mergeSpec } from '../../util';
+import { domDocument, isMiniAppLikeMode, isString, isTrueBrowser, isValid } from '../../util';
 import { BaseComponentSpecTransformer } from '../base';
 import { TOOLTIP_EL_CLASS_NAME } from './constant';
 import { getTooltipActualActiveType } from './utils';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export class TooltipSpecTransformer extends BaseComponentSpecTransformer<any> {
   protected _shouldMergeThemeToSpec() {

@@ -1,4 +1,4 @@
-import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor } from '@visactor/vchart';
+import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor, IHierarchyData } from '@visactor/vchart';
 import React, { useState, useEffect, useRef, useImperativeHandle, ReactNode } from 'react';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
@@ -46,7 +46,7 @@ export interface BaseChartProps
    */
   spec?: ISpec;
   /** 数据 */
-  data?: IData;
+  data?: IData | IHierarchyData;
   /** 画布宽度 */
   width?: number;
   /** 画布高度 */
@@ -174,6 +174,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
       const newView = chartContext.current.chart.getCompiler().getVGrammarView();
 
       setUpdateId(updateId + 1);
+      window.vchart = chartContext.current.chart;
       if (props.onReady) {
         props.onReady(chartContext.current.chart, updateId === 0);
       }
@@ -206,12 +207,12 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
-        eventsBinded.current = props;
         chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
           morph: false,
           enableExitAnimation: false
         });
         handleChartRender();
+        eventsBinded.current = props;
       }
       return;
     }
@@ -230,6 +231,7 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
         enableExitAnimation: false
       });
       handleChartRender();
+      eventsBinded.current = props;
     }
   }, [props]);
 
@@ -274,13 +276,13 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 export const createChart = <T extends Props>(
   componentName: string,
   defaultProps?: Partial<T>,
-  callback?: (props: T, defaultProps?: Partial<T>) => T
+  registers?: (() => void)[]
 ) => {
-  const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
-    if (callback) {
-      return callback(props, defaultProps);
-    }
+  if (registers && registers.length && defaultProps.vchartConstrouctor) {
+    defaultProps.vchartConstrouctor.useRegisters(registers);
+  }
 
+  const Com = withContainer<ContainerProps, T>(BaseChart as any, componentName, (props: T) => {
     if (defaultProps) {
       return Object.assign(props, defaultProps);
     }

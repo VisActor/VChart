@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: map data will not show if not configured in nameMap",
+      "comment": "fix(scrollbar): label position not align with mark. fix#2534",
       "type": "none"
     }
   ],

@@ -60,6 +60,17 @@ tooltip 配置。
   prefix = '##' + ${prefix}
 ) }}
 
+##${prefix} group(Object)
+
+数据组 tooltip 的自定义配置。 **_（只作用于默认 handler）_**
+
+<!-- TODO: 数据组 tooltip 示例补图 -->
+
+{{ use: component-tooltip-pattern(
+  prefix = '##' + ${prefix},
+  groupTooltip = true
+) }}
+
 ##${prefix} renderMode('html'|'canvas')
 
 tooltip 渲染方式，桌面端默认为`html`，小程序端默认为`canvas`。**_（只作用于默认 handler）_**

@@ -5,7 +5,7 @@ import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import type { AreaSeries } from './area';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 import type { ConvertToMarkStyleSpec, IAreaMarkSpec } from '../../typings';
-import { mergeSpec } from '../../util';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export class AreaSeriesSpecTransformer<
   T extends IAreaSeriesSpec = IAreaSeriesSpec,

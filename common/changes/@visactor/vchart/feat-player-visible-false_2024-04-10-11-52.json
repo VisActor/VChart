@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: should use `series.getMarkInName` to get the mark for total label's caculation, fixed #2448",
+      "comment": "feat: player support play when hidden. feat#2524",
       "type": "none"
     }
   ],

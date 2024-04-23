@@ -6,7 +6,7 @@ import type { IRectMark } from '../../mark/rect';
 import type { ILinkPathMark } from '../../mark/link-path';
 import type { ITextMark } from '../../mark/text';
 import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
-import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, ITextMarkSpec, IComposedTextMarkSpec } from '../../typings';
+import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, IComposedTextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -25,7 +25,7 @@ import type { ISankeyAnimationParams } from './animation';
 import { registerSankeyAnimation } from './animation';
 import type { ISankeySeriesSpec } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
-import type { IElement, IGlyphElement } from '@visactor/vgrammar-core';
+import type { IElement, IGlyphElement, IMark as IVgrammarMark } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
 import { registerRectMark } from '../../mark/rect';
@@ -201,7 +201,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   initMark(): void {
     const nodeMark = this._createMark(SankeySeries.mark.node, {
       isSeriesMark: true,
-      key: DEFAULT_DATA_INDEX,
       dataView: this._nodesSeriesData.getDataView(),
       dataProductId: this._nodesSeriesData.getProductId(),
       customShape: this._spec.node?.customShape,
@@ -213,7 +212,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     const linkMark = this._createMark(SankeySeries.mark.link, {
-      key: DEFAULT_DATA_INDEX,
       dataView: this._linksSeriesData.getDataView(),
       dataProductId: this._linksSeriesData.getProductId(),
       customShape: this._spec.link?.customShape,
@@ -223,9 +221,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       this._linkMark = linkMark;
     }
 
-    if (this._spec.label?.visible) {
+    if (this._spec.label && this._spec.label.visible) {
       const labelMark = this._createMark(SankeySeries.mark.label, {
-        key: DEFAULT_DATA_INDEX,
         dataView: this._nodesSeriesData.getDataView(),
         dataProductId: this._nodesSeriesData.getProductId()
       }) as ITextMark;
@@ -601,26 +598,23 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   };
 
   protected _handleClearEmpty = () => {
-    const nodeVGrammarMark = this._nodeMark.getProduct();
+    const allNodeElements = this._nodeMark.getProductElements();
 
-    if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
+    if (!allNodeElements || !allNodeElements.length) {
       return;
     }
-    const allNodeElements = nodeVGrammarMark.elements;
 
-    const linkVGrammarMark = this._linkMark.getProduct();
+    const allLinkElements = this._linkMark.getProductElements();
 
-    if (!linkVGrammarMark || !linkVGrammarMark.elements || !linkVGrammarMark.elements.length) {
+    if (!allLinkElements || !allLinkElements.length) {
       return;
     }
-    const allLinkElements = linkVGrammarMark.elements;
 
-    const labelVGrammarMark = this._labelMark.getProduct();
+    const allLabelElements = this._labelMark.getProductElements();
 
-    if (!labelVGrammarMark || !labelVGrammarMark.elements || !labelVGrammarMark.elements.length) {
+    if (!allLabelElements || !allLabelElements.length) {
       return;
     }
-    const allLabelElements = labelVGrammarMark.elements;
 
     allNodeElements.forEach(el => {
       el.clearStates();
@@ -638,12 +632,11 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const highlightNodes: string[] = [nodeDatum.key];
 
     if (this._linkMark) {
-      const vGrammarMark = this._linkMark.getProduct();
+      const allLinkElements = this._linkMark.getProductElements();
 
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+      if (!allLinkElements || !allLinkElements.length) {
         return;
       }
-      const allLinkElements = vGrammarMark.elements;
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
         linkEl.clearStates();
@@ -685,39 +678,11 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     if (this._nodeMark) {
-      const vGrammarMark = this._nodeMark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allNodeElements = vGrammarMark.elements;
-
-      allNodeElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
-      });
+      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
     }
 
     if (this._labelMark) {
-      const vGrammarMark = this._labelMark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLabelElements = vGrammarMark.elements;
-
-      allLabelElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
-      });
+      this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
     }
   };
 
@@ -726,13 +691,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
 
     if (this._linkMark) {
-      const vGrammarMark = this._linkMark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+      const allLinkElements = this._linkMark.getProductElements();
+      if (!allLinkElements || !allLinkElements.length) {
         return;
       }
-      const allLinkElements = vGrammarMark.elements;
-
       allLinkElements.forEach(linkEl => {
         linkEl.clearStates();
 
@@ -745,57 +707,27 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     if (this._nodeMark) {
-      const vGrammarMark = this._nodeMark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allNodeElements = vGrammarMark.elements;
-
-      allNodeElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
-      });
+      this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
     }
 
     if (this._labelMark) {
-      const vGrammarMark = this._labelMark.getProduct();
-
-      if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-        return;
-      }
-      const allLabelElements = vGrammarMark.elements;
-
-      allLabelElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
-      });
+      this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
     }
   };
 
   protected _handleNodeRelatedClick = (element: IElement) => {
     const nodeDatum = element.getDatum();
-    const nodeVGrammarMark = this._nodeMark.getProduct();
+    const allNodeElements = this._nodeMark.getProductElements();
 
-    if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
+    if (!allNodeElements || !allNodeElements.length) {
       return;
     }
-    const allNodeElements = nodeVGrammarMark.elements;
 
-    const linkVGrammarMark = this._linkMark.getProduct();
+    const allLinkElements = this._linkMark.getProductElements();
 
-    if (!linkVGrammarMark || !linkVGrammarMark.elements || !linkVGrammarMark.elements.length) {
+    if (!allLinkElements || !allLinkElements.length) {
       return;
     }
-    const allLinkElements = linkVGrammarMark.elements;
 
     const father = allLinkElements[0].getDatum()?.parents ? 'parents' : 'source';
 
@@ -888,12 +820,11 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       if (this._linkMark) {
-        const vGrammarMark = this._linkMark.getProduct();
+        const allLinkElements = this._linkMark.getProductElements();
 
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+        if (!allLinkElements || !allLinkElements.length) {
           return;
         }
-        const allLinkElements = vGrammarMark.elements;
 
         allLinkElements.forEach((linkEl: IElement, i: number) => {
           linkEl.clearStates();
@@ -906,39 +837,11 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       }
 
       if (this._nodeMark) {
-        const vGrammarMark = this._nodeMark.getProduct();
-
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allNodeElements = vGrammarMark.elements;
-
-        allNodeElements.forEach(el => {
-          el.clearStates();
-          if (highlightNodes.includes(el.getDatum().key)) {
-            //
-          } else {
-            el.useStates(['blur']);
-          }
-        });
+        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
       }
 
       if (this._labelMark) {
-        const vGrammarMark = this._labelMark.getProduct();
-
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allLabelElements = vGrammarMark.elements;
-
-        allLabelElements.forEach(el => {
-          el.clearStates();
-          if (highlightNodes.includes(el.getDatum().key)) {
-            //
-          } else {
-            el.useStates(['blur']);
-          }
-        });
+        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
       }
     } else {
       // 层级型数据
@@ -1027,88 +930,46 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       if (this._nodeMark) {
-        const vGrammarMark = this._nodeMark.getProduct();
-
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allNodeElements = vGrammarMark.elements;
-
-        allNodeElements.forEach(el => {
-          el.clearStates();
-          if (highlightNodes.includes(el.getDatum().key)) {
-            //
-          } else {
-            el.useStates(['blur']);
-          }
-        });
+        this._highLightElements(this._nodeMark.getProductElements(), highlightNodes);
       }
 
       if (this._labelMark) {
-        const vGrammarMark = this._labelMark.getProduct();
-
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allLabelElements = vGrammarMark.elements;
-
-        allLabelElements.forEach(el => {
-          el.clearStates();
-          if (highlightNodes.includes(el.getDatum().key)) {
-            //
-          } else {
-            el.useStates(['blur']);
-          }
-        });
+        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
       }
     }
   };
 
   protected _handleLinkRelatedClick = (element: IGlyphElement) => {
-    const nodeVGrammarMark = this._nodeMark.getProduct();
+    const allNodeElements = this._nodeMark.getProductElements();
 
-    if (!nodeVGrammarMark || !nodeVGrammarMark.elements || !nodeVGrammarMark.elements.length) {
+    if (!allNodeElements || !allNodeElements.length) {
       return;
     }
-    const allNodeElements = nodeVGrammarMark.elements;
+    const allLinkElements = this._linkMark.getProductElements();
 
-    const linkVGrammarMark = this._linkMark.getProduct();
-
-    if (!linkVGrammarMark || !linkVGrammarMark.elements || !linkVGrammarMark.elements.length) {
+    if (!allLinkElements || !allLinkElements.length) {
       return;
     }
-    const allLinkElements = linkVGrammarMark.elements;
 
     const father = element.getDatum()?.parents ? 'parents' : 'source';
     if (father === 'source') {
       if (this._linkMark) {
-        const vGrammarMark = this._linkMark.getProduct();
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allLinkElements = vGrammarMark.elements;
         allLinkElements.forEach(linkEl => {
           linkEl.clearStates();
         });
       }
 
       if (this._nodeMark) {
-        const vGrammarMark = this._nodeMark.getProduct();
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allNodeElements = vGrammarMark.elements;
         allNodeElements.forEach(el => {
           el.clearStates();
         });
       }
 
       if (this._labelMark) {
-        const vGrammarMark = this._labelMark.getProduct();
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
+        const allLabelElements = this._labelMark.getProductElements();
+        if (!allLabelElements || !allLabelElements.length) {
           return;
         }
-        const allLabelElements = vGrammarMark.elements;
         allLabelElements.forEach(el => {
           el.clearStates();
         });
@@ -1214,34 +1075,28 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         return;
       });
 
-      allNodeElements.forEach(el => {
-        el.clearStates();
-        if (highlightNodes.includes(el.getDatum().key)) {
-          //
-        } else {
-          el.useStates(['blur']);
-        }
-      });
+      this._highLightElements(allNodeElements, highlightNodes);
 
       if (this._labelMark) {
-        const vGrammarMark = this._labelMark.getProduct();
-
-        if (!vGrammarMark || !vGrammarMark.elements || !vGrammarMark.elements.length) {
-          return;
-        }
-        const allLabelElements = vGrammarMark.elements;
-
-        allLabelElements.forEach(el => {
-          el.clearStates();
-          if (highlightNodes.includes(el.getDatum().key)) {
-            //
-          } else {
-            el.useStates(['blur']);
-          }
-        });
+        this._highLightElements(this._labelMark.getProductElements(), highlightNodes);
       }
     }
   };
+
+  protected _highLightElements(vGrammarElements: IVgrammarMark['elements'], highlightNodes: string[]) {
+    if (!vGrammarElements || !vGrammarElements.length) {
+      return;
+    }
+
+    vGrammarElements.forEach(el => {
+      el.clearStates();
+      if (highlightNodes.includes(el.getDatum().key)) {
+        //
+      } else {
+        el.useStates(['blur']);
+      }
+    });
+  }
 
   protected initTooltip() {
     this._tooltipHelper = new SankeySeriesTooltipHelper(this);

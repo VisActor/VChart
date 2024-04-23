@@ -43,6 +43,7 @@ import { BarSeriesSpecTransformer } from './bar-transformer';
 import { ComponentTypeEnum } from '../../component/interface';
 import { RECT_X, RECT_X1, RECT_Y, RECT_Y1 } from '../base/constant';
 import { createRect } from '@visactor/vrender-core';
+import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -130,8 +131,11 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   protected initTooltip() {
     super.initTooltip();
-
-    this._barMark && this._tooltipHelper.activeTriggerSet.mark.add(this._barMark);
+    const { mark, group } = this._tooltipHelper.activeTriggerSet;
+    if (this._barMark) {
+      mark.add(this._barMark);
+      group.add(this._barMark);
+    }
   }
 
   protected _statisticViewData(): void {
@@ -301,7 +305,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
     // only reCompute bar
     const stackValueGroup = getRegionStackGroup(region, false, s => s.type === this.type);
-
     // 按照堆积逻辑 重新计算一次图形的堆积位置并设置到数据上
     for (const stackValue in stackValueGroup) {
       for (const key in stackValueGroup[stackValue].nodes) {
@@ -854,5 +857,7 @@ export const registerBarSeries = () => {
   registerSampleTransform();
   registerRectMark();
   registerBarAnimation();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
   Factory.registerSeries(BarSeries.type, BarSeries);
 };

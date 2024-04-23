@@ -12,8 +12,7 @@ import type {
   FunctionType,
   ValueType
 } from '../../typings';
-
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import { Color } from '../../util/color';
 import { createScaleWithSpec } from '../../util/scale';
 import type {
@@ -28,12 +27,11 @@ import type {
 } from '../interface';
 import { AttributeLevel, GradientType, DEFAULT_GRADIENT_CONFIG } from '../../constant';
 import { isValidScaleType } from '@visactor/vscale';
-import type { DataView } from '@visactor/vdataset';
 import { computeActualDataScheme, getDataScheme } from '../../theme/color-scheme/util';
 import type { ISeries } from '../../series/interface';
 import { CompilableMark } from '../../compile/mark/compilable-mark';
 import type { StateValueType } from '../../compile/mark';
-import { degreeToRadian, isBoolean, isFunction, isNil, isValid, isNumber } from '@visactor/vutils';
+import { degreeToRadian, isBoolean, isFunction, isNil, isValid } from '@visactor/vutils';
 
 export type ExChannelCall = (
   key: string | number | symbol,

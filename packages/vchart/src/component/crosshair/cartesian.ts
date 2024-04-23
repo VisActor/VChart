@@ -133,10 +133,7 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   }
 
   private _getValueAt(axis: IAxis, p: number): number | string {
-    let value = axis.getScale().invert(p);
-    if (isContinuous(axis.getScale().type) && isValidNumber(+value)) {
-      value = (+value as number).toFixed(2);
-    }
+    const value = axis.getScale().invert(p);
     return value;
   }
 

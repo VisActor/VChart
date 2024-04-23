@@ -1,12 +1,5 @@
-import type { IOrientType } from '../../typings';
-// eslint-disable-next-line no-duplicate-imports
-import { Direction } from '../../typings';
-import { array, isNil, mergeSpec } from '../../util';
+import { array, isNil } from '../../util';
 import type { DataView } from '@visactor/vdataset';
-import type { ComponentTypeEnum } from '../interface';
-import { getComponentThemeFromOption } from '../util';
-import { getDirectionByOrient } from '../axis/cartesian/util';
-import type { ITheme } from '../../theme';
 
 export interface IDataFilterWithNewDomainOption {
   getNewDomain: () => any[];

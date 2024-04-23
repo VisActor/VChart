@@ -39,9 +39,10 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     protected _viewBox: IBoundsLike;
     protected _layoutTag: boolean;
     getLayoutTag(): boolean;
-    setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, reLayout?: boolean): boolean;
+    setLayoutTag(tag: boolean, morphConfig?: IMorphConfig, renderNextTick?: boolean): boolean;
     protected _modelOption: IModelOption;
     protected _globalScale: IGlobalScale;
+    getGlobalScale(): IGlobalScale;
     protected _idMap: Map<number, IModel | IMark>;
     protected _event: IEvent;
     getEvent(): IEvent;

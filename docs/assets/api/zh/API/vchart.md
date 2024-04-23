@@ -134,7 +134,17 @@ export interface GeoSourceOption {
   centroid?: boolean;
   /** 地图简化 */
   /** @default false */
-  simplify?: boolean;
+  simplify?:
+    | boolean
+    | {
+        /**
+         * 一个以度为单位的数字（例如，纬度/经度距离）。
+         * 1度大约相当于69英里。默认值是0.001，大约是一个城市街区的长度。
+         * @default 0.01
+         * @since 1.11.0
+         */
+        tolerance: number;
+      };
   /** 逆时针回绕(Multi)LineString或(Multi)Polygon的外部环，内部环顺时针。*/
   /** @default false */
   rewind?:
@@ -1055,6 +1065,16 @@ getComponents: () => IComponent[];
 
 ```ts
 getDataSet: () => DataSet;
+```
+
+### getScale
+
+自版本 `1.10.4`开始支持;
+
+获取图表的 Scale 实例。
+
+```ts
+getScale: (scaleId: string) => IBaseScale;
 ```
 
 ### setDimensionIndex

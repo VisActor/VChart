@@ -8,7 +8,7 @@ import type {
 import type { IPadding, ITooltipActual } from '../../../../typings';
 import type { ITooltipAttributes, ITooltipTextStyle } from '../interface';
 import { isValid, maxInArray, normalizePadding } from '@visactor/vutils';
-import { mergeSpec } from '../../../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import { normalizeLayoutPaddingSpec } from '../../../../util/space';
 import { measureTooltipText } from './common';
 import type { ITheme } from '../../../../theme';
@@ -318,6 +318,5 @@ export const getTooltipAttributes = (
   attributes.panel.width = panelWidth;
   attributes.panel.height = panelHeight;
   attributes.panelDomHeight = panelDomHeight;
-
   return attributes;
 };

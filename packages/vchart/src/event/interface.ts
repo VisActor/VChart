@@ -10,6 +10,7 @@ import type { ChartEvent, Event_Bubble_Level, Event_Source_Type, VGRAMMAR_HOOK_E
 import type { SeriesType } from '../series/interface';
 import type { TooltipEventParams } from '../component/tooltip/interface/event';
 import type { ILayoutItem } from '../layout/interface';
+import type { IVChart } from '../core/interface';
 
 export type EventType =
   | 'pointerdown'
@@ -157,6 +158,18 @@ export type EventParams = {
    * 拾取到的图形节点
    */
   node?: IGraphic;
+  /**
+   * @since 1.10.4
+   * 生命周期相关事件，包括：
+   *  - 'rendered'
+   *  - 'initialized'
+   *  - 'animationFinished'
+   *  - 'renderFinished'
+   *  - 'layoutStart'
+   *  - 'layoutEnd'
+   * 会返回vchart实例
+   */
+  vchart?: IVChart;
 };
 
 type SuperEvent = Event & {

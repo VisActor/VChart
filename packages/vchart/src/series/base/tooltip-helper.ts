@@ -35,7 +35,7 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     } as ITooltipSpec;
 
     // 将 series id 放入 pattern
-    (['mark', 'dimension'] as Array<keyof ITooltipActiveTypeAsKeys<any, any>>).forEach(activeType => {
+    (['mark', 'dimension', 'group'] as Array<keyof ITooltipActiveTypeAsKeys<any, any, any>>).forEach(activeType => {
       const pattern = spec[activeType];
       if (isValid(pattern)) {
         spec[activeType] = {
@@ -85,6 +85,21 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     return measureFields[0] && datum?.[measureFields[0]];
   };
 
+  protected _getSeriesFieldData = (datum: any) => {
+    const { dimensionFields, seriesFields } = this._seriesCacheInfo;
+
+    if (isValid(seriesFields[0]) && datum?.[seriesFields[0]]) {
+      return datum?.[seriesFields[0]];
+    }
+
+    const subDimensionField = dimensionFields[dimensionFields.length - 1];
+    if (dimensionFields.length > 1 && (seriesFields.length === 0 || this.series.getSeriesKeys().length <= 1)) {
+      return datum?.[subDimensionField];
+    }
+
+    return datum?.[subDimensionField];
+  };
+
   protected _getSeriesStyle = (datum: any, styleKey: string | string[], defaultValue?: any) => {
     for (const key of array(styleKey)) {
       const value = this.series.getSeriesStyle(datum)?.(key);
@@ -95,93 +110,120 @@ export class BaseSeriesTooltipHelper extends BaseTooltipHelper implements ISerie
     return defaultValue;
   };
 
-  contentKeyCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
-    const { dimensionFields, seriesFields } = this._seriesCacheInfo;
-    const subDimensionField = dimensionFields[dimensionFields.length - 1];
-
-    if (isValid(seriesFields[0]) && datum?.[seriesFields[0]]) {
-      return datum?.[seriesFields[0]];
-    }
-
-    if (dimensionFields.length > 1 && (seriesFields.length === 0 || this.series.getSeriesKeys().length <= 1)) {
-      return datum?.[subDimensionField];
-    }
-
-    return datum?.[subDimensionField];
+  markTooltipKeyCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+    return this._getSeriesFieldData(datum);
   };
 
-  contentValueCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+  markTooltipValueCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getMeasureData(datum);
   };
 
-  contentShapeTypeCallback = (datum: Datum, params?: TooltipHandlerParams): ShapeType | undefined => {
+  shapeTypeCallback = (datum: Datum, params?: TooltipHandlerParams): ShapeType | undefined => {
     return (
       this._getSeriesStyle(datum, 'shape', null) ??
       this._getSeriesStyle(datum, 'symbolType', this.series.getDefaultShapeType())
     );
   };
 
-  contentShapeColorCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+  shapeColorCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getSeriesStyle(datum, ['fill', 'stroke']);
   };
 
-  titleValueCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+  dimensionTooltipTitleCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
     return this._getDimensionData(datum);
+  };
+
+  groupTooltipTitleCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+    return this._getSeriesFieldData(datum);
+  };
+
+  groupTooltipKeyCallback = (datum: Datum, params?: TooltipHandlerParams): string | undefined => {
+    const { seriesFields } = this._seriesCacheInfo;
+    let dimensionFields = this._seriesCacheInfo.dimensionFields;
+    if (seriesFields[0]) {
+      dimensionFields = dimensionFields.filter(field => field !== seriesFields[0]);
+    }
+    return dimensionFields.map(field => datum?.[field]).join('-');
   };
 
   /** 获取默认的tooltip pattern */
   getDefaultTooltipPattern(activeType: TooltipActiveType, dimensionInfo?: IDimensionInfo[]): ITooltipPattern | null {
-    if (activeType === 'mark') {
-      return {
-        visible: true,
-        activeType,
-        title: {
-          key: undefined,
-          value: this.titleValueCallback,
-          hasShape: false
-        },
-        content: [
-          {
-            seriesId: this.series.id,
-            key: this.contentKeyCallback,
-            value: this.contentValueCallback,
-            hasShape: true,
-            shapeType: this.contentShapeTypeCallback,
-            shapeColor: this.contentShapeColorCallback,
-            shapeStroke: this.contentShapeColorCallback,
-            shapeHollow: false
-          }
-        ]
-      };
-    } else if (activeType === 'dimension' && dimensionInfo) {
-      const title: ITooltipLinePattern = {
-        key: undefined,
-        value: this._getDimensionData,
-        hasShape: false
-      };
-      const content: ITooltipLinePattern[] = [];
-      dimensionInfo.forEach(({ data }) =>
-        data.forEach(({ series }) => {
-          content.push({
-            seriesId: series.id,
-            key: this.contentKeyCallback,
-            value: this.contentValueCallback,
-            hasShape: true,
-            shapeType: this.contentShapeTypeCallback,
-            shapeColor: this.contentShapeColorCallback,
-            shapeStroke: this.contentShapeColorCallback,
-            shapeHollow: false
-          });
-        })
-      );
-      return {
-        visible: true,
-        activeType,
-        title,
-        content
-      };
+    switch (activeType) {
+      case 'mark':
+        return {
+          visible: true,
+          activeType,
+          title: {
+            key: undefined,
+            value: this.dimensionTooltipTitleCallback,
+            hasShape: false
+          },
+          content: [
+            {
+              seriesId: this.series.id,
+              key: this.markTooltipKeyCallback,
+              value: this.markTooltipValueCallback,
+              hasShape: true,
+              shapeType: this.shapeTypeCallback,
+              shapeColor: this.shapeColorCallback,
+              shapeStroke: this.shapeColorCallback,
+              shapeHollow: false
+            }
+          ]
+        };
+      case 'group':
+        return {
+          visible: true,
+          activeType,
+          title: {
+            key: undefined,
+            value: this.groupTooltipTitleCallback,
+            hasShape: false
+          },
+          content: [
+            {
+              seriesId: this.series.id,
+              key: this.groupTooltipKeyCallback,
+              value: this.markTooltipValueCallback,
+              hasShape: true,
+              shapeType: this.shapeTypeCallback,
+              shapeColor: this.shapeColorCallback,
+              shapeStroke: this.shapeColorCallback,
+              shapeHollow: false
+            }
+          ]
+        };
+      case 'dimension':
+        if (dimensionInfo) {
+          const title: ITooltipLinePattern = {
+            key: undefined,
+            value: this.dimensionTooltipTitleCallback,
+            hasShape: false
+          };
+          const content: ITooltipLinePattern[] = [];
+          dimensionInfo.forEach(({ data }) =>
+            data.forEach(({ series }) => {
+              content.push({
+                seriesId: series.id,
+                key: this.markTooltipKeyCallback,
+                value: this.markTooltipValueCallback,
+                hasShape: true,
+                shapeType: this.shapeTypeCallback,
+                shapeColor: this.shapeColorCallback,
+                shapeStroke: this.shapeColorCallback,
+                shapeHollow: false
+              });
+            })
+          );
+          return {
+            visible: true,
+            activeType,
+            title,
+            content
+          };
+        }
+        break;
     }
-
     return null;
   }
 }

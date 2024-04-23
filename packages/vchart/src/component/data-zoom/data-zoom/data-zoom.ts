@@ -11,7 +11,7 @@ import {
   minInArray,
   uniqArray
 } from '@visactor/vutils';
-import { mergeSpec } from '../../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
@@ -93,7 +93,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     super(spec, options);
 
     this._valueField = 'y';
-    this._filterMode = spec.filterMode ?? IFilterMode.filter;
+    this._filterMode = spec.filterMode ?? 'filter';
   }
 
   created() {
@@ -384,7 +384,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this.event.emit(ChartEvent.dataZoomChange, {
           model: this,
           value: {
-            filterData: this._filterMode !== IFilterMode.axis,
+            filterData: this._filterMode !== 'axis',
             start,
             end,
             startValue: this._startValue,

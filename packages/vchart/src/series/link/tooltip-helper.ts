@@ -18,32 +18,32 @@ export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements 
           {
             hasShape: true,
             shapeType: 'square',
-            shapeColor: this.contentShapeColorCallback,
-            shapeStroke: this.contentShapeColorCallback,
+            shapeColor: this.shapeColorCallback,
+            shapeStroke: this.shapeColorCallback,
             key: 'time',
             value: (datum: any) => TimeUtil.getInstance().timeFormat('%Y%m%d %H:%M', datum.from.split('_')[1])
           },
           {
             hasShape: true,
             shapeType: 'square',
-            shapeColor: this.contentShapeColorCallback,
-            shapeStroke: this.contentShapeColorCallback,
+            shapeColor: this.shapeColorCallback,
+            shapeStroke: this.shapeColorCallback,
             key: 'type',
             value: (datum: any) => datum.action_type
           },
           {
             hasShape: true,
             shapeType: 'square',
-            shapeColor: this.contentShapeColorCallback,
-            shapeStroke: this.contentShapeColorCallback,
+            shapeColor: this.shapeColorCallback,
+            shapeStroke: this.shapeColorCallback,
             key: 'from',
             value: (datum: any) => datum.from
           },
           {
             hasShape: true,
             shapeType: 'square',
-            shapeColor: this.contentShapeColorCallback,
-            shapeStroke: this.contentShapeColorCallback,
+            shapeColor: this.shapeColorCallback,
+            shapeStroke: this.shapeColorCallback,
             key: 'to',
             value: (datum: any) => datum.to
           }

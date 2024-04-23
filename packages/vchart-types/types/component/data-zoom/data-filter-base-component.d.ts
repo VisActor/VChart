@@ -19,6 +19,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _fixedBandSize?: number;
     protected _cacheRect?: ILayoutRect;
     protected _cacheVisibility?: boolean;
+    protected _dataUpdating: boolean;
     protected _stateScale: IBaseScale;
     protected _relatedAxisComponent: IComponent;
     protected _originalStateFields: Record<number, string | number>;

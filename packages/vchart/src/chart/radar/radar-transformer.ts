@@ -1,6 +1,7 @@
-import { array, mergeSpec } from '../../util';
+import { array } from '../../util';
 import { RoseLikeChartSpecTransformer } from '../polar';
 import type { IRoseChartSpec } from '../rose';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export class RadarChartSpecTransformer<
   T extends IRoseChartSpec = IRoseChartSpec

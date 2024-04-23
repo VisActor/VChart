@@ -1,9 +1,10 @@
 import type { ICartesianAxisSpec } from '../../component';
 import type { ISeriesSpec } from '../../typings';
-import { get, mergeSpec } from '../../util';
+import { get } from '../../util';
 import { BaseChartSpecTransformer } from '../base';
 import { getTrimPaddingConfig } from '../util';
 import type { ICartesianChartSpec } from './interface';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export class CartesianChartSpecTransformer<T extends ICartesianChartSpec> extends BaseChartSpecTransformer<T> {
   protected needAxes(): boolean {

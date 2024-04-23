@@ -2,14 +2,14 @@ import type { BandScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous, isDiscrete } from '@visactor/vscale';
 import type { ICartesianSeries } from '../../../series';
-import type { ILayoutPoint } from '../../../typings';
+import type { ILayoutPoint, StringOrNumber } from '../../../typings';
 import type { IBound, IHair } from '../base';
 import { LayoutType } from '../config';
-import type { AxisCurrentValueMap, ICrosshairInfoX, ICrosshairInfoY } from '../interface';
+import type { AxisCurrentValueMap, ICrosshairInfoX, ICrosshairInfoY, ICrosshairLabelInfo } from '../interface';
 import { getDatumByValue } from './common';
 import { getAxisLabelOffset } from '../../axis/util';
 import { isValid } from '@visactor/vutils';
-import type { IAxis } from '../../axis';
+import type { IAxis, ILinearAxis } from '../../axis';
 import { getFormatFunction } from '../../util';
 
 export const layoutByValue = (
@@ -95,6 +95,7 @@ export const layoutByValue = (
   if (xHair) {
     currValueX.forEach(({ axis, value }) => {
       value = value ?? '';
+      let niceLabelFormatter: (value: StringOrNumber) => StringOrNumber = null;
       const xScale = axis.getScale();
       if (isDiscrete(xScale.type)) {
         bandWidth = (xScale as BandScale).bandwidth();
@@ -116,16 +117,19 @@ export const layoutByValue = (
           }
           x = startX;
         }
+        niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
       }
       if (xCrossHairInfo && xHair.label?.visible && !xUseCache) {
         const labelOffset = getAxisLabelOffset(axis.getSpec());
         if (axis.getOrient() === 'bottom') {
           xCrossHairInfo.bottom.visible = true;
+          xCrossHairInfo.bottom.defaultFormatter = niceLabelFormatter;
           xCrossHairInfo.bottom.text = value;
           xCrossHairInfo.bottom.dx = 0;
           xCrossHairInfo.bottom.dy = labelOffset;
         } else if (axis.getOrient() === 'top') {
           xCrossHairInfo.top.visible = true;
+          xCrossHairInfo.top.defaultFormatter = niceLabelFormatter;
           xCrossHairInfo.top.text = value;
           xCrossHairInfo.top.dx = 0;
           xCrossHairInfo.top.dy = -labelOffset;
@@ -137,6 +141,7 @@ export const layoutByValue = (
   if (yHair) {
     currValueY.forEach(({ axis, value }) => {
       value = value ?? '';
+      let niceLabelFormatter: (value: StringOrNumber) => StringOrNumber = null;
       const yScale = axis.getScale();
       if (isDiscrete(yScale.type)) {
         bandHeight = (yScale as BandScale).bandwidth();
@@ -158,16 +163,19 @@ export const layoutByValue = (
           }
           y = startY;
         }
+        niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
       }
       if (yCrossHairInfo && yHair.label?.visible && !yUseCache) {
         const labelOffset = getAxisLabelOffset(axis.getSpec());
         if (axis.getOrient() === 'left') {
           yCrossHairInfo.left.visible = true;
+          yCrossHairInfo.left.defaultFormatter = niceLabelFormatter;
           yCrossHairInfo.left.text = value;
           yCrossHairInfo.left.dx = -labelOffset;
           yCrossHairInfo.left.dy = 0;
         } else if (axis.getOrient() === 'right') {
           yCrossHairInfo.right.visible = true;
+          yCrossHairInfo.right.defaultFormatter = niceLabelFormatter;
           yCrossHairInfo.right.text = value;
           yCrossHairInfo.right.dx = labelOffset;
           yCrossHairInfo.right.dy = 0;
@@ -184,11 +192,6 @@ export const layoutByValue = (
     xCrossHairInfo.topPos = xRegion.y1;
     xCrossHairInfo.height = xRegion.y2 - xRegion.y1;
     xCrossHairInfo.x = x + layoutStartPoint.x;
-    if (xHair?.label?.formatMethod) {
-      const { top, bottom } = xCrossHairInfo;
-      bottom.visible && (bottom.text = xHair.label.formatMethod(bottom.text, 'bottom') as string);
-      top.visible && (top.text = xHair.label.formatMethod(top.text, 'top') as string);
-    }
 
     if (xHair && xHair.label) {
       const { top, bottom } = xCrossHairInfo;
@@ -231,7 +234,7 @@ export const layoutByValue = (
   };
 };
 
-const setFormattedCrosshairLabel = (labelInfo: ICrosshairInfoX['top'], position: string, labelSpec: IHair['label']) => {
+const setFormattedCrosshairLabel = (labelInfo: ICrosshairLabelInfo, position: string, labelSpec: IHair['label']) => {
   const { formatMethod, formatter } = labelSpec;
   const { formatFunc, args } = getFormatFunction(formatMethod, formatter, labelInfo.text, {
     label: labelInfo.text,
@@ -239,6 +242,8 @@ const setFormattedCrosshairLabel = (labelInfo: ICrosshairInfoX['top'], position:
   });
   if (formatFunc) {
     labelInfo.text = formatFunc(...args);
+  } else if (labelInfo.defaultFormatter) {
+    labelInfo.text = labelInfo.defaultFormatter(labelInfo.text);
   }
 };
 

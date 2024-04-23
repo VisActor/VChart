@@ -26,6 +26,7 @@ import type { Compiler } from '../compile/compiler';
 import type { IChart, IChartSpecInfo } from '../chart/interface';
 import type { Stage } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
+import type { IBaseScale } from '@visactor/vscale';
 
 export type DataLinkSeries = {
   /**
@@ -55,6 +56,7 @@ export type DataLinkAxis = {
 
 export interface IVChartConstructor {
   new (spec: ISpec, options: IInitOption): IVChart;
+  useRegisters: (comps: (() => void)[]) => any;
 }
 
 export interface IVChart {
@@ -385,6 +387,14 @@ export interface IVChart {
    * @returns DataSet 实例
    */
   getDataSet: () => Maybe<DataSet>;
+
+  /**
+   * 获取图表的 Scale 实例
+   * @param scaleId scale 的id
+   * @returns Scale 实例
+   * @since 1.10.4
+   */
+  getScale: (scaleId: string) => IBaseScale | null;
 
   // 数据转换相关的 api
   /**

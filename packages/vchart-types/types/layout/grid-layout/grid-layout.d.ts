@@ -30,7 +30,7 @@ export declare class GridLayout implements IBaseLayout {
     }[], gridSize: GridSize[], gridMax: number, maxSize: number): void;
     protected clearLayoutSize(): void;
     protected getItemGridInfo(item: ILayoutItem): ElementSpec;
-    protected getSizeFromGird(spec: ElementSpec, type: 'col' | 'row'): number | undefined;
+    protected getSizeFromGrid(spec: ElementSpec, type: 'col' | 'row'): number | undefined;
     protected getSizeFromUser(spec: ElementSpec, type: 'col' | 'row'): number | undefined;
     protected setItemLayoutSizeToGrid(item: ILayoutItem, gridSpec: ElementSpec): void;
     protected layoutGrid(type: 'col' | 'row'): void;

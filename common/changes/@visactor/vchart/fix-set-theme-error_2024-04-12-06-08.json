@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "feat: support interaction events of `element-select` and `element-highlight`\n\n",
+      "comment": "fix: fix error of update theme when series reduce\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

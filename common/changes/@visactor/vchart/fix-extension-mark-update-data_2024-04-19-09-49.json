@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix: fix the release order of _eventDispatcher\n\n",
+      "comment": "fix: extension-mark should update when data is update\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

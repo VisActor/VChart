@@ -1,6 +1,7 @@
 import type { IChartSpecInfo } from '../chart/interface';
-import { isArray, mergeSpec } from '../util';
+import { isArray } from '../util';
 import type { IBaseModelSpecTransformer, IBaseModelSpecTransformerOption, IModelSpec } from './interface';
+import { mergeSpec } from '@visactor/vutils-extension';
 
 export class BaseModelSpecTransformer<T extends IModelSpec, K> implements IBaseModelSpecTransformer {
   readonly type: string;

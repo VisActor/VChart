@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix radar chart clipAngle animation error when loading on demand.",
+      "comment": "refactor: react-vchart will require component by need by default",
       "type": "none"
     }
   ],

@@ -56,6 +56,7 @@ export interface IUpdateSpecResult {
   reSize?: boolean;
   // TODO: compile 的判断应不应该出现在这里?
   reCompile?: boolean;
+  reTransformSpec?: boolean;
 }
 
 export interface IModelProduct {

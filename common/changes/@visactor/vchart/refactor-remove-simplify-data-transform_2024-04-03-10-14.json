@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: fix the issue of event trigger count after `updateSpecSync()`",
+      "comment": "refactor: remove built-in simplify data transform",
       "type": "none"
     }
   ],

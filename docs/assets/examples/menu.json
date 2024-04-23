@@ -489,6 +489,13 @@
             "zh": "柱状图标注",
             "en": "Bar Chart with MarkPoint"
           }
+        },
+        {
+          "path": "tgi-bar",
+          "title": {
+            "zh": "TGI 柱图",
+            "en": "TGI Bar Chart"
+          }
         }
       ]
     },
@@ -1744,6 +1751,20 @@
           "title": {
             "zh": "在 area 图元上实现 mark tooltip",
             "en": "Mark Tooltip On Area Marks"
+          }
+        },
+        {
+          "path": "bar-group-tooltip",
+          "title": {
+            "zh": "在 bar 图元上实现 group tooltip",
+            "en": "Group Tooltip On Bar Marks"
+          }
+        },
+        {
+          "path": "line-group-tooltip",
+          "title": {
+            "zh": "在 line 图元上实现 group tooltip",
+            "en": "Group Tooltip On Line Marks"
           }
         }
       ]

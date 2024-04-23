@@ -52,7 +52,7 @@ import type {
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
 import { couldBeValidNumber } from '../../util/type';
-import { mergeSpec } from '../../util/spec/merge-spec';
+import { mergeSpec } from '@visactor/vutils-extension';
 import type { IModelEvaluateOption, IModelRenderOption } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
 // eslint-disable-next-line no-duplicate-imports
@@ -677,6 +677,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._rootMark.setZIndex(this.layoutZIndex);
   }
 
+  private _getExtensionMarkNamePrefix() {
+    return `${this.type}_${this.id}_extensionMark`;
+  }
+
   protected _initExtensionMark(options: { hasAnimation: boolean; depend?: IMark[] }) {
     if (!this._spec.extensionMark) {
       return;
@@ -686,7 +690,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     options.depend = mainMarks;
 
     this._spec.extensionMark?.forEach((m, i) => {
-      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, options);
+      this._createExtensionMark(m, null, this._getExtensionMarkNamePrefix(), i, options);
     });
   }
 
@@ -732,17 +736,18 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         mark.setDataView(this.getViewData(), this.getViewDataProductId());
       } else {
         mark.setDataView(dataView);
+
+        dataView.target.addListener('change', () => {
+          mark.getData().updateData();
+        });
       }
     }
   }
 
-  protected _updateExtensionMarkSpec(lastSpec?: any) {
+  protected _updateExtensionMarkSpec() {
     this._spec.extensionMark?.forEach((spec, i) => {
-      const mark = this._marks.getMarkWithInfo({ name: `${this.type}_${this.id}_extensionMark_${i}` });
+      const mark = this._marks.getMarkWithInfo({ name: `${this._getExtensionMarkNamePrefix()}_${i}` });
       if (!mark) {
-        return;
-      }
-      if (lastSpec && isEqual(lastSpec.extensionMark?.[i], spec)) {
         return;
       }
       this.initMarkStyleWithSpec(mark, spec);
@@ -1095,7 +1100,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       mark.updateStaticEncode();
       mark.updateLayoutState(true);
     });
-    this._updateExtensionMarkSpec(spec);
+    this._updateExtensionMarkSpec();
     this._updateSpecData();
 
     if (this._tooltipHelper) {

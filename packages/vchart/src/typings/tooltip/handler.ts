@@ -10,4 +10,4 @@ export interface ITooltipHandler extends ITooltipHandlerSpec {
 
 export type TooltipData = IDimensionInfo[] | IDimensionData[];
 
-export type TooltipActiveType = 'mark' | 'dimension';
+export type TooltipActiveType = 'mark' | 'dimension' | 'group';

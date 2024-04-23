@@ -17,8 +17,8 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
               childrenContent.push({
                 shapeType: 'circle',
                 hasShape: flag,
-                shapeColor: this.contentShapeColorCallback(datum[0].datum[0]),
-                shapeStroke: this.contentShapeColorCallback(datum[0].datum[0]),
+                shapeColor: this.shapeColorCallback(datum[0].datum[0]),
+                shapeStroke: this.shapeColorCallback(datum[0].datum[0]),
                 key: key,
                 value: element[key] + ''
               });
@@ -44,32 +44,32 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
           {
             hasShape: true,
             shapeType: 'square',
-            shapeColor: this.contentShapeColorCallback,
-            shapeStroke: this.contentShapeColorCallback,
+            shapeColor: this.shapeColorCallback,
+            shapeStroke: this.shapeColorCallback,
             key: (datum: any) => datum.type,
             value: (datum: any) => datum.id
           },
           {
             hasShape: true,
             shapeType: 'square',
-            shapeColor: this.contentShapeColorCallback,
-            shapeStroke: this.contentShapeColorCallback,
+            shapeColor: this.shapeColorCallback,
+            shapeStroke: this.shapeColorCallback,
             key: 'event_time',
             value: (datum: any) => TimeUtil.getInstance().timeFormat('%Y%m%d', datum.event_time)
           },
           {
             hasShape: true,
             shapeType: 'square',
-            shapeColor: this.contentShapeColorCallback,
-            shapeStroke: this.contentShapeColorCallback,
+            shapeColor: this.shapeColorCallback,
+            shapeStroke: this.shapeColorCallback,
             key: 'action_type',
             value: (datum: any) => datum.action_type
           },
           {
             shapeType: 'square',
             hasShape: true,
-            shapeColor: this.contentShapeColorCallback,
-            shapeStroke: this.contentShapeColorCallback,
+            shapeColor: this.shapeColorCallback,
+            shapeStroke: this.shapeColorCallback,
             key: 'children',
             value: (datum: any) => {
               return datum.children;
@@ -84,8 +84,8 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
               childrenContent.push({
                 shapeType: 'circle',
                 hasShape: flag,
-                shapeColor: this.contentShapeColorCallback(datum[0].datum[0]),
-                shapeStroke: this.contentShapeColorCallback(datum[0].datum[0]),
+                shapeColor: this.shapeColorCallback(datum[0].datum[0]),
+                shapeStroke: this.shapeColorCallback(datum[0].datum[0]),
                 key: key,
                 value: element[key] + ''
               } as ITooltipLinePattern);

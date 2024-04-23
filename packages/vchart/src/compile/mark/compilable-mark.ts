@@ -554,6 +554,14 @@ export abstract class CompilableMark extends GrammarItem implements ICompilableM
     return this.getProduct()?.animate?.resumeAnimationByState(state);
   }
 
+  getProductElements() {
+    const product = this.getProduct();
+    if (product) {
+      return product.elements;
+    }
+    return undefined;
+  }
+
   release() {
     super.release();
     this.state.release();

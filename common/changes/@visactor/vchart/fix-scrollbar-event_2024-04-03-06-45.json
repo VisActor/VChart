@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: `lineWidth` is invalid in rect-type-crosshair, related #2432",
+      "comment": "fix(scrollbar): enable bubble when scroll to boundary. fix#2521",
       "type": "none"
     }
   ],

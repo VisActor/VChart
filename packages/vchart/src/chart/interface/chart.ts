@@ -31,6 +31,8 @@ import type {
 } from '../../typings';
 // eslint-disable-next-line no-duplicate-imports
 import type { DataView } from '@visactor/vdataset';
+import type { IGlobalScale } from '../../scale/interface';
+import type { IMorphConfig } from '../../animation/spec';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
@@ -66,11 +68,16 @@ export interface IChart extends ICompilable {
   /** event */
   getEvent: () => IEvent;
 
+  /**
+   * @since 1.10.4
+   */
+  getGlobalScale: () => IGlobalScale;
+
   /** layout */
   setLayout: (layout: LayoutCallBack) => void;
   layout: (context: ILayoutParams) => void;
   getLayoutTag: () => boolean;
-  setLayoutTag: (tag: boolean) => boolean;
+  setLayoutTag: (tag: boolean, morphConfig?: IMorphConfig, renderNextTick?: boolean) => boolean;
 
   // 使用parse前的原始数据结构更新数据
   updateData: (id: StringOrNumber, data: unknown, updateGlobalScale?: boolean, options?: IParserOptions) => void;
@@ -87,6 +94,11 @@ export interface IChart extends ICompilable {
   onRender: (ctx: IChartRenderOption) => void;
   onResize: (width: number, height: number, reRender: boolean) => void;
   onLayout: (view: IView) => void;
+  /**
+   * 图表更新的时候按需调用
+   * @since 1.11.0
+   */
+  reInit: () => void;
 
   // series
   getAllSeries: () => ISeries[];

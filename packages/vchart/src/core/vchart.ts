@@ -25,20 +25,19 @@ import type {
   IEvent,
   IEventDispatcher
 } from '../event/interface';
-import type { IParserOptions } from '@visactor/vdataset';
-import type { IFields, Transform, DataView } from '@visactor/vdataset';
+import type { IParserOptions, IFields, Transform, DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser } from '@visactor/vdataset';
 import type { Stage } from '@visactor/vrender-core';
+// eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '@visactor/vrender-core';
-import { isString, isValid, isNil, array, debounce, functionTransform } from '../util';
+import { isString, isValid, isNil, array, debounce, specTransform, functionTransform } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';
 import { isTrueBrowser } from '../util/env';
 import { warn } from '../util/debug';
-import { mergeSpec, mergeSpecWithFilter } from '../util/spec/merge-spec';
-import { specTransform } from '../util/spec/transform';
 import { getThemeObject } from '../util/theme/common';
+import { mergeSpec, mergeSpecWithFilter } from '@visactor/vutils-extension';
 import { Factory } from './factory';
 import { Event } from '../event/event';
 import { EventDispatcher } from '../event/event-dispatcher';
@@ -106,7 +105,7 @@ import { View, registerFilterTransform, registerMapTransform } from '@visactor/v
 import { VCHART_UTILS } from './util';
 import { ExpressionFunction } from './expression-function';
 import { registerBrowserEnv, registerNodeEnv } from '../env';
-import { mergeTheme, preprocessTheme } from '../util/spec';
+import { mergeTheme, preprocessTheme } from '../util/theme';
 import { darkTheme, registerTheme } from '../theme/builtin';
 import type { IChartPluginService } from '../plugin/chart/interface';
 import { ChartPluginService } from '../plugin/chart/plugin-service';
@@ -482,7 +481,10 @@ export class VChart implements IVChart {
     this._chart.setCanvasRect(this._currentSize.width, this._currentSize.height);
     this._chart.created();
     this._chart.init();
-    this._event.emit(ChartEvent.initialized, {});
+    this._event.emit(ChartEvent.initialized, {
+      chart,
+      vchart: this
+    });
   }
 
   private _releaseData() {
@@ -501,10 +503,16 @@ export class VChart implements IVChart {
       return;
     }
     this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.ALL_ANIMATION_END, () => {
-      this._event.emit(ChartEvent.animationFinished, {});
+      this._event.emit(ChartEvent.animationFinished, {
+        chart: this._chart,
+        vchart: this
+      });
     });
     this._compiler.getVGrammarView().addEventListener(VGRAMMAR_HOOK_EVENT.AFTER_VRENDER_NEXT_RENDER, () => {
-      this._event.emit(ChartEvent.renderFinished, {});
+      this._event.emit(ChartEvent.renderFinished, {
+        chart: this._chart,
+        vchart: this
+      });
     });
   }
 
@@ -687,7 +695,10 @@ export class VChart implements IVChart {
       return false;
     }
     this._updateAnimateState();
-    this._event.emit(ChartEvent.rendered, {});
+    this._event.emit(ChartEvent.rendered, {
+      chart: this._chart,
+      vchart: this
+    });
     return true;
   }
 
@@ -911,9 +922,14 @@ export class VChart implements IVChart {
    */
   async updateSpec(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
     const result = this._updateSpec(spec, forceMerge);
+
+    if (!result) {
+      return this as unknown as IVChart;
+    }
+
     await this.updateCustomConfigAndRerender(result, false, {
       morphConfig,
-      transformSpec: true,
+      transformSpec: result.reTransformSpec,
       actionSource: 'updateSpec'
     });
     return this as unknown as IVChart;
@@ -927,9 +943,14 @@ export class VChart implements IVChart {
    */
   updateSpecSync(spec: ISpec, forceMerge: boolean = false, morphConfig?: IMorphConfig) {
     const result = this._updateSpec(spec, forceMerge);
+
+    if (!result) {
+      return this as unknown as IVChart;
+    }
+
     this.updateCustomConfigAndRerender(result, true, {
       morphConfig,
-      transformSpec: true,
+      transformSpec: result.reTransformSpec,
       actionSource: 'updateSpec'
     });
     return this as unknown as IVChart;
@@ -946,6 +967,7 @@ export class VChart implements IVChart {
 
   private _updateSpec(spec: ISpec, forceMerge: boolean = false): IUpdateSpecResult | undefined {
     const lastSpec = this._spec;
+
     if (!this._setNewSpec(spec, forceMerge)) {
       return undefined;
     }
@@ -957,7 +979,19 @@ export class VChart implements IVChart {
     const reSize = this._shouldChartResize(lastSpec);
     this._compiler?.getVGrammarView()?.updateLayoutTag();
 
+    if (this._spec.type !== lastSpec.type) {
+      return {
+        reTransformSpec: true,
+        change: true,
+        reMake: true,
+        reCompile: false,
+        reSize: reSize
+      };
+    }
+    this._initChartSpec(this._spec, 'render');
+
     return mergeUpdateResult(this._chart.updateSpec(this._spec), {
+      reTransformSpec: false,
       change: reSize,
       reMake: false,
       reCompile: false,
@@ -1279,13 +1313,13 @@ export class VChart implements IVChart {
     let resize = false;
 
     if (isNil(this._spec.width)) {
-      this._spec.width = oldSpec.width;
+      !isNil(oldSpec.width) && (this._spec.width = oldSpec.width);
     } else if (this._spec.width !== oldSpec.width) {
       resize = true;
     }
 
     if (isNil(this._spec.height)) {
-      this._spec.height = oldSpec.height;
+      !isNil(oldSpec.height) && (this._spec.height = oldSpec.height);
     } else if (this._spec.height !== oldSpec.height) {
       resize = true;
     }
@@ -1654,6 +1688,17 @@ export class VChart implements IVChart {
    */
   getComponents() {
     return this._chart.getAllComponents();
+  }
+
+  /**
+   * 获取全局scale
+   * @param scaleName 指定scale的id
+   * @returns scale实例
+   */
+  getScale(scaleId: string) {
+    const globalScale = this._chart?.getGlobalScale();
+
+    return globalScale?.getScale(scaleId);
   }
 
   /**

@@ -4,21 +4,20 @@ import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import { LayoutLevel, LayoutZIndex, PREFIX } from '../../constant';
-import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec } from '../../typings';
+import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutRect } from '../../typings';
 import type { IGroupMark } from '../../mark/group';
 import type { IMark } from '../../mark/interface';
 import type { LooseFunction, Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
+import { Bounds, isArray, isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
-import { registerImageMark } from '../../mark/image';
 import type { IGraphic } from '@visactor/vrender-core';
 import { HOOK_EVENT } from '@visactor/vgrammar-core';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IModelMarkAttributeContext } from '../../compile/mark/interface';
 
 // TODO: 规范范型
-export class CustomMark<T = any> extends BaseComponent<any> {
+export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
   static type = ComponentTypeEnum.customMark;
   type = ComponentTypeEnum.customMark;
 
@@ -29,21 +28,33 @@ export class CustomMark<T = any> extends BaseComponent<any> {
   layoutZIndex: number = LayoutZIndex.CustomMark;
   layoutLevel: number = LayoutLevel.CustomMark;
 
-  protected declare _spec: (ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec)[];
+  protected declare _spec: ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec;
 
   static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]> {
     const spec = chartSpec[this.specKey];
     if (!spec) {
       return null;
     }
-    return [
-      {
-        spec,
-        specPath: [this.specKey],
-        specInfoPath: ['component', this.specKey, 0],
+
+    if (!isArray(spec)) {
+      return [
+        {
+          spec,
+          specPath: [this.specKey],
+          specInfoPath: ['component', this.specKey, 0],
+          type: ComponentTypeEnum.customMark
+        }
+      ];
+    }
+
+    return (spec as ICustomMarkSpec<EnableMarkType>[]).map((specItem, i) => {
+      return {
+        spec: specItem,
+        specPath: [this.specKey, i],
+        specInfoPath: ['component', this.specKey, i],
         type: ComponentTypeEnum.customMark
-      }
-    ];
+      };
+    });
   }
 
   created() {
@@ -86,8 +97,9 @@ export class CustomMark<T = any> extends BaseComponent<any> {
       });
     }
 
-    this._spec.forEach((m, i) => {
-      this._createExtensionMark(m, null, `${PREFIX}_series_${this.id}_extensionMark`, i, { depend, hasAnimation });
+    this._createExtensionMark(this._spec, null, `${PREFIX}_series_${this.id}_extensionMark`, 0, {
+      depend,
+      hasAnimation
     });
   }
 
@@ -95,13 +107,13 @@ export class CustomMark<T = any> extends BaseComponent<any> {
     spec: ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec,
     parentMark: null | IGroupMark,
     namePrefix: string,
-    index: number,
+    index: number = 0,
     options: { hasAnimation?: boolean; depend?: IMark[] }
   ) {
     const mark = this._createMark(
       {
         type: spec.type,
-        name: `${PREFIX}_${index}`
+        name: `${namePrefix}_${index}`
       },
       {
         // 避免二次dataflow
@@ -156,7 +168,7 @@ export class CustomMark<T = any> extends BaseComponent<any> {
   /**
    * updateSpec
    */
-  _compareSpec(spec: T, prevSpec: T) {
+  _compareSpec(spec: ICustomMarkSpec<EnableMarkType>, prevSpec: ICustomMarkSpec<EnableMarkType>) {
     const result = super._compareSpec(spec, prevSpec);
     if (!isEqual(prevSpec, spec)) {
       result.reMake = true;
@@ -199,14 +211,56 @@ export class CustomMark<T = any> extends BaseComponent<any> {
   private _getMarkAttributeContext() {
     return {
       vchart: this._option.globalInstance,
+      chart: this.getChart(),
       globalScale: (key: string, value: string | number) => {
         return this._option.globalScale.getScale(key)?.scale(value);
+      },
+      getLayoutBounds: () => {
+        const { x, y } = this.getLayoutStartPoint();
+        const { width, height } = this.getLayoutRect();
+        return new Bounds().set(x, y, x + width, y + height);
       }
+    };
+  }
+
+  private _getLayoutRect() {
+    const bounds = new Bounds();
+
+    this.getMarks().forEach(mark => {
+      const product = mark.getProduct();
+
+      if (product) {
+        bounds.union(product.getBounds());
+      }
+    });
+
+    if (bounds.empty()) {
+      return {
+        width: 0,
+        height: 0
+      };
+    }
+
+    return {
+      width: bounds.width(),
+      height: bounds.height()
+    };
+  }
+
+  getBoundsInRect(rect: ILayoutRect) {
+    this.setLayoutRect(rect);
+
+    const result = this._getLayoutRect();
+    const { x, y } = this.getLayoutStartPoint();
+    return {
+      x1: x,
+      y1: y,
+      x2: x + result.width,
+      y2: y + result.height
     };
   }
 }
 
 export const registerCustomMark = () => {
-  registerImageMark();
   Factory.registerComponent(CustomMark.type, CustomMark);
 };

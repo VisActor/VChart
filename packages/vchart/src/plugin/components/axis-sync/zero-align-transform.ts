@@ -152,17 +152,18 @@ function inNoCrossDifferentSide(info1: ScaleInfo, info2: ScaleInfo): boolean {
 export const zeroAlign = (targetAxis: CartesianAxis, currentAxis: CartesianAxis) => {
   const s1 = targetAxis.getScale();
   const s2 = currentAxis.getScale();
+
   if (!s1 || !s2) {
     return;
   }
-  if (!isContinuous(s1.type) || !isContinuous(s2.type)) {
+
+  const domain1 = (targetAxis as any).getDomainAfterSpec?.() ?? [0, 1];
+  const domain2 = (currentAxis as any).getDomainAfterSpec?.() ?? [0, 1];
+
+  if (!domain1 || !domain2 || !isValidAlignDomain(domain1) || !isValidAlignDomain(domain2)) {
     return;
   }
-  const domain1 = s1.domain().slice();
-  const domain2 = s2.domain().slice();
-  if (!isValidAlignDomain(domain1) || !isValidAlignDomain(domain2)) {
-    return;
-  }
+
   // 先分别获取正负比例
   const info1 = getScaleInfo(<LinearAxisMixin>(<unknown>targetAxis), domain1);
   const info2 = getScaleInfo(<LinearAxisMixin>(<unknown>currentAxis), domain2);

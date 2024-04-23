@@ -101,6 +101,18 @@ const run = () => {
     barBackground: {
       visible: true,
       fieldLevel: 1
+    },
+    tooltip: {
+      dimension: {
+        maxLineCount: 5,
+        othersLine: {
+          key: 'others',
+          hasShape: false
+        }
+      },
+      group: {
+        triggerMark: 'bar'
+      }
     }
   };
 

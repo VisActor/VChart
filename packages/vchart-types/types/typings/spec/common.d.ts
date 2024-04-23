@@ -81,6 +81,7 @@ export interface IChartSpec {
     theme?: Omit<ITheme, 'name'> | string;
     background?: IBackgroundSpec;
     stackInverse?: boolean;
+    stackSort?: boolean;
     media?: IMediaQuerySpec;
 }
 export type IBackgroundStyleSpec = ConvertToMarkStyleSpec<Omit<IFillMarkSpec, 'width' | 'height' | 'background'>> & {

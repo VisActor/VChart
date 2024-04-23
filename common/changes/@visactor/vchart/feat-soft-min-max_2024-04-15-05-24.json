@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: support `softMin` and `softMax` in linear-axis, close #2498\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

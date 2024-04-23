@@ -2,7 +2,6 @@ import { array, isArray, isNil, isValid } from '@visactor/vutils';
 import type { IDataZoomSpec, IIndicatorSpec } from '../../component';
 import { BaseChartSpecTransformer } from '../base';
 import type { IPolarChartSpec } from './interface';
-import { IFilterMode } from '../../component/data-zoom';
 
 export class PolarChartSpecTransformer<T extends IPolarChartSpec> extends BaseChartSpecTransformer<T> {
   protected _isValidSeries(type: string): boolean {
@@ -54,8 +53,8 @@ export class PolarChartSpecTransformer<T extends IPolarChartSpec> extends BaseCh
       spec.dataZoom.forEach((zoom: IDataZoomSpec) => {
         // 极坐标系下 datazoom 目前只支持数据过滤
         // 理想效果：角度轴不支持 axis， 径向轴均支持（通过 group.clip 自定义 clipPath 支持）
-        if (zoom.filterMode === IFilterMode.axis) {
-          zoom.filterMode = IFilterMode.filter;
+        if (zoom.filterMode === 'axis') {
+          zoom.filterMode = 'filter';
         }
       });
     }

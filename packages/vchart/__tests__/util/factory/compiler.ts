@@ -7,9 +7,20 @@ export const getTestCompiler = () =>
       return {
         updateLayoutTag: () => {},
         getDataById: () => {},
-        getMarkById: () => {}
+        getMarkById: () => {},
+        getSignalById: () => {},
+        signal: () => {
+          return {
+            id: () => {
+              return {
+                value: () => {}
+              };
+            }
+          };
+        }
       };
     },
+    addGrammarItem: () => {},
     addInteraction: () => {},
     removeInteraction: () => {}
   } as any);

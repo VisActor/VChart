@@ -127,6 +127,7 @@ export interface ICompilableMark extends IGrammarItem {
   compile: (option?: IMarkCompileOption) => void;
 
   getProduct: () => Maybe<IMark>;
+  getProductElements: () => Maybe<IMark['elements']>;
 
   /** 获取子mark */
   getMarks: () => ICompilableMark[];
