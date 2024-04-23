@@ -27,6 +27,7 @@ import { sortDataInAxisHelper } from '../util/utils';
 import type { IAxisLocationCfg } from '../../component/axis';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { invalidTravel } from '../../data/transforms/invalid-travel';
+import { ComponentTypeEnum } from '../../component/interface/type';
 
 export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesianSeriesSpec>
   extends BaseSeries<T>
@@ -536,14 +537,22 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
   protected getInvalidCheckFields() {
     const fields: string[] = [];
 
-    if (this._xAxisHelper && this._xAxisHelper.isContinuous) {
+    if (
+      this._xAxisHelper &&
+      this._xAxisHelper.isContinuous &&
+      this._xAxisHelper.getAxisType() !== ComponentTypeEnum.geoCoordinate
+    ) {
       const xFields = this._xAxisHelper.getFields ? this._xAxisHelper.getFields() : this._specXField;
       xFields.forEach(f => {
         fields.push(f);
       });
     }
 
-    if (this._yAxisHelper && this._yAxisHelper.isContinuous) {
+    if (
+      this._yAxisHelper &&
+      this._yAxisHelper.isContinuous &&
+      this._xAxisHelper.getAxisType() !== ComponentTypeEnum.geoCoordinate
+    ) {
       const yFields = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._specYField;
 
       yFields.forEach(f => {
