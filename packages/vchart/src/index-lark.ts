@@ -43,13 +43,17 @@ import { registerCartesianCrossHair, registerPolarCrossHair } from './component/
 import { registerDataZoom, registerScrollBar } from './component/data-zoom';
 import { registerIndicator } from './component/indicator';
 import { registerGeoCoordinate } from './component/geo';
-import { registerMarkLine } from './component/marker/mark-line';
+import { registerCartesianMarkLine, registerPolarMarkLine } from './component/marker/mark-line';
 import { registerTitle } from './component/title';
-import { registerMarkArea } from './component/marker/mark-area';
+import { registerCartesianMarkArea, registerPolarMarkArea } from './component/marker/mark-area';
 import { registerPlayer } from './component/player';
 import { registerLabel } from './component/label';
 import { registerTotalLabel } from './component/label/total-label';
-import { registerMarkPoint } from './component/marker/mark-point';
+import {
+  registerCartesianMarkPoint,
+  registerPolarMarkPoint,
+  registerGeoMarkPoint
+} from './component/marker/mark-point';
 import { registerBrush } from './component/brush';
 import { registerCustomMark } from './component/custom-mark';
 import { registerMapLabel } from './component/map-label';
@@ -109,9 +113,15 @@ VChart.useRegisters([
   registerScrollBar,
   registerIndicator,
   registerGeoCoordinate,
-  registerMarkPoint,
-  registerMarkLine,
-  registerMarkArea,
+
+  registerCartesianMarkLine,
+  registerCartesianMarkArea,
+  registerCartesianMarkPoint,
+  registerPolarMarkLine,
+  registerPolarMarkArea,
+  registerPolarMarkPoint,
+  registerGeoMarkPoint,
+
   registerTitle,
   registerPlayer,
   registerLabel,

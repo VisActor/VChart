@@ -33,7 +33,14 @@ const componentTypeMap = {
   continuousLegend: 'legend',
   colorLegend: 'legend',
   sizeLegend: 'legend',
-  label: 'label'
+  label: 'label',
+  cartesianMarkLine: 'cartesianMarkLine',
+  cartesianMarkArea: 'cartesianMarkArea',
+  cartesianMarkPoint: 'cartesianMarkPoint',
+  polarMarkLine: 'polarMarkLine',
+  polarMarkArea: 'polarMarkArea',
+  polarMarkPoint: 'polarMarkPoint',
+  geoMarkPoint: 'geoMarkPoint'
 };
 
 export class EventDispatcher implements IEventDispatcher {

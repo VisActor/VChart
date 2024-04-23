@@ -26,6 +26,23 @@
 - 聚合计算类型（string）
 - 回调函数
 
+### angle(string|number|function)
+自`1.11.0`版本开始支持, 该参考线在极坐标系的angle轴上, 可以配置标注点在angle轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+**注意该属性的使用场景为极坐标系下:**
+1. 配合配置 angle，radius 属性，用于标注坐标在(angle, radius)上的数据点
+
+### radius(string|number|function)
+自`1.11.0`版本开始支持, 可以配置标注点在angle轴上的值, 或者聚合计算，或者以回调的形式通过数据自行计算。
+
+**注意该属性的使用场景为极坐标系下:**
+1. 配合配置 angle，radius 属性，用于标注坐标在(angle, radius)上的数据点
+
+### name(string|number|function)
+自`1.11.0`版本开始支持, 可以配置标注点在地图上的地理位置, 以回调的形式通过数据自行计算。
+
+**注意该属性的使用场景为地理坐标系**
+
 {{ use: component-marker-aggregation-type() }}
 
 ### coordinates(Object)
@@ -113,6 +130,11 @@
 
 #### line(Object)
 
+{{ use: component-marker-state(
+  prefix = '####',
+  graphicType = 'line'
+) }}
+
 ##### style(Object)
 
 引导线样式。
@@ -155,9 +177,23 @@
 
 标注内容相对于标注点的 x 方向偏移量。
 
+除了直接配置偏移量数值外，自`0.11.0`  版本起提供了：
+1. `'regionRight' | 'regionLeft'`: 用于放置在region最左端或最右端。
+2. 回调形式
+```ts
+(region: IRegion) => number
+```
+
 #### offsetY(number)
 
 标注内容相对于标注点的 y 方向偏移量。
+
+除了直接配置偏移量数值外，自`0.11.0`  版本起提供了：
+1. `'regionTop' | 'regionBottom'`: 用于放置在region最顶端或最底端。
+2. 回调形式
+```ts
+(region: IRegion) => number
+```
 
 {{ use: component-marker-ref(
   prefix = '###'
@@ -167,20 +203,38 @@
 自 1.8.7 版本开始, 是否自动调整 item content 使其展示在 marker 可见区域内。
 
 #### symbol(Object)
+标注内容类型为 symbol 时, 状态和样式配置。
+
+{{ use: component-marker-state(
+  prefix = '####',
+  graphicType = 'symbol'
+) }}
 
 ##### style(Object)
 
 标注内容类型为 symbol 时，symbol 的样式。
+{{ use: component-marker-style-callback(
+  description = 'symbol样式'
+) }}
 
 {{ use: graphic-symbol(
   prefix = '#####'
 ) }}
 
 #### image(Object)
+标注内容类型为 image 时, 状态和样式配置。
+
+{{ use: component-marker-state(
+  prefix = '####',
+  graphicType = 'image'
+) }}
 
 ##### style(Object)
 
 标注内容类型为 image 时，image 的样式。
+{{ use: component-marker-style-callback(
+  description = 'image样式'
+) }}
 
 {{ use: graphic-image(
   prefix = '#####'
@@ -188,14 +242,22 @@
 
 #### text(Object)
 
-标注内容类型为 text 时，text 的样式。
-
 {{ use: component-marker-label(
   prefix = '####',
   noConfine = true
 ) }}
 
 #### richText(Object)
+标注内容类型为 richText 时, 状态和样式配置。
+
+{{ use: component-marker-style-callback(
+  description = 'richText样式'
+) }}
+
+{{ use: component-marker-state(
+  prefix = '####',
+  graphicType = 'richText'
+) }}
 
 ##### style(Object)
 
@@ -203,4 +265,10 @@
 
 {{ use: graphic-rich-text(
   prefix = '#####'
+) }}
+
+{{ use: component-marker-animation(
+  prefix = '##',
+  markerType = 'markPoint',
+  animationType = 'callIn | fadeIn'
 ) }}

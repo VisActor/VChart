@@ -51,7 +51,7 @@ import { isNil } from '@visactor/vutils';
 import { PieSeriesSpecTransformer } from './pie-transformer';
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
-  static readonly transformerConstructor = PieSeriesSpecTransformer as any;
+  static readonly transformaerConstructor = PieSeriesSpecTransformer as any;
   readonly transformerConstructor = PieSeriesSpecTransformer;
 
   protected _pieMarkName: SeriesMarkNameEnum = SeriesMarkNameEnum.pie;

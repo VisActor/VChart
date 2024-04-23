@@ -38,9 +38,18 @@ Label panel internal padding.
   prefix = '##' + ${prefix}
 ) }}
 
+{{ use: component-marker-state(
+  prefix = '#' + ${prefix},
+  graphicType = 'rect'
+) }}
+
 ##${prefix} style(Object)
 
 Label panel style.
+
+{{ use: component-marker-style-callback(
+  description = 'label panel style'
+) }}
 
 {{ use: graphic-rect(
   prefix = '##' + ${prefix}
@@ -68,9 +77,18 @@ Label text - text formatting configuration, configured using a callback function
   description = 'Label text'
 ) }}
 
+{{ use: component-marker-state(
+  prefix = ${prefix},
+  graphicType = 'text'
+) }}
+
 #${prefix} style(Object)
 
 Label text - text style.
+
+{{ use: component-marker-style-callback(
+  description = 'text style'
+) }}
 
 {{ use: graphic-text(
   prefix = '#' + ${prefix}

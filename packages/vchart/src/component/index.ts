@@ -61,11 +61,18 @@ import { CartesianCrossHair, PolarCrossHair, registerCartesianCrossHair, registe
 import type { IPlayerSpec, IPlayerTheme } from './player';
 import { Player, registerPlayer } from './player';
 import type { IMarkLineSpec, IStepMarkLineSpec, IMarkLineTheme } from './marker/mark-line';
-import { MarkLine, registerMarkLine } from './marker/mark-line';
+import { CartesianMarkLine, PolarMarkLine, registerCartesianMarkLine, registerPolarMarkLine } from './marker/mark-line';
 import type { IMarkAreaSpec, IMarkAreaTheme } from './marker/mark-area';
-import { MarkArea, registerMarkArea } from './marker/mark-area';
+import { CartesianMarkArea, PolarMarkArea, registerCartesianMarkArea, registerPolarMarkArea } from './marker/mark-area';
 import type { IMarkPointSpec, IMarkPointTheme } from './marker/mark-point';
-import { MarkPoint, registerMarkPoint } from './marker/mark-point';
+import {
+  CartesianMarkPoint,
+  PolarMarkPoint,
+  GeoMarkPoint,
+  registerCartesianMarkPoint,
+  registerPolarMarkPoint,
+  registerGeoMarkPoint
+} from './marker/mark-point';
 import type { ITooltipSpec, ITooltipTheme } from './tooltip';
 import { Tooltip, registerTooltip } from './tooltip';
 import type { ILabelSpec, ITotalLabelTheme } from './label';
@@ -99,9 +106,13 @@ export {
   CartesianCrossHair,
   PolarCrossHair,
   Player,
-  MarkArea,
-  MarkLine,
-  MarkPoint,
+  CartesianMarkLine,
+  CartesianMarkArea,
+  CartesianMarkPoint,
+  PolarMarkLine,
+  PolarMarkArea,
+  PolarMarkPoint,
+  GeoMarkPoint,
   Tooltip,
   Label,
   TotalLabel
@@ -127,9 +138,13 @@ export {
   registerLabel,
   registerTotalLabel,
   registerMapLabel,
-  registerMarkArea,
-  registerMarkLine,
-  registerMarkPoint,
+  registerCartesianMarkLine,
+  registerCartesianMarkArea,
+  registerCartesianMarkPoint,
+  registerPolarMarkLine,
+  registerPolarMarkArea,
+  registerPolarMarkPoint,
+  registerGeoMarkPoint,
   registerPlayer,
   registerPolarBandAxis,
   registerPolarCrossHair,

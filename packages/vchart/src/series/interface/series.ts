@@ -272,6 +272,7 @@ export interface IGeoSeries extends ISeries {
   dataToPosition: (datum: any, checkInViewData?: boolean) => IPoint | null;
   dataToLatitude: (latValue: any) => number | null;
   dataToLongitude: (lonValue: any) => number | null;
+  nameValueToPosition: (name: string) => IPoint | null;
 
   positionToData: (p: IPoint) => any;
   latitudeToData: (lat: number) => any;
