@@ -551,7 +551,7 @@ export abstract class CartesianSeries<T extends ICartesianSeriesSpec = ICartesia
     if (
       this._yAxisHelper &&
       this._yAxisHelper.isContinuous &&
-      this._xAxisHelper.getAxisType() !== ComponentTypeEnum.geoCoordinate
+      this._yAxisHelper.getAxisType() !== ComponentTypeEnum.geoCoordinate
     ) {
       const yFields = this._yAxisHelper.getFields ? this._yAxisHelper.getFields() : this._specYField;
 
