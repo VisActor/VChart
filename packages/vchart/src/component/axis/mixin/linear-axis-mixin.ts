@@ -30,6 +30,8 @@ export interface LinearAxisMixin {
    * 用于在插件（如0值对齐等功能）中使用
    */
   _domainAfterSpec: number[];
+  _softMinValue?: number;
+  _softMaxValue?: number;
   _expand?: { max?: number; min?: number };
   _tick: ITick | undefined;
   isSeriesDataEnable: any;
@@ -91,11 +93,11 @@ export class LinearAxisMixin {
       tickCount = Math.max(DEFAULT_TICK_COUNT, tickCount);
     }
     const { min, max } = this._domain ?? {};
-    if (isNil(min) && isNil(max)) {
+    if (isNil(min) && isNil(max) && isNil(this._softMaxValue) && isNil(this._softMinValue)) {
       return this._scale.nice(tickCount);
-    } else if (isValid(min) && isNil(max)) {
+    } else if ((isValid(min) || isValid(this._softMinValue)) && isNil(max) && isNil(this._softMaxValue)) {
       return this._scale.niceMax(tickCount);
-    } else if (isNil(min) && isValid(max)) {
+    } else if (isNil(min) && isNil(this._softMinValue) && (isValid(max) || isValid(this._softMaxValue))) {
       return this._scale.niceMin(tickCount);
     }
 
@@ -108,11 +110,11 @@ export class LinearAxisMixin {
     }
 
     const { min, max } = this._domain ?? {};
-    if (isNil(min) && isNil(max)) {
+    if (isNil(min) && isNil(max) && isNil(this._softMaxValue) && isNil(this._softMinValue)) {
       return this._scale.nice();
-    } else if (isValid(min) && isNil(max)) {
+    } else if ((isValid(min) || isValid(this._softMinValue)) && isNil(max) && isNil(this._softMaxValue)) {
       return this._scale.niceMax();
-    } else if (isNil(min) && isValid(max)) {
+    } else if (isNil(min) && isNil(this._softMinValue) && (isValid(max) || isValid(this._softMaxValue))) {
       return this._scale.niceMin();
     }
 
@@ -148,6 +150,7 @@ export class LinearAxisMixin {
       domain[0] = 0;
       domain[1] = 0;
     }
+    this.setSoftDomainMinMax(domain);
     this.expandDomain(domain);
     this.includeZero(domain);
     this.setDomainMinMax(domain);
@@ -268,6 +271,37 @@ export class LinearAxisMixin {
     isValid(max) && (domain[1] = max);
   }
 
+  protected setSoftDomainMinMax(domain: number[]): void {
+    const { softMin, softMax } = this._spec;
+
+    if (isValid(softMin)) {
+      let softMinValue = isFunction(softMin) ? softMin(domain) : (softMin as number);
+
+      if (isNil(softMinValue)) {
+        softMinValue = domain[0];
+      }
+
+      if (softMinValue <= domain[0]) {
+        domain[0] = softMinValue;
+        this._softMinValue = softMinValue;
+      }
+    }
+
+    if (isValid(softMax)) {
+      let softMaxValue = isFunction(softMax) ? softMax(domain) : (softMax as number);
+
+      if (isNil(softMaxValue)) {
+        softMaxValue = domain[1];
+      }
+
+      if (softMaxValue >= domain[1]) {
+        domain[1] = softMaxValue;
+      }
+
+      this._softMaxValue = softMaxValue;
+    }
+  }
+
   setZero(zero: boolean) {
     if (this._zero !== zero) {
       this._zero = zero;
@@ -283,7 +317,7 @@ export class LinearAxisMixin {
       return;
     }
     const data = this.collectData();
-    const domain: number[] = this.computeDomain(data) as number[];
+    const domain: number[] = this.computeLinearDomain(data) as number[];
     this.updateScaleDomainByModel(domain);
   }
 
