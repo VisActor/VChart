@@ -76,6 +76,31 @@ export interface ISankeySeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimation
   nodeSortBy?: (a: SankeyNodeElement, b: SankeyNodeElement) => number;
   /** 自定义指定节点层 */
   setNodeLayer?: (datum: SankeyNodeDatum) => number;
+  /**
+   * 是否丢弃孤立的节点
+   * @since 1.11.0
+   */
+  dropIsolatedNode?: boolean;
+  /**
+   * set the height of node
+   * @since 1.11.0
+   */
+  nodeHeight?: number | ((node: SankeyNodeElement) => number);
+  /**
+   * set the height of link
+   * @since 1.11.0
+   */
+  linkHeight?: number | ((link: SankeyLinkElement, sourceNode: SankeyNodeElement, sourceNodeHeight: number) => number);
+  /**
+   * each node has same height
+   * @since 1.11.0
+   */
+  equalNodeHeight?: boolean;
+  /**
+   * the layout type of link
+   * @since 1.11.0
+   */
+  linkOverlap?: 'start' | 'center' | 'end';
 
   /** 节点配置 */
   [SeriesMarkNameEnum.node]?: IMarkSpec<IRectMarkSpec>;

@@ -129,7 +129,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           nodeKey: this._spec.nodeKey,
           linkSortBy: this._spec.linkSortBy,
           nodeSortBy: this._spec.nodeSortBy,
-          setNodeLayer: this._spec.setNodeLayer
+          setNodeLayer: this._spec.setNodeLayer,
+          dropIsolatedNode: this._spec.dropIsolatedNode,
+          nodeHeight: this._spec.nodeHeight,
+          linkHeight: this._spec.linkHeight,
+          equalNodeHeight: this._spec.equalNodeHeight,
+          linkOverlap: this._spec.linkOverlap
         } as ISankeyOpt,
         level: TransformLevel.sankeyLayout
       });
@@ -1143,13 +1148,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   getNodeList() {
-    const nodeList = this._rawData.latestData[0]?.nodes
-      ? this._rawData.latestData[0].nodes[0]?.children
-        ? Array.from(this.extractNamesFromTree(this._rawData.latestData[0].nodes, this._spec.categoryField))
-        : this._rawData.latestData[0].nodes.map((datum: Datum, index: number) => {
+    const data = this._rawData.latestData[0];
+
+    const nodeList = data?.nodes
+      ? data.nodes[0]?.children
+        ? Array.from(this.extractNamesFromTree(data.nodes, this._spec.categoryField))
+        : data.nodes.map((datum: Datum, index: number) => {
             return datum[this._spec.categoryField];
           })
-      : this._rawData.latestData[0]?.values.map((datum: Datum, index: number) => {
+      : data?.links
+      ? Array.from(this.extractNamesFromLink(data.links))
+      : data?.values.map((datum: Datum, index: number) => {
           return datum[this._spec.categoryField];
         });
 
@@ -1174,6 +1183,20 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         const childNames = this.extractNamesFromTree(node.children, categoryName);
         childNames.forEach(name => uniqueNames.add(name));
       }
+    });
+
+    return uniqueNames;
+  }
+
+  extractNamesFromLink(links: any[]) {
+    // Set 用于存储唯一的 name 值
+    const uniqueNames = new Set();
+    const { sourceField, targetField } = this._spec;
+
+    // 遍历所有的边
+    links.forEach((link: any) => {
+      uniqueNames.add(link[sourceField]);
+      uniqueNames.add(link[targetField]);
     });
 
     return uniqueNames;
