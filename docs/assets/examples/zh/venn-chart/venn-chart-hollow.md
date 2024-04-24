@@ -28,25 +28,13 @@ const spec = {
   type: 'venn',
   data: {
     values: [
-      { sets: ['A'], value: 50 },
+      { sets: ['A'], value: 30 },
       { sets: ['B'], value: 10 },
       { sets: ['C'], value: 8 },
       { sets: ['D'], value: 6 },
-      { sets: ['E'], value: 7 },
-      { sets: ['F'], value: 5 },
-      { sets: ['G'], value: 4 },
-      { sets: ['H'], value: 4 },
-      { sets: ['I'], value: 4 },
-      { sets: ['J'], value: 3 },
       { sets: ['A', 'B'], value: 4 },
       { sets: ['A', 'C'], value: 3 },
-      { sets: ['A', 'D'], value: 3 },
-      { sets: ['A', 'E'], value: 3 },
-      { sets: ['A', 'F'], value: 3 },
-      { sets: ['A', 'G'], value: 2 },
-      { sets: ['A', 'H'], value: 2 },
-      { sets: ['A', 'I'], value: 2 },
-      { sets: ['A', 'J'], value: 2 }
+      { sets: ['A', 'D'], value: 3 }
     ]
   },
   categoryField: 'sets',
