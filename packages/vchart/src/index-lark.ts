@@ -87,6 +87,7 @@ VChart.useRegisters([
   registerCorrelationChart,
   // 优化vchart-all体积, 默认不注册
   // registerLiquidChart,
+  // registerVennChart,
   registerCommonChart,
 
   // components

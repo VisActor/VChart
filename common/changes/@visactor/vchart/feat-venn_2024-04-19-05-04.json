@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: the new chart type venn chart, related #2144",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

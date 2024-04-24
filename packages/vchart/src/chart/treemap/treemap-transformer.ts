@@ -1,4 +1,3 @@
-import type { ISeries } from '../../series';
 import type { AdaptiveSpec } from '../../typings';
 import { BaseChartSpecTransformer } from '../base';
 import type { ITreemapChartSpec } from './interface';

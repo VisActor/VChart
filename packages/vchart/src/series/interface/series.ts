@@ -15,6 +15,7 @@ import type { StatisticOperations } from '../../data/transforms/dimension-statis
 import type { IGroupMark } from '../../mark/group';
 import type { IGeoCoordinateHelper } from '../../component/geo/interface';
 import type { ILabelMark } from '../../mark/label';
+import type { BaseLegend } from '../../component/legend/base-legend';
 
 // 使用类型约束系列支持的样式，但是感觉这样不合理 不使用这样的方式去做
 // export interface ISeries<A extends string> extends IModel
@@ -187,6 +188,10 @@ export interface ISeries extends IModel {
 
   getSpecInfo: () => ISeriesSpecInfo;
   getMarkAttributeContext: () => ISeriesMarkAttributeContext;
+
+  getSeriesFieldValue: (datum: Datum, seriesField?: string) => any;
+
+  legendSelectedFilter?: (component: BaseLegend<any>, selectedKeys: StringOrNumber[]) => StringOrNumber[];
 }
 
 export interface ICartesianSeries extends ISeries {
