@@ -5,6 +5,11 @@ import type { ISankeyChartSpec } from './interface';
 import { registerSankeySeries } from '../../series/sankey/sankey';
 import { Factory } from '../../core/factory';
 import { SankeyChartSpecTransformer } from './sankey-transformer';
+import type { Datum, MaybeArray } from '../../typings/common';
+import type { ISeries } from '../../series/interface';
+import type { IMark } from '../../mark/interface/common';
+import type { IRegionQuerier } from '../../typings/params';
+import { isArray, isFunction } from '@visactor/vutils';
 
 export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends BaseChart<T> {
   static readonly type: string = ChartTypeEnum.sankey;
@@ -14,6 +19,55 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
   readonly transformerConstructor = SankeyChartSpecTransformer;
   readonly type: string = ChartTypeEnum.sankey;
   readonly seriesType: string = SeriesTypeEnum.sankey;
+
+  protected _setStateInDatum(
+    stateKey: string,
+    checkReverse: boolean,
+    datum: MaybeArray<Datum> | null,
+    filter?: (series: ISeries, mark: IMark) => boolean,
+    region?: IRegionQuerier
+  ) {
+    // 桑基图暂时只支持单选
+    const activeDatum = isArray(datum) ? datum[0] : datum;
+    const keys = !activeDatum ? null : Object.keys(activeDatum);
+    this.getRegionsInQuerier(region).forEach(r => {
+      if (!activeDatum) {
+        r.interaction.clearEventElement(stateKey, true);
+        return;
+      }
+      let hasPick = false;
+      r.getSeries().forEach(s => {
+        let activeNodeOrLink = null;
+
+        s.getMarks().forEach(m => {
+          let pickElement = null;
+          const mark = m.getProduct();
+          if (!mark) {
+            return;
+          }
+          if (!filter || (isFunction(filter) && filter(s, m))) {
+            // eslint-disable-next-line eqeqeq
+            pickElement = mark.elements.find((e: any) => keys.every(k => activeDatum[k] == e.getDatum()?.datum?.[k]));
+          }
+          if (pickElement) {
+            hasPick = true;
+            r.interaction.startInteraction(stateKey, pickElement);
+
+            if (mark.id().includes('node') || mark.id().includes('link')) {
+              activeNodeOrLink = pickElement;
+            }
+          }
+        });
+
+        if (activeNodeOrLink) {
+          (s as any)._handleEmphasisElement?.({ item: activeNodeOrLink });
+        }
+      });
+      if (checkReverse && hasPick) {
+        r.interaction.reverseEventElement(stateKey);
+      }
+    });
+  }
 }
 
 export const registerSankeyChart = () => {

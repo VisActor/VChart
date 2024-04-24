@@ -233,6 +233,15 @@ export class Compiler {
     this._isRunning = true;
     this._view?.run(morphConfig);
     this._isRunning = false;
+
+    if (this._nextRafId) {
+      VChart.vglobal.getCancelAnimationFrame()(this._nextRafId);
+      this._nextRafId = null;
+
+      this._isRunning = true;
+      this._view?.run(morphConfig);
+      this._isRunning = false;
+    }
   }
 
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {

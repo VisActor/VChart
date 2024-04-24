@@ -20,7 +20,7 @@ import { LayoutZIndex, AttributeLevel, Event_Bubble_Level } from '../../constant
 import { SeriesData } from '../base/series-data';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
-import { Bounds, array, isNil } from '@visactor/vutils';
+import { Bounds, array, isNil, isValid, isNumber } from '@visactor/vutils';
 import type { ISankeyAnimationParams } from './animation';
 import { registerSankeyAnimation } from './animation';
 import type { ISankeySeriesSpec } from './interface';
@@ -288,10 +288,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             return fill;
           }
 
-          const sourceName =
-            this._spec.nodeKey || this._rawData.latestData[0]?.nodes?.[0]?.children
-              ? datum.source
-              : this.getNodeList()[datum.source];
+          const sourceName = isNumber(datum.source) ? this.getNodeList()[datum.source] : datum.source;
           return this._colorScale?.scale(sourceName);
         },
         direction: this._spec.direction ?? 'horizontal'
@@ -546,26 +543,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
     // 没有关闭交互时，才增加这些交互事件
     if (this._option.disableTriggerEvent !== true) {
-      if (emphasisSpec.enable && emphasisSpec.effect === 'adjacency') {
-        if (emphasisSpec.trigger === 'hover') {
-          // 浮动事件
-          this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
-        } else {
-          // emphasisSpec.trigger === 'click'
-          // 点击事件
-          this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleAdjacencyClick);
-        }
-      }
+      if (emphasisSpec.enable && (emphasisSpec.effect === 'adjacency' || emphasisSpec.effect === 'related')) {
+        const event = emphasisSpec.trigger === 'hover' ? 'pointerover' : 'pointerdown';
 
-      if (emphasisSpec.enable && emphasisSpec.effect === 'related') {
-        if (emphasisSpec.trigger === 'hover') {
-          // 浮动事件
-          this.event.on('pointerover', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
-        } else {
-          // emphasisSpec.trigger === 'click'
-          // 点击事件
-          this.event.on('pointerdown', { level: Event_Bubble_Level.chart }, this._handleRelatedClick);
-        }
+        this.event.on(event, { level: Event_Bubble_Level.chart }, this._handleEmphasisElement);
       }
     }
   }
@@ -580,25 +561,27 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._linksSeriesData.updateData();
   }
 
-  protected _handleAdjacencyClick = (params: ExtendEventParam) => {
-    const element = params.item;
-    if (element && element.mark.id().includes('node')) {
-      this._handleNodeAdjacencyClick(element);
-    } else if (element && element.mark.id().includes('link')) {
-      this._handleLinkAdjacencyClick(element);
-    } else {
-      this._handleClearEmpty();
-    }
-  };
+  protected _handleEmphasisElement = (params: ExtendEventParam) => {
+    const emphasisSpec = this._spec.emphasis ?? ({} as T['emphasis']);
 
-  protected _handleRelatedClick = (params: ExtendEventParam) => {
     const element = params.item;
-    if (element && element.mark.id().includes('node')) {
-      this._handleNodeRelatedClick(element);
-    } else if (element && element.mark.id().includes('link')) {
-      this._handleLinkRelatedClick(element);
-    } else {
-      this._handleClearEmpty();
+
+    if (emphasisSpec.effect === 'adjacency') {
+      if (element && element.mark.id().includes('node')) {
+        this._handleNodeAdjacencyClick(element);
+      } else if (element && element.mark.id().includes('link')) {
+        this._handleLinkAdjacencyClick(element);
+      } else {
+        this._handleClearEmpty();
+      }
+    } else if (emphasisSpec.effect === 'related') {
+      if (element && element.mark.id().includes('node')) {
+        this._handleNodeRelatedClick(element);
+      } else if (element && element.mark.id().includes('link')) {
+        this._handleLinkRelatedClick(element);
+      } else {
+        this._handleClearEmpty();
+      }
     }
   };
 
@@ -622,13 +605,13 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     allNodeElements.forEach(el => {
-      el.clearStates();
+      el.removeState(['selected', 'blur']);
     });
     allLinkElements.forEach(el => {
-      el.clearStates();
+      el.removeState(['selected', 'blur']);
     });
     allLabelElements.forEach(el => {
-      el.clearStates();
+      el.removeState(['selected', 'blur']);
     });
   };
 
@@ -644,7 +627,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       }
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
-        linkEl.clearStates();
         const linkDatum = linkEl.getDatum();
         const father = linkDatum?.parents ? 'parents' : 'source';
         if (array(linkDatum[father]).includes(nodeDatum.key)) {
@@ -670,6 +652,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             ratio = val / linkDatum.value;
           }
 
+          linkEl.removeState('blur');
           linkEl.addState('selected', { ratio });
         } else if (linkDatum.target === nodeDatum.key) {
           // 上游link
@@ -677,7 +660,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             highlightNodes.push(linkDatum.source);
           }
         } else {
-          linkEl.useStates(['blur']);
+          linkEl.removeState('selected');
+          linkEl.addState('blur');
         }
       });
     }
@@ -701,12 +685,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         return;
       }
       allLinkElements.forEach(linkEl => {
-        linkEl.clearStates();
-
         if (linkEl === element) {
+          linkEl.removeState('blur');
           linkEl.addState('selected', { ratio: 1 });
         } else {
-          linkEl.useStates(['blur']);
+          linkEl.removeState('selected');
+          linkEl.addState('blur');
         }
       });
     }
@@ -742,7 +726,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       const highlightLinks: string[] = [];
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
-        linkEl.clearStates();
         const linkDatum = linkEl.getDatum();
         const father = linkDatum?.parents ? 'parents' : 'source';
 
@@ -832,11 +815,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         }
 
         allLinkElements.forEach((linkEl: IElement, i: number) => {
-          linkEl.clearStates();
           if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
-            linkEl.useStates(['selected']);
+            linkEl.removeState('blur');
+            linkEl.addState('selected');
           } else {
-            linkEl.useStates(['blur']);
+            linkEl.removeState('selected');
+            linkEl.addState('blur');
           }
         });
       }
@@ -880,7 +864,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       }, []);
 
       allLinkElements.forEach((linkEl: IElement, i: number) => {
-        linkEl.clearStates();
         const linkDatum = linkEl.getDatum();
         const father = linkDatum?.parents ? 'parents' : 'source';
         const originalDatum = linkDatum.datum;
@@ -907,7 +890,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }, 0);
           const ratio = val / linkDatum.value;
 
-          linkEl.useStates(['selected']);
+          linkEl.removeState('blur');
           linkEl.addState('selected', { ratio });
 
           return;
@@ -960,13 +943,13 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (father === 'source') {
       if (this._linkMark) {
         allLinkElements.forEach(linkEl => {
-          linkEl.clearStates();
+          linkEl.removeState(['selected', 'blur']);
         });
       }
 
       if (this._nodeMark) {
         allNodeElements.forEach(el => {
-          el.clearStates();
+          el.removeState(['selected', 'blur']);
         });
       }
 
@@ -976,7 +959,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           return;
         }
         allLabelElements.forEach(el => {
-          el.clearStates();
+          el.removeState(['selected', 'blur']);
         });
       }
     } else {
@@ -1013,13 +996,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       });
 
       allLinkElements.forEach(linkEl => {
-        linkEl.clearStates();
         const linkDatum = linkEl.getDatum();
         const originalDatum = linkDatum.datum;
 
         if (linkDatum.source === curLinkDatum.source && linkDatum.target === curLinkDatum.target) {
           // 自身
-          linkEl.useStates(['selected']);
+          linkEl.removeState('blur');
           linkEl.addState('selected', { ratio: 1 });
           return;
         }
@@ -1052,7 +1034,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             }, 0);
           const ratio = val / linkDatum.value;
 
-          linkEl.useStates(['selected']);
+          linkEl.removeState('blur');
           linkEl.addState('selected', { ratio });
 
           return;
@@ -1094,11 +1076,11 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     }
 
     vGrammarElements.forEach(el => {
-      el.clearStates();
       if (highlightNodes.includes(el.getDatum().key)) {
+        el.removeState('blur');
         //
       } else {
-        el.useStates(['blur']);
+        el.addState('blur');
       }
     });
   }
@@ -1166,7 +1148,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   _getNodeNameFromData(datum: Datum) {
-    return datum?.datum ? datum?.datum[this._spec.categoryField] : datum[this._spec.categoryField];
+    return datum?.datum ? datum.datum[this._spec.categoryField] : datum.key;
   }
 
   extractNamesFromTree(tree: any, categoryName: string) {
@@ -1195,8 +1177,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     // 遍历所有的边
     links.forEach((link: any) => {
-      uniqueNames.add(link[sourceField]);
-      uniqueNames.add(link[targetField]);
+      isValid(link[sourceField]) && uniqueNames.add(link[sourceField]);
+      isValid(link[targetField]) && uniqueNames.add(link[targetField]);
     });
 
     return uniqueNames;
@@ -1265,8 +1247,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     // calculate the sankeyLayout
     this.getViewData().reRunAllTransform();
-    this._nodesSeriesData.updateData();
-    this._linksSeriesData.updateData();
   }
 
   getDefaultShapeType(): string {
