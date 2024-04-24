@@ -330,6 +330,32 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
+  protected getInvalidCheckFields() {
+    return [this.getStackValueField()];
+  }
+
+  protected initInvalidDataTransform(): void {
+    // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
+    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
+      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
+      // make sure each series only transform once
+      this._rawData?.transform(
+        {
+          type: 'invalidTravel',
+          options: {
+            config: () => {
+              return {
+                invalidType: this._invalidType,
+                checkField: this.getInvalidCheckFields()
+              };
+            }
+          }
+        },
+        false
+      );
+    }
+  }
+
   /** data */
   protected initData(): void {
     const d = this._spec.data ?? this._option.getSeriesData(this._spec.dataId, this._spec.dataIndex);
@@ -360,25 +386,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       }
     }
 
-    // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
-    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
-      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
-      // make sure each series only transform once
-      this._rawData?.transform(
-        {
-          type: 'invalidTravel',
-          options: {
-            config: () => {
-              return {
-                invalidType: this._invalidType,
-                checkField: this.getStackValueField()
-              };
-            }
-          }
-        },
-        false
-      );
-    }
+    this.initInvalidDataTransform();
   }
 
   protected initGroups() {
@@ -1405,7 +1413,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getInvalidDefined(datum: Datum) {
-    return couldBeValidNumber(datum[this.getStackValueField()]);
+    const checkFields = this.getInvalidCheckFields();
+
+    if (!checkFields.length) {
+      return true;
+    }
+
+    return checkFields.every(field => {
+      return couldBeValidNumber(datum[field]);
+    });
   }
 
   protected _getRelatedComponentSpecInfo(specKey: string) {
