@@ -21,7 +21,7 @@ jobs:
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
 
       - name: Preparation of node-canvas
-        run: arch -arm64 brew install pkg-config cairo pango libpng jpeg giflib librsvg
+        run:brew install python-setuptools
 
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy

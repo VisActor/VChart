@@ -31,7 +31,7 @@ jobs:
 
       - name: Preparation of node-canvas
         run:
-          arch -arm64 brew install pkg-config cairo pango libpng jpeg giflib librsvg
+          brew install python-setuptools
 
           # Install rush
       - name: Install rush
