@@ -4,7 +4,7 @@ import { addProcessor } from '../vchart/add';
 import { createMarkStyleProcessorByMarkType } from '../vchart/style/style';
 import { updateProcessor } from '../vchart/update';
 import { qipaoAppearProcessor, rectAppearProcessor } from '../graphic/appear';
-import { barAppearProcessor, lineAppearProcessor } from '../vchart/appear';
+import { barAppearProcessor, lineAppearProcessor, pieAppearProcessor } from '../vchart/appear';
 import { createMarkPointProcessor, markPointFlickerProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
 import { lineStyleProcessor } from '../vchart/style/lineStyle';
@@ -60,7 +60,8 @@ export const processorChartMap = {
     ...editProcessor,
     ...viewProcessor,
     ...componentProcessor,
-    arcStyle: createMarkStyleProcessorByMarkType('arc')
+    arcStyle: createMarkStyleProcessorByMarkType('arc'),
+    appear: pieAppearProcessor
   },
   [StoryChartType.AREA]: {
     ...editProcessor,
