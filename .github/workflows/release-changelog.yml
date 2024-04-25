@@ -7,7 +7,7 @@ on:
 jobs:
   update-changelog-after-publish-a-release:
     name: GitHub Actions Test
-    runs-on: macOS-latest
+    runs-on: macos-12
 
     strategy:
       matrix:
@@ -27,10 +27,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
-
-      - name: Preparation of node-canvas
-        run:
-          brew install pkg-config cairo pango libpng jpeg giflib librsvg
 
           # Install rush
       - name: Install rush
