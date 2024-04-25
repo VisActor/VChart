@@ -62,26 +62,38 @@ export class PolarMarkArea extends BaseMarkArea {
     };
 
     if (doAngleProcess || doRadiusProcess || doRadAngProcess) {
-      let polarLines = polarLayout(
+      const polarLines = polarLayout(
         data,
         startRelativeSeries as IPolarSeries,
         endRelativeSeries as IPolarSeries,
         relativeSeries as IPolarSeries,
         autoRange
       );
-      polarLines = polarLines.map(line => {
-        if (line.length === 1) {
-          return [line[0], line[0]];
-        }
-        return line;
-      });
-      pointsAttr = {
-        innerRadius: polarLines[0][0].radius,
-        outerRadius: polarLines[1][0].radius,
-        startAngle: polarLines[0][0].angle,
-        endAngle: polarLines[1][0].angle,
-        center
-      };
+      if (doRadAngProcess) {
+        pointsAttr = {
+          innerRadius: polarLines[0][0].radius,
+          outerRadius: polarLines[1][0].radius,
+          startAngle: polarLines[0][0].angle,
+          endAngle: polarLines[1][0].angle,
+          center
+        };
+      } else if (doAngleProcess) {
+        pointsAttr = {
+          innerRadius: 0,
+          outerRadius: Math.abs(polarLines[0][0].radius),
+          startAngle: polarLines[0][1].angle,
+          endAngle: polarLines[1][1].angle,
+          center
+        };
+      } else if (doRadiusProcess) {
+        pointsAttr = {
+          innerRadius: polarLines[0][0].radius,
+          outerRadius: polarLines[1][0].radius,
+          startAngle: polarLines[0][0].angle,
+          endAngle: polarLines[1][1].angle,
+          center
+        };
+      }
     } else if (doCoordinatesProcess) {
       points = polarCoordinateLayout(data, relativeSeries as IPolarSeries, autoRange);
       pointsAttr = {

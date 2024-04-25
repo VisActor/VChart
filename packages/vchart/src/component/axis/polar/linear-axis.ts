@@ -28,6 +28,7 @@ export class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSp
 
   protected _zero: boolean = true;
   protected _nice: boolean = true;
+  protected _extend: { [key: string]: number } = {};
 
   protected _scale = new LinearScale();
   protected declare _groupScales: LinearScale[];

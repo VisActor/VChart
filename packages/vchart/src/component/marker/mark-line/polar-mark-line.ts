@@ -1,4 +1,4 @@
-import { DataView } from '@visactor/vdataset';
+import type { DataView } from '@visactor/vdataset';
 import type {
   IMarkLineAngRadRad1Spec,
   IMarkLineAngRadSpec,

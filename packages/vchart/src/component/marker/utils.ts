@@ -9,7 +9,7 @@ import {
   isArray,
   normalizePadding,
   isFunction,
-  IPointLike
+  type IPointLike
 } from '@visactor/vutils';
 import type { Datum, IPoint, StringOrNumber } from '../../typings';
 import { isPercent, transformToGraphic } from '../../util';
@@ -224,6 +224,10 @@ export function polarLayout(
 
   const angleDomain = (relativeSeries as IPolarSeries).angleAxisHelper.getScale(0).domain();
   const radiusDomain = (relativeSeries as IPolarSeries).radiusAxisHelper.getScale(0).domain();
+  const regionRadius = Math.min(
+    relativeSeries.getRegion().getLayoutRect().width / 2,
+    relativeSeries.getRegion().getLayoutRect().height / 2
+  );
   dataPoints.forEach((datum: IPolarPoint) => {
     const isValidAngle = isValid(datum.angle);
     const isValidRadius = isValid(datum.radius);
@@ -231,21 +235,19 @@ export function polarLayout(
       const angle = getAngleValue(datum, angleDomain, autoRange, refSeries);
       const radius = getRadiusValue(datum, radiusDomain, autoRange, refSeries);
       lines.push([{ angle, radius }]);
-    } else if (isValid(datum.angle)) {
+    } else if (isValidAngle) {
       const angle = getAngleValue(datum, angleDomain, autoRange, refSeries);
-      const radius = getRadiusValue(datum, radiusDomain, autoRange, refSeries);
-      const radius1 = radiusDomain[1];
       lines.push([
         {
           angle,
-          radius
+          radius: -regionRadius
         },
         {
           angle,
-          radius: radius1
+          radius: regionRadius
         }
       ]);
-    } else if (isValid(datum.radius)) {
+    } else if (isValidRadius) {
       const radius = getRadiusValue(datum, radiusDomain, autoRange, refSeries);
       lines.push([
         {
@@ -549,8 +551,8 @@ export function getMarkLineProcessInfo(spec: any) {
     doYProcess: isYProcess && !isXProcess && !isX1Process,
     doYXX1Process: isYProcess && isXProcess && isX1Process,
     doXYProcess: isXProcess && isYProcess && isX1Process && isY1Process,
-    doAngleProcess: isAngleProcess && !isRadiusProcess && !isRadius1Process,
-    doRadiusProcess: isRadiusProcess && !isAngleProcess && !isAngle1Process,
+    doAngleProcess: isAngleProcess && !isAngle1Process && !isRadiusProcess && !isRadius1Process,
+    doRadiusProcess: isRadiusProcess && !isRadius1Process && !isAngleProcess && !isAngle1Process,
     doAngRadRad1Process: isAngleProcess && !isAngle1Process && isRadiusProcess && isRadius1Process,
     doRadAngAng1Process: isRadiusProcess && isAngleProcess && isAngle1Process && !isRadius1Process,
     doRadAngProcess: isAngleProcess && isRadiusProcess && isAngle1Process && isRadius1Process,
