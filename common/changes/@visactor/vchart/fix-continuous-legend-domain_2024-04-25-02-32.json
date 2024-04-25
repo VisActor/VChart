@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix domain of continuous legend when specify seriesId or seriesIndex\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
