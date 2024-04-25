@@ -1,6 +1,26 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 03 Apr 2024 09:30:23 GMT and should not be manually modified.
+This log was last generated on Thu, 25 Apr 2024 11:57:23 GMT and should not be manually modified.
+
+## 1.10.5
+Thu, 25 Apr 2024 11:57:23 GMT
+
+### Updates
+
+- fix(datazoom): when drag start and end handler outside, min and max span not work. fix#2559
+- feat: player support play when hidden. feat#2524
+- fix: fix domain of continuous legend when specify seriesId or seriesIndex
+
+
+- fix: fix eventsBinded update in react-vchart
+- fix(scrollbar): label position not align with mark. fix#2534
+- fix(scrollbar): enable bubble when scroll to boundary. fix#2521
+- fix: fix error of update theme when series reduce
+
+
+- perf: optimize the performance of pie chart, fix #2568
+
+
 
 ## 1.10.4
 Wed, 03 Apr 2024 09:30:23 GMT
