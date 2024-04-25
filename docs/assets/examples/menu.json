@@ -1831,6 +1831,13 @@
             "zh": "图例使用滚动条翻页",
             "en": "Scrollbar of legend"
           }
+        },
+        {
+          "path": "discrete-legend-scale",
+          "title": {
+            "zh": "离散图例指定scale",
+            "en": "specify scale of discrete legend"
+          }
         }
       ]
     },
