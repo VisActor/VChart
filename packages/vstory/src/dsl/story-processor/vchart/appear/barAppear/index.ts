@@ -1,0 +1,1 @@
+export { barAppearProcessor } from './barAppear';

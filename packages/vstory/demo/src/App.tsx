@@ -9,6 +9,7 @@ import { StoryLineDemo } from './demos/StoryLineDemo';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { StoryPieDemo } from './demos/StoryPieDemo';
 import { AppearBar } from './demos/AppearBar';
+import { AppearLine } from './demos/AppearLine';
 
 const App = () => {
   const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
@@ -44,6 +45,10 @@ const App = () => {
     {
       name: 'AppearBar',
       component: AppearBar
+    },
+    {
+      name: 'AppearLine',
+      component: AppearLine
     }
   ];
 

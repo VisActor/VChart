@@ -4,7 +4,7 @@ import { addProcessor } from '../vchart/add';
 import { createMarkStyleProcessorByMarkType } from '../vchart/style/style';
 import { updateProcessor } from '../vchart/update';
 import { qipaoAppearProcessor, rectAppearProcessor } from '../graphic/appear';
-import { appearProcessor } from '../vchart/appear';
+import { barAppearProcessor, lineAppearProcessor } from '../vchart/appear';
 import { createMarkPointProcessor, markPointFlickerProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
 import { lineStyleProcessor } from '../vchart/style/lineStyle';
@@ -22,9 +22,7 @@ const editProcessor = {
 /**
  * 通用的查看processor
  */
-const viewProcessor = {
-  appear: appearProcessor
-};
+const viewProcessor = {};
 
 /**
  * 通用的组件行为processor
@@ -47,7 +45,7 @@ export const processorChartMap = {
     createTitle: createTitleProcessor,
     // 不通用的, 可直接覆盖, 重新定义
     barStyle: createMarkStyleProcessorByMarkType('rect'),
-    appear: appearProcessor,
+    appear: barAppearProcessor,
     dance: danceProcessor
   },
   [StoryChartType.LINE]: {
@@ -55,6 +53,7 @@ export const processorChartMap = {
     ...viewProcessor,
     ...componentProcessor,
     lineStyle: lineStyleProcessor,
+    appear: lineAppearProcessor,
     symbolStyle: createMarkStyleProcessorByMarkType('symbol')
   },
   [StoryChartType.PIE]: {
