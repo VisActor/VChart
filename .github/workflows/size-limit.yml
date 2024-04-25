@@ -6,7 +6,7 @@ on:
 
 jobs:
   size:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
     strategy:
       matrix:
         node-version: [18.x]
@@ -19,6 +19,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
+
+      - name: Preparation of node-canvas
+        run: arch -arm64 brew install pkg-config cairo pango libpng jpeg giflib librsvg
 
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
