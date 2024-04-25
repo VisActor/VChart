@@ -14,10 +14,10 @@ export const continuousLegendDataMake = (data: Array<ISeries>, op: IContinuousLe
       const seriesMin = statisticData?.min;
       const seriesMax = statisticData?.max;
       if (isValidNumber(seriesMin)) {
-        min = seriesMin;
+        min = Math.min(seriesMin, min);
       }
       if (isValidNumber(seriesMax)) {
-        max = seriesMax;
+        max = Math.max(seriesMax, max);
       }
     });
     return [min, max];
