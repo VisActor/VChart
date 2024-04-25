@@ -6,9 +6,11 @@ export interface AppearAction {
   startTime: number;
   payload: {
     animation: {
-      effect: string;
+      effect: 'grow' | 'fade' | 'bounce';
       duration: number;
+      oneByOne: boolean;
       easing: string;
+      loop: boolean;
     };
   };
 }

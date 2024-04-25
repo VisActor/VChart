@@ -1,0 +1,1 @@
+export { appearProcessor } from './appear';

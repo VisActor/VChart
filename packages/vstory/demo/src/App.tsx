@@ -8,6 +8,7 @@ import { AreaWithTag } from './demos/AreaWithTag';
 import { StoryLineDemo } from './demos/StoryLineDemo';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { StoryPieDemo } from './demos/StoryPieDemo';
+import { AppearBar } from './demos/AppearBar';
 
 const App = () => {
   const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
@@ -39,6 +40,10 @@ const App = () => {
     {
       name: 'AreaWithTag',
       component: AreaWithTag
+    },
+    {
+      name: 'AppearBar',
+      component: AppearBar
     }
   ];
 
