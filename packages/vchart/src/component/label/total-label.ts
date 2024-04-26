@@ -135,6 +135,10 @@ export class TotalLabel extends BaseLabelComponent {
                 x: 0,
                 y: 0
               },
+              series.getTotalLabelComponentStyle?.({
+                baseMark: this._baseMark,
+                labelMark: this._textMark
+              }) ?? {},
               {
                 offset,
                 animation,

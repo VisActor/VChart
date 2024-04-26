@@ -36,6 +36,8 @@ import { Factory } from '../../core/factory';
 import { registerRectMark } from '../../mark/rect';
 import { getGroupAnimationParams } from '../util/utils';
 import { WaterfallSeriesSpecTransformer } from './waterfall-transformer';
+import { stackLabel } from '../../component/label/util';
+import type { ILabelInfo } from '../../component/label/label';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
@@ -222,6 +224,25 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
         return this._spec.stackLabel?.valueType === 'absolute' ? datum.end : precisionSub(datum.end, datum.start);
       }
     });
+  }
+
+  getTotalLabelComponentStyle(info: Pick<ILabelInfo, 'baseMark' | 'labelMark'>) {
+    return stackLabel(
+      {
+        ...info,
+        series: this,
+        // @ts-ignore
+        labelSpec: this._spec.totalLabel
+      },
+      d => {
+        return this._totalData.getLatestData().find((_d: Datum) => _d.index === d[this._fieldX[0]]);
+      },
+      (label, datum, attribute) => {
+        attribute.text =
+          this._spec.totalLabel?.valueType === 'absolute' ? datum.end : precisionSub(datum.end, datum.start);
+        return attribute;
+      }
+    );
   }
 
   totalPositionX(datum: Datum, field: string, pos: number = 0.5) {

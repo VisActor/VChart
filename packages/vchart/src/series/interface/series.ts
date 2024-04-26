@@ -1,3 +1,4 @@
+import type { ILabelInfo } from './../../component/label/label';
 import type { PanEventParam, ZoomEventParam } from '../../event/interface';
 import type { IModel } from '../../model/interface';
 import type { DataSet, DataView, ITransformOptions } from '@visactor/vdataset';
@@ -182,6 +183,9 @@ export interface ISeries extends IModel {
   getDefaultShapeType: () => string;
   /** 获取系列标签配置 */
   initLabelMarkStyle?: (labelMark: ILabelMark) => void;
+  /** 设置总计标签配置 */
+  initTotalLabelMarkStyle?: (labelMark: ILabelMark) => void;
+  getTotalLabelComponentStyle?: (info: Pick<ILabelInfo, 'baseMark' | 'labelMark'>) => any;
 
   getGroupFields: () => string[];
 
