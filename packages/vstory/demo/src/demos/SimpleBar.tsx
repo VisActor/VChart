@@ -59,20 +59,20 @@ export const SimpleBar = () => {
 
     scene.add(bar);
 
-    scene.wait(1000);
-    const ani = highlight(bar, [{ month: 'Friday' }, { month: 'Monday' }], { fill: 'green' });
-    scene.wait(1000);
+    // scene.wait(1000);
+    // const ani = highlight(bar, [{ month: 'Friday' }, { month: 'Monday' }], { fill: 'green' });
+    // scene.wait(1000);
 
-    ani && scene.play(ani);
-    scene.wait(2000);
+    // ani && scene.play(ani);
+    // scene.wait(2000);
 
-    const ani2 = highlight(bar, [{ month: 'Tuesday' }], {
-      fill: 'red',
-      shadowColor: 'rgba(0, 0, 0, 0.8)',
-      shadowBlur: 10
-    });
-    ani2 && scene.play(ani2);
-    scene.wait(1000);
+    // const ani2 = highlight(bar, [{ month: 'Tuesday' }], {
+    //   fill: 'red',
+    //   shadowColor: 'rgba(0, 0, 0, 0.8)',
+    //   shadowBlur: 10
+    // });
+    // ani2 && scene.play(ani2);
+    // scene.wait(1000);
     // scene.remove(title);
     // scene.remove(bar);
   }, []);

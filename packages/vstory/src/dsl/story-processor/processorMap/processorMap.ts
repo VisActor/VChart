@@ -9,6 +9,9 @@ import { createMarkPointProcessor, markPointFlickerProcessor } from '../vchart/m
 import { createTitleProcessor } from '../vchart/title';
 import { lineStyleProcessor } from '../vchart/style/lineStyle';
 import { danceProcessor } from '../vchart/dance';
+import { flickerProcessor } from '../graphic/flicker';
+import { darkenProcessor } from '../graphic/darken';
+import { brightenProcessor } from '../graphic/brighter';
 
 /**
  * 通用的编辑processor
@@ -81,10 +84,14 @@ export const processorComponentMap = {
 // 图元processor
 export const processorMarkMap = {
   [StoryGraphicType.RECT]: {
-    appear: rectAppearProcessor
+    appear: rectAppearProcessor,
+    flicker: flickerProcessor,
+    darken: darkenProcessor,
+    brighten: brightenProcessor
   },
   [StoryGraphicType.QIPAO]: {
-    appear: qipaoAppearProcessor
+    appear: qipaoAppearProcessor,
+    flicker: flickerProcessor
   }
 };
 

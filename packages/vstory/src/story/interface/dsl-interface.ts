@@ -5,7 +5,7 @@ export type IAction = {
   action: string;
   duration: number;
   payload?: {
-    style: {
+    style?: {
       [key: string]: number | string;
     };
     animation: {

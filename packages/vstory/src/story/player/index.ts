@@ -127,6 +127,7 @@ export class Player implements IPlayer {
         role.show();
       });
     });
+
     this._currTime = t;
     this._canvas.getStage().ticker.tickAt(t);
     this._canvas.getStage().render();
@@ -174,6 +175,10 @@ export class Player implements IPlayer {
 
   pause(): void {
     this._ticker.stop();
+  }
+
+  resume(): void {
+    this._ticker._tick(this._currTime);
   }
 
   release(): void {}

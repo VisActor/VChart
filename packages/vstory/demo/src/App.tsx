@@ -11,6 +11,7 @@ import { StoryPieDemo } from './demos/StoryPieDemo';
 import { AppearBar } from './demos/AppearBar';
 import { AppearLine } from './demos/AppearLine';
 import { AppearPie } from './demos/AppearPie';
+import { GraphicActionDemo } from './demos/graphicAction';
 
 const App = () => {
   const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
@@ -54,10 +55,14 @@ const App = () => {
     {
       name: 'AppearPie',
       component: AppearPie
+    },
+    {
+      name: 'Graphic-Action',
+      component: GraphicActionDemo
     }
   ];
 
-  const selectedMenu = menus[activeIndex];
+  const selectedMenu = menus[10];
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>
