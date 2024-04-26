@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { IStorySpec } from '../../../src/story1/interface';
-import { Story } from '../../../src/story1/story';
-import '../../../src/story1/index';
+import { IStorySpec } from '../../../src/story/interface';
+import { Story } from '../../../src/story/story';
+import '../../../src/story/index';
 
 const data0 = {
   type: 'standard',
@@ -23,7 +23,7 @@ export const StorySceneDemo = () => {
     const tempSpec: IStorySpec = {
       roles: [
         {
-          type: 'component-rect',
+          type: 'RectComponent',
           id: 'test-graphics-0',
           zIndex: 0,
           position: {
@@ -45,7 +45,7 @@ export const StorySceneDemo = () => {
           }
         },
         {
-          type: 'component-rect',
+          type: 'RectComponent',
           id: 'test-graphics-1',
           zIndex: 0,
           position: {
@@ -68,7 +68,7 @@ export const StorySceneDemo = () => {
           }
         },
         {
-          type: 'lineChart',
+          type: 'BarChart',
           id: 'test-chart-0',
           zIndex: 0,
           position: {
@@ -84,7 +84,7 @@ export const StorySceneDemo = () => {
           }
         },
         {
-          type: 'barChart',
+          type: 'BarChart',
           id: 'test-chart-1',
           zIndex: 0,
           position: {
@@ -100,7 +100,7 @@ export const StorySceneDemo = () => {
           }
         },
         {
-          type: 'component-qipao',
+          type: 'QipaoComponent',
           id: 'test-graphics-2',
           zIndex: 3,
           position: {
@@ -124,104 +124,109 @@ export const StorySceneDemo = () => {
           }
         }
       ],
-      chapters: [
+      acts: [
         {
           id: 'default-chapter',
-          steps: [
-            {
-              roleId: 'test-graphics-0',
-              actions: [
-                {
-                  startTime: 1000,
-                  action: 'appear',
-                  payload: {
-                    style: {},
-                    animation: {
-                      duration: 1000,
-                      easing: 'linear',
-                      effect: 'fadeIn'
-                    } as any
+          scenes: [
+            [
+              {
+                roleId: 'test-graphics-0',
+                actions: [
+                  {
+                    startTime: 1000,
+                    duration: 1000,
+                    action: 'appear',
+                    payload: {
+                      style: {},
+                      animation: {
+                        duration: 1000,
+                        easing: 'linear',
+                        effect: 'fadeIn'
+                      } as any
+                    }
                   }
-                }
-              ]
-            },
-            {
-              roleId: 'test-graphics-1',
-              actions: [
-                {
-                  startTime: 2000,
-                  action: 'appear',
-                  payload: {
-                    style: {},
-                    animation: {
-                      duration: 1000,
-                      easing: 'linear',
-                      effect: 'fadeIn'
-                    } as any
+                ]
+              },
+              {
+                roleId: 'test-graphics-1',
+                actions: [
+                  {
+                    startTime: 2000,
+                    duration: 1000,
+                    action: 'appear',
+                    payload: {
+                      style: {},
+                      animation: {
+                        duration: 1000,
+                        easing: 'linear',
+                        effect: 'fadeIn'
+                      } as any
+                    }
                   }
-                }
-              ]
-            },
-            {
-              roleId: 'test-chart-1',
-              actions: [
-                {
-                  startTime: 4000,
-                  action: 'appear'
-                },
-                {
-                  startTime: 5000,
-                  action: 'add',
-                  payload: {
-                    id: '0',
-                    values: [{ _editor_dimension_field: 'x4', _editor_type_field: 'x4', _editor_value_field: 39 }]
-                  },
-                  option: {}
-                } as any
-              ]
-            },
-            {
-              roleId: 'test-graphics-2',
-              actions: [
-                {
-                  startTime: 4300,
-                  action: 'appear',
-                  payload: {
-                    style: {},
-                    animation: {
-                      duration: 300,
-                      easing: 'linear',
-                      effect: 'grow'
-                    } as any
+                ]
+              },
+              // {
+              //   roleId: 'test-chart-1',
+              //   actions: [
+              //     {
+              //       startTime: 4000,
+              //       duration: 1000,
+              //       action: 'appear'
+              //     }
+              //   ]
+              // },
+              {
+                roleId: 'test-graphics-2',
+                actions: [
+                  {
+                    startTime: 4300,
+                    duration: 1000,
+                    action: 'appear',
+                    payload: {
+                      style: {},
+                      animation: {
+                        duration: 300,
+                        easing: 'linear',
+                        effect: 'grow'
+                      } as any
+                    }
                   }
-                }
-              ]
-            }
+                ]
+              }
+            ]
           ]
         }
       ]
     };
     const story = new Story(tempSpec, { dom: id });
     story.play();
-    setTimeout(() => {
-      console.log('abc');
+    const btn1 = document.createElement('button');
+    btn1.innerText = 'replay';
+    btn1.addEventListener('click', () => {
       story.play();
-    }, 5000);
-    // story
-    //   .encodeToVideo(0, 5000, 15)
-    //   .then(objUrl => {
-    //     const video = document.createElement('video');
-    //     (video as any).muted = 'muted';
-    //     video.controls = true;
-    //     video.src = objUrl;
-    //     video.play();
-    //     video.style.width = '500px';
-    //     video.style.height = '300px';
-    //     document.body.appendChild(video);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    });
+    const btn2 = document.createElement('button');
+    btn2.innerText = 'export';
+    btn2.addEventListener('click', () => {
+      story
+        .encodeToVideo(0, 5000, 15)
+        .then(objUrl => {
+          const video = document.createElement('video');
+          (video as any).muted = 'muted';
+          video.controls = true;
+          video.src = objUrl;
+          video.play();
+          video.style.width = '500px';
+          video.style.height = '300px';
+          document.body.appendChild(video);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+    document.body.appendChild(btn1);
+    document.body.appendChild(btn2);
+
     // let i = 0;
     // story.getPlayer().setCurrentChapter(0);
     // setInterval(() => {

@@ -20,6 +20,7 @@ export class Encoder {
       this._FFMPEG = createFFmpeg({ log: true });
     }
     await this._FFMPEG.load();
+    console.log('加载');
     this._FFMPEG_Loaded = true;
   }
 

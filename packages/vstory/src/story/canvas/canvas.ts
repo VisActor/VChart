@@ -1,4 +1,4 @@
-import { Story } from './../story';
+import { Story } from '../story';
 import { IStage, createStage, vglobal, container, preLoadAllModule, ManualTicker } from '@visactor/vrender-core';
 import { loadBrowserEnv } from '@visactor/vrender-kits';
 import { manualTicker } from '../player/ticker';
@@ -9,7 +9,7 @@ vglobal.setEnv('browser');
 
 export class StoryCanvas {
   protected _story: Story;
-  protected _canvas: HTMLCanvasElement;
+  protected _canvas: HTMLCanvasRole;
   protected _stage: IStage;
   getStage() {
     return this._stage;

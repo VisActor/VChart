@@ -1,10 +1,10 @@
 import { isNumber, last } from '@visactor/vutils';
 import { StoryCanvas } from '../canvas/canvas';
-import { IAction, IChapterElementLink, IChapterSpec } from '../interface';
+import { IActSpec, IAction } from '../interface';
 import { IPlayer } from '../interface/player';
-import { IElement } from '../element';
 import { processorMap } from '../../dsl/story-processor';
 import { Encoder } from './encode';
+import { IRole } from '../role';
 
 export class Ticker {
   cb?: (delta: number) => void;
@@ -29,104 +29,116 @@ export class Ticker {
 
 type IChapterInstanceItem = {
   id: string;
-  elements: {
-    element: IElement;
-    actions: IAction[];
-  }[];
+  scenes: Array<
+    {
+      role: IRole;
+      action: IAction;
+    }[]
+  >;
+  roles: IRole[];
 };
 
 export class Player implements IPlayer {
   protected _canvas: StoryCanvas;
-  protected _chapters: IChapterInstanceItem[];
-  protected _currChapter: IChapterInstanceItem;
+  protected _acts: IChapterInstanceItem[];
+  protected _currAct: IChapterInstanceItem;
   protected _ticker: Ticker;
   protected _currTime: number;
   protected _encoder: Encoder;
 
   constructor(c: StoryCanvas) {
     this._canvas = c;
-    this._chapters = [];
+    this._acts = [];
     this._ticker = new Ticker();
     this._currTime = 0;
     this._encoder = new Encoder();
   }
 
-  addChapter(
-    c: IChapterSpec,
-    elements: {
-      [key: string]: IElement;
+  addAct(
+    c: IActSpec,
+    roles: {
+      [key: string]: IRole;
     }
   ): void {
-    const e: { element: IElement; actions: IAction[] }[] = [];
-    c.steps.forEach(item => {
-      item.elements.forEach(item => {
-        e.push({
-          element: elements[(item as any).elementId],
-          actions: item.actions.sort((a, b) => (a.startTime ?? 0) - (b.startTime ?? 0))
+    const scenes: IChapterInstanceItem['scenes'] = [];
+    const roleSet: Set<IRole> = new Set();
+    c.scenes.forEach(item => {
+      const scene: IChapterInstanceItem['scenes'][0] = [];
+      item.forEach(({ actions, roleId }) => {
+        const _actions = actions.slice();
+        _actions.sort((a, b) => a.startTime - b.startTime);
+        _actions.forEach(action => {
+          const role = roles[roleId];
+          scene.push({
+            role,
+            action: action
+          });
+          roleSet.add(role);
         });
       });
+      scenes.push(scene);
     });
-    this._chapters.push({
+    this._acts.push({
       id: c.id,
-      elements: e
+      scenes: scenes,
+      roles: Array.from(roleSet.values())
     });
   }
 
-  setCurrentChapter(id: number | string) {
+  setCurrentAct(id: number | string) {
     if (isNumber(id)) {
-      this._currChapter = this._chapters[id];
+      this._currAct = this._acts[id];
     } else {
-      this._currChapter = this._chapters.filter(item => item.id === id)[0];
+      this._currAct = this._acts.filter(item => item.id === id)[0];
     }
   }
 
   // 清除当前状态，一般用于回放操作
-  clearCurrentStatus() {
-    this._currChapter.elements.forEach(item => {
-      item.element.clearStatus();
+  reset() {
+    this._currAct.roles.forEach(item => {
+      item.reset();
     });
   }
 
   tickTo(t: number) {
     const lastTime = this._currTime;
     if (lastTime > t) {
+      console.log('abcdefg');
       // 如果时间回退，那就重新走一遍
-      this.clearCurrentStatus();
+      this.reset();
       this._currTime = 0;
       this.tickTo(0);
     }
-    this._currChapter.elements.forEach(({ actions, element }) => {
-      actions.forEach(action => {
+    this._currAct.scenes.forEach(scene => {
+      scene.forEach(({ role, action }) => {
         const { startTime } = action;
         if (startTime > t) {
           return;
         }
         // 之前没走过，现在走
         if (startTime > lastTime && startTime <= t) {
-          const { temp } = element.spec.config;
-          const process = processorMap[temp];
+          const { type } = role.spec;
+          const process = processorMap[type];
           if (process) {
             const func = process[action.action];
-            func && func(element, {}, action);
+            func && func(role, {}, action);
           }
         }
-        element.show();
+        role.show();
       });
     });
     this._currTime = t;
     this._canvas.getStage().ticker.tickAt(t);
-    this._currChapter.elements.forEach(({ element }) => {
-      element.hide;
-    });
     this._canvas.getStage().render();
   }
 
   play(): void {
-    if (!this._currChapter) {
+    if (!this._currAct) {
       return;
     }
     this._ticker.stop();
     this._currTime = 0;
+    this.reset();
     this._ticker.start(t => {
       this.tickTo(this._currTime + t);
     });

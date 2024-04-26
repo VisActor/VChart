@@ -1,28 +1,25 @@
-import { PieTemp } from './element/chart/temp/templates/pie';
-import { AreaPercentTemp } from './element/chart/temp/templates/area-percent';
-import { AreaTemp } from './element/chart/temp/templates/area';
-import { HorizontalBarPercentTemp } from './element/chart/temp/templates/horizontal-bar-percent';
-import { HorizontalBarGroupTemp } from './element/chart/temp/templates/horizontal-bar-group';
-import { HorizontalBarTemp } from './element/chart/temp/templates/horizontal-bar';
-import { BarPercentTemp } from './element/chart/temp/templates/bar-percent';
-import { BarGroupTemp } from './element/chart/temp/templates/bar-group';
-import { LineTemp } from './element/chart/temp/templates/line';
-import { BarTemp } from './element/chart/temp/templates/bar';
-import { GraphicRect } from './element/graphics/graphic/rect';
+import { RoleComponentQipao } from './role/component/roles/role-qipao';
+import { RoleComponentRect } from './role/component/roles/role-rect';
+import { PieTemp } from './role/chart/temp/templates/pie';
+import { AreaPercentTemp } from './role/chart/temp/templates/area-percent';
+import { AreaTemp } from './role/chart/temp/templates/area';
+import { HorizontalBarPercentTemp } from './role/chart/temp/templates/horizontal-bar-percent';
+import { HorizontalBarGroupTemp } from './role/chart/temp/templates/horizontal-bar-group';
+import { HorizontalBarTemp } from './role/chart/temp/templates/horizontal-bar';
+import { BarPercentTemp } from './role/chart/temp/templates/bar-percent';
+import { BarGroupTemp } from './role/chart/temp/templates/bar-group';
+import { LineTemp } from './role/chart/temp/templates/line';
+import { BarTemp } from './role/chart/temp/templates/bar';
 import { StoryFactory } from './factory/factory';
-import { ElementGraphics } from './element/graphics/element';
-import { ElementChart } from './element/chart/element';
+import { RoleChart } from './role/chart/role';
 import { ContainerModule, GraphicRender, container } from '@visactor/vrender-core';
-import { ChartRender, VChartRender } from './element/chart/graphic/vchart-graphic-render';
-import { StandardParser } from './element/chart/data/parser/standard';
-import { GraphicQipao } from './element/graphics/graphic/qipao';
+import { ChartRender, VChartRender } from './role/chart/graphic/vchart-graphic-render';
+import { StandardParser } from './role/chart/data/parser/standard';
 
-// @ts-ignore
-StoryFactory.registerElement('chart', ElementChart);
-StoryFactory.registerElement('graphics', ElementGraphics);
-
-StoryFactory.registerGraphic('rect', GraphicRect);
-StoryFactory.registerGraphic('qipao', GraphicQipao);
+StoryFactory.registerRole('BarChart', RoleChart);
+// StoryFactory.registerRole('LineChart', RoleChart);
+StoryFactory.registerRole('RectComponent', RoleComponentRect);
+StoryFactory.registerRole('QipaoComponent', RoleComponentQipao);
 
 StoryFactory.registerDataParser('standard', StandardParser);
 

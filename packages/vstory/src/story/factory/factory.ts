@@ -1,17 +1,18 @@
-import { IDataParserConstructor } from '../element/visactor/interface';
-import { IGraphicConstructor } from '../element/graphics/graphic/graphic';
-import { IElementConstructor, IElementInitOption } from '../element/runtime-interface';
-import { IElementSpec } from './../element/dsl-interface';
-import { IChartTempConstructor } from '../element/chart/temp/interface';
+import { IDataParserConstructor } from '../role/visactor/interface';
+import { IGraphicConstructor } from '../role/component/graphic/graphic';
+import { IRoleConstructor, IRoleInitOption } from '../role/runtime-interface';
+import { IRoleSpec } from '../role/dsl-interface';
+import { IChartTempConstructor } from '../role/chart/temp/interface';
 
 export class StoryFactory {
-  static elementMap: { [key: string]: IElementConstructor } = {};
-  static registerElement(type: string, c: IElementConstructor) {
-    StoryFactory.elementMap[type] = c;
+  static roleMap: { [key: string]: IRoleConstructor } = {};
+  static registerRole(type: string, c: IRoleConstructor) {
+    StoryFactory.roleMap[type] = c;
   }
-  static createElement(spec: IElementSpec, opt: IElementInitOption) {
-    const classC = StoryFactory.elementMap[spec.type];
+  static createRole(spec: IRoleSpec, opt: IRoleInitOption) {
+    const classC = StoryFactory.roleMap[spec.type];
     if (!classC) {
+      console.error('获取模板失败', spec);
       return null;
     }
     const el = new classC(spec, opt);

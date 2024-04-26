@@ -1,22 +1,22 @@
 export const enum StoryChartType {
-  BAR = 'bar',
-  LINE = 'line',
-  AREA = 'area',
-  HISTOGRAM = 'histogram',
-  PIE = 'pie',
-  ROSE = 'rose',
-  RADAR = 'radar'
+  BAR = 'BarChart',
+  LINE = 'LineChart',
+  AREA = 'AreaChart',
+  HISTOGRAM = 'HistogramChart',
+  PIE = 'PieChart',
+  ROSE = 'RoseChart',
+  RADAR = 'RadarChart'
 }
 export enum StoryGraphicType {
-  RECT = 'component-rect',
-  SYMBOL = 'symbol',
-  LINE = 'line',
-  ARC = 'arc',
-  AREA = 'area',
-  PATH = 'path',
-  TEXT = 'text',
-  RICH_TEXT = 'richText',
-  QIPAO = 'component-qipao'
+  RECT = 'RectComponent',
+  // Shape = 'SymbolComponent',
+  LINE = 'LineComponent',
+  ARC = 'ArcComponent',
+  // AREA = 'AreaComponent',
+  PATH = 'PathComponent',
+  TEXT = 'TextComponent',
+  RICH_TEXT = 'RichTextComponent',
+  QIPAO = 'QipaoComponent'
 }
 
 export const enum StoryChartComponentType {

@@ -1,8 +1,9 @@
-import { IElementSpec } from '../element';
+import { IRoleSpec } from '../role';
 
 export type IAction = {
   startTime: number;
   action: string;
+  duration: number;
   payload?: {
     style: {
       [key: string]: number | string;
@@ -15,25 +16,18 @@ export type IAction = {
 };
 
 export interface IStorySpec {
-  chapters: IChapterSpec[]; // 作品的章节
-  elements: IElementSpec[]; // 作品中的元素
+  acts: IActSpec[]; // 作品的章节
+  roles: IRoleSpec[]; // 作品中的元素
 }
 
-export interface IChapterElementLink {
-  elementId: string;
+export interface IRoleLink {
+  roleId: string;
   actions: IAction[];
 }
 
-export interface IChapterElementCopy {
-  element: IElementSpec;
-  actions: IAction[];
-}
+export type ISceneSpec = IRoleLink[];
 
-export interface IStepSpec {
-  elements: (IChapterElementCopy | IChapterElementLink)[]; // 这个章节中的元素和它的动作
-}
-
-export interface IChapterSpec {
+export interface IActSpec {
   id: string;
-  steps: IStepSpec[];
+  scenes: ISceneSpec[];
 }

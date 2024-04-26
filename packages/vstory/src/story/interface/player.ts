@@ -1,5 +1,5 @@
-import { IElement } from '../element';
-import { IChapterSpec } from './dsl-interface';
+import { IRole } from '../role';
+import { IActSpec } from './dsl-interface';
 
 export interface IPlayer {
   tickTo(t: number): void;
@@ -7,11 +7,11 @@ export interface IPlayer {
   encodeToVideo(millsecond: number, fps: number): Promise<string>;
   pause(): void;
   release(): void;
-  addChapter(
-    c: IChapterSpec,
-    elements: {
-      [key: string]: IElement;
+  addAct(
+    c: IActSpec,
+    roles: {
+      [key: string]: IRole;
     }
   ): void;
-  setCurrentChapter(id: number | string): void;
+  setCurrentAct(id: number | string): void;
 }

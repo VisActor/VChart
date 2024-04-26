@@ -1,9 +1,9 @@
-import { IElementSpec } from './element/dsl-interface';
+import { IRoleSpec } from './role/dsl-interface';
 import { isString } from '@visactor/vutils';
 import { IStory, IStoryInitOption } from './interface/runtime-interface';
-import { IElement } from './element/runtime-interface';
+import { IRole } from './role/runtime-interface';
 import { StoryCanvas } from './canvas/canvas';
-import { IStorySpec, IChapterElementCopy, IChapterElementLink, IChapterSpec } from './interface';
+import { IStorySpec, IRoleLink, IActSpec } from './interface';
 import { StoryFactory } from './factory/factory';
 import { defaultTicker, defaultTimeline } from '@visactor/vrender-core';
 import { IPlayer } from './interface/player';
@@ -20,7 +20,7 @@ export class Story implements IStory {
 
   protected _canvas: StoryCanvas;
 
-  protected _elements: { [key: string]: IElement } = {};
+  protected _roles: { [key: string]: IRole } = {};
 
   constructor(spec: IStorySpec, option: IStoryInitOption) {
     this.id = 'test-mvp_' + Story._id_++;
@@ -37,49 +37,44 @@ export class Story implements IStory {
   }
 
   load(spec: IStorySpec) {
-    spec.elements.forEach(e => {
-      this._createElement(e);
+    spec.roles.forEach(e => {
+      this._createRole(e);
     });
-    spec.chapters.forEach(e => {
-      this._createChapter(e);
+    // @ts-ignore
+    spec.acts.forEach(e => {
+      this._createAct(e);
     });
   }
 
-  public getElements(): { [key: string]: IElement } {
-    return this._elements;
+  public getRoles(): { [key: string]: IRole } {
+    return this._roles;
   }
 
-  private _createElement(spec: IElementSpec | IChapterElementCopy | IChapterElementLink) {
-    const option = { story: this, canvas: this._canvas };
-    if ((<IElementSpec>spec).id) {
-      if (!this._elements[(<IElementSpec>spec).id]) {
-        this._elements[(<IElementSpec>spec).id] = StoryFactory.createElement(<IElementSpec>spec, option);
+  private _createRole(spec: IRoleSpec | IRoleLink) {
+    const option = { story: this, canvas: this._canvas, graphicParent: this._canvas.getStage().defaultLayer };
+    if ((<IRoleSpec>spec).id) {
+      if (!this._roles[(<IRoleSpec>spec).id]) {
+        this._roles[(<IRoleSpec>spec).id] = StoryFactory.createRole(<IRoleSpec>spec, option);
       }
-      return this._elements[(<IElementSpec>spec).id];
-    } else if ((<IChapterElementLink>spec).elementId) {
-      return this._elements[(<IChapterElementLink>spec).elementId];
-    } else if ((<IChapterElementCopy>spec).element) {
-      this._elements[(<IChapterElementCopy>spec).element.id] = StoryFactory.createElement(
-        (<IChapterElementCopy>spec).element,
-        option
-      );
-      return this._elements[(<IChapterElementCopy>spec).element.id];
+      return this._roles[(<IRoleSpec>spec).id];
+    } else if ((<IRoleLink>spec).roleId) {
+      return this._roles[(<IRoleLink>spec).roleId];
     }
     return null;
   }
 
-  private _createChapter(spec: IChapterSpec) {
-    this._player.addChapter(spec, this._elements);
+  private _createAct(spec: IActSpec) {
+    this._player.addAct(spec, this._roles);
   }
 
-  play(chapterIndex = 0) {
+  play(actIndex = 0) {
     // player 开始播放
-    this._player.setCurrentChapter(chapterIndex);
+    this._player.setCurrentAct(actIndex);
     this._player.play();
   }
 
-  async encodeToVideo(chapterIndex: number, millsecond: number, fps: number) {
-    this._player.setCurrentChapter(chapterIndex);
+  async encodeToVideo(actIndex: number, millsecond: number, fps: number) {
+    this._player.setCurrentAct(actIndex);
     return this._player.encodeToVideo(millsecond, fps);
   }
 

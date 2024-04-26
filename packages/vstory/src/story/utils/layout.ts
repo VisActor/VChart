@@ -1,4 +1,4 @@
-import { ILayoutAttribute, IWidgetData } from '../element';
+import { ILayoutAttribute, IWidgetData } from '../role';
 
 export function getLayoutFromWidget(w: Partial<IWidgetData>): Partial<ILayoutAttribute> {
   return {
