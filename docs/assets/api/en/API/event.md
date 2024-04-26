@@ -82,7 +82,7 @@ type SuperEvent = Event & {
 
 ### Event filtering
 
-If you need to specifically monitor events in a certain part of the chart, you can use the built-in query rules for configuration. Currently, we provide the following filtering rules:
+Event filtering configuration (parameter `query: EventQuery`) is optional. If you need to specifically monitor events in a certain part of the chart, you can use the built-in query rules for configuration. Currently, we provide the following filtering rules:
 
 1. `source`, filter according to the event source, that is, listen to the events of the window or the chart itself.
 
