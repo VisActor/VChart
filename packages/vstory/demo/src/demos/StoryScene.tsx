@@ -165,16 +165,16 @@ export const StorySceneDemo = () => {
                   }
                 ]
               },
-              // {
-              //   roleId: 'test-chart-1',
-              //   actions: [
-              //     {
-              //       startTime: 4000,
-              //       duration: 1000,
-              //       action: 'appear'
-              //     }
-              //   ]
-              // },
+              {
+                roleId: 'test-chart-1',
+                actions: [
+                  {
+                    startTime: 4000,
+                    duration: 1000,
+                    action: 'appear'
+                  }
+                ]
+              },
               {
                 roleId: 'test-graphics-2',
                 actions: [

@@ -26,11 +26,12 @@ export class Encoder {
 
   async exportVideo(frameNum: number, fps: number, cb: (i: number) => Promise<Blob | null>) {
     const outName = `out`;
-    await this.initFFMPEG();
+    await this.loadFFmpeg();
     const ffmpeg = this._FFMPEG;
     if (!ffmpeg) {
       return;
     }
+    console.log(ffmpeg.isLoaded());
 
     for (let i = 0; i < frameNum; i++) {
       const data = await cb(i);
