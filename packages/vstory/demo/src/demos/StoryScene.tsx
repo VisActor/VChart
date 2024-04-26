@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { IStorySpec } from '../../../src/story/interface';
-import { Story } from '../../../src/story/story';
-import '../../../src/story/index';
+import { IStorySpec } from '../../../src/story1/interface';
+import { Story } from '../../../src/story1/story';
+import '../../../src/story1/index';
 
 const data0 = {
   type: 'standard',
@@ -21,19 +21,18 @@ export const StorySceneDemo = () => {
   useEffect(() => {
     // 准备一个图表
     const tempSpec: IStorySpec = {
-      elements: [
+      roles: [
         {
-          type: 'graphics',
+          type: 'component-rect',
           id: 'test-graphics-0',
           zIndex: 0,
-          widget: {
+          position: {
             top: 40,
             left: 50,
             width: 200,
             height: 100
           },
-          config: {
-            temp: 'rect',
+          options: {
             graphic: {
               fill: 'red'
             },
@@ -46,17 +45,16 @@ export const StorySceneDemo = () => {
           }
         },
         {
-          type: 'graphics',
+          type: 'component-rect',
           id: 'test-graphics-1',
           zIndex: 0,
-          widget: {
+          position: {
             top: 40,
             left: 250,
             width: 200,
             height: 100
           },
-          config: {
-            temp: 'rect',
+          options: {
             graphic: {
               fill: 'red',
               visible: false
@@ -70,51 +68,48 @@ export const StorySceneDemo = () => {
           }
         },
         {
-          type: 'chart',
+          type: 'lineChart',
           id: 'test-chart-0',
           zIndex: 0,
-          widget: {
+          position: {
             top: 200,
             left: 100,
             width: 300,
             height: 300
           },
-          config: {
-            temp: 'line',
+          options: {
             data: data0,
             // @ts-ignore
             attribute: {}
           }
         },
         {
-          type: 'chart',
+          type: 'barChart',
           id: 'test-chart-1',
           zIndex: 0,
-          widget: {
+          position: {
             top: 350,
             left: 100,
             width: 300,
             height: 300
           },
-          config: {
-            temp: 'bar',
+          options: {
             data: data1,
             // @ts-ignore
             attribute: {}
           }
         },
         {
-          type: 'graphics',
+          type: 'component-qipao',
           id: 'test-graphics-2',
           zIndex: 3,
-          widget: {
+          position: {
             top: 355,
             left: 340,
             width: 40,
             height: 40
           },
-          config: {
-            temp: 'qipao',
+          options: {
             graphic: {
               fill: 'red',
               visible: false
@@ -134,84 +129,71 @@ export const StorySceneDemo = () => {
           id: 'default-chapter',
           steps: [
             {
-              elements: [
+              roleId: 'test-graphics-0',
+              actions: [
                 {
-                  elementId: 'test-graphics-0',
-                  actions: [
-                    {
-                      startTime: 1000,
-                      action: 'appear',
-                      payload: {
-                        style: {},
-                        animation: {
-                          duration: 1000,
-                          easing: 'linear',
-                          effect: 'fadeIn'
-                        } as any
-                      }
-                    }
-                  ]
-                },
-                {
-                  elementId: 'test-graphics-1',
-                  actions: [
-                    {
-                      startTime: 2000,
-                      action: 'appear',
-                      payload: {
-                        style: {},
-                        animation: {
-                          duration: 1000,
-                          easing: 'linear',
-                          effect: 'fadeIn'
-                        } as any
-                      }
-                    }
-                  ]
-                },
-                // {
-                //   elementId: 'test-chart-0',
-                //   actions: [
-                //     {
-                //       startTime: 3000,
-                //       action: 'appear'
-                //     }
-                //   ]
-                // },
-                {
-                  elementId: 'test-chart-1',
-                  actions: [
-                    {
-                      startTime: 4000,
-                      action: 'appear'
-                    },
-                    {
-                      startTime: 5000,
-                      action: 'add',
-                      payload: {
-                        id: '0',
-                        values: [{ _editor_dimension_field: 'x4', _editor_type_field: 'x4', _editor_value_field: 39 }]
-                      },
-                      option: {}
+                  startTime: 1000,
+                  action: 'appear',
+                  payload: {
+                    style: {},
+                    animation: {
+                      duration: 1000,
+                      easing: 'linear',
+                      effect: 'fadeIn'
                     } as any
-                  ]
+                  }
+                }
+              ]
+            },
+            {
+              roleId: 'test-graphics-1',
+              actions: [
+                {
+                  startTime: 2000,
+                  action: 'appear',
+                  payload: {
+                    style: {},
+                    animation: {
+                      duration: 1000,
+                      easing: 'linear',
+                      effect: 'fadeIn'
+                    } as any
+                  }
+                }
+              ]
+            },
+            {
+              roleId: 'test-chart-1',
+              actions: [
+                {
+                  startTime: 4000,
+                  action: 'appear'
                 },
                 {
-                  elementId: 'test-graphics-2',
-                  actions: [
-                    {
-                      startTime: 4300,
-                      action: 'appear',
-                      payload: {
-                        style: {},
-                        animation: {
-                          duration: 300,
-                          easing: 'linear',
-                          effect: 'grow'
-                        } as any
-                      }
-                    }
-                  ]
+                  startTime: 5000,
+                  action: 'add',
+                  payload: {
+                    id: '0',
+                    values: [{ _editor_dimension_field: 'x4', _editor_type_field: 'x4', _editor_value_field: 39 }]
+                  },
+                  option: {}
+                } as any
+              ]
+            },
+            {
+              roleId: 'test-graphics-2',
+              actions: [
+                {
+                  startTime: 4300,
+                  action: 'appear',
+                  payload: {
+                    style: {},
+                    animation: {
+                      duration: 300,
+                      easing: 'linear',
+                      effect: 'grow'
+                    } as any
+                  }
                 }
               ]
             }

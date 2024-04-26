@@ -8,7 +8,7 @@ export const enum StoryChartType {
   RADAR = 'radar'
 }
 export enum StoryGraphicType {
-  RECT = 'rect',
+  RECT = 'component-rect',
   SYMBOL = 'symbol',
   LINE = 'line',
   ARC = 'arc',
@@ -16,7 +16,7 @@ export enum StoryGraphicType {
   PATH = 'path',
   TEXT = 'text',
   RICH_TEXT = 'richText',
-  QIPAO = 'qipao'
+  QIPAO = 'component-qipao'
 }
 
 export const enum StoryChartComponentType {
