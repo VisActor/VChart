@@ -2,7 +2,7 @@ import type { Datum, IMarkSpec, IMarkTheme, IRuleMarkSpec, ITextMarkSpec } from 
 import type { IAnimationSpec } from '../../animation/spec';
 import type { WaterfallAppearPreset } from './animation';
 import type { IBarSeriesSpec, IBarSeriesTheme } from '../bar/interface';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec, ITotalLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from '../interface/type';
 
 type WaterfallMarks = 'bar';
@@ -67,6 +67,16 @@ export interface IWaterfallSeriesSpec
     /** 标签值 */
     valueType?: IWaterfallStackLabelValueType;
   };
+
+  totalLabel?: ITotalLabelSpec & {
+    /** 标签位置 */
+    position?: IWaterfallStackLabelPosition;
+    /** 标签偏移量 */
+    offset?: number;
+    /** 标签值 */
+    valueType?: IWaterfallStackLabelValueType;
+  };
+
   /**
    * 标签配置
    */
