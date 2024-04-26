@@ -1,4 +1,4 @@
-import { AppearAction } from '../../../types/Appear';
+import { AppearAction } from '../../../../types/Appear';
 
 export const defaultPayload: AppearAction['payload'] = {
   animation: {

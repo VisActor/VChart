@@ -1,11 +1,12 @@
 import VChart, { ISpec } from '@visactor/vchart';
-import { getAllSeriesMarksWithoutRoot } from '../../../../util/vchart-api';
-import { AppearAction } from '../../../types/Appear';
+import { getAllSeriesMarksWithoutRoot } from '../../../../../util/vchart-api';
+import { AppearAction } from '../../../../types/Appear';
 import { merge } from '@visactor/vutils';
 import { defaultPayload } from './default';
-import { transformAppearAnimation } from './transform';
+import { transformRectAppear } from '../transform/transformRectAppear';
+import { getAllSeriesMarksByMarkType } from '../../utils';
 
-export const appearProcessor = async (chartInstance: VChart, spec: ISpec, action: AppearAction) => {
+export const barAppearProcessor = async (chartInstance: VChart, spec: ISpec, action: AppearAction) => {
   const vchart = (chartInstance as any)?._graphic?._vchart;
 
   const instance: VChart = vchart ? vchart : chartInstance;
@@ -13,8 +14,7 @@ export const appearProcessor = async (chartInstance: VChart, spec: ISpec, action
     return;
   }
 
-  const marks = getAllSeriesMarksWithoutRoot(instance).filter(mark => mark.type === 'rect');
-
+  const marks = getAllSeriesMarksByMarkType(instance, 'rect');
   if (!marks.length) {
     return;
   }
@@ -24,7 +24,7 @@ export const appearProcessor = async (chartInstance: VChart, spec: ISpec, action
 
   marks.forEach(mark => {
     const product = mark.getProduct();
-    const config = transformAppearAnimation(instance, mergePayload.animation);
+    const config = transformRectAppear(instance, mergePayload.animation);
     product.animate.run(config);
   });
 };

@@ -1,15 +1,15 @@
 import VChart from '@visactor/vchart';
-import { AppearAction } from '../../../types/Appear';
+import { AppearAction } from '../../../../types/Appear';
 import { IOrientType } from '@visactor/vchart/src/typings';
 
 // 将payload转换为chart内置的动画type
-export const transformAppearAnimation = (instance: VChart, animation: AppearAction['payload']['animation']) => {
+export const transformRectAppear = (instance: VChart, animation: AppearAction['payload']['animation']) => {
   switch (animation.effect) {
     case 'grow': {
-      return barGrow(instance, animation);
+      return rectGrow(instance, animation);
     }
     case 'fade': {
-      return barFade(instance, animation);
+      return rectFade(instance, animation);
     }
     case 'bounce': {
       return barBounce(instance, animation);
@@ -17,15 +17,15 @@ export const transformAppearAnimation = (instance: VChart, animation: AppearActi
   }
 };
 
-export function isXAxis(orient: IOrientType) {
+function isXAxis(orient: IOrientType) {
   return orient === 'bottom' || orient === 'top';
 }
 
-export function isYAxis(orient: IOrientType) {
+function isYAxis(orient: IOrientType) {
   return orient === 'left' || orient === 'right';
 }
 
-export const getXYAxis = (instance: VChart) => {
+const getXYAxis = (instance: VChart) => {
   const axes = instance.getChart().getComponentsByKey('axes');
   const xAxis = axes.find(axis => {
     const orient = axis.getOrient();
@@ -43,7 +43,7 @@ export const getXYAxis = (instance: VChart) => {
   return [xAxis, yAxis];
 };
 
-const barGrow = (instance: VChart, animation: AppearAction['payload']['animation']) => {
+const rectGrow = (instance: VChart, animation: AppearAction['payload']['animation']) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   const direction = instance.getChart().getSpec().direction ?? 'vertical';
@@ -77,7 +77,7 @@ const barGrow = (instance: VChart, animation: AppearAction['payload']['animation
   };
 };
 
-const barFade = (instance: VChart, animation: AppearAction['payload']['animation']) => {
+const rectFade = (instance: VChart, animation: AppearAction['payload']['animation']) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   return {
