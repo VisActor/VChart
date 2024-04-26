@@ -39,6 +39,8 @@ export abstract class ElementVisactor extends ElementBase implements IElementVis
     // do nothing
   }
 
+  abstract clearStatus(): void;
+
   protected abstract _initSpecProcess(): void;
 
   onSpecReady = () => {

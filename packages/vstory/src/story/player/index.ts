@@ -80,10 +80,20 @@ export class Player implements IPlayer {
     }
   }
 
+  // 清除当前状态，一般用于回放操作
+  clearCurrentStatus() {
+    this._currChapter.elements.forEach(item => {
+      item.element.clearStatus();
+    });
+  }
+
   tickTo(t: number) {
     const lastTime = this._currTime;
     if (lastTime > t) {
       // 如果时间回退，那就重新走一遍
+      this.clearCurrentStatus();
+      this._currTime = 0;
+      this.tickTo(0);
     }
     this._currChapter.elements.forEach(({ actions, element }) => {
       actions.forEach(action => {
@@ -115,7 +125,8 @@ export class Player implements IPlayer {
     if (!this._currChapter) {
       return;
     }
-    console.log(this);
+    this._ticker.stop();
+    this._currTime = 0;
     this._ticker.start(t => {
       this.tickTo(this._currTime + t);
     });

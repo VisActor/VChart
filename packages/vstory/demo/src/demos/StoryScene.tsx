@@ -203,6 +203,10 @@ export const StorySceneDemo = () => {
     };
     const story = new Story(tempSpec, { dom: id });
     story.play();
+    setTimeout(() => {
+      console.log('abc');
+      story.play();
+    }, 5000);
     // story
     //   .encodeToVideo(0, 5000, 15)
     //   .then(objUrl => {

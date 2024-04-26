@@ -11,6 +11,7 @@ export interface IElement {
   geElementRootMark(): IGroup;
   show(): void;
   hide(): void;
+  clearStatus(): void;
 }
 
 export interface IElementInitOption {

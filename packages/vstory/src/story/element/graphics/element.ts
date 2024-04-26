@@ -34,6 +34,11 @@ export class ElementGraphics extends ElementBase {
     this.hide();
   }
 
+  clearStatus() {
+    this._graphic.clearStatus();
+    this._text.clearStatus();
+  }
+
   show(): void {
     this._text.show();
     this._graphic.show();

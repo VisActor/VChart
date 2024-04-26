@@ -12,6 +12,13 @@ export class GraphicText {
     this._element = graphicElement;
   }
 
+  clearStatus() {
+    this._graphic.animates.forEach((a: any) => {
+      a.timeline && a.timeline.removeAnimate(a, true);
+    });
+    this._graphic.animates.clear();
+  }
+
   show(): void {
     this._graphic.setAttributes({
       visible: true

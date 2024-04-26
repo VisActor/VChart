@@ -34,6 +34,13 @@ export abstract class Graphic {
     }
   }
 
+  clearStatus() {
+    this._graphic.animates.forEach((a: any) => {
+      a.timeline && a.timeline.removeAnimate(a, true);
+    });
+    this._graphic.animates.clear();
+  }
+
   getInitialAttributes(): any {
     return {
       x: 0,

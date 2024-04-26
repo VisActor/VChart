@@ -39,7 +39,10 @@ export class Chart extends Group implements IVisactorGraphic {
   constructor(params: IChartGraphicAttribute) {
     super(params);
     this.numberType = CHART_NUMBER_TYPE;
+    this.init(params);
+  }
 
+  init(params: IChartGraphicAttribute) {
     // 创建chart
     if (!params.vchart) {
       params.vchart = this._vchart = new params.ClassType(params.spec, {
@@ -87,6 +90,10 @@ export class Chart extends Group implements IVisactorGraphic {
     if (params.viewBox) {
       this.updateViewBox(params.viewBox);
     }
+  }
+
+  clearStatus() {
+    this.init(this.attribute);
   }
 
   updateSpec(spec: ISpec, forceMerge = false, morphConfig = false) {

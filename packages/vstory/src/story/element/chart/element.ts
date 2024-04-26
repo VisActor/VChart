@@ -114,6 +114,10 @@ export class ElementChart extends ElementVisactor {
     this.geElementRootMark().add(this._graphic as any);
   }
 
+  clearStatus() {
+    this._graphic.clearStatus();
+  }
+
   protected _afterRender(): void {
     console.log('afterRender');
   }
