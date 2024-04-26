@@ -1267,6 +1267,13 @@
             "zh": "带内边距的 CirclePacking 图",
             "en": "CirclePacking Chart with Padding"
           }
+        },
+        {
+          "path": "bubble-circle-packing",
+          "title": {
+            "zh": "气泡图",
+            "en": "Bubble CirclePacking Chart"
+          }
         }
       ]
     },
