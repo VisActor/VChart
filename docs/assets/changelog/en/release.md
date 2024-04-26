@@ -1,3 +1,27 @@
+# v1.10.4
+
+2024-04-03
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: increase chart stacking capabilities, provide `stackSort` to support sorting when stacking
+
+**🐛 Bug fix**
+
+- **@visactor/vchart**: axis unit in wrong position when hiding the axis domainLine
+- **@visactor/vchart**: fix issue of the order of data is not uniform in stack
+- **@visactor/vchart**: type defination of markArea & markPoint in common chart
+- **@visactor/vchart**: formatMethod of crosshair label runs multiple times (Tip: After fixing it, the process of retaining two decimal places in the crosshair label has been changed to the default formatMethod. After replacing the formatMethod, users will no longer retain decimal places), related [#2501](https://github.com/VisActor/VChart/issues/2501)
+- **@visactor/vchart**: crosshair can't move when axis domain is very small, related [#2492](https://github.com/VisActor/VChart/issues/2492)
+- **@visactor/vchart**: `updateDataSync` produces inconsistent results compared to direct drawing, related [#2503](https://github.com/VisActor/VChart/issues/2503)
+
+**🔨 Refactor**
+
+- **@visactor/vchart**: add event params `vchart`, which will updated in lifecycle events, close [#2502](https://github.com/VisActor/VChart/issues/2502)
+
+[more detail about v1.10.4](https://github.com/VisActor/VChart/releases/tag/v1.10.4)
+
 # v1.10.3
 
 2024-03-28

@@ -25,4 +25,4 @@ export declare function radiusLabelOrientAttribute(angle: number): {
 };
 export declare function vectorAngle(v1: IPoint, v2: IPoint): number;
 export declare function distance(p1: IPoint, p2?: IPoint): number;
-export declare function getPercentValue(valueList: number[], idx: number, precision?: number): number;
+export declare function getPercentValue(valueList: number[], precision?: number): number[] | 0;

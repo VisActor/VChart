@@ -132,6 +132,14 @@ vchart.on('pointerdown', { id: 'axis-left' }, () => {});
 vchart.on('pointerdown', { filter: ({model} => model.id === 45) }, () => {});
 ```
 
+In addition to the above configurations, `query` also supports the following configurations:
+
+| Configuration | Type      | Default | Description                           |
+| ------------- | --------- | ------- | ------------------------------------- |
+| consume       | `Boolean` | `false` | Whether to stop event propagation      |
+| throttle      | `Number`  | `null`  | Duration of event throttling in ms, defaults to no throttling |
+| debounce      | `Number`  | `null`  | Duration of event debouncing in ms, defaults to no debouncing |
+
 #### Listen to **component** events through event filtering
 
 Through the following event filtering rules, we can monitor the events of each component on the VChart example

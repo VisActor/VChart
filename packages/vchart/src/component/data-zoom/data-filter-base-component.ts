@@ -19,8 +19,8 @@ import { getDirectionByOrient, getOrient } from '../axis/cartesian/util/common';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
 import { mixin, clamp, isNil, merge, isEqual, isValid, array, minInArray, maxInArray, abs } from '@visactor/vutils';
-import { IFilterMode } from './interface';
 // eslint-disable-next-line no-duplicate-imports
+import type { IFilterMode } from './interface';
 import type {
   IDataFilterComponent,
   IDataFilterComponentSpec,
@@ -169,12 +169,18 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
     const zoomLock = this._spec?.zoomLock ?? false;
-    if (zoomLock || (end - start !== this._spanCache && (end - start < this._minSpan || end - start > this._maxSpan))) {
+    if (
+      zoomLock ||
+      // 拖拽两端的handler, 而非拖拽中间handler
+      (end - start !== this._spanCache &&
+        // 拖拽后超出限制范围
+        (end - start < this._minSpan || end - start > this._maxSpan))
+    ) {
       this._shouldChange = false;
     } else {
       this._shouldChange = true;
+      this._spanCache = end - start;
     }
-    this._spanCache = end - start;
   }
 
   protected _isReverse() {
@@ -236,7 +242,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   effect: IEffect = {
     onZoomChange: (tag?: 'startHandler' | 'endHandler') => {
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
-      if (axis && this._filterMode === IFilterMode.axis) {
+      if (axis && this._filterMode === 'axis') {
         const axisScale = axis.getScale() as IBandLikeScale;
         const axisSpec = axis.getSpec() as ICartesianBandAxisSpec;
         // 判断是否允许自由更改轴 bandSize
@@ -332,7 +338,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         this._relatedAxisComponent = bandAxis;
       }
     }
-    if (this._relatedAxisComponent && this._filterMode === IFilterMode.axis) {
+    if (this._relatedAxisComponent && this._filterMode === 'axis') {
       (this._relatedAxisComponent as CartesianAxis<any>).autoIndentOnce = true;
     }
   }
@@ -627,10 +633,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._maxSpan = Math.min(this._maxSpan, 1);
 
     // eslint-disable-next-line max-len
-    if (
-      (!this._relatedAxisComponent || this._filterMode !== IFilterMode.axis) &&
-      (this._start !== 0 || this._end !== 1)
-    ) {
+    if ((!this._relatedAxisComponent || this._filterMode !== 'axis') && (this._start !== 0 || this._end !== 1)) {
       this._newDomain = this._parseDomainFromState(this._startValue, this._endValue);
     }
   }
@@ -676,7 +679,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   }
 
   protected _addTransformToSeries() {
-    if (!this._relatedAxisComponent || this._filterMode !== IFilterMode.axis) {
+    if (!this._relatedAxisComponent || this._filterMode !== 'axis') {
       registerDataSetInstanceTransform(this._option.dataSet, 'dataFilterWithNewDomain', dataFilterWithNewDomain);
 
       eachSeries(
@@ -809,7 +812,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     if (active) {
       this._handleChartMove(value, this._scrollAttr.rate ?? 1);
     }
-    return active;
+
+    // 判断是否滚动到最顶部或最底部
+    // 如果滚动到最顶部或最底部，则不应该stopBubble
+    const hasChange = this._start !== 0 && this._end !== 1;
+
+    return active && hasChange;
   };
 
   protected _handleChartDrag = (delta: [number, number], e: BaseEventParams['event']) => {
@@ -836,6 +844,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         this._handleChange(this._start + moveDelta, this._end + moveDelta, true);
       }
     }
+    return false;
   };
 
   protected _initCommonEvent() {

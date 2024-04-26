@@ -7,17 +7,17 @@ export const continuousLegendDataMake = (data: Array<ISeries>, op: IContinuousLe
   const { series, field, scale } = op;
   const datumField = field();
   if (field && datumField) {
-    let min: number = Number.MAX_VALUE;
-    let max: number = Number.MIN_VALUE;
+    let min: number = Infinity;
+    let max: number = -Infinity;
     series().forEach(s => {
       const statisticData = s.getRawDataStatisticsByField(datumField, true);
       const seriesMin = statisticData?.min;
       const seriesMax = statisticData?.max;
       if (isValidNumber(seriesMin)) {
-        min = seriesMin;
+        min = Math.min(seriesMin, min);
       }
       if (isValidNumber(seriesMax)) {
-        max = seriesMax;
+        max = Math.max(seriesMax, max);
       }
     });
     return [min, max];

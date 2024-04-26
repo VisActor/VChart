@@ -63,7 +63,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
   constructor(spec: T, options: IComponentOption) {
     super(spec as any, options);
-    this._filterMode = spec.filterMode ?? IFilterMode.axis;
+    this._filterMode = spec.filterMode ?? 'axis';
   }
 
   setAttrFromSpec() {
@@ -174,7 +174,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         this.event.emit(ChartEvent.scrollBarChange, {
           model: this,
           value: {
-            filterData: this._filterMode !== IFilterMode.axis,
+            filterData: this._filterMode !== 'axis',
             start: this._start,
             end: this._end,
             startValue: this._startValue,

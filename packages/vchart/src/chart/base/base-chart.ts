@@ -942,9 +942,14 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // 设置色板，只设置 colorScale 的 range
     this.updateGlobalScaleTheme();
 
-    this._regions.forEach(r => r.reInit(r.getSpecInfo().spec));
-    this._series.forEach(s => s.reInit(s.getSpecInfo().spec));
-    this._components.forEach(c => c.reInit(c.getSpecInfo().spec));
+    [...this._regions, ...this._series, ...this._components].forEach(model => {
+      const specInfo = model.getSpecInfo();
+
+      if (specInfo && specInfo.spec) {
+        // 找不到，说明在更新spec中，组件被注销了
+        model.reInit(specInfo.spec);
+      }
+    });
   }
 
   clear() {

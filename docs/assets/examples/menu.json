@@ -489,6 +489,13 @@
             "zh": "柱状图标注",
             "en": "Bar Chart with MarkPoint"
           }
+        },
+        {
+          "path": "tgi-bar",
+          "title": {
+            "zh": "TGI 柱图",
+            "en": "TGI Bar Chart"
+          }
         }
       ]
     },
@@ -1823,6 +1830,13 @@
           "title": {
             "zh": "图例使用滚动条翻页",
             "en": "Scrollbar of legend"
+          }
+        },
+        {
+          "path": "discrete-legend-scale",
+          "title": {
+            "zh": "离散图例指定scale",
+            "en": "specify scale of discrete legend"
           }
         }
       ]

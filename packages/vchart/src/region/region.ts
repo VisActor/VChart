@@ -92,12 +92,12 @@ export class Region<T extends IRegionSpec = IRegionSpec> extends LayoutModel<T> 
   protected _getClipDefaultValue() {
     const chartSpec = this._option.getChart().getSpec();
     const hasDataZoom = (chartSpec as any).dataZoom?.some?.((entry: any) => {
-      const filterMode = entry.filterMode ?? IFilterMode.filter;
-      return filterMode === IFilterMode.axis;
+      const filterMode = entry.filterMode ?? 'filter';
+      return filterMode === 'axis';
     });
     const hasScrollBar = (chartSpec as any).scrollBar?.some?.((entry: any) => {
-      const filterMode = entry.filterMode ?? IFilterMode.axis;
-      return filterMode === IFilterMode.axis;
+      const filterMode = entry.filterMode ?? 'axis';
+      return filterMode === 'axis';
     });
 
     return hasDataZoom || hasScrollBar ? true : this._layout.layoutClip;

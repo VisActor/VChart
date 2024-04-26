@@ -248,11 +248,7 @@ export function distance(p1: IPoint, p2: IPoint = { x: 0, y: 0 }) {
 /**
  * 最大余额法计算百分比
  **/
-export function getPercentValue(valueList: number[], idx: number, precision = 2) {
-  if (!valueList[idx]) {
-    return 0;
-  }
-
+export function getPercentValue(valueList: number[], precision = 2) {
   const sum = valueList.reduce((a, c) => {
     return (a += isNaN(c) ? 0 : c);
   }, 0);
@@ -293,5 +289,5 @@ export function getPercentValue(valueList: number[], idx: number, precision = 2)
     ++currentSum;
   }
 
-  return seats[idx] / digits;
+  return seats.map(entry => entry / digits);
 }

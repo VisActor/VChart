@@ -49,7 +49,7 @@ const transformToAttrs = (spec: IPlayer) => {
   const backward = baseToAttribute<ISymbolMarkSpec>(spec?.controller?.backward ?? {});
   const forward = baseToAttribute<ISymbolMarkSpec>(spec?.controller?.forward ?? {});
 
-  return {
+  const attrs = {
     ...spec,
     direction: spec.direction,
     interval: spec.interval,
@@ -70,6 +70,14 @@ const transformToAttrs = (spec: IPlayer) => {
       forward: forward
     }
   };
+
+  // player hidden after set player.visible: 'false'
+  if (!spec.visible) {
+    attrs.controller.visible = false;
+    attrs.slider.visible = false;
+  }
+
+  return attrs;
 };
 
 /**
