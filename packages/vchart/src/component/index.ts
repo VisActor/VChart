@@ -61,15 +61,15 @@ import { CartesianCrossHair, PolarCrossHair, registerCartesianCrossHair, registe
 import type { IPlayerSpec, IPlayerTheme } from './player';
 import { Player, registerPlayer } from './player';
 import type { IMarkLineSpec, IStepMarkLineSpec, IMarkLineTheme } from './marker/mark-line';
-import { CartesianMarkLine, PolarMarkLine, registerCartesianMarkLine, registerPolarMarkLine } from './marker/mark-line';
+import { CartesianMarkLine, PolarMarkLine, registerMarkLine, registerPolarMarkLine } from './marker/mark-line';
 import type { IMarkAreaSpec, IMarkAreaTheme } from './marker/mark-area';
-import { CartesianMarkArea, PolarMarkArea, registerCartesianMarkArea, registerPolarMarkArea } from './marker/mark-area';
+import { CartesianMarkArea, PolarMarkArea, registerMarkArea, registerPolarMarkArea } from './marker/mark-area';
 import type { IMarkPointSpec, IMarkPointTheme } from './marker/mark-point';
 import {
   CartesianMarkPoint,
   PolarMarkPoint,
   GeoMarkPoint,
-  registerCartesianMarkPoint,
+  registerMarkPoint,
   registerPolarMarkPoint,
   registerGeoMarkPoint
 } from './marker/mark-point';
@@ -138,9 +138,9 @@ export {
   registerLabel,
   registerTotalLabel,
   registerMapLabel,
-  registerCartesianMarkLine,
-  registerCartesianMarkArea,
-  registerCartesianMarkPoint,
+  registerMarkLine,
+  registerMarkArea,
+  registerMarkPoint,
   registerPolarMarkLine,
   registerPolarMarkArea,
   registerPolarMarkPoint,

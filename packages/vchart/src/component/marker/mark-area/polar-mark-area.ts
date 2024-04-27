@@ -12,9 +12,9 @@ import {
 import { Factory } from '../../../core/factory';
 import type { IPoint, IPolarPoint } from '../../../typings';
 import type { IPolarSeries } from 'src/series';
-import type { IMarkLineAngRadRad1Spec, IMarkLineAngRadSpec, IMarkLineRadAngAng1Spec } from '../mark-line';
 import { BaseMarkArea } from './base-mark-area';
 import type { IMarkProcessOptions } from '../interface';
+import { polarToCartesian } from '@visactor/vutils';
 
 export class PolarMarkArea extends BaseMarkArea {
   static type = ComponentTypeEnum.polarMarkArea;
@@ -98,10 +98,7 @@ export class PolarMarkArea extends BaseMarkArea {
       points = polarCoordinateLayout(data, relativeSeries as IPolarSeries, autoRange);
       pointsAttr = {
         points: points.map(point => {
-          return {
-            x: center.x + point.radius * Math.cos(point.angle),
-            y: center.y + point.radius * Math.sin(point.angle)
-          };
+          return polarToCartesian(center, point.radius, point.angle);
         })
       };
     }
@@ -115,14 +112,32 @@ export class PolarMarkArea extends BaseMarkArea {
 
     let options: IOptionAggr[];
     if (doRadAngProcess) {
-      const { angle, angle1, radius, radius1 } = spec as IMarkLineAngRadSpec;
-      options = [this._processSpecAngRad(angle, radius), this._processSpecAngRad(angle1, radius1)];
+      options = [
+        this._processSpecByDims([
+          { dim: 'angle', specValue: spec.angle },
+          { dim: 'radius', specValue: spec.radius }
+        ]),
+        this._processSpecByDims([
+          { dim: 'angle', specValue: spec.angle1 },
+          { dim: 'radius', specValue: spec.radius1 }
+        ])
+      ];
     } else if (doAngleProcess) {
-      const { angle, angle1, radius } = spec as IMarkLineRadAngAng1Spec;
-      options = [this._processSpecAngRad(angle, radius), this._processSpecAngRad(angle1, radius)];
+      options = [
+        this._processSpecByDims([
+          { dim: 'angle', specValue: spec.angle },
+          { dim: 'radius', specValue: spec.radius }
+        ]),
+        this._processSpecByDims([
+          { dim: 'angle', specValue: spec.angle1 },
+          { dim: 'radius', specValue: spec.radius }
+        ])
+      ];
     } else if (doRadiusProcess) {
-      const { radius, radius1 } = spec as IMarkLineAngRadRad1Spec;
-      options = [this._processSpecRadius(radius), this._processSpecRadius(radius1)];
+      options = [
+        this._processSpecByDims([{ dim: 'radius', specValue: spec.radius }]),
+        this._processSpecByDims([{ dim: 'radius', specValue: spec.radius1 }])
+      ];
     } else if (doCoordinatesProcess) {
       options = this._processSpecCoo(spec);
     }

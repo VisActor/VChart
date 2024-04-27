@@ -1,11 +1,4 @@
 import type { DataView } from '@visactor/vdataset';
-import type {
-  IMarkLineAngRadRad1Spec,
-  IMarkLineAngRadSpec,
-  IMarkLineAngleSpec,
-  IMarkLineRadAngAng1Spec,
-  IMarkLineRadiusSpec
-} from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
@@ -24,6 +17,7 @@ import { Factory } from '../../../core/factory';
 import type { IPoint, IPolarPoint } from '../../../typings';
 import type { IPolarSeries } from 'src/series';
 import { BaseMarkLine } from './base-mark-line';
+import { polarToCartesian } from '@visactor/vutils';
 
 export class PolarMarkLine extends BaseMarkLine {
   static type = ComponentTypeEnum.polarMarkLine;
@@ -98,10 +92,7 @@ export class PolarMarkLine extends BaseMarkLine {
       } else {
         pointsAttr = {
           points: points.map(point => {
-            return {
-              x: center.x + point.radius * Math.cos(point.angle),
-              y: center.y + point.radius * Math.sin(point.angle)
-            };
+            return polarToCartesian(center, point.radius, point.angle);
           })
         };
       }
@@ -109,10 +100,7 @@ export class PolarMarkLine extends BaseMarkLine {
       points = polarCoordinateLayout(data, relativeSeries, autoRange);
       pointsAttr = {
         points: points.map(point => {
-          return {
-            x: center.x + point.radius * Math.cos(point.angle),
-            y: center.y + point.radius * Math.sin(point.angle)
-          };
+          return polarToCartesian(center, point.radius, point.angle);
         })
       };
     }
@@ -120,7 +108,7 @@ export class PolarMarkLine extends BaseMarkLine {
   }
 
   protected _computeOptions(): any {
-    const spec = this._spec;
+    const spec = this._spec as any;
     const {
       doAngleProcess,
       doRadiusProcess,
@@ -136,20 +124,42 @@ export class PolarMarkLine extends BaseMarkLine {
     const needRegr: boolean = false;
 
     if (doRadAngProcess) {
-      const { angle, angle1, radius, radius1 } = spec as IMarkLineAngRadSpec;
-      options = [this._processSpecAngRad(angle, radius), this._processSpecAngRad(angle1, radius1)];
+      options = [
+        this._processSpecByDims([
+          { dim: 'angle', specValue: spec.angle },
+          { dim: 'radius', specValue: spec.radius }
+        ]),
+        this._processSpecByDims([
+          { dim: 'angle', specValue: spec.angle1 },
+          { dim: 'radius', specValue: spec.radius1 }
+        ])
+      ];
     } else if (doAngleProcess) {
-      const { angle } = spec as IMarkLineAngleSpec;
-      options = [this._processSpecAngle(angle)];
+      options = [this._processSpecByDims([{ dim: 'angle', specValue: spec.angle }])];
     } else if (doRadiusProcess) {
-      const { radius } = spec as IMarkLineRadiusSpec;
-      options = [this._processSpecRadius(radius)];
+      options = [this._processSpecByDims([{ dim: 'radius', specValue: spec.radius }])];
     } else if (doAngRadRad1Process) {
-      const { angle, radius, radius1 } = spec as IMarkLineAngRadRad1Spec;
-      options = [this._processSpecAngRad(angle, radius), this._processSpecAngRad(angle, radius1)];
+      options = [
+        this._processSpecByDims([
+          { dim: 'angle', specValue: spec.angle },
+          { dim: 'radius', specValue: spec.radius }
+        ]),
+        this._processSpecByDims([
+          { dim: 'angle', specValue: spec.angle },
+          { dim: 'radius', specValue: spec.radius1 }
+        ])
+      ];
     } else if (doRadAngAng1Process) {
-      const { angle, angle1, radius } = spec as IMarkLineRadAngAng1Spec;
-      options = [this._processSpecAngRad(angle, radius), this._processSpecAngRad(angle1, radius)];
+      options = [
+        this._processSpecByDims([
+          { dim: 'angle', specValue: spec.angle },
+          { dim: 'radius', specValue: spec.radius }
+        ]),
+        this._processSpecByDims([
+          { dim: 'angle', specValue: spec.angle1 },
+          { dim: 'radius', specValue: spec.radius }
+        ])
+      ];
     } else if (doCoordinatesProcess) {
       options = this._processSpecCoo(spec);
     }

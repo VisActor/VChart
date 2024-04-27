@@ -5,6 +5,7 @@ import { Factory } from '../../../core/factory';
 import { BaseMarkPoint } from './base-mark-point';
 import type { IPolarSeries } from 'src/series';
 import type { IMarkProcessOptions } from '../interface';
+import { polarToCartesian } from '@visactor/vutils';
 
 export class PolarMarkPoint extends BaseMarkPoint {
   static type = ComponentTypeEnum.polarMarkPoint;
@@ -26,17 +27,19 @@ export class PolarMarkPoint extends BaseMarkPoint {
         this._relativeSeries.getRegion().getLayoutStartPoint().y +
         (this._relativeSeries as IPolarSeries).angleAxisHelper.center().y
     };
-    const point = {
-      x: center.x + polarPoint.radius * Math.cos(polarPoint.angle),
-      y: center.y + polarPoint.radius * Math.sin(polarPoint.angle)
-    };
+    const point = polarToCartesian(center, polarPoint.radius, polarPoint.angle);
 
     return { point };
   }
 
   protected _computeOptions(): IMarkProcessOptions {
     const spec = this._spec as any;
-    const options = [this._processSpecAngRad(spec.angle, spec.radius)];
+    const options = [
+      this._processSpecByDims([
+        { dim: 'radius', specValue: spec.radius },
+        { dim: 'angle', specValue: spec.angle }
+      ])
+    ];
     return { options };
   }
 }

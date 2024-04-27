@@ -1,9 +1,11 @@
 import { DataSet, DataView } from '@visactor/vdataset';
-import { array, isValid, isNil, isString, Maybe, isEmpty, isArray } from '@visactor/vutils';
+import type { Maybe } from '@visactor/vutils';
+// eslint-disable-next-line no-duplicate-imports
+import { array, isValid, isNil, isString, isEmpty, isArray } from '@visactor/vutils';
 import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type { ICartesianSeries, IGeoSeries, IPolarSeries, ISeries } from '../../series/interface';
-import type { CoordinateType, ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
+import type { ICartesianSeries } from '../../series/interface';
+import type { ILayoutRect, ILayoutType, IRect, StringOrNumber } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type {
   IAggrType,
@@ -111,91 +113,34 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     spec: IDataPos | IDataPosCallback,
     relativeSeries: IMarkerSupportSeries
   ) {
-    let field;
-    switch (dim) {
-      case 'x':
-        field = relativeSeries.getSpec().xField;
-        break;
-      case 'y':
-        field = relativeSeries.getSpec().yField;
-        break;
-      case 'radius':
-        field = relativeSeries.getSpec().valueField;
-        break;
-      case 'angle':
-        field = relativeSeries.getSpec().categoryField;
-        break;
-      case 'name':
-        field = relativeSeries.getSpec().nameField;
-        break;
-      default:
-        field = relativeSeries.getSpec().yField;
-    }
+    const specKeyByDim = {
+      x: 'xField',
+      y: 'yField',
+      radius: 'valueField',
+      angle: 'categoryField',
+      name: 'nameField'
+    };
 
     if (isString(spec) && isAggrSpec(spec)) {
       return {
-        field,
+        field: relativeSeries.getSpec()[specKeyByDim[dim]],
         aggrType: spec as unknown as IAggrType
       };
     }
     return spec;
   }
 
-  protected _processSpecX(specX: IDataPos | IDataPosCallback) {
+  protected _processSpecByDims(
+    dimSpec: {
+      dim: 'x' | 'y' | 'angle' | 'radius' | 'name';
+      specValue: IDataPos | IDataPosCallback;
+    }[]
+  ) {
     const relativeSeries = this._relativeSeries;
+    const dimMap = {};
+    dimSpec.forEach(d => (dimMap[d.dim] = this._getFieldInfoFromSpec(d.dim, d.specValue, relativeSeries)));
     return {
-      x: this._getFieldInfoFromSpec('x', specX, relativeSeries),
-      ...this._getAllRelativeSeries()
-    };
-  }
-
-  protected _processSpecY(specY: IDataPos | IDataPosCallback) {
-    const relativeSeries = this._relativeSeries;
-    return {
-      y: this._getFieldInfoFromSpec('y', specY, relativeSeries),
-      ...this._getAllRelativeSeries()
-    };
-  }
-
-  protected _processSpecXY(specX: IDataPos | IDataPosCallback, specY: IDataPos | IDataPosCallback) {
-    const relativeSeries = this._relativeSeries;
-
-    return {
-      x: this._getFieldInfoFromSpec('x', specX, relativeSeries),
-      y: this._getFieldInfoFromSpec('y', specY, relativeSeries),
-      ...this._getAllRelativeSeries()
-    };
-  }
-
-  protected _processSpecAngle(specAngle: IDataPos | IDataPosCallback) {
-    const relativeSeries = this._relativeSeries;
-    return {
-      angle: this._getFieldInfoFromSpec('angle', specAngle, relativeSeries),
-      ...this._getAllRelativeSeries()
-    };
-  }
-
-  protected _processSpecRadius(specRadius: IDataPos | IDataPosCallback) {
-    const relativeSeries = this._relativeSeries;
-    return {
-      radius: this._getFieldInfoFromSpec('radius', specRadius, relativeSeries),
-      ...this._getAllRelativeSeries()
-    };
-  }
-
-  protected _processSpecAngRad(specAngle: IDataPos | IDataPosCallback, specRadius: IDataPos | IDataPosCallback) {
-    const relativeSeries = this._relativeSeries;
-    return {
-      angle: this._getFieldInfoFromSpec('angle', specAngle, relativeSeries),
-      radius: this._getFieldInfoFromSpec('radius', specRadius, relativeSeries),
-      ...this._getAllRelativeSeries()
-    };
-  }
-
-  protected _processSpecName(specName: IDataPos | IDataPosCallback) {
-    const relativeSeries = this._relativeSeries;
-    return {
-      name: this._getFieldInfoFromSpec('name', specName, relativeSeries),
+      ...dimMap,
       ...this._getAllRelativeSeries()
     };
   }

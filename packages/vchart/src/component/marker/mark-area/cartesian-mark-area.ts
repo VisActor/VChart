@@ -3,7 +3,7 @@ import type { IOptionAggr } from '../../../data/transforms/aggregation';
 import { cartesianCoordinateLayout, getMarkAreaProcessInfo, positionLayout, xyLayout } from '../utils';
 import type { MarkAreaAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkArea as MarkAreaComponent, registerMarkArcAreaAnimate } from '@visactor/vrender-components';
+import { MarkArea as MarkAreaComponent, registerMarkAreaAnimate } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { isValid } from '@visactor/vutils';
 import { Factory } from '../../../core/factory';
@@ -76,11 +76,26 @@ export class CartesianMarkArea extends BaseMarkArea {
 
     let options: IOptionAggr[];
     if (doXYProcess) {
-      options = [this._processSpecXY(spec.x, spec.y), this._processSpecXY(spec.x1, spec.y1)];
+      options = [
+        this._processSpecByDims([
+          { dim: 'x', specValue: spec.x },
+          { dim: 'y', specValue: spec.y }
+        ]),
+        this._processSpecByDims([
+          { dim: 'x', specValue: spec.x1 },
+          { dim: 'y', specValue: spec.y1 }
+        ])
+      ];
     } else if (doXProcess) {
-      options = [this._processSpecX(spec.x), this._processSpecX(spec.x1)];
+      options = [
+        this._processSpecByDims([{ dim: 'x', specValue: spec.x }]),
+        this._processSpecByDims([{ dim: 'x', specValue: spec.x1 }])
+      ];
     } else if (doYProcess) {
-      options = [this._processSpecY(spec.y), this._processSpecY(spec.y1)];
+      options = [
+        this._processSpecByDims([{ dim: 'y', specValue: spec.y }]),
+        this._processSpecByDims([{ dim: 'y', specValue: spec.y1 }])
+      ];
     } else if (doCoordinatesProcess) {
       options = this._processSpecCoo(spec);
     }
@@ -88,7 +103,7 @@ export class CartesianMarkArea extends BaseMarkArea {
   }
 }
 
-export const registerCartesianMarkArea = () => {
+export const registerMarkArea = () => {
   Factory.registerComponent(CartesianMarkArea.type, CartesianMarkArea);
-  registerMarkArcAreaAnimate();
+  registerMarkAreaAnimate();
 };

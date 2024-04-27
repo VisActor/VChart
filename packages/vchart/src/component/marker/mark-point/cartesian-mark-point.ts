@@ -50,7 +50,12 @@ export class CartesianMarkPoint extends BaseMarkPoint {
 
     let options: IOptionAggr[];
     if (doXYProcess) {
-      options = [this._processSpecXY(spec.x, spec.y)];
+      options = [
+        this._processSpecByDims([
+          { dim: 'x', specValue: spec.x },
+          { dim: 'y', specValue: spec.y }
+        ])
+      ];
     } else if (isCoordinateProcess) {
       options = this._processSpecCoo(spec);
     }
@@ -59,7 +64,7 @@ export class CartesianMarkPoint extends BaseMarkPoint {
   }
 }
 
-export const registerCartesianMarkPoint = () => {
+export const registerMarkPoint = () => {
   Factory.registerComponent(CartesianMarkPoint.type, CartesianMarkPoint);
   registerMarkPointAnimate();
 };

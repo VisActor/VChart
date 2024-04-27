@@ -1,5 +1,5 @@
 import { DataView } from '@visactor/vdataset';
-import type { IMarkLineXYSpec, IMarkLineXYY1Spec, IMarkLineYXX1Spec, IStepMarkLineSpec } from './interface';
+import type { IStepMarkLineSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import type { IOptionAggr } from '../../../data/transforms/aggregation';
 import {
@@ -215,18 +215,42 @@ export class CartesianMarkLine extends BaseMarkLine {
       getMarkLineProcessInfo(spec);
 
     if (doXYProcess) {
-      const { x, x1, y, y1 } = spec as IMarkLineXYSpec;
-      options = [this._processSpecXY(x, y), this._processSpecXY(x1, y1)];
+      options = [
+        this._processSpecByDims([
+          { dim: 'x', specValue: spec.x },
+          { dim: 'y', specValue: spec.y }
+        ]),
+        this._processSpecByDims([
+          { dim: 'x', specValue: spec.x1 },
+          { dim: 'y', specValue: spec.y1 }
+        ])
+      ];
     } else if (doXProcess) {
-      options = [this._processSpecX(spec.x)];
+      options = [this._processSpecByDims([{ dim: 'x', specValue: spec.x }])];
     } else if (doYProcess) {
-      options = [this._processSpecY(spec.y)];
+      options = [this._processSpecByDims([{ dim: 'y', specValue: spec.y }])];
     } else if (doXYY1Process) {
-      const { x, y, y1 } = spec as IMarkLineXYY1Spec;
-      options = [this._processSpecXY(x, y), this._processSpecXY(x, y1)];
+      options = [
+        this._processSpecByDims([
+          { dim: 'x', specValue: spec.x },
+          { dim: 'y', specValue: spec.y }
+        ]),
+        this._processSpecByDims([
+          { dim: 'x', specValue: spec.x },
+          { dim: 'y', specValue: spec.y1 }
+        ])
+      ];
     } else if (doYXX1Process) {
-      const { x, x1, y } = spec as IMarkLineYXX1Spec;
-      options = [this._processSpecXY(x, y), this._processSpecXY(x1, y)];
+      options = [
+        this._processSpecByDims([
+          { dim: 'x', specValue: spec.x },
+          { dim: 'y', specValue: spec.y }
+        ]),
+        this._processSpecByDims([
+          { dim: 'x', specValue: spec.x1 },
+          { dim: 'y', specValue: spec.y }
+        ])
+      ];
     } else if (doCoordinatesProcess) {
       options = this._processSpecCoo(spec);
       needAggr = false;
@@ -239,11 +263,11 @@ export class CartesianMarkLine extends BaseMarkLine {
           options
         });
       if (spec.process && 'x' in spec.process) {
-        options = [this._processSpecX(spec.process.x as unknown as IDataPos)] as unknown as any;
+        options = [this._processSpecByDims([{ dim: 'x', specValue: spec.process.x as unknown as IDataPos }])];
         needAggr = true;
       }
       if (spec.process && 'y' in spec.process) {
-        options = [this._processSpecY(spec.process.y as unknown as IDataPos)] as unknown as any;
+        options = options = [this._processSpecByDims([{ dim: 'y', specValue: spec.process.y as unknown as IDataPos }])];
         needAggr = true;
       }
       if (spec.process && 'xy' in spec.process) {
@@ -261,7 +285,7 @@ export class CartesianMarkLine extends BaseMarkLine {
   }
 }
 
-export const registerCartesianMarkLine = () => {
+export const registerMarkLine = () => {
   Factory.registerComponent(CartesianMarkLine.type, CartesianMarkLine);
   registerMarkLineAnimate();
 };
