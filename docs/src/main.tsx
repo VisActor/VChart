@@ -4,7 +4,7 @@ import * as Openinula from 'openinula';
 import * as VRender from '@visactor/vrender';
 import * as VChart from '@visactor/vchart';
 import * as VisUtil from '@visactor/vutils';
-import * as ReactChart from '@visactor/react-vchart';
+import * as ReactVChart from '@visactor/react-vchart';
 import * as OpeninulaVChart from '@visactor/openinula-vchart';
 import { App } from './app';
 
@@ -18,7 +18,7 @@ import '@arco-design/web-react/dist/css/arco.css';
 
 (window as any).React = React;
 (window as any).ReactDom = ReactDOM;
-(window as any).ReactChart = ReactChart;
+(window as any).ReactVChart = ReactVChart;
 
 (window as any).Inula = Openinula;
 (window as any).InulaVChart = OpeninulaVChart;
