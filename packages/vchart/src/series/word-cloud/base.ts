@@ -140,7 +140,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected initData(): void {
     super.initData();
     // data改变时, 需要重新编译, 重新布局
-    this._rawData?.target?.addListener('change', () => {
+    this.getViewData()?.target?.addListener('change', () => {
       this._dataChange = true;
       this.compile();
     });
