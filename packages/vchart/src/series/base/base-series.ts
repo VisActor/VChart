@@ -1252,14 +1252,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       morph = false,
       clip,
       customShape,
-      stateSort
+      stateSort,
+      noSeparateStyle = false
     } = option;
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
       seriesId: this.id,
       attributeContext: this._markAttributeContext,
-      componentType: option.componentType
+      componentType: option.componentType,
+      noSeparateStyle
     });
     if (isValid(m)) {
       this._marks.addMark(m, { name: markInfo.name });

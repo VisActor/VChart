@@ -185,7 +185,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         groupKey: this._seriesField,
         isSeriesMark: true,
         customShape: this._spec.funnel?.customShape,
-        stateSort: this._spec.funnel?.stateSort
+        stateSort: this._spec.funnel?.stateSort,
+        noSeparateStyle: true
       }
     ) as IPolygonMark;
 
@@ -202,7 +203,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
           dataView: this._viewDataTransform.getDataView(),
           dataProductId: this._viewDataTransform.getProductId(),
           customShape: this._spec.transform?.customShape,
-          stateSort: this._spec.transform?.stateSort
+          stateSort: this._spec.transform?.stateSort,
+          noSeparateStyle: true
         }
       );
     }
@@ -214,13 +216,15 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
       this._funnelOuterLabelMark.label = this._createMark(FunnelSeries.mark.outerLabel, {
         themeSpec: this._theme?.outerLabel,
         markSpec: this._spec.outerLabel,
-        skipBeforeLayouted: true
+        skipBeforeLayouted: true,
+        noSeparateStyle: true
       }) as ITextMark;
 
       this._funnelOuterLabelMark.line = this._createMark(FunnelSeries.mark.outerLabelLine, {
         themeSpec: lineTheme,
         markSpec: line,
-        depend: [this._funnelOuterLabelMark.label]
+        depend: [this._funnelOuterLabelMark.label],
+        noSeparateStyle: true
       }) as IRuleMark;
     }
   }
