@@ -17,6 +17,7 @@ import { ChartRender, VChartRender } from './role/chart/graphic/vchart-graphic-r
 import { StandardParser } from './role/chart/data/parser/standard';
 
 StoryFactory.registerRole('BarChart', RoleChart);
+StoryFactory.registerRole('RoleChart', RoleChart);
 // StoryFactory.registerRole('LineChart', RoleChart);
 StoryFactory.registerRole('RectComponent', RoleComponentRect);
 StoryFactory.registerRole('QipaoComponent', RoleComponentQipao);

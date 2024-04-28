@@ -7,7 +7,7 @@ import { IRoleInitOption } from '../runtime-interface';
 import { RoleVisactor } from '../visactor/role';
 import { SpecProcess } from './spec-process/spec-process';
 import { ChartDataTempTransform } from './spec-process/data-temp-transform';
-import { ManualTicker } from '@visactor/vrender-core';
+import { ManualTicker, ITicker } from '@visactor/vrender-core';
 import { manualTicker } from '../../player/ticker';
 
 const tempSpec = {
@@ -25,11 +25,13 @@ const tempSpec = {
     }
   ],
   xField: 'month',
-  yField: 'sales'
+  yField: 'sales',
+  axes: [{ orient: 'bottom', label: { visible: false } }]
 };
 
 export class RoleChart extends RoleVisactor {
   protected declare _specProcess: SpecProcess;
+  protected _ticker: ITicker;
 
   protected declare _spec: IChartRoleSpec;
   get spec() {
@@ -45,6 +47,7 @@ export class RoleChart extends RoleVisactor {
     this._specProcess.updateConfig(this._spec.options);
   }
   protected _initGraphics(): void {
+    // this._ticker = new ManualTicker([]);
     const layout = getLayoutFromWidget(this._spec.position);
     const viewBox = {
       x1: layout.x,
@@ -52,7 +55,7 @@ export class RoleChart extends RoleVisactor {
       y1: layout.y,
       y2: layout.y + layout.height
     };
-    const spec = cloneDeep(tempSpec);
+    const spec = cloneDeep(this._spec.options.spec ?? tempSpec);
     spec.width = layout.width;
     spec.height = layout.height;
     // @ts-ignore
@@ -86,5 +89,9 @@ export class RoleChart extends RoleVisactor {
   public clearRole(): void {
     this._graphic.vProduct.release();
     this._graphic.parent.removeChild(this._graphic);
+  }
+
+  tickTo(t: number): void {
+    this._ticker.tickAt(t);
   }
 }

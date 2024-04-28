@@ -11,6 +11,7 @@ export interface IRole {
   reset(): void;
   show(): void;
   hide(): void;
+  tickTo(t: number): void;
 }
 
 export interface IRoleInitOption {

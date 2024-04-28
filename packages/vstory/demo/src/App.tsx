@@ -12,6 +12,7 @@ import { AppearBar } from './demos/AppearBar';
 import { AppearLine } from './demos/AppearLine';
 import { AppearPie } from './demos/AppearPie';
 import { GraphicActionDemo } from './demos/graphicAction';
+import { VChartSiteDemo } from './demos/VchartSite';
 
 const App = () => {
   const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
@@ -59,10 +60,14 @@ const App = () => {
     {
       name: 'Graphic-Action',
       component: GraphicActionDemo
+    },
+    {
+      name: 'VChart-Site',
+      component: VChartSiteDemo
     }
   ];
 
-  const selectedMenu = menus[10];
+  const selectedMenu = menus[activeIndex ?? 10];
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>

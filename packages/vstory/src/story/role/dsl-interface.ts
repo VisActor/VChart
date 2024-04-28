@@ -41,6 +41,8 @@ export interface IComponentRoleSpec extends IRoleSpecBase {
 
 export interface IChartRoleSpec extends IRoleSpecBase {
   options: {
+    // 图表spec
+    spec?: any;
     // 各种图表配置属性
     theme?: any;
     // 数据源

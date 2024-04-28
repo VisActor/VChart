@@ -18,6 +18,7 @@ export interface IChartGraphicAttribute extends IGroupGraphicAttribute {
   disableDirtyBounds: boolean;
   viewBox: IBoundsLike;
   ticker?: ITicker;
+  autoRender?: boolean;
 }
 
 export const CHART_NUMBER_TYPE = genNumberType();

@@ -6,9 +6,9 @@ export const AppearPie = () => {
   const id = 'storyPie';
 
   useEffect(() => {
-    const elements: IStorySpec['elements'] = [
+    const roles: IStorySpec['roles'] = [
       {
-        type: 'chart',
+        type: 'pieChart',
         id: 'test-chart-0',
         zIndex: 0,
         widget: {
@@ -18,7 +18,6 @@ export const AppearPie = () => {
           height: 600
         },
         config: {
-          temp: 'pie',
           data: {
             type: 'standard',
             value: {
@@ -44,90 +43,88 @@ export const AppearPie = () => {
       }
     ];
 
-    const chapters: IStorySpec['chapters'] = [
+    const acts: IStorySpec['acts'] = [
       {
         id: 'default-chapter',
-        steps: [
-          {
-            elements: [
-              {
-                elementId: 'test-chart-0',
-                actions: [
-                  // 3种appear
-                  {
-                    startTime: 1000,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'growAngle',
-                        duration: 500
-                      }
-                    }
-                  },
-                  {
-                    startTime: 1500,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'growRadius',
-                        duration: 500
-                      }
-                    }
-                  },
-                  {
-                    startTime: 2000,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'fade',
-                        duration: 500
-                      }
-                    }
-                  },
-                  // oneByOne
-                  {
-                    startTime: 2500,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'growAngle',
-                        duration: 200,
-                        oneByOne: true
-                      }
-                    }
-                  },
-                  {
-                    startTime: 3500,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'growRadius',
-                        duration: 200,
-                        oneByOne: true
-                      }
-                    }
-                  },
-                  {
-                    startTime: 4500,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'fade',
-                        duration: 200,
-                        oneByOne: true
-                      }
+        scenes: [
+          [
+            {
+              roleId: 'test-chart-0',
+              actions: [
+                // 3种appear
+                {
+                  startTime: 1000,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'growAngle',
+                      duration: 500
                     }
                   }
-                ]
-              }
-            ]
-          }
+                },
+                {
+                  startTime: 1500,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'growRadius',
+                      duration: 500
+                    }
+                  }
+                },
+                {
+                  startTime: 2000,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'fade',
+                      duration: 500
+                    }
+                  }
+                },
+                // oneByOne
+                {
+                  startTime: 2500,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'growAngle',
+                      duration: 200,
+                      oneByOne: true
+                    }
+                  }
+                },
+                {
+                  startTime: 3500,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'growRadius',
+                      duration: 200,
+                      oneByOne: true
+                    }
+                  }
+                },
+                {
+                  startTime: 4500,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'fade',
+                      duration: 200,
+                      oneByOne: true
+                    }
+                  }
+                }
+              ]
+            }
+          ]
         ]
       }
     ];
 
     const story = new Story(
-      { chapters, elements },
+      { roles, acts },
       {
         dom: document.querySelector(`#${id}`)
       }
