@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix(wordCloud): wordCloud layout error and color scale error when updateData. fix#2605'",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

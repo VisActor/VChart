@@ -86,6 +86,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   protected _keyWordColorCallback: (datum: Datum) => string;
   protected _fillingColorCallback: (datum: Datum) => string;
 
+  protected _dataChange: boolean = true;
+
   /**
    * @override
    */
@@ -130,6 +132,18 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
     this._isWordCloudShape = !SHAPE_TYPE.includes(this._maskShape);
     this._defaultFontFamily = this._option.getTheme().fontFamily as string;
+  }
+
+  /**
+   * @override
+   */
+  protected initData(): void {
+    super.initData();
+    // data改变时, 需要重新编译, 重新布局
+    this._rawData?.target?.addListener('change', () => {
+      this._dataChange = true;
+      this.compile();
+    });
   }
 
   protected _wordMark: ITextMark;
@@ -230,7 +244,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   getWordColor = (datum: Datum) => {
     if (datum.isFillingWord) {
-      if (!this._fillingColorCallback) {
+      if (!this._fillingColorCallback || this._dataChange) {
+        // 如果updateData数据变更了, 颜色映射也需要重新计算
         this._fillingColorCallback = this._wordCloudShapeConfig.fillingColorHexField
           ? (datum: Datum) => datum[this._wordCloudShapeConfig.fillingColorHexField]
           : this.initColorCallback(this._wordCloudShapeConfig.fillingSeriesField, true);
@@ -239,7 +254,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       return this._fillingColorCallback(datum);
     }
 
-    if (!this._keyWordColorCallback) {
+    if (!this._keyWordColorCallback || this._dataChange) {
+      // 如果updateData数据变更了, 颜色映射也需要重新计算
       this._keyWordColorCallback = this._colorHexField
         ? datum => datum[this._colorHexField]
         : this.initColorCallback(this._seriesField, false);
@@ -260,8 +276,6 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     const valueField = this._valueField;
     const valueScale = new LinearScale();
     const fontWeightRange = this._fontWeightRange;
-    const rotateAngles = this._rotateAngles;
-    const fillingRotateAngles = this._wordCloudShapeConfig.fillingRotateAngles;
 
     // fontWeight处理
     if (valueField) {
@@ -439,6 +453,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
   onLayoutEnd(ctx: any): void {
     super.onLayoutEnd(ctx);
     this.compile();
+    this._dataChange = false;
   }
 
   getActiveMarks(): IMark[] {
