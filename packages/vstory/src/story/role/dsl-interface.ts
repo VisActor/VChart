@@ -32,7 +32,7 @@ export type IEditorTextGraphicAttribute = {
 export interface IComponentRoleSpec extends IRoleSpecBase {
   options: {
     graphic: any;
-    text: IEditorTextGraphicAttribute;
+    text?: IEditorTextGraphicAttribute;
     isResized?: boolean;
     angle: number;
     shapePoints: any;

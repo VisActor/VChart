@@ -15,10 +15,13 @@ import { RoleChart } from './role/chart/role';
 import { ContainerModule, GraphicRender, container } from '@visactor/vrender-core';
 import { ChartRender, VChartRender } from './role/chart/graphic/vchart-graphic-render';
 import { StandardParser } from './role/chart/data/parser/standard';
+import { RoleComponentText } from './role/component/roles/role-text';
 
 StoryFactory.registerRole('BarChart', RoleChart);
 // StoryFactory.registerRole('LineChart', RoleChart);
 StoryFactory.registerRole('RectComponent', RoleComponentRect);
+StoryFactory.registerRole('TextComponent', RoleComponentText);
+
 StoryFactory.registerRole('QipaoComponent', RoleComponentQipao);
 
 StoryFactory.registerDataParser('standard', StandardParser);

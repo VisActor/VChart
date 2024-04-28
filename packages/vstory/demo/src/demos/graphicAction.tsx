@@ -5,36 +5,39 @@ import '../../../src/story/index';
 import { IComponentRoleSpec } from '../../../src/story/role';
 import { StoryGraphicType } from '../../../src/dsl/constant';
 
-const duration = 500;
-const createRoleAndAction = (type: string, effects: string[], index: number) => {
+const duration = 1000;
+const width = 200;
+const height = 100;
+
+const createRoleAndAction = (type: string, effects: string[], row = 0, col = 0, options = {}) => {
   const appearEffect = effects[0];
-  const id = `${type}-${appearEffect}-${index}`;
+  const id = `${type}-${appearEffect}-${row}`;
   const role: IComponentRoleSpec = {
-    type: StoryGraphicType.RECT,
+    type,
     id,
     zIndex: 0,
     position: {
-      top: 40 + index * 100,
-      left: 50,
-      width: 200,
-      height: 100
+      top: 40 + row * 100,
+      left: 50 + col * width,
+      width,
+      height
     },
     options: {
       graphic: {
         fill: 'rgb(13,201,209)'
       },
       text: {
-        text: appearEffect,
-        fill: 'black'
+        text: appearEffect
       },
       angle: 0,
-      shapePoints: []
+      shapePoints: [],
+      ...options
     }
   };
   const actions: IAction[] = effects.map((effect, effectIndex) => {
     if (effectIndex === 0) {
       return {
-        startTime: duration + index * duration,
+        startTime: 50 + row * duration,
         action: 'appear',
         duration,
         payload: {
@@ -48,7 +51,7 @@ const createRoleAndAction = (type: string, effects: string[], index: number) => 
       };
     } else {
       return {
-        startTime: duration + index * duration + effectIndex * (duration + 100),
+        startTime: 50 + row * duration + effectIndex * (duration + 100),
         action: effect,
         duration,
         payload: {
@@ -62,7 +65,7 @@ const createRoleAndAction = (type: string, effects: string[], index: number) => 
   });
   if (appearEffect === 'moveIn') {
     actions.push({
-      startTime: duration + index * duration,
+      startTime: duration + row * duration,
       duration,
       action: 'appear',
       payload: {
@@ -70,7 +73,7 @@ const createRoleAndAction = (type: string, effects: string[], index: number) => 
         animation: {
           duration,
           easing: 'linear',
-          effect: 'fadeIn'
+          effect: 'moveIn'
         } as any
       }
     });
@@ -87,33 +90,56 @@ export const GraphicActionDemo = () => {
   const [story, setStory] = useState<Story>();
   const [pause, setPause] = useState<boolean>(false);
   useEffect(() => {
+    // rect
     // 数组第一项是 appear 效果，第二项是强调效果
-    const effects = [
-      ['wipeIn'],
-      ['fadeIn', 'brighten'],
-      ['grow'],
-      ['moveIn'],
-      ['fadeIn', 'flicker', 'darken'] //
-    ];
     const roles: IStorySpec['roles'] = [];
     const roleActions: IRoleLink[] = [];
+    let col = 0;
+    // rect
+    {
+      const effects = [
+        ['wipeIn'],
+        ['fadeIn', 'brighten'],
+        ['grow'],
+        ['moveIn'],
+        ['fadeIn', 'flicker', 'darken'] //
+      ];
+      effects.forEach((effect, index) => {
+        const { role, roleAction } = createRoleAndAction(StoryGraphicType.RECT, effect, index);
+        roles.push(role);
+        roleActions.push(roleAction);
+      });
+      ++col;
+    }
 
-    effects.forEach((effect, index) => {
-      const { role, roleAction } = createRoleAndAction('rect', effect, index);
-      roles.push(role);
-      roleActions.push(roleAction);
-    });
-    console.log('graphic demo:', roles, roleActions);
-    // 准备一个图表
+    // text
+    {
+      const effects = [
+        ['fadeIn'],
+        // ['flicker'], // TODO: 直接 flicker 是有问题的
+        ['typewriter', 'flicker'] //
+      ];
+      effects.forEach((effect, index) => {
+        const { role, roleAction } = createRoleAndAction(StoryGraphicType.TEXT, effect, index, col, {
+          graphic: { fontSize: 24, text: effect[0], dx: width / 2, dy: height / 2 }
+        });
+        roles.push(role);
+        roleActions.push(roleAction);
+      });
+      ++col;
+    }
     const tempSpec: IStorySpec = {
       roles,
       acts: [
         {
           id: 'default-chapter',
-          scenes: [[...roleActions]]
+          scenes: [roleActions]
         }
       ]
     };
+
+    console.log(tempSpec);
+
     const story = new Story(tempSpec, { dom: id });
     setStory(story);
     story.play();

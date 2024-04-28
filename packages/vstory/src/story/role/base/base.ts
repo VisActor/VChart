@@ -1,5 +1,6 @@
 import { IRoleInitOption } from '../runtime-interface';
 import { IRole, IRoleSpec } from '..';
+import { IGroup } from '@visactor/vrender-core';
 
 export abstract class RoleBase implements IRole {
   readonly id: string;
@@ -36,6 +37,8 @@ export abstract class RoleBase implements IRole {
   abstract hide(): void;
 
   public getPositionData() {}
+
+  public abstract getGraphicParent(): IGroup;
 
   public abstract clearRole(): void;
 }

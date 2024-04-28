@@ -71,3 +71,55 @@ export abstract class RoleComponent extends RoleBase {
     return this._group;
   }
 }
+
+export abstract class RoleGraphicComponent extends RoleBase {
+  protected declare _spec: IComponentRoleSpec;
+
+  get spec() {
+    return this._spec;
+  }
+  protected declare _graphic: Graphic;
+  get graphic() {
+    return this._graphic;
+  }
+
+  protected declare _group: IGroup;
+  get group() {
+    return this._group;
+  }
+
+  protected abstract _createGraphic(): Graphic;
+
+  protected _parserSpec(): void {}
+
+  protected _initGraphics(): void {
+    this._group = createGroup({ ...getLayoutFromWidget(this._spec.position), angle: this._spec.options.angle });
+    this.option.graphicParent.add(this._group);
+
+    this._graphic = this._createGraphic();
+    this._graphic.init();
+
+    this._graphic.applyGraphicAttribute(this._spec.options.graphic);
+
+    this._graphic.applyLayoutData(this._spec.position);
+    this.hide();
+  }
+
+  show(): void {
+    this._graphic?.show();
+  }
+  hide(): void {
+    this._graphic?.hide();
+  }
+
+  public getGraphicParent() {
+    return this._group;
+  }
+
+  public clearRole(): void {
+    if (this._group) {
+      this._group.parent.removeChild(this._group);
+      this._graphic = null;
+    }
+  }
+}

@@ -11,6 +11,8 @@ export interface IRole {
   reset(): void;
   show(): void;
   hide(): void;
+
+  getGraphicParent(): IGroup;
 }
 
 export interface IRoleInitOption {
