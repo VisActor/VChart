@@ -62,6 +62,10 @@ export abstract class RoleVisactor extends RoleBase implements IRoleVisactor {
     return this._graphic;
   }
 
+  tickTo(t: number): void {
+    return;
+  }
+
   release() {
     this._specProcess.release();
     this._graphic?.parent?.removeChild(this._graphic);

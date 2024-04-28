@@ -6,9 +6,9 @@ export const AppearLine = () => {
   const id = 'appearLine';
 
   useEffect(() => {
-    const elements: IStorySpec['elements'] = [
+    const roles: IStorySpec['roles'] = [
       {
-        type: 'chart',
+        type: 'lineChart',
         id: 'test-chart-0',
         zIndex: 0,
         widget: {
@@ -18,7 +18,6 @@ export const AppearLine = () => {
           height: 600
         },
         config: {
-          temp: 'line',
           data: {
             type: 'standard',
             value: {
@@ -44,67 +43,65 @@ export const AppearLine = () => {
       }
     ];
 
-    const chapters: IStorySpec['chapters'] = [
+    const acts: IStorySpec['acts'] = [
       {
         id: 'default-chapter',
-        steps: [
-          {
-            elements: [
-              {
-                elementId: 'test-chart-0',
-                actions: [
-                  {
-                    startTime: 1000,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'grow',
-                        duration: 1000
-                      }
-                    }
-                  },
-                  {
-                    startTime: 2000,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'fade',
-                        duration: 1000
-                      }
-                    }
-                  },
-                  {
-                    startTime: 3000,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'fade',
-                        duration: 1000,
-                        oneByOne: true
-                      }
-                    }
-                  },
-                  {
-                    startTime: 6000,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'grow',
-                        duration: 1000,
-                        oneByOne: true
-                      }
+        scenes: [
+          [
+            {
+              roleId: 'test-chart-0',
+              actions: [
+                {
+                  startTime: 1000,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'grow',
+                      duration: 1000
                     }
                   }
-                ]
-              }
-            ]
-          }
+                },
+                {
+                  startTime: 2000,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'fade',
+                      duration: 1000
+                    }
+                  }
+                },
+                {
+                  startTime: 3000,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'fade',
+                      duration: 1000,
+                      oneByOne: true
+                    }
+                  }
+                },
+                {
+                  startTime: 6000,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'grow',
+                      duration: 1000,
+                      oneByOne: true
+                    }
+                  }
+                }
+              ]
+            }
+          ]
         ]
       }
     ];
 
     const story = new Story(
-      { chapters, elements },
+      { roles, acts },
       {
         dom: document.querySelector(`#${id}`)
       }

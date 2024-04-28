@@ -100,6 +100,22 @@ export const StorySceneDemo = () => {
           }
         },
         {
+          type: 'BarChart',
+          id: 'test-chart-2',
+          zIndex: 0,
+          position: {
+            top: 350,
+            left: 300,
+            width: 300,
+            height: 300
+          },
+          options: {
+            data: data1,
+            // @ts-ignore
+            attribute: {}
+          }
+        },
+        {
           type: 'QipaoComponent',
           id: 'test-graphics-2',
           zIndex: 3,
@@ -133,7 +149,7 @@ export const StorySceneDemo = () => {
                 roleId: 'test-graphics-0',
                 actions: [
                   {
-                    startTime: 1000,
+                    startTime: 1,
                     duration: 1000,
                     action: 'appear',
                     payload: {
@@ -170,6 +186,26 @@ export const StorySceneDemo = () => {
                 actions: [
                   {
                     startTime: 4000,
+                    duration: 1000,
+                    action: 'appear'
+                  }
+                ]
+              },
+              {
+                roleId: 'test-chart-0',
+                actions: [
+                  {
+                    startTime: 4500,
+                    duration: 1000,
+                    action: 'appear'
+                  }
+                ]
+              },
+              {
+                roleId: 'test-chart-2',
+                actions: [
+                  {
+                    startTime: 5500,
                     duration: 1000,
                     action: 'appear'
                   }

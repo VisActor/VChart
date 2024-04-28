@@ -18,6 +18,7 @@ import { StandardParser } from './role/chart/data/parser/standard';
 import { RoleComponentText } from './role/component/roles/role-text';
 
 StoryFactory.registerRole('BarChart', RoleChart);
+StoryFactory.registerRole('RoleChart', RoleChart);
 // StoryFactory.registerRole('LineChart', RoleChart);
 StoryFactory.registerRole('RectComponent', RoleComponentRect);
 StoryFactory.registerRole('TextComponent', RoleComponentText);
