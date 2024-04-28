@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: duplicated categoryField data in funnel will result to unexpected rendering result",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
