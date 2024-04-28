@@ -929,6 +929,20 @@
             "zh": "桑基图多种边配置",
             "en": "Sankey Diagram Multiple Edge Configurations"
           }
+        },
+        {
+          "path": "specified-node",
+          "title": {
+            "zh": "桑基图指定节点宽高",
+            "en": "Specify size of node in sankey chart"
+          }
+        },
+        {
+          "path": "customized-node",
+          "title": {
+            "zh": "桑基图自定义html渲染节点",
+            "en": "set customized node of html in sankey chart"
+          }
         }
       ]
     },
