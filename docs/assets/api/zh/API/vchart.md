@@ -647,6 +647,46 @@ vchart.setHovered({ x: 'US', y: 10, type: 'A' });
 vchart.setHovered(null);
 ```
 
+### clearState
+
+清除图元的状态
+
+```ts
+ /**
+   * 清除所有图元的状态
+   * @param state 状态名
+   *
+   * @since 1.11.0
+   */
+  clearState: (state: string) => void;
+```
+
+### clearSelected
+
+清除图元的选中状态
+
+```ts
+/**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected: () => void;
+```
+
+### clearHovered
+
+清除图元的 hover 状态
+
+```ts
+/**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered: () => void;
+```
+
 ### getCurrentTheme
 
 获取当前主题，会返回完整的主题配置。

@@ -644,6 +644,46 @@ vchart.setHovered({ x: 'US', y: 10, type: 'A' });
 vchart.setHovered(null);
 ```
 
+### clearState
+
+Clear the state of the marks
+
+```ts
+ /**
+   * clear the state of marks
+   * @param state name of state
+   *
+   * @since 1.11.0
+   */
+  clearState: (state: string) => void;
+```
+
+### clearSelected
+
+clear the `selected` state of marks
+
+```ts
+/**
+   * clear the `selected` state of marks
+   *
+   * @since 1.11.0
+   */
+  clearSelected: () => void;
+```
+
+### clearHovered
+
+clear the `hovered` state of marks
+
+```ts
+/**
+   * clear the `hovered` state of marks
+   *
+   * @since 1.11.0
+   */
+  clearHovered: () => void;
+```
+
 ### getCurrentTheme
 
 Getting the current Theme will return the full Theme configuration.

@@ -226,6 +226,28 @@ export interface IVChart {
   ) => void;
 
   /**
+   * 清除所有图元的状态
+   * @param state 状态名
+   *
+   * @since 1.11.0
+   */
+  clearState: (state: string) => void;
+
+  /**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected: () => void;
+
+  /**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered: () => void;
+
+  /**
    * 获取当前主题，会返回完整的主题配置（只能获取用户通过`setCurrentTheme`方法设置过的主题，默认值为`ThemeManager`统一设置的主题）
    * */
   getCurrentTheme: () => ITheme;
