@@ -185,7 +185,6 @@ export interface ISeries extends IModel {
   initLabelMarkStyle?: (labelMark: ILabelMark) => void;
   /** 设置总计标签配置 */
   initTotalLabelMarkStyle?: (labelMark: ILabelMark) => void;
-  setTotalLabelStyle?: (labelMark: ILabelMark) => void;
   getTotalLabelComponentStyle?: (info: Pick<ILabelInfo, 'baseMark' | 'labelMark'>) => any;
 
   getGroupFields: () => string[];

@@ -230,7 +230,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   // 首先执行这里的 mark.style
   // 然后执行用户的 formatMethod
   // 最后执行下方的 getTotalLabelComponentStyle 。如果在下方实现值函数，就会导致用户format无法生效
-  setTotalLabelStyle(labelMark: ILabelMark) {
+  initTotalLabelMarkStyle(labelMark: ILabelMark) {
     this.setMarkStyle(labelMark, {
       text: (datum: Datum) => {
         if (!('end' in datum)) {

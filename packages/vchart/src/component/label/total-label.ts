@@ -88,7 +88,7 @@ export class TotalLabel extends BaseLabelComponent {
     );
 
     const series = this._getSeries();
-    series.setTotalLabelStyle?.(this._textMark);
+    series.initTotalLabelMarkStyle?.(this._textMark);
   }
 
   protected _initLabelComponent() {
