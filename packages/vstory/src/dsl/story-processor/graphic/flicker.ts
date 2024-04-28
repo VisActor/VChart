@@ -1,11 +1,11 @@
-import { IElement } from '../../../story/element';
+import { IRole } from '../../../story/role';
 import { FlickerOption } from '../../types/Flicker';
 import { flicker } from './effect/flicker';
-import { getElementGraphic } from './util';
+import { getRoleGraphic } from './util';
 
-export const flickerProcessor = async (element: IElement, spec = {}, appearAction: FlickerOption) => {
+export const flickerProcessor = async (role: IRole, spec = {}, appearAction: FlickerOption) => {
   const { animation } = appearAction.payload ?? {};
-  const graphics = getElementGraphic(element);
+  const graphics = getRoleGraphic(role);
   graphics.forEach(graphic => {
     flicker(graphic, animation);
   });

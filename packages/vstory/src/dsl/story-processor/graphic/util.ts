@@ -1,6 +1,6 @@
-import type { IElement } from '../../../story/element';
+import type { IRole } from '../../../story/role';
 
-export function getElementGraphic(element: IElement) {
-  // TODO: 需要 element 提供接口
-  return [(element as any).graphic._graphic, (element as any).text._graphic];
+export function getRoleGraphic(role: IRole) {
+  // TODO: 需要 role 提供接口
+  return [(role as any).graphic._graphic, (role as any).text._graphic];
 }
