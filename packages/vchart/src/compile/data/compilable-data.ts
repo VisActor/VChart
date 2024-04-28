@@ -69,7 +69,7 @@ export class CompilableData extends GrammarItem implements ICompilableData {
     }
 
     const id = this.getProductId();
-    this._product = view.data(data).id(id);
+    this._product = view?.data?.(data).id(id);
     this._compiledProductId = id;
   }
 
