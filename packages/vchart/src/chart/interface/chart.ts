@@ -173,6 +173,24 @@ export interface IChart extends ICompilable {
     filter?: (series: ISeries, mark: IMark) => boolean,
     region?: IRegionQuerier
   ) => void;
+  /**
+   * 清除所有图元的状态
+   *
+   * @since 1.11.0
+   */
+  clearState: (state: string) => void;
+  /**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected: () => void;
+  /**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered: () => void;
 
   // 更新 viewBox
   updateViewBox: (viewBox: IBoundsLike, reLayout: boolean) => void;
