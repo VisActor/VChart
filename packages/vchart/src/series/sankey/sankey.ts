@@ -6,7 +6,7 @@ import type { IRectMark } from '../../mark/rect';
 import type { ILinkPathMark } from '../../mark/link-path';
 import type { ITextMark } from '../../mark/text';
 import { registerSankeyTransforms } from '@visactor/vgrammar-sankey';
-import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, IComposedTextMarkSpec } from '../../typings';
+import type { Datum, IRectMarkSpec, ILinkPathMarkSpec, IComposedTextMarkSpec, StringOrNumber } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { registerFadeInOutAnimation } from '../../animation/config';
 import { registerDataSetInstanceTransform } from '../../data/register';
@@ -20,10 +20,10 @@ import { LayoutZIndex, AttributeLevel, Event_Bubble_Level } from '../../constant
 import { SeriesData } from '../base/series-data';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
-import { Bounds, array, isNil, isValid, isNumber } from '@visactor/vutils';
+import { Bounds, array, isNil, isValid, isNumber, isArray } from '@visactor/vutils';
 import type { ISankeyAnimationParams } from './animation';
 import { registerSankeyAnimation } from './animation';
-import type { ISankeySeriesSpec } from './interface';
+import type { ISankeySeriesSpec, SankeyLinkElement } from './interface';
 import type { ExtendEventParam } from '../../event/interface';
 import type { IElement, IGlyphElement, IMark as IVgrammarMark } from '@visactor/vgrammar-core';
 import type { IMarkAnimateSpec } from '../../animation/spec';
@@ -235,6 +235,42 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         this._labelMark = labelMark;
       }
     }
+  }
+
+  protected _buildMarkAttributeContext() {
+    super._buildMarkAttributeContext();
+
+    this._markAttributeContext.valueToNode = this.valueToNode.bind(this);
+    this._markAttributeContext.valueToLink = this.valueToLink.bind(this);
+  }
+
+  valueToNode(value: StringOrNumber | StringOrNumber[]) {
+    const nodes = this._nodesSeriesData.getLatestData();
+    const specifyValue = isArray(value) ? value[0] : value;
+    return nodes && nodes.find((node: SankeyNodeElement) => node.key === specifyValue);
+  }
+
+  valueToLink(value: StringOrNumber | StringOrNumber[]) {
+    const links = this._linksSeriesData.getLatestData();
+    const specifyValue = array(value);
+
+    return (
+      links &&
+      links.find(
+        (link: SankeyLinkElement) => link && link.source === specifyValue[0] && link.target === specifyValue[1]
+      )
+    );
+  }
+
+  valueToPositionX(value: StringOrNumber | StringOrNumber[]) {
+    const node = this.valueToNode(value);
+
+    return node.x0;
+  }
+  valueToPositionY(value: StringOrNumber | StringOrNumber[]) {
+    const node = this.valueToNode(value);
+
+    return node.y0;
   }
 
   initMarkStyle(): void {
