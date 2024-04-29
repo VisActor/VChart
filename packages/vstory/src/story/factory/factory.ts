@@ -48,11 +48,11 @@ export class StoryFactory {
   static registerChartTemp(type: string, c: IChartTempConstructor) {
     StoryFactory.chartTempMap[type] = c;
   }
-  static createChartTemp(type: string) {
+  static createChartTemp(type: string, opt: any) {
     const classC = StoryFactory.chartTempMap[type];
     if (!classC) {
       return null;
     }
-    return new classC();
+    return new classC(opt);
   }
 }

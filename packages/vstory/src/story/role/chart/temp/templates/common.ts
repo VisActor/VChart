@@ -6,31 +6,12 @@ import { ChartDimensionField, ChartTypeField, ChartValueField } from '../../cons
 export function getCommonSpec() {
   return {
     type: 'common',
-    color: ['#00295C', '#2568BD', '#9F9F9F', '#C5C5C5', '#00B0F0', '#4BCFFF', '#C2C2C2', '#D7D7D7'],
     series: [] as any[],
-    legends: {
-      id: 'legend-discrete',
-      visible: true,
-      autoPage: false,
-      position: 'start',
-      interactive: false,
-      item: {
-        label: {
-          style: {
-            fill: '#1F2329',
-            fontSize: 16
-          }
-        }
-      }
-    },
     region: [
       {
         id: 'region-0'
       }
-    ],
-    tooltip: {
-      visible: true
-    }
+    ]
   };
 }
 
@@ -49,36 +30,6 @@ export function getCartesianAxesSpec(direction: 'horizontal' | 'vertical', perce
           orient: 'left',
           id: 'axis-left',
           type: 'linear',
-          label: {
-            autoLimit: false,
-            style: {
-              fill: '#1F2329',
-              fontSize: 16
-            },
-            formatMethod: percent
-              ? (v: any) => {
-                  return `${(v * 100).toFixed(0)}%`;
-                }
-              : null
-          },
-          domainLine: {
-            visible: true,
-            style: {
-              stroke: '#000000'
-            }
-          },
-          tick: {
-            visible: true,
-            style: {
-              stroke: '#000000'
-            }
-          },
-          grid: {
-            visible: false,
-            style: {
-              stroke: '#bbbfc4'
-            }
-          },
           autoIndent: false,
           maxWidth: null as number,
           maxHeight: null as number
@@ -87,32 +38,6 @@ export function getCartesianAxesSpec(direction: 'horizontal' | 'vertical', perce
           orient: 'bottom',
           id: 'axis-bottom',
           type: 'band',
-          label: {
-            autoLimit: false,
-            style: {
-              fill: '#1F2329',
-              fontSize: 16
-            }
-          },
-          domainLine: {
-            visible: true,
-            style: {
-              stroke: '#000000'
-            },
-            onZero: true
-          },
-          tick: {
-            visible: true,
-            style: {
-              stroke: '#000000'
-            }
-          },
-          grid: {
-            visible: false,
-            style: {
-              stroke: '#bbbfc4'
-            }
-          },
           autoIndent: false,
           maxWidth: null as number,
           maxHeight: null as number,
@@ -126,71 +51,15 @@ export function getCartesianAxesSpec(direction: 'horizontal' | 'vertical', perce
           orient: 'left',
           id: 'axis-left',
           type: 'band',
-          label: {
-            autoLimit: false,
-            style: {
-              fill: '#1F2329',
-              fontSize: 16
-            }
-          },
           autoIndent: false,
           maxWidth: null as number,
           maxHeight: null as number,
-          trimPadding,
-          domainLine: {
-            visible: true,
-            style: {
-              stroke: '#000000'
-            },
-            onZero: true
-          },
-          tick: {
-            visible: true,
-            style: {
-              stroke: '#000000'
-            }
-          },
-          grid: {
-            visible: false,
-            style: {
-              stroke: '#bbbfc4'
-            }
-          }
+          trimPadding
         },
         {
           orient: 'bottom',
           id: 'axis-bottom',
           type: 'linear',
-          label: {
-            autoLimit: false,
-            style: {
-              fill: '#1F2329',
-              fontSize: 16
-            },
-            formatMethod: percent
-              ? (v: any) => {
-                  return `${(v * 100).toFixed(0)}%`;
-                }
-              : null
-          },
-          domainLine: {
-            visible: true,
-            style: {
-              stroke: '#000000'
-            }
-          },
-          tick: {
-            visible: true,
-            style: {
-              stroke: '#000000'
-            }
-          },
-          grid: {
-            visible: false,
-            style: {
-              stroke: '#bbbfc4'
-            }
-          },
           autoIndent: false,
           maxWidth: null as number,
           maxHeight: null as number
@@ -206,6 +75,9 @@ export function getCartesianSpec(
   option: {
     multiDimensionField?: boolean;
     stack?: boolean;
+    xField: string[] | string;
+    yField: string[] | string;
+    seriesField: string;
   }
 ) {
   spec.data = array(data);
@@ -222,21 +94,17 @@ export function fillCartesianSeriesSpec(
   option: {
     multiDimensionField?: boolean;
     stack?: boolean;
+    xField: string[] | string;
+    yField: string[] | string;
+    seriesField: string;
   }
 ) {
-  spec.xField = direction === 'vertical' ? ChartDimensionField : ChartValueField;
-  spec.yField = direction === 'vertical' ? ChartValueField : ChartDimensionField;
+  spec.xField = option.xField;
+  spec.yField = option.yField;
   spec.dataId = d.id;
   spec.id = `series-${d.id}`;
-  spec.seriesField = ChartTypeField;
+  spec.seriesField = option.seriesField;
   spec.stack = option.stack === true;
-  if (option.multiDimensionField === true) {
-    if (direction === 'vertical') {
-      spec.xField = [spec.xField, spec.seriesField];
-    } else {
-      spec.yField = [spec.yField, spec.seriesField];
-    }
-  }
   return spec;
 }
 

@@ -12,63 +12,67 @@ import { AppearBar } from './demos/AppearBar';
 import { AppearLine } from './demos/AppearLine';
 import { AppearPie } from './demos/AppearPie';
 import { GraphicActionDemo } from './demos/graphicAction';
+import { VChartSiteDemo } from './demos/VchartSite';
 import { ChartHistory } from './demos/ChartHistory';
 
-const menus = [
-  {
-    name: 'SimpleBar',
-    component: SimpleBar
-  },
-  {
-    name: 'RankingBar',
-    component: RankingBar
-  },
-  {
-    name: 'Bar',
-    component: StoryBarDemo
-  },
-  {
-    name: 'Line',
-    component: StoryLineDemo
-  },
-  {
-    name: 'Pie',
-    component: StoryPieDemo
-  },
-  {
-    name: 'StoryScene',
-    component: StorySceneDemo
-  },
-  {
-    name: 'AreaWithTag',
-    component: AreaWithTag
-  },
-  {
-    name: 'AppearBar',
-    component: AppearBar
-  },
-  {
-    name: 'AppearLine',
-    component: AppearLine
-  },
-  {
-    name: 'AppearPie',
-    component: AppearPie
-  },
-  {
-    name: 'Graphic-Action',
-    component: GraphicActionDemo
-  },
-  {
-    name: 'ChartHistory',
-    component: ChartHistory
-  }
-];
-
 const App = () => {
-  const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', menus.length - 1);
+  const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
+  const menus = [
+    {
+      name: 'SimpleBar',
+      component: SimpleBar
+    },
+    {
+      name: 'RankingBar',
+      component: RankingBar
+    },
+    {
+      name: 'Bar',
+      component: StoryBarDemo
+    },
+    {
+      name: 'Line',
+      component: StoryLineDemo
+    },
+    {
+      name: 'Pie',
+      component: StoryPieDemo
+    },
+    {
+      name: 'StoryScene',
+      component: StorySceneDemo
+    },
+    {
+      name: 'AreaWithTag',
+      component: AreaWithTag
+    },
+    {
+      name: 'AppearBar',
+      component: AppearBar
+    },
+    {
+      name: 'AppearLine',
+      component: AppearLine
+    },
+    {
+      name: 'AppearPie',
+      component: AppearPie
+    },
+    {
+      name: 'Graphic-Action',
+      component: GraphicActionDemo
+    },
+    {
+      name: 'VChart-Site',
+      component: VChartSiteDemo
+    },
+    {
+      name: 'ChartHistory',
+      component: ChartHistory
+    }
+  ];
 
-  const selectedMenu = menus[activeIndex];
+  const selectedMenu = menus[activeIndex ?? 10];
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>

@@ -109,14 +109,17 @@ export class Player implements IPlayer {
       this._currTime = 0;
       this.tickTo(0);
     }
+    const roleSet = new Set<IRole>();
     this._currAct.scenes.forEach(scene => {
       scene.forEach(({ role, action }) => {
         const { startTime } = action;
         if (startTime > t) {
           return;
         }
+        roleSet.add(role);
         // 之前没走过，现在走
         if (startTime > lastTime && startTime <= t) {
+          console.log('abc');
           const { type } = role.spec;
           const process = processorMap[type];
           if (process) {
@@ -127,6 +130,10 @@ export class Player implements IPlayer {
         role.show();
       });
     });
+
+    // roleSet.forEach(r => {
+    //   r.tickTo && r.tickTo(t);
+    // });
 
     this._currTime = t;
     this._canvas.getStage().ticker.tickAt(t);

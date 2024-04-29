@@ -18,6 +18,8 @@ export interface IChartGraphicAttribute extends IGroupGraphicAttribute {
   disableDirtyBounds: boolean;
   viewBox: IBoundsLike;
   ticker?: ITicker;
+  autoRender?: boolean;
+  chartInitOptions?: any;
 }
 
 export const CHART_NUMBER_TYPE = genNumberType();
@@ -76,7 +78,8 @@ export class Chart extends Group implements IVisactorGraphic {
           // @ts-ignore
           this._vchart.getStage()._editor_needRender = false;
           this._vchart.getStage().stage.resumeRender();
-        }
+        },
+        ...(params.chartInitOptions ?? {})
       });
     } else {
       this._vchart = params.vchart;

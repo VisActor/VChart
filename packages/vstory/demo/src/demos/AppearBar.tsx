@@ -6,9 +6,9 @@ export const AppearBar = () => {
   const id = 'storyBar';
 
   useEffect(() => {
-    const elements: IStorySpec['elements'] = [
+    const roles: IStorySpec['roles'] = [
       {
-        type: 'chart',
+        type: 'barChart',
         id: 'test-chart-0',
         zIndex: 0,
         widget: {
@@ -18,7 +18,6 @@ export const AppearBar = () => {
           height: 600
         },
         config: {
-          temp: 'bar',
           data: {
             type: 'standard',
             value: {
@@ -44,91 +43,89 @@ export const AppearBar = () => {
       }
     ];
 
-    const chapters: IStorySpec['chapters'] = [
+    const acts: IStorySpec['acts'] = [
       {
         id: 'default-chapter',
-        steps: [
-          {
-            elements: [
-              {
-                elementId: 'test-chart-0',
-                actions: [
-                  // createAppearAction(
-                  //   {
-                  //     _editor_dimension_field: 'TEST',
-                  //     _editor_type_field: 'Under 5 Years',
-                  //     _editor_value_field: 59990
-                  //   },
-                  //   500
-                  // ),
-                  // createAppearAction(
-                  //   {
-                  //     _editor_dimension_field: 'TEST',
-                  //     _editor_type_field: '5 to 13 Years',
-                  //     _editor_value_field: 69990
-                  //   },
-                  //   1000
-                  // ),
-                  // createAppearAction(
-                  //   {
-                  //     _editor_dimension_field: 'TEST',
-                  //     _editor_type_field: '14 to 17 Years',
-                  //     _editor_value_field: 79990
-                  //   },
-                  //   1500
-                  // ),
-                  {
-                    startTime: 1000,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'grow',
-                        duration: 500
-                      }
-                    }
-                  },
-                  {
-                    startTime: 1500,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'fade',
-                        duration: 500
-                      }
-                    }
-                  },
-                  {
-                    startTime: 2000,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'grow',
-                        duration: 300,
-                        oneByOne: true
-                      }
-                    }
-                  },
-                  {
-                    startTime: 3500,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        effect: 'fade',
-                        duration: 300,
-                        oneByOne: true
-                      }
+        scenes: [
+          [
+            {
+              roleId: 'test-chart-0',
+              actions: [
+                // createAppearAction(
+                //   {
+                //     _editor_dimension_field: 'TEST',
+                //     _editor_type_field: 'Under 5 Years',
+                //     _editor_value_field: 59990
+                //   },
+                //   500
+                // ),
+                // createAppearAction(
+                //   {
+                //     _editor_dimension_field: 'TEST',
+                //     _editor_type_field: '5 to 13 Years',
+                //     _editor_value_field: 69990
+                //   },
+                //   1000
+                // ),
+                // createAppearAction(
+                //   {
+                //     _editor_dimension_field: 'TEST',
+                //     _editor_type_field: '14 to 17 Years',
+                //     _editor_value_field: 79990
+                //   },
+                //   1500
+                // ),
+                {
+                  startTime: 1000,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'grow',
+                      duration: 500
                     }
                   }
-                ]
-              }
-            ]
-          }
+                },
+                {
+                  startTime: 1500,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'fade',
+                      duration: 500
+                    }
+                  }
+                },
+                {
+                  startTime: 2000,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'grow',
+                      duration: 300,
+                      oneByOne: true
+                    }
+                  }
+                },
+                {
+                  startTime: 3500,
+                  action: 'appear',
+                  payload: {
+                    animation: {
+                      effect: 'fade',
+                      duration: 300,
+                      oneByOne: true
+                    }
+                  }
+                }
+              ]
+            }
+          ]
         ]
       }
     ];
 
     const story = new Story(
-      { chapters, elements },
+      { roles, acts },
       {
         dom: document.querySelector(`#${id}`)
       }
