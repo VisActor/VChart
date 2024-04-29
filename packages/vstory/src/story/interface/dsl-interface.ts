@@ -20,12 +20,15 @@ export interface IStorySpec {
   characters: ICharacterSpec[]; // 作品中的元素
 }
 
-export interface ICharacterLink {
+export interface IActionsLink {
   characterId: string;
-  actions: IAction[];
+  characterActions: IAction[];
 }
 
-export type ISceneSpec = ICharacterLink[];
+export type ISceneSpec = {
+  id: string;
+  actions: IActionsLink[];
+};
 
 export interface IActSpec {
   id: string;

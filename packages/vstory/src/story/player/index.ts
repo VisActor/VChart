@@ -64,8 +64,8 @@ export class Player implements IPlayer {
     const characterSet: Set<ICharacter> = new Set();
     c.scenes.forEach(item => {
       const scene: IChapterInstanceItem['scenes'][0] = [];
-      item.forEach(({ actions, characterId }) => {
-        const _actions = actions.slice();
+      item.actions.forEach(({ characterActions, characterId }) => {
+        const _actions = characterActions.slice();
         _actions.sort((a, b) => a.startTime - b.startTime);
         _actions.forEach(action => {
           const character = characters[characterId];

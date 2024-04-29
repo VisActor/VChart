@@ -828,90 +828,96 @@ export const VChartSiteDemo = () => {
         {
           id: 'default-chapter',
           scenes: [
-            [
-              ...new Array(5).fill(0).map(
-                (_, i) =>
-                  ({
-                    characterId: `chart${i}`,
-                    actions: [
-                      {
-                        startTime: i * 300,
-                        duration: 1000,
-                        action: 'appear'
-                      }
-                    ]
-                  } as IRoleLink)
-              ),
-              ...new Array(5).fill(0).map(
-                (_, i) =>
-                  ({
-                    characterId: `chart${9 - i}`,
-                    actions: [
-                      {
-                        startTime: i * 300,
-                        duration: 1000,
-                        action: 'appear'
-                      }
-                    ]
-                  } as IRoleLink)
-              )
-              // {
-              //   characterId: `title1`,
-              //   actions: [
-              //     {
-              //       startTime: 1500,
-              //       duration: 500,
-              //       action: 'appear'
-              //     }
-              //   ]
-              // },
-              // {
-              //   characterId: `title2`,
-              //   actions: [
-              //     {
-              //       startTime: 2000,
-              //       duration: 500,
-              //       action: 'appear'
-              //     }
-              //   ]
-              // },
-              // ...new Array(5).fill(0).map(
-              //   (_, i) =>
-              //     ({
-              //       characterId: `chart${i}`,
-              //       actions: [
-              //         {
-              //           startTime: i * 100 + 2500,
-              //           duration: 1000,
-              //           action: 'bounce'
-              //         }
-              //       ]
-              //     } as IRoleLink)
-              // ),
-              // ...new Array(5).fill(0).map(
-              //   (_, i) =>
-              //     ({
-              //       characterId: `chart${9 - i}`,
-              //       actions: [
-              //         {
-              //           startTime: i * 100 + 2500,
-              //           duration: 1000,
-              //           action: 'bounce'
-              //         }
-              //       ]
-              //     } as IRoleLink)
-              // ),
-              // {
-              //   characterId: `subtitle`,
-              //   actions: [
-              //     {
-              //       startTime: 2700,
-              //       duration: 500,
-              //       action: 'appear'
-              //     }
-              //   ]
-              // }
-            ]
+            {
+              id: 'scene1',
+              actions: [
+                ...new Array(5).fill(0).map(
+                  (_, i) =>
+                    ({
+                      characterId: `chart${i}`,
+                      characterActions: [
+                        {
+                          startTime: i * 300,
+                          duration: 1000,
+                          action: 'appear'
+                        }
+                      ]
+                    } as ICharacterLink)
+                ),
+                ...new Array(5).fill(0).map(
+                  (_, i) =>
+                    ({
+                      characterId: `chart${9 - i}`,
+                      characterActions: [
+                        {
+                          startTime: i * 300,
+                          duration: 1000,
+                          action: 'appear'
+                        }
+                      ]
+                    } as ICharacterLink)
+                )
+              ]
+            }
+            // [
+
+            //   // {
+            //   //   characterId: `title1`,
+            //   //   actions: [
+            //   //     {
+            //   //       startTime: 1500,
+            //   //       duration: 500,
+            //   //       action: 'appear'
+            //   //     }
+            //   //   ]
+            //   // },
+            //   // {
+            //   //   characterId: `title2`,
+            //   //   actions: [
+            //   //     {
+            //   //       startTime: 2000,
+            //   //       duration: 500,
+            //   //       action: 'appear'
+            //   //     }
+            //   //   ]
+            //   // },
+            //   // ...new Array(5).fill(0).map(
+            //   //   (_, i) =>
+            //   //     ({
+            //   //       characterId: `chart${i}`,
+            //   //       actions: [
+            //   //         {
+            //   //           startTime: i * 100 + 2500,
+            //   //           duration: 1000,
+            //   //           action: 'bounce'
+            //   //         }
+            //   //       ]
+            //   //     } as IRoleLink)
+            //   // ),
+            //   // ...new Array(5).fill(0).map(
+            //   //   (_, i) =>
+            //   //     ({
+            //   //       characterId: `chart${9 - i}`,
+            //   //       actions: [
+            //   //         {
+            //   //           startTime: i * 100 + 2500,
+            //   //           duration: 1000,
+            //   //           action: 'bounce'
+            //   //         }
+            //   //       ]
+            //   //     } as IRoleLink)
+            //   // ),
+            //   // {
+            //   //   characterId: `subtitle`,
+            //   //   actions: [
+            //   //     {
+            //   //       startTime: 2700,
+            //   //       duration: 500,
+            //   //       action: 'appear'
+            //   //     }
+            //   //   ]
+            //   // }
+            // ]
             // [
             //   ...new Array(10).fill(0).map(
             //     (_, i) =>
