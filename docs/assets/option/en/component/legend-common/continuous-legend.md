@@ -14,6 +14,12 @@ Optional, continuous legend associated mapping scale id (this scale needs to be 
 
 Enable slider interaction.
 
+#${prefix} inverse(boolean)
+
+Supported since version 1.11.0
+
+Enable reverse
+
 #${prefix} defaultSelected(Array)
 
 Set the default selected legend items when the legend is initialized. Elements in the array correspond to the default filtered data range, such as `[0, 100]` which means filtering data with values between 0 and 100.
