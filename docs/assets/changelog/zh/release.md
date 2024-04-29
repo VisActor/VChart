@@ -1,3 +1,29 @@
+# v1.10.5
+
+2024-04-26
+
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: player组件支持隐藏播放的功能。新增功能[#2524](https://github.com/VisActor/VChart/issues/2524)
+
+**🐛 功能修复**
+
+- **datazoom**: 修复DataZoom组件在外部拖拽开始、结束icon，仍然触发`minSpan`和`maxSpan`更新的问题。 修复 [#2559](https://github.com/VisActor/VChart/issues/2559)
+- **@visactor/vchart**：修复连续图例指定 `seriesId` 或 `seriesIndex`的时候，图例数据计算错误的问题
+- **@visactor/vchart**：修复在 `react-vchart` 中 `eventsBinded`更新顺序问题
+- **滚动条**：修复标签位置没有和`mark`对齐的问题。修复[#2534](https://github.com/VisActor/VChart/issues/2534)
+- **滚动条**：`Scrollbar`滚动到边界时，恢复页面上的事件冒泡。修复[#2521](https://github.com/VisActor/VChart/issues/2521)
+- **@visactor/vchart**：修复更新主题是，系列也减少导致的报错
+
+**⚡ 性能优化**
+
+- **@visactor/vchart**：优化饼图性能，修复[#2568](https://github.com/VisActor/VChart/issues/2568)
+
+
+
+[更多详情请查看 v1.10.5](https://github.com/VisActor/VChart/releases/tag/v1.10.5)
+
 # v1.10.4
 
 2024-04-03

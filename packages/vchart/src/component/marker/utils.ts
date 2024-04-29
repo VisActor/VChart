@@ -244,7 +244,7 @@ export function positionLayout(positions: MarkerPositionPoint[], series: ISeries
     });
   }
 
-  const { width: canvasWidth, height: canvasHeight } = series.getOption().getChart().getCanvasRect();
+  const { width: canvasWidth, height: canvasHeight } = series.getOption().getChart().getViewRect();
   return positions.map(position => {
     let { x, y } = position;
     if (isPercent(x)) {

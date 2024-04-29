@@ -227,7 +227,38 @@ export function pieLabel(labelInfo: ILabelInfo) {
  * 瀑布图堆积标签配置规则
  */
 
-export function stackLabel(labelInfo: ILabelInfo) {
+export function stackLabelX(datum2: Datum, series: WaterfallSeries, pos: string, offset: number) {
+  if (series.direction === Direction.horizontal) {
+    if (pos === 'middle') {
+      return (series.totalPositionX(datum2, 'end') + series.totalPositionY(datum2, 'start')) * 0.5;
+    } else if (pos === 'max') {
+      return series.totalPositionX(datum2, datum2.end >= datum2.start ? 'end' : 'start') + offset;
+    } else if (pos === 'min') {
+      return series.totalPositionX(datum2, datum2.end >= datum2.start ? 'start' : 'end') - offset;
+    }
+    return series.totalPositionX(datum2, 'end') + (datum2.end >= datum2.start ? offset : -offset);
+  }
+  return series.totalPositionX(datum2, 'index', 0.5);
+}
+export function stackLabelY(datum2: Datum, series: WaterfallSeries, pos: string, offset: number) {
+  if (series.direction === Direction.horizontal) {
+    return series.totalPositionY(datum2, 'index', 0.5);
+  }
+  if (pos === 'middle') {
+    return (series.totalPositionY(datum2, 'end') + series.totalPositionY(datum2, 'start')) * 0.5;
+  } else if (pos === 'max') {
+    return series.totalPositionY(datum2, datum2.end >= datum2.start ? 'end' : 'start') - offset;
+  } else if (pos === 'min') {
+    return series.totalPositionY(datum2, datum2.end >= datum2.start ? 'start' : 'end') + offset;
+  }
+  return series.totalPositionY(datum2, 'end') + (datum2.end >= datum2.start ? -offset : offset);
+}
+
+export function stackLabel(
+  labelInfo: ILabelInfo,
+  datumTransform?: (data: any) => any,
+  attributeTransform?: (label: LabelItem, datum: Datum, att: any) => any
+) {
   const series = labelInfo.series as WaterfallSeries;
   const labelSpec = labelInfo.labelSpec || ({} as IWaterfallSeriesSpec['stackLabel']);
   const totalData = series.getTotalData();
@@ -237,36 +268,11 @@ export function stackLabel(labelInfo: ILabelInfo) {
         const pos = labelSpec.position || 'withChange';
         const offset = labelSpec.offset || 0;
 
-        const datum = label.data;
+        const datum = datumTransform ? datumTransform(label.data) : label.data;
         const attribute = textAttribute(labelInfo, datum, labelSpec.formatMethod);
-        const x = (datum: any) => {
-          if (series.direction === Direction.horizontal) {
-            if (pos === 'middle') {
-              return (series.totalPositionX(datum, 'end') + series.totalPositionY(datum, 'start')) * 0.5;
-            } else if (pos === 'max') {
-              return series.totalPositionX(datum, datum.end >= datum.start ? 'end' : 'start') + offset;
-            } else if (pos === 'min') {
-              return series.totalPositionX(datum, datum.end >= datum.start ? 'start' : 'end') - offset;
-            }
-            return series.totalPositionX(datum, 'end') + (datum.end >= datum.start ? offset : -offset);
-          }
-          return series.totalPositionX(datum, 'index', 0.5);
-        };
-        const y = (datum: any) => {
-          if (series.direction === Direction.horizontal) {
-            return series.totalPositionY(datum, 'index', 0.5);
-          }
-          if (pos === 'middle') {
-            return (series.totalPositionY(datum, 'end') + series.totalPositionY(datum, 'start')) * 0.5;
-          } else if (pos === 'max') {
-            return series.totalPositionY(datum, datum.end >= datum.start ? 'end' : 'start') - offset;
-          } else if (pos === 'min') {
-            return series.totalPositionY(datum, datum.end >= datum.start ? 'start' : 'end') + offset;
-          }
-          return series.totalPositionY(datum, 'end') + (datum.end >= datum.start ? -offset : offset);
-        };
-        attribute.x = x(datum);
-        attribute.y = y(datum);
+
+        attribute.x = stackLabelX(datum, series, pos, offset);
+        attribute.y = stackLabelY(datum, series, pos, offset);
         if (series.direction === Direction.horizontal) {
           attribute.textAlign =
             pos === 'middle'
@@ -282,6 +288,7 @@ export function stackLabel(labelInfo: ILabelInfo) {
               ? 'bottom'
               : 'top';
         }
+        attributeTransform?.(label, datum, attribute);
         return createText({ ...attribute, id: label.id });
       });
     },

@@ -124,13 +124,15 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
   protected _getSeriesLegendField(s: ISeries) {
     const defaultField = s.getSeriesField();
-    if (!this._spec.scaleName) {
+    const specifyScaleId = this._spec.scaleName ?? this._spec.scale;
+
+    if (isNil(specifyScaleId)) {
       return defaultField;
     }
     if (!s.getRawData()) {
       return defaultField;
     }
-    const scaleSpec = this._option.globalScale.getScaleSpec(this._spec.scaleName);
+    const scaleSpec = this._option.globalScale.getScaleSpec(specifyScaleId);
     if (!scaleSpec) {
       return defaultField;
     }

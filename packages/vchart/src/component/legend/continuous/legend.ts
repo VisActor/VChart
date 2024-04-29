@@ -6,17 +6,16 @@ import type { Maybe } from '@visactor/vutils';
 import { debounce, isEmpty, isNil, isArray, get } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
-import type { ISeries } from '../../../series/interface';
 import type { IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { IComponentOption } from '../../interface';
 // eslint-disable-next-line no-duplicate-imports
 import { ComponentTypeEnum } from '../../interface/type';
 // eslint-disable-next-line no-duplicate-imports
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import { eachSeries } from '../../../util/model';
+import { eachSeries, getSeries } from '../../../util/model';
 import { getFieldAlias } from '../../../util/data';
 import { isDataDomainSpec } from '../../../util/type';
-import type { IColorLegendSpec, IColorLegendTheme, ISizeLegendSpec } from './interface';
+import type { IColorLegendSpec, ISizeLegendSpec } from './interface';
 import {
   continuousLegendDataMake,
   continuousLegendFilter
@@ -129,10 +128,10 @@ export class ContinuousLegend<
       type: 'continuousLegendDataMake',
       options: {
         series: () => {
-          return this._regions.reduce((pre, r) => {
-            pre.push(...r.getSeries());
-            return pre;
-          }, [] as ISeries[]);
+          return getSeries(this._regions, {
+            userId: this._seriesUserId,
+            specIndex: this._seriesIndex
+          });
         },
         field: () => this._field,
         scale: this._getScaleInGlobal.bind(this)

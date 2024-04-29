@@ -4674,6 +4674,9 @@
         "fillOpacity": {
           "$ref": "#/definitions/VisualType<number>"
         },
+        "forceBreakLine": {
+          "$ref": "#/definitions/VisualType<boolean>"
+        },
         "height": {
           "$ref": "#/definitions/VisualType<number>"
         },
@@ -4798,6 +4801,7 @@
       },
       "required": [
         "ellipsis",
+        "forceBreakLine",
         "height",
         "layoutDirection",
         "maxHeight",
@@ -8342,6 +8346,112 @@
         "textContent"
       ],
       "type": "object"
+    },
+    "ElementSelectTriggerOff": {
+      "anyOf": [
+        {
+          "enum": [
+            "click",
+            "dblclick",
+            "drag",
+            "dragend",
+            "dragenter",
+            "dragleave",
+            "dragover",
+            "dragstart",
+            "drop",
+            "empty",
+            "mousedown",
+            "mouseenter",
+            "mouseleave",
+            "mousemove",
+            "mouseout",
+            "mouseover",
+            "mouseup",
+            "mouseupoutside",
+            "none",
+            "pan",
+            "panend",
+            "panstart",
+            "pinch",
+            "pinchend",
+            "pinchstart",
+            "pointerdown",
+            "pointerenter",
+            "pointerleave",
+            "pointermove",
+            "pointerout",
+            "pointerover",
+            "pointertap",
+            "pointerup",
+            "pointerupoutside",
+            "press",
+            "pressend",
+            "pressup",
+            "resize",
+            "rightdown",
+            "rightup",
+            "rightupoutside",
+            "swipe",
+            "tap",
+            "touchcancel",
+            "touchend",
+            "touchendoutside",
+            "touchmove",
+            "touchstart",
+            "view:click",
+            "view:dblclick",
+            "view:drag",
+            "view:dragend",
+            "view:dragenter",
+            "view:dragleave",
+            "view:dragover",
+            "view:dragstart",
+            "view:drop",
+            "view:mousedown",
+            "view:mouseenter",
+            "view:mouseleave",
+            "view:mousemove",
+            "view:mouseout",
+            "view:mouseover",
+            "view:mouseup",
+            "view:mouseupoutside",
+            "view:pan",
+            "view:panend",
+            "view:panstart",
+            "view:pinch",
+            "view:pinchend",
+            "view:pinchstart",
+            "view:pointerdown",
+            "view:pointerenter",
+            "view:pointerleave",
+            "view:pointerout",
+            "view:pointerover",
+            "view:pointertap",
+            "view:pointerup",
+            "view:pointerupoutside",
+            "view:press",
+            "view:pressend",
+            "view:pressup",
+            "view:rightdown",
+            "view:rightup",
+            "view:rightupoutside",
+            "view:swipe",
+            "view:tap",
+            "view:touchcancel",
+            "view:touchend",
+            "view:touchendoutside",
+            "view:touchmove",
+            "view:touchstart",
+            "view:wheel",
+            "wheel"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ]
     },
     "ElementSpec": {
       "anyOf": [
@@ -31085,6 +31195,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -31693,6 +31806,11 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表右侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
+        "scale": {
+          "description": "scale must match the id of the scale configured in **scales**\n离散图例对应的scale",
+          "since": "1.10.5",
+          "type": "string"
+        },
         "scaleCenter": {
           "items": [
             {
@@ -31713,7 +31831,7 @@
           "type": "array"
         },
         "scaleName": {
-          "description": "scaleName must match the id of the scale configured in **scales**",
+          "description": "同`scale`，为了和连续图例保持一致，建议统一为`scale`",
           "type": "string"
         },
         "scaleX": {
@@ -51714,6 +51832,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -65250,6 +65371,9 @@
         "pause": {
           "typeof": "function"
         },
+        "remTimeline": {
+          "typeof": "function"
+        },
         "resume": {
           "typeof": "function"
         },
@@ -65275,6 +65399,7 @@
       "required": [
         "addTimeline",
         "pause",
+        "remTimeline",
         "resume",
         "start",
         "stop",
@@ -72972,7 +73097,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         },
         "size": {
@@ -72980,14 +73105,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12945",
+        "__@toStringTag@12965",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicPicker>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         },
         "size": {
@@ -72995,14 +73120,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12945",
+        "__@toStringTag@12965",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         },
         "size": {
@@ -73010,14 +73135,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12945",
+        "__@toStringTag@12965",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         },
         "size": {
@@ -73025,14 +73150,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12945",
+        "__@toStringTag@12965",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         },
         "size": {
@@ -73040,14 +73165,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12945",
+        "__@toStringTag@12965",
         "size"
       ],
       "type": "object"
     },
     "Map<string,any>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         },
         "size": {
@@ -73055,14 +73180,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12945",
+        "__@toStringTag@12965",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         },
         "size": {
@@ -73070,14 +73195,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12945",
+        "__@toStringTag@12965",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         },
         "size": {
@@ -73085,14 +73210,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12945",
+        "__@toStringTag@12965",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         },
         "size": {
@@ -73100,7 +73225,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12945",
+        "__@toStringTag@12965",
         "size"
       ],
       "type": "object"
@@ -73669,6 +73794,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -76377,6 +76505,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -78534,6 +78665,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -79059,6 +79193,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -79899,6 +80036,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -80357,6 +80497,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -80868,6 +81011,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -81344,6 +81490,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -81782,6 +81931,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -82204,6 +82356,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -82674,6 +82829,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -83389,6 +83547,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -84638,6 +84799,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -85056,6 +85220,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -85738,6 +85905,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -86171,6 +86341,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -86970,6 +87143,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -87398,6 +87574,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -88555,6 +88734,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -89081,6 +89263,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -89506,6 +89691,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -91559,7 +91747,7 @@
           "anyOf": [
             {
               "items": {
-                "$ref": "#/definitions/EventType"
+                "$ref": "#/definitions/ElementSelectTriggerOff"
               },
               "type": "array"
             },
@@ -91941,34 +92129,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12945"
+        "__@toStringTag@12965"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12945"
+        "__@toStringTag@12965"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12945": {
+        "__@toStringTag@12965": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12945"
+        "__@toStringTag@12965"
       ],
       "type": "object"
     },
@@ -92194,6 +92382,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -92528,6 +92719,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -92735,6 +92927,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -93054,6 +93249,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -93259,6 +93455,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -93549,6 +93748,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -93748,6 +93948,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -94061,6 +94264,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -94279,6 +94483,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -94626,6 +94833,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -94832,6 +95040,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -95151,6 +95362,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -95353,6 +95565,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -95675,6 +95890,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -95881,6 +96097,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -96175,6 +96394,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -96373,6 +96593,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -96676,6 +96899,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -96875,6 +97099,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -97184,6 +97411,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -97386,6 +97614,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -97692,6 +97923,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -97894,6 +98126,9 @@
           ],
           "type": "string"
         },
+        "backgroundOpacity": {
+          "type": "number"
+        },
         "beta": {
           "type": "number"
         },
@@ -97980,6 +98215,9 @@
             "string",
             "number"
           ]
+        },
+        "forceBreakLine": {
+          "type": "boolean"
         },
         "globalCompositeOperation": {
           "enum": [
@@ -98327,6 +98565,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -98348,6 +98587,7 @@
         "fontStyle",
         "fontVariant",
         "fontWeight",
+        "forceBreakLine",
         "globalCompositeOperation",
         "globalZIndex",
         "height",
@@ -98582,6 +98822,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "backgroundRadius": {
           "type": "number"
@@ -98965,6 +99208,7 @@
         "backgroundFit",
         "backgroundHeight",
         "backgroundMode",
+        "backgroundOpacity",
         "backgroundRadius",
         "backgroundShowMode",
         "backgroundStroke",
@@ -99177,6 +99421,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -99481,6 +99728,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",
@@ -99679,6 +99927,9 @@
             "repeat-y"
           ],
           "type": "string"
+        },
+        "backgroundOpacity": {
+          "type": "number"
         },
         "beta": {
           "type": "number"
@@ -100086,6 +100337,7 @@
         "backgroundCornerRadius",
         "backgroundFit",
         "backgroundMode",
+        "backgroundOpacity",
         "beta",
         "blur",
         "boundsMode",

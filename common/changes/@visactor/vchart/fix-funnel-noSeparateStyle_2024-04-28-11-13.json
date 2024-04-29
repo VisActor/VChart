@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(scrollbar): label position not align with mark. fix#2534",
+      "comment": "fix: duplicated categoryField data in funnel will result to unexpected rendering result",
       "type": "none"
     }
   ],

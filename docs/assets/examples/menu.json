@@ -1274,6 +1274,13 @@
             "zh": "带内边距的 CirclePacking 图",
             "en": "CirclePacking Chart with Padding"
           }
+        },
+        {
+          "path": "bubble-circle-packing",
+          "title": {
+            "zh": "气泡图",
+            "en": "Bubble CirclePacking Chart"
+          }
         }
       ]
     },
@@ -1867,6 +1874,13 @@
           "title": {
             "zh": "图例使用滚动条翻页",
             "en": "Scrollbar of legend"
+          }
+        },
+        {
+          "path": "discrete-legend-scale",
+          "title": {
+            "zh": "离散图例指定scale",
+            "en": "specify scale of discrete legend"
           }
         }
       ]

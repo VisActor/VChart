@@ -2,6 +2,39 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.10.5",
+      "tag": "@visactor/vchart_v1.10.5",
+      "date": "Thu, 25 Apr 2024 11:57:23 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix(datazoom): when drag start and end handler outside, min and max span not work. fix#2559"
+          },
+          {
+            "comment": "feat: player support play when hidden. feat#2524"
+          },
+          {
+            "comment": "fix: fix domain of continuous legend when specify seriesId or seriesIndex\n\n"
+          },
+          {
+            "comment": "fix: fix eventsBinded update in react-vchart"
+          },
+          {
+            "comment": "fix(scrollbar): label position not align with mark. fix#2534"
+          },
+          {
+            "comment": "fix(scrollbar): enable bubble when scroll to boundary. fix#2521"
+          },
+          {
+            "comment": "fix: fix error of update theme when series reduce\n\n"
+          },
+          {
+            "comment": "perf: optimize the performance of pie chart, fix #2568\n\n"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.10.4",
       "tag": "@visactor/vchart_v1.10.4",
       "date": "Wed, 03 Apr 2024 09:30:23 GMT",
