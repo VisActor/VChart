@@ -62,6 +62,7 @@ export interface IChart extends ICompilable {
 
   setCanvasRect: (width: number, height: number) => void;
   getCanvasRect: () => ILayoutRect;
+  getViewRect: () => ILayoutRect;
 
   getOption: () => IChartOption;
 
