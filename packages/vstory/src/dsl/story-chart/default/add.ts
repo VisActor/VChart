@@ -1,4 +1,4 @@
-import type { IChartAddPayload } from '../../types/chart/Add';
+import type { IChartAddPayload } from '../../types/chart/add';
 
 export const defaultAdd: { payload: Partial<IChartAddPayload> } = {
   payload: {

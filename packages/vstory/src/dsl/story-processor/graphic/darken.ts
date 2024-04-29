@@ -1,6 +1,6 @@
 import { IRole } from '../../../story/role';
-import { IDarkenAction } from '../../types/common/Darken';
-import { darken } from './effect/Shade';
+import { IDarkenAction } from '../../types/common/darken';
+import { darken } from './effect/shade';
 import { getRoleGraphic } from './util';
 
 // TODO: 类型问题

@@ -1,14 +1,12 @@
 import VChart, { ISpec } from '@visactor/vchart';
-import { getAllSeriesMarksWithoutRoot } from '../../../../../util/vchart-api';
-import { AppearAction } from '../../../../types/Appear';
 import { merge } from '@visactor/vutils';
 import { defaultPayload } from './default';
 import { transformLineAppear } from '../transform/transformLineAppear';
-import { getAllSeriesMarksByMarkType } from '../../utils';
 import { transformLineSymbolAppear } from '../transform/transformLineSymbolAppear';
 import { getAllSeries, getSeriesMarksByMarkType } from '../../utils/series';
+import { IChartAppearAction } from '../../../../types/chart/appear';
 
-export const lineAppearProcessor = async (chartInstance: VChart, spec: ISpec, action: AppearAction) => {
+export const lineAppearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
   const vchart = (chartInstance as any)?._graphic?._vchart;
 
   const instance: VChart = vchart ? vchart : chartInstance;
@@ -23,7 +21,7 @@ export const lineAppearProcessor = async (chartInstance: VChart, spec: ISpec, ac
 
     if (lineMarks.length) {
       const { payload } = action;
-      const mergePayload = merge({}, defaultPayload, payload) as AppearAction['payload'];
+      const mergePayload = merge({}, defaultPayload, payload) as IChartAppearAction['payload'];
       lineMarks.forEach((mark, markIndex) => {
         const product = mark.getProduct();
         const config = transformLineAppear(instance, mergePayload.animation, seriesIndex + markIndex);

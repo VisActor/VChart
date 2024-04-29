@@ -954,12 +954,19 @@ export const VChartSiteDemo = () => {
             //       } as IRoleLink)
             //   ),
             //   {
-            //     roleId: `subtitle`,
+            //     roleId: `titlesubtitle`,
             //     actions: [
             //       {
             //         startTime: 0,
-            //         duration: 0,
-            //         action: 'disappear'
+            //         duration: 200,
+            //         action: 'disappear',
+            //         payload: {
+            //           animation: {
+            //             effect: 'fade',
+            //             duration: 200,
+            //             easing: 'linear'
+            //           }
+            //         }
             //       }
             //     ]
             //   },
@@ -969,14 +976,14 @@ export const VChartSiteDemo = () => {
             //       {
             //         startTime: 0,
             //         duration: 500,
-            //         action: 'move',
-            //         position: { left: 200, top: 100 }
+            //         action: 'moveTo',
+            //         destination: { left: 200, top: 100 }
             //       },
             //       {
             //         startTime: 0,
             //         duration: 500,
             //         action: 'style',
-            //         style: { fontSize: 40 }
+            //         graphic: { fontSize: 40 }
             //       }
             //     ]
             //   },
@@ -986,14 +993,14 @@ export const VChartSiteDemo = () => {
             //       {
             //         startTime: 0,
             //         duration: 500,
-            //         action: 'move',
-            //         position: { left: 400, top: 100 }
+            //         action: 'moveTo',
+            //         destination: { left: 400, top: 100 }
             //       },
             //       {
             //         startTime: 0,
             //         duration: 500,
             //         action: 'style',
-            //         style: { fontSize: 40 }
+            //         graphic: { fontSize: 40 }
             //       }
             //     ]
             //   },
@@ -1006,22 +1013,22 @@ export const VChartSiteDemo = () => {
             //         action: 'appear'
             //       }
             //     ]
-            //   },
-            //   {
-            //     roleId: `roadmap`,
-            //     actions: [
-            //       {
-            //         startTime: 1000,
-            //         duration: 500,
-            //         action: 'appear'
-            //       },
-            //       {
-            //         startTime: 1000,
-            //         duration: 500,
-            //         action: 'stream'
-            //       }
-            //     ]
             //   }
+            //   // {
+            //   //   roleId: `roadmap`,
+            //   //   actions: [
+            //   //     {
+            //   //       startTime: 1000,
+            //   //       duration: 500,
+            //   //       action: 'appear'
+            //   //     },
+            //   //     {
+            //   //       startTime: 1000,
+            //   //       duration: 500,
+            //   //       action: 'stream'
+            //   //     }
+            //   //   ]
+            //   // }
             // ]
           ]
         }

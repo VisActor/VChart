@@ -1,6 +1,6 @@
 import VChart from '@visactor/vchart';
 import { IOrientType } from '@visactor/vchart/src/typings';
-import { IChartAppearAction } from '../../../../types/chart/Appear';
+import { IChartAppearAction } from '../../../../types/chart/appear';
 
 // 将payload转换为chart内置的动画type
 export const transformRectAppear = (instance: VChart, animation: IChartAppearAction['payload']['animation']) => {

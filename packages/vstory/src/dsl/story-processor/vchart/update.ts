@@ -1,6 +1,6 @@
 import VChart, { IChartSpec } from '@visactor/vchart';
 import { cloneDeep, isEqual } from '@visactor/vutils';
-import { IChartUpdateAction } from '../../types/chart/Update';
+import { IChartUpdateAction } from '../../types/chart/update';
 
 export const updateProcessor = async (chartInstance: VChart, spec: IChartSpec, updateAction: IChartUpdateAction) => {
   const action = updateAction;
