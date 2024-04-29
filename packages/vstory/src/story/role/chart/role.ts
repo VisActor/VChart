@@ -14,6 +14,25 @@ import { manualTicker } from '../../player/ticker';
 import { IChartTemp } from './temp/interface';
 import { SeriesSpecRuntime } from './runtime/series-spec';
 
+const tempSpec = {
+  type: 'bar',
+  data: [
+    {
+      id: 'barData',
+      values: [
+        { month: 'Monday', sales: 22 },
+        { month: 'Tuesday', sales: 13 },
+        { month: 'Wednesday', sales: 25 },
+        { month: 'Thursday', sales: 29 },
+        { month: 'Friday', sales: 38 }
+      ]
+    }
+  ],
+  xField: 'month',
+  yField: 'sales',
+  axes: [{ orient: 'bottom', label: { visible: false } }]
+};
+
 export class RoleChart extends RoleVisactor {
   static type = 'RoleChart';
   static RunTime: IChartRoleRuntimeConstructor[] = [

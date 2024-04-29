@@ -10,6 +10,7 @@ import { AreaChartRole } from './role/chart/roles/area';
 import { PieChartRole } from './role/chart/roles/pie';
 import { ScatterChartRole } from './role/chart/roles/scatter';
 import { RangeColumnChartRole } from './role/chart/roles/rangeColumn';
+import { RoleComponentText } from './role/component/roles/role-text';
 
 StoryFactory.registerRole(BarChartRole.type, BarChartRole);
 StoryFactory.registerRole(LineChartRole.type, RoleChart);
@@ -19,8 +20,12 @@ StoryFactory.registerRole(PieChartRole.type, PieChartRole);
 StoryFactory.registerRole(ScatterChartRole.type, ScatterChartRole);
 StoryFactory.registerRole(RangeColumnChartRole.type, RangeColumnChartRole);
 
+// StoryFactory.registerRole('BarChart', RoleChart);
+// StoryFactory.registerRole('RoleChart', RoleChart);
 // StoryFactory.registerRole('LineChart', RoleChart);
 StoryFactory.registerRole('RectComponent', RoleComponentRect);
+StoryFactory.registerRole('TextComponent', RoleComponentText);
+
 StoryFactory.registerRole('QipaoComponent', RoleComponentQipao);
 
 const splitModule = new ContainerModule((bind, unbind, isBound, rebind) => {

@@ -13,6 +13,7 @@ import { AppearLine } from './demos/AppearLine';
 import { AppearPie } from './demos/AppearPie';
 import { GraphicActionDemo } from './demos/graphicAction';
 import { VChartSiteDemo } from './demos/VchartSite';
+import { ChartHistory } from './demos/ChartHistory';
 
 const App = () => {
   const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
@@ -64,6 +65,10 @@ const App = () => {
     {
       name: 'VChart-Site',
       component: VChartSiteDemo
+    },
+    {
+      name: 'ChartHistory',
+      component: ChartHistory
     }
   ];
 

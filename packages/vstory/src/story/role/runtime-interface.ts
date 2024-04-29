@@ -11,6 +11,7 @@ export interface IRole {
   reset(): void;
   show(): void;
   hide(): void;
+  getGraphicParent(): IGroup;
   tickTo(t: number): void;
 }
 

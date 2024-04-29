@@ -3,7 +3,7 @@ import { StoryChartComponentType, StoryChartType, StoryGraphicType } from '../..
 import { addProcessor } from '../vchart/add';
 import { createMarkStyleProcessorByMarkType } from '../vchart/style/style';
 import { updateProcessor } from '../vchart/update';
-import { qipaoAppearProcessor, rectAppearProcessor } from '../graphic/appear';
+import { qipaoAppearProcessor, rectAppearProcessor, textAppearProcessor } from '../graphic/appear';
 import { barAppearProcessor, lineAppearProcessor, pieAppearProcessor } from '../vchart/appear';
 import { createMarkPointProcessor, markPointFlickerProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
@@ -11,7 +11,9 @@ import { lineStyleProcessor } from '../vchart/style/lineStyle';
 import { danceProcessor } from '../vchart/dance';
 import { flickerProcessor } from '../graphic/flicker';
 import { darkenProcessor } from '../graphic/darken';
-import { brightenProcessor } from '../graphic/brighter';
+import { brightenProcessor } from '../graphic/brighten';
+import { moveToProcessor } from '../graphic/moveTo';
+import { styleProcessor } from '../graphic/style';
 
 /**
  * 通用的编辑processor
@@ -92,6 +94,12 @@ export const processorMarkMap = {
   [StoryGraphicType.QIPAO]: {
     appear: qipaoAppearProcessor,
     flicker: flickerProcessor
+  },
+  [StoryGraphicType.TEXT]: {
+    appear: textAppearProcessor, // TODO: 统一处理一下
+    flicker: flickerProcessor,
+    moveTo: moveToProcessor,
+    style: styleProcessor
   }
 };
 
