@@ -1,16 +1,16 @@
-import { IDataParserConstructor } from '../role/visactor/interface';
-import { IGraphicConstructor } from '../role/component/graphic/graphic';
-import { IRoleConstructor, IRoleInitOption } from '../role/runtime-interface';
-import { IRoleSpec } from '../role/dsl-interface';
-import { IChartTempConstructor } from '../role/chart/temp/interface';
+import { IDataParserConstructor } from '../character/visactor/interface';
+import { IGraphicConstructor } from '../character/component/graphic/graphic';
+import { ICharacterConstructor, ICharacterInitOption } from '../character/runtime-interface';
+import { ICharacterSpec } from '../character/dsl-interface';
+import { IChartTempConstructor } from '../character/chart/temp/interface';
 
 export class StoryFactory {
-  static roleMap: { [key: string]: IRoleConstructor } = {};
-  static registerRole(type: string, c: IRoleConstructor) {
-    StoryFactory.roleMap[type] = c;
+  static characterMap: { [key: string]: ICharacterConstructor } = {};
+  static registerCharacter(type: string, c: ICharacterConstructor) {
+    StoryFactory.characterMap[type] = c;
   }
-  static createRole(spec: IRoleSpec, opt: IRoleInitOption) {
-    const classC = StoryFactory.roleMap[spec.type];
+  static createCharacter(spec: ICharacterSpec, opt: ICharacterInitOption) {
+    const classC = StoryFactory.characterMap[spec.type];
     if (!classC) {
       console.error('获取模板失败', spec);
       return null;

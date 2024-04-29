@@ -1,4 +1,4 @@
-import { IRole } from '../role';
+import { ICharacter } from '../character';
 import { IActSpec } from './dsl-interface';
 
 export interface IPlayer {
@@ -9,8 +9,8 @@ export interface IPlayer {
   release(): void;
   addAct(
     c: IActSpec,
-    roles: {
-      [key: string]: IRole;
+    characters: {
+      [key: string]: ICharacter;
     }
   ): void;
   setCurrentAct(id: number | string): void;

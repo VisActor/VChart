@@ -1,32 +1,32 @@
-import { RoleComponentQipao } from './role/component/roles/role-qipao';
-import { RoleComponentRect } from './role/component/roles/role-rect';
+import { CharacterComponentQipao } from './character/component/characters/role-qipao';
+import { CharacterComponentRect } from './character/component/characters/role-rect';
 import { StoryFactory } from './factory/factory';
-import { RoleChart } from './role/chart/role';
+import { CharacterChart } from './character/chart/character';
 import { ContainerModule, GraphicRender, container } from '@visactor/vrender-core';
-import { ChartRender, VChartRender } from './role/chart/graphic/vchart-graphic-render';
-import { BarChartRole } from './role/chart/roles/bar';
-import { LineChartRole } from './role/chart/roles/line';
-import { AreaChartRole } from './role/chart/roles/area';
-import { PieChartRole } from './role/chart/roles/pie';
-import { ScatterChartRole } from './role/chart/roles/scatter';
-import { RangeColumnChartRole } from './role/chart/roles/rangeColumn';
-import { RoleComponentText } from './role/component/roles/role-text';
+import { ChartRender, VChartRender } from './character/chart/graphic/vchart-graphic-render';
+import { BarChartCharacter } from './character/chart/characters/bar';
+import { LineChartCharacter } from './character/chart/characters/line';
+import { AreaChartCharacter } from './character/chart/characters/area';
+import { PieChartCharacter } from './character/chart/characters/pie';
+import { ScatterChartCharacter } from './character/chart/characters/scatter';
+import { RangeColumnChartCharacter } from './character/chart/characters/rangeColumn';
+import { CharacterComponentText } from './character/component/characters/role-text';
 
-StoryFactory.registerRole(BarChartRole.type, BarChartRole);
-StoryFactory.registerRole(LineChartRole.type, RoleChart);
-StoryFactory.registerRole(RoleChart.type, RoleChart);
-StoryFactory.registerRole(AreaChartRole.type, AreaChartRole);
-StoryFactory.registerRole(PieChartRole.type, PieChartRole);
-StoryFactory.registerRole(ScatterChartRole.type, ScatterChartRole);
-StoryFactory.registerRole(RangeColumnChartRole.type, RangeColumnChartRole);
+StoryFactory.registerCharacter(BarChartCharacter.type, BarChartCharacter);
+StoryFactory.registerCharacter(LineChartCharacter.type, CharacterChart);
+StoryFactory.registerCharacter(CharacterChart.type, CharacterChart);
+StoryFactory.registerCharacter(AreaChartCharacter.type, AreaChartCharacter);
+StoryFactory.registerCharacter(PieChartCharacter.type, PieChartCharacter);
+StoryFactory.registerCharacter(ScatterChartCharacter.type, ScatterChartCharacter);
+StoryFactory.registerCharacter(RangeColumnChartCharacter.type, RangeColumnChartCharacter);
 
-// StoryFactory.registerRole('BarChart', RoleChart);
-// StoryFactory.registerRole('RoleChart', RoleChart);
-// StoryFactory.registerRole('LineChart', RoleChart);
-StoryFactory.registerRole('RectComponent', RoleComponentRect);
-StoryFactory.registerRole('TextComponent', RoleComponentText);
+// StoryFactory.registerCharacter('BarChart', CharacterChart);
+// StoryFactory.registerCharacter('CharacterChart', CharacterChart);
+// StoryFactory.registerCharacter('LineChart', CharacterChart);
+StoryFactory.registerCharacter('RectComponent', CharacterComponentRect);
+StoryFactory.registerCharacter('TextComponent', CharacterComponentText);
 
-StoryFactory.registerRole('QipaoComponent', RoleComponentQipao);
+StoryFactory.registerCharacter('QipaoComponent', CharacterComponentQipao);
 
 const splitModule = new ContainerModule((bind, unbind, isBound, rebind) => {
   // chart渲染器注入

@@ -1,12 +1,12 @@
-import type { IRole } from '../../../story/role';
+import type { ICharacter } from '../../../story/character';
 import type { AppearOption } from '../../types/Appear';
 import { brighten } from './effect/darken';
-import { getRoleGraphic } from './util';
+import { getCharacterGraphic } from './util';
 
 // TODO: 类型问题
-export const brightenProcessor = async (role: IRole, spec = {}, appearAction: AppearOption) => {
+export const brightenProcessor = async (character: ICharacter, spec = {}, appearAction: AppearOption) => {
   const { animation } = appearAction.payload ?? {};
-  const graphics = getRoleGraphic(role).filter(graphic => graphic.type !== 'text');
+  const graphics = getCharacterGraphic(character).filter(graphic => graphic.type !== 'text');
   graphics.forEach(graphic => {
     brighten(graphic, animation);
   });

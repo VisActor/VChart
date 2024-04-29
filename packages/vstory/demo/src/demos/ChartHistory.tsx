@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IRoleLink, IStorySpec } from '../../../src/story/interface';
 import { Story } from '../../../src/story/story';
 import '../../../src/story/index';
-import { IComponentRoleSpec, IRoleSpecBase } from '../../../src/story/role';
+import { IComponentRoleSpec, IRoleSpecBase } from '../../../src/story/character';
 import { StoryGraphicType } from '../../../src/dsl/constant';
 
 const duration = 2000;

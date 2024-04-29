@@ -4,7 +4,7 @@ import { IActSpec, IAction } from '../interface';
 import { IPlayer } from '../interface/player';
 import { processorMap } from '../../dsl/story-processor';
 import { Encoder } from './encode';
-import { IRole } from '../role';
+import { ICharacter } from '../character';
 
 export class Ticker {
   cb?: (delta: number) => void;
@@ -31,11 +31,11 @@ type IChapterInstanceItem = {
   id: string;
   scenes: Array<
     {
-      role: IRole;
+      character: ICharacter;
       action: IAction;
     }[]
   >;
-  roles: IRole[];
+  characters: ICharacter[];
 };
 
 export class Player implements IPlayer {
@@ -56,24 +56,24 @@ export class Player implements IPlayer {
 
   addAct(
     c: IActSpec,
-    roles: {
-      [key: string]: IRole;
+    characters: {
+      [key: string]: ICharacter;
     }
   ): void {
     const scenes: IChapterInstanceItem['scenes'] = [];
-    const roleSet: Set<IRole> = new Set();
+    const characterSet: Set<ICharacter> = new Set();
     c.scenes.forEach(item => {
       const scene: IChapterInstanceItem['scenes'][0] = [];
-      item.forEach(({ actions, roleId }) => {
+      item.forEach(({ actions, characterId }) => {
         const _actions = actions.slice();
         _actions.sort((a, b) => a.startTime - b.startTime);
         _actions.forEach(action => {
-          const role = roles[roleId];
+          const character = characters[characterId];
           scene.push({
-            role,
+            character,
             action: action
           });
-          roleSet.add(role);
+          characterSet.add(character);
         });
       });
       scenes.push(scene);
@@ -81,7 +81,7 @@ export class Player implements IPlayer {
     this._acts.push({
       id: c.id,
       scenes: scenes,
-      roles: Array.from(roleSet.values())
+      characters: Array.from(characterSet.values())
     });
   }
 
@@ -95,7 +95,7 @@ export class Player implements IPlayer {
 
   // 清除当前状态，一般用于回放操作
   reset() {
-    this._currAct.roles.forEach(item => {
+    this._currAct.characters.forEach(item => {
       item.reset();
     });
   }
@@ -109,25 +109,25 @@ export class Player implements IPlayer {
       this._currTime = 0;
       this.tickTo(0);
     }
-    const roleSet = new Set<IRole>();
+    const characterSet = new Set<ICharacter>();
     this._currAct.scenes.forEach(scene => {
-      scene.forEach(({ role, action }) => {
+      scene.forEach(({ character, action }) => {
         const { startTime } = action;
         if (startTime > t) {
           return;
         }
-        roleSet.add(role);
+        characterSet.add(character);
         // 之前没走过，现在走
         if (startTime > lastTime && startTime <= t) {
           console.log('abc');
-          const { type } = role.spec;
+          const { type } = character.spec;
           const process = processorMap[type];
           if (process) {
             const func = process[action.action];
-            func && func(role, {}, action);
+            func && func(character, {}, action);
           }
         }
-        role.show();
+        character.show();
       });
     });
 

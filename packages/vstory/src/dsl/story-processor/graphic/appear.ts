@@ -1,11 +1,11 @@
 import { AppearAction } from '../../types/Appear';
-import { IRole } from '../../../story/role';
+import { ICharacter } from '../../../story/character';
 import { commonAppearEffect } from './effect/appear';
-import { getRoleGraphic } from './util';
+import { getCharacterGraphic } from './util';
 import { typewriter } from './effect/typewriter';
 import { IText } from '@visactor/vrender-core';
 
-export const rectAppearProcessor = async (role: IRole, spec = {}, appearAction: AppearAction) => {
+export const rectAppearProcessor = async (character: ICharacter, spec = {}, appearAction: AppearAction) => {
   const { animation } = appearAction.payload ?? {};
   const { effect } = animation;
   // if (effect === 'moveIn') {
@@ -15,7 +15,7 @@ export const rectAppearProcessor = async (role: IRole, spec = {}, appearAction: 
   // } else {
 
   // }
-  const graphics = getRoleGraphic(role);
+  const graphics = getCharacterGraphic(character);
   graphics.forEach(graphic => {
     if (!commonAppearEffect(graphic, effect, animation)) {
       // rect 自身特有 appear 效果
@@ -23,10 +23,10 @@ export const rectAppearProcessor = async (role: IRole, spec = {}, appearAction: 
   });
 };
 
-export const qipaoAppearProcessor = async (role: IRole, spec = {}, appearAction: AppearAction) => {
+export const qipaoAppearProcessor = async (character: ICharacter, spec = {}, appearAction: AppearAction) => {
   const { animation } = appearAction.payload ?? {};
   const { effect } = animation;
-  const graphics = getRoleGraphic(role);
+  const graphics = getCharacterGraphic(character);
   graphics.forEach(graphic => {
     if (!commonAppearEffect(graphic, effect, animation)) {
       // rect 自身特有 appear 效果
@@ -34,10 +34,10 @@ export const qipaoAppearProcessor = async (role: IRole, spec = {}, appearAction:
   });
 };
 
-export const textAppearProcessor = async (role: IRole, spec = {}, appearAction: AppearAction) => {
+export const textAppearProcessor = async (character: ICharacter, spec = {}, appearAction: AppearAction) => {
   const { animation } = appearAction.payload ?? {};
   const { effect } = animation;
-  const graphics = getRoleGraphic(role);
+  const graphics = getCharacterGraphic(character);
   const textGraphics = graphics.filter(graphic => graphic.type === 'text') as IText[];
   textGraphics.forEach(text => {
     if (!commonAppearEffect(text, effect, animation)) {

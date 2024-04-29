@@ -1,9 +1,9 @@
-import { IRoleSpec } from './role/dsl-interface';
+import { ICharacterSpec } from './character/dsl-interface';
 import { isString } from '@visactor/vutils';
 import { IStory, IStoryInitOption } from './interface/runtime-interface';
-import { IRole } from './role/runtime-interface';
+import { ICharacter } from './character/runtime-interface';
 import { StoryCanvas } from './canvas/canvas';
-import { IStorySpec, IRoleLink, IActSpec } from './interface';
+import { IStorySpec, ICharacterLink, IActSpec } from './interface';
 import { StoryFactory } from './factory/factory';
 import { defaultTicker, defaultTimeline } from '@visactor/vrender-core';
 import { IPlayer } from './interface/player';
@@ -20,7 +20,7 @@ export class Story implements IStory {
 
   protected _canvas: StoryCanvas;
 
-  protected _roles: { [key: string]: IRole } = {};
+  protected _characters: { [key: string]: ICharacter } = {};
 
   constructor(spec: IStorySpec, option: IStoryInitOption) {
     this.id = 'test-mvp_' + Story._id_++;
@@ -37,8 +37,8 @@ export class Story implements IStory {
   }
 
   load(spec: IStorySpec) {
-    spec.roles.forEach(e => {
-      this._createRole(e);
+    spec.characters.forEach(e => {
+      this._createCharacter(e);
     });
     // @ts-ignore
     spec.acts.forEach(e => {
@@ -46,25 +46,25 @@ export class Story implements IStory {
     });
   }
 
-  public getRoles(): { [key: string]: IRole } {
-    return this._roles;
+  public getCharacters(): { [key: string]: ICharacter } {
+    return this._characters;
   }
 
-  private _createRole(spec: IRoleSpec | IRoleLink) {
+  private _createCharacter(spec: ICharacterSpec | ICharacterLink) {
     const option = { story: this, canvas: this._canvas, graphicParent: this._canvas.getStage().defaultLayer };
-    if ((<IRoleSpec>spec).id) {
-      if (!this._roles[(<IRoleSpec>spec).id]) {
-        this._roles[(<IRoleSpec>spec).id] = StoryFactory.createRole(<IRoleSpec>spec, option);
+    if ((<ICharacterSpec>spec).id) {
+      if (!this._characters[(<ICharacterSpec>spec).id]) {
+        this._characters[(<ICharacterSpec>spec).id] = StoryFactory.createCharacter(<ICharacterSpec>spec, option);
       }
-      return this._roles[(<IRoleSpec>spec).id];
-    } else if ((<IRoleLink>spec).roleId) {
-      return this._roles[(<IRoleLink>spec).roleId];
+      return this._characters[(<ICharacterSpec>spec).id];
+    } else if ((<ICharacterLink>spec).characterId) {
+      return this._characters[(<ICharacterLink>spec).characterId];
     }
     return null;
   }
 
   private _createAct(spec: IActSpec) {
-    this._player.addAct(spec, this._roles);
+    this._player.addAct(spec, this._characters);
   }
 
   play(actIndex = 0) {

@@ -1,10 +1,10 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import type { IRole } from '../../../story/role';
+import type { ICharacter } from '../../../story/character';
 
-export function getRoleGraphic(role: IRole) {
-  return role.getGraphicParent().getChildren() as IGraphic[];
+export function getCharacterGraphic(character: ICharacter) {
+  return character.getGraphicParent().getChildren() as IGraphic[];
 }
 
-export function getRoleParentGraphic(role: IRole) {
-  return role.getGraphicParent();
+export function getCharacterParentGraphic(character: ICharacter) {
+  return character.getGraphicParent();
 }
