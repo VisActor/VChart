@@ -719,7 +719,7 @@ export const VChartSiteDemo = () => {
     // 准备一个图表
     const tempSpec: IStorySpec = {
       roles: [
-        ...chartSpecList.map((item, i) => ({
+        ...(chartSpecList.map((item, i) => ({
           type: item.roleType ?? 'RoleChart',
           id: `chart${i}`,
           zIndex: 0,
@@ -737,76 +737,84 @@ export const VChartSiteDemo = () => {
             // @ts-ignore
             ...(item.options ?? {})
           }
-        }))
-
+        })) as any[]),
         // TextComponent2
-        // {
-        //   type: 'TextComponent',
-        //   id: `title1`,
-        //   zIndex: 0,
-        //   position: {
-        //     top: 300,
-        //     left: 400,
-        //     width: 80,
-        //     height: 80
-        //   },
-        //   options: {
-        //     text: 'A BRIEF HISTORY',
-        //     fill: 'black',
-        //     textAlign: 'center'
-        //   }
-        // },
-        // {
-        //   type: 'TextComponent',
-        //   id: `title2`,
-        //   zIndex: 0,
-        //   position: {
-        //     top: 400,
-        //     left: 400,
-        //     width: 80,
-        //     height: 80
-        //   },
-        //   options: {
-        //     text: 'OF CHARTS',
-        //     fill: 'black',
-        //     textAlign: 'center'
-        //   }
-        // },
-
+        {
+          type: 'TextComponent',
+          id: `title1`,
+          zIndex: 0,
+          position: {
+            top: 300,
+            left: 440,
+            width: 500,
+            height: 200
+          },
+          options: {
+            graphic: { text: 'A BRIEF HISTORY', fontSize: 55, fontWeight: 'bold' }
+          }
+        },
+        {
+          type: 'TextComponent',
+          id: `title2`,
+          zIndex: 0,
+          position: {
+            top: 380,
+            left: 440,
+            width: 400,
+            height: 60
+          },
+          options: {
+            graphic: { text: 'OF CHARTS', fontSize: 55, fontWeight: 'bold' }
+          }
+        },
         // RichTextComponent2
-        // {
-        //   type: 'RichTextComponent',
-        //   id: `titlesubtitle`,
-        //   zIndex: 0,
-        //   position: {
-        //     top: 450,
-        //     left: 400,
-        //     width: 80,
-        //     height: 80
-        //   },
-        //   options: {
-        //     text: [{ text: 'Powered By', fill: 'black' }, { text: 'VChart', fill: 'blue' }],
-        //     textAlign: 'center'
-        //   }
-        // },
-
+        {
+          type: 'RichTextComponent',
+          id: `titlesubtitle`,
+          zIndex: 0,
+          position: {
+            top: 450,
+            left: 520,
+            width: 400,
+            height: 80
+          },
+          options: {
+            graphic: {
+              width: 400,
+              fontSize: 22,
+              fontWeight: 'bold',
+              textConfig: [
+                {
+                  text: 'Powered By '
+                },
+                {
+                  text: 'VChart',
+                  fill: 'blue'
+                }
+              ]
+            }
+          }
+        },
         // scene1 title
-        // {
-        //   type: 'TextComponent',
-        //   id: `title3`,
-        //   zIndex: 0,
-        //   position: {
-        //     top: 50,
-        //     left: 150,
-        //     width: 80,
-        //     height: 80
-        //   },
-        //   options: {
-        //     text: 'DEVELOPMENT ROADMAP',
-        //     fill: 'black',
-        //     textAlign: 'center'
-        //   }
-        // },
+        {
+          type: 'TextComponent',
+          id: `title3`,
+          zIndex: 0,
+          position: {
+            top: 50,
+            left: 150,
+            width: 200,
+            height: 20
+          },
+          options: {
+            graphic: {
+              width: 400,
+              fontSize: 12,
+              fill: '#292729',
+              text: 'DEVELOPMENT ROADMAP'
+            }
+          }
+        }
 
         //
         // {
@@ -854,27 +862,39 @@ export const VChartSiteDemo = () => {
                       }
                     ]
                   } as IRoleLink)
-              )
-              // {
-              //   roleId: `title1`,
-              //   actions: [
-              //     {
-              //       startTime: 1500,
-              //       duration: 500,
-              //       action: 'appear'
-              //     }
-              //   ]
-              // },
-              // {
-              //   roleId: `title2`,
-              //   actions: [
-              //     {
-              //       startTime: 2000,
-              //       duration: 500,
-              //       action: 'appear'
-              //     }
-              //   ]
-              // },
+              ),
+              {
+                roleId: `title1`,
+                actions: [
+                  {
+                    startTime: 1500,
+                    duration: 500,
+                    action: 'appear',
+                    payload: {
+                      animation: {
+                        duration: 500,
+                        effect: 'typewriter'
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                roleId: `title2`,
+                actions: [
+                  {
+                    startTime: 2000,
+                    duration: 500,
+                    action: 'appear',
+                    payload: {
+                      animation: {
+                        duration: 500,
+                        effect: 'typewriter'
+                      }
+                    }
+                  }
+                ]
+              },
               // ...new Array(5).fill(0).map(
               //   (_, i) =>
               //     ({
@@ -901,16 +921,23 @@ export const VChartSiteDemo = () => {
               //       ]
               //     } as IRoleLink)
               // ),
-              // {
-              //   roleId: `subtitle`,
-              //   actions: [
-              //     {
-              //       startTime: 2700,
-              //       duration: 500,
-              //       action: 'appear'
-              //     }
-              //   ]
-              // }
+              {
+                roleId: `titlesubtitle`,
+                actions: [
+                  {
+                    startTime: 2700,
+                    duration: 500,
+                    action: 'appear',
+                    payload: {
+                      animation: {
+                        duration: 200,
+                        easing: 'linear',
+                        effect: 'fade'
+                      }
+                    }
+                  }
+                ]
+              }
             ]
             // [
             //   ...new Array(10).fill(0).map(
@@ -1000,8 +1027,11 @@ export const VChartSiteDemo = () => {
         }
       ]
     };
+
+    console.log(tempSpec);
     const story = new Story(tempSpec, { dom: id });
     story.play();
+    window.story = story;
     const btn1 = document.createElement('button');
     btn1.innerText = 'replay';
     btn1.addEventListener('click', () => {

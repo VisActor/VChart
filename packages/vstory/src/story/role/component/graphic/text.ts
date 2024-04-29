@@ -46,6 +46,8 @@ export class GraphicPureText extends Graphic {
         x,
         y,
         angle,
+        width,
+        height,
         maxLineWidth: width,
         heightLimit: height
       })

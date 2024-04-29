@@ -47,6 +47,8 @@ export abstract class RoleComponent extends RoleBase {
 
   protected abstract _createGraphic(): Graphic;
 
+  protected _initRuntime(): void {}
+
   show(): void {
     this._group.setAttributes({ visible: true });
     this._text.show();
@@ -89,6 +91,8 @@ export abstract class RoleGraphicComponent extends RoleBase {
   }
 
   protected abstract _createGraphic(): Graphic;
+
+  protected _initRuntime(): void {}
 
   protected _parserSpec(): void {}
 
