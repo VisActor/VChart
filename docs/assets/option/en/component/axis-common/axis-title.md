@@ -24,6 +24,12 @@ Starting from version 1.7.0, rich text content is supported
 
 #${prefix} position(string)
 
+Optional parameters:
+
+- `'middle'`
+- `'start'`
+- `'end'`
+
 Display position of the title.
 
 - Default for Cartesian coordinate system is 'middle'.
