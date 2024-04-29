@@ -6,9 +6,9 @@ import '../../../src/story/index';
 const chartSpecList = [
   {
     title: 'Timeline Chart',
-    spec: {
+    roleType: 'RangeColumnChart',
+    options: {
       padding: 8,
-      type: 'rangeColumn',
       data: [
         {
           id: 'id0',
@@ -21,55 +21,58 @@ const chartSpecList = [
         }
       ],
       direction: 'horizontal',
-      maxField: 'value',
-      minField: 'value2',
-      yField: 'type',
-      label: {
-        style: {
-          visible: false
-        }
-      },
-      barMaxWidth: 5,
-      bar: {
-        maxWidth: 2,
-        style: {
-          maxWidth: 2
-        }
-      },
-      axes: [
+      seriesSpec: [
         {
-          orient: 'bottom',
-          type: 'linear',
-          tick: {
-            visible: false
-          },
-          domainLine: { visible: true },
-          label: { visible: false },
-          grid: { visible: false }
+          matchInfo: { specIndex: 'all' },
+          spec: {
+            minField: 'value',
+            maxField: 'value2',
+            yField: 'type',
+            bar: {
+              maxWidth: 2,
+              style: {
+                maxWidth: 2
+              }
+            },
+            label: {
+              style: {
+                visible: false
+              }
+            }
+          }
+        }
+      ],
+      componentSpec: [
+        {
+          specKey: 'axes',
+          matchInfo: { orient: 'bottom' },
+          spec: {
+            domainLine: { visible: true },
+            tick: { visible: false },
+            label: { visible: false },
+            grid: { visible: false }
+          }
         },
         {
-          orient: 'left',
-          type: 'band',
-          domainLine: { visible: false },
-          grid: {
-            visible: false
-          },
-          tick: {
-            visible: false
-          },
-          label: { visible: false }
+          specKey: 'axes',
+          matchInfo: { orient: 'left' },
+          spec: {
+            domainLine: { visible: false },
+            tick: { visible: false },
+            label: { visible: false },
+            grid: { visible: false }
+          }
         }
       ]
     }
   },
   {
     title: 'Bar Chart',
-    spec: {
-      padding: 8,
-      type: 'bar',
+    roleType: 'BarChart',
+    options: {
       data: [
         {
-          name: 'data',
+          id: 'data',
           values: [
             {
               x: 'Mon',
@@ -104,116 +107,131 @@ const chartSpecList = [
           ]
         }
       ],
-      xField: ['x', 'type'],
-      yField: 'y',
-      seriesField: 'type',
-      bar: {
-        style: {
-          fill: {
-            gradient: 'linear',
-            stops: [
-              {
-                offset: 1
+      seriesSpec: [
+        {
+          matchInfo: { specIndex: 'all' },
+          spec: {
+            xField: ['x', 'type'],
+            yField: 'y',
+            seriesField: 'type',
+            bar: {
+              style: {
+                fill: {
+                  gradient: 'linear',
+                  stops: [
+                    {
+                      offset: 1
+                    },
+                    {
+                      offset: 0,
+                      opacity: 0.6
+                    }
+                  ]
+                }
               },
-              {
-                offset: 0,
-                opacity: 0.6
+              state: {
+                selected: {
+                  stroke: '#000',
+                  strokeWidth: 1
+                }
               }
-            ]
+            },
+            label: {
+              style: {
+                visible: false
+              }
+            }
+          }
+        }
+      ],
+      padding: 8,
+      componentSpec: [
+        {
+          specKey: 'axes',
+          matchInfo: { orient: 'bottom' },
+          spec: {
+            tick: { visible: false },
+            label: { visible: false },
+            grid: { visible: false }
           }
         },
-        state: {
-          selected: {
-            stroke: '#000',
-            strokeWidth: 1
+        {
+          specKey: 'axes',
+          matchInfo: { orient: 'left' },
+          spec: {
+            tick: { visible: false },
+            label: { visible: false },
+            grid: { visible: false }
           }
         }
-      },
-      label: {
-        style: {
-          visible: false
-        }
-      },
-      color: ['#4CC9E4', '#4954E6'],
-      axes: [
-        {
-          orient: 'bottom',
-          // visible: false,
-          tick: {
-            visible: false
-          },
-          label: { visible: false },
-          grid: { visible: false }
-        },
-        {
-          orient: 'left',
-          // visible: false,
-          grid: {
-            visible: false
-          },
-          tick: {
-            visible: false
-          },
-          label: { visible: false }
-        }
-      ]
+      ],
+      color: ['#4CC9E4', '#4954E6']
     }
   },
   {
     title: 'Line/Area Chart',
-    spec: {
+    roleType: 'AreaChart',
+    options: {
       padding: 8,
-      type: 'common',
-      series: [
+      data: [
         {
-          type: 'area',
-          data: {
-            id: 'data2',
-            values: [
-              { x: 1, y: 70, type: 'a' },
-              { x: 2, y: 20, type: 'a' },
-              { x: 3, y: 30, type: 'a' },
-              { x: 4, y: 10, type: 'a' },
+          id: 'data2',
+          values: [
+            { x: 1, y: 70, type: 'a' },
+            { x: 2, y: 20, type: 'a' },
+            { x: 3, y: 30, type: 'a' },
+            { x: 4, y: 10, type: 'a' },
 
-              { x: 1, y: 70, type: 'b' },
-              { x: 2, y: 20, type: 'b' },
-              { x: 3, y: 30, type: 'b' },
-              { x: 4, y: 10, type: 'b' }
-            ]
-          },
-          xField: 'x',
-          yField: 'y',
-          seriesField: 'type',
-          point: {
-            visible: false
+            { x: 1, y: 70, type: 'b' },
+            { x: 2, y: 20, type: 'b' },
+            { x: 3, y: 30, type: 'b' },
+            { x: 4, y: 10, type: 'b' }
+          ]
+        }
+      ],
+      seriesSpec: [
+        {
+          matchInfo: { specIndex: 'all' },
+          spec: {
+            xField: 'x',
+            yField: 'y',
+            seriesField: 'type',
+            point: {
+              visible: false
+            }
           }
         }
       ],
-      axes: [
+      componentSpec: [
         {
-          orient: 'left',
-          label: { visible: false },
-          tick: { visible: false },
-          grid: { visible: false }
+          specKey: 'axes',
+          matchInfo: { orient: 'bottom' },
+          spec: {
+            tick: { visible: false },
+            label: { visible: false },
+            grid: { visible: false }
+          }
         },
         {
-          orient: 'bottom',
-          type: 'band',
-          label: { visible: false },
-          tick: { visible: false },
-          grid: { visible: false }
+          specKey: 'axes',
+          matchInfo: { orient: 'left' },
+          spec: {
+            tick: { visible: false },
+            label: { visible: false },
+            grid: { visible: false }
+          }
         }
       ]
     }
   },
   {
     title: 'Pie Chart',
-    spec: {
+    roleType: 'PieChart',
+    options: {
       padding: 8,
-      type: 'pie',
       data: [
         {
-          name: 'data1',
+          id: 'data1',
           values: [
             {
               value: 348,
@@ -230,63 +248,75 @@ const chartSpecList = [
           ]
         }
       ],
-      valueField: 'value',
-      categoryField: 'name',
-      radius: 1,
-      innerRadius: 0
+      seriesSpec: [
+        {
+          matchInfo: { specIndex: 'all' },
+          spec: { valueField: 'value', categoryField: 'name', radius: 1, innerRadius: 0 }
+        }
+      ]
     }
   },
   {
     title: 'Scatter Chart',
-    spec: {
+    roleType: 'ScatterChart',
+    options: {
       padding: 8,
-      type: 'common',
-      series: [
+      data: [
         {
-          type: 'scatter',
-          data: {
-            id: 'data2',
-            values: [
-              { x: 1, y: 70, type: 'a' },
-              { x: 2, y: 20, type: 'a' },
-              { x: 3, y: 30, type: 'a' },
-              { x: 4, y: 10, type: 'a' },
+          id: 'data2',
+          values: [
+            { x: 1, y: 70, type: 'a' },
+            { x: 2, y: 20, type: 'a' },
+            { x: 3, y: 30, type: 'a' },
+            { x: 4, y: 10, type: 'a' },
 
-              { x: 1, y: 70, type: 'b' },
-              { x: 2, y: 20, type: 'b' },
-              { x: 3, y: 30, type: 'b' },
-              { x: 4, y: 10, type: 'b' }
-            ]
-          },
-          xField: 'x',
-          yField: 'y',
-          seriesField: 'type',
-          point: {
-            style: {
-              size: 4
-            }
+            { x: 1, y: 70, type: 'b' },
+            { x: 2, y: 20, type: 'b' },
+            { x: 3, y: 30, type: 'b' },
+            { x: 4, y: 10, type: 'b' }
+          ]
+        }
+      ],
+      componentSpec: [
+        {
+          specKey: 'axes',
+          matchInfo: { orient: 'bottom' },
+          spec: {
+            tick: { visible: false },
+            label: { visible: false },
+            grid: { visible: false }
+          }
+        },
+        {
+          specKey: 'axes',
+          matchInfo: { orient: 'left' },
+          spec: {
+            tick: { visible: false },
+            label: { visible: false },
+            grid: { visible: false }
           }
         }
       ],
-      axes: [
+      seriesSpec: [
         {
-          orient: 'left',
-          label: { visible: false },
-          tick: { visible: false },
-          grid: { visible: false }
-        },
-        {
-          orient: 'bottom',
-          type: 'band',
-          label: { visible: false },
-          tick: { visible: false },
-          grid: { visible: false }
+          matchInfo: { specIndex: 'all' },
+          spec: {
+            xField: 'x',
+            yField: 'y',
+            seriesField: 'type',
+            point: {
+              style: {
+                size: 4
+              }
+            }
+          }
         }
       ]
     }
   },
   {
     title: 'Rose Chart',
+    // roleType: 'RoseChart',
     spec: {
       padding: 8,
       type: 'rose',
@@ -311,6 +341,7 @@ const chartSpecList = [
   },
   {
     title: 'Radar Chart',
+    // roleType: 'RadarChart',
     spec: {
       padding: 0,
       type: 'radar',
@@ -450,6 +481,7 @@ const chartSpecList = [
   },
   {
     title: 'Word Cloud',
+    // roleType: 'WordCloudChart',
     spec: {
       padding: 5,
       type: 'wordCloud',
@@ -495,6 +527,7 @@ const chartSpecList = [
   },
   {
     title: 'Treemap Chart',
+    // roleType: 'TreemapChart',
     spec: {
       padding: 8,
       type: 'treemap',
@@ -578,6 +611,7 @@ const chartSpecList = [
   },
   {
     title: 'Sunburst Chart',
+    // roleType: 'SunburstChart',
     spec: {
       padding: 8,
       type: 'sunburst',
@@ -686,7 +720,7 @@ export const VChartSiteDemo = () => {
     const tempSpec: IStorySpec = {
       roles: [
         ...chartSpecList.map((item, i) => ({
-          type: 'BarChart',
+          type: item.roleType ?? 'RoleChart',
           id: `chart${i}`,
           zIndex: 0,
           position: {
@@ -699,7 +733,9 @@ export const VChartSiteDemo = () => {
             spec: item.spec,
             // data: data1,
             // @ts-ignore
-            attribute: {}
+            attribute: {},
+            // @ts-ignore
+            ...(item.options ?? {})
           }
         }))
 

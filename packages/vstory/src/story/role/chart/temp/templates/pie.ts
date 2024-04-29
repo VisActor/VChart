@@ -8,37 +8,17 @@ import { ChartDimensionField, ChartValueField } from '../../const';
 
 export function spec() {
   return {
-    type: 'pie',
-    outerRadius: 0.8,
-    pie: {
-      state: {
-        hover: {
-          stroke: '#000',
-          lineWidth: 1
-        }
-      }
-    },
-    label: {
-      visible: true,
-      style: {
-        lineHeight: '100%',
-        fontSize: 16,
-        fontWeight: 'bold',
-        fontFamily: 'D-Din' // 配置上默认字体
-      },
-      overlap: true,
-      smartInvert: true
-    }
+    type: 'pie'
   };
 }
 
 export class PieTemp extends BaseTemp {
   static type = TemplateChartType.pie;
   type = PieTemp.type;
-  checkDataEnable(data: StandardData, info: DataInfo, opt?: any): boolean {
+  checkDataEnable(data: StandardData, opt?: any): boolean {
     return CommonStandardDataCheck(data);
   }
-  getSpec(data: StandardData, info: DataInfo, opt?: any) {
+  getSpec(data: StandardData, opt?: any) {
     const tempSpec = getCommonSpec() as any;
     tempSpec.series = [spec()];
     tempSpec.data = array(data);

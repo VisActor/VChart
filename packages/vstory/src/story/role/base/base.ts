@@ -20,6 +20,7 @@ export abstract class RoleBase implements IRole {
   }
 
   public init() {
+    this._initRuntime();
     this._parserSpec();
     this._initGraphics();
   }
@@ -29,6 +30,7 @@ export abstract class RoleBase implements IRole {
     this.init();
   }
 
+  protected abstract _initRuntime(): void;
   protected abstract _parserSpec(): void;
   protected abstract _initGraphics(): void;
 

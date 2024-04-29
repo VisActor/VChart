@@ -1,6 +1,5 @@
 import { TemplateChartType } from '../constant';
 import { CartesianSingleSeriesTemp } from './cartesian-single';
-import { getSeriesLabelSpec, getTotalLabelSpec } from './common';
 
 export class BarTemp extends CartesianSingleSeriesTemp {
   static type = TemplateChartType.bar;
@@ -14,40 +13,11 @@ export class BarTemp extends CartesianSingleSeriesTemp {
     return {
       type: 'bar',
       stack: true,
-      direction: this.direction,
-      bar: {
-        style: {
-          stroke: '',
-          lineWidth: 1
-        },
-        state: {
-          hover: {
-            stroke: '#000',
-            lineWidth: 1
-          }
-        }
-      },
-      barBackground: {
-        style: {
-          stroke: '',
-          lineWidth: 1
-        }
-      },
-      label: {
-        visible: true,
-        position: 'inside',
-        style: {
-          lineHeight: '100%',
-          fontSize: 16,
-          fontWeight: 'bold'
-        },
-        overlap: {
-          strategy: [] as any[]
-        },
-        smartInvert: true
-      },
-      totalLabel: getTotalLabelSpec(this.defaultTotalLabel),
-      seriesLabel: getSeriesLabelSpec(this.direction)
+      direction: this.direction
     };
+  }
+
+  afterInitializeChart(): void {
+    console.log('afterInitializeChart');
   }
 }

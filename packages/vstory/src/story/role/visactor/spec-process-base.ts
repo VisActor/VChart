@@ -12,10 +12,10 @@ import type {
 export abstract class SpecProcessBase implements ISpecProcess {
   // 编辑器spec 存储和加载都是这个数据结构
   // 保证结构可序列化。
-  protected _config: IChartRoleSpec['config'];
+  protected _roleSpec: IChartRoleSpec;
   protected _onSpecReadyCall: () => void = null;
   // vTableSpec 只作为临时转换结果，传递给vTable，不会存储。
-  protected _roleSpec: any = {} as any;
+  protected _visSpec: any;
 
   protected _dataTempTransform: IDataTempTransform;
   get dataTempTransform() {
@@ -41,8 +41,8 @@ export abstract class SpecProcessBase implements ISpecProcess {
   // transform spec 的过程
   protected abstract _mergeConfig(): void;
 
-  getConfig() {
-    return this._config;
+  getVisSpec() {
+    return this._visSpec;
   }
 
   getRoleSpec() {
@@ -51,7 +51,7 @@ export abstract class SpecProcessBase implements ISpecProcess {
 
   protected _dataUpdateSuccess = (option: IUpdateAttributeOption) => {
     this.emitter.emit('beforeTempChange');
-    this._config.data = this._dataTempTransform.dataParser.getSave();
+    this._roleSpec.options.data = this._dataTempTransform.dataParser.getSave();
     this.emitter.emit('afterDataChange');
   };
   protected _tempUpdateSuccess = (
@@ -60,7 +60,7 @@ export abstract class SpecProcessBase implements ISpecProcess {
   ) => {
     const willPushHistory = option?.triggerHistory !== false;
     this.emitter.emit('beforeTempChange', willPushHistory, transParams);
-    this._config.temp = this._dataTempTransform.specTemp.type;
+    this._roleSpec.type = this._dataTempTransform.specTemp.type;
     this.emitter.emit('afterTempChange', transParams);
   };
   protected _dataTempUpdateSuccess = (
@@ -69,13 +69,13 @@ export abstract class SpecProcessBase implements ISpecProcess {
   ) => {
     const willPushHistory = option?.triggerHistory !== false;
     this.emitter.emit('beforeTempChange', willPushHistory, transParams);
-    this._config.data = this._dataTempTransform.dataParser.getSave();
-    this._config.temp = this._dataTempTransform.specTemp.type;
+    this._roleSpec.options.data = this._dataTempTransform.dataParser.getSave();
+    this._roleSpec.type = this._dataTempTransform.specTemp.type;
     this.emitter.emit('afterTempChange', transParams);
   };
 
   protected transformSpec = () => {
-    this._roleSpec = this._dataTempTransform.getBaseSpec();
+    this._visSpec = this._dataTempTransform.getBaseSpec();
     this._mergeConfig();
     this._onSpecReadyCall();
   };
@@ -84,12 +84,13 @@ export abstract class SpecProcessBase implements ISpecProcess {
     this._onSpecReadyCall = null;
     this._dataTempTransform.release();
     this._dataTempTransform = null;
-    this._config = null;
     this._roleSpec = null;
+    this._visSpec = null;
+    this._role = null;
   }
 
   // 得到模版类型
-  getSpecTemp() {
-    return this._config.temp;
+  getRoleType() {
+    return this._roleSpec.type;
   }
 }

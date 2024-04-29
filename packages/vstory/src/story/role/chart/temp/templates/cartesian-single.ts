@@ -1,8 +1,8 @@
+import { IChartRoleSpec } from '../../../dsl-interface';
 import { DirectionType } from '../../const';
 import type { StandardData } from '../../data/interface';
-import type { DataInfo } from '../../data/interface';
 import { BaseTemp } from './base-temp';
-import { CommonStandardDataCheck, getCartesianCommonSpec, getCartesianSpec } from './common';
+import { getCartesianCommonSpec, getCartesianSpec } from './common';
 
 export abstract class CartesianSingleSeriesTemp extends BaseTemp {
   // 唯一系列类型
@@ -21,10 +21,15 @@ export abstract class CartesianSingleSeriesTemp extends BaseTemp {
   // 是否默认展示图例
   defaultLegendVisible = false;
 
-  checkDataEnable(data: StandardData, info: DataInfo, opt?: any): boolean {
-    return CommonStandardDataCheck(data);
+  constructor(roleSpec: IChartRoleSpec) {
+    super();
+    this.direction = roleSpec.options.direction ?? 'vertical';
   }
-  getSpec(data: StandardData, info: DataInfo, opt?: any) {
+
+  checkDataEnable(data: StandardData, opt?: any): boolean {
+    return !!data; // CommonStandardDataCheck(data);
+  }
+  getSpec(data: StandardData, opt?: any) {
     const cartesianCommonSpec = getCartesianCommonSpec(this.direction, this.percent, this.trimPadding) as any;
     if (cartesianCommonSpec.legends) {
       cartesianCommonSpec.legends.visible = this.defaultLegendVisible;
@@ -32,7 +37,10 @@ export abstract class CartesianSingleSeriesTemp extends BaseTemp {
 
     return getCartesianSpec(this._getSeriesSpec.bind(this), cartesianCommonSpec, this.direction, data, {
       multiDimensionField: this.multiDimensionField,
-      stack: this.stack
+      stack: this.stack,
+      xField: opt.role.specProcess.getRoleSpec().options.xField,
+      yField: opt.role.specProcess.getRoleSpec().options.yField,
+      seriesField: opt.role.specProcess.getRoleSpec().options.seriesField
     });
   }
 

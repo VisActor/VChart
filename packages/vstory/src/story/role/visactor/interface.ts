@@ -26,13 +26,11 @@ export type DataErrorCall = (msg: { type: string; info: string }, opt?: any) => 
 
 export interface IDataTempTransform {
   readonly specTemp: IVisactorTemp;
-  readonly dataParser: IDataParser;
 
   readonly nextTemp: IVisactorTemp;
-  readonly nextDataParser: IDataParser;
   emitter: EventEmitter;
 
-  updateChartDataTemp: (data?: { type: string; value: unknown }, temp?: string) => void;
+  updateChartTemp: (temp?: string) => void;
 
   // 得到没有经过编辑器配置加工过的基础spec
   getBaseSpec: () => any;
@@ -49,13 +47,13 @@ export interface ISpecProcess {
   dataTempTransform: IDataTempTransform;
   emitter: EventEmitter;
 
-  // 得到编辑器元素的spec
-  getRoleSpec: () => ISpec;
-  // 得到编辑器元素的spec
-  getConfig: () => IChartRoleSpec['options'];
+  // 得到visactor元素的spec
+  getVisSpec: () => ISpec;
+  // 得到角色的spec
+  getRoleSpec: () => IChartRoleSpec;
 
   // temp
-  getSpecTemp: () => string;
+  getRoleType: () => string;
 
   release: () => void;
 }
@@ -108,9 +106,10 @@ export interface IDataParserConstructor {
 // chart & table 都是用这个模版接口
 export interface IVisactorTemp {
   type: string;
-  getSpec: (data: StandardData, info: DataInfo, ctx: any, opt?: any) => ISpec | null;
+  getSpec: (data: StandardData, ctx: any, opt?: any) => ISpec | null;
+  standardizedSpec: (spec: any, ctx: any, opt?: any) => void;
   getChartType: () => string;
-  checkDataEnable: (data: StandardData, info: DataInfo, opt?: any) => boolean;
+  checkDataEnable: (data: StandardData, opt?: any) => boolean;
   getTempInfo?: () => any;
   clear: () => void;
 }
