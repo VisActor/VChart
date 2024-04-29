@@ -24,6 +24,12 @@
 
 #${prefix} position(string)
 
+可选参数：
+
+- `'middle'`
+- `'start'`
+- `'end'`
+
 标题的显示位置。
 
 - 直角坐标系默认 'middle'。
