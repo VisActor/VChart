@@ -2,7 +2,7 @@ import { merge } from '@visactor/vutils';
 import { StoryChartType } from '../constant';
 import { StoryChart } from './chart';
 import { Datum } from '../types/Datum';
-import { IChartStylePayload } from '../types/chart/Style';
+import { IChartStylePayload } from '../types/chart/style';
 import { ChartActionNode } from '../types';
 
 export class StoryPie extends StoryChart {

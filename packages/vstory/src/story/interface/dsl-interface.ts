@@ -1,19 +1,12 @@
+import { Action } from '../../dsl/types';
 import { ICharacterSpec } from '../character';
 
-export type IAction = {
+export interface IAction {
   startTime: number;
   action: string;
   duration: number;
-  payload?: {
-    style?: {
-      [key: string]: number | string;
-    };
-    animation: {
-      duration: number;
-      easing: string;
-    };
-  };
-};
+  payload?: Action['payload'];
+}
 
 export interface IStorySpec {
   acts: IActSpec[]; // 作品的章节

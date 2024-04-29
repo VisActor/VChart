@@ -1,9 +1,8 @@
 import VChart, { ISpec } from '@visactor/vchart';
-import { Action } from '../../../types';
 import { getAllSeriesMarksWithoutRoot } from '../../../../util/vchart-api';
 import { isDatumEqual } from '../../../utils/datum';
 import { isValid } from '@visactor/vutils';
-import { IChartStyleAction } from '../../../types/chart/Style';
+import { IChartStyleAction } from '../../../types/chart/style';
 
 export const lineStyleProcessor = async (chartInstance: VChart, spec: ISpec, updateStyleAction: IChartStyleAction) => {
   const action = updateStyleAction as IChartStyleAction;

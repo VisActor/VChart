@@ -1,4 +1,4 @@
-import { IChartAddAction } from './../../types/chart/Add';
+import { IChartAddAction } from './../../types/chart/add';
 import { ISpec, IVChart } from '@visactor/vchart';
 import { cloneDeep, isArray } from '@visactor/vutils';
 

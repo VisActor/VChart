@@ -1,6 +1,6 @@
 import VChart from '@visactor/vchart';
 import { getAllSeriesMarksWithoutRoot } from '../../../../../util/vchart-api';
-import { IChartAppearAction } from '../../../../types/chart/Appear';
+import { IChartAppearAction } from '../../../../types/chart/appear';
 
 // 将payload转换为chart内置的动画type
 export const transformLineAppear = (

@@ -1,6 +1,6 @@
 import type { VChart, IChartSpec, IMarkPointSpec, MarkPoint } from '@visactor/vchart';
 import type { IActionContext, IFlickerAction } from '../../types';
-import type { CreateMarkPointAction } from '../../types/chart/CreateComponent';
+import type { CreateMarkPointAction } from '../../types/chart/createComponent';
 import { getComponentById } from '../../../util/vchart-api';
 import { flickerEffect } from '../../utils/flicker';
 

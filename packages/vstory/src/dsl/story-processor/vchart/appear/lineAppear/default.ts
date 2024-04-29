@@ -1,4 +1,4 @@
-import { IChartAppearAction } from '../../../../types/chart/Appear';
+import { IChartAppearAction } from '../../../../types/chart/appear';
 
 export const defaultPayload: IChartAppearAction['payload'] = {
   animation: {
