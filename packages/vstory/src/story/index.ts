@@ -11,6 +11,7 @@ import { PieChartRole } from './role/chart/roles/pie';
 import { ScatterChartRole } from './role/chart/roles/scatter';
 import { RangeColumnChartRole } from './role/chart/roles/rangeColumn';
 import { RoleComponentText } from './role/component/roles/role-text';
+import { RoleComponentRichText } from './role/component/roles/role-richtext';
 
 StoryFactory.registerRole(BarChartRole.type, BarChartRole);
 StoryFactory.registerRole(LineChartRole.type, RoleChart);
@@ -25,6 +26,7 @@ StoryFactory.registerRole(RangeColumnChartRole.type, RangeColumnChartRole);
 // StoryFactory.registerRole('LineChart', RoleChart);
 StoryFactory.registerRole('RectComponent', RoleComponentRect);
 StoryFactory.registerRole('TextComponent', RoleComponentText);
+StoryFactory.registerRole('RichTextComponent', RoleComponentRichText);
 
 StoryFactory.registerRole('QipaoComponent', RoleComponentQipao);
 

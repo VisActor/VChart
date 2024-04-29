@@ -1,6 +1,6 @@
-import { AddOption } from '../../types/Add';
+import type { IChartAddPayload } from '../../types/chart/Add';
 
-export const defaultAdd: AddOption = {
+export const defaultAdd: { payload: Partial<IChartAddPayload> } = {
   payload: {
     style: {},
     animation: {

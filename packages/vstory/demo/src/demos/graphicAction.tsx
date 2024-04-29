@@ -63,21 +63,7 @@ const createRoleAndAction = (type: string, effects: string[], row = 0, col = 0, 
       };
     }
   });
-  if (appearEffect === 'moveIn') {
-    actions.push({
-      startTime: duration + row * duration,
-      duration,
-      action: 'appear',
-      payload: {
-        style: {},
-        animation: {
-          duration,
-          easing: 'linear',
-          effect: 'moveIn'
-        } as any
-      }
-    });
-  }
+
   const roleAction = {
     roleId: id,
     actions
@@ -98,11 +84,11 @@ export const GraphicActionDemo = () => {
     // rect
     {
       const effects = [
-        ['wipeIn'],
-        ['fadeIn', 'brighten'],
-        ['grow'],
-        ['moveIn'],
-        ['fadeIn', 'flicker', 'darken'] //
+        // ['wipe'],
+        // ['fade', 'brighten'],
+        // ['grow'],
+        ['move'],
+        ['fade', 'flicker', 'darken'] //
       ];
       effects.forEach((effect, index) => {
         const { role, roleAction } = createRoleAndAction(StoryGraphicType.RECT, effect, index);
@@ -115,7 +101,7 @@ export const GraphicActionDemo = () => {
     // text
     {
       const effects = [
-        ['fadeIn'],
+        ['fade'],
         // ['flicker'], // TODO: 直接 flicker 是有问题的
         ['typewriter', 'flicker'] //
       ];

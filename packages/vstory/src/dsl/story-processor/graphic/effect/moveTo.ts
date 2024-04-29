@@ -1,12 +1,11 @@
 import { EasingType, IGraphic } from '@visactor/vrender-core';
-import { AnimationParams } from './appear';
+import { IAnimationParams } from '../../../types';
 
-export interface MoveToParams extends AnimationParams {
+export interface IMoveToParams extends IAnimationParams {
   destination: { x: number; y: number };
-  // TODO: 后续可以增加参数 path: 指定移动的方式或路径类型，例如直线移动、曲线移动等。
 }
 
-export function moveTo(graphic: IGraphic, params: MoveToParams) {
+export function moveTo(graphic: IGraphic, params: IMoveToParams) {
   if (graphic) {
     const { duration, easing, destination } = params;
     if (destination) {

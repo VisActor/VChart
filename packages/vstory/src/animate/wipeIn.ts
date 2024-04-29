@@ -9,7 +9,7 @@ export enum Direction {
   STROKE = 4
 }
 
-export class WipeIn extends ACustomAnimate<any> {
+export class Wipe extends ACustomAnimate<any> {
   declare direction: number;
   declare toFill: string;
   declare toStroke: string;

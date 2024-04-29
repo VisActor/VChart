@@ -1,11 +1,11 @@
 import VChart from '@visactor/vchart';
-import { AppearAction } from '../../../../types/Appear';
 import { getAllSeriesMarksWithoutRoot } from '../../../../../util/vchart-api';
+import { IChartAppearAction } from '../../../../types/chart/Appear';
 
 // 将payload转换为chart内置的动画type
 export const transformLineAppear = (
   instance: VChart,
-  animation: AppearAction['payload']['animation'],
+  animation: IChartAppearAction['payload']['animation'],
   markIndex: number
 ) => {
   switch (animation.effect) {
@@ -18,7 +18,7 @@ export const transformLineAppear = (
   }
 };
 
-const lineGrow = (instance: VChart, animation: AppearAction['payload']['animation'], markIndex: number) => {
+const lineGrow = (instance: VChart, animation: IChartAppearAction['payload']['animation'], markIndex: number) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   if (oneByOne) {
@@ -44,7 +44,7 @@ const lineGrow = (instance: VChart, animation: AppearAction['payload']['animatio
   };
 };
 
-const lineFade = (instance: VChart, animation: AppearAction['payload']['animation'], markIndex: number) => {
+const lineFade = (instance: VChart, animation: IChartAppearAction['payload']['animation'], markIndex: number) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   if (oneByOne) {

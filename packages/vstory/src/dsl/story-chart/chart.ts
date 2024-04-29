@@ -1,24 +1,22 @@
 import type { Datum } from '../types/Datum';
-import type { AddAction, AddOption, AddPayload } from './../types/Add';
 import type { StoryComponent } from './component/base';
 import { IInitOption, ISpec, IVChart, VChart } from '@visactor/vchart';
 import { merge } from '@visactor/vutils';
 import { defaultAdd } from './default/add';
-import { UpdateStyleOption } from '../types/Style';
-import { defaultUpdateStyle } from './default/updateStyle';
 import { StoryElement } from './element';
 import { MarkPoint } from './component/markPoint';
-import { CreateMarkPointAction } from '../types/CreateComponent';
-import { ActionNode } from '../types';
+import { CreateMarkPointAction } from '../types/chart/CreateComponent';
+import { ChartAction, ChartActionNode } from '../types';
 import { getComponentById } from '../../util/vchart-api';
 import { StoryChartType } from '../constant';
+import { IChartAddAction, IChartAddPayload } from '../types/chart/Add';
 
 /**
  * 1. 禁用一些图表默认的基础操作。如 tooltip/crosshair
  */
 export abstract class StoryChart extends StoryElement {
   public declare storyChartType: StoryChartType;
-  private snapshots: ActionNode[];
+  private snapshots: ChartAction[];
   private instance: IVChart;
 
   private components: Map<number, StoryComponent>;
@@ -44,7 +42,7 @@ export abstract class StoryChart extends StoryElement {
     return this;
   }
 
-  public snapshot(node: ActionNode) {
+  public snapshot(node: ChartActionNode) {
     this.snapshots.push(node);
   }
 
@@ -52,16 +50,16 @@ export abstract class StoryChart extends StoryElement {
     return this.snapshots;
   }
 
-  public add(payload: Partial<AddPayload>, option?: Partial<AddOption>) {
-    const editNode: AddAction = merge(
-      { action: 'add', option: defaultAdd },
-      { payload, option },
+  public add(payload: Partial<IChartAddPayload>) {
+    const editNode: IChartAddAction = merge(
+      { action: 'add', payload: defaultAdd },
+      { payload },
       { elementType: this.storyChartType, elementId: this.uid }
     );
     this.snapshot(editNode);
   }
 
-  public updateStyle(data: Datum, option?: Partial<UpdateStyleOption>) {
+  public updateStyle() {
     // TODO:
     // const editNode: AddAction = merge(
     //   {
@@ -88,7 +86,7 @@ export abstract class StoryChart extends StoryElement {
       }
     };
     this.createComponent(markPoint);
-    this.snapshot(componentNode);
+    this.snapshot(componentNode as any);
     return markPoint;
   }
 

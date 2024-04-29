@@ -1,9 +1,8 @@
+import { IChartAddAction } from './../../types/chart/Add';
 import { ISpec, IVChart } from '@visactor/vchart';
-import { AddAction } from '../../types/Add';
-import { ActionNode } from '../../types';
 import { cloneDeep, isArray } from '@visactor/vutils';
 
-export const addProcessor = async (chartInstance: IVChart, spec: ISpec, action: ActionNode) => {
+export const addProcessor = async (chartInstance: IVChart, spec: ISpec, action: IChartAddAction) => {
   let vchart;
   let instance;
   if (chartInstance._graphic) {
@@ -14,7 +13,7 @@ export const addProcessor = async (chartInstance: IVChart, spec: ISpec, action: 
     vchart = chartInstance.getChart();
   }
 
-  const { payload } = action as AddAction;
+  const { payload } = action as IChartAddAction;
   const { id: dataId, values } = payload;
   const rowData = cloneDeep(vchart._dataSet.getDataView(dataId).rawData);
 

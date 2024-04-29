@@ -57,12 +57,16 @@ export const StoryBarDemo = () => {
     });
 
     bar.appear({
-      type: 'growCenterIn',
-      duration: 100,
-      oneByOne: true
+      animation: {
+        effect: 'grow',
+        duration: 100,
+        oneByOne: true
+      }
     });
 
-    bar.dance(values[4], {});
+    bar.dance(values[4], {
+      duration: 100
+    });
 
     // bar.barStyle(values[0], {
     //   fill: 'red'

@@ -1,9 +1,10 @@
 import { merge } from '@visactor/vutils';
 import { StoryChartType } from '../constant';
-import { StyleAction, StylePayload } from '../types';
 import { StoryChart } from './chart';
 import { Datum } from '../types/Datum';
 import { IChartSpec, IInitOption } from '@visactor/vchart';
+import { IChartStyleAction, IChartStylePayload } from '../types/chart/Style';
+import { IChartAppearAction, IChartAppearPayLoad } from '../types/chart/Appear';
 
 export class StoryBar extends StoryChart {
   public storyChartType = StoryChartType.BAR;
@@ -12,24 +13,24 @@ export class StoryBar extends StoryChart {
     super(spec, option);
   }
 
-  barStyle(data: Datum, payload: StylePayload) {
-    const styleNode: StyleAction = merge(
+  barStyle(data: Datum, payload: IChartStylePayload) {
+    const styleNode: IChartStyleAction = merge(
       { action: 'barStyle', elementType: this.storyChartType, elementId: this.uid },
-      { data, payload }
+      { payload }
     );
     this.snapshot(styleNode);
   }
 
   dance(data: Datum, payload: any) {
-    const action: StyleAction = merge(
+    const action: IChartStyleAction = merge(
       { action: 'dance', elementType: this.storyChartType, elementId: this.uid },
-      { data, payload }
+      { payload: { data, ...payload } }
     );
     this.snapshot(action);
   }
 
-  appear(payload) {
-    const action: StyleAction = merge(
+  appear(payload: IChartAppearPayLoad) {
+    const action: IChartAppearAction = merge(
       { action: 'appear', elementType: this.storyChartType, elementId: this.uid },
       { payload }
     );
