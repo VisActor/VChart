@@ -1,4 +1,4 @@
-import { IRoleSpec } from '../role';
+import { ICharacterSpec } from '../character';
 
 export type IAction = {
   startTime: number;
@@ -17,15 +17,18 @@ export type IAction = {
 
 export interface IStorySpec {
   acts: IActSpec[]; // 作品的章节
-  roles: IRoleSpec[]; // 作品中的元素
+  characters: ICharacterSpec[]; // 作品中的元素
 }
 
-export interface IRoleLink {
-  roleId: string;
-  actions: IAction[];
+export interface IActionsLink {
+  characterId: string;
+  characterActions: IAction[];
 }
 
-export type ISceneSpec = IRoleLink[];
+export type ISceneSpec = {
+  id: string;
+  actions: IActionsLink[];
+};
 
 export interface IActSpec {
   id: string;

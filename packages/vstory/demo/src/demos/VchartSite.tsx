@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { IRoleLink, IStorySpec } from '../../../src/story/interface';
+import { ICharacterLink, IStorySpec } from '../../../src/story/interface';
 import { Story } from '../../../src/story/story';
 import '../../../src/story/index';
 
 const chartSpecList = [
   {
     title: 'Timeline Chart',
-    roleType: 'RangeColumnChart',
+    characterType: 'RangeColumnChart',
     options: {
       padding: 8,
       data: [
@@ -68,7 +68,7 @@ const chartSpecList = [
   },
   {
     title: 'Bar Chart',
-    roleType: 'BarChart',
+    characterType: 'BarChart',
     options: {
       data: [
         {
@@ -170,7 +170,7 @@ const chartSpecList = [
   },
   {
     title: 'Line/Area Chart',
-    roleType: 'AreaChart',
+    characterType: 'AreaChart',
     options: {
       padding: 8,
       data: [
@@ -226,7 +226,7 @@ const chartSpecList = [
   },
   {
     title: 'Pie Chart',
-    roleType: 'PieChart',
+    characterType: 'PieChart',
     options: {
       padding: 8,
       data: [
@@ -258,7 +258,7 @@ const chartSpecList = [
   },
   {
     title: 'Scatter Chart',
-    roleType: 'ScatterChart',
+    characterType: 'ScatterChart',
     options: {
       padding: 8,
       data: [
@@ -316,7 +316,7 @@ const chartSpecList = [
   },
   {
     title: 'Rose Chart',
-    // roleType: 'RoseChart',
+    // characterType: 'RoseChart',
     spec: {
       padding: 8,
       type: 'rose',
@@ -341,7 +341,7 @@ const chartSpecList = [
   },
   {
     title: 'Radar Chart',
-    // roleType: 'RadarChart',
+    // characterType: 'RadarChart',
     spec: {
       padding: 0,
       type: 'radar',
@@ -481,7 +481,7 @@ const chartSpecList = [
   },
   {
     title: 'Word Cloud',
-    // roleType: 'WordCloudChart',
+    // characterType: 'WordCloudChart',
     spec: {
       padding: 5,
       type: 'wordCloud',
@@ -527,7 +527,7 @@ const chartSpecList = [
   },
   {
     title: 'Treemap Chart',
-    // roleType: 'TreemapChart',
+    // characterType: 'TreemapChart',
     spec: {
       padding: 8,
       type: 'treemap',
@@ -611,7 +611,7 @@ const chartSpecList = [
   },
   {
     title: 'Sunburst Chart',
-    // roleType: 'SunburstChart',
+    // characterType: 'SunburstChart',
     spec: {
       padding: 8,
       type: 'sunburst',
@@ -718,9 +718,9 @@ export const VChartSiteDemo = () => {
   useEffect(() => {
     // 准备一个图表
     const tempSpec: IStorySpec = {
-      roles: [
-        ...(chartSpecList.map((item, i) => ({
-          type: item.roleType ?? 'RoleChart',
+      characters: [
+        ...chartSpecList.map((item, i) => ({
+          type: item.characterType ?? 'CharacterChart',
           id: `chart${i}`,
           zIndex: 0,
           position: {
@@ -737,8 +737,7 @@ export const VChartSiteDemo = () => {
             // @ts-ignore
             ...(item.options ?? {})
           }
-        })) as any[]),
-        // TextComponent2
+        })),
         {
           type: 'TextComponent',
           id: `title1`,
@@ -815,135 +814,155 @@ export const VChartSiteDemo = () => {
             }
           }
         }
-
-        //
-        // {
-        //   type: 'timeAxisChart',
-        //   id: `timeAxis`,
-        //   zIndex: 0,
-        //   position: {
-        //     top: 450,
-        //     left: 150,
-        //     width: 880,
-        //     height: 80
-        //   },
-        //   options: {
-
-        //   }
-        // },
       ],
       acts: [
         {
           id: 'default-chapter',
           scenes: [
-            [
-              ...new Array(5).fill(0).map(
-                (_, i) =>
-                  ({
-                    roleId: `chart${i}`,
-                    actions: [
-                      {
-                        startTime: i * 300,
-                        duration: 1000,
-                        action: 'appear'
-                      }
-                    ]
-                  } as IRoleLink)
-              ),
-              ...new Array(5).fill(0).map(
-                (_, i) =>
-                  ({
-                    roleId: `chart${9 - i}`,
-                    actions: [
-                      {
-                        startTime: i * 300,
-                        duration: 1000,
-                        action: 'appear'
-                      }
-                    ]
-                  } as IRoleLink)
-              ),
-              {
-                roleId: `title1`,
-                actions: [
-                  {
-                    startTime: 1500,
-                    duration: 500,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        duration: 500,
-                        effect: 'typewriter'
-                      }
-                    }
-                  }
-                ]
-              },
-              {
-                roleId: `title2`,
-                actions: [
-                  {
-                    startTime: 2000,
-                    duration: 500,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        duration: 500,
-                        effect: 'typewriter'
+            {
+              id: 'scene1',
+              actions: [
+                ...new Array(5).fill(0).map(
+                  (_, i) =>
+                    ({
+                      characterId: `chart${i}`,
+                      characterActions: [
+                        {
+                          startTime: i * 300,
+                          duration: 1000,
+                          action: 'appear'
+                        }
+                      ]
+                    } as ICharacterLink)
+                ),
+                ...new Array(5).fill(0).map(
+                  (_, i) =>
+                    ({
+                      characterId: `chart${9 - i}`,
+                      characterActions: [
+                        {
+                          startTime: i * 300,
+                          duration: 1000,
+                          action: 'appear'
+                        }
+                      ]
+                    } as ICharacterLink)
+                ),
+                {
+                  characterId: `title1`,
+                  characterActions: [
+                    {
+                      startTime: 1500,
+                      duration: 500,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 500,
+                          effect: 'typewriter'
+                        }
                       }
                     }
-                  }
-                ]
-              },
-              // ...new Array(5).fill(0).map(
-              //   (_, i) =>
-              //     ({
-              //       roleId: `chart${i}`,
-              //       actions: [
-              //         {
-              //           startTime: i * 100 + 2500,
-              //           duration: 1000,
-              //           action: 'bounce'
-              //         }
-              //       ]
-              //     } as IRoleLink)
-              // ),
-              // ...new Array(5).fill(0).map(
-              //   (_, i) =>
-              //     ({
-              //       roleId: `chart${9 - i}`,
-              //       actions: [
-              //         {
-              //           startTime: i * 100 + 2500,
-              //           duration: 1000,
-              //           action: 'bounce'
-              //         }
-              //       ]
-              //     } as IRoleLink)
-              // ),
-              {
-                roleId: `titlesubtitle`,
-                actions: [
-                  {
-                    startTime: 2700,
-                    duration: 500,
-                    action: 'appear',
-                    payload: {
-                      animation: {
-                        duration: 200,
-                        easing: 'linear',
-                        effect: 'fade'
+                  ]
+                },
+                {
+                  characterId: `title2`,
+                  characterActions: [
+                    {
+                      startTime: 2000,
+                      duration: 500,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 500,
+                          effect: 'typewriter'
+                        }
                       }
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                },
+                {
+                  characterId: `titlesubtitle`,
+                  characterActions: [
+                    {
+                      startTime: 2700,
+                      duration: 500,
+                      action: 'appear',
+                      payload: {
+                        animation: {
+                          duration: 200,
+                          easing: 'linear',
+                          effect: 'fade'
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+            // [
+
+            //   // {
+            //   //   characterId: `title1`,
+            //   //   actions: [
+            //   //     {
+            //   //       startTime: 1500,
+            //   //       duration: 500,
+            //   //       action: 'appear'
+            //   //     }
+            //   //   ]
+            //   // },
+            //   // {
+            //   //   characterId: `title2`,
+            //   //   actions: [
+            //   //     {
+            //   //       startTime: 2000,
+            //   //       duration: 500,
+            //   //       action: 'appear'
+            //   //     }
+            //   //   ]
+            //   // },
+            //   // ...new Array(5).fill(0).map(
+            //   //   (_, i) =>
+            //   //     ({
+            //   //       characterId: `chart${i}`,
+            //   //       actions: [
+            //   //         {
+            //   //           startTime: i * 100 + 2500,
+            //   //           duration: 1000,
+            //   //           action: 'bounce'
+            //   //         }
+            //   //       ]
+            //   //     } as IRoleLink)
+            //   // ),
+            //   // ...new Array(5).fill(0).map(
+            //   //   (_, i) =>
+            //   //     ({
+            //   //       characterId: `chart${9 - i}`,
+            //   //       actions: [
+            //   //         {
+            //   //           startTime: i * 100 + 2500,
+            //   //           duration: 1000,
+            //   //           action: 'bounce'
+            //   //         }
+            //   //       ]
+            //   //     } as IRoleLink)
+            //   // ),
+            //   // {
+            //   //   characterId: `subtitle`,
+            //   //   actions: [
+            //   //     {
+            //   //       startTime: 2700,
+            //   //       duration: 500,
+            //   //       action: 'appear'
+            //   //     }
+            //   //   ]
+            //   // }
+            // ]
             // [
             //   ...new Array(10).fill(0).map(
             //     (_, i) =>
             //       ({
-            //         roleId: `chart${i}`,
+            //         characterId: `chart${i}`,
             //         actions: [
             //           {
             //             startTime: 0,
@@ -954,7 +973,7 @@ export const VChartSiteDemo = () => {
             //       } as IRoleLink)
             //   ),
             //   {
-            //     roleId: `subtitle`,
+            //     characterId: `subtitle`,
             //     actions: [
             //       {
             //         startTime: 0,
@@ -964,7 +983,7 @@ export const VChartSiteDemo = () => {
             //     ]
             //   },
             //   {
-            //     roleId: `title1`,
+            //     characterId: `title1`,
             //     actions: [
             //       {
             //         startTime: 0,
@@ -981,7 +1000,7 @@ export const VChartSiteDemo = () => {
             //     ]
             //   },
             //   {
-            //     roleId: `title2`,
+            //     characterId: `title2`,
             //     actions: [
             //       {
             //         startTime: 0,
@@ -998,7 +1017,7 @@ export const VChartSiteDemo = () => {
             //     ]
             //   },
             //   {
-            //     roleId: `title3`,
+            //     characterId: `title3`,
             //     actions: [
             //       {
             //         startTime: 1000,
@@ -1008,7 +1027,7 @@ export const VChartSiteDemo = () => {
             //     ]
             //   },
             //   {
-            //     roleId: `roadmap`,
+            //     characterId: `roadmap`,
             //     actions: [
             //       {
             //         startTime: 1000,
@@ -1027,11 +1046,8 @@ export const VChartSiteDemo = () => {
         }
       ]
     };
-
-    console.log(tempSpec);
     const story = new Story(tempSpec, { dom: id });
     story.play();
-    window.story = story;
     const btn1 = document.createElement('button');
     btn1.innerText = 'replay';
     btn1.addEventListener('click', () => {

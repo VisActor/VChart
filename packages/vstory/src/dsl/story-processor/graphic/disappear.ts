@@ -1,14 +1,18 @@
-import type { IRole } from '../../../story/role';
+import type { ICharacter } from '../../../story/character';
 import type { IText } from '@visactor/vrender-core';
 import type { IGraphicDisappearAction } from '../../types/graphic/disappear';
-import { getRoleGraphic, getRoleParentGraphic } from './util';
+import { getCharacterGraphic, getCharacterParentGraphic } from './util';
 import { typewriter } from './effect/typewriter';
 import { commonDisappearEffect } from './effect/disappear';
 
-export const textDisappearProcessor = async (role: IRole, spec = {}, IGraphicAppearAction: IGraphicDisappearAction) => {
+export const textDisappearProcessor = async (
+  character: ICharacter,
+  spec = {},
+  IGraphicAppearAction: IGraphicDisappearAction
+) => {
   const { animation } = IGraphicAppearAction.payload ?? {};
   const { effect } = animation;
-  const graphics = getRoleGraphic(role);
+  const graphics = getCharacterGraphic(character);
   const textGraphics = graphics.filter(graphic => graphic.type === 'text') as IText[];
   textGraphics.forEach(text => {
     if (!commonDisappearEffect(text, effect, animation)) {
@@ -22,7 +26,7 @@ export const textDisappearProcessor = async (role: IRole, spec = {}, IGraphicApp
 };
 
 export const graphicDisappearProcessor = async (
-  role: IRole,
+  character: ICharacter,
   spec = {},
   IGraphicAppearAction: IGraphicDisappearAction
 ) => {
@@ -30,9 +34,9 @@ export const graphicDisappearProcessor = async (
   const { effect } = animation;
   let graphics;
   if (effect === 'move') {
-    graphics = [getRoleParentGraphic(role)];
+    graphics = [getCharacterParentGraphic(character)];
   } else {
-    graphics = getRoleGraphic(role);
+    graphics = getCharacterGraphic(character);
   }
   graphics.forEach(text => {
     if (!commonDisappearEffect(text, effect, animation)) {

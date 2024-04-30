@@ -1,11 +1,11 @@
-import type { IRole } from '../../../story/role';
+import type { ICharacter } from '../../../story/character';
 import type { IBrightenAction } from '../../types/common/Brighten';
 import { brighten } from './effect/Shade';
-import { getRoleGraphic } from './util';
+import { getCharacterGraphic } from './util';
 
-export const brightenProcessor = async (role: IRole, spec = {}, brightenAction: IBrightenAction) => {
+export const brightenProcessor = async (character: ICharacter, spec = {}, brightenAction: IBrightenAction) => {
   const { animation } = brightenAction.payload ?? {};
-  const graphics = getRoleGraphic(role);
+  const graphics = getCharacterGraphic(character);
   graphics.forEach(graphic => {
     brighten(graphic, animation);
   });

@@ -9,7 +9,7 @@ vglobal.setEnv('browser');
 
 export class StoryCanvas {
   protected _story: Story;
-  protected _canvas: HTMLCanvasRole;
+  protected _canvas: HTMLCanvasElement;
   protected _stage: IStage;
   getStage() {
     return this._stage;

@@ -1,11 +1,11 @@
-import { IRole } from '../../../story/role';
-import { getRoleGraphic } from './util';
+import { ICharacter } from '../../../story/character';
+import { getCharacterGraphic } from './util';
 
-export const styleProcessor = async (role: IRole, spec = {}, styleAction: any) => {
+export const styleProcessor = async (character: ICharacter, spec = {}, styleAction: any) => {
   const { graphic: graphicStyle } = styleAction;
   const { animation } = styleAction.payload ?? {};
   const { duration, easing } = animation;
-  const graphic = getRoleGraphic(role)[0];
+  const graphic = getCharacterGraphic(character)[0];
   // TODO:
   if (graphic) {
     graphic.animate().to(graphicStyle, duration, easing);
