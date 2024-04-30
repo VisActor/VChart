@@ -84,9 +84,9 @@ export const GraphicActionDemo = () => {
     // rect
     {
       const effects = [
-        // ['wipe'],
-        // ['fade', 'brighten'],
-        // ['grow'],
+        ['wipe'],
+        ['fade', 'brighten'],
+        ['grow'],
         ['move'],
         ['fade', 'flicker', 'darken'] //
       ];

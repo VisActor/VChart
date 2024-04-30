@@ -5,7 +5,7 @@ import { defaultPayload } from './default';
 import { getAllSeriesMarksByMarkType } from '../../utils';
 import { transformArcAppear } from '../transform/transformArcAppear';
 import { getAllSeries, getSeriesMarksByMarkType } from '../../utils/series';
-import { IChartAppearAction } from '../../../../types/chart/Appear';
+import { IChartAppearAction } from '../../../../types/chart/appear';
 
 export const pieAppearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
   const vchart = (chartInstance as any)?._graphic?._vchart;

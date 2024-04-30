@@ -903,7 +903,7 @@ export const VChartSiteDemo = () => {
 
             //   // {
             //   //   characterId: `title1`,
-            //   //   actions: [
+            //   //   characterActions: [
             //   //     {
             //   //       startTime: 1500,
             //   //       duration: 500,
@@ -913,7 +913,7 @@ export const VChartSiteDemo = () => {
             //   // },
             //   // {
             //   //   characterId: `title2`,
-            //   //   actions: [
+            //   //   characterActions: [
             //   //     {
             //   //       startTime: 2000,
             //   //       duration: 500,
@@ -925,7 +925,7 @@ export const VChartSiteDemo = () => {
             //   //   (_, i) =>
             //   //     ({
             //   //       characterId: `chart${i}`,
-            //   //       actions: [
+            //   //       characterActions: [
             //   //         {
             //   //           startTime: i * 100 + 2500,
             //   //           duration: 1000,
@@ -938,7 +938,7 @@ export const VChartSiteDemo = () => {
             //   //   (_, i) =>
             //   //     ({
             //   //       characterId: `chart${9 - i}`,
-            //   //       actions: [
+            //   //       characterActions: [
             //   //         {
             //   //           startTime: i * 100 + 2500,
             //   //           duration: 1000,
@@ -949,7 +949,7 @@ export const VChartSiteDemo = () => {
             //   // ),
             //   // {
             //   //   characterId: `subtitle`,
-            //   //   actions: [
+            //   //   characterActions: [
             //   //     {
             //   //       startTime: 2700,
             //   //       duration: 500,
@@ -963,7 +963,7 @@ export const VChartSiteDemo = () => {
             //     (_, i) =>
             //       ({
             //         characterId: `chart${i}`,
-            //         actions: [
+            //         characterActions: [
             //           {
             //             startTime: 0,
             //             duration: 0,
@@ -973,74 +973,81 @@ export const VChartSiteDemo = () => {
             //       } as IRoleLink)
             //   ),
             //   {
-            //     characterId: `subtitle`,
-            //     actions: [
+            //     characterId: `titlesubtitle`,
+            //     characterActions: [
             //       {
             //         startTime: 0,
-            //         duration: 0,
-            //         action: 'disappear'
+            //         duration: 200,
+            //         action: 'disappear',
+            //         payload: {
+            //           animation: {
+            //             effect: 'fade',
+            //             duration: 200,
+            //             easing: 'linear'
+            //           }
+            //         }
             //       }
             //     ]
             //   },
             //   {
             //     characterId: `title1`,
-            //     actions: [
+            //     characterActions: [
             //       {
             //         startTime: 0,
             //         duration: 500,
-            //         action: 'move',
-            //         position: { left: 200, top: 100 }
+            //         action: 'moveTo',
+            //         destination: { left: 200, top: 100 }
             //       },
             //       {
             //         startTime: 0,
             //         duration: 500,
             //         action: 'style',
-            //         style: { fontSize: 40 }
+            //         graphic: { fontSize: 40 }
             //       }
             //     ]
             //   },
             //   {
             //     characterId: `title2`,
-            //     actions: [
+            //     characterActions: [
             //       {
             //         startTime: 0,
             //         duration: 500,
-            //         action: 'move',
-            //         position: { left: 400, top: 100 }
+            //         action: 'moveTo',
+            //         destination: { left: 400, top: 100 }
             //       },
             //       {
             //         startTime: 0,
             //         duration: 500,
             //         action: 'style',
-            //         style: { fontSize: 40 }
+            //         graphic: { fontSize: 40 }
             //       }
             //     ]
             //   },
             //   {
             //     characterId: `title3`,
-            //     actions: [
+            //     characterActions: [
             //       {
             //         startTime: 1000,
             //         duration: 500,
             //         action: 'appear'
-            //       }
-            //     ]
-            //   },
-            //   {
-            //     characterId: `roadmap`,
-            //     actions: [
-            //       {
-            //         startTime: 1000,
-            //         duration: 500,
-            //         action: 'appear'
-            //       },
-            //       {
-            //         startTime: 1000,
-            //         duration: 500,
-            //         action: 'stream'
             //       }
             //     ]
             //   }
+            //   // {
+            //   //   characterId: `roadmap`,
+            //   //   characterActions: [
+            //   //     {
+            //   //       startTime: 1000,
+            //   //       duration: 500,
+            //   //       action: 'appear'
+            //   //     },
+            //   //     {
+            //   //       startTime: 1000,
+            //   //       duration: 500,
+            //   //       action: 'stream'
+            //   //     }
+            //   //   ]
+            //   // }
             // ]
           ]
         }

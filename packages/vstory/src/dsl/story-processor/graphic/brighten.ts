@@ -1,5 +1,5 @@
 import type { ICharacter } from '../../../story/character';
-import type { IBrightenAction } from '../../types/common/Brighten';
+import type { IBrightenAction } from '../../types/common/brighten';
 import { brighten } from './effect/Shade';
 import { getCharacterGraphic } from './util';
 

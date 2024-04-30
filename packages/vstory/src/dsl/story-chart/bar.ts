@@ -3,8 +3,8 @@ import { StoryChartType } from '../constant';
 import { StoryChart } from './chart';
 import { Datum } from '../types/Datum';
 import { IChartSpec, IInitOption } from '@visactor/vchart';
-import { IChartStyleAction, IChartStylePayload } from '../types/chart/Style';
-import { IChartAppearAction, IChartAppearPayLoad } from '../types/chart/Appear';
+import { IChartStyleAction, IChartStylePayload } from '../types/chart/style';
+import { IChartAppearAction, IChartAppearPayLoad } from '../types/chart/appear';
 
 export class StoryBar extends StoryChart {
   public storyChartType = StoryChartType.BAR;

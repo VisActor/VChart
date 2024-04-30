@@ -1,8 +1,8 @@
 import type { IChartSpec, IVChart } from '@visactor/vchart';
 import type { IActionContext } from '..';
-import type { IChartAddAction } from './Add';
-import type { IChartAppearAction } from './Appear';
-import type { IChartStyleAction } from './Style';
+import type { IChartAddAction } from './add';
+import type { IChartAppearAction } from './appear';
+import type { IChartStyleAction } from './style';
 
 export type ChartAction = IChartAddAction | IChartStyleAction | IChartAppearAction;
 

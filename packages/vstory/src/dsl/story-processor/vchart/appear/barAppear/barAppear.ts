@@ -3,7 +3,7 @@ import { merge } from '@visactor/vutils';
 import { defaultPayload } from './default';
 import { transformRectAppear } from '../transform/transformRectAppear';
 import { getAllSeriesMarksByMarkType } from '../../utils';
-import { IChartAppearAction } from '../../../../types/chart/Appear';
+import { IChartAppearAction } from '../../../../types/chart/appear';
 
 export const barAppearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
   const vchart = (chartInstance as any)?._graphic?._vchart;

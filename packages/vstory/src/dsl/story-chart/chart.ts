@@ -5,11 +5,11 @@ import { merge } from '@visactor/vutils';
 import { defaultAdd } from './default/add';
 import { StoryElement } from './element';
 import { MarkPoint } from './component/markPoint';
-import { CreateMarkPointAction } from '../types/chart/CreateComponent';
+import { CreateMarkPointAction } from '../types/chart/createComponent';
 import { ChartAction, ChartActionNode } from '../types';
 import { getComponentById } from '../../util/vchart-api';
 import { StoryChartType } from '../constant';
-import { IChartAddAction, IChartAddPayload } from '../types/chart/Add';
+import { IChartAddAction, IChartAddPayload } from '../types/chart/add';
 
 /**
  * 1. 禁用一些图表默认的基础操作。如 tooltip/crosshair

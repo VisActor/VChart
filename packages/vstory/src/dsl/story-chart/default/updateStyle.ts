@@ -1,4 +1,4 @@
-import type { IChartStylePayload } from '../../types/chart/Style';
+import type { IChartStylePayload } from '../../types/chart/style';
 
 export const defaultUpdateStyle: Partial<IChartStylePayload> = {
   animation: {

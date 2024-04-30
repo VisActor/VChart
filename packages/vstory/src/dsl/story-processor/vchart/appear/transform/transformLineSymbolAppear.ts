@@ -1,5 +1,5 @@
 import VChart from '@visactor/vchart';
-import { IChartAppearAction } from '../../../../types/chart/Appear';
+import { IChartAppearAction } from '../../../../types/chart/appear';
 
 export const transformLineSymbolAppear = (
   instance: VChart,
