@@ -15,6 +15,7 @@ import { brightenProcessor } from '../graphic/brighten';
 import { moveToProcessor } from '../graphic/moveTo';
 import { styleProcessor } from '../graphic/style';
 import { graphicDisappearProcessor, textDisappearProcessor } from '../graphic/disappear';
+import { bounceProcessor } from '../vchart/bounce';
 
 /**
  * 通用的编辑processor
@@ -28,7 +29,9 @@ const editProcessor = {
 /**
  * 通用的查看processor
  */
-const viewProcessor = {};
+const viewProcessor = {
+  bounce: bounceProcessor
+};
 
 /**
  * 通用的组件行为processor
@@ -74,6 +77,16 @@ export const processorChartMap = {
     ...viewProcessor,
     ...componentProcessor,
     arcStyle: createMarkStyleProcessorByMarkType('arc')
+  },
+  CharacterChart: {
+    // TODO:  processor 需要重构一下结构。这里为了跑 demo
+    ...viewProcessor
+  },
+  RangeColumnChart: {
+    ...viewProcessor
+  },
+  ScatterChart: {
+    ...viewProcessor
   }
 };
 
@@ -92,7 +105,8 @@ export const commonMarkProcessor = {
   darken: darkenProcessor,
   brighten: brightenProcessor,
   moveTo: moveToProcessor,
-  style: styleProcessor
+  style: styleProcessor,
+  bounce: bounceProcessor
 };
 
 export const processorMarkMap = {
