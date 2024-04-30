@@ -880,6 +880,36 @@ export const VChartSiteDemo = () => {
                     }
                   ]
                 },
+                ...new Array(5).fill(0).map((_, i) => ({
+                  characterId: `chart${9 - i}`,
+                  characterActions: [
+                    {
+                      startTime: i * 100 + 2500,
+                      duration: 2000,
+                      action: 'bounce',
+                      payload: {
+                        animation: {
+                          duration: 2000
+                        }
+                      }
+                    }
+                  ]
+                })),
+                ...new Array(5).fill(0).map((_, i) => ({
+                  characterId: `chart${i}`,
+                  characterActions: [
+                    {
+                      startTime: i * 100 + 2500,
+                      duration: 2000,
+                      action: 'bounce',
+                      payload: {
+                        animation: {
+                          duration: 2000
+                        }
+                      }
+                    }
+                  ]
+                })),
                 {
                   characterId: `titlesubtitle`,
                   characterActions: [

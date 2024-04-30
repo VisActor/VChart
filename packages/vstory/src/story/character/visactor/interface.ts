@@ -129,6 +129,7 @@ export interface IVisactorGraphic extends IGroup {
 export interface ICharacterVisactor extends ICharacter {
   // 清除编辑数据
   clearConfig: (opt: { clearCurrent: false | { [key: string]: any } }) => void;
+  getGraphicParent: () => IVisactorGraphic;
 }
 
 export interface IUpdateAttributeOption {
