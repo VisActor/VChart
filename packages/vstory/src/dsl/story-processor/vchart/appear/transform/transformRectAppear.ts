@@ -1,9 +1,9 @@
 import VChart from '@visactor/vchart';
-import { AppearAction } from '../../../../types/Appear';
 import { IOrientType } from '@visactor/vchart/src/typings';
+import { IChartAppearAction } from '../../../../types/chart/Appear';
 
 // 将payload转换为chart内置的动画type
-export const transformRectAppear = (instance: VChart, animation: AppearAction['payload']['animation']) => {
+export const transformRectAppear = (instance: VChart, animation: IChartAppearAction['payload']['animation']) => {
   switch (animation.effect) {
     case 'grow': {
       return rectGrow(instance, animation);
@@ -43,7 +43,7 @@ const getXYAxis = (instance: VChart) => {
   return [xAxis, yAxis];
 };
 
-const rectGrow = (instance: VChart, animation: AppearAction['payload']['animation']) => {
+const rectGrow = (instance: VChart, animation: IChartAppearAction['payload']['animation']) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   const direction = instance.getChart().getSpec().direction ?? 'vertical';
@@ -77,7 +77,7 @@ const rectGrow = (instance: VChart, animation: AppearAction['payload']['animatio
   };
 };
 
-const rectFade = (instance: VChart, animation: AppearAction['payload']['animation']) => {
+const rectFade = (instance: VChart, animation: IChartAppearAction['payload']['animation']) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   return {
@@ -89,4 +89,4 @@ const rectFade = (instance: VChart, animation: AppearAction['payload']['animatio
   };
 };
 
-const barBounce = (instance: VChart, animation: AppearAction['payload']['animation']) => {};
+const barBounce = (instance: VChart, animation: IChartAppearAction['payload']['animation']) => {};

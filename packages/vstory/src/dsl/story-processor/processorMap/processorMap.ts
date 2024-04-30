@@ -3,7 +3,7 @@ import { StoryChartComponentType, StoryChartType, StoryGraphicType } from '../..
 import { addProcessor } from '../vchart/add';
 import { createMarkStyleProcessorByMarkType } from '../vchart/style/style';
 import { updateProcessor } from '../vchart/update';
-import { qipaoAppearProcessor, rectAppearProcessor, textAppearProcessor } from '../graphic/appear';
+import { graphicAppearProcessor, textAppearProcessor } from '../graphic/appear';
 import { barAppearProcessor, lineAppearProcessor, pieAppearProcessor } from '../vchart/appear';
 import { createMarkPointProcessor, markPointFlickerProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
@@ -14,6 +14,7 @@ import { darkenProcessor } from '../graphic/darken';
 import { brightenProcessor } from '../graphic/brighten';
 import { moveToProcessor } from '../graphic/moveTo';
 import { styleProcessor } from '../graphic/style';
+import { graphicDisappearProcessor, textDisappearProcessor } from '../graphic/disappear';
 
 /**
  * 通用的编辑processor
@@ -84,22 +85,30 @@ export const processorComponentMap = {
 };
 
 // 图元processor
+export const commonMarkProcessor = {
+  appear: graphicAppearProcessor,
+  disappear: graphicDisappearProcessor,
+  flicker: flickerProcessor,
+  darken: darkenProcessor,
+  brighten: brightenProcessor,
+  moveTo: moveToProcessor,
+  style: styleProcessor
+};
+
 export const processorMarkMap = {
   [StoryGraphicType.RECT]: {
-    appear: rectAppearProcessor,
-    flicker: flickerProcessor,
-    darken: darkenProcessor,
-    brighten: brightenProcessor
+    ...commonMarkProcessor
   },
   [StoryGraphicType.QIPAO]: {
-    appear: qipaoAppearProcessor,
-    flicker: flickerProcessor
+    ...commonMarkProcessor
   },
   [StoryGraphicType.TEXT]: {
-    appear: textAppearProcessor, // TODO: 统一处理一下
-    flicker: flickerProcessor,
-    moveTo: moveToProcessor,
-    style: styleProcessor
+    ...commonMarkProcessor,
+    appear: textAppearProcessor,
+    disappear: textDisappearProcessor
+  },
+  [StoryGraphicType.RICH_TEXT]: {
+    ...commonMarkProcessor
   }
 };
 

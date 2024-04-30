@@ -1,17 +1,17 @@
 import VChart, { ISpec } from '@visactor/vchart';
-import { ActionNode } from '../../../types';
-import { StyleAction } from '../../../types/Style';
+import { Action } from '../../../types';
 import { getAllSeriesMarksWithoutRoot } from '../../../../util/vchart-api';
 import { isDatumEqual } from '../../../utils/datum';
 import { isValid } from '@visactor/vutils';
+import { IChartStyleAction } from '../../../types/chart/Style';
 
-export const lineStyleProcessor = async (chartInstance: VChart, spec: ISpec, updateStyleAction: ActionNode) => {
-  const action = updateStyleAction as StyleAction;
+export const lineStyleProcessor = async (chartInstance: VChart, spec: ISpec, updateStyleAction: IChartStyleAction) => {
+  const action = updateStyleAction as IChartStyleAction;
   const { payload } = action;
 
   const encodeHelper = (attribute: string) => {
     return (_, element) => {
-      if (element.data.some(d => isDatumEqual(d, action.data)) && isValid(payload?.[attribute])) {
+      if (element.data.some(d => isDatumEqual(d, action.payload.data)) && isValid(payload?.[attribute])) {
         return payload[attribute];
       }
 

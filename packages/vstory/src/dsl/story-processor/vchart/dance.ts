@@ -2,7 +2,6 @@ import VChart, { IChartSpec } from '@visactor/vchart';
 import { getAllSeriesMarksWithoutRoot } from '../../../util/vchart-api';
 import { isDatumEqual } from '../../utils/datum';
 import { isNil } from '@visactor/vutils';
-import { rotateX } from '@visactor/vrender-core';
 
 export const danceProcessor = (chartInstance: VChart, spec: IChartSpec, addAction: any) => {
   if (!chartInstance) {

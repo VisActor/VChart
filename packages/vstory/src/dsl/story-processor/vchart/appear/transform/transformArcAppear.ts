@@ -1,10 +1,10 @@
 import VChart from '@visactor/vchart';
-import { AppearAction } from '../../../../types/Appear';
+import { IChartAppearAction } from '../../../../types/chart/Appear';
 
 // 将payload转换为chart内置的动画type
 export const transformArcAppear = (
   instance: VChart,
-  animation: AppearAction['payload']['animation'],
+  animation: IChartAppearAction['payload']['animation'],
   index: number
 ) => {
   switch (animation.effect) {
@@ -23,7 +23,7 @@ export const transformArcAppear = (
   }
 };
 
-const arcGrowRadius = (instance: VChart, animation: AppearAction['payload']['animation'], index: number) => {
+const arcGrowRadius = (instance: VChart, animation: IChartAppearAction['payload']['animation'], index: number) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   return {
@@ -35,7 +35,7 @@ const arcGrowRadius = (instance: VChart, animation: AppearAction['payload']['ani
   };
 };
 
-const arcGrowAngle = (instance: VChart, animation: AppearAction['payload']['animation'], index: number) => {
+const arcGrowAngle = (instance: VChart, animation: IChartAppearAction['payload']['animation'], index: number) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   return {
@@ -47,7 +47,7 @@ const arcGrowAngle = (instance: VChart, animation: AppearAction['payload']['anim
   };
 };
 
-const arcFade = (instance: VChart, animation: AppearAction['payload']['animation'], index: number) => {
+const arcFade = (instance: VChart, animation: IChartAppearAction['payload']['animation'], index: number) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   return {

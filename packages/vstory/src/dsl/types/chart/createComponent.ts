@@ -1,5 +1,5 @@
 import type { IChartSpec, IMarkPointSpec, VChart } from '@visactor/vchart';
-import { Datum } from './Datum';
+import { Datum } from '../Datum';
 
 export interface CreateComponentAction<Action extends string, PayLoad extends Object> {
   action: Action;

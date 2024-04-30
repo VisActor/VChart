@@ -58,7 +58,7 @@ export const ChartHistory = () => {
             payload: {
               animation: {
                 duration,
-                easing: 'linear',
+                easing: 'quadIn',
                 effect: 'typewriter'
               }
             }
@@ -66,19 +66,19 @@ export const ChartHistory = () => {
           {
             action: 'moveTo',
             duration,
-            startTime: 50 + duration * 2,
+            startTime: 50 + duration * 3,
             destination: { x: 350, y: 100 },
             payload: {
               animation: {
                 duration,
-                easing: 'linear'
+                easing: 'quadInOut'
               }
             }
           },
           {
             action: 'style',
             duration,
-            startTime: 50 + duration * 2,
+            startTime: 50 + duration * 3,
             graphic: {
               fontSize: 50
             },
@@ -118,7 +118,7 @@ export const ChartHistory = () => {
             payload: {
               animation: {
                 duration,
-                easing: 'linear',
+                easing: 'quadIn',
                 effect: 'typewriter'
               }
             }
@@ -126,19 +126,19 @@ export const ChartHistory = () => {
           {
             action: 'moveTo',
             duration,
-            startTime: 50 + duration * 2,
+            startTime: 50 + duration * 3,
             destination: { x: 730, y: 100 },
             payload: {
               animation: {
                 duration,
-                easing: 'linear'
+                easing: 'quadInOut'
               }
             }
           },
           {
             action: 'style',
             duration,
-            startTime: 50 + duration * 2,
+            startTime: 50 + duration * 3,
             graphic: {
               fontSize: 50
             },
@@ -152,7 +152,107 @@ export const ChartHistory = () => {
         ]
       });
     }
+    {
+      const { role } = createRole(
+        {
+          id: 'title-line-3',
+          type: StoryGraphicType.RICH_TEXT,
+          position: {
+            top: 600,
+            left: 450,
+            width: 700,
+            height: 200
+          }
+        },
+        {
+          graphic: {
+            width: 400,
+            fontSize: 28,
+            fontWeight: 'bold',
+            textConfig: [
+              {
+                text: 'Powered By '
+              },
+              {
+                text: 'VChart',
+                fill: 'blue'
+              }
+            ]
+          }
+        }
+      );
 
+      roles.push(role);
+      scene1Actions.push({
+        roleId: role.id,
+        actions: [
+          {
+            action: 'appear',
+            duration,
+            startTime: 50 + duration * 2,
+            payload: {
+              animation: {
+                duration: 200,
+                easing: 'linear',
+                effect: 'fade'
+              }
+            }
+          },
+          {
+            action: 'disappear',
+            startTime: 50 + duration * 3,
+            payload: {
+              animation: {
+                duration: 200,
+                easing: 'linear',
+                effect: 'fade'
+              }
+            }
+          }
+        ]
+      });
+    }
+    {
+      const { role } = createRole(
+        {
+          id: 'title-line-4',
+          type: StoryGraphicType.TEXT,
+          position: {
+            top: 70,
+            left: 220,
+            width: 300,
+            height: 200
+          }
+        },
+        {
+          graphic: {
+            width: 400,
+            fontSize: 12,
+            fill: '#292729',
+            text: 'DEVELOPMENT ROADMAP'
+          }
+        }
+      );
+
+      roles.push(role);
+      scene1Actions.push({
+        roleId: role.id,
+        actions: [
+          {
+            action: 'appear',
+            duration,
+            startTime: 50 + duration * 4,
+            payload: {
+              animation: {
+                duration: 200,
+                easing: 'linear',
+                effect: 'fade'
+              }
+            }
+          }
+        ]
+      });
+    }
     const tempSpec: IStorySpec = {
       roles,
       acts: [
@@ -163,11 +263,10 @@ export const ChartHistory = () => {
       ]
     };
 
-    console.log(tempSpec);
-
     const story = new Story(tempSpec, { dom: id });
     setStory(story);
     story.play();
+    window.story = story;
   }, []);
 
   useEffect(() => {

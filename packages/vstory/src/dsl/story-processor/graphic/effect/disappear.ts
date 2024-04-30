@@ -1,28 +1,28 @@
 import type { EasingType, IGraphic } from '@visactor/vrender-core';
-import type { IGraphicAppearPayLoad } from '../../../types/graphic/appear';
 import type { IAnimationParams } from '../../../types';
+import type { IGraphicDisappearPayLoad } from '../../../types/graphic/disappear';
 import { isObject, isString } from '@visactor/vutils';
 import { Wipe } from '../../../../animate/wipeIn';
 
-export interface IMoveInParams extends IAnimationParams {
+export interface IMoveOutParams extends IAnimationParams {
   from: 'left' | 'right' | 'top' | 'bottom';
 }
 
-export function fadeIn(graphic: IGraphic, params: IAnimationParams) {
+export function fadeOut(graphic: IGraphic, params: IAnimationParams) {
   if (graphic) {
     const { duration, easing } = params;
-    graphic.animate().from({ opacity: 0 }, duration, easing as EasingType);
+    graphic.animate().to({ opacity: 0 }, duration, easing as EasingType);
   }
 }
 
-export function scaleIn(graphic: IGraphic, params: IAnimationParams) {
+export function scaleOut(graphic: IGraphic, params: IAnimationParams) {
   if (graphic) {
     const { duration, easing } = params;
-    graphic.animate().from({ scaleX: 0, scaleY: 0 }, duration, easing as EasingType);
+    graphic.animate().to({ scaleX: 0, scaleY: 0 }, duration, easing as EasingType);
   }
 }
 
-export function moveIn(graphic: IGraphic, params: IMoveInParams) {
+export function moveOut(graphic: IGraphic, params: IMoveOutParams) {
   if (graphic) {
     const { duration, easing, from = 'right' } = params;
     let fromX = graphic.attribute.x;
@@ -41,12 +41,12 @@ export function moveIn(graphic: IGraphic, params: IMoveInParams) {
         fromY = 0;
         break;
     }
-    graphic.animate().from({ x: fromX, y: fromY }, duration, easing as EasingType);
+    graphic.animate().to({ x: fromX, y: fromY }, duration, easing as EasingType);
   }
 }
 
-export interface IWipeInParams extends IAnimationParams {
-  from: 'left' | 'right' | 'top' | 'bottom' | 'stroke';
+export interface IWipeOutParams extends IAnimationParams {
+  to: 'left' | 'right' | 'top' | 'bottom' | 'stroke';
 }
 
 const Direction = {
@@ -57,14 +57,15 @@ const Direction = {
   stroke: 4
 };
 
-export function wipeIn(graphic: IGraphic, params: IWipeInParams) {
+// TODO: 扩展 wip 以支持出场动画
+export function wipeOut(graphic: IGraphic, params: IWipeOutParams) {
   if (graphic) {
-    const { duration, easing = 'linear', from = 'left' } = params;
+    const { duration, easing = 'linear', to = 'left' } = params;
     const { fill } = graphic.attribute;
     if (isString(fill)) {
       graphic.animate().play(
         new Wipe({}, {}, duration, easing as EasingType, {
-          direction: Direction[from]
+          direction: Direction[to]
         })
       );
     } else if (isObject(fill)) {
@@ -73,20 +74,24 @@ export function wipeIn(graphic: IGraphic, params: IWipeInParams) {
   }
 }
 
-export function commonAppearEffect(graphic: IGraphic, effect: string, params: IGraphicAppearPayLoad['animation']) {
+export function commonDisappearEffect(
+  graphic: IGraphic,
+  effect: string,
+  params: IGraphicDisappearPayLoad['animation']
+) {
   let doAnimation = true;
   switch (effect) {
     case 'grow':
-      scaleIn(graphic, params);
+      scaleOut(graphic, params);
       break;
     case 'fade':
-      fadeIn(graphic, params);
+      fadeOut(graphic, params);
       break;
     case 'move':
-      moveIn(graphic, params as unknown as IMoveInParams);
+      moveOut(graphic, params as unknown as IMoveOutParams);
       break;
     case 'wipe':
-      wipeIn(graphic, params as unknown as IWipeInParams);
+      wipeOut(graphic, params as unknown as IWipeOutParams);
       break;
     default:
       doAnimation = false;

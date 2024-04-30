@@ -1,20 +1,8 @@
-import { EasingType, IGraphic } from '@visactor/vrender-core';
-import { AnimationParams } from './appear';
+import type { EasingType, IGraphic } from '@visactor/vrender-core';
+import type { IDarkenParams } from '../../../types/common/Darken';
+import type { IBrightenParams } from '../../../types/common/Brighten';
+
 import { Color, isString, rgbToHsl } from '@visactor/vutils';
-
-export interface DarkenParams extends AnimationParams {
-  /**
-   * @default 0.8
-   */
-  ratio?: number;
-}
-
-export interface BrightenParams extends AnimationParams {
-  /**
-   * @default 1.2
-   */
-  ratio?: number;
-}
 
 function getBrighterColor(color: string, ratio: number) {
   if (ratio === 1) {
@@ -29,7 +17,7 @@ function getBrighterColor(color: string, ratio: number) {
   return colorInstance.toRGBA();
 }
 
-export function darken(graphic: IGraphic, params: DarkenParams) {
+export function darken(graphic: IGraphic, params: IDarkenParams) {
   if (graphic) {
     const { duration, easing, ratio = 0.8 } = params;
     const { fill, visible, opacity } = graphic.attribute;
@@ -41,7 +29,7 @@ export function darken(graphic: IGraphic, params: DarkenParams) {
   }
 }
 
-export function brighten(graphic: IGraphic, params: BrightenParams) {
+export function brighten(graphic: IGraphic, params: IBrightenParams) {
   if (graphic) {
     const { duration, easing, ratio = 1.2 } = params;
     const { fill, visible, opacity } = graphic.attribute;

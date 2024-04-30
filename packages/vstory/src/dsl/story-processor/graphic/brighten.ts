@@ -1,12 +1,11 @@
 import type { ICharacter } from '../../../story/character';
-import type { AppearOption } from '../../types/Appear';
-import { brighten } from './effect/darken';
+import type { IBrightenAction } from '../../types/common/Brighten';
+import { brighten } from './effect/Shade';
 import { getCharacterGraphic } from './util';
 
-// TODO: 类型问题
-export const brightenProcessor = async (character: ICharacter, spec = {}, appearAction: AppearOption) => {
-  const { animation } = appearAction.payload ?? {};
-  const graphics = getCharacterGraphic(character).filter(graphic => graphic.type !== 'text');
+export const brightenProcessor = async (character: ICharacter, spec = {}, brightenAction: IBrightenAction) => {
+  const { animation } = brightenAction.payload ?? {};
+  const graphics = getCharacterGraphic(character);
   graphics.forEach(graphic => {
     brighten(graphic, animation);
   });

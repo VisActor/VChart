@@ -1,12 +1,12 @@
 import { ICharacter } from '../../../story/character';
-import { AppearOption } from '../../types/Appear';
-import { darken } from './effect/darken';
+import { IDarkenAction } from '../../types/common/Darken';
+import { darken } from './effect/Shade';
 import { getCharacterGraphic } from './util';
 
 // TODO: 类型问题
-export const darkenProcessor = async (character: ICharacter, spec = {}, appearAction: AppearOption) => {
-  const { animation } = appearAction.payload ?? {};
-  const graphics = getCharacterGraphic(character).filter(graphic => graphic.type !== 'text');
+export const darkenProcessor = async (character: ICharacter, spec = {}, darkenAction: IDarkenAction) => {
+  const { animation } = darkenAction.payload ?? {};
+  const graphics = getCharacterGraphic(character);
   graphics.forEach(graphic => {
     darken(graphic, animation);
   });

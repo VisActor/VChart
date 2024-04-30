@@ -1,6 +1,6 @@
-import { AppearAction } from '../../../../types/Appear';
+import { IChartAppearAction } from '../../../../types/chart/Appear';
 
-export const defaultPayload: AppearAction['payload'] = {
+export const defaultPayload: IChartAppearAction['payload'] = {
   animation: {
     effect: 'grow',
     duration: 2000,

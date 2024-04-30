@@ -1,12 +1,11 @@
-import type { IText } from '@visactor/vrender-core';
-import { createText } from '@visactor/vrender-core';
-import type { IPointLike } from '@visactor/vutils';
+import type { IRichText, IRichTextAttribute } from '@visactor/vrender-core';
+import { createRichText } from '@visactor/vrender-core';
 import { Graphic } from './graphic';
 import { IWidgetData } from '../../dsl-interface';
 import { getLayoutFromWidget } from '../../../utils/layout';
 
-export class GraphicPureText extends Graphic {
-  protected _graphic: IText;
+export class GraphicRichText extends Graphic {
+  protected _graphic: IRichText;
 
   getInitialAttributes() {
     return {
@@ -14,6 +13,8 @@ export class GraphicPureText extends Graphic {
       y: 0,
       width: 120,
       height: 80,
+      maxWidth: 120,
+      maxHeight: 80,
       angle: 0,
       fontSize: 16,
       textAlign: 'center',
@@ -22,19 +23,20 @@ export class GraphicPureText extends Graphic {
       lineWidth: 2,
       ignoreBuf: true,
       stroke: false,
-      shapePoints: [] as IPointLike[]
-    };
+      ellipsis: true,
+      textConfig: []
+    } as Partial<IRichTextAttribute>;
   }
 
   init() {
     if (!this._graphic) {
-      this._graphic = createText(
+      this._graphic = createRichText(
         this._transformAttributes({
           ...this.getInitialAttributes(),
           ...(this._character.spec.options?.graphic ?? {})
         })
       );
-      this._graphic.name = `graphic-text-${this._character.id}`;
+      this._graphic.name = `graphic-richtext-${this._character.id}`;
       this._character.getGraphicParent().add(this._graphic);
     }
   }
@@ -46,10 +48,8 @@ export class GraphicPureText extends Graphic {
         x,
         y,
         angle,
-        width,
-        height,
-        maxLineWidth: width,
-        heightLimit: height
+        maxWidth: width,
+        maxHeight: height
       })
     );
   }

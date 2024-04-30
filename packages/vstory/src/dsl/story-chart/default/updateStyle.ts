@@ -1,6 +1,6 @@
-import { StyleOption } from '../../types/Style';
+import type { IChartStylePayload } from '../../types/chart/Style';
 
-export const defaultUpdateStyle: StyleOption = {
+export const defaultUpdateStyle: Partial<IChartStylePayload> = {
   animation: {
     duration: 500,
     easing: 'linear'

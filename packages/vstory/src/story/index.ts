@@ -1,5 +1,5 @@
-import { CharacterComponentQipao } from './character/component/characters/role-qipao';
-import { CharacterComponentRect } from './character/component/characters/role-rect';
+import { CharacterComponentQipao } from './character/component/characters/character-qipao';
+import { CharacterComponentRect } from './character/component/characters/character-rect';
 import { StoryFactory } from './factory/factory';
 import { CharacterChart } from './character/chart/character';
 import { ContainerModule, GraphicRender, container } from '@visactor/vrender-core';
@@ -10,7 +10,8 @@ import { AreaChartCharacter } from './character/chart/characters/area';
 import { PieChartCharacter } from './character/chart/characters/pie';
 import { ScatterChartCharacter } from './character/chart/characters/scatter';
 import { RangeColumnChartCharacter } from './character/chart/characters/rangeColumn';
-import { CharacterComponentText } from './character/component/characters/role-text';
+import { CharacterComponentText } from './character/component/characters/character-text';
+import { CharacterComponentRichText } from './character/component/characters/character-richtext';
 
 StoryFactory.registerCharacter(BarChartCharacter.type, BarChartCharacter);
 StoryFactory.registerCharacter(LineChartCharacter.type, CharacterChart);
@@ -25,6 +26,7 @@ StoryFactory.registerCharacter(RangeColumnChartCharacter.type, RangeColumnChartC
 // StoryFactory.registerCharacter('LineChart', CharacterChart);
 StoryFactory.registerCharacter('RectComponent', CharacterComponentRect);
 StoryFactory.registerCharacter('TextComponent', CharacterComponentText);
+StoryFactory.registerCharacter('RichTextComponent', CharacterComponentRichText);
 
 StoryFactory.registerCharacter('QipaoComponent', CharacterComponentQipao);
 

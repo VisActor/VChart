@@ -1,11 +1,10 @@
 import VChart, { IChartSpec } from '@visactor/vchart';
-import { ActionNode } from '../../types';
 import { cloneDeep, isEqual } from '@visactor/vutils';
-import { UpdateAction } from '../../types/Update';
+import { IChartUpdateAction } from '../../types/chart/Update';
 
-export const updateProcessor = async (chartInstance: VChart, spec: IChartSpec, addAction: ActionNode) => {
-  const action = addAction as UpdateAction;
-  const dataIndex = spec.data[0].values.indexOf(v => isEqual(v, action.data));
+export const updateProcessor = async (chartInstance: VChart, spec: IChartSpec, updateAction: IChartUpdateAction) => {
+  const action = updateAction;
+  const dataIndex = spec.data[0].values.indexOf(v => isEqual(v, action.payload.data));
 
   spec.data[0].values.splice(dataIndex, 1, action.payload);
 

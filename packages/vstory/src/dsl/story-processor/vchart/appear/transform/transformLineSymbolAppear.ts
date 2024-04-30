@@ -1,9 +1,9 @@
 import VChart from '@visactor/vchart';
-import { AppearAction } from '../../../../types/Appear';
+import { IChartAppearAction } from '../../../../types/chart/Appear';
 
 export const transformLineSymbolAppear = (
   instance: VChart,
-  animation: AppearAction['payload']['animation'],
+  animation: IChartAppearAction['payload']['animation'],
   markIndex: number
 ) => {
   switch (animation.effect) {
@@ -16,7 +16,7 @@ export const transformLineSymbolAppear = (
   }
 };
 
-const symbolGrow = (instance: VChart, animation: AppearAction['payload']['animation'], markIndex: number) => {
+const symbolGrow = (instance: VChart, animation: IChartAppearAction['payload']['animation'], markIndex: number) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   if (oneByOne === true) {
@@ -41,7 +41,7 @@ const symbolGrow = (instance: VChart, animation: AppearAction['payload']['animat
   };
 };
 
-const symbolFade = (instance: VChart, animation: AppearAction['payload']['animation'], markIndex: number) => {
+const symbolFade = (instance: VChart, animation: IChartAppearAction['payload']['animation'], markIndex: number) => {
   const { duration, loop, oneByOne, easing } = animation;
 
   if (oneByOne === true) {
