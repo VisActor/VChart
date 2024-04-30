@@ -2,8 +2,6 @@ import { ACustomAnimate } from '@visactor/vrender-core';
 import type { EasingType } from '@visactor/vrender-core';
 
 export class Bounce extends ACustomAnimate<any> {
-  static label = 'bounce';
-
   declare valid: boolean;
 
   private dy: number;
