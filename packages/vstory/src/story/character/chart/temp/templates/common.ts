@@ -15,6 +15,56 @@ export function getCommonSpec() {
   };
 }
 
+export function getPolarCommonSpec() {
+  return {
+    ...getCommonSpec(),
+    axes: getPolarAxesSpec()
+  };
+}
+
+export function getPolarAxesSpec() {
+  return [
+    {
+      orient: 'radius'
+    },
+    {
+      orient: 'angle'
+    }
+  ];
+}
+
+export function getPolarSpec(
+  seriesSpec: () => any,
+  spec: any,
+  data: StandardData,
+  option: {
+    seriesField?: string;
+    categoryField: string;
+    valueField: string;
+  }
+) {
+  spec.data = array(data);
+  spec.series = spec.data.map((d: IDataValue) => {
+    return fillPolarSeriesSpec(seriesSpec(), d, option);
+  });
+  return spec;
+}
+
+export function fillPolarSeriesSpec(
+  spec: any,
+  d: IDataValue,
+  option: {
+    seriesField?: string;
+    categoryField: string;
+    valueField: string;
+  }
+) {
+  spec.dataId = d.id;
+  spec.id = `series-${d.id}`;
+  spec.seriesField = option.seriesField;
+  return spec;
+}
+
 export function getCartesianCommonSpec(direction: 'horizontal' | 'vertical', percent = false, trimPadding = false) {
   return {
     direction,

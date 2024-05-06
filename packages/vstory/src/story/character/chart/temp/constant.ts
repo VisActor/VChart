@@ -4,5 +4,7 @@ export enum TemplateChartType {
   line = 'LineChart',
   pie = 'PieChart',
   scatter = 'ScatterChart',
-  rangeColumn = 'RangeColumnChart'
+  rangeColumn = 'RangeColumnChart',
+  rose = 'RoseChart',
+  radar = 'RadarChart'
 }

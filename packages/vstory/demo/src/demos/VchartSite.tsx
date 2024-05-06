@@ -316,38 +316,74 @@ const chartSpecList = [
   },
   {
     title: 'Rose Chart',
-    // characterType: 'RoseChart',
-    spec: {
+    characterType: 'RoseChart',
+    options: {
       padding: 8,
-      type: 'rose',
       data: [
         {
-          id: 'id0',
+          id: 'data1',
           values: [
-            { type: 'A', value: 608 },
-            { type: 'B', value: 680 },
-            { type: 'C', value: 727 },
-            { type: 'D', value: 673 },
-            { type: 'E', value: 815 }
+            {
+              value: 348,
+              name: '中介渠道: 34.8%'
+            },
+            {
+              value: 152,
+              name: '会员: 15.2%'
+            },
+            {
+              value: 500,
+              name: '散客: 50%'
+            }
           ]
         }
       ],
-      radius: 1,
-      innerRadius: 0.2,
-      categoryField: 'type',
-      valueField: 'value',
-      seriesField: 'type'
+      seriesSpec: [
+        {
+          matchInfo: { specIndex: 'all' },
+          spec: { valueField: 'value', seriesField: 'name', categoryField: 'name', radius: 1, innerRadius: 0 }
+        }
+      ],
+      componentSpec: [
+        {
+          specKey: 'axes',
+          matchInfo: { orient: 'radius' },
+          spec: {
+            domainLine: { visible: false, smooth: false },
+            label: {
+              visible: false
+            },
+            tick: {
+              visible: false
+            },
+            grid: { visible: false }
+          }
+        },
+        {
+          specKey: 'axes',
+          matchInfo: { orient: 'angle' },
+          spec: {
+            domainLine: { visible: false, smooth: false },
+            label: {
+              visible: false
+            },
+            tick: {
+              visible: false
+            },
+            grid: { visible: false }
+          }
+        }
+      ]
     }
   },
   {
     title: 'Radar Chart',
-    // characterType: 'RadarChart',
-    spec: {
-      padding: 0,
-      type: 'radar',
+    characterType: 'RadarChart',
+    options: {
+      padding: 8,
       data: [
         {
-          id: 'id0',
+          id: 'data2',
           values: [
             {
               theta: 0,
@@ -432,51 +468,64 @@ const chartSpecList = [
           ]
         }
       ],
-      categoryField: 'theta',
-      valueField: 'value',
-      seriesField: 'type',
-      line: {
-        style: {
-          strokeWidth: 2
-        }
-      },
-      point: {
-        style: {
-          size: 2,
-          strokeWidth: 1
-        }
-      },
-      startAngle: 90,
-      axes: [
+      seriesSpec: [
         {
-          orient: 'angle',
-          domainLine: { visible: true, smooth: false },
-          label: {
-            visible: false
-          },
-          tick: {
-            visible: false
-          },
-          grid: { visible: true }
-        },
-        {
-          orient: 'radius',
-          domainLine: { visible: false, smooth: false },
-          label: {
-            visible: false
-          },
-          grid: { visible: false }
+          matchInfo: { specIndex: 'all' },
+          spec: {
+            categoryField: 'theta',
+            valueField: 'value',
+            seriesField: 'type',
+            line: {
+              style: {
+                strokeWidth: 2
+              }
+            },
+            legends: {
+              visible: false
+            },
+            label: {
+              visible: false
+            },
+            animationAppear: {
+              preset: 'clipIn'
+            },
+            point: {
+              style: {
+                size: 2,
+                strokeWidth: 1
+              }
+            },
+            startAngle: 90
+          }
         }
       ],
-      legends: {
-        visible: false
-      },
-      label: {
-        visible: false
-      },
-      animationAppear: {
-        preset: 'clipIn'
-      }
+      componentSpec: [
+        {
+          specKey: 'axes',
+          matchInfo: { orient: 'radius' },
+          spec: {
+            domainLine: { visible: true, smooth: false },
+            label: {
+              visible: false
+            },
+            tick: {
+              visible: false
+            },
+            grid: { visible: true }
+          }
+        },
+        {
+          specKey: 'axes',
+          matchInfo: { orient: 'angle' },
+          spec: {
+            domainLine: { visible: false, smooth: false },
+            label: {
+              visible: false
+            },
+            grid: { visible: false }
+          }
+        }
+      ]
     }
   },
   {

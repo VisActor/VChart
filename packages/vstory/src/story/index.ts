@@ -8,6 +8,8 @@ import { BarChartCharacter } from './character/chart/characters/bar';
 import { LineChartCharacter } from './character/chart/characters/line';
 import { AreaChartCharacter } from './character/chart/characters/area';
 import { PieChartCharacter } from './character/chart/characters/pie';
+import { RoseChartCharacter } from './character/chart/characters/rose';
+import { RadarChartCharacter } from './character/chart/characters/radar';
 import { ScatterChartCharacter } from './character/chart/characters/scatter';
 import { RangeColumnChartCharacter } from './character/chart/characters/rangeColumn';
 import { CharacterComponentText } from './character/component/characters/character-text';
@@ -18,6 +20,8 @@ StoryFactory.registerCharacter(LineChartCharacter.type, CharacterChart);
 StoryFactory.registerCharacter(CharacterChart.type, CharacterChart);
 StoryFactory.registerCharacter(AreaChartCharacter.type, AreaChartCharacter);
 StoryFactory.registerCharacter(PieChartCharacter.type, PieChartCharacter);
+StoryFactory.registerCharacter(RoseChartCharacter.type, RoseChartCharacter);
+StoryFactory.registerCharacter(RadarChartCharacter.type, RadarChartCharacter);
 StoryFactory.registerCharacter(ScatterChartCharacter.type, ScatterChartCharacter);
 StoryFactory.registerCharacter(RangeColumnChartCharacter.type, RangeColumnChartCharacter);
 
