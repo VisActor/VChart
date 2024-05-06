@@ -87,6 +87,42 @@ Supported since `1.7.3` version, the end point of the reference line is at the e
 
 {{ use: component-marker-aggregation-type() }}
 
+### angle (string | number | function)
+Since the `1.11.0` version, the reference line is on the angle axis of the polar coordinate system, and the value on the angle axis can be configured, or aggregated calculation, or self-calculation through data in the form of callbacks.
+
+** Note that the usage scenario of this property is in the polar coordinate system: **
+1. Only declare the angle property, which is used to draw the angle axis that divides the entire polar coordinate system
+2. Configure the angle, radius and radius1 properties together to draw the label line from radius to radius1 on the angle axis
+3. Configure the radius, angle and angle1 properties together to draw the label line from angle to angle1 on the radius axis
+4. Configure the radius, radius1, angle and angle1 properties together for marking lines in the range of radius to radius1 and angle to angle1
+
+### radius (string | number | function)
+Since the `1.11.0` version, the reference line is on the radius axis of the polar coordinate system, and the value on the radius axis can be configured, or aggregated calculations, or self-calculated through the data in the form of callbacks.
+
+** Note that the usage scenario of this property is in the polar coordinate system: **
+1. Only declare the radius attribute, which is used to draw an entire circle with radius as a certain attribute value
+2. Configure the angle, radius and radius1 properties together to draw the label line from radius to radius1 on the angle axis
+3. Configure the radius, angle and angle1 properties together to draw the label line from angle to angle1 on the radius axis
+4. Configure the radius, radius1, angle and angle1 properties together for marking lines in the range of radius to radius1 and angle to angle1
+
+### angle1 (string | number | function)
+Since the `1.11.0` version, the reference line is on the angle axis of the polar coordinate system, and the value on the angle axis can be configured, or aggregated calculation, or self-calculation through data in the form of callbacks.
+
+** Note that the usage scenario of this property is in the polar coordinate system: **
+1. Only declare the angle property, which is used to draw the angle axis that divides the entire polar coordinate system
+2. Configure the angle, radius and radius1 properties together to draw the label line from radius to radius1 on the angle axis
+3. Configure the radius, angle and angle1 properties together to draw the label line from angle to angle1 on the radius axis
+4. Configure the radius, radius1, angle and angle1 properties together for marking lines in the range of radius to radius1 and angle to angle1
+
+### radius1 (string | number | function)
+Since the `1.11.0` version, the reference line is on the radius axis of the polar coordinate system, and the value on the radius axis can be configured, or aggregated calculations, or self-calculated through the data in the form of callbacks.
+
+** Note that the usage scenario of this property is in the polar coordinate system: **
+1. Only declare the radius attribute, which is used to draw an entire circle with radius as a certain attribute value
+2. Configure the angle, radius and radius1 properties together to draw the label line from radius to radius1 on the angle axis
+3. Configure the radius, angle and angle1 properties together to draw the label line from angle to angle1 on the radius axis
+4. Configure the radius, radius1, angle and angle1 properties together for marking lines in the range of radius to radius1 and angle to angle1
+
 ### coordinates(Array)
 
 Label target: data element.
@@ -158,9 +194,18 @@ If multi-segment processing is required, the points attribute needs to be config
 
 It takes effect when and only when `type: 'type-step'` is declared. When the `multiSegment` attribute is turned on, it is used to declare which line segment is used as the main line segment. If not declared, the entire segment will be used as the main line segment by default.
 
+{{ use: component-marker-state(
+  prefix = '###',
+  graphicType = 'line'
+) }}
+
 #### style(Object|Array)
 
-The line style of the dimension line. When performing multi-section configuration, it can be passed in as an array.
+The line style of the dimension line. When performing multi-section configuration, it can be passed in as an array or callback.
+
+{{ use: component-marker-style-callback(
+  description = 'line style'
+) }}
 
 {{ use: graphic-line(
    prefix = '####'
@@ -176,7 +221,8 @@ The label position of the dimension line (the relative position of the label rel
 
 Optional values:
 
-- `'start'': outside the starting point of the line
+Cartesian coordinate system:
+- `'start'`: outside the starting point of the line
 - `'middle'`: midpoint of line
 - `'end'': outside the end point of the line
 - `'insideStartTop'`: the inside upper part of the line starting point
@@ -185,6 +231,15 @@ Optional values:
 - `'insideMiddleBottom'`: the lower part of the line midpoint
 - `'insideEndTop'`: the inner upper part of the line end point
 - `'insideEndBottom'`: the inner lower part of the line end point
+
+Polar coordinate system:
+- `'arcInnerStart'`: inside the starting point of the arc
+- `'arcInnerEnd'`: inside the end of the arc
+- `'arcInnerMiddle'`: inside the midpoint of the arc
+- `'arcOuterStart`': outside the starting point of the arc
+- `'arcOuterEnd'`: outside the end of the arc
+- `'arcOuterMiddle'`: outside the midpoint of the arc
+- `'center'`: arc center
 
 refrence: https://echarts.apache.org/examples/zh/editor.html?c=line-markline&reset=1&edit=1
 
@@ -206,4 +261,10 @@ Reference line end point symbol style
 
 {{ use: component-marker-symbol(
    prefix = '###'
+) }}
+
+{{ use: component-marker-animation(
+  prefix = '##',
+  markerType = 'markLine',
+  animationType = 'clipIn | fadeIn'
 ) }}

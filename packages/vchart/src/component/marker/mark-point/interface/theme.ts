@@ -1,7 +1,10 @@
-import type { IImageGraphicAttribute, IRichTextGraphicAttribute } from '@visactor/vrender-core';
+import type { IImageGraphicAttribute, IRichTextGraphicAttribute, IGroupGraphicAttribute } from '@visactor/vrender-core';
 import type { IMarkPointItemPosition } from '@visactor/vrender-components';
 import type { ILineMarkSpec, ISymbolMarkSpec } from '../../../../typings';
-import type { IMarkerLabelSpec, IMarkerRef, IMarkerSymbol } from '../../interface';
+import type { IMarkerLabelSpec, IMarkerRef, IMarkerState, IMarkerSymbol } from '../../interface';
+import type { IRegion } from 'src/region';
+
+export type IOffsetCallback = (region: IRegion) => number;
 
 export interface IItemContent extends IMarkerRef {
   /**
@@ -15,11 +18,11 @@ export interface IItemContent extends IMarkerRef {
   /**
    * x 方向偏移量
    */
-  offsetX?: number;
+  offsetX?: number | 'regionRight' | 'regionLeft' | IOffsetCallback;
   /**
    * y 方向偏移量
    */
-  offsetY?: number;
+  offsetY?: number | 'regionTop' | 'regionBottom' | IOffsetCallback;
   /**
    * 是否自动调整 item content 使其展示在 marker 可见区域内。
    * @default false
@@ -29,15 +32,11 @@ export interface IItemContent extends IMarkerRef {
   /**
    * type为symbol时, symbol的样式
    */
-  symbol?: {
-    style?: ISymbolMarkSpec;
-  };
+  symbol?: Partial<IMarkerState<ISymbolMarkSpec>>;
   /**
    * type为image时, image的样式
    */
-  image?: {
-    style?: IImageGraphicAttribute;
-  };
+  image?: Partial<IMarkerState<IImageGraphicAttribute>>;
   /**
    * type为text时, text的样式
    * 'text'类型的ItemContent新增三种子类型：'text','rich'。配置在textStyle.type上。
@@ -46,9 +45,11 @@ export interface IItemContent extends IMarkerRef {
   /**
    * type为rich text时, rich text的样式
    */
-  richText?: {
-    style?: IRichTextGraphicAttribute;
-  };
+  richText?: Partial<IMarkerState<IRichTextGraphicAttribute>>;
+  /**
+   * type为custom时, customMark的样式(目前仅在mapLabel内部逻辑中使用到)
+   */
+  customMark?: Partial<IMarkerState<IGroupGraphicAttribute>>;
 }
 
 export type IItemLine<T extends Partial<IMarkerSymbol> = IMarkerSymbol> = {
@@ -87,9 +88,7 @@ export type IItemLine<T extends Partial<IMarkerSymbol> = IMarkerSymbol> = {
   /**
    * 引导线样式
    */
-  line?: {
-    style?: Omit<ILineMarkSpec, 'visible'>;
-  };
+  line?: Partial<IMarkerState<Omit<ILineMarkSpec, 'visible'>>>;
 };
 
 export interface IMarkPointTheme<T extends Partial<IMarkerSymbol> = Partial<IMarkerSymbol>> {

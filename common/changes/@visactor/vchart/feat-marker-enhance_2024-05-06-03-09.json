@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(marker): add config about custom data of all relative series. close#2183",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -38,9 +38,19 @@
   prefix = '##' + ${prefix}
 ) }}
 
+
+{{ use: component-marker-state(
+  prefix = '#' + ${prefix},
+  graphicType = 'rect'
+) }}
+
 ##${prefix} style(Object)
 
 标签面板样式。
+
+{{ use: component-marker-style-callback(
+  description = '标签面板样式'
+) }}
 
 {{ use: graphic-rect(
   prefix = '##' + ${prefix}
@@ -68,9 +78,18 @@
   description = '标签文本'
 ) }}
 
+{{ use: component-marker-state(
+  prefix = ${prefix},
+  graphicType = 'text'
+) }}
+
 #${prefix} style(Object)
 
 标签文本 - 文本样式。
+
+{{ use: component-marker-style-callback(
+  description = '文本样式'
+) }}
 
 {{ use: graphic-text(
   prefix = '#' + ${prefix}

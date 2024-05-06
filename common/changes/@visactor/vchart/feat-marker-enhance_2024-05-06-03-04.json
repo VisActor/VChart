@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(marker): marker enhance about state and animation and support polar and geo axis. close#1165",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

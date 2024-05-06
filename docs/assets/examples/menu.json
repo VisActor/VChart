@@ -2209,6 +2209,55 @@
             "zh": "markPoint 图片标记",
             "en": "markPoint with image"
           }
+        },
+        {
+          "path": "cartesian-mark-line-pos",
+          "title": {
+            "zh": "笛卡尔系下的markLine的状态、样式和标签位置配置",
+            "en": "markLine and label position in certesian coordinates"
+          }
+        },
+        {
+          "path": "polar-mark-line",
+          "title": {
+            "zh": "极坐标系下的markLine",
+            "en": "markLine in polar coordinates"
+          }
+        },
+        {
+          "path": "polar-mark-line-pos",
+          "title": {
+            "zh": "极坐标系下的markLine的状态、样式和标签位置配置",
+            "en": "markLine and label position in polar coordinates"
+          }
+        },
+        {
+          "path": "cartesian-mark-area-pos",
+          "title": {
+            "zh": "笛卡尔系下的markArea的状态、样式和标签位置配置",
+            "en": "markArea and label position in certesian coordinates"
+          }
+        },
+        {
+          "path": "polar-mark-area-pos",
+          "title": {
+            "zh": "极坐标系下的markArea的状态、样式和标签位置配置",
+            "en": "markArea and label position in polar coordinates"
+          }
+        },
+        {
+          "path": "polar-mark-point",
+          "title": {
+            "zh": "极坐标系下的markPoint",
+            "en": "markPoint in polar coordinates"
+          }
+        },
+        {
+          "path": "geo-mark-point",
+          "title": {
+            "zh": "地理坐标系下的markPoint",
+            "en": "markPoint in geo coordinates"
+          }
         }
       ]
     },

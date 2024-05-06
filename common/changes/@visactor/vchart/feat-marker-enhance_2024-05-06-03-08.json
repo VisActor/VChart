@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat(marker): add interactive event listener of marker. close#2248",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -23,6 +23,8 @@ export interface IPolarAxisHelper {
   getScale: (depth?: number) => IBaseScale;
   getBandwidth?: (depth?: number) => number; // band轴特有
   getAxisId: () => number;
+  // 用户其他模块扩充轴scale的区间
+  setExtendDomain?: (key: string, value: number | undefined) => void;
 }
 
 export interface IPolarAxis extends IAxis {
