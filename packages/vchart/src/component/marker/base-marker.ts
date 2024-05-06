@@ -80,7 +80,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
       ];
     }
     const specInfos: IModelSpecInfo[] = [];
-    markerSpec.forEach((m: any, i: number) => {
+    array(markerSpec).forEach((m: any, i: number) => {
       if (m.visible !== false && this._getMarkerCoordinateType(m) === this.coordinateType) {
         specInfos.push({
           spec: m,

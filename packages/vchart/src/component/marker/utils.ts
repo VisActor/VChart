@@ -572,7 +572,7 @@ export function getMarkAreaProcessInfo(spec: any) {
   const isCoordinatesProcess = 'coordinates' in spec;
   return {
     doXProcess: isXProcess && isX1Process && !isYProcess && isY1Process,
-    doYProcess: isYProcess && isY1Process && isXProcess && isX1Process,
+    doYProcess: isYProcess && isY1Process && !isXProcess && !isX1Process,
     doXYProcess: isXProcess && isX1Process && isYProcess && isY1Process,
     doAngleProcess: isAngleProcess && isAngle1Process && !isRadiusProcess && !isRadius1Process,
     doRadiusProcess: isRadiusProcess && isRadius1Process && !isAngleProcess && !isAngle1Process,
