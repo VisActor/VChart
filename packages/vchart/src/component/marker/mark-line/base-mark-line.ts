@@ -11,7 +11,7 @@ import {
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { MarkArcLineAttrs, MarkLineAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkLine as MarkLineComponent, MarkArcLine as MarkArcLineComponent } from '@visactor/vrender-components';
+import type { MarkLine as MarkLineComponent, MarkArcLine as MarkArcLineComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import type { IGroup } from '@visactor/vrender-core';
@@ -82,7 +82,7 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
         label: transformState(this._spec?.label?.state ?? {}, this._markerData),
         labelBackground: transformState(this._spec?.label?.labelBackground?.state ?? {}, this._markerData)
       },
-      animation: this._spec.animation,
+      animation: this._spec.animation ?? false,
       animationEnter: this._spec.animationEnter,
       animationExit: this._spec.animationExit,
       animationUpdate: this._spec.animationUpdate

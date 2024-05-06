@@ -73,7 +73,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
         richText: transformState(this._spec.itemContent.richText?.state ?? {}, this._markerData),
         customMark: transformState(this._spec.itemContent.customMark?.state ?? {}, this._markerData)
       },
-      animation: this._spec.animation,
+      animation: this._spec.animation ?? false,
       animationEnter: this._spec.animationEnter,
       animationExit: this._spec.animationExit,
       animationUpdate: this._spec.animationUpdate

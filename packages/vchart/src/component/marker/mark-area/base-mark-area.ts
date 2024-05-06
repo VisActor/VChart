@@ -11,7 +11,7 @@ import {
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { MarkArcAreaAttrs, MarkAreaAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
-import { MarkArea as MarkAreaComponent, MarkArcArea as MarkArcAreaComponent } from '@visactor/vrender-components';
+import type { MarkArea as MarkAreaComponent, MarkArcArea as MarkArcAreaComponent } from '@visactor/vrender-components';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant';
@@ -70,7 +70,7 @@ export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements 
         label: transformState(this._spec.label?.state, this._markerData),
         labelBackground: transformState(this._spec?.label?.labelBackground?.state, this._markerData)
       },
-      animation: this._spec.animation,
+      animation: this._spec.animation ?? false,
       animationEnter: this._spec.animationEnter,
       animationExit: this._spec.animationExit,
       animationUpdate: this._spec.animationUpdate
