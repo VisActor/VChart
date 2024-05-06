@@ -22,9 +22,9 @@
     "test-watch": "DEBUG_MODE=1 jest --watch"
   },
   "dependencies": {
-    "@visactor/vutils": "~0.18.2",
-    "@visactor/vdataset": "~0.18.2",
-    "@visactor/vscale": "~0.18.2",
+    "@visactor/vutils": "~0.18.5",
+    "@visactor/vdataset": "~0.18.5",
+    "@visactor/vscale": "~0.18.5",
     "@visactor/vrender-core": "0.19.0",
     "@visactor/vrender-kits": "0.19.0",
     "@visactor/vrender-components": "0.19.0"
