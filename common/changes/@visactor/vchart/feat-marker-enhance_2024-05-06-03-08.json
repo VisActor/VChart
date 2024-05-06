@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(scrollbar): label position not align with mark. fix#2534",
+      "comment": "feat(marker): add interactive event listener of marker. close#2248",
       "type": "none"
     }
   ],

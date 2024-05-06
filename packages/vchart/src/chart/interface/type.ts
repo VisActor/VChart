@@ -33,5 +33,6 @@ export const enum ChartTypeEnum {
   circlePacking = 'circlePacking',
   heatmap = 'heatmap',
   correlation = 'correlation',
-  liquid = 'liquid'
+  liquid = 'liquid',
+  venn = 'venn'
 }

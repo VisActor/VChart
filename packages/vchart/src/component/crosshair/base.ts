@@ -101,7 +101,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
   protected _getLimitBounds() {
     if (!this._limitBounds) {
-      const { width, height } = this._option.globalInstance.getChart()?.getCanvasRect() ?? {
+      const { width, height } = this._option.globalInstance.getChart()?.getViewRect() ?? {
         width: 0,
         height: 0
       };

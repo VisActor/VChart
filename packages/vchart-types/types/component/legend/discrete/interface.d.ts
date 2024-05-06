@@ -67,6 +67,7 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
     data?: (data: LegendItemDatum[], colorScale: IBaseScale, globalScale: IGlobalScale) => LegendItemDatum[];
     item?: IItem;
     pager?: IPager | ILegendScrollbar;
+    scale?: string;
     scaleName?: string;
     field?: string;
     defaultSelected?: string[];

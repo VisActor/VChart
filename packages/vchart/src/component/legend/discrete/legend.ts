@@ -26,8 +26,9 @@ import { ChartEvent } from '../../../constant';
 import { Factory } from '../../../core/factory';
 import { TransformLevel } from '../../../data/initialize';
 import type { ILayoutRect } from '../../../typings/layout';
-import type { Datum, StringOrNumber } from '../../../typings';
+import type { StringOrNumber } from '../../../typings';
 import { getFormatFunction } from '../../util';
+import type { IDiscreteLegendData } from '../../../data/transforms/legend-data/discrete';
 
 export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   static specKey = 'legends';
@@ -78,9 +79,10 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
         s.addViewDataFilter({
           type: 'discreteLegendFilter',
           options: {
+            series: s,
             selected: () => this._selectedData,
             field: () => this._getSeriesLegendField(s),
-            data: () => this._getLegendDefaultData()
+            data: () => this.getLegendDefaultData()
           },
           level: TransformLevel.legendFilter
         });
@@ -122,13 +124,15 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
   protected _getSeriesLegendField(s: ISeries) {
     const defaultField = s.getSeriesField();
-    if (!this._spec.scaleName) {
+    const specifyScaleId = this._spec.scaleName ?? this._spec.scale;
+
+    if (isNil(specifyScaleId)) {
       return defaultField;
     }
     if (!s.getRawData()) {
       return defaultField;
     }
-    const scaleSpec = this._option.globalScale.getScaleSpec(this._spec.scaleName);
+    const scaleSpec = this._option.globalScale.getScaleSpec(specifyScaleId);
     if (!scaleSpec) {
       return defaultField;
     }
@@ -149,7 +153,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
   }
 
   protected _initSelectedData(): void {
-    const fullSelectedData = this._getLegendDefaultData();
+    const fullSelectedData = this.getLegendDefaultData();
 
     if (this._unselectedData) {
       const selected: StringOrNumber[] = [];
@@ -171,12 +175,14 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
     }
   }
 
-  private _getLegendDefaultData() {
+  getLegendDefaultData(originalData?: boolean) {
     if (isFunction(this._spec.data)) {
       return this._getLegendItems().map((obj: LegendItemDatum) => obj.label);
     }
 
-    return this._legendData.getLatestData().map((obj: Datum) => obj.key);
+    return this._legendData
+      .getLatestData()
+      .map(originalData ? (obj: IDiscreteLegendData) => obj.originalKey : (obj: IDiscreteLegendData) => obj.key);
   }
 
   private _addDefaultTitleText(attrs: any) {
@@ -213,7 +219,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
   setSelectedData(selectedData: StringOrNumber[]) {
     if (selectedData) {
-      this._unselectedData = this._getLegendDefaultData().filter(
+      this._unselectedData = this.getLegendDefaultData().filter(
         (entry: StringOrNumber) => !selectedData.includes(entry)
       );
     }

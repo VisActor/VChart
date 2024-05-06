@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix(scrollbar): enable bubble when scroll to boundary. fix#2521",
+      "comment": "fix: duplicated categoryField data in funnel will result to unexpected rendering result",
       "type": "none"
     }
   ],

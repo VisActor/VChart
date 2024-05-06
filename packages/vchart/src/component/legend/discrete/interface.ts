@@ -211,9 +211,14 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
    * 翻页器配置
    */
   pager?: IPager | ILegendScrollbar;
-
   /**
-   * scaleName must match the id of the scale configured in **scales**
+   * scale must match the id of the scale configured in **scales**
+   * 离散图例对应的scale
+   * @since 1.10.5
+   */
+  scale?: string;
+  /**
+   * 同`scale`，为了和连续图例保持一致，建议统一为`scale`
    */
   scaleName?: string;
   /**

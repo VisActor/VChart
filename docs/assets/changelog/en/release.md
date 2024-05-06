@@ -1,3 +1,29 @@
+# v1.10.5
+
+2024-04-26
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: player support play when hidden. feat[#2524](https://github.com/VisActor/VChart/issues/2524)
+
+**🐛 Bug fix**
+
+- **datazoom**: when drag start and end handler outside, min and max span not work. fix[#2559](https://github.com/VisActor/VChart/issues/2559)
+- **@visactor/vchart**: fix domain of continuous legend when specify seriesId or seriesIndex
+- **@visactor/vchart**: fix eventsBinded update in react-vchart
+- **scrollbar**: label position not align with mark. fix[#2534](https://github.com/VisActor/VChart/issues/2534)
+- **scrollbar**: enable bubble when scroll to boundary. fix[#2521](https://github.com/VisActor/VChart/issues/2521)
+- **@visactor/vchart**: fix error of update theme when series reduce
+
+**⚡ Performance optimization**
+
+- **@visactor/vchart**: optimize the performance of pie chart, fix [#2568](https://github.com/VisActor/VChart/issues/2568)
+
+
+
+[more detail about v1.10.5](https://github.com/VisActor/VChart/releases/tag/v1.10.5)
+
 # v1.10.4
 
 2024-04-03

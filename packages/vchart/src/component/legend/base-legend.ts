@@ -171,6 +171,21 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     if (isNil(selectedData) || JSON.stringify(lastData) === JSON.stringify(selectedData)) {
       return;
     }
+
+    // 更新图例筛选
+    eachSeries(
+      this._regions,
+      s => {
+        if (s.legendSelectedFilter) {
+          selectedData = s.legendSelectedFilter(this, selectedData);
+        }
+      },
+      {
+        userId: this._seriesUserId,
+        specIndex: this._seriesIndex
+      }
+    );
+
     this._selectedData = [...selectedData];
     // 更新数据
     this.effect.onSelectedDataChange?.();

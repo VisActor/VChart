@@ -86,6 +86,9 @@ export class TotalLabel extends BaseLabelComponent {
       'normal',
       AttributeLevel.Default
     );
+
+    const series = this._getSeries();
+    series.initTotalLabelMarkStyle?.(this._textMark);
   }
 
   protected _initLabelComponent() {
@@ -135,6 +138,10 @@ export class TotalLabel extends BaseLabelComponent {
                 x: 0,
                 y: 0
               },
+              series.getTotalLabelComponentStyle?.({
+                baseMark: this._baseMark,
+                labelMark: this._textMark
+              }) ?? {},
               {
                 offset,
                 animation,

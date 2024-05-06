@@ -36,7 +36,7 @@ export class SankeySeriesTooltipHelper extends BaseSeriesTooltipHelper implement
               hasShape: true,
               shapeType: this.shapeTypeCallback,
               shapeColor: this.shapeColorCallback,
-              shapeStroke: this.shapeColorCallback,
+              shapeStroke: this.shapeStrokeCallback,
               shapeHollow: false
             }
           ]
@@ -58,7 +58,7 @@ export class SankeySeriesTooltipHelper extends BaseSeriesTooltipHelper implement
                 hasShape: true,
                 shapeType: this.shapeTypeCallback,
                 shapeColor: this.shapeColorCallback,
-                shapeStroke: this.shapeColorCallback,
+                shapeStroke: this.shapeStrokeCallback,
                 shapeHollow: false
               });
             })

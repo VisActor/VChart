@@ -47,7 +47,8 @@ import type {
   ISeriesSpecInfo,
   ISeriesStackDataLeaf,
   ISeriesStackDataNode,
-  ISeriesStackDataMeta
+  ISeriesStackDataMeta,
+  ISeriesSeriesInfo
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
@@ -330,6 +331,32 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
   }
 
+  protected getInvalidCheckFields() {
+    return [this.getStackValueField()];
+  }
+
+  protected initInvalidDataTransform(): void {
+    // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
+    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
+      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
+      // make sure each series only transform once
+      this._rawData?.transform(
+        {
+          type: 'invalidTravel',
+          options: {
+            config: () => {
+              return {
+                invalidType: this._invalidType,
+                checkField: this.getInvalidCheckFields()
+              };
+            }
+          }
+        },
+        false
+      );
+    }
+  }
+
   /** data */
   protected initData(): void {
     const d = this._spec.data ?? this._option.getSeriesData(this._spec.dataId, this._spec.dataIndex);
@@ -360,25 +387,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       }
     }
 
-    // _invalidType 默认为 break/ignore，直接走图形层面的解析，不需要走 transform 数据处理逻辑
-    if (this._invalidType === 'zero' && this._rawData?.dataSet) {
-      registerDataSetInstanceTransform(this._rawData.dataSet, 'invalidTravel', invalidTravel);
-      // make sure each series only transform once
-      this._rawData?.transform(
-        {
-          type: 'invalidTravel',
-          options: {
-            config: () => {
-              return {
-                invalidType: this._invalidType,
-                checkField: this.getStackValueField()
-              };
-            }
-          }
-        },
-        false
-      );
-    }
+    this.initInvalidDataTransform();
   }
 
   protected initGroups() {
@@ -1179,11 +1188,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     return keys.map(key => {
       return {
         key,
+        originalKey: key,
         style: this.getSeriesStyle({
           [field]: key
         }),
         shapeType: defaultShapeType
-      };
+      } as ISeriesSeriesInfo;
     });
   }
 
@@ -1257,14 +1267,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       morph = false,
       clip,
       customShape,
-      stateSort
+      stateSort,
+      noSeparateStyle = false
     } = option;
     const m = super._createMark<M>(markInfo, {
       key: key ?? this._getDataIdKey(),
       support3d,
       seriesId: this.id,
       attributeContext: this._markAttributeContext,
-      componentType: option.componentType
+      componentType: option.componentType,
+      noSeparateStyle
     });
     if (isValid(m)) {
       this._marks.addMark(m, { name: markInfo.name });
@@ -1405,7 +1417,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   protected _getInvalidDefined(datum: Datum) {
-    return couldBeValidNumber(datum[this.getStackValueField()]);
+    const checkFields = this.getInvalidCheckFields();
+
+    if (!checkFields.length) {
+      return true;
+    }
+
+    return checkFields.every(field => {
+      return couldBeValidNumber(datum[field]);
+    });
   }
 
   protected _getRelatedComponentSpecInfo(specKey: string) {
@@ -1444,5 +1464,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return true;
     }
     return viewDataList.some((viewDatum: Datum) => Object.keys(datum).every(key => datum[key] === viewDatum[key]));
+  }
+
+  getSeriesFieldValue(datum: Datum, seriesField?: string) {
+    return datum[seriesField ?? this.getSeriesField() ?? DEFAULT_DATA_SERIES_FIELD];
   }
 }

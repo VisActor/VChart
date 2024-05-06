@@ -1,7 +1,7 @@
 {
   "changes": [
     {
-      "comment": "fix: fix error of update theme when series reduce\n\n",
+      "comment": "feat: support `animation` config of custom-mark\n\n",
       "type": "none",
       "packageName": "@visactor/vchart"
     }

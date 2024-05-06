@@ -11,7 +11,7 @@ import type {
 import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
-import type { IMarkProgressiveConfig } from '../../mark/interface';
+import type { IMarkOption, IMarkProgressiveConfig } from '../../mark/interface';
 import type { ISeriesSpec, StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
@@ -22,6 +22,8 @@ import type { MarkClip } from '../../compile/mark';
 
 export interface ISeriesSeriesInfo {
   key: string;
+  /** 直接取 datum 里的原始值 */
+  originalKey: any;
   index?: number;
   // 样式的值类型可能是 StringOrNumber | number[] | xxxx
   style: (attribute: string) => any;
@@ -69,7 +71,7 @@ export type ISeriesStyleItem = {
   };
 };
 
-export interface ISeriesMarkInitOption {
+export interface ISeriesMarkInitOption extends Partial<IMarkOption> {
   /** theme spec */
   themeSpec?: any;
 

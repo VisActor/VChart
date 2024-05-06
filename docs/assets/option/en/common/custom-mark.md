@@ -16,7 +16,7 @@ Custom marks are a user-customizable interface for drawing arbitrary content on 
 - `image` Image
 - `group` Group, allows other marks to be placed within the group
 
-注意：布局相关配置自`1.11.0`版本后支持
+Note: Layout-related configuration is supported since version `1.11.0`
 
 ## customMark.symbol(Object)
 

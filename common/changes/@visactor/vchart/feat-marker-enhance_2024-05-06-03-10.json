@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "chore: upgrade dependencies\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "skie1997@outlook.com"
+}

@@ -27,7 +27,7 @@ export const discreteLegendDataMake = (data: Array<ISeries>, op: IDiscreteLegend
 };
 
 export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilterOption) => {
-  const { selected, field, data: legendData } = op;
+  const { series, selected, field, data: legendData } = op;
   const selectedData = selected();
   const legendKeys = legendData(); // 全量的图例项
   if (selectedData.length === 0 && legendKeys.length) {
@@ -55,7 +55,7 @@ export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilter
     }
   } else {
     if (isValid(datumField)) {
-      data = data.filter(d => selectedFilter[d[datumField]] === true);
+      data = data.filter(d => selectedFilter[series.getSeriesFieldValue(d, datumField)] === true);
     }
   }
   return data;

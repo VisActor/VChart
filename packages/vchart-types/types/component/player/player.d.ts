@@ -18,6 +18,7 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
     private _specs;
     private _playerComponent;
     private _cacheAttrs;
+    private _visible;
     private _direction;
     private _alternate;
     private _dx;
@@ -32,8 +33,8 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
     afterSetLayoutStartPoint(pos: IPoint): void;
     getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): {
         x1: number;
-        y1: number;
         x2: number;
+        y1: number;
         y2: number;
     };
     changeRegions(regions: IRegion[]): void;
