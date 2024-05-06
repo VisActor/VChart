@@ -8,23 +8,22 @@ import { ChartDimensionField, ChartValueField } from '../../const';
 
 export function spec() {
   return {
-    type: 'wordCloud'
+    type: 'treemap'
   };
 }
 
-export class WordCloudTemp extends BaseTemp {
-  static type = TemplateChartType.wordcloud;
-  type = WordCloudTemp.type;
+export class TreeMapTemp extends BaseTemp {
+  static type = TemplateChartType.treemap;
+  type = TreeMapTemp.type;
   checkDataEnable(data: StandardData, opt?: any): boolean {
-    const check = CommonStandardDataCheck(data);
-    return check;
+    return CommonStandardDataCheck(data);
   }
   getSpec(data: StandardData, opt?: any) {
     const tempSpec = getCommonSpec() as any;
     tempSpec.series = [spec()];
     tempSpec.data = array(data);
     tempSpec.series[0].valueField = ChartValueField;
-    tempSpec.series[0].nameField = ChartDimensionField;
+    tempSpec.series[0].categoryField = ChartDimensionField;
     tempSpec.series[0].dataId = tempSpec.data[0].id;
     tempSpec.series[0].seriesField = ChartDimensionField;
     tempSpec.series[0].id = `series-${tempSpec.data[0].id}`;

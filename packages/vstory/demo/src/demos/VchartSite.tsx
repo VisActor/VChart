@@ -583,11 +583,10 @@ const chartSpecList = [
     }
   },
   {
-    title: 'Treemap Chart',
-    // characterType: 'TreemapChart',
-    spec: {
+    title: 'TreeMap Chart',
+    characterType: 'TreeMapChart',
+    options: {
       padding: 8,
-      type: 'treemap',
       data: [
         {
           id: 'data',
@@ -651,19 +650,26 @@ const chartSpecList = [
           ]
         }
       ],
-      categoryField: 'name',
-      valueField: 'value',
-      legends: { visible: false },
-      nodePadding: 1,
-      nonLeaf: {
-        visible: false
-      },
-      nonLeafLabel: {
-        visible: false
-      },
-      label: {
-        visible: false
-      }
+      seriesSpec: [
+        {
+          matchInfo: { specIndex: 'all' },
+          spec: {
+            categoryField: 'name',
+            valueField: 'value',
+            legends: { visible: false },
+            nodePadding: 1,
+            nonLeaf: {
+              visible: false
+            },
+            nonLeafLabel: {
+              visible: false
+            },
+            label: {
+              visible: false
+            }
+          }
+        }
+      ]
     }
   },
   {

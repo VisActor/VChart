@@ -7,5 +7,6 @@ export enum TemplateChartType {
   rangeColumn = 'RangeColumnChart',
   rose = 'RoseChart',
   radar = 'RadarChart',
-  wordcloud = 'WordCloudChart'
+  wordcloud = 'WordCloudChart',
+  treemap = 'TreeMapChart'
 }

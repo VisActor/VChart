@@ -11,6 +11,7 @@ import { PieChartCharacter } from './character/chart/characters/pie';
 import { RoseChartCharacter } from './character/chart/characters/rose';
 import { RadarChartCharacter } from './character/chart/characters/radar';
 import { WordCloudCharacter } from './character/chart/characters/wordcloud';
+import { TreeMapChartCharacter } from './character/chart/characters/treemap';
 import { ScatterChartCharacter } from './character/chart/characters/scatter';
 import { RangeColumnChartCharacter } from './character/chart/characters/rangeColumn';
 import { CharacterComponentText } from './character/component/characters/character-text';
@@ -24,6 +25,7 @@ StoryFactory.registerCharacter(PieChartCharacter.type, PieChartCharacter);
 StoryFactory.registerCharacter(RoseChartCharacter.type, RoseChartCharacter);
 StoryFactory.registerCharacter(RadarChartCharacter.type, RadarChartCharacter);
 StoryFactory.registerCharacter(WordCloudCharacter.type, WordCloudCharacter);
+StoryFactory.registerCharacter(TreeMapChartCharacter.type, TreeMapChartCharacter);
 StoryFactory.registerCharacter(ScatterChartCharacter.type, ScatterChartCharacter);
 StoryFactory.registerCharacter(RangeColumnChartCharacter.type, RangeColumnChartCharacter);
 
