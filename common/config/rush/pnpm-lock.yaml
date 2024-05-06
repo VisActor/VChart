@@ -365,6 +365,7 @@ importers:
       '@visactor/vgrammar-projection': 0.13.0
       '@visactor/vgrammar-sankey': 0.13.0
       '@visactor/vgrammar-util': 0.13.0
+      '@visactor/vgrammar-venn': 0.13.0
       '@visactor/vgrammar-wordcloud': 0.13.0
       '@visactor/vgrammar-wordcloud-shape': 0.13.0
       '@visactor/vrender-components': 0.19.0
@@ -411,6 +412,7 @@ importers:
       '@visactor/vgrammar-projection': 0.13.0
       '@visactor/vgrammar-sankey': 0.13.0
       '@visactor/vgrammar-util': 0.13.0
+      '@visactor/vgrammar-venn': 0.13.0
       '@visactor/vgrammar-wordcloud': 0.13.0
       '@visactor/vgrammar-wordcloud-shape': 0.13.0
       '@visactor/vrender-components': 0.19.0
@@ -4745,6 +4747,16 @@ packages:
   /@visactor/vgrammar-util/0.13.0:
     resolution: {integrity: sha512-O7hPezKKzxQVTsbaf+nY/7GxYjUYust+kY0qE8rGg5XvTYmvzvhOPr+faS2CYTptSCUlmVseM18lWY70OlImVQ==}
     dependencies:
+      '@visactor/vutils': 0.18.5
+    dev: false
+
+  /@visactor/vgrammar-venn/0.13.0:
+    resolution: {integrity: sha512-hg6iGcUEmXsTn4dmWBzvsFDamni9kieoXtqtWOdP+OpiulEkINjF7+WBS1FdYHl7taAQJcePmNxJNYtmvCkJrA==}
+    dependencies:
+      '@visactor/vgrammar-core': 0.13.0
+      '@visactor/vgrammar-util': 0.13.0
+      '@visactor/vrender-core': 0.19.0
+      '@visactor/vrender-kits': 0.19.0
       '@visactor/vutils': 0.18.5
     dev: false
 

@@ -130,6 +130,7 @@
     "@visactor/vgrammar-wordcloud-shape": "0.13.0",
     "@visactor/vgrammar-hierarchy": "0.13.0",
     "@visactor/vgrammar-sankey": "0.13.0",
+    "@visactor/vgrammar-venn": "0.13.0",
     "@visactor/vgrammar-util": "0.13.0",
     "@visactor/vutils-extension": "workspace:1.10.5"
   },
