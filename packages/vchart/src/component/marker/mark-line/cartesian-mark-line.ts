@@ -24,9 +24,9 @@ import type { IPoint } from '../../../typings';
 import { BaseMarkLine } from './base-mark-line';
 
 export class CartesianMarkLine extends BaseMarkLine {
-  static type = ComponentTypeEnum.cartesianMarkLine;
-  type = ComponentTypeEnum.cartesianMarkLine;
-  name: string = ComponentTypeEnum.cartesianMarkLine;
+  static type = ComponentTypeEnum.markLine;
+  type = ComponentTypeEnum.markLine;
+  name: string = ComponentTypeEnum.markLine;
   static coordinateType = 'cartesian';
   coordinateType = 'cartesian';
 

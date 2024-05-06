@@ -65,17 +65,17 @@ export interface IComponentTheme {
   /**
    * markLine 标记配置
    */
-  [ComponentTypeEnum.cartesianMarkLine]?: IMarkLineTheme;
+  [ComponentTypeEnum.markLine]?: IMarkLineTheme;
   [ComponentTypeEnum.polarMarkLine]?: IMarkLineTheme;
   /**
    * markArea 标记配置
    */
-  [ComponentTypeEnum.cartesianMarkArea]?: IMarkAreaTheme;
+  [ComponentTypeEnum.markArea]?: IMarkAreaTheme;
   [ComponentTypeEnum.polarMarkArea]?: IMarkAreaTheme;
   /**
    * markPoint 标记配置
    */
-  [ComponentTypeEnum.cartesianMarkPoint]?: IMarkPointTheme;
+  [ComponentTypeEnum.markPoint]?: IMarkPointTheme;
   [ComponentTypeEnum.polarMarkPoint]?: IMarkPointTheme;
   [ComponentTypeEnum.geoMarkPoint]?: IMarkPointTheme;
   /**

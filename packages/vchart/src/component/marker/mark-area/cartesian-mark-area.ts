@@ -12,9 +12,9 @@ import type { IMarkProcessOptions } from '../interface';
 import { BaseMarkArea } from './base-mark-area';
 
 export class CartesianMarkArea extends BaseMarkArea {
-  static type = ComponentTypeEnum.cartesianMarkArea;
-  type = ComponentTypeEnum.cartesianMarkArea;
-  name: string = ComponentTypeEnum.cartesianMarkArea;
+  static type = ComponentTypeEnum.markArea;
+  type = ComponentTypeEnum.markArea;
+  name: string = ComponentTypeEnum.markArea;
   static coordinateType = 'cartesian';
   coordinateType = 'cartesian';
 

@@ -10,9 +10,9 @@ import { BaseMarkPoint } from './base-mark-point';
 import type { IMarkProcessOptions } from '../interface';
 
 export class CartesianMarkPoint extends BaseMarkPoint {
-  static type = ComponentTypeEnum.cartesianMarkPoint;
-  type = ComponentTypeEnum.cartesianMarkPoint;
-  name: string = ComponentTypeEnum.cartesianMarkPoint;
+  static type = ComponentTypeEnum.markPoint;
+  type = ComponentTypeEnum.markPoint;
+  name: string = ComponentTypeEnum.markPoint;
   static coordinateType = 'cartesian';
   coordinateType = 'cartesian';
 
