@@ -15,9 +15,9 @@ export declare function transformLegendTitleAttributes(title: ITitle): {
         visible?: boolean;
         style?: Omit<import("./interface").NoVisibleMarkStyle<import("../..").IRectMarkSpec>, "visible" | "width" | "height">;
     };
-    text?: string | number | string[] | number[] | {
+    text?: string | number | number[] | string[] | {
         type?: "text";
-        text: string | number | string[] | number[];
+        text: string | number | number[] | string[];
     } | {
         type: "rich";
         text: import("@visactor/vrender-core").IRichTextCharacter[];

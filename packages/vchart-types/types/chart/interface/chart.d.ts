@@ -35,6 +35,7 @@ export interface IChart extends ICompilable {
     reDataFlow: () => void;
     setCanvasRect: (width: number, height: number) => void;
     getCanvasRect: () => ILayoutRect;
+    getViewRect: () => ILayoutRect;
     getOption: () => IChartOption;
     getEvent: () => IEvent;
     getGlobalScale: () => IGlobalScale;

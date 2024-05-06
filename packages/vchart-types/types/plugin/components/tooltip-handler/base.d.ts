@@ -59,7 +59,7 @@ export declare abstract class BaseTooltipHandler extends BasePlugin implements I
     };
     protected _isPointerMovingToTooltip(params: TooltipHandlerParams): boolean;
     protected _getParentElement(spec: ITooltipSpec): HTMLElement;
-    getTooltipContainer(): IGroup | HTMLElement;
+    getTooltipContainer(): HTMLElement | IGroup;
     protected _initFromSpec(): void;
     reInit(): void;
 }
