@@ -35,7 +35,6 @@ export class SpecProcess extends SpecProcessBase implements IChartSpecProcess {
 
   updateConfig(spec: IChartCharacterSpec) {
     this._characterSpec = spec;
-
     this._dataTempTransform.updateChartTemp(this._characterSpec.type);
   }
 

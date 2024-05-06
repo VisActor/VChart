@@ -87,6 +87,7 @@ export class DataTempTransformBase implements IDataTempTransform {
   }
 
   getBaseSpec() {
+    console.log('this', this._character);
     return this._specTemp.getSpec(this._specProcess.getCharacterSpec().options.data, { character: this._character });
   }
 

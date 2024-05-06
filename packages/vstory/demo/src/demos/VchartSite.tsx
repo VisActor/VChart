@@ -530,48 +530,56 @@ const chartSpecList = [
   },
   {
     title: 'Word Cloud',
-    // characterType: 'WordCloudChart',
-    spec: {
-      padding: 5,
-      type: 'wordCloud',
-      data: {
-        name: 'baseData',
-        values: [
-          {
-            challenge_id: 1658490688121879,
-            challenge_name: '宅家剧场',
-            sum_count: 128
-          },
-          {
-            challenge_id: 1640007327696910,
-            challenge_name: '我的观影报告',
-            sum_count: 103
-          },
-          {
-            challenge_id: 1557656100811777,
-            challenge_name: '抖瓜小助手',
-            sum_count: 76
-          },
-          {
-            challenge_id: 1553513807372289,
-            challenge_name: '搞笑',
-            sum_count: 70
-          },
-          {
-            challenge_id: 1599321527572563,
-            challenge_name: '我要上热门',
-            sum_count: 69
+    characterType: 'WordCloudChart',
+    options: {
+      padding: 8,
+      data: [
+        {
+          id: 'data1',
+          values: [
+            {
+              challenge_id: 1658490688121879,
+              challenge_name: '宅家剧场',
+              sum_count: 128
+            },
+            {
+              challenge_id: 1640007327696910,
+              challenge_name: '我的观影报告',
+              sum_count: 103
+            },
+            {
+              challenge_id: 1557656100811777,
+              challenge_name: '抖瓜小助手',
+              sum_count: 76
+            },
+            {
+              challenge_id: 1553513807372289,
+              challenge_name: '搞笑',
+              sum_count: 70
+            },
+            {
+              challenge_id: 1599321527572563,
+              challenge_name: '我要上热门',
+              sum_count: 69
+            }
+          ]
+        }
+      ],
+      seriesSpec: [
+        {
+          matchInfo: { specIndex: 'all' },
+          spec: {
+            valueField: 'sum_count',
+            seriesField: 'challenge_name',
+            nameField: 'challenge_name',
+            wordCloudConfig: {
+              drawOutOfBound: 'clip'
+            },
+            maskShape: 'circle',
+            fontSizeRange: [5, 8]
           }
-        ]
-      },
-      nameField: 'challenge_name',
-      valueField: 'sum_count',
-      seriesField: 'challenge_name',
-      wordCloudConfig: {
-        drawOutOfBound: 'clip'
-      },
-      maskShape: 'circle',
-      fontSizeRange: [5, 8]
+        }
+      ]
     }
   },
   {
