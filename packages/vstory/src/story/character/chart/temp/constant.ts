@@ -8,5 +8,6 @@ export enum TemplateChartType {
   rose = 'RoseChart',
   radar = 'RadarChart',
   wordcloud = 'WordCloudChart',
-  treemap = 'TreeMapChart'
+  treemap = 'TreeMapChart',
+  sunburst = 'SunburstChart'
 }

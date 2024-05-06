@@ -674,35 +674,9 @@ const chartSpecList = [
   },
   {
     title: 'Sunburst Chart',
-    // characterType: 'SunburstChart',
-    spec: {
+    characterType: 'SunburstChart',
+    options: {
       padding: 8,
-      type: 'sunburst',
-
-      offsetX: 0,
-      offsetY: 0,
-
-      categoryField: 'name',
-      valueField: 'value',
-      outerRadius: 1,
-      innerRadius: 0,
-      gap: 0,
-      labelLayout: {
-        align: 'start',
-        rotate: 'radial',
-        offset: 60
-      },
-      sunburst: {
-        visible: true,
-        style: {
-          fillOpacity: (datum: any) => {
-            return datum.isLeaf ? 0.4 : 0.8;
-          }
-        }
-      },
-      label: {
-        visible: false
-      },
       data: [
         {
           id: 'data',
@@ -769,6 +743,22 @@ const chartSpecList = [
               ]
             }
           ]
+        }
+      ],
+      seriesSpec: [
+        {
+          matchInfo: { specIndex: 'all' },
+          spec: {
+            offsetX: 0,
+            offsetY: 0,
+            categoryField: 'name',
+            valueField: 'value',
+            outerRadius: 1,
+            innerRadius: 0,
+            label: {
+              visible: false
+            }
+          }
         }
       ]
     }
