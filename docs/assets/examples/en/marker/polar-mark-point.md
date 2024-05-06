@@ -167,6 +167,8 @@ option: roseChart#markPoint
                 itemContent: {
                     type: 'text',
                     autoRotate: false,
+                    offsetX: 5,
+                    offsetY: -20,
                     text: {
                         text: '4: 00 Origin of life'
                     }
@@ -177,6 +179,8 @@ option: roseChart#markPoint
                 itemContent: {
                     type: 'text',
                     autoRotate: false,
+                    offsetX: 5,
+                    offsetY: -20,
                     text: {
                         text: '5: 00 Oldest Fossils'
                     }
@@ -187,8 +191,13 @@ option: roseChart#markPoint
                 itemContent: {
                     type: 'text',
                     autoRotate: false,
+                    offsetX: -5,
+                    offsetY: 20,
                     text: {
-                        text: 'Single-Celled Algae(Acritarchs)'
+                        text: 'Single-Celled Algae(Acritarchs)',
+                        style: {
+                          textAlign: 'right'
+                        }
                     }
                 }
             }, {
@@ -197,8 +206,13 @@ option: roseChart#markPoint
                 itemContent: {
                     type: 'text',
                     autoRotate: false,
+                    offsetX: -5,
+                    offsetY: -20,
                     text: {
-                        text: 'Sexual Reproduction'
+                        text: 'Sexual Reproduction',
+                        style: {
+                          textAlign: 'right'
+                        }
                     }
                 }
             }, {
@@ -207,8 +221,13 @@ option: roseChart#markPoint
                 itemContent: {
                     type: 'text',
                     autoRotate: false,
+                    offsetX: -5,
+                    offsetY: -20,
                     text: {
-                        text: 'Seaweeds'
+                        text: 'Seaweeds',
+                        style: {
+                          textAlign: 'right'
+                        }
                     }
                 }
             }, {
@@ -217,8 +236,13 @@ option: roseChart#markPoint
                 itemContent: {
                     type: 'text',
                     autoRotate: false,
+                    offsetX: -5,
+                    offsetY: -20,
                     text: {
-                        text: 'Trilobites'
+                        text: 'Trilobites',
+                        style: {
+                          textAlign: 'right'
+                        }
                     }
                 }
             }, {
@@ -227,8 +251,13 @@ option: roseChart#markPoint
                 itemContent: {
                     type: 'text',
                     autoRotate: false,
+                    offsetX: -5,
+                    offsetY: -20,
                     text: {
-                        text: 'Coal Swamps'
+                        text: 'Coal Swamps',
+                        style: {
+                          textAlign: 'right'
+                        }
                     }
                 }
             }, {
@@ -237,8 +266,13 @@ option: roseChart#markPoint
                 itemContent: {
                     type: 'text',
                     autoRotate: false,
+                    offsetX: -5,
+                    offsetY: -20,
                     text: {
-                        text: 'Humans'
+                        text: 'Humans',
+                        style: {
+                          textAlign: 'right'
+                        }
                     }
                 }
             }, {
@@ -247,6 +281,8 @@ option: roseChart#markPoint
                 itemContent: {
                     type: 'text',
                     autoRotate: false,
+                    offsetX: 10,
+                    offsetY: -20,
                     text: {
                         text: 'Meteorite Bombardment 0:00 to 3 am'
                     }
@@ -257,6 +293,8 @@ option: roseChart#markPoint
                 itemContent: {
                     type: 'text',
                     autoRotate: false,
+                    offsetX: 10,
+                    offsetY: 20,
                     text: {
                         text: '6:00 to 1: Abundant Banded Iron- Formations'
                     }
