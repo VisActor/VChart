@@ -29,8 +29,12 @@ export interface IComponentTheme {
     [ComponentTypeEnum.colorLegend]?: IColorLegendTheme;
     [ComponentTypeEnum.sizeLegend]?: ISizeLegendTheme;
     [ComponentTypeEnum.markLine]?: IMarkLineTheme;
+    [ComponentTypeEnum.polarMarkLine]?: IMarkLineTheme;
     [ComponentTypeEnum.markArea]?: IMarkAreaTheme;
+    [ComponentTypeEnum.polarMarkArea]?: IMarkAreaTheme;
     [ComponentTypeEnum.markPoint]?: IMarkPointTheme;
+    [ComponentTypeEnum.polarMarkPoint]?: IMarkPointTheme;
+    [ComponentTypeEnum.geoMarkPoint]?: IMarkPointTheme;
     [ComponentTypeEnum.tooltip]?: ITooltipTheme<string | IColorKey>;
     [ComponentTypeEnum.crosshair]?: ICrosshairTheme;
     [ComponentTypeEnum.dataZoom]?: IDataZoomTheme;

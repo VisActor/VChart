@@ -41,6 +41,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected abstract updateSeriesScale(): void;
     protected abstract collectSeriesField(depth: number, series: ISeries): string | string[];
     abstract transformScaleDomain(): void;
+    protected abstract updateScaleRange(): boolean;
     protected _dataFieldText: string;
     protected _axisMark: IComponentMark;
     protected _gridMark: IComponentMark;
@@ -66,6 +67,7 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected initEvent(): void;
     protected updateScaleDomain(): void;
     protected _clearRawDomain(): void;
+    onLayoutEnd(ctx: any): void;
     protected computeData(updateType?: 'domain' | 'range' | 'force'): void;
     protected initScales(): void;
     _compareSpec(spec: T, prevSpec: T): {

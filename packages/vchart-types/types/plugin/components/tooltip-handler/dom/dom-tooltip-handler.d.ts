@@ -21,7 +21,7 @@ export declare class DomTooltipHandler extends BaseTooltipHandler {
     onAdd(service: IComponentPluginService<any>): void;
     initEl(): void;
     protected _removeTooltip(): void;
-    protected _updateTooltip(visible: boolean, params: TooltipHandlerParams, actualTooltip: ITooltipActual): void;
+    protected _updateTooltip(visible: boolean, params: TooltipHandlerParams): void;
     protected _initStyle(): void;
     protected _getParentElement(spec: ITooltipSpec): HTMLElement;
     isTooltipShown(): boolean;

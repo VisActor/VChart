@@ -35,6 +35,7 @@ export interface IChart extends ICompilable {
     reDataFlow: () => void;
     setCanvasRect: (width: number, height: number) => void;
     getCanvasRect: () => ILayoutRect;
+    getViewRect: () => ILayoutRect;
     getOption: () => IChartOption;
     getEvent: () => IEvent;
     getGlobalScale: () => IGlobalScale;
@@ -53,6 +54,7 @@ export interface IChart extends ICompilable {
     onRender: (ctx: IChartRenderOption) => void;
     onResize: (width: number, height: number, reRender: boolean) => void;
     onLayout: (view: IView) => void;
+    reInit: () => void;
     getAllSeries: () => ISeries[];
     getRegionsInIndex: (index?: number[]) => IRegion[];
     getRegionsInIds: (ids: number[]) => IRegion[];

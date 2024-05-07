@@ -36,6 +36,7 @@ export interface IRenderOption {
     enableHtmlAttribute?: boolean;
     supportsTouchEvents?: boolean;
     supportsPointerEvents?: boolean;
+    ReactDOM?: any;
 }
 export type CompilerListenerParameters = {
     type: EventType;

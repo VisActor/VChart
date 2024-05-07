@@ -3,7 +3,9 @@ import type { GeoSourceType } from '../../typings/geo';
 export interface IGeoJsonOption {
     type?: 'geojson';
     centroid?: boolean;
-    simplify?: boolean;
+    simplify?: boolean | {
+        tolerance: number;
+    };
     rewind?: boolean | {
         reverse?: boolean;
     };

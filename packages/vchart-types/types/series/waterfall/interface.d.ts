@@ -2,7 +2,7 @@ import type { Datum, IMarkSpec, IMarkTheme, IRuleMarkSpec, ITextMarkSpec } from 
 import type { IAnimationSpec } from '../../animation/spec';
 import type { WaterfallAppearPreset } from './animation';
 import type { IBarSeriesSpec, IBarSeriesTheme } from '../bar/interface';
-import type { ILabelSpec } from '../../component/label';
+import type { ILabelSpec, ITotalLabelSpec } from '../../component/label';
 import type { SeriesMarkNameEnum } from '../interface/type';
 type WaterfallMarks = 'bar';
 export interface IWaterfallTotalText {
@@ -36,6 +36,11 @@ export interface IWaterfallSeriesSpec extends Omit<IBarSeriesSpec, 'type' | 'lab
     total?: IWaterfallTotalEnd | IWaterfallTotalField | IWaterfallTotalCustom;
     [SeriesMarkNameEnum.leaderLine]?: IMarkSpec<IRuleMarkSpec>;
     [SeriesMarkNameEnum.stackLabel]?: ILabelSpec & {
+        position?: IWaterfallStackLabelPosition;
+        offset?: number;
+        valueType?: IWaterfallStackLabelValueType;
+    };
+    totalLabel?: ITotalLabelSpec & {
         position?: IWaterfallStackLabelPosition;
         offset?: number;
         valueType?: IWaterfallStackLabelValueType;

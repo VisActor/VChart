@@ -121,13 +121,14 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
         reCompile: boolean;
     };
     updateChartConfig(result: IUpdateSpecResult, oldSpec: IChartSpec): void;
-    updateDataSpec(result: IUpdateSpecResult): void;
+    updateDataSpec(): void;
     updateRegionSpec(result: IUpdateSpecResult): void;
     updateComponentSpec(result: IUpdateSpecResult): void;
     updateSeriesSpec(result: IUpdateSpecResult): void;
     getCanvas(): HTMLCanvasElement;
     private _updateLayoutRect;
     setCurrentTheme(): void;
+    reInit(): void;
     clear(): void;
     compile(): void;
     afterCompile(): void;

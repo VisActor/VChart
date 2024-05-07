@@ -10,4 +10,6 @@ export declare class BasePluginService<T extends IBasePlugin = IBasePlugin> impl
     getAll(): T[];
     release(pluginsId: number): void;
     releaseAll(): void;
+    clear(pluginsId: number): void;
+    clearAll(): void;
 }
