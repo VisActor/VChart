@@ -38,7 +38,7 @@
 **注意该属性的使用场景为极坐标系下:**
 1. 配合配置 angle，radius 属性，用于标注坐标在(angle, radius)上的数据点
 
-### name(string|number|function)
+### areaName(string|number|function)
 自`1.11.0`版本开始支持, 可以配置标注点在地图上的地理位置, 以回调的形式通过数据自行计算。
 
 **注意该属性的使用场景为地理坐标系**
