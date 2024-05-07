@@ -314,6 +314,11 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
         AttributeLevel.Series
       );
     }
+
+    // if has produce, reCompile encode to set attribute to product
+    if (this._symbolMark.getProduct()) {
+      this._symbolMark.compileEncode();
+    }
   }
 
   /**
