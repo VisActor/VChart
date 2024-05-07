@@ -4,7 +4,7 @@ group: sankey chart
 title: 桑基图自定义html渲染节点
 keywords: sankey,composition,distribution,relationship,comparison,flow
 order: 12-9
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/sankey-chart-d3.jpeg
+cover: /vchart/preview/sankey-chart-customized-node-1.11.0.png
 option: sankeyChart
 ---
 
@@ -126,14 +126,14 @@ const spec = {
               background: hasSource ? color : 'transparent'
             };
           },
-          dom: `<div style="margin: 10px 0 0 10px;">
-              <p style="
+          dom: `<div style="margin: 4px 0 0 10px;">
+              <button style="
               margin:0;
               font-weight:500;
               line-height: 18px;
               font-size:12px;
-              color:${hasSource ? '#fff' : '#646475'};
-              ">${datum.key}</p>
+              color:#646475;
+              ">${datum.key}</button>
               <p style="margin:0;font-weight: 700;
               font-size: 20px;
               line-height: 28px;

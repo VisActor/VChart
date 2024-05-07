@@ -4,7 +4,7 @@ group: sankey chart
 title: 桑基图指定节点宽高
 keywords: sankey,composition,distribution,relationship,comparison,flow
 order: 12-8
-cover:
+cover: /vchart/preview/sankey-chart-specified-node-1.11.0.png
 option: sankeyChart
 ---
 

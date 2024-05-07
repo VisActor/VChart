@@ -4,9 +4,10 @@ group: sankey chart
 title: 桑基图自定义html渲染节点
 keywords: sankey,composition,distribution,relationship,comparison,flow
 order: 12-9
-cover: http://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/sankey-chart-d3.jpeg
+cover: /vchart/preview/sankey-chart-customized-node-1.11.0.png
 option: sankeyChart
 ---
+
 # Customized HTML Rendering Nodes for Sankey Chart
 
 Sankey chart can specify the width and height of nodes through corresponding configurations, combined with the vrender extended attribute `html` to achieve the indicator card Sankey chart.
@@ -18,7 +19,6 @@ Sankey chart can specify the width and height of nodes through corresponding con
 - `equalNodeHeight` specifies that the height of nodes is uniformly calculated, not mapped according to the data values
 - `linkOverlap` specifies the layout of edges as overlapping layout, with the alignment point being the center point
 - `node.style.html` sets the html content for rendering nodes
-
 
 ## Code Demo
 

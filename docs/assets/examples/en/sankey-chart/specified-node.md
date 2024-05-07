@@ -4,9 +4,10 @@ group: sankey chart
 title: 桑基图指定节点宽高
 keywords: sankey,composition,distribution,relationship,comparison,flow
 order: 12-8
-cover:
+cover: /vchart/preview/sankey-chart-specified-node-1.11.0.png
 option: sankeyChart
 ---
+
 # Sankey Chart Specified Node Width and Height
 
 Sankey chart can specify the width and height of nodes through corresponding configurations, combined with the ability to customize the mark `extensionMark` to achieve a similar effect to the indicator card Sankey chart.
