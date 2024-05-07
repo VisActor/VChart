@@ -109,7 +109,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
   }
 
   private _getFieldInfoFromSpec(
-    dim: 'x' | 'y' | 'angle' | 'radius' | 'name',
+    dim: 'x' | 'y' | 'angle' | 'radius' | 'areaName',
     spec: IDataPos | IDataPosCallback,
     relativeSeries: IMarkerSupportSeries
   ) {
@@ -118,7 +118,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
       y: 'yField',
       radius: 'valueField',
       angle: 'categoryField',
-      name: 'nameField'
+      areaName: 'nameField'
     };
 
     if (isString(spec) && isAggrSpec(spec)) {
@@ -132,7 +132,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
 
   protected _processSpecByDims(
     dimSpec: {
-      dim: 'x' | 'y' | 'angle' | 'radius' | 'name';
+      dim: 'x' | 'y' | 'angle' | 'radius' | 'areaName';
       specValue: IDataPos | IDataPosCallback;
     }[]
   ) {

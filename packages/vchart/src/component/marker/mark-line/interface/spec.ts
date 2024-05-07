@@ -46,7 +46,7 @@ export type IMarkLineSpec =
       IMarkLineTheme &
       /**
        * 动画配置
-       * @since 0.11.0
+       * @since 1.11.0
        */
       BaseMarkerAnimation<MarkCommonLineAnimationType>)
   | (IStepMarkLineSpec & BaseMarkerAnimation<MarkCommonLineAnimationType>); // 标注目标：任意位置
@@ -135,7 +135,7 @@ export interface IMarkLineXYSpec extends IMarkerCrossSeriesSpec {
 export interface IMarkLineAngleSpec extends IMarkerCrossSeriesSpec {
   /**
    * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle: IDataPos | IDataPosCallback;
 }
@@ -143,7 +143,7 @@ export interface IMarkLineAngleSpec extends IMarkerCrossSeriesSpec {
 export interface IMarkLineRadiusSpec extends IMarkerCrossSeriesSpec {
   /**
    * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius: IDataPos | IDataPosCallback;
 }
@@ -151,17 +151,17 @@ export interface IMarkLineRadiusSpec extends IMarkerCrossSeriesSpec {
 export interface IMarkLineAngRadRad1Spec extends IMarkerCrossSeriesSpec {
   /**
    * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius1: IDataPos | IDataPosCallback;
 }
@@ -169,17 +169,17 @@ export interface IMarkLineAngRadRad1Spec extends IMarkerCrossSeriesSpec {
 export interface IMarkLineRadAngAng1Spec extends IMarkerCrossSeriesSpec {
   /**
    * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle1: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius: IDataPos | IDataPosCallback;
 }
@@ -187,22 +187,22 @@ export interface IMarkLineRadAngAng1Spec extends IMarkerCrossSeriesSpec {
 export interface IMarkLineAngRadSpec extends IMarkerCrossSeriesSpec {
   /**
    * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下,  参考线在 angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle1: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下,  参考线在 radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius1: IDataPos | IDataPosCallback;
 }

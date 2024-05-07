@@ -236,7 +236,7 @@ export interface IMarkerCrossSeriesSpec {
   endRelativeSeriesId?: string;
   /**
    * 数据处理需要单独关联系列, 当配置为'all'时代表关联当前region下所有系列
-   * @since 0.11.0
+   * @since 1.11.0
    */
   specifiedDataSeriesIndex?: 'all' | number | number[];
   specifiedDataSeriesId?: 'all' | string | string[];
@@ -279,7 +279,7 @@ export type IMarkerSpec = IComponentSpec & {
   /**
    * 标注所在的坐标系类型
    * @description 一般情况下内部逻辑会根据配置自动推导类型，但如果是coordinates的配置方式，则无法推导，需要用户自行配置
-   * @since 0.11.0
+   * @since 1.11.0
    */
   coordinateType?: string;
 };

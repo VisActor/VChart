@@ -17,11 +17,11 @@ export type IMarkPointSpec = IMarkerSpec &
   // 标注目标: 笛卡尔坐标系
   (| IMarkPointXYSpec
     /** 标注目标: 极坐标系
-     * @since 0.11.0
+     * @since 1.11.0
      */
     | IMarkPointAngleRadiusSpec
     /** 标注目标: 地理坐标系
-     * @since 0.11.0
+     * @since 1.11.0
      */
     | IMarkPointGeoNameSpec
     // 标注目标：数据元素
@@ -31,7 +31,7 @@ export type IMarkPointSpec = IMarkerSpec &
   IMarkPointTheme<IMarkerSymbol> &
   /**
    * 动画配置
-   * @since 0.11.0
+   * @since 1.11.0
    */
   BaseMarkerAnimation<MarkPointAnimationType>;
 
@@ -51,12 +51,12 @@ export type IMarkPointXYSpec = {
 export type IMarkPointAngleRadiusSpec = {
   /**
    * 极坐标系下,  angle 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下, radius 轴上位置，可以配置参考线在 angle 轴上的值，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius: IDataPos | IDataPosCallback;
 };
@@ -64,7 +64,7 @@ export type IMarkPointAngleRadiusSpec = {
 export type IMarkPointGeoNameSpec = {
   /**
    * 地理坐标系下, 地理区域的名称。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   areaName: string | IDataPosCallback;
 };
