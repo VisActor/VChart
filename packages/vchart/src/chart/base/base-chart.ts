@@ -1123,6 +1123,37 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._setStateInDatum(STATE_VALUE_ENUM.STATE_HOVER, true, datum, filter, region);
   }
 
+  /**
+   * 清除所有图元的状态
+   *
+   * @since 1.11.0
+   */
+  clearState(state: string) {
+    this.getAllRegions().forEach(r => {
+      r.interaction.clearEventElement(state, true);
+      r.interaction.resetInteraction(state, null);
+      return;
+    });
+  }
+
+  /**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected() {
+    this.clearState(STATE_VALUE_ENUM.STATE_SELECTED);
+  }
+
+  /**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered() {
+    this.clearState(STATE_VALUE_ENUM.STATE_HOVER);
+  }
+
   private _initEvent() {
     [ChartEvent.dataZoomChange, ChartEvent.scrollBarChange].forEach(event => {
       this._event.on(event, ({ value }) => {

@@ -23,7 +23,7 @@ export class SankeySeriesTooltipHelper extends BaseSeriesTooltipHelper implement
                 }
                 return datum.source + ' => ' + datum.target;
               }
-              return datum.datum[this.series.getSpec().categoryField];
+              return datum.datum ? datum.datum[this.series.getSpec().categoryField] : datum.key;
             },
             hasShape: false
           },

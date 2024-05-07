@@ -1263,6 +1263,42 @@ export class VChart implements IVChart {
     this._chart.setHovered(datum, filter, region);
   }
 
+  /**
+   * 清除所有图元的状态
+   *
+   * @since 1.11.0
+   */
+  clearState(state: string) {
+    if (!this._chart) {
+      return;
+    }
+    this._chart.clearState(state);
+  }
+
+  /**
+   * 清除所有图元的选中状态
+   *
+   * @since 1.11.0
+   */
+  clearSelected() {
+    if (!this._chart) {
+      return;
+    }
+    this._chart.clearSelected();
+  }
+
+  /**
+   * 清除所有图元的hover状态
+   *
+   * @since 1.11.0
+   */
+  clearHovered() {
+    if (!this._chart) {
+      return;
+    }
+    this._chart.clearHovered();
+  }
+
   // 主题相关方法
   /**
    * 当 spec 或者 currentThemeName 有变化时需要调用此方法对 currentTheme 进行更新
