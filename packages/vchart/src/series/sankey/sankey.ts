@@ -126,7 +126,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           minNodeHeight: this._spec.minNodeHeight ?? 4,
           minLinkHeight: this._spec.minLinkHeight,
           iterations: this._spec.iterations,
-          nodeKey: this._spec.nodeKey ?? this._spec.categoryField,
+          nodeKey: this._spec.nodeKey,
           linkSortBy: this._spec.linkSortBy,
           nodeSortBy: this._spec.nodeSortBy,
           setNodeLayer: this._spec.setNodeLayer,
