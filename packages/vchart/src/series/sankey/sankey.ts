@@ -20,7 +20,7 @@ import { LayoutZIndex, AttributeLevel, Event_Bubble_Level } from '../../constant
 import { SeriesData } from '../base/series-data';
 import { SankeySeriesTooltipHelper } from './tooltip-helper';
 import type { IBounds } from '@visactor/vutils';
-import { Bounds, array, isNil, isValid, isNumber, isArray } from '@visactor/vutils';
+import { Bounds, array, isNil, isValid, isNumber } from '@visactor/vutils';
 import type { ISankeyAnimationParams } from './animation';
 import { registerSankeyAnimation } from './animation';
 import type { ISankeySeriesSpec, SankeyLinkElement } from './interface';
@@ -246,7 +246,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
   valueToNode(value: StringOrNumber | StringOrNumber[]) {
     const nodes = this._nodesSeriesData.getLatestData();
-    const specifyValue = isArray(value) ? value[0] : value;
+    const specifyValue = array(value)[0];
     return nodes && nodes.find((node: SankeyNodeElement) => node.key === specifyValue);
   }
 
