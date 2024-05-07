@@ -99,6 +99,22 @@
           }
         }
       ]
+    },
+    {
+      "path": "react-attributes",
+      "title": {
+        "en": "react extension",
+        "zh": "react扩展"
+      },
+      "children": [
+        {
+          "path": "funnel-react-attributes",
+          "title": {
+            "en": "Use react components to render customized labels in funnel-chart",
+            "zh": "使用react渲染漏斗图标签"
+          }
+        }
+      ]
     }
   ]
 }
