@@ -270,15 +270,15 @@ export function geoLayout(data: DataView, relativeSeries: IMarkerSupportSeries) 
   const dataPoints =
     data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
   dataPoints.forEach((datum: any) => {
-    const isValidName = isValid(datum.name);
+    const isValidName = isValid(datum.areaName);
     if (isValidName) {
       lines.push([
         {
           x:
-            (relativeSeries as IGeoSeries).nameValueToPosition(datum.name).x +
+            (relativeSeries as IGeoSeries).nameValueToPosition(datum.areaName).x +
             relativeSeries.getRegion().getLayoutStartPoint().x,
           y:
-            (relativeSeries as IGeoSeries).nameValueToPosition(datum.name).y +
+            (relativeSeries as IGeoSeries).nameValueToPosition(datum.areaName).y +
             relativeSeries.getRegion().getLayoutStartPoint().y
         }
       ]);

@@ -36,7 +36,7 @@ export type IOptionAggr = {
   y?: IOptionPos | IOptionCallback;
   angle?: IOptionPos | IOptionCallback;
   radius?: IOptionPos | IOptionCallback;
-  name?: string | IOptionCallback;
+  areaName?: string | IOptionCallback;
   getRefRelativeSeries?: () => IMarkerSupportSeries;
 } & IOptionSeries;
 
@@ -86,7 +86,7 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
     y: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
     angle: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
     radius: StringOrNumber[] | StringOrNumber | IOptionCallback | null;
-    name: string | IOptionCallback | null;
+    areaName: string | IOptionCallback | null;
   }[] = [];
   options.forEach(option => {
     const result: {
@@ -94,9 +94,9 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
       y: StringOrNumber[] | StringOrNumber | null;
       angle: StringOrNumber[] | StringOrNumber | null;
       radius: StringOrNumber[] | StringOrNumber | null;
-      name: string | null;
+      areaName: string | null;
       getRefRelativeSeries?: () => IMarkerSupportSeries;
-    } = { x: null, y: null, angle: null, radius: null, name: null };
+    } = { x: null, y: null, angle: null, radius: null, areaName: null };
 
     if (isValid(option.x)) {
       const x = option.x;
@@ -131,9 +131,9 @@ export function markerAggregation(_data: Array<DataView>, options: IOptionAggr[]
         result.radius = getFinalValue(radius, _data, option) as StringOrNumber;
       }
     }
-    if (isValid(option.name)) {
-      const name = option.name;
-      result.name = getFinalValue(name, _data, option) as string;
+    if (isValid(option.areaName)) {
+      const name = option.areaName;
+      result.areaName = getFinalValue(name, _data, option) as string;
     }
     if (option.getRefRelativeSeries) {
       result.getRefRelativeSeries = option.getRefRelativeSeries;

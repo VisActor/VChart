@@ -21,7 +21,7 @@ export class GeoMarkPoint extends BaseMarkPoint {
 
   protected _computeOptions(): any {
     const spec = this._spec as any;
-    const options = [this._processSpecByDims([{ dim: 'name', specValue: spec.name }])];
+    const options = [this._processSpecByDims([{ dim: 'areaName', specValue: spec.areaName }])];
     return { options };
   }
 }

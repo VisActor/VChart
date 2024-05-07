@@ -177,7 +177,7 @@ layout like this: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/marker-pos
 
 The x-direction offset of the mark content relative to the mark point.
 
-In addition to directly configuring offset values, since the `0.11.0` version:
+In addition to directly configuring offset values, since the `1.11.0` version:
 1. `'regionRight'` | `'regionLeft'`: Used to place at the leftmost or rightmost end of the region.
 2. Callback form
 ```ts
@@ -188,7 +188,7 @@ In addition to directly configuring offset values, since the `0.11.0` version:
 
 The y-direction offset of the mark content relative to the mark point.
 
-In addition to directly configuring offset values, since the `0.11.0` version:
+In addition to directly configuring offset values, since the `1.11.0` version:
 1. `'regionTop'` | `'regionBottom'`: Used to place at the topmost or bottommost end of the region.
 2. Callback form
 ```ts

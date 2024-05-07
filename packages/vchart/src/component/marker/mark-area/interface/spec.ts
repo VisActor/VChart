@@ -38,7 +38,7 @@ export type IMarkAreaSpec = IMarkerSpec &
   IMarkAreaTheme &
   /**
    * 动画配置
-   * @since 0.11.0
+   * @since 1.11.0
    */
   BaseMarkerAnimation<CommonMarkAreaAnimationType>; // 标注目标：任意位置
 
@@ -78,12 +78,12 @@ export interface IMarkAreaXYSpec extends IMarkerCrossSeriesSpec {
 export interface IMarkAreaAngleSpec extends IMarkerCrossSeriesSpec {
   /**
    * 极坐标系下, angle 轴上位置，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下, angle 轴上位置，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle1: IDataPos | IDataPosCallback;
 }
@@ -91,12 +91,12 @@ export interface IMarkAreaAngleSpec extends IMarkerCrossSeriesSpec {
 export interface IMarkAreaRadiusSpec extends IMarkerCrossSeriesSpec {
   /**
    * 极坐标系下,  radius 轴上位置， 或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下,  radius 轴上位置， 或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius1: IDataPos | IDataPosCallback;
 }
@@ -104,22 +104,22 @@ export interface IMarkAreaRadiusSpec extends IMarkerCrossSeriesSpec {
 export interface IMarkAreaAngleRadiusSpec extends IMarkerCrossSeriesSpec {
   /**
    * 极坐标系下, angle 轴上位置，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下, angle 轴上位置，或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   angle1: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下,  radius 轴上位置， 或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius: IDataPos | IDataPosCallback;
   /**
    * 极坐标系下,  radius 轴上位置， 或者聚合计算类型，或者以回调的形式通过数据自行计算。
-   * @since 0.11.0
+   * @since 1.11.0
    */
   radius1: IDataPos | IDataPosCallback;
 }
