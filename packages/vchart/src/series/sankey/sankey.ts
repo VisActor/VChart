@@ -639,15 +639,16 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     if (!allLabelElements || !allLabelElements.length) {
       return;
     }
+    const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
 
     allNodeElements.forEach(el => {
-      el.removeState(['selected', 'blur']);
+      el.removeState(states);
     });
     allLinkElements.forEach(el => {
-      el.removeState(['selected', 'blur']);
+      el.removeState(states);
     });
     allLabelElements.forEach(el => {
-      el.removeState(['selected', 'blur']);
+      el.removeState(states);
     });
   };
 
@@ -688,16 +689,16 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             ratio = val / linkDatum.value;
           }
 
-          linkEl.removeState('blur');
-          linkEl.addState('selected', { ratio });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio });
         } else if (linkDatum.target === nodeDatum.key) {
           // 上游link
           if (!highlightNodes.includes(linkDatum.source)) {
             highlightNodes.push(linkDatum.source);
           }
         } else {
-          linkEl.removeState('selected');
-          linkEl.addState('blur');
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
         }
       });
     }
@@ -722,11 +723,11 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       }
       allLinkElements.forEach(linkEl => {
         if (linkEl === element) {
-          linkEl.removeState('blur');
-          linkEl.addState('selected', { ratio: 1 });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
         } else {
-          linkEl.removeState('selected');
-          linkEl.addState('blur');
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
         }
       });
     }
@@ -852,11 +853,11 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
         allLinkElements.forEach((linkEl: IElement, i: number) => {
           if (highlightLinks.includes(linkEl.getDatum().key ?? linkEl.getDatum().index)) {
-            linkEl.removeState('blur');
-            linkEl.addState('selected');
+            linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
           } else {
-            linkEl.removeState('selected');
-            linkEl.addState('blur');
+            linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+            linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
           }
         });
       }
@@ -926,8 +927,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           }, 0);
           const ratio = val / linkDatum.value;
 
-          linkEl.removeState('blur');
-          linkEl.addState('selected', { ratio });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio });
 
           return;
         }
@@ -942,13 +943,14 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             highlightNodes.push(linkDatum.target);
           }
 
-          linkEl.useStates(['selected']);
-          linkEl.addState('selected', { ratio: upSelectedLink.value / linkDatum.value });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value });
 
           return;
         }
 
-        linkEl.useStates(['blur']);
+        linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
 
         return;
       });
@@ -977,15 +979,16 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     const father = element.getDatum()?.parents ? 'parents' : 'source';
     if (father === 'source') {
+      const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
       if (this._linkMark) {
         allLinkElements.forEach(linkEl => {
-          linkEl.removeState(['selected', 'blur']);
+          linkEl.removeState(states);
         });
       }
 
       if (this._nodeMark) {
         allNodeElements.forEach(el => {
-          el.removeState(['selected', 'blur']);
+          el.removeState(states);
         });
       }
 
@@ -995,7 +998,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           return;
         }
         allLabelElements.forEach(el => {
-          el.removeState(['selected', 'blur']);
+          el.removeState(states);
         });
       }
     } else {
@@ -1037,8 +1040,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
         if (linkDatum.source === curLinkDatum.source && linkDatum.target === curLinkDatum.target) {
           // 自身
-          linkEl.removeState('blur');
-          linkEl.addState('selected', { ratio: 1 });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: 1 });
           return;
         }
 
@@ -1070,8 +1073,8 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
             }, 0);
           const ratio = val / linkDatum.value;
 
-          linkEl.removeState('blur');
-          linkEl.addState('selected', { ratio });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio });
 
           return;
         }
@@ -1088,12 +1091,13 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           if (!highlightNodes.includes(linkDatum.target)) {
             highlightNodes.push(linkDatum.target);
           }
-          linkEl.useStates(['selected']);
-          linkEl.addState('selected', { ratio: upSelectedLink.value / linkDatum.value });
+          linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+          linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, { ratio: upSelectedLink.value / linkDatum.value });
 
           return;
         }
-        linkEl.useStates(['blur']);
+        linkEl.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+        linkEl.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
 
         return;
       });
@@ -1113,10 +1117,10 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
     vGrammarElements.forEach(el => {
       if (highlightNodes.includes(el.getDatum().key)) {
-        el.removeState('blur');
+        el.removeState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
         //
       } else {
-        el.addState('blur');
+        el.addState(STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
       }
     });
   }
@@ -1184,7 +1188,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 
   _getNodeNameFromData(datum: Datum) {
-    return datum?.datum ? datum.datum[this._spec.categoryField] : datum.key;
+    return datum?.datum ? datum.datum[this._spec.categoryField] : datum.key ?? datum[this._spec.categoryField];
   }
 
   extractNamesFromTree(tree: any, categoryName: string) {
