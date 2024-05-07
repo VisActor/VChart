@@ -12,7 +12,7 @@ option: mapChart#markPoint
 
 ## Key Configuration
 
-- Use the `markPoint.name` attribute to declare the geographical location to be marked
+- Use the `markPoint.areaName` attribute to declare the geographical location to be marked
 
 ## Demo source
 
@@ -84,7 +84,7 @@ option: mapChart#markPoint
         ],
         markPoint: data.map(d => {
             return {
-                name: d.name,
+                areaName: d.name,
                 itemLine: {
                     visible: false,
                 },

@@ -40,7 +40,7 @@ Since the `1.11.0` version, you can configure the value of the annotation point 
 ** Note that the usage scenario of this property is in the polar coordinate system: **
 1. Configure the angle and radius properties together to label the data points with coordinates on (angle, radius)
 
-### name (string | number | function)
+### areaName (string | number | function)
 Since the `1.11.0` version, you can configure the geographical location of the annotation point on the map, and calculate it yourself through the data in the form of a callback.
 
 ** Note that this property is used in a geographic coordinate system **

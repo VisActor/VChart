@@ -584,7 +584,7 @@ export function getMarkAreaProcessInfo(spec: any) {
 export function getMarkPointProcessInfo(spec: any) {
   const isXYProcess = isValid(spec.x) && isValid(spec.y);
   const isPolarProcess = isValid(spec.angle) && isValid(spec.radius);
-  const isGeoProcess = isValid(spec.name);
+  const isGeoProcess = isValid(spec.areaName);
   return {
     doXYProcess: isXYProcess,
     doPolarProcess: isPolarProcess,

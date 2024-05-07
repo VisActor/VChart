@@ -66,7 +66,7 @@ export type IMarkPointGeoNameSpec = {
    * 地理坐标系下, 地理区域的名称。
    * @since 0.11.0
    */
-  name: string | IDataPosCallback;
+  areaName: string | IDataPosCallback;
 };
 
 export type IMarkPointCoordinateSpec = {

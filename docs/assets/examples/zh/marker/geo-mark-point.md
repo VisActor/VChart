@@ -12,7 +12,7 @@ option: mapChart#markPoint
 
 ## 关键配置
 
-- 使用 `markPoint.name` 属性声明要标注的地理位置
+- 使用 `markPoint.areaName` 属性声明要标注的地理位置
 
 ## 代码演示
 
@@ -84,7 +84,7 @@ option: mapChart#markPoint
         ],
         markPoint: data.map(d => {
             return {
-                name: d.name,
+                areaName: d.name,
                 itemLine: {
                     visible: false,
                 },
