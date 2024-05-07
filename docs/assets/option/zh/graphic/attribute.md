@@ -107,23 +107,18 @@ y 方向缩放比例。
 ##${prefix} dom(string|HTMLElement)
 dom 字符串或节点。
 
-##${prefix} container(string|HTMLElement)
-挂载的 HTML 容器。
+{{ use: graphic-dom-attributes(
+  prefix = ${prefix} + '#'
+) }}
+{{ /if }}
 
-##${prefix} width(number)
-节点的宽度。
+#${prefix} react(object)
+自 `1.11.0` 版本开始支持，用于配置图元的 react 浮层。
 
-##${prefix} height(number)
-节点的高度。
+##${prefix} element(Object)
+React 元素
 
-##${prefix} style(string|object)
-节点的样式。支持样式字符串或对象。
-
-##${prefix} visible(boolean) = true
-是否显示节点。
-
-##${prefix} anchorType(string) = 'boundsLeftTop'
-节点布局对齐方式，支持：
-
-- `boundsLeftTop`
-- `position`
+{{ use: graphic-dom-attributes(
+  prefix = ${prefix} + '#'
+) }}
+{{ /if }}

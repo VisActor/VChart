@@ -121,6 +121,11 @@ export interface IRenderOption {
    * 是否支持pointer事件
    */
   supportsPointerEvents?: boolean;
+  /**
+   * @since 1.11.0
+   * 用于vrender渲染react元素，`react-dom`包导出元素
+   */
+  ReactDOM?: any;
 }
 
 export type CompilerListenerParameters = {
