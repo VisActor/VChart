@@ -7,7 +7,7 @@ import { transformArcAppear } from './transformArcAppear';
 import { getAllSeries, getSeriesMarksByMarkType } from '../../utils/series';
 import { IChartAppearAction } from '../../../../types/chart/appear';
 
-export const pieAppearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
+export const pieDisappearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
   const vchart = (chartInstance as any)?._graphic?._vchart;
 
   const instance: VChart = vchart ? vchart : chartInstance;
@@ -29,7 +29,7 @@ export const pieAppearProcessor = async (chartInstance: VChart, spec: ISpec, act
         const product = mark.getProduct();
 
         const config = transformArcAppear(instance, mergePayload.animation, {
-          disappear: false,
+          disappear: true,
           index: seriesIndex + markIndex
         });
         product.animate.run(config);

@@ -1,11 +1,11 @@
 import VChart, { ISpec } from '@visactor/vchart';
 import { merge } from '@visactor/vutils';
 import { defaultPayload } from './default';
-import { transformRectAppear } from './transformRectAppear';
 import { getAllSeriesMarksByMarkType } from '../../utils';
 import { IChartAppearAction } from '../../../../types/chart/appear';
+import { transformRectAppear } from './transformRectAppear';
 
-export const barAppearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
+export const barDisappearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
   const vchart = (chartInstance as any)?._graphic?._vchart;
   const instance: VChart = vchart ? vchart : chartInstance;
   if (!instance) {
@@ -22,7 +22,7 @@ export const barAppearProcessor = async (chartInstance: VChart, spec: ISpec, act
 
   marks.forEach(mark => {
     const product = mark.getProduct();
-    const config = transformRectAppear(instance, mergePayload.animation, false);
+    const config = transformRectAppear(instance, mergePayload.animation, true);
     if (config) {
       product.animate.run(config);
     }

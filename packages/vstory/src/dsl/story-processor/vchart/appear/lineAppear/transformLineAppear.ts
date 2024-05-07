@@ -6,25 +6,30 @@ import { IChartAppearAction } from '../../../../types/chart/appear';
 export const transformLineAppear = (
   instance: VChart,
   animation: IChartAppearAction['payload']['animation'],
-  markIndex: number
+  option: { markIndex: number; disappear: boolean }
 ) => {
   switch (animation.effect) {
     case 'grow': {
-      return lineGrow(instance, animation, markIndex);
+      return lineGrow(instance, animation, option);
     }
     case 'fade': {
-      return lineFade(instance, animation, markIndex);
+      return lineFade(instance, animation, option);
     }
   }
 };
 
-const lineGrow = (instance: VChart, animation: IChartAppearAction['payload']['animation'], markIndex: number) => {
+const lineGrow = (
+  instance: VChart,
+  animation: IChartAppearAction['payload']['animation'],
+  option: { markIndex: number; disappear: boolean }
+) => {
   const { duration, loop, oneByOne, easing } = animation;
-
+  const { markIndex, disappear } = option;
+  const type = disappear ? 'clipOut' : 'clipIn';
   if (oneByOne) {
     // 使用delay模拟线逐个出现
     return {
-      type: 'clipIn',
+      type: type,
       duration,
       loop,
       oneByOne: false,
@@ -36,7 +41,7 @@ const lineGrow = (instance: VChart, animation: IChartAppearAction['payload']['an
   }
 
   return {
-    type: 'clipIn',
+    type: type,
     duration,
     loop,
     oneByOne: false,
@@ -44,13 +49,18 @@ const lineGrow = (instance: VChart, animation: IChartAppearAction['payload']['an
   };
 };
 
-const lineFade = (instance: VChart, animation: IChartAppearAction['payload']['animation'], markIndex: number) => {
+const lineFade = (
+  instance: VChart,
+  animation: IChartAppearAction['payload']['animation'],
+  option: { markIndex: number; disappear: boolean }
+) => {
   const { duration, loop, oneByOne, easing } = animation;
-
+  const { markIndex, disappear } = option;
+  const type = disappear ? 'fadeOut' : 'fadeIn';
   if (oneByOne) {
     // 使用delay模拟线逐个出现
     return {
-      type: 'fadeIn',
+      type,
       duration,
       loop,
       oneByOne: false,
@@ -62,7 +72,7 @@ const lineFade = (instance: VChart, animation: IChartAppearAction['payload']['an
   }
 
   return {
-    type: 'fadeIn',
+    type,
     duration,
     loop,
     oneByOne: false,

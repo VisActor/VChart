@@ -8,12 +8,10 @@ import { AreaWithTag } from './demos/AreaWithTag';
 import { StoryLineDemo } from './demos/StoryLineDemo';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { StoryPieDemo } from './demos/StoryPieDemo';
-import { AppearBar } from './demos/AppearBar';
-import { AppearLine } from './demos/AppearLine';
-import { AppearPie } from './demos/AppearPie';
 import { GraphicActionDemo } from './demos/graphicAction';
 import { VChartSiteDemo } from './demos/VchartSite';
 import { ChartHistory } from './demos/ChartHistory';
+import { DisAppear } from './demos/DisAppear';
 
 const App = () => {
   const [activeIndex, setActiveIndex] = useLocalStorage('menuIndex', 0);
@@ -47,16 +45,8 @@ const App = () => {
       component: AreaWithTag
     },
     {
-      name: 'AppearBar',
-      component: AppearBar
-    },
-    {
-      name: 'AppearLine',
-      component: AppearLine
-    },
-    {
-      name: 'AppearPie',
-      component: AppearPie
+      name: 'DisAppear',
+      component: DisAppear
     },
     {
       name: 'Graphic-Action',
@@ -71,7 +61,6 @@ const App = () => {
       component: ChartHistory
     }
   ];
-
   const selectedMenu = menus[activeIndex ?? 10];
 
   return (

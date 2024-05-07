@@ -6,7 +6,7 @@ import { transformLineSymbolAppear } from './transformLineSymbolAppear';
 import { getAllSeries, getSeriesMarksByMarkType } from '../../utils/series';
 import { IChartAppearAction } from '../../../../types/chart/appear';
 
-export const lineAppearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
+export const lineDisappearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
   const vchart = (chartInstance as any)?._graphic?._vchart;
 
   const instance: VChart = vchart ? vchart : chartInstance;
@@ -25,10 +25,9 @@ export const lineAppearProcessor = async (chartInstance: VChart, spec: ISpec, ac
       lineMarks.forEach((mark, markIndex) => {
         const product = mark.getProduct();
         const config = transformLineAppear(instance, mergePayload.animation, {
-          disappear: false,
-          markIndex: seriesIndex + markIndex
+          markIndex: seriesIndex + markIndex,
+          disappear: true
         });
-
         product.animate.run(config);
       });
     }
@@ -39,8 +38,8 @@ export const lineAppearProcessor = async (chartInstance: VChart, spec: ISpec, ac
       symbolMarks.forEach((mark, markIndex) => {
         const product = mark.getProduct();
         const config = transformLineSymbolAppear(instance, mergePayload.animation, {
-          disappear: false,
-          markIndex: seriesIndex + markIndex
+          markIndex: seriesIndex + markIndex,
+          disappear: true
         });
         product.animate.run(config);
       });

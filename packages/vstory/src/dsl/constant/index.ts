@@ -5,7 +5,12 @@ export const enum StoryChartType {
   HISTOGRAM = 'HistogramChart',
   PIE = 'PieChart',
   ROSE = 'RoseChart',
-  RADAR = 'RadarChart'
+  RADAR = 'RadarChart',
+  RANGE_COLUMN = 'RangeColumnChart',
+  SCATTER = 'ScatterChart',
+  WORD_CLOUD = 'WordCloudChart',
+  TREE_MAP = 'TreeMapChart',
+  SUNBURST = 'SunburstChart'
 }
 export enum StoryGraphicType {
   RECT = 'RectComponent',

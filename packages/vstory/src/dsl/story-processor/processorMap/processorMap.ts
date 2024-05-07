@@ -4,7 +4,17 @@ import { addProcessor } from '../vchart/add';
 import { createMarkStyleProcessorByMarkType } from '../vchart/style/style';
 import { updateProcessor } from '../vchart/update';
 import { graphicAppearProcessor, textAppearProcessor } from '../graphic/appear';
-import { barAppearProcessor, lineAppearProcessor, pieAppearProcessor } from '../vchart/appear';
+import {
+  barAppearProcessor,
+  barDisappearProcessor,
+  lineAppearProcessor,
+  areaAppearProcessor,
+  areaDisappearProcessor,
+  pieAppearProcessor,
+  pieDisappearProcessor,
+  scatterAppearProcessor,
+  scatterDisappearProcessor
+} from '../vchart/appear';
 import { createMarkPointProcessor, markPointFlickerProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
 import { lineStyleProcessor } from '../vchart/style/lineStyle';
@@ -16,11 +26,17 @@ import { moveToProcessor } from '../graphic/moveTo';
 import { styleProcessor } from '../graphic/style';
 import { graphicDisappearProcessor, textDisappearProcessor } from '../graphic/disappear';
 import { bounceProcessor } from '../vchart/bounce';
-
+import { roseProcessorMap } from './rose';
+import { scatterProcessorMap } from './scatter';
+import { rangeColumnProcessorMap } from './rangeColumn';
+import { radarProcessorMap } from './radar';
+import { wordCloudProcessorMap } from './wordCloud';
+import { sunburstProcessorMap } from './sunburst';
+import { treeMapProcessorMap } from './treeMap';
 /**
  * 通用的编辑processor
  */
-const editProcessor = {
+export const editProcessor = {
   add: addProcessor,
   addPatch: addProcessor,
   updateProcessor
@@ -29,7 +45,7 @@ const editProcessor = {
 /**
  * 通用的查看processor
  */
-const viewProcessor = {
+export const viewProcessor = {
   bounce: bounceProcessor
 };
 
@@ -37,7 +53,7 @@ const viewProcessor = {
  * 通用的组件行为processor
  */
 
-const componentProcessor = {
+export const componentProcessor = {
   createMarkPoint: createMarkPointProcessor,
   createTitle: createTitleProcessor
 };
@@ -55,6 +71,7 @@ export const processorChartMap = {
     // 不通用的, 可直接覆盖, 重新定义
     barStyle: createMarkStyleProcessorByMarkType('rect'),
     appear: barAppearProcessor,
+    disappear: barDisappearProcessor,
     dance: danceProcessor
   },
   [StoryChartType.LINE]: {
@@ -70,22 +87,26 @@ export const processorChartMap = {
     ...viewProcessor,
     ...componentProcessor,
     arcStyle: createMarkStyleProcessorByMarkType('arc'),
-    appear: pieAppearProcessor
+    appear: pieAppearProcessor,
+    disappear: pieDisappearProcessor
   },
   [StoryChartType.AREA]: {
     ...editProcessor,
     ...viewProcessor,
     ...componentProcessor,
+    appear: areaAppearProcessor,
+    disappear: areaDisappearProcessor,
     arcStyle: createMarkStyleProcessorByMarkType('arc')
   },
+  [StoryChartType.RANGE_COLUMN]: rangeColumnProcessorMap,
+  [StoryChartType.SCATTER]: scatterProcessorMap,
+  [StoryChartType.ROSE]: roseProcessorMap,
+  [StoryChartType.RADAR]: radarProcessorMap,
+  [StoryChartType.WORD_CLOUD]: wordCloudProcessorMap,
+  [StoryChartType.TREE_MAP]: treeMapProcessorMap,
+  [StoryChartType.SUNBURST]: sunburstProcessorMap,
   CharacterChart: {
     // TODO:  processor 需要重构一下结构。这里为了跑 demo
-    ...viewProcessor
-  },
-  RangeColumnChart: {
-    ...viewProcessor
-  },
-  ScatterChart: {
     ...viewProcessor
   }
 };

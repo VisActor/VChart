@@ -4,24 +4,29 @@ import { IChartAppearAction } from '../../../../types/chart/appear';
 export const transformLineSymbolAppear = (
   instance: VChart,
   animation: IChartAppearAction['payload']['animation'],
-  markIndex: number
+  option: { markIndex: number; disappear: boolean }
 ) => {
   switch (animation.effect) {
     case 'grow': {
-      return symbolGrow(instance, animation, markIndex);
+      return symbolGrow(instance, animation, option);
     }
     case 'fade': {
-      return symbolFade(instance, animation, markIndex);
+      return symbolFade(instance, animation, option);
     }
   }
 };
 
-const symbolGrow = (instance: VChart, animation: IChartAppearAction['payload']['animation'], markIndex: number) => {
+const symbolGrow = (
+  instance: VChart,
+  animation: IChartAppearAction['payload']['animation'],
+  option: { markIndex: number; disappear: boolean }
+) => {
   const { duration, loop, oneByOne, easing } = animation;
+  const { markIndex, disappear } = option;
 
   if (oneByOne === true) {
     return {
-      type: 'scaleIn',
+      type: disappear ? 'scaleOut' : 'scaleIn',
       duration,
       loop,
       oneByOne: false,
@@ -41,12 +46,17 @@ const symbolGrow = (instance: VChart, animation: IChartAppearAction['payload']['
   };
 };
 
-const symbolFade = (instance: VChart, animation: IChartAppearAction['payload']['animation'], markIndex: number) => {
+const symbolFade = (
+  instance: VChart,
+  animation: IChartAppearAction['payload']['animation'],
+  option: { markIndex: number; disappear: boolean }
+) => {
   const { duration, loop, oneByOne, easing } = animation;
+  const { markIndex, disappear } = option;
 
   if (oneByOne === true) {
     return {
-      type: 'fadeIn',
+      type: disappear ? 'fadeOut' : 'fadeIn',
       duration,
       loop,
       oneByOne: false,
