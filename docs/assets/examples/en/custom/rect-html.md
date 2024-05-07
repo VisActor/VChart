@@ -3,7 +3,7 @@ category: examples
 group: customMark
 title: 自定义矩形渲染html拓展属性
 order: 40-8
-cover:
+cover: /vchart/preview/custom-rect-html_1.11.0.png
 option: lineChart#customMark
 ---
 
@@ -14,7 +14,6 @@ option: lineChart#customMark
 - `style.html` Set custom HTML attributes
 
 ## Code Demonstration
-
 
 ```javascript livedemo
 const spec = {

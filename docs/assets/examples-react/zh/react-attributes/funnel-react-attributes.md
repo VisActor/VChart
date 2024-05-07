@@ -4,7 +4,7 @@ group: funnel chart
 title: 使用react渲染漏斗图标签
 keywords: funnelChart,composition,trend,triangle
 order: 5-0
-cover:
+cover: /vchart/preview/funnel-react-attributes-1.11.0.png
 option: funnelChart
 ---
 

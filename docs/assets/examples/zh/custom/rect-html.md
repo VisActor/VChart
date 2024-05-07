@@ -3,15 +3,15 @@ category: examples
 group: customMark
 title: 自定义矩形渲染html拓展属性
 order: 40-8
-cover:
+cover: /vchart/preview/custom-rect-html_1.11.0.png
 option: lineChart#customMark
 ---
 
-# 自定义矩形渲染html拓展属性
+# 自定义矩形渲染 html 拓展属性
 
 ## 关键配置
 
-- `style.html` 设置自定义的html属性
+- `style.html` 设置自定义的 html 属性
 
 ## 代码演示
 
@@ -240,4 +240,3 @@ vchart.renderSync();
 // Just for the convenience of console debugging, DO NOT COPY!
 window['vchart'] = vchart;
 ```
-
