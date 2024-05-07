@@ -2522,6 +2522,13 @@
             "zh": "定制状态排序",
             "en": "Custom State Sorting"
           }
+        },
+        {
+          "path": "rect-html",
+          "title": {
+            "zh": "自定义矩形渲染html拓展属性",
+            "en": "Render html in custom rect"
+          }
         }
       ]
     },

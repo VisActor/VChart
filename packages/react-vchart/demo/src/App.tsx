@@ -1,5 +1,4 @@
-import { useRef, useState } from 'react';
-
+import { useCallback, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   BarChart,
@@ -21,7 +20,8 @@ import {
   Legend,
   Tooltip,
   ITooltipRenderProps,
-  ILineChartSpec
+  ILineChartSpec,
+  Funnel
 } from '../../src';
 import './App.css';
 import { generateData } from './util';
@@ -78,6 +78,10 @@ function App() {
     );
   };
 
+  const handleReady = useCallback(chartInstance => {
+    (window as any).vchart = chartInstance;
+  }, []);
+
   const handleChartClick = (a: any) => {
     console.log('chart, click');
     console.log(a);
@@ -97,6 +101,23 @@ function App() {
 
   const chartRef = useRef(null);
   const [xAxisPosition, setXAxisPosition] = useState('bottom');
+
+  const renderFunnelLabel = useCallback(datum => {
+    console.log(datum);
+    return {
+      element: (
+        <p style={{ color: 'black' }}>
+          <span>teststst</span>
+          {datum.x}
+        </p>
+      ),
+      anchorType: 'top-right'
+      // style: {
+      //   width: '100%',
+      //   height: '100%'
+      // }
+    };
+  }, []);
 
   return (
     <div className="App">
@@ -196,11 +217,22 @@ function App() {
 
       <RadarChart data={simpleData} valueField={'y'} categoryField={'x'}>
         <Legend visible={true} />
-      </RadarChart>
+      </RadarChart> */}
 
-      <FunnelChart data={simpleData} categoryField={'x'} valueField={'y'}>
+      <FunnelChart data={simpleData} options={{ ReactDOM }} onReady={handleReady}>
         <Legend visible={true} />
-      </FunnelChart> */}
+        <Funnel
+          categoryField={'x'}
+          valueField={'y'}
+          funnel={{
+            style: {
+              stroke: '#000',
+              lineWidth: 2,
+              react: renderFunnelLabel
+            }
+          }}
+        />
+      </FunnelChart>
 
       {/* <WordCloudChart data={simpleData} nameField={'x'} valueField={'y'}>
         <Legend visible={true} />
@@ -231,9 +263,9 @@ function App() {
         xField={'type'}
         minField={'min'}
         maxField={'max'}
-      />
+      /> */}
 
-      <BoxPlotChart
+      {/* <BoxPlotChart
         data={[
           {
             name: 'boxPlot',
