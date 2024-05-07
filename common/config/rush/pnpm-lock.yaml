@@ -513,7 +513,6 @@ importers:
       '@visactor/vdataset': ~0.18.1
       '@visactor/vrender-components': 0.18.14
       '@visactor/vrender-core': 0.18.14
-      '@visactor/vrender-kits': 0.18.14
       '@visactor/vscale': ~0.18.1
       '@visactor/vutils': ~0.18.1
       eslint: ~8.18.0
@@ -533,9 +532,6 @@ importers:
       vite: 3.2.6
     dependencies:
       '@visactor/vdataset': 0.18.1
-      '@visactor/vrender-components': 0.18.14
-      '@visactor/vrender-core': 0.18.14
-      '@visactor/vrender-kits': 0.18.14
       '@visactor/vscale': 0.18.1
       '@visactor/vutils': 0.18.1
     devDependencies:
@@ -546,6 +542,8 @@ importers:
       '@types/jest': 26.0.24
       '@types/node': 20.12.2
       '@types/offscreencanvas': 2019.6.4
+      '@visactor/vrender-components': 0.18.14
+      '@visactor/vrender-core': 0.18.14
       eslint: 8.18.0
       husky: 7.0.4
       jest: 26.6.3_ts-node@10.9.0
@@ -3061,7 +3059,6 @@ packages:
     cpu: [arm]
     os: [android]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-android-arm64/2.4.1:
@@ -3070,7 +3067,6 @@ packages:
     cpu: [arm64]
     os: [android]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-darwin-arm64/2.4.1:
@@ -3079,7 +3075,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-darwin-x64/2.4.1:
@@ -3088,7 +3083,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-linux-arm-gnueabihf/2.4.1:
@@ -3097,7 +3091,6 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-linux-arm64-gnu/2.4.1:
@@ -3106,7 +3099,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-linux-arm64-musl/2.4.1:
@@ -3115,7 +3107,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-linux-x64-gnu/2.4.1:
@@ -3124,7 +3115,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-linux-x64-musl/2.4.1:
@@ -3133,7 +3123,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-win32-arm64-msvc/2.4.1:
@@ -3142,7 +3131,6 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-win32-ia32-msvc/2.4.1:
@@ -3151,7 +3139,6 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js-win32-x64-msvc/2.4.1:
@@ -3160,7 +3147,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@resvg/resvg-js/2.4.1:
@@ -3179,7 +3165,6 @@ packages:
       '@resvg/resvg-js-win32-arm64-msvc': 2.4.1
       '@resvg/resvg-js-win32-ia32-msvc': 2.4.1
       '@resvg/resvg-js-win32-x64-msvc': 2.4.1
-    dev: false
 
   /@rollup/plugin-alias/5.0.0_rollup@3.20.5:
     resolution: {integrity: sha512-l9hY5chSCjuFRPsnRm16twWBiSApl2uYFLsepQYwtBuAxNMQ/1dJqADld40P0Jkqm65GRTLy/AC6hnpVebtLsA==}
@@ -3993,13 +3978,11 @@ packages:
 
   /@turf/helpers/6.5.0:
     resolution: {integrity: sha512-VbI1dV5bLFzohYYdgqwikdMVpe7pJ9X3E+dlr425wa2/sMJqYDhTO++ec38/pcPvPE6oD9WEEeU3Xu3gza+VPw==}
-    dev: false
 
   /@turf/invariant/6.5.0:
     resolution: {integrity: sha512-Wv8PRNCtPD31UVbdJE/KVAWKe7l6US+lJItRR/HOEW3eh+U/JwRCSUl/KZ7bmjM/C+zLNoreM2TU6OoLACs4eg==}
     dependencies:
       '@turf/helpers': 6.5.0
-    dev: false
 
   /@turf/meta/3.14.0:
     resolution: {integrity: sha512-OtXqLQuR9hlQ/HkAF/OdzRea7E0eZK1ay8y8CBXkoO2R6v34CsDrWYLMSo0ZzMsaQDpKo76NPP2GGo+PyG1cSg==}
@@ -4804,14 +4787,12 @@ packages:
       '@visactor/vrender-kits': 0.18.14
       '@visactor/vscale': 0.17.5
       '@visactor/vutils': 0.18.1
-    dev: false
 
   /@visactor/vrender-core/0.18.14:
     resolution: {integrity: sha512-wW3DzQxG9A3/8Q4YbATUPL47W7UNx90vtQF9gxZIhYDwpO0c5tXqt4+eIw2SmHbgYmJsC2c3Er3qj7ydigh2jw==}
     dependencies:
       '@visactor/vutils': 0.18.1
       color-convert: 2.0.1
-    dev: false
 
   /@visactor/vrender-kits/0.18.14:
     resolution: {integrity: sha512-YpTPo/0bGM91wVeJZEhVL0BK3qTsob3cgtB1IOj235FEBaqXB9WuLXFBFRhs3hhPvQN5WDO755ry8JY3CUfY9g==}
@@ -4820,7 +4801,6 @@ packages:
       '@visactor/vrender-core': 0.18.14
       '@visactor/vutils': 0.18.1
       roughjs: 4.5.2
-    dev: false
 
   /@visactor/vrender/0.18.14:
     resolution: {integrity: sha512-FDGEtqYKm5V+qkn8f093uZB7lyPNIyVHBNb75zZ99KiSYxEvS2fZ2JRVYTSRYeH/nzMHuOu9bSIjKsEc1CFAPA==}
@@ -4833,7 +4813,6 @@ packages:
     resolution: {integrity: sha512-2dkS1IlAJ/IdTp8JElbctOOv6lkHKBKPDm8KvwBo0NuGWQeYAebSeyN3QCdwKbj76gMlCub4zc+xWrS5YiA2zA==}
     dependencies:
       '@visactor/vutils': 0.17.5
-    dev: false
 
   /@visactor/vscale/0.18.1:
     resolution: {integrity: sha512-0wpd0avbFLvuDKNHt2PxdKdqLSU9+zUkM6GJYWbXsUUYOiKaFkt2xTkdwUHKq66v23C7Iy14Pm7VVr0wVgflbA==}
@@ -4847,7 +4826,6 @@ packages:
       '@turf/helpers': 6.5.0
       '@turf/invariant': 6.5.0
       eventemitter3: 4.0.7
-    dev: false
 
   /@visactor/vutils/0.18.1:
     resolution: {integrity: sha512-XGq9a85HrVP3Rbby1qO2/JS9GewJtZv6y35Xujcb2ZGLEjnpCK61Y1OXwSC5SZOKmtsH4SjYMf5czlnNhQ3GeA==}
@@ -4855,7 +4833,6 @@ packages:
       '@turf/helpers': 6.5.0
       '@turf/invariant': 6.5.0
       eventemitter3: 4.0.7
-    dev: false
 
   /@vitejs/plugin-react/3.1.0_vite@3.2.6:
     resolution: {integrity: sha512-AfgcRL8ZBhAlc3BFdigClmTUMISmmzHn7sB2h9U1odvc5U/MjWXsAaz18b/WoppUTDBzxOJwo2VdClfUcItu9g==}
@@ -17293,7 +17270,6 @@ packages:
 
   /path-data-parser/0.1.0:
     resolution: {integrity: sha512-NOnmBpt5Y2RWbuv0LMzsayp3lVylAHLPUTut412ZA3l+C4uw4ZVkQbjShYCQ8TCpUMdPapr4YjUqLYD6v68j+w==}
-    dev: false
 
   /path-dirname/1.0.2:
     resolution: {integrity: sha512-ALzNPpyNq9AqXMBjeymIjFDAkAFH06mHJH/cSBHAgU0s4vfpBn6b2nf8tiRLvagKD8RbTpq2FKTBg7cl9l3c7Q==}
@@ -17543,14 +17519,12 @@ packages:
 
   /points-on-curve/0.2.0:
     resolution: {integrity: sha512-0mYKnYYe9ZcqMCWhUjItv/oHjvgEsfKvnUTg8sAtnHr3GVy7rGkXCb6d5cSyqrWqL4k81b9CPg3urd+T7aop3A==}
-    dev: false
 
   /points-on-path/0.2.1:
     resolution: {integrity: sha512-25ClnWWuw7JbWZcgqY/gJ4FQWadKxGWk+3kR/7kD0tCaDtPPMj7oHu2ToLaVhfpnHrZzYby2w6tUA0eOIuUg8g==}
     dependencies:
       path-data-parser: 0.1.0
       points-on-curve: 0.2.0
-    dev: false
 
   /portfinder/1.0.32:
     resolution: {integrity: sha512-on2ZJVVDXRADWE6jnQaX0ioEylzgBpQk8r55NE4wjXW1ZxO+BgDlY6DXwj20i0V8eB4SenDQ00WEaxfiIQPcxg==}
@@ -19297,7 +19271,6 @@ packages:
       path-data-parser: 0.1.0
       points-on-curve: 0.2.0
       points-on-path: 0.2.1
-    dev: false
 
   /rsvp/4.8.5:
     resolution: {integrity: sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==}
