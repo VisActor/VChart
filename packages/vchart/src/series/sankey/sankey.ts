@@ -598,19 +598,19 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   };
 
   protected _handleClearEmpty = () => {
-    const allNodeElements = this._nodeMark.getProductElements();
+    const allNodeElements = this._nodeMark?.getProductElements();
 
     if (!allNodeElements || !allNodeElements.length) {
       return;
     }
 
-    const allLinkElements = this._linkMark.getProductElements();
+    const allLinkElements = this._linkMark?.getProductElements();
 
     if (!allLinkElements || !allLinkElements.length) {
       return;
     }
 
-    const allLabelElements = this._labelMark.getProductElements();
+    const allLabelElements = this._labelMark?.getProductElements();
 
     if (!allLabelElements || !allLabelElements.length) {
       return;
