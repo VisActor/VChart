@@ -62,6 +62,8 @@ export interface IChartCharacterSpec extends ICharacterSpecBase {
     data?: any;
     // 内部模块布局信息
     padding?: any;
+    // 标题
+    title?: any;
     layout?: any;
     // 色板
     color?: string[];

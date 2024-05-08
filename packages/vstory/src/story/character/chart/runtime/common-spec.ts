@@ -17,7 +17,7 @@ export class CommonSpecRuntime implements IChartCharacterRuntime {
     if (!options) {
       return;
     }
-    merge(rawSpec, { color: options.color, theme: options.theme, padding: options.padding });
+    merge(rawSpec, { color: options.color, theme: options.theme, padding: options.padding, title: options.title });
   }
 
   afterInitializeChart() {

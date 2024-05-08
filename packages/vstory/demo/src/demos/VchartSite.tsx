@@ -8,7 +8,16 @@ const chartSpecList = [
     title: 'Timeline Chart',
     characterType: 'RangeColumnChart',
     options: {
-      padding: 8,
+      title: {
+        text: 'Timeline Chart',
+        orient: 'bottom',
+        align: 'center',
+        textStyle: {
+          fontSize: 11,
+          lineHeight: 11
+        }
+      },
+      padding: 0,
       data: [
         {
           id: 'id0',
@@ -70,6 +79,16 @@ const chartSpecList = [
     title: 'Bar Chart',
     characterType: 'BarChart',
     options: {
+      title: {
+        text: 'BarChart',
+        orient: 'bottom',
+        align: 'center',
+        textStyle: {
+          fontSize: 11,
+          lineHeight: 11
+        }
+      },
+      padding: 0,
       data: [
         {
           id: 'data',
@@ -144,7 +163,6 @@ const chartSpecList = [
           }
         }
       ],
-      padding: 8,
       componentSpec: [
         {
           specKey: 'axes',
@@ -172,7 +190,16 @@ const chartSpecList = [
     title: 'Line/Area Chart',
     characterType: 'AreaChart',
     options: {
-      padding: 8,
+      title: {
+        text: 'Line/Area Chart',
+        orient: 'bottom',
+        align: 'center',
+        textStyle: {
+          fontSize: 11,
+          lineHeight: 11
+        }
+      },
+      padding: 0,
       data: [
         {
           id: 'data2',
@@ -228,7 +255,16 @@ const chartSpecList = [
     title: 'Pie Chart',
     characterType: 'PieChart',
     options: {
-      padding: 8,
+      title: {
+        text: 'Pie Chart',
+        orient: 'bottom',
+        align: 'center',
+        textStyle: {
+          fontSize: 11,
+          lineHeight: 11
+        }
+      },
+      padding: 0,
       data: [
         {
           id: 'data1',
@@ -260,7 +296,16 @@ const chartSpecList = [
     title: 'Scatter Chart',
     characterType: 'ScatterChart',
     options: {
-      padding: 8,
+      title: {
+        text: 'Scatter Chart',
+        orient: 'bottom',
+        align: 'center',
+        textStyle: {
+          fontSize: 11,
+          lineHeight: 11
+        }
+      },
+      padding: 0,
       data: [
         {
           id: 'data2',
@@ -318,7 +363,16 @@ const chartSpecList = [
     title: 'Rose Chart',
     characterType: 'RoseChart',
     options: {
-      padding: 8,
+      title: {
+        text: 'Rose Chart',
+        orient: 'bottom',
+        align: 'center',
+        textStyle: {
+          fontSize: 11,
+          lineHeight: 11
+        }
+      },
+      padding: 0,
       data: [
         {
           id: 'data1',
@@ -380,7 +434,16 @@ const chartSpecList = [
     title: 'Radar Chart',
     characterType: 'RadarChart',
     options: {
-      padding: 8,
+      title: {
+        text: 'Radar Chart',
+        orient: 'bottom',
+        align: 'center',
+        textStyle: {
+          fontSize: 11,
+          lineHeight: 11
+        }
+      },
+      padding: 0,
       data: [
         {
           id: 'data2',
@@ -532,7 +595,16 @@ const chartSpecList = [
     title: 'Word Cloud',
     characterType: 'WordCloudChart',
     options: {
-      padding: 8,
+      title: {
+        text: 'Word Cloud',
+        orient: 'bottom',
+        align: 'center',
+        textStyle: {
+          fontSize: 11,
+          lineHeight: 11
+        }
+      },
+      padding: 0,
       data: [
         {
           id: 'data1',
@@ -586,7 +658,16 @@ const chartSpecList = [
     title: 'TreeMap Chart',
     characterType: 'TreeMapChart',
     options: {
-      padding: 8,
+      title: {
+        text: 'TreeMap Chart',
+        orient: 'bottom',
+        align: 'center',
+        textStyle: {
+          fontSize: 11,
+          lineHeight: 11
+        }
+      },
+      padding: 0,
       data: [
         {
           id: 'data',
@@ -676,7 +757,16 @@ const chartSpecList = [
     title: 'Sunburst Chart',
     characterType: 'SunburstChart',
     options: {
-      padding: 8,
+      title: {
+        text: 'Sunburst Chart',
+        orient: 'bottom',
+        align: 'center',
+        textStyle: {
+          fontSize: 11,
+          lineHeight: 11
+        }
+      },
+      padding: 0,
       data: [
         {
           id: 'data',
@@ -779,7 +869,7 @@ export const VChartSiteDemo = () => {
           position: {
             top: i < 5 ? 50 : 570,
             left: 100 + (i % 5) * 150 + 20,
-            width: 80,
+            width: 90,
             height: 80
           },
           options: {
