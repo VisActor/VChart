@@ -3,7 +3,8 @@ import { isFunction, isArray, TimeUtil, NumberUtil, numberSpecifierReg } from '@
 import { BasePlugin } from '../../base/base-plugin';
 
 import type { IChartPlugin, IChartPluginService } from '../interface';
-import { Factory, registerChartPlugin } from '../../../core';
+import { Factory } from '../../../core/factory';
+import { registerChartPlugin } from '../register';
 
 const bracketReg = /\{([^}]+)\}/;
 const bracketGReg = /\{([^}]+)\}/g;

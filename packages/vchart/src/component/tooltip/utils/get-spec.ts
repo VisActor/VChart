@@ -12,7 +12,7 @@ import { makeDefaultPattern } from './pattern';
 import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 import { memoize, isValid, array, isFunction, isNil, cloneDeep } from '@visactor/vutils';
 import type { ITooltipSpec, ITooltipTheme } from '..';
-import { getTooltipActualActiveType } from '.';
+import { getTooltipActualActiveType } from './common';
 import {
   addExtraInfoToTooltipContentPattern,
   addExtraInfoToTooltipTitlePattern

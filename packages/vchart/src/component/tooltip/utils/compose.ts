@@ -1,5 +1,11 @@
 import { isValid, isNil, TimeUtil } from '@visactor/vutils';
-import type { ITooltipLinePattern, ITooltipPattern, TooltipData, ITooltipLineActual } from '../../../typings/tooltip';
+import type {
+  ITooltipLinePattern,
+  ITooltipPattern,
+  TooltipData,
+  ITooltipLineActual,
+  TooltipActualTitleContent
+} from '../../../typings/tooltip';
 import {
   getFirstDatumFromTooltipData,
   getTooltipContentPattern,
@@ -8,8 +14,8 @@ import {
 } from './get-value';
 import type { IDimensionData, IDimensionInfo } from '../../../event';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constant';
-import { getTooltipActualActiveType } from '.';
-import type { TooltipActualTitleContent, TooltipHandlerParams } from '..';
+import { getTooltipActualActiveType } from './common';
+import type { TooltipHandlerParams } from '../interface/common';
 import type { Datum } from '../../../typings';
 
 const getTimeString = (value: any, timeFormat?: string, timeFormatMode?: 'local' | 'utc') => {

@@ -843,6 +843,12 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
     if (finalSelectSpec.enable) {
       const selector: string[] = this._parseSelectorOfInteraction(finalSelectSpec as IBaseInteractionSpec, mainMarks);
+      const isMultiple = finalSelectSpec.mode === 'multiple';
+      const triggerOff = isValid(finalSelectSpec.triggerOff)
+        ? finalSelectSpec.triggerOff
+        : isMultiple
+        ? ['empty']
+        : ['empty', finalSelectSpec.trigger];
 
       selector.length &&
         res.push({
@@ -851,10 +857,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
           regionId: this._region.id,
           selector,
           trigger: finalSelectSpec.trigger as EventType,
-          triggerOff: (finalSelectSpec.triggerOff ?? 'empty') as EventType,
+          triggerOff: triggerOff as EventType,
           reverseState: STATE_VALUE_ENUM.STATE_SELECTED_REVERSE,
           state: STATE_VALUE_ENUM.STATE_SELECTED,
-          isMultiple: finalSelectSpec.mode === 'multiple'
+          isMultiple
         });
     }
 
