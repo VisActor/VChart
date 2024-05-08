@@ -1,3 +1,27 @@
+# v1.10.6
+
+2024-05-08
+
+
+**🆕 New feature**
+
+- **@visactor/vchart**: enhanced capabilities for waterfall chart total label
+
+**🐛 Bug fix**
+
+- **wordCloud**: wordCloud layout error and color scale error when updateData. fix [#2605](https://github.com/VisActor/VChart/issues/2605) 
+- **@visactor/vchart**: fix error of position when update viewBox
+- **scroll**: scroll not work in ios. fix[#1224](https://github.com/VisActor/VChart/issues/1224)
+- **@visactor/vchart**: fix range-column-chart spec
+- **@visactor/vchart**: duplicated categoryField data in funnel will result to unexpected rendering result
+- **@visactor/vchart**: fixed the problem that when the label of the sankey chart is hidden, an error will be reported when clicking on the blank space
+- **@visactor/vchart**: fix the issue of scatter when the legend switch visible encode, close [#2625](https://github.com/VisActor/VChart/issues/2625)
+- **@visactor/vchart**: fix the trigger off of default select interactions
+
+
+
+[more detail about v1.10.6](https://github.com/VisActor/VChart/releases/tag/v1.10.6)
+
 # v1.10.5
 
 2024-04-26
