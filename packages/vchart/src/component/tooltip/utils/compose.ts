@@ -14,7 +14,7 @@ import {
 } from './get-value';
 import type { IDimensionData, IDimensionInfo } from '../../../event';
 import { TOOLTIP_MAX_LINE_COUNT, TOOLTIP_OTHERS_LINE } from '../constant';
-import { getTooltipActualActiveType } from '.';
+import { getTooltipActualActiveType } from './common';
 import type { TooltipHandlerParams } from '../interface/common';
 import type { Datum } from '../../../typings';
 
