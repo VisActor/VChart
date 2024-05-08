@@ -3,7 +3,7 @@ import type { IModelLayoutOption, IModelRenderOption, IModelSpecInfo } from '../
 import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
-import type { ITooltipHandler, ITooltipLineActual, TooltipActiveType } from '../../typings/tooltip';
+import type { ITooltipHandler, TooltipActiveType } from '../../typings/tooltip';
 import type { Datum, IPoint, IShowTooltipOption } from '../../typings';
 import { isMobileLikeMode, isTrueBrowser, isMiniAppLikeMode } from '../../util/env';
 import type {
@@ -32,11 +32,6 @@ import type { IGraphic } from '@visactor/vrender-core';
 import { TooltipSpecTransformer } from './tooltip-transformer';
 import { error } from '../../util';
 import { TooltipHandlerType } from './constant';
-
-export type TooltipActualTitleContent = {
-  title?: ITooltipLineActual;
-  content?: ITooltipLineActual[];
-};
 
 type EventHandlerList = {
   eventType: EventType;
