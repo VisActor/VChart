@@ -11,9 +11,7 @@ import {
   areaAppearProcessor,
   areaDisappearProcessor,
   pieAppearProcessor,
-  pieDisappearProcessor,
-  scatterAppearProcessor,
-  scatterDisappearProcessor
+  pieDisappearProcessor
 } from '../vchart/appear';
 import { createMarkPointProcessor, markPointFlickerProcessor } from '../vchart/markPoint';
 import { createTitleProcessor } from '../vchart/title';
@@ -24,7 +22,7 @@ import { darkenProcessor } from '../graphic/darken';
 import { brightenProcessor } from '../graphic/brighten';
 import { moveToProcessor } from '../graphic/moveTo';
 import { styleProcessor } from '../graphic/style';
-import { graphicDisappearProcessor, textDisappearProcessor } from '../graphic/disappear';
+import { graphicDisappearProcessor } from '../graphic/disappear';
 import { bounceProcessor } from '../vchart/bounce';
 import { roseProcessorMap } from './rose';
 import { scatterProcessorMap } from './scatter';
@@ -104,11 +102,7 @@ export const processorChartMap = {
   [StoryChartType.RADAR]: radarProcessorMap,
   [StoryChartType.WORD_CLOUD]: wordCloudProcessorMap,
   [StoryChartType.TREE_MAP]: treeMapProcessorMap,
-  [StoryChartType.SUNBURST]: sunburstProcessorMap,
-  CharacterChart: {
-    // TODO:  processor 需要重构一下结构。这里为了跑 demo
-    ...viewProcessor
-  }
+  [StoryChartType.SUNBURST]: sunburstProcessorMap
 };
 
 // 组件processor
@@ -139,8 +133,7 @@ export const processorMarkMap = {
   },
   [StoryGraphicType.TEXT]: {
     ...commonMarkProcessor,
-    appear: textAppearProcessor,
-    disappear: textDisappearProcessor
+    appear: textAppearProcessor
   },
   [StoryGraphicType.RICH_TEXT]: {
     ...commonMarkProcessor

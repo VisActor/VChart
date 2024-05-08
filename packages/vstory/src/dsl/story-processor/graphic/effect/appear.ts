@@ -74,7 +74,7 @@ export function wipeIn(graphic: IGraphic, params: IWipeInParams) {
 }
 
 export function commonAppearEffect(graphic: IGraphic, effect: string, params: IGraphicAppearPayLoad['animation']) {
-  let doAnimation = true;
+  let doAnimation = !!effect && params.duration > 0;
   switch (effect) {
     case 'grow':
       scaleIn(graphic, params);

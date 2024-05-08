@@ -29,6 +29,7 @@ const chartSpecList = [
           ]
         }
       ],
+
       direction: 'horizontal',
       seriesSpec: [
         {
@@ -1013,7 +1014,8 @@ export const VChartSiteDemo = () => {
                       payload: {
                         animation: {
                           duration: 500,
-                          effect: 'typewriter'
+                          effect: 'typewriter',
+                          easing: 'quadIn'
                         }
                       }
                     }
@@ -1029,7 +1031,8 @@ export const VChartSiteDemo = () => {
                       payload: {
                         animation: {
                           duration: 500,
-                          effect: 'typewriter'
+                          effect: 'typewriter',
+                          easing: 'quadIn'
                         }
                       }
                     }
@@ -1082,8 +1085,141 @@ export const VChartSiteDemo = () => {
                     }
                   ]
                 }
+                // // 第二个 scene 的内容，写在这里仅用作测试
+                // {
+                //   characterId: `title1`,
+                //   characterActions: [
+                //     {
+                //       startTime: 5000,
+                //       duration: 800,
+                //       action: 'moveTo',
+                //       destination: {
+                //         x: 250,
+                //         y: 80
+                //       },
+                //       payload: {
+                //         animation: {
+                //           duration: 800,
+                //           easing: 'quadInOut'
+                //         }
+                //       }
+                //     },
+                //     {
+                //       startTime: 5000,
+                //       duration: 800,
+                //       action: 'style',
+                //       payload: {
+                //         graphic: {
+                //           fontSize: 40
+                //         },
+                //         animation: {
+                //           duration: 800
+                //         }
+                //       }
+                //     }
+                //   ]
+                // },
+                // {
+                //   characterId: `title2`,
+                //   characterActions: [
+                //     {
+                //       startTime: 5000,
+                //       duration: 800,
+                //       action: 'moveTo',
+                //       destination: {
+                //         x: 550,
+                //         y: 80
+                //       },
+                //       payload: {
+                //         animation: {
+                //           duration: 800,
+                //           easing: 'quadInOut'
+                //         }
+                //       }
+                //     },
+                //     {
+                //       startTime: 5000,
+                //       duration: 800,
+                //       action: 'style',
+                //       payload: {
+                //         graphic: {
+                //           fontSize: 40
+                //         },
+                //         animation: {
+                //           duration: 800,
+                //           easing: 'quadInOut'
+                //         }
+                //       }
+                //     }
+                //   ]
+                // },
+                // {
+                //   characterId: `titlesubtitle`,
+                //   characterActions: [
+                //     {
+                //       startTime: 5000,
+                //       duration: 500,
+                //       action: 'disappear',
+                //       payload: {
+                //         animation: {
+                //           duration: 500
+                //         }
+                //       }
+                //     }
+                //   ]
+                // },
+                // {
+                //   characterId: `titlesubtitle`,
+                //   characterActions: [
+                //     {
+                //       startTime: 5000,
+                //       duration: 500,
+                //       action: 'disappear',
+                //       payload: {
+                //         animation: {
+                //           duration: 500
+                //         }
+                //       }
+                //     }
+                //   ]
+                // },
+                // {
+                //   characterId: 'title3',
+                //   characterActions: [
+                //     {
+                //       startTime: 6000,
+                //       duration: 500,
+                //       action: 'appear',
+                //       payload: {
+                //         animation: {
+                //           duration: 500,
+                //           effect: 'fade'
+                //         }
+                //       }
+                //     }
+                //   ]
+                // }
               ]
             }
+            // {
+            //   id: 'scene2',
+            //   actions: [
+            //     {
+            //       characterId: `title1`,
+            //       characterActions: [
+            //         {
+            //           startTime: 0,
+            //           duration: 500,
+            //           action: 'moveTo',
+            //           destination: {
+            //             x: 100,
+            //             y: 100
+            //           }
+            //         }
+            //       ]
+            //     }
+            //   ]
+            // }
             // [
 
             //   // {
@@ -1239,6 +1375,7 @@ export const VChartSiteDemo = () => {
       ]
     };
     const story = new Story(tempSpec, { dom: id });
+    window.story = story;
     story.play();
     const btn1 = document.createElement('button');
     btn1.innerText = 'replay';

@@ -11,7 +11,7 @@ export const textAppearProcessor = async (
   IGraphicAppearAction: IGraphicAppearAction
 ) => {
   const { animation } = IGraphicAppearAction.payload ?? {};
-  const { effect } = animation;
+  const { effect } = animation ?? {};
   const graphics = getCharacterGraphic(character);
   const textGraphics = graphics.filter(graphic => graphic.type === 'text') as IText[];
   textGraphics.forEach(text => {
@@ -31,15 +31,17 @@ export const graphicAppearProcessor = async (
   IGraphicAppearAction: IGraphicAppearAction
 ) => {
   const { animation } = IGraphicAppearAction.payload ?? {};
-  const { effect } = animation;
+  const { effect } = animation ?? {};
   let graphics;
   if (effect === 'move') {
     graphics = [getCharacterParentGraphic(character)];
   } else {
     graphics = getCharacterGraphic(character);
   }
-  graphics.forEach(text => {
-    if (!commonAppearEffect(text, effect, animation)) {
+  graphics.forEach(graphic => {
+    if (graphic && !commonAppearEffect(graphic, effect, animation)) {
+      // 没有配置任何动画
+      graphic.setAttributes({ visibleAll: true });
     }
   });
 };

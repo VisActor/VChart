@@ -123,8 +123,11 @@ export class Player implements IPlayer {
           const { type } = character.spec;
           const process = processorMap[type];
           if (process) {
+            console.log(`Execute action => ${action.action}, character => ${type}`);
             const func = process[action.action];
             func && func(character, {}, action);
+          } else {
+            console.error(`Action not found: character => ${type}, action => ${action.action} `);
           }
         }
         character.show();

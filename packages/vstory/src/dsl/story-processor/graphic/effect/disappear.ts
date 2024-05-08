@@ -57,23 +57,6 @@ const Direction = {
   stroke: 4
 };
 
-// TODO: 扩展 wip 以支持出场动画
-export function wipeOut(graphic: IGraphic, params: IWipeOutParams) {
-  if (graphic) {
-    const { duration, easing = 'linear', to = 'left' } = params;
-    const { fill } = graphic.attribute;
-    if (isString(fill)) {
-      graphic.animate().play(
-        new Wipe({}, {}, duration, easing as EasingType, {
-          direction: Direction[to]
-        })
-      );
-    } else if (isObject(fill)) {
-      // 渐变色支持
-    }
-  }
-}
-
 export function commonDisappearEffect(
   graphic: IGraphic,
   effect: string,
@@ -81,7 +64,7 @@ export function commonDisappearEffect(
 ) {
   let doAnimation = true;
   switch (effect) {
-    case 'grow':
+    case 'shrink':
       scaleOut(graphic, params);
       break;
     case 'fade':
@@ -89,9 +72,6 @@ export function commonDisappearEffect(
       break;
     case 'move':
       moveOut(graphic, params as unknown as IMoveOutParams);
-      break;
-    case 'wipe':
-      wipeOut(graphic, params as unknown as IWipeOutParams);
       break;
     default:
       doAnimation = false;
