@@ -10,7 +10,6 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 import { StoryPieDemo } from './demos/StoryPieDemo';
 import { GraphicActionDemo } from './demos/graphicAction';
 import { VChartSiteDemo } from './demos/VchartSite';
-import { ChartHistory } from './demos/ChartHistory';
 import { DisAppear } from './demos/DisAppear';
 
 const App = () => {
@@ -55,13 +54,9 @@ const App = () => {
     {
       name: 'VChart-Site',
       component: VChartSiteDemo
-    },
-    {
-      name: 'ChartHistory',
-      component: ChartHistory
     }
   ];
-  const selectedMenu = menus[activeIndex ?? 10];
+  const selectedMenu = menus[activeIndex ?? menus.length - 1];
 
   return (
     <div style={{ display: 'flex', width: '100%' }}>

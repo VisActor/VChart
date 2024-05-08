@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { IAction, IRoleLink, IStorySpec } from '../../../src/story/interface';
+import { IActionsLink, IAction, IStorySpec } from '../../../src/story/interface';
 import { Story } from '../../../src/story/story';
 import '../../../src/story/index';
-import { IComponentRoleSpec } from '../../../src/story/character';
+import { ICharacterSpec } from '../../../src/story/character';
 import { StoryGraphicType } from '../../../src/dsl/constant';
 
 const duration = 1000;
 const width = 200;
 const height = 100;
 
-const createRoleAndAction = (type: string, effects: string[], row = 0, col = 0, options = {}) => {
+const createCharacterAndAction = (type: string, effects: string[], row = 0, col = 0, options = {}) => {
   const appearEffect = effects[0];
   const id = `${type}-${appearEffect}-${row}`;
-  const role: IComponentRoleSpec = {
+  const character: ICharacterSpec = {
     type,
     id,
     zIndex: 0,
@@ -34,7 +34,7 @@ const createRoleAndAction = (type: string, effects: string[], row = 0, col = 0, 
       ...options
     }
   };
-  const actions: IAction[] = effects.map((effect, effectIndex) => {
+  const characterActions: IAction[] = effects.map((effect, effectIndex) => {
     if (effectIndex === 0) {
       return {
         startTime: 50 + row * duration,
@@ -64,11 +64,11 @@ const createRoleAndAction = (type: string, effects: string[], row = 0, col = 0, 
     }
   });
 
-  const roleAction = {
-    roleId: id,
-    actions
+  const characterAction: IActionsLink = {
+    characterId: id,
+    characterActions
   };
-  return { roleAction, role };
+  return { characterAction, character };
 };
 
 export const GraphicActionDemo = () => {
@@ -78,8 +78,8 @@ export const GraphicActionDemo = () => {
   useEffect(() => {
     // rect
     // 数组第一项是 appear 效果，第二项是强调效果
-    const roles: IStorySpec['roles'] = [];
-    const roleActions: IRoleLink[] = [];
+    const characters: IStorySpec['characters'] = [];
+    const characterActions: IActionsLink[] = [];
     let col = 0;
     // rect
     {
@@ -91,9 +91,9 @@ export const GraphicActionDemo = () => {
         ['fade', 'flicker', 'darken'] //
       ];
       effects.forEach((effect, index) => {
-        const { role, roleAction } = createRoleAndAction(StoryGraphicType.RECT, effect, index);
-        roles.push(role);
-        roleActions.push(roleAction);
+        const { character, characterAction } = createCharacterAndAction(StoryGraphicType.RECT, effect, index);
+        characters.push(character);
+        characterActions.push(characterAction);
       });
       ++col;
     }
@@ -106,20 +106,26 @@ export const GraphicActionDemo = () => {
         ['typewriter', 'flicker'] //
       ];
       effects.forEach((effect, index) => {
-        const { role, roleAction } = createRoleAndAction(StoryGraphicType.TEXT, effect, index, col, {
-          graphic: { fontSize: 24, text: effect[0], dx: width / 2, dy: height / 2 }
+        const { character, characterAction } = createCharacterAndAction(StoryGraphicType.TEXT, effect, index, col, {
+          graphic: { fontSize: 24, text: effect[0], dx: width / 2, dy: height / 2 },
+          text: { visible: false }
         });
-        roles.push(role);
-        roleActions.push(roleAction);
+        characters.push(character);
+        characterActions.push(characterAction);
       });
       ++col;
     }
     const tempSpec: IStorySpec = {
-      roles,
+      characters,
       acts: [
         {
           id: 'default-chapter',
-          scenes: [roleActions]
+          scenes: [
+            {
+              id: '11',
+              actions: characterActions
+            }
+          ]
         }
       ]
     };
