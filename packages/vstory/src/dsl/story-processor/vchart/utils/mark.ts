@@ -16,7 +16,7 @@ export const getAllSeriesMarksWithoutRoot = (instance: VChart) => {
 };
 
 // 根据图元类型获取Marks
-export const getAllSeriesMarksByMarkType = (instance: VChart, markType: 'rect' | 'line' | 'symbol') => {
+export const getAllSeriesMarksByMarkType = (instance: VChart, markType: 'rect' | 'line' | 'symbol' | 'area') => {
   const marks = getAllSeriesMarksWithoutRoot(instance);
   return marks.filter(m => m.type === markType);
 };

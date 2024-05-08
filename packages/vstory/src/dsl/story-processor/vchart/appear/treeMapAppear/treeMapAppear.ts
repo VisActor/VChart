@@ -3,11 +3,11 @@ import { getAllSeriesMarksWithoutRoot } from '../../../../../util/vchart-api';
 import { merge } from '@visactor/vutils';
 import { defaultPayload } from './default';
 import { getAllSeriesMarksByMarkType } from '../../utils';
-import { transformArcAppear } from './transformArcAppear';
+import { transformRectAppear } from './transformRectAppear';
 import { getAllSeries, getSeriesMarksByMarkType } from '../../utils/series';
 import { IChartAppearAction } from '../../../../types/chart/appear';
 
-export const pieAppearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
+export const treeMapAppearProcessor = async (chartInstance: VChart, spec: ISpec, action: IChartAppearAction) => {
   const vchart = (chartInstance as any)?._graphic?._vchart;
 
   const instance: VChart = vchart ? vchart : chartInstance;
@@ -22,17 +22,16 @@ export const pieAppearProcessor = async (chartInstance: VChart, spec: ISpec, act
   const mergePayload = merge({}, defaultPayload, payload) as IChartAppearAction['payload'];
 
   series.forEach((series, seriesIndex) => {
-    const arcMarks = getSeriesMarksByMarkType(series, 'arc');
-
-    if (arcMarks.length) {
-      arcMarks.forEach((mark, markIndex) => {
+    const rectMarks = getSeriesMarksByMarkType(series, 'rect');
+    if (rectMarks.length) {
+      rectMarks.forEach((mark, markIndex) => {
         const product = mark.getProduct();
 
-        const config = transformArcAppear(instance, mergePayload.animation, {
+        const config = transformRectAppear(instance, mergePayload.animation, {
           disappear: false,
           index: seriesIndex + markIndex
         });
-        product.animate.run(config);
+        product && product.animate.run(config);
       });
     }
   });
