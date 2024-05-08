@@ -31,8 +31,8 @@
     "@visactor/vscale": "~0.18.1"
   },
   "devDependencies": {
-    "@visactor/vrender-core": "0.18.14",
-    "@visactor/vrender-components": "0.18.14",
+    "@visactor/vrender-core": "0.18.17",
+    "@visactor/vrender-components": "0.18.17",
     "@internal/bundler": "workspace:*",
     "@internal/eslint-config": "workspace:*",
     "@internal/ts-config": "workspace:*",
